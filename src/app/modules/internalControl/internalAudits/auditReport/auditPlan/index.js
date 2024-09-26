@@ -53,88 +53,94 @@ const AuditPlanViewAndPrint = () => {
 
       {/* Conditionally rendering the content based on the active tab */}
 
-      <div id="audit_schedule-print" ref={printRef} className="p-4">
-        {/* Print View Content */}
-        <div className="mb-3"></div>
-        <div className="text-center" style={{ mergin: "0 auto" }}>
-          {/* <h4>Audit Plan Template</h4> */}
-          <p>
-            <strong>
-              Name of assignment: {scheduleData?.strAuditEngagementName}
-            </strong>
-          </p>
-          <p>
-            <strong>Audit scope of duration: For the year ***</strong>
-          </p>
-          <p>
-            <strong>
-              Name of company: {scheduleData?.strBusinessUnitName}
-            </strong>
-          </p>
-          <p>
-            <strong>
-              Name of Auditor: {scheduleData?.strAuditorName} (Lead)
-            </strong>
-          </p>
-          <p>
-            <strong>Additional Members:</strong>
-          </p>
-          <p>Mr. YY (Member)</p>
-          <p>Mr. CC (Member)</p>
-          <p>
-            <strong>
-              Work starting date: {_dateFormatter(scheduleData?.dteStartDate)}
-            </strong>
-          </p>
-          <p>
-            <strong>
-              Fieldwork completion date:{" "}
-              {_dateFormatter(scheduleData?.dteEndDate)}
-            </strong>
-          </p>
-        </div>
-        <div className="row">
-          <div className="col-12">
-            <h5>Audit Objective:</h5>
-            <div
-              className="text-editor-view"
-              dangerouslySetInnerHTML={{
-                __html: scheduleData?.strAuditObjective || "",
-              }}
-            ></div>
-            <hr />
+      {(() => {
+        const {strAuditEngagementName,strBusinessUnitName}=scheduleData
+        return (
+          <div id="audit_schedule-print" ref={printRef} className="p-4">
+            {/* Print View Content */}
+            <div className="mb-3"></div>
+            <div className="text-center" style={{ mergin: "0 auto" }}>
+              {/* <h4>Audit Plan Template</h4> */}
+              <p>
+                <strong>
+                  Name of assignment: {scheduleData?.strAuditEngagementName}
+                </strong>
+              </p>
+              <p>
+                <strong>Audit scope of duration: For the year ***</strong>
+              </p>
+              <p>
+                <strong>
+                  Name of company: {scheduleData?.strBusinessUnitName}
+                </strong>
+              </p>
+              <p>
+                <strong>
+                  Name of Auditor: {scheduleData?.strAuditorName} (Lead)
+                </strong>
+              </p>
+              <p>
+                <strong>Additional Members:</strong>
+              </p>
+              <p>Mr. YY (Member)</p>
+              <p>Mr. CC (Member)</p>
+              <p>
+                <strong>
+                  Work starting date:{" "}
+                  {_dateFormatter(scheduleData?.dteStartDate)}
+                </strong>
+              </p>
+              <p>
+                <strong>
+                  Fieldwork completion date:{" "}
+                  {_dateFormatter(scheduleData?.dteEndDate)}
+                </strong>
+              </p>
+            </div>
+            <div className="row">
+              <div className="col-12">
+                <h5>Audit Objective:</h5>
+                <div
+                  className="text-editor-view"
+                  dangerouslySetInnerHTML={{
+                    __html: scheduleData?.strAuditObjective || "",
+                  }}
+                ></div>
+                <hr />
+              </div>
+              <div className="col-12">
+                <h5>Scope of Audit:</h5>
+                <div
+                  className="text-editor-view"
+                  dangerouslySetInnerHTML={{
+                    __html: scheduleData?.strScopeOfAudit || "",
+                  }}
+                ></div>
+                <hr />
+              </div>
+              <div className="col-12">
+                <h5>General Scope Of Work:</h5>
+                <div
+                  className="text-editor-view"
+                  dangerouslySetInnerHTML={{
+                    __html: scheduleData?.strGeneralScopeOfWork || "",
+                  }}
+                ></div>
+                <hr />
+              </div>
+              <div className="col-12">
+                <h5>Action Plan:</h5>
+                <div
+                  className="text-editor-view"
+                  dangerouslySetInnerHTML={{
+                    __html: scheduleData?.strActionPlan || "",
+                  }}
+                ></div>
+              </div>
+            </div>
           </div>
-          <div className="col-12">
-            <h5>Scope of Audit:</h5>
-            <div
-              className="text-editor-view"
-              dangerouslySetInnerHTML={{
-                __html: scheduleData?.strScopeOfAudit || "",
-              }}
-            ></div>
-            <hr />
-          </div>
-          <div className="col-12">
-            <h5>General Scope Of Work:</h5>
-            <div
-              className="text-editor-view"
-              dangerouslySetInnerHTML={{
-                __html: scheduleData?.strGeneralScopeOfWork || "",
-              }}
-            ></div>
-            <hr />
-          </div>
-          <div className="col-12">
-            <h5>Action Plan:</h5>
-            <div
-              className="text-editor-view"
-              dangerouslySetInnerHTML={{
-                __html: scheduleData?.strActionPlan || "",
-              }}
-            ></div>
-          </div>
-        </div>
-      </div>
+        );
+      })()}
     </IForm>
   );
 };
