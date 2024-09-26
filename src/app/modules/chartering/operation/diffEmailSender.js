@@ -8,10 +8,13 @@ import Loading from "../../_helper/_loading";
 import AttachmentUploaderNew from "../../_helper/attachmentUploaderNew";
 import IViewModal from "../../_helper/_viewModal";
 import AddTOCC from "./addTOCC";
+import { shallowEqual, useSelector } from "react-redux";
 
 const DiffEmailSender = ({ emailEditorProps }) => {
   const { intId, singleRowData, cb } = emailEditorProps;
-
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
   const [emailData, setEmailData] = useState({
     toEmail: "",
     ccEmail: "",
@@ -179,6 +182,7 @@ const DiffEmailSender = ({ emailEditorProps }) => {
         body: emailData.emailBody,
         intId: intId,
         attachment: emailData?.attachment || "",
+        intUserEnrollId: profileData?.userId || 0,
       };
 
       onSendEmail(

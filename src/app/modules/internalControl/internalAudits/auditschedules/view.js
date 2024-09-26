@@ -7,6 +7,7 @@ import IForm from "../../../_helper/_form";
 import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { getSingleScheduleDataHandler } from "./helper";
 import "./style.css";
 import ViewForm from "./viewForm";
 
@@ -24,21 +25,14 @@ export default function AuditSchedulesView() {
     setSingleScheduleData,
   ] = useAxiosGet();
 
-  const getSingleScheduleDataHandler = (AuditScheduleId) => {
-    getSingleScheduleData(
-      `/fino/Audit/GetAuditEngagementScheduleById?AuditScheduleId=${AuditScheduleId}`
-    );
-  };
-
   useEffect(() => {
     if (viewData?.intAuditScheduleId)
-      getSingleScheduleDataHandler(viewData?.intAuditScheduleId);
+      getSingleScheduleDataHandler(
+        viewData?.intAuditScheduleId,
+        getSingleScheduleData
+      );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    console.log("scheduleData updated", scheduleData);
-  }, [scheduleData]);
 
   return (
     <IForm
@@ -86,7 +80,7 @@ export default function AuditSchedulesView() {
                 entryApiUrl,
                 [scheduleData],
                 () => {
-                  getSingleScheduleDataHandler(viewData?.intAuditScheduleId);
+                  getSingleScheduleDataHandler(viewData?.intAuditScheduleId,getSingleScheduleData);
                 },
                 true
               );
@@ -115,11 +109,7 @@ export default function AuditSchedulesView() {
           setSingleScheduleData={setSingleScheduleData}
         />
       ) : (
-        <div
-          id="audit_schedule-print"
-          ref={printRef}
-          className="p-4"
-        >
+        <div id="audit_schedule-print" ref={printRef} className="p-4">
           {/* Print View Content */}
           <div className="mb-3"></div>
           <div className="text-center" style={{ mergin: "0 auto" }}>

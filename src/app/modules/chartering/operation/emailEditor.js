@@ -6,8 +6,12 @@ import Loading from "../../_helper/_loading";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
 import { getEmailInfoandSendMail } from "./helper";
 import AttachmentUploaderNew from "../../_helper/attachmentUploaderNew";
+import { shallowEqual, useSelector } from "react-redux";
 
 const EmailEditor = ({ emailEditorProps }) => {
+  const { profileData } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
   const { intId, singleRowData, cb } = emailEditorProps;
 
   const [emailData, setEmailData] = useState({
@@ -129,12 +133,13 @@ const EmailEditor = ({ emailEditorProps }) => {
 
     if (isValid) {
       const payload = {
-        receiver: emailData.toEmail,
-        email_list: emailData.ccEmail,
-        subject: emailData.subject,
-        body: emailData.emailBody,
-        intId: intId,
+        receiver: emailData.toEmail || '',
+        email_list: emailData.ccEmail || '',
+        subject: emailData.subject || '',
+        body: emailData.emailBody || '',
+        intId: intId || 0,
         attachment: emailData?.attachment || "",
+        intUserEnrollId: profileData?.userId || 0,
       };
 
       onSendEmail(
