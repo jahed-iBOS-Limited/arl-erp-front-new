@@ -1,12 +1,29 @@
 import React, { useMemo } from "react";
-// import ICustomTable from "../../../../_helper/_customTable";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 
 const TableData = ({ adviceReportData, setAdviceReportData }) => {
+  // total amount
   const totalAmount = useMemo(
     () => adviceReportData.reduce((acc, item) => acc + +item.numAmount, 0),
     [adviceReportData]
   );
+
+  // handle all select except
+  const handleAllAdviceReportSelect = (e, arr, setArr) => {
+    setArr(
+      arr
+        ?.filter((item) => !Boolean(item?.isPaymentComplete))
+        ?.map((item) => {
+          return {
+            ...item,
+            checked: e?.target?.checked,
+          };
+        })
+    );
+  };
+
+  const isAdviceReportDataRowDisabled = (item) =>
+    item?.isPaymentComplete === false || item.isPaymentComplete === null;
 
   return (
     adviceReportData?.length > 0 && (
@@ -25,7 +42,7 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
                   border: "1px solid #ecf0f3",
                   background: "#fff",
                   zIndex: "9px",
-                  minWidth: '35px'
+                  minWidth: "35px",
                 }}
               >
                 <input
@@ -35,16 +52,13 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
                       ? adviceReportData?.every((item) => item?.checked)
                       : false
                   }
-                  onChange={(e) => {
-                    setAdviceReportData(
-                      adviceReportData?.map((item) => {
-                        return {
-                          ...item,
-                          checked: e?.target?.checked,
-                        };
-                      })
-                    );
-                  }}
+                  onChange={(e) =>
+                    handleAllAdviceReportSelect(
+                      e,
+                      adviceReportData,
+                      setAdviceReportData
+                    )
+                  }
                 />
               </th>
               <th>SL</th>
@@ -66,9 +80,10 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
             {adviceReportData?.map((item, index) => (
               <tr
                 key={index}
-                className={
-                  item?.printCount || item?.mailCount ? "font_color_red" : ""
-                }
+                className={`
+                  ${item?.printCount || item?.mailCount ? "font_color_red" : ""}
+                  ${isAdviceReportDataRowDisabled(item) ? "" : "bg-secondary"}
+                `}
               >
                 <td
                   className="text-center align-middle"
@@ -83,10 +98,13 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
                   <input
                     type="checkbox"
                     // value = {item?.checked ? true:false}
+                    disabled={!isAdviceReportDataRowDisabled(item)} // if null / false it will be enable
                     checked={item?.checked}
                     onChange={(e) => {
-                      item["checked"] = e.target.checked;
-                      setAdviceReportData([...adviceReportData]);
+                      if (isAdviceReportDataRowDisabled(item)) {
+                        item["checked"] = e.target.checked;
+                        setAdviceReportData([...adviceReportData]);
+                      }
                     }}
                   />
                 </td>

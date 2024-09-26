@@ -1,27 +1,26 @@
-import React, { useRef, useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import { useSelector, shallowEqual } from "react-redux";
-import ILoader from "../../../../_helper/loader/_loader";
-import { getBankAccount,getInstrumentDDL,getSBUList } from "../helper";
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import {
   Card,
+  CardBody,
   CardHeader,
   CardHeaderToolbar,
-  CardBody,
   ModalProgressBar,
 } from "../../../../../../_metronic/_partials/controls";
+import Loading from "../../../../_helper/_loading";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { getBankAccount, getInstrumentDDL, getSBUList } from "../helper";
+import InputFields from "./InputFields";
 import "./style.css";
 import TableData from "./TableData";
-import InputFields from "./InputFields";
-import { _todayDate } from "../../../../_helper/_todayDate";
 
 const BankAdvice = () => {
-
-  const [adviceTypeDDL,setAdviceTypeDDL] = useState([])
-  const {financialsBankadvice} = useSelector(state=>state.localStorage)
+  const [adviceTypeDDL, setAdviceTypeDDL] = useState([]);
+  const { financialsBankadvice } = useSelector((state) => state.localStorage);
 
   const initData = {
-    dateTime: financialsBankadvice?.dateTime||_todayDate(),
+    dateTime: financialsBankadvice?.dateTime || _todayDate(),
     businessUnit: financialsBankadvice?.businessUnit || "",
     bankAccountNo: financialsBankadvice?.bankAccountNo || "",
     adviceType: financialsBankadvice?.adviceType || "",
@@ -46,37 +45,23 @@ const BankAdvice = () => {
       selectedBusinessUnit?.value,
       setBankAccountDDL
     );
-    getSBUList(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      setSbuList
-    )
+    getSBUList(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
   }, [profileData, selectedBusinessUnit]);
   useEffect(() => {
-    getInstrumentDDL(setAdviceTypeDDL)
+    getInstrumentDDL(setAdviceTypeDDL);
   }, []);
-
 
   return (
     <>
       <Card>
         {true && <ModalProgressBar />}
         <CardHeader title={"Bank Advice"}>
-          <CardHeaderToolbar>
-          </CardHeaderToolbar>
+          <CardHeaderToolbar></CardHeaderToolbar>
         </CardHeader>
         <CardBody>
           <div className="mt-0">
-            <Formik
-              enableReinitialize={true}
-              initialValues={initData}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                setFieldValue,
-              }) => (
+            <Formik enableReinitialize={true} initialValues={initData}>
+              {({ values, errors, touched, setFieldValue }) => (
                 <>
                   <Form className="form form-label-right">
                     <InputFields
@@ -92,15 +77,16 @@ const BankAdvice = () => {
                         setAdviceReportData,
                         adviceReportData,
                         adviceTypeDDL,
-                        sbuList
+                        sbuList,
                       }}
                     />
                     <div>
-                      {loading && <ILoader />}
+                      {loading && <Loading />}
+
                       <div ref={printRef}>
-                        <TableData 
-                            adviceReportData={adviceReportData}  
-                            setAdviceReportData={setAdviceReportData}
+                        <TableData
+                          adviceReportData={adviceReportData}
+                          setAdviceReportData={setAdviceReportData}
                         />
                       </div>
                     </div>
