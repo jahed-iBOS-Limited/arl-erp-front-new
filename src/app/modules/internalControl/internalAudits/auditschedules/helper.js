@@ -1,5 +1,4 @@
 import axios from "axios";
-import * as Yup from "yup";
 
 // index
 // calculate days difference
@@ -11,6 +10,24 @@ export const calculateDaysDifference = (startDate, endDate) => {
   const dayDifference = timeDifference / (1000 * 60 * 60 * 24); // Convert milliseconds to days
   return dayDifference > 0 ? dayDifference : 0; // Ensure non-negative days difference
 };
+
+export const auditScheduleLandingTableHeader = [
+  "SL",
+  "Audit Engament Name",
+  "SBU Name",
+  "Priority",
+  "Auditor's Name",
+  "Status",
+  "Start Date",
+  "End Date",
+  "Days to Complete/Period",
+  "Submit For Supervisor Review Date",
+  "Supervisor Review Complete Date",
+  "Sending for MGMT Response Date",
+  "Management Reponse Status",
+  "Final Audit Report BDO/CEO",
+  "Action",
+];
 
 // confidential audit form init data
 export const auditFormInitData = {
