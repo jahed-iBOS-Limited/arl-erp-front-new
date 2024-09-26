@@ -25,8 +25,8 @@ export const confidentialAuditTableHead = [
   "Audit Observation Name",
   "Financial Impact",
   "Responsible Persons of Management Feedback",
-  "Management Feedback (Specific)",
   "Audit Evidence Attachted",
+  "Management Feedback (Specific)",
   "Audit Recommendation",
 ];
 
