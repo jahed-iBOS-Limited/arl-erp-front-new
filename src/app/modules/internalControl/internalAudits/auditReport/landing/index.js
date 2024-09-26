@@ -8,6 +8,8 @@ import PaginationTable from "../../../../_helper/_tablePagination";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { getAuditReportDataHandler, initData, validation } from "../helper";
 import AuditReportLandingTable from "./table";
+import IViewModal from "../../../../_helper/_viewModal";
+import ConfidentialAuditView from "../confidentialAuditView";
 
 const AuditReportPage = () => {
   // redux selector
@@ -21,14 +23,16 @@ const AuditReportPage = () => {
       profileData,
       pageNo,
       pageSize,
-      getAuditReportData,
+      getAuditReportData
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // state
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
+  const [showConfidentialModal, setShowConfidentialModal] = useState(false);
+  const [singleAuditReport, setSingleAuditReport] = useState(null);
 
   // axios get
   const [
@@ -123,7 +127,13 @@ const AuditReportPage = () => {
 
                 {/* Audit Report Table */}
                 {auditReportData?.length > 0 && (
-                  <AuditReportLandingTable objProps={{ auditReportData }} />
+                  <AuditReportLandingTable
+                    objProps={{
+                      auditReportData,
+                      setShowConfidentialModal,
+                      setSingleAuditReport,
+                    }}
+                  />
                 )}
 
                 {auditReportData?.length > 0 && (
@@ -139,6 +149,22 @@ const AuditReportPage = () => {
                     values={values}
                   />
                 )}
+
+                {/* Confidential Audit Modal Form */}
+                <IViewModal
+                  show={showConfidentialModal}
+                  onHide={() => {
+                    setShowConfidentialModal(false);
+                    setSingleAuditReport(null);
+                  }}
+                >
+                  <ConfidentialAuditView
+                    objProps={{
+                      singleAuditReport,
+                      setSingleAuditReport,
+                    }}
+                  />
+                </IViewModal>
               </>
             </Form>
           </IForm>

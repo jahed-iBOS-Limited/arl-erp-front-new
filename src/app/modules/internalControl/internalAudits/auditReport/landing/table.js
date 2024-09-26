@@ -3,13 +3,18 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { calculateDaysDifference } from "../../auditschedules/helper";
 import { useHistory } from "react-router-dom";
 import IView from "../../../../_helper/_helperIcons/_view";
+import NewIcon from "../../../../_helper/_helperIcons/newIcon";
 
 const AuditReportLandingTable = ({ objProps }) => {
   // use hook
   const history = useHistory();
 
   // props
-  const { auditReportData } = objProps;
+  const {
+    auditReportData,
+    setShowConfidentialModal,
+    setSingleAuditReport,
+  } = objProps;
 
   return (
     <div className="table-responsive">
@@ -47,16 +52,27 @@ const AuditReportLandingTable = ({ objProps }) => {
 
               <td className="text-center">
                 <div className="d-flex">
+                  {/* Audit Plan View & Print Report */}
                   <span
                     className=""
                     onClick={() => {
                       history.push({
-                        pathname: `/internal-control/internalaudits/auditschedules/view`,
+                        pathname: `/internal-control/internalaudits/auditreport/view`,
                         state: item,
                       });
                     }}
                   >
                     <IView />
+                  </span>
+                  {/* Confidential Audit Report View */}
+                  <span
+                    className="ml-3"
+                    onClick={() => {
+                      setShowConfidentialModal(true);
+                      setSingleAuditReport(item);
+                    }}
+                  >
+                    <NewIcon title="Confidential Audit" iconName="fa fa-bolt" />
                   </span>
                 </div>
               </td>
