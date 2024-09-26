@@ -11,11 +11,13 @@ import AuditReportLandingTable from "./table";
 import IViewModal from "../../../../_helper/_viewModal";
 import ConfidentialAuditView from "../confidentialAuditView";
 
+
 const AuditReportPage = () => {
   // redux selector
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+  
   // hook
   useEffect(() => {
     // get audit report data initially

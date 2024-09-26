@@ -1,9 +1,10 @@
 import React, { lazy, Suspense } from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute, LayoutSplashScreen } from "../../../../_metronic/layout";
-import AuditSchedules from "./auditschedules";
-import AuditSchedulesEntry from "./auditschedules/entry";
-import AuditSchedulesView from "./auditschedules/view";
+const AuditSchedules = lazy(() => import("./auditschedules"));
+const AuditSchedulesEntry = lazy(() => import("./auditschedules/entry"));
+const AuditSchedulesView = lazy(() => import("./auditschedules/view"));
+const AuditPlanViewAndPrint = lazy(() => import("./auditReport/auditPlan"));
 const AuditReportPage = lazy(() => import("./auditReport/landing"));
 
 export function InternalAuditsPages() {
@@ -28,6 +29,10 @@ export function InternalAuditsPages() {
           component={AuditSchedules}
         />
         {/* Audit Report */}
+        <ContentRoute
+          path="/internal-control/internalaudits/auditreport/view"
+          component={AuditPlanViewAndPrint}
+        />
         <ContentRoute
           path="/internal-control/internalaudits/auditreport"
           component={AuditReportPage}
