@@ -112,13 +112,16 @@ export default function SendOtpToEmailModal({ objProps }) {
       "/fino/Disburse/SaveBankAdviceDirect",
       payload,
       (response) => {
-        if (response?.StatusCode === 500) {
-          toast.warn("Something went wrong");
-        } else if (response?.StatusCode === 500) {
-          toast.success("Salary disbursement complement");
+        if (response?.StatusCode === 500 || response?.statuscode === 500) {
+          toast.warn(response?.Message || response?.message);
+          setSCBModalShow(true);
+        } else if (
+          response?.StatusCode === 200 ||
+          response?.statuscode === 200
+        ) {
+          toast.success(response?.Message || response?.message);
+          setSCBModalShow(false);
         }
-        setAdviceReportData([]);
-        setSCBModalShow(false);
       },
       false,
       "Salary disbursement complement",

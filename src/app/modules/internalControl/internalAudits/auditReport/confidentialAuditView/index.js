@@ -7,10 +7,19 @@ import {
   confidentialAuditTableHead,
   getSingleScheduleDataHandler,
 } from "../../auditschedules/helper";
+import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { handleSubmitConfAuditWithAttachement } from "../helper";
+import { useDispatch } from "react-redux";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 
 const ConfidentialAuditView = ({ objProps }) => {
   // obj props
-  const { singleAuditReport, } = objProps;
+  const { singleAuditReport } = objProps;
+
+  // use hook
+  const dispatch = useDispatch();
 
   // redux selector
   // const { profileData } = useSelector((state) => {
@@ -22,7 +31,15 @@ const ConfidentialAuditView = ({ objProps }) => {
     singleConfidentialAuditData,
     getSingleConfidentialData,
     singleConfidentialAuditDataLoading,
+    setConfidentialAuditData,
   ] = useAxiosGet();
+
+  // axios post
+  const [
+    ,
+    submitConfAuditWithAttachemnt,
+    submitConfReportWithAttachemntLoading,
+  ] = useAxiosPost();
 
   useEffect(() => {
     // fetch single audit report data with audit schedule id from audit schedule func
@@ -40,6 +57,7 @@ const ConfidentialAuditView = ({ objProps }) => {
       strFinancialImpact,
       strEmployeeNameResponsibleMgtfeedBack,
       strManagementFeedBack,
+      strAuditEmpEvidenceAttastment,
     } = singleConfidentialAuditData;
 
     return (
@@ -48,7 +66,35 @@ const ConfidentialAuditView = ({ objProps }) => {
         <td>{strAuditObservationName}</td>
         <td>{strFinancialImpact}</td>
         <td>{strEmployeeNameResponsibleMgtfeedBack}</td>
-        <td></td>
+        <td className="d-flex flex-row justify-content-between">
+          <AttachmentUploaderNew
+            isExistAttachment={strAuditEmpEvidenceAttastment}
+            fileUploadLimits={1}
+            CBAttachmentRes={(attachmentData) => {
+              if (Array.isArray(attachmentData)) {
+                setConfidentialAuditData((prevState) => ({
+                  ...prevState,
+                  strAuditEmpEvidenceAttastment: attachmentData[0]?.id || "",
+                }));
+              }
+            }}
+          />
+
+          {strAuditEmpEvidenceAttastment && (
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch(
+                  getDownlloadFileView_Action(strAuditEmpEvidenceAttastment)
+                );
+              }}
+            >
+              <ICon title={`View Attachment`}>
+                <i class="far fa-file-image"></i>
+              </ICon>
+            </span>
+          )}
+        </td>
         <td>{strManagementFeedBack}</td>
         <td></td>
       </tr>
@@ -71,10 +117,27 @@ const ConfidentialAuditView = ({ objProps }) => {
         touched,
       }) => (
         <Form>
-          {singleConfidentialAuditDataLoading && <Loading />}
+          {(singleConfidentialAuditDataLoading ||
+            submitConfReportWithAttachemntLoading) && <Loading />}
           <main className="row mt-2">
             <div className="col-12 d-flex flex-row justify-content-center">
               <h4>Confidential Audit Report</h4>
+              <button
+                className="btn btn-primary ml-auto"
+                type="button"
+                disabled={false}
+                onClick={() =>
+                  handleSubmitConfAuditWithAttachement({
+                    submitConfAuditWithAttachemnt,
+                    submitURL: "saveURL",
+                    singleConfidentialAuditData,
+                    getSingleScheduleDataHandler,
+                    getSingleConfidentialData,
+                  })
+                }
+              >
+                Save
+              </button>
             </div>
             <div className="col-12 my-5">
               <div>
