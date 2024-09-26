@@ -15,7 +15,16 @@ const AuditReportPage = () => {
     return state.authData;
   }, shallowEqual);
   // hook
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // get audit report data initially
+    getAuditReportDataHandler(
+      profileData,
+      pageNo,
+      pageSize,
+      getAuditReportData,
+    );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // state
   const [pageNo, setPageNo] = useState(0);
@@ -30,6 +39,7 @@ const AuditReportPage = () => {
 
   // save handler
   const saveHandler = (values, cb) => {
+    // get audit report data on submit with from date & to date
     getAuditReportDataHandler(
       profileData,
       pageNo,
@@ -41,6 +51,7 @@ const AuditReportPage = () => {
 
   // landing data position handler
   const setPositionHandler = (pageNo, pageSize, values) => {
+    // get audit report data with pagination
     getAuditReportDataHandler(
       profileData,
       pageNo,

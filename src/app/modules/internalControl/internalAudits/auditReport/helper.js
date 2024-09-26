@@ -23,15 +23,14 @@ export const getAuditReportDataHandler = (
   getAuditReportData,
   values
 ) => {
-  //   const strBusinessUnit = values?.businessUnit
-  //     ? `&BusinessUnitId=${values?.businessUnit?.value}`
-  //     : "";
-  //   const strDate =
-  //     values?.fromDate && values?.toDate
-  //       ? `&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
-  //       : "";
+  // if fromday & today exits
+  // default value for initial data & custom value for show & pagination
+  const hasFromDateToDate = values?.fromDate && values?.toDate;
+  const fromDate = hasFromDateToDate ? values?.fromDate : _firstDateOfMonth();
+  const toDate = hasFromDateToDate ? values?.toDate : _todayDate();
+  const fromDateToDate = `&FromDate=${fromDate}&ToDate=${toDate}`;
 
   getAuditReportData(
-    `/fino/Audit/GetAuditEngagementReportByEmployeeId?EmployeeId=${profileData?.employeeId}&pageNumber=${pageNo}&pageSize=${pageSize}`
+    `/fino/Audit/GetAuditEngagementReportByEmployeeId?EmployeeId=${profileData?.employeeId}&pageNumber=${pageNo}&pageSize=${pageSize}${fromDateToDate}`
   );
 };
