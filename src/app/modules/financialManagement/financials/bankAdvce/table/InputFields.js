@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import InputField from "../../../../_helper/_inputField";
 import { adviceMailCreate, advicePrintCount, getAdviceReport } from "../helper";
 import NewSelect from "./../../../../_helper/_select";
-
 import IViewModal from "../../../../_helper/_viewModal";
 import ViewData from "./ViewPrint";
-
-import { useDispatch } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { moneyInWord } from "../../../../_helper/_convertMoneyToWord";
 import Loading from "../../../../_helper/_loading";
@@ -15,10 +13,14 @@ import { SetFinancialsBankAdviceAction } from "../../../../_helper/reduxForLocal
 import IConfirmModal from "../../../../chartering/_chartinghelper/_confirmModal";
 import EmailViewForm from "./emailForm";
 import { generateExcel } from "./excelReportGenarate";
+import SendOtpToEmailModal from "../email/sendOtpModal";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const InputFields = ({ obj }) => {
+  const { userRole } = useSelector((state) => state?.authData, shallowEqual);
   const [isView, setIsView] = useState("");
   const [mdalShow, setModalShow] = useState(false);
+  const [scbModalShow, setSCBModalShow] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [total, setTotal] = useState(0);
   const [, setTotalInWords] = useState(0);
@@ -28,6 +30,7 @@ const InputFields = ({ obj }) => {
     loadingOnGetAdviceDDL,
     setAdviceDDL,
   ] = useAxiosGet();
+
   const dispatch = useDispatch();
   let {
     values,
@@ -55,7 +58,7 @@ const InputFields = ({ obj }) => {
         (item) => item.checked && item.strPayee?.length >= 36
       );
     } else if (values?.adviceType?.value === 21) {
-      // adviceType 21 (TDS/VDS) 
+      // adviceType 21 (TDS/VDS)
       const data1 = adviceReportData?.filter((item) => item.checked);
       const firstItem = data1?.[0] || {};
       data = [
@@ -107,9 +110,46 @@ const InputFields = ({ obj }) => {
     attachment: "",
   };
 
+  // Salary Advice advice report data checking is a single data is selected or not
+  const isAdviceReportDataSelected = (arr) =>
+    arr?.some((item) => Boolean(item?.checked));
+
+  // console.log(isAdviceReportDataSelected(adviceReportData));
+
+  // sending email for otp
+  const [
+    sendingOtpToEmailResponse,
+    sendingOtpToEmail,
+    sendingOtpToEmailLoading,
+    ,
+  ] = useAxiosPost();
+
+  // handle send otp to mail
+  const handleSendOtpToMail = (profileData) => {
+    // sending email
+    sendingOtpToEmail(
+      `/fino/Disburse/SendAdviceOTP`,
+      {
+        // ! this should be preset
+        emailAddress: profileData?.emailAddress,
+        // emailAddress: "rakibul.rifat@ibos.io",
+      },
+      () => setSCBModalShow(true),
+      true,
+      "OTP Has been send",
+      "OTP couldn't be send",
+      () => setSCBModalShow(false)
+    );
+  };
+
+  // scb disbursement btn permission
+  const scbDisbursementBtnPermission = userRole.find(
+    (role) => role?.intFeatureId === 1508
+  );
+
   return (
     <>
-      {loadingOnGetAdviceDDL && <Loading />}
+      {(loadingOnGetAdviceDDL || sendingOtpToEmailLoading) && <Loading />}
       <div className="form-group global-form">
         <div className="row">
           <div className="col-lg-2">
@@ -214,6 +254,26 @@ const InputFields = ({ obj }) => {
           className="d-flex align-items-center justify-content-end"
           style={{ marginTop: "8px", flexWrap: "wrap", gap: "10px" }}
         >
+          {/* Show only user has permission & salary advice & bank is scb */}
+          {scbDisbursementBtnPermission?.isEdit &&
+            values?.adviceType?.value === 12 && (
+              <button
+                type="button"
+                className="btn btn-primary mr-2"
+                onClick={() => handleSendOtpToMail(profileData)}
+                // disable if bank acc isn't to scb bank value 41
+                disabled={
+                  !values?.dateTime ||
+                  values?.bankAccountNo?.bankId !== 41 ||
+                  values?.adviceType?.value !== 12 ||
+                  !values?.advice ||
+                  !isAdviceReportDataSelected(adviceReportData)
+                }
+              >
+                SCB Disburse
+              </button>
+            )}
+
           <button
             type="button"
             onClick={() => setIsShowModal(true)}
@@ -408,6 +468,26 @@ const InputFields = ({ obj }) => {
           </button>
         </div>
       </div>
+
+      {/* SCB Bank Advice Modal Show For Send OTP */}
+      <IViewModal
+        // title="Send OTP"
+        modelSize={"xl"}
+        show={scbModalShow}
+        onHide={() => setSCBModalShow(false)}
+      >
+        <SendOtpToEmailModal
+          objProps={{
+            profileData,
+            adviceReportData,
+            setAdviceReportData,
+            sendingOtpToEmailResponse,
+            selectedBusinessUnit,
+            values,
+            setSCBModalShow,
+          }}
+        />
+      </IViewModal>
 
       <IViewModal
         title="Send Email"
