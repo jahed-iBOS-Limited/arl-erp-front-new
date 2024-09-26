@@ -3,6 +3,11 @@
 import { _firstDateOfMonth, _todayDate } from "../../../_helper/_todayDate";
 import * as Yup from "yup";
 
+// save url
+export const auditReportURLS = {
+  saveURL: `/fino/Audit/SaveAuditEngagementSchedules`,
+};
+
 // init data
 export const initData = {
   fromDate: _firstDateOfMonth(),
@@ -32,5 +37,39 @@ export const getAuditReportDataHandler = (
 
   getAuditReportData(
     `/fino/Audit/GetAuditEngagementReportByEmployeeId?EmployeeId=${profileData?.employeeId}&pageNumber=${pageNo}&pageSize=${pageSize}${fromDateToDate}`
+  );
+};
+
+// audit report confidential attachemt submit & view
+export const handleSubmitConfAuditWithAttachement = (objProps) => {
+  const {
+    submitConfAuditWithAttachemnt,
+    submitURL,
+    singleConfidentialAuditData,
+    getSingleScheduleDataHandler,
+    getSingleConfidentialData,
+  } = objProps;
+
+  // submit attachement
+  /**
+   * URLObject[submitURL]
+   * [singleAuditDataById]
+   * Callback for get signle audit after successfull submit
+   * show toast true
+   * success message
+   * error message
+   */
+  submitConfAuditWithAttachemnt(
+    auditReportURLS[submitURL],
+    [singleConfidentialAuditData],
+    () => {
+      getSingleScheduleDataHandler(
+        singleConfidentialAuditData?.intAuditScheduleId,
+        getSingleConfidentialData
+      );
+    },
+    true,
+    "Successfully Updated",
+    "Update Failed"
   );
 };
