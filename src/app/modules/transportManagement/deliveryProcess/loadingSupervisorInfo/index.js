@@ -80,6 +80,10 @@ export default function LoadingSupervisorInfo() {
   const [shipmentModalOpen, setShipmentModalOpen] = useState(false);
   const [singleItem, setSingleItem] = useState({});
   const [showReport, setShowReport] = useState(false);
+  const [
+    shipPointIdForCementTlmLoadFromPacker,
+    setShipPointIdForCementTlmLoadFromPacker,
+  ] = useState(null);
   const [packerList, getPackerList, , setPackerList] = useAxiosGet();
   const [
     shipmentDetails,
@@ -131,6 +135,9 @@ export default function LoadingSupervisorInfo() {
               buId === 4 ? res?.objHeader?.packerId : 1
             }&ShipPointId=${res?.objHeader?.shipPointId || 0}`
           );
+
+          // for cement business unit & use in packer change
+          setShipPointIdForCementTlmLoadFromPacker(res?.objHeader?.shipPointId);
           // get packer list & update
           getPackerList(
             `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${buId}`,
@@ -247,6 +254,7 @@ export default function LoadingSupervisorInfo() {
                     placeholder="Type"
                   />
                 </div>
+
                 {[1, 2, 4].includes(values?.type?.value) && (
                   <>
                     {[1, 2].includes(values?.type?.value) && (
@@ -357,6 +365,22 @@ export default function LoadingSupervisorInfo() {
                         Packer Completed
                       </p>
                     )}
+                    {buId === 4 && (
+                      <div className="col-lg-4 d-flex justify-content-between align-items-center mb-0">
+                        <h4
+                          className="mb-0 font-weight-bold"
+                          style={{ color: "#b22222" }}
+                        >
+                          Packer: {values?.packerName?.label}
+                        </h4>
+                        <h4
+                          className="mb-0 font-weight-bold"
+                          style={{ color: "#1c5d99" }}
+                        >
+                          TLM: {values?.tlm?.label}
+                        </h4>
+                      </div>
+                    )}
                     <div className="col-lg-12"></div>
                     {["Auto"].includes(actionType) ? (
                       <div className="col-lg-3">
@@ -455,6 +479,18 @@ export default function LoadingSupervisorInfo() {
                         value={values?.packerName}
                         onChange={(valueOption) => {
                           setFieldValue("packerName", valueOption);
+                          setFieldValue("tlm", "");
+
+                          // if business unit in cement than load tlm ddl
+                          if (buId === 4) {
+                            // get tlm ddl
+                            getTLMDDL(
+                              `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=${
+                                valueOption?.value
+                              }&ShipPointId=${shipPointIdForCementTlmLoadFromPacker ||
+                                0}`
+                            );
+                          }
                         }}
                       />
                     </div>

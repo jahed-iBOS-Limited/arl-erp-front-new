@@ -5,8 +5,14 @@ import IDelete from "../../_helper/_helperIcons/_delete";
 import InputField from "../../_helper/_inputField";
 import Loading from "../../_helper/_loading";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
+import { shallowEqual, useSelector } from "react-redux";
 
 const MailSender = ({ payloadInfo }) => {
+
+  const { profileData } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
   const [emailList, setEmailList] = useState([]);
   const [email, setEmail] = useState("");
   const [, onSendEvent, loading] = useAxiosPost();
@@ -79,6 +85,7 @@ const MailSender = ({ payloadInfo }) => {
                       const payload = {
                         emailList: emailList, // Bind emailList dynamically
                         arrayData: payloadInfo,
+                        intUserEnrollId: profileData?.userId || 0
                       };
                       onSendEvent(
                         `${marineBaseUrlPythonAPI}/automation/response_mail`,

@@ -5,9 +5,14 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { marineBaseUrlPythonAPI } from "../../../../App";
 import Loading from "../../../_helper/_loading";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
+import { shallowEqual, useSelector } from "react-redux";
 
 const EmailEditor = ({ emailEditorProps }) => {
   const { intId, singleRowData, cb } = emailEditorProps;
+
+  const { profileData } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
 
   const [emailData, setEmailData] = useState({
     toEmail: "",
@@ -39,6 +44,7 @@ const EmailEditor = ({ emailEditorProps }) => {
       if (intId) {
         const payload = {
           intId: intId,
+          intUserEnrollId: profileData?.userId || 0
         };
 
         getEmailInfo(
@@ -142,6 +148,7 @@ const EmailEditor = ({ emailEditorProps }) => {
         body: emailData.emailBody,
         intId: intId,
         attachment: emailData?.attachment || "",
+        intUserEnrollId: profileData?.userId || 0
       };
 
       onSendEmail(

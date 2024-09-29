@@ -2,10 +2,7 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
-import IView from "../../../_helper/_helperIcons/_view";
-import NewIcon from "../../../_helper/_helperIcons/newIcon";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import PaginationSearch from "../../../_helper/_search";
@@ -15,9 +12,10 @@ import { _firstDateOfMonth, _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import ConfidentialAuditForm from "./confidentialAuditForm";
-import { calculateDaysDifference } from "./helper";
+import AuditScheduleLandingTable from "./landingTable";
 
 const initData = {
+  businessUnit: "",
   fromDate: _firstDateOfMonth(),
   toDate: _todayDate(),
 };
@@ -148,7 +146,11 @@ export default function AuditSchedules() {
                   </div>
                   <div>
                     <button
-                      disabled={!values?.fromDate || !values?.toDate}
+                      disabled={
+                        !values?.fromDate ||
+                        !values?.toDate ||
+                        !values?.businessUnit
+                      }
                       onClick={() => {
                         getLandingData(values, pageNo, pageSize, "");
                       }}
@@ -168,78 +170,13 @@ export default function AuditSchedules() {
                   </div>
                 )}
                 {gridData?.length > 0 && (
-                  <div className="table-responsive">
-                    <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Audit Engagement Name</th>
-                          <th>SBU Name</th>
-                          <th>Priority</th>
-                          <th>Auditor's Name</th>
-                          <th>Audit start date</th>
-                          <th>Audit end date</th>
-                          <th>Days to complete the audit assignment</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.strAuditEngagementName}</td>
-                            <td>{item?.strBusinessUnitName}</td>
-                            <td className="text-center">
-                              {item?.strPriorityName}
-                            </td>
-                            <td className="text-center">
-                              {item?.strAuditorName}
-                            </td>
-                            <td className="text-center">
-                              {_dateFormatter(item?.dteStartDate)}
-                            </td>
-                            <td className="text-center">
-                              {_dateFormatter(item?.dteEndDate)}
-                            </td>
-                            <td className="text-center">
-                              {calculateDaysDifference(
-                                item?.dteStartDate,
-                                item?.dteEndDate
-                              )}
-                            </td>
-
-                            <td className="text-center">
-                              <div className="d-flex">
-                                <span
-                                  className=""
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/internal-control/internalaudits/auditschedules/view`,
-                                      state: item,
-                                    });
-                                  }}
-                                >
-                                  <IView />
-                                </span>
-                                <span
-                                  className="ml-3"
-                                  onClick={() => {
-                                    setShowConfidentialModal(true);
-                                    setSingleAuditData(item);
-                                  }}
-                                >
-                                  <NewIcon
-                                    title="Confidential Audit"
-                                    iconName="fa fa-bolt"
-                                  />
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                  <AuditScheduleLandingTable
+                    objProps={{
+                      gridData,
+                      setShowConfidentialModal,
+                      setSingleAuditData,
+                    }}
+                  />
                 )}
 
                 {gridData?.length > 0 && (
@@ -258,7 +195,6 @@ export default function AuditSchedules() {
 
                 {/* Confidential Audit Modal Form */}
                 <IViewModal
-                  modelSize={"lg"}
                   show={showConfidentialModal}
                   onHide={() => {
                     setShowConfidentialModal(false);

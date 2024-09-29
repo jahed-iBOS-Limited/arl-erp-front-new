@@ -1,139 +1,111 @@
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import Loading from "../../../../_helper/_loading";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import {
-  auditFormInitData,
   calculateDaysDifference,
   confidentialAuditTableHead,
-  generateConfidentialInitData,
   getSingleScheduleDataHandler,
-  handleConfidentialAuditSubmit,
-  loadEmployeeInfo,
-} from "./helper";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import ICon from "../../../chartering/_chartinghelper/icons/_icon";
+} from "../../auditschedules/helper";
+import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { handleSubmitConfAuditWithAttachement } from "../helper";
+import { useDispatch } from "react-redux";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 
-const ConfidentialAuditForm = ({ objProps }) => {
+const ConfidentialAuditView = ({ objProps }) => {
   // obj props
-  const { singleAuditData, setSingleAuditData } = objProps;
+  const { singleAuditReport } = objProps;
 
-  // use hooks
+  // use hook
   const dispatch = useDispatch();
 
   // redux selector
-  const { profileData } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  // const { profileData } = useSelector((state) => {
+  //   return state.authData;
+  // }, shallowEqual);
 
   // axios get
   const [
     singleConfidentialAuditData,
     getSingleConfidentialData,
     singleConfidentialAuditDataLoading,
+    setConfidentialAuditData,
   ] = useAxiosGet();
+
   // axios post
   const [
     ,
-    submitConfidentialAuditData,
-    submitConfidentialAuditDataLoading,
+    submitConfAuditWithAttachemnt,
+    submitConfReportWithAttachemntLoading,
   ] = useAxiosPost();
 
   useEffect(() => {
+    // fetch single audit report data with audit schedule id from audit schedule func
     getSingleScheduleDataHandler(
-      singleAuditData?.intAuditScheduleId || 0,
+      singleAuditReport?.intAuditScheduleId || 0,
       getSingleConfidentialData
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const auditForm = (values, setFieldValue, singleConfidentialAuditData) => (
-    <tr>
-      <td></td>
-      <td>
-        <InputField
-          value={values?.auditObservation}
-          name="auditObservation"
-          onChange={(e) => {
-            setFieldValue("auditObservation", e.target.value);
-          }}
-        />
-      </td>
-      <td>
-        <InputField
-          value={values?.financialImpact}
-          name="financialImpact"
-          onChange={(e) => {
-            setFieldValue("financialImpact", e.target.value);
-          }}
-        />
-      </td>
-      <td>
-        <SearchAsyncSelect
-          selectedValue={values?.responsibleEmployee}
-          isSearchIcon={true}
-          handleChange={(valueOption) => {
-            setFieldValue("responsibleEmployee", valueOption);
-          }}
-          loadOptions={(searchInput) =>
-            loadEmployeeInfo(profileData?.accountId, searchInput)
-          }
-          name={"responsibleEmployee"}
-        />
-      </td>
-      <td className="text-center">
-        {singleConfidentialAuditData?.strAuditEmpEvidenceAttastment && (
-          <span
-            onClick={(e) => {
-              e.stopPropagation();
-              dispatch(
-                getDownlloadFileView_Action(
-                  singleConfidentialAuditData?.strAuditEmpEvidenceAttastment
-                )
-              );
+  const auditForm = (singleConfidentialAuditData) => {
+    // distructure single confidential audit data
+    const {
+      strAuditObservationName,
+      strFinancialImpact,
+      strEmployeeNameResponsibleMgtfeedBack,
+      strManagementFeedBack,
+      strAuditEmpEvidenceAttastment,
+    } = singleConfidentialAuditData;
+
+    return (
+      <tr>
+        <td></td>
+        <td>{strAuditObservationName}</td>
+        <td>{strFinancialImpact}</td>
+        <td>{strEmployeeNameResponsibleMgtfeedBack}</td>
+        <td className="d-flex flex-row justify-content-between">
+          <AttachmentUploaderNew
+            isExistAttachment={strAuditEmpEvidenceAttastment}
+            fileUploadLimits={1}
+            CBAttachmentRes={(attachmentData) => {
+              if (Array.isArray(attachmentData)) {
+                setConfidentialAuditData((prevState) => ({
+                  ...prevState,
+                  strAuditEmpEvidenceAttastment: attachmentData[0]?.id || "",
+                }));
+              }
             }}
-          >
-            <ICon title={`View Attachment`}>
-              <i class="far fa-file-image"></i>
-            </ICon>
-          </span>
-        )}
-      </td>
-      <td>
-        <InputField
-          value={values?.mgmtFeedback}
-          name="mgmtFeedback"
-          onChange={(e) => {
-            setFieldValue("mgmtFeedback", e.target.value);
-          }}
-        />
-      </td>
-      <td></td>
-    </tr>
-  );
+          />
+
+          {strAuditEmpEvidenceAttastment && (
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch(
+                  getDownlloadFileView_Action(strAuditEmpEvidenceAttastment)
+                );
+              }}
+            >
+              <ICon title={`View Attachment`}>
+                <i class="far fa-file-image"></i>
+              </ICon>
+            </span>
+          )}
+        </td>
+        <td>{strManagementFeedBack}</td>
+        <td></td>
+      </tr>
+    );
+  };
 
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={generateConfidentialInitData(
-        singleConfidentialAuditData,
-        auditFormInitData
-      )}
-      onSubmit={(values, { resetForm }) =>
-        handleConfidentialAuditSubmit({
-          submitConfidentialAuditData,
-          singleConfidentialAuditData,
-          setSingleAuditData,
-          values,
-          profileData,
-          getSingleScheduleDataHandler,
-          getSingleScheduleData: getSingleConfidentialData,
-        })
-      }
+      initialValues={{}}
+      onSubmit={(values, { resetForm }) => {}}
     >
       {({
         handleSubmit,
@@ -146,11 +118,24 @@ const ConfidentialAuditForm = ({ objProps }) => {
       }) => (
         <Form>
           {(singleConfidentialAuditDataLoading ||
-            submitConfidentialAuditDataLoading) && <Loading />}
+            submitConfReportWithAttachemntLoading) && <Loading />}
           <main className="row mt-2">
             <div className="col-12 d-flex flex-row justify-content-center">
               <h4>Confidential Audit Report</h4>
-              <button className="btn btn-primary ml-auto" type="submit">
+              <button
+                className="btn btn-primary ml-auto"
+                type="button"
+                disabled={false}
+                onClick={() =>
+                  handleSubmitConfAuditWithAttachement({
+                    submitConfAuditWithAttachemnt,
+                    submitURL: "saveURL",
+                    singleConfidentialAuditData,
+                    getSingleScheduleDataHandler,
+                    getSingleConfidentialData,
+                  })
+                }
+              >
                 Save
               </button>
             </div>
@@ -167,6 +152,7 @@ const ConfidentialAuditForm = ({ objProps }) => {
               </div>
               <table className="confedintialAuditInfoTable">
                 <tbody>
+                  {/* Confidential Audit Info IIFE  */}
                   {(() => {
                     const {
                       strAuditEngagementName,
@@ -174,7 +160,7 @@ const ConfidentialAuditForm = ({ objProps }) => {
                       dteStartDate,
                       dteEndDate,
                       strAuditEngagementCode,
-                    } = singleAuditData || [];
+                    } = singleAuditReport || [];
 
                     return (
                       <>
@@ -222,11 +208,7 @@ const ConfidentialAuditForm = ({ objProps }) => {
                 </thead>
                 <tbody>
                   {/* Audit Form */}
-                  {auditForm(
-                    values,
-                    setFieldValue,
-                    singleConfidentialAuditData
-                  )}
+                  {auditForm(singleConfidentialAuditData)}
                 </tbody>
               </table>
             </div>
@@ -237,4 +219,4 @@ const ConfidentialAuditForm = ({ objProps }) => {
   );
 };
 
-export default ConfidentialAuditForm;
+export default ConfidentialAuditView;

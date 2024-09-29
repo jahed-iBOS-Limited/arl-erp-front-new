@@ -11,6 +11,24 @@ export const calculateDaysDifference = (startDate, endDate) => {
   return dayDifference > 0 ? dayDifference : 0; // Ensure non-negative days difference
 };
 
+export const auditScheduleLandingTableHeader = [
+  "SL",
+  "Audit Engament Name",
+  "SBU Name",
+  "Priority",
+  "Auditor's Name",
+  "Status",
+  "Start Date",
+  "End Date",
+  "Days to Complete/Period",
+  "Submit For Supervisor Review Date",
+  "Supervisor Review Complete Date",
+  "Sending for MGMT Response Date",
+  "Management Reponse Status",
+  "Final Audit Report BDO/CEO",
+  "Action",
+];
+
 // confidential audit form init data
 export const auditFormInitData = {
   auditObservation: "",
@@ -25,8 +43,8 @@ export const confidentialAuditTableHead = [
   "Audit Observation Name",
   "Financial Impact",
   "Responsible Persons of Management Feedback",
-  "Management Feedback (Specific)",
   "Audit Evidence Attachted",
+  "Management Feedback (Specific)",
   "Audit Recommendation",
 ];
 
