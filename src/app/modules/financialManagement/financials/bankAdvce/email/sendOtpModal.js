@@ -44,21 +44,13 @@ export default function SendOtpToEmailModal({ objProps }) {
       .required("OTP is required"),
   });
 
-  // return an new array of selected account or row dto
-  const selectedAdviceReportData = (arr) =>
-    arr?.filter((item) => Boolean(item?.checked));
+  // generate salary disbursement payload
+  const generateSCBDisbursementPayload = (landingValues) => {
+    const filterdData = adviceReportData?.filter((item) =>
+      Boolean(item?.checked)
+    );
 
-  // save handler of disbursement
-  const saveHandler = (
-    values,
-    landingValues,
-    profileData,
-    selectedBusinessUnit,
-    adviceReportData,
-    cb
-  ) => {
-    // disburse only checked account & making ready for disbursement
-    const payload = selectedAdviceReportData(adviceReportData)?.map((item) => {
+    const modifyData = filterdData.map((item) => {
       // destructure current item
       const {
         numAmount,
@@ -107,21 +99,41 @@ export default function SendOtpToEmailModal({ objProps }) {
       };
     });
 
+    return modifyData;
+  };
+
+  // save handler of disbursement
+  const saveHandler = (
+    values,
+    landingValues,
+    profileData,
+    selectedBusinessUnit,
+    adviceReportData,
+    cb
+  ) => {
+    // generate scb disbursement payload
+    const payload = generateSCBDisbursementPayload(landingValues);
+
     // confirm disbursement
     confirmSalaryDisbursement(
       "/fino/Disburse/SaveBankAdviceDirect",
       payload,
       (response) => {
-        if (response?.StatusCode === 500 || response?.statuscode === 500) {
-          toast.warn(response?.Message || response?.message);
+        // status code
+        const statusCode = response?.StatusCode || response?.statuscode;
+        const message = response?.Message || response?.message;
+
+        if (statusCode === 500 || statusCode === 500) {
+          toast.warn(message);
           setSCBModalShow(true);
-        } else if (
-          response?.StatusCode === 200 ||
-          response?.statuscode === 200
-        ) {
-          toast.success(response?.Message || response?.message);
+        } else if (statusCode === 200 || statusCode === 200) {
+          toast.success(message);
+          setAdviceReportData([]);
           setSCBModalShow(false);
         }
+        // if status code isn't 500 than close modal & clear report data
+        setAdviceReportData([]);
+        setSCBModalShow(false);
       },
       false,
       "Salary disbursement complement",
