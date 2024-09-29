@@ -60,18 +60,6 @@ export default function VesselNomination() {
   }, shallowEqual);
 
   const [landingData, getLandingData, loader] = useAxiosGet();
-  const [, vesselNominationMainSend] = useAxiosPost();
-  const [, edpaLoadportMailSend] = useAxiosPost();
-  const [, preStowageMailSend] = useAxiosPost();
-  const [, onHireBunkerSurveyMailSend] = useAxiosPost();
-  const [, voyageInstructionMailSend] = useAxiosPost();
-  const [, piSurveyMailSend] = useAxiosPost();
-  // const [, voyageLicenseFlagWaiverMailSend] = useAxiosPost();
-  const [, tclMailSend] = useAxiosPost();
-  const [, weatherRoutingCompanyMailSend] = useAxiosPost();
-  const [, departureDocumentLoadPortMailSend] = useAxiosPost();
-  const [, epdaDischargePortMailSend] = useAxiosPost();
-  const [, offHireBunkerSurveyMailSend] = useAxiosPost();
   const [isShowMailModal, setIsShowMailModal] = useState(false);
   const [isDiffMailSenderModal, setIsDiffMailSenderModal] = useState(false);
   const [vesselDDL, setVesselDDL] = useState([]);
@@ -386,7 +374,7 @@ export default function VesselNomination() {
                             setVesselDDL,
                             valueOption?.value === 2 ? 2 : ""
                           );
-                        }else{
+                        } else {
                           getGridData();
                         }
                       }}
@@ -497,11 +485,6 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                    // if (!item?.edpaLoadportSend) {
-                                    //   return toast.warn(
-                                    //     "Please Send EDPA Loadport Email First"
-                                    //   );
-                                    // }
                                     history.push(
                                       "/chartering/operation/bunkerManagement/create",
                                       {
@@ -525,13 +508,11 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                   
                                     setSingleRowData({
                                       ...item,
                                       columnName: "PRE STOWAGE",
                                     });
                                     setIsShowMailModal(true);
-                                    
                                   }}
                                   disabled={item.preStowageSend}
                                 >
@@ -547,9 +528,7 @@ export default function VesselNomination() {
                                     : "btn btn-sm btn-warning px-1 py-1"
                                 }
                                 type="button"
-                               
                                 onClick={() => {
-                                  
                                   setSingleRowData({
                                     ...item,
                                     columnName: "VESSEL NOMINATION",
@@ -571,7 +550,6 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                   
                                     setSingleRowData({
                                       ...item,
                                       columnName: "EDPA LOADPORT",
@@ -597,11 +575,8 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                    if (item.onHireBunkerSurveySent)
-                                      return toast.warn(
-                                        "On Hire Bunker Survey Email Already Sent"
-                                      );
                                     
+
                                     setSingleRowData({
                                       ...item,
                                       columnName: "ON HIRE BUNKER SURVEY",
@@ -626,11 +601,6 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                    if (!item?.onHireBunkerSurveySent) {
-                                      return toast.warn(
-                                        "Please Send On Hire Bunker Survey Email First"
-                                      );
-                                    }
                                     history.push(
                                       `/chartering/operation/pre-stowagePlanning/create/${item?.intId}/${item?.strCode}`,
                                       {
@@ -678,7 +648,6 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                   
                                     setSingleRowData({
                                       ...item,
                                       columnName: "PI SURVEY",
@@ -703,16 +672,12 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                    // if (item.voyageLicenseFlagWaiverSend) {
-                                    //   return toast.warn("Voyage License/Flag Waiver Email Already Sent");
-                                    // }
                                     setSingleRowData({
                                       ...item,
                                       columnName: "VOYAGE LICENSE/FLAG WAIVER",
                                     });
                                     // setIsShowMailModal(true);
                                     setShow(true);
-                                   
                                   }}
                                   disabled={item.voyageLicenseFlagWaiverSend}
                                 >
@@ -730,11 +695,8 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                    if (item.tclSend)
-                                      return toast.warn(
-                                        "TCL Email Already Sent"
-                                      );
-                                   
+                                    
+
                                     setSingleRowData({
                                       ...item,
                                       columnName: "TCL",
@@ -759,11 +721,6 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                    if (item.weatherRoutingCompanySend)
-                                      return toast.warn(
-                                        "Weather Routing Company Email Already Sent"
-                                      );
-                                   
                                     setSingleRowData({
                                       ...item,
                                       columnName: "WEATHER ROUTING COMPANY",
@@ -789,11 +746,6 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                    if (item.departureDocumentLoadPortSend)
-                                      return toast.warn(
-                                        "Departure Document Loadport Email Already Sent"
-                                      );
-                                   
                                     setSingleRowData({
                                       ...item,
                                       columnName: "DEPARTURE DOCUMENT LOADPORT",
@@ -806,7 +758,7 @@ export default function VesselNomination() {
                                 </button>
                               )}
                             </td>
-                      
+
                             <td className="text-center">
                               {visibleButtons.includes(
                                 "epdadischargePortSent"
@@ -819,11 +771,6 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                    if (item.epdadischargePortSent)
-                                      return toast.warn(
-                                        "EPDA Discharge Port Email Already Sent"
-                                      );
-                                    
                                     setSingleRowData({
                                       ...item,
                                       columnName: "EPDA DISCHARGE PORT",
@@ -848,11 +795,6 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                    if (item.offHireBunkerSurveySent)
-                                      return toast.warn(
-                                        "Offhire Bunker Survey Email Already Sent"
-                                      );
-                                    
                                     setSingleRowData({
                                       ...item,
                                       columnName: "OFFHIRE BUNKER SURVEY",
@@ -877,11 +819,6 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                    if (item.departureDocumentDischargePortSend)
-                                      return toast.warn(
-                                        "Departure Document Discharge Port Email Already Sent"
-                                      );
-                                   
                                     setSingleRowData({
                                       ...item,
                                       columnName:
