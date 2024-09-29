@@ -44,20 +44,13 @@ export default function SendOtpToEmailModal({ objProps }) {
       .required("OTP is required"),
   });
 
-  // return an new array of selected account or row dto
-  const selectedAdviceReportData = (arr, callback) => {
-    const filterdData = arr?.filter((item) => Boolean(item?.checked));
-    callback && callback(filterdData);
-  };
-
   // generate salary disbursement payload
-  const generateSCBDisbursementPayload = (
-    arr,
-    landingValues,
-    selectedBusinessUnit,
-    profileData
-  ) =>
-    arr.map((item) => {
+  const generateSCBDisbursementPayload = (landingValues) => {
+    const filterdData = adviceReportData?.filter((item) =>
+      Boolean(item?.checked)
+    );
+
+    const modifyData = filterdData.map((item) => {
       // destructure current item
       const {
         numAmount,
@@ -106,6 +99,9 @@ export default function SendOtpToEmailModal({ objProps }) {
       };
     });
 
+    return modifyData;
+  };
+
   // save handler of disbursement
   const saveHandler = (
     values,
@@ -115,27 +111,8 @@ export default function SendOtpToEmailModal({ objProps }) {
     adviceReportData,
     cb
   ) => {
-    // disburse only checked account & making ready for disbursement
-    const payload = selectedAdviceReportData(
-      adviceReportData,
-      (filteredData) => {
-        const updatedDataForPayload = generateSCBDisbursementPayload(
-          filteredData,
-          landingValues,
-          selectedBusinessUnit,
-          profileData
-        );
-        return updatedDataForPayload;
-      }
-    );
-    // // generate scb disbursement payload
-    // const payload = generateSCBDisbursementPayload(
-    //   filteredSCBDisburmentData,
-    //   landingValues,
-    //   selectedBusinessUnit,
-    //   profileData
-    // );
-    console.log(payload);
+    // generate scb disbursement payload
+    const payload = generateSCBDisbursementPayload(landingValues);
 
     // confirm disbursement
     confirmSalaryDisbursement(

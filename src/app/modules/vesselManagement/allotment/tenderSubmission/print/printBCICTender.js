@@ -63,35 +63,31 @@ const dynamicTableRow = (tableData, index, header) => {
   );
 };
 
-const ghatTableRow = (tableData) => {
+const ghatTableRow = (tableData, index, rowSpanLength) => {
   return (
-    <>
-      <tr key={index}>
-        {index === 0 && (
-          <td rowSpan={restofDataOnTable.length} colSpan={2}></td>
-        )}
-        <td style={{ textAlign: "left" }}>{item?.godownName}</td>
-        <td
-          style={{
-            textAlign: "right",
-            fontWeight: "bold",
-            width: "100px",
-          }}
-        >
-          {item?.quantity}
-        </td>
-        <td
-          style={{
-            textAlign: "right",
-            fontWeight: "bold",
-            width: "100px",
-          }}
-        >
-          {item?.perQtyTonPriceBd}
-        </td>
-        <td style={{ textAlign: "center" }}>{item?.perQtyPriceWords}</td>
-      </tr>
-    </>
+    <tr key={index}>
+      {index === 0 && <td rowSpan={rowSpanLength} colSpan={2}></td>}
+      <td style={{ textAlign: "left" }}>{tableData?.godownName}</td>
+      <td
+        style={{
+          textAlign: "right",
+          fontWeight: "bold",
+          width: "100px",
+        }}
+      >
+        {tableData?.quantity}
+      </td>
+      <td
+        style={{
+          textAlign: "right",
+          fontWeight: "bold",
+          width: "100px",
+        }}
+      >
+        {tableData?.perQtyTonPriceBd}
+      </td>
+      <td style={{ textAlign: "center" }}>{tableData?.perQtyPriceWords}</td>
+    </tr>
   );
 };
 
@@ -101,8 +97,8 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
   const secondDataOnTable = rows?.length > 1 && rows[1];
   const thirdDataOnTable = rows?.length > 2 && rows[2];
   const fourthDataOnTable = rows?.length > 3 && rows[3];
-  const fifthToNineDataOnTable = rows?.length > 4 ? rows?.slice(4, 9) : [];
-  const NineToFourteenDataOnTable = rows?.length > 9 ? rows?.slice(10) : [];
+  const fifthToNineDataOnTable = rows?.length > 4 ? rows?.slice(4, 10) : [];
+  const tenToFourteenDataOnTable = rows?.length > 9 ? rows?.slice(10) : [];
 
   // last half data on table
   // const restofDataOnTable = rows?.length > 4 ? rows?.slice(4) : [];
@@ -177,10 +173,26 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
             {/* Fourth Data */}
             {dynamicTableRow(fourthDataOnTable, 4, header)}
 
+            {/* Fifth Data To Nine Data */}
             {fifthToNineDataOnTable?.length > 0 &&
               fifthToNineDataOnTable?.map((item, index) => {
-                return <></>;
+                return ghatTableRow(
+                  item,
+                  index,
+                  fifthToNineDataOnTable?.length
+                );
               })}
+
+            {/* Ten Data To Fourteen Data */}
+            {tenToFourteenDataOnTable?.length > 0 &&
+              tenToFourteenDataOnTable?.map((item, index) => {
+                return ghatTableRow(
+                  item,
+                  index,
+                  tenToFourteenDataOnTable?.length
+                );
+              })}
+
             <tr height={450}>
               <td colSpan={3}>
                 <span style={{ display: "block", marginBottom: "20px" }}>
