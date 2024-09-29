@@ -642,7 +642,7 @@ export default function DeadWeightCreate() {
                 </div>
 
                 {Array.from(
-                  { length: vesselData?.intHoldNumber || 7 },
+                  { length: vesselData?.intHoldNumber},
                   (_, index) => (
                     <div className="col-lg-2" key={index}>
                       <InputField
