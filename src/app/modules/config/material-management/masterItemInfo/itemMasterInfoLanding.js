@@ -72,6 +72,15 @@ export default function ItemMasterInfoLanding() {
                 <div>
                   <button
                     type="button"
+                    className="btn btn-primary mr-10"
+                    onClick={() =>
+                      history.push("/config/material-management/itembasicinfo-master/bulk-upload")
+                    }
+                  >
+                    Bulk Upload
+                  </button>
+                  <button
+                    type="button"
                     className="btn btn-primary"
                     onClick={() =>
                         history.push("/config/material-management/itembasicinfo-master/add")
