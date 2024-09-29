@@ -44,6 +44,7 @@ const DiffEmailSender = ({ emailEditorProps }) => {
     if (intId) {
       const payload = {
         intId: intId,
+        intUserEnrollId: profileData?.userId || 0,
       };
 
       getEmailInfo(

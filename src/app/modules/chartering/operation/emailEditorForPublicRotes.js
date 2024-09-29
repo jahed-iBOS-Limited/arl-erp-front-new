@@ -5,8 +5,14 @@ import Loading from "../../_helper/_loading";
 import AttachmentUploaderNew from "../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
 import { marineBaseUrlPythonAPI } from "../../../App";
+import { shallowEqual, useSelector } from "react-redux";
 
 const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
+
+  const { profileData } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
   const [emailData, setEmailData] = useState({
     toEmail: "",
     ccEmail: "",
@@ -164,6 +170,7 @@ const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
         subject: emailData.subject,
         body: emailData.emailBody,
         attachment: emailData?.attachment || "",
+        intUserEnrollId: profileData?.userId || 0
       };
 
       onSendEmail(`${marineBaseUrlPythonAPI}/automation/common_mail_sender`, payload, cb, true);

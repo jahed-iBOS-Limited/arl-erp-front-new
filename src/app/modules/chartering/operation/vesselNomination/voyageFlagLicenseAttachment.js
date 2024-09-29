@@ -54,18 +54,6 @@ export default function VoyageLicenseFlagAttachment({ values, setFieldValue, ite
                         return toast.warn("Please Upload Attachment First");
                       }
                       setIsShowMailModal(true);
-                      // voyageLicenseFlagWaiverMailSend(
-                      //   `${marineBaseUrlPythonAPI}/automation/voyage_license_flag_waiver_email_sender`,
-                      //   { 
-                      //     intId: item?.intId,
-                      //     attachmenturl: 'https://erp.ibos.io/domain/Document/DownlloadFile?id=' + attachment,
-                      //   },
-                      //   () => {
-                      //     getGridData();
-                      //     setVoyageLicenseFlagShow(false);
-                      //   },
-                      //   true
-                      // );
                     }}
                     disabled={!attachment}
                   >
