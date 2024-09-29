@@ -559,6 +559,10 @@ export default function LoadingSupervisorInfo() {
                             buId === 4 ? res?.objHeader?.packerId : 1
                           }&ShipPointId=${res?.objHeader?.shipPointId || 0}`
                         );
+                        setShipPointIdForCementTlmLoadFromPacker(
+                          res?.objHeader?.shipPointId
+                        );
+
                         getPackerList(
                           `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${buId}`,
 
