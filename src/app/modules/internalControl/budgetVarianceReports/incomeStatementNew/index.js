@@ -241,11 +241,11 @@ export default function IncomestatementNew() {
                       name="isForecast"
                       options={[
                         {
-                          value: true,
+                          value: false,
                           label: "Budget",
                         },
                         {
-                          value: false,
+                          value: true,
                           label: "Forecast",
                         },
                       ]}

@@ -63,15 +63,45 @@ const dynamicTableRow = (tableData, index, header) => {
   );
 };
 
+const ghatTableRow = (tableData, index, rowSpanLength) => {
+  return (
+    <tr key={index}>
+      {index === 0 && <td rowSpan={rowSpanLength} colSpan={2}></td>}
+      <td style={{ textAlign: "left" }}>{tableData?.godownName}</td>
+      <td
+        style={{
+          textAlign: "right",
+          fontWeight: "bold",
+          width: "100px",
+        }}
+      >
+        {tableData?.quantity}
+      </td>
+      <td
+        style={{
+          textAlign: "right",
+          fontWeight: "bold",
+          width: "100px",
+        }}
+      >
+        {tableData?.perQtyTonPriceBd}
+      </td>
+      <td style={{ textAlign: "center" }}>{tableData?.perQtyPriceWords}</td>
+    </tr>
+  );
+};
+
 const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
   // first data
   const firstDataOnTable = rows?.length > 0 && rows[0];
   const secondDataOnTable = rows?.length > 1 && rows[1];
   const thirdDataOnTable = rows?.length > 2 && rows[2];
   const fourthDataOnTable = rows?.length > 3 && rows[3];
+  const fifthToNineDataOnTable = rows?.length > 4 ? rows?.slice(4, 10) : [];
+  const tenToFourteenDataOnTable = rows?.length > 9 ? rows?.slice(10) : [];
 
   // last half data on table
-  const restofDataOnTable = rows?.length > 4 ? rows?.slice(4) : [];
+  // const restofDataOnTable = rows?.length > 4 ? rows?.slice(4) : [];
 
   return (
     <div className="print-only">
@@ -132,163 +162,37 @@ const PrintBCICTender = ({ tenderDetails: { header, rows } }) => {
             </tr>
 
             {/* First Data */}
-            {/* <tr>
-              <td colSpan={2}>PRICE PER M.TON IN USD</td>
-              <td style={{ textAlign: "left" }}>
-                {firstDataOnTable?.godownName || ""}
-              </td>
-              <td
-                style={{
-                  textAlign: "right",
-                  fontWeight: "bold",
-                  width: "100px",
-                }}
-              >
-                {firstDataOnTable?.quantity || ""}
-              </td>
-              <td
-                style={{
-                  textAlign: "right",
-                  fontWeight: "bold",
-                  width: "100px",
-                }}
-              >
-                {firstDataOnTable?.perQtyTonPriceBd || ""}
-              </td>
-              <td style={{ textAlign: "center" }}>
-                {firstDataOnTable?.perQtyPriceWords || ""}
-              </td>
-            </tr> */}
             {dynamicTableRow(firstDataOnTable, 1)}
 
             {/* Second Data */}
-            {/* <tr>
-              <td colSpan={2} height={!header?.foreignPriceUsd && 30}>
-                {header?.foreignPriceUsd ? `${header?.foreignPriceUsd} $` : ""}
-              </td>
-              <td style={{ textAlign: "left" }}>
-                {secondDataOnTable?.godownName || ""}
-              </td>
-              <td
-                style={{
-                  textAlign: "right",
-                  fontWeight: "bold",
-                  width: "100px",
-                }}
-              >
-                {secondDataOnTable?.quantity || ""}
-              </td>
-              <td
-                style={{
-                  textAlign: "right",
-                  fontWeight: "bold",
-                  width: "100px",
-                }}
-              >
-                {secondDataOnTable?.perQtyTonPriceBd || ""}
-              </td>
-              <td style={{ textAlign: "center" }}>
-                {secondDataOnTable?.perQtyPriceWords || ""}
-              </td>
-            </tr> */}
             {dynamicTableRow(secondDataOnTable, 2, header)}
 
             {/* Third Data */}
-            {/* <tr>
-              <td colSpan={2}>PRICE PER M. TON IN WORDS</td>
-              <td style={{ textAlign: "left" }}>
-                {thirdDataOnTable?.godownName || ""}
-              </td>
-              <td
-                style={{
-                  textAlign: "right",
-                  fontWeight: "bold",
-                  width: "100px",
-                }}
-              >
-                {thirdDataOnTable?.quantity || ""}
-              </td>
-              <td
-                style={{
-                  textAlign: "right",
-                  fontWeight: "bold",
-                  width: "100px",
-                }}
-              >
-                {thirdDataOnTable?.perQtyTonPriceBd || ""}
-              </td>
-              <td style={{ textAlign: "center" }}>
-                {thirdDataOnTable?.perQtyPriceWords || ""}
-              </td>
-            </tr> */}
             {dynamicTableRow(thirdDataOnTable, 3)}
 
             {/* Fourth Data */}
-            {/* <tr>
-              <td colSpan={2} height={!header?.foreignPriceUsd && 80}>
-                {header?.foreignPriceUsd
-                  ? convertToText(header?.foreignPriceUsd, "USD")
-                  : ""}
-              </td>
-              <td style={{ textAlign: "left" }}>
-                {fourthDataOnTable?.godownName || ""}
-              </td>
-              <td
-                style={{
-                  textAlign: "right",
-                  fontWeight: "bold",
-                  width: "100px",
-                }}
-              >
-                {fourthDataOnTable?.quantity || ""}
-              </td>
-              <td
-                style={{
-                  textAlign: "right",
-                  fontWeight: "bold",
-                  width: "100px",
-                }}
-              >
-                {fourthDataOnTable?.perQtyTonPriceBd || ""}
-              </td>
-              <td style={{ textAlign: "center" }}>
-                {fourthDataOnTable?.perQtyPriceWords || ""}
-              </td>
-            </tr> */}
             {dynamicTableRow(fourthDataOnTable, 4, header)}
 
-            {restofDataOnTable?.length > 0 &&
-              restofDataOnTable?.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    {index === 0 && (
-                      <td rowSpan={restofDataOnTable.length} colSpan={2}></td>
-                    )}
-                    <td style={{ textAlign: "left" }}>{item?.godownName}</td>
-                    <td
-                      style={{
-                        textAlign: "right",
-                        fontWeight: "bold",
-                        width: "100px",
-                      }}
-                    >
-                      {item?.quantity}
-                    </td>
-                    <td
-                      style={{
-                        textAlign: "right",
-                        fontWeight: "bold",
-                        width: "100px",
-                      }}
-                    >
-                      {item?.perQtyTonPriceBd}
-                    </td>
-                    <td style={{ textAlign: "center" }}>
-                      {item?.perQtyPriceWords}
-                    </td>
-                  </tr>
+            {/* Fifth Data To Nine Data */}
+            {fifthToNineDataOnTable?.length > 0 &&
+              fifthToNineDataOnTable?.map((item, index) => {
+                return ghatTableRow(
+                  item,
+                  index,
+                  fifthToNineDataOnTable?.length
                 );
               })}
+
+            {/* Ten Data To Fourteen Data */}
+            {tenToFourteenDataOnTable?.length > 0 &&
+              tenToFourteenDataOnTable?.map((item, index) => {
+                return ghatTableRow(
+                  item,
+                  index,
+                  tenToFourteenDataOnTable?.length
+                );
+              })}
+
             <tr height={450}>
               <td colSpan={3}>
                 <span style={{ display: "block", marginBottom: "20px" }}>
