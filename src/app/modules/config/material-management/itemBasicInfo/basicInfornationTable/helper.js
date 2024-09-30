@@ -4,17 +4,14 @@ import * as XLSX from 'xlsx';
 import { generateJsonToExcel } from '../../../../_helper/excel/jsonToExcel';
 
 export const itemSchema = Yup.object().shape({
-  itemName: Yup.string().required(),
-  itemTypeId: Yup.number().required(),
-  itemCategoryId: Yup.number().required(),
-  itemSubCategoryId: Yup.number().required(),
-  plantId: Yup.number().required(),
-  warehouseId: Yup.number().required(),
-  inventoryLocationId: Yup.number().required(),
-  binNumber: Yup.string().required(),
-  uomName: Yup.string().required(),
-  hscode: Yup.string().optional(),
-  maxLeadDays: Yup.number().optional(),
+  itemMasterName: Yup.string().required(),
+  itemMasterTypeId: Yup.number().required(),
+  itemMasterCategoryId: Yup.number().required(),
+  itemMasterSubCategoryId: Yup.number().required(),
+  businessUnitId: Yup.number().required(),
+  drawingCode: Yup.string().optional(),
+  partNo: Yup.number().optional(),
+  isSerialMaintain: Yup.number().optional(),
 });
 
 export const getValidationError = (itemList) => {
@@ -96,52 +93,29 @@ export const itemListExcelGenerator = (itemList) => {
       key: "itemSubCategoryId",
     },
     {
-      text: "Plant Id",
+      text: "Business Unit Id",
       textFormat: "number",
       alignment: "center:middle",
-      key: "plantId",
+      key: "businessUnitId",
     },
     {
-      text: "Warehouse Id",
-      textFormat: "number",
-      alignment: "center:middle",
-      key: "warehouseId",
-    },
-    {
-      text: "Inventory Location Id",
-      textFormat: "number",
-      alignment: "center:middle",
-      key: "inventoryLocationId",
-    },
-    {
-      text: "Bin Number",
-      textFormat: "number",
-      alignment: "center:middle",
-      key: "binNumber",
-    },
-    {
-      text: "UoM Name",
+      text: "Drawing Code",
       textFormat: "text",
       alignment: "center:middle",
-      key: "uomName",
+      key: "drawingCode",
     },
     {
-      text: "HS Code",
+      text: "Part No",
       textFormat: "text",
       alignment: "center:middle",
-      key: "hscode",
+      key: "partNo",
     },
     {
-      text: "Lead Days",
-      textFormat: "number",
-      alignment: "center:middle",
-      key: "maxLeadDays",
-    },
-    {
-      text: "Status",
+      text: "Serial Maintain",
       textFormat: "text",
       alignment: "center:middle",
-      key: "status",
+      key: "isSerialMaintain",
+      formatter: (item) => (item.isSerialMaintain ? 'Yes' : 'No'),
     },
   ];
 

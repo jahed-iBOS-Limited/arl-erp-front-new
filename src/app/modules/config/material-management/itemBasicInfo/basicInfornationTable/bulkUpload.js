@@ -60,20 +60,16 @@ export default function BulkUpload() {
     }
     const newItemList = rowData?.map((item) => {
       const newItem = {
-        businessUnitId: buId,
+        businessUnitId: item?.businessUnitId,
         accountId: accountId,
         actionBy: userId,
-        itemName: item?.itemName || '',
-        itemTypeId: +item?.itemTypeId || 0,
-        itemCategoryId: +item?.itemCategoryId || 0,
-        itemSubCategoryId: +item?.itemSubCategoryId || 0,
-        plantId: +item?.plantId || 0,
-        warehouseId: +item?.warehouseId || 0,
-        inventoryLocationId: +item?.inventoryLocationId || 0,
-        binNumber: item?.binNumber || '',
-        uomName: item?.uomName || '',
-        hscode: item?.hscode || '',
-        maxLeadDays: +item?.maxLeadDays || 0,
+        itemMasterName: item?.itemMasterName || '',
+        itemMasterTypeId: +item?.itemMasterTypeId || 0,
+        itemMasterCategoryId: +item?.itemMasterCategoryId || 0,
+        itemMasterSubCategoryId: +item?.itemMasterSubCategoryId || 0,
+        drawingCode: item?.drawingCode || '',
+        partNo: item?.partNo || '',
+        isSerialMaintain: item?.isSerialMaintain || false,
       };
       return newItem;
     });
@@ -82,7 +78,7 @@ export default function BulkUpload() {
       setRowData(updatedList || []);
       setIsValidationError(false);
     };
-    saveItemList(`/item/ItemBasic/UploadItemBulk`, newItemList, callback, true);
+    saveItemList(`/item/ItemMaster/ItemBulkUpload`, newItemList, callback, true);
   };
 
   return (
@@ -148,67 +144,37 @@ export default function BulkUpload() {
                     <th>Item Type Id</th>
                     <th>Item Category Id</th>
                     <th>Item Sub Category Id</th>
-                    <th>Plant Id</th>
-                    <th>Warehouse Id</th>
-                    <th>Inventory Location Id</th>
-                    <th>Bin Number</th>
-                    <th>UoM Name</th>
-                    <th>HS Code</th>
-                    <th>Lead Days</th>
-                    <th>Status</th>
+                    <th>Drawing Code</th>
+                    <th>Part No</th>
+                    <th>Serial Mantain</th>
                   </tr>
                 </thead>
                 <tbody>
                   {rowData?.map((item, index) => (
                     <tr key={index}>
                       <td className="text-center">{index + 1}</td>
-                      <td className="text-center">{item?.itemCode || ''}</td>
-                      <td className={!item?.itemName ? Styles['red-bg'] : ''}>
-                        {item?.itemName || ''}
+                      <td className="text-center">{item?.itemMasterCode || ''}</td>
+                      <td className={!item?.itemMasterName ? Styles['red-bg'] : ''}>
+                        {item?.itemMasterName || ''}
                       </td>
-                      <td className={`text-center ${!+item?.itemTypeId ? Styles['red-bg'] : ''}`}>
-                        {item?.itemTypeId || ''}
-                      </td>
-                      <td
-                        className={`text-center ${!+item?.itemCategoryId ? Styles['red-bg'] : ''}`}
-                      >
-                        {item?.itemCategoryId || ''}
+                      <td className={`text-center ${!+item?.itemMasterTypeId ? Styles['red-bg'] : ''}`}>
+                        {item?.itemMasterTypeId || ''}
                       </td>
                       <td
-                        className={`text-center ${
-                          !+item?.itemSubCategoryId ? Styles['red-bg'] : ''
-                        }`}
+                        className={`text-center ${!+item?.itemMasterCategoryId ? Styles['red-bg'] : ''}`}
                       >
-                        {item?.itemSubCategoryId || ''}
-                      </td>
-                      <td className={`text-center ${!+item?.plantId ? Styles['red-bg'] : ''}`}>
-                        {item?.plantId || ''}
-                      </td>
-                      <td className={`text-center ${!+item?.warehouseId ? Styles['red-bg'] : ''}`}>
-                        {item?.warehouseId || ''}
+                        {item?.itemMasterCategoryId || ''}
                       </td>
                       <td
                         className={`text-center ${
-                          !+item?.inventoryLocationId ? Styles['red-bg'] : ''
+                          !+item?.itemMasterSubCategoryId ? Styles['red-bg'] : ''
                         }`}
                       >
-                        {item?.inventoryLocationId || ''}
+                        {item?.itemMasterSubCategoryId || ''}
                       </td>
-                      <td className={`text-center ${!item?.binNumber ? Styles['red-bg'] : ''}`}>
-                        {item?.binNumber || ''}
-                      </td>
-                      <td className={!item?.uomName ? Styles['red-bg'] : ''}>
-                        {item?.uomName || ''}
-                      </td>
-                      <td className="text-center">{item?.hscode || ''}</td>
-                      <td
-                        className={`text-center ${
-                          item?.maxLeadDays && !+item?.maxLeadDays ? Styles['red-bg'] : ''
-                        }`}
-                      >
-                        {item?.maxLeadDays || ''}
-                      </td>
-                      <td className="text-center">{item?.status || ''}</td>
+                      <td className="text-center">{item?.drawingCode || ''}</td>
+                      <td className="text-center">{item?.partNo || ''}</td>
+                      <td className="text-center">{item?.isSerialMaintain ? 'Yes' : 'No'}</td>
                     </tr>
                   ))}
                 </tbody>
