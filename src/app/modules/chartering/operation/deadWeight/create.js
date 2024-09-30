@@ -63,7 +63,7 @@ export default function DeadWeightCreate() {
   useEffect(() => {
     if (paramId) {
       getVesselNominationData(
-        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=2`,
+        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`,
         (nominationData) => {
           getVesselData(
             `${imarineBaseUrl}/domain/VesselNomination/GetVesselMasterData?vesselId=${nominationData?.intVesselId}`
@@ -109,7 +109,7 @@ export default function DeadWeightCreate() {
       numHold5: +values?.numHold5 || 0,
       numHold6: +values?.numHold6 || 0,
       numHold7: +values?.numHold7 || 0,
-      numGrandTotalAmount: numHoldTotal,
+      TotalLoadableQuantity: numHoldTotal,
     };
 
     // Setting payload for display
@@ -120,6 +120,7 @@ export default function DeadWeightCreate() {
     // Final payload for API
     const payload = {
       ...commonPayload,
+      numGrandTotalAmount: numHoldTotal,
       strName: values?.strName,
       strEmail: values?.strEmail,
       intDeadWeightId: 0,
@@ -187,40 +188,25 @@ export default function DeadWeightCreate() {
   });
 
   const calculateFinalCargoToload = (values, setFieldValue) => {
-    // Destructure values object with default values using the + operator for conversion
-    const {
-      intDisplacementDraftMts = 0,
-      intLightShipMts = 0,
-      intFuelOilMts = 0,
-      intDieselOilMts = 0,
-      intFreshWaterMts = 0,
-      intDockWaterDensity = 0,
-      intConstantMts = 0,
-      intUnpumpableBallastMts = 0,
-      intCargoLoadMts = 0,
-    } = {
-      intDisplacementDraftMts: Number(values?.intDisplacementDraftMts) || 0,
-      intLightShipMts: Number(values?.intLightShipMts) || 0,
-      intFuelOilMts: Number(values?.intFuelOilMts) || 0,
-      intDieselOilMts: Number(values?.intDieselOilMts) || 0,
-      intFreshWaterMts: Number(values?.intFreshWaterMts) || 0,
-      intDockWaterDensity: Number(values?.intDockWaterDensity) || 0,
-      intConstantMts: Number(values?.intConstantMts) || 0,
-      intUnpumpableBallastMts: Number(values?.intUnpumpableBallastMts) || 0,
-      intCargoLoadMts: Number(values?.intCargoLoadMts) || 0,
-    };
-
-    console.log("values", values);
+    // Use Number() to convert values, defaulting to 0 if conversion fails
+    const intDisplacementDraftMts = Number(values.intDisplacementDraftMts) || 0;
+    const intLightShipMts = Number(values.intLightShipMts) || 0;
+    const intFoFuelOilMts = Number(values.intFoFuelOilMts) || 0;
+    const intFoDoDiselOilMts = Number(values.intFoDoDiselOilMts) || 0;
+    const intFwFreshWaterMts = Number(values.intFwFreshWaterMts) || 0;
+    const intDockWaterDensity = Number(values.intDockWaterDensity) || 1; // Default to 1 for water density
+    const intConstantMts = Number(values.intConstantMts) || 0;
+    const intUnpumpAbleBallastMts = Number(values.intUnpumpAbleBallastMts) || 0;
+    const intCargoLoadMts = Number(values.intCargoLoadMts) || 0;
 
     // Calculate the total of all cargo-related metrics
-    const totalCargoToloadMts = [
-      intFuelOilMts,
-      intDieselOilMts,
-      intFreshWaterMts,
-      intConstantMts,
-      intUnpumpableBallastMts,
-      intCargoLoadMts,
-    ].reduce((acc, curr) => acc + (curr || 0), 0);
+    const totalCargoToloadMts =
+      intFoFuelOilMts +
+      intFoDoDiselOilMts +
+      intFwFreshWaterMts +
+      intConstantMts +
+      intUnpumpAbleBallastMts +
+      intCargoLoadMts;
 
     // Calculate the final cargo to load metric
     const finalCargoToloadMts =
@@ -228,13 +214,17 @@ export default function DeadWeightCreate() {
         1.025 -
       totalCargoToloadMts;
 
-    console.log("finalCargoToloadMts", finalCargoToloadMts);
+    // Ensure the final cargo value is valid and not NaN
+    const validFinalCargoToloadMts = isNaN(finalCargoToloadMts)
+      ? 0
+      : finalCargoToloadMts;
 
-    // Update the final value in the form state
+    // Update the final value in the form state, ensuring it's rounded to 2 decimals
     setFieldValue(
       "intFinalCargoToloadMts",
-      parseFloat((finalCargoToloadMts || 0)?.toFixed(2))
+      validFinalCargoToloadMts.toFixed(2)
     );
+
   };
 
   return (
@@ -642,7 +632,7 @@ export default function DeadWeightCreate() {
                 </div>
 
                 {Array.from(
-                  { length: vesselData?.intHoldNumber},
+                  { length: vesselData?.intHoldNumber },
                   (_, index) => (
                     <div className="col-lg-2" key={index}>
                       <InputField
