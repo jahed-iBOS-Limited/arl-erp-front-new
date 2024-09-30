@@ -4,7 +4,7 @@
   box-sizing: border-box;
 } */
 
-/* .print-invoice-wrapper ul,
+.print-invoice-wrapper ul,
 .print-invoice-wrapper ol {
   list-style: none;
 }
@@ -21,23 +21,24 @@
 }
 
 .print-invoice-wrapper .container {
-  margin: 40px;
-  max-width: 1000px;
+  /* margin: 40px; */
+  width: 1000px;
   margin-left: auto;
   margin-right: auto;
-  padding: 10px;
+  padding: 0 80px;
+  background-color: #fff;
 }
 
-.print-invoice-wrapper .logo {
+/* .print-invoice-wrapper .logo {
   height: auto;
   width: 190px !important;
   position: absolute;
   top: 55px;
-}
+} */
 
 .print-invoice-wrapper .info {
   text-align: center;
-  margin-top: 80px !important;
+  margin-top: 40px !important;
 }
 
 .print-invoice-wrapper .invoice_info {
@@ -113,7 +114,7 @@
 .print-invoice-wrapper .bank_details {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 100px;
+  margin-bottom: 60px;
 }
 
 .print-invoice-wrapper .bd_item p {
@@ -124,6 +125,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 50px;
+  padding: 0 50px;
 }
 
 .print-invoice-wrapper .signature p {
@@ -141,4 +143,19 @@
   display: flex;
   justify-content: space-evenly;
   font-size: 13px;
-} */
+}
+
+/* Hide the div on screen */
+.sales-collection-table table .sales-collection-hide {
+  display: none;
+}
+
+@media print {
+  .print-invoice-wrapper .signature {
+    margin-bottom: 120px;
+  }
+  .sales-collection-table table .sales-collection-hide {
+    display: block;
+    background-color: white;
+  }
+}
