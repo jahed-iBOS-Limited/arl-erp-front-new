@@ -63,7 +63,7 @@ export default function DeadWeightCreate() {
   useEffect(() => {
     if (paramId) {
       getVesselNominationData(
-        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=2`,
+        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`,
         (nominationData) => {
           getVesselData(
             `${imarineBaseUrl}/domain/VesselNomination/GetVesselMasterData?vesselId=${nominationData?.intVesselId}`
