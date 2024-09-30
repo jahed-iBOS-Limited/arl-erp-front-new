@@ -90,10 +90,9 @@ export function MaterialPages() {
       <ContentRoute
         path="/config/material-management/itembasicinfo-master/add"
         component={
-          // itemProfileMasterPermission?.isCreate 
-          // ? 
+          itemProfileMasterPermission?.isCreate ? 
           AddForm 
-          // : NotPermittedPage
+          : NotPermittedPage
           }
       />
       <ContentRoute
@@ -340,19 +339,27 @@ export function MaterialPages() {
 
       <ContentRoute
         path="/config/material-management/itembasicinfo-master/expand/:id"
-        component={itemProfileMasterPermission?.isEdit ? MasterItemExpend : NotPermittedPage}
+        component={
+          itemProfileMasterPermission?.isEdit ? 
+          MasterItemExpend 
+          : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/config/material-management/itembasicinfo-master/view/:id"
-        component={itemProfileMasterPermission?.isView ? MasterItemView : NotPermittedPage}
+        component={
+          itemProfileMasterPermission?.isView ?
+           MasterItemView 
+           : NotPermittedPage
+          }
       />
 
       <ContentRoute
         path="/config/material-management/itembasicinfo-master"
         component={
-          // itemProfileMasterPermission?.isView ? 
+          itemProfileMasterPermission?.isView ? 
           ItemMasterInfoLanding
-          //  : NotPermittedPage
+           : NotPermittedPage
         }
       />
     </Switch>

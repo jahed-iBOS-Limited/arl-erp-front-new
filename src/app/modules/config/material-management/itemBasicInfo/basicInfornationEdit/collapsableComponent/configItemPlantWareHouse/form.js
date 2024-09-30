@@ -891,9 +891,7 @@ export default function _Form({
                                           isSearchable={true}
                                           styles={customStyles}
                                           name="baseUom"
-                                          isDisabled={
-                                             rowDto?.length > 1 || isEdit
-                                          }
+                                          isDisabled={existUOMData?.baseUomId}
                                        />
                                     )}
                                     placeholder="Select Base UOM"
