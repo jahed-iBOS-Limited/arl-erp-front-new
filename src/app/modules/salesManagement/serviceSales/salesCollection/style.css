@@ -4,7 +4,7 @@
   box-sizing: border-box;
 } */
 
-.print-invoice-wrapper ul,
+/* .print-invoice-wrapper ul,
 .print-invoice-wrapper ol {
   list-style: none;
 }
@@ -49,7 +49,7 @@
 }
 
 .print-invoice-wrapper .address {
-  /* background-color: #ebebe0; */
+  background-color: #ebebe0;
   display: flex;
   justify-content: space-between;
   padding: 12px 25px;
@@ -79,16 +79,7 @@
 
 .print-invoice-wrapper th {
   border-right: 2px solid black;
-  /* background-color: #ebebe5; */
-}
-
-.print-invoice-wrapper tr:nth-child(even) {
-  /* background-color: #f2f2f2; */
-}
-
-/* Style for odd rows */
-.print-invoice-wrapper tr:nth-child(odd) {
-  /* background-color: #f2f2f2; */
+  background-color: #ebebe5;
 }
 
 .print-invoice-wrapper tbody tr:last-child {
@@ -150,4 +141,4 @@
   display: flex;
   justify-content: space-evenly;
   font-size: 13px;
-}
+} */
