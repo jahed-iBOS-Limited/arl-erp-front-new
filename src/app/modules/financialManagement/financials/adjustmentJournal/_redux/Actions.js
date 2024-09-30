@@ -27,13 +27,24 @@ export const saveAdjustmentJournal = (payload) => () => {
   return requestFromServer
     .saveCreateData(payload.data)
     .then((res) => {
-      if (res.status === 200) {
+      if (res.data?.statuscode === 200) {
         // toast.success(res.data?.message || "Submitted successfully");
         payload.cb();
         payload.setDisabled(false);
         const obj = {
           title: "Adjustment Journal Code",
           message: res?.data?.code,
+          noAlertFunc: () => {},
+        };
+        payload.IConfirmModal(obj);
+      }
+      if (res?.data?.statuscode === 400) {
+        // toast.success(res.data?.message || "Submitted successfully");
+        payload.cb();
+        payload.setDisabled(false);
+        const obj = {
+          title: "Something Went Wrong",
+          message: res?.data?.message,
           noAlertFunc: () => {},
         };
         payload.IConfirmModal(obj);
