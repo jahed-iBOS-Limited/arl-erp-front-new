@@ -106,7 +106,9 @@ export default function CustomerStatementModifiedReportTable() {
           ?.shippointDDL?.value || 0}&businessPartnerId=${values
           ?.businessPartner?.value || 0}&fromDate=${values?.fromDate}&toDate=${
           values?.toDate
-        }&motherVesselId=${values?.motherVessel?.value || 0}`
+        }&motherVesselId=${values?.motherVessel?.value || 0}&portid=${
+          values?.port?.value
+        }`
       );
     }
   };
@@ -194,7 +196,7 @@ export default function CustomerStatementModifiedReportTable() {
                         {![4].includes(values?.reportType?.value) && (
                           <FromDateToDateForm obj={{ values, setFieldValue }} />
                         )}
-                        {[1, 2,4].includes(values?.reportType?.value) && (
+                        {[1, 2, 4].includes(values?.reportType?.value) && (
                           <div className="col-lg-3">
                             <NewSelect
                               name="salesOrg"
@@ -213,31 +215,31 @@ export default function CustomerStatementModifiedReportTable() {
                             />
                           </div>
                         )}
-                       {[1,2].includes(values?.reportType?.value)&&(
-                         <div className="col-lg-3">
-                         <NewSelect
-                           name="shippointDDL"
-                           options={
-                             [{ value: 0, label: "All" }, ...shippointDDL] ||
-                             []
-                           }
-                           value={values?.shippointDDL}
-                           label="Shippoint"
-                           onChange={(valueOption) => {
-                             setFieldValue("shippointDDL", valueOption);
-                             setRowDto([]);
-                             setShowRDLC(false);
-                           }}
-                           placeholder="Ship Point"
-                           errors={errors}
-                           touched={touched}
-                           isDisabled={
-                             values?.reportDDL?.label === "All" ||
-                             values?.reportDDL?.label === "Customer Name"
-                           }
-                         />
-                       </div>
-                       )}
+                        {[1, 2, 3].includes(values?.reportType?.value) && (
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="shippointDDL"
+                              options={
+                                [{ value: 0, label: "All" }, ...shippointDDL] ||
+                                []
+                              }
+                              value={values?.shippointDDL}
+                              label="Shippoint"
+                              onChange={(valueOption) => {
+                                setFieldValue("shippointDDL", valueOption);
+                                setRowDto([]);
+                                setShowRDLC(false);
+                              }}
+                              placeholder="Ship Point"
+                              errors={errors}
+                              touched={touched}
+                              isDisabled={
+                                values?.reportDDL?.label === "All" ||
+                                values?.reportDDL?.label === "Customer Name"
+                              }
+                            />
+                          </div>
+                        )}
                         {[1, 2, 4].includes(values?.reportType?.value) && (
                           <div className="col-lg-3">
                             <NewSelect
@@ -259,7 +261,7 @@ export default function CustomerStatementModifiedReportTable() {
                                   valueOption
                                 );
                                 setRowDto([]);
-                               
+
                                 getRegionAreaTerritory({
                                   channelId: valueOption?.value,
                                   setter: setRegionDDL,
@@ -281,105 +283,103 @@ export default function CustomerStatementModifiedReportTable() {
                             />
                           </div>
                         )}
-                        
+
                         {[4].includes(values?.reportType?.value) && (
-                           <>
-                           <div className="col-lg-3">
-                             <NewSelect
-                               name="region"
-                               options={regionDDL || []}
-                               value={values?.region}
-                               label="Region"
-                               onChange={(valueOption) => {
-                                 setFieldValue("region", valueOption);
-                                 setFieldValue("area", "");
-                                 setFieldValue("territory", "");
-                                 setRowDto([]);
-                                 setShowRDLC(false)
-                                 if (!valueOption) return;
-                              getRegionAreaTerritory({
-                                channelId: values?.distributionChannel?.value,
-                                regionId: valueOption?.value,
-                                setter: setAreaDDL,
-                                setLoading: setDisabled,
-                                value: "areaId",
-                                label: "areaName",
-                              });
-                               }}
-                               placeholder="Region"
-                               errors={errors}
-                               touched={touched}
-                               isDisabled={
-                                 !values?.distributionChannel 
-                               }
-                             />
-                           </div>
-                           <div className="col-lg-3">
-                             <NewSelect
-                               name="area"
-                               options={areaDDL}
-                               value={values?.area}
-                               label="Area"
-                               onChange={(valueOption) => {
-                                 setFieldValue("area", valueOption);
-                                 setFieldValue("territory", "");
-                                 setShowRDLC(false)
-                                 if (!valueOption) return;
-                                 getRegionAreaTerritory({
-                                  channelId: values?.distributionChannel?.value,
-                                  regionId: values?.region?.value,
-                                  areaId: valueOption?.value,
-                                  setter: setTeritroyDDL,
-                                  setLoading: setDisabled,
-                                  value: "territoryId",
-                                  label: "territoryName",
-                                });
-                               }}
-                               placeholder="Area"
-                               errors={errors}
-                               touched={touched}
-                               isDisabled={
-                                 !values?.region 
-                               }
-                             />
-                           </div>
-                           <div className="col-lg-3">
-                         <NewSelect
-                           name="territory"
-                           options={territtoryDDL}
-                           value={values?.territory}
-                           label="Territory"
-                           onChange={(valueOption) => {
-                             setFieldValue("territory",valueOption)
-                             setShowRDLC(false)
-                             setRowDto([]);
-                           }}
-                           placeholder="Territory"
-                           errors={errors}
-                           touched={touched}
-                           isDisabled={
-                             !values?.region ||
-                             !values?.area ||
-                             values?.region?.value === 0
-                           }
-                         />
-                       </div>
-                           <div className="col-lg-3">
-                             <NewSelect
-                               name="year"
-                               options={YearDDL()}
-                               value={values?.year}
-                               label="Year"
-                               onChange={(valueOption) => {
-                                 setFieldValue("year", valueOption);
-                                 setShowRDLC(false);
-                               }}
-                               placeholder="Year"
-                             />
-                           </div>
-                         </>
+                          <>
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="region"
+                                options={regionDDL || []}
+                                value={values?.region}
+                                label="Region"
+                                onChange={(valueOption) => {
+                                  setFieldValue("region", valueOption);
+                                  setFieldValue("area", "");
+                                  setFieldValue("territory", "");
+                                  setRowDto([]);
+                                  setShowRDLC(false);
+                                  if (!valueOption) return;
+                                  getRegionAreaTerritory({
+                                    channelId:
+                                      values?.distributionChannel?.value,
+                                    regionId: valueOption?.value,
+                                    setter: setAreaDDL,
+                                    setLoading: setDisabled,
+                                    value: "areaId",
+                                    label: "areaName",
+                                  });
+                                }}
+                                placeholder="Region"
+                                errors={errors}
+                                touched={touched}
+                                isDisabled={!values?.distributionChannel}
+                              />
+                            </div>
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="area"
+                                options={areaDDL}
+                                value={values?.area}
+                                label="Area"
+                                onChange={(valueOption) => {
+                                  setFieldValue("area", valueOption);
+                                  setFieldValue("territory", "");
+                                  setShowRDLC(false);
+                                  if (!valueOption) return;
+                                  getRegionAreaTerritory({
+                                    channelId:
+                                      values?.distributionChannel?.value,
+                                    regionId: values?.region?.value,
+                                    areaId: valueOption?.value,
+                                    setter: setTeritroyDDL,
+                                    setLoading: setDisabled,
+                                    value: "territoryId",
+                                    label: "territoryName",
+                                  });
+                                }}
+                                placeholder="Area"
+                                errors={errors}
+                                touched={touched}
+                                isDisabled={!values?.region}
+                              />
+                            </div>
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="territory"
+                                options={territtoryDDL}
+                                value={values?.territory}
+                                label="Territory"
+                                onChange={(valueOption) => {
+                                  setFieldValue("territory", valueOption);
+                                  setShowRDLC(false);
+                                  setRowDto([]);
+                                }}
+                                placeholder="Territory"
+                                errors={errors}
+                                touched={touched}
+                                isDisabled={
+                                  !values?.region ||
+                                  !values?.area ||
+                                  values?.region?.value === 0
+                                }
+                              />
+                            </div>
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="year"
+                                options={YearDDL()}
+                                value={values?.year}
+                                label="Year"
+                                onChange={(valueOption) => {
+                                  setFieldValue("year", valueOption);
+                                  setShowRDLC(false);
+                                }}
+                                placeholder="Year"
+                              />
+                            </div>
+                          </>
                         )}
-                        {(values?.reportType?.value === 1 ||4) && (
+                        {(values?.reportType?.value === 1 || 4) && (
                           <div className="col-lg-3">
                             <NewSelect
                               name="customerNameDDL"
@@ -388,7 +388,7 @@ export default function CustomerStatementModifiedReportTable() {
                               label="Customer Name"
                               onChange={(valueOption) => {
                                 setFieldValue("customerNameDDL", valueOption);
-                                setShowRDLC(false)
+                                setShowRDLC(false);
                                 setRowDto([]);
                               }}
                               placeholder="Customer name"
