@@ -2,9 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
 import { convertNumberToWords } from "../../../_helper/_convertMoneyToWord";
-import {
-  _dateFormatter
-} from "../../../_helper/_dateFormate";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../_helper/_formatMoney";
 import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
 import Loading from "../../../_helper/_loading";
@@ -12,11 +10,12 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import printIcon from "../../../_helper/images/print-icon.png";
 import { getLetterHead } from "../../../financialManagement/report/bankLetter/helper";
 import "./style.css";
+import nesarulSignatureIbos from "../images/nesarul-ibos-signature.png";
+import ibosSeal from "../images/ibos-seal.png";
 
 const PrintInvoiceModal = ({ singleItem }) => {
-
   const printRef = useRef();
-  
+
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -396,8 +395,26 @@ const PrintInvoiceModal = ({ singleItem }) => {
                   }}
                 >
                   <div className="signature">
-                    <p>Authorized Signature</p>
-                    <p>Receiver's Signature</p>
+                    <div className="text-center d-flex flex-row">
+                      <div>
+                        <img
+                          style={{ width: "120px" }}
+                          src={nesarulSignatureIbos}
+                          alt="nesarul-signature-ibo"
+                        />
+                        <p>Authorized Signature</p>
+                      </div>
+                      <div>
+                        <img
+                          style={{ width: "120px", marginLeft: "20px" }}
+                          src={ibosSeal}
+                          alt="ibos-seal"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <p>Receiver's Signature</p>
+                    </div>
                   </div>
                 </div>
               </div>

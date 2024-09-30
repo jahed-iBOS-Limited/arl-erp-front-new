@@ -124,7 +124,8 @@
 .print-invoice-wrapper .signature {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 50px;
+  align-items: end;
+  margin-bottom: -5px;
   padding: 0 50px;
 }
 
