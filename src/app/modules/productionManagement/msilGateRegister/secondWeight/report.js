@@ -23,8 +23,8 @@ import ispatLogo from "./images/ispatLogo.png";
 import essentialLogo from "./images/essentialLogo.png";
 
 function Report({ weightmentId }) {
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
+  const { selectedBusinessUnit, profileData } = useSelector((state) => {
+    return state.authData;
   }, shallowEqual);
   const [reportData, getReportData, reportLoader] = useAxiosGet();
 
@@ -382,6 +382,14 @@ function Report({ weightmentId }) {
                       </p>
                     </div>
                     <div className="fourth">
+                      {selectedBusinessUnit?.value === 188 && (
+                        <p className="d-flex flex-column">
+                          <span>
+                            {profileData?.employeeFullName}(
+                            {profileData?.designationName})
+                          </span>
+                        </p>
+                      )}
                       <p>
                         <span className="bold border-top">
                           Authorized Signature
