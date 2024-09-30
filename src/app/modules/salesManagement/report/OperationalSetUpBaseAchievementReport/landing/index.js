@@ -9,6 +9,7 @@ import Form from "./form";
 import TableTwo from "./tableTwo";
 import TargetVsSalesChart from "./targetVsSalesChart";
 import TableOne from "./tableOne";
+import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
 
 const initData = {
   fromDate: _todayDate(),
@@ -21,6 +22,7 @@ export default function OperationalSetUpBaseAchievement() {
   const printRef = useRef();
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showPowerBIReport, setShowPowerBIReport] = useState();
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
@@ -57,7 +59,7 @@ export default function OperationalSetUpBaseAchievement() {
               {({ values, setFieldValue }) => (
                 <>
                   <Form
-                    obj={{ values, setFieldValue, setRowDto, getGridData }}
+                    obj={{ values, setFieldValue, setRowDto, getGridData, setShowPowerBIReport }}
                   />
                   {loading && <Loading />}
 
@@ -75,14 +77,14 @@ export default function OperationalSetUpBaseAchievement() {
                               values,
                             }}
                           />
-                        ) : (
+                        ) : [1].includes(values?.reportType?.value) ? (
                           <TableOne
                             obj={{
                               rowDto,
                               printRef,
                             }}
                           />
-                        )}
+                        ) : null}
                       </div>
                     </div>
                   ) : null}
@@ -94,9 +96,53 @@ export default function OperationalSetUpBaseAchievement() {
                       reportType={values?.reportType?.value}
                     />
                   ) : null}
+
+{showPowerBIReport && (
+                              <PowerBIReport 
+                          reportId={`1bc970d0-a056-44b9-949d-b66dda9370e7`}
+                          groupId={`e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`}
+                          parameterValues={[
+                            { name: "intUnitId", value: `${selectedBusinessUnit?.value || 0}` },
+                            {
+                              name: "intPartid",
+                              value: `${values?.reportType?.value || 0}`,
+                            },
+                            {
+                              name: "intShipPointid",
+                              value: `${values?.shipPoint?.value || 0}`,
+                            },                         
+                            {
+                              name: "intChannelid",
+                              value: `${values?.channel?.value || 0}`,
+                            },
+                            {
+                              name: "intRegionId",
+                              value: `${values?.region?.value || 0}`,
+                            },
+                            {
+                              name: "intAreaid",
+                              value: `${values?.area?.value || 0}`,
+                            },
+                            {
+                              name: "intTerritoryId",
+                              value: `${values?.territory?.value || 0}`,
+                            },
+                            {
+                              name: "dteFromDate",
+                              value: values?.fromDate
+                            },
+                            {
+                              name: "dteToDate",
+                              value: values?.toDate
+                            },
+                          ]}
+                          parameterPanel={false}
+                          />
+                          )}
                 </>
               )}
             </Formik>
+            
           </div>
         </ICard>
       </>

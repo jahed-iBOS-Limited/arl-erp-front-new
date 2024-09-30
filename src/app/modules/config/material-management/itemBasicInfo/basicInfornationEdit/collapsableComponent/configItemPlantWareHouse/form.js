@@ -48,6 +48,7 @@ export default function _Form({
    selectedBusinessUnit,
    userId,
    isEdit,
+   existUOMData
 }) {
    const [plantList, setPlantList] = useState([]);
    const [whList, setWhList] = useState([]);
@@ -225,8 +226,8 @@ export default function _Form({
                   label: plantList ? plantList[0]?.label : '',
                },
                baseUom: {
-                  value: rowDto ? rowDto[0]?.baseUomId : '',
-                  label: rowDto ? rowDto[0]?.baseUomName : '',
+                  value: existUOMData?.baseUomId ? existUOMData?.baseUomId : '',
+                  label: existUOMData ? existUOMData?.baseUomName : '',
                },
                isMultipleUom: rowDto?.length > 1 ? true : false,
             }}
@@ -890,9 +891,7 @@ export default function _Form({
                                           isSearchable={true}
                                           styles={customStyles}
                                           name="baseUom"
-                                          isDisabled={
-                                             rowDto?.length > 1 || isEdit
-                                          }
+                                          isDisabled={existUOMData?.baseUomId}
                                        />
                                     )}
                                     placeholder="Select Base UOM"
@@ -1032,9 +1031,10 @@ export default function _Form({
                                     <div>
                                        <button
                                           disabled={
-                                             !values?.baseUom ||
+                                             (!values?.baseUom ||
                                              !values?.alternateUom?.value ||
-                                             !values?.conversionBaseUom
+                                             !values?.conversionBaseUom) && 
+                                             rowDto?.length > 1
                                           }
                                           type="button"
                                           onClick={() => {
