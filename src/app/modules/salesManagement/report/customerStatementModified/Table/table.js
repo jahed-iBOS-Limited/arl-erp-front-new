@@ -157,7 +157,6 @@ export default function CustomerStatementModifiedReportTable() {
                             touched={touched}
                           />
                         </div>
-                        {console.log(values?.reportType)}
                         {[3].includes(values?.reportType?.value) && (
                           <>
                             <div className="col-lg-3">
