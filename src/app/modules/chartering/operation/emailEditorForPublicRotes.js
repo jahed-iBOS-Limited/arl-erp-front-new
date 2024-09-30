@@ -52,7 +52,7 @@ const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
 
    // Function to remove prefixes and convert camelCase to space-separated words
    const cleanKey = (key) => {
-    const keyWithoutPrefix = key.replace(/^(str|int)/, ""); // Remove prefixes
+    const keyWithoutPrefix = key.replace(/^(str|int|num)/, ""); // Remove prefixes
     return keyWithoutPrefix.replace(/([a-z])([A-Z])/g, "$1 $2"); // Convert camelCase to spaced words
   };
 

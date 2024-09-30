@@ -35,11 +35,11 @@ const headers = [
   { name: "Cargo Quantity(Mt)" },
   { name: "Freight Per(Mt)" },
   { name: "Bunker Calculator" },
-  { name: "Pre Stowage" },
+  { name: "Dead Weight Calculation & Pre Stowage" },
   { name: "Vessel Nomination" },
   { name: "EDPA Loadport" },
   { name: "On Hire Bunker and Conditional Survey(CS)" },
-  { name: "Dead Weight Calculation" },
+  // { name: "Dead Weight Calculation" },
   { name: "Voyage Instruction" },
   { name: "PI & Survey" },
   { name: "Voyage License/Flag Waiver" },
@@ -516,7 +516,7 @@ export default function VesselNomination() {
                                   }}
                                   disabled={item.preStowageSend}
                                 >
-                                  PRE STOWAGE SEND
+                                  DEAD WEIGHT CALCULATION & PRE STOWAGE SEND
                                 </button>
                               )}
                             </td>
@@ -589,7 +589,7 @@ export default function VesselNomination() {
                                 </button>
                               )}
                             </td>
-                            <td className="text-center">
+                            {/* <td className="text-center">
                               {visibleButtons.includes(
                                 "isDeadWeightCalculationSave"
                               ) && (
@@ -613,7 +613,7 @@ export default function VesselNomination() {
                                   DEAD WEIGHT CALCULATION
                                 </button>
                               )}
-                            </td>
+                            </td> */}
                             <td className="text-center">
                               {visibleButtons.includes(
                                 "voyageInstructionSent"
