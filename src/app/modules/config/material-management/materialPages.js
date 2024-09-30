@@ -145,12 +145,12 @@ export function MaterialPages() {
         from="/config/material-management/item-basic-info/itemTradeoffersetup/:itemId"
         component={ItemTradeOfferSetup}
       />
-      <ContentRoute
+      {/* <ContentRoute
         from="/config/material-management/item-basic-info/bulk-upload"
         component={
           itemProfilePermission?.isCreate ? BulkUpload : NotPermittedPage
         }
-      />
+      /> */}
       <ContentRoute
         from="/config/material-management/item-basic-info"
         component={ItemBasicInfo}
@@ -330,19 +330,37 @@ export function MaterialPages() {
         path="/config/material-management/qc-item-config"
         component={QcItemConfigLanding}
       />
+      <ContentRoute
+        from="/config/material-management/itembasicinfo-master/bulk-upload"
+        component={
+          itemProfilePermission?.isCreate ? BulkUpload : NotPermittedPage
+        }
+      />
 
       <ContentRoute
         path="/config/material-management/itembasicinfo-master/expand/:id"
-        component={itemProfileMasterPermission?.isEdit ? MasterItemExpend : NotPermittedPage}
+        component={
+          itemProfileMasterPermission?.isEdit ? 
+          MasterItemExpend 
+          : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/config/material-management/itembasicinfo-master/view/:id"
-        component={itemProfileMasterPermission?.isView ? MasterItemView : NotPermittedPage}
+        component={
+          itemProfileMasterPermission?.isView ?
+           MasterItemView 
+           : NotPermittedPage
+          }
       />
 
       <ContentRoute
         path="/config/material-management/itembasicinfo-master"
-        component={itemProfileMasterPermission?.isView ? ItemMasterInfoLanding : NotPermittedPage}
+        component={
+          itemProfileMasterPermission?.isView ? 
+          ItemMasterInfoLanding
+           : NotPermittedPage
+        }
       />
     </Switch>
   );

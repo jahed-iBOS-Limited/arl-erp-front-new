@@ -35,6 +35,7 @@ import { infoTechLetterhead } from "../../invoiceManagementSystem/salesInvoice/b
 import { iBosLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/ibos";
 import { kafilLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/kafil";
 import { southAsiaLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/southAsia";
+import { akijIbosLetterHead } from "../../invoiceManagementSystem/salesInvoice/base64Images/akijIbos";
 // 102 singa,
 export const getLetterHead = ({ buId }) => {
   const letterhead =
@@ -105,7 +106,7 @@ export const getLetterHead = ({ buId }) => {
       : buId === 138
       ? infoTechLetterhead
       : buId === 184
-      ? iBosLetterhead
+      ? akijIbosLetterHead
       : buId === 189
       ? kafilLetterhead
       : buId === 234

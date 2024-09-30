@@ -61,6 +61,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
    const [isConfigItemPlant, setIsConfigItemPlant] = useState(false);
    const [singleInitData, setSingleInitData] = useState('');
    const [isEdit, setIsEdit] = useState(false);
+   const [existUOMData, setExistUOMData] = useState({});
 
    useEffect(() => {
       if (id) {
@@ -382,6 +383,24 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
       setDisabled(cond);
    };
 
+   useEffect(() => {
+      getDataById(id);
+      toast.dismiss(2);
+    }, [id]);
+  
+    const getDataById = async (id) => {
+      const res = await Axios.get(
+        `/item/ItemBasic/GetItemBasicByItemId?Itemid=${id}`
+      );
+      const { data, status } = res;
+      if (status === 200) {
+        const meta = data[0];
+        meta &&
+        setExistUOMData(meta?.uomData || {});
+      }
+    };
+  
+
    return (
       <Card>
          <CardHeader
@@ -439,6 +458,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
                userId={profileData?.userId}
                baseSetter={baseSetter}
                isEdit={isEdit}
+               existUOMData={existUOMData}
             />
          </CardBody>
       </Card>
