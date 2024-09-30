@@ -9,16 +9,22 @@ export const saveCashJournal_Action = (payload) => () => {
   return requestFromServer
     .saveCreateData(payload.data)
     .then((res) => {
-      if (res.status === 200) {
+      console.log(res)
+      if (res.data?.statuscode === 200) {
         toast.success(res.data?.message || "Submitted successfully");
         payload.cb(res?.data?.code);
         payload.setDisabled(false);
-        // const obj = {
-        //   title: "Cash Journal Code",
-        //   message: res?.data?.code,
-        //   noAlertFunc: () => {},
-        // };
-        // payload.IConfirmModal(obj);
+        const obj = {
+          title: "Cash Journal Code",
+          message: res?.data?.code,
+          noAlertFunc: () => {},
+        };
+        payload.IConfirmModal(obj);
+      }
+      if (res?.data?.statuscode === 400) {
+        toast.warning(res.data?.message || "Something went wrong");
+        payload.cb(res?.data?.code);
+        payload.setDisabled(false);
       }
     })
     .catch((err) => {
