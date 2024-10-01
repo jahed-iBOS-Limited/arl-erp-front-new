@@ -244,11 +244,11 @@ export const getSalesContactDDL_Action = (accId, buId, soldToPartyId) => (
     });
 };
 // action for getSalesQuotationDDL
-export const getSalesQuotationDDL_Action = (accId, buId, soldToPartyId) => (
+export const getSalesQuotationDDL_Action = (accId, buId, soldToPartyId,refTypeId) => (
   dispatch
 ) => {
   return requestFromServer
-    .getSalesQuotationDDL(accId, buId, soldToPartyId)
+    .getSalesQuotationDDL(accId, buId, soldToPartyId,refTypeId)
     .then((res) => {
       const { data } = res;
       dispatch(slice.SetReferenceNo(data));
