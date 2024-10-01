@@ -25,8 +25,8 @@ export default function ItemSubCategoryExpend() {
   const [singleData, setSingleData] = useState({});
   // const [checkCategoryStatus, getCheckCategoryStatus] = useAxiosGet();
   const {
-    profileData: { accountId: userId },
-    businessUnitList: businessUnitDDL
+    profileData: { userId },
+    businessUnitList: businessUnitDDL,
   } = useSelector((state) => state?.authData, shallowEqual);
   const location = useLocation();
 
@@ -37,7 +37,7 @@ export default function ItemSubCategoryExpend() {
     itemMasterCategoryCode,
     itemMasterCategoryName,
     itemMasterTypeName,
-    itemMasterSubCategoryName
+    itemMasterSubCategoryName,
   } = location?.state || {};
   const saveHandler = (values, cb) => {
     if (id) {
@@ -49,13 +49,13 @@ export default function ItemSubCategoryExpend() {
           };
         });
       const payload = {
-          itemMasterCategoryId: +itemMasterCategoryId,
-          itemMasterSubCategoryId: +id,
-          itemTypeId: +itemMasterTypeId,
-          actionBy: userId,
-          data: buListforPayload
-        }
-      if(buListforPayload?.length > 0) {
+        itemMasterCategoryId: +itemMasterCategoryId,
+        itemMasterSubCategoryId: +id,
+        itemTypeId: +itemMasterTypeId,
+        actionBy: userId,
+        data: buListforPayload,
+      };
+      if (buListforPayload?.length > 0) {
         postData(
           `/item/MasterCategory/CreateItemMasterSubCategoryExtend`,
           payload,
@@ -71,30 +71,37 @@ export default function ItemSubCategoryExpend() {
           },
           true
         );
-      }else{
+      } else {
         toast.warn("Please add minimum one new Business Unit");
       }
     }
   };
 
-const checkFunction = async(buId) => {
-  // getCheckCategoryStatus(`/item/MasterCategory/CheckCategoryByBusinessUnitId?AccountId=${accountId}&BusinessUnitId=${buId}&ItemMasterCategoryId=${itemMasterCategoryId}`)
-  try {
-    const res = await axios.get(`/item/MasterCategory/CheckCategoryByBusinessUnitId?AccountId=${accountId}&BusinessUnitId=${buId}&ItemMasterCategoryId=${itemMasterCategoryId}`);
-    if(res){
-      return res?.data
+  const checkFunction = async (buId) => {
+    // getCheckCategoryStatus(`/item/MasterCategory/CheckCategoryByBusinessUnitId?AccountId=${accountId}&BusinessUnitId=${buId}&ItemMasterCategoryId=${itemMasterCategoryId}`)
+    try {
+      const res = await axios.get(
+        `/item/MasterCategory/CheckCategoryByBusinessUnitId?AccountId=${accountId}&BusinessUnitId=${buId}&ItemMasterCategoryId=${itemMasterCategoryId}`
+      );
+      if (res) {
+        return res?.data;
+      }
+    } catch (error) {
+      console.log(error);
     }
-  } catch (error) {
-    console.log(error);
-   
-  }
-}
+  };
 
   const addRow = async (values, callBack) => {
-    if (rowData?.businessUnit?.find((item) => item?.businessUnitId === values?.businessUnit?.value)) {
+    if (
+      rowData?.businessUnit?.find(
+        (item) => item?.businessUnitId === values?.businessUnit?.value
+      )
+    ) {
       return toast.warn("Business Unit already added");
-    } 
-   const checkCategoryStatus = await checkFunction(values?.businessUnit?.value)
+    }
+    const checkCategoryStatus = await checkFunction(
+      values?.businessUnit?.value
+    );
     if (!checkCategoryStatus) {
       return toast.warn("Category not configured for this Business Unit");
     }
@@ -109,26 +116,26 @@ const checkFunction = async(buId) => {
         createdBy: userId,
         isNewBusinessUnitAdded: true,
       };
-  
+
       // Update rowData while keeping other fields intact
       setRowData({
-          sl: rowData?.sl,
-          itemMasterCategoryId: itemMasterCategoryId,
-          accountId: accountId,
-          itemMasterCategoryCode: itemMasterCategoryCode,
-          itemMasterCategoryName: itemMasterCategoryName,
-          itemMasterTypeId: itemMasterTypeId,
-          itemMasterTypeName: itemMasterTypeName,
-          businessUnit: [newRow, ...(rowData?.businessUnit || [])]
-      }); 
+        sl: rowData?.sl,
+        itemMasterCategoryId: itemMasterCategoryId,
+        accountId: accountId,
+        itemMasterCategoryCode: itemMasterCategoryCode,
+        itemMasterCategoryName: itemMasterCategoryName,
+        itemMasterTypeId: itemMasterTypeId,
+        itemMasterTypeName: itemMasterTypeName,
+        businessUnit: [newRow, ...(rowData?.businessUnit || [])],
+      });
       // Execute the callback after successfully updating the state
       callBack();
     } catch (e) {
       console.log(e);
     }
   };
-  
-console.log("rowData", rowData)
+
+  console.log("rowData", rowData);
 
   useEffect(() => {
     if (id) {
@@ -142,12 +149,12 @@ console.log("rowData", rowData)
     }
 
     if (id) {
-        getRowData(
-            `/item/MasterCategory/GetItemMasterSubCategoryId?ItemMasterSubCategoryId=${id}`,
-            (data) => {
-              setRowData(data);
-            }
-        )
+      getRowData(
+        `/item/MasterCategory/GetItemMasterSubCategoryId?ItemMasterSubCategoryId=${id}`,
+        (data) => {
+          setRowData(data);
+        }
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
@@ -230,8 +237,8 @@ console.log("rowData", rowData)
                     options={businessUnitDDL}
                     value={values?.businessUnit}
                     label="Business Unit"
-                    onChange={valueOption => {
-                       setFieldValue('businessUnit', valueOption);
+                    onChange={(valueOption) => {
+                      setFieldValue("businessUnit", valueOption);
                     }}
                     // isDisabled={id}
                   />
@@ -245,7 +252,7 @@ console.log("rowData", rowData)
                         setFieldValue("businessUnit", "");
                       });
                     }}
-                    disabled={!values?.businessUnit }
+                    disabled={!values?.businessUnit}
                   >
                     + Add
                   </button>
@@ -273,10 +280,16 @@ console.log("rowData", rowData)
                         <td className="text-center" style={{ width: "40px" }}>
                           {index + 1}
                         </td>
-                        <td className="text-left">{itemMasterSubCategoryName || ''}</td>
-                        <td className="text-left">{itemMasterCategoryName || ''}</td>
-                        <td className="text-left">{itemMasterTypeName || ''}</td>
-                        <td className="text-left">{item?.businessUnitName}</td>                      
+                        <td className="text-left">
+                          {itemMasterSubCategoryName || ""}
+                        </td>
+                        <td className="text-left">
+                          {itemMasterCategoryName || ""}
+                        </td>
+                        <td className="text-left">
+                          {itemMasterTypeName || ""}
+                        </td>
+                        <td className="text-left">{item?.businessUnitName}</td>
                       </tr>
                     ))}
                   </table>
