@@ -500,7 +500,8 @@ export default function SalesOrderForm({
         getSalesQuotationDDL_Action(
           profileData?.accountId,
           selectedBusinessUnit?.value,
-          values?.soldtoParty?.value
+          values?.soldtoParty?.value,
+          id,
         )
       );
     } else if (id === 3) {

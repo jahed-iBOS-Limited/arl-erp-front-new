@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Formik } from "formik";
 import React, { useMemo, useState } from "react";
-import Loading from "../../../../_helper/_loading";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { toast } from "react-toastify";
 
 export default function SendOtpToEmailModal({ objProps }) {
   const {
@@ -115,37 +115,42 @@ export default function SendOtpToEmailModal({ objProps }) {
     // generate scb disbursement payload
     const payload = generateSCBDisbursementPayload(landingValues);
 
-    // confirm disbursement
-    confirmSalaryDisbursement(
-      "/fino/Disburse/SaveBankAdviceDirect",
-      payload,
-      (response) => {
-        // status code
-        const statusCode = response?.StatusCode || response?.statuscode;
-        const message = response?.Message || response?.message;
+    // if user once clicked the confirm button than api will not execute
+    if (!confirmClicked) {
+      // confirm disbursement
+      confirmSalaryDisbursement(
+        "/fino/Disburse/SaveBankAdviceDirect",
+        payload,
+        (response) => {
+          // status code
+          const statusCode = response?.StatusCode || response?.statuscode;
+          const message = response?.Message || response?.message;
 
-        if (statusCode === 500 || statusCode === 500) {
-          toast.warn(message);
-          // setSCBModalShow(true);
-          setConfirmClicked(true);
-        } else if (statusCode === 200 || statusCode === 200) {
-          toast.success(message);
+          if (statusCode === 500 || statusCode === 500) {
+            toast.warn(message);
+            // setSCBModalShow(true);
+            setConfirmClicked(true);
+          } else if (statusCode === 200 || statusCode === 200) {
+            toast.success(message);
+            // setAdviceReportData([]);
+            // setSCBModalShow(false);
+            setConfirmClicked(true);
+          }
+          // if status code isn't 500 than close modal & clear report data
           // setAdviceReportData([]);
           // setSCBModalShow(false);
-          setConfirmClicked(true);
-        }
-        // if status code isn't 500 than close modal & clear report data
-        // setAdviceReportData([]);
-        // setSCBModalShow(false);
-      },
-      false,
-      "Salary disbursement complement",
-      "Salary disbursement not complement"
-      // () => {
-      //   setAdviceReportData([]);
-      //   setSCBModalShow(false);
-      // }
-    );
+        },
+        false,
+        "Salary disbursement complement",
+        "Salary disbursement not complement"
+        // () => {
+        //   setAdviceReportData([]);
+        //   setSCBModalShow(false);
+        // }
+      );
+    } else {
+      return toast.warn("Maximum limit reached!");
+    }
   };
 
   const totalAmount = useMemo(
