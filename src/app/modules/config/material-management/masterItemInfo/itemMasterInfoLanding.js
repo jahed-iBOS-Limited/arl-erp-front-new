@@ -29,10 +29,10 @@ export default function ItemMasterInfoLanding() {
   useEffect(() => {
     getLandingData(pageNo, pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  }, []);
 
-  const setPositionHandler = (pageNo, pageSize ) => {
-    getLandingData(pageNo, pageSize,);
+  const setPositionHandler = (pageNo, pageSize) => {
+    getLandingData(pageNo, pageSize);
   };
 
   const paginationSearchHandler = (searchValue) => {
@@ -74,7 +74,9 @@ export default function ItemMasterInfoLanding() {
                     type="button"
                     className="btn btn-primary mr-10"
                     onClick={() =>
-                      history.push("/config/material-management/itembasicinfo-master/bulk-upload")
+                      history.push(
+                        "/config/material-management/itembasicinfo-master/bulk-upload"
+                      )
                     }
                   >
                     Bulk Upload
@@ -83,8 +85,10 @@ export default function ItemMasterInfoLanding() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() =>
-                        history.push("/config/material-management/itembasicinfo-master/add")
-                      }
+                      history.push(
+                        "/config/material-management/itembasicinfo-master/add"
+                      )
+                    }
                   >
                     Create
                   </button>
@@ -124,12 +128,12 @@ export default function ItemMasterInfoLanding() {
                 </div>
               </div> */}
               {loading && <Loading />}
-            <PaginationSearch
-              placeholder="Item Name and Code Search"
-              paginationSearchHandler={paginationSearchHandler}
-              values={values}
-              setter={(searchValue) => setFieldValue("search", searchValue)}
-            />
+              <PaginationSearch
+                placeholder="Item Name and Code Search"
+                paginationSearchHandler={paginationSearchHandler}
+                values={values}
+                setter={(searchValue) => setFieldValue("search", searchValue)}
+              />
               {gridData?.data?.length > 0 ? (
                 <div className="table-responsive">
                   <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
@@ -138,6 +142,7 @@ export default function ItemMasterInfoLanding() {
                         <th>SL</th>
                         <th>Code</th>
                         <th>Item</th>
+                        <th>UOM</th>
                         <th>Item Type</th>
                         <th>Category</th>
                         <th>Sub Category</th>
@@ -151,63 +156,58 @@ export default function ItemMasterInfoLanding() {
                           <td>{item?.itemMasterCode}</td>
                           {/* <td>{item?.businessUnitIdReceivedName}</td> */}
                           <td>{item?.itemMasterName}</td>
+                          <td>{item?.uomDTO?.baseUomName || ""}</td>
                           <td>{item?.itemMasterTypeName}</td>
-                          <td>
-                            {item?.itemMasterCategoryName}
-                          </td>
+                          <td>{item?.itemMasterCategoryName}</td>
                           <td>{item?.itemMasterSubCategoryName}</td>
 
                           <td className="text-center">
                             <div className="d-flex align-items-center justify-content-center">
-                                <span className="mr-3">
-                                  <OverlayTrigger
-                                    overlay={
-                                      <Tooltip id="cs-icon">
-                                        Business Unit Expand
-                                      </Tooltip>
-                                    }
+                              <span className="mr-3">
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">
+                                      Business Unit Expand
+                                    </Tooltip>
+                                  }
+                                >
+                                  <span
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                      history.push({
+                                        pathname: `/config/material-management/itembasicinfo-master/expand/${item?.itemMasterId}`,
+                                        state: { ...item },
+                                      });
+                                    }}
                                   >
-                                    <span 
-                                      style={{ cursor: "pointer"}}
-                                      onClick={() => {
-                                        history.push({
-                                          pathname: `/config/material-management/itembasicinfo-master/expand/${item?.itemMasterId}`,
-                                          state: { ...item },
-                                        });
-                                      }}
-                                    >
-                                      <i
-                                        className={`fa fa-arrows-alt`}
-                                        onClick={() => {}}
-                                      ></i>
-                                    </span>
-                                  </OverlayTrigger>
-                                </span>
-                                <span>
-                                  <OverlayTrigger
-                                    overlay={
-                                      <Tooltip id="cs-icon">
-                                        View
-                                      </Tooltip>
-                                    }
+                                    <i
+                                      className={`fa fa-arrows-alt`}
+                                      onClick={() => {}}
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                              </span>
+                              <span>
+                                <OverlayTrigger
+                                  overlay={<Tooltip id="cs-icon">View</Tooltip>}
+                                >
+                                  <span
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                      history.push({
+                                        pathname: `/config/material-management/itembasicinfo-master/view/${item?.itemMasterId}`,
+                                        state: { ...item },
+                                      });
+                                    }}
                                   >
-                                    <span 
-                                      style={{ cursor: "pointer"}}
-                                      onClick={() => {
-                                        history.push({
-                                          pathname: `/config/material-management/itembasicinfo-master/view/${item?.itemMasterId}`,
-                                          state: { ...item },
-                                        });
-                                      }}
-                                    >
-                                      <i
-                                        className={`fa fa-eye`}
-                                        onClick={() => {}}
-                                      ></i>
-                                    </span>
-                                  </OverlayTrigger>
-                                </span>
-                              </div>
+                                    <i
+                                      className={`fa fa-eye`}
+                                      onClick={() => {}}
+                                    ></i>
+                                  </span>
+                                </OverlayTrigger>
+                              </span>
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -219,7 +219,9 @@ export default function ItemMasterInfoLanding() {
                   className="d-flex justify-content-center align-items-center"
                   style={{ height: "50vh" }} // Adjusts height to center vertically
                 >
-                    <h4 style={{ fontSize: "18px", color: "#333" }}>No data found</h4>
+                  <h4 style={{ fontSize: "18px", color: "#333" }}>
+                    No data found
+                  </h4>
                 </div>
               )}
 
