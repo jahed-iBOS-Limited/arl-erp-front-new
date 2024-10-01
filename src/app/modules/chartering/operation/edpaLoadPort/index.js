@@ -18,7 +18,7 @@ import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
 import FormikSelect from "../../_chartinghelper/common/formikSelect";
 import customStyles from "../../../selectCustomStyle";
 import { getVesselDDL, getVoyageDDLNew } from "../../helper";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { _previousDate, _todayDate } from "../../../_helper/_todayDate";
 
 const initData = {};
 export default function EDPALoadPort() {
@@ -57,7 +57,7 @@ export default function EDPALoadPort() {
 
     getGridData(
       `${imarineBaseUrl}/domain/VesselNomination/GetEpdaAndPortInfoLanding?BusinessUnitId=${0}&FromDate=${
-        values?.fromDate || _todayDate()
+        values?.fromDate || _previousDate()
       }&ToDate=${values?.toDate || _todayDate()}&pageNumber=${pageNo ||
         1}&pageSize=${pageSize ||
         600}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`

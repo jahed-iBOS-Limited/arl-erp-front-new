@@ -15,7 +15,7 @@ import IButton from "../../../_helper/iButton";
 import customStyles from "../../../selectCustomStyle";
 import FormikSelect from "../../_chartinghelper/common/formikSelect";
 import { getVesselDDL, getVoyageDDLNew } from "../../helper";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { _previousDate, _todayDate } from "../../../_helper/_todayDate";
 
 const initData = {
   fromDate: "",
@@ -57,7 +57,7 @@ export default function OnHireBunkerAndContionalSurvey() {
       : "";
     getGridData(
       `${imarineBaseUrl}/domain/VesselNomination/GetRfqonHireBunkerQtyLanding?BusinessUnitId=${0}&FromDate=${
-        values?.fromDate || _todayDate()
+        values?.fromDate || _previousDate()
       }&ToDate=${
         values?.toDate || _todayDate()
       }&pageNumber=${pageNo}&pageSize=${pageSize}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
