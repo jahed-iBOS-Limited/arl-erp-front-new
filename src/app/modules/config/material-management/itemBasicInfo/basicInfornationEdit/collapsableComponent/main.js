@@ -83,11 +83,11 @@ export default function MainCollapsePanel() {
   }, [state]);
 
   const components = [
-    {
-      id: 1,
-      component: <ItemBasicEditForm isViewPage={isViewPage} />,
-      title: "Basic item info",
-    },
+    // {
+    //   id: 1,
+    //   component: <ItemBasicEditForm isViewPage={isViewPage} />,
+    //   title: "Basic item info",
+    // },
     {
       id: 2,
       component: (

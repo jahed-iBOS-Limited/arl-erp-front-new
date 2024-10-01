@@ -4,43 +4,43 @@
   box-sizing: border-box;
 } */
 
-.print-invoice-wrapper ul,
-.print-invoice-wrapper ol {
+.print-invoice-wrapper-sales-invoice ul,
+.print-invoice-wrapper-sales-invoice ol {
   list-style: none;
 }
 
-.print-invoice-wrapper a {
+.print-invoice-wrapper-sales-invoice a {
   text-decoration: none;
   color: inherit;
 }
 
-.print-invoice-wrapper {
+.print-invoice-wrapper-sales-invoice {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   line-height: 1.6;
 }
 
-.print-invoice-wrapper .container {
-  margin: 40px;
-  max-width: 1000px;
+.print-invoice-wrapper-sales-invoice .container {
+  /* margin: 40px; */
+  width: 1000px;
   margin-left: auto;
   margin-right: auto;
-  padding: 10px;
+  padding: 0 80px;
 }
 
-.print-invoice-wrapper .logo {
+/* .print-invoice-wrapper-sales-invoice .logo {
   height: auto;
   width: 190px !important;
   position: absolute;
   top: 55px;
-}
+} */
 
-.print-invoice-wrapper .info {
+.print-invoice-wrapper-sales-invoice .info {
   text-align: center;
-  margin-top: 80px !important;
+  margin-top: 40px !important;
 }
 
-.print-invoice-wrapper .invoice_info {
+.print-invoice-wrapper-sales-invoice .invoice_info {
   display: flex;
   justify-content: space-between;
   font-size: 15px;
@@ -48,7 +48,7 @@
   margin-bottom: 20px;
 }
 
-.print-invoice-wrapper .address {
+.print-invoice-wrapper-sales-invoice .address {
   /* background-color: #ebebe0; */
   display: flex;
   justify-content: space-between;
@@ -56,13 +56,13 @@
   font-size: 14px;
 }
 
-.print-invoice-wrapper .address_title {
+.print-invoice-wrapper-sales-invoice .address_title {
   font-weight: 600;
   text-decoration: underline;
   font-size: 15px;
 }
 
-.print-invoice-wrapper table {
+.print-invoice-wrapper-sales-invoice table {
   border: 2px solid black;
   border-collapse: collapse;
   width: 100%;
@@ -72,30 +72,22 @@
   font-size: 12px;
 }
 
-.print-invoice-wrapper td {
+.print-invoice-wrapper-sales-invoice td {
   border-right: 2px solid black;
   border-bottom: 1px solid black;
 }
 
-.print-invoice-wrapper th {
+.print-invoice-wrapper-sales-invoice th {
   border-right: 2px solid black;
   /* background-color: #ebebe5; */
 }
 
-.print-invoice-wrapper tr:nth-child(even) {
-  /* background-color: #f2f2f2; */
-}
 
-/* Style for odd rows */
-.print-invoice-wrapper tr:nth-child(odd) {
-  /* background-color: #f2f2f2; */
-}
-
-.print-invoice-wrapper tbody tr:last-child {
+.print-invoice-wrapper-sales-invoice tbody tr:last-child {
   border-bottom: 2px solid black;
 }
 
-.print-invoice-wrapper tfoot td {
+.print-invoice-wrapper-sales-invoice tfoot td {
   border: none;
 }
 
@@ -106,36 +98,38 @@
   display: flex;
 }
 
-.print-invoice-wrapper .bd_title {
+.print-invoice-wrapper-sales-invoice .bd_title {
   text-decoration: underline;
 }
 
-.print-invoice-wrapper .bd_title {
+.print-invoice-wrapper-sales-invoice .bd_title {
   font-size: 20px;
 }
 
-.print-invoice-wrapper .bd_title p {
+.print-invoice-wrapper-sales-invoice .bd_title p {
   font-size: 13px;
   font-weight: 800;
 }
 
-.print-invoice-wrapper .bank_details {
+.print-invoice-wrapper-sales-invoice .bank_details {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 100px;
+  margin-bottom: 60px;
 }
 
-.print-invoice-wrapper .bd_item p {
+.print-invoice-wrapper-sales-invoice .bd_item p {
   font-size: 13px;
 }
 
-.print-invoice-wrapper .signature {
+.print-invoice-wrapper-sales-invoice .signature {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 50px;
+  align-items: end;
+  margin-bottom: -5px;
+  padding:0 50px
 }
 
-.print-invoice-wrapper .signature p {
+.print-invoice-wrapper-sales-invoice .signature p {
   padding-left: 5px;
   padding-right: 5px;
   border-top: 1px dashed black;
@@ -143,11 +137,27 @@
   font-size: 14px;
 }
 
-.print-invoice-wrapper .contact {
+.print-invoice-wrapper-sales-invoice .contact {
   background-color: #c3dae9;
   padding: 5px 10px;
   border-radius: 8px;
   display: flex;
   justify-content: space-evenly;
   font-size: 13px;
+}
+
+/* Hide the div on screen */
+.sales-invoice-preview table .sales-invoice-hide {
+  display: none;
+}
+
+
+@media print {
+  .print-invoice-wrapper-sales-invoice .signature {
+    margin-bottom: 120px;
+  }
+  .sales-invoice-preview table .sales-invoice-hide{
+    display: block;
+    background-color: white;
+  }
 }

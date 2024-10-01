@@ -136,7 +136,7 @@ export default function EditForm({ history,isViewPage }) {
   return (
     <Card>
       {true && <ModalProgressBar />}
-      <CardHeader  title={isViewPage ? "Item Basic Info" : "Edit Item Basic Info"} >
+      {/* <CardHeader  title={isViewPage ? "Item Basic Info" : "Edit Item Basic Info"} >
         <CardHeaderToolbar>
           {!isViewPage &&(
             <>
@@ -161,10 +161,10 @@ export default function EditForm({ history,isViewPage }) {
           </>
           )}
         </CardHeaderToolbar>
-      </CardHeader>
+      </CardHeader> */}
       <CardBody>
         {isDisabled && <Loading />}
-        {data && (
+        {/* {data && (
           <div className="mt-0">
             <Form
               data={data}
@@ -182,7 +182,7 @@ export default function EditForm({ history,isViewPage }) {
               isWorkable={isWorkable}
             />
           </div>
-        )}
+        )} */}
       </CardBody>
     </Card>
   );
