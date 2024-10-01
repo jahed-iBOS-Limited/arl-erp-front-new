@@ -23,11 +23,12 @@ export function getGridData(
   pageNo,
   pageSize,
   search,
-  distributionChannelId,
+  distributionChannelId
 ) {
   const searchPath = search ? `searchTerm=${search}&` : "";
   return axios.get(
-    `/oms/SalesOrder/GetSalesOrderPaginationSearch?${searchPath}AccountId=${accId}&BUnitId=${buId}&ShipPointId=${shipPointId}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ReportTypeId=${reportTypeId || 0}&DistributionChannelId=${distributionChannelId || 0}`
+    `/oms/SalesOrder/GetSalesOrderPaginationSearch?${searchPath}AccountId=${accId}&BUnitId=${buId}&ShipPointId=${shipPointId}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ReportTypeId=${reportTypeId ||
+      0}&DistributionChannelId=${distributionChannelId || 0}`
   );
 }
 
@@ -164,9 +165,9 @@ export function getSalesContactDDL(accId, buId, soldToPartyId) {
 }
 
 //Call GetSalesQuotationDDL Channel APi
-export function getSalesQuotationDDL(accId, buId, soldToPartyId) {
+export function getSalesQuotationDDL(accId, buId, soldToPartyId, refTypeId) {
   return axios.get(
-    `/oms/SalesOrder/GetSalesQuotationDDL?AccountId=${accId}&BUnitId=${buId}&SoldToPartnerId=${soldToPartyId}`
+    `/oms/SalesOrder/GetSalesQuotationDDL?AccountId=${accId}&BUnitId=${buId}&SoldToPartnerId=${soldToPartyId}&TypeId=${refTypeId}`
   );
 }
 
@@ -288,5 +289,7 @@ export function getCreditLimitForInternalUser(pId) {
   return axios.get(`/oms/SalesOrder/GetCreditLimitForInternalUser?pId=${pId}`);
 }
 export function GetSalesConfigurationBalanceCheck(accId, buId) {
-  return axios.get(`/oms/SalesOffice/GetSalesConfiguration?AccountId=${accId}&BusinessUnitId=${buId}`);
+  return axios.get(
+    `/oms/SalesOffice/GetSalesConfiguration?AccountId=${accId}&BusinessUnitId=${buId}`
+  );
 }
