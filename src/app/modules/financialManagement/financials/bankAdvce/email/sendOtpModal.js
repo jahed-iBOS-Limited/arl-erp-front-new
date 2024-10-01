@@ -21,6 +21,7 @@ export default function SendOtpToEmailModal({ objProps }) {
   // console.log(objProps);
 
   const [verified, setVerified] = useState(false);
+  const [confirmClicked, setConfirmClicked] = useState(false);
 
   // sending email for otp
   const [verifyOtpResponse, verifyOtp, verifyOtpLoading, ,] = useAxiosPost();
@@ -125,23 +126,25 @@ export default function SendOtpToEmailModal({ objProps }) {
 
         if (statusCode === 500 || statusCode === 500) {
           toast.warn(message);
-          setSCBModalShow(true);
+          // setSCBModalShow(true);
+          setConfirmClicked(true);
         } else if (statusCode === 200 || statusCode === 200) {
           toast.success(message);
-          setAdviceReportData([]);
-          setSCBModalShow(false);
+          // setAdviceReportData([]);
+          // setSCBModalShow(false);
+          setConfirmClicked(true);
         }
         // if status code isn't 500 than close modal & clear report data
-        setAdviceReportData([]);
-        setSCBModalShow(false);
+        // setAdviceReportData([]);
+        // setSCBModalShow(false);
       },
       false,
       "Salary disbursement complement",
-      "Salary disbursement not complement",
-      () => {
-        setAdviceReportData([]);
-        setSCBModalShow(false);
-      }
+      "Salary disbursement not complement"
+      // () => {
+      //   setAdviceReportData([]);
+      //   setSCBModalShow(false);
+      // }
     );
   };
 
@@ -266,11 +269,12 @@ export default function SendOtpToEmailModal({ objProps }) {
                   </strong>{" "}
                   accounts are selected for salary disbursement.
                 </h6>
+
                 {verified && (
                   <button
                     type="button"
                     className="btn btn-primary"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || confirmClicked}
                     onClick={handleSubmit}
                   >
                     Confirm
