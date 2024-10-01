@@ -16,6 +16,7 @@ const initData = {
   toDate: _todayDate(),
   certainDate: _todayDate(),
   reportType: { value: 1, label: "Customer Base" },
+  viewType: "",
 };
 
 export default function OperationalSetUpBaseAchievement() {
@@ -38,7 +39,7 @@ export default function OperationalSetUpBaseAchievement() {
       values?.certainDate,
       setLoading,
       setRowDto,
-      values,
+      values
     );
   };
 
@@ -59,7 +60,13 @@ export default function OperationalSetUpBaseAchievement() {
               {({ values, setFieldValue }) => (
                 <>
                   <Form
-                    obj={{ values, setFieldValue, setRowDto, getGridData, setShowPowerBIReport }}
+                    obj={{
+                      values,
+                      setFieldValue,
+                      setRowDto,
+                      getGridData,
+                      setShowPowerBIReport,
+                    }}
                   />
                   {loading && <Loading />}
 
@@ -97,52 +104,54 @@ export default function OperationalSetUpBaseAchievement() {
                     />
                   ) : null}
 
-{showPowerBIReport && (
-                              <PowerBIReport 
-                          reportId={`1bc970d0-a056-44b9-949d-b66dda9370e7`}
-                          groupId={`e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`}
-                          parameterValues={[
-                            { name: "intUnitId", value: `${selectedBusinessUnit?.value || 0}` },
-                            {
-                              name: "intPartid",
-                              value: `${values?.reportType?.value || 0}`,
-                            },
-                            {
-                              name: "intShipPointid",
-                              value: `${values?.shipPoint?.value || 0}`,
-                            },                         
-                            {
-                              name: "intChannelid",
-                              value: `${values?.channel?.value || 0}`,
-                            },
-                            {
-                              name: "intRegionId",
-                              value: `${values?.region?.value || 0}`,
-                            },
-                            {
-                              name: "intAreaid",
-                              value: `${values?.area?.value || 0}`,
-                            },
-                            {
-                              name: "intTerritoryId",
-                              value: `${values?.territory?.value || 0}`,
-                            },
-                            {
-                              name: "dteFromDate",
-                              value: values?.fromDate
-                            },
-                            {
-                              name: "dteToDate",
-                              value: values?.toDate
-                            },
-                          ]}
-                          parameterPanel={false}
-                          />
-                          )}
+                  {showPowerBIReport && (
+                    <PowerBIReport
+                      reportId={`1bc970d0-a056-44b9-949d-b66dda9370e7`}
+                      groupId={`e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`}
+                      parameterValues={[
+                        {
+                          name: "intUnitId",
+                          value: `${selectedBusinessUnit?.value || 0}`,
+                        },
+                        {
+                          name: "intPartid",
+                          value: `${values?.viewType?.value || 0}`,
+                        },
+                        {
+                          name: "intShipPointid",
+                          value: `${values?.shipPoint?.value || 0}`,
+                        },
+                        {
+                          name: "intChannelid",
+                          value: `${values?.channel?.value || 0}`,
+                        },
+                        {
+                          name: "intRegionId",
+                          value: `${values?.region?.value || 0}`,
+                        },
+                        {
+                          name: "intAreaid",
+                          value: `${values?.area?.value || 0}`,
+                        },
+                        {
+                          name: "intTerritoryId",
+                          value: `${values?.territory?.value || 0}`,
+                        },
+                        {
+                          name: "dteFromDate",
+                          value: values?.fromDate,
+                        },
+                        {
+                          name: "dteToDate",
+                          value: values?.toDate,
+                        },
+                      ]}
+                      parameterPanel={false}
+                    />
+                  )}
                 </>
               )}
             </Formik>
-            
           </div>
         </ICard>
       </>

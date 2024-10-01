@@ -146,6 +146,7 @@ export default function ItemMasterInfoLanding() {
                         <th>Item Type</th>
                         <th>Category</th>
                         <th>Sub Category</th>
+                        <th>Purchase Organization</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -160,6 +161,7 @@ export default function ItemMasterInfoLanding() {
                           <td>{item?.itemMasterTypeName}</td>
                           <td>{item?.itemMasterCategoryName}</td>
                           <td>{item?.itemMasterSubCategoryName}</td>
+                          <td>{item?.purchaseOrganizationName || ""}</td>
 
                           <td className="text-center">
                             <div className="d-flex align-items-center justify-content-center">

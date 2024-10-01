@@ -22,8 +22,8 @@ export default function ItemCategoryExpend() {
   const [, postData, isLoading] = useAxiosPost();
   const [singleData, setSingleData] = useState({});
   const {
-    profileData: { accountId: userId },
-    businessUnitList: businessUnitDDL
+    profileData: { userId },
+    businessUnitList: businessUnitDDL,
   } = useSelector((state) => state?.authData, shallowEqual);
   const location = useLocation();
   const [generalLedgerDDL, setGeneralLedgerDDL] = useState([]);
@@ -35,7 +35,6 @@ export default function ItemCategoryExpend() {
     itemMasterCategoryCode,
     itemMasterCategoryName,
     itemMasterTypeName,
-
   } = location?.state || {};
   const saveHandler = (values, cb) => {
     if (id) {
@@ -50,11 +49,11 @@ export default function ItemCategoryExpend() {
           };
         });
       const payload = {
-          itemMasterCategoryId: +id,
-          actionBy: userId,
-          extend: buListforPayload
-        }
-      if(buListforPayload?.length > 0) {
+        itemMasterCategoryId: +id,
+        actionBy: userId,
+        extend: buListforPayload,
+      };
+      if (buListforPayload?.length > 0) {
         postData(
           `/item/MasterCategory/CreateItemMasterCategoryExtend`,
           payload,
@@ -70,7 +69,7 @@ export default function ItemCategoryExpend() {
           },
           true
         );
-      }else{
+      } else {
         toast.warn("Please add minimum one new Business Unit");
       }
     }
@@ -98,7 +97,7 @@ export default function ItemCategoryExpend() {
   //         itemMasterTypeName: rowData?.itemMasterTypeName,
   //         businessUnit: [...rowData?.businessUnit, newRow]
   //       });
-  //         callBack();    
+  //         callBack();
   //   } catch (e) {
   //     console.log(e);
   //   }
@@ -106,9 +105,13 @@ export default function ItemCategoryExpend() {
 
   const addRow = (values, callBack) => {
     // Check if the supplier already exists in the rowData
-    if (rowData?.businessUnit?.find((item) => item?.businessUnitId === values?.businessUnit?.value)) {
+    if (
+      rowData?.businessUnit?.find(
+        (item) => item?.businessUnitId === values?.businessUnit?.value
+      )
+    ) {
       return toast.warn("Business Unit already added");
-    } 
+    }
     try {
       // Create the new row object
       const newRow = {
@@ -119,32 +122,30 @@ export default function ItemCategoryExpend() {
         createdBy: userId,
         isNewBusinessUnitAdded: true,
       };
-  
+
       // Update rowData while keeping other fields intact
       setRowData({
-          sl: rowData?.sl,
-          itemMasterCategoryId: itemMasterCategoryId,
-          accountId: accountId,
-          itemMasterCategoryCode: itemMasterCategoryCode,
-          itemMasterCategoryName: itemMasterCategoryName,
-          itemMasterTypeId: itemMasterTypeId,
-          itemMasterTypeName: itemMasterTypeName,
-          businessUnit: [newRow, ...(rowData?.businessUnit || [])]
-      }); 
+        sl: rowData?.sl,
+        itemMasterCategoryId: itemMasterCategoryId,
+        accountId: accountId,
+        itemMasterCategoryCode: itemMasterCategoryCode,
+        itemMasterCategoryName: itemMasterCategoryName,
+        itemMasterTypeId: itemMasterTypeId,
+        itemMasterTypeName: itemMasterTypeName,
+        businessUnit: [newRow, ...(rowData?.businessUnit || [])],
+      });
       // Execute the callback after successfully updating the state
       callBack();
     } catch (e) {
       console.log(e);
     }
   };
-  
-console.log("rowData", rowData)
+
+  console.log("rowData", rowData);
 
   useEffect(() => {
     if (id) {
-      const {
-        itemMasterCategoryName,
-      } = location?.state || {};
+      const { itemMasterCategoryName } = location?.state || {};
       const editedInitData = {
         itemCategoryName: itemMasterCategoryName,
         businessUnit: "",
@@ -164,8 +165,7 @@ console.log("rowData", rowData)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-
-    const getGeneralLedgerDDL_api = async (groupId, buId) => {
+  const getGeneralLedgerDDL_api = async (groupId, buId) => {
     const id = groupId === 10 ? 1 : groupId === 9 ? 12 : 16;
     try {
       const res = await axios.get(
@@ -222,10 +222,7 @@ console.log("rowData", rowData)
         <>
           {/* {console.log("error", errors)} */}
           {(rowDataLoading || isLoading) && <Loading />}
-          <IForm
-            customTitle={`Item Category Extend`}
-            getProps={setObjprops}
-          >
+          <IForm customTitle={`Item Category Extend`} getProps={setObjprops}>
             <Form onSubmit={handleSubmit}>
               <div className={`form-group  global-form row `}>
                 <div className="col-lg-3">
@@ -247,11 +244,18 @@ console.log("rowData", rowData)
                     options={businessUnitDDL}
                     value={values?.businessUnit}
                     label="Business Unit"
-                    onChange={valueOption => {
-                       setFieldValue('businessUnit', valueOption);
-                       itemMasterTypeId === 10 ? getGeneralLedgerDDL_api_forAsset(itemMasterTypeId, valueOption?.value)
-                              : getGeneralLedgerDDL_api(itemMasterTypeId, valueOption?.value);
-                      setFieldValue('generalLedger', "");
+                    onChange={(valueOption) => {
+                      setFieldValue("businessUnit", valueOption);
+                      itemMasterTypeId === 10
+                        ? getGeneralLedgerDDL_api_forAsset(
+                            itemMasterTypeId,
+                            valueOption?.value
+                          )
+                        : getGeneralLedgerDDL_api(
+                            itemMasterTypeId,
+                            valueOption?.value
+                          );
+                      setFieldValue("generalLedger", "");
                     }}
                     // isDisabled={id}
                   />
@@ -262,8 +266,8 @@ console.log("rowData", rowData)
                     options={generalLedgerDDL}
                     value={values?.generalLedger}
                     label="General Ledger"
-                    onChange={valueOption => {
-                       setFieldValue('generalLedger', valueOption);
+                    onChange={(valueOption) => {
+                      setFieldValue("generalLedger", valueOption);
                     }}
                     // isDisabled={id}
                   />
@@ -305,9 +309,11 @@ console.log("rowData", rowData)
                         <td className="text-center" style={{ width: "40px" }}>
                           {index + 1}
                         </td>
-                        <td className="text-left">{itemMasterCategoryName || ''}</td>
+                        <td className="text-left">
+                          {itemMasterCategoryName || ""}
+                        </td>
                         <td className="text-left">{item?.businessUnitName}</td>
-                        <td className="text-left">{item?.generalLedgerName}</td>                         
+                        <td className="text-left">{item?.generalLedgerName}</td>
                       </tr>
                     ))}
                   </table>
