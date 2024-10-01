@@ -99,7 +99,7 @@ export default function Recap() {
                       history.push("/chartering/operation/recap/create");
                     }}
                   >
-                    Create
+                    Capture
                   </button>
                 </div>
               );

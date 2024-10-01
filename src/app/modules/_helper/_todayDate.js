@@ -44,6 +44,18 @@ export const _lastDateOfMonth = (dateString) => {
   return lastDate;
 };
 
+export const _previousDate = (prevDays = 30) => {
+  var today = new Date();
+  today.setDate(today.getDate() - prevDays); // Subtract the number of days passed as prevDays
+  const previousDate =
+    today.getFullYear() +
+    "-" +
+    ("0" + (today.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + today.getDate()).slice(-2);
+  return previousDate;
+};
+
 export const _lastDateOfMonthPreviousYear = (dateString) => {
   if(!dateString) return "";
   const date = new Date(dateString);

@@ -192,7 +192,7 @@ export default function RecapCreate() {
         touched,
       }) => (
         <IForm
-          title="Create Recap"
+          title="Capture Recap"
           getProps={setObjprops}
           isHiddenReset={true}
           isHiddenSave

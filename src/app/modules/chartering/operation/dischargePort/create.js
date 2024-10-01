@@ -53,6 +53,11 @@ export default function CreateDischargePort() {
   const [voyageDDL, getVoyageDDL, , setVoyageDDL] = useAxiosGet();
   const [isShowModal, setIsShowModal] = useState(false);
   const [payloadInfo, setPayloadInfo] = useState(null);
+  const [
+    vesselNominationData,
+    getVesselNominationData,
+    loading,
+  ] = useAxiosGet();
 
   useEffect(() => {
     getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accountId}&BusinessUnitId=${buId}
@@ -60,12 +65,21 @@ export default function CreateDischargePort() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountId, buId]);
 
+  useEffect(() => {
+    if (paramId) {
+      getVesselNominationData(
+        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paramId]);
+
   const saveHandler = (values, cb) => {
     setPayloadInfo({
       // strName: values?.strName,
       // strEmail: values?.strEmail,
-      strVesselName: values.strVesselName?.label,
-      strVoyageNo: values.strVoyageNo?.label,
+      strVesselName: values?.strNameOfVessel || "",
+      strVoyageNo: values?.intVoyageNo || "",
       // intVesselNominationId: +paramId || 0,
       strCode: paramCode || values.strCode || "",
       strSoffile: generateFileUrl(values.strSoffile),
@@ -98,8 +112,8 @@ export default function CreateDischargePort() {
       strAccountName: "Akij",
       intBusinessUnitId: buId,
       strBusinessUnitName: businessUnitName,
-      strVesselName: values.strVesselName?.label,
-      strVoyageNo: values.strVoyageNo?.label,
+      strVesselName: values?.strNameOfVessel || "",
+      strVoyageNo: values?.intVoyageNo || "",
       intVesselNominationId: +paramId || 0,
       strCode: paramCode || values.strCode || "",
       strSoffile: values.strSoffile,
@@ -129,19 +143,21 @@ export default function CreateDischargePort() {
 
   // Validation schema for required fields
   const validationSchema = Yup.object().shape({
-    strVesselName: Yup.object()
-      .shape({
-        value: Yup.string().required("Vessel is required"),
-        label: Yup.string().required("Vessel is required"),
-      })
-      .typeError("Vessel is required"),
-    strVoyageNo: Yup.object()
-      .shape({
-        value: Yup.string().required("Voyage No is required"),
-        label: Yup.string().required("Voyage No is required"),
-      })
-      .typeError("Voyage No is required"),
-    strCode: Yup.string().required("Code is required"),
+    // strVesselName: Yup.object()
+    //   .shape({
+    //     value: Yup.string().required("Vessel is required"),
+    //     label: Yup.string().required("Vessel is required"),
+    //   })
+    //   .typeError("Vessel is required"),
+    // strVoyageNo: Yup.object()
+    //   .shape({
+    //     value: Yup.string().required("Voyage No is required"),
+    //     label: Yup.string().required("Voyage No is required"),
+    //   })
+    //   .typeError("Voyage No is required"),
+    strNameOfVessel: Yup.string().required("Name Of Vessel is required"),
+    intVoyageNo: Yup.string().required("Code is required"),
+    strCode: Yup.string().required("Voyage No is required"),
     strName: Yup.string().required("Name is required"),
     strEmail: Yup.string()
       .email("Invalid email format")
@@ -151,7 +167,12 @@ export default function CreateDischargePort() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{ ...initData, strCode: paramCode || "" }}
+      initialValues={{
+        ...initData,
+        strCode: paramCode || "",
+        strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
+        intVoyageNo: vesselNominationData?.intVoyageNo || "",
+      }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -161,7 +182,7 @@ export default function CreateDischargePort() {
     >
       {({ handleSubmit, values, setFieldValue, isValid, errors, touched }) => (
         <>
-          {loader && <Loading />}
+          {(loader || loading) && <Loading />}
           <IForm
             title="Create Discharge Port"
             isHiddenReset
@@ -216,7 +237,7 @@ export default function CreateDischargePort() {
                   />
                 </div>
                 {/* Vessel Name */}
-                <div className="col-lg-2">
+                {/* <div className="col-lg-2">
                   <NewSelect
                     name="strVesselName"
                     options={vesselDDL}
@@ -249,8 +270,33 @@ export default function CreateDischargePort() {
                     errors={errors}
                     touched={touched}
                   />
+                </div> */}
+                <div className="col-lg-2">
+                  <InputField
+                    value={values.strNameOfVessel}
+                    label="Name Of Vessel"
+                    name="strNameOfVessel"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("strNameOfVessel", e.target.value)
+                    }
+                    errors={errors}
+                    disabled
+                  />
                 </div>
-
+                <div className="col-lg-2">
+                  <InputField
+                    value={values.intVoyageNo}
+                    label="Voyage No"
+                    name="intVoyageNo"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("intVoyageNo", e.target.value)
+                    }
+                    errors={errors}
+                    disabled
+                  />
+                </div>
                 {/* Code */}
                 <div className="col-lg-2">
                   <InputField
@@ -260,6 +306,7 @@ export default function CreateDischargePort() {
                     type="text"
                     onChange={(e) => setFieldValue("strCode", e.target.value)}
                     errors={errors}
+                    disabled
                   />
                 </div>
 
@@ -459,8 +506,12 @@ export default function CreateDischargePort() {
                   title={"Send Mail"}
                 >
                   {/* <MailSender payloadInfo={payloadInfo} /> */}
-                  <EmailEditorForPublicRoutes payloadInfo={payloadInfo} cb={()=>{setIsShowModal(false)}}/>
-
+                  <EmailEditorForPublicRoutes
+                    payloadInfo={payloadInfo}
+                    cb={() => {
+                      setIsShowModal(false);
+                    }}
+                  />
                 </IViewModal>
               </div>
             </Form>
