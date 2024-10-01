@@ -8,14 +8,14 @@ const VesselLayout = ({ vesselData, values }) => {
   const styles = {
     vesselLayoutContainer: {
       display: "flex",
-      justifyContent: "center", // Align items to the start to make them line up
+      justifyContent: "center",
       alignItems: "center",
       width: "100%",
-      overflowX: "auto", // Add horizontal scrolling for smaller screens
-      whiteSpace: "nowrap", // Prevent wrapping to new lines
+      overflowX: "auto",
+      whiteSpace: "nowrap",
     },
     vesselSection: {
-      flex: "0 0 auto", // Prevent flex items from shrinking
+      flex: "0 0 auto",
       textAlign: "center",
       // padding: "10px",
       position: "relative",
@@ -23,18 +23,23 @@ const VesselLayout = ({ vesselData, values }) => {
     image: {
       width: "100%",
       height: "auto",
-      maxWidth: "150px", // Adjust this based on your design
+      maxWidth: "200px",
     },
     holdNumber: {
       fontSize: "20px",
       fontWeight: "bold",
       position: "absolute",
-      top: "105px",
+      top: "145px",
       left: "80px",
     },
     holdDescription: {
       margin: "10px 0",
       fontSize: "16px",
+      position: "absolute",
+      bottom: "25px",
+      left: "22px",
+      maxWidth: "152px",
+      textAlign: "justify",
     },
   };
 
@@ -52,7 +57,7 @@ const VesselLayout = ({ vesselData, values }) => {
           <div
             style={
               index === 0
-                ? { ...styles.holdNumber, top: "130px" }
+                ? { ...styles.holdNumber, top: "180px" }
                 : styles.holdNumber
             }
           >

@@ -646,7 +646,7 @@ export default function DeadWeightCreate() {
                   )
                 )}
               </div>
-              <div className="row mt-5">
+              <div className="row mt-5 mb-5">
                 <VesselLayout vesselData={vesselData} values={values} />
               </div>
               <div>
