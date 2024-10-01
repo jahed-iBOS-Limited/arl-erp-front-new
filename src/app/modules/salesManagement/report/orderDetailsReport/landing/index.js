@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { shallowEqual } from "react-redux";
 import { getOrderDetailsReportData } from "../helper";
@@ -12,16 +12,23 @@ import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import InputField from "../../../../_helper/_inputField";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import OrderDetailsReport from "./orderDetailsReport";
+import NewSelect from "../../../../_helper/_select";
+import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  shipPoint: { value: 0, label: "All" },
+  reportType: { value: 1, label: "Order Details Report" },
 };
 
 function OrderDetailsReportLanding() {
   const [landingData, setLandingData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [showPowerBIReport, setShowPowerBIReport] = useState(false);
+  const [ihbDDL, getIHBDDL, ihbLoading] = useAxiosGet();
   // get user profile data from store
   const storeData = useSelector((state) => {
     return {
@@ -44,7 +51,11 @@ function OrderDetailsReportLanding() {
     }
   };
 
-  console.log(landingData);
+  useEffect(() => {
+    getIHBDDL(
+      `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${selectedBusinessUnit?.value}&TypeId=4&RefferencePKId=0&ShipPointId=0`
+    );
+  }, [selectedBusinessUnit]);
 
   return (
     <>
@@ -56,8 +67,88 @@ function OrderDetailsReportLanding() {
               <Form>
                 <div className="row global-form">
                   <div className="col-lg-3">
-                    <label>Order No</label>
-                    <div className="d-flex">
+                    <NewSelect
+                      name="reportType"
+                      options={[
+                        { value: 1, label: "Order Details Report" },
+                        { value: 2, label: "IHB Program Details" },
+                      ]}
+                      value={values?.reportType}
+                      label="Report Type"
+                      onChange={(valueOption) => {
+                        setFieldValue("reportType", valueOption);
+                        setShowPowerBIReport(false);
+                        setLandingData({});
+                      }}
+                      placeholder="Report Type"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  {values?.reportType?.value === 2 ? (
+                    <>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="ihbName"
+                          options={ihbDDL}
+                          value={values?.ihbName}
+                          label="IHB"
+                          onChange={(valueOption) => {
+                            setFieldValue("ihbName", valueOption);
+                            setShowPowerBIReport(false);
+                          }}
+                          placeholder="IHB"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <RATForm
+                        obj={{
+                          values,
+                          setFieldValue,
+                        }}
+                      />
+
+                      <div className="col-lg-3">
+                        <label>From Date</label>
+                        <InputField
+                          value={values?.fromDate}
+                          name="fromDate"
+                          placeholder="From Date"
+                          type="date"
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <label>To Date</label>
+                        <InputField
+                          value={values?.toDate}
+                          name="toDate"
+                          placeholder="To Date"
+                          type="date"
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="viewType"
+                          options={[
+                            { value: 1, label: "Product Request" },
+                            { value: 2, label: "Product Inquiry" },
+                          ]}
+                          value={values?.viewType}
+                          label="View Type"
+                          onChange={(valueOption) => {
+                            setFieldValue("viewType", valueOption);
+                            setShowPowerBIReport(false);
+                          }}
+                          placeholder="View Type"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <div className="col-lg-3">
+                      <label>Order No</label>
                       <InputField
                         value={values?.orderId}
                         name="orderId"
@@ -65,21 +156,71 @@ function OrderDetailsReportLanding() {
                         type="text"
                       />
                     </div>
-                  </div>
+                  )}
+
                   <div style={{ marginTop: "17px" }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"
                       onClick={() => {
-                        getReportView(values);
+                        if (values?.reportType?.value === 2) {
+                          setShowPowerBIReport(true);
+                        } else {
+                          getReportView(values);
+                        }
                       }}
-                      disabled={!values?.orderId}
+                      disabled={
+                        values?.reportType?.value === 1
+                          ? !values?.orderId
+                          : false
+                      }
                     >
                       View
                     </button>
                   </div>
                 </div>
-                {landingData?.objSalesHeader ? (
+
+                {values?.reportType?.value === 2 && showPowerBIReport ? (
+                  <PowerBIReport
+                    reportId={"cabbb7a5-db51-4dbe-8687-1bee73b8c1cb"}
+                    groupId={"e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a"}
+                    parameterPanel={false}
+                    parameterValues={[
+                      { name: "intIHBId", value: `${values?.ihbName?.value}` },
+                      {
+                        name: "intUnitid",
+                        value: `${selectedBusinessUnit?.value}`,
+                      },
+                      {
+                        name: "viewType",
+                        value: `${values?.viewType?.value}`,
+                      },
+                      {
+                        name: "intRegionid",
+                        value: `${values?.region?.value}`,
+                      },
+                      {
+                        name: "intArea",
+                        value: `${values?.area?.value}`,
+                      },
+                      {
+                        name: "intTerritoryid",
+                        value: `${values?.territory?.value}`,
+                      },
+                      {
+                        name: "dteFromdate",
+                        value: `${values?.fromDate}`,
+                      },
+                      {
+                        name: "dteTodate",
+                        value: `${values?.toDate}`,
+                      },
+                    ]}
+                  />
+                ) : (
+                  <OrderDetailsReport landingData={landingData} />
+                )}
+                {/* {landingData?.objSalesHeader ? (
                   <div className="row global-form">
                     <div className="col-lg-3">
                       <label style={{ fontWeight: 600, fontSize: "11px" }}>
@@ -318,7 +459,7 @@ function OrderDetailsReportLanding() {
                   </>
                 ) : (
                   ""
-                )}
+                )} */}
               </Form>
             </>
           )}
