@@ -35,11 +35,11 @@ const VesselLayout = ({ vesselData, values }) => {
     holdDescription: {
       margin: "10px 0",
       fontSize: "16px",
-      position: "absolute",
-      bottom: "25px",
-      left: "22px",
-      maxWidth: "152px",
-      textAlign: "justify",
+      // position: "absolute",
+      // bottom: "25px",
+      // left: "22px",
+      // maxWidth: "152px",
+      // textAlign: "justify",
     },
   };
 

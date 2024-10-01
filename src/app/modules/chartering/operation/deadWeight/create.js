@@ -224,450 +224,464 @@ export default function DeadWeightCreate() {
   };
 
   return (
-    <Formik
-      enableReinitialize={true}
-      initialValues={{
-        ...initData,
-        strVesselNominationCode: paramCode || "",
-        strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
-        intVoyageNo: vesselNominationData?.intVoyageNo || "",
-      }}
-      validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
-          resetForm(initData);
-        });
+    <div
+      style={{
+        background: "#fff",
       }}
     >
-      {({
-        handleSubmit,
-        resetForm,
-        values,
-        setFieldValue,
-        isValid,
-        errors,
-        touched,
-        setValues,
-      }) => (
-        <>
-          {(loader || loading || loading2) && <Loading />}
-          <IForm
-            title={`Create Dead Weight & Pre-Stowage`}
-            isHiddenReset
-            isHiddenBack
-            isHiddenSave
-            renderProps={() => {
-              return (
-                <div>
-                  <button
-                    type="button"
-                    disabled={!payloadInfo}
-                    className="btn btn-primary mr-3"
-                    onClick={() => {
-                      setIsShowModal(true);
-                    }}
-                  >
-                    Send Mail
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      handleSubmit();
-                    }}
-                  >
-                    Save
-                  </button>
-                </div>
-              );
-            }}
-          >
-            <Form>
-              <div className="form-group  global-form row">
-                <div className="col-12">
-                  <h4>Dead Weight</h4>
-                </div>
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.strName || ""}
-                    label="Name"
-                    name="strName"
-                    type="text"
-                    onChange={(e) => setFieldValue("strName", e.target.value)}
-                    errors={errors}
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.strEmail || ""}
-                    label="Email"
-                    name="strEmail"
-                    type="text"
-                    onChange={(e) => setFieldValue("strEmail", e.target.value)}
-                    errors={errors}
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.strVesselNominationCode}
-                    label="Code"
-                    name="strVesselNominationCode"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("strVesselNominationCode", e.target.value)
-                    }
-                    errors={errors}
-                    disabled
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.strNameOfVessel}
-                    label="Name Of Vessel"
-                    name="strNameOfVessel"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("strNameOfVessel", e.target.value)
-                    }
-                    errors={errors}
-                    disabled
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.intVoyageNo}
-                    label="Voyage No"
-                    name="intVoyageNo"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("intVoyageNo", e.target.value)
-                    }
-                    errors={errors}
-                    disabled
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <NewSelect
-                    name="strDraftType"
-                    options={[
-                      { value: "Winter", label: "Winter" },
-                      { value: "Tropical", label: "Tropical" },
-                      { value: "Summer", label: "Summer" },
-                    ]}
-                    value={values?.strDraftType}
-                    label="Draft Type"
-                    onChange={(valueOption) => {
-                      setValues({
-                        ...values,
-                        strDraftType: valueOption || "",
-                        intDisplacementDraftMts:
-                          valueOption?.value === "Winter"
-                            ? vesselData?.numWinterDisplacementDraftMts
-                            : valueOption?.value === "Tropical"
-                            ? vesselData?.numTropicalDisplacementDraftMts
-                            : valueOption?.value === "Summer"
-                            ? vesselData?.numSummerDisplacementDraftMts
-                            : 0,
-                        // intDockWaterDensity: "",
-                        intLightShipMts:
-                          valueOption?.value === "Winter"
-                            ? vesselData?.numWinterLightShipMts
-                            : valueOption?.value === "Tropical"
-                            ? vesselData?.numTropicalLightShipMts
-                            : valueOption?.value === "Summer"
-                            ? vesselData?.numSummerLightShipMts
-                            : 0,
-                        // intFoFuelOilMts: "",
-                        // intFoDoDiselOilMts: "",
-                        // intFwFreshWaterMts: "",
-                        // intConstantMts: "",
-                        // intUnpumpAbleBallastMts: "",
-                        // intCargoLoadMts: "",
-                        // intFinalCargoToloadMts: "",
-                      });
-                      calculateFinalCargoToload(
-                        {
+      <Formik
+        enableReinitialize={true}
+        initialValues={{
+          ...initData,
+          strVesselNominationCode: paramCode || "",
+          strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
+          intVoyageNo: vesselNominationData?.intVoyageNo || "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          saveHandler(values, () => {
+            resetForm(initData);
+          });
+        }}
+      >
+        {({
+          handleSubmit,
+          resetForm,
+          values,
+          setFieldValue,
+          isValid,
+          errors,
+          touched,
+          setValues,
+        }) => (
+          <>
+            {(loader || loading || loading2) && <Loading />}
+            <IForm
+              title={`Create Dead Weight & Pre-Stowage`}
+              isHiddenReset
+              isHiddenBack
+              isHiddenSave
+              renderProps={() => {
+                return (
+                  <div>
+                    <button
+                      type="button"
+                      disabled={!payloadInfo}
+                      className="btn btn-primary mr-3"
+                      onClick={() => {
+                        setIsShowModal(true);
+                      }}
+                    >
+                      Send Mail
+                    </button>
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      onClick={() => {
+                        handleSubmit();
+                      }}
+                    >
+                      Save
+                    </button>
+                  </div>
+                );
+              }}
+            >
+              <Form>
+                <div className="form-group  global-form row">
+                  <div className="col-12">
+                    <h4>Dead Weight</h4>
+                  </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.strName || ""}
+                      label="Name"
+                      name="strName"
+                      type="text"
+                      onChange={(e) => setFieldValue("strName", e.target.value)}
+                      errors={errors}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.strEmail || ""}
+                      label="Email"
+                      name="strEmail"
+                      type="text"
+                      onChange={(e) =>
+                        setFieldValue("strEmail", e.target.value)
+                      }
+                      errors={errors}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.strVesselNominationCode}
+                      label="Code"
+                      name="strVesselNominationCode"
+                      type="text"
+                      onChange={(e) =>
+                        setFieldValue("strVesselNominationCode", e.target.value)
+                      }
+                      errors={errors}
+                      disabled
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.strNameOfVessel}
+                      label="Name Of Vessel"
+                      name="strNameOfVessel"
+                      type="text"
+                      onChange={(e) =>
+                        setFieldValue("strNameOfVessel", e.target.value)
+                      }
+                      errors={errors}
+                      disabled
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.intVoyageNo}
+                      label="Voyage No"
+                      name="intVoyageNo"
+                      type="text"
+                      onChange={(e) =>
+                        setFieldValue("intVoyageNo", e.target.value)
+                      }
+                      errors={errors}
+                      disabled
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="strDraftType"
+                      options={[
+                        { value: "Winter", label: "Winter" },
+                        { value: "Tropical", label: "Tropical" },
+                        { value: "Summer", label: "Summer" },
+                      ]}
+                      value={values?.strDraftType}
+                      label="Draft Type"
+                      onChange={(valueOption) => {
+                        setValues({
                           ...values,
+                          strDraftType: valueOption || "",
                           intDisplacementDraftMts:
                             valueOption?.value === "Winter"
-                              ? +vesselData?.numWinterDisplacementDraftMts
+                              ? vesselData?.numWinterDisplacementDraftMts
                               : valueOption?.value === "Tropical"
-                              ? +vesselData?.numTropicalDisplacementDraftMts
+                              ? vesselData?.numTropicalDisplacementDraftMts
                               : valueOption?.value === "Summer"
-                              ? +vesselData?.numSummerDisplacementDraftMts
+                              ? vesselData?.numSummerDisplacementDraftMts
                               : 0,
+                          // intDockWaterDensity: "",
                           intLightShipMts:
                             valueOption?.value === "Winter"
-                              ? +vesselData?.numWinterLightShipMts
+                              ? vesselData?.numWinterLightShipMts
                               : valueOption?.value === "Tropical"
-                              ? +vesselData?.numTropicalLightShipMts
+                              ? vesselData?.numTropicalLightShipMts
                               : valueOption?.value === "Summer"
-                              ? +vesselData?.numSummerLightShipMts
+                              ? vesselData?.numSummerLightShipMts
                               : 0,
-                        },
-                        setFieldValue
-                      );
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
+                          // intFoFuelOilMts: "",
+                          // intFoDoDiselOilMts: "",
+                          // intFwFreshWaterMts: "",
+                          // intConstantMts: "",
+                          // intUnpumpAbleBallastMts: "",
+                          // intCargoLoadMts: "",
+                          // intFinalCargoToloadMts: "",
+                        });
+                        calculateFinalCargoToload(
+                          {
+                            ...values,
+                            intDisplacementDraftMts:
+                              valueOption?.value === "Winter"
+                                ? +vesselData?.numWinterDisplacementDraftMts
+                                : valueOption?.value === "Tropical"
+                                ? +vesselData?.numTropicalDisplacementDraftMts
+                                : valueOption?.value === "Summer"
+                                ? +vesselData?.numSummerDisplacementDraftMts
+                                : 0,
+                            intLightShipMts:
+                              valueOption?.value === "Winter"
+                                ? +vesselData?.numWinterLightShipMts
+                                : valueOption?.value === "Tropical"
+                                ? +vesselData?.numTropicalLightShipMts
+                                : valueOption?.value === "Summer"
+                                ? +vesselData?.numSummerLightShipMts
+                                : 0,
+                          },
+                          setFieldValue
+                        );
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
 
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.intDisplacementDraftMts || ""}
-                    label="Displacement Draft Mts"
-                    name="intDisplacementDraftMts"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("intDisplacementDraftMts", e.target.value);
-                      calculateFinalCargoToload(
-                        {
-                          ...values,
-                          intDisplacementDraftMts: +e.target.value || 0,
-                        },
-                        setFieldValue
-                      );
-                    }}
-                    errors={errors}
-                    disabled={!values?.strDraftType}
-                  />
-                </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.intDisplacementDraftMts || ""}
+                      label="Displacement Draft Mts"
+                      name="intDisplacementDraftMts"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue(
+                          "intDisplacementDraftMts",
+                          e.target.value
+                        );
+                        calculateFinalCargoToload(
+                          {
+                            ...values,
+                            intDisplacementDraftMts: +e.target.value || 0,
+                          },
+                          setFieldValue
+                        );
+                      }}
+                      errors={errors}
+                      disabled={!values?.strDraftType}
+                    />
+                  </div>
 
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.intLightShipMts || ""}
-                    label="Light Ship Mts"
-                    name="intLightShipMts"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("intLightShipMts", e.target.value);
-                      calculateFinalCargoToload(
-                        {
-                          ...values,
-                          intLightShipMts: +e.target.value || 0,
-                        },
-                        setFieldValue
-                      );
-                    }}
-                    errors={errors}
-                    disabled={!values?.strDraftType}
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.intFoFuelOilMts}
-                    label="Fuel Oil Mts"
-                    name="intFoFuelOilMts"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("intFoFuelOilMts", e.target.value);
-                      calculateFinalCargoToload(
-                        {
-                          ...values,
-                          intFoFuelOilMts: +e.target.value || 0,
-                        },
-                        setFieldValue
-                      );
-                    }}
-                    errors={errors}
-                    disabled={!values?.strDraftType}
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.intFoDoDiselOilMts}
-                    label="Disel Oil Mts"
-                    name="intFoDoDiselOilMts"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("intFoDoDiselOilMts", e.target.value);
-                      calculateFinalCargoToload(
-                        {
-                          ...values,
-                          intFoDoDiselOilMts: +e.target.value || 0,
-                        },
-                        setFieldValue
-                      );
-                    }}
-                    errors={errors}
-                    disabled={!values?.strDraftType}
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.intFwFreshWaterMts}
-                    label="Fresh Water Mts"
-                    name="intFwFreshWaterMts"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("intFwFreshWaterMts", e.target.value);
-                      calculateFinalCargoToload(
-                        {
-                          ...values,
-                          intFwFreshWaterMts: +e.target.value || 0,
-                        },
-                        setFieldValue
-                      );
-                    }}
-                    errors={errors}
-                    disabled={!values?.strDraftType}
-                  />
-                </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.intLightShipMts || ""}
+                      label="Light Ship Mts"
+                      name="intLightShipMts"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue("intLightShipMts", e.target.value);
+                        calculateFinalCargoToload(
+                          {
+                            ...values,
+                            intLightShipMts: +e.target.value || 0,
+                          },
+                          setFieldValue
+                        );
+                      }}
+                      errors={errors}
+                      disabled={!values?.strDraftType}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.intFoFuelOilMts}
+                      label="Fuel Oil Mts"
+                      name="intFoFuelOilMts"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue("intFoFuelOilMts", e.target.value);
+                        calculateFinalCargoToload(
+                          {
+                            ...values,
+                            intFoFuelOilMts: +e.target.value || 0,
+                          },
+                          setFieldValue
+                        );
+                      }}
+                      errors={errors}
+                      disabled={!values?.strDraftType}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.intFoDoDiselOilMts}
+                      label="Disel Oil Mts"
+                      name="intFoDoDiselOilMts"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue("intFoDoDiselOilMts", e.target.value);
+                        calculateFinalCargoToload(
+                          {
+                            ...values,
+                            intFoDoDiselOilMts: +e.target.value || 0,
+                          },
+                          setFieldValue
+                        );
+                      }}
+                      errors={errors}
+                      disabled={!values?.strDraftType}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.intFwFreshWaterMts}
+                      label="Fresh Water Mts"
+                      name="intFwFreshWaterMts"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue("intFwFreshWaterMts", e.target.value);
+                        calculateFinalCargoToload(
+                          {
+                            ...values,
+                            intFwFreshWaterMts: +e.target.value || 0,
+                          },
+                          setFieldValue
+                        );
+                      }}
+                      errors={errors}
+                      disabled={!values?.strDraftType}
+                    />
+                  </div>
 
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.intDockWaterDensity}
-                    label="Dock Water Density"
-                    name="intDockWaterDensity"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("intDockWaterDensity", e.target.value);
-                      calculateFinalCargoToload(
-                        {
-                          ...values,
-                          intDockWaterDensity: +e.target.value || 0,
-                        },
-                        setFieldValue
-                      );
-                    }}
-                    errors={errors}
-                    disabled={!values?.strDraftType}
-                  />
-                </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.intDockWaterDensity}
+                      label="Dock Water Density"
+                      name="intDockWaterDensity"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue("intDockWaterDensity", e.target.value);
+                        calculateFinalCargoToload(
+                          {
+                            ...values,
+                            intDockWaterDensity: +e.target.value || 0,
+                          },
+                          setFieldValue
+                        );
+                      }}
+                      errors={errors}
+                      disabled={!values?.strDraftType}
+                    />
+                  </div>
 
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.intConstantMts}
-                    label="Constant Mts"
-                    name="intConstantMts"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("intConstantMts", e.target.value);
-                      calculateFinalCargoToload(
-                        {
-                          ...values,
-                          intConstantMts: +e.target.value || 0,
-                        },
-                        setFieldValue
-                      );
-                    }}
-                    errors={errors}
-                    disabled={!values?.strDraftType}
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.intUnpumpAbleBallastMts}
-                    label="UnpumpAble Ballast Mts"
-                    name="intUnpumpAbleBallastMts"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("intUnpumpAbleBallastMts", e.target.value);
-                      calculateFinalCargoToload(
-                        {
-                          ...values,
-                          intUnpumpAbleBallastMts: +e.target.value || 0,
-                        },
-                        setFieldValue
-                      );
-                    }}
-                    errors={errors}
-                    disabled={!values?.strDraftType}
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.intCargoLoadMts}
-                    label="Cargo Load Mts"
-                    name="intCargoLoadMts"
-                    type="number"
-                    onChange={(e) => {
-                      setFieldValue("intCargoLoadMts", e.target.value);
-                      calculateFinalCargoToload(
-                        {
-                          ...values,
-                          intCargoLoadMts: +e.target.value || 0,
-                        },
-                        setFieldValue
-                      );
-                    }}
-                    errors={errors}
-                    disabled={!values?.strDraftType}
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <InputField
-                    value={values.intFinalCargoToloadMts}
-                    label="Final Cargo Toload Mts"
-                    name="intFinalCargoToloadMts"
-                    type="number"
-                    onChange={(e) =>
-                      setFieldValue("intFinalCargoToloadMts", e.target.value)
-                    }
-                    errors={errors}
-                    disabled={!values?.strDraftType}
-                  />
-                </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.intConstantMts}
+                      label="Constant Mts"
+                      name="intConstantMts"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue("intConstantMts", e.target.value);
+                        calculateFinalCargoToload(
+                          {
+                            ...values,
+                            intConstantMts: +e.target.value || 0,
+                          },
+                          setFieldValue
+                        );
+                      }}
+                      errors={errors}
+                      disabled={!values?.strDraftType}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.intUnpumpAbleBallastMts}
+                      label="UnpumpAble Ballast Mts"
+                      name="intUnpumpAbleBallastMts"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue(
+                          "intUnpumpAbleBallastMts",
+                          e.target.value
+                        );
+                        calculateFinalCargoToload(
+                          {
+                            ...values,
+                            intUnpumpAbleBallastMts: +e.target.value || 0,
+                          },
+                          setFieldValue
+                        );
+                      }}
+                      errors={errors}
+                      disabled={!values?.strDraftType}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.intCargoLoadMts}
+                      label="Cargo Load Mts"
+                      name="intCargoLoadMts"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue("intCargoLoadMts", e.target.value);
+                        calculateFinalCargoToload(
+                          {
+                            ...values,
+                            intCargoLoadMts: +e.target.value || 0,
+                          },
+                          setFieldValue
+                        );
+                      }}
+                      errors={errors}
+                      disabled={!values?.strDraftType}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.intFinalCargoToloadMts}
+                      label="Final Cargo Toload Mts"
+                      name="intFinalCargoToloadMts"
+                      type="number"
+                      onChange={(e) =>
+                        setFieldValue("intFinalCargoToloadMts", e.target.value)
+                      }
+                      errors={errors}
+                      disabled={!values?.strDraftType}
+                    />
+                  </div>
 
-                <div className="col-lg-3">
-                  <InputField
-                    value={values.strRemarks}
-                    label="Remarks"
-                    name="strRemarks"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("strRemarks", e.target.value)
-                    }
-                    errors={errors}
-                  />
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values.strRemarks}
+                      label="Remarks"
+                      name="strRemarks"
+                      type="text"
+                      onChange={(e) =>
+                        setFieldValue("strRemarks", e.target.value)
+                      }
+                      errors={errors}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="form-group global-form row">
-                <div className="col-12">
-                  <h4>Pre-Stowage</h4>
-                </div>
+                <div className="form-group global-form row">
+                  <div className="col-12">
+                    <h4>Pre-Stowage</h4>
+                  </div>
 
-                {Array.from(
-                  { length: vesselData?.intHoldNumber },
-                  (_, index) => (
-                    <div className="col-lg-2" key={index}>
-                      <InputField
-                        value={values[`numHold${index + 1}`] || ""}
-                        label={`Hold ${index + 1}`}
-                        name={`numHold${index + 1}`}
-                        type="number"
-                        onChange={(e) =>
-                          setFieldValue(`numHold${index + 1}`, e.target.value)
-                        }
-                        errors={errors}
-                      />
-                    </div>
-                  )
-                )}
-              </div>
-              <div className="row mt-5 mb-5">
-                <VesselLayout vesselData={vesselData} values={values} />
-              </div>
-              <div>
-                <IViewModal
-                  show={isShowModal}
-                  onHide={() => setIsShowModal(false)}
-                  title={"Send Mail"}
-                >
-                  {/* <MailSender payloadInfo={payloadInfo} /> */}
-                  <EmailEditorForPublicRoutes
-                    payloadInfo={payloadInfo}
-                    cb={() => {
-                      setIsShowModal(false);
-                    }}
-                  />
-                </IViewModal>
-              </div>
-            </Form>
-          </IForm>
-        </>
-      )}
-    </Formik>
+                  {Array.from(
+                    { length: vesselData?.intHoldNumber },
+                    (_, index) => (
+                      <div className="col-lg-2" key={index}>
+                        <InputField
+                          value={values[`numHold${index + 1}`] || ""}
+                          label={`Hold ${index + 1}`}
+                          name={`numHold${index + 1}`}
+                          type="number"
+                          onChange={(e) =>
+                            setFieldValue(`numHold${index + 1}`, e.target.value)
+                          }
+                          errors={errors}
+                        />
+                      </div>
+                    )
+                  )}
+                </div>
+                <div className="row mt-5 mb-5">
+                  <VesselLayout vesselData={vesselData} values={values} />
+                </div>
+                <div>
+                  <IViewModal
+                    show={isShowModal}
+                    onHide={() => setIsShowModal(false)}
+                    title={"Send Mail"}
+                  >
+                    {/* <MailSender payloadInfo={payloadInfo} /> */}
+                    <EmailEditorForPublicRoutes
+                      payloadInfo={payloadInfo}
+                      cb={() => {
+                        setIsShowModal(false);
+                      }}
+                    />
+                  </IViewModal>
+                </div>
+              </Form>
+            </IForm>
+          </>
+        )}
+      </Formik>
+    </div>
   );
 }
