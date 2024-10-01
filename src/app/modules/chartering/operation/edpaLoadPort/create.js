@@ -15,6 +15,7 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import MailSender from "../mailSender";
 import { generateFileUrl } from "../helper";
 import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
   strName: "",
@@ -36,10 +37,22 @@ export default function EDPALoadPortCreate() {
   const { paramId, paramCode } = useParams();
   const [isShowModal, setIsShowModal] = useState(false);
   const [payloadInfo, setPayloadInfo] = useState(null);
+  const [
+    vesselNominationData,
+    getVesselNominationData,
+    loading,
+  ] = useAxiosGet();
 
   const [, onSave, loader] = useAxiosPost();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (paramId) {
+      getVesselNominationData(
+        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paramId]);
 
   const saveHandler = (values, cb) => {
     setPayloadInfo({
@@ -93,7 +106,12 @@ export default function EDPALoadPortCreate() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{ ...initData, strVesselNominationCode: paramCode || "" }}
+      initialValues={{
+        ...initData,
+        strVesselNominationCode: paramCode || "",
+        strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
+        intVoyageNo: vesselNominationData?.intVoyageNo || "",
+      }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -111,7 +129,7 @@ export default function EDPALoadPortCreate() {
         touched,
       }) => (
         <>
-          {loader && <Loading />}
+          {(loader || loading) && <Loading />}
           <IForm
             title={`Create EDPA Load Port Info `}
             isHiddenReset
@@ -121,15 +139,15 @@ export default function EDPALoadPortCreate() {
               return (
                 <div>
                   <button
-                  type="button"
-                  disabled={!payloadInfo}
-                  className="btn btn-primary mr-3"
-                  onClick={() => {
-                    setIsShowModal(true);
-                  }}
-                >
-                  Send Mail
-                </button>
+                    type="button"
+                    disabled={!payloadInfo}
+                    className="btn btn-primary mr-3"
+                    onClick={() => {
+                      setIsShowModal(true);
+                    }}
+                  >
+                    Send Mail
+                  </button>
                   <button
                     type="submit"
                     className="btn btn-primary"
@@ -145,26 +163,52 @@ export default function EDPALoadPortCreate() {
           >
             <Form>
               <div className="form-group  global-form row">
-              <div className="col-lg-2">
-                <InputField
-                  value={values.strName || ""}
-                  label="Name"
-                  name="strName"
-                  type="text"
-                  onChange={(e) => setFieldValue("strName", e.target.value)}
-                  errors={errors}
-                />
-              </div>
-              <div className="col-lg-2">
-                <InputField
-                  value={values.strEmail || ""}
-                  label="Email"
-                  name="strEmail"
-                  type="text"
-                  onChange={(e) => setFieldValue("strEmail", e.target.value)}
-                  errors={errors}
-                />
-              </div>
+                <div className="col-lg-2">
+                  <InputField
+                    value={values.strName || ""}
+                    label="Name"
+                    name="strName"
+                    type="text"
+                    onChange={(e) => setFieldValue("strName", e.target.value)}
+                    errors={errors}
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <InputField
+                    value={values.strEmail || ""}
+                    label="Email"
+                    name="strEmail"
+                    type="text"
+                    onChange={(e) => setFieldValue("strEmail", e.target.value)}
+                    errors={errors}
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <InputField
+                    value={values.strNameOfVessel}
+                    label="Name Of Vessel"
+                    name="strNameOfVessel"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("strNameOfVessel", e.target.value)
+                    }
+                    errors={errors}
+                    disabled
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <InputField
+                    value={values.intVoyageNo}
+                    label="Voyage No"
+                    name="intVoyageNo"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("intVoyageNo", e.target.value)
+                    }
+                    errors={errors}
+                    disabled
+                  />
+                </div>
                 <div className="col-lg-2">
                   <InputField
                     value={values.strVesselNominationCode}
@@ -174,6 +218,7 @@ export default function EDPALoadPortCreate() {
                     onChange={(e) =>
                       setFieldValue("strVesselNominationCode", e.target.value)
                     }
+                    disabled
                   />
                 </div>
 
@@ -193,7 +238,7 @@ export default function EDPALoadPortCreate() {
                   <label htmlFor="">Attachment For Port</label>
                   <div className="">
                     <AttachmentUploaderNew
-                    isForPublicRoute={true}
+                      isForPublicRoute={true}
                       style={{
                         backgroundColor: "transparent",
                         color: "black",
@@ -243,7 +288,12 @@ export default function EDPALoadPortCreate() {
                   title={"Send Mail"}
                 >
                   {/* <MailSender payloadInfo={payloadInfo} /> */}
-                  <EmailEditorForPublicRoutes payloadInfo={payloadInfo} cb={()=>{setIsShowModal(false)}}/>
+                  <EmailEditorForPublicRoutes
+                    payloadInfo={payloadInfo}
+                    cb={() => {
+                      setIsShowModal(false);
+                    }}
+                  />
                 </IViewModal>
               </div>
             </Form>

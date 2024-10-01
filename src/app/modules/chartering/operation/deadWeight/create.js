@@ -321,6 +321,7 @@ export default function DeadWeightCreate() {
                       setFieldValue("strVesselNominationCode", e.target.value)
                     }
                     errors={errors}
+                    disabled
                   />
                 </div>
                 <div className="col-lg-2">
