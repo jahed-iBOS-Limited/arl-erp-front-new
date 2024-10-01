@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Card,
   CardBody,
@@ -13,6 +14,7 @@ import Axios from "axios";
 import shortid from "shortid";
 import { toast } from "react-toastify";
 import Loading from "../../../../_helper/_loading";
+import { getPurchaseOrgList } from "../../../../procurement/purchase-management/purchaseRequestNew/helper";
 
 const data = {
   id: undefined,
@@ -26,7 +28,9 @@ const data = {
   itemCategoryId: "",
   itemSubCategoryName: "",
   itemSubCategoryId: "",
+  itemSubCategory: "",
   itemCategory: "",
+  purchaseOrg: "",
 };
 
 export default function AddForm({
@@ -37,6 +41,7 @@ export default function AddForm({
 }) {
   const [isDisabled, setDisabled] = useState(false);
   const [saveConfigBtn, setSaveConfigBtn] = useState(false);
+  const [purchaseOrg, setPurchaseOrg] = useState([]);
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
@@ -48,6 +53,10 @@ export default function AddForm({
 
   const businessUnitId = selectedBusinessUnit?.value;
   const isWorkable = businessUnitId === 138 || businessUnitId === 186;
+
+  useEffect(() => {
+    getPurchaseOrgList(profileData?.accountId, 4, setPurchaseOrg);
+  }, []);
 
   const saveData = async (values, cb) => {
     setDisabled(true);
@@ -81,26 +90,28 @@ export default function AddForm({
       //   isSerialMaintain: !!values?.isMaintainSerial
       // };
 
-      const itemBasicData = 
-        {
-          itemMasterId: 0,
-          itemMasterCode: selectedBusinessUnit?.value === 102
-                ? values?.itemCode
-                  ? values?.itemCode
-                  : ""
-                : "",
-          itemMasterName: values.itemName,
-          itemMasterTypeId: values.itemType.value,
-          itemMasterTypeName: values.itemType.label,
-          itemMasterCategoryId: values.itemCategory.value,
-          itemMasterCategoryName: values.itemCategory.label,
-          itemMasterSubCategoryId: values.itemSubCategory.value,
-          itemMasterSubCategoryName: values.itemSubCategory.label,
-          actionBy: actionBy,
-          drawingCode: values?.drawingCode || "",
-          partNo: values?.partNo || "",
-        }
-      
+      const itemBasicData = {
+        itemMasterId: 0,
+        itemMasterCode:
+          selectedBusinessUnit?.value === 102
+            ? values?.itemCode
+              ? values?.itemCode
+              : ""
+            : "",
+        itemMasterName: values.itemName,
+        itemMasterTypeId: values.itemType.value,
+        itemMasterTypeName: values.itemType.label,
+        itemMasterCategoryId: values.itemCategory.value,
+        itemMasterCategoryName: values.itemCategory.label,
+        itemMasterSubCategoryId: values.itemSubCategory.value,
+        itemMasterSubCategoryName: values.itemSubCategory.label,
+        actionBy: actionBy,
+        drawingCode: values?.drawingCode || "",
+        partNo: values?.partNo || "",
+        purchaseOrganizationId: values?.purchaseOrg?.value,
+        purchaseOrganizationName: values?.purchaseOrg?.label,
+      };
+
       if (!saveConfigBtn) {
         try {
           setDisabled(true);
@@ -231,6 +242,7 @@ export default function AddForm({
             accountId={profileData.accountId}
             setSaveConfigBtn={setSaveConfigBtn}
             isWorkable={isWorkable}
+            purchaseOrg={purchaseOrg}
           />
         </div>
       </CardBody>
