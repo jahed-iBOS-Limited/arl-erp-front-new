@@ -14,6 +14,7 @@ import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
+import VesselLayout from "./vesselLayout";
 
 const initData = {
   strName: "",
@@ -77,14 +78,14 @@ export default function DeadWeightCreate() {
   const saveHandler = (values, cb) => {
     let numHoldTotal = 0;
     const numHoldFields = {};
-  
+
     // Loop through the number of holds and dynamically build the fields
     for (let i = 1; i <= vesselData?.intHoldNumber; i++) {
       const holdValue = +values[`numHold${i}`] || 0;
       numHoldFields[`numHold${i}`] = holdValue;
       numHoldTotal += holdValue; // Sum up the values for the total
     }
-  
+
     const commonPayload = {
       strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
       intVoyageNo: vesselNominationData?.intVoyageNo || "",
@@ -103,18 +104,16 @@ export default function DeadWeightCreate() {
       strVesselNominationCode:
         paramCode || values?.strVesselNominationCode || "",
 
-
-
       // Always thouse fileds are bellow of all filed
       ...numHoldFields, // Spread the dynamically generated numHold fields
       TotalLoadableQuantity: numHoldTotal, // Add the total loadable quantity
     };
-  
+
     // Setting payload for display
     setPayloadInfo({
       ...commonPayload,
     });
-  
+
     // Final payload for API
     const payload = {
       ...commonPayload,
@@ -131,7 +130,7 @@ export default function DeadWeightCreate() {
       dteCreateDate: _todayDate(),
       intCreateBy: userId,
     };
-  
+
     onSave(
       `${imarineBaseUrl}/domain/VesselNomination/CreateDeadWeight`,
       payload,
@@ -139,7 +138,6 @@ export default function DeadWeightCreate() {
       true
     );
   };
-  
 
   const validationSchema = Yup.object().shape({
     strVesselNominationCode: Yup.string().required("Code is required"),
@@ -223,7 +221,6 @@ export default function DeadWeightCreate() {
       "intFinalCargoToloadMts",
       validFinalCargoToloadMts.toFixed(2)
     );
-
   };
 
   return (
@@ -648,6 +645,9 @@ export default function DeadWeightCreate() {
                     </div>
                   )
                 )}
+              </div>
+              <div className="row mt-5">
+                <VesselLayout vesselData={vesselData} values={values} />
               </div>
               <div>
                 <IViewModal
