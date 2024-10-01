@@ -1,5 +1,6 @@
 import React from "react";
 import HoldPartImage from "./images/hold.png";
+import ExtraPartImage from "./images/extra-hold.png";
 import EngineImage from "./images/engine.png";
 import BackPartImage from "./images/back.png";
 
@@ -17,6 +18,7 @@ const VesselLayout = ({ vesselData, values }) => {
       flex: "0 0 auto", // Prevent flex items from shrinking
       textAlign: "center",
       // padding: "10px",
+      position: "relative",
     },
     image: {
       width: "100%",
@@ -26,6 +28,9 @@ const VesselLayout = ({ vesselData, values }) => {
     holdNumber: {
       fontSize: "20px",
       fontWeight: "bold",
+      position: "absolute",
+      top: "105px",
+      left: "80px",
     },
     holdDescription: {
       margin: "10px 0",
@@ -44,12 +49,18 @@ const VesselLayout = ({ vesselData, values }) => {
       {Array.from({ length: vesselData?.intHoldNumber || 0 }, (_, index) => (
         <div style={styles.vesselSection} key={index}>
           {/* Hold Number */}
-          <div style={styles.holdNumber}>
+          <div
+            style={
+              index === 0
+                ? { ...styles.holdNumber, top: "130px" }
+                : styles.holdNumber
+            }
+          >
             {vesselData?.intHoldNumber - index}
           </div>
           {/* Hold Image */}
           <img
-            src={HoldPartImage}
+            src={index === 0 ? ExtraPartImage : HoldPartImage}
             alt={`Hold ${vesselData?.intHoldNumber - index}`}
             style={styles.image}
           />
