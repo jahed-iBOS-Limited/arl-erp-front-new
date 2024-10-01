@@ -18,7 +18,7 @@ const initData = {
 export default function MasterItemView() {
   const { id } = useParams();
   const [rowData, getRowData, rowDataLoading, setRowData] = useAxiosGet();
-  
+
   const [objProps, setObjprops] = useState({});
   const [singleData, setSingleData] = useState({});
   const location = useLocation();
@@ -27,10 +27,11 @@ export default function MasterItemView() {
     itemMasterCategoryName,
     itemMasterTypeName,
     itemMasterName,
-    itemMasterSubCategoryName
+    itemMasterSubCategoryName,
+    purchaseOrganizationName,
   } = location?.state || {};
 
-const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => {};
   useEffect(() => {
     if (id) {
       const editedInitData = {
@@ -45,12 +46,12 @@ const saveHandler = (values, cb) => {};
     }
 
     if (id) {
-        getRowData(
-            `/item/ItemMaster/GetMasterItemById?ItemMasterId=${id}`,
-            (data) => {
-              setRowData(data);
-            }
-        )
+      getRowData(
+        `/item/ItemMaster/GetMasterItemById?ItemMasterId=${id}`,
+        (data) => {
+          setRowData(data);
+        }
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
@@ -64,7 +65,6 @@ const saveHandler = (values, cb) => {};
           saveHandler(values, () => {
             resetForm(initData);
           });
-          
         } else {
           toast.warn("Please add minimum one Business Unit");
         }
@@ -81,7 +81,7 @@ const saveHandler = (values, cb) => {};
       }) => (
         <>
           {/* {console.log("error", errors)} */}
-          {(rowDataLoading) && <Loading />}
+          {rowDataLoading && <Loading />}
           <IForm
             customTitle={`Item Extend`}
             isHiddenSave={true}
@@ -158,7 +158,8 @@ const saveHandler = (values, cb) => {};
                         <th>Item</th>
                         <th>Item Type</th>
                         <th>Category Name</th>
-                        <th>Sub Category Name</th>                       
+                        <th>Sub Category Name</th>
+                        <th>Purchase Organization</th>
                       </tr>
                     </thead>
                     {rowData?.businessUnit?.map((item, index) => (
@@ -166,11 +167,20 @@ const saveHandler = (values, cb) => {};
                         <td className="text-center" style={{ width: "40px" }}>
                           {index + 1}
                         </td>
-                        <td className="text-left">{item?.businessUnitName}</td> 
+                        <td className="text-left">{item?.businessUnitName}</td>
                         <td className="text-left">{itemMasterName}</td>
-                        <td className="text-left">{itemMasterTypeName || ''}</td>
-                        <td className="text-left">{itemMasterCategoryName || ''}</td>
-                        <td className="text-left">{itemMasterSubCategoryName || ''}</td>                            
+                        <td className="text-left">
+                          {itemMasterTypeName || ""}
+                        </td>
+                        <td className="text-left">
+                          {itemMasterCategoryName || ""}
+                        </td>
+                        <td className="text-left">
+                          {itemMasterSubCategoryName || ""}
+                        </td>
+                        <td className="text-left">
+                          {purchaseOrganizationName || ""}
+                        </td>
                       </tr>
                     ))}
                   </table>
