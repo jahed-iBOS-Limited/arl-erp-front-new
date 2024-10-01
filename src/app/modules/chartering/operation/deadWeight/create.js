@@ -75,16 +75,16 @@ export default function DeadWeightCreate() {
   }, [paramId]);
 
   const saveHandler = (values, cb) => {
-    // Summing all the numHold values
-    const numHoldTotal =
-      (+values?.numHold1 || 0) +
-      (+values?.numHold2 || 0) +
-      (+values?.numHold3 || 0) +
-      (+values?.numHold4 || 0) +
-      (+values?.numHold5 || 0) +
-      (+values?.numHold6 || 0) +
-      (+values?.numHold7 || 0);
-
+    let numHoldTotal = 0;
+    const numHoldFields = {};
+  
+    // Loop through the number of holds and dynamically build the fields
+    for (let i = 1; i <= vesselData?.intHoldNumber; i++) {
+      const holdValue = +values[`numHold${i}`] || 0;
+      numHoldFields[`numHold${i}`] = holdValue;
+      numHoldTotal += holdValue; // Sum up the values for the total
+    }
+  
     const commonPayload = {
       strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
       intVoyageNo: vesselNominationData?.intVoyageNo || "",
@@ -102,25 +102,23 @@ export default function DeadWeightCreate() {
       strRemarks: values?.strRemarks,
       strVesselNominationCode:
         paramCode || values?.strVesselNominationCode || "",
-      numHold1: +values?.numHold1 || 0,
-      numHold2: +values?.numHold2 || 0,
-      numHold3: +values?.numHold3 || 0,
-      numHold4: +values?.numHold4 || 0,
-      numHold5: +values?.numHold5 || 0,
-      numHold6: +values?.numHold6 || 0,
-      numHold7: +values?.numHold7 || 0,
-      TotalLoadableQuantity: numHoldTotal,
-    };
 
+
+
+      // Always thouse fileds are bellow of all filed
+      ...numHoldFields, // Spread the dynamically generated numHold fields
+      TotalLoadableQuantity: numHoldTotal, // Add the total loadable quantity
+    };
+  
     // Setting payload for display
     setPayloadInfo({
       ...commonPayload,
     });
-
+  
     // Final payload for API
     const payload = {
       ...commonPayload,
-      numGrandTotalAmount: numHoldTotal,
+      numGrandTotalAmount: numHoldTotal, // Add the grand total amount
       strName: values?.strName,
       strEmail: values?.strEmail,
       intDeadWeightId: 0,
@@ -133,7 +131,7 @@ export default function DeadWeightCreate() {
       dteCreateDate: _todayDate(),
       intCreateBy: userId,
     };
-
+  
     onSave(
       `${imarineBaseUrl}/domain/VesselNomination/CreateDeadWeight`,
       payload,
@@ -141,6 +139,7 @@ export default function DeadWeightCreate() {
       true
     );
   };
+  
 
   const validationSchema = Yup.object().shape({
     strVesselNominationCode: Yup.string().required("Code is required"),
