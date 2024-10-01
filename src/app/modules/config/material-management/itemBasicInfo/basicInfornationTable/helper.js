@@ -1,7 +1,7 @@
-import { toast } from 'react-toastify';
-import * as Yup from 'yup';
-import * as XLSX from 'xlsx';
-import { generateJsonToExcel } from '../../../../_helper/excel/jsonToExcel';
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import * as XLSX from "xlsx";
+import { generateJsonToExcel } from "../../../../_helper/excel/jsonToExcel";
 
 export const itemSchema = Yup.object().shape({
   itemMasterName: Yup.string().required(),
@@ -9,6 +9,7 @@ export const itemSchema = Yup.object().shape({
   itemMasterCategoryId: Yup.number().required(),
   itemMasterSubCategoryId: Yup.number().required(),
   businessUnitId: Yup.number().required(),
+  purchaseOrganizationId: Yup.number().required(),
   drawingCode: Yup.string().optional(),
   partNo: Yup.number().optional(),
   isSerialMaintain: Yup.number().optional(),
@@ -17,7 +18,7 @@ export const itemSchema = Yup.object().shape({
 export const getValidationError = (itemList) => {
   const isNotValid = itemList?.some((item) => !itemSchema?.isValidSync(item));
   if (isNotValid) {
-    toast.warn('Invalid data set! please update and try again');
+    toast.warn("Invalid data set! please update and try again");
   }
   return isNotValid;
 };
@@ -27,7 +28,7 @@ export const readAndPrintExcelData = async ({
   setLoading,
   setIsValidationError,
   setRowData,
-  cb
+  cb,
 }) => {
   setLoading(true);
   const promise = new Promise((resolve, reject) => {
@@ -35,7 +36,7 @@ export const readAndPrintExcelData = async ({
     fileReader.readAsArrayBuffer(file);
     fileReader.onload = (e) => {
       const bufferArray = e.target.result;
-      const wb = XLSX.read(bufferArray, { type: 'buffer' });
+      const wb = XLSX.read(bufferArray, { type: "buffer" });
       const wsname = wb.SheetNames[0];
       const ws = wb.Sheets[wsname];
       const data = XLSX.utils.sheet_to_json(ws);
@@ -49,7 +50,7 @@ export const readAndPrintExcelData = async ({
     const itemList = await promise;
     if (!itemList?.length > 0) {
       setLoading(false);
-      return toast?.warning('No item found!');
+      return toast?.warning("No item found!");
     }
     setIsValidationError(getValidationError(itemList));
     setRowData(itemList || []);
@@ -99,6 +100,12 @@ export const itemListExcelGenerator = (itemList) => {
       key: "businessUnitId",
     },
     {
+      text: "Purchase Organization Id",
+      textFormat: "number",
+      alignment: "center:middle",
+      key: "purchaseOrganizationId",
+    },
+    {
       text: "Drawing Code",
       textFormat: "text",
       alignment: "center:middle",
@@ -115,9 +122,9 @@ export const itemListExcelGenerator = (itemList) => {
       textFormat: "text",
       alignment: "center:middle",
       key: "isSerialMaintain",
-      formatter: (item) => (item.isSerialMaintain ? 'Yes' : 'No'),
+      formatter: (item) => (item.isSerialMaintain ? "Yes" : "No"),
     },
   ];
 
-  generateJsonToExcel(header, itemList, 'Item_list')
-}
+  generateJsonToExcel(header, itemList, "Item_list");
+};

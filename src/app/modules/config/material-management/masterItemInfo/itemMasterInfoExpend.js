@@ -15,6 +15,7 @@ const initData = {
   itemCategoryName: "",
   itemTypeName: "",
   itemMasterName: "",
+  uomName: "",
 };
 
 export default function MasterItemExpend() {
@@ -25,7 +26,7 @@ export default function MasterItemExpend() {
   const [singleData, setSingleData] = useState({});
   const {
     profileData: { accountId: userId },
-    businessUnitList: businessUnitDDL
+    businessUnitList: businessUnitDDL,
   } = useSelector((state) => state?.authData, shallowEqual);
   const location = useLocation();
 
@@ -37,7 +38,8 @@ export default function MasterItemExpend() {
     itemMasterCategoryName,
     itemMasterTypeName,
     itemMasterName,
-    itemMasterSubCategoryName
+    itemMasterSubCategoryName,
+    uomDTO,
   } = location?.state || {};
   const saveHandler = (values, cb) => {
     if (id) {
@@ -51,12 +53,12 @@ export default function MasterItemExpend() {
           };
         });
       const payload = {
-          accountId: accountId,
-          actionBy: userId,
-          itemMasterId: +id,
-          rows: buListforPayload
-        }
-      if(buListforPayload?.length > 0) {
+        accountId: accountId,
+        actionBy: userId,
+        itemMasterId: +id,
+        rows: buListforPayload,
+      };
+      if (buListforPayload?.length > 0) {
         postData(
           `/item/ItemMaster/CreateItemExtendFromMaster`,
           payload,
@@ -72,7 +74,7 @@ export default function MasterItemExpend() {
           },
           true
         );
-      }else{
+      } else {
         toast.warn("Please add minimum one new Business Unit");
       }
     }
@@ -80,9 +82,13 @@ export default function MasterItemExpend() {
 
   const addRow = (values, callBack) => {
     // Check if the supplier already exists in the rowData
-    if (rowData?.businessUnit?.find((item) => item?.businessUnitId === values?.businessUnit?.value)) {
+    if (
+      rowData?.businessUnit?.find(
+        (item) => item?.businessUnitId === values?.businessUnit?.value
+      )
+    ) {
       return toast.warn("Business Unit already added");
-    } 
+    }
     try {
       // Create the new row object
       const newRow = {
@@ -92,25 +98,25 @@ export default function MasterItemExpend() {
         isNewBusinessUnitAdded: true,
         isSerialMaintain: values?.isSerialMaintain,
       };
-  
+
       // Update rowData while keeping other fields intact
       setRowData({
-          sl: rowData?.sl,
-          itemMasterCategoryId: itemMasterCategoryId,
-          accountId: accountId,
-          itemMasterCategoryCode: itemMasterCategoryCode,
-          itemMasterCategoryName: itemMasterCategoryName,
-          itemMasterTypeId: itemMasterTypeId,
-          itemMasterTypeName: itemMasterTypeName,
-          businessUnit: [newRow, ...(rowData?.businessUnit || [])]
-      }); 
+        sl: rowData?.sl,
+        itemMasterCategoryId: itemMasterCategoryId,
+        accountId: accountId,
+        itemMasterCategoryCode: itemMasterCategoryCode,
+        itemMasterCategoryName: itemMasterCategoryName,
+        itemMasterTypeId: itemMasterTypeId,
+        itemMasterTypeName: itemMasterTypeName,
+        businessUnit: [newRow, ...(rowData?.businessUnit || [])],
+      });
       // Execute the callback after successfully updating the state
       callBack();
     } catch (e) {
       console.log(e);
     }
   };
-
+  console.log("ee", uomDTO);
   useEffect(() => {
     if (id) {
       const editedInitData = {
@@ -120,17 +126,18 @@ export default function MasterItemExpend() {
         itemMasterName: itemMasterName,
         businessUnit: "",
         isSerialMaintain: false,
+        uomName: uomDTO?.baseUomName,
       };
       setSingleData(editedInitData);
     }
 
     if (id) {
-        getRowData(
-            `/item/ItemMaster/GetMasterItemById?ItemMasterId=${id}`,
-            (data) => {
-              setRowData(data);
-            }
-        )
+      getRowData(
+        `/item/ItemMaster/GetMasterItemById?ItemMasterId=${id}`,
+        (data) => {
+          setRowData(data);
+        }
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
@@ -144,7 +151,6 @@ export default function MasterItemExpend() {
           saveHandler(values, () => {
             resetForm(initData);
           });
-          
         } else {
           toast.warn("Please add minimum one Business Unit");
         }
@@ -162,10 +168,7 @@ export default function MasterItemExpend() {
         <>
           {/* {console.log("error", errors)} */}
           {(rowDataLoading || isLoading) && <Loading />}
-          <IForm
-            customTitle={`Item Extend`}
-            getProps={setObjprops}
-          >
+          <IForm customTitle={`Item Extend`} getProps={setObjprops}>
             <Form onSubmit={handleSubmit}>
               <div className={`form-group  global-form row `}>
                 <div className="col-lg-3">
@@ -178,6 +181,19 @@ export default function MasterItemExpend() {
                     placeholder="Item Name"
                     onChange={(e) => {
                       setFieldValue("itemMasterName", e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    name="uomName"
+                    value={values?.uomName}
+                    disabled={true}
+                    label="UOM"
+                    type="text"
+                    placeholder="UOM"
+                    onChange={(e) => {
+                      setFieldValue("uomName", e.target.value);
                     }}
                   />
                 </div>
@@ -220,27 +236,28 @@ export default function MasterItemExpend() {
                     }}
                   />
                 </div>
-                
+
                 <div className="col-lg-3">
                   <NewSelect
                     name="businessUnit"
                     options={businessUnitDDL}
                     value={values?.businessUnit}
                     label="Business Unit"
-                    onChange={valueOption => {
-                       setFieldValue('businessUnit', valueOption);
+                    onChange={(valueOption) => {
+                      setFieldValue("businessUnit", valueOption);
                     }}
                     // isDisabled={id}
                   />
                 </div>
 
-                {(values?.businessUnit?.value === 138 || values?.businessUnit?.value === 186) && (
+                {(values?.businessUnit?.value === 138 ||
+                  values?.businessUnit?.value === 186) && (
                   <div className="col-lg-1 d-flex align-items-center">
                     <div className="mr-2">isSerialize</div>
                     <input
                       type="checkbox"
                       name="isSerialMaintain"
-                    //   value={data?.IsSerialMaintain}
+                      //   value={data?.IsSerialMaintain}
                       checked={values?.isSerialMaintain}
                       id="isSerialMaintain"
                       onChange={(e) => {
@@ -260,7 +277,7 @@ export default function MasterItemExpend() {
                         setFieldValue("isSerialMaintain", false);
                       });
                     }}
-                    disabled={!values?.businessUnit }
+                    disabled={!values?.businessUnit}
                   >
                     + Add
                   </button>
@@ -281,7 +298,7 @@ export default function MasterItemExpend() {
                         <th>Item</th>
                         <th>Item Type</th>
                         <th>Category Name</th>
-                        <th>Sub Category Name</th>                       
+                        <th>Sub Category Name</th>
                       </tr>
                     </thead>
                     {rowData?.businessUnit?.map((item, index) => (
@@ -289,11 +306,17 @@ export default function MasterItemExpend() {
                         <td className="text-center" style={{ width: "40px" }}>
                           {index + 1}
                         </td>
-                        <td className="text-left">{item?.businessUnitName}</td> 
+                        <td className="text-left">{item?.businessUnitName}</td>
                         <td className="text-left">{itemMasterName}</td>
-                        <td className="text-left">{itemMasterTypeName || ''}</td>
-                        <td className="text-left">{itemMasterCategoryName || ''}</td>
-                        <td className="text-left">{itemMasterSubCategoryName || ''}</td>                            
+                        <td className="text-left">
+                          {itemMasterTypeName || ""}
+                        </td>
+                        <td className="text-left">
+                          {itemMasterCategoryName || ""}
+                        </td>
+                        <td className="text-left">
+                          {itemMasterSubCategoryName || ""}
+                        </td>
                       </tr>
                     ))}
                   </table>
