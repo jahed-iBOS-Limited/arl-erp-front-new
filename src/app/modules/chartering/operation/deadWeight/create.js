@@ -660,7 +660,9 @@ export default function DeadWeightCreate() {
                   )}
                 </div>
                 <div className="row mt-5 mb-5">
-                  <VesselLayout vesselData={vesselData} values={values} />
+                 <div className="col-12">
+                 <VesselLayout vesselData={vesselData} values={values} />
+                 </div>
                 </div>
                 <div>
                   <IViewModal

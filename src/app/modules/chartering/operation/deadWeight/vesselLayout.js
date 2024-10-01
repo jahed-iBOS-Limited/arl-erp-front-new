@@ -8,9 +8,7 @@ const VesselLayout = ({ vesselData, values }) => {
   const styles = {
     vesselLayoutContainer: {
       display: "flex",
-      justifyContent: "center",
       alignItems: "center",
-      width: "100%",
       overflowX: "auto",
       whiteSpace: "nowrap",
     },
@@ -30,7 +28,7 @@ const VesselLayout = ({ vesselData, values }) => {
       fontWeight: "bold",
       position: "absolute",
       top: "145px",
-      left: "80px",
+      left: "90px",
     },
     holdDescription: {
       margin: "10px 0",
@@ -44,42 +42,74 @@ const VesselLayout = ({ vesselData, values }) => {
   };
 
   return (
-    <div style={styles.vesselLayoutContainer}>
-      {/* Static Engine Room Image */}
-      <div style={styles.vesselSection}>
-        <img src={EngineImage} alt="Engine Room" style={styles.image} />
-      </div>
-
-      {/* Dynamic Hold Sections */}
-      {Array.from({ length: vesselData?.intHoldNumber || 0 }, (_, index) => (
-        <div style={styles.vesselSection} key={index}>
-          {/* Hold Number */}
-          <div
-            style={
-              index === 0
-                ? { ...styles.holdNumber, top: "180px" }
-                : styles.holdNumber
-            }
-          >
-            {vesselData?.intHoldNumber - index}
-          </div>
-          {/* Hold Image */}
-          <img
-            src={index === 0 ? ExtraPartImage : HoldPartImage}
-            alt={`Hold ${vesselData?.intHoldNumber - index}`}
-            style={styles.image}
-          />
-          {/* Dynamic Hold Description */}
-          <div style={styles.holdDescription}>
-            IRON ORE {values?.[`numHold${vesselData?.intHoldNumber - index}`]}{" "}
-            MT
-          </div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <div style={styles.vesselLayoutContainer}>
+        {/* Static Engine Room Image */}
+        <div style={styles.vesselSection}>
+          <img src={EngineImage} alt="Engine Room" style={{...styles.image, marginTop:"-39px"}} />
         </div>
-      ))}
 
-      {/* Static Front Section Image */}
-      <div style={styles.vesselSection}>
-        <img src={BackPartImage} alt="Front of Vessel" style={styles.image} />
+        {/* Dynamic Hold Sections */}
+        {Array.from({ length: vesselData?.intHoldNumber || 0 }, (_, index) => (
+          <div style={styles.vesselSection} key={index}>
+            {/* Hold Number */}
+            <div
+              style={
+                styles.holdNumber
+              }
+            >
+              {vesselData?.intHoldNumber - index}
+            </div>
+            {/* Hold Image */}
+
+            {index === 0 ? (
+              <>
+                <img
+                  src={ExtraPartImage}
+                  alt={`Hold ${vesselData?.intHoldNumber - index}`}
+                  style={{
+                    width: "100%",
+                    height: "248px",
+                    maxWidth: "200px",
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <img
+                  src={HoldPartImage}
+                  alt={`Hold ${vesselData?.intHoldNumber - index}`}
+                  style={styles.image}
+                />
+              </>
+            )}
+
+            {/* Dynamic Hold Description */}
+            <div style={styles.holdDescription}>
+              IRON ORE {values?.[`numHold${vesselData?.intHoldNumber - index}`]}{" "}
+              MT
+            </div>
+          </div>
+        ))}
+
+        {/* Static Front Section Image */}
+        <div style={styles.vesselSection}>
+          <img
+            src={BackPartImage}
+            alt="Front of Vessel"
+            style={{
+              width: "100%",
+              height: "243px",
+              maxWidth: "200px",
+              marginTop: "-39px",
+            }}
+          />
+        </div>
       </div>
     </div>
   );
