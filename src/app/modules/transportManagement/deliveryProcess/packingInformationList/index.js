@@ -93,6 +93,7 @@ export default function PackingInformationList() {
       { name: "todate", value: `${values?.toDate}` },
       { name: "ViewType", value: `${+values?.viewType?.value}` },
       { name: "unitid", value: `${+buId}` },
+      { name: "intShippoint", value: `${values?.shipPoint?.value}` },
     ];
 
     return shiftWisePackerInformation;
@@ -192,7 +193,7 @@ export default function PackingInformationList() {
                 </div>
                 {[1, 2, 4].includes(values?.type?.value) && (
                   <>
-                    {[1, 2].includes(values?.type?.value) && (
+                    {[1, 2, 4].includes(values?.type?.value) && (
                       <div className="col-lg-3">
                         <NewSelect
                           name="shipPoint"
