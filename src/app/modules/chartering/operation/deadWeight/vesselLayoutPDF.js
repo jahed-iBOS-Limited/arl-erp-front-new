@@ -90,11 +90,25 @@
 
 // export default VesselLayoutPDF;
 
-import React from "react";
+import React, { useEffect } from "react";
 import FullLogo from "./images/akijShippingText.png"; // Replace with your logo image path
 import VesselLayout from "./vesselLayout"; // Ensure this component is styled as needed
 
 const VesselLayoutPDF = ({ vesselData, values, vesselNominationData }) => {
+  const [totalCargo, setTotalCargo] = React.useState(0);
+
+  useEffect(() => {
+    if (vesselData?.intHoldNumber) {
+      let numHoldTotal = 0;
+      for (let i = 1; i <= vesselData?.intHoldNumber; i++) {
+        const holdValue = +values[`numHold${i}`] || 0;
+        numHoldTotal += holdValue;
+      }
+      setTotalCargo(numHoldTotal);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [vesselData, values]);
+
   const styles = {
     container: {
       margin: "0 auto",
@@ -164,15 +178,9 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData }) => {
           <img src={FullLogo} alt="Akij Shipping Line" style={styles.logo} />
         </div>
         <p style={{}}>
-          <strong style={{ display: "block" }}>
-            Akij chamber, 73 Dilkusha C/A, Dhaka-1000, Bangladesh.
-          </strong>
-          <strong style={{ display: "block" }}>
-            Tel : +88-02-9563008 Fax : +88-02-9572292
-          </strong>
-          <strong style={{ display: "block" }}>
-            E-mail: shipping@akij.net
-          </strong>
+          <strong style={{ display: "block" }}>Akij chamber, 73 Dilkusha C/A, Dhaka-1000, Bangladesh.</strong>
+          <strong style={{ display: "block" }}>Tel : +88-02-9563008 Fax : +88-02-9572292</strong>
+          <strong style={{ display: "block" }}>E-mail: shipping@akij.net</strong>
         </p>
       </div>
 
@@ -184,13 +192,13 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData }) => {
       <div style={styles.section}>
         <p style={styles.cargoInfo}>
           <strong>Date:</strong> 21/07/2019 <br />
-          <strong>Cargo:</strong> Iron Ore in Bulk <br />
-          <strong>Total Cargo:</strong> 45,500 MT
+          <strong>Cargo:</strong> {vesselNominationData?.strCargo}k <br />
+          <strong>Total Cargo:</strong> {totalCargo || 0} MT
         </p>
         <p style={styles.cargoInfo}>
-          <strong>Voy No:</strong> {vesselNominationData?.intVoyageNo} <br />
-          <strong>Load Port:</strong> Paradip, India <br />
-          <strong>Discharge Port:</strong> Tianjin, China <br />
+          <strong>Voyage No:</strong> {vesselNominationData?.intVoyageNo} <br />
+          <strong>Load Port:</strong> {vesselNominationData?.strNameOfLoadPort} <br />
+          <strong>Discharge Port:</strong> {vesselNominationData?.strDischargePort} <br />
           <strong>Departure Draft:</strong> Forward 11.59 m / Aft 11.63 m <br />
           <strong>Sea Water Density:</strong> 1.025
         </p>
