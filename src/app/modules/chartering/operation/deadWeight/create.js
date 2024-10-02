@@ -15,6 +15,8 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
 import VesselLayout from "./vesselLayout";
+import { exportToPDF, uploadPDF } from "./helper";
+import { generateFileUrl } from "../helper";
 
 const initData = {
   strName: "",
@@ -75,7 +77,7 @@ export default function DeadWeightCreate() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramId]);
 
-  const saveHandler = (values, cb) => {
+  const saveHandler = async (values, cb) => {
     let numHoldTotal = 0;
     const numHoldFields = {};
 
@@ -85,6 +87,13 @@ export default function DeadWeightCreate() {
       numHoldFields[`numHold${i}`] = holdValue;
       numHoldTotal += holdValue; // Sum up the values for the total
     }
+
+    // Generate PDF and upload it
+    const pdfBlob = await exportToPDF("pdf-section", "vessel_nomination");
+    const uploadResponse = await uploadPDF(pdfBlob);
+
+    // Assuming the response contains the uploaded file ID
+    const pdfURL = uploadResponse?.[0]?.id || "";
 
     const commonPayload = {
       strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
@@ -103,7 +112,7 @@ export default function DeadWeightCreate() {
       strRemarks: values?.strRemarks,
       strVesselNominationCode:
         paramCode || values?.strVesselNominationCode || "",
-
+      PreStowagePlan: generateFileUrl(pdfURL),
       // Always thouse fileds are bellow of all filed
       ...numHoldFields, // Spread the dynamically generated numHold fields
       TotalLoadableQuantity: numHoldTotal, // Add the total loadable quantity
@@ -659,10 +668,10 @@ export default function DeadWeightCreate() {
                     )
                   )}
                 </div>
-                <div className="row mt-5 mb-5">
-                 <div className="col-12">
-                 <VesselLayout vesselData={vesselData} values={values} />
-                 </div>
+                <div className="row mt-5 mb-5" id="pdf-section">
+                  <div className="col-12">
+                    <VesselLayout vesselData={vesselData} values={values} />
+                  </div>
                 </div>
                 <div>
                   <IViewModal
