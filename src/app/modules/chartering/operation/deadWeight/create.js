@@ -1,7 +1,8 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-
+import { useReactToPrint } from "react-to-print";
+import moment from "moment";
 import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../App";
@@ -15,6 +16,11 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
 import VesselLayout from "./vesselLayout";
+import { exportToPDF, uploadPDF } from "./helper";
+import { generateFileUrl } from "../helper";
+import html2pdf from "html2pdf.js";
+import VesselLayoutPDF from "./vesselLayoutPDF";
+import { useRef } from "react";
 
 const initData = {
   strName: "",
@@ -54,12 +60,14 @@ export default function DeadWeightCreate() {
   const { paramId, paramCode } = useParams();
   const [isShowModal, setIsShowModal] = useState(false);
   const [payloadInfo, setPayloadInfo] = useState(null);
+  const [uploadLoading, setLoading] = useState(false);
   const [
     vesselNominationData,
     getVesselNominationData,
     loading,
   ] = useAxiosGet();
   const [vesselData, getVesselData, loading2] = useAxiosGet();
+  const componentRef = useRef();
 
   useEffect(() => {
     if (paramId) {
@@ -75,7 +83,7 @@ export default function DeadWeightCreate() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramId]);
 
-  const saveHandler = (values, cb) => {
+  const saveHandler = async (values, cb) => {
     let numHoldTotal = 0;
     const numHoldFields = {};
 
@@ -85,6 +93,13 @@ export default function DeadWeightCreate() {
       numHoldFields[`numHold${i}`] = holdValue;
       numHoldTotal += holdValue; // Sum up the values for the total
     }
+
+    // Generate PDF and upload it
+    const pdfBlob = await exportToPDF("pdf-section", "vessel_nomination");
+    const uploadResponse = await uploadPDF(pdfBlob);
+
+    // Assuming the response contains the uploaded file ID
+    const pdfURL = uploadResponse?.[0]?.id || "";
 
     const commonPayload = {
       strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
@@ -103,7 +118,7 @@ export default function DeadWeightCreate() {
       strRemarks: values?.strRemarks,
       strVesselNominationCode:
         paramCode || values?.strVesselNominationCode || "",
-
+      PreStowagePlan: generateFileUrl(pdfURL),
       // Always thouse fileds are bellow of all filed
       ...numHoldFields, // Spread the dynamically generated numHold fields
       TotalLoadableQuantity: numHoldTotal, // Add the total loadable quantity
@@ -223,6 +238,63 @@ export default function DeadWeightCreate() {
     );
   };
 
+  // const pdfExport = (fileName) => {
+  //   var element = document.getElementById("vesselLayoutPDF");
+  //   var opt = {
+  //     margin: 1,
+  //     filename: `${fileName}.pdf`,
+  //     image: { type: "jpeg", quality: 0.98 },
+  //     html2canvas: {
+  //       scale: 5,
+  //       dpi: 300,
+  //       letterRendering: true,
+  //       padding: "50px",
+  //       scrollX: -window.scrollX,
+  //       scrollY: -window.scrollY,
+  //       windowWidth: document.documentElement.offsetWidth,
+  //       windowHeight: document.documentElement.offsetHeight,
+  //     },
+  //     jsPDF: { unit: "px", hotfixes: ["px_scaling"], orientation: "landscape" },
+  //   };
+  //   html2pdf()
+  //     .set(opt)
+  //     .from(element)
+  //     .save();
+  // };
+
+  const handlePDF = useReactToPrint({
+    onPrintError: (error) => console.log(error),
+    content: () => componentRef?.current,
+    print: async (printIframe) => {
+      const src = printIframe.contentDocument;
+      if (src) {
+        // For Portrait- Download
+        const doc_width = 8.27;
+        const doc_height = 11.69;
+        // For Landscape Download --- Just reverse
+        // let doc_height = 8.27;
+        // let doc_width = 11.69;
+        const { jsPDF } = require("jspdf");
+        const html = src?.querySelector(".printView");
+        const opt = {
+          orientation: "l",
+          unit: "in",
+          format: [doc_width, doc_height],
+        };
+        const doc = new jsPDF(opt);
+        doc.html(html, {
+          autoPaging: "text",
+          // margin: [5, 5, 5, 5],
+          width: doc.internal.pageSize.getWidth(),
+          windowWidth: 800,
+          filename: "Custom Duty",
+          callback: function(doc) {
+            doc.save(`Custom Duty-${moment().format("DD-MM-YYYYhh:mm:ss")}`);
+          },
+        });
+      }
+    },
+  });
   return (
     <div
       style={{
@@ -255,7 +327,7 @@ export default function DeadWeightCreate() {
           setValues,
         }) => (
           <>
-            {(loader || loading || loading2) && <Loading />}
+            {(loader || loading || loading2 || uploadLoading) && <Loading />}
             <IForm
               title={`Create Dead Weight & Pre-Stowage`}
               isHiddenReset
@@ -264,6 +336,15 @@ export default function DeadWeightCreate() {
               renderProps={() => {
                 return (
                   <div>
+                    <button
+                      type="button"
+                      className="btn btn-primary mr-3"
+                      onClick={() => {
+                        handlePDF();
+                      }}
+                    >
+                      Export PDF
+                    </button>
                     <button
                       type="button"
                       disabled={!payloadInfo}
@@ -659,10 +740,19 @@ export default function DeadWeightCreate() {
                     )
                   )}
                 </div>
-                <div className="row mt-5 mb-5">
-                 <div className="col-12">
-                 <VesselLayout vesselData={vesselData} values={values} />
-                 </div>
+                {/* <div className="row mt-5 mb-5">
+                  <div className="col-12">
+                    <VesselLayout vesselData={vesselData} values={values} />
+                  </div>
+                </div> */}
+                <div
+                  ref={componentRef}
+                  className="row mt-5 mb-5"
+                  id="vesselLayoutPDF"
+                >
+                  <div className="col-12">
+                    <VesselLayoutPDF vesselData={vesselData} values={values} vesselNominationData={vesselNominationData}/>
+                  </div>
                 </div>
                 <div>
                   <IViewModal
