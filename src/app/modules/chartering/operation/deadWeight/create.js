@@ -95,8 +95,8 @@ export default function DeadWeightCreate() {
     }
 
     // Generate PDF and upload it
-    const pdfBlob = await exportToPDF("pdf-section", "vessel_nomination");
-    const uploadResponse = await uploadPDF(pdfBlob);
+    const pdfBlob = await exportToPDF("vesselLayoutPDF", "vessel_nomination");
+    const uploadResponse = await uploadPDF(pdfBlob, setLoading);
 
     // Assuming the response contains the uploaded file ID
     const pdfURL = uploadResponse?.[0]?.id || "";
@@ -265,35 +265,35 @@ export default function DeadWeightCreate() {
   const handlePDF = useReactToPrint({
     onPrintError: (error) => console.log(error),
     content: () => componentRef?.current,
-    print: async (printIframe) => {
-      const src = printIframe.contentDocument;
-      if (src) {
-        // For Portrait- Download
-        const doc_width = 8.27;
-        const doc_height = 11.69;
-        // For Landscape Download --- Just reverse
-        // let doc_height = 8.27;
-        // let doc_width = 11.69;
-        const { jsPDF } = require("jspdf");
-        const html = src?.querySelector(".printView");
-        const opt = {
-          orientation: "l",
-          unit: "in",
-          format: [doc_width, doc_height],
-        };
-        const doc = new jsPDF(opt);
-        doc.html(html, {
-          autoPaging: "text",
-          // margin: [5, 5, 5, 5],
-          width: doc.internal.pageSize.getWidth(),
-          windowWidth: 800,
-          filename: "Custom Duty",
-          callback: function(doc) {
-            doc.save(`Custom Duty-${moment().format("DD-MM-YYYYhh:mm:ss")}`);
-          },
-        });
-      }
-    },
+    // print: async (printIframe) => {
+    //   const src = printIframe.contentDocument;
+    //   if (src) {
+    //     // For Portrait- Download
+    //     const doc_width = 8.27;
+    //     const doc_height = 11.69;
+    //     // For Landscape Download --- Just reverse
+    //     // let doc_height = 8.27;
+    //     // let doc_width = 11.69;
+    //     const { jsPDF } = require("jspdf");
+    //     const html = src?.querySelector(".printView");
+    //     const opt = {
+    //       orientation: "l",
+    //       unit: "in",
+    //       format: [doc_width, doc_height],
+    //     };
+    //     const doc = new jsPDF(opt);
+    //     doc.html(html, {
+    //       autoPaging: "text",
+    //       // margin: [5, 5, 5, 5],
+    //       width: doc.internal.pageSize.getWidth(),
+    //       windowWidth: 800,
+    //       filename: "Custom Duty",
+    //       callback: function(doc) {
+    //         doc.save(`Custom Duty-${moment().format("DD-MM-YYYYhh:mm:ss")}`);
+    //       },
+    //     });
+    //   }
+    // },
   });
   return (
     <div
@@ -745,12 +745,42 @@ export default function DeadWeightCreate() {
                     <VesselLayout vesselData={vesselData} values={values} />
                   </div>
                 </div> */}
+                <style type="text/css" media="print">
+                  {`
+                    @media print {
+                      body {
+                        background: #fff;
+                      }
+                      @page {
+                        size: landscape !important;
+                      }
+                      .pdfPrint{
+                        margin: 0!important;
+                        padding: 0!important;
+                        zoom: 80%;
+                        }
+                      .pdfPrint .content_wrapper {
+                        height: 100% !important;
+                        max-height: 100% !important;
+                        width: auto !important;
+                        overflow: visible !important;
+                        margin: 0.50rem;
+                        padding: 0;
+                      }
+
+                      .pdfPrint .images_wrapper{
+                       zoom: ${vesselData?.intHoldNumber >= 7 ? "50%" : "80%"}; 
+                      }
+                    }
+                  `}
+                </style>
+
                 <div
                   ref={componentRef}
-                  className="row mt-5 mb-5"
+                  className="mt-5 mb-5 pdfPrint"
                   id="vesselLayoutPDF"
                 >
-                  <div className="col-12">
+                  <div className="col-12 content_wrapper">
                     <VesselLayoutPDF vesselData={vesselData} values={values} vesselNominationData={vesselNominationData}/>
                   </div>
                 </div>

@@ -109,7 +109,6 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData }) => {
     },
     logo: {
       width: "100%",
-      maxWidth: "800px",
     },
     title: {
       fontSize: "24px",
@@ -156,7 +155,14 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData }) => {
     <div style={styles.container}>
       {/* Top Section */}
       <div style={styles.header}>
-        <img src={FullLogo} alt="Akij Shipping Line" style={styles.logo} />
+        <div
+          style={{
+            width: "500px",
+            objectFit: "contain",
+          }}
+        >
+          <img src={FullLogo} alt="Akij Shipping Line" style={styles.logo} />
+        </div>
         <p style={{}}>
           <strong style={{ display: "block" }}>
             Akij chamber, 73 Dilkusha C/A, Dhaka-1000, Bangladesh.
@@ -170,7 +176,7 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData }) => {
         </p>
       </div>
 
-      <div style={{ textAlign: "center", margin: "25px 0" }}>
+      <div style={{ textAlign: "center", margin: "1rem 0" }}>
         <h3>CARGO PRE-STOWAGE PLAN</h3>
         <h5>M.V. {vesselNominationData?.strNameOfVessel || ""} </h5>
       </div>
@@ -191,7 +197,7 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData }) => {
       </div>
 
       {/* Middle Section - Vessel Layout */}
-      <div style={styles.vesselSection}>
+      <div style={styles.vesselSection} className="images_wrapper">
         <VesselLayout vesselData={vesselData} values={values} />
       </div>
 
