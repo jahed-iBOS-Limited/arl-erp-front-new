@@ -1,9 +1,9 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import html2pdf from "html2pdf.js";
+import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import moment from "moment";
 import { useParams } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../App";
 import IForm from "../../../_helper/_form";
@@ -15,12 +15,9 @@ import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
-import VesselLayout from "./vesselLayout";
-import { exportToPDF, uploadPDF } from "./helper";
 import { generateFileUrl } from "../helper";
-import html2pdf from "html2pdf.js";
+import { uploadPDF } from "./helper";
 import VesselLayoutPDF from "./vesselLayoutPDF";
-import { useRef } from "react";
 
 const initData = {
   strName: "",
@@ -48,6 +45,42 @@ const initData = {
   numHold6: 0,
   numHold7: 0,
 };
+
+export const exportToPDF = (elementId, fileName) => {
+  return new Promise((resolve, reject) => {
+    const element = document.getElementById(elementId); // Select the HTML element for PDF
+    const options = {
+      margin: 0,
+      filename: `${fileName}.pdf`,
+      image: { type: "jpeg", quality: 1.0 }, // Max quality for image
+      html2canvas: {
+        scale: 4, // Increased scale for better resolution
+        useCORS: true, // Handle cross-origin issues for images
+        dpi: 300,
+        letterRendering: true,
+      },
+      jsPDF: { 
+        unit: "px", 
+        format: [element.scrollWidth, element.scrollHeight], // Dynamic page size based on content
+        orientation: "l" // Landscape orientation
+      },
+    };
+
+    // Generate PDF from the selected HTML element
+    html2pdf()
+      .set(options)
+      .from(element)
+      .toPdf()
+      .output("blob")
+      .then((pdfBlob) => {
+        resolve(pdfBlob); // Return PDF blob for upload or save
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
 export default function DeadWeightCreate() {
   const {
     profileData: { userId, accountId },
@@ -95,8 +128,8 @@ export default function DeadWeightCreate() {
     }
 
     // Generate PDF and upload it
-    const pdfBlob = await exportToPDF("pdf-section", "vessel_nomination");
-    const uploadResponse = await uploadPDF(pdfBlob);
+    const pdfBlob = await exportToPDF("vesselLayoutPDF", "vessel_nomination");
+    const uploadResponse = await uploadPDF(pdfBlob, setLoading);
 
     // Assuming the response contains the uploaded file ID
     const pdfURL = uploadResponse?.[0]?.id || "";
@@ -238,62 +271,38 @@ export default function DeadWeightCreate() {
     );
   };
 
-  // const pdfExport = (fileName) => {
-  //   var element = document.getElementById("vesselLayoutPDF");
-  //   var opt = {
-  //     margin: 1,
-  //     filename: `${fileName}.pdf`,
-  //     image: { type: "jpeg", quality: 0.98 },
-  //     html2canvas: {
-  //       scale: 5,
-  //       dpi: 300,
-  //       letterRendering: true,
-  //       padding: "50px",
-  //       scrollX: -window.scrollX,
-  //       scrollY: -window.scrollY,
-  //       windowWidth: document.documentElement.offsetWidth,
-  //       windowHeight: document.documentElement.offsetHeight,
-  //     },
-  //     jsPDF: { unit: "px", hotfixes: ["px_scaling"], orientation: "landscape" },
-  //   };
-  //   html2pdf()
-  //     .set(opt)
-  //     .from(element)
-  //     .save();
-  // };
-
   const handlePDF = useReactToPrint({
     onPrintError: (error) => console.log(error),
     content: () => componentRef?.current,
-    print: async (printIframe) => {
-      const src = printIframe.contentDocument;
-      if (src) {
-        // For Portrait- Download
-        const doc_width = 8.27;
-        const doc_height = 11.69;
-        // For Landscape Download --- Just reverse
-        // let doc_height = 8.27;
-        // let doc_width = 11.69;
-        const { jsPDF } = require("jspdf");
-        const html = src?.querySelector(".printView");
-        const opt = {
-          orientation: "l",
-          unit: "in",
-          format: [doc_width, doc_height],
-        };
-        const doc = new jsPDF(opt);
-        doc.html(html, {
-          autoPaging: "text",
-          // margin: [5, 5, 5, 5],
-          width: doc.internal.pageSize.getWidth(),
-          windowWidth: 800,
-          filename: "Custom Duty",
-          callback: function(doc) {
-            doc.save(`Custom Duty-${moment().format("DD-MM-YYYYhh:mm:ss")}`);
-          },
-        });
-      }
-    },
+    // print: async (printIframe) => {
+    //   const src = printIframe.contentDocument;
+    //   if (src) {
+    //     // For Portrait- Download
+    //     const doc_width = 8.27;
+    //     const doc_height = 11.69;
+    //     // For Landscape Download --- Just reverse
+    //     // let doc_height = 8.27;
+    //     // let doc_width = 11.69;
+    //     const { jsPDF } = require("jspdf");
+    //     const html = src?.querySelector(".printView");
+    //     const opt = {
+    //       orientation: "l",
+    //       unit: "in",
+    //       format: [doc_width, doc_height],
+    //     };
+    //     const doc = new jsPDF(opt);
+    //     doc.html(html, {
+    //       autoPaging: "text",
+    //       // margin: [5, 5, 5, 5],
+    //       width: doc.internal.pageSize.getWidth(),
+    //       windowWidth: 800,
+    //       filename: "Custom Duty",
+    //       callback: function(doc) {
+    //         doc.save(`Custom Duty-${moment().format("DD-MM-YYYYhh:mm:ss")}`);
+    //       },
+    //     });
+    //   }
+    // },
   });
   return (
     <div
@@ -745,12 +754,42 @@ export default function DeadWeightCreate() {
                     <VesselLayout vesselData={vesselData} values={values} />
                   </div>
                 </div> */}
+                <style type="text/css" media="print">
+                  {`
+                    @media print {
+                      body {
+                        background: #fff;
+                      }
+                      @page {
+                        size: landscape !important;
+                      }
+                      .pdfPrint{
+                        margin: 0!important;
+                        padding: 0!important;
+                        zoom: 80%;
+                        }
+                      .pdfPrint .content_wrapper {
+                        height: 100% !important;
+                        max-height: 100% !important;
+                        width: auto !important;
+                        overflow: visible !important;
+                        margin: 0;
+                        padding: 0;
+                      }
+
+                      .pdfPrint .images_wrapper{
+                       zoom: ${vesselData?.intHoldNumber > 7 ? "60%" : "80%"}; 
+                      }
+                    }
+                  `}
+                </style>
+
                 <div
                   ref={componentRef}
-                  className="row mt-5 mb-5"
+                  className="mt-5 mb-5 pdfPrint"
                   id="vesselLayoutPDF"
                 >
-                  <div className="col-12">
+                  <div className="col-12 content_wrapper">
                     <VesselLayoutPDF vesselData={vesselData} values={values} vesselNominationData={vesselNominationData}/>
                   </div>
                 </div>
