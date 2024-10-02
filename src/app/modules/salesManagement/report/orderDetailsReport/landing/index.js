@@ -90,7 +90,7 @@ function OrderDetailsReportLanding() {
                       <div className="col-lg-3">
                         <NewSelect
                           name="ihbName"
-                          options={ihbDDL}
+                          options={[{ value: 0, label: "All" }, ...ihbDDL]}
                           value={values?.ihbName}
                           label="IHB"
                           onChange={(valueOption) => {
@@ -106,6 +106,9 @@ function OrderDetailsReportLanding() {
                         obj={{
                           values,
                           setFieldValue,
+                          onChange: () => {
+                            setShowPowerBIReport(false);
+                          },
                         }}
                       />
 
@@ -116,6 +119,10 @@ function OrderDetailsReportLanding() {
                           name="fromDate"
                           placeholder="From Date"
                           type="date"
+                          onChange={(e) => {
+                            setFieldValue("fromDate", e.target.value);
+                            setShowPowerBIReport(false);
+                          }}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -125,6 +132,10 @@ function OrderDetailsReportLanding() {
                           name="toDate"
                           placeholder="To Date"
                           type="date"
+                          onChange={(e) => {
+                            setFieldValue("toDate", e.target.value);
+                            setShowPowerBIReport(false);
+                          }}
                         />
                       </div>
                       <div className="col-lg-3">

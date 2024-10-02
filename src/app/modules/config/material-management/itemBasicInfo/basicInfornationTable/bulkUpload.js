@@ -202,15 +202,6 @@ export default function BulkUpload() {
                       </td>
                       <td
                         className={`text-center ${
-                          !+item?.itemMasterSubCategoryId
-                            ? Styles["red-bg"]
-                            : ""
-                        }`}
-                      >
-                        {item?.itemMasterSubCategoryId || ""}
-                      </td>
-                      <td
-                        className={`text-center ${
                           !+item?.purchaseOrganizationId ? Styles["red-bg"] : ""
                         }`}
                       >

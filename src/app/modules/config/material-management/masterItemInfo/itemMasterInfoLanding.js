@@ -14,7 +14,7 @@ export default function ItemMasterInfoLanding() {
     return state.authData;
   }, shallowEqual);
 
-  const [pageNo, setPageNo] = useState(1);
+  const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loading] = useAxiosGet();
   const history = useHistory();
