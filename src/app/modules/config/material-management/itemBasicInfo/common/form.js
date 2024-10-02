@@ -35,10 +35,18 @@ const DataValiadtionSchema = Yup.object().shape({
     label: Yup.string().required("Sub-category is required"),
     value: Yup.string().required("Sub-category is required"),
   }),
-  purchaseOrg: Yup.object().shape({
-    label: Yup.string().required("Purchase Organization is required"),
-    value: Yup.string().required("Purchase Organization is required"),
+  purchaseOrg: Yup.object().when("itemType.value", {
+    is: (value) => value === 3 || value === 4,
+    then: Yup.object().shape({}),
+    otherwise: Yup.object().shape({
+      value: Yup.string().required("Purchase Organization is required"),
+      label: Yup.string().required("Purchase Organization is required"),
+    }),
   }),
+  // purchaseOrg: Yup.object().shape({
+  //   label: Yup.string().required("Purchase Organization is required"),
+  //   value: Yup.string().required("Purchase Organization is required"),
+  // }),
 });
 
 export default function _Form({
@@ -118,6 +126,7 @@ export default function _Form({
         validationSchema={DataValiadtionSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveData(values, () => {
+            console.log("eeE", values);
             resetForm(data);
           });
         }}
