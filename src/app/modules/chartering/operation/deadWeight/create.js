@@ -17,6 +17,8 @@ import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
 import VesselLayout from "./vesselLayout";
 import { exportToPDF, uploadPDF } from "./helper";
 import { generateFileUrl } from "../helper";
+import html2pdf from "html2pdf.js";
+
 
 const initData = {
   strName: "",
@@ -232,6 +234,21 @@ export default function DeadWeightCreate() {
       validFinalCargoToloadMts.toFixed(2)
     );
   };
+  
+  const pdfExport = (fileName) => {
+    var element = document.getElementById("pdf-section");
+    var opt = {
+      margin: 1,
+      filename: `${fileName}.pdf`,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 5, dpi: 300, letterRendering: true },
+      jsPDF: { unit: "px", hotfixes: ["px_scaling"], orientation: "p" },
+    };
+    html2pdf()
+      .set(opt)
+      .from(element)
+      .save();
+  };
 
   return (
     <div
@@ -274,6 +291,15 @@ export default function DeadWeightCreate() {
               renderProps={() => {
                 return (
                   <div>
+                    <button
+                      type="button"
+                      className="btn btn-primary mr-3"
+                      onClick={() => {
+                        pdfExport("Pre-Stowge")
+                      }}
+                    >
+                      Export PDF
+                    </button>
                     <button
                       type="button"
                       disabled={!payloadInfo}
@@ -669,7 +695,12 @@ export default function DeadWeightCreate() {
                     )
                   )}
                 </div>
-                <div className="row mt-5 mb-5" id="pdf-section">
+                <div className="row mt-5 mb-5">
+                  <div className="col-12">
+                    <VesselLayout vesselData={vesselData} values={values} />
+                  </div>
+                </div>
+                <div className="row mt-5 mb-5 d-none" id="pdf-section">
                   <div className="col-12">
                     <VesselLayout vesselData={vesselData} values={values} />
                   </div>
