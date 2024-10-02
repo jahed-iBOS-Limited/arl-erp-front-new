@@ -99,7 +99,7 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData }) => {
     container: {
       margin: "0 auto",
       padding: "20px",
-      border: "1px solid #000",
+      // border: "1px solid #000",
       fontFamily: "Arial, sans-serif",
       width: "100%", // Adjust width to match your layout
     },
