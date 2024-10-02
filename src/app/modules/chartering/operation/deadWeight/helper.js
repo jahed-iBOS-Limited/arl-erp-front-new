@@ -30,12 +30,15 @@ export const exportToPDF = (elementId, fileName) => {
 };
 
 // File Upload function
-export const uploadPDF = async (pdfBlob) => {
+export const uploadPDF = async (pdfBlob, setLoading) => {
   const hardcodedToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJkMTIyNTkzYy0xNGM3LTRmNDYtYjliNC04NGI3YjlhNDZlNTgiLCJlbnJvbGwiOiJleE5qUk1Wa2FpQm02YnJPclY2MjVnPT0iLCJlbWFpbGFkZHJlc3MiOiJtaXJhakBpYm9zLmlvIiwic3ViIjoibWlyYWpAaWJvcy5pbyIsImp0aSI6ImY1MmJlMDljLTc3MDYtNGM1Zi1iMTk4LTkyZDQ2Y2E5YTE5YiIsImlhdCI6IjkvMjMvMjAyNCA2OjEyOjE4IEFNIiwiZXhwIjoxNzU4NjA3OTM4LCJpc3MiOiJBa2lqSW5mb1RlY2ggTHRkLiAiLCJhdWQiOiJBdWRpZW5jZSJ9.06aBO2uUCHG0IViaUpSbecHp_JUtkzXCBi-oFJwT4Ek"; // 1 year expire date
 
   const formData = new FormData();
   formData.append("files", pdfBlob, "document.pdf"); // Append the PDF blob
+
+  // Set loading to true when the upload starts
+  setLoading(true);
 
   try {
     const { data } = await axios.post("/domain/Document/UploadFile", formData, {
@@ -49,5 +52,8 @@ export const uploadPDF = async (pdfBlob) => {
   } catch (error) {
     toast.error("Failed to upload file"); // Error message
     throw new Error("Upload failed");
+  } finally {
+    // Set loading to false after the upload completes
+    setLoading(false);
   }
 };

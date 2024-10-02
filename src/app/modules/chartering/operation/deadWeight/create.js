@@ -56,6 +56,7 @@ export default function DeadWeightCreate() {
   const { paramId, paramCode } = useParams();
   const [isShowModal, setIsShowModal] = useState(false);
   const [payloadInfo, setPayloadInfo] = useState(null);
+  const [uploadLoading, setLoading] = useState(false);
   const [
     vesselNominationData,
     getVesselNominationData,
@@ -264,7 +265,7 @@ export default function DeadWeightCreate() {
           setValues,
         }) => (
           <>
-            {(loader || loading || loading2) && <Loading />}
+            {(loader || loading || loading2 || uploadLoading) && <Loading />}
             <IForm
               title={`Create Dead Weight & Pre-Stowage`}
               isHiddenReset
