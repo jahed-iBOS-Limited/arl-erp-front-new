@@ -32,7 +32,7 @@ const VesselLayout = ({ vesselData, values }) => {
     },
     holdDescription: {
       margin: "10px 0",
-      fontSize: "12px",
+      fontSize: "14px",
       position: "absolute",
       bottom: "5px",
       left: "75px",
