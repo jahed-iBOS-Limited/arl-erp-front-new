@@ -32,12 +32,12 @@ const VesselLayout = ({ vesselData, values }) => {
     },
     holdDescription: {
       margin: "10px 0",
-      fontSize: "16px",
-      // position: "absolute",
-      // bottom: "25px",
-      // left: "22px",
-      // maxWidth: "152px",
-      // textAlign: "justify",
+      fontSize: "12px",
+      position: "absolute",
+      bottom: "5px",
+      left: "75px",
+      maxWidth: "152px",
+      textAlign: "justify",
     },
   };
 
@@ -51,18 +51,18 @@ const VesselLayout = ({ vesselData, values }) => {
       <div style={styles.vesselLayoutContainer}>
         {/* Static Engine Room Image */}
         <div style={styles.vesselSection}>
-          <img src={EngineImage} alt="Engine Room" style={{...styles.image, marginTop:"-39px"}} />
+          <img
+            src={EngineImage}
+            alt="Engine Room"
+            style={{ ...styles.image, marginTop: "5px" }}
+          />
         </div>
 
         {/* Dynamic Hold Sections */}
         {Array.from({ length: vesselData?.intHoldNumber || 0 }, (_, index) => (
           <div style={styles.vesselSection} key={index}>
             {/* Hold Number */}
-            <div
-              style={
-                styles.holdNumber
-              }
-            >
+            <div style={styles.holdNumber}>
               {vesselData?.intHoldNumber - index}
             </div>
             {/* Hold Image */}
@@ -91,8 +91,11 @@ const VesselLayout = ({ vesselData, values }) => {
 
             {/* Dynamic Hold Description */}
             <div style={styles.holdDescription}>
-              IRON ORE {values?.[`numHold${vesselData?.intHoldNumber - index}`]}{" "}
-              MT
+              <p style={{ margin: 0, padding: 0 }}>IRON ORE</p>
+              <p>
+                {" "}
+                {values?.[`numHold${vesselData?.intHoldNumber - index}`]} MT
+              </p>
             </div>
           </div>
         ))}
@@ -106,7 +109,7 @@ const VesselLayout = ({ vesselData, values }) => {
               width: "100%",
               height: "243px",
               maxWidth: "200px",
-              marginTop: "-39px",
+              marginTop: "5px",
             }}
           />
         </div>

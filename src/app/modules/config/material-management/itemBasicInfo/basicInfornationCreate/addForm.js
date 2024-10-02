@@ -128,6 +128,9 @@ export default function AddForm({
           toast.success(res.data?.message || "Submitted successfully", {
             toastId: shortid(),
           });
+          history.push({
+            pathname: `/config/material-management/itembasicinfo-master`,
+          });
         } catch (error) {
           setDisabled(false);
           toast.error(error?.response?.data?.message, { toastId: shortid() });
