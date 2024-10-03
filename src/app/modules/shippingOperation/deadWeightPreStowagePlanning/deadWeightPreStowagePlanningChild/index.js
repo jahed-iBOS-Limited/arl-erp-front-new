@@ -230,7 +230,7 @@ export default function DeadWeightAndPreStowagePlaning() {
                         <th>Vessel Nomination Code</th>
                         <th>Draft Type</th>
                         <th>Displacement Draft Mts</th>
-                        <th>Dock Water Density</th>
+                        <th>Water Density</th>
                         <th>LightShip Mts</th>
                         <th>Fuel Oil Mts</th>
                         <th>Disel Oil Mts</th>

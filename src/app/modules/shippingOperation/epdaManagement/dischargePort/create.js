@@ -115,6 +115,7 @@ export default function EDPADischargePortCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setIsShowModal(true);
         });
       }}
     >

@@ -49,6 +49,8 @@ const initData = {
   strBunkerPort: "", //DDL
   strBunkerTrader: "",
   strBunkerType: "",
+  numDepatureDraftForward: "",
+  numDepatureDraftAft: ""
 };
 
 const validationSchema = Yup.object().shape({
@@ -310,6 +312,8 @@ export default function BunkerManagementCreate() {
       intIntendedSpeed: +values?.intendedSpeed?.value || 0,
       strIntIntendedSpeed: values?.intendedSpeed?.label || "",
       numNetTotalConsumableLsmgoMt: +values?.numNetTotalConsumableLsmgoMt || 0,
+      numDepatureDraftForward: +values?.numDepatureDraftForward || 0,
+      numDepatureDraftAft: +values?.numDepatureDraftAft || 0
     };
 
     onSave(
@@ -1095,6 +1099,36 @@ export default function BunkerManagementCreate() {
                   onChange={(e) =>
                     setFieldValue("strBunkerType", e.target.value)
                   }
+                  errors={errors}
+                />
+              </div>
+              <div className="col-lg-3">
+                <InputField
+                  value={values?.numDepatureDraftForward || ""}
+                  label="Depature Draft Forward"
+                  name="numDepatureDraftForward"
+                  type="number"
+                  onChange={(e) => {
+                    setFieldValue(
+                      "numDepatureDraftForward",
+                      e.target.value
+                    );
+                  }}
+                  errors={errors}
+                />
+              </div>
+              <div className="col-lg-3">
+                <InputField
+                  value={values?.numDepatureDraftAft || ""}
+                  label="Depature Draft Aft"
+                  name="numDepatureDraftAft"
+                  type="number"
+                  onChange={(e) => {
+                    setFieldValue(
+                      "numDepatureDraftAft",
+                      e.target.value
+                    );
+                  }}
                   errors={errors}
                 />
               </div>

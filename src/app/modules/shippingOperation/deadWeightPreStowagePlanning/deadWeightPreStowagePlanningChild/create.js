@@ -193,8 +193,8 @@ export default function DeadWeightCreate() {
       .required("Displacement Draft Mts is required")
       .positive("Displacement Draft Mts must be a positive number"),
     intDockWaterDensity: Yup.number()
-      .required("Dock Water Density is required")
-      .positive("Dock Water Density must be a positive number"),
+      .required("Water Density is required")
+      .positive("Water Density must be a positive number"),
     intLightShipMts: Yup.number()
       .required("Light Ship Mts is required")
       .positive("Light Ship Mts must be a positive number"),
@@ -213,9 +213,9 @@ export default function DeadWeightCreate() {
     intUnpumpAbleBallastMts: Yup.number()
       .required("Unpumpable Ballast Mts is required")
       .positive("Unpumpable Ballast Mts must be a positive number"),
-    intCargoLoadMts: Yup.number()
-      .required("Cargo Load Mts is required")
-      .positive("Cargo Load Mts must be a positive number"),
+    // intCargoLoadMts: Yup.number()
+    //   .required("Cargo Load Mts is required")
+    //   .positive("Cargo Load Mts must be a positive number"),
     intFinalCargoToloadMts: Yup.number()
       .required("Final Cargo to Load Mts is required")
       .positive("Final Cargo to Load Mts must be a positive number"),
@@ -239,10 +239,10 @@ export default function DeadWeightCreate() {
     const intFoFuelOilMts = Number(values.intFoFuelOilMts) || 0;
     const intFoDoDiselOilMts = Number(values.intFoDoDiselOilMts) || 0;
     const intFwFreshWaterMts = Number(values.intFwFreshWaterMts) || 0;
-    const intDockWaterDensity = Number(values.intDockWaterDensity) || 1; // Default to 1 for water density
+    // const intDockWaterDensity = Number(values.intDockWaterDensity) || 1; // Default to 1 for water density
     const intConstantMts = Number(values.intConstantMts) || 0;
     const intUnpumpAbleBallastMts = Number(values.intUnpumpAbleBallastMts) || 0;
-    const intCargoLoadMts = Number(values.intCargoLoadMts) || 0;
+    // const intCargoLoadMts = Number(values.intCargoLoadMts) || 0;
 
     // Calculate the total of all cargo-related metrics
     const totalCargoToloadMts =
@@ -250,14 +250,11 @@ export default function DeadWeightCreate() {
       intFoDoDiselOilMts +
       intFwFreshWaterMts +
       intConstantMts +
-      intUnpumpAbleBallastMts +
-      intCargoLoadMts;
+      intUnpumpAbleBallastMts;
 
     // Calculate the final cargo to load metric
     const finalCargoToloadMts =
-      ((intDisplacementDraftMts - intLightShipMts) * intDockWaterDensity) /
-        1.025 -
-      totalCargoToloadMts;
+      ((intDisplacementDraftMts - intLightShipMts) - totalCargoToloadMts);
 
     // Ensure the final cargo value is valid and not NaN
     const validFinalCargoToloadMts = isNaN(finalCargoToloadMts)
@@ -322,6 +319,7 @@ export default function DeadWeightCreate() {
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
+            setIsShowModal(true);
           });
         }}
       >
@@ -618,7 +616,7 @@ export default function DeadWeightCreate() {
                   <div className="col-lg-2">
                     <InputField
                       value={values.intDockWaterDensity}
-                      label="Dock Water Density"
+                      label="Water Density"
                       name="intDockWaterDensity"
                       type="number"
                       onChange={(e) => {
