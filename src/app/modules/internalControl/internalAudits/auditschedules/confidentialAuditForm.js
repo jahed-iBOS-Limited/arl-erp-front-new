@@ -3,20 +3,21 @@ import React, { useEffect } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import ICon from "../../../chartering/_chartinghelper/icons/_icon";
 import {
   auditFormInitData,
   calculateDaysDifference,
-  confidentialAuditTableHead,
+  confidentialAuditFormTableHead,
   generateConfidentialInitData,
   getSingleScheduleDataHandler,
   handleConfidentialAuditSubmit,
-  loadEmployeeInfo,
+  loadEmployeeInfo
 } from "./helper";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import ICon from "../../../chartering/_chartinghelper/icons/_icon";
 
 const ConfidentialAuditForm = ({ objProps }) => {
   // obj props
@@ -35,6 +36,7 @@ const ConfidentialAuditForm = ({ objProps }) => {
     singleConfidentialAuditData,
     getSingleConfidentialData,
     singleConfidentialAuditDataLoading,
+    setSingleConfidentialAuditData,
   ] = useAxiosGet();
   // axios post
   const [
@@ -51,7 +53,12 @@ const ConfidentialAuditForm = ({ objProps }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const auditForm = (values, setFieldValue, singleConfidentialAuditData) => (
+  const auditForm = (
+    values,
+    setFieldValue,
+    singleConfidentialAuditData,
+    setSingleConfidentialAuditData
+  ) => (
     <tr>
       <td></td>
       <td>
@@ -85,7 +92,23 @@ const ConfidentialAuditForm = ({ objProps }) => {
           name={"responsibleEmployee"}
         />
       </td>
-      <td className="text-center">
+      <td className="d-flex flex-row justify-content-between">
+        {!singleConfidentialAuditData?.strAuditEmpEvidenceAttastment && (
+          <AttachmentUploaderNew
+            isExistAttachment={
+              singleConfidentialAuditData?.strAuditEmpEvidenceAttastment
+            }
+            fileUploadLimits={1}
+            CBAttachmentRes={(attachmentData) => {
+              if (Array.isArray(attachmentData)) {
+                setSingleConfidentialAuditData((prevState) => ({
+                  ...prevState,
+                  strAuditEmpEvidenceAttastment: attachmentData[0]?.id || "",
+                }));
+              }
+            }}
+          />
+        )}
         {singleConfidentialAuditData?.strAuditEmpEvidenceAttastment && (
           <span
             onClick={(e) => {
@@ -104,15 +127,17 @@ const ConfidentialAuditForm = ({ objProps }) => {
         )}
       </td>
       <td>
+        {singleConfidentialAuditData?.strManagementFeedBack}
+      </td>
+      <td>
         <InputField
-          value={values?.mgmtFeedback}
-          name="mgmtFeedback"
+          value={values?.strAuditRecommendation}
+          name="strAuditRecommendation"
           onChange={(e) => {
-            setFieldValue("mgmtFeedback", e.target.value);
+            setFieldValue("strAuditRecommendation", e.target.value);
           }}
         />
       </td>
-      <td></td>
     </tr>
   );
 
@@ -215,7 +240,7 @@ const ConfidentialAuditForm = ({ objProps }) => {
               <table className="table table-striped table-bordered global-table bj-table bj-table-landing">
                 <thead>
                   <tr>
-                    {confidentialAuditTableHead?.map((item, index) => (
+                    {confidentialAuditFormTableHead?.map((item, index) => (
                       <th key={index}>{item}</th>
                     ))}
                   </tr>
@@ -225,7 +250,8 @@ const ConfidentialAuditForm = ({ objProps }) => {
                   {auditForm(
                     values,
                     setFieldValue,
-                    singleConfidentialAuditData
+                    singleConfidentialAuditData,
+                    setSingleConfidentialAuditData
                   )}
                 </tbody>
               </table>
