@@ -1,18 +1,18 @@
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 import {
   calculateDaysDifference,
-  confidentialAuditTableHead,
+  confidentialAuditViewTableHead,
   getSingleScheduleDataHandler,
 } from "../../auditschedules/helper";
-import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { handleSubmitConfAuditWithAttachement } from "../helper";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 
 const ConfidentialAuditView = ({ objProps }) => {
   // obj props
@@ -50,7 +50,7 @@ const ConfidentialAuditView = ({ objProps }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const auditForm = (singleConfidentialAuditData) => {
+  const auditForm = (singleConfidentialAuditData, setFieldValue, values) => {
     // distructure single confidential audit data
     const {
       strAuditObservationName,
@@ -66,20 +66,7 @@ const ConfidentialAuditView = ({ objProps }) => {
         <td>{strAuditObservationName}</td>
         <td>{strFinancialImpact}</td>
         <td>{strEmployeeNameResponsibleMgtfeedBack}</td>
-        <td className="d-flex flex-row justify-content-between">
-          <AttachmentUploaderNew
-            isExistAttachment={strAuditEmpEvidenceAttastment}
-            fileUploadLimits={1}
-            CBAttachmentRes={(attachmentData) => {
-              if (Array.isArray(attachmentData)) {
-                setConfidentialAuditData((prevState) => ({
-                  ...prevState,
-                  strAuditEmpEvidenceAttastment: attachmentData[0]?.id || "",
-                }));
-              }
-            }}
-          />
-
+        <td className="text-center">
           {strAuditEmpEvidenceAttastment && (
             <span
               onClick={(e) => {
@@ -95,8 +82,21 @@ const ConfidentialAuditView = ({ objProps }) => {
             </span>
           )}
         </td>
-        <td>{strManagementFeedBack}</td>
-        <td></td>
+        <td>
+          <InputField
+            name="mgmtFeedback"
+            value={strManagementFeedBack}
+            onChange={(e) => {
+              setFieldValue("mgmtFeedback", e.target.value);
+              setConfidentialAuditData((prevData) => ({
+                ...prevData,
+                strManagementFeedBack: e?.target?.value,
+              }));
+            }}
+            disabled={strManagementFeedBack}
+          />
+          {/* {strManagementFeedBack} */}
+        </td>
       </tr>
     );
   };
@@ -201,14 +201,18 @@ const ConfidentialAuditView = ({ objProps }) => {
               <table className="table table-striped table-bordered global-table bj-table bj-table-landing">
                 <thead>
                   <tr>
-                    {confidentialAuditTableHead?.map((item, index) => (
+                    {confidentialAuditViewTableHead?.map((item, index) => (
                       <th key={index}>{item}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {/* Audit Form */}
-                  {auditForm(singleConfidentialAuditData)}
+                  {auditForm(
+                    singleConfidentialAuditData,
+                    setFieldValue,
+                    values
+                  )}
                 </tbody>
               </table>
             </div>
