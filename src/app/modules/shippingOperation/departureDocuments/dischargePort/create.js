@@ -13,9 +13,9 @@ import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { useParams } from "react-router-dom";
 import IViewModal from "../../../_helper/_viewModal";
-import MailSender from "../mailSender";
-import { generateFileUrl } from "../helper";
-import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
+import { generateFileUrl } from "../../utils/helper";
+import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
+
 
 // Initial data
 const initData = {
