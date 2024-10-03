@@ -3,6 +3,7 @@ import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import EDPALoadPort from "./loadPort";
 import DischargePort from "./dischargePort";
+import EDPADischargePort from "./dischargePort";
 
 
 export function EpdaManagementPages() {
@@ -19,7 +20,7 @@ export function EpdaManagementPages() {
             />
             <ContentRoute
                 path='/shippingOperation/EPDA-management/discharge-port'
-                component={DischargePort}
+                component={EDPADischargePort}
             />
 
         </Switch>

@@ -14,10 +14,10 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
-import { generateFileUrl } from "../helper";
 import { uploadPDF } from "./helper";
 import VesselLayoutPDF from "./vesselLayoutPDF";
+import { generateFileUrl } from "../../utils/helper";
+import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
 
 const initData = {
   strName: "",

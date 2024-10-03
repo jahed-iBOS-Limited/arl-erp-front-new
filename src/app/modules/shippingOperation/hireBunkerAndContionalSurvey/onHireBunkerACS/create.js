@@ -11,10 +11,9 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import MailSender from "../mailSender";
-import { generateFileUrl } from "../helper";
-import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { generateFileUrl } from "../../utils/helper";
+import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
 
 const initData = {
   strName: "",

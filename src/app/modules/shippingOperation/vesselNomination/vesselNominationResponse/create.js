@@ -8,10 +8,9 @@ import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IViewModal from "../../_chartinghelper/_viewModal";
-import MailSender from "../mailSender";
-import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import IViewModal from "../../../chartering/_chartinghelper/_viewModal";
+import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
 
 const initData = {
   strName: "",

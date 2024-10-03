@@ -1,34 +1,42 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
+
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { imarineBaseUrl } from "../../../../App";
 import IForm from "../../../_helper/_form";
+import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { getVesselDDL, getVoyageDDLNew } from "../../helper";
+import IButton from "../../../_helper/iButton";
+// import { getVesselDDL, getVoyageDDLNew } from "../../helper";
+import { _previousDate, _todayDate } from "../../../_helper/_todayDate";
 import FormikSelect from "../../../chartering/_chartinghelper/common/formikSelect";
 import customStyles from "../../../chartering/_chartinghelper/common/selectCustomStyle";
+import { getVesselDDL, getVoyageDDLNew } from "../../helper";
 
-
-const initialValues = {};
-
-export default function DischargePort() {
+const initData = {};
+export default function EDPADischargePort() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-
   const dispatch = useDispatch();
-
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
   const [gridData, getGridData, loading] = useAxiosGet();
   const [vesselDDL, setVesselDDL] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [loading2, setLoading] = useState(false);
 
-  const getLandingData = (values, pageNo, pageSize) => {
+  useEffect(()=>{
+    getLandingData({}, pageNo, pageSize, "");
+  },[])
+
+  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     const shipTypeSTR = values?.shipType
-      ? `shipType=${values?.shipType?.label}`
+      ? `&shipType=${values?.shipType?.label}`
       : "";
     const voyageTypeSTR = values?.voyageType
       ? `&voyageType=${values?.voyageType?.label}`
@@ -40,13 +48,17 @@ export default function DischargePort() {
       ? `&voyageNo=${values?.voyageNo?.label}`
       : "";
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/DepartureDocumentsDischargePortLanding?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
+      `${imarineBaseUrl}/domain/VesselNomination/GetFromEpdaAndDischargePortInfoLanding?BusinessUnitId=${0}&FromDate=${
+        values?.fromDate || _previousDate()
+      }&ToDate=${values?.toDate || _todayDate()}&pageNumber=${pageNo ||
+        1}&pageSize=${pageSize ||
+        600}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
   };
 
-  useEffect(() => {
-    getLandingData();
-  }, []);
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+    getLandingData(values, pageNo, pageSize, searchValue);
+  };
 
   const getVoyageDDL = (values) => {
     getVoyageDDLNew({
@@ -64,9 +76,10 @@ export default function DischargePort() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initialValues}
-      onSubmit={(values, { setSubmitting }) => {
-        setSubmitting(false);
+      initialValues={initData}
+      // validationSchema={validationSchema}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        getLandingData(values, pageNo, pageSize);
       }}
     >
       {({
@@ -81,7 +94,7 @@ export default function DischargePort() {
         <>
           {loading && <Loading />}
           <IForm
-            title="Discharge Port"
+            title="EDPA Discharge Port"
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -90,7 +103,7 @@ export default function DischargePort() {
             }}
           >
             <Form>
-              <div className="form-group global-form row mb-5">
+              <div className="form-group  global-form row">
                 <div className="col-lg-2">
                   <FormikSelect
                     value={values?.shipType}
@@ -115,8 +128,8 @@ export default function DischargePort() {
                           setVesselDDL,
                           valueOption?.value === 2 ? 2 : ""
                         );
-                      } else {
-                        getLandingData();
+                      }else{
+                        getLandingData({}, pageNo, pageSize, "");
                       }
                     }}
                   />
@@ -177,109 +190,67 @@ export default function DischargePort() {
                     isDisabled={!values?.vesselName}
                   />
                 </div>
-                <div>
-                  <button
-                    type="button"
-                    disabled={!values?.shipType}
-                    onClick={() => {
-                      getLandingData(values);
+
+                <div className="col-lg-2">
+                  <InputField
+                    value={values?.fromDate}
+                    label="From Date"
+                    name="fromDate"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("fromDate", e.target.value);
                     }}
-                    style={{ marginTop: "18px" }}
-                    className="btn btn-primary"
-                  >
-                    Show
-                  </button>
+                  />
+                </div>
+                <div className="col-lg-2">
+                  <InputField
+                    value={values?.toDate}
+                    label="To Date"
+                    name="toDate"
+                    type="date"
+                    onChange={(e) => {
+                      setFieldValue("toDate", e.target.value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <IButton
+                    disabled={!values?.fromDate || !values?.toDate}
+                    onClick={handleSubmit}
+                  />
                 </div>
               </div>
+
               {gridData?.length > 0 && (
                 <div className="table-responsive">
                   <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>SL</th>
-                        <th>Vessel Name</th>
-                        <th>Voyage No</th>
-                        <th>Code</th>
-                        <th>SOF</th>
-                        <th>NOR</th>
-                        <th>Final Draft Survey Report</th>
-                        <th>Final Stowage Plan</th>
-                        <th>Mate's Receipt</th>
-                        <th>Cargo Manifest</th>
-                        <th>Master Receipt of Sample</th>
-                        <th>Authorization Letter</th>
-                        <th>Sealing Report</th>
-                        <th>Hold Inspection Report</th>
-                        <th>Remarks</th>
+                        <th>Vessel Nomination Code</th>
+                        <th>Grand Total </th>
+                        <th>Attachment For Port</th>
+                        <th>Attachment For Port Disbursment</th>
                       </tr>
                     </thead>
                     <tbody>
                       {gridData?.map((item, index) => (
-                        <tr key={item.intAutoId}>
+                        <tr key={index}>
                           <td className="text-center">{index + 1}</td>
-                          <td className="text-center">{item.strVesselName}</td>
-                          <td className="text-center">{item.strVoyageNo}</td>
-                          <td className="text-center">{item.strCode}</td>
+
                           <td className="text-center">
-                            {item.strSoffile && (
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="sof-icon">View SOF</Tooltip>
-                                }
-                              >
-                                <span
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item.strSoffile
-                                      )
-                                    );
-                                  }}
-                                  className="mt-2 ml-2"
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    className="fa pointer fa-eye"
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            )}
+                            {item?.strVesselNominationCode}
                           </td>
                           <td className="text-center">
-                            {item.strNorfile && (
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="nor-icon">View NOR</Tooltip>
-                                }
-                              >
-                                <span
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item.strNorfile
-                                      )
-                                    );
-                                  }}
-                                  className="mt-2 ml-2"
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    className="fa pointer fa-eye"
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            )}
+                            {item?.numGrandTotalAmount}
                           </td>
                           <td className="text-center">
-                            {item.strFinalDraftSurveyReportFile && (
+                            {" "}
+                            {item?.strAttachmentForPort ? (
                               <OverlayTrigger
                                 overlay={
-                                  <Tooltip id="draft-survey-icon">
-                                    View Final Draft Survey Report
+                                  <Tooltip id="cs-icon">
+                                    View Attachment
                                   </Tooltip>
                                 }
                               >
@@ -288,7 +259,7 @@ export default function DischargePort() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item.strFinalDraftSurveyReportFile
+                                        item?.strAttachmentForPort
                                       )
                                     );
                                   }}
@@ -296,19 +267,20 @@ export default function DischargePort() {
                                 >
                                   <i
                                     style={{ fontSize: "16px" }}
-                                    className="fa pointer fa-eye"
+                                    className={`fa pointer fa-eye`}
                                     aria-hidden="true"
                                   ></i>
                                 </span>
                               </OverlayTrigger>
-                            )}
+                            ) : null}
                           </td>
                           <td className="text-center">
-                            {item.strFinalStowagePlanFile && (
+                            {" "}
+                            {item?.strAttachmentForPortDisbursment ? (
                               <OverlayTrigger
                                 overlay={
-                                  <Tooltip id="stowage-plan-icon">
-                                    View Final Stowage Plan
+                                  <Tooltip id="cs-icon">
+                                    View Attachment
                                   </Tooltip>
                                 }
                               >
@@ -317,7 +289,7 @@ export default function DischargePort() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item.strFinalStowagePlanFile
+                                        item?.strAttachmentForPortDisbursment
                                       )
                                     );
                                   }}
@@ -325,194 +297,34 @@ export default function DischargePort() {
                                 >
                                   <i
                                     style={{ fontSize: "16px" }}
-                                    className="fa pointer fa-eye"
+                                    className={`fa pointer fa-eye`}
                                     aria-hidden="true"
                                   ></i>
                                 </span>
                               </OverlayTrigger>
-                            )}
+                            ) : null}
                           </td>
-                          <td className="text-center">
-                            {item.strMatesReceiptFile && (
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="mates-receipt-icon">
-                                    View Mate's Receipt
-                                  </Tooltip>
-                                }
-                              >
-                                <span
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item.strMatesReceiptFile
-                                      )
-                                    );
-                                  }}
-                                  className="mt-2 ml-2"
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    className="fa pointer fa-eye"
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            )}
-                          </td>
-                          <td className="text-center">
-                            {item.strCargoManifestFile && (
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="cargo-manifest-icon">
-                                    View Cargo Manifest
-                                  </Tooltip>
-                                }
-                              >
-                                <span
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item.strCargoManifestFile
-                                      )
-                                    );
-                                  }}
-                                  className="mt-2 ml-2"
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    className="fa pointer fa-eye"
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            )}
-                          </td>
-                          <td className="text-center">
-                            {item.strMasterReceiptOfSampleFile && (
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="master-receipt-icon">
-                                    View Master Receipt of Sample
-                                  </Tooltip>
-                                }
-                              >
-                                <span
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item.strMasterReceiptOfSampleFile
-                                      )
-                                    );
-                                  }}
-                                  className="mt-2 ml-2"
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    className="fa pointer fa-eye"
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            )}
-                          </td>
-                          <td className="text-center">
-                            {item.strAuthorizationLetterFile && (
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="authorization-letter-icon">
-                                    View Authorization Letter
-                                  </Tooltip>
-                                }
-                              >
-                                <span
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item.strAuthorizationLetterFile
-                                      )
-                                    );
-                                  }}
-                                  className="mt-2 ml-2"
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    className="fa pointer fa-eye"
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            )}
-                          </td>
-                          <td className="text-center">
-                            {item.strSealingReportFile && (
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="sealing-report-icon">
-                                    View Sealing Report
-                                  </Tooltip>
-                                }
-                              >
-                                <span
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item.strSealingReportFile
-                                      )
-                                    );
-                                  }}
-                                  className="mt-2 ml-2"
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    className="fa pointer fa-eye"
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            )}
-                          </td>
-                          <td className="text-center">
-                            {item.strHoldInspectionReportFile && (
-                              <OverlayTrigger
-                                overlay={
-                                  <Tooltip id="hold-inspection-report-icon">
-                                    View Hold Inspection Report
-                                  </Tooltip>
-                                }
-                              >
-                                <span
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    dispatch(
-                                      getDownlloadFileView_Action(
-                                        item.strHoldInspectionReportFile
-                                      )
-                                    );
-                                  }}
-                                  className="mt-2 ml-2"
-                                >
-                                  <i
-                                    style={{ fontSize: "16px" }}
-                                    className="fa pointer fa-eye"
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            )}
-                          </td>
-                          <td className="text-center">{item.strRemarks}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
               )}
+
+              {gridData?.length > 0 && (
+                <PaginationTable
+                  count={gridData?.length}
+                  setPositionHandler={setPositionHandler}
+                  paginationState={{
+                    pageNo,
+                    setPageNo,
+                    pageSize,
+                    setPageSize,
+                  }}
+                  values={values}
+                />
+              )}
+              <div></div>
             </Form>
           </IForm>
         </>

@@ -1,56 +1,40 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+
+import { useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
+import { _todayDate } from "../../../_helper/_todayDate";
+import IViewModal from "../../../_helper/_viewModal";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _todayDate } from "../../../_helper/_todayDate";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { useParams } from "react-router-dom";
-import IViewModal from "../../../_helper/_viewModal";
 import MailSender from "../mailSender";
 import { generateFileUrl } from "../helper";
 import EmailEditorForPublicRoutes from "../emailEditorForPublicRotes";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
-// Initial data
 const initData = {
   strName: "",
   strEmail: "",
-  strVesselName: "",
-  strVoyageNo: "",
-  strCode: "",
-  strSoffile: "",
-  strNorfile: "",
-  strFinalDraftSurveyReportFile: "",
-  strFinalStowagePlanFile: "",
-  strMatesReceiptFile: "",
-  strCargoManifestFile: "",
-  strMasterReceiptOfSampleFile: "",
-  strAuthorizationLetterFile: "",
-  strSealingReportFile: "",
-  strHoldInspectionReportFile: "",
-  strRemarks: "",
+  strEmailAddress: "",
+  strAttachmentForPort: "",
+  strAttachmentForPortDisbursment: "",
+  strVesselNominationCode: "",
+  numGrandTotalAmount: 0,
 };
-
-export default function CreateDischargePort() {
+export default function EDPADischargePortCreate() {
   const {
     profileData: { userId, accountId },
-    selectedBusinessUnit: { value: buId, label: businessUnitName },
+    selectedBusinessUnit: { value: buId, label },
   } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-
-  const { paramId, paramCode } = useParams();
-
   const [attachment, setAttachment] = useState("");
-  const [, onSave, loader] = useAxiosPost();
-  const [vesselDDL, getVesselDDL] = useAxiosGet();
-  const [voyageDDL, getVoyageDDL, , setVoyageDDL] = useAxiosGet();
+  const { paramId, paramCode } = useParams();
   const [isShowModal, setIsShowModal] = useState(false);
   const [payloadInfo, setPayloadInfo] = useState(null);
   const [
@@ -59,11 +43,7 @@ export default function CreateDischargePort() {
     loading,
   ] = useAxiosGet();
 
-  useEffect(() => {
-    getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accountId}&BusinessUnitId=${buId}
-      `);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accountId, buId]);
+  const [, onSave, loader] = useAxiosPost();
 
   useEffect(() => {
     if (paramId) {
@@ -78,86 +58,45 @@ export default function CreateDischargePort() {
     setPayloadInfo({
       // strName: values?.strName,
       // strEmail: values?.strEmail,
-      strVesselName: values?.strNameOfVessel || "",
-      strVoyageNo: values?.intVoyageNo || "",
+      strAttachmentForPort: generateFileUrl(values?.strAttachmentForPort),
+      strAttachmentForPortDisbursment: generateFileUrl(
+        values?.strAttachmentForPortDisbursment
+      ),
       // intVesselNominationId: +paramId || 0,
-      strCode: paramCode || values.strCode || "",
-      strSoffile: generateFileUrl(values.strSoffile),
-      strNorfile: generateFileUrl(values.strNorfile),
-      strFinalDraftSurveyReportFile: generateFileUrl(
-        values.strFinalDraftSurveyReportFile
-      ),
-      strFinalStowagePlanFile: generateFileUrl(values.strFinalStowagePlanFile),
-      strMatesReceiptFile: generateFileUrl(values.strMatesReceiptFile),
-      strCargoManifestFile: generateFileUrl(values.strCargoManifestFile),
-      strMasterReceiptOfSampleFile: generateFileUrl(
-        values.strMasterReceiptOfSampleFile
-      ),
-      strAuthorizationLetterFile: generateFileUrl(
-        values.strAuthorizationLetterFile
-      ),
-      strSealingReportFile: generateFileUrl(values.strSealingReportFile),
-      strHoldInspectionReportFile: generateFileUrl(
-        values.strHoldInspectionReportFile
-      ),
-
-      strRemarks: values.strRemarks,
+      strVesselNominationCode:
+        paramCode || values?.strVesselNominationCode || "",
+      numGrandTotalAmount: values?.numGrandTotalAmount,
     });
 
     const payload = {
       strName: values?.strName,
       strEmail: values?.strEmail,
-      intAutoId: 0,
+      intEpdaAndPortInfoId: 0,
       intAccountId: accountId,
-      strAccountName: "Akij",
-      intBusinessUnitId: buId,
-      strBusinessUnitName: businessUnitName,
-      strVesselName: values?.strNameOfVessel || "",
-      strVoyageNo: values?.intVoyageNo || "",
+      intBusinessUnitId: 0,
+      strBusinessUnitName: "",
+      strEmailAddress: "",
+      strAttachmentForPort: values?.strAttachmentForPort,
+      strAttachmentForPortDisbursment: values?.strAttachmentForPortDisbursment,
       intVesselNominationId: +paramId || 0,
-      strCode: paramCode || values.strCode || "",
-      strSoffile: values.strSoffile,
-      strNorfile: values.strNorfile,
-      strFinalDraftSurveyReportFile: values.strFinalDraftSurveyReportFile,
-      strFinalStowagePlanFile: values.strFinalStowagePlanFile,
-      strMatesReceiptFile: values.strMatesReceiptFile,
-      strCargoManifestFile: values.strCargoManifestFile,
-      strMasterReceiptOfSampleFile: values.strMasterReceiptOfSampleFile,
-      strAuthorizationLetterFile: values.strAuthorizationLetterFile,
-      strSealingReportFile: values.strSealingReportFile,
-      strHoldInspectionReportFile: values.strHoldInspectionReportFile,
-      strRemarks: values.strRemarks,
-      dteLastActionDateTime: _todayDate(),
-      dteServerDateTime: _todayDate(),
-      intActionBy: userId,
+      strVesselNominationCode:
+        paramCode || values?.strVesselNominationCode || "",
+      numGrandTotalAmount: values?.numGrandTotalAmount,
       isActive: true,
+      dteCreateDate: _todayDate(),
+      intCreateBy: userId,
     };
 
     onSave(
-      `${imarineBaseUrl}/domain/VesselNomination/CreateDepartureDocumentsDischargePort`,
+      `${imarineBaseUrl}/domain/VesselNomination/CreateFromEpdaAndDischargePortInfo`,
       payload,
       cb,
       true
     );
   };
 
-  // Validation schema for required fields
   const validationSchema = Yup.object().shape({
-    // strVesselName: Yup.object()
-    //   .shape({
-    //     value: Yup.string().required("Vessel is required"),
-    //     label: Yup.string().required("Vessel is required"),
-    //   })
-    //   .typeError("Vessel is required"),
-    // strVoyageNo: Yup.object()
-    //   .shape({
-    //     value: Yup.string().required("Voyage No is required"),
-    //     label: Yup.string().required("Voyage No is required"),
-    //   })
-    //   .typeError("Voyage No is required"),
-    strNameOfVessel: Yup.string().required("Name Of Vessel is required"),
-    intVoyageNo: Yup.string().required("Code is required"),
-    strCode: Yup.string().required("Voyage No is required"),
+    strVesselNominationCode: Yup.string().required("Code is required"),
     strName: Yup.string().required("Name is required"),
     strEmail: Yup.string()
       .email("Invalid email format")
@@ -169,7 +108,7 @@ export default function CreateDischargePort() {
       enableReinitialize={true}
       initialValues={{
         ...initData,
-        strCode: paramCode || "",
+        strVesselNominationCode: paramCode || "",
         strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
         intVoyageNo: vesselNominationData?.intVoyageNo || "",
       }}
@@ -180,11 +119,19 @@ export default function CreateDischargePort() {
         });
       }}
     >
-      {({ handleSubmit, values, setFieldValue, isValid, errors, touched }) => (
+      {({
+        handleSubmit,
+        resetForm,
+        values,
+        setFieldValue,
+        isValid,
+        errors,
+        touched,
+      }) => (
         <>
           {(loader || loading) && <Loading />}
           <IForm
-            title="Create Discharge Port"
+            title={`Create EDPA Discharge Port Info `}
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -215,7 +162,7 @@ export default function CreateDischargePort() {
             }}
           >
             <Form>
-              <div className="form-group global-form row">
+              <div className="form-group  global-form row">
                 <div className="col-lg-2">
                   <InputField
                     value={values.strName || ""}
@@ -236,41 +183,6 @@ export default function CreateDischargePort() {
                     errors={errors}
                   />
                 </div>
-                {/* Vessel Name */}
-                {/* <div className="col-lg-2">
-                  <NewSelect
-                    name="strVesselName"
-                    options={vesselDDL}
-                    value={values.strVesselName}
-                    label="Vessel Name"
-                    onChange={(valueOption) => {
-                      setFieldValue("strVesselName", valueOption);
-                      setFieldValue("strVoyageNo", "");
-                      setVoyageDDL([]);
-                      if (valueOption) {
-                        getVoyageDDL(
-                          `${imarineBaseUrl}/domain/PortPDA/GetVoyageDDLNew?AccountId=1&BusinessUnitId=${buId}&vesselId=${valueOption?.value}&VoyageTypeId=0&ReturnType=0&HireTypeId=0`
-                        );
-                      }
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-
-                <div className="col-lg-2">
-                  <NewSelect
-                    name="strVoyageNo"
-                    options={voyageDDL}
-                    value={values.strVoyageNo}
-                    label="Voyage No"
-                    onChange={(valueOption) =>
-                      setFieldValue("strVoyageNo", valueOption)
-                    }
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div> */}
                 <div className="col-lg-2">
                   <InputField
                     value={values.strNameOfVessel}
@@ -297,206 +209,76 @@ export default function CreateDischargePort() {
                     disabled
                   />
                 </div>
-                {/* Code */}
                 <div className="col-lg-2">
                   <InputField
-                    value={values.strCode}
-                    label="Code"
-                    name="strCode"
+                    value={values.strVesselNominationCode}
+                    label="Please copy code from email subject"
+                    name="strVesselNominationCode"
                     type="text"
-                    onChange={(e) => setFieldValue("strCode", e.target.value)}
-                    errors={errors}
+                    onChange={(e) =>
+                      setFieldValue("strVesselNominationCode", e.target.value)
+                    }
                     disabled
                   />
                 </div>
 
-                {/* SOF */}
-                <div className="col-lg-2 d-flex flex-column">
-                  <label>SOF</label>
-                  <AttachmentUploaderNew
-                    isForPublicRoute={true}
-                    isExistAttachment={values?.strSoffile}
-                    CBAttachmentRes={(attachmentData) => {
-                      if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
-                        setFieldValue("strSoffile", attachmentData?.[0]?.id);
-                      }
-                    }}
-                  />
-                </div>
-
-                {/* NOR */}
-                <div className="col-lg-2 d-flex flex-column">
-                  <label>NOR</label>
-                  <AttachmentUploaderNew
-                    isForPublicRoute={true}
-                    isExistAttachment={values?.strNorfile}
-                    CBAttachmentRes={(attachmentData) => {
-                      if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
-                        setFieldValue("strNorfile", attachmentData?.[0]?.id);
-                      }
-                    }}
-                  />
-                </div>
-
-                {/* Final Draft Survey Report */}
-                <div className="col-lg-2 d-flex flex-column">
-                  <label>Final Draft Survey Report</label>
-                  <AttachmentUploaderNew
-                    isForPublicRoute={true}
-                    CBAttachmentRes={(attachmentData) => {
-                      if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
-                        setFieldValue(
-                          "strFinalDraftSurveyReportFile",
-                          attachmentData?.[0]?.id
-                        );
-                      }
-                    }}
-                    isExistAttachment={values?.strFinalDraftSurveyReportFile}
-                  />
-                </div>
-
-                {/* Final Stowage Plan */}
-                <div className="col-lg-2 d-flex flex-column">
-                  <label>Final Stowage Plan</label>
-                  <AttachmentUploaderNew
-                    isForPublicRoute={true}
-                    CBAttachmentRes={(attachmentData) => {
-                      if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
-                        setFieldValue(
-                          "strFinalStowagePlanFile",
-                          attachmentData?.[0]?.id
-                        );
-                      }
-                    }}
-                    isExistAttachment={values?.strFinalStowagePlanFile}
-                  />
-                </div>
-
-                {/* Mate's Receipt */}
-                <div className="col-lg-2 d-flex flex-column">
-                  <label>Mate's Receipt</label>
-                  <AttachmentUploaderNew
-                    isForPublicRoute={true}
-                    isExistAttachment={values?.strMatesReceiptFile}
-                    CBAttachmentRes={(attachmentData) => {
-                      if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
-                        setFieldValue(
-                          "strMatesReceiptFile",
-                          attachmentData?.[0]?.id
-                        );
-                      }
-                    }}
-                  />
-                </div>
-
-                {/* Cargo Manifest */}
-                <div className="col-lg-2 d-flex flex-column">
-                  <label>Cargo Manifest</label>
-                  <AttachmentUploaderNew
-                    isForPublicRoute={true}
-                    isExistAttachment={values?.strCargoManifestFile}
-                    CBAttachmentRes={(attachmentData) => {
-                      if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
-                        setFieldValue(
-                          "strCargoManifestFile",
-                          attachmentData?.[0]?.id
-                        );
-                      }
-                    }}
-                  />
-                </div>
-
-                {/* Master Receipt of Sample */}
-                <div className="col-lg-2 d-flex flex-column">
-                  <label>Master Receipt of Sample</label>
-                  <AttachmentUploaderNew
-                    isForPublicRoute={true}
-                    isExistAttachment={values?.strMasterReceiptOfSampleFile}
-                    CBAttachmentRes={(attachmentData) => {
-                      if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
-                        setFieldValue(
-                          "strMasterReceiptOfSampleFile",
-                          attachmentData?.[0]?.id
-                        );
-                      }
-                    }}
-                  />
-                </div>
-
-                {/* Authorization Letter */}
-                <div className="col-lg-2 d-flex flex-column">
-                  <label>Authorization Letter</label>
-                  <AttachmentUploaderNew
-                    isForPublicRoute={true}
-                    isExistAttachment={values?.strAuthorizationLetterFile}
-                    CBAttachmentRes={(attachmentData) => {
-                      if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
-                        setFieldValue(
-                          "strAuthorizationLetterFile",
-                          attachmentData?.[0]?.id
-                        );
-                      }
-                    }}
-                  />
-                </div>
-
-                {/* Sealing Report */}
-                <div className="col-lg-2 d-flex flex-column">
-                  <label>Sealing Report</label>
-                  <AttachmentUploaderNew
-                    isForPublicRoute={true}
-                    isExistAttachment={values?.strSealingReportFile}
-                    CBAttachmentRes={(attachmentData) => {
-                      if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
-                        setFieldValue(
-                          "strSealingReportFile",
-                          attachmentData?.[0]?.id
-                        );
-                      }
-                    }}
-                  />
-                </div>
-
-                {/* Hold Inspection report */}
-                <div className="col-lg-2 d-flex flex-column">
-                  <label>Hold Inspection report</label>
-                  <AttachmentUploaderNew
-                    isForPublicRoute={true}
-                    isExistAttachment={values?.strHoldInspectionReportFile}
-                    CBAttachmentRes={(attachmentData) => {
-                      if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
-                        setFieldValue(
-                          "strHoldInspectionReportFile",
-                          attachmentData?.[0]?.id
-                        );
-                      }
-                    }}
-                  />
-                </div>
-
-                {/* Remarks */}
-                <div className="col-lg-3">
+                {/* Land Quantity (Decimal) */}
+                <div className="col-lg-2">
                   <InputField
-                    value={values.strRemarks}
-                    label="Remarks"
-                    name="strRemarks"
-                    type="text"
+                    value={values.numGrandTotalAmount}
+                    label="Grand Total"
+                    name="numGrandTotalAmount"
+                    type="number"
                     onChange={(e) =>
-                      setFieldValue("strRemarks", e.target.value)
+                      setFieldValue("numGrandTotalAmount", e.target.value)
                     }
-                    errors={errors}
-                    touched={touched}
                   />
+                </div>
+                <div className="col-lg-2 ">
+                  <label htmlFor="">Attachment For Port</label>
+                  <div className="">
+                    <AttachmentUploaderNew
+                      isForPublicRoute={true}
+                      style={{
+                        backgroundColor: "transparent",
+                        color: "black",
+                      }}
+                      isExistAttachment={values?.strAttachmentForPort}
+                      CBAttachmentRes={(attachmentData) => {
+                        if (Array.isArray(attachmentData)) {
+                          setAttachment(attachmentData?.[0]?.id);
+                          setFieldValue(
+                            "strAttachmentForPort",
+                            attachmentData?.[0]?.id
+                          );
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="col-lg-2 " style={{ marginLeft: "-20px" }}>
+                  <label htmlFor="">Attachment For Port Disbursment</label>
+                  <div className="">
+                    <AttachmentUploaderNew
+                      isForPublicRoute={true}
+                      style={{
+                        backgroundColor: "transparent",
+                        color: "black",
+                      }}
+                      isExistAttachment={
+                        values?.strAttachmentForPortDisbursment
+                      }
+                      CBAttachmentRes={(attachmentData) => {
+                        if (Array.isArray(attachmentData)) {
+                          setAttachment(attachmentData?.[0]?.id);
+                          setFieldValue(
+                            "strAttachmentForPortDisbursment",
+                            attachmentData?.[0]?.id
+                          );
+                        }
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
               <div>
