@@ -4,6 +4,7 @@ import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
 import RecapManagementPages from "./recapManagement/recapManagementPages";
 import VesselNominationPages from "./vesselNomination/vesselNominationPages";
 import BunkerManagementPages from "./bunkerManagement/bunkerManagementPages";
+import EpdaManagementPages from "./epdaManagement/epdaManagementPages";
 
 export function ShippingOperaionPages() {
     return (
@@ -22,9 +23,13 @@ export function ShippingOperaionPages() {
                     path='/shippingOperation/vessel-nomination'
                     component={VesselNominationPages}
                 />
-                 <ContentRoute
+                <ContentRoute
                     path='/shippingOperation/bunker-management'
                     component={BunkerManagementPages}
+                />
+                <ContentRoute
+                    path='/shippingOperation/EPDA-management'
+                    component={EpdaManagementPages}
                 />
             </Switch>
         </Suspense>
