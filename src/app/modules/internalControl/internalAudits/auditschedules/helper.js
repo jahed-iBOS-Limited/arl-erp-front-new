@@ -35,17 +35,28 @@ export const auditFormInitData = {
   financialImpact: "",
   responsibleEmployee: "",
   mgmtFeedback: "",
+  strAuditRecommendation: "",
 };
 
-// confidential audit table head
-export const confidentialAuditTableHead = [
+// confidential audit form table head
+export const confidentialAuditFormTableHead = [
   "SL",
   "Audit Observation Name",
-  "Financial Impact",
+  "Impact",
   "Responsible Persons of Management Feedback",
   "Audit Evidence Attachted",
   "Management Feedback (Specific)",
   "Audit Recommendation",
+];
+
+// confidential audit view table head
+export const confidentialAuditViewTableHead = [
+  "SL",
+  "Audit Observation Name",
+  "Impact",
+  "Responsible Persons of Management Feedback",
+  "Audit Evidence Attachted",
+  "Management Feedback (Specific)",
 ];
 
 // confidential init data
@@ -60,6 +71,7 @@ export const generateConfidentialInitData = (
     intEmployeeIdResponsibleMgtfeedBack = null,
     strEmployeeNameResponsibleMgtfeedBack = "",
     strManagementFeedBack = "",
+    strAuditRecommendation = "",
   } = singleConfidentialAuditData || {};
 
   if (!singleConfidentialAuditData) {
@@ -74,6 +86,7 @@ export const generateConfidentialInitData = (
       label: strEmployeeNameResponsibleMgtfeedBack || "",
     },
     mgmtFeedback: strManagementFeedBack || "",
+    strAuditRecommendation: strAuditRecommendation,
   };
 };
 
