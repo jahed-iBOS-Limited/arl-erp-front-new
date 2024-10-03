@@ -10,6 +10,10 @@ import SelfServicePages from "./modules/selfService/SelfServicePages";
 import TokenExpiredPopUp from "./TokenExpiredPopUp";
 import MobileFirstAlert from "./modules/_helper/mobileFirstAlert";
 
+
+const ShippingOperaionPages = lazy(() =>
+  import("./modules/shippingOperation/shippingOperationPages.js")
+);
 const procurementPages = lazy(() =>
   import("./modules/procurement/procurementPages")
 );
@@ -195,6 +199,7 @@ const BasePage = () => {
         <Route path='/MgmtOfPerformance' component={HashPerformanceMgtPages} />
         <Route path='/managementExport' component={ExportManagementPages} />
         <Route path='/ShippingAgency' component={ShippingAgencyPages} />
+        <Route path='/shippingOperation' component={ShippingOperaionPages} />
         <Redirect to='/error/error-v1' />
       </Switch>
       {(isExpiredToken || isExpiredPassword) && isAuth && (
