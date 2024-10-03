@@ -7,6 +7,7 @@ import BunkerManagementPages from "./bunkerManagement/bunkerManagementPages";
 import EpdaManagementPages from "./epdaManagement/epdaManagementPages";
 import DeadWeightPreStowagePlanningPages from "./deadWeightPreStowagePlanning/deadWeightPreStowagePlanningPages";
 import HireBunkerAndContionalSurveyPages from "./hireBunkerAndContionalSurvey/hireBunkerAndContionalSurveyPages";
+import PiSurveyManagementPages from "./piSurveyManagement/piSurveyManagementPages";
 
 export function ShippingOperaionPages() {
     return (
@@ -33,13 +34,17 @@ export function ShippingOperaionPages() {
                     path='/shippingOperation/EPDA-management'
                     component={EpdaManagementPages}
                 />
-                 <ContentRoute
+                <ContentRoute
                     path='/shippingOperation/deadweight-and-pre-stowage-planning'
                     component={DeadWeightPreStowagePlanningPages}
                 />
                 <ContentRoute
                     path='/shippingOperation/hire-bunker-and-condition-survey'
                     component={HireBunkerAndContionalSurveyPages}
+                />
+                <ContentRoute
+                    path='/shippingOperation/P-and-I-survey-management'
+                    component={PiSurveyManagementPages}
                 />
             </Switch>
         </Suspense>

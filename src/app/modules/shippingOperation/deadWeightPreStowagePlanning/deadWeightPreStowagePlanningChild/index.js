@@ -93,7 +93,7 @@ export default function DeadWeightAndPreStowagePlaning() {
         <>
           {loading && <Loading />}
           <IForm
-            title="Dead Weight"
+            title="Dead Weight & Pre-Stowage"
             isHiddenReset
             isHiddenBack
             isHiddenSave

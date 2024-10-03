@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import CaptureRecap from "./captureRecap";
-import CaptureRecapCreate from "./captureRecap";
+import CaptureRecapCreate from "./captureRecap/create";
 
 export function RecapManagementPages() {
     return (
