@@ -8,6 +8,7 @@ import EpdaManagementPages from "./epdaManagement/epdaManagementPages";
 import DeadWeightPreStowagePlanningPages from "./deadWeightPreStowagePlanning/deadWeightPreStowagePlanningPages";
 import HireBunkerAndContionalSurveyPages from "./hireBunkerAndContionalSurvey/hireBunkerAndContionalSurveyPages";
 import PiSurveyManagementPages from "./piSurveyManagement/piSurveyManagementPages";
+import DepartureDocumentsPages from "./departureDocuments/departureDocumentsPages";
 
 export function ShippingOperaionPages() {
     return (
@@ -45,6 +46,10 @@ export function ShippingOperaionPages() {
                 <ContentRoute
                     path='/shippingOperation/P-and-I-survey-management'
                     component={PiSurveyManagementPages}
+                />
+                 <ContentRoute
+                    path='/shippingOperation/departure-documents'
+                    component={DepartureDocumentsPages}
                 />
             </Switch>
         </Suspense>
