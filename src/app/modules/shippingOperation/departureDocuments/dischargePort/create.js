@@ -177,6 +177,7 @@ export default function CreateDischargePort() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setIsShowModal(true);
         });
       }}
     >

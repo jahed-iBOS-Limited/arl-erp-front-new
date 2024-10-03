@@ -95,6 +95,7 @@ export default function VesselNominationAcceptanceCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setIsShowModal(true);
         });
         setSubmitting(false);
       }}
