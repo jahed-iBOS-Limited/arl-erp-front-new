@@ -544,7 +544,11 @@ export default function PackingInformationList() {
                             <td>{item?.shipmentCode}</td>
                             <td>{item?.vehicleName}</td>
                             <td>{item?.bagType}</td>
-                            <td className="text-right">{item?.itemTotalQty}</td>
+                            <td className="text-right">
+                              {item?.isTranferChallan
+                                ? item?.itemTransferTotalQty
+                                : item?.itemTotalQty}
+                            </td>
                             <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
                             <td>{item?.routeName}</td>
                             <td>{item?.transportModeName}</td>
