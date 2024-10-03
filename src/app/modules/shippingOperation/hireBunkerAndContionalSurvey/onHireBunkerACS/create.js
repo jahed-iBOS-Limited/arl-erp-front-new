@@ -117,7 +117,10 @@ export default function CreateonHireBunkerAndContionalSurvey() {
       }}
       validationSchema={validationSchema}
       onSubmit={(values, { resetForm }) => {
-        saveHandler(values, () => resetForm(initData));
+        saveHandler(values, () => {
+          resetForm(initData);
+          setIsShowModal(true);
+        });
       }}
     >
       {({
