@@ -193,8 +193,8 @@ export default function DeadWeightCreate() {
       .required("Displacement Draft Mts is required")
       .positive("Displacement Draft Mts must be a positive number"),
     intDockWaterDensity: Yup.number()
-      .required("Dock Water Density is required")
-      .positive("Dock Water Density must be a positive number"),
+      .required("Water Density is required")
+      .positive("Water Density must be a positive number"),
     intLightShipMts: Yup.number()
       .required("Light Ship Mts is required")
       .positive("Light Ship Mts must be a positive number"),
@@ -616,7 +616,7 @@ export default function DeadWeightCreate() {
                   <div className="col-lg-2">
                     <InputField
                       value={values.intDockWaterDensity}
-                      label="Dock Water Density"
+                      label="Water Density"
                       name="intDockWaterDensity"
                       type="number"
                       onChange={(e) => {
