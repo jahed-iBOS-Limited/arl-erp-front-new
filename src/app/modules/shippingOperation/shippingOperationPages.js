@@ -5,6 +5,7 @@ import RecapManagementPages from "./recapManagement/recapManagementPages";
 import VesselNominationPages from "./vesselNomination/vesselNominationPages";
 import BunkerManagementPages from "./bunkerManagement/bunkerManagementPages";
 import EpdaManagementPages from "./epdaManagement/epdaManagementPages";
+import DeadWeightPreStowagePlanningPages from "./deadWeightPreStowagePlanning/deadWeightPreStowagePlanningPages";
 
 export function ShippingOperaionPages() {
     return (
@@ -30,6 +31,10 @@ export function ShippingOperaionPages() {
                 <ContentRoute
                     path='/shippingOperation/EPDA-management'
                     component={EpdaManagementPages}
+                />
+                 <ContentRoute
+                    path='/shippingOperation/deadweight-and-pre-stowage-planning'
+                    component={DeadWeightPreStowagePlanningPages}
                 />
             </Switch>
         </Suspense>
