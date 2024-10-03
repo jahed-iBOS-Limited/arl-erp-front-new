@@ -62,7 +62,13 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                   {/* <div className="logo" style={{ width: "275px" }}></div> */}
 
                   <div className="text-center">
-                    <p style={{ fontSize: "35px", fontWeight: "500" }}>
+                    <p
+                      style={{
+                        fontSize: "45px",
+                        fontWeight: "500",
+                        color: "#303399",
+                      }}
+                    >
                       {buName}
                     </p>
                     <p style={{ fontSize: "14px" }}>{address}</p>
@@ -123,6 +129,17 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                           <td>
                             <b>{salesOrderCode}</b>
                           </td>
+                          <td>DO Code</td>
+                          <td>:</td>
+                          <td>
+                            <b>{deliveryCode}</b>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>SO Date</td>
+                          <td>:</td>
+                          <td>{_dateFormatter(salesOrderDate)}</td>
+
                           <td>Customer Code</td>
                           <td>:</td>
                           <td>
@@ -130,12 +147,12 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                           </td>
                         </tr>
                         <tr>
-                          {" "}
                           <td>Sold To Partner</td>
                           <td>:</td>
                           <td>
                             <b>{soldToPartnerName}</b>
                           </td>
+
                           <td style={{ width: "120px" }}>Delivery From</td>
                           <td>:</td>
                           <td>{shippingPoint}</td>
@@ -144,6 +161,7 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                           <td>Sold to Partner Address</td>
                           <td>:</td>
                           <td>{soldToPartnerAddress}</td>
+
                           <td style={{ width: "120px" }}>ShipPoint</td>
                           <td>:</td>
                           <td>{shippingPoint}</td>
@@ -152,22 +170,15 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                           <td>Ship To Partner</td>
                           <td>:</td>
                           <td>{shipToPartnerName}</td>
-                          <td>Contact Person</td>
-                          <td>:</td>
-                          <td>{shipToPartnerPropitorName}</td>
-                        </tr>
-                        <tr>
-                          <td>Ship to Partner Address</td>
-                          <td>:</td>
-                          <td>{shipToPartnerAddress}</td>
+
                           <td>Contact No</td>
                           <td>:</td>
                           <td>{businessPartnerContact}</td>
                         </tr>
                         <tr>
-                          <td>SO Date</td>
+                          <td>Ship to Partner Address</td>
                           <td>:</td>
-                          <td>{_dateFormatter(salesOrderDate)}</td>
+                          <td>{shipToPartnerAddress}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -191,8 +202,8 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                             totalQty += item?.deliveryQuantity;
                             totalQtyBag += item?.deliveryQuantityBag;
                             return (
-                              <tr>
-                                <td className="text-center">{index + 1}</td>
+                              <tr className="text-center">
+                                <td>{index + 1}</td>
                                 <td className="CommoditiesHologram_table_td">
                                   <b>{item?.itemCode}</b>
                                 </td>
@@ -200,17 +211,17 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                                   <b>{item?.itemName}</b>
                                 </td>
                                 <td>{item?.uomName}</td>
-                                <td className="text-center">
+                                <td>
                                   {_fixedPoint(item?.deliveryQuantity, true)}
                                 </td>
-                                <td className="text-center">
+                                <td>
                                   {_fixedPoint(item?.deliveryQuantityBag, true)}
                                 </td>
                               </tr>
                             );
                           })}
                           <tr style={{ fontWeight: "bold" }}>
-                            <td className="text-right" colSpan={4}>
+                            <td className="text-center" colSpan={4}>
                               Total
                             </td>
                             <td className="text-center">
@@ -232,7 +243,9 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                   }}
                   className="text-center"
                 >
-                  <h2>CUSTOMER COPY</h2>
+                  <h2 style={{ color: "#eb2f06" }}>
+                    CUSTOMER COPY
+                  </h2>
                 </div>
               </div>
 
