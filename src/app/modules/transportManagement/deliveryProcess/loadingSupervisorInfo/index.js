@@ -397,18 +397,25 @@ export default function LoadingSupervisorInfo() {
                     )}
                     {buId === 4 && (
                       <div className="col-lg-4 d-flex justify-content-between align-items-center mb-0">
-                        <h4
-                          className="mb-0 font-weight-bold"
-                          style={{ color: "#b22222" }}
-                        >
-                          Packer: {values?.packerName?.label}
-                        </h4>
-                        <h4
-                          className="mb-0 font-weight-bold"
-                          style={{ color: "#1c5d99" }}
-                        >
-                          TLM: {values?.tlm?.label}
-                        </h4>
+                        {((values?.type?.value === 5 &&
+                          reportData?.objHeader?.isOutdByLoadingSupervisor) ||
+                          values?.type?.value === 3) && (
+                          <>
+                            {" "}
+                            <h4
+                              className="mb-0 font-weight-bold"
+                              style={{ color: "#b22222" }}
+                            >
+                              Packer: {values?.packerName?.label}
+                            </h4>
+                            <h4
+                              className="mb-0 font-weight-bold"
+                              style={{ color: "#1c5d99" }}
+                            >
+                              TLM: {values?.tlm?.label}
+                            </h4>
+                          </>
+                        )}
                       </div>
                     )}
                     <div className="col-lg-12"></div>
@@ -718,7 +725,7 @@ export default function LoadingSupervisorInfo() {
                               style={{ backgroundColor: "#e0ffff" }}
                             >
                               <div className="d-flex justify-content-around">
-                                {values?.type?.value === 1 && (
+                                {/* {values?.type?.value === 1 && (
                                   <button
                                     className="btn btn-info btn-sm px-2"
                                     type="button"
@@ -735,7 +742,7 @@ export default function LoadingSupervisorInfo() {
                                   >
                                     Completed
                                   </button>
-                                )}
+                                )} */}
                                 <InfoCircle
                                   title={"Shipment Details"}
                                   clickHandler={() => {
