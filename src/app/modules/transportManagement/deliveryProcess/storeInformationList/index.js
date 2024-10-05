@@ -445,8 +445,16 @@ export default function StoreInformationList() {
                             <td>{_dateTimeFormatter(item?.packerOutTime)}</td>
                             <td>{item?.shipmentCode}</td>
                             <td>{item?.vehicleName}</td>
-                            <td>{item?.bagType}</td>
-                            <td className="text-right">{item?.itemTotalQty}</td>
+                            <td>
+                              {item?.itemTransferTotalQty > 0
+                                ? item?.itemNameTransferChallan
+                                : item?.bagType}
+                            </td>
+                            <td className="text-right">
+                              {item?.itemTransferTotalQty > 0
+                                ? item?.itemTransferTotalQty
+                                : item?.itemTotalQty}
+                            </td>
                             <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
                             <td>{item?.routeName}</td>
                             <td>{item?.transportModeName}</td>
