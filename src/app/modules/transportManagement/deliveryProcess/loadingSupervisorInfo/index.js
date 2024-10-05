@@ -25,7 +25,7 @@ import ICard from "../../../_helper/_card";
 import ShipmentReportModal from "./shipmentReportModal";
 
 const initData = {
-  type: { value: 3, label: "Scan Card/QR Code" },
+  type: { value: 3, label: "Scan Card/QR Code Scan (IN)" },
   shipmentId: "",
   shipmentCode: "",
   shippingPoint: "",
@@ -197,7 +197,7 @@ export default function LoadingSupervisorInfo() {
             renderProps={() => {
               return (
                 <div>
-                  {![1, 2].includes(values?.type?.value) &&
+                  {![1, 2, 5].includes(values?.type?.value) &&
                     !reportData?.objHeader?.isLoaded && (
                       <button
                         type="button"
@@ -228,6 +228,35 @@ export default function LoadingSupervisorInfo() {
                         Done
                       </button>
                     )}
+                  {values?.type?.value === 5 && (
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      disabled={
+                        reportData?.objHeader?.isOutdByLoadingSupervisor ||
+                        reportData?.objHeader?.loadingSupervisorOutTime ||
+                        reportData?.objHeader?.loadingSupervisorOutdBy
+                      }
+                      onClick={() => {
+                        onComplete(
+                          `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${profileData?.userId}&typeId=5`,
+
+                          // actionType === "Auto"
+                          //   ? shipmentId
+                          //   : reportData?.objHeader?.shipmentId
+                          null,
+                          () => {
+                            resetForm(initData);
+                            setShipmentId(null);
+                            setRowData([]);
+                          },
+                          true
+                        );
+                      }}
+                    >
+                      OUT
+                    </button>
+                  )}
                 </div>
               );
             }}
@@ -239,7 +268,8 @@ export default function LoadingSupervisorInfo() {
                     name="type"
                     options={[
                       // { value: 1, label: "Loading Pending" },
-                      { value: 3, label: "Scan Card/QR Code" },
+                      { value: 3, label: "Scan Card/QR Code Scan (IN)" },
+                      { value: 5, label: "Scan Card/QR Code Scan (OUT)" },
                       { value: 1, label: "Delivery Complete" },
                       // { value: 4, label: "Shift wise Packer Information" },
                     ]}
@@ -316,7 +346,7 @@ export default function LoadingSupervisorInfo() {
                   </>
                 )}
 
-                {[3].includes(values?.type?.value) && (
+                {[3, 5].includes(values?.type?.value) && (
                   <>
                     <div className="col-lg-4 mb-2 mt-5">
                       <label className="mr-3">
@@ -475,6 +505,7 @@ export default function LoadingSupervisorInfo() {
                         name="packerName"
                         placeholder="Packer"
                         label="Packer"
+                        isDisabled={values?.type?.value === 5}
                         options={packerList || []}
                         value={values?.packerName}
                         onChange={(valueOption) => {
@@ -517,6 +548,7 @@ export default function LoadingSupervisorInfo() {
                         //   { value: 6, label: "TLM-6" },
                         // ]}
                         options={tlmDDL || []}
+                        isDisabled={values?.type?.value === 5}
                         value={values?.tlm}
                         label="TLM"
                         onChange={(valueOption) => {
@@ -615,7 +647,7 @@ export default function LoadingSupervisorInfo() {
                       : headers_one.slice(0, -2)
                   }
                 >
-                  {[3].includes(values?.type?.value)
+                  {[3, 5].includes(values?.type?.value)
                     ? reportData?.objRow?.map((item, index) => {
                         return (
                           <tr>
