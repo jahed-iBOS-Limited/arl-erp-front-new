@@ -25,7 +25,7 @@ import ICard from "../../../_helper/_card";
 import ShipmentReportModal from "./shipmentReportModal";
 
 const initData = {
-  type: { value: 3, label: "Scan Card/QR Code" },
+  type: { value: 3, label: "Scan Card/QR Code Scan (IN)" },
   shipmentId: "",
   shipmentCode: "",
   shippingPoint: "",
@@ -197,7 +197,7 @@ export default function LoadingSupervisorInfo() {
             renderProps={() => {
               return (
                 <div>
-                  {![1, 2].includes(values?.type?.value) &&
+                  {![1, 2, 5].includes(values?.type?.value) &&
                     !reportData?.objHeader?.isLoaded && (
                       <button
                         type="button"
@@ -228,6 +228,35 @@ export default function LoadingSupervisorInfo() {
                         Done
                       </button>
                     )}
+                  {values?.type?.value === 5 && (
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      disabled={
+                        reportData?.objHeader?.isOutdByLoadingSupervisor ||
+                        reportData?.objHeader?.loadingSupervisorOutTime ||
+                        reportData?.objHeader?.loadingSupervisorOutdBy
+                      }
+                      onClick={() => {
+                        onComplete(
+                          `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${profileData?.userId}&typeId=5`,
+
+                          // actionType === "Auto"
+                          //   ? shipmentId
+                          //   : reportData?.objHeader?.shipmentId
+                          null,
+                          () => {
+                            resetForm(initData);
+                            setShipmentId(null);
+                            setRowData([]);
+                          },
+                          true
+                        );
+                      }}
+                    >
+                      OUT
+                    </button>
+                  )}
                 </div>
               );
             }}
@@ -239,7 +268,8 @@ export default function LoadingSupervisorInfo() {
                     name="type"
                     options={[
                       // { value: 1, label: "Loading Pending" },
-                      { value: 3, label: "Scan Card/QR Code" },
+                      { value: 3, label: "Scan Card/QR Code Scan (IN)" },
+                      { value: 5, label: "Scan Card/QR Code Scan (OUT)" },
                       { value: 1, label: "Delivery Complete" },
                       // { value: 4, label: "Shift wise Packer Information" },
                     ]}
@@ -316,7 +346,7 @@ export default function LoadingSupervisorInfo() {
                   </>
                 )}
 
-                {[3].includes(values?.type?.value) && (
+                {[3, 5].includes(values?.type?.value) && (
                   <>
                     <div className="col-lg-4 mb-2 mt-5">
                       <label className="mr-3">
@@ -367,18 +397,25 @@ export default function LoadingSupervisorInfo() {
                     )}
                     {buId === 4 && (
                       <div className="col-lg-4 d-flex justify-content-between align-items-center mb-0">
-                        <h4
-                          className="mb-0 font-weight-bold"
-                          style={{ color: "#b22222" }}
-                        >
-                          Packer: {values?.packerName?.label}
-                        </h4>
-                        <h4
-                          className="mb-0 font-weight-bold"
-                          style={{ color: "#1c5d99" }}
-                        >
-                          TLM: {values?.tlm?.label}
-                        </h4>
+                        {((values?.type?.value === 5 &&
+                          reportData?.objHeader?.isOutdByLoadingSupervisor) ||
+                          values?.type?.value === 3) && (
+                          <>
+                            {" "}
+                            <h4
+                              className="mb-0 font-weight-bold"
+                              style={{ color: "#b22222" }}
+                            >
+                              Packer: {values?.packerName?.label}
+                            </h4>
+                            <h4
+                              className="mb-0 font-weight-bold"
+                              style={{ color: "#1c5d99" }}
+                            >
+                              TLM: {values?.tlm?.label}
+                            </h4>
+                          </>
+                        )}
                       </div>
                     )}
                     <div className="col-lg-12"></div>
@@ -475,6 +512,7 @@ export default function LoadingSupervisorInfo() {
                         name="packerName"
                         placeholder="Packer"
                         label="Packer"
+                        isDisabled={values?.type?.value === 5}
                         options={packerList || []}
                         value={values?.packerName}
                         onChange={(valueOption) => {
@@ -517,6 +555,7 @@ export default function LoadingSupervisorInfo() {
                         //   { value: 6, label: "TLM-6" },
                         // ]}
                         options={tlmDDL || []}
+                        isDisabled={values?.type?.value === 5}
                         value={values?.tlm}
                         label="TLM"
                         onChange={(valueOption) => {
@@ -615,7 +654,7 @@ export default function LoadingSupervisorInfo() {
                       : headers_one.slice(0, -2)
                   }
                 >
-                  {[3].includes(values?.type?.value)
+                  {[3, 5].includes(values?.type?.value)
                     ? reportData?.objRow?.map((item, index) => {
                         return (
                           <tr>
@@ -664,8 +703,16 @@ export default function LoadingSupervisorInfo() {
                             <td>{index + 1}</td>
                             <td>{item?.shipmentCode}</td>
                             <td>{item?.vehicleName}</td>
-                            <td>{item?.bagType}</td>
-                            <td className="text-right">{item?.itemTotalQty}</td>
+                            <td>
+                              {item?.itemTransferTotalQty > 0
+                                ? item?.itemNameTransferChallan
+                                : item?.bagType}
+                            </td>
+                            <td className="text-right">
+                              {item?.itemTransferTotalQty > 0
+                                ? item?.itemTransferTotalQty
+                                : item?.itemTotalQty}
+                            </td>
                             <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
                             <td>{item?.routeName}</td>
                             <td>{item?.transportModeName}</td>
@@ -678,7 +725,7 @@ export default function LoadingSupervisorInfo() {
                               style={{ backgroundColor: "#e0ffff" }}
                             >
                               <div className="d-flex justify-content-around">
-                                {values?.type?.value === 1 && (
+                                {/* {values?.type?.value === 1 && (
                                   <button
                                     className="btn btn-info btn-sm px-2"
                                     type="button"
@@ -695,7 +742,7 @@ export default function LoadingSupervisorInfo() {
                                   >
                                     Completed
                                   </button>
-                                )}
+                                )} */}
                                 <InfoCircle
                                   title={"Shipment Details"}
                                   clickHandler={() => {
