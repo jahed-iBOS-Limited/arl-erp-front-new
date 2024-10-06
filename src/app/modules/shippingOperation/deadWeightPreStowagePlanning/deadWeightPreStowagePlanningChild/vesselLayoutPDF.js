@@ -188,7 +188,7 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData, holdRows })
           <strong>Voyage No:</strong> {vesselNominationData?.intVoyageNo} <br />
           <strong>Load Port:</strong> {vesselNominationData?.strNameOfLoadPort} <br />
           <strong>Discharge Port:</strong> {vesselNominationData?.strDischargePort} <br />
-          <strong>Departure Draft:</strong> Forward 11.59 m / Aft 11.63 m <br />
+          <strong>Departure Draft:</strong> Forward {vesselNominationData?.numDepatureDraftForward || 0} m / Aft {vesselNominationData?.numDepatureDraftAft} m <br />
           <strong>Water Density:</strong> {values?.intDockWaterDensity}
         </p>
       </div>
