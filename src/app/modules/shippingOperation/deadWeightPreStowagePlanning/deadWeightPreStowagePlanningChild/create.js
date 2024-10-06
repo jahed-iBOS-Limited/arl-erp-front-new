@@ -200,6 +200,7 @@ export default function DeadWeightCreate() {
       strVesselNominationCode:
         paramCode || values?.strVesselNominationCode || "",
       PreStowagePlan: generateFileUrl(pdfURL),
+      strPrestowagePlanDoc: pdfURL || "",
       // Always thouse fileds are bellow of all filed
       // ...numHoldFields, // Spread the dynamically generated numHold fields
       // TotalLoadableQuantity: numHoldTotal, // Add the total loadable quantity
@@ -294,7 +295,7 @@ export default function DeadWeightCreate() {
     // const intDockWaterDensity = Number(values.intDockWaterDensity) || 1; // Default to 1 for water density
     const intConstantMts = Number(values.intConstantMts) || 0;
     const intUnpumpAbleBallastMts = Number(values.intUnpumpAbleBallastMts) || 0;
-    // const intCargoLoadMts = Number(values.intCargoLoadMts) || 0;
+    const intCargoLoadMts = Number(values.intCargoLoadMts) || 0;
 
     // Calculate the total of all cargo-related metrics
     const totalCargoToloadMts =
@@ -306,7 +307,7 @@ export default function DeadWeightCreate() {
 
     // Calculate the final cargo to load metric
     const finalCargoToloadMts =
-      ((intDisplacementDraftMts - intLightShipMts) - totalCargoToloadMts);
+      (((intDisplacementDraftMts - intLightShipMts) - totalCargoToloadMts) + intCargoLoadMts);
 
     // Ensure the final cargo value is valid and not NaN
     const validFinalCargoToloadMts = isNaN(finalCargoToloadMts)
