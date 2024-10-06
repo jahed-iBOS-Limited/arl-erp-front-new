@@ -271,35 +271,7 @@ export default function DeadWeightCreate() {
   const handlePDF = useReactToPrint({
     onPrintError: (error) => console.log(error),
     content: () => componentRef?.current,
-    // print: async (printIframe) => {
-    //   const src = printIframe.contentDocument;
-    //   if (src) {
-    //     // For Portrait- Download
-    //     const doc_width = 8.27;
-    //     const doc_height = 11.69;
-    //     // For Landscape Download --- Just reverse
-    //     // let doc_height = 8.27;
-    //     // let doc_width = 11.69;
-    //     const { jsPDF } = require("jspdf");
-    //     const html = src?.querySelector(".printView");
-    //     const opt = {
-    //       orientation: "l",
-    //       unit: "in",
-    //       format: [doc_width, doc_height],
-    //     };
-    //     const doc = new jsPDF(opt);
-    //     doc.html(html, {
-    //       autoPaging: "text",
-    //       // margin: [5, 5, 5, 5],
-    //       width: doc.internal.pageSize.getWidth(),
-    //       windowWidth: 800,
-    //       filename: "Custom Duty",
-    //       callback: function(doc) {
-    //         doc.save(`Custom Duty-${moment().format("DD-MM-YYYYhh:mm:ss")}`);
-    //       },
-    //     });
-    //   }
-    // },
+   
   });
   return (
     <div
