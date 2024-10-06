@@ -53,6 +53,8 @@ const headers = [
   { name: "Bunker Port" },
   { name: "Bunker Trader" },
   { name: "Bunker Type" },
+  { name: "Depature Draft Forward" },
+  { name: "Depature Draft Aft" },
   // { name: "Action" },
 ];
 
@@ -289,6 +291,8 @@ export default function BunkerCalculatorLanding() {
                           <td>{item?.strBunkerPort}</td>
                           <td>{item?.strBunkerTrader}</td>
                           <td>{item?.strBunkerType}</td>
+                          <td>{item?.numDepatureDraftForward}</td>
+                          <td>{item?.numDepatureDraftAft}</td>
                           {/* <td>
                                 <div className="d-flex" style={{ justifyContent: 'space-evenly' }}>
                                     <IView
