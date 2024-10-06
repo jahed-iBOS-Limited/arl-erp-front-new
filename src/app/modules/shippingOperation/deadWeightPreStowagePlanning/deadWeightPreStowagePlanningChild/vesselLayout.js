@@ -4,7 +4,7 @@ import ExtraPartImage from "./images/extra-hold.png";
 import EngineImage from "./images/engine.png";
 import BackPartImage from "./images/back.png";
 
-const VesselLayout = ({ vesselData, values }) => {
+const VesselLayout = ({ vesselData, values, holdRows }) => {
   const styles = {
     vesselLayoutContainer: {
       display: "flex",

@@ -852,7 +852,7 @@ export default function DeadWeightCreate() {
                   id="vesselLayoutPDF"
                 >
                   <div className="col-12 content_wrapper">
-                    <VesselLayoutPDF vesselData={vesselData} values={values} vesselNominationData={vesselNominationData} />
+                    <VesselLayoutPDF vesselData={vesselData} values={values} vesselNominationData={vesselNominationData} holdRows={rows} />
                   </div>
                 </div>
                 <div>
