@@ -100,7 +100,9 @@ export default function SalesAndProductionPlanCreateForm({
         itemData.push({
           ...rowDto.data[i],
           bomid: rowDto.data[i]?.isMultiple ? rowDto.data[i].bom?.value : 0,
-          bomname: rowDto.data[i]?.isMultiple ? rowDto.data[i].bom?.label : rowDto.data[i]?.bomname,
+          bomname: rowDto.data[i]?.isMultiple
+            ? rowDto.data[i].bom?.label
+            : rowDto.data[i]?.bomname,
           objBOMList: undefined,
           bom: undefined,
         });
@@ -142,7 +144,7 @@ export default function SalesAndProductionPlanCreateForm({
       } else {
         const payload = {
           objHeader: {
-            planningHorizonId: values?.year?.planningHorizonId,
+            planningHorizonId: values?.horizon?.planHorizonHeaderId,
             planningHorizonRowId: values?.horizon?.value,
             startDateTime: values?.startDate,
             endDateTime: values?.endDate,
