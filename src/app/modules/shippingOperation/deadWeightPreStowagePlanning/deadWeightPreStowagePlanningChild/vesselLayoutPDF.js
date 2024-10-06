@@ -90,24 +90,13 @@
 
 // export default VesselLayoutPDF;
 
-import React, { useEffect } from "react";
+import React from "react";
 import FullLogo from "./images/akijShippingText.png"; // Replace with your logo image path
 import VesselLayout from "./vesselLayout"; // Ensure this component is styled as needed
 
-const VesselLayoutPDF = ({ vesselData, values, vesselNominationData }) => {
-  const [totalCargo, setTotalCargo] = React.useState(0);
+const VesselLayoutPDF = ({ vesselData, values, vesselNominationData, holdRows }) => {
 
-  useEffect(() => {
-    if (vesselData?.intHoldNumber) {
-      let numHoldTotal = 0;
-      for (let i = 1; i <= vesselData?.intHoldNumber; i++) {
-        const holdValue = +values[`numHold${i}`] || 0;
-        numHoldTotal += holdValue;
-      }
-      setTotalCargo(numHoldTotal);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [vesselData, values]);
+
 
   const styles = {
     container: {
@@ -193,20 +182,20 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData }) => {
         <p style={styles.cargoInfo}>
           <strong>Date:</strong> 21/07/2019 <br />
           <strong>Cargo:</strong> {vesselNominationData?.strCargo}k <br />
-          <strong>Total Cargo:</strong> {totalCargo || 0} MT
+          <strong>Total Cargo:</strong> {values?.intFinalCargoToloadMts || 0} MT
         </p>
         <p style={styles.cargoInfo}>
           <strong>Voyage No:</strong> {vesselNominationData?.intVoyageNo} <br />
           <strong>Load Port:</strong> {vesselNominationData?.strNameOfLoadPort} <br />
           <strong>Discharge Port:</strong> {vesselNominationData?.strDischargePort} <br />
-          <strong>Departure Draft:</strong> Forward 11.59 m / Aft 11.63 m <br />
-          <strong>Sea Water Density:</strong> 1.025
+          <strong>Departure Draft:</strong> Forward {vesselNominationData?.numDepatureDraftForward || 0} m / Aft {vesselNominationData?.numDepatureDraftAft || 0} m <br />
+          <strong>Water Density:</strong> {values?.intDockWaterDensity}
         </p>
       </div>
 
       {/* Middle Section - Vessel Layout */}
       <div style={styles.vesselSection} className="images_wrapper">
-        <VesselLayout vesselData={vesselData} values={values} />
+        <VesselLayout vesselData={vesselData} values={values} holdRows={holdRows}/>
       </div>
 
       {/* Bottom Section */}

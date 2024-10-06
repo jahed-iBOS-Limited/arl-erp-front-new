@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 import { imarineBaseUrl } from "../../../../App";
 import IForm from "../../../_helper/_form";
@@ -13,6 +13,8 @@ import { getVesselDDL, getVoyageDDLNew } from "../../helper";
 import { _previousDate, _todayDate } from "../../../_helper/_todayDate";
 import FormikSelect from "../../../chartering/_chartinghelper/common/formikSelect";
 import customStyles from "../../../selectCustomStyle";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const initData = {};
 export default function DeadWeightAndPreStowagePlaning() {
@@ -25,6 +27,7 @@ export default function DeadWeightAndPreStowagePlaning() {
   const [vesselDDL, setVesselDDL] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [loading2, setLoading] = useState(false);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     getLandingData({}, pageNo, pageSize, "");
@@ -240,6 +243,7 @@ export default function DeadWeightAndPreStowagePlaning() {
                         <th>CargoLoad Mts </th>
                         <th>Final CargoToload Mts </th>
                         <th>strRemarks </th>
+                        <th>Action </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -288,6 +292,35 @@ export default function DeadWeightAndPreStowagePlaning() {
                             {item?.intFinalCargoToloadMts}
                           </td>
                           <td className="text-center">{item?.strRemarks}</td>
+                          <td className="text-center">
+                            {item?.strPrestowagePlanDoc ? (
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="cs-icon">
+                                    View Attachment
+                                  </Tooltip>
+                                }
+                              >
+                                <span
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    dispatch(
+                                      getDownlloadFileView_Action(
+                                        item?.strPrestowagePlanDoc
+                                      )
+                                    );
+                                  }}
+                                  className="mt-2 ml-2"
+                                >
+                                  <i
+                                    style={{ fontSize: "16px" }}
+                                    className={`fa pointer fa-eye`}
+                                    aria-hidden="true"
+                                  ></i>
+                                </span>
+                              </OverlayTrigger>
+                            ) : null}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
