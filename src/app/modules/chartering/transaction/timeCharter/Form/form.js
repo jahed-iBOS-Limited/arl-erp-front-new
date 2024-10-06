@@ -561,7 +561,7 @@ export default function _Form({
                                         invoiceHireData?.objHeader?.chtrId,
                                         values?.receiveAmount,
                                         values?.bankAccNo?.value,
-                                        values?.voyageNo?.value,
+                                        values?.voyageNo?.label,
                                         values?.transactionName?.label,
                                         values?.vesselName?.value,
                                         values?.receivedDate,
