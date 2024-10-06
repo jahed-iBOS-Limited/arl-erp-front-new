@@ -31,7 +31,7 @@ const TableRow = ({ formCommonApproval }) => {
   const printRef = useRef();
   const [POLCNO, setPOLCNO] = useState({});
   const [Shipment, setShipment] = useState({});
-  const [, approvalHandler,loadingApproveHandler] = useAxiosPost();
+  const [, approvalHandler, loadingApproveHandler] = useAxiosPost();
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -136,10 +136,10 @@ const TableRow = ({ formCommonApproval }) => {
                       `/imp/ImportReport/ApproveCommercialCoating`,
                       {
                         shipmentId: Shipment?.value || 0,
-                        poId: POLCNO?.value || 0,
+                        poId: POLCNO?.poId || 0,
                         approveBy: profileData?.userId,
                       },
-                      ()=>{},
+                      () => {},
                       true
                     );
                   }}
