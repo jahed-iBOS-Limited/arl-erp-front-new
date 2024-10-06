@@ -94,7 +94,7 @@ import React, { useEffect } from "react";
 import FullLogo from "./images/akijShippingText.png"; // Replace with your logo image path
 import VesselLayout from "./vesselLayout"; // Ensure this component is styled as needed
 
-const VesselLayoutPDF = ({ vesselData, values, vesselNominationData }) => {
+const VesselLayoutPDF = ({ vesselData, values, vesselNominationData, holdRows }) => {
   const [totalCargo, setTotalCargo] = React.useState(0);
 
   useEffect(() => {
@@ -206,7 +206,7 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData }) => {
 
       {/* Middle Section - Vessel Layout */}
       <div style={styles.vesselSection} className="images_wrapper">
-        <VesselLayout vesselData={vesselData} values={values} />
+        <VesselLayout vesselData={vesselData} values={values} holdRows={holdRows}/>
       </div>
 
       {/* Bottom Section */}

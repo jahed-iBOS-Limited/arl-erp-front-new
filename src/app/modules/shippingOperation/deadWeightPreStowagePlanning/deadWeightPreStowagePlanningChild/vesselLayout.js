@@ -4,7 +4,7 @@ import ExtraPartImage from "./images/extra-hold.png";
 import EngineImage from "./images/engine.png";
 import BackPartImage from "./images/back.png";
 
-const VesselLayout = ({ vesselData, values }) => {
+const VesselLayout = ({ vesselData, values, holdRows }) => {
   const styles = {
     vesselLayoutContainer: {
       display: "flex",
@@ -32,13 +32,43 @@ const VesselLayout = ({ vesselData, values }) => {
     },
     holdDescription: {
       margin: "10px 0",
-      fontSize: "14px",
+      fontSize: "10px",
       position: "absolute",
-      bottom: "5px",
-      left: "75px",
+      bottom: "1px",
+      left: "25px",
       maxWidth: "152px",
       textAlign: "justify",
     },
+  };
+
+  // Function to get merged data for each hold
+  const getHoldData = (holdNumber) => {
+    const holdData = holdRows.filter((row) => row.numHoldId === holdNumber);
+
+    if (holdData?.length === 0) return [];
+
+    // Merge cargo names, sum quantities, and collect unique port names
+    const mergedData = holdData.reduce(
+      (acc, current) => {
+        // Collect cargo names
+        if (!acc.cargoNames.includes(current.strCargoName)) {
+          acc.cargoNames.push(current.strCargoName);
+        }
+
+        // Sum the cargo quantities
+        acc.totalQuantity += current.numCargoQuantity;
+
+        // Collect unique port names
+        if (!acc.portNames.includes(current.strPortName)) {
+          acc.portNames.push(current.strPortName);
+        }
+
+        return acc;
+      },
+      { cargoNames: [], totalQuantity: 0, portNames: [] }
+    );
+
+    return mergedData;
   };
 
   return (
@@ -59,46 +89,55 @@ const VesselLayout = ({ vesselData, values }) => {
         </div>
 
         {/* Dynamic Hold Sections */}
-        {Array.from({ length: vesselData?.intHoldNumber || 0 }, (_, index) => (
-          <div style={styles.vesselSection} key={index}>
-            {/* Hold Number */}
-            <div style={styles.holdNumber}>
-              {vesselData?.intHoldNumber - index}
-            </div>
-            {/* Hold Image */}
+        {Array.from({ length: vesselData?.intHoldNumber || 0 }, (_, index) => {
+          const holdNumber = vesselData?.intHoldNumber - index;
+          const holdData = getHoldData(holdNumber);
+          return (
+            <div style={styles.vesselSection} key={index}>
+              {/* Hold Number */}
+              <div style={styles.holdNumber}>
+                {vesselData?.intHoldNumber - index}
+              </div>
+              {/* Hold Image */}
 
-            {index === 0 ? (
-              <>
-                <img
-                  src={ExtraPartImage}
-                  alt={`Hold ${vesselData?.intHoldNumber - index}`}
-                  style={{
-                    width: "100%",
-                    height: "248px",
-                    maxWidth: "200px",
-                  }}
-                />
-              </>
-            ) : (
-              <>
-                <img
-                  src={HoldPartImage}
-                  alt={`Hold ${vesselData?.intHoldNumber - index}`}
-                  style={styles.image}
-                />
-              </>
-            )}
+              {index === 0 ? (
+                <>
+                  <img
+                    src={ExtraPartImage}
+                    alt={`Hold ${vesselData?.intHoldNumber - index}`}
+                    style={{
+                      width: "100%",
+                      height: "248px",
+                      maxWidth: "200px",
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  <img
+                    src={HoldPartImage}
+                    alt={`Hold ${vesselData?.intHoldNumber - index}`}
+                    style={styles.image}
+                  />
+                </>
+              )}
 
-            {/* Dynamic Hold Description */}
-            <div style={styles.holdDescription}>
-              <p style={{ margin: 0, padding: 0 }}>IRON ORE</p>
-              <p>
-                {" "}
-                {values?.[`numHold${vesselData?.intHoldNumber - index}`]} MT
-              </p>
+              {/* Dynamic Hold Description */}
+              {holdData.cargoNames?.length > 0 && (
+                <div style={styles.holdDescription}>
+                  <p style={{ margin: 0, padding: 0 }}>
+                    {holdData.cargoNames.join(", ")}
+                  </p>
+                  <p>
+                    {holdData.totalQuantity} MT
+                    <br />
+                    {holdData.portNames.join(", ")}
+                  </p>
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          )
+        })}
 
         {/* Static Front Section Image */}
         <div style={styles.vesselSection}>
