@@ -18,6 +18,7 @@ import { uploadPDF } from "./helper";
 import VesselLayoutPDF from "./vesselLayoutPDF";
 import { generateFileUrl } from "../../utils/helper";
 import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
+import { toast } from "react-toastify";
 
 const initData = {
   strName: "",
@@ -37,13 +38,10 @@ const initData = {
   strRemarks: "",
 
   // ====
-  numHold1: 0,
-  numHold2: 0,
-  numHold3: 0,
-  numHold4: 0,
-  numHold5: 0,
-  numHold6: 0,
-  numHold7: 0,
+  numHold: "",
+  holdPort: "",
+  holdCargo: "",
+  holdCargoQTY: ""
 };
 
 export const exportToPDF = (elementId, fileName) => {
@@ -59,8 +57,8 @@ export const exportToPDF = (elementId, fileName) => {
         dpi: 300,
         letterRendering: true,
       },
-      jsPDF: { 
-        unit: "px", 
+      jsPDF: {
+        unit: "px",
         format: [element.scrollWidth, element.scrollHeight], // Dynamic page size based on content
         orientation: "l" // Landscape orientation
       },
@@ -101,6 +99,29 @@ export default function DeadWeightCreate() {
   ] = useAxiosGet();
   const [vesselData, getVesselData, loading2] = useAxiosGet();
   const componentRef = useRef();
+  const [holdsArray, setHoldsArray] = useState([]);
+  const [portDDL, getPortDDL] = useAxiosGet();
+  const [cargoDDL, getCargoDDL] = useAxiosGet();
+  const [rows, setRows] = useState([]);
+
+  console.log("rows", rows)
+
+
+
+  useEffect(() => {
+    getPortDDL(`${imarineBaseUrl}/domain/Stakeholder/GetPortDDL`);
+    getCargoDDL(`${imarineBaseUrl}/domain/HireOwner/GetCargoDDL`);
+
+
+    if (vesselData?.intHoldNumber) {
+      const array = Array.from({ length: vesselData.intHoldNumber }, (_, index) => ({
+        value: index + 1,
+        label: `Hold ${index + 1}`,
+      }));
+      setHoldsArray(array);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [vesselData?.intHoldNumber]);
 
   useEffect(() => {
     if (paramId) {
@@ -116,13 +137,40 @@ export default function DeadWeightCreate() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramId]);
 
+
+  const handleAdd = (values, setFieldValue) => {
+    // Creating a new row object from the form values
+    const newRow = {
+      intAutoId: 0,
+      intDeadWeightId: 0,
+      intVesselNominationId: +paramId || 0,
+      numHoldId: +values.numHold?.value || 0,
+      intPortId: +values.holdPort?.value || 0,
+      strPortName: values.holdPort?.label || "",
+      strCargoName: values.holdCargo?.label || "",
+      numCargoQuantity: +values.holdCargoQTY || 0,
+    };
+
+    setRows((prevRows) => [...prevRows, newRow]);
+
+    setFieldValue("numHold", "");
+    setFieldValue("holdPort", "");
+    setFieldValue("holdCargo", "");
+    setFieldValue("holdCargoQTY", "");
+  };
+
+
   const saveHandler = async (values, cb) => {
+    if (!rows?.length) {
+      return toast.warn("Please Add Hold Info for Pre-Stowage")
+    }
+
     let numHoldTotal = 0;
     const numHoldFields = {};
 
     // Loop through the number of holds and dynamically build the fields
     for (let i = 1; i <= vesselData?.intHoldNumber; i++) {
-      const holdValue = +values[`numHold${i}`] || 0;
+      const holdValue = +values[`numHold${i}`] || i;
       numHoldFields[`numHold${i}`] = holdValue;
       numHoldTotal += holdValue; // Sum up the values for the total
     }
@@ -153,8 +201,8 @@ export default function DeadWeightCreate() {
         paramCode || values?.strVesselNominationCode || "",
       PreStowagePlan: generateFileUrl(pdfURL),
       // Always thouse fileds are bellow of all filed
-      ...numHoldFields, // Spread the dynamically generated numHold fields
-      TotalLoadableQuantity: numHoldTotal, // Add the total loadable quantity
+      // ...numHoldFields, // Spread the dynamically generated numHold fields
+      // TotalLoadableQuantity: numHoldTotal, // Add the total loadable quantity
     };
 
     // Setting payload for display
@@ -164,19 +212,23 @@ export default function DeadWeightCreate() {
 
     // Final payload for API
     const payload = {
-      ...commonPayload,
-      numGrandTotalAmount: numHoldTotal, // Add the grand total amount
-      strName: values?.strName,
-      strEmail: values?.strEmail,
-      intDeadWeightId: 0,
-      intAccountId: accountId,
-      intBusinessUnitId: 0,
-      strBusinessUnitName: "",
-      strEmailAddress: "",
-      intVesselNominationId: +paramId || 0,
-      isActive: true,
-      dteCreateDate: _todayDate(),
-      intCreateBy: userId,
+      header: {
+        ...commonPayload,
+        ...numHoldFields, // Spread the dynamically generated numHold fields
+        numGrandTotalAmount: numHoldTotal, // Add the grand total amount
+        strName: values?.strName,
+        strEmail: values?.strEmail,
+        intDeadWeightId: 0,
+        intAccountId: accountId,
+        intBusinessUnitId: 0,
+        strBusinessUnitName: "",
+        strEmailAddress: "",
+        intVesselNominationId: +paramId || 0,
+        isActive: true,
+        dteCreateDate: _todayDate(),
+        intCreateBy: userId,
+      },
+      rows: rows
     };
 
     onSave(
@@ -271,7 +323,7 @@ export default function DeadWeightCreate() {
   const handlePDF = useReactToPrint({
     onPrintError: (error) => console.log(error),
     content: () => componentRef?.current,
-   
+
   });
   return (
     <div
@@ -431,19 +483,19 @@ export default function DeadWeightCreate() {
                             valueOption?.value === "Winter"
                               ? vesselData?.numWinterDisplacementDraftMts
                               : valueOption?.value === "Tropical"
-                              ? vesselData?.numTropicalDisplacementDraftMts
-                              : valueOption?.value === "Summer"
-                              ? vesselData?.numSummerDisplacementDraftMts
-                              : 0,
+                                ? vesselData?.numTropicalDisplacementDraftMts
+                                : valueOption?.value === "Summer"
+                                  ? vesselData?.numSummerDisplacementDraftMts
+                                  : 0,
                           // intDockWaterDensity: "",
                           intLightShipMts:
                             valueOption?.value === "Winter"
                               ? vesselData?.numWinterLightShipMts
                               : valueOption?.value === "Tropical"
-                              ? vesselData?.numTropicalLightShipMts
-                              : valueOption?.value === "Summer"
-                              ? vesselData?.numSummerLightShipMts
-                              : 0,
+                                ? vesselData?.numTropicalLightShipMts
+                                : valueOption?.value === "Summer"
+                                  ? vesselData?.numSummerLightShipMts
+                                  : 0,
                           // intFoFuelOilMts: "",
                           // intFoDoDiselOilMts: "",
                           // intFwFreshWaterMts: "",
@@ -459,18 +511,18 @@ export default function DeadWeightCreate() {
                               valueOption?.value === "Winter"
                                 ? +vesselData?.numWinterDisplacementDraftMts
                                 : valueOption?.value === "Tropical"
-                                ? +vesselData?.numTropicalDisplacementDraftMts
-                                : valueOption?.value === "Summer"
-                                ? +vesselData?.numSummerDisplacementDraftMts
-                                : 0,
+                                  ? +vesselData?.numTropicalDisplacementDraftMts
+                                  : valueOption?.value === "Summer"
+                                    ? +vesselData?.numSummerDisplacementDraftMts
+                                    : 0,
                             intLightShipMts:
                               valueOption?.value === "Winter"
                                 ? +vesselData?.numWinterLightShipMts
                                 : valueOption?.value === "Tropical"
-                                ? +vesselData?.numTropicalLightShipMts
-                                : valueOption?.value === "Summer"
-                                ? +vesselData?.numSummerLightShipMts
-                                : 0,
+                                  ? +vesselData?.numTropicalLightShipMts
+                                  : valueOption?.value === "Summer"
+                                    ? +vesselData?.numSummerLightShipMts
+                                    : 0,
                           },
                           setFieldValue
                         );
@@ -679,7 +731,7 @@ export default function DeadWeightCreate() {
                         setFieldValue("intFinalCargoToloadMts", e.target.value)
                       }
                       errors={errors}
-                      disabled={!values?.strDraftType}
+                      disabled={true}
                     />
                   </div>
 
@@ -701,23 +753,63 @@ export default function DeadWeightCreate() {
                     <h4>Pre-Stowage</h4>
                   </div>
 
-                  {Array.from(
-                    { length: vesselData?.intHoldNumber },
-                    (_, index) => (
-                      <div className="col-lg-2" key={index}>
-                        <InputField
-                          value={values[`numHold${index + 1}`] || ""}
-                          label={`Hold ${index + 1}`}
-                          name={`numHold${index + 1}`}
-                          type="number"
-                          onChange={(e) =>
-                            setFieldValue(`numHold${index + 1}`, e.target.value)
-                          }
-                          errors={errors}
-                        />
-                      </div>
-                    )
-                  )}
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="numHold"
+                      options={
+                        holdsArray || []
+                      }
+                      value={values?.numHold}
+                      label="Select Hold"
+                      onChange={(valueOption) => {
+                        setFieldValue("numHold", valueOption || "")
+                      }}
+
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="holdPort"
+                      options={
+                        portDDL || []
+                      }
+                      value={values?.holdPort}
+                      label="Select Port"
+                      onChange={(valueOption) => {
+                        setFieldValue("holdPort", valueOption || "")
+                      }}
+
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <NewSelect
+                      name="holdCargo"
+                      options={
+                        cargoDDL || []
+                      }
+                      value={values?.holdCargo}
+                      label="Select Cargo"
+                      onChange={(valueOption) => {
+                        setFieldValue("holdCargo", valueOption || "")
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-2">
+                    <InputField
+                      value={values.holdCargoQTY}
+                      label="Cargo Qty"
+                      name="holdCargoQTY"
+                      type="number"
+                      onChange={(e) => {
+                        if (+e.target.validationSchema < 0) return;
+                        setFieldValue("holdCargoQTY", e.target.value)
+                      }
+                      }
+                    />
+                  </div>
+                  <div><button disabled={!values?.numHold || !values?.holdPort || !values?.holdCargo || !values?.holdCargoQTY} type="button" onClick={() => { handleAdd(values, setFieldValue) }} className="btn btn-primary mt-5">Add</button></div>
                 </div>
                 {/* <div className="row mt-5 mb-5">
                   <div className="col-12">
@@ -760,7 +852,7 @@ export default function DeadWeightCreate() {
                   id="vesselLayoutPDF"
                 >
                   <div className="col-12 content_wrapper">
-                    <VesselLayoutPDF vesselData={vesselData} values={values} vesselNominationData={vesselNominationData}/>
+                    <VesselLayoutPDF vesselData={vesselData} values={values} vesselNominationData={vesselNominationData} />
                   </div>
                 </div>
                 <div>
