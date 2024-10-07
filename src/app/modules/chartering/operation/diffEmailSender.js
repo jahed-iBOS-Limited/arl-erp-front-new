@@ -44,7 +44,7 @@ const DiffEmailSender = ({ emailEditorProps }) => {
     if (intId) {
       const payload = {
         intId: intId,
-        intUserEnrollId: profileData?.userId || 0,
+        intUserEnrollId: profileData?.employeeId || 0,
       };
 
       getEmailInfo(
@@ -183,7 +183,7 @@ const DiffEmailSender = ({ emailEditorProps }) => {
         body: emailData.emailBody,
         intId: intId,
         attachment: emailData?.attachment || "",
-        intUserEnrollId: profileData?.userId || 0,
+        intUserEnrollId: profileData?.employeeId || 0,
       };
 
       onSendEmail(

@@ -165,7 +165,7 @@ export default function RecapCreate() {
       strChartererName: values.chartererName?.label || "",
       strBrokerName: values.brokerName || "",
       strBrokerEmail: values.brokerEmail || "",
-      intUserEnrollId: profileData?.userId || 0
+      intUserEnrollId: profileData?.employeeId || 0
     };
 
     onSave(`${marineBaseUrlPythonAPI}/automation/recap`, payload, cb, true);
