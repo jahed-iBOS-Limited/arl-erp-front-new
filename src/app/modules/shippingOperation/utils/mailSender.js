@@ -85,7 +85,7 @@ const MailSender = ({ payloadInfo }) => {
                       const payload = {
                         emailList: emailList, // Bind emailList dynamically
                         arrayData: payloadInfo,
-                        intUserEnrollId: profileData?.userId || 0
+                        intUserEnrollId: profileData?.employeeId || 0
                       };
                       onSendEvent(
                         `${marineBaseUrlPythonAPI}/automation/response_mail`,
