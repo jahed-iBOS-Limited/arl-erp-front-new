@@ -489,7 +489,7 @@ export default function VesselNominationDashboard() {
                                         }
                                       );
                                     }}
-                                    disabled={item?.isBunkerCalculationSave}
+                                    // disabled={item?.isBunkerCalculationSave}
                                   >
                                     Bunker Calculator
                                   </button>
@@ -511,7 +511,7 @@ export default function VesselNominationDashboard() {
                                     });
                                     setIsShowMailModal(true);
                                   }}
-                                  disabled={item.preStowageSend}
+                                  // disabled={item.preStowageSend}
                                 >
                                   DEAD WEIGHT CALCULATION & PRE STOWAGE SEND
                                 </button>
@@ -532,7 +532,7 @@ export default function VesselNominationDashboard() {
                                   });
                                   setIsShowMailModal(true);
                                 }}
-                                disabled={item.isVesselNominationEmailSent}
+                                // disabled={item.isVesselNominationEmailSent}
                               >
                                 VESSEL NOMINATION SEND
                               </button>
@@ -554,7 +554,7 @@ export default function VesselNominationDashboard() {
                                     // setIsShowMailModal(true);
                                     setIsDiffMailSenderModal(true);
                                   }}
-                                  disabled={item.edpaLoadportSend}
+                                  // disabled={item.edpaLoadportSend}
                                 >
                                   EDPA LOADPORT SEND
                                 </button>
@@ -580,7 +580,7 @@ export default function VesselNominationDashboard() {
                                       });
                                       setIsShowMailModal(true);
                                     }}
-                                    disabled={item.onHireBunkerSurveySent}
+                                    // disabled={item.onHireBunkerSurveySent}
                                   >
                                     ON HIRE BUNKER SURVEY SENT
                                   </button>
@@ -629,7 +629,7 @@ export default function VesselNominationDashboard() {
                                       });
                                       setIsShowMailModal(true);
                                     }}
-                                    disabled={item.voyageInstructionSent}
+                                    // disabled={item.voyageInstructionSent}
                                   >
                                     VOYAGE INSTRUCTION SENT
                                   </button>
@@ -651,7 +651,7 @@ export default function VesselNominationDashboard() {
                                     });
                                     setIsShowMailModal(true);
                                   }}
-                                  disabled={item.pisurveySent}
+                                  // disabled={item.pisurveySent}
                                 >
                                   PI SURVEY SENT
                                 </button>
@@ -676,7 +676,7 @@ export default function VesselNominationDashboard() {
                                       // setIsShowMailModal(true);
                                       setShow(true);
                                     }}
-                                    disabled={item.voyageLicenseFlagWaiverSend}
+                                    // disabled={item.voyageLicenseFlagWaiverSend}
                                   >
                                     VOYAGE LICENSE/FLAG WAIVER SEND
                                   </button>
@@ -700,7 +700,7 @@ export default function VesselNominationDashboard() {
                                     });
                                     setIsShowMailModal(true);
                                   }}
-                                  disabled={item.tclSend}
+                                  // disabled={item.tclSend}
                                 >
                                   TCL SEND
                                 </button>
@@ -725,7 +725,7 @@ export default function VesselNominationDashboard() {
                                       // setIsShowMailModal(true);
                                       setIsDiffMailSenderModal(true);
                                     }}
-                                    disabled={item.weatherRoutingCompanySend}
+                                    // disabled={item.weatherRoutingCompanySend}
                                   >
                                     WEATHER ROUTING COMPANY SEND
                                   </button>
@@ -749,7 +749,7 @@ export default function VesselNominationDashboard() {
                                       });
                                       setIsShowMailModal(true);
                                     }}
-                                    disabled={item.departureDocumentLoadPortSend}
+                                    // disabled={item.departureDocumentLoadPortSend}
                                   >
                                     DEPARTURE DOCUMENT LOADPORT SEND
                                   </button>
@@ -774,7 +774,7 @@ export default function VesselNominationDashboard() {
                                       });
                                       setIsDiffMailSenderModal(true);
                                     }}
-                                    disabled={item.epdadischargePortSent}
+                                    // disabled={item.epdadischargePortSent}
                                   >
                                     EPDA DISCHARGE PORT SENT
                                   </button>
@@ -798,7 +798,7 @@ export default function VesselNominationDashboard() {
                                       });
                                       setIsShowMailModal(true);
                                     }}
-                                    disabled={item.offHireBunkerSurveySent}
+                                    // disabled={item.offHireBunkerSurveySent}
                                   >
                                     OFFHIRE BUNKER SURVEY SENT
                                   </button>
@@ -823,9 +823,9 @@ export default function VesselNominationDashboard() {
                                       });
                                       setIsShowMailModal(true);
                                     }}
-                                    disabled={
-                                      item.departureDocumentDischargePortSend
-                                    }
+                                    // disabled={
+                                    //   item.departureDocumentDischargePortSend
+                                    // }
                                   >
                                     DEPARTURE DOCUMENT DISCHARGE PORT SEND
                                   </button>
