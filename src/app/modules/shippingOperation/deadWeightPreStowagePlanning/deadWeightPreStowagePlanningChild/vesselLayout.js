@@ -39,6 +39,15 @@ const VesselLayout = ({ vesselData, values, holdRows }) => {
       maxWidth: "152px",
       textAlign: "justify",
     },
+    emptyholdDescription: {
+      margin: "10px 0",
+      fontSize: "10px",
+      position: "absolute",
+      bottom: "12px",
+      left: "100px",
+      maxWidth: "152px",
+      textAlign: "justify",
+    },
   };
 
   // Function to get merged data for each hold
@@ -123,7 +132,7 @@ const VesselLayout = ({ vesselData, values, holdRows }) => {
               )}
 
               {/* Dynamic Hold Description */}
-              {holdData.cargoNames?.length > 0 && (
+              {holdData.cargoNames?.length > 0 ? (
                 <div style={styles.holdDescription}>
                   <p style={{ margin: 0, padding: 0 }}>
                     {holdData.cargoNames.join(", ")}
@@ -134,7 +143,11 @@ const VesselLayout = ({ vesselData, values, holdRows }) => {
                     {holdData.portNames.join(", ")}
                   </p>
                 </div>
-              )}
+              ) : (<div style={index === 0 ? {...styles.emptyholdDescription, left:"75px"} : styles.emptyholdDescription}>
+                <p>
+                  NIL
+                </p>
+              </div>)}
             </div>
           )
         })}

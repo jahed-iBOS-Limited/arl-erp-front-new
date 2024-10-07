@@ -170,7 +170,7 @@ const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
         subject: emailData.subject,
         body: emailData.emailBody,
         attachment: emailData?.attachment || "",
-        intUserEnrollId: profileData?.userId || 0
+        intUserEnrollId: profileData?.employeeId || 0
       };
 
       onSendEmail(`${marineBaseUrlPythonAPI}/automation/common_mail_sender`, payload, cb, true);
