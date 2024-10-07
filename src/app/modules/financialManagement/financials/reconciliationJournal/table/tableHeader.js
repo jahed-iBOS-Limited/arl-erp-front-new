@@ -11,6 +11,7 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
@@ -44,6 +45,12 @@ import DepreciationTable from "./depreciationTable";
 import CreateSalaryJournalTable from "./salaryJournal/createJournal";
 import ViewSalaryJournalTable from "./salaryJournal/viewJournal";
 import YearClosingTable from "./yearClosingTable";
+import { Typography } from "antd";
+import {
+  ExpansionPanel,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary,
+} from "@material-ui/core";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -122,6 +129,7 @@ const ReconciliationJournal = () => {
   const [open, setOpen] = useState(false);
 
   // states
+  const [expanded, setExpanded] = useState(false);
   const [fileObject, setFileObject] = useState("");
   const [sbuDDL, setSbuDDL] = useState([]);
   const [typeDDL] = useState(getType());
@@ -195,8 +203,15 @@ const ReconciliationJournal = () => {
         setterFunction: setSalaryJournal,
         setLoading,
         type: "get",
+        setExpanded,
       });
+      setJVSalaryJournal([]);
     }
+  };
+
+  // handle collapse panel change
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
   };
 
   const detailsData = (values, isBaseTypeId) => {
@@ -339,6 +354,7 @@ const ReconciliationJournal = () => {
                           setterFunction: setJVSalaryJournal,
                           setLoading,
                           type: "create",
+                          setExpanded,
                         })
                       }
                       className="btn btn-primary ml-2"
@@ -896,16 +912,44 @@ const ReconciliationJournal = () => {
 
                   {/* View Salary Journal */}
                   {values?.type?.value === 6 && salaryJournal?.length > 0 ? (
-                    <ViewSalaryJournalTable salaryJournal={salaryJournal} />
+                    <ExpansionPanel
+                      expanded={expanded === 1}
+                      onChange={handleChange(1)}
+                    >
+                      <ExpansionPanelSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1bh-content"
+                        id="panel1bh-header"
+                      >
+                        <Typography>Salary Journal</Typography>
+                      </ExpansionPanelSummary>
+                      <ExpansionPanelDetails>
+                        <ViewSalaryJournalTable salaryJournal={salaryJournal} />
+                      </ExpansionPanelDetails>
+                    </ExpansionPanel>
                   ) : (
                     <></>
                   )}
 
                   {/* JV Report Salary Journal */}
                   {values?.type?.value === 6 && jvSalaryJournal?.length > 0 ? (
-                    <CreateSalaryJournalTable
-                      jvSalaryJournal={jvSalaryJournal}
-                    />
+                    <ExpansionPanel
+                      expanded={expanded === 2}
+                      onChange={handleChange(2)}
+                    >
+                      <ExpansionPanelSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1bh-content"
+                        id="panel1bh-header"
+                      >
+                        <Typography>JV Report of Salary Journal</Typography>
+                      </ExpansionPanelSummary>
+                      <ExpansionPanelDetails>
+                        <CreateSalaryJournalTable
+                          jvSalaryJournal={jvSalaryJournal}
+                        />
+                      </ExpansionPanelDetails>
+                    </ExpansionPanel>
                   ) : (
                     <></>
                   )}

@@ -48,6 +48,7 @@ const SalaryJournalTable = ({ salaryJournal }) => {
           <thead className="bg-secondary">
             <tr>
               <th>SL</th>
+              <th>Employee Id</th>
               <th>Employee Name</th>
               <th>Salary</th>
               <th>Monthly Payable</th>
@@ -62,6 +63,7 @@ const SalaryJournalTable = ({ salaryJournal }) => {
               {salaryJournal?.map((item, index) => (
                 <tr key={index} className="text-right">
                   <td>{index + 1}</td>
+                  <td className="text-center">{item?.intEmployeeId}</td>
                   <td className="text-left">{item?.strEmployeeName}</td>
                   <td>{numberWithCommas(item?.numGrossSalary)}</td>
                   <td>{numberWithCommas(item?.numNetPayableSalary)}</td>
@@ -73,7 +75,7 @@ const SalaryJournalTable = ({ salaryJournal }) => {
               ))}
             </>
             <tr className="text-right">
-              <td colSpan={2} className="text-center">
+              <td colSpan={3} className="text-center">
                 Total
               </td>
               <td>{numberWithCommas(totalGrossSalary)}</td>
