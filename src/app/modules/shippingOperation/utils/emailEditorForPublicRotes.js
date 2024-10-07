@@ -6,6 +6,7 @@ import AttachmentUploaderNew from "../../_helper/attachmentUploaderNew";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
 import { marineBaseUrlPythonAPI } from "../../../App";
 import { shallowEqual, useSelector } from "react-redux";
+import { generateFileUrl } from "./helper";
 
 const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
 
@@ -169,7 +170,7 @@ const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
         email_list: emailData.ccEmail,
         subject: emailData.subject,
         body: emailData.emailBody,
-        attachment: emailData?.attachment || "",
+        attachment: generateFileUrl(emailData?.attachment || "")|| "",
         intUserEnrollId: profileData?.employeeId || 0
       };
 

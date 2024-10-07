@@ -44,7 +44,7 @@ const EmailEditor = ({ emailEditorProps }) => {
       if (intId) {
         const payload = {
           intId: intId,
-          intUserEnrollId: profileData?.userId || 0
+          intUserEnrollId: profileData?.employeeId || 0
         };
 
         getEmailInfo(
@@ -148,7 +148,7 @@ const EmailEditor = ({ emailEditorProps }) => {
         body: emailData.emailBody,
         intId: intId,
         attachment: emailData?.attachment || "",
-        intUserEnrollId: profileData?.userId || 0
+        intUserEnrollId: profileData?.employeeId || 0
       };
 
       onSendEmail(
