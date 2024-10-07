@@ -841,7 +841,7 @@ export default function DeadWeightCreate() {
                       }
 
                       .pdfPrint .images_wrapper{
-                       zoom: ${vesselData?.intHoldNumber > 7 ? "60%" : "80%"}; 
+                       zoom: ${vesselData?.intHoldNumber >= 7 ? "60%" : "80%"}; 
                       }
                     }
                   `}
