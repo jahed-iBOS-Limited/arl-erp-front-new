@@ -275,7 +275,15 @@ export const getReconcilationJournelData = async (
 // get or create salary journal
 export const getOrCreateSalaryJournal = async (obj) => {
   // argument destructure
-  const { buId, accountId, values, setterFunction, setLoading, type } = obj;
+  const {
+    buId,
+    accountId,
+    values,
+    setterFunction,
+    setLoading,
+    type,
+    setExpanded,
+  } = obj;
 
   // generate year & month // 2024-03 > ['2024','03'] > [2024,03]
   const [year, month] = values?.monthYear?.split("-")?.map(Number);
@@ -286,21 +294,42 @@ export const getOrCreateSalaryJournal = async (obj) => {
     create: "GetSalaryJVCostCenterWiseNew",
   };
 
-// get last day of month - month - year from year & month
-// 2024 04 > Full Date > ISO String Date > 2024-04-30
+  // get last day of month - month - year from year & month
+  // 2024 04 > Full Date > ISO String Date > 2024-04-30
   let date = new Date(Date.UTC(year, month, 0))?.toISOString()?.split("T")[0];
 
   // console.log(date);
-  setLoading(true);
   try {
+    setLoading(true);
     const res = await axios.get(
       `/fino/Report/${api[type]}?AccountId=${accountId}&BusinessUnitId=${buId}&MonthId=${month}&YearId=${year}&Date=${date}`
     );
-    setterFunction(res?.data);
+    // if (Array.isArray(res?.data) && type === "create") {
+    //   setterFunction(res?.data);
+    //   return toast.warn("Error, please try again");
+    // } else if (type === "get") {
+    //   setterFunction(res?.data);
+    // } else {
+    //   return toast.success("JV Report Success");
+    // }
+    // console.log(res)
+    if (Array.isArray(res?.data) && type === "create") {
+      setterFunction(res?.data);
+      setExpanded(2);
+      toast.warn("Error, please try again");
+    } else if (type === "create" || res?.data?.statuscode === 200) {
+      toast.success("JV Report Success");
+      setterFunction(res?.data);
+    } else if (type === 'get') {
+      setExpanded(1);
+      setterFunction(res?.data);
+    }else{
+      console.log('Salary Jouranl')
+    }
   } catch (e) {
     setterFunction([]);
     console.error(e);
+  } finally {
+    setLoading(false);
   }
-
-  setLoading(false);
 };

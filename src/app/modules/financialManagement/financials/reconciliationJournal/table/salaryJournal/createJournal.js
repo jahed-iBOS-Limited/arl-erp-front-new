@@ -11,6 +11,7 @@ const CreateSalaryJournalTable = ({ jvSalaryJournal }) => {
           <thead className="bg-secondary">
             <tr>
               <th>SL</th>
+              <th>Employee Id</th>
               <th>Employee Name</th>
               <th>Message</th>
             </tr>
@@ -20,6 +21,7 @@ const CreateSalaryJournalTable = ({ jvSalaryJournal }) => {
               {jvSalaryJournal?.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
+                  <td>{item?.intId}</td>
                   <td>{item?.strName}</td>
                   <td>{item?.strMessage}</td>
                 </tr>
