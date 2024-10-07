@@ -563,7 +563,7 @@ export default function _Form({
                                         values?.bankAccNo?.value,
                                         values?.voyageNo?.label,
                                         values?.transactionName?.label,
-                                        values?.vesselName?.value,
+                                        values?.vesselName?.label,
                                         values?.receivedDate,
                                         setLoading,
                                         () => {
