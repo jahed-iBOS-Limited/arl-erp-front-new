@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import formatEmailsDynamically, { getEmailInfoandSendMail } from "./helper";
+import formatEmailsDynamically, { generateFileUrl, getEmailInfoandSendMail } from "./helper";
 import { marineBaseUrlPythonAPI } from "../../../App";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
 import Loading from "../../_helper/_loading";
@@ -182,7 +182,7 @@ const DiffEmailSender = ({ emailEditorProps }) => {
         subject: emailData.subject,
         body: emailData.emailBody,
         intId: intId,
-        attachment: emailData?.attachment || "",
+        attachment: generateFileUrl(emailData?.attachment || "") || "",
         intUserEnrollId: profileData?.employeeId || 0,
       };
 

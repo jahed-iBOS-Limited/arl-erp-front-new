@@ -4,7 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import { marineBaseUrlPythonAPI } from "../../../App";
 import Loading from "../../_helper/_loading";
 import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
-import { getEmailInfoandSendMail } from "./helper";
+import { generateFileUrl, getEmailInfoandSendMail } from "./helper";
 import AttachmentUploaderNew from "../../_helper/attachmentUploaderNew";
 import { shallowEqual, useSelector } from "react-redux";
 
@@ -139,7 +139,7 @@ const EmailEditor = ({ emailEditorProps }) => {
                 subject: emailData.subject || '',
                 body: emailData.emailBody || '',
                 intId: intId || 0,
-                attachment: emailData?.attachment || "",
+                attachment: generateFileUrl(emailData?.attachment || "") || "",
                 intUserEnrollId: profileData?.employeeId || 0,
             };
 
