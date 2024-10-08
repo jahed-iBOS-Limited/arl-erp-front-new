@@ -1,0 +1,38 @@
+.content_wrapper .less_then_seven {
+  zoom: 80%;
+}
+
+.content_wrapper .equal_seven {
+  zoom: 70%;
+}
+
+.content_wrapper .greater_then_seven {
+  zoom: 60%;
+}
+
+/* for screen min width 1200px and max width 1400px */
+@media (min-width: 1200px) and (max-width: 1400px) {
+  .content_wrapper .less_then_seven {
+    zoom: 80%;
+  }
+
+  .content_wrapper .equal_seven {
+    zoom: 62%;
+  }
+  .content_wrapper .equal_seven .hold_number_label {
+    font-size: 1.2rem !important;
+    /* top: 150px !important;
+    left: 100px !important; */
+    /* color: brown; */
+  }
+
+  .content_wrapper .greater_then_seven {
+    zoom: 60%;
+  }
+
+  .content_wrapper .greater_then_seven .hold_number_label {
+    font-size: 1rem !important;
+    top: 150px !important;
+    left: 100px !important;
+  }
+}

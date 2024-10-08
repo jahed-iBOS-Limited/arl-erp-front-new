@@ -19,6 +19,7 @@ import VesselLayoutPDF from "./vesselLayoutPDF";
 import { generateFileUrl } from "../../utils/helper";
 import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
 import { toast } from "react-toastify";
+import './styles.css';
 
 const initData = {
   strName: "",
@@ -129,7 +130,7 @@ export default function DeadWeightCreate() {
         `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`,
         (nominationData) => {
           getVesselData(
-            `${imarineBaseUrl}/domain/VesselNomination/GetVesselMasterData?vesselId=${nominationData?.intVesselId}`
+            `${imarineBaseUrl}/domain/VesselNomination/GetVesselMasterData?vesselId=${nominationData?.intVesselId}`,
           );
         }
       );
@@ -331,6 +332,7 @@ export default function DeadWeightCreate() {
       style={{
         background: "#fff",
       }}
+      className="dead_weight_pre_stowage_planning"
     >
       <Formik
         enableReinitialize={true}
