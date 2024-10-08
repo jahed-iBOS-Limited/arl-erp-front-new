@@ -167,9 +167,9 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData, holdRows })
           <img src={FullLogo} alt="Akij Shipping Line" style={styles.logo} />
         </div>
         <p style={{}}>
-          <strong style={{ display: "block" }}>Akij chamber, 73 Dilkusha C/A, Dhaka-1000, Bangladesh.</strong>
-          <strong style={{ display: "block" }}>Tel : +88-02-9563008 Fax : +88-02-9572292</strong>
-          <strong style={{ display: "block" }}>E-mail: shipping@akij.net</strong>
+          <strong style={{ display: "block" }}>198.AKIJ HOUSE, BIR UTTAM MIR SHAWKAT SARAK, TEJGAON, DHAKA 1208</strong>
+          <strong style={{ display: "block" }}>Tel : +88-09613311783</strong>
+          <strong style={{ display: "block" }}>E-mail: operation.asll@akij.net</strong>
         </p>
       </div>
 
