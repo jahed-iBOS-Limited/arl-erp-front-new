@@ -76,12 +76,12 @@ const EmailEditor = ({ emailEditorProps }) => {
         if (name === "toEmail" && emailRegex.test(value)) {
             setErrors((prevErrors) => ({ ...prevErrors, to: "" }));
         }
-        if (
-            name === "ccEmail" &&
-            (emailRegex.test(value) || validateEmails(value))
-        ) {
-            setErrors((prevErrors) => ({ ...prevErrors, cc: "" }));
-        }
+        // if (
+        //     name === "ccEmail" &&
+        //     (emailRegex.test(value) || validateEmails(value))
+        // ) {
+        //     setErrors((prevErrors) => ({ ...prevErrors, cc: "" }));
+        // }
         if (name === "subject" && value.trim()) {
             setErrors((prevErrors) => ({ ...prevErrors, subject: "" }));
         }
@@ -108,15 +108,15 @@ const EmailEditor = ({ emailEditorProps }) => {
         }
 
         // Check "Cc" field (single email or comma-separated emails)
-        if (
-            !emailData.ccEmail ||
-            (!emailRegex.test(emailData.ccEmail) &&
-                !validateEmails(emailData.ccEmail))
-        ) {
-            newErrors.cc =
-                "Please enter a valid single email or comma-separated emails.";
-            isValid = false;
-        }
+        // if (
+        //     !emailData.ccEmail ||
+        //     (!emailRegex.test(emailData.ccEmail) &&
+        //         !validateEmails(emailData.ccEmail))
+        // ) {
+        //     newErrors.cc =
+        //         "Please enter a valid single email or comma-separated emails.";
+        //     isValid = false;
+        // }
 
         // Check "Subject" field
         if (!emailData.subject.trim()) {
