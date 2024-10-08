@@ -103,6 +103,13 @@ export default function CreateDischargePort() {
       ),
 
       strRemarks: values.strRemarks,
+
+      // Dynamically add extra attachments based on the length of departureDocuments
+      ...(values?.departureDocuments?.length > 0 && values?.departureDocuments.reduce((acc, item, index) => {
+        const attachmentKey = `ExtraAttachment${index + 1}`;
+        acc[attachmentKey] = generateFileUrl(item); // Generate dynamic key and URL
+        return acc;
+      }, {})),
     });
 
     const payload = {
