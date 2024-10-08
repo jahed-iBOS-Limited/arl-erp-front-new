@@ -19,6 +19,8 @@ import CollectionModal from "./collection";
 import { getSBU } from "./helper";
 import PrintInvoiceModal from "./printInvoice";
 import { toast } from "react-toastify";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 export default function SalesCollectionLanding() {
   const initData = useSelector((state) => {
@@ -41,12 +43,14 @@ export default function SalesCollectionLanding() {
   const [sbuDDl, setSbuDDl] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
+  const selectedRowList = rowData.filter((item) => item.isSelected);
+  const [, onVDSAmountCollection, loader2] = useAxiosPost();
+
 
   useEffect(() => {
     getSBU(profileData?.accountId, selectedBusinessUnit.value, setSbuDDl);
   }, [profileData, selectedBusinessUnit]);
 
-  console.log("rowData", rowData);
 
   // useEffect(() => {
   //   const data = [...rowData];
@@ -129,13 +133,13 @@ export default function SalesCollectionLanding() {
       onCheckHandler();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [receivableAmount, actionType, vdsAmount]);
+  }, [receivableAmount, actionType]);
 
   const onCheckHandler = () => {
     // Manual mode logic (only for selected rows)
     console.log("1");
     const data = [...rowData];
-    let Ramount = (+receivableAmount || 0) + (+vdsAmount || 0);
+    let Ramount = (+receivableAmount || 0);
 
     const modifyData = data.map((item) => {
       if (!item.isSelected) return item; // Skip unselected rows
@@ -184,16 +188,14 @@ export default function SalesCollectionLanding() {
         ? `&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
         : "";
     let apiUrl = [2]?.includes(typeId)
-      ? `/oms/ServiceSales/GetServiceSalesInvocieList?accountId=${
-          profileData?.accountId
-        }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${values
-          ?.customer?.value ||
-          0}&paymentTypeId=${values?.billType?.value || 0}&isCollectionComplte=${false}${strFromAndToDate}`
-      : `/oms/ServiceSales/GetServiceSalesInvocieList?accountId=${
-          profileData?.accountId
-        }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${values
-          ?.customer?.value ||
-          0}&paymentTypeId=${values?.billType?.value || 0}&isCollectionComplte=${true}${strFromAndToDate}`;
+      ? `/oms/ServiceSales/GetServiceSalesInvocieList?accountId=${profileData?.accountId
+      }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${values
+        ?.customer?.value ||
+      0}&paymentTypeId=${values?.billType?.value || 0}&isCollectionComplte=${false}${strFromAndToDate}`
+      : `/oms/ServiceSales/GetServiceSalesInvocieList?accountId=${profileData?.accountId
+      }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${values
+        ?.customer?.value ||
+      0}&paymentTypeId=${values?.billType?.value || 0}&isCollectionComplte=${true}${strFromAndToDate}`;
 
     getRowData(apiUrl, (data) => {
       const modifyData = data.map((item) => {
@@ -210,7 +212,7 @@ export default function SalesCollectionLanding() {
               needCollectionAmount2:
                 +item?.invocieRow[0]?.numPendingAmount ||
                 (+item?.invocieRow[0]?.numScheduleAmount || 0) +
-                  (+item?.invocieRow[0]?.numScheduleVatAmount || 0),
+                (+item?.invocieRow[0]?.numScheduleVatAmount || 0),
             },
           ],
         };
@@ -223,10 +225,8 @@ export default function SalesCollectionLanding() {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
-          profileData?.accountId
-        }&BusinessUnitId=${
-          selectedBusinessUnit?.value
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
+        }&BusinessUnitId=${selectedBusinessUnit?.value
         }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${2}`
       )
       .then((res) => {
@@ -265,7 +265,7 @@ export default function SalesCollectionLanding() {
         touched,
       }) => (
         <>
-          {loader && <Loading />}
+          {(loader || loader2) && <Loading />}
           <IForm
             title="Sales Collection"
             isHiddenReset
@@ -450,23 +450,25 @@ export default function SalesCollectionLanding() {
                                 touched={touched}
                               />
                             </div>
-                            <div className="col-lg-3">
-                              <InputField
-                                value={receivableAmount || ""}
-                                type="number"
-                                placeholder="Receivable Amount"
-                                label="Receivable Amount"
-                                onChange={(e) => {
-                                  if (!e.target.value) {
-                                    getData({
-                                      typeId: values?.type?.value,
-                                      values,
-                                    });
-                                  }
-                                  setReceivableAmount(+e.target.value);
-                                }}
-                              />
-                            </div>
+                            {!values?.isVDS && (
+                              <div className="col-lg-3">
+                                <InputField
+                                  value={receivableAmount || ""}
+                                  type="number"
+                                  placeholder="Receivable Amount"
+                                  label="Receivable Amount"
+                                  onChange={(e) => {
+                                    if (!e.target.value) {
+                                      getData({
+                                        typeId: values?.type?.value,
+                                        values,
+                                      });
+                                    }
+                                    setReceivableAmount(+e.target.value);
+                                  }}
+                                />
+                              </div>
+                            )}
                             <div className="mt-5 ml-5">
                               <input
                                 type="checkbox"
@@ -501,7 +503,7 @@ export default function SalesCollectionLanding() {
                               </div>
                             )}
                             <div>
-                              <button
+                              {!values?.isVDS && (<button
                                 disabled={
                                   !receivableAmount || !collectionRow?.length
                                 }
@@ -518,40 +520,66 @@ export default function SalesCollectionLanding() {
                                   history.push(
                                     paymentType === 2
                                       ? {
-                                          pathname: `/financial-management/financials/bank/collection`,
-                                          state: {
-                                            selectedJournal:
-                                              values.accountingJournalTypeId,
-                                            selectedSbu: values.sbu,
-                                            transactionDate: _todayDate(),
-                                            customerDetails: values?.customer,
-                                            receivableAmount: receivableAmount,
-                                            numVDSAmount: vdsAmount || 0,
-                                            collectionRow: rowData?.filter(
-                                              (item) =>
-                                                item?.invocieRow?.[0]
-                                                  ?.numCollectionAmount
-                                            ),
-                                          },
-                                        }
+                                        pathname: `/financial-management/financials/bank/collection`,
+                                        state: {
+                                          selectedJournal:
+                                            values.accountingJournalTypeId,
+                                          selectedSbu: values.sbu,
+                                          transactionDate: _todayDate(),
+                                          customerDetails: values?.customer,
+                                          receivableAmount: receivableAmount,
+                                          numVDSAmount: 0,
+                                          collectionRow: rowData?.filter(
+                                            (item) =>
+                                              item?.invocieRow?.[0]
+                                                ?.numCollectionAmount
+                                          ),
+                                        },
+                                      }
                                       : {
-                                          pathname: `/financial-management/financials/cash/collection`,
-                                          state: {
-                                            ...values,
-                                            accountingJournalTypeId:
-                                              values?.accountingJournalTypeId
-                                                ?.value,
-                                            customerDetails: values?.customer,
-                                            receivableAmount: receivableAmount,
-                                            numVDSAmount: vdsAmount || 0,
-                                            collectionRow: collectionRow,
-                                          },
-                                        }
+                                        pathname: `/financial-management/financials/cash/collection`,
+                                        state: {
+                                          ...values,
+                                          accountingJournalTypeId:
+                                            values?.accountingJournalTypeId
+                                              ?.value,
+                                          customerDetails: values?.customer,
+                                          receivableAmount: receivableAmount,
+                                          numVDSAmount: 0,
+                                          collectionRow: collectionRow,
+                                        },
+                                      }
                                   );
                                 }}
                               >
                                 Collection
-                              </button>
+                              </button>)}
+                              {values?.isVDS && (<button
+                                disabled={
+                                  !vdsAmount || !selectedRowList?.length || selectedRowList?.length > 1 || +selectedRowList[0]?.invocieRow?.[0]?.numScheduleVatAmount !== +vdsAmount || +selectedRowList[0]?.invocieRow?.[0]?.numScheduleVatAmount !== +selectedRowList[0]?.invocieRow?.[0]?.numPendingAmount
+                                }
+                                className="btn btn-primary mt-5 ml-5"
+                                type="button"
+                                onClick={() => {
+
+                                  IConfirmModal({
+                                    message: `Are you sure to collect VDS amount?`,
+                                    yesAlertFunc: () => {
+                                      const apiUrl = `/oms/ServiceSales/VDSalesVoucherPosting?customerId=${values?.customer?.value}&numVDSAmount=${vdsAmount}&serviceSalesInvoiceRowId=${selectedRowList[0]?.invocieRow?.[0]?.intServiceSalesInvoiceRowId}&serviceSalesInvoiceId=${selectedRowList[0]?.invocieRow?.[0]?.intServiceSalesInvoiceId}`;
+                                      onVDSAmountCollection(apiUrl, null, () => {
+                                        getData({
+                                          typeId: values?.type?.value,
+                                          values,
+                                        });
+                                      }, true)
+                                    },
+                                    noAlertFunc: () => { },
+                                  });
+
+                                }}
+                              >
+                                VDS Collection
+                              </button>)}
                             </div>
                           </>
                         )}
