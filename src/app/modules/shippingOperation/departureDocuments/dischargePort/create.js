@@ -35,6 +35,7 @@ const initData = {
   strSealingReportFile: "",
   strHoldInspectionReportFile: "",
   strRemarks: "",
+  departureDocuments: "",
 };
 
 export default function CreateDischargePort() {
@@ -131,6 +132,10 @@ export default function CreateDischargePort() {
       dteServerDateTime: _todayDate(),
       intActionBy: userId,
       isActive: true,
+      departureDocuments: values?.departureDocuments?.length > 0 ? values?.departureDocuments?.map((item) => ({
+        strDocumentId: item?.id,
+        headerId: 0,
+      })) : []
     };
 
     onSave(
@@ -479,6 +484,24 @@ export default function CreateDischargePort() {
                         setFieldValue(
                           "strHoldInspectionReportFile",
                           attachmentData?.[0]?.id
+                        );
+                      }
+                    }}
+                  />
+                </div>
+
+                <div className="col-lg-2 d-flex flex-column">
+                  <label>Extra Attachments</label>
+                  <AttachmentUploaderNew
+                    isForPublicRoute={true}
+                    isExistAttachment={values?.departureDocuments}
+                    fileUploadLimits={5}
+                    CBAttachmentRes={(attachmentData) => {
+                      if (Array.isArray(attachmentData)) {
+                        setAttachment(attachmentData?.[0]?.id);
+                        setFieldValue(
+                          "departureDocuments",
+                          attachmentData?.map((item) => item)
                         );
                       }
                     }}
