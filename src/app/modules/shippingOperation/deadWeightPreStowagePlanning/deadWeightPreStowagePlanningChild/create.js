@@ -200,7 +200,6 @@ export default function DeadWeightCreate() {
       strVesselNominationCode:
         paramCode || values?.strVesselNominationCode || "",
       PreStowagePlan: generateFileUrl(pdfURL),
-      strPrestowagePlanDoc: pdfURL || "",
       // Always thouse fileds are bellow of all filed
       // ...numHoldFields, // Spread the dynamically generated numHold fields
       // TotalLoadableQuantity: numHoldTotal, // Add the total loadable quantity
@@ -228,6 +227,7 @@ export default function DeadWeightCreate() {
         isActive: true,
         dteCreateDate: _todayDate(),
         intCreateBy: userId,
+        strPrestowagePlanDoc: pdfURL || "",
       },
       rows: rows
     };
