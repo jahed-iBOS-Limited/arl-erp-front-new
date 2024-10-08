@@ -24,7 +24,7 @@ const VesselLayout = ({ vesselData, values, holdRows }) => {
       maxWidth: "200px",
     },
     holdNumber: {
-      fontSize: "20px",
+      fontSize: "16px",
       fontWeight: "bold",
       position: "absolute",
       top: "145px",
@@ -104,7 +104,7 @@ const VesselLayout = ({ vesselData, values, holdRows }) => {
           return (
             <div style={styles.vesselSection} key={index}>
               {/* Hold Number */}
-              <div style={styles.holdNumber}>
+              <div style={styles.holdNumber} className="hold_number_label">
                 {vesselData?.intHoldNumber - index}
               </div>
               {/* Hold Image */}

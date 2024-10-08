@@ -194,7 +194,7 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData, holdRows })
       </div>
 
       {/* Middle Section - Vessel Layout */}
-      <div style={styles.vesselSection} className="images_wrapper">
+      <div style={styles.vesselSection} className={`images_wrapper ${vesselData?.intHoldNumber < 7 ? "less_then_seven" : vesselData?.intHoldNumber === 7 ? "equal_seven" : "greater_then_seven"}`}>
         <VesselLayout vesselData={vesselData} values={values} holdRows={holdRows}/>
       </div>
 
