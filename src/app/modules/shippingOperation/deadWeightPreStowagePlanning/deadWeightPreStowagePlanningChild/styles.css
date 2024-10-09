@@ -1,0 +1,73 @@
+.content_wrapper .vessel_wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 5px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.content_wrapper .vessel_part img {
+  width: 100%;
+  height: auto;
+}
+
+.content_wrapper .vessel_part .hold_number_label {
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+}
+
+.content_wrapper .vessel_hold_wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  margin: 5px 0;
+  border-bottom: 1px solid #000000;
+}
+
+.content_wrapper .vessel_hold {
+  align-self: flex-end;
+  gap: 5px;
+  flex: 1;
+}
+
+.content_wrapper .vessel_hold .hold_box {
+  border: 1px solid #000000;
+  height: 100px;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content_wrapper .vessel_hold .hold_box p {
+  font-size: 8px;
+  margin: 0;
+}
+
+.content_wrapper .vessel_back .img_wrapper,
+.content_wrapper .vessel_front .img_wrapper {
+  width: 100%;
+}
+
+.content_wrapper .img_wrapper img {
+  width: 100%;
+  height: 100%;
+}
+
+.content_wrapper .vessel_back,
+.content_wrapper .vessel_front {
+  align-self: flex-end;
+}
+
+.content_wrapper .vessel_front .img_wrapper {
+  height: 250px;
+}
+.content_wrapper .vessel_back .img_wrapper {
+  height: 250px;
+}
