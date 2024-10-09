@@ -145,9 +145,8 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData, holdRows })
       fontSize: "14px",
     },
     list: {
-      listStyleType: "none", // Remove default list styling
       paddingLeft: "0",
-      margin: "0",
+      margin: "0 0 0 40px",
     },
     listItem: {
       marginBottom: "5px",
@@ -201,7 +200,7 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData, holdRows })
       {/* Bottom Section */}
       <div style={styles.remarks}>
         <strong>Remarks: Subject to alter due to:</strong>
-        <ol style={styles.list}>
+        <ol style={styles.list} type="1">
           <li style={styles.listItem}>Trim & Stability</li>
           <li style={styles.listItem}>Loading manner of the stevedore</li>
           <li style={styles.listItem}>Actual stowage factor</li>
