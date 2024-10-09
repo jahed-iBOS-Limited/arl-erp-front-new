@@ -1,54 +1,49 @@
 import { Form, Formik } from "formik";
 import moment from "moment";
-import React, { useEffect } from "react";
+import React from "react";
 import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../../App";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
 import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
 import "./style.css";
-import { imarineBaseUrl } from "../../../../../App";
 const validationSchema = Yup.object().shape({
   bookingAmount: Yup.number().required("Booking Amount is required"),
   airWaybillNumber: Yup.string().required("Air Waybill Number is required"),
   departureDateTime: Yup.date().required("Departure Date & Time is required"),
   arrivalDateTime: Yup.date().required("Arrival Date & Time is required"),
   flightNumber: Yup.string().required("Flight Number is required"),
-  transitInformation: Yup.string().required("Transit Information is required"),
+  transitInformation: Yup.object()
+    .shape({
+      value: Yup.number().required("Transit Information is required"),
+      label: Yup.string().required("Transit Information is required"),
+    })
+    .nullable()
+    .typeError("Transit Information is required"),
   freightForwarderRepresentative: Yup.string().required(
     "Freight Forwarder Representative is required"
   ),
 });
 function ConfirmModal({ rowClickData, CB }) {
   const bookingRequestId = rowClickData?.bookingRequestId;
-  // const [
-  //   shipBookingRequestGetById,
-  //   setShipBookingRequestGetById,
-  //   shipBookingRequestLoading,
-  // ] = useAxiosGet();
   const [
     ,
     getBookingRequestStatusUpdate,
     bookingRequestloading,
   ] = useAxiosPut();
-  useEffect(() => {
-    if (bookingRequestId) {
-      // setShipBookingRequestGetById(
-      //   `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
-      // );
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookingRequestId]);
 
   const saveHandler = (values, cb) => {
-    console.log(values, "values");
-
     const paylaod = {
       bookingRequestId: bookingRequestId || 0,
-      departureDateTime: moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") || new Date(),
-      arrivalDateTime: moment(values?.arrivalDateTime).format("YYYY-MM-DDTHH:mm:ss") || new Date(),
+      departureDateTime:
+        moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
+        new Date(),
+      arrivalDateTime:
+        moment(values?.arrivalDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
+        new Date(),
       flightNumber: values?.flightNumber || "",
-      transitInformation: values?.transitInformation || "",
+      transitInformation: values?.transitInformation?.label || "",
       awbnumber: values?.airWaybillNumber || "",
       bookingAmount: values?.bookingAmount || 0,
       primaryContactPerson: values?.freightForwarderRepresentative || "",
@@ -57,7 +52,11 @@ function ConfirmModal({ rowClickData, CB }) {
     };
 
     if (paylaod) {
-      getBookingRequestStatusUpdate(`${imarineBaseUrl}/domain/ShippingService/SaveBookingConfirm`, paylaod, CB);
+      getBookingRequestStatusUpdate(
+        `${imarineBaseUrl}/domain/ShippingService/SaveBookingConfirm`,
+        paylaod,
+        CB
+      );
     }
   };
   return (
@@ -156,14 +155,26 @@ function ConfirmModal({ rowClickData, CB }) {
                 </div>
                 {/* Transit Information */}
                 <div className="col-lg-3">
-                  <InputField
+                  <NewSelect
+                    name="transitInformation"
+                    options={[
+                      {
+                        value: 1,
+                        label: "Direct Flight",
+                      },
+                      {
+                        value: 2,
+                        label: "No Transits",
+                      },
+                    ]}
                     value={values?.transitInformation}
                     label="Transit Information"
-                    name="transitInformation"
-                    type="text"
-                    onChange={(e) => {
-                      setFieldValue("transitInformation", e.target.value);
+                    onChange={(valueOption) => {
+                      setFieldValue("transitInformation", valueOption);
                     }}
+                    placeholder="Transit Information"
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 {/* freight forwarder representative */}

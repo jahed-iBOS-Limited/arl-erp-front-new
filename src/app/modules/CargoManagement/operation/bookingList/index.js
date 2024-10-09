@@ -391,7 +391,14 @@ function BookingList() {
               });
             }}
           >
-            <ReceiveModal rowClickData={rowClickData} />
+            <ReceiveModal rowClickData={rowClickData} CB={() => {
+              commonLandingApi()
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isReceive: false,
+              });
+              setRowClickData({})
+            }}/>
           </IViewModal>
         </>
       )}
