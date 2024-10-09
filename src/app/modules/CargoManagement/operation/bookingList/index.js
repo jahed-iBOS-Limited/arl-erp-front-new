@@ -1,23 +1,21 @@
 import { Formik } from "formik";
 import moment from "moment";
 import React, { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../App";
 import ICustomCard from "../../../_helper/_customCard";
 import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
 import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
 import Details from "./bookingDetails";
-import { cancelHandler, pickupHandler, statusReturn } from "./helper";
+import ChargesModal from "./chargesModal";
 import ConfirmModal from "./confirmModal";
+import DocumentModal from "./documentModal";
+import { cancelHandler, pickupHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
-import PlanningModal from "./planningModal";
-import ChargesModal from "./chargesModal";
-import DocumentModal from "./documentModal";
-import ChecklistModal from "./checklistModal";
-import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
 
 const validationSchema = Yup.object().shape({});
 function BookingList() {
@@ -140,7 +138,7 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: "830px",
+                            minWidth: "1200px",
                           }}
                         >
                           Action
@@ -262,21 +260,37 @@ function BookingList() {
                                       });
                                     }}
                                   >
-                                    Transport
+                                    Transport Planning
                                   </button>
                                 </span>
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
                                     onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isPlanning: true,
-                                      });
+                                   
                                     }}
                                   >
-                                    Planning
+                                    BL
+                                  </button>
+                                </span>
+                                <span>
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                   
+                                    }}
+                                  >
+                                    HBL
+                                  </button>
+                                </span>
+                                <span>
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                   
+                                    }}
+                                  >
+                                    Email
                                   </button>
                                 </span>
                                 <span>
@@ -290,7 +304,7 @@ function BookingList() {
                                       });
                                     }}
                                   >
-                                    Charges
+                                    Services & Charges
                                   </button>
                                 </span>
                                 <span>
@@ -304,21 +318,28 @@ function BookingList() {
                                       });
                                     }}
                                   >
-                                    Document
+                                    Doc Checklist
+                                  </button>
+                                </span>
+
+                                <span>
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                    
+                                    }}
+                                  >
+                                    Des. Port Receive 
                                   </button>
                                 </span>
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
                                     onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isChecklist: true,
-                                      });
+                                   
                                     }}
                                   >
-                                    Checklist
+                                    Buyer Receive 
                                   </button>
                                 </span>
                               </div>
@@ -428,29 +449,12 @@ function BookingList() {
         </>
       )}
 
-      {/* Planning Modal */}
-      {isModalShowObj?.isPlanning && (
-        <>
-          <IViewModal
-            title="Planning Booking"
-            show={isModalShowObj?.isPlanning}
-            onHide={() => {
-              setIsModalShowObj({
-                ...isModalShowObj,
-                isPlanning: false,
-              });
-            }}
-          >
-            <PlanningModal rowClickData={rowClickData} />
-          </IViewModal>
-        </>
-      )}
 
       {/* Charges Modal */}
       {isModalShowObj?.isCharges && (
         <>
           <IViewModal
-            title="Charges Booking"
+            title="Services & Charges"
             show={isModalShowObj?.isCharges}
             onHide={() => {
               setIsModalShowObj({
@@ -459,7 +463,14 @@ function BookingList() {
               });
             }}
           >
-            <ChargesModal rowClickData={rowClickData} />
+            <ChargesModal rowClickData={rowClickData} CB ={() => {
+              commonLandingApi()
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isCharges: false,
+              });
+              setRowClickData({})
+            }}/>
           </IViewModal>
         </>
       )}
@@ -478,24 +489,6 @@ function BookingList() {
             }}
           >
             <DocumentModal rowClickData={rowClickData} />
-          </IViewModal>
-        </>
-      )}
-
-      {/* Checklist Modal */}
-      {isModalShowObj?.isChecklist && (
-        <>
-          <IViewModal
-            title="Checklist Booking"
-            show={isModalShowObj?.isChecklist}
-            onHide={() => {
-              setIsModalShowObj({
-                ...isModalShowObj,
-                isChecklist: false,
-              });
-            }}
-          >
-            <ChecklistModal rowClickData={rowClickData} />
           </IViewModal>
         </>
       )}
