@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 import DischargePort from "./dischargePort";
+import LoadPort from "./loadPort";
 
 export function DepartureDocumentsPages
     () {
@@ -14,7 +15,7 @@ export function DepartureDocumentsPages
             />
             <ContentRoute
                 path='/shippingOperation/departure-documents/load-port'
-                component={() => <h1>Load Port</h1>}
+                component={LoadPort}
             />
             <ContentRoute
                 path='/shippingOperation/departure-documents/discharge-port'
