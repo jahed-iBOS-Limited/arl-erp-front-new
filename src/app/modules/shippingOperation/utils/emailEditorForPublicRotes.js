@@ -8,7 +8,7 @@ import { marineBaseUrlPythonAPI } from "../../../App";
 import { shallowEqual, useSelector } from "react-redux";
 import { generateFileUrl } from "./helper";
 
-const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
+const EmailEditorForPublicRoutes = ({ featureName, vesselData, payloadInfo, cb }) => {
 
   const { profileData } = useSelector((state) => {
     return state.authData;
@@ -51,8 +51,8 @@ const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
   //   return htmlContent;
   // };
 
-   // Function to remove prefixes and convert camelCase to space-separated words
-   const cleanKey = (key) => {
+  // Function to remove prefixes and convert camelCase to space-separated words
+  const cleanKey = (key) => {
     const keyWithoutPrefix = key.replace(/^(str|int|num)/, ""); // Remove prefixes
     return keyWithoutPrefix.replace(/([a-z])([A-Z])/g, "$1 $2"); // Convert camelCase to spaced words
   };
@@ -169,12 +169,19 @@ const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
         receiver: emailData.toEmail,
         email_list: emailData.ccEmail,
         subject: emailData.subject,
+        intVesselId: vesselData?.intVesselId || 0,
         body: emailData.emailBody,
-        attachment: generateFileUrl(emailData?.attachment || "")|| "",
+        attachment: generateFileUrl(emailData?.attachment || "") || "",
         intUserEnrollId: profileData?.employeeId || 0
       };
 
-      onSendEmail(`${marineBaseUrlPythonAPI}/automation/common_mail_sender`, payload, cb, true);
+      if (featureName === "Dead Weight & Pre-Stowage") {
+        onSendEmail(`${marineBaseUrlPythonAPI}/automation/pre_stowage_mail_sent_for_master`, payload, cb, true);
+
+      } else {
+        onSendEmail(`${marineBaseUrlPythonAPI}/automation/common_mail_sender`, payload, cb, true);
+      }
+
     }
   };
 
@@ -319,8 +326,8 @@ const EmailEditorForPublicRoutes = ({ payloadInfo, cb }) => {
             className="btn btn-primary"
             onClick={handleSend}
             onMouseOver={(e) =>
-              (e.target.style.backgroundColor =
-                styles.buttonHover.backgroundColor)
+            (e.target.style.backgroundColor =
+              styles.buttonHover.backgroundColor)
             }
             onMouseOut={(e) =>
               (e.target.style.backgroundColor = styles.button.backgroundColor)
