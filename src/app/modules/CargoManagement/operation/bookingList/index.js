@@ -138,7 +138,7 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: "1200px",
+                            minWidth: "1230px",
                           }}
                         >
                           Action
