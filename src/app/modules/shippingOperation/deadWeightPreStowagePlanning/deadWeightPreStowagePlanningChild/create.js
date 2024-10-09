@@ -777,7 +777,7 @@ export default function DeadWeightCreate() {
                         portDDL || []
                       }
                       value={values?.holdPort}
-                      label="Select Port"
+                      label="Select Load Port"
                       onChange={(valueOption) => {
                         setFieldValue("holdPort", valueOption || "")
                       }}
@@ -802,7 +802,7 @@ export default function DeadWeightCreate() {
                   <div className="col-lg-2">
                     <InputField
                       value={values.holdCargoQTY}
-                      label="Cargo Qty"
+                      label="Cargo Quantity"
                       name="holdCargoQTY"
                       type="number"
                       onChange={(e) => {
@@ -864,6 +864,8 @@ export default function DeadWeightCreate() {
                   >
                     {/* <MailSender payloadInfo={payloadInfo} /> */}
                     <EmailEditorForPublicRoutes
+                      featureName={"Dead Weight & Pre-Stowage"}
+                      vesselData={vesselData}
                       payloadInfo={payloadInfo}
                       cb={() => {
                         setIsShowModal(false);
