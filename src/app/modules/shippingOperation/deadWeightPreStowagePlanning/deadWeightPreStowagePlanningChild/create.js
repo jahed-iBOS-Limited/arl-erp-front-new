@@ -864,6 +864,8 @@ export default function DeadWeightCreate() {
                   >
                     {/* <MailSender payloadInfo={payloadInfo} /> */}
                     <EmailEditorForPublicRoutes
+                      featureName={"Dead Weight & Pre-Stowage"}
+                      vesselData={vesselData}
                       payloadInfo={payloadInfo}
                       cb={() => {
                         setIsShowModal(false);

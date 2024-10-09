@@ -425,11 +425,11 @@ export default function BunkerManagementCreate() {
                   options={[
                     {
                       value: 1,
-                      label: "Eco Speed",
+                      label: "Eco",
                     },
                     {
                       value: 2,
-                      label: "Max Speed",
+                      label: "Max",
                     },
                   ]}
                   value={values?.intendedSpeed || ""}
