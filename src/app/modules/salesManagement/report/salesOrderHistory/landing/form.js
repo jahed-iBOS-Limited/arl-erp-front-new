@@ -103,6 +103,13 @@ export default function SalesOrderHistoryLanding() {
     }
   };
 
+  const reportNameModified = reportNameList?.filter((item) => {
+    if (buId !== 184) {
+      return item?.value !== 6;
+    }
+    return item;
+  });
+
   return (
     <Formik
       enableReinitialize={true}
@@ -125,7 +132,7 @@ export default function SalesOrderHistoryLanding() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="reportName"
-                      options={reportNameList}
+                      options={reportNameModified}
                       value={values?.reportName}
                       label="Report Name"
                       onChange={(valueOption) => {

@@ -49,7 +49,7 @@ export default function CommonTable({
               <th style={{ width: "120px" }}>Actual Delivery Quantity</th>
               <th style={{ width: "120px" }}>Actual Un Delivery Quantity</th>
               <th style={{ width: "120px" }}>Actual Un Delivery Amount</th>
-              {[3].includes(values?.reportName?.value) && (
+              {[3].includes(values?.reportName?.value) && buId === 184 && (
                 <th style={{ width: "50px" }}>Action</th>
               )}
             </tr>
@@ -98,7 +98,7 @@ export default function CommonTable({
                     {item?.numActualUndeliveryQuantity}
                   </td>
                   <td className="text-right">{item?.actualUndelvAmount}</td>
-                  {[3].includes(values?.reportName?.value) && (
+                  {[3].includes(values?.reportName?.value) && buId === 184 && (
                     <td className="text-center">
                       <button
                         className="btn btn-primary btn-sm"
