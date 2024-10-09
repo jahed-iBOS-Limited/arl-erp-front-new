@@ -1,29 +1,47 @@
-import React, { useEffect } from "react";
-import Loading from "../../../_helper/_loading";
-import ICustomCard from "../../../_helper/_customCard";
 import { Formik } from "formik";
-import * as Yup from "yup";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { imarineBaseUrl } from "../../../../App";
-import IView from "../../../_helper/_helperIcons/_view";
-import IDelete from "../../../_helper/_helperIcons/_delete";
 import moment from "moment";
+import React, { useEffect } from "react";
+import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../App";
+import ICustomCard from "../../../_helper/_customCard";
+import Loading from "../../../_helper/_loading";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
+import IViewModal from "../../../_helper/_viewModal";
+import Details from "./bookingDetails";
+import { cancelHandler, pickupHandler } from "./helper";
+import ConfirmModal from "./confirmModal";
+import ReceiveModal from "./receiveModal";
+import TransportModal from "./transportModal";
+import PlanningModal from "./planningModal";
+import ChargesModal from "./chargesModal";
+import DocumentModal from "./documentModal";
+import ChecklistModal from "./checklistModal";
+
 const validationSchema = Yup.object().shape({});
 function BookingList() {
+  const { profileData } = useSelector(
+    (state) => state?.authData || {},
+    shallowEqual
+  );
   const [
     shipBookingReqLanding,
     getShipBookingReqLanding,
     bookingReqLandingLoading,
   ] = useAxiosGet();
 
+  const [isModalShowObj, setIsModalShowObj] = React.useState({
+    isView: false,
+  });
+  const [rowClickData, setRowClickData] = React.useState({});
+
   useEffect(() => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?shipperId=1`
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId}&userTypeId=${profileData?.userTypeId}&refrenceId=${profileData?.userReferenceId}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [profileData]);
 
-  console.log(shipBookingReqLanding, "shipBookingReqLanding");
   return (
     <ICustomCard title="Booking List">
       <>
@@ -142,52 +160,134 @@ function BookingList() {
                                 }}
                               >
                                 <span>
-                                  <button className="btn btn-sm btn-primary">
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isView: true,
+                                      });
+                                    }}
+                                  >
                                     Details
                                   </button>
                                 </span>
                                 <span>
-                                  <button className="btn btn-sm btn-primary">
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      cancelHandler({ item });
+                                    }}
+                                  >
                                     Cancel
                                   </button>
                                 </span>
                                 <span>
-                                  <button className="btn btn-sm btn-primary">
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isConfirm: true,
+                                      });
+                                    }}
+                                  >
                                     Confirm
                                   </button>
                                 </span>
                                 <span>
-                                  <button className="btn btn-sm btn-primary">
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      pickupHandler({ item });
+                                    }}
+                                  >
                                     Pickup
                                   </button>
                                 </span>
                                 <span>
-                                  <button className="btn btn-sm btn-primary">
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isReceive: true,
+                                      });
+                                    }}
+                                  >
                                     Receive
                                   </button>
                                 </span>
                                 <span>
-                                  <button className="btn btn-sm btn-primary">
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isTransport: true,
+                                      });
+                                    }}
+                                  >
                                     Transport
                                   </button>
                                 </span>
                                 <span>
-                                  <button className="btn btn-sm btn-primary">
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isPlanning: true,
+                                      });
+                                    }}
+                                  >
                                     Planning
                                   </button>
                                 </span>
                                 <span>
-                                  <button className="btn btn-sm btn-primary">
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isCharges: true,
+                                      });
+                                    }}
+                                  >
                                     Charges
                                   </button>
                                 </span>
                                 <span>
-                                  <button className="btn btn-sm btn-primary">
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isDocument: true,
+                                      });
+                                    }}
+                                  >
                                     Document
                                   </button>
                                 </span>
                                 <span>
-                                  <button className="btn btn-sm btn-primary">
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isChecklist: true,
+                                      });
+                                    }}
+                                  >
                                     Checklist
                                   </button>
                                 </span>
@@ -203,6 +303,151 @@ function BookingList() {
           )}
         </Formik>
       </>
+
+      {/* view info */}
+      {isModalShowObj?.isView && (
+        <>
+          {" "}
+          <IViewModal
+            show={isModalShowObj?.isView}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isView: false,
+              });
+            }}
+            title="Booking Details"
+          >
+            <Details rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
+
+      {/* Confirm Modal */}
+      {isModalShowObj?.isConfirm && (
+        <>
+          <IViewModal
+            title="Confirm Booking"
+            show={isModalShowObj?.isConfirm}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isConfirm: false,
+              });
+            }}
+          >
+            <ConfirmModal rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
+
+      {/* Receive Modal */}
+      {isModalShowObj?.isReceive && (
+        <>
+          <IViewModal
+            title="Receive Booking"
+            show={isModalShowObj?.isReceive}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isReceive: false,
+              });
+            }}
+          >
+            <ReceiveModal rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
+
+      {/* Transport Modal */}
+      {isModalShowObj?.isTransport && (
+        <>
+          <IViewModal
+            title="Transport Booking"
+            show={isModalShowObj?.isTransport}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isTransport: false,
+              });
+            }}
+          >
+            <TransportModal rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
+
+      {/* Planning Modal */}
+      {isModalShowObj?.isPlanning && (
+        <>
+          <IViewModal
+            title="Planning Booking"
+            show={isModalShowObj?.isPlanning}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isPlanning: false,
+              });
+            }}
+          >
+            <PlanningModal rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
+
+      {/* Charges Modal */}
+      {isModalShowObj?.isCharges && (
+        <>
+          <IViewModal
+            title="Charges Booking"
+            show={isModalShowObj?.isCharges}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isCharges: false,
+              });
+            }}
+          >
+            <ChargesModal rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
+
+      {/* Document Modal */}
+      {isModalShowObj?.isDocument && (
+        <>
+          <IViewModal
+            title="Document Booking"
+            show={isModalShowObj?.isDocument}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isDocument: false,
+              });
+            }}
+          >
+            <DocumentModal rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
+
+      {/* Checklist Modal */}
+      {isModalShowObj?.isChecklist && (
+        <>
+          <IViewModal
+            title="Checklist Booking"
+            show={isModalShowObj?.isChecklist}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isChecklist: false,
+              });
+            }}
+          >
+            <ChecklistModal rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
     </ICustomCard>
   );
 }
