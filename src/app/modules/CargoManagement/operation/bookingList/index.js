@@ -13,7 +13,7 @@ import Details from "./bookingDetails";
 import ChargesModal from "./chargesModal";
 import ConfirmModal from "./confirmModal";
 import DocumentModal from "./documentModal";
-import { cancelHandler, pickupHandler, statusReturn } from "./helper";
+import { buyerReceiveHandler, cancelHandler, DesPortReceiveHandler, InTransitHandler, pickupHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
 
@@ -131,9 +131,11 @@ function BookingList() {
                         >
                           Rate
                         </th>
-                        <th style={{
-                          minWidth: "150px",
-                        }}>
+                        <th
+                          style={{
+                            minWidth: "150px",
+                          }}
+                        >
                           Status
                         </th>
                         <th
@@ -167,11 +169,7 @@ function BookingList() {
                             <td className="text-left">{item?.portOfLoading}</td>
                             <td className="text-left">{item?.bookingAmount}</td>
                             <td>
-                              <span>
-                                {
-                                  statusReturn(item)
-                                }
-                              </span>
+                              <span>{statusReturn(item)}</span>
                             </td>
                             <td>
                               <div
@@ -203,7 +201,7 @@ function BookingList() {
                                         item,
                                         getBookingRequestStatusUpdate,
                                         CB: () => {
-                                          commonLandingApi()
+                                          commonLandingApi();
                                         },
                                       });
                                     }}
@@ -266,9 +264,7 @@ function BookingList() {
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                   
-                                    }}
+                                    onClick={() => {}}
                                   >
                                     BL
                                   </button>
@@ -276,9 +272,7 @@ function BookingList() {
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                   
-                                    }}
+                                    onClick={() => {}}
                                   >
                                     HBL
                                   </button>
@@ -286,9 +280,7 @@ function BookingList() {
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                   
-                                    }}
+                                    onClick={() => {}}
                                   >
                                     Email
                                   </button>
@@ -325,21 +317,66 @@ function BookingList() {
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                    
-                                    }}
+                                    onClick={() => {}}
                                   >
-                                    Des. Port Receive 
+                                    Dispatch
+                                  </button>
+                                </span>
+                                <span>
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {}}
+                                  >
+                                    Customs Clearance
                                   </button>
                                 </span>
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
                                     onClick={() => {
-                                   
+                                      InTransitHandler({
+                                        item,
+                                        getBookingRequestStatusUpdate,
+                                        CB: () => {
+                                          commonLandingApi();
+                                        },
+                                      });
+                                    }}
+
+                                  >
+                                    In Transit
+                                  </button>
+                                </span>
+                                <span>
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      DesPortReceiveHandler({
+                                        item,
+                                        getBookingRequestStatusUpdate,
+                                        CB: () => {
+                                          commonLandingApi();
+                                        },
+                                      });
                                     }}
                                   >
-                                    Buyer Receive 
+                                    Des. Port Receive
+                                  </button>
+                                </span>
+                                <span>
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      buyerReceiveHandler({
+                                        item,
+                                        getBookingRequestStatusUpdate,
+                                        CB: () => {
+                                          commonLandingApi();
+                                        },
+                                      });
+                                    }}
+                                  >
+                                    Buyer Receive
                                   </button>
                                 </span>
                               </div>
@@ -387,14 +424,17 @@ function BookingList() {
               });
             }}
           >
-            <ConfirmModal rowClickData={rowClickData} CB={()=> {
-              commonLandingApi()
-              setIsModalShowObj({
-                ...isModalShowObj,
-                isConfirm: false,
-              });
-              setRowClickData({})
-            }} />
+            <ConfirmModal
+              rowClickData={rowClickData}
+              CB={() => {
+                commonLandingApi();
+                setIsModalShowObj({
+                  ...isModalShowObj,
+                  isConfirm: false,
+                });
+                setRowClickData({});
+              }}
+            />
           </IViewModal>
         </>
       )}
@@ -412,14 +452,17 @@ function BookingList() {
               });
             }}
           >
-            <ReceiveModal rowClickData={rowClickData} CB={() => {
-              commonLandingApi()
-              setIsModalShowObj({
-                ...isModalShowObj,
-                isReceive: false,
-              });
-              setRowClickData({})
-            }}/>
+            <ReceiveModal
+              rowClickData={rowClickData}
+              CB={() => {
+                commonLandingApi();
+                setIsModalShowObj({
+                  ...isModalShowObj,
+                  isReceive: false,
+                });
+                setRowClickData({});
+              }}
+            />
           </IViewModal>
         </>
       )}
@@ -437,18 +480,20 @@ function BookingList() {
               });
             }}
           >
-            <TransportModal rowClickData={rowClickData} CB={() => {
-              commonLandingApi()
-              setIsModalShowObj({
-                ...isModalShowObj,
-                isTransport: false,
-              });
-              setRowClickData({})
-            }}/>
+            <TransportModal
+              rowClickData={rowClickData}
+              CB={() => {
+                commonLandingApi();
+                setIsModalShowObj({
+                  ...isModalShowObj,
+                  isTransport: false,
+                });
+                setRowClickData({});
+              }}
+            />
           </IViewModal>
         </>
       )}
-
 
       {/* Charges Modal */}
       {isModalShowObj?.isCharges && (
@@ -463,14 +508,17 @@ function BookingList() {
               });
             }}
           >
-            <ChargesModal rowClickData={rowClickData} CB ={() => {
-              commonLandingApi()
-              setIsModalShowObj({
-                ...isModalShowObj,
-                isCharges: false,
-              });
-              setRowClickData({})
-            }}/>
+            <ChargesModal
+              rowClickData={rowClickData}
+              CB={() => {
+                commonLandingApi();
+                setIsModalShowObj({
+                  ...isModalShowObj,
+                  isCharges: false,
+                });
+                setRowClickData({});
+              }}
+            />
           </IViewModal>
         </>
       )}

@@ -29,8 +29,8 @@ function ConfirmModal({ rowClickData, CB }) {
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [
     ,
-    getBookingRequestStatusUpdate,
-    bookingRequestloading,
+    SaveBookingConfirm,
+    bookingConfirm,
   ] = useAxiosPut();
 
   const saveHandler = (values, cb) => {
@@ -52,7 +52,7 @@ function ConfirmModal({ rowClickData, CB }) {
     };
 
     if (paylaod) {
-      getBookingRequestStatusUpdate(
+      SaveBookingConfirm(
         `${imarineBaseUrl}/domain/ShippingService/SaveBookingConfirm`,
         paylaod,
         CB
@@ -61,7 +61,7 @@ function ConfirmModal({ rowClickData, CB }) {
   };
   return (
     <div className="confirmModal">
-      {bookingRequestloading && <Loading />}
+      {bookingConfirm && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{

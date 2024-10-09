@@ -26,18 +26,33 @@ export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
     noAlertFunc: () => {},
     yesAlertFunc: () => {
       const payload = {
+        ...commonBookingRequestStatusUpdate,
         bookingRequestId: item?.bookingRequestId,
-        isPending: false,
-        isHandOver: false,
-        handOverDate: new Date(),
-        isReceived: false,
-        receivedDate: new Date(),
-        isPlaning: false,
-        planingDate: new Date(),
-        isConfirm: false,
-        confirmDate: new Date(),
-        isCancel: false,
-        cancelDate: new Date(),
+      };
+      getBookingRequestStatusUpdate(
+        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
+        payload,
+        () => {
+          CB();
+        }
+      );
+    },
+  };
+  IConfirmModal(obj);
+};
+
+export const buyerReceiveHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
+  const obj = {
+    title: "Buyer Receive",
+    message: "Are you sure you want to Buyer Receive this?",
+    noAlertFunc: () => {},
+    yesAlertFunc: () => {
+      const payload = {
+        ...commonBookingRequestStatusUpdate,
+        isBuyerReceive: true,
+        isActive: true,
+        buyerReceive: new Date(),
+        bookingRequestId: item?.bookingRequestId,
       };
       getBookingRequestStatusUpdate(
         `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
@@ -69,6 +84,80 @@ export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
 //   }
 // };
 
+
+
+export const DesPortReceiveHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
+  const obj = {
+    title: "Cancel Booking",
+    message: "Are you sure you want to cancel this?",
+    noAlertFunc: () => {},
+    yesAlertFunc: () => {
+      const payload = {
+        ...commonBookingRequestStatusUpdate,
+        isDestPortReceive: true,
+        isActive: true,
+        destPortReceive: new Date(),
+        bookingRequestId: item?.bookingRequestId,
+      };
+      getBookingRequestStatusUpdate(
+        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
+        payload,
+        () => {
+          CB();
+        }
+      );
+    },
+  };
+  IConfirmModal(obj);
+};
+export const InTransitHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
+  const obj = {
+    title: "In Transit",
+    message: "Are you sure you want to In Transit this?",
+    noAlertFunc: () => {},
+    yesAlertFunc: () => {
+      const payload = {
+        ...commonBookingRequestStatusUpdate,
+        isDestPortReceive: true,
+        isActive: true,
+        inTransit: new Date(),
+        bookingRequestId: item?.bookingRequestId,
+      };
+      getBookingRequestStatusUpdate(
+        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
+        payload,
+        () => {
+          CB();
+        }
+      );
+    },
+  };
+  IConfirmModal(obj);
+};
+
+export const commonBookingRequestStatusUpdate = {
+  bookingRequestId: 0,
+  isPending: false,
+  isHandOver: false,
+  handOverDate: new Date(),
+  isReceived: false,
+  receivedDate: new Date(),
+  isPlaning: false,
+  planingDate: new Date(),
+  isConfirm: false,
+  confirmDate: new Date(),
+  isCancel: false,
+  cancelDate: new Date(),
+  isInTransit: false,
+  inTransit: new Date(),
+  isDestPortReceive: false,
+  destPortReceive: new Date(),
+  isBuyerReceive: false,
+  buyerReceive: new Date(),
+  isActive: false,
+  updatedAt: new Date(),
+};
+
 export const statusReturn = (itemObj) => {
   if (itemObj?.isPending) {
     return "Pending";
@@ -82,7 +171,14 @@ export const statusReturn = (itemObj) => {
     return "Confirm";
   } else if (itemObj?.isCancel) {
     return "Cancel";
-  } else {
-    return "N/A";
+  }else if (itemObj?.isInTransit) {
+    return "In Transit";
   }
+  else if (itemObj?.isDestPortReceive) {
+    return "Dest Port Receive";
+  }
+  else if (itemObj?.isBuyerReceive) {
+    return "Buyer Receive";
+  }
+  return "";
 };
