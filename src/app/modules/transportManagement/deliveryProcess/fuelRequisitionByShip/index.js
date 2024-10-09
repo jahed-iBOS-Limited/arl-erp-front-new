@@ -116,7 +116,7 @@ export default function FuelRequisitionByShipment() {
                         warehouseName: "ACCL Factory",
                         businessPartnerId: 0,
                         parsonnelId: userId,
-                        costElementName: 270,
+                        costElementName: 2705,
                         costCenterId: 78,
                         costCenterCode: "LD",
                         costCenterName: "Logistic & Distribution,LD,Akij Cement Company Ltd",
