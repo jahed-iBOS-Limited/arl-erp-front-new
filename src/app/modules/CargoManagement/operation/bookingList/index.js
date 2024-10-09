@@ -17,6 +17,7 @@ import PlanningModal from "./planningModal";
 import ChargesModal from "./chargesModal";
 import DocumentModal from "./documentModal";
 import ChecklistModal from "./checklistModal";
+import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
 
 const validationSchema = Yup.object().shape({});
 function BookingList() {
@@ -30,18 +31,27 @@ function BookingList() {
     bookingReqLandingLoading,
   ] = useAxiosGet();
 
+  const [
+    ,
+    getBookingRequestStatusUpdate,
+    bookingRequestloading,
+  ] = useAxiosPut();
+
   const [isModalShowObj, setIsModalShowObj] = React.useState({
     isView: false,
   });
   const [rowClickData, setRowClickData] = React.useState({});
 
   useEffect(() => {
-    getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId}&userTypeId=${profileData?.userTypeId}&refrenceId=${profileData?.userReferenceId}`
-    );
+    commonLandingApi();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);
 
+  const commonLandingApi = () => {
+    getShipBookingReqLanding(
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId}&userTypeId=${profileData?.userTypeId}&refrenceId=${profileData?.userReferenceId}`
+    );
+  };
   return (
     <ICustomCard title="Booking List">
       <>
@@ -57,7 +67,9 @@ function BookingList() {
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
-              {bookingReqLandingLoading && <Loading />}
+              {(bookingReqLandingLoading || bookingRequestloading) && (
+                <Loading />
+              )}
               {/* <div className="row global-form"></div> */}
               <div className="col-lg-12">
                 <div className="table-responsive">
@@ -177,7 +189,13 @@ function BookingList() {
                                   <button
                                     className="btn btn-sm btn-primary"
                                     onClick={() => {
-                                      cancelHandler({ item });
+                                      cancelHandler({
+                                        item,
+                                        getBookingRequestStatusUpdate,
+                                        CB: () => {
+                                          commonLandingApi()
+                                        },
+                                      });
                                     }}
                                   >
                                     Cancel
