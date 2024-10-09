@@ -145,9 +145,8 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData, holdRows })
       fontSize: "14px",
     },
     list: {
-      listStyleType: "none", // Remove default list styling
       paddingLeft: "0",
-      margin: "0",
+      margin: "0 0 0 40px",
     },
     listItem: {
       marginBottom: "5px",
@@ -167,9 +166,9 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData, holdRows })
           <img src={FullLogo} alt="Akij Shipping Line" style={styles.logo} />
         </div>
         <p style={{}}>
-          <strong style={{ display: "block" }}>Akij chamber, 73 Dilkusha C/A, Dhaka-1000, Bangladesh.</strong>
-          <strong style={{ display: "block" }}>Tel : +88-02-9563008 Fax : +88-02-9572292</strong>
-          <strong style={{ display: "block" }}>E-mail: shipping@akij.net</strong>
+          <strong style={{ display: "block" }}>198.AKIJ HOUSE, BIR UTTAM MIR SHAWKAT SARAK, TEJGAON, DHAKA 1208</strong>
+          <strong style={{ display: "block" }}>Tel : +88-09613311783</strong>
+          <strong style={{ display: "block" }}>E-mail: operation.asll@akij.net</strong>
         </p>
       </div>
 
@@ -201,7 +200,7 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData, holdRows })
       {/* Bottom Section */}
       <div style={styles.remarks}>
         <strong>Remarks: Subject to alter due to:</strong>
-        <ol style={styles.list}>
+        <ol style={styles.list} type="1">
           <li style={styles.listItem}>Trim & Stability</li>
           <li style={styles.listItem}>Loading manner of the stevedore</li>
           <li style={styles.listItem}>Actual stowage factor</li>
