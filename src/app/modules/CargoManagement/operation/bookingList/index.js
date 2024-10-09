@@ -366,7 +366,14 @@ function BookingList() {
               });
             }}
           >
-            <ConfirmModal rowClickData={rowClickData} />
+            <ConfirmModal rowClickData={rowClickData} CB={()=> {
+              commonLandingApi()
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isConfirm: false,
+              });
+              setRowClickData({})
+            }} />
           </IViewModal>
         </>
       )}

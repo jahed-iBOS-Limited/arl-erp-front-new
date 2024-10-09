@@ -132,9 +132,9 @@ function Details({ rowClickData }) {
                   <th>Volume (CBM)</th>
                   <th>Packaging Type</th>
                   <th>Is Temperature Controlled</th>
-                  <td>Temperature Range</td>
-                  <td>Is Special Handling Instructions</td>
-                  <td>Special Handling Instructions</td>
+                  <th>Temperature Range</th>
+                  <th>Is Special Handling Instructions</th>
+                  <th>Special Handling Instructions</th>
                 </tr>
               </thead>
               <tbody>
