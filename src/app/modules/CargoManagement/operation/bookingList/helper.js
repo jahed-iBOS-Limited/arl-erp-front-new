@@ -43,7 +43,7 @@ export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
         `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
         payload,
         () => {
-          CB()
+          CB();
         }
       );
     },
@@ -68,3 +68,21 @@ export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
 //     setLoading(false);
 //   }
 // };
+
+export const statusReturn = (itemObj) => {
+  if (itemObj?.isPending) {
+    return "Pending";
+  } else if (itemObj?.isHandOver) {
+    return "Hand Over";
+  } else if (itemObj?.isReceived) {
+    return "Received";
+  } else if (itemObj?.isPlaning) {
+    return "Planing";
+  } else if (itemObj?.isConfirm) {
+    return "Confirm";
+  } else if (itemObj?.isCancel) {
+    return "Cancel";
+  } else {
+    return "N/A";
+  }
+};

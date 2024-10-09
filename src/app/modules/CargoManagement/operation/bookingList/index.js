@@ -9,7 +9,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import IViewModal from "../../../_helper/_viewModal";
 import Details from "./bookingDetails";
-import { cancelHandler, pickupHandler } from "./helper";
+import { cancelHandler, pickupHandler, statusReturn } from "./helper";
 import ConfirmModal from "./confirmModal";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
@@ -133,6 +133,11 @@ function BookingList() {
                         >
                           Rate
                         </th>
+                        <th style={{
+                          minWidth: "150px",
+                        }}>
+                          Status
+                        </th>
                         <th
                           style={{
                             minWidth: "830px",
@@ -163,6 +168,13 @@ function BookingList() {
                             </td>
                             <td className="text-left">{item?.portOfLoading}</td>
                             <td className="text-left">{item?.bookingAmount}</td>
+                            <td>
+                              <span>
+                                {
+                                  statusReturn(item)
+                                }
+                              </span>
+                            </td>
                             <td>
                               <div
                                 style={{
