@@ -416,7 +416,14 @@ function BookingList() {
               });
             }}
           >
-            <TransportModal rowClickData={rowClickData} />
+            <TransportModal rowClickData={rowClickData} CB={() => {
+              commonLandingApi()
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isTransport: false,
+              });
+              setRowClickData({})
+            }}/>
           </IViewModal>
         </>
       )}
