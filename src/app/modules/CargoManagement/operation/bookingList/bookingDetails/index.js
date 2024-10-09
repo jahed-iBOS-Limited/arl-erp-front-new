@@ -91,7 +91,8 @@ function Details({ rowClickData }) {
               <strong>Freight Charge:</strong> {bookingData?.freightCharge}
             </p>
             <p>
-              <strong>Additional Charge:</strong> {bookingData?.additionalCharge}
+              <strong>Additional Charge:</strong>{" "}
+              {bookingData?.additionalCharge}
             </p>
           </div>
           <div className="col-md-6">
@@ -118,59 +119,69 @@ function Details({ rowClickData }) {
         {/* Cargo Details */}
         <div className="mt-4">
           <h5>Cargo Information</h5>
-          <table className="table table-striped global-table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Description</th>
-                <th>HS Code</th>
-                <th>Packages</th>
-                <th>Gross Weight (KG)</th>
-                <th>Net Weight (KG)</th>
-                <th>Volume (CBM)</th>
-                <th>Packaging Type</th>
-                <th>Temperature Controlled</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookingData?.rowsData?.map((row, index) => (
-                <tr key={index}>
-                    <td>{index + 1}</td>
-                  <td>{row?.descriptionOfGoods}</td>
-                  <td>{row?.hsCode}</td>
-                  <td>{row?.numberOfPackages}</td>
-                  <td>{row?.grossWeightKG}</td>
-                  <td>{row?.netWeightKG}</td>
-                  <td>{row?.volumeCBM}</td>
-                  <td>{row?.typeOfPackaging}</td>
-                  <td>{row?.isTemperatureControl ? "Yes" : "No"}</td>
+          <div className="table-responsive">
+            <table className="table table-striped global-table">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Description</th>
+                  <th>HS Code</th>
+                  <th>Packages</th>
+                  <th>Gross Weight (KG)</th>
+                  <th>Net Weight (KG)</th>
+                  <th>Volume (CBM)</th>
+                  <th>Packaging Type</th>
+                  <th>Is Temperature Controlled</th>
+                  <td>Temperature Range</td>
+                  <td>Is Special Handling Instructions</td>
+                  <td>Special Handling Instructions</td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {bookingData?.rowsData?.map((row, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{row?.descriptionOfGoods}</td>
+                    <td>{row?.hsCode}</td>
+                    <td>{row?.numberOfPackages}</td>
+                    <td>{row?.grossWeightKG}</td>
+                    <td>{row?.netWeightKG}</td>
+                    <td>{row?.volumeCBM}</td>
+                    <td>{row?.typeOfPackaging}</td>
+                    <td>{row?.isTemperatureControl ? "Yes" : "No"}</td>
+                    <td>{row?.temperatureRange}</td>
+                    <td>{row?.isSHInstruction ? "Yes" : "No"}</td>
+                    <td>{row?.shInstructionText}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
         {/* Documents */}
         <div className="mt-4">
           <h5>Documents</h5>
-          <table className="table table-bordered global-table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Document Type</th>
-                <th>Document File ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookingData?.documents?.map((doc, index) => (
-                <tr key={index}>
-                    <td>{index + 1}</td>
-                  <td>{doc?.documentType}</td>
-                  <td>{doc?.documentFileId}</td>
+          <div className="table-responsive">
+            <table className="table table-bordered global-table">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Document Type</th>
+                  <th>Document File ID</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {bookingData?.documents?.map((doc, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{doc?.documentType}</td>
+                    <td>{doc?.documentFileId}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
