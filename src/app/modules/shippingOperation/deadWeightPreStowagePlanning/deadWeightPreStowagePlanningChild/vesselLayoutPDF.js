@@ -93,10 +93,13 @@
 import React from "react";
 import FullLogo from "./images/akijShippingText.png"; // Replace with your logo image path
 import VesselLayout from "./vesselLayout"; // Ensure this component is styled as needed
+import moment from "moment";
 
 const VesselLayoutPDF = ({ vesselData, values, vesselNominationData, holdRows }) => {
 
-
+console.log("holdRows", holdRows)
+const uniqueLoadPorts = [...new Set(holdRows.map(item => item.strPortName))];
+const uniqueCargos = [...new Set(holdRows.map(item => item.strCargoName))];
 
   const styles = {
     container: {
@@ -179,13 +182,15 @@ const VesselLayoutPDF = ({ vesselData, values, vesselNominationData, holdRows })
 
       <div style={styles.section}>
         <p style={styles.cargoInfo}>
-          <strong>Date:</strong> 21/07/2019 <br />
-          <strong>Cargo:</strong> {vesselNominationData?.strCargo}k <br />
-          <strong>Total Cargo:</strong> {values?.intFinalCargoToloadMts || 0} MT
+          <strong>Date:</strong> {moment().format("DD/MM/YYYY")} <br />
+          {/* <strong>Cargo:</strong> {vesselNominationData?.strCargo} <br /> */}
+          <strong>Cargo:</strong> {uniqueCargos?.join(', ')} <br />
+          <strong>Total Cargo:</strong> {holdRows?.reduce((sum, item) => sum + (item.numCargoQuantity || 0), 0)} MT
         </p>
         <p style={styles.cargoInfo}>
           <strong>Voyage No:</strong> {vesselNominationData?.intVoyageNo} <br />
-          <strong>Load Port:</strong> {vesselNominationData?.strNameOfLoadPort} <br />
+          {/* <strong>Load Port:</strong> {vesselNominationData?.strNameOfLoadPort} <br /> */}
+          <strong>Load Port:</strong> {uniqueLoadPorts?.join(', ')} <br />
           <strong>Discharge Port:</strong> {vesselNominationData?.strDischargePort} <br />
           <strong>Departure Draft:</strong> Forward {vesselNominationData?.numDepatureDraftForward || 0} m / Aft {vesselNominationData?.numDepatureDraftAft || 0} m <br />
           <strong>Water Density:</strong> {values?.intDockWaterDensity}
