@@ -26,7 +26,7 @@ const DayByDayUnloadAndDelivery = () => {
     lighterVessel: "",
   };
 
-  const parameterValues = (values) => {
+  const parameterValues = (values, buId) => {
     // console.log(values?.fromDate);
     return [
       { name: "FromDate", value: `${values?.fromDate}` },
@@ -34,6 +34,7 @@ const DayByDayUnloadAndDelivery = () => {
       { name: "intshippingPointid", value: `${+values?.shippoint?.value}` },
       { name: "intMotherVesselId", value: `${+values?.motherVessel?.value}` },
       { name: "intlighterid", value: `${+values?.lighterVessel?.value}` },
+      { name: "intUnitid", value: `${buId}` },
     ];
   };
 
@@ -132,7 +133,7 @@ const DayByDayUnloadAndDelivery = () => {
               <PowerBIReport
                 reportId={reportId}
                 groupId={groupId}
-                parameterValues={parameterValues(values)}
+                parameterValues={parameterValues(values, buId)}
                 parameterPanel={false}
               />
             )}
