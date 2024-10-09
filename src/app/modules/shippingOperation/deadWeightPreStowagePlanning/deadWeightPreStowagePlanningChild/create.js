@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../App";
 import IForm from "../../../_helper/_form";
@@ -14,11 +15,10 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
+import { generateFileUrl } from "../../utils/helper";
 import { uploadPDF } from "./helper";
 import VesselLayoutPDF from "./vesselLayoutPDF";
-import { generateFileUrl } from "../../utils/helper";
-import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
-import { toast } from "react-toastify";
 import './styles.css';
 
 const initData = {
@@ -841,12 +841,10 @@ export default function DeadWeightCreate() {
                         margin: 0;
                         padding: 0;
                       }
-
-                      .pdfPrint .images_wrapper{
-                       zoom: ${vesselData?.intHoldNumber < 7 ? "80%" : vesselData?.intHoldNumber === 7 ? "70%" : "60%"}; 
-                      }
                     }
                   `}
+                  {/* //  zoom: ${vesselData?.intHoldNumber < 7 ? "80%" : vesselData?.intHoldNumber === 7 ? "70%" : "60%"}; 
+                  // } */}
                 </style>
 
                 <div
