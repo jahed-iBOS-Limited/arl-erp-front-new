@@ -489,7 +489,7 @@ export default function VesselNominationDashboard() {
                                         }
                                       );
                                     }}
-                                    // disabled={item?.isBunkerCalculationSave}
+                                  // disabled={item?.isBunkerCalculationSave}
                                   >
                                     Bunker Calculator
                                   </button>
@@ -505,13 +505,20 @@ export default function VesselNominationDashboard() {
                                   }
                                   type="button"
                                   onClick={() => {
+                                    if (item.preStowageSend) {
+                                      const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+
+                                      if (!confirmation) {
+                                        return;
+                                      }
+                                    }
                                     setSingleRowData({
                                       ...item,
                                       columnName: "PRE STOWAGE",
                                     });
                                     setIsShowMailModal(true);
                                   }}
-                                  // disabled={item.preStowageSend}
+                                // disabled={item.preStowageSend}
                                 >
                                   DEAD WEIGHT CALCULATION & PRE STOWAGE SEND
                                 </button>
@@ -526,13 +533,20 @@ export default function VesselNominationDashboard() {
                                 }
                                 type="button"
                                 onClick={() => {
+                                  if (item.isVesselNominationEmailSent) {
+                                    const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+
+                                    if (!confirmation) {
+                                      return;
+                                    }
+                                  }
                                   setSingleRowData({
                                     ...item,
                                     columnName: "VESSEL NOMINATION",
                                   });
                                   setIsShowMailModal(true);
                                 }}
-                                // disabled={item.isVesselNominationEmailSent}
+                              // disabled={item.isVesselNominationEmailSent}
                               >
                                 VESSEL NOMINATION SEND
                               </button>
@@ -547,6 +561,13 @@ export default function VesselNominationDashboard() {
                                   }
                                   type="button"
                                   onClick={() => {
+                                    if (item.edpaLoadportSend) {
+                                      const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+
+                                      if (!confirmation) {
+                                        return;
+                                      }
+                                    }
                                     setSingleRowData({
                                       ...item,
                                       columnName: "EDPA LOADPORT",
@@ -554,7 +575,7 @@ export default function VesselNominationDashboard() {
                                     // setIsShowMailModal(true);
                                     setIsDiffMailSenderModal(true);
                                   }}
-                                  // disabled={item.edpaLoadportSend}
+                                // disabled={item.edpaLoadportSend}
                                 >
                                   EDPA LOADPORT SEND
                                 </button>
@@ -573,14 +594,20 @@ export default function VesselNominationDashboard() {
                                     type="button"
                                     onClick={() => {
 
+                                      if (item.onHireBunkerSurveySent) {
+                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
 
+                                        if (!confirmation) {
+                                          return;
+                                        }
+                                      }
                                       setSingleRowData({
                                         ...item,
                                         columnName: "ON HIRE BUNKER SURVEY",
                                       });
                                       setIsShowMailModal(true);
                                     }}
-                                    // disabled={item.onHireBunkerSurveySent}
+                                  // disabled={item.onHireBunkerSurveySent}
                                   >
                                     ON HIRE BUNKER SURVEY SENT
                                   </button>
@@ -623,13 +650,20 @@ export default function VesselNominationDashboard() {
                                     }
                                     type="button"
                                     onClick={() => {
+                                      if (item.voyageInstructionSent) {
+                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+
+                                        if (!confirmation) {
+                                          return;
+                                        }
+                                      }
                                       setSingleRowData({
                                         ...item,
                                         columnName: "VOYAGE INSTRUCTION",
                                       });
                                       setIsShowMailModal(true);
                                     }}
-                                    // disabled={item.voyageInstructionSent}
+                                  // disabled={item.voyageInstructionSent}
                                   >
                                     VOYAGE INSTRUCTION SENT
                                   </button>
@@ -645,13 +679,20 @@ export default function VesselNominationDashboard() {
                                   }
                                   type="button"
                                   onClick={() => {
+                                    if (item.pisurveySent) {
+                                      const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+
+                                      if (!confirmation) {
+                                        return;
+                                      }
+                                    }
                                     setSingleRowData({
                                       ...item,
                                       columnName: "PI SURVEY",
                                     });
                                     setIsShowMailModal(true);
                                   }}
-                                  // disabled={item.pisurveySent}
+                                // disabled={item.pisurveySent}
                                 >
                                   PI SURVEY SENT
                                 </button>
@@ -669,6 +710,13 @@ export default function VesselNominationDashboard() {
                                     }
                                     type="button"
                                     onClick={() => {
+                                      if (item.voyageLicenseFlagWaiverSend) {
+                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+
+                                        if (!confirmation) {
+                                          return;
+                                        }
+                                      }
                                       setSingleRowData({
                                         ...item,
                                         columnName: "VOYAGE LICENSE/FLAG WAIVER",
@@ -676,7 +724,7 @@ export default function VesselNominationDashboard() {
                                       // setIsShowMailModal(true);
                                       setShow(true);
                                     }}
-                                    // disabled={item.voyageLicenseFlagWaiverSend}
+                                  // disabled={item.voyageLicenseFlagWaiverSend}
                                   >
                                     VOYAGE LICENSE/FLAG WAIVER SEND
                                   </button>
@@ -692,7 +740,13 @@ export default function VesselNominationDashboard() {
                                   }
                                   type="button"
                                   onClick={() => {
+                                    if (item.tclSend) {
+                                      const confirmation = window.confirm("Email already sent. Do you want to send it again?");
 
+                                      if (!confirmation) {
+                                        return;
+                                      }
+                                    }
 
                                     setSingleRowData({
                                       ...item,
@@ -700,7 +754,7 @@ export default function VesselNominationDashboard() {
                                     });
                                     setIsShowMailModal(true);
                                   }}
-                                  // disabled={item.tclSend}
+                                // disabled={item.tclSend}
                                 >
                                   TCL SEND
                                 </button>
@@ -718,6 +772,13 @@ export default function VesselNominationDashboard() {
                                     }
                                     type="button"
                                     onClick={() => {
+                                      if (item.weatherRoutingCompanySend) {
+                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+
+                                        if (!confirmation) {
+                                          return;
+                                        }
+                                      }
                                       setSingleRowData({
                                         ...item,
                                         columnName: "WEATHER ROUTING COMPANY",
@@ -725,7 +786,7 @@ export default function VesselNominationDashboard() {
                                       // setIsShowMailModal(true);
                                       setIsDiffMailSenderModal(true);
                                     }}
-                                    // disabled={item.weatherRoutingCompanySend}
+                                  // disabled={item.weatherRoutingCompanySend}
                                   >
                                     WEATHER ROUTING COMPANY SEND
                                   </button>
@@ -743,13 +804,20 @@ export default function VesselNominationDashboard() {
                                     }
                                     type="button"
                                     onClick={() => {
+                                      if (item.departureDocumentLoadPortSend) {
+                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+
+                                        if (!confirmation) {
+                                          return;
+                                        }
+                                      }
                                       setSingleRowData({
                                         ...item,
                                         columnName: "DEPARTURE DOCUMENT LOADPORT",
                                       });
                                       setIsShowMailModal(true);
                                     }}
-                                    // disabled={item.departureDocumentLoadPortSend}
+                                  // disabled={item.departureDocumentLoadPortSend}
                                   >
                                     DEPARTURE DOCUMENT LOADPORT SEND
                                   </button>
@@ -768,13 +836,20 @@ export default function VesselNominationDashboard() {
                                     }
                                     type="button"
                                     onClick={() => {
+                                      if (item.epdadischargePortSent) {
+                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+
+                                        if (!confirmation) {
+                                          return;
+                                        }
+                                      }
                                       setSingleRowData({
                                         ...item,
                                         columnName: "EPDA DISCHARGE PORT",
                                       });
                                       setIsDiffMailSenderModal(true);
                                     }}
-                                    // disabled={item.epdadischargePortSent}
+                                  // disabled={item.epdadischargePortSent}
                                   >
                                     EPDA DISCHARGE PORT SENT
                                   </button>
@@ -792,13 +867,20 @@ export default function VesselNominationDashboard() {
                                     }
                                     type="button"
                                     onClick={() => {
+                                      if (item.offHireBunkerSurveySent) {
+                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+
+                                        if (!confirmation) {
+                                          return;
+                                        }
+                                      }
                                       setSingleRowData({
                                         ...item,
                                         columnName: "OFFHIRE BUNKER SURVEY",
                                       });
                                       setIsShowMailModal(true);
                                     }}
-                                    // disabled={item.offHireBunkerSurveySent}
+                                  // disabled={item.offHireBunkerSurveySent}
                                   >
                                     OFFHIRE BUNKER SURVEY SENT
                                   </button>
@@ -816,6 +898,13 @@ export default function VesselNominationDashboard() {
                                     }
                                     type="button"
                                     onClick={() => {
+                                      if (item.departureDocumentDischargePortSend) {
+                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+
+                                        if (!confirmation) {
+                                          return;
+                                        }
+                                      }
                                       setSingleRowData({
                                         ...item,
                                         columnName:
@@ -823,9 +912,9 @@ export default function VesselNominationDashboard() {
                                       });
                                       setIsShowMailModal(true);
                                     }}
-                                    // disabled={
-                                    //   item.departureDocumentDischargePortSend
-                                    // }
+                                  // disabled={
+                                  //   item.departureDocumentDischargePortSend
+                                  // }
                                   >
                                     DEPARTURE DOCUMENT DISCHARGE PORT SEND
                                   </button>
