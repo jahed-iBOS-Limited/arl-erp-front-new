@@ -1,24 +1,19 @@
-import React, { useEffect } from "react";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import { imarineBaseUrl } from "../../../../../App";
-import "./style.css";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { Formik, Form } from "formik";
+import { imarineBaseUrl } from "../../../../../App";
 import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import Loading from "../../../../_helper/_loading";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
+import BookingDetailsInfo from "../bookingDetails/bookingDetailsInfo";
+import "./style.css";
 const validationSchema = Yup.object().shape({
-  poNumber: Yup.string().required("PO Number is required"),
-  countryofOrigin: Yup.object().shape({
-    label: Yup.string().required("Country of Origin is required"),
-    value: Yup.string().required("Country of Origin is required"),
-  }),
-  pickupPlace: Yup.string().required("Pickup Place is required"),
+
 });
 function ReceiveModal({ rowClickData, CB }) {
-  const [countryList, getCountryList, countryListLoading] = useAxiosGet();
-
+  const [rowList, setRowList] = useState([]);
+  const [, getRecvQuantity, recvQuantityLoading] = useAxiosPut();
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [
     shipBookingRequestGetById,
@@ -28,7 +23,11 @@ function ReceiveModal({ rowClickData, CB }) {
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+        (data) => {
+          const bookingData = data?.[0] || {};
+          setRowList(bookingData?.rowsData || []);
+        }
       );
     }
 
@@ -36,25 +35,33 @@ function ReceiveModal({ rowClickData, CB }) {
   }, [bookingRequestId]);
 
   const saveHandler = (values, resetForm) => {
-    // const paylaod = {};
-    // getBookingRequestStatusUpdate(
-    //   `${imarineBaseUrl}/domain/ShippingService/SaveBookingConfirm`,
-    //   paylaod,
-    //   ()=>{
-    //     CB()
-    //   }
-    // );
+
+    const paylaod = {
+      updthd: {
+        bookingId: bookingRequestId
+      },
+      updtrow: rowList.map((item) => {
+        return {
+          bookingId: bookingRequestId,
+          bookingRowId: item?.bookingRequestRowId || 0,
+          receivedQuantity: item?.recvQuantity || 0,
+        }
+      })
+    };
+    getRecvQuantity(
+      `${imarineBaseUrl}/domain/ShippingService/createReceiveProcess`,
+      paylaod,
+      () => {
+        CB()
+      }
+    );
   };
 
-  useEffect(() => {
-    getCountryList(`${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const bookingData = shipBookingRequestGetById?.[0] || {};
   return (
     <div className="confirmModal">
-      {(shipBookingRequestLoading || countryListLoading) && <Loading />}
+      {(shipBookingRequestLoading || recvQuantityLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -80,45 +87,43 @@ function ReceiveModal({ rowClickData, CB }) {
                   </button>
                 </div>
               </div>
-              <div className="form-group row global-form">
-                {/*  PO Number*/}
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.poNumber}
-                    label="PO Number"
-                    name="poNumber"
-                    type="number"
-                    onChange={(e) => setFieldValue("poNumber", e.target.value)}
-                  />
-                </div>
-                {/* Country of Origin */}
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="countryofOrigin"
-                    options={countryList || []}
-                    value={values?.countryofOrigin}
-                    label="Country of Origin"
-                    onChange={(valueOption) => {
-                      setFieldValue("countryofOrigin", valueOption);
-                    }}
-                    placeholder="Country of Origin"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                {/* Pickup Place */}
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.pickupPlace}
-                    label="Pickup Place"
-                    name="pickupPlace"
-                    type="number"
-                    onChange={(e) =>
-                      setFieldValue("pickupPlace", e.target.value)
-                    }
-                  />
+
+              <div className="col-lg-12">
+                {" "}
+                <div className="table-responsive">
+                  <table className="table global-table">
+                    <thead>
+                      <tr>
+                        <th className="p-0">SL</th>
+                        <th className="p-0">Packaging Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {rowList?.map((item, index) => (
+                        <tr key={index}>
+                          <td> {index + 1} </td>
+
+                          <td className="align-middle">
+                            <InputField
+                              value={item?.recvQuantity}
+                              type="number"
+                              onChange={(e) => {
+                                const copyprvData = [...rowList];
+                                copyprvData[index].recvQuantity = e.target.value;
+                                setRowList(copyprvData);
+                              }}
+                              name="recvQuantity"
+                              min="0"
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
+
+              <BookingDetailsInfo bookingData={bookingData} />
             </Form>
           </>
         )}
