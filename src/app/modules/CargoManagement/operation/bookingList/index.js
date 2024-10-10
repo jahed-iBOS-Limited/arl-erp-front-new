@@ -12,7 +12,9 @@ import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
 import Details from "./bookingDetails";
 import ChargesModal from "./chargesModal";
 import ConfirmModal from "./confirmModal";
+import DeliveryNoteModal from "./deliveryNoteModal";
 import DocumentModal from "./documentModal";
+import FreightCargoReceipt from "./freightCargoReceipt";
 import { buyerReceiveHandler, cancelHandler, DesPortReceiveHandler, InTransitHandler, pickupHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
@@ -61,7 +63,7 @@ function BookingList() {
             entryCode: "",
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
@@ -264,7 +266,7 @@ function BookingList() {
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
-                                    onClick={() => {}}
+                                    onClick={() => { }}
                                   >
                                     BL
                                   </button>
@@ -272,7 +274,7 @@ function BookingList() {
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
-                                    onClick={() => {}}
+                                    onClick={() => { }}
                                   >
                                     HBL
                                   </button>
@@ -280,7 +282,7 @@ function BookingList() {
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
-                                    onClick={() => {}}
+                                    onClick={() => { }}
                                   >
                                     Email
                                   </button>
@@ -317,7 +319,7 @@ function BookingList() {
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
-                                    onClick={() => {}}
+                                    onClick={() => { }}
                                   >
                                     Dispatch
                                   </button>
@@ -325,7 +327,7 @@ function BookingList() {
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
-                                    onClick={() => {}}
+                                    onClick={() => { }}
                                   >
                                     Customs Clearance
                                   </button>
@@ -376,7 +378,35 @@ function BookingList() {
                                       });
                                     }}
                                   >
-                                   Delivered
+                                    Delivered
+                                  </button>
+                                </span>
+                                <span>
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isDeliveryNote: true,
+                                      });
+                                    }}
+                                  >
+                                    Delivery Note
+                                  </button>
+                                </span>
+                                <span>
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isFreightCargoReceipt: true,
+                                      });
+                                    }}
+                                  >
+                                    Freight Cargo Receipt
                                   </button>
                                 </span>
                               </div>
@@ -537,6 +567,42 @@ function BookingList() {
             }}
           >
             <DocumentModal rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
+
+      {/* Delivery Note Modal */}
+      {isModalShowObj?.isDeliveryNote && (
+        <>
+          <IViewModal
+            title="Delivery Note "
+            show={isModalShowObj?.isDeliveryNote}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isDeliveryNote: false,
+              });
+            }}
+          >
+            <DeliveryNoteModal rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
+
+      {/* Freight Cargo Receipt */}
+      {isModalShowObj?.isFreightCargoReceipt && (
+        <>
+          <IViewModal
+            title="Delivery Note "
+            show={isModalShowObj?.isFreightCargoReceipt}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isFreightCargoReceipt: false,
+              });
+            }}
+          >
+            <FreightCargoReceipt rowClickData={rowClickData} />
           </IViewModal>
         </>
       )}

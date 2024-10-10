@@ -1,0 +1,87 @@
+.freightCargoReceipt {
+    margin: 0;
+    padding: 0;
+    font-size: 0.625rem;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1, h2 {
+    font-size: 0.625rem;
+    text-align: start;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.input-line {
+    width: 100%;
+    display: block;
+    border-bottom: 1px dashed #000;
+    margin-bottom: 10px;
+    padding: 2px;
+}
+
+.input-line50 {
+    width: 50%;
+    display: block;
+    border-bottom: 1px dashed #000;
+    margin-bottom: 10px;
+    padding: 2px;
+}
+
+.new-line {
+    width: 100%;
+    display: block;
+    margin-bottom: 5px;
+    padding: 2px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px dashed #000;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+}
+
+.signature-line {
+    border-bottom: 1px dashed #000;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 2px;
+}
+
+.signature-line50 {
+    border-bottom: 1px dashed #000;
+    width: 50%;
+    margin-bottom: 20px;
+    padding: 2px;
+}
+
+.note {
+    font-size: 0.625rem;
+}
+
+.two-column-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
