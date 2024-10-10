@@ -5,6 +5,7 @@ import { imarineBaseUrl } from "../../../../../App";
 import "./style.css";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import { useDispatch } from "react-redux";
+import moment from "moment";
 function Details({ rowClickData }) {
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [
@@ -116,6 +117,39 @@ function Details({ rowClickData }) {
             </p>
           </div>
         </div>
+        {/* Confirm Booking */}
+        <div className="row mt-3">
+          <div className="col-md-6">
+            <h5>Confirm Booking</h5>
+            <p>
+              <strong>Booking Amount:</strong> {bookingData?.bookingAmount}
+            </p>
+            <p>
+              <strong>Air Waybill (AWB) Number:</strong>{" "}
+              {bookingData?.awbnumber}
+            </p>
+            <p>
+              <strong>Departure Date & Time:</strong>{" "}
+              {moment(bookingData?.departureDateTime).format(
+                "YYYY-MM-DD HH:mm"
+              )}
+            </p>
+            <p>
+              <strong>Arrival Date & Time:</strong>{" "}
+              {moment(bookingData?.arrivalDateTime).format("YYYY-MM-DD HH:mm")}
+            </p>
+            <p>
+              <strong>Flight Number:</strong> {bookingData?.flightNumber}
+            </p>
+            <p>
+              <strong>Transit Information:</strong> {bookingData?.transitInfo}
+            </p>
+            <p>
+              <strong>Freight Forwarder Representative:</strong>{" "}
+              {bookingData?.primaryContactPerson}
+            </p>
+          </div>
+        </div>
 
         {/* Cargo Details */}
         <div className="mt-4">
@@ -197,6 +231,35 @@ function Details({ rowClickData }) {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+        {/* Services & Charges  */}
+        <div className="row">
+          <div className="col-lg-12">
+            {" "}
+            <h5>Documents</h5>
+            <div className="table-responsive">
+              <table className="table global-table">
+                <thead>
+                  <tr>
+                    <th className="p-0">SL</th>
+                    <th className="p-0">Attribute</th>
+                    <th className="p-0">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bookingData?.billingData?.map((item, index) => (
+                    <tr key={index}>
+                      <td> {index + 1} </td>
+                      <td className="align-middle">
+                        <label>{item?.headOfCharges}</label>
+                      </td>
+                      <td>{item?.chargeAmount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
