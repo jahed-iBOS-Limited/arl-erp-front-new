@@ -51,7 +51,7 @@ function BookingList() {
 
   const commonLandingApi = () => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId}&userTypeId=${profileData?.userTypeId}&refrenceId=${profileData?.userReferenceId}`
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId}&userTypeId=${0}&refrenceId=${profileData?.userReferenceId}`
     );
   };
   return (
