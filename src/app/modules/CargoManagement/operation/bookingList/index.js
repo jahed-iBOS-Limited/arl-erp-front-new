@@ -593,7 +593,7 @@ function BookingList() {
       {isModalShowObj?.isFreightCargoReceipt && (
         <>
           <IViewModal
-            title="Delivery Note "
+            title="Freight Cargo Receipt (FCR)"
             show={isModalShowObj?.isFreightCargoReceipt}
             onHide={() => {
               setIsModalShowObj({
