@@ -75,7 +75,7 @@ function ChargesModal({ rowClickData, CB }) {
   };
 
   return (
-    <div className="confirmModal">
+    <div className="chargesModal">
       {(bookedRequestBilling || shippingHeadOfChargesLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
