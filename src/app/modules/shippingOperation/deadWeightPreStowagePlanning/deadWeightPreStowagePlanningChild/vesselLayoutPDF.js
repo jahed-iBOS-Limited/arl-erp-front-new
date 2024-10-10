@@ -146,6 +146,7 @@ const uniqueCargos = [...new Set(holdRows.map(item => item.strCargoName))];
     cargoInfo: {
       marginTop: "10px",
       fontSize: "14px",
+      maxWidth:"33%"
     },
     list: {
       paddingLeft: "0",
