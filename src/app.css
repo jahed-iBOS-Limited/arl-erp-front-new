@@ -2962,3 +2962,7 @@ table tbody tr td.positionSticky {
   z-index: 1;
   background: #f8f9fa;
 }
+.documentChecklistCheckbox{
+  color: green;
+
+}

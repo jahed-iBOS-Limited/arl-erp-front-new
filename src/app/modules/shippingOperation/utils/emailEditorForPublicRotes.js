@@ -84,6 +84,8 @@ const EmailEditorForPublicRoutes = ({ featureName, vesselData, payloadInfo, cb }
     // Initialize the email body with payloadInfo content
     setEmailData((prevState) => ({
       ...prevState,
+      toEmail: featureName === "Dead Weight & Pre-Stowage" ? "operation.asll@akijshipping.com" : "",
+      subject: featureName === "Dead Weight & Pre-Stowage" ? `#VDS01020241058 Dead Weight Calculation & Pre-stowage Plan of ${payloadInfo?.strNameOfVessel} // voyage no: ${payloadInfo?.intVoyageNo}` : "",
       emailBody: convertPayloadToHtml(),
     }));
 

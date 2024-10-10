@@ -186,6 +186,8 @@ export default function DeadWeightCreate() {
     const commonPayload = {
       strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
       intVoyageNo: vesselNominationData?.intVoyageNo || "",
+      strVesselNominationCode:
+        paramCode || values?.strVesselNominationCode || "",
       strDraftType: values?.strDraftType?.value,
       intDisplacementDraftMts: +values?.intDisplacementDraftMts || 0,
       intDockWaterDensity: +values?.intDockWaterDensity || 0,
@@ -198,8 +200,6 @@ export default function DeadWeightCreate() {
       intCargoLoadMts: +values?.intCargoLoadMts || 0,
       intFinalCargoToloadMts: +values?.intFinalCargoToloadMts || 0,
       strRemarks: values?.strRemarks,
-      strVesselNominationCode:
-        paramCode || values?.strVesselNominationCode || "",
       PreStowagePlan: generateFileUrl(pdfURL),
       // Always thouse fileds are bellow of all filed
       // ...numHoldFields, // Spread the dynamically generated numHold fields

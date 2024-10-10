@@ -650,12 +650,18 @@ export default function VesselNominationDashboard() {
                                     }
                                     type="button"
                                     onClick={() => {
-                                      if (item.voyageInstructionSent) {
-                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+                                      let message = "Email already sent. Do you want to send it again?";
 
-                                        if (!confirmation) {
-                                          return;
-                                        }
+                                      if (!item.voyageInstructionSent) {
+                                        message = `Please check all fields and ensure they are filled correctly in Voyage instruction for Voyage no: ${item?.intVoyageNo}`;
+                                      } else {
+                                        message += ` \nPlease check all fields and ensure they are filled correctly in Voyage instruction for Voyage no: ${item?.intVoyageNo}`;
+                                      }
+
+                                      const confirmation = window.confirm(message);
+
+                                      if (!confirmation) {
+                                        return;
                                       }
                                       setSingleRowData({
                                         ...item,

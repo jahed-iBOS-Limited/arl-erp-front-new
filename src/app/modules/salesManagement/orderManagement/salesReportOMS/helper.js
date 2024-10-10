@@ -13,8 +13,15 @@ export const getTaxSalesReport_api = async (
 ) => {
   try {
     setLoading(true);
+    // modify api for all business unit & e akij cement
+    let api = {
+      akijCement: `/oms/OMSPivotReport/GetTaxSalesReportACCL?businessUnitId=${buId}&depoId=${shippointId}&itemId=${itemId}&fromDate=${fromDate}&toDate=${toDate}&customerId=${customerId}`,
+      allExceptAkijCement: `/oms/OMSPivotReport/TaxSalesReport?BusinessUnitId=${buId}&ItemId=${itemId}&DepoId=${shippointId}&FromDate=${fromDate}&ToDate=${toDate}&CustomerId=${customerId}`,
+    };
+
+    // change 1st api if business unit is cement else 2nd api 
     const res = await Axios.get(
-      `/oms/OMSPivotReport/TaxSalesReport?BusinessUnitId=${buId}&ItemId=${itemId}&DepoId=${shippointId}&FromDate=${fromDate}&ToDate=${toDate}&CustomerId=${customerId}`
+      api[buId === 4 ? "akijCement" : "allExceptAkijCement"]
     );
     if (res?.data?.length === 0) toast.warning("Data not found");
     const result = res?.data?.map((itm) => ({
