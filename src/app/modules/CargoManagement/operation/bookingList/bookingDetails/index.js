@@ -3,6 +3,8 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../../_helper/_loading";
 import { imarineBaseUrl } from "../../../../../App";
 import "./style.css";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { useDispatch } from "react-redux";
 function Details({ rowClickData }) {
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [
@@ -21,8 +23,7 @@ function Details({ rowClickData }) {
   }, [bookingRequestId]);
 
   const bookingData = shipBookingRequestGetById?.[0] || {};
-
-  console.log(bookingData, "bookingData");
+  const dispatch = useDispatch();
 
   return (
     <div className="bookingDetails">
@@ -176,7 +177,22 @@ function Details({ rowClickData }) {
                   <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{doc?.documentType}</td>
-                    <td>{doc?.documentFileId}</td>
+                    <td>
+                      <span
+                        onClick={() => {
+                          dispatch(
+                            getDownlloadFileView_Action(doc?.documentFileId)
+                          );
+                        }}
+                        style={{
+                          textDecoration: "underline",
+                          color: "blue",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {doc?.documentFileId}
+                      </span>
+                    </td>
                   </tr>
                 ))}
               </tbody>
