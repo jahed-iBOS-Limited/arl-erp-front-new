@@ -25,9 +25,9 @@ function LoginForm(props) {
       password: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .email("Invalid email address")
-        .required("email is Required"),
+      // email: Yup.string()
+      //   .email("Invalid email address")
+      //   .required("email is Required"),
       password: Yup.string()
         .min(4, "Must be at least 4 characters")
         .required("password is required"),
