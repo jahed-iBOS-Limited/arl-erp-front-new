@@ -19,12 +19,22 @@ const validationSchema = Yup.object().shape({
 function ReceiveModal({ rowClickData, CB }) {
   const [countryList, getCountryList, countryListLoading] = useAxiosGet();
 
-  const [
-    ,
-    getBookingRequestStatusUpdate,
-    bookingRequestloading,
-  ] = useAxiosPut();
   const bookingRequestId = rowClickData?.bookingRequestId;
+  const [
+    shipBookingRequestGetById,
+    setShipBookingRequestGetById,
+    shipBookingRequestLoading,
+  ] = useAxiosGet();
+  useEffect(() => {
+    if (bookingRequestId) {
+      setShipBookingRequestGetById(
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
+      );
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookingRequestId]);
+
   const saveHandler = (values, resetForm) => {
     // const paylaod = {};
     // getBookingRequestStatusUpdate(
@@ -41,9 +51,10 @@ function ReceiveModal({ rowClickData, CB }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const bookingData = shipBookingRequestGetById?.[0] || {};
   return (
     <div className="confirmModal">
-      {(bookingRequestloading || countryListLoading) && <Loading />}
+      {(shipBookingRequestLoading || countryListLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{
