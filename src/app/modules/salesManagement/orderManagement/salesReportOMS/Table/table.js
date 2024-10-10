@@ -84,6 +84,8 @@ export default function SalesReportOMSTable() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, profileData]);
 
+  console.log(rowDto)
+
   const commonGridDataApi = (
     values,
     _pageNo = pageNo,
@@ -121,8 +123,8 @@ export default function SalesReportOMSTable() {
     <Formik>
       <>
         <ICard
-          printTitle='Print'
-          title='Sales Report'
+          printTitle="Print"
+          title="Sales Report"
           isPrint={true}
           isShowPrintBtn={true}
           componentRef={printRef}
@@ -131,15 +133,15 @@ export default function SalesReportOMSTable() {
           }
         >
           <div>
-            <div className='mx-auto SalesReportOMG'>
+            <div className="mx-auto SalesReportOMG">
               <Formik enableReinitialize={true} initialValues={initData}>
                 {({ values, errors, touched, setFieldValue }) => (
                   <>
-                    <Form className='form form-label-right'>
-                      <div className='form-group row global-form'>
-                        <div className='col-lg-3'>
+                    <Form className="form form-label-right">
+                      <div className="form-group row global-form">
+                        <div className="col-lg-3">
                           <NewSelect
-                            name='salesReportType'
+                            name="salesReportType"
                             options={
                               [
                                 {
@@ -153,12 +155,12 @@ export default function SalesReportOMSTable() {
                               ] || []
                             }
                             value={values?.salesReportType}
-                            label='Sales Report Type'
+                            label="Sales Report Type"
                             onChange={(valueOption) => {
                               setFieldValue("salesReportType", valueOption);
                               setRowDto([]);
                             }}
-                            placeholder='Sales Report Type'
+                            placeholder="Sales Report Type"
                             errors={errors}
                             touched={touched}
                           />
@@ -167,44 +169,44 @@ export default function SalesReportOMSTable() {
                         {values?.salesReportType?.value === 1 && (
                           <>
                             {" "}
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <NewSelect
-                                name='shipmentName'
+                                name="shipmentName"
                                 options={
                                   [{ value: 0, label: "All" }, ...branch] || []
                                 }
                                 value={values?.shipmentName}
-                                label='Ship Point'
+                                label="Ship Point"
                                 onChange={(valueOption) => {
                                   setFieldValue("shipmentName", valueOption);
                                   setRowDto([]);
                                 }}
-                                placeholder='Ship Point'
+                                placeholder="Ship Point"
                                 errors={errors}
                                 touched={touched}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <NewSelect
-                                name='taxItemName'
+                                name="taxItemName"
                                 options={[
                                   { value: 0, label: "All" },
                                   ...taxItemNameDDL,
                                 ]}
                                 value={values?.taxItemName}
-                                label='Item Name'
+                                label="Item Name"
                                 onChange={(valueOption) => {
                                   setFieldValue("taxItemName", valueOption);
                                   setRowDto([]);
                                 }}
-                                placeholder='Item Name'
+                                placeholder="Item Name"
                                 errors={errors}
                                 touched={touched}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <NewSelect
-                                name='partnerName'
+                                name="partnerName"
                                 options={
                                   [
                                     { value: 0, label: "All" },
@@ -218,8 +220,8 @@ export default function SalesReportOMSTable() {
                                 }}
                                 errors={errors}
                                 touched={touched}
-                                label='Customer Name'
-                                placeholder='Customer Name'
+                                label="Customer Name"
+                                placeholder="Customer Name"
                               />
                             </div>
                           </>
@@ -228,12 +230,12 @@ export default function SalesReportOMSTable() {
                         {/*  if type Sellable Report */}
                         {values?.salesReportType?.value === 2 && (
                           <>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <NewSelect
-                                name='plant'
+                                name="plant"
                                 options={plantDDL}
                                 value={values?.plant}
-                                label='Plant'
+                                label="Plant"
                                 onChange={(valueOption) => {
                                   setRowDto([]);
                                   setFieldValue("plant", valueOption);
@@ -248,27 +250,27 @@ export default function SalesReportOMSTable() {
                                 }}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <NewSelect
-                                name='warehouse'
+                                name="warehouse"
                                 options={warehouse || []}
                                 value={values?.warehouse}
-                                label='Select Warehouse'
+                                label="Select Warehouse"
                                 onChange={(valueOption) => {
                                   setRowDto([]);
                                   setFieldValue("warehouse", valueOption);
                                 }}
-                                placeholder='Select Warehouse'
+                                placeholder="Select Warehouse"
                                 errors={errors}
                                 touched={touched}
                               />
                             </div>
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <NewSelect
-                                name='itemType'
+                                name="itemType"
                                 options={itemTypeDDL || []}
                                 value={values?.itemType}
-                                label='Item Type'
+                                label="Item Type"
                                 onChange={(valueOption) => {
                                   setRowDto([]);
                                   setFieldValue("itemType", valueOption);
@@ -280,27 +282,27 @@ export default function SalesReportOMSTable() {
                                     setItemName
                                   );
                                 }}
-                                placeholder='Item Type'
+                                placeholder="Item Type"
                                 errors={errors}
                                 touched={touched}
                                 // isDisabled={isEdit}
                               />
                             </div>
 
-                            <div className='col-lg-3'>
+                            <div className="col-lg-3">
                               <NewSelect
-                                name='itemName'
+                                name="itemName"
                                 options={
                                   [{ value: 0, label: "All" }, ...itemName] ||
                                   []
                                 }
                                 value={values?.itemName}
-                                label='Item'
+                                label="Item"
                                 onChange={(valueOption) => {
                                   setRowDto([]);
                                   setFieldValue("itemName", valueOption);
                                 }}
-                                placeholder='Item Name'
+                                placeholder="Item Name"
                                 errors={errors}
                                 touched={touched}
                               />
@@ -308,13 +310,13 @@ export default function SalesReportOMSTable() {
                           </>
                         )}
 
-                        <div className='col-lg-3'>
+                        <div className="col-lg-3">
                           <label>From Date</label>
                           <InputField
                             value={values?.fromDate}
-                            placeholder='From Date'
-                            name='fromDate'
-                            type='date'
+                            placeholder="From Date"
+                            name="fromDate"
+                            type="date"
                             touched={touched}
                             onChange={(e) => {
                               setFieldValue("fromDate", e.target.value);
@@ -322,13 +324,13 @@ export default function SalesReportOMSTable() {
                             }}
                           />
                         </div>
-                        <div className='col-lg-3'>
+                        <div className="col-lg-3">
                           <label>To Date</label>
                           <InputField
                             value={values?.toDate}
-                            placeholder='To Date'
-                            name='toDate'
-                            type='date'
+                            placeholder="To Date"
+                            name="toDate"
+                            type="date"
                             touched={touched}
                             onChange={(e) => {
                               setFieldValue("toDate", e.target.value);
@@ -336,7 +338,7 @@ export default function SalesReportOMSTable() {
                             }}
                           />
                         </div>
-                        <div className='mt-2 col d-flex justify-content-end align-items-center'>
+                        <div className="mt-2 col d-flex justify-content-end align-items-center">
                           <button
                             disabled={
                               values?.salesReportType?.value === 1
@@ -348,7 +350,7 @@ export default function SalesReportOMSTable() {
                                   !values?.itemType ||
                                   !values?.itemName
                             }
-                            className='btn btn-primary'
+                            className="btn btn-primary"
                             onClick={() => {
                               commonGridDataApi(values);
                             }}
@@ -399,9 +401,9 @@ function SalesReportTable({ rowDto, selectedBusinessUnit, values }) {
     <>
       {rowDto?.length > 0 && (
         <>
-          <div className='reportTopInfo'>
-            <div className='my-5'>
-              <div className='text-center my-2'>
+          <div className="reportTopInfo">
+            <div className="my-5">
+              <div className="text-center my-2">
                 <h3>
                   <b> {selectedBusinessUnit?.label} </b>
                 </h3>
@@ -411,29 +413,35 @@ function SalesReportTable({ rowDto, selectedBusinessUnit, values }) {
                 <h3>
                   <b>Sales Report</b>
                 </h3>
-                <div className='d-flex justify-content-center'>
+                <div className="d-flex justify-content-center">
                   <h5>
                     From Date: {moment(values?.fromDate).format("DD-MM-YYYY")}
                   </h5>
-                  <h5 className='ml-5'>
+                  <h5 className="ml-5">
                     To Date: {moment(values?.toDate).format("DD-MM-YYYY")}
                   </h5>
                 </div>
               </div>
             </div>
-            <div className=''>
-              <p className='mr-3 mb-0'>
+            <div className="">
+              <p className="mr-3 mb-0">
                 <b>Ship Point:</b> {values?.shipmentName?.label}
               </p>
-              <p className='mr-3  mb-0'>
+              <p className="mr-3  mb-0">
                 <b>Customer Name:</b> {values?.partnerName?.label}
               </p>
-              <p className='mr-3  mb-0'>
+              <p className="mr-3  mb-0">
                 <b>Item Name:</b> {values?.taxItemName?.label}
               </p>
             </div>
           </div>
-          <TableGird rowDto={rowDto} values={values} />
+          
+          {/* Table Grid Data */}
+          <TableGird
+            rowDto={rowDto}
+            values={values}
+            selectedBusinessUnit={selectedBusinessUnit}
+          />
         </>
       )}
     </>
@@ -466,9 +474,9 @@ function SellableReportTable({
     <>
       {rowDto?.length > 0 && (
         <>
-          <div className='reportTopInfo'>
-            <div className='my-5'>
-              <div className='text-center my-2'>
+          <div className="reportTopInfo">
+            <div className="my-5">
+              <div className="text-center my-2">
                 <h3>
                   <b> {selectedBusinessUnit?.label} </b>
                 </h3>
@@ -478,30 +486,30 @@ function SellableReportTable({
                 <h3>
                   <b>Sales Report</b>
                 </h3>
-                <div className='d-flex justify-content-center'>
+                <div className="d-flex justify-content-center">
                   <h5>
                     From Date: {moment(values?.fromDate).format("DD-MM-YYYY")}
                   </h5>
-                  <h5 className='ml-5'>
+                  <h5 className="ml-5">
                     To Date: {moment(values?.toDate).format("DD-MM-YYYY")}
                   </h5>
                 </div>
               </div>
             </div>
-            <div className=''>
-              <p className='mr-3 mb-0'>
+            <div className="">
+              <p className="mr-3 mb-0">
                 <b>Ship Point:</b> {values?.shipmentName?.label}
               </p>
-              <p className='mr-3  mb-0'>
+              <p className="mr-3  mb-0">
                 <b>Customer Name:</b> {values?.partnerName?.label}
               </p>
-              <p className='mr-3  mb-0'>
+              <p className="mr-3  mb-0">
                 <b>Item Name:</b> {values?.taxItemName?.label}
               </p>
             </div>
           </div>
-          <div className='table-responsive'>
-            <table className='table table-striped table-bordered global-table'>
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered global-table">
               <thead>
                 <tr>
                   <th>SL</th>
@@ -543,83 +551,83 @@ function SellableReportTable({
                       <td>{item?.strItemCode}</td>
                       <td>{item?.strItemName}</td>
                       <td>{item?.strBaseUOM}</td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_formatMoney(item?.numOpenQty, 0)}
                       </td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_formatMoney(item?.numOpenValue, 0)}
                       </td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_formatMoney(item?.numInQty, 0)},
                       </td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_formatMoney(item?.numInValue, 0)}
                       </td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_formatMoney(item?.numOutQty, 0)}
                       </td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_formatMoney(item?.numOutValue, 0)}
                       </td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_formatMoney(item?.numCloseQty, 0)}
                       </td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_formatMoney(item?.numRate, 0)}
                       </td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_formatMoney(item?.numClosingValue, 0)}
                       </td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_formatMoney(item?.numSalesQty, 0)}
                       </td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_formatMoney(item?.numHoldQty, 0)}
                       </td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_formatMoney(item?.numSellableQty, 0)}
                       </td>
                     </tr>
                   );
                 })}
                 <tr>
-                  <td className='text-right' colspan='4'>
+                  <td className="text-right" colspan="4">
                     <b> Total</b>
                   </td>
-                  <td className='text-right'>
+                  <td className="text-right">
                     <b>{_formatMoney(numOpenQty, 0)}</b>
                   </td>
-                  <td className='text-right'>
+                  <td className="text-right">
                     <b>{_formatMoney(numOpenValue, 0)}</b>
                   </td>
-                  <td className='text-right'>
+                  <td className="text-right">
                     <b>{_formatMoney(numInQty, 0)}</b>
                   </td>
-                  <td className='text-right'>
+                  <td className="text-right">
                     <b>{_formatMoney(numInValue, 0)}</b>
                   </td>
-                  <td className='text-right'>
+                  <td className="text-right">
                     <b>{_formatMoney(numOutQty, 0)}</b>
                   </td>
-                  <td className='text-right'>
+                  <td className="text-right">
                     <b>{_formatMoney(numOutValue, 0)}</b>
                   </td>
-                  <td className='text-right'>
+                  <td className="text-right">
                     <b>{_formatMoney(numCloseQty, 0)}</b>
                   </td>
-                  <td className='text-right'>
+                  <td className="text-right">
                     <b>{_formatMoney(numRate, 0)}</b>
                   </td>
-                  <td className='text-right'>
+                  <td className="text-right">
                     <b>{_formatMoney(numClosingValue, 0)}</b>
                   </td>
-                  <td className='text-right'>
+                  <td className="text-right">
                     <b>{_formatMoney(numSalesQty, 0)}</b>
                   </td>
-                  <td className='text-right'>
+                  <td className="text-right">
                     <b>{_formatMoney(numHoldQty, 0)}</b>
                   </td>
-                  <td className='text-right'>
+                  <td className="text-right">
                     <b>{_formatMoney(numSellableQty, 0)}</b>
                   </td>
                 </tr>
@@ -628,7 +636,7 @@ function SellableReportTable({
           </div>
 
           {rowDto?.length > 0 && (
-            <div className='printSectionNone'>
+            <div className="printSectionNone">
               <PaginationTable
                 count={rowDto?.[0]?.totalRows}
                 setPositionHandler={(page) => {
