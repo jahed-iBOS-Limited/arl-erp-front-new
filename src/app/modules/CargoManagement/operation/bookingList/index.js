@@ -15,6 +15,7 @@ import ConfirmModal from "./confirmModal";
 import DeliveryNoteModal from "./deliveryNoteModal";
 import DocumentModal from "./documentModal";
 import FreightCargoReceipt from "./freightCargoReceipt";
+import HBLFormat from "./HBLFormat";
 import { buyerReceiveHandler, cancelHandler, DesPortReceiveHandler, InTransitHandler, pickupHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
@@ -409,6 +410,20 @@ function BookingList() {
                                     Freight Cargo Receipt
                                   </button>
                                 </span>
+                                <span>
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isHBLFormate: true,
+                                      });
+                                    }}
+                                  >
+                                    HBL Format
+                                  </button>
+                                </span>
                               </div>
                             </td>
                           </tr>
@@ -606,6 +621,25 @@ function BookingList() {
           </IViewModal>
         </>
       )}
+
+      {/* HBL Formate */}
+      {isModalShowObj?.isHBLFormate && (
+        <>
+          <IViewModal
+            title="HBL Formate"
+            show={isModalShowObj?.isHBLFormate}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isHBLFormate: false,
+              });
+            }}
+          >
+            <HBLFormat rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
+
     </ICustomCard>
   );
 }
