@@ -1,6 +1,33 @@
-import React from 'react'
-import './style.css'
-export default function DeliveryNoteModal() {
+import React, { useEffect } from 'react';
+import { imarineBaseUrl } from '../../../../../App';
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import './style.css';
+import Loading from '../../../../_helper/_loading';
+
+export default function DeliveryNoteModal({ rowClickData }) {
+    const bookingRequestId = rowClickData?.bookingRequestId;
+    const [
+        shipBookingRequestGetById,
+        setShipBookingRequestGetById,
+        shipBookingRequestLoading,
+    ] = useAxiosGet();
+    useEffect(() => {
+        if (bookingRequestId) {
+            setShipBookingRequestGetById(
+                `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
+            );
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [bookingRequestId]);
+
+    const bookingData = shipBookingRequestGetById?.[0] || {};
+    if (shipBookingRequestLoading) return <div
+        className='d-flex justify-content-center align-items-center'
+    >
+        <Loading />
+    </div>
+    console.log('bookingData', bookingData);
     return (
         <div className='DeliveryNoteModal'>
             <div className="container">
@@ -25,18 +52,18 @@ export default function DeliveryNoteModal() {
                     <p>Shipper Information</p>
                     <div className="input-line50"></div>
 
-                    <span className="section-title">Company Name:</span>
+                    <span className="section-title">Company Name: {bookingData?.shipperName}</span>
                     <div className="solid-line50"></div>
 
-                    <span className="section-title">Address:</span>
+                    <span className="section-title">Address: {bookingData?.shipperAddress}</span>
                     <div className="solid-line"></div>
                     <br />
                     <div className="solid-line"></div>
 
-                    <span className="section-title">Phone:</span>
+                    <span className="section-title">Phone: {bookingData?.shipperContact}</span>
                     <div className="solid-line50"></div>
 
-                    <span className="section-title">Email:</span>
+                    <span className="section-title">Email: {bookingData?.shipperEmail}</span>
                     <div className="solid-line50"></div>
                 </div>
 
@@ -44,18 +71,18 @@ export default function DeliveryNoteModal() {
                     <p>Consignee Information</p>
                     <div className="input-line50"></div>
 
-                    <span className="section-title">Company Name:</span>
+                    <span className="section-title">Company Name: {bookingData?.consigneeName}</span>
                     <div className="solid-line50"></div>
 
-                    <span className="section-title">Address:</span>
+                    <span className="section-title">Address: {bookingData?.consigneeAddress}</span>
                     <div className="solid-line"></div>
                     <br />
                     <div className="solid-line"></div>
 
-                    <span className="section-title">Phone:</span>
+                    <span className="section-title">Phone: {bookingData?.consigneeContact}</span>
                     <div className="solid-line50"></div>
 
-                    <span className="section-title">Email:</span>
+                    <span className="section-title">Email: {bookingData?.consigneeEmail}</span>
                     <div className="solid-line50"></div>
                 </div>
 
@@ -70,7 +97,7 @@ export default function DeliveryNoteModal() {
                     <br />
                     <div className="solid-line50"></div>
 
-                    <span className="section-title">Delivery Date & Time:</span>
+                    <span className="section-title">Delivery Date & Time: {bookingData?.requestDeliveryDate}</span>
                     <div className="solid-line50"></div>
                 </div>
 
@@ -103,23 +130,25 @@ export default function DeliveryNoteModal() {
                             </tr>
                         </thead>
                         <tbody>
-                            {[1, 2, 3, 4].map((num) => (
-                                <tr key={num}>
-                                    <td>{num}</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                            {bookingData?.rowsData?.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{item?.descriptionOfGoods}</td>
+                                    <td>{item?.packagingQuantity}</td>
+                                    <td>N/A</td>
+                                    <td>{item?.netWeightKG}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
 
                     <div className="section" style={{ marginTop: '10px' }}>
-                        <span className="section-title">Total Quantity:</span>
+                        <span className="section-title">
+                            Total Quantity: {bookingData?.rowsData?.reduce((acc, item) => acc + item?.packagingQuantity, 0)}
+                        </span>
                         <div className="solid-line50"></div>
 
-                        <span className="section-title">Total Weight:</span>
+                        <span className="section-title">Total Weight: {bookingData?.rowsData?.reduce((acc, item) => acc + item?.netWeightKG, 0)}</span>
                         <div className="solid-line50"></div>
                     </div>
                 </div>
