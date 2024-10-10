@@ -17,6 +17,7 @@ import {
 import Table from "./table";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import CommonTable from "./detailsTable";
+import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 
 const initData = {
   date: _todayDate(),
@@ -31,6 +32,8 @@ const initData = {
   salesOrderFP: "",
   reasonFP: "",
   salesOrderCodeInput: "",
+  fromDate: _monthFirstDate(),
+  toDate: _todayDate(),
 };
 
 const reportNameList = [
@@ -64,6 +67,10 @@ export default function SalesOrderHistoryLanding() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state.authData, shallowEqual);
 
+  const shippointDDL = useSelector((state) => {
+    return state?.commonDDL?.shippointDDL;
+  }, shallowEqual);
+
   const viewHandler = async (values) => {
     const typeId = values?.reportName?.value;
     if (typeId === 1) {
@@ -93,7 +100,11 @@ export default function SalesOrderHistoryLanding() {
         `/oms/SalesInformation/GetSalesOrderPendingInformation?intsoldtopartnerid=${values
           ?.customer?.value ||
           0}&intbusinessunitid=${buId}&SalesOrderCode=${values?.salesOrderCodeInput ||
-          "'"}&intpartid=${typeId}`
+          "'"}&intpartid=${typeId}&intChanneld=${
+          values?.channel?.value
+        }&intShippointid=${values?.shippoint?.value}&dteFromDate=${
+          values?.fromDate
+        }&dteToDate=${values?.toDate}`
       );
     } else if (typeId === 7) {
       getSalesOrderData(
@@ -244,15 +255,53 @@ export default function SalesOrderHistoryLanding() {
                       />
                     </div>
                     {[3, 4, 5, 6].includes(values?.reportName?.value) ? (
-                      <div className="col-lg-3">
-                        <InputField
-                          label="Slase Order Code"
-                          placeholder="Slase Order Code"
-                          value={values?.salesOrderCodeInput}
-                          name="salesOrderCodeInput"
-                          type="text"
-                        />
-                      </div>
+                      <>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="shippoint"
+                            options={[
+                              { value: 0, label: "All" },
+                              ...shippointDDL,
+                            ]}
+                            value={values?.shippoint}
+                            label="Ship Point"
+                            onChange={(valueOption) => {
+                              setFieldValue("shippoint", valueOption);
+                              setRowDto([]);
+                            }}
+                            placeholder="Ship Point"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <InputField
+                            label="From Date"
+                            placeholder="From Date"
+                            value={values?.fromDate}
+                            name="fromDate"
+                            type="date"
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <InputField
+                            label="To Date"
+                            placeholder="To Date"
+                            value={values?.toDate}
+                            name="toDate"
+                            type="date"
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <InputField
+                            label="Slase Order Code"
+                            placeholder="Slase Order Code"
+                            value={values?.salesOrderCodeInput}
+                            name="salesOrderCodeInput"
+                            type="text"
+                          />
+                        </div>
+                      </>
                     ) : null}
                     {values?.reportName?.value === 1 && (
                       <div className="col-lg-3">
