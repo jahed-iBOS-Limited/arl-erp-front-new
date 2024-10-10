@@ -140,7 +140,7 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: "1230px",
+                            minWidth: "1540px",
                           }}
                         >
                           Action
@@ -376,7 +376,7 @@ function BookingList() {
                                       });
                                     }}
                                   >
-                                    Buyer Receive
+                                   Delivered
                                   </button>
                                 </span>
                               </div>
@@ -527,7 +527,7 @@ function BookingList() {
       {isModalShowObj?.isDocument && (
         <>
           <IViewModal
-            title="Document Booking"
+            title="Document Checklist"
             show={isModalShowObj?.isDocument}
             onHide={() => {
               setIsModalShowObj({
