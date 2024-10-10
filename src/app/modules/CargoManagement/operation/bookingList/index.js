@@ -15,6 +15,7 @@ import ConfirmModal from "./confirmModal";
 import DeliveryNoteModal from "./deliveryNoteModal";
 import DocumentModal from "./documentModal";
 import FreightCargoReceipt from "./freightCargoReceipt";
+import FreightInvoice from "./freightInvoice";
 import HBLFormat from "./HBLFormat";
 import { buyerReceiveHandler, cancelHandler, DesPortReceiveHandler, InTransitHandler, pickupHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
@@ -424,6 +425,20 @@ function BookingList() {
                                     HBL Format
                                   </button>
                                 </span>
+                                <span>
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isFreightInvoice: true,
+                                      });
+                                    }}
+                                  >
+                                    Freight Invoice
+                                  </button>
+                                </span>
                               </div>
                             </td>
                           </tr>
@@ -636,6 +651,24 @@ function BookingList() {
             }}
           >
             <HBLFormat rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
+
+      {/* Freight Invoice */}
+      {isModalShowObj?.isFreightInvoice && (
+        <>
+          <IViewModal
+            title="Freight Invoice"
+            show={isModalShowObj?.isFreightInvoice}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isFreightInvoice: false,
+              });
+            }}
+          >
+            <FreightInvoice rowClickData={rowClickData} />
           </IViewModal>
         </>
       )}
