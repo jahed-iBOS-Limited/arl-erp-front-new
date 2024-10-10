@@ -1,0 +1,93 @@
+.freightInvoice-container {
+    line-height: 1.6;
+    margin: 20px;
+    padding: 0;
+    color: #333;
+    font-size: 0.625rem; /* Set the font size to 0.625rem */
+}
+
+.container-freight {
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+h1 {
+    font-size: 0.625rem;
+}
+
+h2 {
+    font-size: 0.625rem;
+}
+
+h3 {
+    color: #333;
+    font-size: 0.625rem;
+}
+
+.header-freight,
+.footer {
+    text-align: center;
+}
+
+.header-freight {
+    margin-bottom: 40px;
+}
+
+.logo {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+}
+
+.company-details,
+.client-details,
+.shipment-details,
+.charges-breakdown,
+.taxes-freight,
+.grand-total,
+.payment-instructions,
+.terms-conditions {
+    margin-bottom: 20px;
+}
+
+.company-details div,
+.client-details div,
+.shipment-details div,
+.charges-breakdown div,
+.taxes-freight div,
+.grand-total div,
+.payment-instructions div,
+.terms-conditions div {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table,
+th,
+td {
+    border: 1px solid #ddd;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f5f5f5;
+}
+
+.grand-total {
+    font-weight: bold;
+}
+
+.tab {
+    padding-left: 100px;
+}

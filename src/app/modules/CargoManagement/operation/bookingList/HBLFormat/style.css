@@ -1,0 +1,72 @@
+.hbl-container {
+    margin: 0;
+    padding: 0;
+    font-size: 0.625rem;
+  }
+  
+  .container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h1, h2 {
+    font-size: 0.625rem;
+    text-align: start;
+  }
+  
+  .section {
+    margin-bottom: 20px;
+  }
+  
+  .section-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .input-line,
+  .solid-line,
+  .input-line70,
+  .input-line50 {
+    display: block;
+    margin-bottom: 10px;
+    padding: 2px;
+  }
+  
+  .input-line {
+    width: 100%;
+    border-bottom: 1px dashed #000;
+  }
+  
+  .solid-line {
+    width: 100%;
+    border-bottom: 1px solid #000;
+  }
+  
+  .input-line70 {
+    width: 70%;
+    border-bottom: 1px dashed #000;
+  }
+  
+  .input-line50 {
+    width: 50%;
+    border-bottom: 1px dashed #000;
+  }
+  
+  .new-line {
+    width: 100%;
+    margin-bottom: 5px;
+    padding: 2px;
+  }
+  
+  .signature-line50 {
+    border-bottom: 1px dashed #000;
+    width: 50%;
+    margin-bottom: 20px;
+    padding: 2px;
+  }
+  
+  .note {
+    font-size: 0.625rem;
+  }
+  
