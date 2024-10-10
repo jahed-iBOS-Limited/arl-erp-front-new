@@ -65,7 +65,7 @@ const AttachmentViewer = ({ isShow, btnText }) => {
               <Modal.Body id="example-modal-sizes-title-xl">
                 <div style={{ border: "1px solid #cccccc61" }}>
                   <div></div>
-                  <div>
+                  <div style={{overflowX:"scroll"}}>
                     {imageView?.type === "application/pdf" ? (
                       <PDFViewer
                         document={{
