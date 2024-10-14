@@ -37,6 +37,7 @@ const initData = {
   project: "",
   department: "",
   availableStockQty: "",
+  isSpecialApproval: false,
 }
 
 export default function ItemRequestForm({
@@ -143,6 +144,7 @@ export default function ItemRequestForm({
 
         const payload = {
           objHeader: {
+            isForSpecialApproval: values?.isSpecialApproval || false,
             accountId: profileData?.accountId,
             businessUnitId: selectedBusinessUnit?.value,
             requestDate: values?.requestDate,
