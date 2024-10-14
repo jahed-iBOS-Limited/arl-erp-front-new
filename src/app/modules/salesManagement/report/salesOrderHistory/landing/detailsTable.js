@@ -41,6 +41,7 @@ export default function CommonTable({
               <th style={{ width: "100px" }}>Sold to Partner</th>
               <th style={{ width: "100px" }}>Channel Name</th>
               <th style={{ width: "100px" }}>Shippoint Name</th>
+              <th style={{ width: "100px" }}>Item Name</th>
               <th style={{ width: "120px" }}>Sales Order Code</th>
               <th style={{ width: "120px" }}>Request Quantity</th>
               <th style={{ width: "120px" }}>Order Quantity</th>
@@ -86,6 +87,7 @@ export default function CommonTable({
                   <td>{item?.strsoldtopartner}</td>
                   <td className="text-center">{item?.strChannelName}</td>
                   <td className="text-center">{item?.strshippointname}</td>
+                  <td className="text-center">{item?.itemname}</td>
                   <td>{item?.strsalesordercode}</td>
                   <td className="text-right">{item?.numrequestquantity}</td>
                   <td className="text-right">{item?.numorderquantity}</td>
@@ -115,7 +117,7 @@ export default function CommonTable({
               );
             })}
             <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-              <td className="text-right" colSpan={5}>
+              <td className="text-right" colSpan={6}>
                 <b>Total</b>
               </td>
               <td>{_fixedPoint(totalRequestQty, true, 0)}</td>
