@@ -16,6 +16,7 @@ const initData = {
   toDate: _todayDate(),
   currentBusinessUnit: "",
   profitCenter: "",
+  isForecast: false,
 };
 export default function OverheadVarianceReport() {
   const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
@@ -206,6 +207,22 @@ export default function OverheadVarianceReport() {
                       }}
                     />
                   </div>
+                  <div className="col-lg-1 mt-4">
+                    <div className="d-flex align-items-center">
+                    <p className="pr-1 pt-3">
+                      <input
+                        type="checkbox"
+                        checked={values?.isForecast} 
+                      onChange={(e)=>{
+                        setFieldValue("isForecast", e.target.checked);
+                      }}
+                      />
+                    </p>
+                    <p>
+                      <label>Is Forecast</label>
+                    </p>
+                  </div>
+                    </div>
                   <div style={{ marginTop: "17px" }}>
                     <button
                       disabled={
@@ -217,7 +234,7 @@ export default function OverheadVarianceReport() {
                       }
                       onClick={() => {
                         getRowData(
-                          `/fino/Report/GetOverheadVarianceReport?businessUnitId=${values?.currentBusinessUnit?.value}&intProCenId=${values?.profitCenter?.value}&intGLId=${values?.gl?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+                          `/fino/Report/GetOverheadVarianceReport?businessUnitId=${values?.currentBusinessUnit?.value}&intProCenId=${values?.profitCenter?.value}&intGLId=${values?.gl?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isForecast=${values?.isForecast || false}`
                         );
                       }}
                       className="btn btn-primary"
