@@ -1,5 +1,6 @@
 .container {
     padding: 20px;
+    margin-bottom: 100px;
     font-family: Arial, sans-serif;
     font-size: 14px;
     color: #000;
@@ -20,6 +21,7 @@ p {
 .note p {
     /* font-style: italic; */
     color: red;
+    margin-bottom: 50px;
 }
 
 .mt_10{

@@ -6,6 +6,7 @@ import Loading from '../../../../_helper/_loading';
 import moment from 'moment';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import { marineBaseUrlPythonAPI } from '../../../../../App';
+import { getLetterHead } from '../../../../financialManagement/report/bankLetter/helper';
 
 const MailModal = ({ singleItem }) => {
     const [loading, setLoading] = useState(false)
@@ -20,59 +21,108 @@ const MailModal = ({ singleItem }) => {
                     const pdfBlob = await exportToPDF("AssetAssignmailModal", "vessel_nomination");
                     const uploadResponse = await uploadPDF(pdfBlob, setLoading);
                     const pdfURL = uploadResponse?.[0]?.id || "";
-                    console.log("pdfURL", generateFileUrl(pdfURL))
 
-                    // const payload = {
+                    const payload = {
+                        "body": `
+                        <!DOCTYPE html>
+                        <html>
+                            <body>
+                                <p>Dear ${singleItem?.strEmployeeName},</p>
+                                <p>
+                                    As per decision by Management, this is to inform you that to help the Organization,
+                                    a car mentioned in the heading is to be allotted against you with immediate effect.
+                                    In this regard, you are hereby advised to receive your <strong>Car</strong> from the Administration Department
+                                    at Akij Resource Corporate Office, Tejgaon, Dhaka-1208, at the earliest.
+                                </p>
+                                <p>
+                                    Management expects you will accomplish your duties and responsibilities perfectly and smoothly.
+                                </p>
+                            </body>
+                        </html>
+                    `,
+                        "email_list": "shihab.corp@akijcement.com",
+                        "file_path": generateFileUrl(pdfURL) || "",
+                        "receiver": `${singleItem?.employeeEmail}`,
+                        "subject": `Regarding Allotment of Car (${singleItem?.assetCode})`
+                    };
 
-                    //     attachment: pdfURL,
-                    // };
 
-                    // onSendEmail(
-                    //     `${marineBaseUrlPythonAPI}/test}`,
-                    //     payload,
-                    //     null,
-                    //     true
-                    // );
+                    onSendEmail(
+                        `${marineBaseUrlPythonAPI}/automation/erp_mail_sender`,
+                        payload,
+                        null,
+                        true
+                    );
                 }} className='btn btn-primary'>Send</button>
             </div>
-            <div
+            <div className={styles.container}
                 id='AssetAssignmailModal'
-                contentEditable={true}
-                className={styles.container}
-            >
-                <div className={styles.section}>
-                    <p>Ref: No-AR/HR & Admin/2024/9736</p>
-                    <p>Date: {moment().format('DD/MM/YYYY')}</p>
-                </div>
+                style={{ position: "relative" }}>
+                <div
+                    style={{
+                        backgroundImage: `url(${getLetterHead({
+                            buId: 4,
+                        })})`,
+                        backgroundRepeat: "no-repeat",
+                        height: "150px",
+                        backgroundSize: "cover",
+                        width: "100%",
+                    }}
+                ></div>
 
-                <div className={styles.section}>
-                    <p>Md. Baharul Islam</p>
-                    <p>Enroll: 563645</p>
-                    <p>Assistant General Manager</p>
-                    <p>Akij Agro Feed Ltd.</p>
-                </div>
+                <div
+                    contentEditable={true}
+                >
+                    <div className={styles.section}>
+                        <p style={{ marginTop: "15px" }}>Ref: No-AR/HR & Admin/2024/9736</p>
+                        <p>Date: {moment().format('DD/MM/YYYY')}</p>
+                    </div>
 
-                <div className={styles.section}>
-                    <p className={styles.subject}>Sub: Regarding Allotment of Car (Dhaka Metro-GA-18- 6954)</p>
-                </div>
+                    <div className={styles.section}>
+                        <p>{singleItem?.strEmployeeName}</p>
+                        <p>Enroll: {singleItem?.employeeDeptId}</p>
+                        <p>{singleItem?.strDesignation}</p>
+                        <p>{singleItem?.strBusinessUnit}</p>
+                    </div>
 
-                <div className={styles.section}>
-                    <p className={styles.mb_10}>Dear Mr. Islam,</p>
-                    <p>
-                        As per decision by Management, this is to inform you that to help the Organization,
-                        a car mentioned in the heading is to be allotted against you with immediate effect.
-                        In this regard, you are hereby advised to receive your <strong>Car</strong> from the Administration Department
-                        at Akij Resource Corporate Office, Tejgaon, Dhaka-1208, at the earliest.
-                    </p>
-                    <p className={styles.mt_10}>
-                        Management expects you will accomplish your duties and responsibilities perfectly and smoothly.
-                    </p>
-                </div>
+                    <div className={styles.section}>
+                        <p className={styles.subject}>Sub: Regarding Allotment of Car ({singleItem?.assetCode})</p>
+                    </div>
 
-                <div className={`${styles.section} ${styles.note}`}>
-                    <p>Note: System generated mail</p>
+                    <div className={styles.section}>
+                        <p className={styles.mb_10}>Dear {singleItem?.strEmployeeName},</p>
+                        <p>
+                            As per decision by Management, this is to inform you that to help the Organization,
+                            a car mentioned in the heading is to be allotted against you with immediate effect.
+                            In this regard, you are hereby advised to receive your <strong>Car</strong> from the Administration Department
+                            at Akij Resource Corporate Office, Tejgaon, Dhaka-1208, at the earliest.
+                        </p>
+                        <p className={styles.mt_10}>
+                            Management expects you will accomplish your duties and responsibilities perfectly and smoothly.
+                        </p>
+                    </div>
+
+                    <div className={`${styles.section} ${styles.note}`}>
+                        <p>Note: System generated mail</p>
+                    </div>
                 </div>
+                <div
+                    style={{
+                        backgroundImage: `url(${getLetterHead({
+                            buId: 4,
+                        })})`,
+                        backgroundRepeat: "no-repeat",
+                        height: "100px",
+                        backgroundPosition: "left bottom",
+                        backgroundSize: "cover",
+                        bottom: "-0px",
+                        position: "absolte",
+                        width: "100%",
+                        left: "0px",
+                    }}
+                ></div>
             </div>
+
         </>
     );
 };
