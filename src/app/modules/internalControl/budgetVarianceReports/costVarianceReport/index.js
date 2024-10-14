@@ -102,7 +102,7 @@ export default function CostVarianceReportLanding() {
                     }}
                   />
                 </div>
-                <div className="col-lg-1 mt-4">
+                <div className="col-lg-2 mt-4">
                     <div className="d-flex align-items-center">
                     <p className="pr-1 pt-3">
                       <input
