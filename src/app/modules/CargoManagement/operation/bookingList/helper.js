@@ -128,7 +128,7 @@ export const InTransitHandler = ({
     yesAlertFunc: () => {
       const payload = {
         ...commonBookingRequestStatusUpdate,
-        isDestPortReceive: true,
+        isInTransit: true,
         isActive: true,
         inTransit: new Date(),
         bookingRequestId: item?.bookingRequestId,
@@ -166,6 +166,7 @@ export const commonBookingRequestStatusUpdate = {
   buyerReceive: new Date(),
   isActive: false,
   updatedAt: new Date(),
+  
 };
 
 export const statusReturn = (itemObj) => {
