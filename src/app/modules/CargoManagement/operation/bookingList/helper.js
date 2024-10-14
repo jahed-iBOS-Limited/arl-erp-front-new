@@ -41,7 +41,11 @@ export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
   IConfirmModal(obj);
 };
 
-export const buyerReceiveHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
+export const buyerReceiveHandler = ({
+  item,
+  getBookingRequestStatusUpdate,
+  CB,
+}) => {
   const obj = {
     title: "Buyer Receive",
     message: "Are you sure you want to Buyer Receive this?",
@@ -84,9 +88,11 @@ export const buyerReceiveHandler = ({ item, getBookingRequestStatusUpdate, CB })
 //   }
 // };
 
-
-
-export const DesPortReceiveHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
+export const DesPortReceiveHandler = ({
+  item,
+  getBookingRequestStatusUpdate,
+  CB,
+}) => {
   const obj = {
     title: "Cancel Booking",
     message: "Are you sure you want to cancel this?",
@@ -110,7 +116,11 @@ export const DesPortReceiveHandler = ({ item, getBookingRequestStatusUpdate, CB 
   };
   IConfirmModal(obj);
 };
-export const InTransitHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
+export const InTransitHandler = ({
+  item,
+  getBookingRequestStatusUpdate,
+  CB,
+}) => {
   const obj = {
     title: "In Transit",
     message: "Are you sure you want to In Transit this?",
@@ -159,26 +169,36 @@ export const commonBookingRequestStatusUpdate = {
 };
 
 export const statusReturn = (itemObj) => {
-  if (itemObj?.isPending) {
-    return "Pending";
-  } else if (itemObj?.isHandOver) {
-    return "Hand Over";
+
+  if (itemObj?.isDelivered) {
+    return "Delivered";
+  } else if (itemObj?.isDestPortReceive) {
+    return "Dest Port Receive";
+  } else if (itemObj?.isInTransit) {
+    return "In Transit";
+  } else if (itemObj?.isCustomsClearance) {
+    return "Customs Clearance";
+  } else if (itemObj?.isDispatch) {
+    return "Dispatch";
+  } else if (itemObj?.isDocumentChecklist) {
+    return "Document Checklist";
+  } else if (itemObj?.isCharges) {
+    return "Charges";
+  } else if (itemObj?.isHBLEmail) {
+    return "HBL Email";
+  } else if (itemObj?.isBL) {
+    return "BL";
   } else if (itemObj?.isReceived) {
     return "Received";
-  } else if (itemObj?.isPlaning) {
-    return "Planing";
+  } else if (itemObj?.isPickup) {
+    return "Pickup";
   } else if (itemObj?.isConfirm) {
     return "Confirm";
   } else if (itemObj?.isCancel) {
     return "Cancel";
-  }else if (itemObj?.isInTransit) {
-    return "In Transit";
+  } else if (itemObj?.isPending) {
+    return "Pending";
+  } else {
+    return "";
   }
-  else if (itemObj?.isDestPortReceive) {
-    return "Dest Port Receive";
-  }
-  else if (itemObj?.isBuyerReceive) {
-    return "Buyer Receive";
-  }
-  return "";
 };
