@@ -25,8 +25,9 @@ export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
     message: "Are you sure you want to cancel this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
+      const commonPaylaod  = commonBookingRequestStatusUpdate(item);
       const payload = {
-        ...commonBookingRequestStatusUpdate,
+        ...commonPaylaod,
         bookingRequestId: item?.bookingRequestId,
       };
       getBookingRequestStatusUpdate(
@@ -51,8 +52,9 @@ export const buyerReceiveHandler = ({
     message: "Are you sure you want to Buyer Receive this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
+      const commonPaylaod  = commonBookingRequestStatusUpdate(item);
       const payload = {
-        ...commonBookingRequestStatusUpdate,
+        ...commonPaylaod,
         isBuyerReceive: true,
         isActive: true,
         buyerReceive: new Date(),
@@ -98,8 +100,9 @@ export const DesPortReceiveHandler = ({
     message: "Are you sure you want to cancel this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
+      const commonPaylaod  = commonBookingRequestStatusUpdate(item);
       const payload = {
-        ...commonBookingRequestStatusUpdate,
+        ...commonPaylaod,
         isDestPortReceive: true,
         isActive: true,
         destPortReceive: new Date(),
@@ -126,8 +129,9 @@ export const InTransitHandler = ({
     message: "Are you sure you want to In Transit this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
+      const commonPaylaod  = commonBookingRequestStatusUpdate(item);
       const payload = {
-        ...commonBookingRequestStatusUpdate,
+        ...commonPaylaod,
         isInTransit: true,
         isActive: true,
         inTransit: new Date(),
@@ -145,32 +149,52 @@ export const InTransitHandler = ({
   IConfirmModal(obj);
 };
 
-export const commonBookingRequestStatusUpdate = {
-  bookingRequestId: 0,
-  isPending: false,
-  isHandOver: false,
-  handOverDate: new Date(),
-  isReceived: false,
-  receivedDate: new Date(),
-  isPlaning: false,
-  planingDate: new Date(),
-  isConfirm: false,
-  confirmDate: new Date(),
-  isCancel: false,
-  cancelDate: new Date(),
-  isInTransit: false,
-  inTransit: new Date(),
-  isDestPortReceive: false,
-  destPortReceive: new Date(),
-  isBuyerReceive: false,
-  buyerReceive: new Date(),
-  isActive: false,
-  updatedAt: new Date(),
-  
+export const commonBookingRequestStatusUpdate = (item) => {
+  return {
+    bookingRequestId: item?.bookingRequestId || 0,
+    isPending: item?.isPending || false,
+    isHandOver: item?.isHandOver || false,
+    handOverDate: item?.handOverDate || new Date(),
+    isReceived: item?.isReceived || false,
+    receivedDate: item?.receivedDate || new Date(),
+    isPlaning: item?.isPlaning || false,
+    planingDate: item?.planingDate || new Date(),
+    isConfirm: item?.isConfirm || false,
+    confirmDate: item?.confirmDate || new Date(),
+    isCancel: item?.isCancel || false,
+    cancelDate: item?.cancelDate || new Date(),
+    isInTransit: item?.isInTransit || false,
+    inTransit: item?.inTransit || new Date(),
+    isDestPortReceive: item?.isDestPortReceive || false,
+    destPortReceive: item?.destPortReceive || new Date(),
+    isBuyerReceive: item?.isBuyerReceive || false,
+    buyerReceive: item?.buyerReceive || new Date(),
+    isActive: item?.isActive || false,
+    updatedAt: item?.updatedAt || new Date(),
+
+    // new modify
+    isDelivered: item?.isDelivered || false,
+    deliveredDate: item?.deliveredDate || new Date(),
+    isCustomsClearance: item?.isCustomsClearance || false,
+    customsClearanceDate: item?.customsClearanceDate || new Date(),
+    isDispatch: item?.isDispatch || false,
+    dispatchDate: item?.dispatchDate || new Date(),
+    isDocumentChecklist: item?.isDocumentChecklist || false,
+    documentChecklistDate: item?.documentChecklistDate || new Date(),
+    isCharges: item?.isCharges || false,
+    chargesDate: item?.chargesDate || new Date(),
+    isHBLEmail: item?.isHBLEmail || false,
+    hblEmailDate: item?.hblEmailDate || new Date(),
+    isBL: item?.isBL || false,
+    blDate: item?.blDate || new Date(),
+    isPickup: item?.isPickup || false,
+    pickupDate: item?.pickupDate || new Date(),
+    isTransport:  item?.isTransport || false,
+    transportDate: item?.transportDate || new Date(),
+  };
 };
 
 export const statusReturn = (itemObj) => {
-
   if (itemObj?.isDelivered) {
     return "Delivered";
   } else if (itemObj?.isDestPortReceive) {
@@ -189,6 +213,8 @@ export const statusReturn = (itemObj) => {
     return "HBL Email";
   } else if (itemObj?.isBL) {
     return "BL";
+  } else if (itemObj?.isTransport) {
+    return "Transport";
   } else if (itemObj?.isReceived) {
     return "Received";
   } else if (itemObj?.isPickup) {

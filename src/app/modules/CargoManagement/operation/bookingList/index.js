@@ -335,6 +335,17 @@ function BookingList() {
                                       isConfirm: true,
                                     });
                                   }}
+                                  style={
+                                    isModalShowObj?.isConfirm
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
                                 >
                                   Confirm
                                 </button>
@@ -343,6 +354,17 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  style={
+                                    isModalShowObj?.isPickup
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {
                                     pickupHandler({ item });
@@ -355,6 +377,17 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  style={
+                                    isModalShowObj?.isReceived
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {
                                     setRowClickData(item);
@@ -371,6 +404,17 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  style={
+                                    isModalShowObj?.isTransport
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {
                                     setRowClickData(item);
@@ -387,6 +431,17 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  style={
+                                    isModalShowObj?.isBL
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {}}
                                 >
@@ -397,6 +452,17 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  style={
+                                    isModalShowObj?.isHBLEmail
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {}}
                                 >
@@ -407,6 +473,17 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  style={
+                                    isModalShowObj?.isCharges
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {
                                     setRowClickData(item);
@@ -423,6 +500,17 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  style={
+                                    isModalShowObj?.isDocumentChecklist
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {
                                     setRowClickData(item);
@@ -439,6 +527,17 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  style={
+                                    isModalShowObj?.isDispatch
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {}}
                                 >
@@ -449,6 +548,17 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  style={
+                                    isModalShowObj?.isCustomsClearance
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {}}
                                 >
@@ -459,6 +569,17 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  style={
+                                    isModalShowObj?.isInTransit
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {
                                     InTransitHandler({
@@ -477,6 +598,17 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  style={
+                                    isModalShowObj?.isDestPortReceive
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {
                                     DesPortReceiveHandler({
@@ -495,6 +627,17 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  style={
+                                    isModalShowObj?.isDelivered
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {
                                     buyerReceiveHandler({
