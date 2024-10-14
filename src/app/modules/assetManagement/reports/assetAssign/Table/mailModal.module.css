@@ -1,0 +1,31 @@
+.container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #000;
+}
+
+p {
+    margin: 0;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.subject {
+    font-weight: bold;
+}
+
+.note p {
+    /* font-style: italic; */
+    color: red;
+}
+
+.mt_10{
+    margin-top: 10px;
+}
+
+.mb_10{
+    margin-bottom: 10px;
+}
