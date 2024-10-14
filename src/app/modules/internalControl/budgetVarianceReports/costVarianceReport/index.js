@@ -16,6 +16,7 @@ const initData = {
   businessUnit: "",
   fromDate: _todayDate(),
   toDate: _todayDate(),
+  isForecast: false,
 };
 export default function CostVarianceReportLanding() {
   const [tableData, getTableData, tableDataLoader] = useAxiosGet();
@@ -101,11 +102,27 @@ export default function CostVarianceReportLanding() {
                     }}
                   />
                 </div>
-                <div className="col-lg-3">
+                <div className="col-lg-1 mt-4">
+                    <div className="d-flex align-items-center">
+                    <p className="pr-1 pt-3">
+                      <input
+                        type="checkbox"
+                        checked={values?.isForecast} 
+                      onChange={(e)=>{
+                        setFieldValue("isForecast", e.target.checked);
+                      }}
+                      />
+                    </p>
+                    <p>
+                      <label>Is Forecast</label>
+                    </p>
+                  </div>
+                    </div>
+                <div className="">
                   <button
                     onClick={() => {
                       getTableData(
-                        `/fino/Report/GetCostVarianceReport?businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+                        `/fino/Report/GetCostVarianceReport?businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isForecast=${values?.isForecast}`
                       );
                     }}
                     type="button"
