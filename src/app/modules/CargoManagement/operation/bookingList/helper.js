@@ -1,19 +1,7 @@
-import axios from "axios";
 
-import IConfirmModal from "../../../_helper/_confirmModal";
 import { imarineBaseUrl } from "../../../../App";
-import { toast } from "react-toastify";
+import IConfirmModal from "../../../_helper/_confirmModal";
 
-// export const getDistributionChannelDDL = async (accId, buId, sbuId, setter) => {
-//   try {
-//     let res = await axios.get(
-//       `/oms/SalesOrder/GetDistributionChannelDDLBySBUId?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbuId}`
-//     );
-//     setter(res?.data);
-//   } catch (err) {
-//     setter([]);
-//   }
-// };
 
 export const pickupHandler = ({ item }) => {
   console.log("Pickup Handler");
@@ -175,8 +163,8 @@ export const commonBookingRequestStatusUpdate = (item) => {
     // new modify
     isDelivered: item?.isDelivered || false,
     deliveredDate: item?.deliveredDate || new Date(),
-    isCustomsClearance: item?.isCustomsClearance || false,
-    customsClearanceDate: item?.customsClearanceDate || new Date(),
+    isCustomsClear: item?.isCustomsClear || false,
+    customsClearDt: item?.customsClearDt || new Date(),
     isDispatch: item?.isDispatch || false,
     dispatchDate: item?.dispatchDate || new Date(),
     isDocumentChecklist: item?.isDocumentChecklist || false,
@@ -184,13 +172,14 @@ export const commonBookingRequestStatusUpdate = (item) => {
     isCharges: item?.isCharges || false,
     chargesDate: item?.chargesDate || new Date(),
     isHBLEmail: item?.isHBLEmail || false,
-    hblEmailDate: item?.hblEmailDate || new Date(),
+    hbldate: item?.hbldate || new Date(),
     isBL: item?.isBL || false,
     blDate: item?.blDate || new Date(),
     isPickup: item?.isPickup || false,
     pickupDate: item?.pickupDate || new Date(),
     isTransport:  item?.isTransport || false,
     transportDate: item?.transportDate || new Date(),
+    
   };
 };
 
@@ -201,7 +190,7 @@ export const statusReturn = (itemObj) => {
     return "Dest Port Receive";
   } else if (itemObj?.isInTransit) {
     return "In Transit";
-  } else if (itemObj?.isCustomsClearance) {
+  } else if (itemObj?.isCustomsClear ) {
     return "Customs Clearance";
   } else if (itemObj?.isDispatch) {
     return "Dispatch";
