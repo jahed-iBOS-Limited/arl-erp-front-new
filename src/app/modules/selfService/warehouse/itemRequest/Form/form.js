@@ -204,6 +204,22 @@ export default function _Form({
                         disabled={true}
                       />
                     </div>
+                    <div className="col-lg-12 mt-2">
+                    <div className="d-flex align-items-center">
+                    <p className="pr-1 pt-3">
+                      <input
+                        type="checkbox"
+                        checked={values?.isSpecialApproval} 
+                      onChange={(e)=>{
+                        setFieldValue("isSpecialApproval", e.target.checked);
+                      }}
+                      />
+                    </p>
+                    <p>
+                      <label>Is Special Approval</label>
+                    </p>
+                  </div>
+                    </div>
                   </div>
                 </div>
                 <div className="col-lg-9" >
