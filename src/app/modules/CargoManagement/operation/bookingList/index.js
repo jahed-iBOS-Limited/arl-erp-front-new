@@ -336,7 +336,7 @@ function BookingList() {
                                     });
                                   }}
                                   style={
-                                    isModalShowObj?.isConfirm
+                                    item?.isConfirm
                                       ? {
                                           background: "green",
                                           border: "1px solid green",
@@ -355,7 +355,7 @@ function BookingList() {
                               <span>
                                 <button
                                   style={
-                                    isModalShowObj?.isPickup
+                                    item?.isPickup
                                       ? {
                                           background: "green",
                                           border: "1px solid green",
@@ -378,7 +378,7 @@ function BookingList() {
                               <span>
                                 <button
                                   style={
-                                    isModalShowObj?.isReceived
+                                    item?.isReceived
                                       ? {
                                           background: "green",
                                           border: "1px solid green",
@@ -405,7 +405,7 @@ function BookingList() {
                               <span>
                                 <button
                                   style={
-                                    isModalShowObj?.isTransport
+                                    item?.isTransport
                                       ? {
                                           background: "green",
                                           border: "1px solid green",
@@ -432,7 +432,7 @@ function BookingList() {
                               <span>
                                 <button
                                   style={
-                                    isModalShowObj?.isBL
+                                    item?.isBL
                                       ? {
                                           background: "green",
                                           border: "1px solid green",
@@ -453,7 +453,7 @@ function BookingList() {
                               <span>
                                 <button
                                   style={
-                                    isModalShowObj?.isHBLEmail
+                                    item?.isHBLEmail
                                       ? {
                                           background: "green",
                                           border: "1px solid green",
@@ -474,7 +474,7 @@ function BookingList() {
                               <span>
                                 <button
                                   style={
-                                    isModalShowObj?.isCharges
+                                    item?.isCharges
                                       ? {
                                           background: "green",
                                           border: "1px solid green",
@@ -501,7 +501,7 @@ function BookingList() {
                               <span>
                                 <button
                                   style={
-                                    isModalShowObj?.isDocumentChecklist
+                                    item?.isDocumentChecklist
                                       ? {
                                           background: "green",
                                           border: "1px solid green",
@@ -528,7 +528,7 @@ function BookingList() {
                               <span>
                                 <button
                                   style={
-                                    isModalShowObj?.isDispatch
+                                    item?.isDispatch
                                       ? {
                                           background: "green",
                                           border: "1px solid green",
@@ -549,7 +549,7 @@ function BookingList() {
                               <span>
                                 <button
                                   style={
-                                    isModalShowObj?.isCustomsClearance
+                                    item?.isCustomsClearance
                                       ? {
                                           background: "green",
                                           border: "1px solid green",
@@ -570,7 +570,7 @@ function BookingList() {
                               <span>
                                 <button
                                   style={
-                                    isModalShowObj?.isInTransit
+                                    item?.isInTransit
                                       ? {
                                           background: "green",
                                           border: "1px solid green",
@@ -599,7 +599,7 @@ function BookingList() {
                               <span>
                                 <button
                                   style={
-                                    isModalShowObj?.isDestPortReceive
+                                    item?.isDestPortReceive
                                       ? {
                                           background: "green",
                                           border: "1px solid green",
@@ -628,7 +628,7 @@ function BookingList() {
                               <span>
                                 <button
                                   style={
-                                    isModalShowObj?.isDelivered
+                                    item?.isDelivered
                                       ? {
                                           background: "green",
                                           border: "1px solid green",
