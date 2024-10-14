@@ -17,7 +17,14 @@ import DocumentModal from "./documentModal";
 import FreightCargoReceipt from "./freightCargoReceipt";
 import FreightInvoice from "./freightInvoice";
 import HBLFormat from "./HBLFormat";
-import { buyerReceiveHandler, cancelHandler, DesPortReceiveHandler, InTransitHandler, pickupHandler, statusReturn } from "./helper";
+import {
+  buyerReceiveHandler,
+  cancelHandler,
+  DesPortReceiveHandler,
+  InTransitHandler,
+  pickupHandler,
+  statusReturn,
+} from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
 
@@ -51,7 +58,9 @@ function BookingList() {
 
   const commonLandingApi = () => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId}&userTypeId=${0}&refrenceId=${profileData?.userReferenceId}`
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
+        profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId}`
     );
   };
   return (
@@ -65,7 +74,7 @@ function BookingList() {
             entryCode: "",
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
@@ -144,7 +153,112 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: "1540px",
+                            minWidth: "100px",
+                          }}
+                        >
+                          Details
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "100px",
+                          }}
+                        >
+                          Cancel
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "100px",
+                          }}
+                        >
+                          Confirm
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "100px",
+                          }}
+                        >
+                          Pickup
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "100px",
+                          }}
+                        >
+                          Receive
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "146px",
+                          }}
+                        >
+                          Transport
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "60px",
+                          }}
+                        >
+                          BL
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "100px",
+                          }}
+                        >
+                          HBL Email
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "146px",
+                          }}
+                        >
+                          Charges
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "117px",
+                          }}
+                        >
+                          Doc Checklist
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "100px",
+                          }}
+                        >
+                          Dispatch
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "149px",
+                          }}
+                        >
+                          Customs Clearance
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "100px",
+                          }}
+                        >
+                          In Transit
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "137px",
+                          }}
+                        >
+                          Des. Port Receive
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "100px",
+                          }}
+                        >
+                          Delivered
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "490px",
                           }}
                         >
                           Action
@@ -175,6 +289,370 @@ function BookingList() {
                             <td>
                               <span>{statusReturn(item)}</span>
                             </td>
+
+                            <td>
+                              <span>
+                                <button
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isView: true,
+                                    });
+                                  }}
+                                >
+                                  Details
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    cancelHandler({
+                                      item,
+                                      getBookingRequestStatusUpdate,
+                                      CB: () => {
+                                        commonLandingApi();
+                                      },
+                                    });
+                                  }}
+                                >
+                                  Cancel
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isConfirm: true,
+                                    });
+                                  }}
+                                  style={
+                                    isModalShowObj?.isConfirm
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
+                                >
+                                  Confirm
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  style={
+                                    isModalShowObj?.isPickup
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    pickupHandler({ item });
+                                  }}
+                                >
+                                  Pickup
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  style={
+                                    isModalShowObj?.isReceived
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isReceive: true,
+                                    });
+                                  }}
+                                >
+                                  Receive
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  style={
+                                    isModalShowObj?.isTransport
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isTransport: true,
+                                    });
+                                  }}
+                                >
+                                  Transport Planning
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  style={
+                                    isModalShowObj?.isBL
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {}}
+                                >
+                                  BL
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  style={
+                                    isModalShowObj?.isHBLEmail
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {}}
+                                >
+                                  HBL Email
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  style={
+                                    isModalShowObj?.isCharges
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isCharges: true,
+                                    });
+                                  }}
+                                >
+                                  Services & Charges
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  style={
+                                    isModalShowObj?.isDocumentChecklist
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isDocument: true,
+                                    });
+                                  }}
+                                >
+                                  Doc Checklist
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  style={
+                                    isModalShowObj?.isDispatch
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {}}
+                                >
+                                  Dispatch
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  style={
+                                    isModalShowObj?.isCustomsClearance
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {}}
+                                >
+                                  Customs Clearance
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  style={
+                                    isModalShowObj?.isInTransit
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    InTransitHandler({
+                                      item,
+                                      getBookingRequestStatusUpdate,
+                                      CB: () => {
+                                        commonLandingApi();
+                                      },
+                                    });
+                                  }}
+                                >
+                                  In Transit
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  style={
+                                    isModalShowObj?.isDestPortReceive
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    DesPortReceiveHandler({
+                                      item,
+                                      getBookingRequestStatusUpdate,
+                                      CB: () => {
+                                        commonLandingApi();
+                                      },
+                                    });
+                                  }}
+                                >
+                                  Des. Port Receive
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  style={
+                                    isModalShowObj?.isDelivered
+                                      ? {
+                                          background: "green",
+                                          border: "1px solid green",
+                                        }
+                                      : {
+                                          background: "#ffa500",
+                                          border: "1px solid #ffa500",
+                                        }
+                                  }
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    buyerReceiveHandler({
+                                      item,
+                                      getBookingRequestStatusUpdate,
+                                      CB: () => {
+                                        commonLandingApi();
+                                      },
+                                    });
+                                  }}
+                                >
+                                  Delivered
+                                </button>
+                              </span>
+                            </td>
                             <td>
                               <div
                                 style={{
@@ -183,206 +661,6 @@ function BookingList() {
                                   alignItems: "center",
                                 }}
                               >
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isView: true,
-                                      });
-                                    }}
-                                  >
-                                    Details
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      cancelHandler({
-                                        item,
-                                        getBookingRequestStatusUpdate,
-                                        CB: () => {
-                                          commonLandingApi();
-                                        },
-                                      });
-                                    }}
-                                  >
-                                    Cancel
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isConfirm: true,
-                                      });
-                                    }}
-                                  >
-                                    Confirm
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      pickupHandler({ item });
-                                    }}
-                                  >
-                                    Pickup
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isReceive: true,
-                                      });
-                                    }}
-                                  >
-                                    Receive
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isTransport: true,
-                                      });
-                                    }}
-                                  >
-                                    Transport Planning
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => { }}
-                                  >
-                                    BL
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => { }}
-                                  >
-                                    HBL
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => { }}
-                                  >
-                                    Email
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isCharges: true,
-                                      });
-                                    }}
-                                  >
-                                    Services & Charges
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isDocument: true,
-                                      });
-                                    }}
-                                  >
-                                    Doc Checklist
-                                  </button>
-                                </span>
-
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => { }}
-                                  >
-                                    Dispatch
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => { }}
-                                  >
-                                    Customs Clearance
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      InTransitHandler({
-                                        item,
-                                        getBookingRequestStatusUpdate,
-                                        CB: () => {
-                                          commonLandingApi();
-                                        },
-                                      });
-                                    }}
-
-                                  >
-                                    In Transit
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      DesPortReceiveHandler({
-                                        item,
-                                        getBookingRequestStatusUpdate,
-                                        CB: () => {
-                                          commonLandingApi();
-                                        },
-                                      });
-                                    }}
-                                  >
-                                    Des. Port Receive
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      buyerReceiveHandler({
-                                        item,
-                                        getBookingRequestStatusUpdate,
-                                        CB: () => {
-                                          commonLandingApi();
-                                        },
-                                      });
-                                    }}
-                                  >
-                                    Delivered
-                                  </button>
-                                </span>
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
@@ -672,7 +950,6 @@ function BookingList() {
           </IViewModal>
         </>
       )}
-
     </ICustomCard>
   );
 }
