@@ -410,7 +410,16 @@ function TransportModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <NewSelect
                     name="transportMode"
-                    options={transportModeDDL || []}
+                    // options={transportModeDDL || []}
+                    options={
+                      transportModeDDL?.filter((item) => {
+                        if (values?.transportPlanning === "Sea") {
+                          return [17, 18].includes(item?.value);
+                        } else {
+                          return [19, 20].includes(item?.value);
+                        }
+                      }) || []
+                    }
                     value={values?.transportMode}
                     label="Transport Mode"
                     onChange={(valueOption) => {
