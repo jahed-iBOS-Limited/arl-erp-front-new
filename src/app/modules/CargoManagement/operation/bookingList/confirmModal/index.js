@@ -101,7 +101,7 @@ function ConfirmModal({ rowClickData, CB }) {
       primaryContactPerson: values?.freightForwarderRepresentative || "",
       isConfirm: true,
       confirmDate: new Date(),
-      confTransportMode: values?.modeOfTransport?.value || 0,
+      confTransportMode: values?.modeOfTransport?.label || 0,
     };
 
     if (paylaod) {

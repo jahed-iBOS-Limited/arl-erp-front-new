@@ -374,7 +374,6 @@ function BookingList() {
                               <span>
                                 <button
                                   disabled={item?.isReceived}
-
                                   className={
                                     item?.isReceived
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -395,9 +394,9 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                  disabled={item?.isTransport}
+                                  disabled={item?.isPlaning}
                                   className={
-                                    item?.isTransport
+                                    item?.isPlaning
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
@@ -405,7 +404,7 @@ function BookingList() {
                                     setRowClickData(item);
                                     setIsModalShowObj({
                                       ...isModalShowObj,
-                                      isTransport: true,
+                                      isPlaning: true,
                                     });
                                   }}
                                 >
@@ -416,8 +415,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                disabled={item?.isBl}
-
+                                  disabled={item?.isBl}
                                   className={
                                     item?.isBl
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -432,7 +430,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                 
+                                  disabled={item?.isHbl}
                                   className={
                                     item?.isHbl
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -487,6 +485,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={item?.isDispatch}
                                   className={
                                     item?.isDispatch
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -509,6 +508,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={item?.isCustomsClear}
                                   className={
                                     item?.isCustomsClear
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -531,6 +531,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={item?.isInTransit}
                                   className={
                                     item?.isInTransit
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -553,6 +554,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={item?.isDestPortReceive}
                                   className={
                                     item?.isDestPortReceive
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -575,6 +577,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={item?.isBuyerReceive}
                                   className={
                                     item?.isBuyerReceive
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -747,15 +750,15 @@ function BookingList() {
       )}
 
       {/* Transport Modal */}
-      {isModalShowObj?.isTransport && (
+      {isModalShowObj?.isPlaning && (
         <>
           <IViewModal
             title="Transport Booking"
-            show={isModalShowObj?.isTransport}
+            show={isModalShowObj?.isPlaning}
             onHide={() => {
               setIsModalShowObj({
                 ...isModalShowObj,
-                isTransport: false,
+                isPlaning: false,
               });
             }}
           >
@@ -765,7 +768,7 @@ function BookingList() {
                 commonLandingApi();
                 setIsModalShowObj({
                   ...isModalShowObj,
-                  isTransport: false,
+                  isPlaning: false,
                 });
                 setRowClickData({});
               }}
