@@ -115,7 +115,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-          {console.log(values, "values")}
+          
             <Form className="form form-label-right">
               {/* Type Selection */}
               <div className="row mb-2">

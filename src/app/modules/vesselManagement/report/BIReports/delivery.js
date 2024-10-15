@@ -69,7 +69,7 @@ const DeliveryReportRDLC = () => {
       <Formik enableReinitialize={true} initialValues={initData}>
         {({ values, setFieldValue }) => (
           <ICustomCard title="Delivery Report">
-            {console.log(values, "values")}
+            
             <form className="form form-label-right">
               <div className="form-group row global-form">
                 <div className="col-lg-3">

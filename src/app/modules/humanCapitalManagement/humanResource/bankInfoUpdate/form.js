@@ -115,7 +115,7 @@ export default function _Form({
                 </CardHeaderToolbar>
               </CardHeader>
               <CardBody>
-                {console.log(values, "values")}
+                
                 <Form className="form form-label-right">
                   <div className="row global-form global-form-custom bj-left pb-2">
                     <div className="col-lg-3">
