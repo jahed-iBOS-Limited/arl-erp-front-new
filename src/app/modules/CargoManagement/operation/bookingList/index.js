@@ -329,10 +329,11 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={item?.isConfirm}
                                   className={
                                     item?.isConfirm
-                                    ? "btn btn-sm btn-success px-1 py-1"
-                                    : "btn btn-sm btn-warning px-1 py-1"
+                                      ? "btn btn-sm btn-success px-1 py-1"
+                                      : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   onClick={() => {
                                     setRowClickData(item);
@@ -349,6 +350,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={item?.isPickup}
                                   className={
                                     item?.isPickup
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -371,6 +373,8 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={item?.isReceived}
+
                                   className={
                                     item?.isReceived
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -391,6 +395,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={item?.isTransport}
                                   className={
                                     item?.isTransport
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -411,6 +416,8 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                disabled={item?.isBl}
+
                                   className={
                                     item?.isBl
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -425,6 +432,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                 
                                   className={
                                     item?.isHbl
                                       ? "btn btn-sm btn-success px-1 py-1"
