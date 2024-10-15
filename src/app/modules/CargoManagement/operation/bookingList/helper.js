@@ -1,10 +1,29 @@
-
 import { imarineBaseUrl } from "../../../../App";
 import IConfirmModal from "../../../_helper/_confirmModal";
 
-
-export const pickupHandler = ({ item }) => {
-  console.log("Pickup Handler");
+export const pickupHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
+  const obj = {
+    title: "Pickup",
+    message: "Are you sure you want to Pickup this?",
+    noAlertFunc: () => {},
+    yesAlertFunc: () => {
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
+      const payload = {
+        ...commonPaylaod,
+        bookingRequestId: item?.bookingRequestId,
+        pickupDate: new Date(),
+        isPickup: true,
+      };
+      getBookingRequestStatusUpdate(
+        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
+        payload,
+        () => {
+          CB();
+        }
+      );
+    },
+  };
+  IConfirmModal(obj);
 };
 
 export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
@@ -13,7 +32,7 @@ export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
     message: "Are you sure you want to cancel this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
-      const commonPaylaod  = commonBookingRequestStatusUpdate(item);
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
       const payload = {
         ...commonPaylaod,
         bookingRequestId: item?.bookingRequestId,
@@ -40,7 +59,7 @@ export const buyerReceiveHandler = ({
     message: "Are you sure you want to Buyer Receive this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
-      const commonPaylaod  = commonBookingRequestStatusUpdate(item);
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
       const payload = {
         ...commonPaylaod,
         isBuyerReceive: true,
@@ -88,7 +107,7 @@ export const DesPortReceiveHandler = ({
     message: "Are you sure you want to cancel this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
-      const commonPaylaod  = commonBookingRequestStatusUpdate(item);
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
       const payload = {
         ...commonPaylaod,
         isDestPortReceive: true,
@@ -117,7 +136,7 @@ export const InTransitHandler = ({
     message: "Are you sure you want to In Transit this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
-      const commonPaylaod  = commonBookingRequestStatusUpdate(item);
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
       const payload = {
         ...commonPaylaod,
         isInTransit: true,
@@ -171,15 +190,14 @@ export const commonBookingRequestStatusUpdate = (item) => {
     documentChecklistDate: item?.documentChecklistDate || new Date(),
     isCharges: item?.isCharges || false,
     chargesDate: item?.chargesDate || new Date(),
-    isHBLEmail: item?.isHBLEmail || false,
+    isHbl: item?.isHbl || false,
     hbldate: item?.hbldate || new Date(),
-    isBL: item?.isBL || false,
-    blDate: item?.blDate || new Date(),
+    isBl: item?.isBl || false,
+    bldate: item?.bldate || new Date(),
     isPickup: item?.isPickup || false,
     pickupDate: item?.pickupDate || new Date(),
-    isTransport:  item?.isTransport || false,
+    isTransport: item?.isTransport || false,
     transportDate: item?.transportDate || new Date(),
-    
   };
 };
 
@@ -190,7 +208,7 @@ export const statusReturn = (itemObj) => {
     return "Dest Port Receive";
   } else if (itemObj?.isInTransit) {
     return "In Transit";
-  } else if (itemObj?.isCustomsClear ) {
+  } else if (itemObj?.isCustomsClear) {
     return "Customs Clearance";
   } else if (itemObj?.isDispatch) {
     return "Dispatch";
@@ -198,9 +216,9 @@ export const statusReturn = (itemObj) => {
     return "Document Checklist";
   } else if (itemObj?.isCharges) {
     return "Charges";
-  } else if (itemObj?.isHBLEmail) {
+  } else if (itemObj?.isHbl) {
     return "HBL Email";
-  } else if (itemObj?.isBL) {
+  } else if (itemObj?.isBl) {
     return "BL";
   } else if (itemObj?.isTransport) {
     return "Transport";

@@ -353,7 +353,13 @@ function BookingList() {
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   onClick={() => {
-                                    pickupHandler({ item });
+                                    pickupHandler({
+                                      item,
+                                      getBookingRequestStatusUpdate,
+                                      CB: () => {
+                                        commonLandingApi();
+                                      },
+                                    });
                                   }}
                                 >
                                   Pickup
@@ -404,7 +410,7 @@ function BookingList() {
                               <span>
                                 <button
                                   className={
-                                    item?.isBL
+                                    item?.isBl
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
@@ -418,7 +424,7 @@ function BookingList() {
                               <span>
                                 <button
                                   className={
-                                    item?.isHBLEmail
+                                    item?.isHbl
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
