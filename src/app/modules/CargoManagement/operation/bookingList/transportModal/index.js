@@ -133,10 +133,10 @@ function TransportModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               "transportMode",
-              transportPlanning?.transportMode
+              data?.confTransportMode
                 ? {
-                    value: transportPlanning?.transportMode,
-                    label: transportPlanning?.transportMode,
+                    value: data?.confTransportMode,
+                    label: data?.confTransportMode,
                   }
                 : ""
             );

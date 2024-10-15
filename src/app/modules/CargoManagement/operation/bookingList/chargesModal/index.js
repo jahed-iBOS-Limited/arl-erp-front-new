@@ -117,11 +117,15 @@ function ChargesModal({ rowClickData, CB }) {
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
-                <div className="d-flex justify-content-end">
-                  <button type="submit" className="btn btn-primary">
-                    Save
-                  </button>
-                </div>
+                {!rowClickData?.isCharges && (
+                  <>
+                    <div className="d-flex justify-content-end">
+                      <button type="submit" className="btn btn-primary">
+                        Save
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
               {/* <div className="form-group row global-form">
                 
@@ -134,6 +138,7 @@ function ChargesModal({ rowClickData, CB }) {
                       <tr>
                         <th>
                           <input
+                            disabled={!rowClickData?.isTransport}
                             type="checkbox"
                             checked={
                               shippingHeadOfCharges?.length > 0
@@ -167,6 +172,7 @@ function ChargesModal({ rowClickData, CB }) {
                         <tr key={index}>
                           <td className="text-center align-middle">
                             <input
+                              disabled={!rowClickData?.isTransport}
                               type="checkbox"
                               checked={item?.checked}
                               onChange={(e) => {
@@ -183,6 +189,9 @@ function ChargesModal({ rowClickData, CB }) {
                           </td>
                           <td className="align-middle">
                             <InputField
+                              disabled={
+                                !rowClickData?.isTransport || !item?.checked
+                              }
                               value={item?.amount}
                               required={item?.checked}
                               type="number"
@@ -193,7 +202,6 @@ function ChargesModal({ rowClickData, CB }) {
                               }}
                               name="amount"
                               min="0"
-                              disabled={!item?.checked}
                             />
                           </td>
                         </tr>
