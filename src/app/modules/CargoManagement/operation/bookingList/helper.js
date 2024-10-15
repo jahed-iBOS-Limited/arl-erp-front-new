@@ -254,7 +254,6 @@ export const commonBookingRequestStatusUpdate = (item) => {
     bldate: item?.bldate || new Date(),
     isPickup: item?.isPickup || false,
     pickupDate: item?.pickupDate || new Date(),
-    isTransport: item?.isTransport || false,
     transportDate: item?.transportDate || new Date(),
   };
 };
@@ -278,7 +277,7 @@ export const statusReturn = (itemObj) => {
     return "HBL";
   } else if (itemObj?.isBl) {
     return "BL";
-  } else if (itemObj?.isTransport) {
+  } else if (itemObj?.isPlaning) {
     return "Transport";
   } else if (itemObj?.isReceived) {
     return "Received";
