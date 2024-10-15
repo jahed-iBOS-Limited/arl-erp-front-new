@@ -20,7 +20,9 @@ import HBLFormat from "./HBLFormat";
 import {
   buyerReceiveHandler,
   cancelHandler,
+  customsClearanceHandler,
   DesPortReceiveHandler,
+  dispatchHandler,
   InTransitHandler,
   pickupHandler,
   statusReturn,
@@ -482,7 +484,15 @@ function BookingList() {
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
-                                  onClick={() => {}}
+                                  onClick={() => {
+                                    dispatchHandler({
+                                      item,
+                                      getBookingRequestStatusUpdate,
+                                      CB: () => {
+                                        commonLandingApi();
+                                      },
+                                    });
+                                  }}
                                 >
                                   Dispatch
                                 </button>
@@ -492,11 +502,19 @@ function BookingList() {
                               <span>
                                 <button
                                   className={
-                                    item?.isCustomsClearance
+                                    item?.isCustomsClear
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
-                                  onClick={() => {}}
+                                  onClick={() => {
+                                    customsClearanceHandler({
+                                      item,
+                                      getBookingRequestStatusUpdate,
+                                      CB: () => {
+                                        commonLandingApi();
+                                      },
+                                    });
+                                  }}
                                 >
                                   Customs Clearance
                                 </button>
@@ -550,7 +568,7 @@ function BookingList() {
                               <span>
                                 <button
                                   className={
-                                    item?.isDelivered
+                                    item?.isBuyerReceive
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }

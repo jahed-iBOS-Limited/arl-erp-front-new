@@ -103,8 +103,8 @@ export const DesPortReceiveHandler = ({
   CB,
 }) => {
   const obj = {
-    title: "Cancel Booking",
-    message: "Are you sure you want to cancel this?",
+    title: "Des Port Receive",
+    message: "Are you sure you want to Des Port Receive this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
       const commonPaylaod = commonBookingRequestStatusUpdate(item);
@@ -155,6 +155,65 @@ export const InTransitHandler = ({
   };
   IConfirmModal(obj);
 };
+export const dispatchHandler = ({
+  item,
+  getBookingRequestStatusUpdate,
+  CB,
+}) => {
+  const obj = {
+    title: "Dispatch",  
+    message: "Are you sure you want to Dispatch this?",
+    noAlertFunc: () => {},
+    yesAlertFunc: () => {
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
+      const payload = {
+        ...commonPaylaod,
+        isDispatch: true,
+        dispatchDate: new Date(),
+        isActive: true,
+        bookingRequestId: item?.bookingRequestId,
+      };
+      getBookingRequestStatusUpdate(
+        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
+        payload,
+        () => {
+          CB();
+        }
+      );
+    },
+  };
+  IConfirmModal(obj);
+};
+
+export const customsClearanceHandler = ({
+  item,
+  getBookingRequestStatusUpdate,
+  CB,
+}) => {
+  const obj = {
+    title: "Customs Clearance",
+    message: "Are you sure you want to Customs Clearance this?",
+    noAlertFunc: () => {},
+    yesAlertFunc: () => {
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
+      const payload = {
+        ...commonPaylaod,
+        isCustomsClear: true,
+        customsClearDt: new Date(),
+        isActive: true,
+        bookingRequestId: item?.bookingRequestId,
+      };
+      getBookingRequestStatusUpdate(
+        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
+        payload,
+        () => {
+          CB();
+        }
+      );
+    },
+  };
+  IConfirmModal(obj);
+};
 
 export const commonBookingRequestStatusUpdate = (item) => {
   return {
@@ -180,7 +239,6 @@ export const commonBookingRequestStatusUpdate = (item) => {
     updatedAt: item?.updatedAt || new Date(),
 
     // new modify
-    isDelivered: item?.isDelivered || false,
     deliveredDate: item?.deliveredDate || new Date(),
     isCustomsClear: item?.isCustomsClear || false,
     customsClearDt: item?.customsClearDt || new Date(),
@@ -202,7 +260,7 @@ export const commonBookingRequestStatusUpdate = (item) => {
 };
 
 export const statusReturn = (itemObj) => {
-  if (itemObj?.isDelivered) {
+  if (itemObj?.isBuyerReceive) {
     return "Delivered";
   } else if (itemObj?.isDestPortReceive) {
     return "Dest Port Receive";
