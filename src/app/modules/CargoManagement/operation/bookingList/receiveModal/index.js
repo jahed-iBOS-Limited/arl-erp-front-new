@@ -85,7 +85,7 @@ function ReceiveModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
-            {console.log(values, "values")}
+            
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}

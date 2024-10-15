@@ -57,6 +57,7 @@ function ConfirmModal({ rowClickData, CB }) {
     shipBookingRequestLoading,
   ] = useAxiosGet();
   const formikRef = React.useRef(null);
+  
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
@@ -140,13 +141,13 @@ function ConfirmModal({ rowClickData, CB }) {
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
-                <div className="d-flex justify-content-end">
+                <div className="d-flex justify-content-end my-1">
                   <button type="submit" className="btn btn-primary">
                     Save
                   </button>
                 </div>
               </div>
-              <div className="form-group row global-form">
+              <div className="form-group row global-form mt-0">
                 {/*  Booking Amount*/}
                 <div className="col-lg-3">
                   <InputField
@@ -266,7 +267,15 @@ function ConfirmModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <NewSelect
                     name="modeOfTransport"
-                    options={transportModeDDL || []}
+                    options={
+                      transportModeDDL?.filter((item) => {
+                        if (values?.transportPlanningType === "Sea") {
+                          return [17, 18].includes(item?.value);
+                        } else {
+                          return [19, 20].includes(item?.value);
+                        }
+                      }) || []
+                    }
                     value={values?.modeOfTransport}
                     label="Transport Mode"
                     onChange={(valueOption) => {

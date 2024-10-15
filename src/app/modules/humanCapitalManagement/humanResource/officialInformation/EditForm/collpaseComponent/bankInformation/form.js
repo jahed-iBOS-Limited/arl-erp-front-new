@@ -139,7 +139,7 @@ export default function _Form({
                 )}
               </CardHeader>
               <CardBody>
-                {console.log(values, "values")}
+                
                 <Form className="form form-label-right">
                   {edit && (
                     <div className="row global-form global-form-custom bj-left pb-2">
