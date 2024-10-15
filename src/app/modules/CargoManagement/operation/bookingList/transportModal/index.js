@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import { imarineBaseUrl } from "../../../../../App";
-import "./style.css";
-import * as Yup from "yup";
 import { Form, Formik } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
 import moment from "moment";
-import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
+import React, { useEffect } from "react";
+import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../../App";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import "./style.css";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 const validationSchema = Yup.object().shape({
   transportPlanning: Yup.object()
     .shape({
@@ -63,36 +63,118 @@ function TransportModal({ rowClickData, CB }) {
   ] = useAxiosPost();
   const bookingRequestId = rowClickData?.bookingRequestId;
 
-
+  const [
+    shipBookingRequestGetById,
+    setShipBookingRequestGetById,
+    shipBookingRequestLoading,
+  ] = useAxiosGet();
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
+
+  const formikRef = React.useRef(null);
   useEffect(() => {
     if (bookingRequestId) {
-      // setShipBookingRequestGetById(
-      //   `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
-      // );
+      setShipBookingRequestGetById(
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+        (resData) => {
+          if (formikRef.current) {
+            const data = resData?.[0] || {};
+            const transportPlanning = data?.transportPlanning || {};
+            formikRef.current.setFieldValue(
+              "transportPlanning",
+              data?.modeOfTransport === "Air"
+                ? { value: 1, label: "Air" }
+                : { value: 2, label: "Sea" }
+            );
+            formikRef.current.setFieldValue(
+              "pickupLoaction",
+              transportPlanning?.pickupLocation || data?.pickupPlace || ""
+            );
+            formikRef.current.setFieldValue(
+              "pickupDate",
+              transportPlanning?.pickupDate
+                ? _dateFormatter(transportPlanning?.pickupDate)
+                : ""
+            );
+            formikRef.current.setFieldValue(
+              "vehicleInfo",
+              transportPlanning?.vehicleInfo || ""
+            );
+            formikRef.current.setFieldValue(
+              "noOfPallet",
+              transportPlanning?.noOfPallets || ""
+            );
+            formikRef.current.setFieldValue(
+              "airLine",
+              transportPlanning?.airLine || ""
+            );
+            formikRef.current.setFieldValue(
+              "carton",
+              transportPlanning?.carton || ""
+            );
+            formikRef.current.setFieldValue(
+              "continer",
+              transportPlanning?.noOfContainer || ""
+            );
+            formikRef.current.setFieldValue(
+              "shippingLine",
+              transportPlanning?.airLineOrShippingLine || ""
+            );
+            formikRef.current.setFieldValue(
+              "vesselName",
+              transportPlanning?.vesselName || ""
+            );
+            formikRef.current.setFieldValue(
+              "departureDateTime",
+              transportPlanning?.departureDateTime || ""
+            );
+            formikRef.current.setFieldValue(
+              "arrivalDateTime",
+              transportPlanning?.arrivalDateTime || ""
+            );
+            formikRef.current.setFieldValue(
+              "transportMode",
+              transportPlanning?.transportMode
+                ? {
+                    value: transportPlanning?.transportMode,
+                    label: transportPlanning?.transportMode,
+                  }
+                : ""
+            );
+          }
+        }
+      );
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookingRequestId]);
+
+  useEffect(() => {
     setTransportModeDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookingRequestId]);
-
+  }, []);
+  const bookingData = shipBookingRequestGetById?.[0] || {};
   const saveHandler = (values, cb) => {
     const payload = {
       bookingId: bookingRequestId || 0,
-      pickupLocation: values?.pickupLoaction || '',
-      pickupDate: moment(values?.pickupDate).format("YYYY-MM-DDTHH:mm:ss") || new Date(),
-      vehicleInfo: values?.vehicleInfo || '',
+      pickupLocation: values?.pickupLoaction || "",
+      pickupDate:
+        moment(values?.pickupDate).format("YYYY-MM-DDTHH:mm:ss") || new Date(),
+      vehicleInfo: values?.vehicleInfo || "",
       noOfPallets: values?.noOfPallet || 0,
       carton: values?.carton || 0,
       noOfContainer: values?.continer || 0,
-      airLineOrShippingLine: values?.airLine || values?.shippingLine || '',
-      vesselName: values?.vesselName || '',
-      departureDateTime: moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") || new Date(),
-      arrivalDateTime: moment(values?.arrivalDateTime).format("YYYY-MM-DDTHH:mm:ss") || new Date(),
-      transportMode: values?.transportMode?.value || 0,
+      airLineOrShippingLine: values?.airLine || values?.shippingLine || "",
+      vesselName: values?.vesselName || "",
+      departureDateTime:
+        moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
+        new Date(),
+      arrivalDateTime:
+        moment(values?.arrivalDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
+        new Date(),
+      transportMode: values?.transportMode?.label || 0,
       isActive: true,
     };
 
@@ -100,15 +182,17 @@ function TransportModal({ rowClickData, CB }) {
       `${imarineBaseUrl}/domain/ShippingService/SaveShippingTransportPlanning`,
       payload,
       CB
-    )
+    );
   };
   return (
     <div className="confirmModal">
-      {shippingTransportPlanningLoading && <Loading />}
+      {(shippingTransportPlanningLoading || shipBookingRequestLoading) && (
+        <Loading />
+      )}
       <Formik
         enableReinitialize={true}
         initialValues={{
-          transportPlanning: { value: 1, label: "Air" },
+          transportPlanning: "",
           pickupLoaction: "",
           pickupDate: "",
           vehicleInfo: "",
@@ -128,6 +212,7 @@ function TransportModal({ rowClickData, CB }) {
             resetForm();
           });
         }}
+        innerRef={formikRef}
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
@@ -171,6 +256,7 @@ function TransportModal({ rowClickData, CB }) {
                     placeholder="Transport Planning Type"
                     errors={errors}
                     touched={touched}
+                    isDisabled={true}
                   />
                 </div>
 
@@ -324,7 +410,16 @@ function TransportModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <NewSelect
                     name="transportMode"
-                    options={transportModeDDL || []}
+                    // options={transportModeDDL || []}
+                    options={
+                      transportModeDDL?.filter((item) => {
+                        if (values?.transportPlanning === "Sea") {
+                          return [17, 18].includes(item?.value);
+                        } else {
+                          return [19, 20].includes(item?.value);
+                        }
+                      }) || []
+                    }
                     value={values?.transportMode}
                     label="Transport Mode"
                     onChange={(valueOption) => {

@@ -1,22 +1,29 @@
-import axios from "axios";
-
-import IConfirmModal from "../../../_helper/_confirmModal";
 import { imarineBaseUrl } from "../../../../App";
-import { toast } from "react-toastify";
+import IConfirmModal from "../../../_helper/_confirmModal";
 
-// export const getDistributionChannelDDL = async (accId, buId, sbuId, setter) => {
-//   try {
-//     let res = await axios.get(
-//       `/oms/SalesOrder/GetDistributionChannelDDLBySBUId?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbuId}`
-//     );
-//     setter(res?.data);
-//   } catch (err) {
-//     setter([]);
-//   }
-// };
-
-export const pickupHandler = ({ item }) => {
-  console.log("Pickup Handler");
+export const pickupHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
+  const obj = {
+    title: "Pickup",
+    message: "Are you sure you want to Pickup this?",
+    noAlertFunc: () => {},
+    yesAlertFunc: () => {
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
+      const payload = {
+        ...commonPaylaod,
+        bookingRequestId: item?.bookingRequestId,
+        pickupDate: new Date(),
+        isPickup: true,
+      };
+      getBookingRequestStatusUpdate(
+        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
+        payload,
+        () => {
+          CB();
+        }
+      );
+    },
+  };
+  IConfirmModal(obj);
 };
 
 export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
@@ -25,7 +32,7 @@ export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
     message: "Are you sure you want to cancel this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
-      const commonPaylaod  = commonBookingRequestStatusUpdate(item);
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
       const payload = {
         ...commonPaylaod,
         bookingRequestId: item?.bookingRequestId,
@@ -52,7 +59,7 @@ export const buyerReceiveHandler = ({
     message: "Are you sure you want to Buyer Receive this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
-      const commonPaylaod  = commonBookingRequestStatusUpdate(item);
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
       const payload = {
         ...commonPaylaod,
         isBuyerReceive: true,
@@ -96,11 +103,11 @@ export const DesPortReceiveHandler = ({
   CB,
 }) => {
   const obj = {
-    title: "Cancel Booking",
-    message: "Are you sure you want to cancel this?",
+    title: "Des Port Receive",
+    message: "Are you sure you want to Des Port Receive this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
-      const commonPaylaod  = commonBookingRequestStatusUpdate(item);
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
       const payload = {
         ...commonPaylaod,
         isDestPortReceive: true,
@@ -129,12 +136,71 @@ export const InTransitHandler = ({
     message: "Are you sure you want to In Transit this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
-      const commonPaylaod  = commonBookingRequestStatusUpdate(item);
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
       const payload = {
         ...commonPaylaod,
         isInTransit: true,
         isActive: true,
         inTransit: new Date(),
+        bookingRequestId: item?.bookingRequestId,
+      };
+      getBookingRequestStatusUpdate(
+        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
+        payload,
+        () => {
+          CB();
+        }
+      );
+    },
+  };
+  IConfirmModal(obj);
+};
+export const dispatchHandler = ({
+  item,
+  getBookingRequestStatusUpdate,
+  CB,
+}) => {
+  const obj = {
+    title: "Dispatch",  
+    message: "Are you sure you want to Dispatch this?",
+    noAlertFunc: () => {},
+    yesAlertFunc: () => {
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
+      const payload = {
+        ...commonPaylaod,
+        isDispatch: true,
+        dispatchDate: new Date(),
+        isActive: true,
+        bookingRequestId: item?.bookingRequestId,
+      };
+      getBookingRequestStatusUpdate(
+        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
+        payload,
+        () => {
+          CB();
+        }
+      );
+    },
+  };
+  IConfirmModal(obj);
+};
+
+export const customsClearanceHandler = ({
+  item,
+  getBookingRequestStatusUpdate,
+  CB,
+}) => {
+  const obj = {
+    title: "Customs Clearance",
+    message: "Are you sure you want to Customs Clearance this?",
+    noAlertFunc: () => {},
+    yesAlertFunc: () => {
+      const commonPaylaod = commonBookingRequestStatusUpdate(item);
+      const payload = {
+        ...commonPaylaod,
+        isCustomsClear: true,
+        customsClearDt: new Date(),
+        isActive: true,
         bookingRequestId: item?.bookingRequestId,
       };
       getBookingRequestStatusUpdate(
@@ -173,35 +239,34 @@ export const commonBookingRequestStatusUpdate = (item) => {
     updatedAt: item?.updatedAt || new Date(),
 
     // new modify
-    isDelivered: item?.isDelivered || false,
     deliveredDate: item?.deliveredDate || new Date(),
-    isCustomsClearance: item?.isCustomsClearance || false,
-    customsClearanceDate: item?.customsClearanceDate || new Date(),
+    isCustomsClear: item?.isCustomsClear || false,
+    customsClearDt: item?.customsClearDt || new Date(),
     isDispatch: item?.isDispatch || false,
     dispatchDate: item?.dispatchDate || new Date(),
     isDocumentChecklist: item?.isDocumentChecklist || false,
     documentChecklistDate: item?.documentChecklistDate || new Date(),
     isCharges: item?.isCharges || false,
     chargesDate: item?.chargesDate || new Date(),
-    isHBLEmail: item?.isHBLEmail || false,
-    hblEmailDate: item?.hblEmailDate || new Date(),
-    isBL: item?.isBL || false,
-    blDate: item?.blDate || new Date(),
+    isHbl: item?.isHbl || false,
+    hbldate: item?.hbldate || new Date(),
+    isBl: item?.isBl || false,
+    bldate: item?.bldate || new Date(),
     isPickup: item?.isPickup || false,
     pickupDate: item?.pickupDate || new Date(),
-    isTransport:  item?.isTransport || false,
+    isTransport: item?.isTransport || false,
     transportDate: item?.transportDate || new Date(),
   };
 };
 
 export const statusReturn = (itemObj) => {
-  if (itemObj?.isDelivered) {
+  if (itemObj?.isBuyerReceive) {
     return "Delivered";
   } else if (itemObj?.isDestPortReceive) {
     return "Dest Port Receive";
   } else if (itemObj?.isInTransit) {
     return "In Transit";
-  } else if (itemObj?.isCustomsClearance) {
+  } else if (itemObj?.isCustomsClear) {
     return "Customs Clearance";
   } else if (itemObj?.isDispatch) {
     return "Dispatch";
@@ -209,9 +274,9 @@ export const statusReturn = (itemObj) => {
     return "Document Checklist";
   } else if (itemObj?.isCharges) {
     return "Charges";
-  } else if (itemObj?.isHBLEmail) {
-    return "HBL Email";
-  } else if (itemObj?.isBL) {
+  } else if (itemObj?.isHbl) {
+    return "HBL";
+  } else if (itemObj?.isBl) {
     return "BL";
   } else if (itemObj?.isTransport) {
     return "Transport";

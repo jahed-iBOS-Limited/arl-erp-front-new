@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React from 'react'
 import { useDispatch } from 'react-redux';
+import './bookingDetailsInfo.css';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 
 function BookingDetailsInfo({
@@ -9,7 +10,7 @@ function BookingDetailsInfo({
 }) {
     const dispatch = useDispatch();
   return (
-    <div>
+    <div className='BookingDetailsInfo'>
        <div className="container mt-4">
         {/* Shipper and Consignee Information */}
         <div className="row">
