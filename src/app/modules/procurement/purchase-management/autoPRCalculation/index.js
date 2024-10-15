@@ -59,7 +59,7 @@ export default function AutoPRCalculation() {
                                                 message: `Are you sure to create PR ?`,
                                                 yesAlertFunc: () => {
                                                     onCreatePRHandler(
-                                                        `/procurement/AutoPurchase/GetFormatedItemListForAutoPR`,
+                                                        `/procurement/AutoPurchase/GetFormatedItemListForAutoPRCreate`,
                                                         autoPRData,
                                                         () => {
                                                             getData()
