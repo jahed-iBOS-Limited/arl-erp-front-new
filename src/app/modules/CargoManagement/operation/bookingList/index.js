@@ -205,7 +205,7 @@ function BookingList() {
                             minWidth: "100px",
                           }}
                         >
-                          HBL Email
+                          HBL
                         </th>
                         <th
                           style={{
@@ -430,7 +430,7 @@ function BookingList() {
                                   }
                                   onClick={() => {}}
                                 >
-                                  HBL Email
+                                  HBL
                                 </button>
                               </span>
                             </td>

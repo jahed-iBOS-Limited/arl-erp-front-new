@@ -217,7 +217,7 @@ export const statusReturn = (itemObj) => {
   } else if (itemObj?.isCharges) {
     return "Charges";
   } else if (itemObj?.isHbl) {
-    return "HBL Email";
+    return "HBL";
   } else if (itemObj?.isBl) {
     return "BL";
   } else if (itemObj?.isTransport) {

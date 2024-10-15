@@ -87,13 +87,13 @@ function ReceiveModal({ rowClickData, CB }) {
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
-                <div className="d-flex justify-content-end mt-1">
+                <div className="d-flex justify-content-end my-1">
                   <button type="submit" className="btn btn-primary">
                     Save
                   </button>
                 </div>
               </div>
-              <div className="form-group row global-form">
+              <div className="form-group row global-form mt-0">
                 <div className="col-lg-4">
                   <InputField
                     value={bookingData?.recvQuantity}
