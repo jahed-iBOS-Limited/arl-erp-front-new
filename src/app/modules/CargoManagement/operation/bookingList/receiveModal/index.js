@@ -33,6 +33,7 @@ function ReceiveModal({ rowClickData, CB }) {
             },
             0
           );
+
           if (formikRef.current) {
             formikRef.current.setFieldValue("recvQuantity", packagingQuantity);
           }
@@ -51,7 +52,7 @@ function ReceiveModal({ rowClickData, CB }) {
       updtrow: [
         {
           bookingId: bookingRequestId,
-          bookingRowId:  0,
+          bookingRowId: 0,
           receivedQuantity: values.recvQuantity || 0,
         },
       ],
@@ -84,6 +85,7 @@ function ReceiveModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
+            {console.log(values, "values")}
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
@@ -96,7 +98,7 @@ function ReceiveModal({ rowClickData, CB }) {
               <div className="form-group row global-form mt-0">
                 <div className="col-lg-4">
                   <InputField
-                    value={bookingData?.recvQuantity}
+                    value={values?.recvQuantity}
                     label="Receive Quantity"
                     name="recvQuantity"
                     placeholder="Receive Quantity"
