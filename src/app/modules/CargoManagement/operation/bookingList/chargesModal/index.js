@@ -138,7 +138,7 @@ function ChargesModal({ rowClickData, CB }) {
                       <tr>
                         <th>
                           <input
-                            disabled={!rowClickData?.isTransport}
+                            disabled={!rowClickData?.isPlaning}
                             type="checkbox"
                             checked={
                               shippingHeadOfCharges?.length > 0
@@ -172,7 +172,7 @@ function ChargesModal({ rowClickData, CB }) {
                         <tr key={index}>
                           <td className="text-center align-middle">
                             <input
-                              disabled={!rowClickData?.isTransport}
+                              disabled={!rowClickData?.isPlaning}
                               type="checkbox"
                               checked={item?.checked}
                               onChange={(e) => {
@@ -190,7 +190,7 @@ function ChargesModal({ rowClickData, CB }) {
                           <td className="align-middle">
                             <InputField
                               disabled={
-                                !rowClickData?.isTransport || !item?.checked
+                                !rowClickData?.isPlaning || !item?.checked
                               }
                               value={item?.amount}
                               required={item?.checked}
