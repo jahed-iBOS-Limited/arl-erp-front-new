@@ -23,6 +23,11 @@ function ChargesModal({ rowClickData, CB }) {
   // ] = useAxiosGet();
   const [, getSaveBookedRequestBilling, bookedRequestBilling] = useAxiosPost();
   const [
+    ,
+    getBookedRequestBillingData,
+    bookedRequestBillingDataLoading,
+  ] = useAxiosGet();
+  const [
     shippingHeadOfCharges,
     getShippingHeadOfCharges,
     shippingHeadOfChargesLoading,
@@ -41,7 +46,25 @@ function ChargesModal({ rowClickData, CB }) {
 
   useEffect(() => {
     getShippingHeadOfCharges(
-      `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges`
+      `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges`,
+      (resShippingHeadOfCharges) => {
+        getBookedRequestBillingData(
+          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}`,
+          (resSveData) => {
+            const modifyData = resShippingHeadOfCharges?.map((item) => {
+              const findData = resSveData?.find(
+                (findItem) => findItem?.headOfChargeId === item?.value
+              );
+              return {
+                ...item,
+                checked: findData ? true : false,
+                amount: findData?.chargeAmount || "",
+              };
+            });
+            setShippingHeadOfCharges(modifyData);
+          }
+        );
+      }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -51,16 +74,16 @@ function ChargesModal({ rowClickData, CB }) {
       ?.filter((item) => item?.checked)
       .map((item) => {
         return {
-          billingId:  0,
+          billingId: 0,
           bookingRequestId: bookingRequestId || 0,
-          headOfChargeId: item?.value || 0  ,
+          headOfChargeId: item?.value || 0,
           headOfCharges: item?.label || "",
           chargeAmount: item?.amount || 0,
           isActive: true,
           billingDate: new Date(),
           createdBy: profileData?.userId || 0,
-          createdAt:  new Date(),
-          updatedBy:  new Date(),
+          createdAt: new Date(),
+          updatedBy: new Date(),
           updatedAt: profileData?.userId || 0,
         };
       });
@@ -76,7 +99,9 @@ function ChargesModal({ rowClickData, CB }) {
 
   return (
     <div className="chargesModal">
-      {(bookedRequestBilling || shippingHeadOfChargesLoading) && <Loading />}
+      {(bookedRequestBilling ||
+        shippingHeadOfChargesLoading ||
+        bookedRequestBillingDataLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{}}

@@ -160,7 +160,7 @@ const TableRow = () => {
         >
           {({ values, errors, touched, setFieldValue, dirty, isValid }) => (
             <>
-              {console.log(values, "values")}
+              
               <Form className="form form-label-right">
                 <div className="row global-form">
                   <div className="col-lg-3">

@@ -436,7 +436,7 @@ export function TableRow({ saveHandler }) {
                   </div>
                   {/* calender header ends */}
                 </div>
-                {console.log(values, "values")}
+                
                 <div className="row">
                   <div className="col-md-3">
                     <p>

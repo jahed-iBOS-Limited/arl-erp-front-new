@@ -20,7 +20,9 @@ import HBLFormat from "./HBLFormat";
 import {
   buyerReceiveHandler,
   cancelHandler,
+  customsClearanceHandler,
   DesPortReceiveHandler,
+  dispatchHandler,
   InTransitHandler,
   pickupHandler,
   statusReturn,
@@ -205,7 +207,7 @@ function BookingList() {
                             minWidth: "100px",
                           }}
                         >
-                          HBL Email
+                          HBL
                         </th>
                         <th
                           style={{
@@ -353,7 +355,13 @@ function BookingList() {
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   onClick={() => {
-                                    pickupHandler({ item });
+                                    pickupHandler({
+                                      item,
+                                      getBookingRequestStatusUpdate,
+                                      CB: () => {
+                                        commonLandingApi();
+                                      },
+                                    });
                                   }}
                                 >
                                   Pickup
@@ -404,7 +412,7 @@ function BookingList() {
                               <span>
                                 <button
                                   className={
-                                    item?.isBL
+                                    item?.isBl
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
@@ -418,13 +426,13 @@ function BookingList() {
                               <span>
                                 <button
                                   className={
-                                    item?.isHBLEmail
+                                    item?.isHbl
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   onClick={() => {}}
                                 >
-                                  HBL Email
+                                  HBL
                                 </button>
                               </span>
                             </td>
@@ -476,7 +484,15 @@ function BookingList() {
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
-                                  onClick={() => {}}
+                                  onClick={() => {
+                                    dispatchHandler({
+                                      item,
+                                      getBookingRequestStatusUpdate,
+                                      CB: () => {
+                                        commonLandingApi();
+                                      },
+                                    });
+                                  }}
                                 >
                                   Dispatch
                                 </button>
@@ -486,11 +502,19 @@ function BookingList() {
                               <span>
                                 <button
                                   className={
-                                    item?.isCustomsClearance
+                                    item?.isCustomsClear
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
-                                  onClick={() => {}}
+                                  onClick={() => {
+                                    customsClearanceHandler({
+                                      item,
+                                      getBookingRequestStatusUpdate,
+                                      CB: () => {
+                                        commonLandingApi();
+                                      },
+                                    });
+                                  }}
                                 >
                                   Customs Clearance
                                 </button>
@@ -544,7 +568,7 @@ function BookingList() {
                               <span>
                                 <button
                                   className={
-                                    item?.isDelivered
+                                    item?.isBuyerReceive
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }

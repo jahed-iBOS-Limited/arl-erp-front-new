@@ -9,12 +9,13 @@ import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
 import BookingDetailsInfo from "../bookingDetails/bookingDetailsInfo";
 import "./style.css";
 const validationSchema = Yup.object().shape({
-
+  recvQuantity: Yup.number().required("Receive Quantity is required"),
 });
 function ReceiveModal({ rowClickData, CB }) {
-  const [rowList, setRowList] = useState([]);
   const [, getRecvQuantity, recvQuantityLoading] = useAxiosPut();
   const bookingRequestId = rowClickData?.bookingRequestId;
+
+  const formikRef = React.useRef(null);
   const [
     shipBookingRequestGetById,
     setShipBookingRequestGetById,
@@ -26,7 +27,16 @@ function ReceiveModal({ rowClickData, CB }) {
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
         (data) => {
           const bookingData = data?.[0] || {};
-          setRowList(bookingData?.rowsData || []);
+          const packagingQuantity = bookingData?.rowsData?.reduce(
+            (acc, item) => {
+              return acc + (+item.packagingQuantity || 0);
+            },
+            0
+          );
+
+          if (formikRef.current) {
+            formikRef.current.setFieldValue("recvQuantity", packagingQuantity);
+          }
         }
       );
     }
@@ -35,28 +45,26 @@ function ReceiveModal({ rowClickData, CB }) {
   }, [bookingRequestId]);
 
   const saveHandler = (values, resetForm) => {
-
     const paylaod = {
       updthd: {
-        bookingId: bookingRequestId
+        bookingId: bookingRequestId,
       },
-      updtrow: rowList.map((item) => {
-        return {
+      updtrow: [
+        {
           bookingId: bookingRequestId,
-          bookingRowId: item?.bookingRequestRowId || 0,
-          receivedQuantity: item?.recvQuantity || 0,
-        }
-      })
+          bookingRowId: 0,
+          receivedQuantity: values.recvQuantity || 0,
+        },
+      ],
     };
     getRecvQuantity(
       `${imarineBaseUrl}/domain/ShippingService/createReceiveProcess`,
       paylaod,
       () => {
-        CB()
+        CB();
       }
     );
   };
-
 
   const bookingData = shipBookingRequestGetById?.[0] || {};
   return (
@@ -65,9 +73,7 @@ function ReceiveModal({ rowClickData, CB }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          poNumber: "",
-          countryofOrigin: "",
-          pickupPlace: "",
+          recvQuantity: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -75,54 +81,30 @@ function ReceiveModal({ rowClickData, CB }) {
             resetForm();
           });
         }}
+        innerRef={formikRef}
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
+            
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
-                <div className="d-flex justify-content-end">
+                <div className="d-flex justify-content-end my-1">
                   <button type="submit" className="btn btn-primary">
                     Save
                   </button>
                 </div>
               </div>
-
-              <div className="col-lg-12">
-                {" "}
-                <div className="table-responsive">
-                  <table className="table global-table">
-                    <thead>
-                      <tr>
-                        <th className="p-0">SL</th>
-                        <th className="p-0">Packaging Quantity</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowList?.map((item, index) => (
-                        <tr key={index}>
-                          <td> {index + 1} </td>
-
-                          <td className="align-middle">
-                            <InputField
-                              value={item?.recvQuantity}
-                              type="number"
-                              onChange={(e) => {
-                                const copyprvData = [...rowList];
-                                copyprvData[index].recvQuantity = e.target.value;
-                                setRowList(copyprvData);
-                              }}
-                              name="recvQuantity"
-                              min="0"
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+              <div className="form-group row global-form mt-0">
+                <div className="col-lg-4">
+                  <InputField
+                    value={values?.recvQuantity}
+                    label="Receive Quantity"
+                    name="recvQuantity"
+                    placeholder="Receive Quantity"
+                  />
                 </div>
               </div>
-
               <BookingDetailsInfo bookingData={bookingData} />
             </Form>
           </>

@@ -133,7 +133,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {console.log(values, "values")}
+            
             <div className={!edit ? "editForm" : ""}>
               <Card>
                 {true && <ModalProgressBar />}

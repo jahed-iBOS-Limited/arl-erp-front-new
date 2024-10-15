@@ -1,6 +1,6 @@
 import { Form, Formik } from "formik";
 import moment from "moment";
-import React from "react";
+import React, { useEffect } from "react";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../../App";
 import InputField from "../../../../_helper/_inputField";
@@ -8,30 +8,82 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
 import "./style.css";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 const validationSchema = Yup.object().shape({
   bookingAmount: Yup.number().required("Booking Amount is required"),
-  airWaybillNumber: Yup.string().required("Air Waybill Number is required"),
+  airWaybillNumber: Yup.string().required("This field is required"),
   departureDateTime: Yup.date().required("Departure Date & Time is required"),
   arrivalDateTime: Yup.date().required("Arrival Date & Time is required"),
-  flightNumber: Yup.string().required("Flight Number is required"),
+  flightNumber: Yup.string().required("This field is required"),
+
   transitInformation: Yup.object()
     .shape({
-      value: Yup.number().required("Transit Information is required"),
-      label: Yup.string().required("Transit Information is required"),
+      value: Yup.number(),
+      label: Yup.string(),
     })
     .nullable()
-    .typeError("Transit Information is required"),
+    .when("transportPlanningType", {
+      is: "Sea",
+      then: (schema) => schema.notRequired(),
+      otherwise: (schema) =>
+        schema
+          .shape({
+            value: Yup.number().required("Transit Information is required"),
+            label: Yup.string().required("Transit Information is required"),
+          })
+          .typeError("Transit Information is required"),
+    }),
+
   freightForwarderRepresentative: Yup.string().required(
     "Freight Forwarder Representative is required"
   ),
+
+  modeOfTransport: Yup.object()
+    .shape({
+      value: Yup.number().required("Transport Mode is required"),
+      label: Yup.string().required("Transport Mode is required"),
+    })
+    .nullable()
+    .typeError("Transport Mode is required"),
 });
+
 function ConfirmModal({ rowClickData, CB }) {
   const bookingRequestId = rowClickData?.bookingRequestId;
+  const [, SaveBookingConfirm, bookingConfirmLoading, ,] = useAxiosPut();
+  const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
   const [
-    ,
-    SaveBookingConfirm,
-    bookingConfirm,
-  ] = useAxiosPut();
+    shipBookingRequestGetById,
+    setShipBookingRequestGetById,
+    shipBookingRequestLoading,
+  ] = useAxiosGet();
+  const formikRef = React.useRef(null);
+  
+  useEffect(() => {
+    if (bookingRequestId) {
+      setShipBookingRequestGetById(
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+        (resData) => {
+          if (formikRef.current) {
+            const data = resData?.[0] || {};
+            formikRef.current.setFieldValue(
+              "transportPlanningType",
+              data?.modeOfTransport
+            );
+          }
+        }
+      );
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bookingRequestId]);
+
+  useEffect(() => {
+    setTransportModeDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const bookingData = shipBookingRequestGetById?.[0] || {};
 
   const saveHandler = (values, cb) => {
     const paylaod = {
@@ -49,6 +101,7 @@ function ConfirmModal({ rowClickData, CB }) {
       primaryContactPerson: values?.freightForwarderRepresentative || "",
       isConfirm: true,
       confirmDate: new Date(),
+      modeOfTransport: values?.modeOfTransport?.label || 0,
     };
 
     if (paylaod) {
@@ -59,9 +112,10 @@ function ConfirmModal({ rowClickData, CB }) {
       );
     }
   };
+
   return (
     <div className="confirmModal">
-      {bookingConfirm && <Loading />}
+      {(bookingConfirmLoading || shipBookingRequestLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -72,6 +126,7 @@ function ConfirmModal({ rowClickData, CB }) {
           flightNumber: "",
           transitInformation: "",
           freightForwarderRepresentative: "",
+          modeOfTransport: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -79,19 +134,20 @@ function ConfirmModal({ rowClickData, CB }) {
             resetForm();
           });
         }}
+        innerRef={formikRef}
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
-                <div className="d-flex justify-content-end">
+                <div className="d-flex justify-content-end my-1">
                   <button type="submit" className="btn btn-primary">
                     Save
                   </button>
                 </div>
               </div>
-              <div className="form-group row global-form">
+              <div className="form-group row global-form mt-0">
                 {/*  Booking Amount*/}
                 <div className="col-lg-3">
                   <InputField
@@ -108,7 +164,11 @@ function ConfirmModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.airWaybillNumber}
-                    label="Air Waybill (AWB) Number"
+                    label={
+                      values?.transportPlanningType === "Sea"
+                        ? "HAWB"
+                        : "Air Waybill (AWB) Number"
+                    }
                     name="airWaybillNumber"
                     type="text"
                     onChange={(e) =>
@@ -145,7 +205,11 @@ function ConfirmModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.flightNumber}
-                    label="Flight Number"
+                    label={
+                      values?.transportPlanningType === "Sea"
+                        ? "Vessel Name"
+                        : "Flight Number"
+                    }
                     name="flightNumber"
                     type="text"
                     onChange={(e) =>
@@ -154,29 +218,35 @@ function ConfirmModal({ rowClickData, CB }) {
                   />
                 </div>
                 {/* Transit Information */}
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="transitInformation"
-                    options={[
-                      {
-                        value: 1,
-                        label: "Direct Flight",
-                      },
-                      {
-                        value: 2,
-                        label: "No Transits",
-                      },
-                    ]}
-                    value={values?.transitInformation}
-                    label="Transit Information"
-                    onChange={(valueOption) => {
-                      setFieldValue("transitInformation", valueOption);
-                    }}
-                    placeholder="Transit Information"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
+                {values?.transportPlanningType !== "Sea" && (
+                  <>
+                    {" "}
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="transitInformation"
+                        options={[
+                          {
+                            value: 1,
+                            label: "Direct Flight",
+                          },
+                          {
+                            value: 2,
+                            label: "No Transits",
+                          },
+                        ]}
+                        value={values?.transitInformation}
+                        label="Transit Information"
+                        onChange={(valueOption) => {
+                          setFieldValue("transitInformation", valueOption);
+                        }}
+                        placeholder="Transit Information"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  </>
+                )}
+
                 {/* freight forwarder representative */}
                 <div className="col-lg-3">
                   <InputField
@@ -190,6 +260,30 @@ function ConfirmModal({ rowClickData, CB }) {
                         e.target.value
                       )
                     }
+                  />
+                </div>
+
+                {/* Transport Mode */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="modeOfTransport"
+                    options={
+                      transportModeDDL?.filter((item) => {
+                        if (values?.transportPlanningType === "Sea") {
+                          return [17, 18].includes(item?.value);
+                        } else {
+                          return [19, 20].includes(item?.value);
+                        }
+                      }) || []
+                    }
+                    value={values?.modeOfTransport}
+                    label="Transport Mode"
+                    onChange={(valueOption) => {
+                      setFieldValue("modeOfTransport", valueOption);
+                    }}
+                    placeholder="Transport Mode"
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
               </div>
