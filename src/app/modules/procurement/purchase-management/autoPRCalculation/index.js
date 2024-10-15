@@ -1,25 +1,25 @@
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IConfirmModal from "../../../_helper/_confirmModal";
-const initData = {};
+import IForm from "./../../../_helper/_form";
+import Loading from "./../../../_helper/_loading";
+const initData = {
+    purchaseOrganization: "",
+};
 export default function AutoPRCalculation() {
     const saveHandler = (values, cb) => { };
-    const [autoPRData, getAutoPRData, loading] = useAxiosGet()
+    const [autoPRData, getAutoPRData, loading, setAutoPRData] = useAxiosGet()
     const [, onCreatePRHandler, loader] = useAxiosPost()
 
-    const getData = () => {
-        getAutoPRData(`/procurement/AutoPurchase/GetReorderStockSummaryData`)
+    const getData = (values) => {
+        const apiUrl = values?.purchaseOrganization?.value === 1 ? `/procurement/AutoPurchase/GetReorderStockSummaryData` : `/procurement/AutoPurchase/sprGetReorderStockSummaryForeign`
+        getAutoPRData(apiUrl)
     }
 
-    useEffect(() => {
-        getData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+
     return (
         <Formik
             enableReinitialize={true}
@@ -62,7 +62,7 @@ export default function AutoPRCalculation() {
                                                         `/procurement/AutoPurchase/GetFormatedItemListForAutoPRCreate`,
                                                         autoPRData,
                                                         () => {
-                                                            getData()
+                                                            getData(values)
                                                         },
                                                         true
                                                     );
@@ -78,51 +78,77 @@ export default function AutoPRCalculation() {
                         }}
                     >
                         <Form>
-                            <div>
-                                {autoPRData?.length > 0 && (
-                                    <div className="table-responsive">
-                                        <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
-                                            <thead>
-                                                <tr>
-                                                    <th>SL</th>
-                                                    <th>Item Code</th>
-                                                    <th>Item Name</th>
-                                                    <th>UOM</th>
-                                                    <th>Warehouse</th>
-                                                    <th>Business Unit</th>
-                                                    <th>Current Inventory</th>
-                                                    <th>Purchase Request</th>
-                                                    <th>Purchase Order</th>
-                                                    <th>Total Quantity</th>
-                                                    <th>Reorder Level</th>
-                                                    <th>Reorder Quantity</th>
+                            <>
+                                <div className="form-group  global-form row">
+                                    <div className="col-lg-3">
+                                        <NewSelect
+                                            name="purchaseOrganization"
+                                            options={[{ value: 1, label: "Local Procurement" }, { value: 2, label: "Forign Procurement" }]}
+                                            value={values?.purchaseOrganization}
+                                            label="Purchase Organization"
+                                            onChange={(valueOption) => {
+                                                setFieldValue("purchaseOrganization", valueOption || "");
+                                                setAutoPRData([])
+                                            }}
+                                            errors={errors}
+                                            touched={touched}
+                                        />
+                                    </div>
+                                    <div>
+                                        <button type="button" onClick={() => {
+                                            getData(values)
+                                        }} className="btn btn-primary mt-5">Show</button>
+                                    </div>
+                                </div>
 
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {autoPRData?.length > 0 && autoPRData?.map((item, index) => (
-                                                    <tr key={index}>
-                                                        <td>{index + 1}</td>
-                                                        <td className="text-center">{item?.itemCode}</td>
-                                                        <td>{item?.itemName}</td>
-                                                        <td className="text-center">{item?.uomName}</td>
-                                                        <td className="text-center">{item?.warehouseName}</td>
-                                                        <td>{item?.businessUnitName}</td>
-                                                        <td className="text-center">{item?.currentTotalStock}</td>
-                                                        <td className="text-center">{item?.purchaseRequestStock}</td>
-                                                        <td className="text-center">{item?.purchaseOrderStock}</td>
-                                                        <td className="text-center">{(+item?.currentTotalStock || 0) + (+item?.purchaseRequestStock || 0) + (+item?.purchaseOrderStock || 0)}</td>
-                                                        <td className="text-center">{item?.reorderLevel}</td>
-                                                        <td className="text-center">{item?.reorderQuantity}</td>
+                                <div>
+                                    {autoPRData?.length > 0 && (
+                                        <div className="table-responsive">
+                                            <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                                                <thead>
+                                                    <tr>
+                                                        <th>SL</th>
+                                                        <th>Item Code</th>
+                                                        <th>Item Name</th>
+                                                        <th>UOM</th>
+                                                        <th>Warehouse</th>
+                                                        <th>Business Unit</th>
+                                                        <th>Current Stock</th>
+                                                        <th>Open PR</th>
+                                                        <th>Open PO</th>
+                                                        <th>Ghat Stock</th>
+                                                        <th>Port Stock</th>
+                                                        <th>Reorder Level</th>
+                                                        <th>PR Quantity</th>
 
                                                     </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                )}
+                                                </thead>
+                                                <tbody>
+                                                    {autoPRData?.length > 0 && autoPRData?.map((item, index) => (
+                                                        <tr key={index}>
+                                                            <td>{index + 1}</td>
+                                                            <td className="text-center">{item?.itemCode}</td>
+                                                            <td>{item?.itemName}</td>
+                                                            <td className="text-center">{item?.uomName}</td>
+                                                            <td className="text-center">{item?.warehouseName}</td>
+                                                            <td>{item?.businessUnitName}</td>
+                                                            <td className="text-center">{item?.currentTotalStock}</td>
+                                                            <td className="text-center">{item?.purchaseRequestStock}</td>
+                                                            <td className="text-center">{item?.purchaseOrderStock}</td>
+                                                            <td className="text-center">{item?.balanceOnGhat || 0}</td>
+                                                            <td className="text-center">{item?.portStock || 0}</td>
+                                                            <td className="text-center">{item?.reorderLevel}</td>
+                                                            <td className="text-center">{item?.reorderQuantity}</td>
 
-                            </div>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )}
+
+                                </div>
+                            </>
                         </Form>
                     </IForm>
                 </>
