@@ -86,7 +86,7 @@ export default function BunkerManagementCreate() {
   const [, onSave, loader] = useAxiosPost();
   const [vesselDDL, getVesselDDL] = useAxiosGet();
   const [portDDL, getPortDDL] = useAxiosGet();
-  const [, GetVesselMasterData, vesselMasterDataLoading] = useAxiosGet();
+  const [vesselMasterData, GetVesselMasterData, vesselMasterDataLoading] = useAxiosGet();
 
   const formikRef = React.useRef(null);
   const location = useLocation();
@@ -208,14 +208,14 @@ export default function BunkerManagementCreate() {
                 resData?.numLadenMaxSpeed || ""
               );
 
-              formikRef.current.setFieldValue(
-                "numBallastVlsfoConsumptionMt",
-                resData?.numBallastVlsfoconsumptionMtPerday || ""
-              );
-              formikRef.current.setFieldValue(
-                "numBallastLsmgoConsumptionMt",
-                resData?.numBallastLsmgoconsumptionMtPerday || ""
-              );
+              // formikRef.current.setFieldValue(
+              //   "numBallastVlsfoConsumptionMt",
+              //   resData?.numBallastVlsfoconsumptionMtPerday || ""
+              // );
+              // formikRef.current.setFieldValue(
+              //   "numBallastLsmgoConsumptionMt",
+              //   resData?.numBallastLsmgoconsumptionMtPerday || ""
+              // );
               formikRef.current.setFieldValue(
                 "numLadenVlsfoConsumptionMt",
                 resData?.numLadenVlsfoconsumptionMtPerday || ""
@@ -444,12 +444,22 @@ export default function BunkerManagementCreate() {
                         "numLadenSpeed",
                         values?.numLadenEcoSpeed || 0
                       );
+                      setFieldValue(
+                        "numBallastVlsfoConsumptionMt",
+                        vesselMasterData?.numBallastVlsfoconsumptionMtPerday || 0
+                      );
+                      setFieldValue(
+                        "numBallastLsmgoConsumptionMt",
+                        vesselMasterData?.numBallastLsmgoconsumptionMtPerday || 0
+                      );
 
                       commonBunkerInputFieldsCalculatorFunc({
                         values: {
                           ...values,
                           numBallastSpeed: values?.numBallastEcoSpeed || "",
                           numLadenSpeed: values?.numLadenEcoSpeed || "",
+                          numBallastVlsfoConsumptionMt: vesselMasterData?.numBallastVlsfoconsumptionMtPerday || 0,
+                          numBallastLsmgoConsumptionMt: vesselMasterData?.numBallastLsmgoconsumptionMtPerday || 0,
                           intendedSpeed: valueOption,
                         },
                         setValues: setValues,
@@ -464,12 +474,22 @@ export default function BunkerManagementCreate() {
                         "numLadenSpeed",
                         values?.numLadenMaxSpeed || ""
                       );
+                      setFieldValue(
+                        "numBallastVlsfoConsumptionMt",
+                        vesselMasterData?.numMaxBallastVlsfoconsumptionMtPerday || 0
+                      );
+                      setFieldValue(
+                        "numBallastLsmgoConsumptionMt",
+                        vesselMasterData?.numMaxBallastLsmgoconsumptionMtPerday || 0
+                      );
 
                       commonBunkerInputFieldsCalculatorFunc({
                         values: {
                           ...values,
                           numBallastSpeed: values?.numBallastMaxSpeed || "",
                           numLadenSpeed: values?.numLadenMaxSpeed || "",
+                          numBallastVlsfoConsumptionMt: vesselMasterData?.numMaxBallastVlsfoconsumptionMtPerday || 0,
+                          numBallastLsmgoConsumptionMt: vesselMasterData?.numMaxBallastLsmgoconsumptionMtPerday || 0,
                           intendedSpeed: valueOption,
                         },
                         setValues: setValues,
