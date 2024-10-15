@@ -90,10 +90,13 @@ export default function AutoPRCalculation() {
                                                     <th>UOM</th>
                                                     <th>Warehouse</th>
                                                     <th>Business Unit</th>
+                                                    <th>Current Inventory</th>
+                                                    <th>Purchase Request</th>
+                                                    <th>Purchase Order</th>
+                                                    <th>Total Quantity</th>
                                                     <th>Reorder Level</th>
-                                                    <th>Current Total Stock</th>
-                                                    <th>Purchase Request Stock</th>
-                                                    <th>Purchase Order Stock</th>
+                                                    <th>Reorder Quantity</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -105,10 +108,13 @@ export default function AutoPRCalculation() {
                                                         <td className="text-center">{item?.uomName}</td>
                                                         <td className="text-center">{item?.warehouseName}</td>
                                                         <td>{item?.businessUnitName}</td>
-                                                        <td className="text-center">{item?.reorderLevel}</td>
                                                         <td className="text-center">{item?.currentTotalStock}</td>
                                                         <td className="text-center">{item?.purchaseRequestStock}</td>
                                                         <td className="text-center">{item?.purchaseOrderStock}</td>
+                                                        <td className="text-center">{(+item?.currentTotalStock || 0) + (+item?.purchaseRequestStock || 0) + (+item?.purchaseOrderStock || 0)}</td>
+                                                        <td className="text-center">{item?.reorderLevel}</td>
+                                                        <td className="text-center">{item?.reorderQuantity}</td>
+
                                                     </tr>
                                                 ))}
                                             </tbody>
