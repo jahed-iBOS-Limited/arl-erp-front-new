@@ -17,18 +17,11 @@ import DocumentModal from "./documentModal";
 import FreightCargoReceipt from "./freightCargoReceipt";
 import FreightInvoice from "./freightInvoice";
 import HBLFormat from "./HBLFormat";
-import {
-  buyerReceiveHandler,
-  cancelHandler,
-  customsClearanceHandler,
-  DesPortReceiveHandler,
-  dispatchHandler,
-  InTransitHandler,
-  pickupHandler,
-  statusReturn,
-} from "./helper";
+import { cancelHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
+import CommonStatusUpdateModal from "./commonStatusUpdateModal";
+import BLModal from "./blModal";
 
 const validationSchema = Yup.object().shape({});
 function BookingList() {
@@ -48,9 +41,7 @@ function BookingList() {
     bookingRequestloading,
   ] = useAxiosPut();
 
-  const [isModalShowObj, setIsModalShowObj] = React.useState({
-    isView: false,
-  });
+  const [isModalShowObj, setIsModalShowObj] = React.useState({});
   const [rowClickData, setRowClickData] = React.useState({});
 
   useEffect(() => {
@@ -273,7 +264,7 @@ function BookingList() {
                           <tr key={i + 1}>
                             <td className="text-center">{i + 1}</td>
                             <td className="text-left">
-                              {item?.bookingRequestId}
+                              {item?.bookingRequestCode}
                             </td>
                             <td className="text-left">
                               {item?.shipperContact}
@@ -357,12 +348,16 @@ function BookingList() {
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   onClick={() => {
-                                    pickupHandler({
-                                      item,
-                                      getBookingRequestStatusUpdate,
-                                      CB: () => {
-                                        commonLandingApi();
-                                      },
+                                    setRowClickData({
+                                      ...item,
+                                      title: "Pickup",
+                                      isUpdateDate: "pickupDate",
+                                      isUpdateKey: "isPickup",
+                                    });
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+
+                                      isCommonModalShow: true,
                                     });
                                   }}
                                 >
@@ -421,7 +416,13 @@ function BookingList() {
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
-                                  onClick={() => {}}
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isBlModal: true,
+                                    });
+                                  }}
                                 >
                                   BL
                                 </button>
@@ -492,12 +493,16 @@ function BookingList() {
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   onClick={() => {
-                                    dispatchHandler({
-                                      item,
-                                      getBookingRequestStatusUpdate,
-                                      CB: () => {
-                                        commonLandingApi();
-                                      },
+                                    setRowClickData({
+                                      ...item,
+                                      title: "Dispatch",
+                                      isUpdateDate: "dispatchDate",
+                                      isUpdateKey: "isDispatch",
+                                    });
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+
+                                      isCommonModalShow: true,
                                     });
                                   }}
                                 >
@@ -515,12 +520,16 @@ function BookingList() {
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   onClick={() => {
-                                    customsClearanceHandler({
-                                      item,
-                                      getBookingRequestStatusUpdate,
-                                      CB: () => {
-                                        commonLandingApi();
-                                      },
+                                    setRowClickData({
+                                      ...item,
+                                      title: "Customs Clearance",
+                                      isUpdateDate: "customsClearDt",
+                                      isUpdateKey: "isCustomsClear",
+                                    });
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+
+                                      isCommonModalShow: true,
                                     });
                                   }}
                                 >
@@ -538,12 +547,16 @@ function BookingList() {
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   onClick={() => {
-                                    InTransitHandler({
-                                      item,
-                                      getBookingRequestStatusUpdate,
-                                      CB: () => {
-                                        commonLandingApi();
-                                      },
+                                    setRowClickData({
+                                      ...item,
+                                      title: "In Transit",
+                                      isUpdateDate: "inTransit",
+                                      isUpdateKey: "isInTransit",
+                                    });
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+
+                                      isCommonModalShow: true,
                                     });
                                   }}
                                 >
@@ -561,12 +574,15 @@ function BookingList() {
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   onClick={() => {
-                                    DesPortReceiveHandler({
-                                      item,
-                                      getBookingRequestStatusUpdate,
-                                      CB: () => {
-                                        commonLandingApi();
-                                      },
+                                    setRowClickData({
+                                      ...item,
+                                      title: "Des. Port Receive",
+                                      isUpdateDate: "destPortReceive",
+                                      isUpdateKey: "isDestPortReceive",
+                                    });
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isCommonModalShow: true,
                                     });
                                   }}
                                 >
@@ -584,12 +600,15 @@ function BookingList() {
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   onClick={() => {
-                                    buyerReceiveHandler({
-                                      item,
-                                      getBookingRequestStatusUpdate,
-                                      CB: () => {
-                                        commonLandingApi();
-                                      },
+                                    setRowClickData({
+                                      ...item,
+                                      title: "Delivered",
+                                      isUpdateDate: "buyerReceive",
+                                      isUpdateKey: "isBuyerReceive",
+                                    });
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isCommonModalShow: true,
                                     });
                                   }}
                                 >
@@ -818,7 +837,17 @@ function BookingList() {
               });
             }}
           >
-            <DocumentModal rowClickData={rowClickData} />
+            <DocumentModal
+              rowClickData={rowClickData}
+              CB={() => {
+                commonLandingApi();
+                setIsModalShowObj({
+                  ...isModalShowObj,
+                  isDocument: false,
+                });
+                setRowClickData({});
+              }}
+            />
           </IViewModal>
         </>
       )}
@@ -891,6 +920,60 @@ function BookingList() {
             }}
           >
             <FreightInvoice rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
+      {isModalShowObj?.isCommonModalShow && (
+        <>
+          <IViewModal
+            title={rowClickData?.title}
+            show={isModalShowObj?.isCommonModalShow}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isCommonModalShow: false,
+              });
+              setRowClickData({});
+            }}
+          >
+            <CommonStatusUpdateModal
+              rowClickData={rowClickData}
+              CB={() => {
+                commonLandingApi();
+                setIsModalShowObj({
+                  ...isModalShowObj,
+                  isCommonModalShow: false,
+                });
+                setRowClickData({});
+              }}
+            />
+          </IViewModal>
+        </>
+      )}
+
+      {isModalShowObj?.isBlModal && (
+        <>
+          <IViewModal
+            title="BL"
+            show={isModalShowObj?.isBlModal}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isBlModal: false,
+              });
+            }}
+          >
+            <BLModal
+              rowClickData={rowClickData}
+              CB={() => {
+                commonLandingApi();
+                setIsModalShowObj({
+                  ...isModalShowObj,
+                  isBlModal: false,
+                });
+                setRowClickData({});
+              }}
+            />
           </IViewModal>
         </>
       )}
