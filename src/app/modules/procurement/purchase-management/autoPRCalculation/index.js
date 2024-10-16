@@ -1,11 +1,15 @@
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React from "react";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import styles from './Tooltip.module.css';
+
+
 const initData = {
     purchaseOrganization: "",
 };
@@ -120,6 +124,7 @@ export default function AutoPRCalculation() {
                                                         <th>Port Stock</th>
                                                         <th>Reorder Level</th>
                                                         <th>PR Quantity</th>
+                                                        <th>Action</th>
 
                                                     </tr>
                                                 </thead>
@@ -139,6 +144,73 @@ export default function AutoPRCalculation() {
                                                             <td className="text-center">{item?.portStock || 0}</td>
                                                             <td className="text-center">{item?.reorderLevel}</td>
                                                             <td className="text-center">{item?.reorderQuantity}</td>
+                                                            <td className="text-center">
+                                                                {values?.purchaseOrganization?.value === 2 && (
+                                                                    <OverlayTrigger
+                                                                        overlay={
+                                                                            <Tooltip id="cs-icon">
+                                                                                <table className={styles.table}>
+                                                                                    <tbody>
+                                                                                        {/* Top 3 fields with "+" sign */}
+                                                                                        <tr>
+                                                                                            <td><strong>Opening Stock</strong></td>
+                                                                                            <td>+ {item?.inventoryStock || 0}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td><strong>Port Stock</strong></td>
+                                                                                            <td>+ {item?.portStock || 0}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td><strong>Ghat Stock</strong></td>
+                                                                                            <td>+ {item?.balanceOnGhat || 0}</td>
+                                                                                        </tr>
+
+                                                                                        {/* Bottom 2 fields with "-" sign */}
+                                                                                        <tr>
+                                                                                            <td><strong>PO Stock</strong></td>
+                                                                                            <td>- {item?.purchaseOrderStock || 0}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td><strong>PR Stock</strong></td>
+                                                                                            <td>- {item?.purchaseRequestStock || 0}</td>
+                                                                                        </tr>
+
+                                                                                        {/* Final Total */}
+                                                                                        <tr>
+                                                                                            <td><strong>Final Total</strong></td>
+                                                                                            <td>
+                                                                                                {
+                                                                                                    (
+                                                                                                        (item?.inventoryStock || 0) +
+                                                                                                        (item?.portStock || 0) +
+                                                                                                        (item?.balanceOnGhat || 0)
+                                                                                                    ) -
+                                                                                                    (
+                                                                                                        (item?.purchaseOrderStock || 0) +
+                                                                                                        (item?.purchaseRequestStock || 0)
+                                                                                                    )
+                                                                                                }
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </Tooltip>
+                                                                        }
+                                                                    >
+                                                                        <span>
+                                                                            <i className="fa fa-info-circle pointer"></i>
+                                                                        </span>
+                                                                    </OverlayTrigger>
+                                                                )}
+                                                            </td>
+
+
+
+
+
+
+
+
 
                                                         </tr>
                                                     ))}
