@@ -207,8 +207,8 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.flightNumber}
                     label={
                       values?.transportPlanningType === "Sea"
-                        ? "Vessel Name"
-                        : "Flight Number"
+                        ? "SI Number"
+                        : "MAWB Number"
                     }
                     name="flightNumber"
                     type="text"
