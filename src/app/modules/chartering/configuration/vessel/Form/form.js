@@ -285,7 +285,7 @@ export default function _Form({
                         setFieldValue("isVesselMasterData", e.target.checked)
                       }
                       name="isVesselMasterData"
-                      disabled={viewType === "view" || viewType === "edit"}
+                      disabled={true}
                     />
                     <label htmlFor="isVesselMasterData" className="pl-1">
                       Add Vessel Master Data
@@ -682,11 +682,11 @@ export default function _Form({
                       />
                     </div>{" "}
                     <div className="col-lg-3">
-                      <label>Ballast Vls foconsumption Mt Perday</label>
+                      <label>Ballast VLSFO Consumption (Mt/Day)</label>
                       <FormikInput
                         value={values?.numBallastVlsfoconsumptionMtPerday}
                         name="numBallastVlsfoconsumptionMtPerday"
-                        placeholder="Ballast Vls foconsumption Mt Perday"
+                        placeholder="Ballast VLSFO Consumption (Mt/Day)"
                         type="number"
                         errors={errors}
                         touched={touched}
@@ -694,11 +694,11 @@ export default function _Form({
                       />
                     </div>{" "}
                     <div className="col-lg-3">
-                      <label>BallastLsmgoconsumption Mt Perday</label>
+                      <label>Ballast LSMGO Consumption (Mt/Day)</label>
                       <FormikInput
                         value={values?.numBallastLsmgoconsumptionMtPerday}
                         name="numBallastLsmgoconsumptionMtPerday"
-                        placeholder="BallastLsmgoconsumption Mt Perday"
+                        placeholder="Ballast LSMGO Consumption (Mt/Day)"
                         type="number"
                         errors={errors}
                         touched={touched}
@@ -706,17 +706,53 @@ export default function _Form({
                       />
                     </div>{" "}
                     <div className="col-lg-3">
-                      <label>BallastLsmgoconsumption Mt Perday</label>
+                      <label>Laden Eco Speed</label>
                       <FormikInput
-                        value={values?.numBallastLsmgoconsumptionMtPerday}
-                        name="numBallastLsmgoconsumptionMtPerday"
-                        placeholder="BallastLsmgoconsumption Mt Perday"
+                        value={values?.numLadenEcoSpeed}
+                        name="numLadenEcoSpeed"
+                        placeholder="Laden Eco Speed"
                         type="number"
                         errors={errors}
                         touched={touched}
                         disabled={viewType === "view"}
                       />
-                    </div>{" "}
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Laden Max Speed</label>
+                      <FormikInput
+                        value={values?.numLadenMaxSpeed}
+                        name="numLadenMaxSpeed"
+                        placeholder="Laden Max Speed"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Laden VLSFO Consumption (Mt/Day)</label>
+                      <FormikInput
+                        value={values?.numLadenVlsfoconsumptionMtPerday}
+                        name="numLadenVlsfoconsumptionMtPerday"
+                        placeholder="Laden VLSFO Consumption (Mt/Day)"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Laden LSMGO Consumption (Mt/Day)</label>
+                      <FormikInput
+                        value={values?.numLadenLsmgoconsumptionMtPerday}
+                        name="numLadenLsmgoconsumptionMtPerday"
+                        placeholder="Laden LSMGO Consumption (Mt/Day)"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
                     <div className="col-lg-3">
                       <label>Port Working VLSF per Day</label>
                       <FormikInput

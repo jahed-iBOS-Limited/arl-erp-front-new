@@ -26,7 +26,7 @@ const initData = {
   imono: "",
   isOwnVessel: false,
   isOtherInfo: false,
-  isVesselMasterData: false,
+  isVesselMasterData: true,
   yearOfBuilt: "",
   shipYard: "",
   callSign: "",
