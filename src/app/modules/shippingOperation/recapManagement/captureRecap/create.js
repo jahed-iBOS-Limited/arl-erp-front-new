@@ -23,7 +23,7 @@ const initData = {
   laycanTo: "",
   loadRate: "",
   demurrageDispatch: "",
-  numDispatch:"",
+  numDispatch: "",
   etaLoadPort: "",
   dischargePort: "",
   dischargeRate: "",
@@ -118,6 +118,8 @@ export default function RecapCreate() {
   const [portDDL, getPortDDL] = useAxiosGet();
   const [cargoDDL, getCargoDDL] = useAxiosGet();
   const [chartererDDL, getChartererDDL] = useAxiosGet();
+  const [brokerList, getbrokerList] = useAxiosGet();
+  const [shipperEmailList, getshipperEmailList] = useAxiosGet();
 
   useEffect(() => {
     getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}
@@ -128,7 +130,20 @@ export default function RecapCreate() {
     getChartererDDL(
       `${imarineBaseUrl}/domain/PortPDA/GetCharterParty?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
+    getbrokerList(`${imarineBaseUrl}/domain/VesselNomination/GetBrokerDDL`);
   }, []);
+
+  const getFilteredShipperMail = (data) => {
+    return data
+      .reduce((acc, item) => {
+        if (item.email) {
+          acc.push(item.email);
+        }
+        return acc;
+      }, [])
+      .join(", ");
+  };
+
   const saveHandler = async (values, cb) => {
     const payload = {
       vesselId: values?.vesselName?.value || 0,
@@ -163,9 +178,9 @@ export default function RecapCreate() {
       numDischargePortDA: +values.dischargePortDA || 0,
       strShipperEmailForVesselNomination: values.shipperEmail || "",
       strChartererName: values.chartererName?.label || "",
-      strBrokerName: values.brokerName || "",
+      strBrokerName: values.brokerName.label || "",
       strBrokerEmail: values.brokerEmail || "",
-      intUserEnrollId: profileData?.employeeId || 0
+      intUserEnrollId: profileData?.employeeId || 0,
     };
 
     onSave(`${marineBaseUrlPythonAPI}/automation/recap`, payload, cb, true);
@@ -315,9 +330,20 @@ export default function RecapCreate() {
                   options={portDDL}
                   value={values.loadPort}
                   label="Load Port"
-                  onChange={(valueOption) =>
-                    setFieldValue("loadPort", valueOption)
-                  }
+                  onChange={(valueOption) => {
+                    setFieldValue("loadPort", valueOption);
+                    if (valueOption?.value) {
+                      getshipperEmailList(
+                        `${imarineBaseUrl}/domain/VesselNomination/GetShipperDDL?portId=${valueOption.value}`,
+                        (data) => {
+                          setFieldValue(
+                            "shipperEmail",
+                            getFilteredShipperMail(data) || ""
+                          );
+                        }
+                      );
+                    }
+                  }}
                   errors={errors}
                   touched={touched}
                 />
@@ -384,11 +410,10 @@ export default function RecapCreate() {
                   label="Demurrage"
                   name="demurrageDispatch"
                   type="number"
-                  onChange={(e) =>{
-                    setFieldValue("demurrageDispatch", e.target.value)
-                    setFieldValue("numDispatch", +e.target.value / 2)
-                  }
-                  }
+                  onChange={(e) => {
+                    setFieldValue("demurrageDispatch", e.target.value);
+                    setFieldValue("numDispatch", +e.target.value / 2);
+                  }}
                   errors={errors}
                 />
               </div>
@@ -398,9 +423,7 @@ export default function RecapCreate() {
                   label="Dispatch"
                   name="numDispatch"
                   type="number"
-                  onChange={(e) =>
-                    setFieldValue("numDispatch", e.target.value)
-                  }
+                  onChange={(e) => setFieldValue("numDispatch", e.target.value)}
                   errors={errors}
                 />
               </div>
@@ -497,13 +520,17 @@ export default function RecapCreate() {
                 />
               </div>
               <div className="col-lg-3">
-                <InputField
-                  value={values.brokerName}
-                  label="Broker Name"
+                <NewSelect
                   name="brokerName"
-                  type="text"
-                  onChange={(e) => setFieldValue("brokerName", e.target.value)}
+                  options={brokerList}
+                  value={values?.brokerName}
+                  label="Broker Name"
+                  onChange={(valueOption) => {
+                    setFieldValue("brokerName", valueOption);
+                    setFieldValue("brokerEmail", valueOption.email || "");
+                  }}
                   errors={errors}
+                  touched={touched}
                 />
               </div>
               <div className="col-lg-3">
