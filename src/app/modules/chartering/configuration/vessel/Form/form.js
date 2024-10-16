@@ -18,6 +18,7 @@ export default function _Form({
   revenueCenterDDL,
   getCostCenter,
   profitCenterDDL,
+  // vesselList,
 }) {
   const history = useHistory();
   return (
@@ -274,10 +275,27 @@ export default function _Form({
                       Add Others Information
                     </label>
                   </div>
+                  <div className="col-lg-3 mt-3 d-flex align-items-center">
+                    <input
+                      type="checkbox"
+                      id="isVesselMasterData"
+                      value={values?.isVesselMasterData}
+                      checked={values?.isVesselMasterData}
+                      onChange={(e) =>
+                        setFieldValue("isVesselMasterData", e.target.checked)
+                      }
+                      name="isVesselMasterData"
+                      disabled={viewType === "view" || viewType === "edit"}
+                    />
+                    <label htmlFor="isVesselMasterData" className="pl-1">
+                      Add Vessel Master Data
+                    </label>
+                  </div>
                 </div>
               </div>
               {values?.isOtherInfo === true && (
                 <div className="marine-form-card-content">
+                  <p>Others Information</p>
                   <div className="row">
                     <div className="col-lg-3">
                       <label>Year of Built</label>
@@ -562,6 +580,294 @@ export default function _Form({
                         name="remarks"
                         placeholder="Remarks"
                         type="text"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {values?.isVesselMasterData === true && (
+                <div className="marine-form-card-content">
+                  <p>Vessel Master Data</p>
+                  <div className="row">
+                    {/* <div className="col-lg-3">
+                      <FormikSelect
+                        value={values?.vessel || ""}
+                        isSearchable={true}
+                        options={vesselList || []}
+                        styles={customStyles}
+                        name="vessel"
+                        placeholder="Vessel Name"
+                        label="Vessel Name"
+                        onChange={(valueOption) => {
+                          setFieldValue("vessel", valueOption);
+                        }}
+                        isDisabled={viewType === "view"}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Mono</label>
+                      <FormikInput
+                        value={values?.strImono}
+                        name="mono"
+                        placeholder="Mono"
+                        type="text"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>{" "} */}
+                    <div className="col-lg-3">
+                      <label>Particulars</label>
+                      <FormikInput
+                        value={values?.strParticulars}
+                        name="strParticulars"
+                        placeholder="Particulars"
+                        type="text"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>{" "}
+                    <div className="col-lg-3">
+                      <label>Vessel Particulars</label>
+                      <FormikInput
+                        value={values?.strVesselParticulars}
+                        name="strVesselParticulars"
+                        placeholder="Vessel Particulars"
+                        type="text"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>{" "}
+                    <div className="col-lg-3">
+                      <label>Master Email</label>
+                      <FormikInput
+                        value={values?.strMasterEmail}
+                        name="strMasterEmail"
+                        placeholder="Master Email"
+                        type="text"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>{" "}
+                    <div className="col-lg-3">
+                      <label>Ballast Eco Speed</label>
+                      <FormikInput
+                        value={values?.numBallastEcoSpeed}
+                        name="numBallastEcoSpeed"
+                        placeholder="Ballast Eco Speed"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>{" "}
+                    <div className="col-lg-3">
+                      <label>Ballast Max Speed</label>
+                      <FormikInput
+                        value={values?.numBallastMaxSpeed}
+                        name="numBallastMaxSpeed"
+                        placeholder="Ballast Max Speed"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>{" "}
+                    <div className="col-lg-3">
+                      <label>Ballast Vls foconsumption Mt Perday</label>
+                      <FormikInput
+                        value={values?.numBallastVlsfoconsumptionMtPerday}
+                        name="numBallastVlsfoconsumptionMtPerday"
+                        placeholder="Ballast Vls foconsumption Mt Perday"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>{" "}
+                    <div className="col-lg-3">
+                      <label>BallastLsmgoconsumption Mt Perday</label>
+                      <FormikInput
+                        value={values?.numBallastLsmgoconsumptionMtPerday}
+                        name="numBallastLsmgoconsumptionMtPerday"
+                        placeholder="BallastLsmgoconsumption Mt Perday"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>{" "}
+                    <div className="col-lg-3">
+                      <label>BallastLsmgoconsumption Mt Perday</label>
+                      <FormikInput
+                        value={values?.numBallastLsmgoconsumptionMtPerday}
+                        name="numBallastLsmgoconsumptionMtPerday"
+                        placeholder="BallastLsmgoconsumption Mt Perday"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>{" "}
+                    <div className="col-lg-3">
+                      <label>Port Working VLSF per Day</label>
+                      <FormikInput
+                        value={values?.numPortWorkingVlsfoperDay}
+                        name="numPortWorkingVlsfoperDay"
+                        placeholder="Port Working VLSF per Day"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Port Working LSMG per Day</label>
+                      <FormikInput
+                        value={values?.numPortWorkingLsmgoperDay}
+                        name="numPortWorkingLsmgoperDay"
+                        placeholder="Port Working LSMG per Day"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Port Idle VLSF per Day</label>
+                      <FormikInput
+                        value={values?.numPortIdleVlsfoperDay}
+                        name="numPortIdleVlsfoperDay"
+                        placeholder="Port Idle VLSF per Day"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Port Idle LSMG per Day</label>
+                      <FormikInput
+                        value={values?.numPortIdleLsmgoperDay}
+                        name="numPortIdleLsmgoperDay"
+                        placeholder="Port Idle LSMG per Day"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Summer Displacement Draft (Mts)</label>
+                      <FormikInput
+                        value={values?.numSummerDisplacementDraftMts}
+                        name="numSummerDisplacementDraftMts"
+                        placeholder="Summer Displacement Draft (Mts)"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Summer Light Ship (Mts)</label>
+                      <FormikInput
+                        value={values?.numSummerLightShipMts}
+                        name="numSummerLightShipMts"
+                        placeholder="Summer Light Ship (Mts)"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Winter Displacement Draft (Mts)</label>
+                      <FormikInput
+                        value={values?.numWinterDisplacementDraftMts}
+                        name="numWinterDisplacementDraftMts"
+                        placeholder="Winter Displacement Draft (Mts)"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Winter Light Ship (Mts)</label>
+                      <FormikInput
+                        value={values?.numWinterLightShipMts}
+                        name="numWinterLightShipMts"
+                        placeholder="Winter Light Ship (Mts)"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Tropical Displacement Draft (Mts)</label>
+                      <FormikInput
+                        value={values?.numTropicalDisplacementDraftMts}
+                        name="numTropicalDisplacementDraftMts"
+                        placeholder="Tropical Displacement Draft (Mts)"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Tropical Light Ship (Mts)</label>
+                      <FormikInput
+                        value={values?.numTropicalLightShipMts}
+                        name="numTropicalLightShipMts"
+                        placeholder="Tropical Light Ship (Mts)"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Hold Number</label>
+                      <FormikInput
+                        value={values?.intHoldNumber}
+                        name="intHoldNumber"
+                        placeholder="Hold Number"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Max Ballast VLSFO Consumption (Mt/Day)</label>
+                      <FormikInput
+                        value={values?.numMaxBallastVlsfoconsumptionMtPerday}
+                        name="numMaxBallastVlsfoconsumptionMtPerday"
+                        placeholder="Max Ballast VLSFO Consumption (Mt/Day)"
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={viewType === "view"}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <label>Max Ballast LSMGO Consumption (Mt/Day)</label>
+                      <FormikInput
+                        value={values?.numMaxBallastLsmgoconsumptionMtPerday}
+                        name="numMaxBallastLsmgoconsumptionMtPerday"
+                        placeholder="Max Ballast LSMGO Consumption (Mt/Day)"
+                        type="number"
                         errors={errors}
                         touched={touched}
                         disabled={viewType === "view"}

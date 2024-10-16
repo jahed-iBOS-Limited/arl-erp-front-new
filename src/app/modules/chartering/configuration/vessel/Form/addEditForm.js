@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { getProfitCenterList } from "../../../../procurement/purchase-management/purchaseOrder/Form/assetStandardPo/helper";
+import Loading from "../../../_chartinghelper/loading/_loading";
 import { GetCountryDDL } from "../../../helper";
 import {
   getCostCenterList,
   getRevenueCenterList,
   getSBUList,
 } from "../../../lighterVessel/lighterVesselInfo/helper";
-import Loading from "../../../_chartinghelper/loading/_loading";
 import {
   CreateVessel,
   GetOwnerDDL,
@@ -26,6 +26,7 @@ const initData = {
   imono: "",
   isOwnVessel: false,
   isOtherInfo: false,
+  isVesselMasterData: false,
   yearOfBuilt: "",
   shipYard: "",
   callSign: "",
@@ -57,6 +58,33 @@ const initData = {
   revenueCenter: "",
   costCenter: "",
   profitCenter: "",
+  // Vessel Master Data
+  vessel: "",
+  strImono: "",
+  strParticulars: "",
+  strVesselParticulars: "",
+  strMasterEmail: "",
+  numBallastEcoSpeed: "",
+  numBallastMaxSpeed: "",
+  numBallastVlsfoconsumptionMtPerday: "",
+  numBallastLsmgoconsumptionMtPerday: "",
+  numLadenEcoSpeed: "",
+  numLadenMaxSpeed: "",
+  numLadenVlsfoconsumptionMtPerday: "",
+  numLadenLsmgoconsumptionMtPerday: "",
+  numPortWorkingVlsfoperDay: "",
+  numPortWorkingLsmgoperDay: "",
+  numPortIdleVlsfoperDay: "",
+  numPortIdleLsmgoperDay: "",
+  numSummerDisplacementDraftMts: "",
+  numSummerLightShipMts: "",
+  numWinterDisplacementDraftMts: "",
+  numWinterLightShipMts: "",
+  numTropicalDisplacementDraftMts: "",
+  numTropicalLightShipMts: "",
+  intHoldNumber: "",
+  numMaxBallastVlsfoconsumptionMtPerday: "",
+  numMaxBallastLsmgoconsumptionMtPerday: "",
 };
 
 export default function VesselForm() {
@@ -69,6 +97,7 @@ export default function VesselForm() {
   const [revenueCenterDDL, setRevenueCenterDDL] = useState([]);
   const [sbuDDL, setSbuDDL] = useState([]);
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
+  // const [vesselList, getVesselList] = useAxiosGet([]);
 
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -94,6 +123,9 @@ export default function VesselForm() {
     if (id) {
       GetVesselById(id, setLoading, setSingleData);
     }
+    // getVesselList(
+    //   `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+    // );
   }, [profileData, selectedBusinessUnit, id, type]);
 
   const getCostCenter = (sbuId) => {
@@ -167,6 +199,45 @@ export default function VesselForm() {
       };
       UpdateVessel(data, setLoading);
     } else {
+      const vesselMasterDataPayload = {
+        intVesselMasterId: 0,
+        // intVesselId: values?.vessel?.value,
+        // strVesselName: values?.vessel?.label,
+        // strImono: values?.strImono,
+        strParticulars: values?.strParticulars,
+        strVesselParticulars: values?.strVesselParticulars,
+        strMasterEmail: values?.strMasterEmail,
+        numBallastEcoSpeed: values?.numBallastEcoSpeed || 0,
+        numBallastMaxSpeed: values?.numBallastMaxSpeed || 0,
+        numBallastVlsfoconsumptionMtPerday:
+          values?.numBallastVlsfoconsumptionMtPerday || 0,
+        numBallastLsmgoconsumptionMtPerday:
+          values?.numBallastLsmgoconsumptionMtPerday || 0,
+        numLadenEcoSpeed: values?.numLadenEcoSpeed || 0,
+        numLadenMaxSpeed: values?.numLadenMaxSpeed || 0,
+        numLadenVlsfoconsumptionMtPerday:
+          values?.numLadenVlsfoconsumptionMtPerday || 0,
+        numLadenLsmgoconsumptionMtPerday:
+          values?.numLadenLsmgoconsumptionMtPerday || 0,
+        numPortWorkingVlsfoperDay: values?.numPortWorkingVlsfoperDay || 0,
+        numPortWorkingLsmgoperDay: values?.numPortWorkingLsmgoperDay || 0,
+        numPortIdleVlsfoperDay: values?.numPortIdleVlsfoperDay || 0,
+        numPortIdleLsmgoperDay: values?.numPortIdleLsmgoperDay || 0,
+        numSummerDisplacementDraftMts:
+          values?.numSummerDisplacementDraftMts || 0,
+        numSummerLightShipMts: values?.numSummerLightShipMts || 0,
+        numWinterDisplacementDraftMts:
+          values?.numWinterDisplacementDraftMts || 0,
+        numWinterLightShipMts: values?.numWinterLightShipMts || 0,
+        numTropicalDisplacementDraftMts:
+          values?.numTropicalDisplacementDraftMts || 0,
+        numTropicalLightShipMts: values?.numTropicalLightShipMts || 0,
+        intHoldNumber: values?.intHoldNumber || 0,
+        numMaxBallastVlsfoconsumptionMtPerday:
+          values?.numMaxBallastVlsfoconsumptionMtPerday || 0,
+        numMaxBallastLsmgoconsumptionMtPerday:
+          values?.numMaxBallastLsmgoconsumptionMtPerday || 0,
+      };
       const payload = {
         vesselName: values.vesselName,
         ownerId: values?.ownerName?.value,
@@ -213,6 +284,11 @@ export default function VesselForm() {
         revenueCenterName: values?.revenueCenter?.label,
         profitCenterId: values?.profitCenter?.value,
         profitCenterName: values?.profitCenter?.label,
+
+        // Vessel Master data
+        ...(values?.isVesselMasterData && {
+          vesselMasterData: vesselMasterDataPayload,
+        }),
       };
       CreateVessel(payload, setLoading, cb);
     }
@@ -239,6 +315,7 @@ export default function VesselForm() {
         costCenterDDL={costCenterDDL}
         getCostCenter={getCostCenter}
         profitCenterDDL={profitCenterDDL}
+        // vesselList={vesselList}
       />
     </>
   );
