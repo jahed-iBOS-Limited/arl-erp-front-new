@@ -1,0 +1,17 @@
+/* TooltipTable.module.css */
+.table {
+    border: none;
+    font-size: 12px;
+}
+
+.table td {
+    padding: 2px 5px; /* Add some padding for spacing */
+}
+
+.table tr {
+    border: none; /* Ensure no borders between rows */
+}
+
+.table strong {
+    font-weight: bold;
+}
