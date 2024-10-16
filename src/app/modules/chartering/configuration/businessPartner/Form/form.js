@@ -17,6 +17,7 @@ export default function _Form({
   bankDDL,
   setBankDDL,
   businessPartnerDDL,
+  portDDL,
 }) {
   const history = useHistory();
   // const [show, setShow] = React.useState(false);
@@ -173,6 +174,23 @@ export default function _Form({
                       label="Country"
                       onChange={(valueOption) => {
                         setFieldValue("country", valueOption);
+                      }}
+                      isDisabled={viewType === "view"}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <FormikSelect
+                      value={values?.port}
+                      isSearchable={true}
+                      options={portDDL || []}
+                      styles={customStyles}
+                      name="port"
+                      placeholder="Port"
+                      label="Port"
+                      onChange={(valueOption) => {
+                        setFieldValue("port", valueOption);
                       }}
                       isDisabled={viewType === "view"}
                       errors={errors}

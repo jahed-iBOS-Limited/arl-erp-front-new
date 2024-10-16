@@ -13,6 +13,8 @@ import {
 import Form from "./form";
 import { getBankDDL, GetCountryDDL } from "../../../helper";
 import Loading from "../../../_chartinghelper/loading/_loading";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { imarineBaseUrl } from "../../../../../App";
 
 const initData = {
   companyName: "",
@@ -28,7 +30,6 @@ const initData = {
   bankAddress: "",
   swiftCode: "",
   ibancode: "",
-
   businessPartner: "",
 };
 
@@ -40,6 +41,8 @@ export default function BusinessPartnerForm() {
   const [singleData, setSingleData] = useState(initData);
   const [bankDDL, setBankDDL] = useState([]);
   const [businessPartnerDDL, setBusinessPartnerDDL] = useState([]);
+  const [portDDL, getPortDDL] = useAxiosGet();
+
 
   // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -50,6 +53,7 @@ export default function BusinessPartnerForm() {
     GetCountryDDL(setCountryDDL);
     getStakeholderType(setStakeholderTypeDDL);
     getBankDDL(setBankDDL);
+    getPortDDL(`${imarineBaseUrl}/domain/Stakeholder/GetPortDDL`);
 
     getBusinessPartnerList(
       profileData?.accountId,
@@ -60,6 +64,7 @@ export default function BusinessPartnerForm() {
     if (id) {
       GetStakeholderById(id, setLoading, setSingleData);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit, id]);
 
   const saveHandler = (values, cb) => {
@@ -70,8 +75,8 @@ export default function BusinessPartnerForm() {
         picname: values?.picname,
         stakeholderTypeId: values?.stakeholderType?.value,
         stakeholderTypeName: values?.stakeholderType?.label,
-        portId: values?.port?.value,
-        portName: values?.port?.label,
+        portId: values?.port?.value || 0,
+        portName: values?.port?.label || "",
         mobileNo: values?.mobileNo,
         email: values?.email,
         country: values?.country?.value,
@@ -96,8 +101,8 @@ export default function BusinessPartnerForm() {
         picname: values?.picname,
         stakeholderTypeId: values?.stakeholderType?.value,
         stakeholderTypeName: values?.stakeholderType?.label,
-        portId: values?.port?.value,
-        portName: values?.port?.label,
+        portId: values?.port?.value || 0,
+        portName: values?.port?.label || "",
         mobileNo: values?.mobileNo,
         email: values?.email,
         country: values?.country?.value,
@@ -138,6 +143,7 @@ export default function BusinessPartnerForm() {
         bankDDL={bankDDL}
         setBankDDL={setBankDDL}
         businessPartnerDDL={businessPartnerDDL}
+        portDDL={portDDL}
       />
     </>
   );
