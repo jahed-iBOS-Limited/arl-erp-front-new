@@ -196,7 +196,7 @@ export default function BusinessPartnerTable() {
                           values?.stakeholderType?.value || 0,
                           setLoading,
                           setGridData,
-                          values?.port?.value || 0,
+                          valueOption?.value || 0,
                         );
                       }}
                       errors={errors}
