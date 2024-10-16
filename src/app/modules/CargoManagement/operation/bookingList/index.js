@@ -21,6 +21,7 @@ import { cancelHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
 import CommonStatusUpdateModal from "./commonStatusUpdateModal";
+import BLModal from "./blModal";
 
 const validationSchema = Yup.object().shape({});
 function BookingList() {
@@ -263,7 +264,7 @@ function BookingList() {
                           <tr key={i + 1}>
                             <td className="text-center">{i + 1}</td>
                             <td className="text-left">
-                              {item?.bookingRequestId}
+                              {item?.bookingRequestCode}
                             </td>
                             <td className="text-left">
                               {item?.shipperContact}
@@ -415,7 +416,13 @@ function BookingList() {
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
-                                  onClick={() => {}}
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isBlModal: true,
+                                    });
+                                  }}
                                 >
                                   BL
                                 </button>
@@ -936,6 +943,33 @@ function BookingList() {
                 setIsModalShowObj({
                   ...isModalShowObj,
                   isCommonModalShow: false,
+                });
+                setRowClickData({});
+              }}
+            />
+          </IViewModal>
+        </>
+      )}
+
+      {isModalShowObj?.isBlModal && (
+        <>
+          <IViewModal
+            title="BL"
+            show={isModalShowObj?.isBlModal}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isBlModal: false,
+              });
+            }}
+          >
+            <BLModal
+              rowClickData={rowClickData}
+              CB={() => {
+                commonLandingApi();
+                setIsModalShowObj({
+                  ...isModalShowObj,
+                  isBlModal: false,
                 });
                 setRowClickData({});
               }}
