@@ -16,11 +16,6 @@ function ChargesModal({ rowClickData, CB }) {
     shallowEqual
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
-  // const [
-  //   shipBookingRequestGetById,
-  //   setShipBookingRequestGetById,
-  //   shipBookingRequestLoading,
-  // ] = useAxiosGet();
   const [, getSaveBookedRequestBilling, bookedRequestBilling] = useAxiosPost();
   const [
     ,
@@ -35,16 +30,6 @@ function ChargesModal({ rowClickData, CB }) {
   ] = useAxiosGet();
 
   useEffect(() => {
-    if (bookingRequestId) {
-      // setShipBookingRequestGetById(
-      //   `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
-      // );
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookingRequestId]);
-
-  useEffect(() => {
     getShippingHeadOfCharges(
       `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges`,
       (resShippingHeadOfCharges) => {
@@ -57,11 +42,23 @@ function ChargesModal({ rowClickData, CB }) {
               );
               return {
                 ...item,
+                billingId: findData?.billingId || 0,
                 checked: findData ? true : false,
                 amount: findData?.chargeAmount || "",
               };
             });
-            setShippingHeadOfCharges(modifyData);
+            const filterNewData = resSveData
+              ?.filter((item) => item?.headOfChargeId === 0)
+              .map((item) => {
+                return {
+                  label: item?.headOfCharges,
+                  value: 0,
+                  checked: true,
+                  amount: item?.chargeAmount,
+                  billingId: item?.billingId || 0,
+                };
+              });
+            setShippingHeadOfCharges([...modifyData, ...filterNewData]);
           }
         );
       }
@@ -74,7 +71,7 @@ function ChargesModal({ rowClickData, CB }) {
       ?.filter((item) => item?.checked)
       .map((item) => {
         return {
-          billingId: 0,
+          billingId: item?.billingId || 0,
           bookingRequestId: bookingRequestId || 0,
           headOfChargeId: item?.value || 0,
           headOfCharges: item?.label || "",
@@ -104,7 +101,10 @@ function ChargesModal({ rowClickData, CB }) {
         bookedRequestBillingDataLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
-        initialValues={{}}
+        initialValues={{
+          amount: "",
+          attribute: "",
+        }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -117,19 +117,63 @@ function ChargesModal({ rowClickData, CB }) {
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
-                {!rowClickData?.isCharges && (
-                  <>
-                    <div className="d-flex justify-content-end">
-                      <button type="submit" className="btn btn-primary">
-                        Save
-                      </button>
-                    </div>
-                  </>
-                )}
+                <>
+                  <div className="d-flex justify-content-end">
+                    <button type="submit" className="btn btn-primary">
+                      Save
+                    </button>
+                  </div>
+                </>
               </div>
-              {/* <div className="form-group row global-form">
-                
-              </div> */}
+              <div className="form-group row global-form">
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.attribute}
+                    label="Attribute"
+                    name="attribute"
+                    type="text"
+                    onChange={(e) => setFieldValue("attribute", e.target.value)}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.amount}
+                    label="Amount"
+                    name="amount"
+                    type="number"
+                    onChange={(e) => setFieldValue("amount", e.target.value)}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  {/* add button */}
+                  <div className="d-flex justify-content-start align-items-center mt-5">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => {
+                        if (!values?.attribute) {
+                          return toast.warn("Attribute is required");
+                        }
+                        if (!values?.amount) {
+                          return toast.warn("Amount is required");
+                        }
+                        setShippingHeadOfCharges([
+                          ...shippingHeadOfCharges,
+                          {
+                            label: values?.attribute,
+                            value: 0,
+                            checked: true,
+                            amount: values?.amount,
+                          },
+                        ]);
+                        resetForm();
+                      }}
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
+              </div>
               <div className="col-lg-12">
                 {" "}
                 <div className="table-responsive">
@@ -138,7 +182,6 @@ function ChargesModal({ rowClickData, CB }) {
                       <tr>
                         <th>
                           <input
-                            disabled={!rowClickData?.isPlaning}
                             type="checkbox"
                             checked={
                               shippingHeadOfCharges?.length > 0
@@ -172,7 +215,6 @@ function ChargesModal({ rowClickData, CB }) {
                         <tr key={index}>
                           <td className="text-center align-middle">
                             <input
-                              disabled={!rowClickData?.isPlaning}
                               type="checkbox"
                               checked={item?.checked}
                               onChange={(e) => {
@@ -189,9 +231,7 @@ function ChargesModal({ rowClickData, CB }) {
                           </td>
                           <td className="align-middle">
                             <InputField
-                              disabled={
-                                !rowClickData?.isPlaning || !item?.checked
-                              }
+                              disabled={!item?.checked}
                               value={item?.amount}
                               required={item?.checked}
                               type="number"
