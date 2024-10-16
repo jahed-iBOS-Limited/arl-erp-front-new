@@ -17,6 +17,8 @@ import {
   GetStakeholderLandingData,
   getStakeholderType,
 } from "../helper";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { imarineBaseUrl } from "../../../../../App";
 
 const initData = {
   filterBy: "",
@@ -30,6 +32,7 @@ const headers = [
   { name: "Company Name" },
   { name: "PIC Name" },
   { name: "Country" },
+  { name: "Port Name" },
   { name: "Email" },
   { name: "Status" },
   { name: "Actions" },
@@ -42,6 +45,8 @@ export default function BusinessPartnerTable() {
   const [loading, setLoading] = useState(false);
   const [stakeholderTypeDDL, setStakeholderTypeDDL] = useState([]);
   const history = useHistory();
+  const [portDDL, getPortDDL] = useAxiosGet();
+
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
@@ -49,6 +54,8 @@ export default function BusinessPartnerTable() {
 
   useEffect(() => {
     getStakeholderType(setStakeholderTypeDDL);
+    getPortDDL(`${imarineBaseUrl}/domain/Stakeholder/GetPortDDL`);
+
     GetStakeholderLandingData(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -153,29 +160,44 @@ export default function BusinessPartnerTable() {
                       label="Business Partner Type"
                       onChange={(valueOption) => {
                         setFieldValue("stakeholderType", valueOption);
-                        if (valueOption) {
-                          GetStakeholderLandingData(
-                            profileData?.accountId,
-                            selectedBusinessUnit?.value,
-                            pageNo,
-                            pageSize,
-                            "",
-                            valueOption?.value,
-                            setLoading,
-                            setGridData
-                          );
-                        } else {
-                          GetStakeholderLandingData(
-                            profileData?.accountId,
-                            selectedBusinessUnit?.value,
-                            pageNo,
-                            pageSize,
-                            "",
-                            0,
-                            setLoading,
-                            setGridData
-                          );
-                        }
+                        GetStakeholderLandingData(
+                          profileData?.accountId,
+                          selectedBusinessUnit?.value,
+                          pageNo,
+                          pageSize,
+                          "",
+                          valueOption?.value || 0,
+                          setLoading,
+                          setGridData,
+                          values?.port?.value || 0,
+                        );
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <FormikSelect
+                      value={values?.port}
+                      isSearchable={true}
+                      options={portDDL || []}
+                      styles={customStyles}
+                      name="port"
+                      placeholder="Port"
+                      label="Port"
+                      onChange={(valueOption) => {
+                        setFieldValue("port", valueOption);
+                        GetStakeholderLandingData(
+                          profileData?.accountId,
+                          selectedBusinessUnit?.value,
+                          pageNo,
+                          pageSize,
+                          "",
+                          values?.stakeholderType?.value || 0,
+                          setLoading,
+                          setGridData,
+                          values?.port?.value || 0,
+                        );
                       }}
                       errors={errors}
                       touched={touched}
@@ -192,6 +214,7 @@ export default function BusinessPartnerTable() {
                     <td>{item?.compnayName}</td>
                     <td>{item?.picname}</td>
                     <td>{item?.countryName}</td>
+                    <td>{item?.portName}</td>
                     <td>{item?.email}</td>
                     <td style={{ width: "80px" }} className="text-center">
                       {item?.isActive ? (

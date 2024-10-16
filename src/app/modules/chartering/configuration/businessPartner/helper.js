@@ -36,13 +36,14 @@ export const GetStakeholderLandingData = async (
   searchValue,
   typeId,
   setLoading,
-  setter
+  setter,
+  portId
 ) => {
   setLoading(true);
   const search = searchValue ? `&search=${searchValue}` : "";
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}&filterByStakeholderTypeId=${typeId}`
+      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${portId || 0}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}&filterByStakeholderTypeId=${typeId}`
     );
     setter(res?.data);
     setLoading(false);
