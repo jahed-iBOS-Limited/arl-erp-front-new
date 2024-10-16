@@ -31,7 +31,6 @@ function CommonStatusUpdateModal({ CB, rowClickData }) {
         CB();
       }
     );
-    getBookingRequestStatusUpdate();
   };
   return (
     <div className="commonStatusUpdateModal">

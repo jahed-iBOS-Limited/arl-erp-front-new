@@ -17,10 +17,7 @@ import DocumentModal from "./documentModal";
 import FreightCargoReceipt from "./freightCargoReceipt";
 import FreightInvoice from "./freightInvoice";
 import HBLFormat from "./HBLFormat";
-import {
-  cancelHandler,
-  statusReturn,
-} from "./helper";
+import { cancelHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
 import CommonStatusUpdateModal from "./commonStatusUpdateModal";
@@ -570,7 +567,6 @@ function BookingList() {
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
                                   onClick={() => {
-                                  
                                     setRowClickData({
                                       ...item,
                                       title: "Des. Port Receive",
@@ -834,7 +830,17 @@ function BookingList() {
               });
             }}
           >
-            <DocumentModal rowClickData={rowClickData} />
+            <DocumentModal
+              rowClickData={rowClickData}
+              CB={() => {
+                commonLandingApi();
+                setIsModalShowObj({
+                  ...isModalShowObj,
+                  isDocument: false,
+                });
+                setRowClickData({});
+              }}
+            />
           </IViewModal>
         </>
       )}

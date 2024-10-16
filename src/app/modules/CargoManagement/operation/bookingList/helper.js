@@ -64,8 +64,6 @@ export const commonBookingRequestStatusUpdate = (item) => {
     documentChecklistDate: item?.documentChecklistDate || new Date(),
     isCharges: item?.isCharges || false,
     chargesDate: item?.chargesDate || new Date(),
-    isHbl: item?.isHbl || false,
-    hbldate: item?.hbldate || new Date(),
     isBl: item?.isBl || false,
     bldate: item?.bldate || new Date(),
     isPickup: item?.isPickup || false,
