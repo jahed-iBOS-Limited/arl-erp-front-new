@@ -1021,7 +1021,7 @@ function BookingList() {
       {/* HBCode GN Modal */}
       {isModalShowObj?.isHBCodeGN && (
         <IViewModal
-          title="HBL Code GN"
+          title="HBL Code Generate"
           show={isModalShowObj?.isHBCodeGN}
           onHide={() => {
             setIsModalShowObj({
