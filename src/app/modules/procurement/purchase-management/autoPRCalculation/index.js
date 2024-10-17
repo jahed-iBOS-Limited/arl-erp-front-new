@@ -137,7 +137,7 @@ export default function AutoPRCalculation() {
                                                             <td className="text-center">{item?.uomName}</td>
                                                             <td className="text-center">{item?.warehouseName}</td>
                                                             <td>{item?.businessUnitName}</td>
-                                                            <td className="text-center">{item?.currentTotalStock}</td>
+                                                            <td className="text-center">{item?.inventoryStock}</td>
                                                             <td className="text-center">{item?.purchaseRequestStock}</td>
                                                             <td className="text-center">{item?.purchaseOrderStock}</td>
                                                             <td className="text-center">{item?.balanceOnGhat || 0}</td>
@@ -153,7 +153,7 @@ export default function AutoPRCalculation() {
                                                                                     <tbody>
                                                                                         {/* Top 3 fields with "+" sign */}
                                                                                         <tr>
-                                                                                            <td><strong>Opening Stock</strong></td>
+                                                                                            <td><strong>Current Stock</strong></td>
                                                                                             <td>+ {item?.inventoryStock || 0}</td>
                                                                                         </tr>
                                                                                         <tr>
@@ -167,17 +167,17 @@ export default function AutoPRCalculation() {
 
                                                                                         {/* Bottom 2 fields with "-" sign */}
                                                                                         <tr>
-                                                                                            <td><strong>PO Stock</strong></td>
+                                                                                            <td><strong>Open PO</strong></td>
                                                                                             <td>- {item?.purchaseOrderStock || 0}</td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td><strong>PR Stock</strong></td>
+                                                                                            <td><strong>Open PR</strong></td>
                                                                                             <td>- {item?.purchaseRequestStock || 0}</td>
                                                                                         </tr>
 
                                                                                         {/* Final Total */}
                                                                                         <tr>
-                                                                                            <td><strong>Final Total</strong></td>
+                                                                                            <td><strong>PR Quantity</strong></td>
                                                                                             <td>
                                                                                                 {
                                                                                                     (

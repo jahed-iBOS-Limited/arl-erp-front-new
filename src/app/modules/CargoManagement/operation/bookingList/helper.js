@@ -1,30 +1,8 @@
+import { toast } from "react-toastify";
 import { imarineBaseUrl } from "../../../../App";
 import IConfirmModal from "../../../_helper/_confirmModal";
+import axios from "axios";
 
-export const pickupHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
-  const obj = {
-    title: "Pickup",
-    message: "Are you sure you want to Pickup this?",
-    noAlertFunc: () => {},
-    yesAlertFunc: () => {
-      const commonPaylaod = commonBookingRequestStatusUpdate(item);
-      const payload = {
-        ...commonPaylaod,
-        bookingRequestId: item?.bookingRequestId,
-        pickupDate: new Date(),
-        isPickup: true,
-      };
-      getBookingRequestStatusUpdate(
-        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
-        payload,
-        () => {
-          CB();
-        }
-      );
-    },
-  };
-  IConfirmModal(obj);
-};
 
 export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
   const obj = {
@@ -49,171 +27,11 @@ export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
   IConfirmModal(obj);
 };
 
-export const buyerReceiveHandler = ({
-  item,
-  getBookingRequestStatusUpdate,
-  CB,
-}) => {
-  const obj = {
-    title: "Buyer Receive",
-    message: "Are you sure you want to Buyer Receive this?",
-    noAlertFunc: () => {},
-    yesAlertFunc: () => {
-      const commonPaylaod = commonBookingRequestStatusUpdate(item);
-      const payload = {
-        ...commonPaylaod,
-        isBuyerReceive: true,
-        isActive: true,
-        buyerReceive: new Date(),
-        bookingRequestId: item?.bookingRequestId,
-      };
-      getBookingRequestStatusUpdate(
-        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
-        payload,
-        () => {
-          CB();
-        }
-      );
-    },
-  };
-  IConfirmModal(obj);
-};
 
-// export const bookingRequestStatusUpdateApi = async (data, setLoading, cb) => {
-//   setLoading(true);
-//   try {
-//     const res = await axios.put(
-//       `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
-//       data
-//     );
-//     toast.success(res?.data?.message);
-//     cb();
-//     setLoading(false);
-//   } catch (error) {
-//     toast.error(
-//       error?.response?.data?.message || "An error occurred while updating!"
-//     );
-//     setLoading(false);
-//   }
-// };
 
-export const DesPortReceiveHandler = ({
-  item,
-  getBookingRequestStatusUpdate,
-  CB,
-}) => {
-  const obj = {
-    title: "Des Port Receive",
-    message: "Are you sure you want to Des Port Receive this?",
-    noAlertFunc: () => {},
-    yesAlertFunc: () => {
-      const commonPaylaod = commonBookingRequestStatusUpdate(item);
-      const payload = {
-        ...commonPaylaod,
-        isDestPortReceive: true,
-        isActive: true,
-        destPortReceive: new Date(),
-        bookingRequestId: item?.bookingRequestId,
-      };
-      getBookingRequestStatusUpdate(
-        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
-        payload,
-        () => {
-          CB();
-        }
-      );
-    },
-  };
-  IConfirmModal(obj);
-};
-export const InTransitHandler = ({
-  item,
-  getBookingRequestStatusUpdate,
-  CB,
-}) => {
-  const obj = {
-    title: "In Transit",
-    message: "Are you sure you want to In Transit this?",
-    noAlertFunc: () => {},
-    yesAlertFunc: () => {
-      const commonPaylaod = commonBookingRequestStatusUpdate(item);
-      const payload = {
-        ...commonPaylaod,
-        isInTransit: true,
-        isActive: true,
-        inTransit: new Date(),
-        bookingRequestId: item?.bookingRequestId,
-      };
-      getBookingRequestStatusUpdate(
-        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
-        payload,
-        () => {
-          CB();
-        }
-      );
-    },
-  };
-  IConfirmModal(obj);
-};
-export const dispatchHandler = ({
-  item,
-  getBookingRequestStatusUpdate,
-  CB,
-}) => {
-  const obj = {
-    title: "Dispatch",  
-    message: "Are you sure you want to Dispatch this?",
-    noAlertFunc: () => {},
-    yesAlertFunc: () => {
-      const commonPaylaod = commonBookingRequestStatusUpdate(item);
-      const payload = {
-        ...commonPaylaod,
-        isDispatch: true,
-        dispatchDate: new Date(),
-        isActive: true,
-        bookingRequestId: item?.bookingRequestId,
-      };
-      getBookingRequestStatusUpdate(
-        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
-        payload,
-        () => {
-          CB();
-        }
-      );
-    },
-  };
-  IConfirmModal(obj);
-};
 
-export const customsClearanceHandler = ({
-  item,
-  getBookingRequestStatusUpdate,
-  CB,
-}) => {
-  const obj = {
-    title: "Customs Clearance",
-    message: "Are you sure you want to Customs Clearance this?",
-    noAlertFunc: () => {},
-    yesAlertFunc: () => {
-      const commonPaylaod = commonBookingRequestStatusUpdate(item);
-      const payload = {
-        ...commonPaylaod,
-        isCustomsClear: true,
-        customsClearDt: new Date(),
-        isActive: true,
-        bookingRequestId: item?.bookingRequestId,
-      };
-      getBookingRequestStatusUpdate(
-        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
-        payload,
-        () => {
-          CB();
-        }
-      );
-    },
-  };
-  IConfirmModal(obj);
-};
+
+
 
 export const commonBookingRequestStatusUpdate = (item) => {
   return {
@@ -248,8 +66,6 @@ export const commonBookingRequestStatusUpdate = (item) => {
     documentChecklistDate: item?.documentChecklistDate || new Date(),
     isCharges: item?.isCharges || false,
     chargesDate: item?.chargesDate || new Date(),
-    isHbl: item?.isHbl || false,
-    hbldate: item?.hbldate || new Date(),
     isBl: item?.isBl || false,
     bldate: item?.bldate || new Date(),
     isPickup: item?.isPickup || false,
@@ -291,5 +107,24 @@ export const statusReturn = (itemObj) => {
     return "Pending";
   } else {
     return "";
+  }
+};
+
+export const attachmentUpload = async (attachment, cb) => {
+  let formData = new FormData();
+  attachment.forEach((file) => {
+    formData.append("files", file?.file);
+  });
+  try {
+    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    // toast.success(res?.data?.message || "Submitted Successfully");
+    toast.success("Upload  successfully");
+    return data;
+  } catch (error) {
+    toast.error("Document not upload");
   }
 };
