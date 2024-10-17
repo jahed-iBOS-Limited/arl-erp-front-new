@@ -22,6 +22,7 @@ import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
 import CommonStatusUpdateModal from "./commonStatusUpdateModal";
 import BLModal from "./blModal";
+import HBLCodeGNModal from "./hblCodeGNModal";
 
 const validationSchema = Yup.object().shape({});
 function BookingList() {
@@ -437,7 +438,13 @@ function BookingList() {
                                       ? "btn btn-sm btn-success px-1 py-1"
                                       : "btn btn-sm btn-warning px-1 py-1"
                                   }
-                                  onClick={() => {}}
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isHBCodeGN: true,
+                                    });
+                                  }}
                                 >
                                   HBL
                                 </button>
@@ -923,6 +930,7 @@ function BookingList() {
           </IViewModal>
         </>
       )}
+      {/* Common Modal */}
       {isModalShowObj?.isCommonModalShow && (
         <>
           <IViewModal
@@ -951,6 +959,7 @@ function BookingList() {
         </>
       )}
 
+      {/* BL Modal */}
       {isModalShowObj?.isBlModal && (
         <>
           <IViewModal
@@ -977,6 +986,35 @@ function BookingList() {
           </IViewModal>
         </>
       )}
+
+      {/* HBCode GN Modal */}
+      {
+        isModalShowObj?.isHBCodeGN && (
+          <IViewModal
+            title="HBL Code GN"
+            show={isModalShowObj?.isHBCodeGN}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isHBCodeGN: false,
+              });
+              setRowClickData({});
+            }}
+          >
+            <HBLCodeGNModal
+              rowClickData={rowClickData}
+              CB={() => {
+                commonLandingApi();
+                setIsModalShowObj({
+                  ...isModalShowObj,
+                  isHBCodeGN: false,
+                });
+                setRowClickData({});
+              }}
+            />
+          </IViewModal>
+        )
+      }
     </ICustomCard>
   );
 }
