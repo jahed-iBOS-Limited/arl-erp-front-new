@@ -81,7 +81,7 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
   //call nodeAjuster
   useEffect(() => {
     nodeAjuster();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [row]);
 
   // Get component type ddl from server
@@ -180,8 +180,14 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
   }, [rowDto]);
 
   return (
-    <div className="table-responsive">
-      <table ref={tableRef} className="table  table-striped table-bordered mt-3 global-table">
+    <div
+      className="table-responsive"
+      style={{ minHeight: "500px", tableLayout: "fixed" }}
+    >
+      <table
+        ref={tableRef}
+        className="table  table-striped table-bordered mt-3 global-table"
+      >
         <thead>
           <tr className="text-center">
             <th>SL</th>
@@ -207,14 +213,14 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                     options={pcDDL || []}
                     value={rowDto[idx]?.priceComponent}
                     onChange={(v) => {
-                      if (idx === 0 && v.priceComponentTypeId !== 1) {
+                      if (idx === 0 && v?.priceComponentTypeId !== 1) {
                         alert("First component type must be price!");
                       } else {
                         rowDtoHandler("priceComponent", v, idx);
                         handleFactor(idx + 1, v.value, v.priceComponentTypeId);
                       }
                     }}
-                    placeholder="select.."
+                    // placeholder="select.."
                   />
                 </td>
                 <td>
@@ -227,7 +233,7 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                         : rowDto[idx]?.valueType
                     }
                     onChange={(v) => rowDtoHandler("valueType", v, idx)}
-                    placeholder="select.."
+                    // placeholder="select.."
                     isDisabled={
                       !idx ||
                       rowDto[idx]?.priceComponent?.priceComponentTypeId === 6
@@ -237,7 +243,11 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                 <td>
                   <input
                     className="form-control-sm form-control-custom"
-                    type={rowDto[idx]?.priceComponent.label === "VAT" ? "tel": "number"}
+                    type={
+                      rowDto[idx]?.priceComponent.label === "VAT"
+                        ? "tel"
+                        : "number"
+                    }
                     min={rowDto[idx]?.priceComponent.label === "VAT" ? 0 : 1}
                     step={0.5}
                     pattern="\d*"
@@ -256,9 +266,10 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                       !idx ||
                       rowDto[idx]?.priceComponent?.priceComponentTypeId === 6
                     }
-                    onChange={(e) =>{
-                      if(+e.target.value < 0) return rowDtoHandler("numValue", "", idx)
-                      rowDtoHandler("numValue", e.target.value, idx)
+                    onChange={(e) => {
+                      if (+e.target.value < 0)
+                        return rowDtoHandler("numValue", "", idx);
+                      rowDtoHandler("numValue", e.target.value, idx);
                     }}
                   />
                 </td>
@@ -272,7 +283,7 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                     options={bases || []}
                     value={rowDto[idx]?.baseComponent}
                     onChange={(v) => rowDtoHandler("baseComponent", v, idx)}
-                    placeholder="select.."
+                    // placeholder="select.."
                   />
                 </td>
                 <td>null</td>
@@ -288,12 +299,12 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                     })}
                     value={rowDto[idx]?.sumFromSerial}
                     onChange={(v) => rowDtoHandler("sumFromSerial", v, idx)}
-                    placeholder="select.."
+                    // placeholder="select.."
                   />
                 </td>
                 <td>
                   <NewSelect
-                    placeholder="select.."
+                    // placeholder="select.."
                     isDisabled={
                       !idx ||
                       rowDto[idx]?.priceComponent?.priceComponentTypeId !== 6
