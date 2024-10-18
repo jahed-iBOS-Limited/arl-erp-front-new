@@ -156,10 +156,22 @@ export function TableRow({
 
   const completeShipmentClickHandler = (values) => {
     const modifyFilterRowDto = rowDto?.filter((itm) => itm.itemCheck === true);
-    const notPermitted = modifyFilterRowDto?.every((item)=>(item?.isLoadingSupervisorMaintain && !item?.loadingConfirmDate && item?.vehicleCapacityTypeId !== 11))
+    const notPermitted = modifyFilterRowDto?.every(
+      (item) =>
+        item?.shippingTypeId !== 10 &&
+        item?.shippingTypeName !== "Troller" &&
+        item?.isLoadingSupervisorMaintain &&
+        !item?.loadingConfirmDate &&
+        item?.vehicleCapacityTypeId !== 11
+    );
 
-    if(selectedBusinessUnit?.value === 4 && values?.reportType?.value === 1 &&  values?.pgiShippoint?.value === 60 && notPermitted){
-      return toast.warn("Please Complete Loading Confirmation")
+    if (
+      selectedBusinessUnit?.value === 4 &&
+      values?.reportType?.value === 1 &&
+      values?.pgiShippoint?.value === 60 &&
+      notPermitted
+    ) {
+      return toast.warn("Please Complete Loading Confirmation");
     }
 
     if (modifyFilterRowDto?.length > 0) {
@@ -511,7 +523,9 @@ export function TableRow({
                                     <div>{td.vehicleName}</div>{" "}
                                   </td>
                                   <td className="text-center">
-                                    <div>{_dateFormatter(td.loadingConfirmDate)}</div>{" "}
+                                    <div>
+                                      {_dateFormatter(td.loadingConfirmDate)}
+                                    </div>{" "}
                                   </td>
                                   <td>
                                     <div>{td.pumpModelName}</div>{" "}
