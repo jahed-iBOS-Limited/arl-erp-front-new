@@ -6,6 +6,7 @@ import BudgetVarianceReportPages from "./budgetVarianceReports/budgetVarianceRep
 import { InternalControlConfigurationPages } from "./configuration/configurationPages";
 import InternalControlRevenueCenterPages from "./revenueCenter/revenueCenterPages";
 import { InternalAuditsPages } from "./internalAudits/internalAuditsPages";
+import CostingPricingModel from "./costingPricingModel/costConfiguration";
 
 export function InternalControlPages() {
   return (
@@ -38,6 +39,10 @@ export function InternalControlPages() {
         <ContentRoute
           path="/internal-control/internalaudits"
           component={InternalAuditsPages}
+        />
+        <ContentRoute
+          path="/internal-control/costing/costingconfiguration"
+          component={CostingPricingModel}
         />
       </Switch>
     </Suspense>
