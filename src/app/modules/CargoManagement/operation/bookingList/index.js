@@ -43,6 +43,11 @@ function BookingList() {
     getBookingRequestStatusUpdate,
     bookingRequestloading,
   ] = useAxiosPut();
+  const [
+    ,
+    deleteBookingRequestById,
+    deleteBookingRequestByIdLoading,
+  ] = useAxiosPut();
 
   const [isModalShowObj, setIsModalShowObj] = React.useState({});
   const [rowClickData, setRowClickData] = React.useState({});
@@ -82,7 +87,7 @@ function BookingList() {
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
-              {(bookingReqLandingLoading || bookingRequestloading) && (
+              {(bookingReqLandingLoading || bookingRequestloading ||deleteBookingRequestByIdLoading) && (
                 <Loading />
               )}
               <PaginationSearch
@@ -322,8 +327,11 @@ function BookingList() {
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {
                                     cancelHandler({
-                                      item,
-                                      getBookingRequestStatusUpdate,
+                                      item: {
+                                        ...item,
+                                        userId: profileData?.userReferenceId,
+                                      },
+                                      deleteBookingRequestById,
                                       CB: () => {
                                         commonLandingApi();
                                       },
