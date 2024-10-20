@@ -7,8 +7,13 @@ import { InternalControlConfigurationPages } from "./configuration/configuration
 import InternalControlRevenueCenterPages from "./revenueCenter/revenueCenterPages";
 import { InternalAuditsPages } from "./internalAudits/internalAuditsPages";
 import CostingPricingModel from "./costingPricingModel/costConfiguration";
+<<<<<<< HEAD
+import CostCalculationLanding from "./costingPricingModel/costCalculation/costCalculationMainIndex";
+import CostConfigurationCreateEdit from "./costingPricingModel/costCalculation/createEdit";
+=======
 import ProductToFG from "./costingPricingModel/costConfiguration/product/productToFG";
 import ProductToMG from "./costingPricingModel/costConfiguration/product/productToMG";
+>>>>>>> f560fb63d5919df17f89d8ed46358e4f259433d4
 
 export function InternalControlPages() {
   return (
@@ -53,6 +58,14 @@ export function InternalControlPages() {
         <ContentRoute
           path="/internal-control/costing/costingconfiguration"
           component={CostingPricingModel}
+        />
+        <ContentRoute
+          path="/internal-control/costing/costingcalculation/create"
+          component={CostConfigurationCreateEdit}
+        />
+        <ContentRoute
+          path="/internal-control/costing/costingcalculation"
+          component={CostCalculationLanding}
         />
       </Switch>
     </Suspense>
