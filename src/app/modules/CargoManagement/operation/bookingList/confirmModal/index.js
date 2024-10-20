@@ -64,7 +64,7 @@ function ConfirmModal({ rowClickData, CB }) {
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
         (resData) => {
           if (formikRef.current) {
-            const data = resData?.[0] || {};
+            const data = resData || {};
             formikRef.current.setFieldValue(
               "transportPlanningType",
               data?.modeOfTransport
