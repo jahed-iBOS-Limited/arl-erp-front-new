@@ -39,7 +39,7 @@ function DocumentModal({ rowClickData, CB }) {
         setShipBookingRequestGetById(
           `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
           (resDataShipBookingRequest) => {
-            const documents = resDataShipBookingRequest?.[0]?.documents || [];
+            const documents = resDataShipBookingRequest?.documents || [];
             const documentsUploadTypeList = resDataDocumentsUpload?.map(
               (item) => {
                 const isExist = documents?.find(

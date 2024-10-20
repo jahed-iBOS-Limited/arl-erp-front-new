@@ -43,6 +43,11 @@ function BookingList() {
     getBookingRequestStatusUpdate,
     bookingRequestloading,
   ] = useAxiosPut();
+  const [
+    ,
+    deleteBookingRequestById,
+    deleteBookingRequestByIdLoading,
+  ] = useAxiosPut();
 
   const [isModalShowObj, setIsModalShowObj] = React.useState({});
   const [rowClickData, setRowClickData] = React.useState({});
@@ -82,9 +87,9 @@ function BookingList() {
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
-              {(bookingReqLandingLoading || bookingRequestloading) && (
-                <Loading />
-              )}
+              {(bookingReqLandingLoading ||
+                bookingRequestloading ||
+                deleteBookingRequestByIdLoading) && <Loading />}
               <PaginationSearch
                 placeholder="Booking No, BL No, search..."
                 paginationSearchHandler={(searchValue) => {
@@ -268,7 +273,7 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: "490px",
+                            minWidth: "450px",
                           }}
                         >
                           Action
@@ -322,8 +327,11 @@ function BookingList() {
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {
                                     cancelHandler({
-                                      item,
-                                      getBookingRequestStatusUpdate,
+                                      item: {
+                                        ...item,
+                                        userId: profileData?.userReferenceId,
+                                      },
+                                      deleteBookingRequestById,
                                       CB: () => {
                                         commonLandingApi();
                                       },
@@ -448,7 +456,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                  disabled={item?.isHbl}
+                                  // disabled={item?.isHbl}
                                   className={
                                     item?.isHbl
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -672,11 +680,12 @@ function BookingList() {
                                       });
                                     }}
                                   >
-                                    Freight Cargo Receipt
+                                    FCR
                                   </button>
                                 </span>
                                 <span>
                                   <button
+                                    disabled={!item?.isHbl}
                                     className="btn btn-sm btn-primary"
                                     onClick={() => {
                                       setRowClickData(item);
@@ -1035,11 +1044,11 @@ function BookingList() {
             rowClickData={rowClickData}
             CB={() => {
               commonLandingApi();
-              setIsModalShowObj({
-                ...isModalShowObj,
-                isHBCodeGN: false,
-              });
-              setRowClickData({});
+              // setIsModalShowObj({
+              //   ...isModalShowObj,
+              //   isHBCodeGN: false,
+              // });
+              // setRowClickData({});
             }}
           />
         </IViewModal>

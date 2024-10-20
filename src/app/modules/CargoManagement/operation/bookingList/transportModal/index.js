@@ -77,7 +77,8 @@ function TransportModal({ rowClickData, CB }) {
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
         (resData) => {
           if (formikRef.current) {
-            const data = resData?.[0] || {};
+            const data = resData || {};
+        console.log("data?.modeOfTransport ", data?.modeOfTransport );  
             const transportPlanning = data?.transportPlanning || {};
             formikRef.current.setFieldValue(
               "transportPlanning",
@@ -155,7 +156,7 @@ function TransportModal({ rowClickData, CB }) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const bookingData = shipBookingRequestGetById?.[0] || {};
+  const bookingData = shipBookingRequestGetById || {};
   const saveHandler = (values, cb) => {
     const payload = {
       bookingId: bookingRequestId || 0,
@@ -413,7 +414,7 @@ function TransportModal({ rowClickData, CB }) {
                     // options={transportModeDDL || []}
                     options={
                       transportModeDDL?.filter((item) => {
-                        if (values?.transportPlanning === "Sea") {
+                        if (values?.transportPlanning?.label === "Sea") {
                           return [17, 18].includes(item?.value);
                         } else {
                           return [19, 20].includes(item?.value);
