@@ -19,7 +19,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bookingRequestId]);
-    const bookingData = shipBookingRequestGetById?.[0] || {};
+    const bookingData = shipBookingRequestGetById || {};
     if (shipBookingRequestLoading) return <div
         className='d-flex justify-content-center align-items-center'
     >
