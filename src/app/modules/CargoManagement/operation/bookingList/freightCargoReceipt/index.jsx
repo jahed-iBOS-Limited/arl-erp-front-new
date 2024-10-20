@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { imarineBaseUrl } from '../../../../../App';
 import Loading from '../../../../_helper/_loading';
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import './style.css';
-
 const FreightCargoReceipt = ({ rowClickData }) => {
     const bookingRequestId = rowClickData?.bookingRequestId;
     const [
@@ -25,120 +23,477 @@ const FreightCargoReceipt = ({ rowClickData }) => {
     >
         <Loading />
     </div>
+    const tableData = [
+        {
+            marksAndNos: 'WWWWWWWWWW',
+            noOfPkgs: '1',
+            descriptionOfPackagesAndGoods: 'S.T.C. 1 PALLET OF 1 DRUM',
+            weight: {
+                value: '450 Lbs',
+                measurement: '20412 Kgs',
+            },
+            measurement: {
+                value: '2.0 Cft',
+                measurement: '0.056 Cbm',
+            }
+        },
+        {
+            marksAndNos: '',
+            noOfPkgs: '3',
+            descriptionOfPackagesAndGoods: `40' Container (Closed) Said To Contain: 1 X 40' Container 3 Pallets 3,000 Lbs. Of`,
+            weight: {
+                value: '450 Lbs',
+                measurement: '20412 Kgs',
+            },
+            measurement: {
+                value: '2.0 Cft',
+                measurement: '0.056 Cbm',
+            }
+        },
+    ];
+    const tableColumns = [
+        { name: 'MARKS & NOS.', key: 'col1' },
+        { name: 'NO. OF PKGS', key: 'col2' },
+        { name: 'DESCRIPTION OF PACKAGES AND GOODS', key: 'col3' },
+        { name: 'WEIGHT', key: 'col4' },
+        { name: 'MEASUREMENT (H W L)', key: 'col5' },
+    ]
 
     return (
-        <div className='freightCargoReceipt'>
-            <div className="container">
-                <div className="input-line50"></div>
-                <h1>FREIGHT CARGO RECEIPT (FCR)</h1>
-                <div className="input-line50"></div>
-
-                <div className="section">
-                    <div className="two-column-grid">
-                        <span className="section-title">FCR Number:</span>
-                        <span className="section-title">Date:</span>
+        <div
+            style={{
+                border: '2px solid #000',
+                // padding: '10px 0px',
+            }}
+        >
+            <div
+                style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1.5fr',
+                    // gap: '10px',
+                }}
+            >
+                <div
+                    style={{
+                        // marginLeft: '10px',
+                        marginTop: '30px',
+                    }}
+                >
+                    <div
+                        style={{
+                            marginLeft: '10px',
+                            paddingBottom: '50px'
+                        }}
+                    >
+                        <p
+                            style={{
+                                borderTop: '2px solid #000',
+                                width: '50%',
+                            }}
+                        > IATA 1-4325/1</p>
+                        <p>FMC # 4900</p>
+                        <p> CHB Lic 123-456</p>
                     </div>
-                </div>
+                    <div
+                        style={{
+                            border: '1px solid #000',
+                            padding: '10px',
+                            fontWeight: 600,
+                        }}
+                    >
+                        <p
+                            style={{
+                                paddingBottom: '5px',
 
-                <div className="section">
-                    <h2>Shipper Details:</h2>
-                    <div className="input-line50"></div>
-                    <span className="section-title">Name: {bookingData?.shipperName}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Address: {bookingData?.shipperAddress}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Contact Person: {bookingData?.shipperContactPerson}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Phone: {bookingData?.shipperContact}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Email: {bookingData?.shipperEmail}</span>
-                </div>
+                            }}
+                        >Shipper/Exporter:</p>
+                        <p>{bookingData?.shipperName}</p>
+                        <p>{bookingData?.shipperAddress}</p>
+                        <p>{bookingData?.shipperContactPerson}</p>
+                        <p>{bookingData?.shipperContact}</p>
+                        <p>{bookingData?.shipperEmail}</p>
 
-                <div className="section">
-                    <h2>Consignee Details:</h2>
-                    <div className="input-line50"></div>
-                    <span className="section-title">Name: {bookingData?.consigneeName}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Address: {bookingData?.consigneeAddress}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Contact Person: {bookingData?.consigneeContactPerson}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Phone: {bookingData?.consigneeContact}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Email: {bookingData?.consigneeEmail}</span>
-                    <div className="new-line"></div>
-                </div>
+                    </div>
+                    <div
+                        style={{
+                            border: '1px solid #000',
+                            padding: '10px',
+                            fontWeight: 600,
+                        }}
+                    >
+                        <p
+                            style={{
+                                paddingBottom: '5px',
 
-                <div className="section">
-                    <h2>Transport Details:</h2>
-                    <div className="input-line50"></div>
-                    <span className="section-title">Transport Mode: {bookingData?.modeOfTransport}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Carrier:</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Vessel/Flight No:</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Departure Port:</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Destination Port:</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Booking Number:</span>
-                    <div className="new-line"></div>
-                </div>
+                            }}
+                        >Consignee:</p>
+                        <p>{bookingData?.consigneeName}</p>
+                        <p>{bookingData?.consigneeAddress}</p>
+                        <p>{bookingData?.consigneeContactPerson}</p>
+                        <p>{bookingData?.consigneeContact}</p>
+                        <p>{bookingData?.consigneeEmail}</p>
+                    </div>
+                    <div
+                        style={{
+                            border: '1px solid #000',
+                            padding: '10px',
+                            fontWeight: 600,
+                        }}
+                    >
+                        <p
+                            style={{
+                                paddingBottom: '5px',
 
-                <div className="section">
-                    <h2>Cargo Details:</h2>
-                    <div className="input-line50"></div>
-                    <span className="section-title">Description of Goods: {bookingData?.descriptionOfGoods}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Total Weight: {bookingData?.netWeightKG}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Total Volume: {bookingData?.volumeCBM}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Number of Packages: {bookingData?.numberOfPackages}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Package Type: {bookingData?.typeOfPackaging}</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Hazardous Material:</span>
-                    <div className="new-line"></div>
-                    <span className="section-title">Special Instructions: {bookingData?.shInstructionText}</span>
-                    <div className="new-line"></div>
-                </div>
+                            }}
+                        >Notify Party:</p>
+                        <p>{bookingData?.notifyParty}</p>
 
-                <div className="section">
-                    <h2>Signature:</h2>
-                    <div className="signature-line50"></div>
-                    <div className="two-column-grid">
-                        <div>
-                            <span className="section-title">Shipper Signature:</span>
-                            <div className="signature-line"></div>
+                    </div>
+                    <div
+                        style={{
+                            border: '1px solid #000',
+                            padding: '0px 10px',
+                            fontWeight: 600,
+                        }}
+                    >
+                        <p>Port or Airport:</p>
+                        <p>WANDO TERMINAL</p>
+                    </div>
+                    <div
+                        style={{
+                            border: '1px solid #000',
+                            fontWeight: 600,
+                        }}
+                    >
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'flex-start',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    borderRight: '1px solid #000',
+                                    width: '50%',
+                                    padding: '0px 10px',
+
+                                }}
+                            >
+                                <p>Exporting Carrier (Vessel/Airline)</p>
+                                <p>{bookingData?.transportPlanning?.vesselName}</p>
+                            </div>
+                            <div
+                                style={{
+                                    padding: '0px 10px',
+                                }}
+                            >
+                                <p>Port of Loading</p>
+                                <p>{bookingData?.portOfLoading}</p>
+                            </div>
                         </div>
-                        <div>
-                            <span className="section-title">Date:</span>
-                            <div className="signature-line"></div>
+
+                    </div>
+                    <div
+                        style={{
+                            border: '1px solid #000',
+                            fontWeight: 600,
+                        }}
+                    >
+                        <div
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'flex-start',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    borderRight: '1px solid #000',
+                                    minWidth: '50%',
+                                    padding: '0px 10px',
+
+                                }}
+                            >
+                                <p>Air/Sea Port of Discharge</p>
+                                <p>{bookingData?.portOfDischarge}</p>
+                            </div>
+                            <div
+                                style={{
+                                    padding: '0px 10px',
+                                }}
+                            >
+                                <p>For Transfer to</p>
+                                <p>SJO</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div>
+                    <div
+                        style={{
+                            textAlign: 'center',
+
+                        }}
+                    >
+                        <p style={{ fontSize: 20, fontWeight: 600, borderBottom: '2px solid #000', marginBottom: '10px' }}>Your company logo here</p>
+                        <p>4421 Conlin Street, Suite 202</p>
+                        <p>Metairie, LA 70006</p>
+                        <p>Phone: (504) 888-5598</p>
+                        <p>Fax: (504) 888-5599</p>
+                        <p>Email: melcogroup@comm.net</p>
+                        <p>Internet: <a href="http://www.melcogroup.com" target="_blank" rel="noreferrer">www.melcogroup.com</a></p>
+                        <p
+                            style={{
+                                fontWeight: 700,
+                                fontSize: '2rem',
+                            }}
+                        >
+                            FORWARDER{"'"}S <br /> CARGO RECEIPT
+                        </p>
+                        <div
+                            style={{
+                                display: 'flex',
+                                gap: '5px',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <p
+                                style={{
+                                    fontWeight: 600
+                                }}
+                            >DATE</p>
+                            <p>5/03/1999</p>
                         </div>
                     </div>
-                    <div className="two-column-grid">
-                        <div>
-                            <span className="section-title">Freight Forwarder Signature:</span>
-                            <div className="signature-line"></div>
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            padding: '0px 10px',
+
+                        }}
+                    >
+                        <div
+                            style={{
+                                display: 'flex',
+                                gap: '2px',
+
+                            }}
+                        >
+                            <p
+                                style={{
+                                    fontWeight: 600
+                                }}
+                            >REFERENCE # </p>
+                            <p>345</p>
                         </div>
-                        <div>
-                            <span className="section-title">Date:</span>
-                            <div className="signature-line"></div>
+                        <div
+                            style={{
+                                display: 'flex',
+                                gap: '2px',
+                            }}
+                        >
+                            <p
+                                style={{
+                                    fontWeight: 600
+                                }}
+                            >BL/AWB #: BL #</p>
+                            <p>23845345</p>
                         </div>
                     </div>
-                </div>
+                    <div
+                        style={{
+                            display: 'flex',
+                            gap: '2px',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <p
+                            style={{
+                                fontWeight: 600,
+                                paddingBottom: '9px',
+                            }}
+                        >BOOKING # </p>
+                        <p>CSB5678</p>
+                    </div>
+                    <div
+                        style={{
+                            border: '1px solid #000',
+                            padding: '10px',
+                            fontWeight: 600,
+                        }}
+                    >
+                        <p
+                            style={{
+                                paddingBottom: '5px',
 
-                <div className="section">
-                    <h2>Notes</h2>
-                    <p className="note">1. This receipt serves as proof of cargo acceptance by the freight forwarder.</p>
-                    <p className="note">2. All goods are subject to the terms and conditions of carriage.</p>
-                    <p className="note">3. Any discrepancies must be reported within [insert time period] of receipt.</p>
-                    <div className="signature-line50"></div>
+                            }}
+                        >Point & Country of Origin:</p>
+                        <p>{bookingData?.originAddress}</p>
+
+                    </div>
+                    <div
+                        style={{
+                            border: '1px solid #000',
+                            padding: '10px',
+                            fontWeight: 600,
+                        }}
+                    >
+                        <p
+                            style={{
+                                paddingBottom: '4px',
+
+                            }}
+                        >Domestic Routing / Export Instructions:</p>
+                        <div
+                            style={{
+                                textTransform: 'uppercase',
+                            }}
+                        >
+                            <p>Latasa Uruguay Trading S.A.</p>
+                            <p>Plaza Independencia 808-PB 101</p>
+                            <p>Montevideo, Uruguay</p>
+                            <p>Y Riesgo del Consignatario Carg????</p>
+
+                        </div>
+                    </div>
+                    <div
+                        style={{
+                            border: '1px solid #000',
+                            padding: '10px',
+                            fontWeight: 600,
+                        }}
+                    >
+                        <p
+                            style={{
+                                paddingBottom: '10px',
+
+                            }}
+                        >For Delivery of Goods Please Apply To:</p>
+                        <div
+                            style={{
+                                textTransform: 'uppercase',
+                                paddingBottom: '16px',
+                            }}
+                        >
+                            <p>Latasa Uruguay Trading S.A.</p>
+                            <p>Plaza Independencia 808-PB 101</p>
+                            <p>Montevideo, Uruguay</p>
+                            <p>Y Riesgo del Consignatario Carg????</p>
+
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '5rem',
+                    border: '1px solid #000',
+                    marginTop: '150px',
+                }}
+            >
+                <table style={{ width: '100%', textAlign: 'left' }}>
+                    <thead>
+                        <tr
+                            style={{
+                                borderBottom: '1px solid #000',
+                                fontWeight: 600,
+                            }}
+                        >
+                            {tableColumns.map((column, index) => (
+                                <th key={index}>{column.name}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {bookingData?.rowsData?.map((row, index) => (
+                            <tr key={index}>
+                                <td>{row?.marksAndNos}</td>
+                                <td>{row?.numberOfPackages}</td>
+                                <td>{row?.descriptionOfGoods}</td>
+                                <td>
+                                    {row?.netWeightKG} KG<span style={{ paddingRight: '20px' }}></span> {row?.grossWeightKG} KG
+                                </td>
+                                <td>{row?.dimsHeight}<span style={{ paddingRight: '20px' }}></span> {row?.dimsWidth}<span style={{ paddingRight: '20px' }}></span> {row?.dimsLength}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '5px',
+                    }}
+                >
+                    <div
+                        style={{
+                            height: '1px',
+                            backgroundColor: '#000',
+                            margin: '0px 10px',
+                        }}
+                    />
+                    <div
+                        style={{
+                            height: '1px',
+                            backgroundColor: '#000',
+                            margin: '0px 10px',
+                        }}
+                    />
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
+                    <div
+                        style={{
+                            padding: '10px',
+                            fontWeight: 600,
+                            textAlign: 'center',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '20px',
+                            // maxWidth: '50%',
+                        }}
+                    >
+                        <p> WE CERTIFY THAT THE SHIPMENT DESCRIBED ABOVE HAS BEEN RECEIVED BY US IN APPARENT GOOD CONDITION FROM THE ABOVE MENTIONED SHIPPER/EXPORTER.</p>
+                        <p>THE SHIPMENT IS SCHEDULED FOR IRREVOCABLE REFORWARDING ADDRESSED TO THE ABOVE NAMED CONSIGNEE/NOTIFY PARTY, DEPARTING HERE ON 3/04/1998 DUE TO ARRIVE AT THE ABOVE STATED DESTINATION ON/OR ABOUT 3/11/1998</p>
+                        <p>IF YOU HAVE ANY QUESTIONS OR REQUIRE ADDITIONAL INFORMATION, PLEASE REFER TO THE ABOVE DESCRIBED SHIPMENT AND CONTACT Traffic Contact</p>
+                    </div>
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}
+                >
+                    <div
+                        style={{
+                            padding: '10px',
+                            textAlign: 'center',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '20px',
+                            // maxWidth: '50%',
+                        }}
+                    >
+                        <p>This company has policy against payment, solicitation, or receipt of any rebate, directly or indirectly, which would be unlawful under the United States Shipping Act 1984. Inon recent we shall nowvide a detailed list of the components of these charges and a true com of any nertinent document relating to the charges in this invoice.</p>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
+
     );
 };
 
