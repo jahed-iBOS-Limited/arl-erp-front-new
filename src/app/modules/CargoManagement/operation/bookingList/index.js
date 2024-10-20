@@ -87,9 +87,9 @@ function BookingList() {
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
-              {(bookingReqLandingLoading || bookingRequestloading ||deleteBookingRequestByIdLoading) && (
-                <Loading />
-              )}
+              {(bookingReqLandingLoading ||
+                bookingRequestloading ||
+                deleteBookingRequestByIdLoading) && <Loading />}
               <PaginationSearch
                 placeholder="Booking No, BL No, search..."
                 paginationSearchHandler={(searchValue) => {
@@ -273,7 +273,7 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: "490px",
+                            minWidth: "450px",
                           }}
                         >
                           Action
@@ -680,11 +680,12 @@ function BookingList() {
                                       });
                                     }}
                                   >
-                                    Freight Cargo Receipt
+                                    FCR
                                   </button>
                                 </span>
                                 <span>
                                   <button
+                                    disabled={!item?.isHbl}
                                     className="btn btn-sm btn-primary"
                                     onClick={() => {
                                       setRowClickData(item);
