@@ -437,7 +437,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                         flexDirection: 'column',
                         gap: '5rem',
                         border: '1px solid #000',
-                        marginTop: '50px',
+                        marginTop: '20px',
                         marginRight: '10px',
                         marginLeft: '10px',
 
