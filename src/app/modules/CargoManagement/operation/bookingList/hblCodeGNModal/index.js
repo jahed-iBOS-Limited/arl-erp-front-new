@@ -88,7 +88,7 @@ function HBLCodeGNModal({ CB, rowClickData }) {
                     <>
                       {" "}
                       <button type="submit" className="btn btn-primary">
-                        Code Generate Save
+                        Code Generate
                       </button>
                     </>
                   )}
