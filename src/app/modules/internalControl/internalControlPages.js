@@ -7,6 +7,8 @@ import { InternalControlConfigurationPages } from "./configuration/configuration
 import InternalControlRevenueCenterPages from "./revenueCenter/revenueCenterPages";
 import { InternalAuditsPages } from "./internalAudits/internalAuditsPages";
 import CostingPricingModel from "./costingPricingModel/costConfiguration";
+import ProductToFG from "./costingPricingModel/costConfiguration/product/productToFG";
+import ProductToMG from "./costingPricingModel/costConfiguration/product/productToMG";
 
 export function InternalControlPages() {
   return (
@@ -39,6 +41,14 @@ export function InternalControlPages() {
         <ContentRoute
           path="/internal-control/internalaudits"
           component={InternalAuditsPages}
+        />
+        <ContentRoute
+          path="/internal-control/costing/costingconfiguration/product-to-fg"
+          component={ProductToFG}
+        />
+        <ContentRoute
+          path="/internal-control/costing/costingconfiguration/product-to-mg"
+          component={ProductToMG}
         />
         <ContentRoute
           path="/internal-control/costing/costingconfiguration"

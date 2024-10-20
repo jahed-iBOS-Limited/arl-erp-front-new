@@ -11,8 +11,14 @@ import {
   ModalProgressBar,
 } from "../../../../../_metronic/_partials/controls";
 
+import ProductMainIndex from "./product/productMainIndex.js";
+
 function CostingPricingModel() {
-  const { userRole, selectedBusinessUnit } = useSelector(
+  const [isModalShowObj, setIsModalShowObj] = React.useState({
+    isProductCreate: false,
+  });
+
+  const { userRole, selectedBusinessUnit, profileData } = useSelector(
     (state) => state.authData,
     shallowEqual
   );
@@ -25,7 +31,20 @@ function CostingPricingModel() {
       <Card>
         {true && <ModalProgressBar />}
         <CardHeader title={"Costing Configuration"}>
-          <CardHeaderToolbar></CardHeaderToolbar>
+          <CardHeaderToolbar>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => {
+                setIsModalShowObj({
+                  ...isModalShowObj,
+                  isProductCreate: true,
+                });
+              }}
+            >
+              Create
+            </button>
+          </CardHeaderToolbar>
         </CardHeader>
         <CardBody>
           <div>
@@ -37,27 +56,15 @@ function CostingPricingModel() {
               <Tab unmountOnExit eventKey="product" title="Product"></Tab>
               <Tab
                 unmountOnExit
-                eventKey="product-to-fg"
-                title="Product To Finish Good"
-              >
-                {/* <SecondWeight /> */}
-              </Tab>
-              <Tab
-                unmountOnExit
-                eventKey="product-to-material"
-                title="Product To Material"
-              >
-                {/* <QualityCheck /> */}
-              </Tab>
-              <Tab
-                unmountOnExit
                 eventKey="cost-element-costing"
                 title="Cost Element Costing"
-              >
-                {/* <WeightmentReport /> */}
-              </Tab>
+              ></Tab>
             </Tabs>
           </div>
+          <ProductMainIndex
+            isModalShowObj={isModalShowObj}
+            setIsModalShowObj={setIsModalShowObj}
+          />
         </CardBody>
       </Card>
     </>
