@@ -102,7 +102,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
             <div
                 style={{
                     border: '2px solid #000',
-                    // padding: '10px 0px',
+                    padding: '10px 0px',
                 }}
                 ref={componentRef}
             >
@@ -110,12 +110,12 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                     style={{
                         display: 'grid',
                         gridTemplateColumns: '1fr 1.5fr',
-                        // gap: '10px',
+                        gap: '10px',
                     }}
                 >
                     <div
                         style={{
-                            // marginLeft: '10px',
+                            marginLeft: '10px',
                             marginTop: '30px',
                         }}
                     >
@@ -157,6 +157,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                         <div
                             style={{
                                 border: '1px solid #000',
+                                borderTop: 'none',
                                 padding: '10px',
                                 fontWeight: 600,
                             }}
@@ -176,6 +177,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                         <div
                             style={{
                                 border: '1px solid #000',
+                                borderTop: 'none',
                                 padding: '10px',
                                 fontWeight: 600,
                             }}
@@ -192,6 +194,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                         <div
                             style={{
                                 border: '1px solid #000',
+                                borderTop: 'none',
                                 padding: '0px 10px',
                                 fontWeight: 600,
                             }}
@@ -202,6 +205,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                         <div
                             style={{
                                 border: '1px solid #000',
+                                borderTop: 'none',
                                 fontWeight: 600,
                             }}
                         >
@@ -236,6 +240,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                         <div
                             style={{
                                 border: '1px solid #000',
+                                borderTop: 'none',
                                 fontWeight: 600,
                             }}
                         >
@@ -248,6 +253,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                                 <div
                                     style={{
                                         borderRight: '1px solid #000',
+                                        borderTop: 'none',
                                         minWidth: '50%',
                                         padding: '0px 10px',
 
@@ -269,7 +275,11 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                         </div>
 
                     </div>
-                    <div>
+                    <div
+                        style={{
+                            marginRight: '10px',
+                        }}
+                    >
                         <div
                             style={{
                                 textAlign: 'center',
@@ -370,6 +380,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                         <div
                             style={{
                                 border: '1px solid #000',
+                                borderTop: 'none',
                                 padding: '10px',
                                 fontWeight: 600,
                             }}
@@ -395,6 +406,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                         <div
                             style={{
                                 border: '1px solid #000',
+                                borderTop: 'none',
                                 padding: '10px',
                                 fontWeight: 600,
                             }}
@@ -426,6 +438,9 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                         gap: '5rem',
                         border: '1px solid #000',
                         marginTop: '50px',
+                        marginRight: '10px',
+                        marginLeft: '10px',
+
                     }}
                 >
                     <table style={{ width: '100%', textAlign: 'left' }}>
@@ -493,7 +508,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                                 display: 'flex',
                                 flexDirection: 'column',
                                 gap: '20px',
-                                // maxWidth: '50%',
+                                maxWidth: '55%',
                             }}
                         >
                             <p> WE CERTIFY THAT THE SHIPMENT DESCRIBED ABOVE HAS BEEN RECEIVED BY US IN APPARENT GOOD CONDITION FROM THE ABOVE MENTIONED SHIPPER/EXPORTER.</p>
@@ -516,7 +531,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                                 display: 'flex',
                                 flexDirection: 'column',
                                 gap: '20px',
-                                // maxWidth: '50%',
+                                maxWidth: '55%',
                             }}
                         >
                             <p>This company has policy against payment, solicitation, or receipt of any rebate, directly or indirectly, which would be unlawful under the United States Shipping Act 1984. Inon recent we shall nowvide a detailed list of the components of these charges and a true com of any nertinent document relating to the charges in this invoice.</p>
