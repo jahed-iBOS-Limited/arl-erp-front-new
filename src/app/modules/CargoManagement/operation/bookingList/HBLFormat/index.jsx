@@ -36,7 +36,7 @@ const HBLFormat = ({ rowClickData }) => {
         }
         @page {
           size: portrait !important;
-          margin: 50px !important;
+          margin: 15px !important;
         }
       }
     `,
@@ -219,196 +219,369 @@ const HBLFormat = ({ rowClickData }) => {
         </button>
       </div>
       {shipBookingRequestLoading && <Loading />}
+      <HBLFormatInvoice componentRef={componentRef} bookingData={bookingData} />
+    </>
+  );
+};
+
+export default HBLFormat;
+
+export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
+  return (
+    <>
       <div className="hbl-container" ref={componentRef}>
-        <div className="text-center">
-          <h1>HOUSE BILL OF LADING (HBL)</h1>
-          <p>HBL Numbe: {bookingData?.hblnumber}</p>
-          <p>
-            Date: {moment(bookingData?.hbldate).format("DD-MM-YYYY hh:mm:ss")}
-          </p>
-        </div>
-        <div class="section">
-          <div class="shipper">
-            <h3>Shipper</h3>
-            <p>
-              <span>Name: </span>
-              {bookingData?.shipperName}
-            </p>
-            <p>
-              <spn>Address: </spn>
-              {bookingData?.shipperAddress}
-            </p>
-            <p>Phone: {bookingData?.shipperContact}</p>
-            <p>Email: {bookingData?.shipperEmail}</p>
+        <div className="container">
+          <div
+            className=""
+            style={{
+              textAlign: "center",
+            }}
+          >
+            <div>
+              <h1 className="text-center">HOUSE BILL OF LADING (HBL)</h1>
+              <div>
+                <span className="section-title">
+                  HBL Number: {bookingData?.hblnumber}
+                </span>
+              </div>
+              <div>
+                <span className="section-title">
+                  Date:{" "}
+                  {bookingData?.hbldate &&
+                    moment(bookingData?.hbldate).format("YYYY-MM-DD")}
+                </span>
+              </div>
+            </div>
           </div>
-          <div class="bill-info">
-            <h3>Consignee Information:</h3>
-            <p>
-              <span>Name: </span>
-              {bookingData?.consigneeName}
-            </p>
-            <p>
-              <spn>Address: </spn>
-              {bookingData?.consigneeAddress}
-            </p>
-            <p>Phone: {bookingData?.consigneeContact}</p>
-            <p>Email: {bookingData?.consigneeEmail} </p>
-          </div>
-        </div>
 
-        <div class="section">
-          <div class="consignee">
-            <h3>Freight Forwarder Details</h3>
-            <p>
-              <span>
-                Name:
-                {bookingData?.freightForwarderName}
-              </span>
-            </p>
-            <p>
-              <spn>Address: {bookingData?.freightForwarderAddress}</spn>
-            </p>
-            <p>Phone: {bookingData?.freightForwarderContact}</p>
-            <p>Email: {bookingData?.freightForwarderEmail}</p>
-          </div>
-          <div class="notify-party">
-            <h3>Notify Party</h3>
-            <p>
-              <span>Name: {bookingData?.notifyParty}</span>
-            </p>
-            <p>
-              <spn>
-                Address:
-                {bookingData?.notifyPartyAddress}
-              </spn>
-            </p>
-            <p>Phone: {bookingData?.notifyPartyContact}</p>
-            <p>Email: {bookingData?.notifyPartyEmail}</p>
-          </div>
-        </div>
-        <div class="section">
-          <div class="place-receipt">
-            <h3>Place of Receipt</h3>
-            <p>{bookingData?.originAddress}</p>
-          </div>
-          <div class="port-loading">
-            <h3>Port of Loading</h3>
-            <p>{bookingData?.portOfLoading}</p>
-          </div>
-          <div class="vessel">
-            <h3>Vessel/Voyage No.</h3>
-            <p>{bookingData?.vesselName}</p>
-          </div>
-          <div class="port-discharge">
-            <h3>Port of Discharge</h3>
-            <p>{bookingData?.portOfDischarge}</p>
-          </div>
-        </div>
-        <div>
-          <div className="table-responsive">
-            <table className="table table-striped global-table">
-              <thead>
-                <tr>
-                  <th> Marks & Numbers Container & Seal Numbers</th>
-                  <th>No.of Packages</th>
-                  <th>
-                    Description of Packages and Goods Particular Furnished to
-                    Shipper
-                  </th>
-                  <th>Gross Weight Kilos</th>
-                  <th>Measure ment cbm</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bookingData?.rowsData?.map((row, index) => (
-                  <tr key={index}>
-                    <td></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+          <div className="section-content">
+            <div className="section">
+              <div>
+                <h2>Shipper Information:</h2>
+                <div className="input-line"></div>
 
-        <div class="footer">
-          <div>NIL MARKS</div>
-          <div>
-            <p>STC: </p>
-            <p>FREIGHT PREPAID</p>
-            <p>ALL DESTINATION CHARGES ARE CONSIGNEE'S ACCOUNT</p>
+                <span className="section-title">
+                  Name: {bookingData?.shipperName}
+                </span>
+
+                <span className="section-title">
+                  Address: {bookingData?.shipperAddress}
+                </span>
+
+                <span className="section-title">
+                  Phone: {bookingData?.shipperContact}
+                </span>
+
+                <span className="section-title">
+                  Email: {bookingData?.shipperEmail}
+                </span>
+              </div>
+            </div>
+
+            <div className="section">
+              <div>
+                <h2>Consignee Information:</h2>
+                <div className="input-line"></div>
+
+                <span className="section-title">
+                  Name: {bookingData?.consigneeName}
+                </span>
+
+                <span className="section-title">
+                  Address: {bookingData?.consigneeAddress}
+                </span>
+
+                <span className="section-title">
+                  Phone: {bookingData?.consigneeContact}
+                </span>
+
+                <span className="section-title">
+                  Email: {bookingData?.consigneeEmail}
+                </span>
+              </div>
+            </div>
+
+            <div className="section">
+              <div>
+                <h2>Notify Party:</h2>
+                <div className="input-line"></div>
+
+                <span className="section-title">
+                  Name: {bookingData?.notifyParty}
+                </span>
+                <span className="section-title">
+                  Address: {bookingData?.notifyPartyAddress}
+                </span>
+
+                <span className="section-title">
+                  Phone: {bookingData?.notifyPartyContact}
+                </span>
+
+                <span className="section-title">
+                  Email: {bookingData?.notifyPartyEmail}
+                </span>
+                <span className="section-title">
+                  Negotiation Party: {bookingData?.negotiationParty}
+                </span>
+              </div>
+            </div>
+
+            <div className="section">
+              <div>
+                <h2>Freight Forwarder Details:</h2>
+                <div className="input-line"></div>
+
+                <span className="section-title">
+                  Company Name: {bookingData?.freightForwarderName}
+                </span>
+
+                <span className="section-title">
+                  Address: {bookingData?.freightForwarderAddress}
+                </span>
+
+                <span className="section-title">
+                  Phone: {bookingData?.freightForwarderContact}
+                </span>
+
+                <span className="section-title">
+                  Email: {bookingData?.freightForwarderEmail}
+                </span>
+              </div>
+            </div>
+
+            <div className="section">
+              <div
+                style={{
+                  width: "50%",
+                }}
+              >
+                <h2>Carrier Details:</h2>
+                <div className="input-line"></div>
+
+                <span className="section-title">
+                  Carrier Name:{" "}
+                  {bookingData?.transportPlanning?.airLineOrShippingLine}
+                </span>
+
+                <span className="section-title">
+                  Booking Number: {bookingData?.bookingRequestCode}
+                </span>
+
+                <span className="section-title">
+                  Voyage/Flight No: {bookingData?.flightNumber}
+                </span>
+              </div>
+            </div>
+
+            <div className="section">
+              <div>
+                <h2>Vessel/Flight Information:</h2>
+                <div className="input-line"></div>
+
+                <span className="section-title">
+                  Vessel/Flight Name:{" "}
+                  {bookingData?.transportPlanning?.vesselName}
+                </span>
+
+                <span className="section-title">
+                  Departure Port: {bookingData?.portOfLoading}
+                </span>
+
+                <span className="section-title">
+                  Destination Port: {bookingData?.portOfDischarge}
+                </span>
+
+                <span className="section-title">
+                  ETD (Estimated Time of Departure):{" "}
+                  {bookingData?.departureDateTime &&
+                    moment(bookingData?.departureDateTime).format(
+                      "YYYY-MM-DD HH:mm"
+                    )}
+                </span>
+
+                <span className="section-title">
+                  ETA (Estimated Time of Arrival):{" "}
+                  {bookingData?.arrivalDateTime &&
+                    moment(bookingData?.arrivalDateTime).format(
+                      "YYYY-MM-DD HH:mm"
+                    )}
+                </span>
+              </div>
+            </div>
+            <div className="section">
+              <div>
+                <h2>Cargo Description:</h2>
+                <div className="input-line"></div>
+
+                <span className="section-title">
+                  Description of Goods: {bookingData?.descriptionOfGoods}
+                </span>
+                <span className="section-title">
+                  No. of Packages: {bookingData?.noOfPackages}
+                </span>
+                <span className="section-title">
+                  Package Type:{bookingData?.packageType}
+                </span>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "20px",
+                  }}
+                >
+                  <div>
+                    <span className="section-title">
+                      Total Weight: {bookingData?.totalWeight}
+                    </span>
+                  </div>
+                  <span className="section-title">kg</span>
+                </div>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "20px",
+                  }}
+                >
+                  <div>
+                    <span className="section-title">
+                      Total Volume: {bookingData?.totalVolume}
+                    </span>
+                  </div>
+                  <span className="section-title">cbm</span>
+                </div>
+
+                <span className="section-title">
+                  Marks & Numbers: {bookingData?.marksAndNumbers}
+                </span>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "20px",
+                  }}
+                >
+                  <div>
+                    <span className="section-title">
+                      Gross Weight: {bookingData?.grossWeight}
+                    </span>
+                  </div>
+                  <span className="section-title">kg</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="section">
+              <div>
+                <h2>Freight Terms:</h2>
+                <div className="input-line"></div>
+
+                <span className="section-title">
+                  Freight Prepaid:{" "}
+                  {bookingData?.freightCharge === "Prepaid" ? "Yes" : "No"}
+                </span>
+                <div className="new-line"></div>
+
+                <span className="section-title">
+                  Freight Payable at:{" "}
+                  {bookingData?.freightCharge === "Collect" ? "Yes" : "No"}
+                </span>
+
+                <span className="section-title">
+                  Place of Issue: {bookingData?.portOfLoading}
+                </span>
+
+                <span className="section-title">
+                  Date of Issue:{" "}
+                  {bookingData?.hbldate &&
+                    moment(bookingData?.hbldate).format("YYYY-MM-DD")}
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="section mt-3">
-          <div>
-            <h6>Declaration:</h6>
+          <div className="section-full">
+            <div>
+              <h2>Special Instructions:</h2>
+              <br />
+              <div className="input-line"></div>
+              <br />
+              <div className="input-line"></div>
+              <br />
+              <div className="input-line"></div>
+            </div>
+          </div>
+          <div className="section-full mt-2">
+            <h2>Declaration:</h2>
             <p className="note">
               The shipper hereby declares that the particulars provided are true
               and correct and that they have verified the contents, weights, and
               measurements of the cargo.
             </p>
           </div>
-        </div>
 
-        <div className="section">
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "20px",
-            }}
-          >
-            <div>
-              <span className="section-title">Shipper Signature:</span>
-              <div className="signature-line50"></div>
+          <div className="section-full">
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "20px",
+              }}
+            >
+              <div>
+                <span className="section-title">Shipper Signature:</span>
+                <div className="signature-line"></div>
+              </div>
+              <div>
+                <span className="section-title">Date:</span>
+                <div className="signature-line"></div>
+              </div>
             </div>
-            <div>
-              <span className="section-title">Date:</span>
-              <div className="signature-line50"></div>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "20px",
+              }}
+            >
+              <div>
+                <span className="section-title">
+                  Freight Forwarder Signature:
+                </span>
+                <div className="signature-line"></div>
+              </div>
+              <div>
+                <span className="section-title">Date:</span>
+                <div className="signature-line"></div>
+              </div>
             </div>
           </div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "20px",
-            }}
-          >
-            <div>
-              <span className="section-title">
-                Freight Forwarder Signature:
-              </span>
-              <div className="signature-line50"></div>
-            </div>
-            <div>
-              <span className="section-title">Date:</span>
-              <div className="signature-line50"></div>
-            </div>
-          </div>
-        </div>
 
-        <div className="section-buttom">
-          <h6>Terms and Conditions:</h6>
-          <br />
-          <p className="note">
-            1. This House Bill of Lading is subject to the terms and conditions
-            of the carrier.
-          </p>
-          <p className="note">
-            2. The carrier is not responsible for any discrepancies in the cargo
-            description provided by the shipper.
-          </p>
-          <p className="note">
-            3. The liability of the carrier is limited to the extent mentioned
-            in the carriage contract.
-          </p>
-          <p className="note">
-            4. This HBL is non-negotiable and serves only as a receipt of goods.
-          </p>
-          <div className="signature-line50"></div>
+          <div className="section-full">
+            <h2>Terms and Conditions:</h2>
+            <div className="signature-line"></div>
+
+            <p className="note">
+              1. This House Bill of Lading is subject to the terms and
+              conditions of the carrier.
+            </p>
+            <p className="note">
+              2. The carrier is not responsible for any discrepancies in the
+              cargo description provided by the shipper.
+            </p>
+            <p className="note">
+              3. The liability of the carrier is limited to the extent mentioned
+              in the carriage contract.
+            </p>
+            <p className="note">
+              4. This HBL is non-negotiable and serves only as a receipt of
+              goods.
+            </p>
+          </div>
         </div>
       </div>
     </>
   );
 };
-
-export default HBLFormat;
