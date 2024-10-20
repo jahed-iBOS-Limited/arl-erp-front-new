@@ -52,6 +52,7 @@
 .hbl-container .notify-party {
     text-align: right;
 }
+
 .hbl-container .signature-line {
     border-bottom: 1px dashed #000;
     width: 100%;
@@ -59,9 +60,37 @@
     padding: 2px;
 }
 
-.hbl-container .signature-line50 {
-    border-bottom: 1px dashed #000;
-    width: 50%;
-    margin-bottom: 20px;
-    padding: 2px;
+.hbl-container h2 {
+    font-size: 15px;
+}
+
+.hbl-container .section-title {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 2px;
+}
+
+.hbl-container .section-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 250px;
+
+}
+.hbl-container .input-line,
+.hbl-container .solid-line {
+  display: block;
+  margin-bottom: 3px;
+}
+
+.hbl-container .input-line {
+  width: 100%;
+  border-bottom: 1px dashed #000;
+}
+
+.hbl-container .solid-line {
+  width: 100%;
+  border-bottom: 1px solid #000;
+}
+.hbl-container .section-full{
+
 }
