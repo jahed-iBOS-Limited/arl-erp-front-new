@@ -271,159 +271,159 @@ function _Form({
           </>
         )}
       </Formik>
-     <div className="table-responsive">
-     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-        {rowData?.length > 0 && (
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th className="d-flex flex-column justify-content-center align-items-center text-center">
-                <span>
-                  <label>Select</label>
-                  <input
-                    style={{ width: "15px", height: "15px" }}
-                    name="isSelect"
-                    checked={allSelect}
-                    className="form-control ml-3"
-                    type="checkbox"
-                    onChange={(e) => {
-                      if (allSelect) {
-                        setAllActivities(false);
-                      }
-                      setAllSelect(!allSelect);
-                    }}
-                  />
-                </span>
-              </th>
-              <th className="position-relative">
-                Feature Name
-                <span className="position-absolute right-0 bottom-0 m-2">
-                  <input
-                    style={{ width: "15px", height: "15px" }}
-                    name="isSelectAllSelected"
-                    checked={allActivities}
-                    className="form-control ml-3"
-                    type="checkbox"
-                    onChange={(e) => {
-                      if (allActivities) {
-                        setAllSelect(false);
-                      }
-                      setAllActivities(!allActivities);
-                    }}
-                  />
-                </span>
-              </th>
-              <th>Create</th>
-              <th>Edit</th>
-              <th>View</th>
-              <th>In Active</th>
-            </tr>
-          </thead>
-        )}
-        <tbody>
-          {rowData?.length > 0 &&
-            rowData?.map((item, index) => {
-              return (
-                <tr key={index}>
-                  <td style={{ width: "30px" }} className="text-center">
-                    {index + 1}
-                  </td>
-                  <td style={{ width: "70px" }} className="text-center pl-2">
-                    <span>
-                      <input
-                        style={{ width: "15px", height: "15px" }}
-                        name="isSelect"
-                        checked={item?.isSelect}
-                        className="form-control ml-8"
-                        type="checkbox"
-                        onChange={() => selectIndividualItem(index)}
-                      />
-                    </span>
-                  </td>
-                  <td>
-                    <span className="pl-2">{item?.featureName}</span>
-                  </td>
-                  <td style={{ width: "50px" }} className="text-center pl-2">
-                    <span>
-                      <input
-                        style={{ width: "15px", height: "15px" }}
-                        name="isCreate"
-                        checked={item?.isCreate}
-                        className="form-control ml-5"
-                        type="checkbox"
-                        onChange={(e) =>
-                          gridDataCheckBoxHandler(
-                            index,
-                            e.target.checked,
-                            e.target.name
-                          )
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+          {rowData?.length > 0 && (
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th className="d-flex flex-column justify-content-center align-items-center text-center">
+                  <span>
+                    <label>Select</label>
+                    <input
+                      style={{ width: "15px", height: "15px" }}
+                      name="isSelect"
+                      checked={allSelect}
+                      className="form-control ml-3"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (allSelect) {
+                          setAllActivities(false);
                         }
-                      />
-                    </span>
-                  </td>
-                  <td style={{ width: "50px" }} className="text-center pl-2">
-                    <span>
-                      <input
-                        style={{ width: "15px", height: "15px" }}
-                        value={item?.isEdit}
-                        name="isEdit"
-                        checked={item?.isEdit}
-                        className="form-control ml-5"
-                        type="checkbox"
-                        onChange={(e) =>
-                          gridDataCheckBoxHandler(
-                            index,
-                            e.target.checked,
-                            e.target.name
-                          )
+                        setAllSelect(!allSelect);
+                      }}
+                    />
+                  </span>
+                </th>
+                <th className="position-relative">
+                  Feature Name
+                  <span className="position-absolute right-0 bottom-0 m-2">
+                    <input
+                      style={{ width: "15px", height: "15px" }}
+                      name="isSelectAllSelected"
+                      checked={allActivities}
+                      className="form-control ml-3"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (allActivities) {
+                          setAllSelect(false);
                         }
-                      />
-                    </span>
-                  </td>
-                  <td style={{ width: "50px" }} className="text-center pl-2">
-                    <span>
-                      <input
-                        style={{ width: "15px", height: "15px" }}
-                        value={item?.isView}
-                        checked={item?.isView}
-                        name="isView"
-                        className="form-control ml-5"
-                        type="checkbox"
-                        onChange={(e) =>
-                          gridDataCheckBoxHandler(
-                            index,
-                            e.target.checked,
-                            e.target.name
-                          )
-                        }
-                      />
-                    </span>
-                  </td>
-                  <td style={{ width: "50px" }} className="text-center pl-2">
-                    <span>
-                      <input
-                        style={{ width: "15px", height: "15px" }}
-                        value={item?.isClose}
-                        checked={item?.isClose}
-                        name="isClose"
-                        className="form-control ml-5"
-                        type="checkbox"
-                        onChange={(e) =>
-                          gridDataCheckBoxHandler(
-                            index,
-                            e.target.checked,
-                            e.target.name
-                          )
-                        }
-                      />
-                    </span>
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
-     </div>
+                        setAllActivities(!allActivities);
+                      }}
+                    />
+                  </span>
+                </th>
+                <th>Create</th>
+                <th>Edit</th>
+                <th>View</th>
+                <th>In Active</th>
+              </tr>
+            </thead>
+          )}
+          <tbody>
+            {rowData?.length > 0 &&
+              rowData?.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <td style={{ width: "30px" }} className="text-center">
+                      {index + 1}
+                    </td>
+                    <td style={{ width: "70px" }} className="text-center pl-2">
+                      <span>
+                        <input
+                          style={{ width: "15px", height: "15px" }}
+                          name="isSelect"
+                          checked={item?.isSelect}
+                          className="form-control ml-8"
+                          type="checkbox"
+                          onChange={() => selectIndividualItem(index)}
+                        />
+                      </span>
+                    </td>
+                    <td>
+                      <span className="pl-2">{item?.featureName}</span>
+                    </td>
+                    <td style={{ width: "50px" }} className="text-center pl-2">
+                      <span>
+                        <input
+                          style={{ width: "15px", height: "15px" }}
+                          name="isCreate"
+                          checked={item?.isCreate}
+                          className="form-control ml-5"
+                          type="checkbox"
+                          onChange={(e) =>
+                            gridDataCheckBoxHandler(
+                              index,
+                              e.target.checked,
+                              e.target.name
+                            )
+                          }
+                        />
+                      </span>
+                    </td>
+                    <td style={{ width: "50px" }} className="text-center pl-2">
+                      <span>
+                        <input
+                          style={{ width: "15px", height: "15px" }}
+                          value={item?.isEdit}
+                          name="isEdit"
+                          checked={item?.isEdit}
+                          className="form-control ml-5"
+                          type="checkbox"
+                          onChange={(e) =>
+                            gridDataCheckBoxHandler(
+                              index,
+                              e.target.checked,
+                              e.target.name
+                            )
+                          }
+                        />
+                      </span>
+                    </td>
+                    <td style={{ width: "50px" }} className="text-center pl-2">
+                      <span>
+                        <input
+                          style={{ width: "15px", height: "15px" }}
+                          value={item?.isView}
+                          checked={item?.isView}
+                          name="isView"
+                          className="form-control ml-5"
+                          type="checkbox"
+                          onChange={(e) =>
+                            gridDataCheckBoxHandler(
+                              index,
+                              e.target.checked,
+                              e.target.name
+                            )
+                          }
+                        />
+                      </span>
+                    </td>
+                    <td style={{ width: "50px" }} className="text-center pl-2">
+                      <span>
+                        <input
+                          style={{ width: "15px", height: "15px" }}
+                          value={item?.isClose}
+                          checked={item?.isClose}
+                          name="isClose"
+                          className="form-control ml-5"
+                          type="checkbox"
+                          onChange={(e) =>
+                            gridDataCheckBoxHandler(
+                              index,
+                              e.target.checked,
+                              e.target.name
+                            )
+                          }
+                        />
+                      </span>
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 }
