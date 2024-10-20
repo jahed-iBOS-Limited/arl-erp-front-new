@@ -21,7 +21,7 @@ function Details({ rowClickData }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingRequestId]);
 
-  const bookingData = shipBookingRequestGetById?.[0] || {};
+  const bookingData = shipBookingRequestGetById || {};
 
   return (
     <div className="bookingDetails">

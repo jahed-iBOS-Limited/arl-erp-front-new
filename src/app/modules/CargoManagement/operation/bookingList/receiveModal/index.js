@@ -81,7 +81,7 @@ function ReceiveModal({ rowClickData, CB }) {
     );
   };
 
-  const bookingData = shipBookingRequestGetById?.[0] || {};
+  const bookingData = shipBookingRequestGetById || {};
 
   useEffect(() => {
     getWarehouseDDL(
