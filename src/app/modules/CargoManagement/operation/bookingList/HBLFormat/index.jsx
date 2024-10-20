@@ -219,6 +219,16 @@ const HBLFormat = ({ rowClickData }) => {
         </button>
       </div>
       {shipBookingRequestLoading && <Loading />}
+      <HBLFormatInvoice componentRef={componentRef} bookingData={bookingData} />
+    </>
+  );
+};
+
+export default HBLFormat;
+
+export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
+  return (
+    <>
       <div className="hbl-container" ref={componentRef}>
         <div className="container">
           <div
@@ -575,5 +585,3 @@ const HBLFormat = ({ rowClickData }) => {
     </>
   );
 };
-
-export default HBLFormat;

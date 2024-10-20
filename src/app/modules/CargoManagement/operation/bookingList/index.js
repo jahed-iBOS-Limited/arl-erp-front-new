@@ -456,7 +456,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                  disabled={item?.isHbl}
+                                  // disabled={item?.isHbl}
                                   className={
                                     item?.isHbl
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -1043,11 +1043,11 @@ function BookingList() {
             rowClickData={rowClickData}
             CB={() => {
               commonLandingApi();
-              setIsModalShowObj({
-                ...isModalShowObj,
-                isHBCodeGN: false,
-              });
-              setRowClickData({});
+              // setIsModalShowObj({
+              //   ...isModalShowObj,
+              //   isHBCodeGN: false,
+              // });
+              // setRowClickData({});
             }}
           />
         </IViewModal>
