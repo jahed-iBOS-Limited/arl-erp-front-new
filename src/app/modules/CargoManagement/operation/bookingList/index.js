@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import moment from "moment";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../App";
@@ -23,6 +23,8 @@ import TransportModal from "./transportModal";
 import CommonStatusUpdateModal from "./commonStatusUpdateModal";
 import BLModal from "./blModal";
 import HBLCodeGNModal from "./hblCodeGNModal";
+import PaginationTable from "../../../_helper/_tablePagination";
+import PaginationSearch from "../../../_helper/_search";
 
 const validationSchema = Yup.object().shape({});
 function BookingList() {
@@ -44,17 +46,25 @@ function BookingList() {
 
   const [isModalShowObj, setIsModalShowObj] = React.useState({});
   const [rowClickData, setRowClickData] = React.useState({});
-
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
   useEffect(() => {
     commonLandingApi();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);
 
-  const commonLandingApi = () => {
+  const commonLandingApi = (
+    searchValue,
+    PageNo = pageNo,
+    PageSize = pageSize
+  ) => {
     getShipBookingReqLanding(
       `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
         profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId}`
+      }&userTypeId=${0}&refrenceId=${
+        profileData?.userReferenceId
+      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search${searchValue ||
+        ""}`
     );
   };
   return (
@@ -75,6 +85,12 @@ function BookingList() {
               {(bookingReqLandingLoading || bookingRequestloading) && (
                 <Loading />
               )}
+              <PaginationSearch
+                placeholder="Booking No, BL No, search..."
+                paginationSearchHandler={(searchValue) => {
+                  commonLandingApi(searchValue, 1, 100);
+                }}
+              />
               {/* <div className="row global-form"></div> */}
               <div className="col-lg-12">
                 <div className="table-responsive">
@@ -260,8 +276,8 @@ function BookingList() {
                       </tr>
                     </thead>
                     <tbody>
-                      {shipBookingReqLanding &&
-                        shipBookingReqLanding?.map((item, i) => (
+                      {shipBookingReqLanding?.data?.length > 0 &&
+                        shipBookingReqLanding?.data?.map((item, i) => (
                           <tr key={i + 1}>
                             <td className="text-center">{i + 1}</td>
                             <td className="text-left">
@@ -695,6 +711,21 @@ function BookingList() {
                   </table>
                 </div>
               </div>
+              {shipBookingReqLanding?.data?.length > 0 && (
+                <PaginationTable
+                  count={shipBookingReqLanding?.totalCount}
+                  setPositionHandler={(pageNo, pageSize) => {
+                    commonLandingApi(null, pageNo, pageSize);
+                  }}
+                  values={values}
+                  paginationState={{
+                    pageNo,
+                    setPageNo,
+                    pageSize,
+                    setPageSize,
+                  }}
+                />
+              )}
             </>
           )}
         </Formik>
@@ -988,33 +1019,31 @@ function BookingList() {
       )}
 
       {/* HBCode GN Modal */}
-      {
-        isModalShowObj?.isHBCodeGN && (
-          <IViewModal
-            title="HBL Code GN"
-            show={isModalShowObj?.isHBCodeGN}
-            onHide={() => {
+      {isModalShowObj?.isHBCodeGN && (
+        <IViewModal
+          title="HBL Code Generate"
+          show={isModalShowObj?.isHBCodeGN}
+          onHide={() => {
+            setIsModalShowObj({
+              ...isModalShowObj,
+              isHBCodeGN: false,
+            });
+            setRowClickData({});
+          }}
+        >
+          <HBLCodeGNModal
+            rowClickData={rowClickData}
+            CB={() => {
+              commonLandingApi();
               setIsModalShowObj({
                 ...isModalShowObj,
                 isHBCodeGN: false,
               });
               setRowClickData({});
             }}
-          >
-            <HBLCodeGNModal
-              rowClickData={rowClickData}
-              CB={() => {
-                commonLandingApi();
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isHBCodeGN: false,
-                });
-                setRowClickData({});
-              }}
-            />
-          </IViewModal>
-        )
-      }
+          />
+        </IViewModal>
+      )}
     </ICustomCard>
   );
 }

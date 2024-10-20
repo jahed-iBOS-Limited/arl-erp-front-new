@@ -1,19 +1,32 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../../App";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
 import BookingDetailsInfo from "../bookingDetails/bookingDetailsInfo";
 import "./style.css";
 const validationSchema = Yup.object().shape({
   recvQuantity: Yup.number().required("Receive Quantity is required"),
+  wareHouse: Yup.object().shape({
+    value: Yup.string().required("Warehouse is required"),
+    label: Yup.string().required("Warehouse is required"),
+  }),
 });
 function ReceiveModal({ rowClickData, CB }) {
+  const [
+    warehouseDDL,
+    getWarehouseDDL,
+  ] = useAxiosGet();
   const [, getRecvQuantity, recvQuantityLoading] = useAxiosPut();
   const bookingRequestId = rowClickData?.bookingRequestId;
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
 
   const formikRef = React.useRef(null);
   const [
@@ -48,6 +61,8 @@ function ReceiveModal({ rowClickData, CB }) {
     const paylaod = {
       updthd: {
         bookingId: bookingRequestId,
+        warehouseId: values?.wareHouse?.value || 0,
+        warehouseName: values?.wareHouse?.label || "",
       },
       updtrow: [
         {
@@ -67,6 +82,13 @@ function ReceiveModal({ rowClickData, CB }) {
   };
 
   const bookingData = shipBookingRequestGetById?.[0] || {};
+
+  useEffect(() => {
+    getWarehouseDDL(
+      `/wms/Warehouse/GetWarehouseFromPlantWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="confirmModal">
       {(shipBookingRequestLoading || recvQuantityLoading) && <Loading />}
@@ -85,7 +107,6 @@ function ReceiveModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
-            
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
@@ -96,6 +117,21 @@ function ReceiveModal({ rowClickData, CB }) {
                 </div>
               </div>
               <div className="form-group row global-form mt-0">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="wareHouse"
+                    options={[...warehouseDDL]}
+                    value={values?.wareHouse}
+                    label="Warehouse"
+                    onChange={(valueOption) => {
+                      if (valueOption) {
+                        setFieldValue("wareHouse", valueOption);
+                      } else {
+                        setFieldValue("wareHouse", "");
+                      }
+                    }}
+                  />
+                </div>
                 <div className="col-lg-4">
                   <InputField
                     value={values?.recvQuantity}
