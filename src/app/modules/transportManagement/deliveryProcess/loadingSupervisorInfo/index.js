@@ -23,6 +23,8 @@ import ShippingInfoDetails from "../storeInformationList/shippingNote";
 import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import ICard from "../../../_helper/_card";
 import ShipmentReportModal from "./shipmentReportModal";
+import ICon from "../../../chartering/_chartinghelper/icons/_icon";
+import styles from "./style.module.css";
 
 const initData = {
   type: { value: 3, label: "Scan Card/QR Code Scan (IN)" },
@@ -121,7 +123,16 @@ export default function LoadingSupervisorInfo() {
   const isLoading = loader || loading || rowLoading;
 
   const handleCardNumberChange = (e, setFieldValue) => {
-    if (e.keyCode === 13) {
+    // screen width
+    const screenWidth = window.screen.width;
+    // if screen width is less than 575
+    const isMobileDevice = screenWidth < 575 ? true : false;
+    // Check if the Enter key is pressed
+    const isEnterKeyPress = e.key === "Enter" || e.keyCode === 13;
+
+    // handle card number details if enter key press or mobile device button press
+    if (isEnterKeyPress || isMobileDevice) {
+
       setFieldValue("shipmentCode", e.target.value);
 
       // get report data & update formik field
@@ -446,19 +457,42 @@ export default function LoadingSupervisorInfo() {
                         </span>
                       </div>
                     ) : (
-                      <div className="col-lg-3">
+                      <div className="col-lg-3 d-flex flex-row align-items-center">
                         <InputField
                           value={values?.shipmentCode}
                           label="Card Number"
                           name="shipmentCode"
+                          style={{ flexGrow: 1 }}
                           type="text"
                           onChange={(e) => {
                             setFieldValue("shipmentCode", e.target.value);
                           }}
-                          onKeyDown={(e) =>
-                            handleCardNumberChange(e, setFieldValue)
-                          }
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === 13) {
+                              handleCardNumberChange(e, setFieldValue);
+                            }
+                          }}
                         />
+                        <span
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // shipment value
+                            const shipmentValue = {
+                              target: { value: values?.shipmentCode || 0 },
+                            };
+
+                            // handle card number click
+                            handleCardNumberChange(
+                              shipmentValue,
+                              setFieldValue
+                            );
+                          }}
+                          className={`ml-2 bg-primary p-2 ${styles.cardNumberSearchBtn}`}
+                        >
+                          <ICon title={`Load details`}>
+                            <i class="fa fa-search"></i>
+                          </ICon>
+                        </span>
                       </div>
                     )}
 

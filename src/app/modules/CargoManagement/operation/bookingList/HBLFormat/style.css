@@ -1,72 +1,96 @@
 .hbl-container {
-    margin: 0;
-    padding: 0;
-    font-size: 0.625rem;
-  }
-  
-  .container {
-    width: 100%;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
-  }
-  
-  h1, h2 {
-    font-size: 0.625rem;
-    text-align: start;
-  }
-  
-  .section {
+    background: #fff;
+}
+
+.hbl-container h1 {
+    text-align: center;
+    font-size: 24px;
+}
+
+.hbl-container .note {
+    /* text-align: center; */
+    font-style: italic;
+    font-size: 12px;
     margin-bottom: 20px;
-  }
-  
-  .section-title {
+}
+
+.hbl-container .section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+
+.hbl-container h3 {
+    margin: 0;
+    font-size: 14px;
     font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .input-line,
-  .solid-line,
-  .input-line70,
-  .input-line50 {
-    display: block;
-    margin-bottom: 10px;
-    padding: 2px;
-  }
-  
-  .input-line {
+    text-decoration: underline;
+}
+
+.hbl-container p {
+    margin: 5px 0;
+    font-size: 12px;
+}
+
+.hbl-container .footer {
+    margin-top: 20px;
+    display: flex;
+    gap: 100px;
+    align-items: center;
+}
+
+.hbl-container .footer p {
+    margin: 5px 0;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.hbl-container .bill-info,
+.hbl-container .notify-party {
+    text-align: right;
+}
+
+.hbl-container .signature-line {
+    border-bottom: 1px dashed #000;
     width: 100%;
-    border-bottom: 1px dashed #000;
-  }
-  
-  .solid-line {
-    width: 100%;
-    border-bottom: 1px solid #000;
-  }
-  
-  .input-line70 {
-    width: 70%;
-    border-bottom: 1px dashed #000;
-  }
-  
-  .input-line50 {
-    width: 50%;
-    border-bottom: 1px dashed #000;
-  }
-  
-  .new-line {
-    width: 100%;
-    margin-bottom: 5px;
-    padding: 2px;
-  }
-  
-  .signature-line50 {
-    border-bottom: 1px dashed #000;
-    width: 50%;
     margin-bottom: 20px;
     padding: 2px;
-  }
-  
-  .note {
-    font-size: 0.625rem;
-  }
-  
+}
+
+.hbl-container h2 {
+    font-size: 15px;
+}
+
+.hbl-container .section-title {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 2px;
+}
+
+.hbl-container .section-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 250px;
+
+}
+.hbl-container .input-line,
+.hbl-container .solid-line {
+  display: block;
+  margin-bottom: 3px;
+}
+
+.hbl-container .input-line {
+  width: 100%;
+  border-bottom: 1px dashed #000;
+}
+
+.hbl-container .solid-line {
+  width: 100%;
+  border-bottom: 1px solid #000;
+}
+.hbl-container .section-full{
+
+}

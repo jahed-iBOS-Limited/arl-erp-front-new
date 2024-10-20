@@ -3,21 +3,15 @@ import { imarineBaseUrl } from "../../../../App";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import axios from "axios";
 
-
-export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
+export const cancelHandler = ({ item, deleteBookingRequestById, CB }) => {
   const obj = {
     title: "Cancel Booking",
     message: "Are you sure you want to cancel this?",
     noAlertFunc: () => {},
     yesAlertFunc: () => {
-      const commonPaylaod = commonBookingRequestStatusUpdate(item);
-      const payload = {
-        ...commonPaylaod,
-        bookingRequestId: item?.bookingRequestId,
-      };
-      getBookingRequestStatusUpdate(
-        `${imarineBaseUrl}/domain/ShippingService/BookingRequestStatusUpdate`,
-        payload,
+      deleteBookingRequestById(
+        `${imarineBaseUrl}/domain/ShippingService/deleteBookingRequestById?bookingId=${item?.bookingRequestId}&userId=${item?.userId}`,
+        null,
         () => {
           CB();
         }
@@ -26,12 +20,6 @@ export const cancelHandler = ({ item, getBookingRequestStatusUpdate, CB }) => {
   };
   IConfirmModal(obj);
 };
-
-
-
-
-
-
 
 export const commonBookingRequestStatusUpdate = (item) => {
   return {

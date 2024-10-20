@@ -11,23 +11,20 @@ import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
 import BookingDetailsInfo from "../bookingDetails/bookingDetailsInfo";
 import "./style.css";
 const validationSchema = Yup.object().shape({
-  recvQuantity: Yup.number().required("Receive Quantity is required"),
+  // recvQuantity: Yup.number().required("Receive Quantity is required"),
   wareHouse: Yup.object().shape({
     value: Yup.string().required("Warehouse is required"),
     label: Yup.string().required("Warehouse is required"),
   }),
 });
 function ReceiveModal({ rowClickData, CB }) {
-  const [
-    warehouseDDL,
-    getWarehouseDDL,
-  ] = useAxiosGet();
+  const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
   const [, getRecvQuantity, recvQuantityLoading] = useAxiosPut();
+  const [rowsData, setRowsData] = React.useState([]);
   const bookingRequestId = rowClickData?.bookingRequestId;
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-
   const formikRef = React.useRef(null);
   const [
     shipBookingRequestGetById,
@@ -39,17 +36,15 @@ function ReceiveModal({ rowClickData, CB }) {
       setShipBookingRequestGetById(
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
         (data) => {
-          const bookingData = data?.[0] || {};
-          const packagingQuantity = bookingData?.rowsData?.reduce(
-            (acc, item) => {
-              return acc + (+item.packagingQuantity || 0);
-            },
-            0
+          const bookingData = data || {};
+          setRowsData(
+            bookingData?.rowsData?.map((itm) => {
+              return {
+                ...itm,
+                recvQuantity: itm?.packagingQuantity || 0,
+              };
+            }) || []
           );
-
-          if (formikRef.current) {
-            formikRef.current.setFieldValue("recvQuantity", packagingQuantity);
-          }
         }
       );
     }
@@ -64,13 +59,13 @@ function ReceiveModal({ rowClickData, CB }) {
         warehouseId: values?.wareHouse?.value || 0,
         warehouseName: values?.wareHouse?.label || "",
       },
-      updtrow: [
-        {
+      updtrow: rowsData.map((itm) => {
+        return {
           bookingId: bookingRequestId,
-          bookingRowId: 0,
-          receivedQuantity: values.recvQuantity || 0,
-        },
-      ],
+          bookingRowId: itm?.bookingRequestRowId || 0,
+          receivedQuantity: itm?.recvQuantity || 0,
+        };
+      }),
     };
     getRecvQuantity(
       `${imarineBaseUrl}/domain/ShippingService/createReceiveProcess`,
@@ -81,7 +76,7 @@ function ReceiveModal({ rowClickData, CB }) {
     );
   };
 
-  const bookingData = shipBookingRequestGetById?.[0] || {};
+  const bookingData = shipBookingRequestGetById || {};
 
   useEffect(() => {
     getWarehouseDDL(
@@ -130,17 +125,66 @@ function ReceiveModal({ rowClickData, CB }) {
                         setFieldValue("wareHouse", "");
                       }
                     }}
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
-                <div className="col-lg-4">
+                {/* <div className="col-lg-4">
                   <InputField
                     value={values?.recvQuantity}
                     label="Receive Quantity"
                     name="recvQuantity"
                     placeholder="Receive Quantity"
                   />
-                </div>
+                </div> */}
               </div>
+
+              <div className="table-responsive">
+                <table className="table table-bordered global-table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Cargo Type</th>
+                      <th>HS Code</th>
+                      <th>Packaging Quantity</th>
+                      <th>Receive Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowsData?.map((doc, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{doc?.typeOfCargo}</td>
+                        <td>{doc?.hsCode}</td>
+                        <td>{doc?.packagingQuantity}</td>
+                        <td>
+                          <InputField
+                            value={rowsData[index]?.recvQuantity}
+                            name={`rowsData[${index}].recvQuantity`}
+                            required
+                            max={rowsData[index]?.packagingQuantity || 0}
+                            type="number"
+                            min={0}
+                            placeholder="Receive Quantity"
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              setRowsData((prev) => {
+                                const newArr = [...prev];
+                                newArr[index] = {
+                                  ...newArr[index],
+                                  recvQuantity: value,
+                                };
+                                return newArr;
+                              });
+                            }}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
               <BookingDetailsInfo bookingData={bookingData} />
             </Form>
           </>
