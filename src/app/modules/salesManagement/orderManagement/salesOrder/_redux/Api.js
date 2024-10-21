@@ -243,7 +243,7 @@ export function getReferenceWithItemListById(typeId, refId) {
 //Call getPriceForInternalUse Channel APi
 export function getAvailableBalance(partnerId, data, refType) {
   if (data?.length > 0) {
-    return axios.post(
+    return axios.get(
       `/oms/SalesOrder/GetUpdatedAvailableBalanceForPartner?pId=${partnerId}&RefType=${refType}`,
       data
     );
