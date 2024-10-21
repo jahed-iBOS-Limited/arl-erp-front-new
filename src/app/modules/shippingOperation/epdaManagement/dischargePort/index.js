@@ -16,6 +16,10 @@ import { _previousDate, _todayDate } from "../../../_helper/_todayDate";
 import FormikSelect from "../../../chartering/_chartinghelper/common/formikSelect";
 import customStyles from "../../../chartering/_chartinghelper/common/selectCustomStyle";
 import { getVesselDDL, getVoyageDDLNew } from "../../helper";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
+import IViewModal from "../../../_helper/_viewModal";
+import EmailEditor from "../loadPort/emailEditor";
 
 const initData = {};
 export default function EDPADischargePort() {
@@ -29,10 +33,13 @@ export default function EDPADischargePort() {
   const [vesselDDL, setVesselDDL] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [loading2, setLoading] = useState(false);
+  const [singleRowData, setSingleRowData] = useState({});
+  const [isShowMailModal, setIsShowMailModal] = useState(false);
+  const [, onSelectHandler] = useAxiosPut();
 
-  useEffect(()=>{
+  useEffect(() => {
     getLandingData({}, pageNo, pageSize, "");
-  },[])
+  }, []);
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     const shipTypeSTR = values?.shipType
@@ -48,10 +55,9 @@ export default function EDPADischargePort() {
       ? `&voyageNo=${values?.voyageNo?.label}`
       : "";
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetFromEpdaAndDischargePortInfoLanding?BusinessUnitId=${0}&FromDate=${
-        values?.fromDate || _previousDate()
-      }&ToDate=${values?.toDate || _todayDate()}&pageNumber=${pageNo ||
-        1}&pageSize=${pageSize ||
+      `${imarineBaseUrl}/domain/VesselNomination/GetFromEpdaAndDischargePortInfoLanding?BusinessUnitId=${0}&FromDate=${values?.fromDate ||
+        _previousDate()}&ToDate=${values?.toDate ||
+        _todayDate()}&pageNumber=${pageNo || 1}&pageSize=${pageSize ||
         600}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
   };
@@ -128,7 +134,7 @@ export default function EDPADischargePort() {
                           setVesselDDL,
                           valueOption?.value === 2 ? 2 : ""
                         );
-                      }else{
+                      } else {
                         getLandingData({}, pageNo, pageSize, "");
                       }
                     }}
@@ -231,6 +237,8 @@ export default function EDPADischargePort() {
                         <th>Grand Total </th>
                         <th>Attachment For Port</th>
                         <th>Attachment For Port Disbursment</th>
+                        <th>Mail</th>
+                        <th>Selected</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -304,6 +312,53 @@ export default function EDPADischargePort() {
                               </OverlayTrigger>
                             ) : null}
                           </td>
+                          <td className="text-center">
+                            <button
+                              type="button"
+                              className="btn btn-primary"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSingleRowData({
+                                  ...item,
+                                  actionType: "SEND MAIL",
+                                });
+                                setIsShowMailModal(true);
+                              }}
+                            >
+                              Send Mail
+                            </button>
+                          </td>
+                          <td className="text-center">
+                            <button
+                              disabled={item?.isSelected}
+                              type="button"
+                              className={
+                                item?.isSelected
+                                  ? "btn btn-sm btn-success px-1 py-1"
+                                  : "btn btn-sm btn-primary px-1 py-1"
+                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                IConfirmModal({
+                                  message: `Are you sure to select ?`,
+                                  yesAlertFunc: () => {
+                                    onSelectHandler(
+                                      `${imarineBaseUrl}/domain/VesselNomination/SetSelectedEpdaDischargePortAgent?VesselNominationId=${item?.intVesselNominationId}&EpdaDischargePortId=${item?.intEpdaLoadPortInfoId}&AgentName=${item?.strName}&AgentEmail=${item?.strEmail}`,
+                                      null,
+                                      () => {
+                                        setSingleRowData(item);
+                                        setIsShowMailModal(true);
+                                      },
+                                      true
+                                    );
+                                  },
+                                  noAlertFunc: () => {},
+                                });
+                              }}
+                            >
+                              {item?.isSelected ? "Selected" : "Select"}
+                            </button>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -324,7 +379,26 @@ export default function EDPADischargePort() {
                   values={values}
                 />
               )}
-              <div></div>
+
+              <div>
+                <IViewModal
+                  show={isShowMailModal}
+                  onHide={() => {
+                    setIsShowMailModal(false);
+                  }}
+                >
+                  <EmailEditor
+                    emailEditorProps={{
+                      intId: singleRowData?.intVesselNominationId,
+                      singleRowData: singleRowData,
+                      cb: () => {
+                        getLandingData(values, pageNo, pageSize, "");
+                        setIsShowMailModal(false);
+                      },
+                    }}
+                  />
+                </IViewModal>
+              </div>
             </Form>
           </IForm>
         </>
