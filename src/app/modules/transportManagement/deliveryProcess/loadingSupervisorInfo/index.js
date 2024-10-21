@@ -20,6 +20,7 @@ import IButton from "../../../_helper/iButton";
 import QRCodeScanner from "../../../_helper/qrCodeScanner";
 import ICon from "../../../chartering/_chartinghelper/icons/_icon";
 import ShippingInfoDetails from "../storeInformationList/shippingNote";
+import { Route, useHistory } from "react-router-dom";
 import {
   chooseReportTableHeader,
   fetchPackerForceCompleteData,
@@ -34,11 +35,10 @@ import {
 } from "./helper";
 import ShipmentReportModal from "./shipmentReportModal";
 import styles from "./style.module.css";
+import { ViewModal } from "../../shipmentManagement/shipping/shippingUnitView/ViewModal";
 
 export default function LoadingSupervisorInfo() {
   // redux
-  // const {
-
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -47,6 +47,8 @@ export default function LoadingSupervisorInfo() {
   const shipPointDDL = useSelector((state) => {
     return state?.commonDDL?.shippointDDL;
   }, shallowEqual);
+
+  const history = useHistory();
 
   // state
   const [objProps, setObjprops] = useState({});
@@ -238,7 +240,7 @@ export default function LoadingSupervisorInfo() {
   );
 
   // packer forcely complete table body
-  const packerForcelyCompleteTableBody = () => {
+  const packerForcelyCompleteTableBody = (values) => {
     return packerForcelyCompleteData?.data?.map((item, index) => {
       return (
         <tr>
@@ -279,10 +281,10 @@ export default function LoadingSupervisorInfo() {
             <span className="view">
               <IView
                 clickHandler={() => {
-                  // history.push({
-                  //   pathname: `/transport-management/shipmentmanagement/shipping/view/${td.shipmentId}/${td.shipmentCode}`,
-                  //   state: values,
-                  // });
+                  history.push({
+                    pathname: `/transport-management/deliveryprocess/LoadingSupervisorInfo/view/${item?.shipmentId}/${item?.shipmentCode}`,
+                    state: values,
+                  });
                 }}
               />
             </span>
@@ -336,7 +338,7 @@ export default function LoadingSupervisorInfo() {
       <FromDateToDateForm obj={{ setFieldValue, values }} />
     </>
   );
-  
+
   return (
     <Formik
       enableReinitialize={true}
@@ -839,6 +841,22 @@ export default function LoadingSupervisorInfo() {
                     scanQRCodeInOutDeliveryCompleteTableFooter(values)}
                 </ICustomTable>
               )}
+
+              <Route path="/transport-management/deliveryprocess/LoadingSupervisorInfo/view/:id/:shipmentCode">
+                {({ history, match }) => (
+                  <ViewModal
+                    show={match != null}
+                    id={match && match.params.id}
+                    shipmentCode={match && match.params.shipmentCode}
+                    history={history}
+                    onHide={() => {
+                      history.push(
+                        "/transport-management/deliveryprocess/LoadingSupervisorInfo"
+                      );
+                    }}
+                  />
+                )}
+              </Route>
 
               {/* QR Code Modal */}
               <IViewModal
