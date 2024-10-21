@@ -176,13 +176,13 @@ export default function SalesCollectionLanding() {
   };
 
   useEffect(() => {
+    setPaymentType(initData?.paymentType || 2);
     if (isFirstRender.current) {
       // If it's the first render, set it to false and return
       isFirstRender.current = false;
       return;
     }
     getData({ typeId: initData?.type?.value, values: initData || {} });
-    setPaymentType(initData?.paymentType || 2);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit, initData]);
 
