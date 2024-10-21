@@ -9,6 +9,7 @@ export const initData = {
   shipmentId: "",
   shipmentCode: "",
   shippingPoint: "",
+  shipPoint: "",
   vehicleNumber: "",
   driver: "",
   deliveryDate: "",
@@ -17,7 +18,12 @@ export const initData = {
   viewType: "",
   fromDate: _todayDate(),
   toDate: _todayDate(),
+  // packer forcely complete
+  reportType: { value: 1, label: "Shipment Created" },
 };
+
+// packer forcely complete report type ddl
+export const packerReportTypeDDL = [{ value: 1, label: "Shipment Created" }];
 
 //
 export const headers_one = [
@@ -47,6 +53,71 @@ export const headers_two = [
   "Actions",
 ];
 
+// packer forcely complete table header
+export const packerForcelyCompleteTableHeader = [
+  "SL",
+  "Shipment No",
+  "Contact Date",
+  "Route Name",
+  "Transport Mode",
+  "Provider Type",
+  "Shipping Type Name",
+  "Vehicle Name",
+  "Loading Confirm Date",
+  "Pump",
+  "Total Qty",
+  "Actions",
+];
+
+// choose report table
+export const chooseReportTableHeader = (values, selectedBusinessUnit) => {
+  let headers;
+
+  //   switch (values?.type?.value) {
+  //     case 1:
+  //     case 2:
+  //       // if business unit is 144 than show all header but if it's not than remove last header element
+  //       if (selectedBusinessUnit?.value === 144) {
+  //         headers = headers_one;
+  //       } else if (selectedBusinessUnit?.value !== 144) {
+  //         headers = headers_one.slice(0, -2);
+  //       } else {
+  //         headers = headers_two;
+  //       }
+  //       break;
+
+  //     case 6:
+  //       headers = packerForcelyCompleteTableHeader;
+  //       break;
+
+  //     default:
+  //       headers = headers_two;
+  //   }
+
+  switch (true) {
+    case [1, 2].includes(values?.type?.value):
+      headers = headers_two;
+      break;
+
+    case [6].includes(values?.type?.value):
+      headers = packerForcelyCompleteTableHeader;
+      break;
+
+    case selectedBusinessUnit?.value === 144:
+      headers = headers_one;
+      break;
+
+    case selectedBusinessUnit?.value !== 144:
+      headers = headers_one.slice(0, -2);
+      break;
+
+    default:
+      headers = headers_two;
+  }
+
+  return headers;
+};
+
 // reportTypeDDL
 export const reportTypeDDL = [
   // { value: 1, label: "Loading Pending" },
@@ -69,6 +140,29 @@ export const getData = (
   getRowData(
     `/oms/LoadingPoint/GetLoadingSupervisorConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
     // `/oms/LoadingPoint/GetPackerLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
+  );
+};
+
+// fetch packer forcely complete data
+export const fetchPackerForceCompleteData = (obj) => {
+  // destructure
+  const {
+    getPackerForcelyCompleteData,
+    selectedBusinessUnit,
+    profileData,
+    values,
+    pageNo = 0,
+    pageSize = 100,
+  } = obj;
+
+  const { fromDate, toDate, search, shipPoint, reportType } = values;
+
+  // search
+  const searchTerm = search ? `&SearchTerm=${search}` : "";
+
+  // api function
+  getPackerForcelyCompleteData(
+    `/oms/Shipment/GetShipmentPasignation?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&ShipmentId=${shipPoint?.value}&ReportType=${reportType?.value}&FromDate=${fromDate}&Todate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchTerm}`
   );
 };
 

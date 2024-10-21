@@ -6,6 +6,8 @@ import ICustomTable from "../../../_helper/_customTable";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
 import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
+import IView from "../../../_helper/_helperIcons/_view";
+import { ISelect } from "../../../_helper/_inputDropDown";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
@@ -19,12 +21,13 @@ import QRCodeScanner from "../../../_helper/qrCodeScanner";
 import ICon from "../../../chartering/_chartinghelper/icons/_icon";
 import ShippingInfoDetails from "../storeInformationList/shippingNote";
 import {
+  chooseReportTableHeader,
+  fetchPackerForceCompleteData,
   getData,
   groupId,
   handleCardNumberChange,
-  headers_one,
-  headers_two,
   initData,
+  packerReportTypeDDL,
   parameterValues,
   reportId,
   reportTypeDDL,
@@ -35,8 +38,7 @@ import styles from "./style.module.css";
 export default function LoadingSupervisorInfo() {
   // redux
   // const {
-    // selectedBusinessUnit: { value: buId },
-  // } = useSelector((state) => state?.authData, shallowEqual);
+
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -70,12 +72,22 @@ export default function LoadingSupervisorInfo() {
     getShipmentDetails,
     shipmentDetailsLoading,
   ] = useAxiosGet();
+  const [
+    packerForcelyCompleteData,
+    getPackerForcelyCompleteData,
+    packerForcelyCompleteDataLoading,
+  ] = useAxiosGet();
 
   // axios post
   const [, onComplete, loader] = useAxiosPost();
 
   // is page loading
-  const isLoading = loader || loading || rowLoading || shipmentDetailsLoading;
+  const isLoading =
+    loader ||
+    loading ||
+    rowLoading ||
+    shipmentDetailsLoading ||
+    packerForcelyCompleteDataLoading;
 
   // qr scan code in/out table body
   const scanQRCodeInOutTableBody = () =>
@@ -225,6 +237,106 @@ export default function LoadingSupervisorInfo() {
     </tr>
   );
 
+  // packer forcely complete table body
+  const packerForcelyCompleteTableBody = () => {
+    return packerForcelyCompleteData?.data?.map((item, index) => {
+      return (
+        <tr>
+          <td className="text-center"> {index + 1} </td>
+          <td>
+            <div>{item?.shipmentCode}</div>
+          </td>
+          <td>
+            <div className="text-center">
+              {_dateFormatter(item?.shipmentDate)}
+            </div>
+          </td>
+          <td>
+            <div>{item?.routeName}</div>
+          </td>
+          <td>
+            <div>{item?.transportModeName}</div>
+          </td>
+          <td>
+            <div>{item?.strOwnerType}</div>
+          </td>
+          <td>
+            <div>{item?.shippingTypeName}</div>{" "}
+          </td>
+          <td>
+            <div>{item?.vehicleName}</div>{" "}
+          </td>
+          <td className="text-center">
+            <div>{_dateFormatter(item?.loadingConfirmDate)}</div>{" "}
+          </td>
+          <td>
+            <div>{item?.pumpModelName}</div>{" "}
+          </td>
+          <td>
+            <div className="text-right">{item?.itemTotalQty}</div>{" "}
+          </td>
+          <td className="d-flex justify-content-around">
+            <span className="view">
+              <IView
+                clickHandler={() => {
+                  // history.push({
+                  //   pathname: `/transport-management/shipmentmanagement/shipping/view/${td.shipmentId}/${td.shipmentCode}`,
+                  //   state: values,
+                  // });
+                }}
+              />
+            </span>
+          </td>
+        </tr>
+      );
+    });
+  };
+
+  const chooseReportTableBody = (values) => {
+    switch (values?.type?.value) {
+      // Scan QR Code In/Out Table Body
+      case 3:
+      case 5:
+        return scanQRCodeInOutTableBody();
+      // packer forcely complete
+      case 6:
+        return packerForcelyCompleteTableBody();
+
+      // Delivery Complete Table
+      default:
+        return deliveryCompleteTableBody();
+    }
+  };
+
+  const packerForcelyCompleteFormField = (values, setFieldValue) => (
+    <>
+      <div className="col-lg-3">
+        <NewSelect
+          name="shipPoint"
+          options={[{ value: 0, label: "All" }, ...shipPointDDL]}
+          value={values?.shipPoint}
+          label="ShipPoint"
+          onChange={(valueOption) => {
+            setFieldValue("shipPoint", valueOption);
+          }}
+          placeholder="ShipPoint"
+        />
+      </div>
+      <div className="col-lg-3">
+        <ISelect
+          name="reportType"
+          options={packerReportTypeDDL}
+          label="Report Type"
+          value={values?.reportType}
+          onChange={(optionValue) => {
+            setFieldValue("reportType", optionValue);
+          }}
+        />
+      </div>
+      <FromDateToDateForm obj={{ setFieldValue, values }} />
+    </>
+  );
+  
   return (
     <Formik
       enableReinitialize={true}
@@ -332,10 +444,10 @@ export default function LoadingSupervisorInfo() {
                   />
                 </div>
 
-                {/* Delivery Complete, , ,  */}
-                {[1, 2, 4].includes(values?.type?.value) && (
+                {/* Delivery Complete, , , Packer Forcely Complete */}
+                {[1, 2, 4, 6].includes(values?.type?.value) && (
                   <>
-                    {/* Delivery Complete, */}
+                    {/* Delivery Complete, , Packer Forcely Complete */}
                     {[1, 2].includes(values?.type?.value) && (
                       <div className="col-lg-3">
                         <NewSelect
@@ -353,6 +465,7 @@ export default function LoadingSupervisorInfo() {
                         />
                       </div>
                     )}
+
                     {[4].includes(values?.type?.value) && (
                       <div className="col-lg-3">
                         <NewSelect
@@ -371,23 +484,40 @@ export default function LoadingSupervisorInfo() {
                         />
                       </div>
                     )}
-                    <FromDateToDateForm
-                      obj={{
-                        values,
-                        setFieldValue,
-                        type: "datetime-local",
-                        step: [4].includes(values?.type?.value) ? 1 : false,
-                        onChange: () => {
-                          setShowReport(false);
-                        },
-                      }}
-                    />
+
+                    {values?.type?.value === 1 && (
+                      <FromDateToDateForm
+                        obj={{
+                          values,
+                          setFieldValue,
+                          type: "datetime-local",
+                          step: [4].includes(values?.type?.value) ? 1 : false,
+                          onChange: () => {
+                            setShowReport(false);
+                          },
+                        }}
+                      />
+                    )}
+
+                    {/* Packer Forcely Complete */}
+                    {values?.type?.value === 6 &&
+                      packerForcelyCompleteFormField(values, setFieldValue)}
 
                     {/* Landing Data View Button */}
                     <IButton
                       onClick={() => {
+                        // shift wise packer
                         if (values?.type?.value === 4) {
                           setShowReport(true);
+                        }
+                        // packer forcely complete
+                        else if (values?.type?.value === 6) {
+                          fetchPackerForceCompleteData({
+                            getPackerForcelyCompleteData,
+                            selectedBusinessUnit,
+                            profileData,
+                            values,
+                          });
                         } else {
                           setShowReport(false);
                           getData(
@@ -620,7 +750,9 @@ export default function LoadingSupervisorInfo() {
                           if (selectedBusinessUnit?.value === 4) {
                             // get tlm ddl
                             getTLMDDL(
-                              `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${selectedBusinessUnit?.value}&TypeId=1&RefferencePKId=${
+                              `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${
+                                selectedBusinessUnit?.value
+                              }&TypeId=1&RefferencePKId=${
                                 valueOption?.value
                               }&ShipPointId=${shipPointIdForCementTlmLoadFromPacker ||
                                 0}`
@@ -679,27 +811,32 @@ export default function LoadingSupervisorInfo() {
                 onSubmit={() => resetForm(initData)}
               ></button>
 
+              {/* <pre>{JSON.stringify(values, null, 1)}</pre> */}
+
               {/* Custom Table */}
-              {(reportData?.objRow?.length > 0 ||
+              {(reportData?.objRow?.length ||
+                packerForcelyCompleteData?.data?.length > 0 ||
                 rowData?.data?.length > 0) && (
                 <ICustomTable
                   ths={
+                    chooseReportTableHeader(values, selectedBusinessUnit)
                     // Delivery Complete, ''
-                    [1, 2].includes(values?.type?.value)
-                      ? headers_two
-                      : [144].includes(selectedBusinessUnit?.value) // if business unit is 145 than show all header but if it's not than remove last header element
-                      ? headers_one
-                      : headers_one.slice(0, -2)
+                    // [1, 2].includes(values?.type?.value)
+                    //   ? headers_two
+                    //   : [144].includes(selectedBusinessUnit?.value) // if business unit is 145 than show all header but if it's not than remove last header element
+                    //   ? headers_one
+                    //   : headers_one.slice(0, -2)
+
+                    // Packer Forcely Complete
+                    //   [6].includes(values?.type?.value) &&
+                    //   packerForcelyCompleteTableHeader
                   }
                 >
-                  {[3, 5].includes(values?.type?.value)
-                    ? // Scan QR Code In/Out Table Body
-                      scanQRCodeInOutTableBody()
-                    : // Delivery Complete Table
-                      deliveryCompleteTableBody()}
+                  {chooseReportTableBody(values)}
 
                   {/* Table Footer */}
-                  {scanQRCodeInOutDeliveryCompleteTableFooter(values)}
+                  {[!6].includes(values?.type?.value) &&
+                    scanQRCodeInOutDeliveryCompleteTableFooter(values)}
                 </ICustomTable>
               )}
 
@@ -717,8 +854,12 @@ export default function LoadingSupervisorInfo() {
                       `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${result}`,
                       (res) => {
                         getTLMDDL(
-                          `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${selectedBusinessUnit?.value}&TypeId=1&RefferencePKId=${
-                            selectedBusinessUnit?.value === 4 ? res?.objHeader?.packerId : 1
+                          `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${
+                            selectedBusinessUnit?.value
+                          }&TypeId=1&RefferencePKId=${
+                            selectedBusinessUnit?.value === 4
+                              ? res?.objHeader?.packerId
+                              : 1
                           }&ShipPointId=${res?.objHeader?.shipPointId || 0}`
                         );
                         setShipPointIdForCementTlmLoadFromPacker(

@@ -6,7 +6,7 @@ export default function ICustomTable({ ths, children, className, id }) {
       <table className={"table table-striped table-bordered global-table "+className} id={id}>
         <thead>
           <tr>
-            {ths.map((th, index) => {
+            {ths?.map((th, index) => {
               return <th key={index}> {th} </th>;
             })}
           </tr>
