@@ -1,91 +1,69 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ICustomTable from "../../../_helper/_customTable";
-import {
-  _dateFormatter,
-  _dateFormatterTwo,
-} from "../../../_helper/_dateFormate";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IForm from "../../../_helper/_form";
+import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
 import IViewModal from "../../../_helper/_viewModal";
 import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
+import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
 import IButton from "../../../_helper/iButton";
-import { _todayDate } from "../../../_helper/_todayDate";
-import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
-import ShippingInfoDetails from "../storeInformationList/shippingNote";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import ICard from "../../../_helper/_card";
-import ShipmentReportModal from "./shipmentReportModal";
+import QRCodeScanner from "../../../_helper/qrCodeScanner";
 import ICon from "../../../chartering/_chartinghelper/icons/_icon";
+import ShippingInfoDetails from "../storeInformationList/shippingNote";
+import {
+  getData,
+  groupId,
+  handleCardNumberChange,
+  headers_one,
+  headers_two,
+  initData,
+  parameterValues,
+  reportId,
+  reportTypeDDL,
+} from "./helper";
+import ShipmentReportModal from "./shipmentReportModal";
 import styles from "./style.module.css";
 
-const initData = {
-  type: { value: 3, label: "Scan Card/QR Code Scan (IN)" },
-  shipmentId: "",
-  shipmentCode: "",
-  shippingPoint: "",
-  vehicleNumber: "",
-  driver: "",
-  deliveryDate: "",
-  packerName: "",
-  tlm: "",
-  viewType: "",
-  fromDate: _todayDate(),
-  toDate: _todayDate(),
-};
-
-const headers_one = [
-  "SL",
-  "Item",
-  "Bag Type",
-  "UoM",
-  "Quantity",
-  "Price",
-  "Actions",
-];
-const headers_two = [
-  "SL",
-  "Shipment Code",
-  "Vehicle",
-  "Bag Type",
-  "Total Qty",
-  "UoM",
-  "Route Name",
-  "Transport Name",
-  "Provider Type",
-  "Shipping Type",
-  "TLM",
-  "Bursting Qty",
-  "Actions",
-];
-
 export default function LoadingSupervisorInfo() {
-  const {
-    selectedBusinessUnit: { value: buId },
-  } = useSelector((state) => state?.authData, shallowEqual);
+  // redux
+  // const {
+    // selectedBusinessUnit: { value: buId },
+  // } = useSelector((state) => state?.authData, shallowEqual);
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
+  // shipoint ddl
+  const shipPointDDL = useSelector((state) => {
+    return state?.commonDDL?.shippointDDL;
+  }, shallowEqual);
+
+  // state
   const [objProps, setObjprops] = useState({});
-  const [reportData, getReportData, loading, setReportData] = useAxiosGet();
-  const [, onComplete, loader] = useAxiosPost();
   const [shipmentId, setShipmentId] = useState(null);
   const [isQrCodeShow, setIsQRCodeSHow] = useState(false);
   const [actionType, setActionType] = useState("Manual");
-  const [rowData, getRowData, rowLoading, setRowData] = useAxiosGet();
-  const [tlmDDL, getTLMDDL] = useAxiosGet();
-  const [open, setOpen] = useState(false);
   const [shipmentModalOpen, setShipmentModalOpen] = useState(false);
   const [singleItem, setSingleItem] = useState({});
   const [showReport, setShowReport] = useState(false);
+  const [open, setOpen] = useState(false);
   const [
     shipPointIdForCementTlmLoadFromPacker,
     setShipPointIdForCementTlmLoadFromPacker,
   ] = useState(null);
+
+  // axios get
+  const [reportData, getReportData, loading, setReportData] = useAxiosGet();
+  const [tlmDDL, getTLMDDL] = useAxiosGet();
+  const [rowData, getRowData, rowLoading, setRowData] = useAxiosGet();
   const [packerList, getPackerList, , setPackerList] = useAxiosGet();
   const [
     shipmentDetails,
@@ -93,98 +71,160 @@ export default function LoadingSupervisorInfo() {
     shipmentDetailsLoading,
   ] = useAxiosGet();
 
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  // axios post
+  const [, onComplete, loader] = useAxiosPost();
 
-  const shipPointDDL = useSelector((state) => {
-    return state?.commonDDL?.shippointDDL;
-  }, shallowEqual);
+  // is page loading
+  const isLoading = loader || loading || rowLoading || shipmentDetailsLoading;
 
-  const getData = (values, _pageNo = 0, _pageSize = 300) => {
-    getRowData(
-      `/oms/LoadingPoint/GetLoadingSupervisorConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
-      // `/oms/LoadingPoint/GetPackerLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
-    );
-  };
-
-  const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
-  const reportId = `fe886d74-87ab-42e5-8695-b4be96e51aca`;
-  const parameterValues = (values) => {
-    const shiftWisePackerInformation = [
-      { name: "fromdate", value: `${values?.fromDate}` },
-      { name: "todate", value: `${values?.toDate}` },
-      { name: "ViewType", value: `${+values?.viewType?.value}` },
-    ];
-
-    return shiftWisePackerInformation;
-  };
-
-  const isLoading = loader || loading || rowLoading;
-
-  const handleCardNumberChange = (e, setFieldValue) => {
-    // screen width
-    const screenWidth = window.screen.width;
-    // if screen width is less than 575
-    const isMobileDevice = screenWidth < 575 ? true : false;
-    // Check if the Enter key is pressed
-    const isEnterKeyPress = e.key === "Enter" || e.keyCode === 13;
-
-    // handle card number details if enter key press or mobile device button press
-    if (isEnterKeyPress || isMobileDevice) {
-
-      setFieldValue("shipmentCode", e.target.value);
-
-      // get report data & update formik field
-      getReportData(
-        // `/wms/Delivery/GetDeliveryPrintInfoManual?businessUnitId=${selectedBusinessUnit?.value}&shipmentCode=${e.target.value}`,
-        `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${e.target.value}`,
-        (res) => {
-          // get tlm ddl
-          getTLMDDL(
-            `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=${
-              buId === 4 ? res?.objHeader?.packerId : 1
-            }&ShipPointId=${res?.objHeader?.shipPointId || 0}`
-          );
-
-          // for cement business unit & use in packer change
-          setShipPointIdForCementTlmLoadFromPacker(res?.objHeader?.shipPointId);
-          // get packer list & update
-          getPackerList(
-            `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${buId}`,
-
-            (resData) => {
-              // set ddl state
-              setPackerList(
-                resData?.map((item) => ({
-                  ...item,
-                  value: item?.workCenterId,
-                  label: item?.workCenterName,
-                }))
-              );
-            }
-          );
-
-          // destructure value
-          const { packerName, packerId } = res?.objHeader;
-
-          // set formik state value
-          setFieldValue("packerName", {
-            value: packerId !== 0 ? packerId : 0,
-            label: packerName !== null ? packerName : "N/A",
-          });
-
-          setFieldValue("shippingPoint", res?.objHeader?.shipPointName || "");
-          setFieldValue("vehicleNumber", res?.objHeader?.strVehicleName || "");
-          setFieldValue("driver", res?.objHeader?.driverName || "");
-          setFieldValue(
-            "deliveryDate",
-            _dateFormatter(res?.objHeader?.pricingDate) || ""
-          );
-        }
+  // qr scan code in/out table body
+  const scanQRCodeInOutTableBody = () =>
+    reportData?.objRow?.map((item, index) => {
+      return (
+        <tr>
+          <td>{index + 1}</td>
+          <td>{item?.itemName}</td>
+          <td>{item?.bagType}</td>
+          <td>{item?.uomName}</td>
+          <td className="text-right">{item?.quantity}</td>
+          {/* if business unit is 145 than show all header but if it's not than remove last header element */}
+          {[144].includes(selectedBusinessUnit?.value) && (
+            <>
+              <td className="text-right">{item?.itemPrice}</td>
+              <td className="text-center">
+                <InfoCircle
+                  title={"Shipment Details"}
+                  clickHandler={() => {
+                    getShipmentDetails(
+                      `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${reportData?.objHeader?.shipmentId}`,
+                      () => setShipmentModalOpen(true)
+                    );
+                  }}
+                />
+              </td>
+            </>
+          )}
+        </tr>
       );
-    }
-  };
+    });
+
+  // devlivery complete table body
+  const deliveryCompleteTableBody = () =>
+    rowData?.data?.map((item, index) => {
+      return (
+        <tr
+          style={{
+            backgroundColor: `${
+              item?.bagType === "Pasting"
+                ? "#57d557c2"
+                : item?.bagType === "Sewing"
+                ? "#6cbbe7de"
+                : item?.bagType === "MES PCC"
+                ? "#bb8ef2f0"
+                : ""
+            }`,
+          }}
+        >
+          <td>{index + 1}</td>
+          <td>{item?.shipmentCode}</td>
+          <td>{item?.vehicleName}</td>
+          <td>
+            {item?.itemTransferTotalQty > 0
+              ? item?.itemNameTransferChallan
+              : item?.bagType}
+          </td>
+          <td className="text-right">
+            {item?.itemTransferTotalQty > 0
+              ? item?.itemTransferTotalQty
+              : item?.itemTotalQty}
+          </td>
+          <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
+          <td>{item?.routeName}</td>
+          <td>{item?.transportModeName}</td>
+          <td>{item?.strOwnerType}</td>
+          <td>{item?.shippingTypeName}</td>
+          <td>{item?.tlm}</td>
+          <td>{item?.brustingQuantity}</td>
+          <td className="text-center" style={{ backgroundColor: "#e0ffff" }}>
+            <div className="d-flex justify-content-around">
+              {/* {values?.type?.value === 1 && (
+                <button
+                  className="btn btn-info btn-sm px-2"
+                  type="button"
+                  onClick={() => {
+                    onComplete(
+                      `/oms/LoadingPoint/CompletePacker?shipmentId=${item?.shipmentId}&actionBy=${profileData?.userId}&typeId=5`,
+                      null,
+                      () => {
+                        getData(values);
+                      },
+                      true
+                    );
+                  }}
+                >
+                  Completed
+                </button>
+              )} */}
+              <InfoCircle
+                title={"Shipment Details"}
+                clickHandler={() => {
+                  setSingleItem(item);
+                  setOpen(true);
+                }}
+              />
+            </div>
+          </td>
+        </tr>
+      );
+    });
+
+  // scan qr code in/out, delivery complete table footer
+  const scanQRCodeInOutDeliveryCompleteTableFooter = (values) => (
+    <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+      <td
+        colSpan={[1, 2].includes(values?.type?.value) ? 9 : 4}
+        className="text-right"
+      >
+        Total
+      </td>
+      {[1, 2].includes(values?.type?.value) ? (
+        <>
+          <td>
+            {rowData?.data?.reduce(
+              (total, curr) => (total += curr?.itemTotalQty),
+              0
+            )}
+          </td>
+          <td colSpan={2}></td>
+        </>
+      ) : (
+        <>
+          <td>
+            {reportData?.objRow?.reduce(
+              (total, curr) => (total += curr?.quantity),
+              0
+            )}
+          </td>
+
+          {/* if business unit is 145 than show all header but if it's not than remove last header element */}
+          {[144].includes(selectedBusinessUnit?.value) ? (
+            <>
+              <td className="text-right">
+                {reportData?.objRow?.reduce(
+                  (total, curr) => total + curr?.itemPrice,
+                  0
+                )}
+              </td>
+              <td></td>
+            </>
+          ) : (
+            <></>
+          )}
+        </>
+      )}
+    </tr>
+  );
+
   return (
     <Formik
       enableReinitialize={true}
@@ -198,7 +238,7 @@ export default function LoadingSupervisorInfo() {
     >
       {({ handleSubmit, resetForm, values, setFieldValue, setValues }) => (
         <>
-          {(isLoading || shipmentDetailsLoading) && <Loading />}
+          {isLoading && <Loading />}
           <IForm
             title="Loading Supervisor Information"
             getProps={setObjprops}
@@ -239,6 +279,7 @@ export default function LoadingSupervisorInfo() {
                         Done
                       </button>
                     )}
+
                   {values?.type?.value === 5 && (
                     <button
                       type="button"
@@ -274,16 +315,11 @@ export default function LoadingSupervisorInfo() {
           >
             <Form>
               <div className="form-group  global-form row">
+                {/* Report Type Common */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="type"
-                    options={[
-                      // { value: 1, label: "Loading Pending" },
-                      { value: 3, label: "Scan Card/QR Code Scan (IN)" },
-                      { value: 5, label: "Scan Card/QR Code Scan (OUT)" },
-                      { value: 1, label: "Delivery Complete" },
-                      // { value: 4, label: "Shift wise Packer Information" },
-                    ]}
+                    options={reportTypeDDL}
                     value={values?.type}
                     label="Type"
                     onChange={(valueOption) => {
@@ -296,8 +332,10 @@ export default function LoadingSupervisorInfo() {
                   />
                 </div>
 
+                {/* Delivery Complete, , ,  */}
                 {[1, 2, 4].includes(values?.type?.value) && (
                   <>
+                    {/* Delivery Complete, */}
                     {[1, 2].includes(values?.type?.value) && (
                       <div className="col-lg-3">
                         <NewSelect
@@ -344,19 +382,27 @@ export default function LoadingSupervisorInfo() {
                         },
                       }}
                     />
+
+                    {/* Landing Data View Button */}
                     <IButton
                       onClick={() => {
                         if (values?.type?.value === 4) {
                           setShowReport(true);
                         } else {
                           setShowReport(false);
-                          getData(values);
+                          getData(
+                            profileData,
+                            selectedBusinessUnit,
+                            values,
+                            getRowData
+                          );
                         }
                       }}
                     />
                   </>
                 )}
 
+                {/* QR In/Out */}
                 {[3, 5].includes(values?.type?.value) && (
                   <>
                     <div className="col-lg-4 mb-2 mt-5">
@@ -406,7 +452,7 @@ export default function LoadingSupervisorInfo() {
                         Packer Completed
                       </p>
                     )}
-                    {buId === 4 && (
+                    {selectedBusinessUnit?.value === 4 && (
                       <div className="col-lg-4 d-flex justify-content-between align-items-center mb-0">
                         {((values?.type?.value === 5 &&
                           reportData?.objHeader?.isOutdByLoadingSupervisor) ||
@@ -469,7 +515,17 @@ export default function LoadingSupervisorInfo() {
                           }}
                           onKeyDown={(e) => {
                             if (e.key === "Enter" || e.key === 13) {
-                              handleCardNumberChange(e, setFieldValue);
+                              handleCardNumberChange({
+                                e,
+                                setFieldValue,
+                                getReportData,
+                                getTLMDDL,
+                                selectedBusinessUnit,
+                                setShipPointIdForCementTlmLoadFromPacker,
+                                getPackerList,
+                                profileData,
+                                setPackerList,
+                              });
                             }
                           }}
                         />
@@ -482,10 +538,17 @@ export default function LoadingSupervisorInfo() {
                             };
 
                             // handle card number click
-                            handleCardNumberChange(
-                              shipmentValue,
-                              setFieldValue
-                            );
+                            handleCardNumberChange({
+                              e: shipmentValue,
+                              setFieldValue,
+                              getReportData,
+                              getTLMDDL,
+                              selectedBusinessUnit,
+                              setShipPointIdForCementTlmLoadFromPacker,
+                              getPackerList,
+                              profileData,
+                              setPackerList,
+                            });
                           }}
                           className={`ml-2 bg-primary p-2 ${styles.cardNumberSearchBtn}`}
                         >
@@ -554,10 +617,10 @@ export default function LoadingSupervisorInfo() {
                           setFieldValue("tlm", "");
 
                           // if business unit in cement than load tlm ddl
-                          if (buId === 4) {
+                          if (selectedBusinessUnit?.value === 4) {
                             // get tlm ddl
                             getTLMDDL(
-                              `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=${
+                              `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${selectedBusinessUnit?.value}&TypeId=1&RefferencePKId=${
                                 valueOption?.value
                               }&ShipPointId=${shipPointIdForCementTlmLoadFromPacker ||
                                 0}`
@@ -615,6 +678,32 @@ export default function LoadingSupervisorInfo() {
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
+
+              {/* Custom Table */}
+              {(reportData?.objRow?.length > 0 ||
+                rowData?.data?.length > 0) && (
+                <ICustomTable
+                  ths={
+                    // Delivery Complete, ''
+                    [1, 2].includes(values?.type?.value)
+                      ? headers_two
+                      : [144].includes(selectedBusinessUnit?.value) // if business unit is 145 than show all header but if it's not than remove last header element
+                      ? headers_one
+                      : headers_one.slice(0, -2)
+                  }
+                >
+                  {[3, 5].includes(values?.type?.value)
+                    ? // Scan QR Code In/Out Table Body
+                      scanQRCodeInOutTableBody()
+                    : // Delivery Complete Table
+                      deliveryCompleteTableBody()}
+
+                  {/* Table Footer */}
+                  {scanQRCodeInOutDeliveryCompleteTableFooter(values)}
+                </ICustomTable>
+              )}
+
+              {/* QR Code Modal */}
               <IViewModal
                 show={isQrCodeShow}
                 onHide={() => setIsQRCodeSHow(false)}
@@ -628,8 +717,8 @@ export default function LoadingSupervisorInfo() {
                       `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${result}`,
                       (res) => {
                         getTLMDDL(
-                          `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${buId}&TypeId=1&RefferencePKId=${
-                            buId === 4 ? res?.objHeader?.packerId : 1
+                          `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${selectedBusinessUnit?.value}&TypeId=1&RefferencePKId=${
+                            selectedBusinessUnit?.value === 4 ? res?.objHeader?.packerId : 1
                           }&ShipPointId=${res?.objHeader?.shipPointId || 0}`
                         );
                         setShipPointIdForCementTlmLoadFromPacker(
@@ -637,7 +726,7 @@ export default function LoadingSupervisorInfo() {
                         );
 
                         getPackerList(
-                          `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${buId}`,
+                          `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
 
                           (resData) => {
                             // set ddl state
@@ -677,163 +766,7 @@ export default function LoadingSupervisorInfo() {
                 />
               </IViewModal>
 
-              {(reportData?.objRow?.length > 0 ||
-                rowData?.data?.length > 0) && (
-                <ICustomTable
-                  ths={
-                    [1, 2].includes(values?.type?.value)
-                      ? headers_two
-                      : [144].includes(buId) // if business unit is 145 than show all header but if it's not than remove last header element
-                      ? headers_one
-                      : headers_one.slice(0, -2)
-                  }
-                >
-                  {[3, 5].includes(values?.type?.value)
-                    ? reportData?.objRow?.map((item, index) => {
-                        return (
-                          <tr>
-                            <td>{index + 1}</td>
-                            <td>{item?.itemName}</td>
-                            <td>{item?.bagType}</td>
-                            <td>{item?.uomName}</td>
-                            <td className="text-right">{item?.quantity}</td>
-                            {/* if business unit is 145 than show all header but if it's not than remove last header element */}
-                            {[144].includes(buId) && (
-                              <>
-                                <td className="text-right">
-                                  {item?.itemPrice}
-                                </td>
-                                <td className="text-center">
-                                  <InfoCircle
-                                    title={"Shipment Details"}
-                                    clickHandler={() => {
-                                      getShipmentDetails(
-                                        `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${reportData?.objHeader?.shipmentId}`,
-                                        () => setShipmentModalOpen(true)
-                                      );
-                                    }}
-                                  />
-                                </td>
-                              </>
-                            )}
-                          </tr>
-                        );
-                      })
-                    : rowData?.data?.map((item, index) => {
-                        return (
-                          <tr
-                            style={{
-                              backgroundColor: `${
-                                item?.bagType === "Pasting"
-                                  ? "#57d557c2"
-                                  : item?.bagType === "Sewing"
-                                  ? "#6cbbe7de"
-                                  : item?.bagType === "MES PCC"
-                                  ? "#bb8ef2f0"
-                                  : ""
-                              }`,
-                            }}
-                          >
-                            <td>{index + 1}</td>
-                            <td>{item?.shipmentCode}</td>
-                            <td>{item?.vehicleName}</td>
-                            <td>
-                              {item?.itemTransferTotalQty > 0
-                                ? item?.itemNameTransferChallan
-                                : item?.bagType}
-                            </td>
-                            <td className="text-right">
-                              {item?.itemTransferTotalQty > 0
-                                ? item?.itemTransferTotalQty
-                                : item?.itemTotalQty}
-                            </td>
-                            <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
-                            <td>{item?.routeName}</td>
-                            <td>{item?.transportModeName}</td>
-                            <td>{item?.strOwnerType}</td>
-                            <td>{item?.shippingTypeName}</td>
-                            <td>{item?.tlm}</td>
-                            <td>{item?.brustingQuantity}</td>
-                            <td
-                              className="text-center"
-                              style={{ backgroundColor: "#e0ffff" }}
-                            >
-                              <div className="d-flex justify-content-around">
-                                {/* {values?.type?.value === 1 && (
-                                  <button
-                                    className="btn btn-info btn-sm px-2"
-                                    type="button"
-                                    onClick={() => {
-                                      onComplete(
-                                        `/oms/LoadingPoint/CompletePacker?shipmentId=${item?.shipmentId}&actionBy=${profileData?.userId}&typeId=5`,
-                                        null,
-                                        () => {
-                                          getData(values);
-                                        },
-                                        true
-                                      );
-                                    }}
-                                  >
-                                    Completed
-                                  </button>
-                                )} */}
-                                <InfoCircle
-                                  title={"Shipment Details"}
-                                  clickHandler={() => {
-                                    setSingleItem(item);
-                                    setOpen(true);
-                                  }}
-                                />
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  <tr style={{ fontWeight: "bold", textAlign: "right" }}>
-                    <td
-                      colSpan={[1, 2].includes(values?.type?.value) ? 9 : 4}
-                      className="text-right"
-                    >
-                      Total
-                    </td>
-                    {[1, 2].includes(values?.type?.value) ? (
-                      <>
-                        <td>
-                          {rowData?.data?.reduce(
-                            (total, curr) => (total += curr?.itemTotalQty),
-                            0
-                          )}
-                        </td>
-                        <td colSpan={2}></td>
-                      </>
-                    ) : (
-                      <>
-                        <td>
-                          {reportData?.objRow?.reduce(
-                            (total, curr) => (total += curr?.quantity),
-                            0
-                          )}
-                        </td>
-
-                        {/* if business unit is 145 than show all header but if it's not than remove last header element */}
-                        {[144].includes(buId) ? (
-                          <>
-                            <td className="text-right">
-                              {reportData?.objRow?.reduce(
-                                (total, curr) => total + curr?.itemPrice,
-                                0
-                              )}
-                            </td>
-                            <td></td>
-                          </>
-                        ) : (
-                          <></>
-                        )}
-                      </>
-                    )}
-                  </tr>
-                </ICustomTable>
-              )}
+              {/* Shipping Info Details */}
               <IViewModal show={open} onHide={() => setOpen(false)}>
                 <ShippingInfoDetails
                   obj={{
@@ -847,6 +780,7 @@ export default function LoadingSupervisorInfo() {
                   }}
                 />
               </IViewModal>
+
               {/* Shipment Details Modal for Business Unit 144 */}
               <IViewModal
                 show={shipmentModalOpen}
@@ -860,6 +794,8 @@ export default function LoadingSupervisorInfo() {
                   }}
                 />
               </IViewModal>
+
+              {/* PowerBI Report */}
               {showReport && (
                 <PowerBIReport
                   reportId={reportId}
