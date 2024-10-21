@@ -1,10 +1,12 @@
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { Route, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import ICustomTable from "../../../_helper/_customTable";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
+import IApproval from "../../../_helper/_helperIcons/_approval";
 import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
 import IView from "../../../_helper/_helperIcons/_view";
 import { ISelect } from "../../../_helper/_inputDropDown";
@@ -19,13 +21,13 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IButton from "../../../_helper/iButton";
 import QRCodeScanner from "../../../_helper/qrCodeScanner";
 import ICon from "../../../chartering/_chartinghelper/icons/_icon";
+import { ViewModal } from "../../shipmentManagement/shipping/shippingUnitView/ViewModal";
 import ShippingInfoDetails from "../storeInformationList/shippingNote";
-import { Route, useHistory } from "react-router-dom";
 import {
   chooseReportTableHeader,
+  confirmDeliveryShippingInfoById,
   fetchPackerForceCompleteData,
   getData,
-  getDeliveryShippingInfoById,
   groupId,
   handleCardNumberChange,
   initData,
@@ -36,8 +38,6 @@ import {
 } from "./helper";
 import ShipmentReportModal from "./shipmentReportModal";
 import styles from "./style.module.css";
-import { ViewModal } from "../../shipmentManagement/shipping/shippingUnitView/ViewModal";
-import IEdit from "../../../_helper/_helperIcons/_edit";
 
 export default function LoadingSupervisorInfo() {
   // redux
@@ -69,7 +69,7 @@ export default function LoadingSupervisorInfo() {
 
   // axios get
   const [reportData, getReportData, loading, setReportData] = useAxiosGet();
-  const [shippingInfo, getShippingInfo, shippingInfoLoading] = useAxiosGet();
+  const [, confirmShipmentInfo, confirmShipmentInfoLoading] = useAxiosPost();
   const [tlmDDL, getTLMDDL] = useAxiosGet();
   const [rowData, getRowData, rowLoading, setRowData] = useAxiosGet();
   const [packerList, getPackerList, , setPackerList] = useAxiosGet();
@@ -83,6 +83,10 @@ export default function LoadingSupervisorInfo() {
     getPackerForcelyCompleteData,
     packerForcelyCompleteDataLoading,
   ] = useAxiosGet();
+  const [
+    isPermitedToConfirmPackerForce,
+    getPermitedToConfirmPackerForce,
+  ] = useAxiosGet();
 
   // axios post
   const [, onComplete, loader] = useAxiosPost();
@@ -94,7 +98,7 @@ export default function LoadingSupervisorInfo() {
     rowLoading ||
     shipmentDetailsLoading ||
     packerForcelyCompleteDataLoading ||
-    shippingInfoLoading;
+    confirmShipmentInfoLoading;
 
   // qr scan code in/out table body
   const scanQRCodeInOutTableBody = () =>
@@ -243,6 +247,8 @@ export default function LoadingSupervisorInfo() {
       )}
     </tr>
   );
+  const isPermitedToConfirmPackerForceComplete =
+    isPermitedToConfirmPackerForce[0]?.ysnPermission;
 
   // packer forcely complete table body
   const packerForcelyCompleteTableBody = (values) => {
@@ -294,20 +300,23 @@ export default function LoadingSupervisorInfo() {
               />
             </span>
             {/* // ! Edit Shipping Info (need to work) */}
-            <span
-              className="edit"
-              onClick={() => {
-                setType("challan");
-                getDeliveryShippingInfoById(
-                  item,
-                  profileData,
-                  getShippingInfo,
-                  setOpen
-                );
-              }}
-            >
-              <IEdit title={"Add Manual Challan"} />
-            </span>
+            {isPermitedToConfirmPackerForceComplete && (
+              <span
+                className="edit"
+                onClick={() => {
+                  // setType("challan");
+                  confirmDeliveryShippingInfoById(
+                    item,
+                    profileData,
+                    confirmShipmentInfo,
+                    values
+                    // setOpen
+                  );
+                }}
+              >
+                <IApproval title={"Confirm"} />
+              </span>
+            )}
           </td>
         </tr>
       );
@@ -322,7 +331,7 @@ export default function LoadingSupervisorInfo() {
         return scanQRCodeInOutTableBody();
       // packer forcely complete
       case 6:
-        return packerForcelyCompleteTableBody();
+        return packerForcelyCompleteTableBody(values);
 
       // Delivery Complete Table
       default:
@@ -355,9 +364,46 @@ export default function LoadingSupervisorInfo() {
           }}
         />
       </div>
+      <div className="col-lg-3">
+        <NewSelect
+          name="packerName"
+          placeholder="Packer"
+          label="Packer"
+          isDisabled={values?.type?.value === 5}
+          options={packerList || []}
+          value={values?.packerName}
+          onChange={(valueOption) => {
+            setFieldValue("packerName", valueOption);
+            setFieldValue("tlm", "");
+
+            // get tlm ddl
+            getTLMDDL(
+              `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${
+                selectedBusinessUnit?.value
+              }&TypeId=1&RefferencePKId=${
+                valueOption?.value
+              }&ShipPointId=${values?.shipPoint?.value || 0}`
+            );
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <NewSelect
+          name="tlm"
+          options={tlmDDL || []}
+          value={values?.tlm}
+          label="TLM"
+          onChange={(valueOption) => {
+            setFieldValue("tlm", valueOption);
+          }}
+          placeholder="TLM"
+        />
+      </div>
+
       <FromDateToDateForm obj={{ setFieldValue, values }} />
     </>
   );
+
 
   return (
     <Formik
@@ -461,6 +507,30 @@ export default function LoadingSupervisorInfo() {
                       setRowData([]);
                       setReportData({});
                       setShowReport(false);
+
+                      // packer forcely complete
+                      if (valueOption?.value === 6) {
+                        // get packer list & update
+                        getPackerList(
+                          `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+
+                          (resData) => {
+                            // set ddl state
+                            setPackerList(
+                              resData?.map((item) => ({
+                                ...item,
+                                value: item?.workCenterId,
+                                label: item?.workCenterName,
+                              }))
+                            );
+                          }
+                        );
+
+                        // get permited to confirm packer forcely complete
+                        getPermitedToConfirmPackerForce(
+                          `/oms/SalesInformation/GetAllowForModification?Partid=22&UserId=${profileData?.userId}&UnitId=${selectedBusinessUnit?.value}`
+                        );
+                      }
                     }}
                     placeholder="Type"
                   />
