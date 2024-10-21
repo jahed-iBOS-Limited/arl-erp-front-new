@@ -25,6 +25,7 @@ import {
   chooseReportTableHeader,
   fetchPackerForceCompleteData,
   getData,
+  getDeliveryShippingInfoById,
   groupId,
   handleCardNumberChange,
   initData,
@@ -36,6 +37,7 @@ import {
 import ShipmentReportModal from "./shipmentReportModal";
 import styles from "./style.module.css";
 import { ViewModal } from "../../shipmentManagement/shipping/shippingUnitView/ViewModal";
+import IEdit from "../../../_helper/_helperIcons/_edit";
 
 export default function LoadingSupervisorInfo() {
   // redux
@@ -63,9 +65,11 @@ export default function LoadingSupervisorInfo() {
     shipPointIdForCementTlmLoadFromPacker,
     setShipPointIdForCementTlmLoadFromPacker,
   ] = useState(null);
+  const [type, setType] = useState("");
 
   // axios get
   const [reportData, getReportData, loading, setReportData] = useAxiosGet();
+  const [shippingInfo, getShippingInfo, shippingInfoLoading] = useAxiosGet();
   const [tlmDDL, getTLMDDL] = useAxiosGet();
   const [rowData, getRowData, rowLoading, setRowData] = useAxiosGet();
   const [packerList, getPackerList, , setPackerList] = useAxiosGet();
@@ -89,7 +93,8 @@ export default function LoadingSupervisorInfo() {
     loading ||
     rowLoading ||
     shipmentDetailsLoading ||
-    packerForcelyCompleteDataLoading;
+    packerForcelyCompleteDataLoading ||
+    shippingInfoLoading;
 
   // qr scan code in/out table body
   const scanQRCodeInOutTableBody = () =>
@@ -287,6 +292,21 @@ export default function LoadingSupervisorInfo() {
                   });
                 }}
               />
+            </span>
+            {/* // ! Edit Shipping Info (need to work) */}
+            <span
+              className="edit"
+              onClick={() => {
+                setType("challan");
+                getDeliveryShippingInfoById(
+                  item,
+                  profileData,
+                  getShippingInfo,
+                  setOpen
+                );
+              }}
+            >
+              <IEdit title={"Add Manual Challan"} />
             </span>
           </td>
         </tr>

@@ -261,3 +261,16 @@ export const handleCardNumberChange = (obj) => {
     );
   }
 };
+
+// ! edit packer forcely complete edit (need to work)
+export const getDeliveryShippingInfoById = (
+  item,
+  profileData,
+  getShippingInfo,
+  setOpen
+) => {
+  getShippingInfo(
+    `oms/LoadingPoint/CompletePackerForcely?shipmentId=${item?.shipmentId}&actionBy=${profileData?.userId}&tlm=3&brustingQuantity=0&packerId=241`,
+    () => setOpen(true)
+  );
+};
