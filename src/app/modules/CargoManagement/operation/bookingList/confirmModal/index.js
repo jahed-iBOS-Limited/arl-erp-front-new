@@ -129,6 +129,34 @@ function ConfirmModal({ rowClickData, CB }) {
               "transportPlanningType",
               data?.modeOfTransport
             );
+
+            //  consignee Information set value
+            formikRef.current.setFieldValue(
+              "consigneeName",
+              data?.consigneeId
+                ? {
+                    value: data?.consigneeId || 0,
+                    label: data?.consigneeName || "",
+                  }
+                : ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeCountry",
+              data?.consigCountryId
+                ? {
+                    value: data?.consigCountryId || 0,
+                    label: data?.consigCountry || "",
+                  }
+                : ""
+            );
+            formikRef.current.setFieldValue( "consigneeDivisionAndState", data?.consigStateId ? { value: data?.consigStateId || 0, label: data?.consigState || "" } : "" ); 
+            formikRef.current.setFieldValue("consigneeAddress", data?.consigneeAddress || "");
+            formikRef.current.setFieldValue("consigneeContactPerson", data?.consigneeContactPerson || "");
+            formikRef.current.setFieldValue("consigneeContact", data?.consigneeContact || "");
+            formikRef.current.setFieldValue("consigneeEmail", data?.consigneeEmail || "");
+            formikRef.current.setFieldValue("notifyParty", data?.notifyParty || "");
+            formikRef.current.setFieldValue("negotiationParty", data?.negotiationParty || "");
+            formikRef.current.setFieldValue("freightAgentReference", data?.freightAgentReference ? { value: data?.freightAgentReference || 0, label: data?.freightAgentReference || "" } : "" );  
           }
         }
       );

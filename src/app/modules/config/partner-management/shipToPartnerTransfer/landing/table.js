@@ -30,7 +30,7 @@ const initData = {
   region: "",
   area: "",
   territory: "",
-  status: {value: 0, label: "All"}
+  status: { value: 0, label: "All" },
 };
 
 export function ShipToPartnerTransfer() {
@@ -38,8 +38,8 @@ export function ShipToPartnerTransfer() {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tempData, setTempData] = useState([]);
-  const [showNIDModal, setShowNIDModal] = useState(false)
-  const [showTradeLicenceModal, setShowTradeLicenceModal] = useState(false)
+  const [showNIDModal, setShowNIDModal] = useState(false);
+  const [showTradeLicenceModal, setShowTradeLicenceModal] = useState(false);
   const [nidImg, setNidImg] = useState("");
   const [transactionImg, setTransactionImg] = useState("");
 
@@ -115,6 +115,7 @@ export function ShipToPartnerTransfer() {
       partnerShippingContact: element?.shipToPartnerContact,
       updateBy: userId,
       remarks: "",
+      active:element?.isActive
     }));
     shipToPartnerInfoUpdate(payload, setLoading);
   };
@@ -354,6 +355,7 @@ export function ShipToPartnerTransfer() {
                         <th>Business Partner Address</th>
                         <th>Ship To Partner Id</th>
                         <th>Ship To Partner Name</th>
+                        <th>Active</th>
                         <th>Ship To Partner Address</th>
                         <th>Ship To Partner Contact No</th>
                         <th>Transport Zone Name</th>
@@ -395,6 +397,21 @@ export function ShipToPartnerTransfer() {
                           <td>{item?.businessPartnerAddress}</td>
                           <td>{item?.shipToPartnerId}</td>
                           <td>{item?.shipToPartnerName}</td>
+                          <td
+                            onClick={() => {
+                              const data = [...gridData];
+                              data[index]["isActive"] = !item?.isActive;
+                              setGridData(data);
+                            }}
+                          >
+                            <input
+                              id="itemCheck"
+                              type="checkbox"
+                              value={item.isActive}
+                              checked={item.isActive}
+                              onChange={(e) => {}}
+                            />
+                          </td>
                           <td>
                             {values?.type?.value === 3 ? (
                               <InputField
@@ -430,34 +447,42 @@ export function ShipToPartnerTransfer() {
                             )}
                           </td>
                           <td>{item?.transportZoneName}</td>
-                          <td className="text-center" 
-                          onClick={()=>{ 
-                            setShowNIDModal(true);
-                            setNidImg(item?.nationalId)
-                          }}
-                          > <IView /> </td>
+                          <td
+                            className="text-center"
+                            onClick={() => {
+                              setShowNIDModal(true);
+                              setNidImg(item?.nationalId);
+                            }}
+                          >
+                            {" "}
+                            <IView />{" "}
+                          </td>
                           <td className="text-center">
                             {/* <a href={item?.facebookLink}  target="_blank"> <InsertLinkIcon /> </a> */}
                             <i class="fa fa-link" aria-hidden="true"></i>
                           </td>
-                          <td className="text-center cursor-pointer"
-                              onClick={()=>{ 
-                                setShowTradeLicenceModal(true);
-                                setTransactionImg(item?.tradeLicenseImg)
-                              }}
-                          > <IView /> </td>
+                          <td
+                            className="text-center cursor-pointer"
+                            onClick={() => {
+                              setShowTradeLicenceModal(true);
+                              setTransactionImg(item?.tradeLicenseImg);
+                            }}
+                          >
+                            {" "}
+                            <IView />{" "}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                  <NationalIdViewModal 
+                  <NationalIdViewModal
                     show={showNIDModal}
-                    onHide={()=>setShowNIDModal(false)}
+                    onHide={() => setShowNIDModal(false)}
                     nationalIdImg={nidImg}
                   />
-                  <TradeLicenceModal 
+                  <TradeLicenceModal
                     show={showTradeLicenceModal}
-                    onHide={()=>setShowTradeLicenceModal(false)}
+                    onHide={() => setShowTradeLicenceModal(false)}
                     transactionImg={transactionImg}
                   />
                 </div>
