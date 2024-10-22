@@ -74,12 +74,8 @@ const validationSchema = Yup.object().shape({
   }),
   negotiationParty: Yup.string().required("Negotiation Party is required"),
   freightAgentReference: Yup.object().shape({
-    value: Yup.number().required(
-      "Freight Forwarder/Agent Reference is required"
-    ),
-    label: Yup.string().required(
-      "Freight Forwarder/Agent Reference is required"
-    ),
+    value: Yup.number().required("Delivery Agent is required"),
+    label: Yup.string().required("Delivery Agent is required"),
   }),
 });
 
@@ -149,14 +145,51 @@ function ConfirmModal({ rowClickData, CB }) {
                   }
                 : ""
             );
-            formikRef.current.setFieldValue( "consigneeDivisionAndState", data?.consigStateId ? { value: data?.consigStateId || 0, label: data?.consigState || "" } : "" ); 
-            formikRef.current.setFieldValue("consigneeAddress", data?.consigneeAddress || "");
-            formikRef.current.setFieldValue("consigneeContactPerson", data?.consigneeContactPerson || "");
-            formikRef.current.setFieldValue("consigneeContact", data?.consigneeContact || "");
-            formikRef.current.setFieldValue("consigneeEmail", data?.consigneeEmail || "");
-            formikRef.current.setFieldValue("notifyParty", data?.notifyParty || "");
-            formikRef.current.setFieldValue("negotiationParty", data?.negotiationParty || "");
-            formikRef.current.setFieldValue("freightAgentReference", data?.freightAgentReference ? { value: data?.freightAgentReference || 0, label: data?.freightAgentReference || "" } : "" );  
+            formikRef.current.setFieldValue(
+              "consigneeDivisionAndState",
+              data?.consigStateId
+                ? {
+                    value: data?.consigStateId || 0,
+                    label: data?.consigState || "",
+                  }
+                : ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeAddress",
+              data?.consigneeAddress || ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeContactPerson",
+              data?.consigneeContactPerson || ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeContact",
+              data?.consigneeContact || ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeEmail",
+              data?.consigneeEmail || ""
+            );
+            formikRef.current.setFieldValue(
+              "notifyParty",
+              data?.notifyParty  ? {
+                value:  0,
+                label: data?.notifyParty || "",
+              } : ''
+            );
+            formikRef.current.setFieldValue(
+              "negotiationParty",
+              data?.negotiationParty || ""
+            );
+            formikRef.current.setFieldValue(
+              "freightAgentReference",
+              data?.freightAgentReference
+                ? {
+                    value: data?.freightAgentReference || 0,
+                    label: data?.freightAgentReference || "",
+                  }
+                : ""
+            );
           }
         }
       );
@@ -268,6 +301,7 @@ function ConfirmModal({ rowClickData, CB }) {
       modeOfTransport: "",
       userId: profileData?.userId || 0,
       userReferenceId: rowClickData?.userReferenceId || 0,
+      shipperId: rowClickData?.createdBy || 0,
     };
 
     if (paylaod) {
@@ -587,17 +621,17 @@ function ConfirmModal({ rowClickData, CB }) {
                     }
                   />
                 </div>
-                {/* Freight Forwarder/Agent Reference ddl  */}
+                {/* Delivery Agent ddl  */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="freightAgentReference"
                     options={deliveryAgentDDL || []}
                     value={values?.freightAgentReference}
-                    label="Freight Forwarder/Agent Reference"
+                    label="Delivery Agent"
                     onChange={(valueOption) => {
                       setFieldValue("freightAgentReference", valueOption);
                     }}
-                    placeholder="Freight Forwarder/Agent Reference"
+                    placeholder="Delivery Agent"
                     errors={errors}
                     touched={touched}
                   />
