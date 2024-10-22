@@ -103,7 +103,7 @@ const ProductMainIndex = ({
                                   <input
                                     type="checkbox"
                                     value={item?.itemStatus}
-                                    checked={item?.itemStatus}
+                                    checked={item?.finishGoodMappingsCount > 0}
                                     name="itemStatus"
                                     onClick={() =>
                                       history.push({
@@ -113,6 +113,9 @@ const ProductMainIndex = ({
                                     }
                                   />
                                 </OverlayTrigger>
+                                <label htmlFor="ptofg" className="pl-1">
+                                  Product to finished Good
+                                </label>
                               </div>
 
                               <div class="order-md-1 p-1">
@@ -126,7 +129,7 @@ const ProductMainIndex = ({
                                   <input
                                     type="checkbox"
                                     value={item?.itemAttributeConfigStatus}
-                                    checked={item?.itemAttributeConfigStatus}
+                                    checked={item?.materialMappingsCount > 0}
                                     name="itemAttributeConfigStatus"
                                     onClick={() =>
                                       history.push({
@@ -136,6 +139,9 @@ const ProductMainIndex = ({
                                     }
                                   />
                                 </OverlayTrigger>
+                                <label htmlFor="ptorm" className="pl-1">
+                                  Product to Raw Material
+                                </label>
                               </div>
                             </div>
                           </td>

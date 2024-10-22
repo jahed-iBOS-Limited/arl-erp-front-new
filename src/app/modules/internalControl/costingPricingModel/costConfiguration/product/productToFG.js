@@ -107,6 +107,7 @@ const ProductToFG = () => {
       let payload = {
         fgItemId: values?.finishedGood?.value,
         fgItemName: values?.finishedGood?.label,
+        conversion: values?.conversion,
       };
       console.log(payload, "payload");
       setRowData([...rowData, payload]);
@@ -154,7 +155,7 @@ const ProductToFG = () => {
                     />
                   </div>
 
-                  <div className="col-lg-4">
+                  <div className="col-lg-3">
                     <label>Finished Good</label>
                     <SearchAsyncSelect
                       selectedValue={values?.finishedGood}
@@ -174,10 +175,22 @@ const ProductToFG = () => {
                       }}
                     />
                   </div>
+                  <div className="col-lg-3">
+                    <label>Convertion Rate</label>
+                    <InputField
+                      value={values?.conversion}
+                      name="conversion"
+                      onChange={(e) => {
+                        setFieldValue("conversion", e.target.value);
+                      }}
+                      placeholder="Convertion Rate"
+                      type="number"
+                    />
+                  </div>
                   <div className="col-lg-3 pt-6">
                     <button
                       type="button"
-                      disabled={!values?.finishedGood}
+                      disabled={!values?.finishedGood || !values?.conversion}
                       className="btn btn-primary"
                       onClick={() => {
                         addNewFeatureHandler(values);
@@ -209,6 +222,7 @@ const ProductToFG = () => {
                       <tr>
                         <th>SL</th>
                         <th>Finished Good</th>
+                        <th>Conversion Rate</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -228,6 +242,11 @@ const ProductToFG = () => {
                             <td>
                               <span className="pl-2 text-center">
                                 {item?.fgItemName}
+                              </span>
+                            </td>
+                            <td>
+                              <span className="pl-2 text-center">
+                                {item?.conversion}
                               </span>
                             </td>
                             <td>

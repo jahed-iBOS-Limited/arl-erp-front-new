@@ -98,7 +98,7 @@ const ProductToFG = () => {
       (item) => item?.costElementName === values?.costElementName
     );
     if (foundData?.length > 0) {
-      toast.warning("Finished Good already exist", { toastId: "Fae" });
+      toast.warning("Cost element already exist", { toastId: "Fae" });
     } else {
       let payload = {
         costElementName: values?.costElementName,
