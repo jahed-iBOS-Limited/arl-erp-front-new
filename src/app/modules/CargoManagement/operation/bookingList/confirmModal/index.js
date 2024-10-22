@@ -172,7 +172,10 @@ function ConfirmModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               "notifyParty",
-              data?.notifyParty || ""
+              data?.notifyParty  ? {
+                value:  0,
+                label: data?.notifyParty || "",
+              } : ''
             );
             formikRef.current.setFieldValue(
               "negotiationParty",
