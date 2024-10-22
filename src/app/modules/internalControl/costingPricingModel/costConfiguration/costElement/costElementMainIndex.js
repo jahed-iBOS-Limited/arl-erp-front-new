@@ -5,25 +5,16 @@ import CreateCostModal from "./createModal";
 import { shallowEqual, useSelector } from "react-redux";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import CreateCostElementModal from "./createModal";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 
-const ProductMainIndex = ({
+const CostElementMainIndex = ({
   costingConfiguration,
   isModalShowObj,
   setIsModalShowObj,
 }) => {
   const history = useHistory();
-  const [uomDDL, getUomDDL] = useAxiosGet();
-
-  const { selectedBusinessUnit, profileData } = useSelector(
-    (state) => state.authData,
-    shallowEqual
-  );
-
-  useEffect(() => {
-    getUomDDL(
-      `/item/ItemUOM/GetItemUOMDDL?AccountId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit.value}`
-    );
-  }, []);
 
   return (
     <div>
@@ -38,7 +29,7 @@ const ProductMainIndex = ({
                     minWidth: "400px",
                   }}
                 >
-                  Product Name
+                  Cost Element Name
                 </th>
                 <th
                   style={{
@@ -61,22 +52,11 @@ const ProductMainIndex = ({
                           <OverlayTrigger
                             overlay={
                               <Tooltip id="cs-icon">
-                                {"Product to FG Configuration"}
+                                {"Cost Element Edit Configuration"}
                               </Tooltip>
                             }
                           >
-                            <input
-                              type="checkbox"
-                              value={item?.itemStatus}
-                              checked={item?.itemStatus}
-                              name="itemStatus"
-                              onClick={() =>
-                                history.push({
-                                  pathname: `/internal-control/costing/costingconfiguration/product-to-fg`,
-                                  state: { item, checkBox: "itemStatus" },
-                                })
-                              }
-                            />
+                            <IEdit />
                           </OverlayTrigger>
                         </div>
 
@@ -84,22 +64,11 @@ const ProductMainIndex = ({
                           <OverlayTrigger
                             overlay={
                               <Tooltip id="cs-icon">
-                                {"Product to RM Configuration"}
+                                {"Delete cost Configuration"}
                               </Tooltip>
                             }
                           >
-                            <input
-                              type="checkbox"
-                              value={item?.itemAttributeConfigStatus}
-                              checked={item?.itemAttributeConfigStatus}
-                              name="itemAttributeConfigStatus"
-                              onClick={() =>
-                                history.push({
-                                  pathname: `/internal-control/costing/costingconfiguration/product-to-rm`,
-                                  state: { item, checkBox: "itemStatus" },
-                                })
-                              }
-                            />
+                            <IDelete />
                           </OverlayTrigger>
                         </div>
                       </div>
@@ -125,11 +94,11 @@ const ProductMainIndex = ({
                   }}
                 />
               )} */}
-      {isModalShowObj?.isProductCreate && (
+      {isModalShowObj?.isCostElementCreate && (
         <>
           <IViewModal
-            title="Create New Product"
-            show={isModalShowObj?.isProductCreate}
+            title="Create Cost Element"
+            show={isModalShowObj?.isCostElementCreate}
             onHide={() => {
               setIsModalShowObj({
                 ...isModalShowObj,
@@ -138,8 +107,7 @@ const ProductMainIndex = ({
               });
             }}
           >
-            <CreateCostModal
-              uomDDL={uomDDL || []}
+            <CreateCostElementModal
               CB={() => {
                 // commonLandingApi();
                 setIsModalShowObj({
@@ -156,4 +124,4 @@ const ProductMainIndex = ({
   );
 };
 
-export default ProductMainIndex;
+export default CostElementMainIndex;

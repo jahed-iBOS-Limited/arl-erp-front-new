@@ -11,14 +11,15 @@ import IDelete from "../../../../_helper/_helperIcons/_delete";
 
 const initData = {
   productName: "",
-  finishedGood: "",
+  rawMaterial: "",
 };
 
 const validationSchema = Yup.object().shape({
   //   productName: Yup.string().required("Product Name is required"),
-  //   finishedGood: Yup.string().required("Finished Good is required"),
+  //   rawMaterial: Yup.string().required("Raw Material is required"),
 });
-const ProductToFG = () => {
+
+const ProductToRM = () => {
   const [objProps, setObjprops] = useState({});
   const [rowData, setRowData] = useState([]);
   const location = useLocation();
@@ -29,13 +30,10 @@ const ProductToFG = () => {
     console.log(rowData, "rowData");
   };
 
-  const addNewFeatureHandler = (values) => {
-    // let foundData = rowData?.filter(
-    //   (item) => item?.featureId === values?.feature?.value
-    // );
+  const addNewRawMaterialHandler = (values) => {
     let foundData = [];
     if (foundData?.length > 0) {
-      toast.warning("Feature already exist", { toastId: "Fae" });
+      toast.warning("Raw Material already exists", { toastId: "RMe" });
     } else {
       const timestamp = Date.now(); // Current timestamp in milliseconds
       const randomNum = Math.random()
@@ -43,8 +41,8 @@ const ProductToFG = () => {
         .substring(2); // Generate a random number and convert it to base 36
       const uniqueId = `${timestamp}-${randomNum}`;
       let payload = {
-        featureId: 2,
-        finishedGood: uniqueId,
+        materialId: 2,
+        rawMaterial: uniqueId,
         isSelect: true,
         isCreate: false,
         isEdit: false,
@@ -56,13 +54,14 @@ const ProductToFG = () => {
     }
   };
 
-  const handleDelete = (fgValue) => {
-    const filterData = rowData.filter((item) => item.finishedGood !== fgValue);
+  const handleDelete = (rmValue) => {
+    const filterData = rowData.filter((item) => item.rawMaterial !== rmValue);
     setRowData(filterData);
   };
+
   return (
     <>
-      <IForm title={"Product to FG Configuration"} getProps={setObjprops}>
+      <IForm title={"Product to RM Configuration"} getProps={setObjprops}>
         <Formik
           enableReinitialize={true}
           initialValues={initData}
@@ -101,17 +100,17 @@ const ProductToFG = () => {
                     <>
                       <div className="col-lg-3">
                         <NewSelect
-                          name="finishedGood"
+                          name="rawMaterial"
                           options={[
-                            { value: 1, label: "Feature 1" },
-                            { value: 2, label: "Feature 13" },
+                            { value: 1, label: "Raw Material 1" },
+                            { value: 2, label: "Raw Material 2" },
                           ]}
-                          value={values?.finishedGood}
-                          label="Finished Good"
+                          value={values?.rawMaterial}
+                          label="Raw Material"
                           onChange={(valueOption) => {
-                            setFieldValue("finishedGood", valueOption);
+                            setFieldValue("rawMaterial", valueOption);
                           }}
-                          placeholder="Finished Good"
+                          placeholder="Raw Material"
                           errors={errors}
                           touched={touched}
                         />
@@ -119,10 +118,10 @@ const ProductToFG = () => {
                       <div className="col-lg-3 pt-6">
                         <button
                           type="button"
-                          disabled={!values?.finishedGood}
+                          disabled={!values?.rawMaterial}
                           className="btn btn-primary"
                           onClick={() => {
-                            addNewFeatureHandler(values);
+                            addNewRawMaterialHandler(values);
                           }}
                         >
                           Add
@@ -152,7 +151,7 @@ const ProductToFG = () => {
                     <thead>
                       <tr>
                         <th>SL</th>
-                        <th>Finished Good</th>
+                        <th>Raw Material</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -170,14 +169,14 @@ const ProductToFG = () => {
                             </td>
                             <td>
                               <span className="pl-2 text-center">
-                                {item?.finishedGood}
+                                {item?.rawMaterial}
                               </span>
                             </td>
                             <td>
                               <span
                                 style={{ cursor: "pointer" }}
                                 onClick={() => {
-                                  handleDelete(item?.finishedGood);
+                                  handleDelete(item?.rawMaterial);
                                 }}
                               >
                                 <IDelete />
@@ -197,4 +196,4 @@ const ProductToFG = () => {
   );
 };
 
-export default ProductToFG;
+export default ProductToRM;

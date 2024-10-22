@@ -10,7 +10,7 @@ import CostingPricingModel from "./costingPricingModel/costConfiguration";
 import CostCalculationLanding from "./costingPricingModel/costCalculation/costCalculationMainIndex";
 import CostConfigurationCreateEdit from "./costingPricingModel/costCalculation/createEdit";
 import ProductToFG from "./costingPricingModel/costConfiguration/product/productToFG";
-import ProductToMG from "./costingPricingModel/costConfiguration/product/productToMG";
+import ProductToRM from "./costingPricingModel/costConfiguration/product/productToRM";
 
 export function InternalControlPages() {
   return (
@@ -49,8 +49,8 @@ export function InternalControlPages() {
           component={ProductToFG}
         />
         <ContentRoute
-          path="/internal-control/costing/costingconfiguration/product-to-mg"
-          component={ProductToMG}
+          path="/internal-control/costing/costingconfiguration/product-to-rm"
+          component={ProductToRM}
         />
         <ContentRoute
           path="/internal-control/costing/costingconfiguration"
