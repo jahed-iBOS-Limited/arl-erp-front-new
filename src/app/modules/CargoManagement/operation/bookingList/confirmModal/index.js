@@ -74,12 +74,8 @@ const validationSchema = Yup.object().shape({
   }),
   negotiationParty: Yup.string().required("Negotiation Party is required"),
   freightAgentReference: Yup.object().shape({
-    value: Yup.number().required(
-      "Delivery Agent is required"
-    ),
-    label: Yup.string().required(
-      "Delivery Agent is required"
-    ),
+    value: Yup.number().required("Delivery Agent is required"),
+    label: Yup.string().required("Delivery Agent is required"),
   }),
 });
 
@@ -149,14 +145,48 @@ function ConfirmModal({ rowClickData, CB }) {
                   }
                 : ""
             );
-            formikRef.current.setFieldValue( "consigneeDivisionAndState", data?.consigStateId ? { value: data?.consigStateId || 0, label: data?.consigState || "" } : "" ); 
-            formikRef.current.setFieldValue("consigneeAddress", data?.consigneeAddress || "");
-            formikRef.current.setFieldValue("consigneeContactPerson", data?.consigneeContactPerson || "");
-            formikRef.current.setFieldValue("consigneeContact", data?.consigneeContact || "");
-            formikRef.current.setFieldValue("consigneeEmail", data?.consigneeEmail || "");
-            formikRef.current.setFieldValue("notifyParty", data?.notifyParty || "");
-            formikRef.current.setFieldValue("negotiationParty", data?.negotiationParty || "");
-            formikRef.current.setFieldValue("freightAgentReference", data?.freightAgentReference ? { value: data?.freightAgentReference || 0, label: data?.freightAgentReference || "" } : "" );  
+            formikRef.current.setFieldValue(
+              "consigneeDivisionAndState",
+              data?.consigStateId
+                ? {
+                    value: data?.consigStateId || 0,
+                    label: data?.consigState || "",
+                  }
+                : ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeAddress",
+              data?.consigneeAddress || ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeContactPerson",
+              data?.consigneeContactPerson || ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeContact",
+              data?.consigneeContact || ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeEmail",
+              data?.consigneeEmail || ""
+            );
+            formikRef.current.setFieldValue(
+              "notifyParty",
+              data?.notifyParty || ""
+            );
+            formikRef.current.setFieldValue(
+              "negotiationParty",
+              data?.negotiationParty || ""
+            );
+            formikRef.current.setFieldValue(
+              "freightAgentReference",
+              data?.freightAgentReference
+                ? {
+                    value: data?.freightAgentReference || 0,
+                    label: data?.freightAgentReference || "",
+                  }
+                : ""
+            );
           }
         }
       );
@@ -268,6 +298,7 @@ function ConfirmModal({ rowClickData, CB }) {
       modeOfTransport: "",
       userId: profileData?.userId || 0,
       userReferenceId: rowClickData?.userReferenceId || 0,
+      shipperId: rowClickData?.createdBy || 0,
     };
 
     if (paylaod) {
