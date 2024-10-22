@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IForm from "../../../../_helper/_form";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
-import { useLocation } from "react-router-dom";
-import { values } from "lodash";
+import { useLocation, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { shallowEqual, useSelector } from "react-redux";
+import axios from "axios";
+import Loading from "../../../../_helper/_loading";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 
 const initData = {
@@ -15,47 +19,96 @@ const initData = {
 };
 
 const validationSchema = Yup.object().shape({
-  //   productName: Yup.string().required("Product Name is required"),
-  //   rawMaterial: Yup.string().required("Raw Material is required"),
+  // Add any validation rules here, if needed
 });
 
 const ProductToRM = () => {
   const [objProps, setObjprops] = useState({});
   const [rowData, setRowData] = useState([]);
+  const [productInfo, getProductInfo, productInfoLoading] = useAxiosGet();
+  const [, saveData, tagRMloading] = useAxiosPost();
+  const { selectedBusinessUnit, profileData } = useSelector(
+    (state) => state.authData,
+    shallowEqual
+  );
   const location = useLocation();
-  console.log(location?.state, "location.state");
+  const history = useHistory();
+
+  const { item } = location?.state;
+
+  useEffect(() => {
+    getProductInfo(
+      `costmgmt/Precosting/ProductGetById?productId=${item?.productId}`,
+      (data) => {
+        setRowData(data?.materialMappings || []);
+      }
+    );
+  }, [selectedBusinessUnit?.value, item?.productId]);
 
   const saveHandler = (values) => {
-    console.log(values, "values");
-    console.log(rowData, "rowData");
+    const materialMappings = [];
+
+    // eslint-disable-next-line no-unused-expressions
+    rowData?.forEach((data) => {
+      if (data?.materialItemName && data?.materialItemId) {
+        materialMappings.push({
+          autoId: data?.autoId || 0,
+          businessUnitId: selectedBusinessUnit?.value,
+          materialItemId: data?.materialItemId,
+          materialItemName: data?.materialItemName,
+          productId: item?.productId,
+          conversion: data?.conversion || 0,
+          uomId: item?.uomId,
+          uomName: item?.uomName,
+        });
+      } else {
+        console.error("Invalid data in rowData: ", data);
+      }
+    });
+
+    const payload = {
+      productId: item?.productId,
+      productName: item?.productName,
+      businessUnitId: selectedBusinessUnit?.value,
+      uomId: item?.uomId,
+      uomName: item?.uomName,
+      actionBy: profileData?.userId,
+      mappingType: "materialMappings",
+      finishGoodMappings: [],
+      materialMappings: [...materialMappings],
+      commonCostElement: [],
+    };
+
+    saveData(
+      `/costmgmt/Precosting/ProductItemMaterialElementConfigure`,
+      payload,
+      (res) => {
+        if (res.statuscode === 200) {
+          history.push("/internal-control/costing/costingconfiguration");
+        }
+      }
+    );
   };
 
   const addNewRawMaterialHandler = (values) => {
-    let foundData = [];
+    let foundData = rowData?.filter(
+      (item) => item?.materialItemId === values?.rawMaterial?.value
+    );
     if (foundData?.length > 0) {
       toast.warning("Raw Material already exists", { toastId: "RMe" });
     } else {
-      const timestamp = Date.now(); // Current timestamp in milliseconds
-      const randomNum = Math.random()
-        .toString(36)
-        .substring(2); // Generate a random number and convert it to base 36
-      const uniqueId = `${timestamp}-${randomNum}`;
       let payload = {
-        materialId: 2,
-        rawMaterial: uniqueId,
-        isSelect: true,
-        isCreate: false,
-        isEdit: false,
-        isView: false,
-        isClose: false,
+        materialItemId: values?.rawMaterial?.value,
+        materialItemName: values?.rawMaterial?.label,
       };
-      console.log(payload, "payload");
       setRowData([...rowData, payload]);
     }
   };
 
   const handleDelete = (rmValue) => {
-    const filterData = rowData.filter((item) => item.rawMaterial !== rmValue);
+    const filterData = rowData.filter(
+      (item) => item.materialItemId !== rmValue
+    );
     setRowData(filterData);
   };
 
@@ -67,68 +120,57 @@ const ProductToRM = () => {
           initialValues={initData}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-            saveHandler(values, () => {
-              console.log(values, "values");
-              resetForm(initData);
-            });
+            saveHandler(values);
+            resetForm(initData);
           }}
         >
-          {({
-            handleSubmit,
-            resetForm,
-            values,
-            errors,
-            touched,
-            setFieldValue,
-            isValid,
-          }) => (
+          {({ handleSubmit, resetForm, values, errors, setFieldValue }) => (
             <>
-              {console.log("rr0", errors)}
+              {(tagRMloading || productInfoLoading) && <Loading />}
               <Form className="global-form form form-label-right">
                 <div className="form-group row">
                   <div className="col-lg-3">
                     <label>Product Name</label>
                     <InputField
-                      value={"testing"}
+                      value={item?.productName}
                       name="Product Name"
                       placeholder="Product Name"
                       type="text"
                       disabled={true}
                     />
                   </div>
-                  {
-                    <>
-                      <div className="col-lg-3">
-                        <NewSelect
-                          name="rawMaterial"
-                          options={[
-                            { value: 1, label: "Raw Material 1" },
-                            { value: 2, label: "Raw Material 2" },
-                          ]}
-                          value={values?.rawMaterial}
-                          label="Raw Material"
-                          onChange={(valueOption) => {
-                            setFieldValue("rawMaterial", valueOption);
-                          }}
-                          placeholder="Raw Material"
-                          errors={errors}
-                          touched={touched}
-                        />
-                      </div>
-                      <div className="col-lg-3 pt-6">
-                        <button
-                          type="button"
-                          disabled={!values?.rawMaterial}
-                          className="btn btn-primary"
-                          onClick={() => {
-                            addNewRawMaterialHandler(values);
-                          }}
-                        >
-                          Add
-                        </button>
-                      </div>
-                    </>
-                  }
+
+                  <div className="col-lg-4">
+                    <label>Raw Material</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.rawMaterial}
+                      handleChange={(valueOption) => {
+                        setFieldValue("rawMaterial", valueOption);
+                      }}
+                      placeholder="Search Raw Material"
+                      loadOptions={(v) => {
+                        const searchValue = v.trim();
+                        if (searchValue?.length < 3) return [];
+                        return axios
+                          .get(
+                            `/costmgmt/Precosting/GetPrecostingItemDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=2&search=${searchValue}`
+                          )
+                          .then((res) => res?.data);
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3 pt-6">
+                    <button
+                      type="button"
+                      disabled={!values?.rawMaterial}
+                      className="btn btn-primary"
+                      onClick={() => {
+                        addNewRawMaterialHandler(values);
+                      }}
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
 
                 <button
@@ -145,6 +187,7 @@ const ProductToRM = () => {
                   onSubmit={() => resetForm(initData)}
                 ></button>
               </Form>
+
               <div className="table-responsive pt-5">
                 <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                   {rowData?.length > 0 && (
@@ -158,33 +201,26 @@ const ProductToRM = () => {
                   )}
                   <tbody>
                     {rowData?.length > 0 &&
-                      rowData?.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td
-                              style={{ width: "15px" }}
-                              className="text-center"
+                      rowData?.map((item, index) => (
+                        <tr key={index}>
+                          <td style={{ width: "15px" }} className="text-center">
+                            {index + 1}
+                          </td>
+                          <td>
+                            <span className="pl-2 text-center">
+                              {item?.materialItemName}
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              style={{ cursor: "pointer" }}
+                              onClick={() => handleDelete(item?.materialItemId)}
                             >
-                              {index + 1}
-                            </td>
-                            <td>
-                              <span className="pl-2 text-center">
-                                {item?.rawMaterial}
-                              </span>
-                            </td>
-                            <td>
-                              <span
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  handleDelete(item?.rawMaterial);
-                                }}
-                              >
-                                <IDelete />
-                              </span>
-                            </td>
-                          </tr>
-                        );
-                      })}
+                              <IDelete />
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>

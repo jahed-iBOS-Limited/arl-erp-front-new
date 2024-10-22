@@ -2,12 +2,19 @@ import React, { useState } from "react";
 import IForm from "../../../../_helper/_form";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { values } from "lodash";
 import { toast } from "react-toastify";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import Loading from "../../../../_helper/_loading";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import axios from "axios";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 
 const initData = {
   productName: "",
@@ -19,37 +26,87 @@ const validationSchema = Yup.object().shape({
   //   finishedGood: Yup.string().required("Finished Good is required"),
 });
 const ProductToFG = () => {
+  const [, saveData, tagFGloading] = useAxiosPost();
+  const [productInfo, getProductInfo, productInfoLoading] = useAxiosGet();
+
   const [objProps, setObjprops] = useState({});
   const [rowData, setRowData] = useState([]);
   const location = useLocation();
+  const history = useHistory();
+
+  const { item } = location?.state;
+  const { selectedBusinessUnit, profileData } = useSelector(
+    (state) => state.authData,
+    shallowEqual
+  );
+  useEffect(() => {
+    getProductInfo(
+      `costmgmt/Precosting/ProductGetById?productId=${item?.productId}`,
+      (data) => {
+        setRowData(data?.finishGoodMappings || []);
+      }
+    );
+  }, [selectedBusinessUnit?.value, item?.productId]);
+
   console.log(location?.state, "location.state");
 
   const saveHandler = (values) => {
-    console.log(values, "values");
-    console.log(rowData, "rowData");
+    const finishGoodMappings = [];
+
+    // Use forEach instead of map for side effects (pushing data)
+    // eslint-disable-next-line no-unused-expressions
+    rowData?.forEach((data) => {
+      if (data?.fgItemName && data?.fgItemId) {
+        finishGoodMappings.push({
+          autoId: data?.autoId || 0,
+          businessUnitId: selectedBusinessUnit?.value,
+          fgItemId: data?.fgItemId,
+          fgItemName: data?.fgItemName,
+          productId: item?.productId,
+          conversion: data?.conversion || 0,
+          uomId: item?.uomId,
+          uomName: item?.uomName,
+        });
+      } else {
+        console.error("Invalid data in rowData: ", data);
+      }
+    });
+
+    const payload = {
+      productId: item?.productId,
+      productName: item?.productName,
+      businessUnitId: selectedBusinessUnit?.value,
+      uomId: item?.uomId,
+      uomName: item?.uomName,
+      actionBy: profileData?.userId,
+      mappingType: "finishGoodMappings",
+      finishGoodMappings: [...finishGoodMappings],
+      materialMappings: [],
+      commonCostElement: [],
+    };
+    console.log(payload, item, "payload");
+    saveData(
+      `/costmgmt/Precosting/ProductItemMaterialElementConfigure`,
+      payload,
+      (res) => {
+        if (res.statuscode === 200) {
+          history.push("/internal-control/costing/costingconfiguration");
+        }
+      }
+    );
   };
 
   const addNewFeatureHandler = (values) => {
-    // let foundData = rowData?.filter(
-    //   (item) => item?.featureId === values?.feature?.value
-    // );
-    let foundData = [];
+    console.log(values, rowData, "values");
+    let foundData = rowData?.filter(
+      (item) => item?.fgItemId === values?.finishedGood?.value
+    );
     if (foundData?.length > 0) {
-      toast.warning("Feature already exist", { toastId: "Fae" });
+      toast.warning("Finished Good already exist", { toastId: "Fae" });
     } else {
-      const timestamp = Date.now(); // Current timestamp in milliseconds
-      const randomNum = Math.random()
-        .toString(36)
-        .substring(2); // Generate a random number and convert it to base 36
-      const uniqueId = `${timestamp}-${randomNum}`;
       let payload = {
-        featureId: 2,
-        finishedGood: uniqueId,
-        isSelect: true,
-        isCreate: false,
-        isEdit: false,
-        isView: false,
-        isClose: false,
+        fgItemId: values?.finishedGood?.value,
+        fgItemName: values?.finishedGood?.label,
       };
       console.log(payload, "payload");
       setRowData([...rowData, payload]);
@@ -57,7 +114,7 @@ const ProductToFG = () => {
   };
 
   const handleDelete = (fgValue) => {
-    const filterData = rowData.filter((item) => item.finishedGood !== fgValue);
+    const filterData = rowData.filter((item) => item.fgItemId !== fgValue);
     setRowData(filterData);
   };
   return (
@@ -69,7 +126,6 @@ const ProductToFG = () => {
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
             saveHandler(values, () => {
-              console.log(values, "values");
               resetForm(initData);
             });
           }}
@@ -84,52 +140,52 @@ const ProductToFG = () => {
             isValid,
           }) => (
             <>
-              {console.log("rr0", errors)}
+              {(tagFGloading || productInfoLoading) && <Loading />}
               <Form className="global-form form form-label-right">
                 <div className="form-group row">
                   <div className="col-lg-3">
                     <label>Product Name</label>
                     <InputField
-                      value={"testing"}
+                      value={item?.productName}
                       name="Product Name"
                       placeholder="Product Name"
                       type="text"
                       disabled={true}
                     />
                   </div>
-                  {
-                    <>
-                      <div className="col-lg-3">
-                        <NewSelect
-                          name="finishedGood"
-                          options={[
-                            { value: 1, label: "Feature 1" },
-                            { value: 2, label: "Feature 13" },
-                          ]}
-                          value={values?.finishedGood}
-                          label="Finished Good"
-                          onChange={(valueOption) => {
-                            setFieldValue("finishedGood", valueOption);
-                          }}
-                          placeholder="Finished Good"
-                          errors={errors}
-                          touched={touched}
-                        />
-                      </div>
-                      <div className="col-lg-3 pt-6">
-                        <button
-                          type="button"
-                          disabled={!values?.finishedGood}
-                          className="btn btn-primary"
-                          onClick={() => {
-                            addNewFeatureHandler(values);
-                          }}
-                        >
-                          Add
-                        </button>
-                      </div>
-                    </>
-                  }
+
+                  <div className="col-lg-4">
+                    <label>Finished Good</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.finishedGood}
+                      handleChange={(valueOption) => {
+                        setFieldValue("finishedGood", valueOption);
+                      }}
+                      // isDisabled={!values?.channel}
+                      placeholder="Search Finished Good"
+                      loadOptions={(v) => {
+                        const searchValue = v.trim();
+                        if (searchValue?.length < 3) return [];
+                        return axios
+                          .get(
+                            `/costmgmt/Precosting/GetPrecostingItemDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=4&search=${searchValue}`
+                          )
+                          .then((res) => res?.data);
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3 pt-6">
+                    <button
+                      type="button"
+                      disabled={!values?.finishedGood}
+                      className="btn btn-primary"
+                      onClick={() => {
+                        addNewFeatureHandler(values);
+                      }}
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
 
                 <button
@@ -160,6 +216,7 @@ const ProductToFG = () => {
                   <tbody>
                     {rowData?.length > 0 &&
                       rowData?.map((item, index) => {
+                        console.log(item, "item");
                         return (
                           <tr key={index}>
                             <td
@@ -170,14 +227,14 @@ const ProductToFG = () => {
                             </td>
                             <td>
                               <span className="pl-2 text-center">
-                                {item?.finishedGood}
+                                {item?.fgItemName}
                               </span>
                             </td>
                             <td>
                               <span
                                 style={{ cursor: "pointer" }}
                                 onClick={() => {
-                                  handleDelete(item?.finishedGood);
+                                  handleDelete(item?.fgItemId);
                                 }}
                               >
                                 <IDelete />

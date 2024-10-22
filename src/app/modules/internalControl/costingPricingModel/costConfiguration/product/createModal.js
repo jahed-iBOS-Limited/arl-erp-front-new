@@ -3,6 +3,10 @@ import React, { useEffect, useRef } from "react";
 import * as Yup from "yup";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { imarineBaseUrl } from "../../../../../App";
+import { shallowEqual, useSelector } from "react-redux";
+import Loading from "../../../../_helper/_loading";
 
 const validationSchema = Yup.object().shape({
   productName: Yup.string().required("Product Name is required"),
@@ -13,16 +17,25 @@ const validationSchema = Yup.object().shape({
 });
 
 function CreateCostModal({ uomDDL, CB }) {
-  const saveHandler = (values, cb) => {
-    const paylaod = { ...values };
-    console.log(paylaod);
+  // get user profile data and business data from store
+  const { selectedBusinessUnit, profileData } = useSelector(
+    (state) => state.authData,
+    shallowEqual
+  );
+  const [, saveData, createloading] = useAxiosPost();
+
+  const saveHandler = (values) => {
+    const paylaod = {
+      productId: 0,
+      productName: values?.productName,
+      uomId: values?.productUOM?.value,
+      uomName: values?.productUOM?.label,
+      businessUnitId: selectedBusinessUnit?.value,
+      actionBy: profileData?.userId,
+    };
 
     if (paylaod) {
-      //   SaveBookingConfirm(
-      //     `${imarineBaseUrl}/domain/ShippingService/SaveBookingConfirm`,
-      //     paylaod,
-      //     CB
-      //   );
+      saveData(`/costmgmt/Precosting/CreateProduct`, paylaod, CB);
     }
   };
 
@@ -30,7 +43,7 @@ function CreateCostModal({ uomDDL, CB }) {
 
   return (
     <div className="confirmModal">
-      {/* {(bookingConfirmLoading || shipBookingRequestLoading) && <Loading />} */}
+      {createloading && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{
