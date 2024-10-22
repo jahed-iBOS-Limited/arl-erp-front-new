@@ -49,7 +49,9 @@ function BookingList() {
     deleteBookingRequestByIdLoading,
   ] = useAxiosPut();
 
-  const [isModalShowObj, setIsModalShowObj] = React.useState({});
+  const [isModalShowObj, setIsModalShowObj] = React.useState({
+    isConfirm: true
+  });
   const [rowClickData, setRowClickData] = React.useState({});
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
