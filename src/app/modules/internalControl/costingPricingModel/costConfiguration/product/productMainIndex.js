@@ -50,7 +50,6 @@ const ProductMainIndex = ({
     );
   };
 
-  console.log("productLanding", productLanding);
   return (
     <div>
       <Formik

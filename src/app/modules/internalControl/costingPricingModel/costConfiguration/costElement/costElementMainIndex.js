@@ -53,10 +53,7 @@ const ProductToFG = () => {
     });
   }, [selectedBusinessUnit?.value]);
 
-  console.log(location?.state, "location.state");
-
   const saveHandler = (values) => {
-    console.log(values, rowData, "values ===>");
     const costElemtList = [];
 
     // Use forEach instead of map for side effects (pushing data)
@@ -93,7 +90,6 @@ const ProductToFG = () => {
   };
 
   const addNewFeatureHandler = (values) => {
-    console.log(values, rowData, "values");
     let foundData = rowData?.filter(
       (item) => item?.costElementName === values?.costElementName
     );
@@ -103,7 +99,6 @@ const ProductToFG = () => {
       let payload = {
         costElementName: values?.costElementName,
       };
-      console.log(payload, "payload");
       setRowData([...rowData, payload]);
     }
   };
@@ -202,7 +197,6 @@ const ProductToFG = () => {
                 <tbody>
                   {rowData?.length > 0 &&
                     rowData?.map((item, index) => {
-                      console.log(item, "item");
                       return (
                         <tr key={index}>
                           <td style={{ width: "15px" }} className="text-center">

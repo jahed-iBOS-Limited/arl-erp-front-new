@@ -48,8 +48,6 @@ const ProductToFG = () => {
     );
   }, [selectedBusinessUnit?.value, item?.productId]);
 
-  console.log(location?.state, "location.state");
-
   const saveHandler = (values) => {
     const finishGoodMappings = [];
 
@@ -84,7 +82,6 @@ const ProductToFG = () => {
       materialMappings: [],
       commonCostElement: [],
     };
-    console.log(payload, item, "payload");
     saveData(
       `/costmgmt/Precosting/ProductItemMaterialElementConfigure`,
       payload,
@@ -97,7 +94,6 @@ const ProductToFG = () => {
   };
 
   const addNewFeatureHandler = (values) => {
-    console.log(values, rowData, "values");
     let foundData = rowData?.filter(
       (item) => item?.fgItemId === values?.finishedGood?.value
     );
@@ -109,7 +105,6 @@ const ProductToFG = () => {
         fgItemName: values?.finishedGood?.label,
         conversion: values?.conversion,
       };
-      console.log(payload, "payload");
       setRowData([...rowData, payload]);
     }
   };
@@ -230,7 +225,6 @@ const ProductToFG = () => {
                   <tbody>
                     {rowData?.length > 0 &&
                       rowData?.map((item, index) => {
-                        console.log(item, "item");
                         return (
                           <tr key={index}>
                             <td
