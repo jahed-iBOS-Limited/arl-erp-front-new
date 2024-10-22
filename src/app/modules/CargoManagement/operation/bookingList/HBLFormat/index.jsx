@@ -59,7 +59,7 @@ const HBLFormat = ({ rowClickData }) => {
   //     "consigneeEmail": "zinthin@gmail.com",
   //     "ponumber": "201",
   //     "dateOfRequest": "2024-10-12T00:00:00",
-  //     "freightAgentReference": "Freight Forwarder/Agent Reference",
+  //     "freightAgentReference": "Delivery Agent",
   //     "modeOfTransport": null,
   //     "portOfLoadingId": 0,
   //     "portOfLoading": "Port of Loading (POL)",
