@@ -75,10 +75,10 @@ const validationSchema = Yup.object().shape({
   negotiationParty: Yup.string().required("Negotiation Party is required"),
   freightAgentReference: Yup.object().shape({
     value: Yup.number().required(
-      "Freight Forwarder/Agent Reference is required"
+      "Delivery Agent is required"
     ),
     label: Yup.string().required(
-      "Freight Forwarder/Agent Reference is required"
+      "Delivery Agent is required"
     ),
   }),
 });
@@ -587,17 +587,17 @@ function ConfirmModal({ rowClickData, CB }) {
                     }
                   />
                 </div>
-                {/* Freight Forwarder/Agent Reference ddl  */}
+                {/* Delivery Agent ddl  */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="freightAgentReference"
                     options={deliveryAgentDDL || []}
                     value={values?.freightAgentReference}
-                    label="Freight Forwarder/Agent Reference"
+                    label="Delivery Agent"
                     onChange={(valueOption) => {
                       setFieldValue("freightAgentReference", valueOption);
                     }}
-                    placeholder="Freight Forwarder/Agent Reference"
+                    placeholder="Delivery Agent"
                     errors={errors}
                     touched={touched}
                   />
