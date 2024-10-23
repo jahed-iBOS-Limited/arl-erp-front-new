@@ -11,7 +11,6 @@ const validationSchema = Yup.object().shape({
 function CreateCostElementModal({ CB }) {
   const saveHandler = (values, cb) => {
     const paylaod = { ...values };
-    console.log(paylaod);
 
     if (paylaod) {
       //   SaveBookingConfirm(
