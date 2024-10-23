@@ -268,6 +268,9 @@ function ConfirmModal({ rowClickData, CB }) {
 
   const saveHandler = (values, cb) => {
     const paylaod = {
+
+     
+
       bookingRequestId: bookingRequestId || 0,
       departureDateTime:
         moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
@@ -301,8 +304,9 @@ function ConfirmModal({ rowClickData, CB }) {
       modeOfTransport: "",
       userId: rowClickData?.createdBy  || 0,
       confirmBy: profileData?.userId,
-      userReferenceId: rowClickData?.userReferenceId || 0,
       shipperId: rowClickData?.shipperId || 0,
+
+      
     };
 
     if (paylaod) {
