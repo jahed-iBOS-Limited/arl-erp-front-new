@@ -58,6 +58,9 @@ const initData = {
   revenueCenter: "",
   costCenter: "",
   profitCenter: "",
+
+  // ! isEditing true/false mode for create and edit mode handle
+  isEditing: false,
   // Vessel Master Data
   vessel: "",
   strImono: "",
