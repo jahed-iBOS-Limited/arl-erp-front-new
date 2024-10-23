@@ -1,17 +1,14 @@
-import moment from 'moment';
-import React from 'react'
-import { useDispatch } from 'react-redux';
-import './bookingDetailsInfo.css';
-import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import moment from "moment";
+import React from "react";
+import { useDispatch } from "react-redux";
+import "./bookingDetailsInfo.css";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 
-function BookingDetailsInfo({
-    bookingData,
-    
-}) {
-    const dispatch = useDispatch();
+function BookingDetailsInfo({ bookingData }) {
+  const dispatch = useDispatch();
   return (
-    <div className='BookingDetailsInfo'>
-       <div className="container mt-4">
+    <div className="BookingDetailsInfo">
+      <div className="container mt-4">
         {/* Shipper and Consignee Information */}
         <div className="row">
           <div className="col-md-6">
@@ -143,11 +140,13 @@ function BookingDetailsInfo({
                   <th>SL</th>
                   <th>Description</th>
                   <th>HS Code</th>
-                  <th>Packages</th>
+                  <th>Number of Packages/Units/Carton</th>
+                  <th>Per Unit Gross Weight (kg)</th>
+                  <th>Per Unit Net Weight (kg)</th>
                   <th>Gross Weight (KG)</th>
                   <th>Net Weight (KG)</th>
                   <th>Volume (CBM)</th>
-                  <th>Packaging Type</th>
+                  <th>Type of Loading</th>
                   <th>Is Temperature Controlled</th>
                   <th>Temperature Range</th>
                   <th>Is Special Handling Instructions</th>
@@ -161,10 +160,12 @@ function BookingDetailsInfo({
                     <td>{row?.descriptionOfGoods}</td>
                     <td>{row?.hsCode}</td>
                     <td>{row?.numberOfPackages}</td>
+                    <td>{row?.pugrossWeightKg}</td>
+                    <td>{row?.punetWeightKg}</td>
                     <td>{row?.grossWeightKG}</td>
                     <td>{row?.netWeightKG}</td>
-                    <td>{row?.volumeCBM}</td>
-                    <td>{row?.typeOfPackaging}</td>
+                    <td>{row?.totalVolumeCBM}</td>
+                    <td>{row?.typeOfLoading}</td>
                     <td>{row?.isTemperatureControl ? "Yes" : "No"}</td>
                     <td>{row?.temperatureRange}</td>
                     <td>{row?.isSHInstruction ? "Yes" : "No"}</td>
@@ -246,7 +247,7 @@ function BookingDetailsInfo({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default BookingDetailsInfo
+export default BookingDetailsInfo;
