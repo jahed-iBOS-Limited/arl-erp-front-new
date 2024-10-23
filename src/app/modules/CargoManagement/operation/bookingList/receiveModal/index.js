@@ -41,7 +41,7 @@ function ReceiveModal({ rowClickData, CB }) {
             bookingData?.rowsData?.map((itm) => {
               return {
                 ...itm,
-                recvQuantity: itm?.packagingQuantity || 0,
+                recvQuantity: itm?.loadingQuantity || 0,
               };
             }) || []
           );
@@ -146,7 +146,8 @@ function ReceiveModal({ rowClickData, CB }) {
                       <th>SL</th>
                       <th>Cargo Type</th>
                       <th>HS Code</th>
-                      <th>Packaging Quantity</th>
+                      <th>Number of Packages/Units/Carton</th>
+                      <th>Type Of Loading Qty</th>
                       <th>Receive Quantity</th>
                     </tr>
                   </thead>
@@ -156,13 +157,14 @@ function ReceiveModal({ rowClickData, CB }) {
                         <td>{index + 1}</td>
                         <td>{doc?.typeOfCargo}</td>
                         <td>{doc?.hsCode}</td>
-                        <td>{doc?.packagingQuantity}</td>
+                        <td>{doc?.numberOfPackages}</td>
+                        <td>{doc?.loadingQuantity}</td>
                         <td>
                           <InputField
                             value={rowsData[index]?.recvQuantity}
                             name={`rowsData[${index}].recvQuantity`}
                             required
-                            max={rowsData[index]?.packagingQuantity || 0}
+                            // max={rowsData[index]?.loadingQuantity || 0}
                             type="number"
                             min={0}
                             placeholder="Receive Quantity"

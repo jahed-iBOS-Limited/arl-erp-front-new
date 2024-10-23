@@ -185,7 +185,7 @@ function ConfirmModal({ rowClickData, CB }) {
               "freightAgentReference",
               data?.freightAgentReference
                 ? {
-                    value: data?.freightAgentReference || 0,
+                    value:  0,
                     label: data?.freightAgentReference || "",
                   }
                 : ""
@@ -231,14 +231,14 @@ function ConfirmModal({ rowClickData, CB }) {
     GetNotifyPartyDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetNotifyPartyDDL`,
       (resData) => {
-        const modifyData =
-          resData?.map((i) => {
-            return {
+
+        const modifyData = resData?.map((i) => {
+          return {
               ...i,
-              label: i?.stateName || "",
-              value: i?.stateId || 0,
-            };
-          }) || [];
+              label: i?.valueName || '',
+              value: i?.code || 0
+          }
+      }) || []
         setNotifyParty(modifyData);
       }
     );
@@ -299,9 +299,10 @@ function ConfirmModal({ rowClickData, CB }) {
       notifyParty: values?.notifyParty?.label || "",
       negotiationParty: values?.negotiationParty || "",
       modeOfTransport: "",
-      userId: profileData?.userId || 0,
+      userId: rowClickData?.createdBy  || 0,
+      confirmBy: profileData?.userId,
       userReferenceId: rowClickData?.userReferenceId || 0,
-      shipperId: rowClickData?.createdBy || 0,
+      shipperId: rowClickData?.shipperId || 0,
     };
 
     if (paylaod) {
