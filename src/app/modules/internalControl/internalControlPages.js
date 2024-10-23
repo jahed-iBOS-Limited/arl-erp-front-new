@@ -56,13 +56,13 @@ export function InternalControlPages() {
           path="/internal-control/costing/costingconfiguration"
           component={CostingPricingModel}
         />
-        <ContentRoute
+        {/* <ContentRoute
           path="/internal-control/costing/costingcalculation/create"
           component={CostConfigurationCreateEdit}
-        />
+        /> */}
         <ContentRoute
           path="/internal-control/costing/costingcalculation"
-          component={CostCalculationLanding}
+          component={CostConfigurationCreateEdit}
         />
       </Switch>
     </Suspense>
