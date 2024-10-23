@@ -39,7 +39,10 @@ export const tblMaterialCostHeaders = [
   },
 ];
 export const tblCostComponentHeaders = [
-  "SL",
+  {
+    title: "SL",
+    style: { width: "30px" },
+  },
   "Cost Name",
   {
     title: "",
