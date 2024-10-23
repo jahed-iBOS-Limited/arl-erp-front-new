@@ -124,7 +124,7 @@ export default function BalancerReportTable() {
       { name: "intBusinessUnitId", value: `${values?.business?.value}` },
       {
         name: "isForecast",
-        value: `${values?.isForecast?.value === "1" ? true : false}`,
+        value: `${values?.isForecast?.value === 1 ? true : false}`,
       },
       { name: "dteAsOnDate", value: `${values?.fromDate}` },
       { name: "intAccountId", value: `1` },
