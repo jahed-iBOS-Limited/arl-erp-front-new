@@ -232,7 +232,7 @@ function ConfirmModal({ rowClickData, CB }) {
       `${imarineBaseUrl}/domain/ShippingService/GetNotifyPartyDDL`,
       (resData) => {
 
-        const modifyData = resData?.map((i: any) => {
+        const modifyData = resData?.map((i) => {
           return {
               ...i,
               label: i?.valueName || '',
