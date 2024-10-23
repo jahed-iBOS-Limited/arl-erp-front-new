@@ -18,62 +18,156 @@ export const validationSchema = Yup.object().shape({
   imono: Yup.string().required("IMO No is required"),
   grt: Yup.string().required("GRT is required"),
   nrt: Yup.string().required("NRT is required"),
-  strParticulars: Yup.string().required("Particulars is required"),
-  strVesselParticulars: Yup.string().required("Vessel Particulars is required"),
-  strMasterEmail: Yup.string().required("Master Email is required"),
-  numBallastEcoSpeed: Yup.number().required("Ballast Eco Speed is required"),
-  numBallastMaxSpeed: Yup.number().required("Ballast Max Speed is required"),
-  numBallastVlsfoconsumptionMtPerday: Yup.number().required(
-    "Ballast VLSFO Consumption (Mt/Day) is required"
-  ),
-  numBallastLsmgoconsumptionMtPerday: Yup.number().required(
-    "Ballast LSMGO Consumption (Mt/Day) is required"
-  ),
-  numLadenEcoSpeed: Yup.number().required("Laden Eco Speed is required"),
-  numLadenMaxSpeed: Yup.number().required("Laden Max Speed is required"),
-  numLadenVlsfoconsumptionMtPerday: Yup.number().required(
-    "Laden VLSFO Consumption (Mt/Day) is required"
-  ),
-  numLadenLsmgoconsumptionMtPerday: Yup.number().required(
-    "Laden LSMGO Consumption (Mt/Day) is required"
-  ),
-  numPortWorkingVlsfoperDay: Yup.number().required(
-    "Port Working VLSFO per Day is required"
-  ),
-  numPortWorkingLsmgoperDay: Yup.number().required(
-    "Port Working LSMGO per Day is required"
-  ),
-  numPortIdleVlsfoperDay: Yup.number().required(
-    "Port Idle VLSFO per Day is required"
-  ),
-  numPortIdleLsmgoperDay: Yup.number().required(
-    "Port Idle LSMGO per Day is required"
-  ),
-  numSummerDisplacementDraftMts: Yup.number().required(
-    "Summer Displacement Draft (Mts) is required"
-  ),
-  numSummerLightShipMts: Yup.number().required(
-    "Summer Light Ship (Mts) is required"
-  ),
-  numWinterDisplacementDraftMts: Yup.number().required(
-    "Winter Displacement Draft (Mts) is required"
-  ),
-  numWinterLightShipMts: Yup.number().required(
-    "Winter Light Ship (Mts) is required"
-  ),
-  numTropicalDisplacementDraftMts: Yup.number().required(
-    "Tropical Displacement Draft (Mts) is required"
-  ),
-  numTropicalLightShipMts: Yup.number().required(
-    "Tropical Light Ship (Mts) is required"
-  ),
-  intHoldNumber: Yup.number().required("Hold Number is required"),
-  numMaxBallastVlsfoconsumptionMtPerday: Yup.number().required(
-    "Max Ballast VLSFO Consumption (Mt/Day) is required"
-  ),
-  numMaxBallastLsmgoconsumptionMtPerday: Yup.number().required(
-    "Max Ballast LSMGO Consumption (Mt/Day) is required"
-  ),
+
+  // Vessel Master Data
+  strParticulars: Yup.string().when("isEditing", {
+    is: false,
+    then: Yup.string().required("Particulars is required"),
+    else: Yup.string(),
+  }),
+  strVesselParticulars: Yup.string().when("isEditing", {
+    is: false,
+    then: Yup.string().required("Vessel Particulars is required"),
+    else: Yup.string(),
+  }),
+  strMasterEmail: Yup.string().when("isEditing", {
+    is: false,
+    then: Yup.string().required("Master Email is required"),
+    else: Yup.string(),
+  }),
+  numBallastEcoSpeed: Yup.number().when("isEditing", {
+    is: false,
+    then: Yup.number().required("Ballast Eco Speed is required"),
+    else: Yup.number(),
+  }),
+  numBallastMaxSpeed: Yup.number().when("isEditing", {
+    is: false,
+    then: Yup.number().required("Ballast Max Speed is required"),
+    else: Yup.number(),
+  }),
+  numBallastVlsfoconsumptionMtPerday: Yup.number().when("isEditing", {
+    is: false,
+    then: Yup.number().required(
+      "Ballast VLSFO Consumption (Mt/Day) is required"
+    ),
+    else: Yup.number(),
+  }),
+  numBallastLsmgoconsumptionMtPerday: Yup.number().when("isEditing", {
+    is: false,
+    then: Yup.number().required(
+      "Ballast LSMGO Consumption (Mt/Day) is required"
+    ),
+    else: Yup.number(),
+  }),
+  numLadenEcoSpeed: Yup.number().when("isEditing", {
+    is: false,
+    then: Yup.number().required("Laden Eco Speed is required"),
+    else: Yup.number(),
+  }),
+  numLadenMaxSpeed: Yup.number().when("isEditing", {
+    is: false,
+    then: Yup.number().required("Laden Max Speed is required"),
+    else: Yup.number(),
+  }),
+  numLadenVlsfoconsumptionMtPerday: Yup.number().when("isEditing", {
+    is: false,
+    then: Yup.number().required("Laden VLSFO Consumption (Mt/Day) is required"),
+    else: Yup.number(),
+  }),
+  numLadenLsmgoconsumptionMtPerday: Yup.number().when("isEditing", {
+    is: false,
+    then: Yup.number().required("Laden LSMGO Consumption (Mt/Day) is required"),
+    else: Yup.number(),
+  }),
+  numPortWorkingVlsfoperDay: Yup.number().when("isEditing", {
+    is: false,
+    then: Yup.number().required("Port Working VLSFO per Day is required"),
+    else: Yup.number(),
+  }),
+  numPortWorkingLsmgoperDay: Yup.number()
+    .when("isEditing", {
+      is: false,
+      then: Yup.number().required("Port Working LSMGO per Day is required"),
+      else: Yup.number(),
+    })
+    ,
+  numPortIdleVlsfoperDay: Yup.number()
+    .when("isEditing", {
+      is: false,
+      then: Yup.number().required("Port Idle VLSFO per Day is required"),
+      else: Yup.number(),
+    })
+    ,
+  numPortIdleLsmgoperDay: Yup.number()
+    .when("isEditing", {
+      is: false,
+      then: Yup.number().required("Port Idle LSMGO per Day is required"),
+      else: Yup.number(),
+    })
+    ,
+  numSummerDisplacementDraftMts: Yup.number()
+    .when("isEditing", {
+      is: false,
+      then: Yup.number().required("Summer Displacement Draft (Mts) is required"),
+      else: Yup.number(),
+    })
+    ,
+  numSummerLightShipMts: Yup.number()
+    .when("isEditing", {
+      is: false,
+      then: Yup.number().required("Summer Light Ship (Mts) is required"),
+      else: Yup.number(),
+    })
+    ,
+  numWinterDisplacementDraftMts: Yup.number()
+    .when("isEditing", {
+      is: false,
+      then: Yup.number().required("Winter Displacement Draft (Mts) is required"),
+      else: Yup.number(),
+    })
+    ,
+  numWinterLightShipMts: Yup.number()
+    .when("isEditing", {
+      is: false,
+      then: Yup.number().required("Winter Light Ship (Mts) is required"),
+      else: Yup.number(),
+    })
+    ,
+  numTropicalDisplacementDraftMts: Yup.number()
+    .when("isEditing", {
+      is: false,
+      then: Yup.number().required("Tropical Displacement Draft (Mts) is required"),
+      else: Yup.number(),
+    })
+   ,
+  numTropicalLightShipMts: Yup.number()
+    .when("isEditing", {
+      is: false,
+      then: Yup.number().required("Tropical Light Ship (Mts) is required"),
+      else: Yup.number(),
+    })
+   ,
+  intHoldNumber: Yup.number()
+    .when("isEditing", {
+      is: false,
+      then: Yup.number().required("Hold Number is required"),
+      else: Yup.number(),
+    })
+    ,
+  numMaxBallastVlsfoconsumptionMtPerday: Yup.number()
+    .when("isEditing", {
+      is: false,
+      then: Yup.number().required("Max Ballast VLSFO Consumption (Mt/Day) is required"),
+      else: Yup.number(),
+    })
+    ,
+  numMaxBallastLsmgoconsumptionMtPerday: Yup.number()
+    .when("isEditing", {
+      is: false,
+      then: Yup.number().required("Max Ballast LSMGO Consumption (Mt/Day) is required"),
+      else: Yup.number(),
+    })
+    ,
 });
 
 export const CreateVessel = async (payload, setLoading, cb) => {
@@ -176,6 +270,8 @@ export const GetVesselById = async (id, setLoading, setter) => {
         value: res?.data?.profitCenterId,
         label: res?.data?.profitCenterName,
       },
+      // ! isEditing true/false mode for create and edit mode handle
+      isEditing: true,
     };
     setter(modifyData);
     setLoading(false);
