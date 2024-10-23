@@ -8,9 +8,32 @@ import NewSelect from "../../../_helper/_select";
 import CommonTable from "../../../_helper/commonTable";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { tblCostComponentHeaders, tblMaterialCostHeaders } from "./helper";
+import {
+  rowCalculationFunc,
+  tblCostComponentHeaders,
+  tblMaterialCostHeaders,
+} from "./helper";
 
-const initData = {};
+const initData = {
+  product: "",
+  uomName: "",
+  finishGood: "",
+  convRate: "",
+  percentigeInput: "",
+  yield: "",
+  requiredQty: "",
+  currentQty: "",
+  currentInvPrice: "",
+  newQty: "",
+  newPrice: "",
+  currentCost: "",
+  newCost: "",
+  averageCost: "",
+  packingMaterial: "",
+  manufacturingOverhead: "",
+  totalManufacturingCost: "",
+  markupOrProfit: "",
+};
 export default function CostConfigurationCreateEdit() {
   const [objProps, setObjprops] = useState({});
   const [, saveData] = useAxiosPost();
@@ -75,12 +98,12 @@ export default function CostConfigurationCreateEdit() {
           autoId: 0,
           costingId: 0,
           materialItemId: itm?.materialItemId,
-          conversion: itm?.conversion,
-          useProportion: itm?.percentigeInput,
-          yieldProportion: itm?.yield,
-          convQty: itm?.convQty,
-          rate: itm?.averageCost,
-          amount: itm?.convQty * itm?.averageCost,
+          conversion: +itm?.convRate,
+          useProportion: +itm?.percentigeInput,
+          yieldProportion: +itm?.yield,
+          convQty: itm?.requiredQty,
+          rate: +itm?.averageCost,
+          amount: +itm?.convRate * itm?.averageCost,
         };
       }
     );
@@ -89,8 +112,8 @@ export default function CostConfigurationCreateEdit() {
         return {
           autoId: 0,
           costingId: 0,
-          costElementId: itm?.overheadId,
-          amount: itm?.costElementAmount,
+          costElementId: itm?.costElementId,
+          amount: +itm?.costElementAmount || 0,
         };
       }
     );
@@ -118,34 +141,12 @@ export default function CostConfigurationCreateEdit() {
       precostingOverhead: precostingOverhead,
     };
 
-    // saveData(
-    //   `/mes/MSIL/KeyRegisterCreateAndEdit`,
-    //   {
-    //     intGateKeyRegisterId: id || 0,
-    //     dteDate: values?.date,
-    //     intBusinessUnitId: selectedBusinessUnit?.value,
-    //     intKeyReceiverEnroll: values?.keyReceiverName?.value,
-    //     strKeyReceiverName: values?.keyReceiverName?.label,
-    //     intDesignationId: 0,
-    //     strDesignation: values?.designation,
-    //     intKeyLocationId: values?.keyLocation?.value,
-    //     strKeyLocation: values?.keyLocation?.label,
-    //     numKeyQuantity: +values?.keyQuantity,
-    //     tmKeyProvideTime: values?.keyProvideTime,
-    //     tmKeyReceiveTime: values?.keyReceiveTime,
-    //     intKeyProviderEnroll: values?.keyProviderName?.value,
-    //     strKeyProviderName: values?.keyProviderName?.label,
-    //     strRemarks: "",
-    //     intActionBy: profileData?.userId,
-    //     // dteInsertDate: _todayDate(),
-    //     isActive: true,
-    //     strKeyReceivedFrom: values?.keyProviderNameForEdit || "",
-    //     intKeyReceivedBy: values?.keyReceiverNameForEdit?.value || 0,
-    //     strKeyReceivedBy: values?.keyReceiverNameForEdit?.label || "",
-    //   },
-    //   id ? "" : cb,
-    //   true
-    // );
+    saveData(
+      `/costmgmt/Precosting/SaveProductPrecosting`,
+      payload,
+      cb && cb,
+      true
+    );
   };
 
   // const rowDtoHandler = (index, key, value) => {
@@ -156,36 +157,50 @@ export default function CostConfigurationCreateEdit() {
   //     precostingMaterial: modifyData,
   //   });
   // };
-  const rowDtoHandler = (index, key, value) => {
-    const modifyData = [...productPreCostingData?.precostingMaterial];
+  // const rowDtoHandler = (index, key, value) => {
+  //   const modifyData = [...productPreCostingData?.precostingMaterial];
 
-    // Update the specific key-value pair for the current item
-    modifyData[index][key] = value;
+  //   // Update the specific key-value pair for the current item
+  //   modifyData[index][key] = value;
 
-    // Destructure item for easier access to fields
-    const item = modifyData[index];
+  //   // Destructure item for easier access to fields
+  //   const item = modifyData[index];
 
-    // Perform your calculations
-    const requiredQty = +item?.percentigeInput / +item?.yield;
-    const currentCost = +item?.percentigeInput * +item?.currentInvRate;
-    const newCost = (+item?.percentigeInput / +item?.yield) * +item?.newPrice;
-    const averageCost =
-      (item?.currentInvQty * item?.currentCost +
-        +item?.newQty * item?.newCost) /
-      ((item?.currentInvQty + +item?.newQty) * item?.requiredQty);
+  //   // Perform your calculations
+  //   const requiredQty = +item?.percentigeInput / +item?.yield;
+  //   const currentCost = +item?.percentigeInput * +item?.currentInvRate;
+  //   const newCost = item?.requiredQty * +item?.newPrice;
 
-    // Assign the calculated values to the item
-    modifyData[index].requiredQty = requiredQty;
-    modifyData[index].currentCost = currentCost;
-    modifyData[index].newCost = newCost;
-    modifyData[index].averageCost = averageCost;
+  //   // Assign the calculated values to the item
+  //   modifyData[index].requiredQty = requiredQty;
+  //   modifyData[index].currentCost = currentCost;
+  //   modifyData[index].newCost = newCost;
 
-    // Update the state with the modified data
-    setProductPreCostingData({
-      ...productPreCostingData,
-      precostingMaterial: modifyData,
-    });
-  };
+  //   // const averageCost =
+  //   //   (+item?.currentInvQty * (+item?.percentigeInput * +item?.currentInvRate) +
+  //   //     +item?.newQty *
+  //   //       ((+item?.percentigeInput / +item?.yield) * +item?.newPrice)) /
+  //   //   ((+item?.currentInvQty + +item?.newQty) *
+  //   //     (+item?.percentigeInput / +item?.yield));
+  //   console.log("item?.currentInvQty", item?.currentInvQty);
+  //   console.log("item?.currentCost", item?.currentCost);
+  //   console.log("item?.newQty", item?.newQty);
+  //   console.log("item?.newCost", item?.newCost);
+  //   console.log("item?.requiredQty", item?.requiredQty);
+  //   const averageCost =
+  //     ((item?.currentInvQty * item?.currentCost +
+  //       item?.newQty * item?.newCost) /
+  //       (item?.currentInvQty + item?.newQty)) *
+  //     item?.requiredQty;
+
+  //   modifyData[index].averageCost = averageCost;
+
+  //   // Update the state with the modified data
+  //   setProductPreCostingData({
+  //     ...productPreCostingData,
+  //     precostingMaterial: modifyData,
+  //   });
+  // };
 
   const costElementAmountHandler = (index, key, value) => {
     const modifyData = [...productPreCostingData?.precostingOverhead];
@@ -223,7 +238,7 @@ export default function CostConfigurationCreateEdit() {
     productPreCostingData?.precostingMaterial,
     productPreCostingData?.precostingOverhead,
   ]);
-
+  console.log("productPreCostingData", productPreCostingData);
   return (
     <IForm title="Create Cost Calculation" getProps={setObjprops}>
       {(productLoader || finishGoodLoader || productPreCostingLoader) && (
@@ -236,6 +251,7 @@ export default function CostConfigurationCreateEdit() {
           onSubmit={(values, { setSubmitting, resetForm }) => {
             saveHandler(values, () => {
               resetForm(initData);
+              setProductPreCostingData([]);
             });
           }}
         >
@@ -349,12 +365,16 @@ export default function CostConfigurationCreateEdit() {
                               name="convRate"
                               style={{ fontSize: "10px" }}
                               onChange={(e) => {
-                                // setFieldValue("convRate", e.target.value);
-                                rowDtoHandler(
+                                const itemModify = {
+                                  ...item,
+                                  [e.target.name]: e.target.value,
+                                };
+                                rowCalculationFunc({
+                                  item: itemModify,
+                                  productPreCostingData,
                                   index,
-                                  "convRate",
-                                  e.target.value
-                                );
+                                  setProductPreCostingData,
+                                });
                               }}
                             />
                           </td>
@@ -367,15 +387,16 @@ export default function CostConfigurationCreateEdit() {
                               name="percentigeInput"
                               style={{ fontSize: "10px" }}
                               onChange={(e) => {
-                                // setFieldValue(
-                                //   "percentigeInput",
-                                //   e.target.value
-                                // );
-                                rowDtoHandler(
+                                const itemModify = {
+                                  ...item,
+                                  [e.target.name]: e.target.value,
+                                };
+                                rowCalculationFunc({
+                                  item: itemModify,
+                                  productPreCostingData,
                                   index,
-                                  "percentigeInput",
-                                  e.target.value
-                                );
+                                  setProductPreCostingData,
+                                });
                               }}
                             />
                           </td>
@@ -389,8 +410,16 @@ export default function CostConfigurationCreateEdit() {
                               style={{ fontSize: "10px" }}
                               placeholder=""
                               onChange={(e) => {
-                                // setFieldValue("yield", e.target.value);
-                                rowDtoHandler(index, "yield", e.target.value);
+                                const itemModify = {
+                                  ...item,
+                                  [e.target.name]: e.target.value,
+                                };
+                                rowCalculationFunc({
+                                  item: itemModify,
+                                  productPreCostingData,
+                                  index,
+                                  setProductPreCostingData,
+                                });
                               }}
                             />
                           </td>
@@ -414,8 +443,16 @@ export default function CostConfigurationCreateEdit() {
                               name="newQty"
                               style={{ fontSize: "10px" }}
                               onChange={(e) => {
-                                // setFieldValue("newQty", e.target.value);
-                                rowDtoHandler(index, "newQty", e.target.value);
+                                const itemModify = {
+                                  ...item,
+                                  [e.target.name]: e.target.value,
+                                };
+                                rowCalculationFunc({
+                                  item: itemModify,
+                                  productPreCostingData,
+                                  index,
+                                  setProductPreCostingData,
+                                });
                               }}
                             />
                           </td>
@@ -428,12 +465,16 @@ export default function CostConfigurationCreateEdit() {
                               name="newPrice"
                               style={{ fontSize: "10px" }}
                               onChange={(e) => {
-                                // setFieldValue("newPrice", e.target.value);
-                                rowDtoHandler(
+                                const itemModify = {
+                                  ...item,
+                                  [e.target.name]: e.target.value,
+                                };
+                                rowCalculationFunc({
+                                  item: itemModify,
+                                  productPreCostingData,
                                   index,
-                                  "newPrice",
-                                  e.target.value
-                                );
+                                  setProductPreCostingData,
+                                });
                               }}
                             />
                           </td>
