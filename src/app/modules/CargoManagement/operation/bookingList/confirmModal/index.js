@@ -6,9 +6,10 @@ import { imarineBaseUrl } from "../../../../../App";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
 import "./style.css";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
 const validationSchema = Yup.object().shape({
   bookingAmount: Yup.number().required("Booking Amount is required"),
   airWaybillNumber: Yup.string().required("This field is required"),
@@ -45,9 +46,44 @@ const validationSchema = Yup.object().shape({
     })
     .nullable()
     .typeError("Transport Mode is required"),
+
+  // Consignee Information
+  consigneeName: Yup.object().shape({
+    value: Yup.number().required("Consignee’s Name is required"),
+    label: Yup.string().required("Consignee’s Name is required"),
+  }),
+  consigneeCountry: Yup.object().shape({
+    value: Yup.number().required("Country is required"),
+    label: Yup.string().required("Country is required"),
+  }),
+  consigneeDivisionAndState: Yup.object().shape({
+    value: Yup.number().required("Division/City is required"),
+    label: Yup.string().required("Division/City is required"),
+  }),
+  consigneeAddress: Yup.string().required(
+    "State/Province & Postal Code is required"
+  ),
+  consigneeContactPerson: Yup.string().required("Contact Person is required"),
+  consigneeContact: Yup.number().required("Contact Number is required"),
+  consigneeEmail: Yup.string()
+    .email()
+    .required("Email is required"),
+  notifyParty: Yup.object().shape({
+    value: Yup.number().required("Notify Party is required"),
+    label: Yup.string().required("Notify Party is required"),
+  }),
+  negotiationParty: Yup.string().required("Negotiation Party is required"),
+  freightAgentReference: Yup.object().shape({
+    value: Yup.number().required("Delivery Agent is required"),
+    label: Yup.string().required("Delivery Agent is required"),
+  }),
 });
 
 function ConfirmModal({ rowClickData, CB }) {
+  const { profileData } = useSelector(
+    (state) => state?.authData || {},
+    shallowEqual
+  );
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, SaveBookingConfirm, bookingConfirmLoading, ,] = useAxiosPut();
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
@@ -56,8 +92,28 @@ function ConfirmModal({ rowClickData, CB }) {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
+
+  const [
+    consigneeNameList,
+    getConsigneeName,
+    ,
+    setConsigneeName,
+  ] = useAxiosGet();
+  const [
+    deliveryAgentDDL,
+    getDeliveryAgentDDL,
+    ,
+    setDeliveryAgentDDL,
+  ] = useAxiosGet();
   const formikRef = React.useRef(null);
-  
+
+  const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
+  const [
+    consigneeDivisionAndStateList,
+    getConsigneeDivisionAndStateList,
+  ] = useAxiosGet();
+  const [notifyPartyDDL, GetNotifyPartyDDL, , setNotifyParty] = useAxiosGet();
+
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
@@ -68,6 +124,71 @@ function ConfirmModal({ rowClickData, CB }) {
             formikRef.current.setFieldValue(
               "transportPlanningType",
               data?.modeOfTransport
+            );
+
+            //  consignee Information set value
+            formikRef.current.setFieldValue(
+              "consigneeName",
+              data?.consigneeId
+                ? {
+                    value: data?.consigneeId || 0,
+                    label: data?.consigneeName || "",
+                  }
+                : ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeCountry",
+              data?.consigCountryId
+                ? {
+                    value: data?.consigCountryId || 0,
+                    label: data?.consigCountry || "",
+                  }
+                : ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeDivisionAndState",
+              data?.consigStateId
+                ? {
+                    value: data?.consigStateId || 0,
+                    label: data?.consigState || "",
+                  }
+                : ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeAddress",
+              data?.consigneeAddress || ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeContactPerson",
+              data?.consigneeContactPerson || ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeContact",
+              data?.consigneeContact || ""
+            );
+            formikRef.current.setFieldValue(
+              "consigneeEmail",
+              data?.consigneeEmail || ""
+            );
+            formikRef.current.setFieldValue(
+              "notifyParty",
+              data?.notifyParty  ? {
+                value:  0,
+                label: data?.notifyParty || "",
+              } : ''
+            );
+            formikRef.current.setFieldValue(
+              "negotiationParty",
+              data?.negotiationParty || ""
+            );
+            formikRef.current.setFieldValue(
+              "freightAgentReference",
+              data?.freightAgentReference
+                ? {
+                    value: data?.freightAgentReference || 0,
+                    label: data?.freightAgentReference || "",
+                  }
+                : ""
             );
           }
         }
@@ -81,9 +202,69 @@ function ConfirmModal({ rowClickData, CB }) {
     setTransportModeDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`
     );
+    getConsigneeName(
+      `${imarineBaseUrl}/domain/ShippingService/GetShipperPartnerDDL`,
+      (redData) => {
+        console.log(redData, "redData");
+        const modifyList =
+          redData?.map((i) => {
+            return {
+              ...i,
+              label: i?.valueName || "",
+              value: i?.code || 0,
+              email: i?.email || "",
+              address: i?.address || "",
+              contactPerson: i?.contactPerson || "",
+              contactNumber: i?.contactNumber || "",
+            };
+          }) || [];
+        const setConsigneeListFilter =
+          modifyList?.filter((i) => i?.partnerTypeId === 15) || [];
+        setConsigneeName(setConsigneeListFilter);
+      }
+    );
+
+    getConsigneeCountryList(
+      `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`
+    );
+
+    GetNotifyPartyDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetNotifyPartyDDL`,
+      (resData) => {
+        const modifyData =
+          resData?.map((i) => {
+            return {
+              ...i,
+              label: i?.stateName || "",
+              value: i?.stateId || 0,
+            };
+          }) || [];
+        setNotifyParty(modifyData);
+      }
+    );
+    getDeliveryAgentDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetDeliveryAgentDDL`,
+      (resData) => {
+        const modifyData =
+          resData?.map((i) => {
+            return {
+              ...i,
+              label: i?.valueName || "",
+              value: i?.code || 0,
+            };
+          }) || [];
+        setDeliveryAgentDDL(modifyData);
+      }
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const bookingData = shipBookingRequestGetById || {};
+
+  const getConsigneeDivisionAndStateApi = (countryId) => {
+    getConsigneeDivisionAndStateList(
+      `/oms/TerritoryInfo/GetDivisionDDL?countryId=${countryId}`
+    );
+  };
 
   const saveHandler = (values, cb) => {
     const paylaod = {
@@ -102,6 +283,25 @@ function ConfirmModal({ rowClickData, CB }) {
       isConfirm: true,
       confirmDate: new Date(),
       confTransportMode: values?.modeOfTransport?.label || 0,
+
+      // Consignee Information
+      freightAgentReference: values?.freightAgentReference?.label || "",
+      consigneeId: values?.consigneeName?.value || 0,
+      consigneeName: values?.consigneeName?.label || "",
+      consigneeAddress: values?.consigneeAddress || "",
+      consigneeContactPerson: values?.consigneeContactPerson || "",
+      consigneeContact: values?.consigneeContact || "",
+      consigneeEmail: values?.consigneeEmail || "",
+      consigCountryId: values?.consigneeCountry?.value || 0,
+      consigCountry: values?.consigneeCountry?.label || "",
+      consigStateId: values?.consigneeDivisionAndState?.value || 0,
+      consigState: values?.consigneeDivisionAndState?.label || "",
+      notifyParty: values?.notifyParty?.label || "",
+      negotiationParty: values?.negotiationParty || "",
+      modeOfTransport: "",
+      userId: profileData?.userId || 0,
+      userReferenceId: rowClickData?.userReferenceId || 0,
+      shipperId: rowClickData?.createdBy || 0,
     };
 
     if (paylaod) {
@@ -127,6 +327,18 @@ function ConfirmModal({ rowClickData, CB }) {
           transitInformation: "",
           freightForwarderRepresentative: "",
           modeOfTransport: "",
+
+          // Consignee Information
+          consigneeName: "",
+          consigneeCountry: "",
+          consigneeDivisionAndState: "",
+          consigneeAddress: "",
+          consigneeContactPerson: "",
+          consigneeContact: "",
+          consigneeEmail: "",
+          notifyParty: "",
+          negotiationParty: "",
+          freightAgentReference: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -176,7 +388,6 @@ function ConfirmModal({ rowClickData, CB }) {
                     }
                   />
                 </div>
-
                 {/* Departure Date & Time */}
                 <div className="col-lg-3">
                   <InputField
@@ -246,7 +457,6 @@ function ConfirmModal({ rowClickData, CB }) {
                     </div>
                   </>
                 )}
-
                 {/* freight forwarder representative */}
                 <div className="col-lg-3">
                   <InputField
@@ -262,7 +472,6 @@ function ConfirmModal({ rowClickData, CB }) {
                     }
                   />
                 </div>
-
                 {/* Transport Mode */}
                 <div className="col-lg-3">
                   <NewSelect
@@ -282,6 +491,147 @@ function ConfirmModal({ rowClickData, CB }) {
                       setFieldValue("modeOfTransport", valueOption);
                     }}
                     placeholder="Transport Mode"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-12">
+                  <hr />
+                  <h6>Consignee Information</h6>
+                </div>
+                {/* ====== Consignee Information======== */}
+                {/* Consignee’s Name */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="consigneeName"
+                    options={consigneeNameList || []}
+                    value={values?.consigneeName}
+                    label="Consignee’s Name"
+                    onChange={(valueOption) => {
+                      setFieldValue("consigneeName", valueOption);
+                    }}
+                    placeholder="Consignee’s Name"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                {/* Country ddl */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="consigneeCountry"
+                    options={consigneeCountryList || []}
+                    value={values?.consigneeCountry}
+                    label="Country"
+                    onChange={(valueOption) => {
+                      setFieldValue("consigneeCountry", valueOption);
+                      setFieldValue("consigneeDivisionAndState", "");
+                      getConsigneeDivisionAndStateApi(valueOption?.value);
+                    }}
+                    placeholder="Country"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="consigneeDivisionAndState"
+                    options={consigneeDivisionAndStateList || []}
+                    value={values?.consigneeDivisionAndState}
+                    label="Division/City"
+                    onChange={(valueOption) => {
+                      setFieldValue("consigneeDivisionAndState", valueOption);
+                    }}
+                    placeholder="Division/City"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                {/* State/Province & Postal Code */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.consigneeAddress}
+                    label="State/Province & Postal Code"
+                    name="consigneeAddress"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("consigneeAddress", e.target.value)
+                    }
+                  />
+                </div>
+                {/* Contact Person */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.consigneeContactPerson}
+                    label="Contact Person"
+                    name="consigneeContactPerson"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("consigneeContactPerson", e.target.value)
+                    }
+                  />
+                </div>
+                {/* Contact Number  */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.consigneeContact}
+                    label="Contact Number"
+                    name="consigneeContact"
+                    type="number"
+                    onChange={(e) =>
+                      setFieldValue("consigneeContact", e.target.value)
+                    }
+                  />
+                </div>
+                {/* Email */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.consigneeEmail}
+                    label="Email"
+                    name="consigneeEmail"
+                    type="email"
+                    onChange={(e) =>
+                      setFieldValue("consigneeEmail", e.target.value)
+                    }
+                  />
+                </div>
+                {/* Notify Party ddl */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="notifyParty"
+                    options={notifyPartyDDL || []}
+                    value={values?.notifyParty}
+                    label="Notify Party"
+                    onChange={(valueOption) => {
+                      setFieldValue("notifyParty", valueOption);
+                    }}
+                    placeholder="Notify Party"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                {/* Negotiation Party input */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.negotiationParty}
+                    label="Negotiation Party"
+                    name="negotiationParty"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("negotiationParty", e.target.value)
+                    }
+                  />
+                </div>
+                {/* Delivery Agent ddl  */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="freightAgentReference"
+                    options={deliveryAgentDDL || []}
+                    value={values?.freightAgentReference}
+                    label="Delivery Agent"
+                    onChange={(valueOption) => {
+                      setFieldValue("freightAgentReference", valueOption);
+                    }}
+                    placeholder="Delivery Agent"
                     errors={errors}
                     touched={touched}
                   />
