@@ -299,9 +299,10 @@ function ConfirmModal({ rowClickData, CB }) {
       notifyParty: values?.notifyParty?.label || "",
       negotiationParty: values?.negotiationParty || "",
       modeOfTransport: "",
-      userId: profileData?.userId || 0,
+      userId: rowClickData?.createdBy  || 0,
+      confirmBy: profileData?.userId,
       userReferenceId: rowClickData?.userReferenceId || 0,
-      shipperId: rowClickData?.createdBy || 0,
+      shipperId: rowClickData?.shipperId || 0,
     };
 
     if (paylaod) {
