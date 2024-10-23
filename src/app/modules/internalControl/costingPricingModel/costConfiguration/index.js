@@ -37,27 +37,29 @@ function CostingPricingModel() {
         {true && <ModalProgressBar />}
         <CardHeader title={"Costing Configuration"}>
           <CardHeaderToolbar>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => {
-                if (costingConfiguration === "PRODUCT") {
-                  setIsModalShowObj({
-                    ...isModalShowObj,
-                    isProductCreate: true,
-                    isCostElementCreate: false,
-                  });
-                } else {
-                  setIsModalShowObj({
-                    ...isModalShowObj,
-                    isProductCreate: false,
-                    isCostElementCreate: true,
-                  });
-                }
-              }}
-            >
-              Create
-            </button>
+            {costingConfiguration === "PRODUCT" && (
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                  if (costingConfiguration === "PRODUCT") {
+                    setIsModalShowObj({
+                      ...isModalShowObj,
+                      isProductCreate: true,
+                      isCostElementCreate: false,
+                    });
+                  } else {
+                    setIsModalShowObj({
+                      ...isModalShowObj,
+                      isProductCreate: false,
+                      isCostElementCreate: true,
+                    });
+                  }
+                }}
+              >
+                Create
+              </button>
+            )}
           </CardHeaderToolbar>
         </CardHeader>
         <CardBody>
