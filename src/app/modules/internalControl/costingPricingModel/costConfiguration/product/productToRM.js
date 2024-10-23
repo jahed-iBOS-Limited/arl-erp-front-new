@@ -153,7 +153,7 @@ const ProductToRM = () => {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `/costmgmt/Precosting/GetPrecostingItemDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=2&search=${searchValue}`
+                            `/costmgmt/Precosting/GetPrecostingItemDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=1&search=${searchValue}`
                           )
                           .then((res) => res?.data);
                       }}

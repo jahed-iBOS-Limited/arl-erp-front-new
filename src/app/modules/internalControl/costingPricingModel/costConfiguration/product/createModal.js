@@ -1,12 +1,11 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
 import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { imarineBaseUrl } from "../../../../../App";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../../_helper/_loading";
 
 const validationSchema = Yup.object().shape({
   productName: Yup.string().required("Product Name is required"),
@@ -85,7 +84,7 @@ function CreateCostModal({ uomDDL, CB }) {
                 {/* product UOM */}
                 <div className="col-lg-3">
                   <NewSelect
-                    name="Product UOM"
+                    name="productUOM"
                     options={uomDDL || []}
                     value={values?.productUOM}
                     label="Product UOM"
