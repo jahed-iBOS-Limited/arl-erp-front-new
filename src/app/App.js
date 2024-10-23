@@ -10,6 +10,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { I18nProvider } from "../_metronic/i18n";
 import { LayoutSplashScreen, MaterialThemeProvider } from "../_metronic/layout";
 import { Routes } from "../app/Routes";
+import { makeDecryption, makeEncryption } from "./modules/_helper/encryption";
+import { withEncryptedAPI } from "./modules/_helper/withEncryptedAPI";
 
 const origin = window.location.origin;
 export const imarineBaseUrl =
@@ -18,17 +20,114 @@ export const imarineBaseUrl =
     ? "https://devimarine.ibos.io"
     : "https://imarine.ibos.io";
 
-    export const marineBaseUrlPythonAPI =
-    process.env.NODE_ENV === "development" ||
-    window.location?.hostname === "deverp.ibos.io"
-      ? "https://devmarine.ibos.io"
-      : "https://marine.ibos.io";
+export const marineBaseUrlPythonAPI =
+  process.env.NODE_ENV === "development" ||
+  window.location?.hostname === "deverp.ibos.io"
+    ? "https://devmarine.ibos.io"
+    : "https://marine.ibos.io";
+
+export const eProcurementBaseURL =
+  process.env.NODE_ENV === "development" ||
+  window.location?.hostname === "deverp.ibos.io"
+    ? "https://devarl.peopledesk.io/api"
+    : "https://arl.peopledesk.io/api";
 
 // live-url: https://erp.peopledesk.io
 
 export const APIUrl =
   process.env.NODE_ENV === "development" ? "https://deverp.ibos.io" : origin;
 Axios.defaults.baseURL = APIUrl;
+
+// Request Interceptor
+Axios.interceptors.request.use(
+  async (config) => {
+    let url = config?.url;
+
+    // Check if the URL should be encrypted
+    if (withEncryptedAPI?.some((element) => url?.includes(element))) {
+      let copyOfConfig = { ...config };
+
+      // Encrypt query parameters if present in the URL
+      const apiPrefixes = url?.includes("?");
+      if (apiPrefixes) {
+        let splitUrl = url?.split("?");
+        const encryptedData = await makeEncryption(splitUrl?.[1]);
+        url = `${splitUrl?.[0]}?${encryptedData}`;
+
+        copyOfConfig = { ...config, url };
+      }
+      console.log("encryptedData", copyOfConfig);
+
+      // Encrypt the request body data if present
+      let payload = null;
+      if (config?.data) {
+        console.log("decryptedData", makeDecryption(config?.data));
+        payload = await makeEncryption(JSON.stringify(config?.data));
+      }
+
+      // Update the config with encrypted data and proper headers
+      copyOfConfig = {
+        ...copyOfConfig,
+        data: payload,
+        headers: {
+          ...copyOfConfig.headers,
+          "Content-Type": "application/json",
+        },
+      };
+
+      return copyOfConfig;
+    }
+
+    // If the URL is not in withEncryptedAPI, no encryption is required
+    return config;
+  },
+  async (error) => {
+    // Handle request error
+    console.log("error", JSON.stringify(error?.response?.data, null, 2));
+    // Handle response errors
+    let decryptedData = await makeDecryption(error?.response?.data);
+    let newError = { response: { data: decryptedData || "" } };
+    return Promise.reject(newError);
+  }
+);
+
+// Response Interceptor
+Axios.interceptors.response.use(
+  async (response) => {
+    let url = response?.config?.url;
+
+    // Check if the response needs to be decrypted
+    if (withEncryptedAPI?.some((element) => url?.includes(element))) {
+      // Decrypt the response data
+      const decryptedData = await makeDecryption(response?.data);
+      return {
+        ...response,
+        data: decryptedData,
+      };
+    }
+
+    // If the URL is not in withEncryptedAPI, no decryption is required
+    return response;
+  },
+  async (error) => {
+    console.log("error", JSON.stringify(error?.response, null, 2));
+    if (error?.response?.status === 401) {
+      return Promise.reject({ response: { data: 401 } });
+    } else if (error?.response?.status === 406) {
+      return Promise.reject({ response: { data: 406 } });
+    } else {
+      let decryptedError = makeDecryption(error?.response?.data);
+      let modifiedError = { response: { data: decryptedError || "" } };
+      if (
+        modifiedError?.response?.data?.message ===
+        "No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions)."
+      ) {
+      } else {
+        return Promise.reject(modifiedError);
+      }
+    }
+  }
+);
 
 const App = ({ store, persistor, basename }) => {
   return (
