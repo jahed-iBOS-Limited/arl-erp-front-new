@@ -1,127 +1,233 @@
-import React, { useEffect } from "react";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IViewModal from "../../../../_helper/_viewModal";
-import CreateCostModal from "./createModal";
-import { shallowEqual, useSelector } from "react-redux";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import CreateCostElementModal from "./createModal";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
+import React, { useState } from "react";
+import IForm from "../../../../_helper/_form";
+import * as Yup from "yup";
+import { Formik, Form } from "formik";
+import { useLocation, useHistory } from "react-router-dom";
+import { values } from "lodash";
+import { toast } from "react-toastify";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import Loading from "../../../../_helper/_loading";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import axios from "axios";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { CardHeaderToolbar } from "../../../../../../_metronic/_partials/controls";
 
-const CostElementMainIndex = ({
-  costingConfiguration,
-  isModalShowObj,
-  setIsModalShowObj,
-}) => {
+const initData = {
+  productName: "",
+  finishedGood: "",
+};
+
+const validationSchema = Yup.object().shape({
+  //   productName: Yup.string().required("Product Name is required"),
+  //   finishedGood: Yup.string().required("Finished Good is required"),
+});
+const ProductToFG = () => {
+  const [, saveData, tagFGloading] = useAxiosPost();
+  const [productInfo, getProductInfo, productInfoLoading] = useAxiosGet();
+  const [
+    productLanding,
+    getProductLanding,
+    productLandingLandingLoading,
+  ] = useAxiosGet();
+  const [objProps, setObjprops] = useState({});
+  const [rowData, setRowData] = useState([]);
+  const location = useLocation();
+
   const history = useHistory();
 
-  return (
-    <div>
-      <div className="col-lg-12">
-        <div className="table-responsive">
-          <table className="table table-striped table-bordered global-table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th
-                  style={{
-                    minWidth: "400px",
-                  }}
-                >
-                  Cost Element Name
-                </th>
-                <th
-                  style={{
-                    minWidth: "200px",
-                  }}
-                >
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {[1, 2, 3, 5, 6, 7]?.length > 0 &&
-                [1, 2, 3, 5, 6, 7]?.map((item, i) => (
-                  <tr key={i + 1}>
-                    <td className="text-center">{i + 1}</td>
-                    <td className="text-left">{item?.bookingRequestCode}</td>
-                    <td>
-                      <div className="pl-2" style={{ display: "flex" }}>
-                        <div class="order-md-1 p-1">
-                          <OverlayTrigger
-                            overlay={
-                              <Tooltip id="cs-icon">
-                                {"Cost Element Edit Configuration"}
-                              </Tooltip>
-                            }
-                          >
-                            <IEdit />
-                          </OverlayTrigger>
-                        </div>
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
 
-                        <div class="order-md-1 p-1">
-                          <OverlayTrigger
-                            overlay={
-                              <Tooltip id="cs-icon">
-                                {"Delete cost Configuration"}
-                              </Tooltip>
-                            }
-                          >
-                            <IDelete />
-                          </OverlayTrigger>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      {/* {shipBookingReqLanding?.data?.length > 0 && (
-                <PaginationTable
-                  count={shipBookingReqLanding?.totalCount}
-                  setPositionHandler={(pageNo, pageSize) => {
-                    commonLandingApi(null, pageNo, pageSize);
-                  }}
-                  values={values}
-                  paginationState={{
-                    pageNo,
-                    setPageNo,
-                    pageSize,
-                    setPageSize,
-                  }}
-                />
-              )} */}
-      {isModalShowObj?.isCostElementCreate && (
-        <>
-          <IViewModal
-            title="Create Cost Element"
-            show={isModalShowObj?.isCostElementCreate}
-            onHide={() => {
-              setIsModalShowObj({
-                ...isModalShowObj,
-                isProductCreate: false,
-                isCostElementCreate: false,
-              });
-            }}
-          >
-            <CreateCostElementModal
-              CB={() => {
-                // commonLandingApi();
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isProductCreate: false,
-                  isCostElementCreate: false,
-                });
-              }}
-            />
-          </IViewModal>
-        </>
-      )}
-    </div>
+  const { selectedBusinessUnit, profileData } = useSelector(
+    (state) => state.authData,
+    shallowEqual
+  );
+  useEffect(() => {
+    getProductInfo(`costmgmt/Precosting/ProductGetById?productId=0`, (data) => {
+      setRowData(data?.commonCostElement || []);
+    });
+  }, [selectedBusinessUnit?.value]);
+
+  const saveHandler = (values) => {
+    const costElemtList = [];
+
+    // Use forEach instead of map for side effects (pushing data)
+    // eslint-disable-next-line no-unused-expressions
+    rowData?.forEach((data) => {
+      if (data?.costElementName) {
+        costElemtList.push({
+          costElementId: data?.costElementId || 0,
+          costElementName: data?.costElementName,
+        });
+      } else {
+        console.error("Invalid data in rowData: ", data);
+      }
+    });
+
+    const payload = {
+      actionBy: profileData?.userId,
+      mappingType: "commonCostElement",
+      finishGoodMappings: [],
+      materialMappings: [],
+      commonCostElement: [...costElemtList],
+    };
+    saveData(
+      `/costmgmt/Precosting/ProductItemMaterialElementConfigure`,
+      payload,
+      (res) => {
+        if (res.statuscode === 200) {
+          toast.success("Created Successfully");
+        } else {
+          toast.error("Failed!");
+        }
+      }
+    );
+  };
+
+  const addNewFeatureHandler = (values) => {
+    let foundData = rowData?.filter(
+      (item) => item?.costElementName === values?.costElementName
+    );
+    if (foundData?.length > 0) {
+      toast.warning("Cost element already exist", { toastId: "Fae" });
+    } else {
+      let payload = {
+        costElementName: values?.costElementName,
+      };
+      setRowData([...rowData, payload]);
+    }
+  };
+
+  const handleDelete = (fgValue) => {
+    const filterData = rowData.filter(
+      (item) => item.costElementName !== fgValue
+    );
+    setRowData(filterData);
+  };
+  return (
+    <>
+      <Formik
+        enableReinitialize={true}
+        initialValues={initData}
+        validationSchema={validationSchema}
+        onSubmit={(values, { setSubmitting, resetForm }) => {
+          saveHandler(values, () => {
+            resetForm(initData);
+          });
+        }}
+      >
+        {({
+          handleSubmit,
+          resetForm,
+          values,
+          errors,
+          touched,
+          setFieldValue,
+          isValid,
+        }) => (
+          <>
+            {(tagFGloading || productInfoLoading) && <Loading />}
+            <Form className="global-form form form-label-right">
+              <div className="form-group row">
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.costElementName}
+                    label="Cost Element Name"
+                    name="costElementName"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue("costElementName", e.target.value)
+                    }
+                  />
+                </div>
+
+                <div className="col-lg-3 pt-6">
+                  <button
+                    type="button"
+                    disabled={!values?.costElementName}
+                    className="btn btn-primary"
+                    onClick={() => {
+                      addNewFeatureHandler(values);
+                    }}
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                style={{ display: "none" }}
+                ref={objProps.btnRef}
+                onSubmit={() => handleSubmit()}
+              ></button>
+
+              <button
+                type="reset"
+                style={{ display: "none" }}
+                ref={objProps.resetBtnRef}
+                onSubmit={() => resetForm(initData)}
+              ></button>
+            </Form>
+            <CardHeaderToolbar>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => saveHandler()}
+              >
+                Save
+              </button>
+            </CardHeaderToolbar>
+            <div className="table-responsive pt-5">
+              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                {rowData?.length > 0 && (
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Cost Element</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                )}
+                <tbody>
+                  {rowData?.length > 0 &&
+                    rowData?.map((item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td style={{ width: "15px" }} className="text-center">
+                            {index + 1}
+                          </td>
+                          <td>
+                            <span className="pl-2 text-center">
+                              {item?.costElementName}
+                            </span>
+                          </td>
+                          <td>
+                            <span
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                handleDelete(item?.costElementName);
+                              }}
+                            >
+                              <IDelete />
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+      </Formik>
+    </>
   );
 };
 
-export default CostElementMainIndex;
+export default ProductToFG;
