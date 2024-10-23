@@ -462,7 +462,9 @@ function BookingList() {
                                     });
                                   }}
                                 >
-                                  HBL
+                                  {item?.modeOfTransport === "Air"
+                                    ? "AWB"
+                                    : "HBL"}
                                 </button>
                               </span>
                             </td>
@@ -673,21 +675,6 @@ function BookingList() {
                                     }}
                                   >
                                     FCR
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    disabled={!item?.isHbl}
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isHBLFormate: true,
-                                      });
-                                    }}
-                                  >
-                                    HBL Format
                                   </button>
                                 </span>
                                 <span>
@@ -928,22 +915,6 @@ function BookingList() {
       )} */}
 
       {/* HBL Formate */}
-      {isModalShowObj?.isHBLFormate && (
-        <>
-          <IViewModal
-            title="HBL Formate"
-            show={isModalShowObj?.isHBLFormate}
-            onHide={() => {
-              setIsModalShowObj({
-                ...isModalShowObj,
-                isHBLFormate: false,
-              });
-            }}
-          >
-            <HBLFormat rowClickData={rowClickData} />
-          </IViewModal>
-        </>
-      )}
 
       {/* Freight Invoice */}
       {isModalShowObj?.isFreightInvoice && (
@@ -1022,7 +993,9 @@ function BookingList() {
       {/* HBCode GN Modal */}
       {isModalShowObj?.isHBCodeGN && (
         <IViewModal
-          title="HBL Code Generate"
+          title={`${
+            rowClickData?.modeOfTransport === "Air" ? "AWB" : "HBL"
+          } Code Generate`}
           show={isModalShowObj?.isHBCodeGN}
           onHide={() => {
             setIsModalShowObj({
@@ -1036,11 +1009,6 @@ function BookingList() {
             rowClickData={rowClickData}
             CB={() => {
               commonLandingApi();
-              // setIsModalShowObj({
-              //   ...isModalShowObj,
-              //   isHBCodeGN: false,
-              // });
-              // setRowClickData({});
             }}
           />
         </IViewModal>
