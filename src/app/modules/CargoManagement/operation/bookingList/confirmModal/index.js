@@ -185,7 +185,7 @@ function ConfirmModal({ rowClickData, CB }) {
               "freightAgentReference",
               data?.freightAgentReference
                 ? {
-                    value: data?.freightAgentReference || 0,
+                    value:  0,
                     label: data?.freightAgentReference || "",
                   }
                 : ""
