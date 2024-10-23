@@ -152,7 +152,7 @@ const ProductMainIndex = ({
             </div>
             {productLanding?.data?.length > 0 && (
               <PaginationTable
-                count={productLanding?.totalCount}
+                count={productLanding?.data?.length}
                 setPositionHandler={(pageNo, pageSize) => {
                   commonLandingApi(pageNo, pageSize);
                 }}
