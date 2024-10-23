@@ -231,14 +231,14 @@ function ConfirmModal({ rowClickData, CB }) {
     GetNotifyPartyDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetNotifyPartyDDL`,
       (resData) => {
-        const modifyData =
-          resData?.map((i) => {
-            return {
+
+        const modifyData = resData?.map((i: any) => {
+          return {
               ...i,
-              label: i?.stateName || "",
-              value: i?.stateId || 0,
-            };
-          }) || [];
+              label: i?.valueName || '',
+              value: i?.code || 0
+          }
+      }) || []
         setNotifyParty(modifyData);
       }
     );
