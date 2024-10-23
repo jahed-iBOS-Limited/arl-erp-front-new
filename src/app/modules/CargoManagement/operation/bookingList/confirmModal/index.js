@@ -66,7 +66,7 @@ const validationSchema = Yup.object().shape({
   consigneeContactPerson: Yup.string().required("Contact Person is required"),
   consigneeContact: Yup.number().required("Contact Number is required"),
   consigneeEmail: Yup.string()
-    .email()
+    .email('Email is invalid')
     .required("Email is required"),
   notifyParty: Yup.object().shape({
     value: Yup.number().required("Notify Party is required"),

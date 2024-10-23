@@ -10,14 +10,23 @@ function BookingDetailsInfo({ bookingData }) {
     <div className="BookingDetailsInfo">
       <div className="container mt-4">
         {/* Shipper and Consignee Information */}
-        <div className="row">
-          <div className="col-md-6">
+        <div className="box-container">
+          <div className="box">
             <h5>Shipper Information</h5>
             <p>
               <strong>Name:</strong> {bookingData?.shipperName}
             </p>
             <p>
-              <strong>Address:</strong> {bookingData?.shipperAddress}
+              <strong>Country:</strong> {bookingData?.shipperCountry}
+            </p>
+            <p>
+              {" "}
+              <strong>Division/City:</strong> {bookingData?.shipperState}
+            </p>
+
+            <p>
+              <strong>State/Province & Postal Code:</strong>{" "}
+              {bookingData?.shipperAddress}
             </p>
             <p>
               <strong>Contact Person:</strong>{" "}
@@ -30,13 +39,20 @@ function BookingDetailsInfo({ bookingData }) {
               <strong>Email:</strong> {bookingData?.shipperEmail}
             </p>
           </div>
-          <div className="col-md-6">
+          <div className="box">
             <h5>Consignee Information</h5>
             <p>
               <strong>Name:</strong> {bookingData?.consigneeName}
             </p>
             <p>
-              <strong>Address:</strong> {bookingData?.consigneeAddress}
+              <strong>Country:</strong> {bookingData?.consigCountry}
+            </p>
+            <p>
+              <strong>Division/City:</strong> {bookingData?.consigState}
+            </p>
+            <p>
+              <strong>State/Province & Postal Code:</strong>{" "}
+              {bookingData?.consigneeAddress}
             </p>
             <p>
               <strong>Contact Person:</strong>{" "}
@@ -49,35 +65,118 @@ function BookingDetailsInfo({ bookingData }) {
               <strong>Email:</strong> {bookingData?.consigneeEmail}
             </p>
           </div>
-        </div>
 
-        {/* Freight Information */}
-        <div className="row mt-3">
-          <div className="col-md-6">
-            <h5>Freight Information</h5>
+          {/* Reference Document */}
+          <div className="box">
+            <h5>Reference Document</h5>
             <p>
-              <strong>Port of Loading:</strong> {bookingData?.portOfLoading}
+              <strong>Invoice Value:</strong> {bookingData?.invoiceValue}
             </p>
             <p>
-              <strong>Port of Discharge:</strong> {bookingData?.portOfDischarge}
+              {" "}
+              <strong>Buyer PO Number:</strong> {bookingData?.ponumber}
             </p>
             <p>
-              <strong>Origin Address:</strong> {bookingData?.originAddress}
+              {" "}
+              <strong>Buyer PO Date:</strong>{" "}
+              {moment(bookingData?.dateOfRequest).format("YYYY-MM-DD")}
             </p>
             <p>
-              <strong>Final Destination:</strong>{" "}
+              {" "}
+              <strong>Delivery Agent:</strong>{" "}
+              {bookingData?.freightAgentReference}
+            </p>
+            <p>
+              <strong>Packing List Reference: </strong>{" "}
+              {bookingData?.packingListReference}
+            </p>
+            <p>
+              {" "}
+              <strong>Notify Party:</strong> {bookingData?.notifyParty}
+            </p>
+            <p>
+              {" "}
+              <strong>Negotiation Party:</strong>{" "}
+              {bookingData?.negotiationParty}
+            </p>
+          </div>
+
+          {/* Transport and Route Information */}
+          <div className="box">
+            <h5>Transport and Route Information</h5>
+            <p>
+              {" "}
+              <strong>Mode of Transport:</strong> {bookingData?.modeOfTransport}
+            </p>
+            <p>
+              <strong>Country of Loading:</strong>{" "}
+              {bookingData?.countryOfOrigin}
+            </p>
+            <p>
+              <strong>Place Of Receive: </strong> {bookingData?.originAddress}
+            </p>
+            <p>
+              <strong>Port of Loading (POL):</strong>{" "}
+              {bookingData?.portOfLoading}
+            </p>
+            <p>
+              <strong>Port of Delivery (POD):</strong>{" "}
+              {bookingData?.portOfDischarge}
+            </p>
+            <p>
+              <strong>Country:</strong> {bookingData?.fdestCountry}
+            </p>
+
+            <p>
+              <strong>Division/City: </strong> {bookingData?.fdestState}
+            </p>
+            <p>
+              <strong>Final Destination Address:</strong>{" "}
               {bookingData?.finalDestinationAddress}
             </p>
             <p>
-              <strong>Freight Charge:</strong> {bookingData?.freightCharge}
+              <strong>Mode of Stuffing:</strong>{" "}
+              {bookingData?.modeOfStuffingSeaName}
             </p>
             <p>
-              <strong>Additional Charge:</strong>{" "}
-              {bookingData?.additionalCharge}
+              <strong>Mode of Delivery</strong>{" "}
+              {bookingData?.modeOfDeliveryName}
+            </p>
+            <p>
+              <strong>Terms of Shipment List:</strong> {bookingData?.incoterms}
             </p>
           </div>
-          <div className="col-md-6">
-            <h5>Service Information</h5>
+
+          {/* Billing and Payment Terms */}
+          <div className="box">
+            <h5>Billing and Payment Terms</h5>
+            <p>
+              <strong>Country: </strong> {bookingData?.billCountry}
+            </p>
+            <p>
+              {" "}
+              <strong>Division/City:</strong> {bookingData?.billState}
+            </p>
+            <p>
+              <strong>Billing Address:</strong> {bookingData?.billingAddress}
+            </p>
+            <p>
+              <strong>Country:</strong> {bookingData?.billCountry}
+            </p>
+            <p>
+              <strong>Division/City:</strong> {bookingData?.billState}
+            </p>
+            <p>
+              <strong>Currency:</strong> {bookingData?.currency}
+            </p>
+            <p>
+              <strong>Payment Terms:</strong> {bookingData?.paymentTerms}
+            </p>
+          </div>
+
+          {/* Additional Servicess */}
+          <div className="box">
+            <h5>Additional Services</h5>
             <p>
               <strong>Customs Brokerage:</strong>{" "}
               {bookingData?.isCustomsBrokerage ? "Yes" : "No"}
@@ -91,41 +190,29 @@ function BookingDetailsInfo({ bookingData }) {
               {bookingData?.isWarehouseService ? "Yes" : "No"}
             </p>
             <p>
-              <strong>Distribution Delivery:</strong>{" "}
-              {bookingData?.isDistributionDelivery ? "Yes" : "No"}
+              <strong>
+                Store Rent, Haulage/Local Transportation/Pickup Service:
+              </strong>{" "}
+              {bookingData?.isStoreRentPickupService ? "Yes" : "No"}
+            </p>
+            <p>
+              <strong>Destination Haulage:</strong>{" "}
+              {bookingData?.isDestiontionHaulage ? "Yes" : "No"}
             </p>
           </div>
-        </div>
-        {/* Confirm Booking */}
-        <div className="row mt-3">
-          <div className="col-md-6">
-            <h5>Confirm Booking</h5>
+          {/* Shipping Schedule */}
+          <div className="box">
+            <h5>Shipping Schedule</h5>
             <p>
-              <strong>Booking Amount:</strong> {bookingData?.bookingAmount}
+              <strong>Requested Pickup Date:</strong>{" "}
+              {moment(bookingData?.requestPickupDate).format("YYYY-MM-DD")}
             </p>
             <p>
-              <strong>Air Waybill (AWB) Number:</strong>{" "}
-              {bookingData?.awbnumber}
+              <strong>Pickup Place</strong> {bookingData?.pickupPlace}
             </p>
             <p>
-              <strong>Departure Date & Time:</strong>{" "}
-              {moment(bookingData?.departureDateTime).format(
-                "YYYY-MM-DD HH:mm"
-              )}
-            </p>
-            <p>
-              <strong>Arrival Date & Time:</strong>{" "}
-              {moment(bookingData?.arrivalDateTime).format("YYYY-MM-DD HH:mm")}
-            </p>
-            <p>
-              <strong>Flight Number:</strong> {bookingData?.flightNumber}
-            </p>
-            <p>
-              <strong>Transit Information:</strong> {bookingData?.transitInfo}
-            </p>
-            <p>
-              <strong>Freight Forwarder Representative:</strong>{" "}
-              {bookingData?.primaryContactPerson}
+              <strong>Estimated Delivery Date:</strong>{" "}
+              {moment(bookingData?.requestDeliveryDate).format("YYYY-MM-DD")}
             </p>
           </div>
         </div>
@@ -134,11 +221,12 @@ function BookingDetailsInfo({ bookingData }) {
         <div className="mt-4">
           <h5>Cargo Information</h5>
           <div className="table-responsive">
-            <table className="table table-striped global-table">
+            <table className="table table-striped global-table mt-0">
               <thead>
                 <tr>
                   <th>SL</th>
-                  <th>Description</th>
+                  <th>Cargo Type</th>
+                 
                   <th>HS Code</th>
                   <th>Number of Packages/Units/Carton</th>
                   <th>Per Unit Gross Weight (kg)</th>
@@ -147,18 +235,20 @@ function BookingDetailsInfo({ bookingData }) {
                   <th>Net Weight (KG)</th>
                   <th>Volume (CBM)</th>
                   <th>Type of Loading</th>
-                  <th>Is Temperature Controlled</th>
+               
                   <th>Temperature Range</th>
-                  <th>Is Special Handling Instructions</th>
+               
                   <th>Special Handling Instructions</th>
+                  <th>Description</th>
                 </tr>
               </thead>
               <tbody>
                 {bookingData?.rowsData?.map((row, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td>{row?.descriptionOfGoods}</td>
+                 
                     <td>{row?.hsCode}</td>
+                    <td>{row?.typeOfCargo}</td>
                     <td>{row?.numberOfPackages}</td>
                     <td>{row?.pugrossWeightKg}</td>
                     <td>{row?.punetWeightKg}</td>
@@ -166,10 +256,11 @@ function BookingDetailsInfo({ bookingData }) {
                     <td>{row?.netWeightKG}</td>
                     <td>{row?.totalVolumeCBM}</td>
                     <td>{row?.typeOfLoading}</td>
-                    <td>{row?.isTemperatureControl ? "Yes" : "No"}</td>
-                    <td>{row?.temperatureRange}</td>
-                    <td>{row?.isSHInstruction ? "Yes" : "No"}</td>
-                    <td>{row?.shInstructionText}</td>
+                   
+                    <td>{row?.temperatureRange || 'N/A'}</td>
+                   
+                    <td>{row?.shInstructionText || 'N/A'}</td>
+                    <td>{row?.descriptionOfGoods}</td>
                   </tr>
                 ))}
               </tbody>
@@ -181,7 +272,7 @@ function BookingDetailsInfo({ bookingData }) {
         <div className="mt-4">
           <h5>Documents</h5>
           <div className="table-responsive">
-            <table className="table table-bordered global-table">
+            <table className="table table-bordered global-table mt-0">
               <thead>
                 <tr>
                   <th>SL</th>
@@ -222,7 +313,7 @@ function BookingDetailsInfo({ bookingData }) {
             {" "}
             <h5>Services & Charges</h5>
             <div className="table-responsive">
-              <table className="table global-table">
+              <table className="table global-table mt-0">
                 <thead>
                   <tr>
                     <th className="p-0">SL</th>
