@@ -113,6 +113,8 @@ export default function BalancerReportTable() {
   const [showRDLC, setShowRDLC] = useState(false);
   const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
   const reportId = "1cea2afd-f9aa-4b6b-9f46-5a39fa65ca4a";
+  const reportForMultiCol = "fe376adc-e721-4e73-8c01-701b935f623a";
+
   const parameterValues = (values) => {
     const agingParameters = [
       {
@@ -120,11 +122,23 @@ export default function BalancerReportTable() {
         value: `${values?.enterpriseDivision?.value}`,
       },
       { name: "intBusinessUnitId", value: `${values?.business?.value}` },
-      { name: "isForecast", value: `${values?.isForecast?.value}` },
+      {
+        name: "isForecast",
+        value: `${values?.isForecast?.value === "1" ? true : false}`,
+      },
       { name: "dteAsOnDate", value: `${values?.fromDate}` },
       { name: "intAccountId", value: `1` },
       { name: "ConvertionRate", value: `${values?.conversionRate}` },
+      { name: "isOnlyActual", value: `${false}` },
     ];
+    if (values?.isMultiCollumn === true) {
+      agingParameters.push({
+        name: "isMultiColumn",
+        value: `${values?.isMultiCollumn}`,
+      });
+    }
+
+    console.log(agingParameters, "agingParameters");
     return agingParameters;
   };
 
@@ -246,6 +260,21 @@ export default function BalancerReportTable() {
                     placeholder="Budget/Forecast"
                   />
                 </div>
+                <div className="col-md-3 mt-5">
+                  <input
+                    type="checkbox"
+                    id="isMultiCollumn"
+                    name="isMultiCollumn"
+                    value={values?.isMultiCollumn}
+                    checked={values?.isMultiCollumn}
+                    onChange={(e) => {
+                      setFieldValue("isMultiCollumn", e.target.checked);
+                    }}
+                  />
+                  <label htmlFor="isMultiCollumn" className="pl-1">
+                    Is Multi Collumn
+                  </label>
+                </div>
                 <div
                   className="col-auto"
                   style={{
@@ -258,21 +287,25 @@ export default function BalancerReportTable() {
                   <ButtonStyleOne
                     label="View"
                     onClick={() => {
-                      setShowRDLC(false);
-                      getReportBalance(
-                        profileData?.accountId,
-                        values?.business?.value,
-                        values?.fromDate,
-                        setRowDto,
-                        setLoading,
-                        values?.enterpriseDivision?.label,
-                        values?.conversionRate,
-                        values?.isForecast?.value
-                      );
+                      if (values?.isMultiCollumn) {
+                        setShowRDLC(true);
+                      } else {
+                        setShowRDLC(false);
+                        getReportBalance(
+                          profileData?.accountId,
+                          values?.business?.value,
+                          values?.fromDate,
+                          setRowDto,
+                          setLoading,
+                          values?.enterpriseDivision?.label,
+                          values?.conversionRate,
+                          values?.isForecast?.value
+                        );
+                      }
                     }}
                     disabled={!values?.business || values?.conversionRate < 1}
                   />
-                  <button
+                  {/* <button
                     type="button"
                     className="btn btn-primary sales_invoice_btn"
                     style={{ float: "right" }}
@@ -282,7 +315,7 @@ export default function BalancerReportTable() {
                     disabled={values?.conversionRate < 1}
                   >
                     Details
-                  </button>
+                  </button> */}
                   <button
                     type="button"
                     className="btn btn-primary sales_invoice_btn"
@@ -326,7 +359,9 @@ export default function BalancerReportTable() {
             {showRDLC ? (
               <div>
                 <PowerBIReport
-                  reportId={reportId}
+                  reportId={
+                    values?.isMultiCollumn ? reportForMultiCol : reportId
+                  }
                   groupId={groupId}
                   parameterValues={parameterValues(values)}
                   parameterPanel={false}
