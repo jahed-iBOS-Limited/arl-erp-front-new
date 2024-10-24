@@ -13,6 +13,7 @@ import {
 } from "../../../../../_metronic/_partials/controls";
 import Loading from "../../../_helper/_loading";
 import PaginationTable from "../../../_helper/_tablePagination";
+import InputField from "../../../_helper/_inputField";
 
 function CostCalculationLanding() {
   const history = useHistory();
@@ -25,25 +26,22 @@ function CostCalculationLanding() {
   }, shallowEqual);
 
   useEffect(() => {
-    // getRowData(
-    //   `/mes/MSIL/GetAllKeyRegisterLanding?intBusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
-    //   //  `/mes/MSIL/GetAllKeyRegisterLanding?PageNo=${pageNo}&PageSize=${pageSize}&search=asd&date=2022-01-02`
-    // );
+    getRowData(
+      `/costmgmt/Precosting/ProductPrecostingLanding?businessUnitId=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    // getRowData(
-    //   `/mes/MSIL/GetAllKeyRegisterLanding?intBusinessUnitId=${
-    //     selectedBusinessUnit?.value
-    //   }&PageNo=${pageNo}&PageSize=${pageSize}&search=${searchValue}&date=${values?.date ||
-    //     ""}`
-    // );
+    const date = values?.date ? `&date=${values?.date}` : "";
+    getRowData(
+      `/costmgmt/Precosting/ProductPrecostingLanding?businessUnitId=${selectedBusinessUnit?.value}${date}&pageNo=${pageNo}&pageSize=${pageSize}`
+    );
   };
 
-  const paginationSearchHandler = (searchValue, values) => {
-    setPositionHandler(pageNo, pageSize, values, searchValue);
-  };
+  // const paginationSearchHandler = (searchValue, values) => {
+  //   setPositionHandler(pageNo, pageSize, values, searchValue);
+  // };
 
   return (
     <>
@@ -70,7 +68,7 @@ function CostCalculationLanding() {
               </CardHeader>
               <CardBody>
                 {lodar && <Loading />}
-                {/* <div className="form-group  global-form">
+                <div className="form-group  global-form">
                   <div className="row">
                     <div className="col-lg-3">
                       <InputField
@@ -80,7 +78,6 @@ function CostCalculationLanding() {
                         type="date"
                         onChange={(e) => {
                           setFieldValue("date", e.target.value);
-                          //setDate(e.target.value);
                         }}
                       />
                     </div>
@@ -90,12 +87,11 @@ function CostCalculationLanding() {
                         className="btn btn-primary ml-2"
                         disabled={false}
                         onClick={() => {
+                          const date = values?.date
+                            ? `&date=${values?.date}`
+                            : "";
                           getRowData(
-                            `/mes/MSIL/GetAllKeyRegisterLanding?intBusinessUnitId=${
-                              selectedBusinessUnit?.value
-                            }&PageNo=${pageNo}&PageSize=${pageSize}&search=${""}&date=${
-                              values?.date
-                            }`
+                            `/costmgmt/Precosting/ProductPrecostingLanding?businessUnitId=${selectedBusinessUnit?.value}${date}&pageNo=${pageNo}&pageSize=${pageSize}`
                           );
                         }}
                       >
@@ -104,12 +100,12 @@ function CostCalculationLanding() {
                     </div>
                   </div>
                 </div>
-                <div className="po_custom_search">
+                {/* <div className="po_custom_search">
                   <PaginationSearch
                     placeholder="Search here..."
                     paginationSearchHandler={paginationSearchHandler}
                   />
-                </div> */}
+                </div>  */}
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="table-responsive">
@@ -118,34 +114,38 @@ function CostCalculationLanding() {
                           <tr>
                             <th style={{ width: "30px" }}>SL</th>
                             <th>Product Name</th>
-                            <th style={{ width: "50px" }}>Action</th>
+                            <th>Item Name</th>
+                            <th>Partner Name</th>
+                            {/* <th style={{ width: "50px" }}>Action</th> */}
                           </tr>
                         </thead>
                         <tbody>
-                          {rowData?.keyRegisterList?.length > 0 &&
-                            rowData?.keyRegisterList?.map((item, index) => (
+                          {rowData?.data?.length > 0 &&
+                            rowData?.data?.map((item, index) => (
                               <tr key={index}>
                                 <td>{index + 1}</td>
-                                <td>{item?.strKeyReceiverName}</td>
-                                <td className="text-center">
-                                  {/* <IEdit
+                                <td>{item?.productName}</td>
+                                <td>{item?.itemName}</td>
+                                <td>{item?.partnerName}</td>
+                                {/* <td className="text-center">
+                                  <IEdit
                                     onClick={() =>
                                       history.push({
                                         pathname: `/production-management/msil-gate-register/Key-Register/edit/${item?.intGateKeyRegisterId}`,
                                         state: { ...item },
                                       })
                                     }
-                                  /> */}
-                                </td>
+                                  />
+                                </td> */}
                               </tr>
                             ))}
                         </tbody>
                       </table>
                     </div>
 
-                    {rowData?.keyRegisterList?.length > 0 && (
+                    {rowData?.data?.length > 0 && (
                       <PaginationTable
-                        count={rowData?.totalCount}
+                        count={rowData?.data?.length}
                         setPositionHandler={setPositionHandler}
                         paginationState={{
                           pageNo,

@@ -58,8 +58,8 @@ const ProductToRM = () => {
           materialItemName: data?.materialItemName,
           productId: item?.productId,
           conversion: data?.conversion || 0,
-          uomId: item?.uomId,
-          uomName: item?.uomName,
+          uomId: data?.uomId,
+          uomName: data?.uomName,
         });
       } else {
         console.error("Invalid data in rowData: ", data);
@@ -100,6 +100,9 @@ const ProductToRM = () => {
       let payload = {
         materialItemId: values?.rawMaterial?.value,
         materialItemName: values?.rawMaterial?.label,
+        conversion: +values?.conversion,
+        uomId: values?.rawMaterial?.uomId,
+        uomName: values?.rawMaterial?.uomName,
       };
       setRowData([...rowData, payload]);
     }
@@ -140,14 +143,14 @@ const ProductToRM = () => {
                     />
                   </div>
 
-                  <div className="col-lg-4">
+                  <div className="col-lg-3">
                     <label>Raw Material</label>
                     <SearchAsyncSelect
                       selectedValue={values?.rawMaterial}
                       handleChange={(valueOption) => {
                         setFieldValue("rawMaterial", valueOption);
                       }}
-                      placeholder="Search Raw Material"
+                      placeholder="Minimum 3 characters to search"
                       loadOptions={(v) => {
                         const searchValue = v.trim();
                         if (searchValue?.length < 3) return [];
@@ -159,10 +162,26 @@ const ProductToRM = () => {
                       }}
                     />
                   </div>
-                  <div className="col-lg-3 pt-6">
+                  <div className="col-lg-3">
+                    <label>Convertion Rate</label>
+                    <InputField
+                      value={values?.conversion}
+                      name="conversion"
+                      onChange={(e) => {
+                        if (+e.target.value > 0 || +e.target.value === 0) {
+                          setFieldValue("conversion", e.target.value);
+                        } else {
+                          setFieldValue("conversion", "");
+                        }
+                      }}
+                      placeholder="Convertion Rate"
+                      type="number"
+                    />
+                  </div>
+                  <div className="col-lg-2 pt-6">
                     <button
                       type="button"
-                      disabled={!values?.rawMaterial}
+                      disabled={!values?.rawMaterial || !values?.conversion}
                       className="btn btn-primary"
                       onClick={() => {
                         addNewRawMaterialHandler(values);
@@ -195,6 +214,8 @@ const ProductToRM = () => {
                       <tr>
                         <th>SL</th>
                         <th>Raw Material</th>
+                        <th>UOM</th>
+                        <th>Conversion</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -209,6 +230,16 @@ const ProductToRM = () => {
                           <td>
                             <span className="pl-2 text-center">
                               {item?.materialItemName}
+                            </span>
+                          </td>
+                          <td>
+                            <span className="pl-2 text-center">
+                              {item?.uomName || ""}
+                            </span>
+                          </td>
+                          <td>
+                            <span className="pl-2 text-center">
+                              {item?.conversion || ""}
                             </span>
                           </td>
                           <td>

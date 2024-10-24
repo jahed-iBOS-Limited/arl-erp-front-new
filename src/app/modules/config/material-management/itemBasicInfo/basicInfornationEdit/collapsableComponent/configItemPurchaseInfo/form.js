@@ -6,6 +6,7 @@ import Axios from "axios";
 import NewSelect from "../../../../../../_helper/_select";
 import useAxiosGet from "../../../../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../../../../_helper/_loading";
+import { IInput } from "../../../../../../_helper/_input";
 
 const DataValiadtionSchema = Yup.object().shape({});
 
@@ -177,15 +178,35 @@ export default function _Form({
                 </div>
 
                 <div className="col-lg-3">
-                  <Field
+                  {/* <Field
                     value={values.lotSize || ""}
                     name="lotSize"
                     component={Input}
                     placeholder="Lot Size "
                     label="Lot Size "
                     type="number"
+                    onChange={(e) => {
+                      if (+e.target.value > 0 || e.target.value === 0) {
+                        setFieldValue("lotSize", e.target.value);
+                      } else {
+                        setFieldValue("lotSize", "");
+                      }
+                    }}
                     disabled={!orgList}
-                    min="0"
+                  /> */}
+                  <IInput
+                    label="Lot Size"
+                    value={values?.lotSize || ""}
+                    name="lotSize"
+                    type="number"
+                    onChange={(e) => {
+                      if (+e.target.value > 0 || +e.target.value === 0) {
+                        setFieldValue("lotSize", e.target.value);
+                      } else {
+                        setFieldValue("lotSize", "");
+                      }
+                    }}
+                    disabled={!orgList}
                   />
                 </div>
                 <div className="col-lg-3">

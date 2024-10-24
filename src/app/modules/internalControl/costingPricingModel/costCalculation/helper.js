@@ -45,6 +45,14 @@ export const tblCostComponentHeaders = [
   },
   "Cost Name",
   {
+    title: "Multiplier",
+    style: { width: "150px" },
+  },
+  {
+    title: "Multiplicand",
+    style: { width: "150px" },
+  },
+  {
     title: "",
     style: { width: "150px" },
   },

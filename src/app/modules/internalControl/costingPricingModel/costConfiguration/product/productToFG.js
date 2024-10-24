@@ -176,7 +176,11 @@ const ProductToFG = () => {
                       value={values?.conversion}
                       name="conversion"
                       onChange={(e) => {
-                        setFieldValue("conversion", e.target.value);
+                        if (+e.target.value > 0 || +e.target.value === 0) {
+                          setFieldValue("conversion", e.target.value);
+                        } else {
+                          setFieldValue("conversion", "");
+                        }
                       }}
                       placeholder="Convertion Rate"
                       type="number"
