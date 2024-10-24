@@ -85,7 +85,7 @@ export default function AutoPOCalculation() {
     );
     if (res.data) {
       let dataList = res.data || [];
-      dataList.push({ value: 0, label: "All" });
+      dataList.unshift({ value: 0, label: "All" });
       setItemCategoryList(dataList);
     }
   };
@@ -96,7 +96,7 @@ export default function AutoPOCalculation() {
     );
     if (res.data) {
       let dataList = res.data || [];
-      dataList.push({ value: 0, label: "All" });
+      dataList.unshift({ value: 0, label: "All" });
       setItemSubCategoryList(dataList);
     }
   };
