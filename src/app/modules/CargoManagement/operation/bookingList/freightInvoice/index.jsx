@@ -296,7 +296,9 @@ const FreightInvoice = ({ rowClickData }) => {
       paylaod,
       () => {
         commonGetByIdHandler();
-      }
+      },
+      true
+      
     );
   };
 
