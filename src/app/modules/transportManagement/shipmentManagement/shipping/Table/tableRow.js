@@ -471,7 +471,7 @@ export function TableRow({
                                   key={index}
                                   style={
                                     td?.promotionalItemCount > 0
-                                      ? { backgroundColor: "#f1e4e4" }
+                                      ? { backgroundColor: "#ffd2d2" }
                                       : {}
                                   }
                                 >
