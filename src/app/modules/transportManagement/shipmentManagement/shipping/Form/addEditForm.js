@@ -165,6 +165,11 @@ export default function ShipmentForm({
     if (rowDto?.length < 1) {
       return toast.warn("Please add at least one item");
     }
+
+    if ((buId === 4 || buId === 144) && Boolean(values?.packer)) {
+      toast.warn("Please add packer");
+    }
+
     if (values && accId && buId) {
       if (id) {
         const payload = {
