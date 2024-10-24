@@ -189,8 +189,8 @@ const FreightInvoice = ({ rowClickData }) => {
     const bookingRequestId = rowClickData?.bookingRequestId;
     const [
         ,
-        UploadParticularDocuments,
-        UploadParticularDocumentsLoading,
+        getSalesInvoiceGen,
+        salesInvoiceGenLoading,
         ,
     ] = useAxiosPost();
     const [
@@ -199,11 +199,7 @@ const FreightInvoice = ({ rowClickData }) => {
         shipBookingRequestLoading,
     ] = useAxiosGet();
     useEffect(() => {
-        if (bookingRequestId) {
-            setShipBookingRequestGetById(
-                `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
-            );
-        }
+        commonGetByIdHandler()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bookingRequestId]);
     const bookingData = shipBookingRequestGetById || {};
@@ -226,24 +222,58 @@ const FreightInvoice = ({ rowClickData }) => {
       `,
     });
 
+    const commonGetByIdHandler = () => {
+        if (bookingRequestId) {
+            setShipBookingRequestGetById(
+                `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
+            );
+        }
+    }
+
+    const saveHandler = (values) => {
+        getSalesInvoiceGen(
+            `${imarineBaseUrl}/domain/Shipping`, // TODO : backend will provide url
+            null,
+            () => {
+
+                commonGetByIdHandler();
+            }
+        );
+    };
+
     return (
         <>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    marginBottom: "20px",
-                    marginTop: "20px",
-                }}
-            >
-                <button
-                    onClick={handlePrint}
-                    type="button"
-                    className="btn btn-primary px-3 py-2"
-                >
-                    <i className="mr-1 fa fa-print pointer" aria-hidden="true"></i>
-                    Print
-                </button>
+            <div className="">
+                {/* Save button add */}
+
+                <div className="d-flex justify-content-end">
+                    {!bookingData?.invoiceNo && (
+                        <>
+                            {" "}
+                            <button type="button" className="btn btn-primary" onClick={() => {
+                                saveHandler()
+                            }}>
+                                Generate
+                            </button>
+                        </>
+                    )}
+
+                    {bookingData?.invoiceNo && (
+                        <>
+                            <button
+                                onClick={handlePrint}
+                                type="button"
+                                className="btn btn-primary px-3 py-2"
+                            >
+                                <i
+                                    className="mr-1 fa fa-print pointer"
+                                    aria-hidden="true"
+                                ></i>
+                                Print
+                            </button>
+                        </>
+                    )}
+                </div>
             </div>
             {
                 shipBookingRequestLoading &&
