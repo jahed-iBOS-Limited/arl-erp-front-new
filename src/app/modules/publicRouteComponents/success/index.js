@@ -1,12 +1,17 @@
 import React from "react";
-import styles from './style.module.css'
+import styles from "./style.module.css";
 
 const SuccessMessageComponent = () => {
   return (
     <section className="d-flex flex-row justify-content-center align-items-center h-100">
-      <div className={`bg-secondary d-flex justify-content-center align-items-center ${styles.cardContainer}`}>
+      <div
+        className={`bg-secondary d-flex justify-content-center align-items-center ${styles.cardContainer}`}
+      >
         <div className="card w-100 h-100">
-          <div class="card-header bg-success text-center py-sm-4">
+          <div
+            class="card-header text-center py-sm-4"
+            style={{ backgroundColor: "#1bc577" }}
+          >
             <i
               class="fa fa-check-circle display-2 py-5 text-white"
               aria-hidden="true"
