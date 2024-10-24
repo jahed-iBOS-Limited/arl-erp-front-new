@@ -12,7 +12,7 @@ import "./style.css";
 import { shallowEqual, useSelector } from "react-redux";
 const validationSchema = Yup.object().shape({
   bookingAmount: Yup.number().required("Booking Amount is required"),
-  airWaybillNumber: Yup.string().required("This field is required"),
+  // airWaybillNumber: Yup.string().required("This field is required"),
   departureDateTime: Yup.date().required("Departure Date & Time is required"),
   arrivalDateTime: Yup.date().required("Arrival Date & Time is required"),
   flightNumber: Yup.string().required("This field is required"),
@@ -377,13 +377,13 @@ function ConfirmModal({ rowClickData, CB }) {
                   />
                 </div>
                 {/* Air Waybill (AWB) Number */}
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <InputField
                     value={values?.airWaybillNumber}
                     label={
                       values?.transportPlanningType === "Sea"
-                        ? "HAWB"
-                        : "Air Waybill (AWB) Number"
+                        ? "HBL"
+                        : "HAWB Number"
                     }
                     name="airWaybillNumber"
                     type="text"
@@ -391,7 +391,7 @@ function ConfirmModal({ rowClickData, CB }) {
                       setFieldValue("airWaybillNumber", e.target.value)
                     }
                   />
-                </div>
+                </div> */}
                 {/* Departure Date & Time */}
                 <div className="col-lg-3">
                   <InputField
