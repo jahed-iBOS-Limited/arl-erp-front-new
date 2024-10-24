@@ -153,7 +153,7 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
         maxLeadDays: values.maxLeadDays || 0,
         minLeadDays: 0,
         minOrderQuantity: values.minOrderQuantity || 0,
-        lotSize: values.lotSize || 0,
+        lotSize: +values.lotSize || 0,
         isMrp: values.isMrp,
         actionBy: profileData.userId,
         minimumStockQuantity: +values?.minimumStockQuantity || 0,
