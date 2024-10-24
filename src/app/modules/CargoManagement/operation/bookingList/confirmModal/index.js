@@ -39,7 +39,7 @@ const validationSchema = Yup.object().shape({
     "Freight Forwarder Representative is required"
   ),
 
-  modeOfTransport: Yup.object()
+  confTransportMode: Yup.object()
     .shape({
       value: Yup.number().required("Transport Mode is required"),
       label: Yup.string().required("Transport Mode is required"),
@@ -66,7 +66,7 @@ const validationSchema = Yup.object().shape({
   consigneeContactPerson: Yup.string().required("Contact Person is required"),
   consigneeContact: Yup.number().required("Contact Number is required"),
   consigneeEmail: Yup.string()
-    .email()
+    .email('Email is invalid')
     .required("Email is required"),
   notifyParty: Yup.object().shape({
     value: Yup.number().required("Notify Party is required"),
@@ -268,6 +268,9 @@ function ConfirmModal({ rowClickData, CB }) {
 
   const saveHandler = (values, cb) => {
     const paylaod = {
+
+     
+
       bookingRequestId: bookingRequestId || 0,
       departureDateTime:
         moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
@@ -282,7 +285,7 @@ function ConfirmModal({ rowClickData, CB }) {
       primaryContactPerson: values?.freightForwarderRepresentative || "",
       isConfirm: true,
       confirmDate: new Date(),
-      confTransportMode: values?.modeOfTransport?.label || 0,
+      confTransportMode: values?.confTransportMode?.label || 0,
 
       // Consignee Information
       freightAgentReference: values?.freightAgentReference?.label || "",
@@ -298,11 +301,11 @@ function ConfirmModal({ rowClickData, CB }) {
       consigState: values?.consigneeDivisionAndState?.label || "",
       notifyParty: values?.notifyParty?.label || "",
       negotiationParty: values?.negotiationParty || "",
-      modeOfTransport: "",
       userId: rowClickData?.createdBy  || 0,
       confirmBy: profileData?.userId,
-      userReferenceId: rowClickData?.userReferenceId || 0,
       shipperId: rowClickData?.shipperId || 0,
+
+      
     };
 
     if (paylaod) {
@@ -327,7 +330,7 @@ function ConfirmModal({ rowClickData, CB }) {
           flightNumber: "",
           transitInformation: "",
           freightForwarderRepresentative: "",
-          modeOfTransport: "",
+          confTransportMode: "",
 
           // Consignee Information
           consigneeName: "",
@@ -476,7 +479,7 @@ function ConfirmModal({ rowClickData, CB }) {
                 {/* Transport Mode */}
                 <div className="col-lg-3">
                   <NewSelect
-                    name="modeOfTransport"
+                    name="confTransportMode"
                     options={
                       transportModeDDL?.filter((item) => {
                         if (values?.transportPlanningType === "Sea") {
@@ -486,10 +489,10 @@ function ConfirmModal({ rowClickData, CB }) {
                         }
                       }) || []
                     }
-                    value={values?.modeOfTransport}
+                    value={values?.confTransportMode}
                     label="Transport Mode"
                     onChange={(valueOption) => {
-                      setFieldValue("modeOfTransport", valueOption);
+                      setFieldValue("confTransportMode", valueOption);
                     }}
                     placeholder="Transport Mode"
                     errors={errors}
