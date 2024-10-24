@@ -16,7 +16,6 @@ export const saveRfq = (payload) => () => {
       }
     })
     .catch((err) => {
-
       toast.error(err?.response?.data?.message);
     });
 };
@@ -32,7 +31,6 @@ export const saveQuotationEntry = (payload) => () => {
       }
     })
     .catch((err) => {
-
       toast.error(err?.response?.data?.message);
     });
 };
@@ -46,7 +44,6 @@ export const updateQuotationEntry = (payload) => () => {
       }
     })
     .catch((err) => {
-
       toast.error(err?.response?.data?.message);
     });
 };
@@ -62,7 +59,6 @@ export const saveCSDataAction = (payload) => () => {
       }
     })
     .catch((err) => {
-
       toast.error(err?.response?.data?.message);
     });
 };
@@ -85,9 +81,7 @@ export const getRfqGridData = (
       }
       return dispatch(slice.SetGridData(res.data));
     })
-    .catch((err) => {
-
-    });
+    .catch((err) => {});
 };
 
 // quotation data
@@ -100,9 +94,7 @@ export const getQuotationData = (accId, buId, rfqId) => (dispatch) => {
       }
       return dispatch(slice.SetQuotationData(res.data?.data));
     })
-    .catch((err) => {
-
-    });
+    .catch((err) => {});
 };
 
 // cs data
@@ -115,9 +107,7 @@ export const getCsDataAction = (accId, buId, rfqId) => (dispatch) => {
       }
       return dispatch(slice.SetCsData(res.data));
     })
-    .catch((err) => {
-
-    });
+    .catch((err) => {});
 };
 
 // Save edited data into DB
@@ -131,7 +121,6 @@ export const saveEditedRFQ = (payload) => () => {
       }
     })
     .catch((err) => {
-
       toast.error(err?.response?.data?.message);
     });
 };
@@ -145,9 +134,7 @@ export const getDataById = (rfqId) => (dispatch) => {
         dispatch(slice.SetSingleData(res.data));
       }
     })
-    .catch((err) => {
-
-    });
+    .catch((err) => {});
 };
 
 // rfq single to empty
@@ -169,9 +156,7 @@ export const getUomDDLAction = (accId, buId, itemId) => (dispatch) => {
         dispatch(slice.SetuoMDDL(res.data));
       }
     })
-    .catch((err) => {
-
-    });
+    .catch((err) => {});
 };
 
 // getRefNoDDL ddl
@@ -190,9 +175,7 @@ export const getRefNoDDLAction = (
         dispatch(slice.SetRefNoDDL(res.data));
       }
     })
-    .catch((err) => {
-
-    });
+    .catch((err) => {});
 };
 
 // item ddl
@@ -204,13 +187,8 @@ export const getItemDDLAction = (accId, buId, plantId, whId) => (dispatch) => {
         dispatch(slice.SetItemDDL(res.data));
       }
     })
-    .catch((err) => {
-
-    });
+    .catch((err) => {});
 };
-
-
-
 
 // item ddl when reference type === with reference
 export const getItemDDLWithRefAction = (
@@ -230,60 +208,66 @@ export const getItemDDLWithRefAction = (
         dispatch(slice.SetItemDDL(res.data));
       }
     })
-    .catch((err) => {
-
-    });
+    .catch((err) => {});
 };
-
-
-
 
 export const getSupplierNameDDLAction = async (accId, buId, sbuId, setter) => {
   try {
-    const res = await axios.get(`/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accId}&UnitId=${buId}&SBUId=${sbuId}`);
+    const res = await axios.get(
+      `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accId}&UnitId=${buId}&SBUId=${sbuId}`
+    );
     if (res.status === 200 && res?.data) {
-
-      console.log(res.data, "data")
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
-
-
-export const getSupplierItemRowNameDDLAction = async (PartnerRFQId, setter, setFieldValue) => {
+export const getSupplierItemRowNameDDLAction = async (
+  PartnerRFQId,
+  setter,
+  setFieldValue
+) => {
   try {
-    const res = await axios.get(`/procurement/RequestForQuotation/GetItemListByPartnerRFQId?PartnerRFQId=${PartnerRFQId}`);
+    const res = await axios.get(
+      `/procurement/RequestForQuotation/GetItemListByPartnerRFQId?PartnerRFQId=${PartnerRFQId}`
+    );
     if (res.status === 200 && res?.data) {
-
-      res.data.itemList.forEach(item => {
-        item['rfqQty'] = item['requestQuantity']
-        item['purchaseDescription'] = item['narration']
-        item['comments'] = item['remarks'] || ""
-        item['rowid'] = item['rowId']
-      })
+      res.data.itemList.forEach((item) => {
+        item["rfqQty"] = item["requestQuantity"];
+        item["purchaseDescription"] = item["narration"];
+        item["comments"] = item["remarks"] || "";
+        item["rowid"] = item["rowId"];
+      });
       setter(res.data.itemList);
-      setFieldValue('supplierRef', res.data.headerData.supplierRefNo || "")
-      setFieldValue('supplierDate', res.data.headerData.supplierRefDate ? _dateFormatter(res.data.headerData.supplierRefDate) : "")
+      setFieldValue("supplierRef", res.data.headerData.supplierRefNo || "");
+      setFieldValue(
+        "supplierDate",
+        res.data.headerData.supplierRefDate
+          ? _dateFormatter(res.data.headerData.supplierRefDate)
+          : ""
+      );
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getRFQSupplierList = async (accId, buId, rfqId) => {
-  return axios.get(`/procurement/RequestForQuotation/GetRFQSupplierDDL?AccountId=${accId}&BusinessUnitId=${buId}&RequestForQuotationId=${rfqId}`);
+  return axios.get(
+    `/procurement/RequestForQuotation/GetRFQSupplierDDL?AccountId=${accId}&BusinessUnitId=${buId}&RequestForQuotationId=${rfqId}`
+  );
 };
 
-export const getRFQSupplierNameDDLAction = async (accId, buId, rfqId, setter) => {
+export const getRFQSupplierNameDDLAction = async (
+  accId,
+  buId,
+  rfqId,
+  setter
+) => {
   try {
-    const res = await axios.get(`/procurement/RequestForQuotation/GetRFQSupplierDDL?AccountId=${accId}&BusinessUnitId=${buId}&RequestForQuotationId=${rfqId}`);
+    const res = await axios.get(
+      `/procurement/RequestForQuotation/GetRFQSupplierDDL?AccountId=${accId}&BusinessUnitId=${buId}&RequestForQuotationId=${rfqId}`
+    );
     if (res.status === 200 && res?.data) {
-
-      console.log(res.data, "data")
+      console.log(res.data, "data");
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
-
-
-
-
-
