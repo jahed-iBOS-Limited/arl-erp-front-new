@@ -1,0 +1,41 @@
+.cardContainer {
+  width: 25%;
+  height: 50%;
+}
+.greatText{
+    font-size: 45px;
+    font-weight: 300;
+}
+
+@media (max-width: 1190px) {
+  .cardContainer {
+    width: 40%;
+  }
+}
+
+@media (max-width: 991px) {
+  .cardContainer {
+    width: 50%;
+  }
+}
+
+@media (max-width: 767px) {
+  .cardContainer {
+    width: 60%;
+  }
+}
+
+@media (max-width: 575px) {
+  .cardContainer {
+    width: 80%;
+  }
+  .greatText { 
+    font-size: 35px !important;
+  }
+}
+
+@media (max-width: 375px) {
+  .cardContainer {
+    width: 90%;
+  }
+}
