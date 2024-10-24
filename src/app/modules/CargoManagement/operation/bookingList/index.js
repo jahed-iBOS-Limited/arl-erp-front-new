@@ -14,7 +14,6 @@ import ChargesModal from "./chargesModal";
 import ConfirmModal from "./confirmModal";
 import DocumentModal from "./documentModal";
 import FreightInvoice from "./freightInvoice";
-import HBLFormat from "./HBLFormat";
 import { cancelHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
@@ -463,7 +462,7 @@ function BookingList() {
                                   }}
                                 >
                                   {item?.modeOfTransport === "Air"
-                                    ? "AWB"
+                                    ? "HAWB"
                                     : "HBL"}
                                 </button>
                               </span>
@@ -994,7 +993,7 @@ function BookingList() {
       {isModalShowObj?.isHBCodeGN && (
         <IViewModal
           title={`${
-            rowClickData?.modeOfTransport === "Air" ? "AWB" : "HBL"
+            rowClickData?.modeOfTransport === "Air" ? "HAWB" : "HBL"
           } Code Generate`}
           show={isModalShowObj?.isHBCodeGN}
           onHide={() => {

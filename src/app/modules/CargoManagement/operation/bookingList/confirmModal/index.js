@@ -382,8 +382,8 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.airWaybillNumber}
                     label={
                       values?.transportPlanningType === "Sea"
-                        ? "HAWB"
-                        : "Air Waybill (AWB) Number"
+                        ? "HBL"
+                        : "HAWB Number"
                     }
                     name="airWaybillNumber"
                     type="text"
