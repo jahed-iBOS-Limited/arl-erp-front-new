@@ -211,8 +211,9 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
             <div className="box1_left-box_content-3 medium-font line-height word-spacing">
               <span className="small-font word-spacing">Also notify</span>
               <p>
-                INDITEX-ZARA, LELYSTAD BRANCH NIEUWEZIJDS VOORBURGWAL 307 1012
-                RM AMSTERDAM THE NETHERLANDS
+                {bookingData?.notifyParty}
+                {/* INDITEX-ZARA, LELYSTAD BRANCH NIEUWEZIJDS VOORBURGWAL 307 1012
+                RM AMSTERDAM THE NETHERLANDS */}
                 <b className="large-font">,,Netherlands</b>
               </p>
             </div>
@@ -313,7 +314,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               <div style={{ width: "50%", borderRight: "2px solid black" }}>
                 Master Airwaybill No.
                 <p>
-                  <b>{bookingData?.awbnumber} </b>
+                  <b>{bookingData?.flightNumber} </b>
                 </p>
               </div>
               <div style={{ width: "50%" }}>I.A.T.A Code</div>
@@ -333,9 +334,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               >
                 Currency
                 <p className="medium-font" style={{ paddingTop: 5 }}>
-                  {
-                    bookingData?.currency
-                  }
+                  {bookingData?.currency}
                 </p>
               </div>
               <div
@@ -447,7 +446,12 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               <p className="small-font">47805-D/1</p>
             </div>
             <div style={{ width: "10%", borderRight: "2px solid black" }}>
-              <p style={{ textAlign: "center" }}>3337</p>
+              <p style={{ textAlign: "center" }}>
+                {bookingData?.rowsData?.reduce(
+                  (acc, item) => acc + +item?.grossWeightKG,
+                  0
+                )}
+              </p>
             </div>
             <div style={{ width: "2%", borderRight: "2px solid black" }}>
               <p
@@ -458,7 +462,28 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                   <b>DIMENSION</b>
                 </u>
               </p>
-              <p className="small-font">29X 59 CM/140CAR Total CBM : 18.684</p>
+              <p className="small-font">
+                {bookingData?.rowsData?.reduce(
+                  (acc, item) => acc + +item?.totalDimsHeight,
+                  0
+                )}{" "}
+                x
+                {bookingData?.rowsData?.reduce(
+                  (acc, item) => acc + +item?.totalDimsWidth,
+                  0
+                )}{" "}
+                x{" "}
+                {bookingData?.rowsData?.reduce(
+                  (acc, item) => acc + +item?.totalDimsLength,
+                  0
+                )}
+                <br/>
+                Total CBM :{" "}
+                {bookingData?.rowsData?.reduce(
+                  (acc, item) => acc + +item?.totalVolumeCBM,
+                  0
+                )}
+              </p>
             </div>
             <div style={{ width: "10%", borderRight: "2px solid black" }}>
               <p style={{ textAlign: "center" }}>3337</p>
