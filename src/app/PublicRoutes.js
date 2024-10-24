@@ -57,12 +57,12 @@ export const publicRouteList = [
     exact: true,
   },
   {
-    path: "/success",
+    path: "/external/paymentgateway/pubali/success",
     component: SuccessMessageComponent,
     exact: true,
   },
   {
-    path: "/error",
+    path: "/external/paymentgateway/pubali/failed",
     component: ErrorMessageComponent,
     exact: true,
   },
