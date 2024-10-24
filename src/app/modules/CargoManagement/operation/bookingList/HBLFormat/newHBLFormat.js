@@ -1,10 +1,183 @@
 import React from "react";
 import "./newHBLFormat.css";
+import { shallowEqual, useSelector } from "react-redux";
+//============bookingData data=================
+// {
+//   "bookingRequestCode": "SINV0102024000063",
+//   "bookingRequestId": 3,
+//   "shipperId": 102367,
+//   "shipperName": "jahed",
+//   "shipperAddress": "3039",
+//   "shipperContactPerson": "jahed",
+//   "shipperContact": "01755263355",
+//   "shipperEmail": "jahed@ibos.io",
+//   "shipperCountryId": 18,
+//   "shipperCountry": "Bangladesh",
+//   "shipperStateId": 2,
+//   "shipperState": "Chattogram",
+//   "consigneeId": 102186,
+//   "consigneeName": "Zinthin",
+//   "consigneeAddress": "sf",
+//   "consigneeContactPerson": "sf",
+//   "consigneeContact": "255",
+//   "consigneeEmail": "demo@ibos.io",
+//   "consigCountryId": 18,
+//   "consigCountry": "Bangladesh",
+//   "consigStateId": 2,
+//   "consigState": "Chattogram",
+//   "ponumber": "11",
+//   "dateOfRequest": "2024-10-18T00:00:00",
+//   "freightAgentReference": "Alice Josnson",
+//   "modeOfTransport": "Air",
+//   "portOfLoadingId": 0,
+//   "portOfLoading": "sf",
+//   "portOfDischargeId": 0,
+//   "portOfDischarge": "sfs",
+//   "originAddress": "dg",
+//   "countryOfOriginId": 18,
+//   "countryOfOrigin": "Bangladesh",
+//   "finalDestinationAddress": "sdf",
+//   "fdestCountryId": 18,
+//   "fdestCountry": "Bangladesh",
+//   "fdestStateId": 1,
+//   "fdestState": "Barishal",
+//   "modeofStuffings": null,
+//   "modeOfDelivery": null,
+//   "incoterms": "fob",
+//   "requestPickupDate": "2024-10-25T00:00:00",
+//   "requestDeliveryDate": "2024-11-01T00:00:00",
+//   "isCustomsBrokerage": true,
+//   "isCargoInsurance": false,
+//   "isWarehouseService": true,
+//   "isStoreRentPickupService": false,
+//   "isDestiontionHaulage": false,
+//   "paymentTermsId": 1,
+//   "paymentTerms": "PP/CC",
+//   "billingAddress": "sd",
+//   "billCountryId": 18,
+//   "billCountry": "Bangladesh",
+//   "billStateId": 1,
+//   "billState": "Barishal",
+//   "currencyId": 7,
+//   "currency": "AZN",
+//   "invoiceValue": 44,
+//   "packingListReference": "abc-001",
+//   "notifyParty": "XYZ Shipping Co.",
+//   "notifyBank": "",
+//   "negotiationParty": "sdf",
+//   "isPending": false,
+//   "isHandOver": false,
+//   "handOverDate": "2024-10-24T03:44:54.917",
+//   "isReceived": true,
+//   "receivedDate": "2024-10-24T03:45:02.387",
+//   "isPlaning": false,
+//   "planingDate": "2024-10-24T03:44:54.917",
+//   "isConfirm": true,
+//   "confirmDate": "2024-10-23T15:17:04.51",
+//   "confTransportMode": "Air to Air",
+//   "isActive": true,
+//   "isPickup": true,
+//   "pickupDate": "2024-10-17T09:44:00",
+//   "blnumber": null,
+//   "isBl": false,
+//   "bldate": "2024-10-24T03:44:54.917",
+//   "hblnumber": null,
+//   "isHbl": false,
+//   "hbldate": null,
+//   "fcrnumber": null,
+//   "isDispatch": false,
+//   "dispatchDate": "2024-10-24T03:44:54.917",
+//   "isCustomsClear": false,
+//   "customsClearDt": "2024-10-24T03:44:54.917",
+//   "createdAt": "2024-10-23T15:14:19.89",
+//   "createdBy": 1,
+//   "departureDateTime": "2024-10-25T21:16:00",
+//   "arrivalDateTime": "2024-10-10T21:16:00",
+//   "flightNumber": "11",
+//   "transitInformation": "Direct Flight",
+//   "awbnumber": "1",
+//   "bookingAmount": 10,
+//   "countryOfOrginId": 18,
+//   "countryOfOrgin": "Bangladesh",
+//   "pickupPlace": "sf",
+//   "isCharges": false,
+//   "isInTransit": null,
+//   "inTransitDate": "2024-10-24T03:44:54.917",
+//   "isDestPortReceive": false,
+//   "destPortReceiveDt": "2024-10-24T03:44:54.917",
+//   "isBuyerReceive": false,
+//   "buyerReceiveDt": "2024-10-24T03:44:54.917",
+//   "modeOfStuffingSeaId": 7,
+//   "modeOfStuffingSeaName": "Cartton Measurement",
+//   "modeOfDeliveryId": 1,
+//   "modeOfDeliveryName": "Door to Door",
+//   "warehouseId": 142,
+//   "warehouseName": "ACCL Factory",
+//   "rowsData": [
+//     {
+//       "bookingRequestRowId": 3,
+//       "bookingRequestHeaderId": 3,
+//       "typeOfCargoId": 1,
+//       "typeOfCargo": "General Cargo ",
+//       "descriptionOfGoods": "10",
+//       "hsCode": "0102",
+//       "numberOfPackages": 1,
+//       "recvQuantity": 100,
+//       "grossWeightKG": 1,
+//       "netWeightKG": 1,
+//       "pugrossWeightKg": 1,
+//       "punetWeightKg": 1,
+//       "totalVolumeCBM": 1,
+//       "totalDimsLength": 1,
+//       "totalDimsWidth": 1,
+//       "totalDimsHeight": 1,
+//       "typeOfLoadingId": 2,
+//       "typeOfLoading": "Carton",
+//       "loadingQuantity": 1,
+//       "isTemperatureControl": true,
+//       "temperatureRange": "11",
+//       "isSHInstruction": true,
+//       "shInstructionText": "11",
+//       "isActive": true,
+//       "createdAt": "2024-10-23T15:14:19.89",
+//       "createdBy": 1,
+//       "dimensionRow": [
+//         {
+//           "dimensionRowId": 3,
+//           "bookingRequestRowId": 3,
+//           "dimsHeight": 1,
+//           "dimsWidth": 1,
+//           "dimsLength": 1,
+//           "perUnitCbm": 1,
+//           "isActive": true,
+//           "createdAt": "2024-10-23T15:14:19.89",
+//           "createdBy": 1
+//         }
+//       ]
+//     }
+//   ],
+//   "documents": [
+//     {
+//       "documentId": 3,
+//       "bookingRequestId": 0,
+//       "documentTypeId": 2,
+//       "documentType": "Shipper’s Declaration for Dangerous Goods",
+//       "documentFileId": "638652932580763176_unnamed__1_-removebg-preview.png",
+//       "isActive": true,
+//       "createdAt": "2024-10-23T15:14:19.89",
+//       "createdBy": 1,
+//       "documentsNumber": null
+//     }
+//   ],
+//   "billingData": [],
+//   "transportPlanning": null
+// }
+function NewHBLFormatAir({ componentRef, bookingData }) {
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData || {},
+    shallowEqual
+  );
 
-function NewHBLFormatAir({
-  componentRef,
-  bookingData
-}) {
   return (
     <div className="main-container-mgs-air" ref={componentRef}>
       <div className="container">
@@ -18,10 +191,10 @@ function NewHBLFormatAir({
               >
                 Shippers Name and Address
               </span>
-              TO THE ORDER OF: MUTUAL TRUST BANK LIMITED GULSHAN BRANCH ,120
-              GULSHAN AVENUE, GULSHAN ,DHAKA-1212,Bangladesh A/C OF: GLOBUS
-              GARMENTS LIMITED K.S.COMPLEX MOUCHACK, KALIAKOIR GAZIPUR-1751,
-              Bangladesh
+              TO THE ORDER OF: <br />
+              {bookingData?.shipperName} <br />
+              {bookingData?.shipperAddress}, {bookingData?.shipperState},{" "}
+              {bookingData?.shipperCountry}
             </div>
             <div className="box1_left-box_content-2 medium-font line-height word-spacing">
               <span
@@ -30,15 +203,17 @@ function NewHBLFormatAir({
               >
                 Consignee's Name and Address
               </span>
-              TO THE ORDER OF: BNP PARIBAS HONG KONG BRANCH A/C OF: INDITEX,
-              S.A. POL.INDUSTRIAL DE SABON,AVDA,DE LA, DIPUTACION,S/N 15142
-              ARTEIXO A CORUNA,15142 ARTEIXO A CORUNA,SPAIN
+              TO THE ORDER OF: <br />
+              {bookingData?.consigneeName} <br />
+              {bookingData?.consigneeAddress}, {bookingData?.consigState},{" "}
+              {bookingData?.consigCountry}
             </div>
             <div className="box1_left-box_content-3 medium-font line-height word-spacing">
               <span className="small-font word-spacing">Also notify</span>
               <p>
-                INDITEX-ZARA, LELYSTAD BRANCH NIEUWEZIJDS VOORBURGWAL 307 1012
-                RM AMSTERDAM THE NETHERLANDS
+                {bookingData?.notifyParty}
+                {/* INDITEX-ZARA, LELYSTAD BRANCH NIEUWEZIJDS VOORBURGWAL 307 1012
+                RM AMSTERDAM THE NETHERLANDS */}
                 <b className="large-font">,,Netherlands</b>
               </p>
             </div>
@@ -83,7 +258,7 @@ function NewHBLFormatAir({
               >
                 <span className="small-font">Not negotiable</span>
                 <span className="large-font">
-                  <b>MLL-077294</b>
+                  <b>{bookingData?.hblnumber}</b>
                 </span>
               </p>
               <p className="medium-font">
@@ -100,7 +275,7 @@ function NewHBLFormatAir({
                   padding: "5px 0",
                 }}
               >
-                MGH LOGISTICS PVT. LTD.
+                {selectedBusinessUnit?.label}
               </p>
               <p
                 style={{
@@ -110,9 +285,7 @@ function NewHBLFormatAir({
                   fontSize: 10,
                 }}
               >
-                Sayeed Khokon#s Autograph (Level-8),Plot- 67 &amp; 68, Kemal
-                Ataturk Avenue, Banani Model Town, P.S.- Banani, TEL:880- FAX:
-                880
+                {selectedBusinessUnit?.address}
               </p>
             </div>
             <div className="box1_right-box_content-2 small-font word-spacing">
@@ -141,7 +314,7 @@ function NewHBLFormatAir({
               <div style={{ width: "50%", borderRight: "2px solid black" }}>
                 Master Airwaybill No.
                 <p>
-                  <b>157-7306 6162 </b>
+                  <b>{bookingData?.flightNumber} </b>
                 </p>
               </div>
               <div style={{ width: "50%" }}>I.A.T.A Code</div>
@@ -161,7 +334,7 @@ function NewHBLFormatAir({
               >
                 Currency
                 <p className="medium-font" style={{ paddingTop: 5 }}>
-                  USD
+                  {bookingData?.currency}
                 </p>
               </div>
               <div
@@ -273,7 +446,12 @@ function NewHBLFormatAir({
               <p className="small-font">47805-D/1</p>
             </div>
             <div style={{ width: "10%", borderRight: "2px solid black" }}>
-              <p style={{ textAlign: "center" }}>3337</p>
+              <p style={{ textAlign: "center" }}>
+                {bookingData?.rowsData?.reduce(
+                  (acc, item) => acc + +item?.grossWeightKG,
+                  0
+                )}
+              </p>
             </div>
             <div style={{ width: "2%", borderRight: "2px solid black" }}>
               <p
@@ -284,7 +462,28 @@ function NewHBLFormatAir({
                   <b>DIMENSION</b>
                 </u>
               </p>
-              <p className="small-font">29X 59 CM/140CAR Total CBM : 18.684</p>
+              <p className="small-font">
+                {bookingData?.rowsData?.reduce(
+                  (acc, item) => acc + +item?.totalDimsHeight,
+                  0
+                )}{" "}
+                x
+                {bookingData?.rowsData?.reduce(
+                  (acc, item) => acc + +item?.totalDimsWidth,
+                  0
+                )}{" "}
+                x{" "}
+                {bookingData?.rowsData?.reduce(
+                  (acc, item) => acc + +item?.totalDimsLength,
+                  0
+                )}
+                <br/>
+                Total CBM :{" "}
+                {bookingData?.rowsData?.reduce(
+                  (acc, item) => acc + +item?.totalVolumeCBM,
+                  0
+                )}
+              </p>
             </div>
             <div style={{ width: "10%", borderRight: "2px solid black" }}>
               <p style={{ textAlign: "center" }}>3337</p>
