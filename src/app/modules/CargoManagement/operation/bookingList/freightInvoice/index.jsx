@@ -10,14 +10,228 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 import logisticsLogo from "./logisticsLogo.png";
 import "./style.css";
-
+// {
+//   "bookingRequestCode": "SINV0102024000062",
+//   "bookingRequestId": 2,
+//   "shipperId": 102367,
+//   "shipperName": "jahed",
+//   "shipperAddress": "3039",
+//   "shipperContactPerson": "jahed",
+//   "shipperContact": "01755263355",
+//   "shipperEmail": "jahed@ibos.io",
+//   "shipperCountryId": 18,
+//   "shipperCountry": "Bangladesh",
+//   "shipperStateId": 2,
+//   "shipperState": "Chattogram",
+//   "consigneeId": 102186,
+//   "consigneeName": "Zinthin",
+//   "consigneeAddress": "1111",
+//   "consigneeContactPerson": "jahed",
+//   "consigneeContact": "015555",
+//   "consigneeEmail": "zinthin@gmail.com",
+//   "consigCountryId": 18,
+//   "consigCountry": "Bangladesh",
+//   "consigStateId": 1,
+//   "consigState": "Barishal",
+//   "ponumber": "demo001",
+//   "dateOfRequest": "2024-10-25T00:00:00",
+//   "freightAgentReference": "Alice Josnson",
+//   "modeOfTransport": "",
+//   "portOfLoadingId": 0,
+//   "portOfLoading": "fgf",
+//   "portOfDischargeId": 0,
+//   "portOfDischarge": "fg",
+//   "originAddress": "fb",
+//   "countryOfOriginId": 18,
+//   "countryOfOrigin": "Bangladesh",
+//   "finalDestinationAddress": "10",
+//   "fdestCountryId": 18,
+//   "fdestCountry": "Bangladesh",
+//   "fdestStateId": 1,
+//   "fdestState": "Barishal",
+//   "modeofStuffings": null,
+//   "modeOfDelivery": null,
+//   "incoterms": "ddp",
+//   "requestPickupDate": "2024-10-01T00:00:00",
+//   "requestDeliveryDate": "2024-10-25T00:00:00",
+//   "isCustomsBrokerage": true,
+//   "isCargoInsurance": false,
+//   "isWarehouseService": true,
+//   "isStoreRentPickupService": false,
+//   "isDestiontionHaulage": false,
+//   "paymentTermsId": 1,
+//   "paymentTerms": "PP/CC",
+//   "billingAddress": "10",
+//   "billCountryId": 18,
+//   "billCountry": "Bangladesh",
+//   "billStateId": 1,
+//   "billState": "Barishal",
+//   "currencyId": 7,
+//   "currency": "AZN",
+//   "invoiceValue": 11.00,
+//   "packingListReference": "dfg",
+//   "buyerName": null,
+//   "buyerEmail": null,
+//   "notifyParty": "Global Logistics Ltd.",
+//   "notifyBank": "",
+//   "negotiationParty": "jahed",
+//   "isPending": false,
+//   "isHandOver": false,
+//   "handOverDate": null,
+//   "isReceived": true,
+//   "receivedDate": "2024-10-23T14:54:36.953",
+//   "isPlaning": false,
+//   "planingDate": null,
+//   "isConfirm": true,
+//   "confirmDate": "2024-10-23T14:54:18.877",
+//   "confTransportMode": "Air to Air",
+//   "isActive": true,
+//   "isPickup": false,
+//   "pickupDate": null,
+//   "blnumber": "120",
+//   "isBl": true,
+//   "bldate": "2024-10-24T12:07:40.323",
+//   "hblnumber": "ALL-A000004",
+//   "isHbl": true,
+//   "hbldate": "2024-10-24T12:07:44.8",
+//   "fcrnumber": null,
+//   "isDispatch": false,
+//   "dispatchDate": null,
+//   "isCustomsClear": false,
+//   "customsClearDt": null,
+//   "createdAt": "2024-10-23T14:46:13.557",
+//   "createdBy": 1,
+//   "departureDateTime": "2024-10-01T20:53:00",
+//   "arrivalDateTime": "2024-10-25T20:53:00",
+//   "flightNumber": "10",
+//   "transitInformation": "Direct Flight",
+//   "awbnumber": "abc-001",
+//   "bookingAmount": 100.00,
+//   "countryOfOrginId": 18,
+//   "countryOfOrgin": "Bangladesh",
+//   "pickupPlace": "11",
+//   "isCharges": false,
+//   "isInTransit": null,
+//   "inTransitDate": null,
+//   "isDestPortReceive": false,
+//   "destPortReceiveDt": null,
+//   "isBuyerReceive": false,
+//   "buyerReceiveDt": null,
+//   "modeOfStuffingSeaId": 6,
+//   "modeOfStuffingSeaName": "Bambo Stuffing",
+//   "modeOfDeliveryId": 1,
+//   "modeOfDeliveryName": "Door to Door",
+//   "warehouseId": 142,
+//   "warehouseName": "ACCL Factory",
+//   "rowsData": [
+//       {
+//           "bookingRequestRowId": 2,
+//           "bookingRequestHeaderId": 2,
+//           "typeOfCargoId": 2,
+//           "typeOfCargo": "Dangerous Cargo",
+//           "descriptionOfGoods": "10",
+//           "hsCode": "0102",
+//           "numberOfPackages": 1.00,
+//           "recvQuantity": 111.00,
+//           "grossWeightKG": 1.00,
+//           "netWeightKG": 1.00,
+//           "pugrossWeightKg": 1.00,
+//           "punetWeightKg": 1.00,
+//           "totalVolumeCBM": 1.0,
+//           "totalDimsLength": 1.00,
+//           "totalDimsWidth": 1.00,
+//           "totalDimsHeight": 1.00,
+//           "typeOfLoadingId": 6,
+//           "typeOfLoading": "Loose Cargo",
+//           "loadingQuantity": 111.00,
+//           "isTemperatureControl": false,
+//           "temperatureRange": "",
+//           "isSHInstruction": false,
+//           "shInstructionText": "",
+//           "isActive": true,
+//           "createdAt": "2024-10-23T14:46:13.557",
+//           "createdBy": 1,
+//           "dimensionRow": [
+//               {
+//                   "dimensionRowId": 2,
+//                   "bookingRequestRowId": 2,
+//                   "dimsHeight": 1.00,
+//                   "dimsWidth": 1.00,
+//                   "dimsLength": 1.00,
+//                   "perUnitCbm": 1.0,
+//                   "isActive": true,
+//                   "createdAt": "2024-10-23T14:46:13.557",
+//                   "createdBy": 1
+//               }
+//           ]
+//       }
+//   ],
+//   "documents": [
+//       {
+//           "documentId": 2,
+//           "bookingRequestId": 0,
+//           "documentTypeId": 2,
+//           "documentType": "Shipper’s Declaration for Dangerous Goods",
+//           "documentFileId": "638652915717668186_unnamed__1_-removebg-preview.png",
+//           "isActive": true,
+//           "createdAt": "2024-10-23T14:46:13.557",
+//           "createdBy": 1,
+//           "documentsNumber": null
+//       },
+//       {
+//           "documentId": 5,
+//           "bookingRequestId": 0,
+//           "documentTypeId": 6,
+//           "documentType": "Bill of Lading (BL)",
+//           "documentFileId": "638653684580957079_unnamed (1).jpg",
+//           "isActive": true,
+//           "createdAt": "2024-10-24T12:07:40.28",
+//           "createdBy": 521235,
+//           "documentsNumber": null
+//       }
+//   ],
+//   "billingData": [
+//       {
+//           "billingId": 1,
+//           "bookingRequestId": 2,
+//           "headOfChargeId": 2,
+//           "headOfCharges": "Local Transportation",
+//           "chargeAmount": 10.00,
+//           "isActive": true,
+//           "billingDate": "2024-10-24T11:00:28.697",
+//           "createdBy": 521235,
+//           "createdAt": null,
+//           "updatedBy": null,
+//           "updatedAt": null
+//       },
+//       {
+//           "billingId": 2,
+//           "bookingRequestId": 2,
+//           "headOfChargeId": 3,
+//           "headOfCharges": "IHC",
+//           "chargeAmount": 100.00,
+//           "isActive": true,
+//           "billingDate": "2024-10-24T11:00:28.697",
+//           "createdBy": 521235,
+//           "createdAt": null,
+//           "updatedBy": null,
+//           "updatedAt": null
+//       }
+//   ],
+//   "transportPlanning": null
+// }
 const FreightInvoice = ({ rowClickData }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
-  const [, getSalesInvoiceGen, salesInvoiceGenLoading, ,] = useAxiosPost();
+  const [
+    ,
+    getCargoBookingInvoice,
+    cargoBookingInvoiceLoading,
+    ,
+  ] = useAxiosPost();
   const [
     shipBookingRequestGetById,
     setShipBookingRequestGetById,
@@ -56,9 +270,30 @@ const FreightInvoice = ({ rowClickData }) => {
   };
 
   const saveHandler = (values) => {
-    getSalesInvoiceGen(
-      `${imarineBaseUrl}/domain/Shipping`, // TODO : backend will provide url
-      null,
+    const paylaod = {
+      accountId: profileData?.accountId || 0,
+      unitId: selectedBusinessUnit?.value || 0,
+      bookingDate: new Date(),
+      bookingNumber: bookingData?.bookingRequestCode || '',
+      paymentTerms: "",
+      actionBy: profileData?.userId || 0,
+      rowString: bookingData?.billingData?.map((item) => {
+        return {
+          intHeadOfChargeid: item?.headOfChargeId,
+          strHeadoffcharges: item?.headOfCharges,
+          intCurrencyid: bookingData?.currencyId,
+          strCurrency: bookingData?.currency,
+          numrate: 0,
+          numconverstionrate: 0,
+          strUom: "",
+          numamount: item?.chargeAmount || 0,
+          numvatAmount: 0,
+        }
+      }),
+    };
+    getCargoBookingInvoice(
+      `${imarineBaseUrl}/domain/ShippingService/CargoBookingInvoice`,
+      paylaod,
       () => {
         commonGetByIdHandler();
       }
@@ -100,7 +335,7 @@ const FreightInvoice = ({ rowClickData }) => {
           )}
         </div>
       </div>
-      {shipBookingRequestLoading && <Loading />}
+      {(shipBookingRequestLoading || cargoBookingInvoiceLoading) && <Loading />}
       <div
         ref={componentRef}
         style={{
@@ -162,7 +397,7 @@ const FreightInvoice = ({ rowClickData }) => {
           >
             <div style={{ padding: 2 }}>
               <span style={{ fontSize: 14, fontWeight: 600 }}>
-                {bookingData?.consigneeName})
+                {bookingData?.consigneeName}
               </span>
               <br />
               <span>
@@ -283,8 +518,8 @@ const FreightInvoice = ({ rowClickData }) => {
                   fontWeight: 600,
                 }}
               >
-                {bookingData?.dueDate
-                  ? moment(bookingData?.dueDate).format("YYYY-MM-DD")
+                {bookingData?.createdAt
+                  ? moment(bookingData?.createdAt).format("YYYY-MM-DD")
                   : "N/A"}
               </span>
             </div>
@@ -431,15 +666,16 @@ const FreightInvoice = ({ rowClickData }) => {
                 <br />
                 <span></span>
                 <br />
-                <span>{
-                    bookingData?.bldate ? moment(bookingData?.bldate).format("YYYY-MM-DD") : "N/A"
-                    
-                    }</span>
+                <span>
+                  {bookingData?.bldate
+                    ? moment(bookingData?.bldate).format("YYYY-MM-DD")
+                    : "N/A"}
+                </span>
                 <br />
                 <span>
-                    {
-                    bookingData?.hbldate ? moment(bookingData?.hbldate).format("YYYY-MM-DD") : "N/A"
-                    }
+                  {bookingData?.hbldate
+                    ? moment(bookingData?.hbldate).format("YYYY-MM-DD")
+                    : "N/A"}
                 </span>
                 <br />
                 <span>
