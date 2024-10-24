@@ -6,23 +6,22 @@ import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../App";
 import ICustomCard from "../../../_helper/_customCard";
 import Loading from "../../../_helper/_loading";
+import PaginationSearch from "../../../_helper/_search";
+import PaginationTable from "../../../_helper/_tablePagination";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
+import BLModal from "./blModal";
 import Details from "./bookingDetails";
 import ChargesModal from "./chargesModal";
+import CommonStatusUpdateModal from "./commonStatusUpdateModal";
 import ConfirmModal from "./confirmModal";
 import DocumentModal from "./documentModal";
 import FreightInvoice from "./freightInvoice";
-import HBLFormat from "./HBLFormat";
+import HBLCodeGNModal from "./hblCodeGNModal";
 import { cancelHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
-import CommonStatusUpdateModal from "./commonStatusUpdateModal";
-import BLModal from "./blModal";
-import HBLCodeGNModal from "./hblCodeGNModal";
-import PaginationTable from "../../../_helper/_tablePagination";
-import PaginationSearch from "../../../_helper/_search";
 
 const validationSchema = Yup.object().shape({});
 function BookingList() {
@@ -57,12 +56,10 @@ function BookingList() {
     PageSize = pageSize
   ) => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
-        profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${
-        profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search${searchValue ||
-        ""}`
+      ""}`
     );
   };
   return (
@@ -76,7 +73,7 @@ function BookingList() {
             entryCode: "",
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
@@ -463,7 +460,7 @@ function BookingList() {
                                   }}
                                 >
                                   {item?.modeOfTransport === "Air"
-                                    ? "AWB"
+                                    ? "HAWB"
                                     : "HBL"}
                                 </button>
                               </span>
@@ -688,7 +685,7 @@ function BookingList() {
                                       });
                                     }}
                                   >
-                                    Freight Invoice
+                                    Invoice
                                   </button>
                                 </span>
                               </div>
@@ -920,7 +917,7 @@ function BookingList() {
       {isModalShowObj?.isFreightInvoice && (
         <>
           <IViewModal
-            title="Freight Invoice"
+            title="Invoice"
             show={isModalShowObj?.isFreightInvoice}
             onHide={() => {
               setIsModalShowObj({
@@ -993,9 +990,8 @@ function BookingList() {
       {/* HBCode GN Modal */}
       {isModalShowObj?.isHBCodeGN && (
         <IViewModal
-          title={`${
-            rowClickData?.modeOfTransport === "Air" ? "AWB" : "HBL"
-          } Code Generate`}
+          title={`${rowClickData?.modeOfTransport === "Air" ? "HAWB" : "HBL"
+            } Code Generate`}
           show={isModalShowObj?.isHBCodeGN}
           onHide={() => {
             setIsModalShowObj({

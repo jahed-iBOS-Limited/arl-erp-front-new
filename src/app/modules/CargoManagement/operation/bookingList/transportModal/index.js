@@ -135,7 +135,7 @@ function TransportModal({ rowClickData, CB }) {
               "transportMode",
               data?.confTransportMode
                 ? {
-                    value: data?.confTransportMode,
+                    value: 0,
                     label: data?.confTransportMode,
                   }
                 : ""
@@ -266,7 +266,7 @@ function TransportModal({ rowClickData, CB }) {
                     value={values?.pickupLoaction}
                     label="Pickup Loaction"
                     name="pickupLoaction"
-                    type="number"
+                    type="text"
                     onChange={(e) =>
                       setFieldValue("pickupLoaction", e.target.value)
                     }

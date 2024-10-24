@@ -10,16 +10,37 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import styles from "./Tooltip.module.css";
 import { shallowEqual, useSelector } from "react-redux";
 import axios from "axios";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 const initData = {
-  purchaseOrganization: "",
+  businessUnit: "",
   itemSubCategory: "",
   itemCategory: "",
   itemType: "",
 };
+
+const validationSchema = Yup.object().shape({
+  businessUnit: Yup.object().shape({
+    label: Yup.string().required("Business Unit is required"),
+    value: Yup.string().required("Business Unit is required"),
+  }),
+  itemSubCategory: Yup.object().shape({
+    label: Yup.string().required("Item Sub Category is required"),
+    value: Yup.string().required("Item Sub Category is required"),
+  }),
+  itemCategory: Yup.object().shape({
+    label: Yup.string().required("Item Category is required"),
+    value: Yup.string().required("Item Category is required"),
+  }),
+  itemType: Yup.object().shape({
+    label: Yup.string().required("Items type is required"),
+    value: Yup.string().required("Items type is required"),
+  }),
+});
 export default function AutoPOCalculation() {
   const saveHandler = (values, cb) => {};
-  const [autoPOData, getAutoPOData, loading, setAutoPRData] = useAxiosGet();
+  const [autoPOData, getAutoPOData, loading, setAutoPOData] = useAxiosGet();
   const [, onCreatePOHandler, loader] = useAxiosPost();
   const [itemTypeList, setItemTypeList] = useState("");
   const [itemCategoryList, setItemCategoryList] = useState("");
@@ -27,9 +48,12 @@ export default function AutoPOCalculation() {
   const [itemTypeOption, setItemTypeOption] = useState([]);
 
   // get selected business unit from store
-  const { selectedBusinessUnit, profileData } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  const { selectedBusinessUnit, profileData, businessUnitList } = useSelector(
+    (state) => {
+      return state.authData;
+    },
+    shallowEqual
+  );
 
   useEffect(() => {
     getInfoData();
@@ -60,7 +84,9 @@ export default function AutoPOCalculation() {
       `/item/MasterCategory/GetItemMasterCategoryDDL?AccountId=${profileData?.accountId}&ItemTypeId=${typeId}`
     );
     if (res.data) {
-      setItemCategoryList(res.data);
+      let dataList = res.data || [];
+      dataList.unshift({ value: 0, label: "All" });
+      setItemCategoryList(dataList);
     }
   };
 
@@ -69,20 +95,45 @@ export default function AutoPOCalculation() {
       `/item/MasterCategory/GetItemMasterSubCategoryDDL?AccountId=${profileData?.accountId}&ItemMasterCategoryId=${categoryId}&ItemMasterTypeId=${typeId}`
     );
     if (res.data) {
-      setItemSubCategoryList(res.data);
+      let dataList = res.data || [];
+      dataList.unshift({ value: 0, label: "All" });
+      setItemSubCategoryList(dataList);
     }
   };
 
   const getData = (values) => {
-    const apiUrl = `/procurement/AutoPurchase/GetPurchaseRequestWithRateAgreement?BusinessUnitId=${selectedBusinessUnit?.value}&ItemMasterCategoryId=${values.itemCategory.value}&ItemMasterSubCategoryId=${values.itemSubCategory.value}`;
+    const apiUrl = `/procurement/AutoPurchase/GetPurchaseRequestWithRateAgreement?BusinessUnitId=${values?.businessUnit?.value}&ItemMasterCategoryId=${values.itemCategory.value}&ItemMasterSubCategoryId=${values.itemSubCategory.value}`;
     getAutoPOData(apiUrl);
+  };
+
+  const payloadMapping = (data) => {
+    return data.map((item) => ({
+      accountId: item.accountId || 0,
+      businessUnitId: item.businessUnitId || 0,
+      sbuId: item.sbuId || 0,
+      plantId: item.plantId || 0,
+      plantName: item.plantName || "",
+      warehouseId: item.warehouseId || 0,
+      purchaseOrganizationId: item.purchaseOrganizationId || 0,
+      supplierId: item.supplierId || 0,
+      supplierName: item.supplierName || "",
+      purchaseRequestId: item.purchaseRequestId || 0,
+      purchaseRequestCode: item.purchaseRequestCode || "",
+      restQuantity: item.restQuantity || 0,
+      itemId: item.itemId || 0,
+      itemName: item.itemName || "",
+      uoMId: item.uoMId || 0,
+      uoMName: item.uoMName || "",
+      itemRate: item.itemRate || 0,
+      finalPrice: item.finalPrice || 0,
+    }));
   };
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={{}}
-      // validationSchema={{}}
+      validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
@@ -117,8 +168,8 @@ export default function AutoPOCalculation() {
                         message: `Are you sure to create PO ?`,
                         yesAlertFunc: () => {
                           onCreatePOHandler(
-                            `/procurement/AutoPurchase/GetFormatedItemListForAutoPRCreate`,
-                            autoPOData,
+                            `/procurement/AutoPurchase/CreateFormatedItemListForAutoPO`,
+                            payloadMapping(autoPOData),
                             () => {
                               getData(values);
                             },
@@ -140,16 +191,13 @@ export default function AutoPOCalculation() {
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
                     <NewSelect
-                      name="purchaseOrganization"
-                      options={[{ value: 1, label: "Local Procurement" }]}
-                      value={values?.purchaseOrganization}
-                      label="Purchase Organization"
+                      name="businessUnit"
+                      options={businessUnitList || []}
+                      value={values?.businessUnit}
+                      label="Business Unit"
                       onChange={(valueOption) => {
-                        setFieldValue(
-                          "purchaseOrganization",
-                          valueOption || ""
-                        );
-                        setAutoPRData([]);
+                        setFieldValue("businessUnit", valueOption || "");
+                        setAutoPOData([]);
                       }}
                       errors={errors}
                       touched={touched}
@@ -172,7 +220,7 @@ export default function AutoPOCalculation() {
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
-                      name="itemType"
+                      name="itemCategory"
                       options={itemCategoryList || []}
                       value={values?.itemCategory}
                       label="Select Item Category"
@@ -190,7 +238,7 @@ export default function AutoPOCalculation() {
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
-                      name="itemType"
+                      name="itemSubCategory"
                       options={itemSubCategoryList || []}
                       value={values?.itemSubCategory}
                       label="Select Item Sub-category"
@@ -206,6 +254,15 @@ export default function AutoPOCalculation() {
                     <button
                       type="button"
                       onClick={() => {
+                        if (
+                          !values.businessUnit ||
+                          !values.itemType ||
+                          !values.itemCategory ||
+                          !values.itemSubCategory
+                        ) {
+                          toast.error("All fields are required");
+                          return;
+                        }
                         getData(values);
                       }}
                       className="btn btn-primary mt-5"
@@ -226,15 +283,15 @@ export default function AutoPOCalculation() {
                             <th>Item Name</th>
                             <th>UOM</th>
                             <th>Warehouse</th>
-                            <th>Business Unit</th>
-                            <th>Current Stock</th>
-                            <th>Open PR</th>
-                            <th>Open PO</th>
-                            <th>Ghat Stock</th>
-                            <th>Port Stock</th>
-                            <th>Reorder Level</th>
-                            <th>PR Quantity</th>
-                            <th>Action</th>
+                            <th>Plant Name</th>
+                            {/* <th>Business Unit</th> */}
+                            {/* <th>Current Stock</th> */}
+                            {/* <th>Open PR</th>
+                            <th>Open PO</th> */}
+                            {/* <th>Ghat Stock</th>
+                            <th>Port Stock</th> */}
+                            {/* <th>Reorder Level</th> */}
+                            <th>PO Quantity</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -246,113 +303,34 @@ export default function AutoPOCalculation() {
                                   {item?.itemCode}
                                 </td>
                                 <td>{item?.itemName}</td>
-                                <td className="text-center">{item?.uomName}</td>
+                                <td className="text-center">{item?.uoMName}</td>
                                 <td className="text-center">
                                   {item?.warehouseName}
                                 </td>
-                                <td>{item?.businessUnitName}</td>
                                 <td className="text-center">
-                                  {item?.inventoryStock}
+                                  {item?.plantName}
                                 </td>
-                                <td className="text-center">
+                                {/* <td>{item?.businessUnitName}</td> */}
+                                {/* <td className="text-center">
+                                  {item?.inventoryStock}
+                                </td> */}
+                                {/* <td className="text-center">
                                   {item?.purchaseRequestStock}
                                 </td>
                                 <td className="text-center">
                                   {item?.purchaseOrderStock}
-                                </td>
-                                <td className="text-center">
+                                </td> */}
+                                {/* <td className="text-center">
                                   {item?.balanceOnGhat || 0}
                                 </td>
                                 <td className="text-center">
                                   {item?.portStock || 0}
-                                </td>
-                                <td className="text-center">
+                                </td> */}
+                                {/* <td className="text-center">
                                   {item?.reorderLevel}
-                                </td>
+                                </td> */}
                                 <td className="text-center">
-                                  {item?.reorderQuantity}
-                                </td>
-                                <td className="text-center">
-                                  {values?.purchaseOrganization?.value ===
-                                    2 && (
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">
-                                          <table className={styles.table}>
-                                            <tbody>
-                                              {/* Top 3 fields with "+" sign */}
-                                              <tr>
-                                                <td>
-                                                  <strong>Current Stock</strong>
-                                                </td>
-                                                <td>
-                                                  + {item?.inventoryStock || 0}
-                                                </td>
-                                              </tr>
-                                              <tr>
-                                                <td>
-                                                  <strong>Port Stock</strong>
-                                                </td>
-                                                <td>
-                                                  + {item?.portStock || 0}
-                                                </td>
-                                              </tr>
-                                              <tr>
-                                                <td>
-                                                  <strong>Ghat Stock</strong>
-                                                </td>
-                                                <td>
-                                                  + {item?.balanceOnGhat || 0}
-                                                </td>
-                                              </tr>
-
-                                              {/* Bottom 2 fields with "-" sign */}
-                                              <tr>
-                                                <td>
-                                                  <strong>Open PO</strong>
-                                                </td>
-                                                <td>
-                                                  -{" "}
-                                                  {item?.purchaseOrderStock ||
-                                                    0}
-                                                </td>
-                                              </tr>
-                                              <tr>
-                                                <td>
-                                                  <strong>Open PR</strong>
-                                                </td>
-                                                <td>
-                                                  -{" "}
-                                                  {item?.purchaseRequestStock ||
-                                                    0}
-                                                </td>
-                                              </tr>
-
-                                              {/* Final Total */}
-                                              <tr>
-                                                <td>
-                                                  <strong>PR Quantity</strong>
-                                                </td>
-                                                <td>
-                                                  {(item?.inventoryStock || 0) +
-                                                    (item?.portStock || 0) +
-                                                    (item?.balanceOnGhat || 0) -
-                                                    ((item?.purchaseOrderStock ||
-                                                      0) +
-                                                      (item?.purchaseRequestStock ||
-                                                        0))}
-                                                </td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <span>
-                                        <i className="fa fa-info-circle pointer"></i>
-                                      </span>
-                                    </OverlayTrigger>
-                                  )}
+                                  {item?.restQuantity}
                                 </td>
                               </tr>
                             ))}

@@ -12,6 +12,8 @@ import DeadWeightCreate from "./modules/shippingOperation/deadWeightPreStowagePl
 import CreateDischargePort from "./modules/shippingOperation/departureDocuments/dischargePort/create";
 import EDPADischargePortCreate from "./modules/shippingOperation/epdaManagement/dischargePort/create";
 import CreateLoadPort from "./modules/shippingOperation/departureDocuments/loadPort/create";
+import SuccessMessageComponent from "./modules/publicRouteComponents/success";
+import ErrorMessageComponent from "./modules/publicRouteComponents/error";
 
 export const publicRouteList = [
   {
@@ -52,6 +54,16 @@ export const publicRouteList = [
     path:
       "/chartering/operation/loadPortDepartureDocuments/create/:paramId/:paramCode",
     component: CreateLoadPort,
+    exact: true,
+  },
+  {
+    path: "/external/paymentgateway/pubali/success",
+    component: SuccessMessageComponent,
+    exact: true,
+  },
+  {
+    path: "/external/paymentgateway/pubali/failed",
+    component: ErrorMessageComponent,
     exact: true,
   },
 ];

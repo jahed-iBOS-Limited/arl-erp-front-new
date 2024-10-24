@@ -215,6 +215,73 @@ function BookingDetailsInfo({ bookingData }) {
               {moment(bookingData?.requestDeliveryDate).format("YYYY-MM-DD")}
             </p>
           </div>
+
+          {/* Transport Booking */}
+          <div className="box">
+            <h5>Transport Booking</h5>
+            <p>
+              <strong>Pickup Loaction: </strong>{" "}
+              {bookingData?.transportPlanning?.pickupLocation}
+            </p>
+            <p>
+              <strong>Pickup Date:</strong>{" "}
+              {moment(bookingData?.transportPlanning?.pickupDate).format(
+                "YYYY-MM-DD"
+              )}
+            </p>
+            <p>
+              <strong>Vehicle Info:</strong>{" "}
+              {bookingData?.transportPlanning?.vehicleInfo}
+            </p>
+            {bookingData?.transportPlanning?.modeOfTransport === "Air" && (
+              <>
+                <p>
+                  <strong>No of Pallet</strong> :{" "}
+                  {bookingData?.transportPlanning?.noOfPallets}
+                </p>
+                <p>
+                  <strong>Air Line:</strong>{" "}
+                  {bookingData?.transportPlanning?.airLineOrShippingLine}
+                </p>
+                <p>
+                  <strong>Carton:</strong>{" "}
+                  {bookingData?.transportPlanning?.carton}
+                </p>
+              </>
+            )}
+            {bookingData?.transportPlanning?.modeOfTransport === "Sea" && (
+              <>
+                <p>
+                  <strong>Continer: </strong>{" "}
+                  {bookingData?.transportPlanning?.noOfContainer}
+                </p>
+                <p>
+                  <strong>Shipping Line:</strong>{" "}
+                  {bookingData?.transportPlanning?.airLineOrShippingLine}
+                </p>
+                <p>
+                  <strong>Vessel Name:</strong>{" "}
+                  {bookingData?.transportPlanning?.vesselName}
+                </p>
+              </>
+            )}
+            <p>
+              <strong>Departure Date & Time:</strong>{" "}
+              {moment(bookingData?.transportPlanning?.departureDateTime).format(
+                "YYYY-MM-DD HH:mm A"
+              )}
+            </p>
+            <p>
+              <strong>Arrival Date & Time:</strong>{" "}
+              {moment(bookingData?.transportPlanning?.arrivalDateTime).format(
+                "YYYY-MM-DD HH:mm A"
+              )}
+            </p>
+            <p>
+              <strong>Transport Mode:</strong>{" "}
+              {bookingData?.transportPlanning?.transportMode}
+            </p>
+          </div>
         </div>
 
         {/* Cargo Details */}
@@ -226,7 +293,7 @@ function BookingDetailsInfo({ bookingData }) {
                 <tr>
                   <th>SL</th>
                   <th>Cargo Type</th>
-                 
+
                   <th>HS Code</th>
                   <th>Number of Packages/Units/Carton</th>
                   <th>Per Unit Gross Weight (kg)</th>
@@ -235,9 +302,9 @@ function BookingDetailsInfo({ bookingData }) {
                   <th>Net Weight (KG)</th>
                   <th>Volume (CBM)</th>
                   <th>Type of Loading</th>
-               
+
                   <th>Temperature Range</th>
-               
+
                   <th>Special Handling Instructions</th>
                   <th>Description</th>
                 </tr>
@@ -246,7 +313,7 @@ function BookingDetailsInfo({ bookingData }) {
                 {bookingData?.rowsData?.map((row, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                 
+
                     <td>{row?.hsCode}</td>
                     <td>{row?.typeOfCargo}</td>
                     <td>{row?.numberOfPackages}</td>
@@ -256,10 +323,10 @@ function BookingDetailsInfo({ bookingData }) {
                     <td>{row?.netWeightKG}</td>
                     <td>{row?.totalVolumeCBM}</td>
                     <td>{row?.typeOfLoading}</td>
-                   
-                    <td>{row?.temperatureRange || 'N/A'}</td>
-                   
-                    <td>{row?.shInstructionText || 'N/A'}</td>
+
+                    <td>{row?.temperatureRange || "N/A"}</td>
+
+                    <td>{row?.shInstructionText || "N/A"}</td>
                     <td>{row?.descriptionOfGoods}</td>
                   </tr>
                 ))}
