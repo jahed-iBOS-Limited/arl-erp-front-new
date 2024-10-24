@@ -10,13 +10,34 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import styles from "./Tooltip.module.css";
 import { shallowEqual, useSelector } from "react-redux";
 import axios from "axios";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 const initData = {
-  purchaseOrganization: "",
+  businessUnit: "",
   itemSubCategory: "",
   itemCategory: "",
   itemType: "",
 };
+
+const validationSchema = Yup.object().shape({
+  businessUnit: Yup.object().shape({
+    label: Yup.string().required("Business Unit is required"),
+    value: Yup.string().required("Business Unit is required"),
+  }),
+  itemSubCategory: Yup.object().shape({
+    label: Yup.string().required("Item Sub Category is required"),
+    value: Yup.string().required("Item Sub Category is required"),
+  }),
+  itemCategory: Yup.object().shape({
+    label: Yup.string().required("Item Category is required"),
+    value: Yup.string().required("Item Category is required"),
+  }),
+  itemType: Yup.object().shape({
+    label: Yup.string().required("Items type is required"),
+    value: Yup.string().required("Items type is required"),
+  }),
+});
 export default function AutoPOCalculation() {
   const saveHandler = (values, cb) => {};
   const [autoPOData, getAutoPOData, loading, setAutoPOData] = useAxiosGet();
@@ -64,7 +85,7 @@ export default function AutoPOCalculation() {
     );
     if (res.data) {
       let dataList = res.data || [];
-      dataList.push({ value: 0, label: "All" });
+      dataList.unshift({ value: 0, label: "All" });
       setItemCategoryList(dataList);
     }
   };
@@ -75,7 +96,7 @@ export default function AutoPOCalculation() {
     );
     if (res.data) {
       let dataList = res.data || [];
-      dataList.push({ value: 0, label: "All" });
+      dataList.unshift({ value: 0, label: "All" });
       setItemSubCategoryList(dataList);
     }
   };
@@ -112,7 +133,7 @@ export default function AutoPOCalculation() {
     <Formik
       enableReinitialize={true}
       initialValues={{}}
-      // validationSchema={{}}
+      validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
@@ -170,7 +191,7 @@ export default function AutoPOCalculation() {
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
                     <NewSelect
-                      name="purchaseOrganization"
+                      name="businessUnit"
                       options={businessUnitList || []}
                       value={values?.businessUnit}
                       label="Business Unit"
@@ -199,7 +220,7 @@ export default function AutoPOCalculation() {
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
-                      name="itemType"
+                      name="itemCategory"
                       options={itemCategoryList || []}
                       value={values?.itemCategory}
                       label="Select Item Category"
@@ -217,7 +238,7 @@ export default function AutoPOCalculation() {
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
-                      name="itemType"
+                      name="itemSubCategory"
                       options={itemSubCategoryList || []}
                       value={values?.itemSubCategory}
                       label="Select Item Sub-category"
@@ -233,6 +254,15 @@ export default function AutoPOCalculation() {
                     <button
                       type="button"
                       onClick={() => {
+                        if (
+                          !values.businessUnit ||
+                          !values.itemType ||
+                          !values.itemCategory ||
+                          !values.itemSubCategory
+                        ) {
+                          toast.error("All fields are required");
+                          return;
+                        }
                         getData(values);
                       }}
                       className="btn btn-primary mt-5"
