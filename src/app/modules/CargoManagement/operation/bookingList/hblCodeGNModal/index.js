@@ -7,6 +7,7 @@ import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
 import { HBLFormatInvoice } from "../HBLFormat";
 import { useReactToPrint } from "react-to-print";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import NewHBLFormatAir from "../HBLFormat/newHBLFormat";
 const validationSchema = Yup.object().shape({
   // date: Yup.date().required("Date is required"),
 });
@@ -110,7 +111,14 @@ function HBLCodeGNModal({ CB, rowClickData }) {
                   )}
                 </div>
               </div>
-              {bookingData?.hblnumber && (
+              {rowClickData?.modeOfTransport === "Air" && (
+                <NewHBLFormatAir
+                  bookingData={bookingData}
+                  componentRef={componentRef}
+                />
+              )}
+
+              {rowClickData?.modeOfTransport === "Sea" && (
                 <HBLFormatInvoice
                   componentRef={componentRef}
                   bookingData={bookingData}

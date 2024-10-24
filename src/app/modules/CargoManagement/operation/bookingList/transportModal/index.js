@@ -77,8 +77,7 @@ function TransportModal({ rowClickData, CB }) {
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
         (resData) => {
           if (formikRef.current) {
-            const data = resData || {};
-        console.log("data?.modeOfTransport ", data?.modeOfTransport );  
+            const data = resData || {}; 
             const transportPlanning = data?.transportPlanning || {};
             formikRef.current.setFieldValue(
               "transportPlanning",
