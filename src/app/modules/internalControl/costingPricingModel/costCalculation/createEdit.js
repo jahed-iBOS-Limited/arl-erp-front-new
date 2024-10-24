@@ -295,7 +295,7 @@ export default function CostConfigurationCreateEdit() {
                         touched={touched}
                       />
                     </div>
-                    <div className="col-lg-3">
+                    <div className="col-lg-2">
                       <NewSelect
                         label="UOM"
                         options={[]}
@@ -318,31 +318,47 @@ export default function CostConfigurationCreateEdit() {
                         onChange={(valueOption) => {
                           if (valueOption) {
                             setFieldValue("finishGood", valueOption);
+                            setFieldValue("fgUomName", {
+                              value: valueOption?.uomId,
+                              label: valueOption?.uomName,
+                            });
+                            setFieldValue(
+                              "fgConversionRate",
+                              valueOption?.conversion || ""
+                            );
                             getProductPreCostingData(
                               `/costmgmt/Precosting/ViewProductPrecosting?businessUnit=${selectedBusinessUnit?.value}&productId=${values?.product?.value}&fgItemId=${valueOption?.value}`
                             );
                           } else {
                             setFieldValue("finishGood", "");
                             setProductPreCostingData([]);
+                            setFieldValue("fgUomName", "");
+                            setFieldValue("fgConversionRate", "");
                           }
                         }}
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    {/* <div className="col-lg-3">
-                      <label>চাবি গ্রহনকারীর নাম</label>
-                      <SearchAsyncSelect
-                        selectedValue={values?.keyReceiverName}
-                        isSearchIcon={true}
-                        handleChange={(valueOption) => {
-                          setFieldValue("keyReceiverName", valueOption);
-                          setFieldValue("designation", valueOption?.employeeInfoDesignation || "");
-                        }}
-                        loadOptions={loadKeyReceiverName}
-                        isDisabled={id}
+                    <div className="col-lg-2">
+                      <IInput
+                        value={values?.fgConversionRate || ""}
+                        name="fgConversionRate"
+                        label="FG Conversion Rate"
+                        type="number"
+                        disabled
                       />
-                    </div> */}
+                    </div>
+                    <div className="col-lg-2">
+                      <NewSelect
+                        label="FG UOM"
+                        value={values?.fgUomName}
+                        name="fgUomName"
+                        errors={errors}
+                        touched={touched}
+                        isDisabled={true}
+                      />
+                    </div>
                   </div>
                 </div>
                 <h2 className="mt-3">Material Cost</h2>
