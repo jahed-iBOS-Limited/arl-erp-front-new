@@ -461,12 +461,20 @@ export function TableRow({
                                 <th>Loading Confirm Date</th>
                                 <th>Pump</th>
                                 <th>Total Qty</th>
+                                <th>Prom. Qty</th>
                                 <th style={{ width: "90px" }}>Actions</th>
                               </tr>
                             </thead>
                             <tbody>
                               {rowDto?.map((td, index) => (
-                                <tr key={index}>
+                                <tr
+                                  key={index}
+                                  style={
+                                    td?.promotionalItemCount > 0
+                                      ? { backgroundColor: "#f1e4e4" }
+                                      : {}
+                                  }
+                                >
                                   {values?.reportType?.value === 1 && (
                                     <td>
                                       <div className="d-flex justify-content-center align-items-center">
@@ -534,6 +542,9 @@ export function TableRow({
                                     <div className="text-right">
                                       {td.itemTotalQty}
                                     </div>{" "}
+                                  </td>
+                                  <td className="text-right">
+                                    {td?.promotionalItemCount}
                                   </td>
                                   <td style={{ width: "120px" }}>
                                     <div className="d-flex justify-content-around">

@@ -120,6 +120,7 @@ export default function RecapCreate() {
   const [chartererDDL, getChartererDDL] = useAxiosGet();
   const [brokerList, getbrokerList] = useAxiosGet();
   const [shipperEmailList, getshipperEmailList] = useAxiosGet();
+  const [shipperNameList, getshipperNameList] = useState([]);
 
   useEffect(() => {
     getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}
@@ -336,10 +337,18 @@ export default function RecapCreate() {
                       getshipperEmailList(
                         `${imarineBaseUrl}/domain/VesselNomination/GetShipperDDL?portId=${valueOption.value}`,
                         (data) => {
-                          setFieldValue(
-                            "shipperEmail",
-                            getFilteredShipperMail(data) || ""
-                          );
+                          let otherAdd = [...data];
+                          otherAdd.push({
+                            value: "other",
+                            label: "OTHERS",
+                            email: "",
+                            ownerId: null,
+                            ownerName: null,
+                            isOwner: false,
+                            code: null,
+                            isDollarConvesionRequire: null,
+                          });
+                          getshipperNameList(otherAdd);
                         }
                       );
                     }
@@ -495,15 +504,45 @@ export default function RecapCreate() {
                 />
               </div>
               <div className="col-lg-3">
+                <NewSelect
+                  name="shipperName"
+                  options={
+                    shipperNameList || [
+                      {
+                        value: "other",
+                        label: "OTHERS",
+                        email: "",
+                        ownerId: null,
+                        ownerName: null,
+                        isOwner: false,
+                        code: null,
+                        isDollarConvesionRequire: null,
+                      },
+                    ]
+                  }
+                  value={values.shipperName}
+                  label="Shipper Name"
+                  onChange={(valueOption) => {
+                    setFieldValue("shipperName", valueOption);
+                    setFieldValue("shipperEmail", valueOption?.email || "");
+                  }}
+                  errors={errors}
+                  touched={touched}
+                />
+              </div>
+              <div className="col-lg-3">
                 <InputField
                   value={values.shipperEmail}
-                  label="Shipper Email (if multiple email use comma)"
+                  label="Shipper Email"
                   name="shipperEmail"
                   type="email"
                   onChange={(e) =>
                     setFieldValue("shipperEmail", e.target.value)
                   }
                   errors={errors}
+                  disabled={
+                    values?.shipperName?.value !== "other" ? true : false
+                  }
                 />
               </div>
               <div className="col-lg-3">
