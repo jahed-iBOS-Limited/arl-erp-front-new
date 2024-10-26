@@ -438,7 +438,10 @@ function BookingList() {
                                     });
                                   }}
                                 >
-                                  BL
+                                  {
+                                    item?.modeOfTransport === "Air" ?  "MAWB " : "MBL"
+                                  }
+                                  
                                 </button>
                               </span>
                             </td>
@@ -963,7 +966,9 @@ function BookingList() {
       {isModalShowObj?.isBlModal && (
         <>
           <IViewModal
-            title="BL"
+            title={
+              rowClickData?.modeOfTransport === "Air" ? "MAWB" : "MBL"
+            }
             show={isModalShowObj?.isBlModal}
             onHide={() => {
               setIsModalShowObj({
