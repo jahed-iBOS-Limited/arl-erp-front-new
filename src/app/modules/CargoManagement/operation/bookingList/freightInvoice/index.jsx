@@ -383,7 +383,7 @@ const FreightInvoice = ({ rowClickData }) => {
           }}
         >
           {" "}
-          {bookingData?.invoiceNo || "N/A"}
+          INVOICE : {bookingData?.invoiceNo || "N/A"}
         </p>
         <div
           style={{
