@@ -1,4 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import {
+  ExpansionPanel,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary,
+} from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Typography } from "antd";
 import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useEffect, useMemo, useState } from "react";
@@ -11,10 +18,10 @@ import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { SetFinancialsInventoryJournalAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import {
   getDepreciationGenLedgerList,
@@ -45,12 +52,6 @@ import DepreciationTable from "./depreciationTable";
 import CreateSalaryJournalTable from "./salaryJournal/createJournal";
 import ViewSalaryJournalTable from "./salaryJournal/viewJournal";
 import YearClosingTable from "./yearClosingTable";
-import { Typography } from "antd";
-import {
-  ExpansionPanel,
-  ExpansionPanelDetails,
-  ExpansionPanelSummary,
-} from "@material-ui/core";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -145,6 +146,14 @@ const ReconciliationJournal = () => {
   const [salaryJournal, setSalaryJournal] = useState([]);
   const [jvSalaryJournal, setJVSalaryJournal] = useState([]);
 
+  // api action
+  const [
+    incomeTaxProvisionViewCreateData,
+    incomeTaxProvisionViewCreate,
+    incomeTaxProvisionViewCreateLoading,
+    setIncomeTaxProvisionViewCreateData,
+  ] = useAxiosPost();
+
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -206,8 +215,30 @@ const ReconciliationJournal = () => {
         setExpanded,
       });
       setJVSalaryJournal([]);
+    } else if (values?.type?.value === 3) {
+      const [year, month] = values?.taxMonth?.split("-")?.map(Number) || [];
+      let customDate;
+      let formattedDate;
+      if (year && month) {
+        customDate = new Date(Date.UTC(year, month, 1));
+        formattedDate = customDate.toISOString().split("T")[0];
+      }
+
+      console.log(formattedDate);
+
+      incomeTaxProvisionViewCreate(
+        `/fino/AdjustmentJournal/IncomeTaxProvisionJV`,
+        {
+          partName: "view",
+          businessUnitId: selectedBusinessUnit?.value,
+          date: formattedDate,
+          actionBy: profileData?.userId,
+        }
+      );
     }
   };
+
+  console.log(incomeTaxProvisionViewCreateData);
 
   // handle collapse panel change
   const handleChange = (panel) => (event, isExpanded) => {
@@ -338,7 +369,9 @@ const ReconciliationJournal = () => {
       >
         {({ handleSubmit, values, errors, touched, setFieldValue }) => (
           <div className="">
-            {(loading || isGetBaddebtRowDataLoading) && <Loading />}
+            {(loading ||
+              isGetBaddebtRowDataLoading ||
+              incomeTaxProvisionViewCreateLoading) && <Loading />}
             <Card>
               {true && <ModalProgressBar />}
               <CardHeader title={"Reconciliation Journal"}>
@@ -363,27 +396,62 @@ const ReconciliationJournal = () => {
                       Create Journal
                     </button>
                   )}
-                  {values?.type?.value !== 4 && values?.type?.value !== 6 && (
+                  {values?.type?.value === 3 && (
                     <button
-                      onClick={handleSubmit}
+                      onClick={() =>
+                        incomeTaxProvisionViewCreate(
+                          `/fino/AdjustmentJournal/IncomeTaxProvisionJV`,
+                          {
+                            partName: "save",
+                            businessUnitId: selectedBusinessUnit?.value,
+                            date: values?.taxMonth,
+                            actionBy: profileData?.userId,
+                          },
+                          null,
+                          // (response) => {
+                          //   // status code
+                          //   const statusCode = response?.[0]?.statusCode;
+                          //   const message = response?.[0]?.message;
+
+                          //   if (statusCode === 500 || statusCode !== 200) {
+                          //     toast.warn(message);
+                          //   }
+                          //   if (statusCode === 200) {
+                          //     toast.success(message);
+                          //   }
+                          // },
+                          true
+                        )
+                      }
                       className="btn btn-primary ml-2"
                       type="submit"
-                      disabled={
-                        Math.abs(
-                          Math.round(
-                            jounalLedgerData?.reduce(
-                              (acc, item) => acc + item.numAmount,
-                              0
-                            )
-                          )
-                        ) ||
-                        jounalLedgerData?.length === 0 ||
-                        (values?.type?.value === 1 && !values?.closingType)
-                      }
+                      disabled={incomeTaxProvisionViewCreateData.length < 1}
                     >
                       Create Journal
                     </button>
                   )}
+                  {(values?.type?.value !== 4 && values?.type?.value !== 6) ||
+                    (values?.type?.value !== 3 && (
+                      <button
+                        onClick={handleSubmit}
+                        className="btn btn-primary ml-2"
+                        type="submit"
+                        disabled={
+                          Math.abs(
+                            Math.round(
+                              jounalLedgerData?.reduce(
+                                (acc, item) => acc + item.numAmount,
+                                0
+                              )
+                            )
+                          ) ||
+                          jounalLedgerData?.length === 0 ||
+                          (values?.type?.value === 1 && !values?.closingType)
+                        }
+                      >
+                        Create Journal
+                      </button>
+                    ))}
                   {values?.type?.value === 4 && (
                     <button
                       onClick={
@@ -653,6 +721,29 @@ const ReconciliationJournal = () => {
                         />
                       </div>
                     )}
+                    {[3].includes(values?.type?.value) && (
+                      // <InputField
+                      //   value={values?.date}
+                      //   label="Date"
+                      //   name="date"
+                      //   placeholder="Date"
+                      //   type="date"
+                      //   onChange={(e) => {
+                      //     setFieldValue("date", e.target.value);
+                      //   }}
+                      // />
+                      <InputField
+                        value={values?.taxMonth}
+                        name="taxMonth"
+                        label="Month"
+                        placeholder="Select Month"
+                        type="month"
+                        onChange={(e) => {
+                          setFieldValue("taxMonth", e?.target?.value);
+                          setIncomeTaxProvisionViewCreateData([]);
+                        }}
+                      />
+                    )}
                     <div className="col-lg-2">
                       <button
                         className="btn btn-primary mr-2"
@@ -669,6 +760,11 @@ const ReconciliationJournal = () => {
                             ) {
                               return false;
                             } else return true;
+                          }
+                          if (values?.type?.value === 3 && !values?.taxMonth) {
+                            return true;
+                          } else {
+                            return false;
                           }
                         })()}
                         onClick={(_) => {
@@ -950,6 +1046,53 @@ const ReconciliationJournal = () => {
                         />
                       </ExpansionPanelDetails>
                     </ExpansionPanel>
+                  ) : (
+                    <></>
+                  )}
+
+                  {/* Income Tax Provision Table */}
+                  {incomeTaxProvisionViewCreateData.length > 0 &&
+                  values?.type?.value === 3 ? (
+                    <div className="table-responsive">
+                      <table
+                        id="table-to-xlsx"
+                        className={
+                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table"
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            <th>SL</th>
+                            <th>Profit Center Name</th>
+                            <th>General Ledger Name</th>
+                            <th>Sub Gl Name</th>
+                            <th>Tax Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {incomeTaxProvisionViewCreateData?.map(
+                            (item, index) => {
+                              return (
+                                <tr key={index}>
+                                  <td
+                                    style={{ width: "40px" }}
+                                    className="text-center"
+                                  >
+                                    {index + 1}
+                                  </td>
+                                  <td>{item?.strProfitCenterName}</td>
+                                  <td>{item?.strGeneralLedgerName}</td>
+                                  <td>{item?.subGlName}</td>
+                                  <td className="text-right">
+                                    {item?.taxAmount}
+                                  </td>
+                                </tr>
+                              );
+                            }
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   ) : (
                     <></>
                   )}
