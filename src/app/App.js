@@ -30,13 +30,13 @@ export const marineBaseUrlPythonAPI =
 export const eProcurementBaseURL =
   process.env.NODE_ENV === "development" ||
   window.location?.hostname === "deverp.ibos.io"
-    ? "https://devarl.peopledesk.io/api"
+    ? "https://arl.peopledesk.io/api"
     : "https://arl.peopledesk.io/api";
 
 // live-url: https://erp.peopledesk.io
 
 export const APIUrl =
-  process.env.NODE_ENV === "development" ? "https://deverp.ibos.io" : origin;
+  process.env.NODE_ENV === "development" ? "https://erp.ibos.io" : origin;
 Axios.defaults.baseURL = APIUrl;
 
 const App = ({ store, persistor, basename }) => {
@@ -82,12 +82,18 @@ const App = ({ store, persistor, basename }) => {
       return config;
     },
     async (error) => {
-      const url = error?.response?.data?.config?.url;
+      const url = error?.config?.url;
       if (withEncryptedAPI?.some((element) => url?.includes(element))) {
         let decryptedData = await makeDecryption(error?.response?.data);
         let newError = { response: { data: decryptedData } };
+
+        const resMessage =
+          newError?.message ||
+          newError?.Message ||
+          newError?.response?.data?.message ||
+          newError?.response?.data?.Message;
         if (
-          newError?.response?.data?.message ===
+          resMessage ===
           "No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions)."
         ) {
           store.dispatch(setIsExpiredTokenActions(true));
@@ -95,8 +101,13 @@ const App = ({ store, persistor, basename }) => {
         }
         return Promise.reject(newError);
       } else {
+        const resMessage =
+          error?.message ||
+          error?.Message ||
+          error?.response?.data?.message ||
+          error?.response?.data?.Message;
         if (
-          error?.response?.data?.message ===
+          resMessage ===
           "No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions)."
         ) {
           store.dispatch(setIsExpiredTokenActions(true));
@@ -111,8 +122,6 @@ const App = ({ store, persistor, basename }) => {
   Axios.interceptors.response.use(
     async (response) => {
       let url = response?.config?.url;
-      console.log("url", url);
-
       // Check if the response needs to be decrypted
       if (withEncryptedAPI?.some((element) => url?.includes(element))) {
         // Decrypt the response data
@@ -127,12 +136,18 @@ const App = ({ store, persistor, basename }) => {
       return response;
     },
     async (error) => {
-      const url = error?.response?.data?.config?.url;
+      const url = error?.config?.url;
       if (withEncryptedAPI?.some((element) => url?.includes(element))) {
         let decryptedData = await makeDecryption(error?.response?.data);
         let newError = { response: { data: decryptedData } };
+
+        const resMessage =
+          newError?.message ||
+          newError?.Message ||
+          newError?.response?.data?.message ||
+          newError?.response?.data?.Message;
         if (
-          newError?.response?.data?.message ===
+          resMessage ===
           "No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions)."
         ) {
           store.dispatch(setIsExpiredTokenActions(true));
@@ -140,8 +155,13 @@ const App = ({ store, persistor, basename }) => {
         }
         return Promise.reject(newError);
       } else {
+        const resMessage =
+          error?.message ||
+          error?.Message ||
+          error?.response?.data?.message ||
+          error?.response?.data?.Message;
         if (
-          error?.response?.data?.message ===
+          resMessage ===
           "No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions)."
         ) {
           store.dispatch(setIsExpiredTokenActions(true));
