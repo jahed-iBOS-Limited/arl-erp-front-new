@@ -291,7 +291,7 @@ export default function BalancerReportTable() {
                         setShowRDLC(false);
                         setTimeout(() => {
                           setShowRDLC(true);
-                        }, 1000);
+                        }, 500);
                       } else {
                         setShowRDLC(false);
                         getReportBalance(
