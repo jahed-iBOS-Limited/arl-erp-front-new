@@ -53,6 +53,7 @@ export const getPdfFormatNumber = (adviceType, advice) => {
     case "5-4":
     case "5-8":
     case "5-9":
+    case "5-12":
       return 5;
 
     case "1-7":
