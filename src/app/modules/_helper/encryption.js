@@ -18,18 +18,39 @@ export const makeEncryption = (data) => {
   return encryptedText;
 };
 
+// export const makeDecryption = (data) => {
+//   const decrypt = CryptoJS.AES.decrypt(data, key, {
+//     iv: iv,
+//     mode: CryptoJS.mode.CBC,
+//     padding: CryptoJS.pad.Pkcs7,
+//   });
+//   const decryptedData = decrypt.toString(CryptoJS.enc.Utf8);
+//   // return process.env.NODE_ENV === "production"
+//   //   ? decryptedData
+//   //   : JSON.stringify(data);
+//   if (decryptedData) {
+//     return JSON.parse(decryptedData);
+//   }
+//   // return JSON.parse(decryptedData);
+// };
 export const makeDecryption = (data) => {
-  const decrypt = CryptoJS.AES.decrypt(data, key, {
-    iv: iv,
-    mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7,
-  });
-  const decryptedData = decrypt.toString(CryptoJS.enc.Utf8);
-  // return process.env.NODE_ENV === "production"
-  //   ? decryptedData
-  //   : JSON.stringify(data);
-  if (decryptedData) {
-    return JSON.parse(decryptedData);
+  // Check if data is defined and is a string
+  if (!data || typeof data !== "string") {
+    console.error("Invalid data for decryption:", data);
+    return null;
   }
-  // return JSON.parse(decryptedData);
+
+  try {
+    const decrypt = CryptoJS.AES.decrypt(data, key, {
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7,
+    });
+
+    const decryptedData = decrypt?.toString(CryptoJS.enc.Utf8);
+    return decryptedData ? JSON.parse(decryptedData) : null;
+  } catch (error) {
+    console.error("Decryption failed:", error);
+    return null;
+  }
 };
