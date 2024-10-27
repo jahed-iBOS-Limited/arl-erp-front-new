@@ -23,6 +23,7 @@ import { cancelHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
 import FreightCargoReceipt from './freightCargoReceipt'
+import DeliveryNoteModal from "./deliveryNoteModal";
 
 const validationSchema = Yup.object().shape({});
 function BookingList() {
@@ -440,9 +441,9 @@ function BookingList() {
                                   }}
                                 >
                                   {
-                                    item?.modeOfTransport === "Air" ?  "MAWB " : "MBL"
+                                    item?.modeOfTransport === "Air" ? "MAWB " : "MBL"
                                   }
-                                  
+
                                 </button>
                               </span>
                             </td>
@@ -880,7 +881,7 @@ function BookingList() {
       )}
 
       {/* Delivery Note Modal */}
-      {/* {isModalShowObj?.isDeliveryNote && (
+      {isModalShowObj?.isDeliveryNote && (
         <>
           <IViewModal
             title="Delivery Note "
@@ -895,7 +896,7 @@ function BookingList() {
             <DeliveryNoteModal rowClickData={rowClickData} />
           </IViewModal>
         </>
-      )} */}
+      )}
 
       {/* Freight Cargo Receipt */}
       {isModalShowObj?.isFreightCargoReceipt && (
