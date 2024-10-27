@@ -89,7 +89,7 @@ function HBLCodeGNModal({ CB, rowClickData }) {
                     <>
                       {" "}
                       <button type="submit" className="btn btn-primary">
-                     Generate
+                        Generate
                       </button>
                     </>
                   )}
@@ -118,7 +118,7 @@ function HBLCodeGNModal({ CB, rowClickData }) {
                 />
               )}
 
-              {rowClickData?.modeOfTransport === "Sea" && (
+              {rowClickData?.modeOfTransport !== "Air" && (
                 <HBLFormatInvoice
                   componentRef={componentRef}
                   bookingData={bookingData}
