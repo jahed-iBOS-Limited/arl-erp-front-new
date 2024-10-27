@@ -82,6 +82,7 @@ const App = ({ store, persistor, basename }) => {
       return config;
     },
     async (error) => {
+      console.log("Request Error:", error);
       const url = error?.config?.url;
       if (withEncryptedAPI?.some((element) => url?.includes(element))) {
         let decryptedData = await makeDecryption(error?.response?.data);
@@ -136,6 +137,7 @@ const App = ({ store, persistor, basename }) => {
       return response;
     },
     async (error) => {
+      console.log("error", error);
       const url = error?.config?.url;
       if (withEncryptedAPI?.some((element) => url?.includes(element))) {
         let decryptedData = await makeDecryption(error?.response?.data);
