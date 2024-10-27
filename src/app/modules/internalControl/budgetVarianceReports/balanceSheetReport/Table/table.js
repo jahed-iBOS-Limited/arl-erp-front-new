@@ -288,7 +288,10 @@ export default function BalancerReportTable() {
                     label="View"
                     onClick={() => {
                       if (values?.isMultiCollumn) {
-                        setShowRDLC(true);
+                        setShowRDLC(false);
+                        setTimeout(() => {
+                          setShowRDLC(true);
+                        }, 1000);
                       } else {
                         setShowRDLC(false);
                         getReportBalance(
