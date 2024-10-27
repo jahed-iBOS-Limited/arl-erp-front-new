@@ -40,6 +40,7 @@ export default function BalancerReportTable() {
   const [rowDto, setRowDto] = useState({});
   const [loading, setLoading] = useState(false);
   const { profileData } = useSelector((store) => store?.authData, shallowEqual);
+  const [isTableShow, setIsTableShow] = useState(false);
 
   const pdfExport = (fileName) => {
     var element = document.getElementById("pdf-section");
@@ -205,6 +206,7 @@ export default function BalancerReportTable() {
                     onChange={(data) => {
                       setShowRDLC(false);
                       setFieldValue("business", data);
+                      setIsTableShow(false);
                     }}
                     errors={errors}
                     touched={touched}
@@ -302,7 +304,8 @@ export default function BalancerReportTable() {
                           setLoading,
                           values?.enterpriseDivision?.label,
                           values?.conversionRate,
-                          values?.isForecast?.value
+                          values?.isForecast?.value,
+                          setIsTableShow
                         );
                       }
                     }}
@@ -372,11 +375,12 @@ export default function BalancerReportTable() {
               </div>
             ) : (
               <>
-                {rowDto?.nonCurrentAssets ||
-                rowDto?.currentassets ||
-                rowDto?.equity ||
-                rowDto?.nonCurrentLiability ||
-                rowDto?.currentLiability ? (
+                {(rowDto?.nonCurrentAssets ||
+                  rowDto?.currentassets ||
+                  rowDto?.equity ||
+                  rowDto?.nonCurrentLiability ||
+                  rowDto?.currentLiability) &&
+                isTableShow ? (
                   <div className="mx-auto mt-2" id="pdf-section" ref={printRef}>
                     <div className="titleContent text-center">
                       <h3>
