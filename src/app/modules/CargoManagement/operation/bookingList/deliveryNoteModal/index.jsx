@@ -4,6 +4,7 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import logisticsLogo from "./logisticsLogo.png";
 import './style.css';
 
+import moment from 'moment';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import Loading from '../../../../_helper/_loading';
@@ -37,6 +38,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
     }, [bookingRequestId]);
 
     const bookingData = shipBookingRequestGetById || {};
+    console.log(bookingData);
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
         documentTitle: "Customs-RTGS",
@@ -126,8 +128,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
 
                             }}
                         >
-                            <span style={{ padding: 2, fontWeight: 600, }}>Challan No </span>
-                            <span style={{ padding: 2 }}>: DC01020249230</span>
+                            <span style={{ padding: 2, fontWeight: 600, }}>Booking Request Code </span>
+                            <span style={{ padding: 2 }}>: {bookingData?.bookingRequestCode}</span>
                         </div>
                         <div
                             style={{
@@ -137,7 +139,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
                             }}
                         >
                             <span style={{ padding: 2, fontWeight: 600, }}>Sold To Partner </span>
-                            <span style={{ padding: 2 }}>: AKIJ READY MIX CONCRETE LTD. (Narayangong Plant)</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.consigneeName}</span>
                         </div>
                         <div
                             style={{
@@ -146,8 +148,38 @@ export default function DeliveryNoteModal({ rowClickData }) {
 
                             }}
                         >
-                            <span style={{ padding: 2, fontWeight: 600, }}>Ship To Partner</span>
-                            <span style={{ padding: 2 }}>: AKIJ READY MIX CONCRETE LTD. (Narayangong Plant) [22216566]</span>
+                            <span style={{ padding: 2, fontWeight: 600, }}>Address</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.consigneeAddress}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Contact Person</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.consigneeContactPerson}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Contact No</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.consigneeContact}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Email</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.consigneeEmail}</span>
                         </div>
                     </div>
                     {/* right side */}
@@ -160,7 +192,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
                             }}
                         >
                             <span style={{ padding: 2, fontWeight: 600, }}>Delivery From </span>
-                            <span style={{ padding: 2 }}>: ACCL Factory</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.shipperName}</span>
                         </div>
                         <div
                             style={{
@@ -169,8 +201,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
 
                             }}
                         >
-                            <span style={{ padding: 2, fontWeight: 600, }}>ShipPoint </span>
-                            <span style={{ padding: 2 }}>: ACCL Factory</span>
+                            <span style={{ padding: 2, fontWeight: 600, }}>Ship Point </span>
+                            <span style={{ padding: 2 }}>: {bookingData?.shipperAddress}</span>
                         </div>
                         <div
                             style={{
@@ -179,9 +211,31 @@ export default function DeliveryNoteModal({ rowClickData }) {
 
                             }}
                         >
-                            <span style={{ padding: 2, fontWeight: 600, }}>Delivery Order</span>
-                            <span style={{ padding: 2 }}>: ACCL Factory</span>
+                            <span style={{ padding: 2, fontWeight: 600, }}>Address</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.consigneeAddress}</span>
                         </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Delivery At</span>
+                            <span style={{ padding: 2 }}>: {moment(bookingData?.requestDeliveryDate).format("YYYY-MM-DD HH:mm:ss")}</span>
+
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Vehicle</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.transportPlanning?.vehicleInfo}</span>
+                        </div>
+
 
                     </div>
                 </div>
