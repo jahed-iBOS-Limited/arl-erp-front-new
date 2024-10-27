@@ -71,6 +71,7 @@ const HBLFormat = ({ rowClickData }) => {
   );
 };
 
+
 export default HBLFormat;
 
 export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
