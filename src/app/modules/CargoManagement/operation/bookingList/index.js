@@ -22,6 +22,7 @@ import HBLCodeGNModal from "./hblCodeGNModal";
 import { cancelHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
+import FreightCargoReceipt from './freightCargoReceipt'
 import DeliveryNoteModal from "./deliveryNoteModal";
 
 const validationSchema = Yup.object().shape({});
@@ -898,7 +899,7 @@ function BookingList() {
       )}
 
       {/* Freight Cargo Receipt */}
-      {/* {isModalShowObj?.isFreightCargoReceipt && (
+      {isModalShowObj?.isFreightCargoReceipt && (
         <>
           <IViewModal
             title="Freight Cargo Receipt (FCR)"
@@ -913,7 +914,7 @@ function BookingList() {
             <FreightCargoReceipt rowClickData={rowClickData} />
           </IViewModal>
         </>
-      )} */}
+      )}
 
       {/* HBL Formate */}
 
