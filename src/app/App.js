@@ -30,13 +30,13 @@ export const marineBaseUrlPythonAPI =
 export const eProcurementBaseURL =
   process.env.NODE_ENV === "development" ||
   window.location?.hostname === "deverp.ibos.io"
-    ? "https://arl.peopledesk.io/api"
+    ? "https://devarl.peopledesk.io/api"
     : "https://arl.peopledesk.io/api";
 
 // live-url: https://erp.peopledesk.io
 
 export const APIUrl =
-  process.env.NODE_ENV === "development" ? "https://erp.ibos.io" : origin;
+  process.env.NODE_ENV === "development" ? "https://deverp.ibos.io" : origin;
 Axios.defaults.baseURL = APIUrl;
 
 const App = ({ store, persistor, basename }) => {
