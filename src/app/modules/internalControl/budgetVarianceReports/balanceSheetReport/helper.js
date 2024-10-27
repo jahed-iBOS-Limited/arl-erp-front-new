@@ -107,7 +107,8 @@ export const getReportBalance = async (
   setLoading,
   enterpriseDivision = "",
   ConvertionRate,
-  forecastType = 0
+  forecastType = 0,
+  setIsTableShow
 ) => {
   setLoading(true);
   try {
@@ -122,6 +123,7 @@ export const getReportBalance = async (
       const bananceData = await manageBalanceData(res?.data);
       setter(bananceData);
       setLoading(false);
+      setIsTableShow(true);
     }
   } catch (error) {
     setLoading(false);

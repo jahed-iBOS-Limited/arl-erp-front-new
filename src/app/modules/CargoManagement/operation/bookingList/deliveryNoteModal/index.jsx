@@ -1,11 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { imarineBaseUrl } from '../../../../../App';
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import logisticsLogo from "./logisticsLogo.png";
 import './style.css';
+
+import moment from 'moment';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
 import Loading from '../../../../_helper/_loading';
+
+const tableData = [
+    { description: 'EX Work Charges FXD', rate: '107.50USD', conversion: '110.50000', uom: 'PerShipment', totalBDT: '11,878.75' },
+    { description: 'Air Freight', rate: '2.75USD', conversion: '110.50000', uom: '1', totalBDT: '55,609.13' }
+];
 
 export default function DeliveryNoteModal({ rowClickData }) {
     const bookingRequestId = rowClickData?.bookingRequestId;
+    const componentRef = useRef();
+    const { selectedBusinessUnit } = useSelector(
+        (state) => state?.authData || {},
+        shallowEqual
+    );
+
     const [
         shipBookingRequestGetById,
         setShipBookingRequestGetById,
@@ -22,185 +38,265 @@ export default function DeliveryNoteModal({ rowClickData }) {
     }, [bookingRequestId]);
 
     const bookingData = shipBookingRequestGetById || {};
+    console.log(bookingData);
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+        documentTitle: "Customs-RTGS",
+        pageStyle: `
+          @media print {
+            body {
+              -webkit-print-color-adjust: exact;
+           
+            }
+            @page {
+              size: portrait !important;
+              margin: 15px !important;
+            }
+          }
+        `,
+    });
     if (shipBookingRequestLoading) return <div
         className='d-flex justify-content-center align-items-center'
     >
         <Loading />
     </div>
-    console.log('bookingData', bookingData);
     return (
-        <div className='DeliveryNoteModal'>
-            <div className="container">
-                <div className="input-line50"></div>
+        <div>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    marginBottom: "20px",
+                }}
+            >
+                <button
+                    onClick={handlePrint}
+                    type="button"
+                    className="btn btn-primary px-3 py-2"
+                >
+                    <i className="mr-1 fa fa-print pointer" aria-hidden="true"></i>
+                    Print
+                </button>
+            </div>
 
-                <h1 className="section-title">DELIVERY NOTE</h1>
-                <br />
+            <div
+                style={{
+                    fontSize: 11,
+                    display: "grid",
+                    gap: 10
+                }}
+                ref={componentRef}
+            >
+                <div
+                    style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr 11fr"
+                    }}
+                >
+                    <img src={logisticsLogo} alt=""
+                        style={{
+                            height: 25,
+                            width: 150,
+                            objectFit: "cover",
+                        }}
+                    />
+                    <div
+                        style={{
+                            textAlign: "center",
+                        }}
+                    >
+                        <span style={{ fontSize: 14, fontWeight: 600 }}>DELIVERY CHALLAN</span><br />
+                        <span > {selectedBusinessUnit?.label}</span><br />
+                        <span>  {selectedBusinessUnit?.address}</span> <br />
+                    </div>
 
-                <div className="input-line50"></div>
-
-                <div className="section">
-                    <span className="section-title">Delivery Note Number:</span>
-                    <div className="solid-line50"></div>
                 </div>
+                <div style={{ backgroundColor: "#D6DADD", height: "1px" }} />
+                <div
+                    style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr 1fr ",
+                        // border: "1px solid #000000",
 
-                <div className="section">
-                    <span className="section-title">Date:</span>
-                    <div className="solid-line50"></div>
+                    }}
+                >
+                    {/* left side  */}
+                    <div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Booking Request Code </span>
+                            <span style={{ padding: 2 }}>: {bookingData?.bookingRequestCode}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Sold To Partner </span>
+                            <span style={{ padding: 2 }}>: {bookingData?.consigneeName}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Address</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.consigneeAddress}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Contact Person</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.consigneeContactPerson}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Contact No</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.consigneeContact}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Email</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.consigneeEmail}</span>
+                        </div>
+                    </div>
+                    {/* right side */}
+                    <div >
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Delivery From </span>
+                            <span style={{ padding: 2 }}>: {bookingData?.shipperName}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Ship Point </span>
+                            <span style={{ padding: 2 }}>: {bookingData?.shipperAddress}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Address</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.consigneeAddress}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Delivery At</span>
+                            <span style={{ padding: 2 }}>: {moment(bookingData?.requestDeliveryDate).format("YYYY-MM-DD HH:mm:ss")}</span>
+
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Vehicle</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.transportPlanning?.vehicleInfo}</span>
+                        </div>
+
+
+                    </div>
                 </div>
+                {/* table  */}
+                <div
+                    style={{
+                        paddingTop: 20, paddingBottom: 20
+                    }}
+                >
 
-                <div className="section">
-                    <p>Shipper Information</p>
-                    <div className="input-line50"></div>
-
-                    <span className="section-title">Company Name: {bookingData?.shipperName}</span>
-                    <div className="solid-line50"></div>
-
-                    <span className="section-title">Address: {bookingData?.shipperAddress}</span>
-                    <div className="solid-line"></div>
-                    <br />
-                    <div className="solid-line"></div>
-
-                    <span className="section-title">Phone: {bookingData?.shipperContact}</span>
-                    <div className="solid-line50"></div>
-
-                    <span className="section-title">Email: {bookingData?.shipperEmail}</span>
-                    <div className="solid-line50"></div>
-                </div>
-
-                <div className="section">
-                    <p>Consignee Information</p>
-                    <div className="input-line50"></div>
-
-                    <span className="section-title">Company Name: {bookingData?.consigneeName}</span>
-                    <div className="solid-line50"></div>
-
-                    <span className="section-title">Address: {bookingData?.consigneeAddress}</span>
-                    <div className="solid-line"></div>
-                    <br />
-                    <div className="solid-line"></div>
-
-                    <span className="section-title">Phone: {bookingData?.consigneeContact}</span>
-                    <div className="solid-line50"></div>
-
-                    <span className="section-title">Email: {bookingData?.consigneeEmail}</span>
-                    <div className="solid-line50"></div>
-                </div>
-
-                <div className="section">
-                    <p>Delivery Information</p>
-                    <div className="input-line50"></div>
-                    <span className="section-title">Warehouse Location:</span>
-                    <div className="solid-line50"></div>
-
-                    <span className="section-title">Delivery Address:</span>
-                    <div className="solid-line50"></div>
-                    <br />
-                    <div className="solid-line50"></div>
-
-                    <span className="section-title">Delivery Date & Time: {bookingData?.requestDeliveryDate}</span>
-                    <div className="solid-line50"></div>
-                </div>
-
-                <div className="section">
-                    <p>Transporter/Driver Information</p>
-                    <div className="input-line50"></div>
-                    <span className="section-title">Driver Name:</span>
-                    <div className="solid-line50"></div>
-
-                    <span className="section-title">Vehicle Number:</span>
-                    <div className="solid-line50"></div>
-
-                    <span className="section-title">Contact Number:</span>
-                    <div className="solid-line50"></div>
-
-                    <span className="section-title">Delivery Person:</span>
-                    <div className="solid-line50"></div>
-                </div>
-
-                <div className="section">
-                    <p>Itemized List of Goods</p>
-                    <table>
+                    <table border="1" cellPadding="5" cellSpacing="0" style={{ width: '100%', }} >
                         <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Description of Goods</th>
-                                <th>Quantity</th>
-                                <th>Unit</th>
-                                <th>Weight (kg)</th>
+                            <tr style={{ backgroundColor: "#D6DADD" }}>
+                                <th>SL</th>
+                                <th>PRODUCT DESCRIPTION</th>
+                                <th>UOM</th>
+                                <th>QNT.</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {bookingData?.rowsData?.map((item, index) => (
+                            {tableData.map((row, index) => (
                                 <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>{item?.descriptionOfGoods}</td>
-                                    <td>{item?.packagingQuantity}</td>
-                                    <td>N/A</td>
-                                    <td>{item?.netWeightKG}</td>
+                                    <td style={{ textAlign: "center" }}>{index + 1}</td>
+                                    <td>{row.description}</td>
+                                    <td style={{ textAlign: "left" }}>{row.rate}</td>
+                                    <td style={{ textAlign: "right" }}>{row.conversion}</td>
                                 </tr>
                             ))}
+                            <tr style={{ fontSize: 14, fontWeight: 600, textAlign: "right" }}>
+                                <td colSpan="3" > Total</td>
+                                <td> 67,487.88</td>
+                            </tr>
                         </tbody>
                     </table>
+                </div>
 
-                    <div className="section" style={{ marginTop: '10px' }}>
-                        <span className="section-title">
-                            Total Quantity: {bookingData?.rowsData?.reduce((acc, item) => acc + item?.packagingQuantity, 0)}
-                        </span>
-                        <div className="solid-line50"></div>
+                {/* signature  */}
+                <div
+                    style={{
+                        paddingTop: "5rem"
+                    }}
+                >
+                    <div
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "1fr 1fr 1fr",
+                        }}
+                    >
+                        <div>  <span style={{ borderTop: "1px solid #000000", paddingTop: 2 }}>Officer</span></div>
+                        <div>  <span style={{ borderTop: "1px solid #000000", paddingTop: 2 }}>Driver's Signature</span></div>
+                        <div
+                            style={{
+                                textAlign: "right"
+                            }}
+                        >  <span style={{ borderTop: "1px solid #000000", paddingTop: 2 }}>Receiver's Signature With Seal & Date 22</span></div>
 
-                        <span className="section-title">Total Weight: {bookingData?.rowsData?.reduce((acc, item) => acc + item?.netWeightKG, 0)}</span>
-                        <div className="solid-line50"></div>
                     </div>
                 </div>
 
-                <div className="section">
-                    <p>Special Handling Instructions</p>
-                    <div className="solid-line"></div>
-                    <br />
-                    <div className="solid-line"></div>
-                </div>
 
-                <div className="section">
-                    <p>Acknowledgment</p>
-                    <div className="signature-line50"></div>
-
-                    <span className="section-title">Received by (Consignee):</span>
-                    <div className="signature-line-solid50"></div>
-
-                    <span className="section-title">Signature:</span>
-                    <div className="signature-line-solid50"></div>
-
-                    <span className="section-title">Date:</span>
-                    <div className="signature-line-solid50"></div>
-                </div>
-
-                <div className="section">
-                    <p>Notes:</p>
-                    <div className="signature-line"></div>
-                    <p className="note">- Please verify the items and quantities upon delivery.</p>
-                    <p className="note">- Report any discrepancies or damages immediately to the delivery personnel.</p>
-                    <div className="signature-line"></div>
-                </div>
-
-                <div className="internal-section">
-                    <p>For Internal Use Only</p>
-                    <div className="signature-line50"></div>
-
-                    <span className="section-title">Checked by (Warehouse):</span>
-                    <div className="signature-line-solid50"></div>
-
-                    <span className="section-title">Signature:</span>
-                    <div className="signature-line-solid50"></div>
-
-                    <span className="section-title">Date:</span>
-                    <div className="signature-line-solid50"></div>
-
-                    <p >Comments:</p>
-                    <div className="signature-line-solid"></div>
-
-                    <br />
-                    <div className="signature-line-solid"></div>
-                </div>
             </div>
         </div>
     )
