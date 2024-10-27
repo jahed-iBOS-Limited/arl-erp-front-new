@@ -27,6 +27,7 @@ import ErpQuotationEntryLanding from "./erpQuotationEntry";
 import AddQuotationEntry from "./erpQuotationEntry/entryForm/addQuotationEntry";
 import AutoPRCalculation from "./autoPRCalculation";
 import AutoPOCalculation from "./AutoPOCalculation";
+import CreateCs from "./erpComparativeStatement/cs/create";
 
 export function PurchasePages() {
   const userRole = useSelector(
@@ -215,6 +216,11 @@ export function PurchasePages() {
       <ContentRoute
         from="/mngProcurement/purchase-management/AutoPOCalculation"
         component={AutoPOCalculation}
+      />
+
+      <ContentRoute
+        from="/mngProcurement/purchase-management/cs/create"
+        component={CreateCs}
       />
 
       <ContentRoute

@@ -18,6 +18,7 @@ import {
   _dateTimeFormatter,
 } from "../../../../_helper/_dateFormate";
 import Chips from "../../../../_helper/chips/Chips";
+import { useHistory } from "react-router-dom";
 const initData = {
   purchaseOrganization: { value: 0, label: "ALL" },
   plant: "",
@@ -28,10 +29,16 @@ const initData = {
   toDate: _todayDate(),
 };
 export default function ErpComparativeStatementLanding() {
-  const [landingData, landingDataLoader, setLandingData] = useAxiosGet();
+  const [
+    landingData,
+    getLandingData,
+    landingDataLoader,
+    setLandingData,
+  ] = useAxiosGet();
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
+  const history = useHistory();
 
   const [
     purchangeOrgListDDL,
@@ -92,10 +99,10 @@ export default function ErpComparativeStatementLanding() {
         touched,
       }) => (
         <>
-          {(purchaseOrgListDDLloader ||
+          {/* {(purchaseOrgListDDLloader ||
             plantListDDLloader ||
             warehouseListDDLloader ||
-            landingDataLoader) && <Loading />}
+            landingDataLoader) && <Loading />} */}
           <IForm
             title="Comparative Statement"
             isHiddenReset
@@ -105,15 +112,18 @@ export default function ErpComparativeStatementLanding() {
             renderProps={() => {
               return (
                 <div>
-                  {/* <button
-                                        type="button"
-                                        className="btn btn-primary"
-                                        onClick={() => {
-                                            console.log("create clicked");
-                                        }}
-                                    >
-                                        Create
-                                    </button> */}
+                  <button
+                    type="button"
+                    col-lg-2
+                    className="btn btn-primary"
+                    onClick={() => {
+                      history.push(
+                        "/mngProcurement/purchase-management/cs/create"
+                      );
+                    }}
+                  >
+                    Create
+                  </button>
                 </div>
               );
             }}
@@ -200,10 +210,10 @@ export default function ErpComparativeStatementLanding() {
                     name="status"
                     options={[
                       { value: 0, label: "All" },
-                      { value: 1, label: "Live" },
-                      { value: 2, label: "Closed" },
-                      { value: 3, label: "Pending" },
-                      { value: 4, label: "Waiting" },
+                      { value: 1, label: "Ready for CS" },
+                      { value: 2, label: "Pending" },
+                      { value: 3, label: "Live" },
+                      { value: 4, label: "Approved" },
                     ]}
                     value={values?.status}
                     label="Status"
@@ -251,6 +261,15 @@ export default function ErpComparativeStatementLanding() {
                       marginTop: "18px",
                     }}
                     onClick={() => {
+                      getLandingData(
+                        `/ComparativeStatement/GetComparativeStatementLanding?businessUnitId=${
+                          selectedBusinessUnit?.value
+                        }&plantId=${
+                          values?.plant?.value
+                        }&warehouseId=${111}&partnerId=${222}&status=${
+                          values?.status?.value
+                        }`
+                      );
                       console.log("values", values);
                       const dummyData = [
                         {
