@@ -105,7 +105,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
                             textAlign: "center",
                         }}
                     >
-                        <span style={{ fontSize: 14, fontWeight: 600 }}> {selectedBusinessUnit?.label}</span><br />
+                        <span style={{ fontSize: 14, fontWeight: 600 }}>DELIVERY CHALLAN</span><br />
+                        <span > {selectedBusinessUnit?.label}</span><br />
                         <span>  {selectedBusinessUnit?.address}</span> <br />
                     </div>
 
