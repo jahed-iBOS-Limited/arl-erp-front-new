@@ -42,6 +42,13 @@ export default function CreateCs({
     suppilerStatementLoading,
     setSuppilerStatement,
   ] = useAxiosGet();
+  const [itemDDL, getItemDDL, itemDDLLoading, setItemDDL] = useAxiosGet();
+  const [
+    SupplierDDL,
+    getSupplierDDL,
+    SupplierDDLLoading,
+    setSupplierDDL,
+  ] = useAxiosGet();
   const [isModalShowObj, setIsModalShowObj] = React.useState({
     isModalOpen: false,
     firstPlaceModal: false,
@@ -82,6 +89,22 @@ export default function CreateCs({
     getSuppilerStatement(
       `${eProcurementBaseURL}/ComparativeStatement/GetSupplierStatementForCS?requestForQuotationId=${592}`
     );
+
+    getItemDDL(
+      `${eProcurementBaseURL}/ComparativeStatement/GetItemWiseStatementForCS?requestForQuotationId=${592}`,
+      (data) => {
+        let list = [];
+        // eslint-disable-next-line array-callback-return, no-unused-expressions
+        data?.map((item) => {
+          list.push({
+            value: item?.itemId,
+            label: item?.itemName,
+          });
+        });
+        setItemDDL(list);
+      }
+    );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -162,10 +185,54 @@ export default function CreateCs({
                       touched={touched}
                     />
                   </div>
+                  {values?.csType?.value === 0 && (
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="itemWise"
+                        options={itemDDL || []}
+                        value={values?.itemWise}
+                        label="Item Wise List"
+                        onChange={(valueOption) => {
+                          setFieldValue("itemWise", valueOption);
+                          getSupplierDDL(
+                            `${eProcurementBaseURL}/ComparativeStatement/GetItemWiseStatementDetails?requestForQuotationId=${592}&itemId=${
+                              valueOption?.value
+                            }`
+                          );
+                        }}
+                        placeholder="Item Wise"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  )}
+                  {values?.csType?.value === 0 && (
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="supplier"
+                        options={SupplierDDL || []}
+                        value={values?.supplier}
+                        label="Supplier"
+                        onChange={(valueOption) => {
+                          setFieldValue("supplier", valueOption);
+                        }}
+                        placeholder="Supplier"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
               {values?.csType?.value === 1 && (
                 <div className="row">
+                  <div className="col-lg-12">
+                    <p>
+                      Please Select two suppliers for confirmation. Your Choices
+                      will go an approval process.
+                    </p>
+                  </div>
+
                   <div className="col-lg-3">
                     <div
                       className="card"
@@ -305,90 +372,104 @@ export default function CreateCs({
                 ref={objProps.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
-
-              <div className="table-responsive" style={{ marginTop: "15px" }}>
-                <table className="table table-striped table-bordered bj-table bj-table-landing">
-                  <thead>
-                    <tr>
-                      <th>Item Name</th>
-                      <th>UOM Name</th>
-                      <th>Item Category Name</th>
-                      <th>Item Description</th>
-                      <th>Quantity</th>
-                      <th>Collapse View</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {console.log(
-                      placePartnerList,
-                      "fast page placePartnerList@@@"
-                    )}
-                    {placePartnerList?.map((item, index) => (
-                      <>
-                        <tr key={index}>
-                          <td>{item?.itemName}</td>
-                          <td>{item?.uoMname}</td>
-                          <td>{item?.itemCategoryName}</td>
-                          <td>{item?.itemDescription}</td>
-                          <td>{item?.quantity}</td>
-                          <td>
-                            <button
-                              className="btn btn-primary btn-sm"
-                              onClick={() => handleExpandClick(item.id)}
-                            >
-                              {expandedRow === item.id ? "Collapse" : "Expand"}
-                            </button>
-                          </td>
+              {values?.csType?.value === 1 && (
+                <>
+                  <div
+                    className="table-responsive"
+                    style={{ marginTop: "15px" }}
+                  >
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>Item Name</th>
+                          <th>UOM Name</th>
+                          <th>Item Category Name</th>
+                          <th>Item Description</th>
+                          <th>Quantity</th>
+                          <th>Collapse View</th>
                         </tr>
-
-                        {expandedRow === item.id && (
-                          <>
-                            <tr>
-                              {" "}
-                              <th colSpan="3">1st</th>
-                              <th colSpan="3">2nd</th>
-                            </tr>
-
-                            <tr>
-                              {" "}
-                              <th>Serial No</th>
-                              <th>Supplier Rate</th>
-                              <th>Total Amount</th>
-                              <th>Serial No</th>
-                              <th>Supplier Rate</th>
-                              <th>Total Amount</th>
-                            </tr>
-
-                            <tr>
-                              <td>
-                                {item?.firstAndSecondPlaceList[0]?.serialNo}
-                              </td>
-                              <td>
-                                {item?.firstAndSecondPlaceList[0]?.supplierRate}
-                              </td>
-
-                              <td>
-                                {item?.firstAndSecondPlaceList[0]?.serialNo}
-                              </td>
-
-                              <td>
-                                {item?.firstAndSecondPlaceList[1]?.serialNo}
-                              </td>
-                              <td>
-                                {item?.firstAndSecondPlaceList[1]?.supplierRate}
-                              </td>
-
-                              <td>
-                                {item?.firstAndSecondPlaceList[1]?.serialNo}
-                              </td>
-                            </tr>
-                          </>
+                      </thead>
+                      <tbody>
+                        {console.log(
+                          placePartnerList,
+                          "fast page placePartnerList@@@"
                         )}
-                      </>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                        {placePartnerList?.map((item, index) => (
+                          <>
+                            <tr key={index}>
+                              <td>{item?.itemName}</td>
+                              <td>{item?.uoMname}</td>
+                              <td>{item?.itemCategoryName}</td>
+                              <td>{item?.itemDescription}</td>
+                              <td>{item?.quantity}</td>
+                              <td>
+                                <button
+                                  className="btn btn-primary btn-sm"
+                                  onClick={() => handleExpandClick(item.id)}
+                                >
+                                  {expandedRow === item.id
+                                    ? "Collapse"
+                                    : "Expand"}
+                                </button>
+                              </td>
+                            </tr>
+
+                            {expandedRow === item.id && (
+                              <>
+                                <tr>
+                                  {" "}
+                                  <th colSpan="3">1st</th>
+                                  <th colSpan="3">2nd</th>
+                                </tr>
+
+                                <tr>
+                                  {" "}
+                                  <th>Serial No</th>
+                                  <th>Supplier Rate</th>
+                                  <th>Total Amount</th>
+                                  <th>Serial No</th>
+                                  <th>Supplier Rate</th>
+                                  <th>Total Amount</th>
+                                </tr>
+
+                                <tr>
+                                  <td>
+                                    {item?.firstAndSecondPlaceList[0]?.serialNo}
+                                  </td>
+                                  <td>
+                                    {
+                                      item?.firstAndSecondPlaceList[0]
+                                        ?.supplierRate
+                                    }
+                                  </td>
+
+                                  <td>
+                                    {item?.firstAndSecondPlaceList[0]?.serialNo}
+                                  </td>
+
+                                  <td>
+                                    {item?.firstAndSecondPlaceList[1]?.serialNo}
+                                  </td>
+                                  <td>
+                                    {
+                                      item?.firstAndSecondPlaceList[1]
+                                        ?.supplierRate
+                                    }
+                                  </td>
+
+                                  <td>
+                                    {item?.firstAndSecondPlaceList[1]?.serialNo}
+                                  </td>
+                                </tr>
+                              </>
+                            )}
+                          </>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              )}
             </Form>
           </>
         )}
