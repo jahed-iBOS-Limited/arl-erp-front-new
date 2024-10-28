@@ -65,41 +65,7 @@ export function AsideMenuList({ layoutProps }) {
     dispatch(passwordExpiredAndForceLogoutAction(profileData?.loginId));
   }, []);
 
-  // Add a request interceptor
-  Axios.interceptors.request.use(
-    function (config) {
-      return config;
-    },
-    function (error) {
-      if (
-        error?.response?.data?.message ===
-        "No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions)."
-      ) {
-        dispatch(setIsExpiredTokenActions(true));
-        return Promise.reject(error);
-      } else {
-        return Promise.reject(error);
-      }
-    }
-  );
 
-  // Add a response interceptor
-  Axios.interceptors.response.use(
-    function (response) {
-      return response;
-    },
-    function (error) {
-      if (
-        error?.response?.data?.message ===
-        "No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions)."
-      ) {
-        dispatch(setIsExpiredTokenActions(true));
-        return Promise.reject(error);
-      } else {
-        return Promise.reject(error);
-      }
-    }
-  );
   let history = useHistory();
 
   const selectedBusinessUnit = useSelector((state) => {

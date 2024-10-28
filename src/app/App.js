@@ -47,7 +47,7 @@ const App = ({ store, persistor, basename }) => {
 
       // Check if the URL should be encrypted
       if (withEncryptedAPI?.some((element) => url?.includes(element))) {
-        let copyOfConfig = { ...config };
+        let newConfig = { ...config };
 
         // Encrypt query parameters if present in the URL
         const apiPrefixes = url?.includes("?");
@@ -56,7 +56,7 @@ const App = ({ store, persistor, basename }) => {
           const encryptedData = await makeEncryption(splitUrl?.[1]);
           url = `${splitUrl?.[0]}?${encryptedData}`;
 
-          copyOfConfig = { ...config, url };
+          newConfig = { ...config, url };
         }
 
         // Encrypt the request body data if present
@@ -64,18 +64,13 @@ const App = ({ store, persistor, basename }) => {
         if (config?.data) {
           payload = await makeEncryption(JSON.stringify(config?.data));
         }
-
-        // Update the config with encrypted data and proper headers
-        copyOfConfig = {
-          ...copyOfConfig,
+        newConfig = {
+          ...newConfig,
           data: payload,
-          headers: {
-            ...copyOfConfig.headers,
-            "Content-Type": "application/json",
-          },
+          headers: { ...newConfig.headers, "Content-Type": "application/json" },
         };
-
-        return copyOfConfig;
+  
+        return newConfig;
       }
 
       // If the URL is not in withEncryptedAPI, no encryption is required
