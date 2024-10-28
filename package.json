@@ -44,7 +44,7 @@
     "@uiw/react-markdown-preview": "3.0.6",
     "antd": "4.0.1",
     "apexcharts": "^3.25.0",
-    "axios": "0.21.1",
+    "axios": "^0.21.1",
     "bootstrap": "4.5.0",
     "browser-image-compression": "^1.0.15",
     "clsx": "1.1.0",
