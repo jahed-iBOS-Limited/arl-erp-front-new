@@ -14,6 +14,7 @@ import {
 import Chips from "../../../../_helper/chips/Chips";
 import LocalAirportOutlinedIcon from "@material-ui/icons/LocalAirportOutlined";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
+import { Checkbox } from "@material-ui/core";
 
 const validationSchema = Yup.object().shape({
   productName: Yup.string().required("Product Name is required"),
@@ -32,30 +33,23 @@ function PlaceModal({ uomDDL, modalType, CB, dataList }) {
   const [, saveData, createloading] = useAxiosPost();
 
   const saveHandler = (values) => {
-    const paylaod = {
-      productId: 0,
-      productName: values?.productName,
-      uomId: values?.productUOM?.value,
-      uomName: values?.productUOM?.label,
-      businessUnitId: selectedBusinessUnit?.value,
-      actionBy: profileData?.userId,
-    };
-
-    if (paylaod) {
-      saveData(`/costmgmt/Precosting/CreateProduct`, paylaod, CB);
-    }
+    console.log(values, "adnan");
+    CB(values?.firstSelectedId);
+    // if (paylaod) {
+    //   saveData(`/costmgmt/Precosting/CreateProduct`, paylaod, CB);
+    // }
   };
 
   useEffect(() => {}, []);
-
+  console.log(dataList, "2nd dataList");
   return (
     <div className="confirmModal">
       {createloading && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{
-          productName: "",
-          productUOM: "",
+          firstSelectedId: "",
+          secondSelectedId: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -70,7 +64,11 @@ function PlaceModal({ uomDDL, modalType, CB, dataList }) {
               <div className="">
                 {/* Save button add */}
                 <div className="d-flex justify-content-end my-1">
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    onClick={() => saveHandler(values)}
+                  >
                     Save
                   </button>
                 </div>
@@ -143,7 +141,32 @@ function PlaceModal({ uomDDL, modalType, CB, dataList }) {
                           <td>{item?.currencyCode}</td>
                           <td>{item?.termsAndCondition}</td>
                           <td>{"Test"}</td>
-                          <td>{"Select/unselect"}</td>
+                          <td>
+                            {" "}
+                            <Checkbox
+                              disabled={
+                                dataList?.firstSelectedId ===
+                                item?.businessPartnerId
+                              }
+                              checked={
+                                dataList?.firstSelectedId ===
+                                item?.businessPartnerId
+                                  ? true
+                                  : values?.firstSelectedId ===
+                                    item?.businessPartnerId
+                              }
+                              onChange={() =>
+                                setFieldValue(
+                                  "firstSelectedId",
+                                  item?.businessPartnerId || 0
+                                )
+                              }
+                              color="primary"
+                              inputProps={{
+                                "aria-label": "secondary checkbox",
+                              }}
+                            />
+                          </td>
                           {/* <td className="text-center">
                             {_dateTimeFormatter(item?.startDateTime)}
                           </td>
