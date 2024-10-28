@@ -9,34 +9,37 @@ import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../_helper/_form";
+import ChartererComponent from "./chartererComponent";
 
 const initData = {
   voyageType: "",
   shipType: "",
   vesselName: "",
-  accountName: "",
-  cargoName: "",
-  cargoQuantity: "",
   deliveryPort: "",
-  loadPort: "",
   laycanFrom: "",
   laycanTo: "",
+  dteVoyageCommenced: "",
+  dteVoyageCompletion: "",
   loadRate: "",
   demurrageDispatch: "",
   numDispatch: "",
   etaLoadPort: "",
-  dischargePort: "",
   dischargeRate: "",
   freight: "",
   loadPortDA: "",
   dischargePortDA: "",
   shipperEmail: "",
-  chartererName: "",
   brokerName: "",
   brokerEmail: "",
-  nominationSchedule: "",
-  dteVoyageCompletion: "",
-  dteVoyageCommenced: "",
+
+
+  // dischargePort: "",
+  // accountName: "",
+  // cargoName: "",
+  // cargoQuantity: "",
+  // loadPort: "",
+  // chartererName: "",
+  // nominationSchedule: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -59,26 +62,26 @@ const validationSchema = Yup.object().shape({
       label: Yup.string().required("Vessel is required"),
     })
     .typeError("Vessel is required"),
-  accountName: Yup.string().required("Account Name is required"),
-  cargoName: Yup.object()
-    .shape({
-      value: Yup.string().required("Cargo is required"),
-      label: Yup.string().required("Cargo is required"),
-    })
-    .typeError("Cargo is required"),
-  cargoQuantity: Yup.string().required("Cargo Quantity is required"),
+  // accountName: Yup.string().required("Account Name is required"),
+  // cargoName: Yup.object()
+  //   .shape({
+  //     value: Yup.string().required("Cargo is required"),
+  //     label: Yup.string().required("Cargo is required"),
+  //   })
+  //   .typeError("Cargo is required"),
+  // cargoQuantity: Yup.string().required("Cargo Quantity is required"),
   deliveryPort: Yup.object()
     .shape({
       value: Yup.string().required("Delivery Port is required"),
       label: Yup.string().required("Delivery Port is required"),
     })
     .typeError("Delivery Port is required"),
-  loadPort: Yup.object()
-    .shape({
-      value: Yup.string().required("Load Port Name is required"),
-      label: Yup.string().required("Load Port Name is required"),
-    })
-    .typeError("Load Port Name is required"),
+  // loadPort: Yup.object()
+  //   .shape({
+  //     value: Yup.string().required("Load Port Name is required"),
+  //     label: Yup.string().required("Load Port Name is required"),
+  //   })
+  //   .typeError("Load Port Name is required"),
   laycanFrom: Yup.date().required("Laycan From Date is required"),
   laycanTo: Yup.date().required("Laycan To Date is required"),
   // dteVoyageCompletion: Yup.date().required(
@@ -89,11 +92,11 @@ const validationSchema = Yup.object().shape({
   demurrageDispatch: Yup.string().required("Demurrage is required"),
   numDispatch: Yup.string().required("Dispatch is required"),
   etaLoadPort: Yup.date().required("ETA Load Port Date is required"),
-  dischargePort: Yup.string().required("Discharge Port Name is required"),
+  // dischargePort: Yup.string().required("Discharge Port Name is required"),
   dischargeRate: Yup.string().required("Discharge Rate is required"),
   shipperEmail: Yup.string()
     .required("Shipper Email is required")
-    .test("is-valid-email-list", "Invalid email format", function(value) {
+    .test("is-valid-email-list", "Invalid email format", function (value) {
       if (!value) return true; // If no email is provided, Yup.required will handle the error.
       const emails = value.split(",").map((email) => email.trim());
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -121,6 +124,18 @@ export default function RecapCreate() {
   const [brokerList, getbrokerList] = useAxiosGet();
   const [shipperEmailList, getshipperEmailList] = useAxiosGet();
   const [shipperNameList, getshipperNameList] = useState([]);
+  const [chartererList, setChartererList] = useState([
+    {
+      "intRowId": 0,
+      "intVesselNominationId": 0,
+      "intChartererId": 0,
+      "strChartererName": "",
+      "numFreightRate": 0,
+      "nominationCargosList": [
+
+      ]
+    }
+  ]);
 
   useEffect(() => {
     getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}
@@ -149,19 +164,19 @@ export default function RecapCreate() {
     const payload = {
       vesselId: values?.vesselName?.value || 0,
       voyageTypeId: values?.voyageType?.value || 0,
-      intCargoId: values?.cargoName?.value || 0,
+      // intCargoId: values?.cargoName?.value || 0,
       IsActive: 1,
       intAccountId: profileData?.accountId,
-      intLoadPortId: values?.loadPort?.value,
-      intDischargePortId: values?.dischargePort?.value,
+      // intLoadPortId: values?.loadPort?.value,
+      // intDischargePortId: values?.dischargePort?.value,
       strVoyageType: values.voyageType?.label || "",
       intShipTyeId: values?.shipType?.value || 0,
       strShipType: values?.shipType?.label || "",
       strNameOfVessel: values.vesselName?.label || "",
-      strAccountName: values.accountName || "",
-      strCargo: values.cargoName?.label || "",
-      intCargoQuantityMTS: +values.cargoQuantity || 0,
-      strNameOfLoadPort: values.loadPort?.label || "",
+      // strAccountName: values.accountName || "",
+      // strCargo: values.cargoName?.label || "",
+      // intCargoQuantityMTS: +values.cargoQuantity || 0,
+      // strNameOfLoadPort: values.loadPort?.label || "",
       strPlaceOfDelivery: values?.deliveryPort?.label || "",
       strLaycan: values.laycanFrom || "",
       dteVoyageCompletion: values?.dteVoyageCompletion,
@@ -172,13 +187,13 @@ export default function RecapCreate() {
       numDemurrageDispatch: +values.demurrageDispatch || 0,
       numDispatch: +values.numDispatch || 0,
       dteETALoadPort: values.etaLoadPort || "",
-      strDischargePort: values.dischargePort?.label || "",
+      // strDischargePort: values.dischargePort?.label || "",
       intDischargeRate: +values.dischargeRate || 0,
       numFreight: +values.freight || 0,
       numLoadPortDA: +values.loadPortDA || 0,
       numDischargePortDA: +values.dischargePortDA || 0,
       strShipperEmailForVesselNomination: values.shipperEmail || "",
-      strChartererName: values.chartererName?.label || "",
+      // strChartererName: values.chartererName?.label || "",
       strBrokerName: values.brokerName.label || "",
       strBrokerEmail: values.brokerEmail || "",
       intUserEnrollId: profileData?.employeeId || 0,
@@ -277,7 +292,7 @@ export default function RecapCreate() {
                   touched={touched}
                 />
               </div>
-              <div className="col-lg-3">
+              {/* <div className="col-lg-3">
                 <InputField
                   value={values.accountName}
                   label="Account Name"
@@ -286,8 +301,8 @@ export default function RecapCreate() {
                   onChange={(e) => setFieldValue("accountName", e.target.value)}
                   errors={errors}
                 />
-              </div>
-              <div className="col-lg-3">
+              </div> */}
+              {/* <div className="col-lg-3">
                 <NewSelect
                   name="cargoName"
                   options={cargoDDL}
@@ -299,8 +314,8 @@ export default function RecapCreate() {
                   errors={errors}
                   touched={touched}
                 />
-              </div>
-              <div className="col-lg-3">
+              </div> */}
+              {/* <div className="col-lg-3">
                 <InputField
                   value={values.cargoQuantity}
                   label="Cargo Quantity (Mts)"
@@ -311,7 +326,7 @@ export default function RecapCreate() {
                   }
                   errors={errors}
                 />
-              </div>
+              </div> */}
               <div className="col-lg-3">
                 <NewSelect
                   name="deliveryPort"
@@ -325,7 +340,7 @@ export default function RecapCreate() {
                   touched={touched}
                 />
               </div>
-              <div className="col-lg-3">
+              {/* <div className="col-lg-3">
                 <NewSelect
                   name="loadPort"
                   options={portDDL}
@@ -356,7 +371,7 @@ export default function RecapCreate() {
                   errors={errors}
                   touched={touched}
                 />
-              </div>
+              </div> */}
 
               <div className="col-lg-3">
                 <InputField
@@ -446,7 +461,7 @@ export default function RecapCreate() {
                   errors={errors}
                 />
               </div>
-              <div className="col-lg-3">
+              {/* <div className="col-lg-3">
                 <NewSelect
                   name="dischargePort"
                   options={portDDL}
@@ -458,7 +473,7 @@ export default function RecapCreate() {
                   errors={errors}
                   touched={touched}
                 />
-              </div>
+              </div> */}
               <div className="col-lg-3">
                 <InputField
                   value={values.dischargeRate}
@@ -545,7 +560,7 @@ export default function RecapCreate() {
                   }
                 />
               </div>
-              <div className="col-lg-3">
+              {/* <div className="col-lg-3">
                 <NewSelect
                   name="chartererName"
                   options={chartererDDL}
@@ -557,7 +572,7 @@ export default function RecapCreate() {
                   errors={errors}
                   touched={touched}
                 />
-              </div>
+              </div> */}
               <div className="col-lg-3">
                 <NewSelect
                   name="brokerName"
@@ -583,6 +598,140 @@ export default function RecapCreate() {
                 />
               </div>
             </div>
+            {/* <div className="border p-2 mt-5">
+              <div className="form-group global-form">
+                <div className="row">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="chartererName"
+                      options={chartererDDL || []}
+                      value={values.chartererName}
+                      label="Charterer Name"
+                      onChange={(valueOption) =>
+                        setFieldValue("chartererName", valueOption)
+                      }
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values.freightRate}
+                      label="Freight Rate"
+                      name="freightRate"
+                      type="number"
+                      onChange={(e) => setFieldValue("freightRate", e.target.value)}
+                      errors={errors}
+                    />
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="cargoName"
+                      options={cargoDDL}
+                      value={values.cargoName}
+                      label="Cargo Name"
+                      onChange={(valueOption) =>
+                        setFieldValue("cargoName", valueOption)
+                      }
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values.cargoQuantity}
+                      label="Cargo Quantity (Mts)"
+                      name="cargoQuantity"
+                      type="number"
+                      onChange={(e) =>
+                        setFieldValue("cargoQuantity", e.target.value)
+                      }
+                      errors={errors}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="loadPort"
+                      options={portDDL}
+                      value={values.loadPort}
+                      label="Load Port"
+                      onChange={(valueOption) =>
+                        setFieldValue("loadPort", valueOption)
+                      }
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="dischargePort"
+                      options={portDDL}
+                      value={values.dischargePort}
+                      label="Discharge Port"
+                      onChange={(valueOption) =>
+                        setFieldValue("dischargePort", valueOption)
+                      }
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="">
+                    <button className="btn btn-primary ml-5 mt-5">Add +</button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-12">
+                  {[].length > 0 && (
+                    <div className="table-responsive">
+                      <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Cargo Name</th>
+                            <th>Load Port</th>
+                            <th>Discharge Port</th>
+                            <th>Cargo Quantity</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {[]?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{index + 1}</td>
+                              <td>{index + 1}</td>
+                              <td>{index + 1}</td>
+                              <td>Delete</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12 text-center mt-2">
+                  <button type="button" class="btn btn-lg btn-info col-lg-6 px-3 py-2">+ Add Charterer</button></div>
+              </div>
+            </div> */}
+            {chartererList?.length > 0 && (<ChartererComponent
+              chartererList={chartererList}
+              setChartererList={setChartererList}
+              chartererDDL={chartererDDL}
+              cargoDDL={cargoDDL}
+              portDDL={portDDL}
+              values={values}
+              setFieldValue={setFieldValue}
+              errors={errors}
+              touched={touched}
+            />)}
+
           </Form>
         </IForm>
       )}
