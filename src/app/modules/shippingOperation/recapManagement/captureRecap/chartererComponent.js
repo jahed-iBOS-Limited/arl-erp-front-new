@@ -9,14 +9,11 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
         setChartererList([
             ...chartererList,
             {
-                intRowId: chartererList.length,
+                intRowId: 0,
                 intVesselNominationId: 0,
                 intChartererId: 0,
                 strChartererName: "",
                 numFreightRate: 0,
-                dteServerDatetime: new Date().toISOString(),
-                dteLastActionDateTime: new Date().toISOString(),
-                isActive: true,
                 nominationCargosList: [],
             },
         ]);
@@ -26,7 +23,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
     const handleAddCargo = (index) => {
         const updatedChartererList = [...chartererList];
         updatedChartererList[index].nominationCargosList.push({
-            intRowId: updatedChartererList[index].nominationCargosList.length,
+            intRowId: 0,
             intVesselNominationId: 0,
             intChartererId: 0,
             intCargoId: 0,
@@ -36,9 +33,6 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
             strLoadPortName: "",
             intDischargePortId: 0,
             strDischargePortName: "",
-            dteServerDatetime: new Date().toISOString(),
-            dteLastActionDateTime: new Date().toISOString(),
-            isActive: true,
         });
         setChartererList(updatedChartererList);
     };
