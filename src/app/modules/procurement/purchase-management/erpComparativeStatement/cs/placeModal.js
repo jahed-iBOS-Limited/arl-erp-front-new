@@ -1,20 +1,10 @@
+import { Checkbox } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import IView from "../../../../_helper/_helperIcons/_view";
-import {
-  _dateFormatter,
-  _dateTimeFormatter,
-} from "../../../../_helper/_dateFormate";
-import Chips from "../../../../_helper/chips/Chips";
-import LocalAirportOutlinedIcon from "@material-ui/icons/LocalAirportOutlined";
-import LocalShippingIcon from "@material-ui/icons/LocalShipping";
-import { Checkbox } from "@material-ui/core";
 
 const validationSchema = Yup.object().shape({
   productName: Yup.string().required("Product Name is required"),

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
@@ -46,6 +47,11 @@ export default function PurchaseOrgAddForm({
     firstPlaceModal: false,
     secondPlaceModal: false,
   });
+  const [
+    placePartnerList,
+    getPlacePartnerList,
+    placePartnerListLoading,
+  ] = useAxiosGet();
   const [rowDtos, setRowDtos] = useState([]);
 
   // get user profile data from store
@@ -78,28 +84,35 @@ export default function PurchaseOrgAddForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    getPlacePartnerListCsWise();
+  }, [
+    suppilerStatement?.firstSelectedItem,
+    suppilerStatement?.secondSelectedItem,
+  ]);
+
+  const getPlacePartnerListCsWise = () => {
+    console.log(suppilerStatement, "fast page suppilerStatement2222");
+    console.log(
+      `${eProcurementBaseURL}/ComparativeStatement/GetSupplierWiseCS?requestForQuotationId=${592}&firstPlacePartnerRfqId=${suppilerStatement
+        ?.firstSelectedItem?.partnerRfqId ||
+        0}&secondPlacePartnerRfqId=${suppilerStatement?.secondSelectedItem
+        ?.partnerRfqId || 0}`
+    );
+
+    getPlacePartnerList(
+      `${eProcurementBaseURL}/ComparativeStatement/GetSupplierWiseCS?requestForQuotationId=${592}&firstPlacePartnerRfqId=${
+        suppilerStatement?.firstSelectedItem?.partnerRfqId
+      }&secondPlacePartnerRfqId=0`
+    );
+  };
+
   const saveHandler = async (values, cb) => {};
-
-  const getRank = (businessPartnerId) => {
-    if (suppilerStatement?.data) {
-      const rank = suppilerStatement?.data?.find(
-        (item) => item?.businessPartnerId === businessPartnerId
-      )?.rank;
-      return rank;
-    }
-  };
-
-  const getbusinessPartnerName = (businessPartnerId) => {
-    if (suppilerStatement?.data) {
-      const name = suppilerStatement?.data?.find(
-        (item) => item?.businessPartnerId === businessPartnerId
-      )?.businessPartnerName;
-      return name;
-    }
-  };
 
   const [objProps, setObjprops] = useState({});
   console.log(suppilerStatement, "fast page suppilerStatement");
+  console.log(placePartnerList, "fast page placePartnerList");
+
   return (
     <IForm getProps={setObjprops} isDisabled={isDisabled} title={"Create"}>
       {isDisabled && <Loading />}
@@ -286,6 +299,39 @@ export default function PurchaseOrgAddForm({
                 ref={objProps.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
+
+              <div className="table-responsive" style={{ marginTop: "15px" }}>
+                <table className="table table-striped table-bordered bj-table bj-table-landing">
+                  <thead>
+                    <tr>
+                      <th>Serial No</th>
+                      <th>RFQ Quantity</th>
+                      <th>Supplier Rate</th>
+                      <th>Negotiation Rate</th>
+                      <th>Total Amount</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {console.log(
+                      placePartnerList,
+                      "fast page placePartnerList@@@"
+                    )}
+                    {placePartnerList?.firstAndSecondPlaceList?.map(
+                      (item, index) => (
+                        <tr key={index}>
+                          <td>{item?.serialNo}</td>
+                          <td>{item?.rfqquantity}</td>
+                          <td>{item?.supplierRate}</td>
+                          <td>{item?.negotiationRate}</td>
+                          <td>{item?.totalAmount}</td>
+                          <td>{item?.description}</td>
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </Form>
           </>
         )}
@@ -305,6 +351,7 @@ export default function PurchaseOrgAddForm({
                 ...isModalShowObj,
                 isModalOpen: false,
               });
+              // getFirstPlacePartnerList();
             }}
           >
             <PlaceModal

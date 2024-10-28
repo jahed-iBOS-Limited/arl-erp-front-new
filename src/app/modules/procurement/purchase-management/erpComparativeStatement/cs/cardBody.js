@@ -24,7 +24,7 @@ const CardBody = ({ name, id, item, CB }) => {
       ) : (
         <button onClick={CB} className="btn btn-info">
           {name}
-          <span className="pr-2">
+          <span style={{ marginLeft: "5px" }}>
             <AddCircleOutlineSharp />
           </span>
         </button>
