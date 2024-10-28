@@ -76,7 +76,8 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                 label="Charterer Name"
                                 onChange={(valueOption) => {
                                     const updatedChartererList = [...chartererList];
-                                    updatedChartererList[index].strChartererName = valueOption;
+                                    updatedChartererList[index].intChartererId = valueOption?.value;
+                                    updatedChartererList[index].strChartererName = valueOption?.label;
                                     setChartererList(updatedChartererList);
                                 }}
                                 errors={errors}
