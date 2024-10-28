@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
+import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
-import IDelete from "../../../_helper/_helperIcons/_delete";
 
 const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, cargoDDL, portDDL, values, setFieldValue, errors, touched }) => {
     // Function to handle adding a new charterer
@@ -50,11 +50,24 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
         setChartererList(updatedChartererList);
     };
 
+    // Function to delete an item from chartererList
+    const handleDeleteCharterer = (index) => {
+        // Create a new list excluding the item to delete
+        const updatedList = chartererList.filter((_, i) => i !== index);
+        // Update the state
+        setChartererList(updatedList);
+    };
+
     return (
         <div className="border p-2 mt-5">
             {chartererList.map((charterer, index) => (
                 <div key={index} className="form-group global-form mb-4">
                     <div className="row">
+                        <div className="col-12 text-right">
+                            <span onClick={() => { handleDeleteCharterer(index) }}>
+                                <IDelete />
+                            </span>
+                        </div>
                         <div className="col-lg-3">
                             <NewSelect
                                 name={`chartererName-${index}`}
