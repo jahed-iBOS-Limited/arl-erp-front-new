@@ -1,4 +1,6 @@
+import moment from 'moment';
 import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from "react-to-print";
 import { imarineBaseUrl } from '../../../../../App';
 import Loading from '../../../../_helper/_loading';
@@ -6,7 +8,10 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const FreightCargoReceipt = ({ rowClickData }) => {
     const componentRef = useRef();
-
+    const { selectedBusinessUnit } = useSelector(
+        (state) => state?.authData || {},
+        shallowEqual
+    );
     const bookingRequestId = rowClickData?.bookingRequestId;
     const [
         shipBookingRequestGetById,
@@ -30,6 +35,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
           }
         `,
     });
+
     useEffect(() => {
         if (bookingRequestId) {
             setShipBookingRequestGetById(
@@ -44,500 +50,322 @@ const FreightCargoReceipt = ({ rowClickData }) => {
     >
         <Loading />
     </div>
-    const tableData = [
-        {
-            marksAndNos: 'WWWWWWWWWW',
-            noOfPkgs: '1',
-            descriptionOfPackagesAndGoods: 'S.T.C. 1 PALLET OF 1 DRUM',
-            weight: {
-                value: '450 Lbs',
-                measurement: '20412 Kgs',
-            },
-            measurement: {
-                value: '2.0 Cft',
-                measurement: '0.056 Cbm',
-            }
-        },
-        {
-            marksAndNos: '',
-            noOfPkgs: '3',
-            descriptionOfPackagesAndGoods: `40' Container (Closed) Said To Contain: 1 X 40' Container 3 Pallets 3,000 Lbs. Of`,
-            weight: {
-                value: '450 Lbs',
-                measurement: '20412 Kgs',
-            },
-            measurement: {
-                value: '2.0 Cft',
-                measurement: '0.056 Cbm',
-            }
-        },
-    ];
-    const tableColumns = [
-        { name: 'MARKS & NOS.', key: 'col1' },
-        { name: 'NO. OF PKGS', key: 'col2' },
-        { name: 'DESCRIPTION OF PACKAGES AND GOODS', key: 'col3' },
-        { name: 'WEIGHT', key: 'col4' },
-        { name: 'MEASUREMENT (H W L)', key: 'col5' },
-    ]
-
     return (
         <>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    padding: "20px 0px",
-                }}
-            >
-                <button
-                    onClick={handlePrint}
-                    type="button"
-                    className="btn btn-primary px-3 py-2"
-                >
-                    <i className="mr-1 fa fa-print pointer" aria-hidden="true"></i>
-                    Print
-                </button>
-            </div>
+            <div className="">
+                {/* Save button add */}
 
+                <div className="d-flex justify-content-end">
+                    {!bookingData?.invoiceNo && (
+                        <>
+                            {" "}
+                            <button
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={() => {
+                                    // saveHandler();
+                                }}
+                            >
+                                Generate
+                            </button>
+                        </>
+                    )}
+
+                    {bookingData?.invoiceNo && (
+                        <>
+                            <button
+                                onClick={handlePrint}
+                                type="button"
+                                className="btn btn-primary px-3 py-2"
+                            >
+                                <i className="mr-1 fa fa-print pointer" aria-hidden="true"></i>
+                                Print
+                            </button>
+                        </>
+                    )}
+                </div>
+            </div>
             <div
                 style={{
-                    border: '2px solid #000',
-                    padding: '10px 0px',
+                    fontSize: 11,
+                    display: "grid",
+                    gap: 10
                 }}
                 ref={componentRef}
             >
-                <div
-                    style={{
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 1.5fr',
-                        gap: '10px',
-                    }}
-                >
-                    <div
-                        style={{
-                            marginLeft: '10px',
-                            marginTop: '30px',
-                        }}
-                    >
-                        <div
-                            style={{
-                                marginLeft: '10px',
-                                paddingBottom: '50px'
-                            }}
-                        >
-                            <p
-                                style={{
-                                    borderTop: '2px solid #000',
-                                    width: '50%',
-                                }}
-                            > IATA 1-4325/1</p>
-                            <p>FMC # 4900</p>
-                            <p> CHB Lic 123-456</p>
-                        </div>
-                        <div
-                            style={{
-                                border: '1px solid #000',
-                                padding: '10px',
-                                fontWeight: 600,
-                            }}
-                        >
-                            <p
-                                style={{
-                                    paddingBottom: '5px',
 
-                                }}
-                            >Shipper/Exporter:</p>
-                            <p>{bookingData?.shipperName}</p>
-                            <p>{bookingData?.shipperAddress}</p>
-                            <p>{bookingData?.shipperContactPerson}</p>
-                            <p>{bookingData?.shipperContact}</p>
-                            <p>{bookingData?.shipperEmail}</p>
+                <div>
+                    <span>To :</span> <br />
 
-                        </div>
-                        <div
-                            style={{
-                                border: '1px solid #000',
-                                borderTop: 'none',
-                                padding: '10px',
-                                fontWeight: 600,
-                            }}
-                        >
-                            <p
-                                style={{
-                                    paddingBottom: '5px',
-
-                                }}
-                            >Consignee:</p>
-                            <p>{bookingData?.consigneeName}</p>
-                            <p>{bookingData?.consigneeAddress}</p>
-                            <p>{bookingData?.consigneeContactPerson}</p>
-                            <p>{bookingData?.consigneeContact}</p>
-                            <p>{bookingData?.consigneeEmail}</p>
-                        </div>
-                        <div
-                            style={{
-                                border: '1px solid #000',
-                                borderTop: 'none',
-                                padding: '10px',
-                                fontWeight: 600,
-                            }}
-                        >
-                            <p
-                                style={{
-                                    paddingBottom: '5px',
-
-                                }}
-                            >Notify Party:</p>
-                            <p>{bookingData?.notifyParty}</p>
-
-                        </div>
-                        <div
-                            style={{
-                                border: '1px solid #000',
-                                borderTop: 'none',
-                                padding: '0px 10px',
-                                fontWeight: 600,
-                            }}
-                        >
-                            <p>Port or Airport:</p>
-                            <p>WANDO TERMINAL</p>
-                        </div>
-                        <div
-                            style={{
-                                border: '1px solid #000',
-                                borderTop: 'none',
-                                fontWeight: 600,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'flex-start',
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        borderRight: '1px solid #000',
-                                        width: '50%',
-                                        padding: '0px 10px',
-
-                                    }}
-                                >
-                                    <p>Exporting Carrier (Vessel/Airline)</p>
-                                    <p>{bookingData?.transportPlanning?.vesselName}</p>
-                                </div>
-                                <div
-                                    style={{
-                                        padding: '0px 10px',
-                                    }}
-                                >
-                                    <p>Port of Loading</p>
-                                    <p>{bookingData?.portOfLoading}</p>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div
-                            style={{
-                                border: '1px solid #000',
-                                borderTop: 'none',
-                                fontWeight: 600,
-                            }}
-                        >
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'flex-start',
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        borderRight: '1px solid #000',
-                                        borderTop: 'none',
-                                        minWidth: '50%',
-                                        padding: '0px 10px',
-
-                                    }}
-                                >
-                                    <p>Air/Sea Port of Discharge</p>
-                                    <p>{bookingData?.portOfDischarge}</p>
-                                </div>
-                                <div
-                                    style={{
-                                        padding: '0px 10px',
-                                    }}
-                                >
-                                    <p>For Transfer to</p>
-                                    <p>SJO</p>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div
-                        style={{
-                            marginRight: '10px',
-                        }}
-                    >
-                        <div
-                            style={{
-                                textAlign: 'center',
-
-                            }}
-                        >
-                            <p style={{ fontSize: 20, fontWeight: 600, borderBottom: '2px solid #000', marginBottom: '10px' }}>Your company logo here</p>
-                            <p>4421 Conlin Street, Suite 202</p>
-                            <p>Metairie, LA 70006</p>
-                            <p>Phone: (504) 888-5598</p>
-                            <p>Fax: (504) 888-5599</p>
-                            <p>Email: melcogroup@comm.net</p>
-                            <p>Internet: <a href="http://www.melcogroup.com" target="_blank" rel="noreferrer">www.melcogroup.com</a></p>
-                            <p
-                                style={{
-                                    fontWeight: 700,
-                                    fontSize: '2rem',
-                                }}
-                            >
-                                FORWARDER{"'"}S <br /> CARGO RECEIPT
-                            </p>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    gap: '5px',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                <p
-                                    style={{
-                                        fontWeight: 600
-                                    }}
-                                >DATE</p>
-                                <p>5/03/1999</p>
-                            </div>
-                        </div>
-                        <div
-                            style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                padding: '0px 10px',
-
-                            }}
-                        >
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    gap: '2px',
-
-                                }}
-                            >
-                                <p
-                                    style={{
-                                        fontWeight: 600
-                                    }}
-                                >REFERENCE # </p>
-                                <p>345</p>
-                            </div>
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    gap: '2px',
-                                }}
-                            >
-                                <p
-                                    style={{
-                                        fontWeight: 600
-                                    }}
-                                >BL/AWB #: BL #</p>
-                                <p>23845345</p>
-                            </div>
-                        </div>
-                        <div
-                            style={{
-                                display: 'flex',
-                                gap: '2px',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <p
-                                style={{
-                                    fontWeight: 600,
-                                }}
-                            >BOOKING # </p>
-                            <p>CSB5678</p>
-                        </div>
-                        <div
-                            style={{
-                                border: '1px solid #000',
-                                padding: '10px',
-                                fontWeight: 600,
-                            }}
-                        >
-                            <p>Point & Country of Origin:</p>
-                            <p>{bookingData?.originAddress}</p>
-
-                        </div>
-                        <div
-                            style={{
-                                border: '1px solid #000',
-                                borderTop: 'none',
-                                padding: '10px',
-                                fontWeight: 600,
-                            }}
-                        >
-                            <p
-                                style={{
-                                    paddingBottom: '2px',
-
-                                }}
-                            >Domestic Routing / Export Instructions:</p>
-                            <div
-                                style={{
-                                    textTransform: 'uppercase',
-                                }}
-                            >
-                                <p>Latasa Uruguay Trading S.A.</p>
-                                <p>Plaza Independencia 808-PB 101</p>
-                                <p>Montevideo, Uruguay</p>
-                                <p>Y Riesgo del Consignatario Carg????</p>
-
-                            </div>
-                        </div>
-                        <div
-                            style={{
-                                border: '1px solid #000',
-                                borderTop: 'none',
-                                padding: '10px',
-                                fontWeight: 600,
-                            }}
-                        >
-                            <p
-                                style={{
-                                    paddingBottom: '5px',
-
-                                }}
-                            >For Delivery of Goods Please Apply To:</p>
-                            <div
-                                style={{
-                                    textTransform: 'uppercase',
-                                }}
-                            >
-                                <p>Latasa Uruguay Trading S.A.</p>
-                                <p>Plaza Independencia 808-PB 101</p>
-                                <p>Montevideo, Uruguay</p>
-                                <p>Y Riesgo del Consignatario Carg????</p>
-
-                            </div>
-                        </div>
-                    </div>
+                    <span style={{ fontSize: 14, fontWeight: 600, textAlign: 'center' }}>{bookingData?.consigneeName}</span><br />
+                    <span>{bookingData?.consigneeAddress}</span> <br />
+                    <span>{bookingData?.consigneeContactPerson}</span><br />
+                    <span>{bookingData?.consigneeContact}</span><br />
                 </div>
                 <div
                     style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '5rem',
-                        border: '1px solid #000',
-                        marginTop: '20px',
-                        marginRight: '10px',
-                        marginLeft: '10px',
+                        justifyContent: "center",
+                        display: "flex",
+                    }}
+                >
+                    <span style={{ borderBottom: "1px solid #000000", fontSize: 14, fontWeight: 600, }}>TO WHOM IT MAY CONCERN</span> <br />
+                </div>
+                <div><span style={{ borderBottom: "1px solid #000000", fontSize: 14, fontWeight: 600, }}>SHIPMENT REF. :</span> <br /></div>
+
+                <div
+                    style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr 1fr ",
+                        // border: "1px solid #000000",
 
                     }}
                 >
-                    <table style={{ width: '100%', textAlign: 'left' }}>
-                        <thead>
-                            <tr
+                    {/* left side  */}
+                    <div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, }}>SHIPPER NAME</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.shipperName}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>POL </span>
+                            <span style={{ padding: 2 }}>: {bookingData?.portOfLoading}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>POD</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.portOfDischarge}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>INCOTERMS</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.incoterms}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>TRANSPORT CARRIER</span>
+                            <span style={{ padding: 2 }}>: YANG MING MARINE TRANSPORT CORP</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>M.VSL/FLIGHT NAME</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.transportPlanning?.vesselName}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>F.VSL/FLIGHT NAME</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.transportPlanning?.vesselName}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>ETA</span>
+                            <span style={{ padding: 2 }}>: 27-12-2023</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>MBL/MAWB NUM</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.blnumber}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>HBL/HAWB NUM</span>
+                            <span style={{ padding: 2 }}>:{bookingData?.hblnumber}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>PALLET/CONTAINER NO.</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.transportPlanning?.noOfPallets} / {bookingData?.transportPlanning?.noOfContainer}</span>
+                        </div>
+                    </div>
+                    {/* right side */}
+                    <div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gap: 10,
+                                paddingBottom: 10
+                            }}
+
+                        >
+                            <div
                                 style={{
-                                    borderBottom: '1px solid #000',
-                                    fontWeight: 600,
+                                    display: "grid",
+                                    gridTemplateColumns: "1fr 3fr ",
                                 }}
                             >
-                                {tableColumns.map((column, index) => (
-                                    <th key={index}>{column.name}</th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {bookingData?.rowsData?.map((row, index) => (
-                                <tr key={index}>
-                                    <td>{row?.marksAndNos}</td>
-                                    <td>{row?.numberOfPackages}</td>
-                                    <td>{row?.descriptionOfGoods}</td>
-                                    <td>
-                                        {row?.netWeightKG} KG<span style={{ paddingRight: '20px' }}></span> {row?.grossWeightKG} KG
-                                    </td>
-                                    <td>{row?.dimsHeight}<span style={{ paddingRight: '20px' }}></span> {row?.dimsWidth}<span style={{ paddingRight: '20px' }}></span> {row?.dimsLength}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: '5px',
-                        }}
-                    >
-                        <div
-                            style={{
-                                height: '1px',
-                                backgroundColor: '#000',
-                                margin: '0px 10px',
-                            }}
-                        />
-                        <div
-                            style={{
-                                height: '1px',
-                                backgroundColor: '#000',
-                                margin: '0px 10px',
-                            }}
-                        />
-                    </div>
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <div
-                            style={{
-                                padding: '10px',
-                                fontWeight: 600,
-                                textAlign: 'center',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '20px',
-                                maxWidth: '55%',
-                            }}
-                        >
-                            <p> WE CERTIFY THAT THE SHIPMENT DESCRIBED ABOVE HAS BEEN RECEIVED BY US IN APPARENT GOOD CONDITION FROM THE ABOVE MENTIONED SHIPPER/EXPORTER.</p>
-                            <p>THE SHIPMENT IS SCHEDULED FOR IRREVOCABLE REFORWARDING ADDRESSED TO THE ABOVE NAMED CONSIGNEE/NOTIFY PARTY, DEPARTING HERE ON 3/04/1998 DUE TO ARRIVE AT THE ABOVE STATED DESTINATION ON/OR ABOUT 3/11/1998</p>
-                            <p>IF YOU HAVE ANY QUESTIONS OR REQUIRE ADDITIONAL INFORMATION, PLEASE REFER TO THE ABOVE DESCRIBED SHIPMENT AND CONTACT Traffic Contact</p>
+                                <span style={{ padding: 2 }}>L/C NO </span>
+                                <span style={{ padding: 2 }}>: 0000285923021229</span>
+                            </div>
+                            <div
+                                style={{
+                                    display: "grid",
+                                    gridTemplateColumns: "1fr 3fr ",
+                                }}
+                            >
+                                <span style={{ padding: 2 }}>L/C DATE </span>
+                                <span style={{ padding: 2 }}>: </span>
+                            </div>
+                            <div
+                                style={{
+                                    display: "grid",
+                                    gridTemplateColumns: "1fr 3fr ",
+                                }}
+                            >
+                                <span style={{ padding: 2 }}>MODE</span>
+                                <span style={{ padding: 2 }}>: {bookingData?.modeOfTransport}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}
-                    >
                         <div
                             style={{
-                                padding: '10px',
-                                textAlign: 'center',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: '20px',
-                                maxWidth: '55%',
-                            }}
-                        >
-                            <p>This company has policy against payment, solicitation, or receipt of any rebate, directly or indirectly, which would be unlawful under the United States Shipping Act 1984. Inon recent we shall nowvide a detailed list of the components of these charges and a true com of any nertinent document relating to the charges in this invoice.</p>
-                        </div>
-                    </div>
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
 
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>M.VSL/FLIGHT NUM</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.flightNumber}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>F.VSL/FLIGHT NUM</span>
+                            <span style={{ padding: 2 }}>: </span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>ATA</span>
+                            <span style={{ padding: 2 }}>: 31-12-2023</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>MBL/MAWB DATE</span>
+                            <span style={{ padding: 2 }}>: {moment(bookingData?.bldate).format('DD-MM-YYYY')}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>HBL/HAWB DATE</span>
+                            <span style={{ padding: 2 }}>: {moment(bookingData?.hbldate).format('DD-MM-YYYY')}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2 }}>SEAL NUMBER</span>
+                            <span style={{ padding: 2 }}>: YMAM972638</span>
+                        </div>
+
+                    </div>
+                </div>
+                <span>This is to certify that the freight for the above mentioned shipment is as under.</span>
+                <p>FREIGHT:</p>
+                <div
+                    style={{
+                        paddingLeft: 25,
+                    }}
+                >
+                    <span>Ocean Freight is 850.00/40’HQ</span> <br />
+                    <span>Total Container: 01 X 40’HQ</span> <br />
+                    <span>Ex Rate 110.50</span> <br />
+                    <span>So, Total Ocean Freight is USD 850.00 or BDT 93,925.00</span> <br />
+                    <span>Goods Description: BRAND NEW CAPITAL MACHINERY WITH THEIR STANDARD ACCESSORIES</span> <br />
+                </div>
+                <span style={{ paddingLeft: 10 }}>Thanks and Best Regards,</span>
+                <span>Sincerely Yours</span>
+                <div style={{ paddingTop: "5rem" }}>
+                    <span>For : {selectedBusinessUnit?.label}</span> <br />
+                    <span>As Agents</span> <br />
+                </div>
+                <div style={{ paddingTop: '5rem' }}>
+                    <div style={{ borderTop: "1px solid #000000", backgroundColor: "#000000" }} />
+                    <div
+                        style={{
+                            display: "grid",
+                            justifyContent: "center",
+                            textAlign: "center",
+
+                        }}
+                    >
+                        <span>{selectedBusinessUnit?.label}</span>
+                        <span>{selectedBusinessUnit?.address}</span>
+                    </div>
                 </div>
 
             </div>
