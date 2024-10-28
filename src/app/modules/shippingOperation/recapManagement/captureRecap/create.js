@@ -720,7 +720,8 @@ export default function RecapCreate() {
                   <button type="button" class="btn btn-lg btn-info col-lg-6 px-3 py-2">+ Add Charterer</button></div>
               </div>
             </div> */}
-            {chartererList?.length > 0 && (<ChartererComponent
+            {chartererList?.length > 0 && (<div className="my-3">
+              <ChartererComponent
               chartererList={chartererList}
               setChartererList={setChartererList}
               chartererDDL={chartererDDL}
@@ -730,7 +731,8 @@ export default function RecapCreate() {
               setFieldValue={setFieldValue}
               errors={errors}
               touched={touched}
-            />)}
+            />
+            </div>)}
 
           </Form>
         </IForm>
