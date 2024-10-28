@@ -28,11 +28,14 @@
 FROM node:14-alpine as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
-COPY package.json ./
-# COPY package-lock.json ./
-COPY yarn.lock ./
-#RUN npm ci --silent
-# RUN npm install 
+
+# Copy package.json and yarn.lock to the working directory
+COPY package.json yarn.lock ./
+
+# Remove the existing yarn.lock file
+RUN rm -f yarn.lock
+
+# Install dependencies
 RUN yarn install --force
 #react-scripts@3.4.1 -g --silent
 COPY . ./
