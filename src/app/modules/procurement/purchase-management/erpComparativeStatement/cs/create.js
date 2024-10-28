@@ -317,18 +317,16 @@ export default function PurchaseOrgAddForm({
                       placePartnerList,
                       "fast page placePartnerList@@@"
                     )}
-                    {placePartnerList?.firstAndSecondPlaceList?.map(
-                      (item, index) => (
-                        <tr key={index}>
-                          <td>{item?.serialNo}</td>
-                          <td>{item?.rfqquantity}</td>
-                          <td>{item?.supplierRate}</td>
-                          <td>{item?.negotiationRate}</td>
-                          <td>{item?.totalAmount}</td>
-                          <td>{item?.description}</td>
-                        </tr>
-                      )
-                    )}
+                    {placePartnerList?.map((item, index) => (
+                      <tr key={index}>
+                        <td>{item?.itemCategoryName}</td>
+                        <td>{item?.rfqquantity}</td>
+                        <td>{item?.supplierRate}</td>
+                        <td>{item?.negotiationRate}</td>
+                        <td>{item?.totalAmount}</td>
+                        <td>{item?.description}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
