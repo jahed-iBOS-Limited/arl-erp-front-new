@@ -10,7 +10,6 @@ export const withEncryptedAPI = [
   "/EProcurement/GetItemsForPRReference",
   "/RequestForQuotation/CreateRequestForQuotation",
   "/RequestForQuotation/EditRequestForQuotation",
-  "/identity/TokenGenerate/IbosLogin",
 
   // CS
   "/ComparativeStatement/GetSupplierStatementForCS",
