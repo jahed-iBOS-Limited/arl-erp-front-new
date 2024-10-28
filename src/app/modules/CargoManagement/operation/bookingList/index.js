@@ -24,6 +24,7 @@ import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
 import FreightCargoReceipt from './freightCargoReceipt'
 import DeliveryNoteModal from "./deliveryNoteModal";
+import FreightCargoReceipt from "./freightCargoReceipt";
 
 const validationSchema = Yup.object().shape({});
 function BookingList() {
