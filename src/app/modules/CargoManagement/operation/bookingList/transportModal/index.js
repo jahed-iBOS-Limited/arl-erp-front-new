@@ -186,13 +186,9 @@ function TransportModal({ rowClickData, CB }) {
       arrivalDateTime:
         moment(values?.arrivalDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
         new Date(),
-      berthDate:
-        moment(values?.berthDate).format("YYYY-MM-DDTHH:mm:ss") || new Date(),
-      cutOffDate:
-        moment(values?.cutOffDate).format("YYYY-MM-DDTHH:mm:ss") || new Date(),
-      estimatedTimeOfDepart:
-        moment(values?.estimatedTimeOfDepart).format("YYYY-MM-DDTHH:mm:ss") ||
-        new Date(),
+      ...(values?.berthDate && { berthDate: moment(values?.berthDate).format("YYYY-MM-DDTHH:mm:ss") }),
+      ...(values?.cutOffDate && { cutOffDate: moment(values?.cutOffDate).format("YYYY-MM-DDTHH:mm:ss") }),
+      ...(values?.estimatedTimeOfDepart && { estimatedTimeOfDepart: moment(values?.estimatedTimeOfDepart).format("YYYY-MM-DDTHH:mm:ss") }),
       transportMode: values?.transportMode?.label || 0,
       isActive: true,
     };
