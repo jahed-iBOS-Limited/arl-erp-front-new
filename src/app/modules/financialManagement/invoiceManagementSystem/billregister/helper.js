@@ -3,6 +3,7 @@ import moment from "moment";
 import { toast } from "react-toastify";
 import { _fixedPoint } from "./../../../_helper/_fixedPoint";
 import { _todayDate } from "./../../../_helper/_todayDate";
+import { eProcurementBaseURL } from "../../../../App";
 // Plant DDL Call
 export const getPlantDDL = async (userId, accId, buId, setter) => {
   try {
@@ -1041,8 +1042,38 @@ export const uploadAttachment = async (attachment, setDisabled) => {
   }
 };
 
+export const uploadAttachmentForPeopleDeskApi = async (
+  attachment,
+  setDisabled
+) => {
+  setDisabled && setDisabled(true);
+  let formData = new FormData();
+  attachment.forEach((file) => {
+    formData.append("files", file);
+  });
+  try {
+    let { data } = await Axios.post(
+      `${eProcurementBaseURL}/EProcurement/UploadFile`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    setDisabled && setDisabled(false);
+    toast.success("File Attachment successfully");
+    return data;
+  } catch (error) {
+    setDisabled && setDisabled(false);
+    toast.error("Document not upload");
+    throw new Error("Document not upload");
+  }
+};
+
 export const uploadAttachmentNew = async (attachment, setDisabled) => {
-  const hardcodedToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJkMTIyNTkzYy0xNGM3LTRmNDYtYjliNC04NGI3YjlhNDZlNTgiLCJlbnJvbGwiOiJleE5qUk1Wa2FpQm02YnJPclY2MjVnPT0iLCJlbWFpbGFkZHJlc3MiOiJtaXJhakBpYm9zLmlvIiwic3ViIjoibWlyYWpAaWJvcy5pbyIsImp0aSI6ImY1MmJlMDljLTc3MDYtNGM1Zi1iMTk4LTkyZDQ2Y2E5YTE5YiIsImlhdCI6IjkvMjMvMjAyNCA2OjEyOjE4IEFNIiwiZXhwIjoxNzU4NjA3OTM4LCJpc3MiOiJBa2lqSW5mb1RlY2ggTHRkLiAiLCJhdWQiOiJBdWRpZW5jZSJ9.06aBO2uUCHG0IViaUpSbecHp_JUtkzXCBi-oFJwT4Ek"; // 1 year expire date
+  const hardcodedToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJkMTIyNTkzYy0xNGM3LTRmNDYtYjliNC04NGI3YjlhNDZlNTgiLCJlbnJvbGwiOiJleE5qUk1Wa2FpQm02YnJPclY2MjVnPT0iLCJlbWFpbGFkZHJlc3MiOiJtaXJhakBpYm9zLmlvIiwic3ViIjoibWlyYWpAaWJvcy5pbyIsImp0aSI6ImY1MmJlMDljLTc3MDYtNGM1Zi1iMTk4LTkyZDQ2Y2E5YTE5YiIsImlhdCI6IjkvMjMvMjAyNCA2OjEyOjE4IEFNIiwiZXhwIjoxNzU4NjA3OTM4LCJpc3MiOiJBa2lqSW5mb1RlY2ggTHRkLiAiLCJhdWQiOiJBdWRpZW5jZSJ9.06aBO2uUCHG0IViaUpSbecHp_JUtkzXCBi-oFJwT4Ek"; // 1 year expire date
 
   setDisabled && setDisabled(true);
   let formData = new FormData();
@@ -1053,7 +1084,7 @@ export const uploadAttachmentNew = async (attachment, setDisabled) => {
     let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        "Authorization": `Bearer ${hardcodedToken}`, // Correct usage: "Authorization" as the key
+        Authorization: `Bearer ${hardcodedToken}`, // Correct usage: "Authorization" as the key
       },
     });
     setDisabled && setDisabled(false);
