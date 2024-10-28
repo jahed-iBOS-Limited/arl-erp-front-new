@@ -409,20 +409,18 @@ const ReconciliationJournal = () => {
                             date: values?.taxMonth,
                             actionBy: profileData?.userId,
                           },
-                          null,
-                          // (response) => {
-                          //   // status code
-                          //   const statusCode = response?.[0]?.statusCode;
-                          //   const message = response?.[0]?.message;
+                          (response) => {
+                            // status code
+                            const statusCode = response?.[0]?.statusCode;
+                            const message = response?.[0]?.message;
 
-                          //   if (statusCode === 500 || statusCode !== 200) {
-                          //     toast.warn(message);
-                          //   }
-                          //   if (statusCode === 200) {
-                          //     toast.success(message);
-                          //   }
-                          // },
-                          true
+                            if (statusCode === 500 || statusCode !== 200) {
+                              toast.warn(message);
+                            }
+                            if (statusCode === 200) {
+                              toast.success(message);
+                            }
+                          }
                         )
                       }
                       className="btn btn-primary ml-2"
