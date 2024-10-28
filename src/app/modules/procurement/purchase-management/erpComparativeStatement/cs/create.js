@@ -11,6 +11,8 @@ import {
   AddCircleOutlineSharp,
   CloseRounded,
   CloseSharp,
+  Email,
+  Phone,
 } from "@material-ui/icons";
 import { Button } from "react-bootstrap";
 import IViewModal from "../../../../_helper/_viewModal";
@@ -19,6 +21,7 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { eProcurementBaseURL } from "../../../../../App";
 import { toast } from "react-toastify";
 import Chips from "../../../../_helper/chips/Chips";
+import CardBody from "./cardBody";
 
 const initData = {
   id: undefined,
@@ -145,7 +148,14 @@ export default function PurchaseOrgAddForm({
               {values?.csType?.value === 1 && (
                 <div className="row">
                   <div className="col-lg-3">
-                    <div className="card" style={{ position: "relative" }}>
+                    <div
+                      className="card"
+                      style={{
+                        position: "relative",
+                        backgroundColor: "#f8f9fa",
+                        borderRadius: "8px",
+                      }}
+                    >
                       {suppilerStatement?.firstSelectedId &&
                       suppilerStatement?.firstSelectedId !== 0 ? (
                         <button
@@ -160,6 +170,8 @@ export default function PurchaseOrgAddForm({
                                   suppilerStatement?.secondSelectedId,
                                 firstSelectedItem:
                                   suppilerStatement?.secondSelectedItem,
+                                secondSelectedId: 0,
+                                secondSelectedItem: {},
                               }));
                             } else {
                               setSuppilerStatement((prev) => ({
@@ -185,65 +197,30 @@ export default function PurchaseOrgAddForm({
                         <></>
                       )}
 
-                      <div className="card-body">
-                        {/* <h5 className="card-title">Special title treatment</h5> */}
-                        {suppilerStatement?.firstSelectedId &&
-                        suppilerStatement?.firstSelectedId !== 0 ? (
-                          <div style={{ marginBottom: "8px" }}>
-                            <Chips
-                              classes="badge-primary"
-                              status={
-                                "Rank - " +
-                                suppilerStatement?.firstSelectedItem?.rank
-                              }
-                            />
-                            <h5 className="card-title mt-2">
-                              {
-                                suppilerStatement?.firstSelectedItem
-                                  ?.businessPartnerName
-                              }
-                            </h5>
-                            <p>
-                              {
-                                suppilerStatement?.firstSelectedItem
-                                  ?.currencyCode
-                              }{" "}
-                              {
-                                suppilerStatement?.firstSelectedItem
-                                  ?.totalAmount
-                              }
-                            </p>
-                            <p>
-                              {
-                                suppilerStatement?.firstSelectedItem
-                                  ?.contactNumber
-                              }
-                            </p>
-                            <p>{suppilerStatement?.firstSelectedItem?.email}</p>
-                          </div>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              setIsModalShowObj({
-                                ...isModalShowObj,
-                                isModalOpen: true,
-                                firstPlaceModal: true,
-                                secondPlaceModal: false,
-                              });
-                            }}
-                            className="btn btn-info"
-                          >
-                            1st Place
-                            <span>
-                              <AddCircleOutlineSharp />
-                            </span>
-                          </button>
-                        )}
-                      </div>
+                      <CardBody
+                        name="1st Place"
+                        id={suppilerStatement?.firstSelectedId}
+                        item={suppilerStatement?.firstSelectedItem}
+                        CB={() => {
+                          setIsModalShowObj({
+                            ...isModalShowObj,
+                            isModalOpen: true,
+                            firstPlaceModal: true,
+                            secondPlaceModal: false,
+                          });
+                        }}
+                      />
                     </div>
                   </div>
                   <div className="col-lg-3">
-                    <div className="card" style={{ position: "relative" }}>
+                    <div
+                      className="card"
+                      style={{
+                        position: "relative",
+                        backgroundColor: "#f8f9fa",
+                        borderRadius: "8px",
+                      }}
+                    >
                       {suppilerStatement?.secondSelectedId &&
                       suppilerStatement?.secondSelectedId !== 0 ? (
                         <button
@@ -269,73 +246,28 @@ export default function PurchaseOrgAddForm({
                       ) : (
                         <></>
                       )}
-
-                      <div className="card-body">
-                        {/* <h5 className="card-title">Special title treatment</h5> */}
-                        {suppilerStatement?.secondSelectedId &&
-                        suppilerStatement?.secondSelectedId !== 0 ? (
-                          <div style={{ marginBottom: "8px" }}>
-                            <Chips
-                              classes="badge-primary"
-                              status={
-                                "Rank - " +
-                                suppilerStatement?.secondSelectedItem?.rank
-                              }
-                            />
-                            <h5 className="card-title mt-2">
-                              {
-                                suppilerStatement?.secondSelectedItem
-                                  ?.businessPartnerName
-                              }
-                            </h5>
-                            <p>
-                              {
-                                suppilerStatement?.secondSelectedItem
-                                  ?.currencyCode
-                              }{" "}
-                              {
-                                suppilerStatement?.secondSelectedItem
-                                  ?.totalAmount
-                              }
-                            </p>
-                            <p>
-                              {
-                                suppilerStatement?.secondSelectedItem
-                                  ?.contactNumber
-                              }
-                            </p>
-                            <p>
-                              {suppilerStatement?.secondSelectedItem?.email}
-                            </p>
-                          </div>
-                        ) : (
-                          <button
-                            onClick={() => {
-                              if (
-                                suppilerStatement?.firstSelectedId === 0 ||
-                                !suppilerStatement?.firstSelectedId
-                              ) {
-                                toast.warning(
-                                  "Please select 1st place supplier first"
-                                );
-                                return;
-                              }
-                              setIsModalShowObj({
-                                ...isModalShowObj,
-                                isModalOpen: true,
-                                firstPlaceModal: false,
-                                secondPlaceModal: true,
-                              });
-                            }}
-                            className="btn btn-info"
-                          >
-                            2nd Place
-                            <span>
-                              <AddCircleOutlineSharp />
-                            </span>
-                          </button>
-                        )}
-                      </div>
+                      <CardBody
+                        name="2nd Place"
+                        id={suppilerStatement?.secondSelectedId}
+                        item={suppilerStatement?.secondSelectedItem}
+                        CB={() => {
+                          if (
+                            suppilerStatement?.firstSelectedId === 0 ||
+                            !suppilerStatement?.firstSelectedId
+                          ) {
+                            toast.warning(
+                              "Please select 1st place supplier first"
+                            );
+                            return;
+                          }
+                          setIsModalShowObj({
+                            ...isModalShowObj,
+                            isModalOpen: true,
+                            firstPlaceModal: false,
+                            secondPlaceModal: true,
+                          });
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
