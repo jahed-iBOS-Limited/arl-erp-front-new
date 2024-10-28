@@ -3,7 +3,7 @@ import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
 
-const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, cargoDDL, portDDL, values, setFieldValue, errors, touched, shipperNameList }) => {
+const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, cargoDDL, portDDL, values, setFieldValue, errors, touched, shipperNameList, viewId }) => {
     // Function to handle adding a new charterer
     const handleAddCharterer = () => {
         setChartererList([
@@ -62,7 +62,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                 <div className="p-2 mt-5" style={{ border: '2px solid #CBDCEB', }}>
                     <div key={index} className="form-group global-form mb-4">
                         <div className="row">
-                            {index !== 0 && (<div className="col-12 text-right">
+                            {(index !== 0 && !viewId) && (<div className="col-12 text-right">
                                 <span>
                                     <IDelete remover={() => {
                                         handleDeleteCharterer(index)
@@ -84,6 +84,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                     }}
                                     errors={errors}
                                     touched={touched}
+                                    isDisabled={viewId}
                                 />
                             </div>
                             <div className="col-lg-3">
@@ -115,6 +116,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                     }}
                                     errors={errors}
                                     touched={touched}
+                                    isDisabled={viewId}
                                 />
                             </div>
                             <div className="col-lg-3">
@@ -133,7 +135,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                             </div>
                         </div>
                         <hr />
-                        <div className="row">
+                        {!viewId && (<div className="row">
                             <div className="col-lg-3">
                                 <NewSelect
                                     name={`cargoName-${index}`}
@@ -144,6 +146,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                     }}
                                     errors={errors}
                                     touched={touched}
+                                    isDisabled={viewId}
                                 />
                             </div>
                             <div className="col-lg-3">
@@ -167,6 +170,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                     }}
                                     errors={errors}
                                     touched={touched}
+                                    isDisabled={viewId}
                                 />
                             </div>
                             <div className="col-lg-3">
@@ -179,9 +183,10 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                     }}
                                     errors={errors}
                                     touched={touched}
+                                    isDisabled={viewId}
                                 />
                             </div>
-                            <div className="">
+                            {!viewId && (<div className="">
                                 <button
                                     disabled={!values[`cargoName-${index}`] || !values[`cargoQuantity-${index}`] || !values[`loadPort-${index}`] || !values[`dischargePort-${index}`]}
                                     type="button"
@@ -198,8 +203,9 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                 >
                                     Add Cargo +
                                 </button>
-                            </div>
-                        </div>
+                            </div>)}
+
+                        </div>)}
 
 
                     </div>
@@ -228,11 +234,11 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                                     <td>{cargo.strDischargePortName}</td>
                                                     <td className="text-center">{cargo.intCargoQuantityMts}</td>
                                                     <td className="text-center">
-                                                        <span onClick={() => {
+                                                        {!viewId && (<span onClick={() => {
                                                             handleRemoveCargo(index, idx)
                                                         }}>
                                                             <IDelete />
-                                                        </span>
+                                                        </span>)}
                                                     </td>
                                                 </tr>
                                             ))}
@@ -245,7 +251,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                     {index === chartererList?.length - 1 && (
                         <>
                             {/* Add Charterer Button */}
-                            <div className="row">
+                            {!viewId && (<div className="row">
                                 <div className="col-12 text-center mt-2">
                                     <button
                                         disabled={
@@ -263,7 +269,8 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                         + Add Charterer
                                     </button>
                                 </div>
-                            </div>
+                            </div>)}
+
                         </>
                     )}
                 </div>

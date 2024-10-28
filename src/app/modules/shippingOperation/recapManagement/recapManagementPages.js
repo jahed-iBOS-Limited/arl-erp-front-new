@@ -13,6 +13,10 @@ export function RecapManagementPages() {
                 to='/shippingOperation/recap-management'
             />
              <ContentRoute
+                path='/shippingOperation/recap-management/capture-recap/view/:viewId'
+                component={CaptureRecapCreate}
+            />
+             <ContentRoute
                 path='/shippingOperation/recap-management/capture-recap/create'
                 component={CaptureRecapCreate}
             />

@@ -10,6 +10,7 @@ import FormikSelect from "../../../chartering/_chartinghelper/common/formikSelec
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import { getVesselDDL, getVoyageDDLNew } from "../../helper";
 import { imarineBaseUrl } from "../../../../App";
+import IView from "../../../_helper/_helperIcons/_view";
 
 const initData = {};
 export default function CaptureRecapCreate() {
@@ -272,6 +273,7 @@ export default function CaptureRecapCreate() {
                         <th style={{ minWidth: "120px" }}>
                           Vessel Nomination Email Sent
                         </th>
+                        <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -360,6 +362,16 @@ export default function CaptureRecapCreate() {
                           </td>
                           <td className="text-center">
                             {item.isVesselNominationEmailSent ? "Yes" : "No"}
+                          </td>
+                          <td className="text-center">
+                            <span onClick={()=>{
+                              if(!item?.chartererList?.length){
+                                return
+                              }
+                              history.push(`/shippingOperation/recap-management/capture-recap/view/${item?.intId}`)
+                            }}>
+                            <IView/>
+                            </span>
                           </td>
                         </tr>
                       ))}
