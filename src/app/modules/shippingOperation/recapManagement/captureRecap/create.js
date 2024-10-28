@@ -10,6 +10,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../_helper/_form";
 import ChartererComponent from "./chartererComponent";
+import { toast } from "react-toastify";
 
 const initData = {
   voyageType: "",
@@ -125,7 +126,7 @@ export default function RecapCreate() {
   const [brokerList, getbrokerList] = useAxiosGet();
   const [shipperEmailList, getshipperEmailList] = useAxiosGet();
   const [shipperNameList, getshipperNameList] = useAxiosGet();
-  const [chartererList, setChartererList] = useState([
+  const chartererData = [
     {
       intRowId: 0,
       intVesselNominationId: 0,
@@ -139,7 +140,8 @@ export default function RecapCreate() {
 
       ]
     }
-  ]);
+  ]
+  const [chartererList, setChartererList] = useState(chartererData);
 
   useEffect(() => {
     getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}
@@ -167,6 +169,42 @@ export default function RecapCreate() {
   };
 
   const saveHandler = async (values, cb) => {
+
+    if (chartererList.length < 1) {
+      toast.warn("At least one charterer is required.");
+      return;
+    }
+
+    const isValid = chartererList.every((charterer, index) => {
+      // Check if required fields are filled and if nominationCargosList has at least one item
+      const hasRequiredFields = (
+        charterer.strChartererName &&
+        charterer.numFreightRate &&
+        charterer.strShipperName &&
+        charterer.strShipperEmailForVesselNomination &&
+        charterer.nominationCargosList?.length > 0
+      );
+
+      if (!hasRequiredFields) {
+        toast.warn(`Please fill out all required fields for charterer at index ${index + 1}.`);
+      }
+
+      return hasRequiredFields; // Return true if all required fields are filled
+    });
+
+    if (!isValid) {
+      return; // Prevent submission if any validation failed
+    }
+
+    const hasNominationCargos = chartererList.every(charterer => {
+      return charterer.nominationCargosList && charterer.nominationCargosList.length > 0;
+    });
+
+    if (!hasNominationCargos) {
+      toast.warn("Each charterer must have at least one nomination cargo.");
+      return; // Prevent form submission
+    }
+
     const payload = {
       intVoyageTypeId: values?.voyageType?.value || 0,
       // intCargoId: values?.cargoName?.value || 0,
@@ -272,6 +310,7 @@ export default function RecapCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setChartererList(chartererData)
         });
         setSubmitting(false);
       }}
