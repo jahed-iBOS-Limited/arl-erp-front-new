@@ -94,19 +94,19 @@ const validationSchema = Yup.object().shape({
   etaLoadPort: Yup.date().required("ETA Load Port Date is required"),
   // dischargePort: Yup.string().required("Discharge Port Name is required"),
   dischargeRate: Yup.string().required("Discharge Rate is required"),
-  shipperEmail: Yup.string()
-    .required("Shipper Email is required")
-    .test("is-valid-email-list", "Invalid email format", function (value) {
-      if (!value) return true; // If no email is provided, Yup.required will handle the error.
-      const emails = value.split(",").map((email) => email.trim());
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      for (let email of emails) {
-        if (!emailRegex.test(email)) {
-          return false; // Return false if any email is invalid.
-        }
-      }
-      return true; // Return true if all emails are valid.
-    }),
+  // shipperEmail: Yup.string()
+  //   .required("Shipper Email is required")
+  //   .test("is-valid-email-list", "Invalid email format", function (value) {
+  //     if (!value) return true; // If no email is provided, Yup.required will handle the error.
+  //     const emails = value.split(",").map((email) => email.trim());
+  //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //     for (let email of emails) {
+  //       if (!emailRegex.test(email)) {
+  //         return false; // Return false if any email is invalid.
+  //       }
+  //     }
+  //     return true; // Return true if all emails are valid.
+  //   }),
 });
 
 export default function RecapCreate() {
@@ -123,15 +123,18 @@ export default function RecapCreate() {
   const [chartererDDL, getChartererDDL] = useAxiosGet();
   const [brokerList, getbrokerList] = useAxiosGet();
   const [shipperEmailList, getshipperEmailList] = useAxiosGet();
-  const [shipperNameList, getshipperNameList] = useState([]);
+  const [shipperNameList, getshipperNameList] = useAxiosGet();
   const [chartererList, setChartererList] = useState([
     {
-      "intRowId": 0,
-      "intVesselNominationId": 0,
-      "intChartererId": 0,
-      "strChartererName": "",
-      "numFreightRate": 0,
-      "nominationCargosList": [
+      intRowId: 0,
+      intVesselNominationId: 0,
+      intChartererId: 0,
+      strChartererName: "",
+      numFreightRate: 0,
+      strShipperName: "",
+      strShipperEmailForVesselNomination: "",
+      intShipperId: 0,
+      nominationCargosList: [
 
       ]
     }
@@ -147,6 +150,8 @@ export default function RecapCreate() {
       `${imarineBaseUrl}/domain/PortPDA/GetCharterParty?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
     getbrokerList(`${imarineBaseUrl}/domain/VesselNomination/GetBrokerDDL`);
+    getshipperNameList(`${imarineBaseUrl}/domain/VesselNomination/GetShipperDDL`)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getFilteredShipperMail = (data) => {
@@ -192,11 +197,12 @@ export default function RecapCreate() {
       numFreight: +values.freight || 0,
       numLoadPortDA: +values.loadPortDA || 0,
       numDischargePortDA: +values.dischargePortDA || 0,
-      strShipperEmailForVesselNomination: values.shipperEmail || "",
+      // strShipperEmailForVesselNomination: values.shipperEmail || "",
       // strChartererName: values.chartererName?.label || "",
       strBrokerName: values.brokerName.label || "",
       strBrokerEmail: values.brokerEmail || "",
       intUserEnrollId: profileData?.employeeId || 0,
+      chartererList: chartererList,
     };
 
     onSave(`${marineBaseUrlPythonAPI}/automation/recap`, payload, cb, true);
@@ -518,7 +524,7 @@ export default function RecapCreate() {
                   errors={errors}
                 />
               </div>
-              <div className="col-lg-3">
+              {/* <div className="col-lg-3">
                 <NewSelect
                   name="shipperName"
                   options={
@@ -559,7 +565,7 @@ export default function RecapCreate() {
                     values?.shipperName?.value !== "other" ? true : false
                   }
                 />
-              </div>
+              </div> */}
               {/* <div className="col-lg-3">
                 <NewSelect
                   name="chartererName"
@@ -722,16 +728,17 @@ export default function RecapCreate() {
             </div> */}
             {chartererList?.length > 0 && (<div className="my-3">
               <ChartererComponent
-              chartererList={chartererList}
-              setChartererList={setChartererList}
-              chartererDDL={chartererDDL}
-              cargoDDL={cargoDDL}
-              portDDL={portDDL}
-              values={values}
-              setFieldValue={setFieldValue}
-              errors={errors}
-              touched={touched}
-            />
+                chartererList={chartererList}
+                setChartererList={setChartererList}
+                chartererDDL={chartererDDL}
+                cargoDDL={cargoDDL}
+                portDDL={portDDL}
+                values={values}
+                setFieldValue={setFieldValue}
+                errors={errors}
+                touched={touched}
+                shipperNameList={shipperNameList}
+              />
             </div>)}
 
           </Form>

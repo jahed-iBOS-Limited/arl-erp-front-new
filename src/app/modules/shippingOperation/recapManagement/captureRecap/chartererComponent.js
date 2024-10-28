@@ -3,7 +3,7 @@ import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
 
-const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, cargoDDL, portDDL, values, setFieldValue, errors, touched }) => {
+const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, cargoDDL, portDDL, values, setFieldValue, errors, touched, shipperNameList }) => {
     // Function to handle adding a new charterer
     const handleAddCharterer = () => {
         setChartererList([
@@ -14,28 +14,14 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                 intChartererId: 0,
                 strChartererName: "",
                 numFreightRate: 0,
+                strShipperName: "",
+                strShipperEmailForVesselNomination: "",
+                intShipperId: 0,
                 nominationCargosList: [],
             },
         ]);
     };
 
-    // Function to handle adding cargo to a specific charterer
-    // const handleAddCargo = (index) => {
-    //     const updatedChartererList = [...chartererList];
-    //     updatedChartererList[index].nominationCargosList.push({
-    //         intRowId: 0,
-    //         intVesselNominationId: 0,
-    //         intChartererId: 0,
-    //         intCargoId: 0,
-    //         strCargoName: "",
-    //         intCargoQuantityMts: 0,
-    //         intLoadPortId: 0,
-    //         strLoadPortName: "",
-    //         intDischargePortId: 0,
-    //         strDischargePortName: "",
-    //     });
-    //     setChartererList(updatedChartererList);
-    // };
 
     // Function to handle adding cargo to a specific charterer
     const handleAddCargo = (index, cargoName, cargoQuantity, loadPort, dischargePort) => {
@@ -44,9 +30,9 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
             intRowId: 0,
             intVesselNominationId: 0,
             intChartererId: updatedChartererList[index].intChartererId,
-            intCargoId: cargoName.value || 0,
+            intCargoId: +cargoName.value || 0,
             strCargoName: cargoName.label || "",
-            intCargoQuantityMts: cargoQuantity || 0,
+            intCargoQuantityMts: +cargoQuantity || 0,
             intLoadPortId: loadPort.value || 0,
             strLoadPortName: loadPort.label || "",
             intDischargePortId: dischargePort.value || 0,
@@ -77,15 +63,18 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                     <div key={index} className="form-group global-form mb-4">
                         <div className="row">
                             <div className="col-12 text-right">
-                                <span onClick={() => { handleDeleteCharterer(index) }}>
-                                    <IDelete style={{ fontSize: "16px" }} />
+                                <span onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteCharterer(index)
+                                }}>
+                                    <IDelete style={{ fontSize: "14px" }} />
                                 </span>
                             </div>
                             <div className="col-lg-3">
                                 <NewSelect
                                     name={`chartererName-${index}`}
                                     options={chartererDDL || []}
-                                    value={charterer.strChartererName}
+                                    value={{ value: charterer.intChartererId, label: charterer.strChartererName }}
                                     label="Charterer Name"
                                     onChange={(valueOption) => {
                                         const updatedChartererList = [...chartererList];
@@ -106,6 +95,37 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                     onChange={(e) => {
                                         const updatedChartererList = [...chartererList];
                                         updatedChartererList[index].numFreightRate = e.target.value;
+                                        setChartererList(updatedChartererList);
+                                    }}
+                                    errors={errors}
+                                />
+                            </div>
+                            <div className="col-lg-3">
+                                <NewSelect
+                                    name={`shipperName-${index}`}
+                                    options={shipperNameList || []}
+                                    value={{ value: charterer.intShipperId, label: charterer.strShipperName }}
+                                    label="Shipper Name"
+                                    onChange={(valueOption) => {
+                                        const updatedChartererList = [...chartererList];
+                                        updatedChartererList[index].intShipperId = valueOption?.value;
+                                        updatedChartererList[index].strShipperName = valueOption?.label;
+                                        updatedChartererList[index].strShipperEmailForVesselNomination = valueOption?.email;
+                                        setChartererList(updatedChartererList);
+                                    }}
+                                    errors={errors}
+                                    touched={touched}
+                                />
+                            </div>
+                            <div className="col-lg-3">
+                                <InputField
+                                    value={charterer.strShipperEmailForVesselNomination}
+                                    label="Shipper Email"
+                                    name={`shipperEmail-${index}`}
+                                    type="email"
+                                    onChange={(e) => {
+                                        const updatedChartererList = [...chartererList];
+                                        updatedChartererList[index].strShipperEmailForVesselNomination = e.target.value;
                                         setChartererList(updatedChartererList);
                                     }}
                                     errors={errors}
@@ -163,6 +183,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                             </div>
                             <div className="">
                                 <button
+                                    type="button"
                                     className="btn btn-primary ml-5 mt-5"
                                     onClick={() => {
                                         handleAddCargo(
