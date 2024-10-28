@@ -31,6 +31,7 @@ const initData = {
   shipperEmail: "",
   brokerName: "",
   brokerEmail: "",
+  strRemarks: "",
 
 
   // dischargePort: "",
@@ -130,7 +131,7 @@ export default function RecapCreate() {
       intVesselNominationId: 0,
       intChartererId: 0,
       strChartererName: "",
-      numFreightRate: 0,
+      numFreightRate: "",
       strShipperName: "",
       strShipperEmailForVesselNomination: "",
       intShipperId: 0,
@@ -167,8 +168,7 @@ export default function RecapCreate() {
 
   const saveHandler = async (values, cb) => {
     const payload = {
-      vesselId: values?.vesselName?.value || 0,
-      voyageTypeId: values?.voyageType?.value || 0,
+      intVoyageTypeId: values?.voyageType?.value || 0,
       // intCargoId: values?.cargoName?.value || 0,
       IsActive: 1,
       intAccountId: profileData?.accountId,
@@ -178,6 +178,7 @@ export default function RecapCreate() {
       intShipTyeId: values?.shipType?.value || 0,
       strShipType: values?.shipType?.label || "",
       strNameOfVessel: values.vesselName?.label || "",
+      intVesselId: values.vesselName?.value || "",
       // strAccountName: values.accountName || "",
       // strCargo: values.cargoName?.label || "",
       // intCargoQuantityMTS: +values.cargoQuantity || 0,
@@ -199,13 +200,68 @@ export default function RecapCreate() {
       numDischargePortDA: +values.dischargePortDA || 0,
       // strShipperEmailForVesselNomination: values.shipperEmail || "",
       // strChartererName: values.chartererName?.label || "",
+      intBrokerId: values.brokerName.value || 0,
       strBrokerName: values.brokerName.label || "",
       strBrokerEmail: values.brokerEmail || "",
       intUserEnrollId: profileData?.employeeId || 0,
       chartererList: chartererList,
+      intBusinessUnitId: selectedBusinessUnit?.value,
+      strBusinessUnitName: selectedBusinessUnit?.label,
+      strRemarks: values?.strRemarks || "",
+      intLastActionBy: profileData?.userId
+
+
+      // "intId": 0,
+      // "": 0,
+      // "intVoyageDurationDays": 0,
+      // "dteCpdate": "2024-10-28T16:07:46.266Z",
+      // "numFreightPerMt": 0,
+      // "dteEtaloadPort": "2024-10-28T16:07:46.266Z",
+      // "numLoadPortDa": 0,
+      // "numDischargePortDa": 0,
+      // "numBallast": 0,
+      // "numSteaming": 0,
+      // "numAdditionalDistance": 0,
+      // "numBallastSpeed": 0,
+      // "numLadenSpeed": 0,
+      // "intExtraDays": 0,
+      // "strShipperEmailForVesselNomination": "string",
+      // "strBunkerAgent": "string",
+      // "strExpendituresForPisurvey": "string",
+      // "strDischargePortAgentEmail": "string",
+      // "isPisurveyEmailSent": true,
+      // "isVesselNominationEmailSent": true,
+      // "strAcceptReject": "string",
+      // "strRemarks": "string",
+      // "dteEpdalastSubmissionDateTime": "2024-10-28T16:07:46.266Z",
+      // "dteEpdadischargeLastSubmissionDateTime": "2024-10-28T16:07:46.266Z",
+      // "dteOnHireBunkerLastSubmissionDateTime": "2024-10-28T16:07:46.266Z",
+      // "dteOffHireBunkerLastSubmissionDateTime": "2024-10-28T16:07:46.266Z",
+      // "strVesselOwnerName": "string",
+      // "strServiceType": "string",
+      // "strVendorName": "string",
+      // "numBrokerCommissionPercentage": 0,
+      // "numAddressCommissionPercentage": 0,
+      // "dteDeliveryDateGmt": "2024-10-28T16:07:46.266Z",
+      // "dteReDeliveryDateGmt": "2024-10-28T16:07:46.266Z",
+      // "strRedeliveryPlace": "string",
+      // "numLsfopricePerMt": 0,
+      // "numLsmgopricePerMt": 0,
+      // "numDailyHire": 0,
+      // "numIlohc": 0,
+      // "numCve30days": 0,
+      // "numAp": 0,
+      // "numOthers": 0,
+      // "numFreightPercentage": 0,
+      // "numDespatchRate": 0,
+      // "numDetention": 0,
+      // "numDeadFreight": 0,
+      // "numDemurrageRate": 0,
+      // "strEpdaSelectedAgentName": "string",
+      // "strEpdaSelectedAgentMail": "string",
     };
 
-    onSave(`${marineBaseUrlPythonAPI}/automation/recap`, payload, cb, true);
+    onSave(`${marineBaseUrlPythonAPI}/domain/VesselNomination/CreateVesselNominationRecape`, payload, cb, true);
   };
 
   return (
@@ -600,6 +656,16 @@ export default function RecapCreate() {
                   name="brokerEmail"
                   type="email"
                   onChange={(e) => setFieldValue("brokerEmail", e.target.value)}
+                  errors={errors}
+                />
+              </div>
+              <div className="col-lg-3">
+                <InputField
+                  value={values.strRemarks}
+                  label="Remarks"
+                  name="strRemarks"
+                  type="test"
+                  onChange={(e) => setFieldValue("strRemarks", e.target.value)}
                   errors={errors}
                 />
               </div>

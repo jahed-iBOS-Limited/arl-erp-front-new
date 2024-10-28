@@ -13,7 +13,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                 intVesselNominationId: 0,
                 intChartererId: 0,
                 strChartererName: "",
-                numFreightRate: 0,
+                numFreightRate: "",
                 strShipperName: "",
                 strShipperEmailForVesselNomination: "",
                 intShipperId: 0,
@@ -33,9 +33,9 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
             intCargoId: +cargoName.value || 0,
             strCargoName: cargoName.label || "",
             intCargoQuantityMts: +cargoQuantity || 0,
-            intLoadPortId: loadPort.value || 0,
+            intLoadPortId: +loadPort.value || 0,
             strLoadPortName: loadPort.label || "",
-            intDischargePortId: dischargePort.value || 0,
+            intDischargePortId: +dischargePort.value || 0,
             strDischargePortName: dischargePort.label || "",
         });
         setChartererList(updatedChartererList);
@@ -59,20 +59,20 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
     return (
         <>
             {chartererList.map((charterer, index) => (
-                <div className="border p-2 mt-5">
+                <div className="p-2 mt-5" style={{ border: '2px solid #CBDCEB', }}>
                     <div key={index} className="form-group global-form mb-4">
                         <div className="row">
-                            <div className="col-12 text-right">
-                                <span onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleDeleteCharterer(index)
-                                }}>
-                                    <IDelete style={{ fontSize: "14px" }} />
+                            {index !== 0 && (<div className="col-12 text-right">
+                                <span>
+                                    <IDelete remover={() => {
+                                        handleDeleteCharterer(index)
+
+                                    }} style={{ fontSize: "14px" }} />
                                 </span>
-                            </div>
+                            </div>)}
                             <div className="col-lg-3">
                                 <NewSelect
-                                    name={`chartererName-${index}`}
+                                    name={`strChartererName-${index}`}
                                     options={chartererDDL || []}
                                     value={{ value: charterer.intChartererId, label: charterer.strChartererName }}
                                     label="Charterer Name"
@@ -88,13 +88,13 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                             </div>
                             <div className="col-lg-3">
                                 <InputField
-                                    value={charterer.numFreightRate}
+                                    value={charterer.numFreightRate || ""}
                                     label="Freight Rate"
-                                    name={`freightRate-${index}`}
+                                    name={`numFreightRate-${index}`}
                                     type="number"
                                     onChange={(e) => {
                                         const updatedChartererList = [...chartererList];
-                                        updatedChartererList[index].numFreightRate = e.target.value;
+                                        updatedChartererList[index].numFreightRate = +e.target.value;
                                         setChartererList(updatedChartererList);
                                     }}
                                     errors={errors}
@@ -102,7 +102,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                             </div>
                             <div className="col-lg-3">
                                 <NewSelect
-                                    name={`shipperName-${index}`}
+                                    name={`strShipperName-${index}`}
                                     options={shipperNameList || []}
                                     value={{ value: charterer.intShipperId, label: charterer.strShipperName }}
                                     label="Shipper Name"
@@ -121,7 +121,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                 <InputField
                                     value={charterer.strShipperEmailForVesselNomination}
                                     label="Shipper Email"
-                                    name={`shipperEmail-${index}`}
+                                    name={`strShipperEmailForVesselNomination-${index}`}
                                     type="email"
                                     onChange={(e) => {
                                         const updatedChartererList = [...chartererList];
@@ -183,6 +183,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                             </div>
                             <div className="">
                                 <button
+                                    disabled={!values[`cargoName-${index}`] || !values[`cargoQuantity-${index}`] || !values[`loadPort-${index}`] || !values[`dischargePort-${index}`]}
                                     type="button"
                                     className="btn btn-primary ml-5 mt-5"
                                     onClick={() => {
@@ -225,7 +226,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                                     <td>{cargo.strCargoName}</td>
                                                     <td>{cargo.strLoadPortName}</td>
                                                     <td>{cargo.strDischargePortName}</td>
-                                                    <td>{cargo.intCargoQuantityMts}</td>
+                                                    <td className="text-center">{cargo.intCargoQuantityMts}</td>
                                                     <td className="text-center">
                                                         <span onClick={() => {
                                                             handleRemoveCargo(index, idx)
@@ -247,6 +248,14 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                             <div className="row">
                                 <div className="col-12 text-center mt-2">
                                     <button
+                                        disabled={
+                                            !chartererList[index]["strChartererName"] ||
+                                            !chartererList[index]["numFreightRate"] ||
+                                            !chartererList[index]["strShipperName"] ||
+                                            !chartererList[index]["strShipperEmailForVesselNomination"] ||
+                                            !chartererList[index]?.nominationCargosList?.length
+                                        }
+
                                         type="button"
                                         className="btn btn-lg btn-info col-lg-6 px-3 py-2"
                                         onClick={handleAddCharterer}
