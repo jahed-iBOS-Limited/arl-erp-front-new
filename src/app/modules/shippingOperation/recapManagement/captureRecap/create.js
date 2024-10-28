@@ -1,16 +1,20 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../App";
+import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../_helper/_form";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import ChartererComponent from "./chartererComponent";
-import { toast } from "react-toastify";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+
+
 
 const initData = {
   voyageType: "",
@@ -33,16 +37,24 @@ const initData = {
   brokerName: "",
   brokerEmail: "",
   strRemarks: "",
-
-
-  // dischargePort: "",
-  // accountName: "",
-  // cargoName: "",
-  // cargoQuantity: "",
-  // loadPort: "",
-  // chartererName: "",
-  // nominationSchedule: "",
 };
+
+const chartererData = [
+  {
+    intRowId: 0,
+    intVesselNominationId: 0,
+    intChartererId: 0,
+    strChartererName: "",
+    numFreightRate: "",
+    strShipperName: "",
+    strShipperEmailForVesselNomination: "",
+    intShipperId: 0,
+    nominationCargosList: [
+
+    ]
+  }
+]
+
 
 const validationSchema = Yup.object().shape({
   voyageType: Yup.object()
@@ -126,22 +138,44 @@ export default function RecapCreate() {
   const [brokerList, getbrokerList] = useAxiosGet();
   const [shipperEmailList, getshipperEmailList] = useAxiosGet();
   const [shipperNameList, getshipperNameList] = useAxiosGet();
-  const chartererData = [
-    {
-      intRowId: 0,
-      intVesselNominationId: 0,
-      intChartererId: 0,
-      strChartererName: "",
-      numFreightRate: "",
-      strShipperName: "",
-      strShipperEmailForVesselNomination: "",
-      intShipperId: 0,
-      nominationCargosList: [
-
-      ]
-    }
-  ]
+  const [viewData, getViewData] = useAxiosGet()
+  const { viewId } = useParams();
+  const [modifyInitData, setModifyInitData] = useState(initData)
   const [chartererList, setChartererList] = useState(chartererData);
+
+
+
+  useEffect(() => {
+    if (viewId) {
+      getViewData(`${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${viewId}`, (res) => {
+        const data = {
+          voyageType: res?.intVoyageTypeId ? { value: res.intVoyageTypeId, label: res.strVoyageType } : "",
+          shipType: res?.intShipTyeId ? { value: res.intShipTyeId, label: res.strShipType } : "",
+          vesselName: res?.intVesselId ? { value: res.intVesselId, label: res.strNameOfVessel } : "",
+          deliveryPort: res?.strPlaceOfDelivery ? { label: res.strPlaceOfDelivery } : "",
+          laycanFrom: _dateFormatter(res.dteLaycanFrom) || "",
+          laycanTo: _dateFormatter(res.dteLaycanTo) || "",
+          dteVoyageCommenced: _dateFormatter(res.dteVoyageCommenced) || "",
+          dteVoyageCompletion: _dateFormatter(res.dteVoyageCompletion) || "",
+          loadRate: res.intLoadRate || "",
+          demurrageDispatch: res.numDemurrageDispatch || "",
+          numDispatch: res.numDispatch || "",
+          etaLoadPort: _dateFormatter(res.dteEtaloadPort) || "",
+          dischargeRate: res.intDischargeRate || "",
+          freight: res.numFreight || "",
+          loadPortDA: res.numLoadPortDa || "",
+          dischargePortDA: res.numDischargePortDa || "",
+          brokerName: res?.intBrokerId ? { value: res.intBrokerId, label: res.strBrokerName } : "",
+          brokerEmail: res.strBrokerEmail || "",
+          strRemarks: res.strRemarks || "",
+        }
+        setModifyInitData(data);
+        setChartererList(res?.chartererList || [])
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [viewId])
+
 
   useEffect(() => {
     getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}
@@ -207,20 +241,13 @@ export default function RecapCreate() {
 
     const payload = {
       intVoyageTypeId: values?.voyageType?.value || 0,
-      // intCargoId: values?.cargoName?.value || 0,
       IsActive: 1,
       intAccountId: profileData?.accountId,
-      // intLoadPortId: values?.loadPort?.value,
-      // intDischargePortId: values?.dischargePort?.value,
       strVoyageType: values.voyageType?.label || "",
       intShipTyeId: values?.shipType?.value || 0,
       strShipType: values?.shipType?.label || "",
       strNameOfVessel: values.vesselName?.label || "",
       intVesselId: values.vesselName?.value || "",
-      // strAccountName: values.accountName || "",
-      // strCargo: values.cargoName?.label || "",
-      // intCargoQuantityMTS: +values.cargoQuantity || 0,
-      // strNameOfLoadPort: values.loadPort?.label || "",
       strPlaceOfDelivery: values?.deliveryPort?.label || "",
       strLaycan: values.laycanFrom || "",
       dteVoyageCompletion: values?.dteVoyageCompletion,
@@ -231,13 +258,10 @@ export default function RecapCreate() {
       numDemurrageDispatch: +values.demurrageDispatch || 0,
       numDispatch: +values.numDispatch || 0,
       dteETALoadPort: values.etaLoadPort || "",
-      // strDischargePort: values.dischargePort?.label || "",
       intDischargeRate: +values.dischargeRate || 0,
       numFreight: +values.freight || 0,
       numLoadPortDA: +values.loadPortDA || 0,
       numDischargePortDA: +values.dischargePortDA || 0,
-      // strShipperEmailForVesselNomination: values.shipperEmail || "",
-      // strChartererName: values.chartererName?.label || "",
       intBrokerId: values.brokerName.value || 0,
       strBrokerName: values.brokerName.label || "",
       strBrokerEmail: values.brokerEmail || "",
@@ -247,56 +271,6 @@ export default function RecapCreate() {
       strBusinessUnitName: selectedBusinessUnit?.label,
       strRemarks: values?.strRemarks || "",
       intLastActionBy: profileData?.userId
-
-
-      // "intId": 0,
-      // "": 0,
-      // "intVoyageDurationDays": 0,
-      // "dteCpdate": "2024-10-28T16:07:46.266Z",
-      // "numFreightPerMt": 0,
-      // "dteEtaloadPort": "2024-10-28T16:07:46.266Z",
-      // "numLoadPortDa": 0,
-      // "numDischargePortDa": 0,
-      // "numBallast": 0,
-      // "numSteaming": 0,
-      // "numAdditionalDistance": 0,
-      // "numBallastSpeed": 0,
-      // "numLadenSpeed": 0,
-      // "intExtraDays": 0,
-      // "strShipperEmailForVesselNomination": "string",
-      // "strBunkerAgent": "string",
-      // "strExpendituresForPisurvey": "string",
-      // "strDischargePortAgentEmail": "string",
-      // "isPisurveyEmailSent": true,
-      // "isVesselNominationEmailSent": true,
-      // "strAcceptReject": "string",
-      // "strRemarks": "string",
-      // "dteEpdalastSubmissionDateTime": "2024-10-28T16:07:46.266Z",
-      // "dteEpdadischargeLastSubmissionDateTime": "2024-10-28T16:07:46.266Z",
-      // "dteOnHireBunkerLastSubmissionDateTime": "2024-10-28T16:07:46.266Z",
-      // "dteOffHireBunkerLastSubmissionDateTime": "2024-10-28T16:07:46.266Z",
-      // "strVesselOwnerName": "string",
-      // "strServiceType": "string",
-      // "strVendorName": "string",
-      // "numBrokerCommissionPercentage": 0,
-      // "numAddressCommissionPercentage": 0,
-      // "dteDeliveryDateGmt": "2024-10-28T16:07:46.266Z",
-      // "dteReDeliveryDateGmt": "2024-10-28T16:07:46.266Z",
-      // "strRedeliveryPlace": "string",
-      // "numLsfopricePerMt": 0,
-      // "numLsmgopricePerMt": 0,
-      // "numDailyHire": 0,
-      // "numIlohc": 0,
-      // "numCve30days": 0,
-      // "numAp": 0,
-      // "numOthers": 0,
-      // "numFreightPercentage": 0,
-      // "numDespatchRate": 0,
-      // "numDetention": 0,
-      // "numDeadFreight": 0,
-      // "numDemurrageRate": 0,
-      // "strEpdaSelectedAgentName": "string",
-      // "strEpdaSelectedAgentMail": "string",
     };
 
     onSave(`${imarineBaseUrl}/domain/VesselNomination/CreateVesselNominationRecape`, payload, cb, true);
@@ -305,7 +279,7 @@ export default function RecapCreate() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={viewId ? modifyInitData : initData}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -325,7 +299,7 @@ export default function RecapCreate() {
         touched,
       }) => (
         <IForm
-          title="Capture Recap"
+          title={viewId ? "Capture Recap View" : "Capture Recap"}
           getProps={setObjprops}
           isHiddenReset={true}
           isHiddenSave
@@ -334,6 +308,7 @@ export default function RecapCreate() {
             return (
               <div>
                 <button
+                  disabled={viewId}
                   type="submit"
                   className="btn btn-primary ml-3"
                   onClick={() => {
@@ -363,6 +338,7 @@ export default function RecapCreate() {
                   }
                   errors={errors}
                   touched={touched}
+                  isDisabled={viewId}
                 />
               </div>
               <div className="col-lg-3">
@@ -379,6 +355,7 @@ export default function RecapCreate() {
                   }
                   errors={errors}
                   touched={touched}
+                  isDisabled={viewId}
                 />
               </div>
               <div className="col-lg-3">
@@ -392,6 +369,8 @@ export default function RecapCreate() {
                   }
                   errors={errors}
                   touched={touched}
+                  isDisabled={viewId}
+
                 />
               </div>
               {/* <div className="col-lg-3">
@@ -440,6 +419,8 @@ export default function RecapCreate() {
                   }
                   errors={errors}
                   touched={touched}
+                  isDisabled={viewId}
+
                 />
               </div>
               {/* <div className="col-lg-3">
@@ -483,6 +464,7 @@ export default function RecapCreate() {
                   type="date"
                   onChange={(e) => setFieldValue("laycanFrom", e.target.value)}
                   errors={errors}
+                  disabled={viewId}
                 />
               </div>
               <div className="col-lg-3">
@@ -493,6 +475,8 @@ export default function RecapCreate() {
                   type="date"
                   onChange={(e) => setFieldValue("laycanTo", e.target.value)}
                   errors={errors}
+                  disabled={viewId}
+
                 />
               </div>
               <div className="col-lg-3">
@@ -505,6 +489,8 @@ export default function RecapCreate() {
                     setFieldValue("dteVoyageCommenced", e.target.value)
                   }
                   errors={errors}
+                  disabled={viewId}
+
                 />
               </div>
               <div className="col-lg-3">
@@ -517,6 +503,8 @@ export default function RecapCreate() {
                     setFieldValue("dteVoyageCompletion", e.target.value)
                   }
                   errors={errors}
+                  disabled={viewId}
+
                 />
               </div>
               <div className="col-lg-3">
@@ -528,6 +516,8 @@ export default function RecapCreate() {
                   type="number"
                   onChange={(e) => setFieldValue("loadRate", e.target.value)}
                   errors={errors}
+                  disabled={viewId}
+
                 />
               </div>
               <div className="col-lg-3">
@@ -541,6 +531,8 @@ export default function RecapCreate() {
                     setFieldValue("numDispatch", +e.target.value / 2);
                   }}
                   errors={errors}
+                  disabled={viewId}
+
                 />
               </div>
               <div className="col-lg-3">
@@ -551,6 +543,8 @@ export default function RecapCreate() {
                   type="number"
                   onChange={(e) => setFieldValue("numDispatch", e.target.value)}
                   errors={errors}
+                  disabled={viewId}
+
                 />
               </div>
               <div className="col-lg-3">
@@ -561,6 +555,8 @@ export default function RecapCreate() {
                   type="date"
                   onChange={(e) => setFieldValue("etaLoadPort", e.target.value)}
                   errors={errors}
+                  disabled={viewId}
+
                 />
               </div>
               {/* <div className="col-lg-3">
@@ -586,6 +582,8 @@ export default function RecapCreate() {
                     setFieldValue("dischargeRate", e.target.value)
                   }
                   errors={errors}
+                  disabled={viewId}
+
                 />
               </div>
               <div className="col-lg-3">
@@ -596,6 +594,8 @@ export default function RecapCreate() {
                   type="number"
                   onChange={(e) => setFieldValue("freight", e.target.value)}
                   errors={errors}
+                  disabled={viewId}
+
                 />
               </div>
               <div className="col-lg-3">
@@ -606,6 +606,8 @@ export default function RecapCreate() {
                   type="number"
                   onChange={(e) => setFieldValue("loadPortDA", e.target.value)}
                   errors={errors}
+                  disabled={viewId}
+
                 />
               </div>
               <div className="col-lg-3">
@@ -618,6 +620,8 @@ export default function RecapCreate() {
                     setFieldValue("dischargePortDA", e.target.value)
                   }
                   errors={errors}
+                  disabled={viewId}
+
                 />
               </div>
               {/* <div className="col-lg-3">
@@ -687,6 +691,8 @@ export default function RecapCreate() {
                   }}
                   errors={errors}
                   touched={touched}
+                  isDisabled={viewId}
+
                 />
               </div>
               <div className="col-lg-3">
@@ -697,6 +703,8 @@ export default function RecapCreate() {
                   type="email"
                   onChange={(e) => setFieldValue("brokerEmail", e.target.value)}
                   errors={errors}
+                  disabled={viewId}
+
                 />
               </div>
               <div className="col-lg-3">
@@ -707,6 +715,8 @@ export default function RecapCreate() {
                   type="test"
                   onChange={(e) => setFieldValue("strRemarks", e.target.value)}
                   errors={errors}
+                  disabled={viewId}
+
                 />
               </div>
             </div>
@@ -834,6 +844,7 @@ export default function RecapCreate() {
             </div> */}
             {chartererList?.length > 0 && (<div className="my-3">
               <ChartererComponent
+                viewId={viewId}
                 chartererList={chartererList}
                 setChartererList={setChartererList}
                 chartererDDL={chartererDDL}
