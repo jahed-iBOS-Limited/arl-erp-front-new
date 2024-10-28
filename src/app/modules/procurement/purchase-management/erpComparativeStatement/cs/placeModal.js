@@ -26,6 +26,9 @@ const validationSchema = Yup.object().shape({
 
 function PlaceModal({ uomDDL, modalType, CB, dataList }) {
   // get user profile data and business data from store
+  const [firstSelectedItem, setfirstSelectedItem] = React.useState({});
+  const [secondSelectedItem, setsecondSelectedItem] = React.useState({});
+
   const { selectedBusinessUnit, profileData } = useSelector(
     (state) => state.authData,
     shallowEqual
@@ -34,7 +37,7 @@ function PlaceModal({ uomDDL, modalType, CB, dataList }) {
 
   const saveHandler = (values) => {
     console.log(values, "adnan");
-    CB(values?.firstSelectedId);
+    CB(values?.firstSelectedId, firstSelectedItem, secondSelectedItem);
     // if (paylaod) {
     //   saveData(`/costmgmt/Precosting/CreateProduct`, paylaod, CB);
     // }
@@ -155,12 +158,19 @@ function PlaceModal({ uomDDL, modalType, CB, dataList }) {
                                   : values?.firstSelectedId ===
                                     item?.businessPartnerId
                               }
-                              onChange={() =>
+                              onChange={() => {
                                 setFieldValue(
                                   "firstSelectedId",
                                   item?.businessPartnerId || 0
-                                )
-                              }
+                                );
+                                if (modalType?.firstPlaceModal) {
+                                  setfirstSelectedItem(item);
+                                  setsecondSelectedItem({});
+                                } else {
+                                  setsecondSelectedItem(item);
+                                  setfirstSelectedItem({});
+                                }
+                              }}
                               color="primary"
                               inputProps={{
                                 "aria-label": "secondary checkbox",

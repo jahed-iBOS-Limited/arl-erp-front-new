@@ -144,19 +144,30 @@ export default function PurchaseOrgAddForm({
               </div>
               {values?.csType?.value === 1 && (
                 <div className="row">
-                  <div className="col-lg-2">
-                    <div
-                      className="card"
-                      style={{ width: "10rem", position: "relative" }}
-                    >
+                  <div className="col-lg-3">
+                    <div className="card" style={{ position: "relative" }}>
                       {suppilerStatement?.firstSelectedId &&
                       suppilerStatement?.firstSelectedId !== 0 ? (
                         <button
                           onClick={() => {
-                            setSuppilerStatement((prev) => ({
-                              ...prev,
-                              firstSelectedId: 0,
-                            }));
+                            if (
+                              suppilerStatement?.secondSelectedId &&
+                              suppilerStatement?.secondSelectedId !== 0
+                            ) {
+                              setSuppilerStatement((prev) => ({
+                                ...prev,
+                                firstSelectedId:
+                                  suppilerStatement?.secondSelectedId,
+                                firstSelectedItem:
+                                  suppilerStatement?.secondSelectedItem,
+                              }));
+                            } else {
+                              setSuppilerStatement((prev) => ({
+                                ...prev,
+                                firstSelectedId: 0,
+                                firstSelectedItem: {},
+                              }));
+                            }
                           }}
                           className="btn btn-sm btn-outline-danger"
                           style={{
@@ -178,25 +189,37 @@ export default function PurchaseOrgAddForm({
                         {/* <h5 className="card-title">Special title treatment</h5> */}
                         {suppilerStatement?.firstSelectedId &&
                         suppilerStatement?.firstSelectedId !== 0 ? (
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                            }}
-                          >
+                          <div style={{ marginBottom: "8px" }}>
                             <Chips
                               classes="badge-primary"
                               status={
                                 "Rank - " +
-                                getRank(suppilerStatement?.firstSelectedId)
+                                suppilerStatement?.firstSelectedItem?.rank
                               }
                             />
-                            <h5 className="card-title">
-                              {getbusinessPartnerName(
-                                suppilerStatement?.firstSelectedId
-                              )}
+                            <h5 className="card-title mt-2">
+                              {
+                                suppilerStatement?.firstSelectedItem
+                                  ?.businessPartnerName
+                              }
                             </h5>
+                            <p>
+                              {
+                                suppilerStatement?.firstSelectedItem
+                                  ?.currencyCode
+                              }{" "}
+                              {
+                                suppilerStatement?.firstSelectedItem
+                                  ?.totalAmount
+                              }
+                            </p>
+                            <p>
+                              {
+                                suppilerStatement?.firstSelectedItem
+                                  ?.contactNumber
+                              }
+                            </p>
+                            <p>{suppilerStatement?.firstSelectedItem?.email}</p>
                           </div>
                         ) : (
                           <button
@@ -219,11 +242,8 @@ export default function PurchaseOrgAddForm({
                       </div>
                     </div>
                   </div>
-                  <div className="col-lg-2">
-                    <div
-                      className="card"
-                      style={{ width: "10rem", position: "relative" }}
-                    >
+                  <div className="col-lg-3">
+                    <div className="card" style={{ position: "relative" }}>
                       {suppilerStatement?.secondSelectedId &&
                       suppilerStatement?.secondSelectedId !== 0 ? (
                         <button
@@ -231,6 +251,7 @@ export default function PurchaseOrgAddForm({
                             setSuppilerStatement((prev) => ({
                               ...prev,
                               secondSelectedId: 0,
+                              secondSelectedItem: {},
                             }));
                           }}
                           className="btn btn-sm btn-outline-danger"
@@ -253,11 +274,39 @@ export default function PurchaseOrgAddForm({
                         {/* <h5 className="card-title">Special title treatment</h5> */}
                         {suppilerStatement?.secondSelectedId &&
                         suppilerStatement?.secondSelectedId !== 0 ? (
-                          <div>
-                            <h5 className="card-title">
-                              2222222
-                              {suppilerStatement?.secondSelectedId}
+                          <div style={{ marginBottom: "8px" }}>
+                            <Chips
+                              classes="badge-primary"
+                              status={
+                                "Rank - " +
+                                suppilerStatement?.secondSelectedItem?.rank
+                              }
+                            />
+                            <h5 className="card-title mt-2">
+                              {
+                                suppilerStatement?.secondSelectedItem
+                                  ?.businessPartnerName
+                              }
                             </h5>
+                            <p>
+                              {
+                                suppilerStatement?.secondSelectedItem
+                                  ?.currencyCode
+                              }{" "}
+                              {
+                                suppilerStatement?.secondSelectedItem
+                                  ?.totalAmount
+                              }
+                            </p>
+                            <p>
+                              {
+                                suppilerStatement?.secondSelectedItem
+                                  ?.contactNumber
+                              }
+                            </p>
+                            <p>
+                              {suppilerStatement?.secondSelectedItem?.email}
+                            </p>
                           </div>
                         ) : (
                           <button
@@ -330,17 +379,19 @@ export default function PurchaseOrgAddForm({
               uomDDL={[]}
               modalType={isModalShowObj}
               dataList={suppilerStatement}
-              CB={(selectedId) => {
+              CB={(selectedId, item1st, item2nd) => {
                 // commonLandingApi();
                 if (isModalShowObj?.firstPlaceModal) {
                   setSuppilerStatement({
                     ...suppilerStatement,
                     firstSelectedId: selectedId || 0,
+                    firstSelectedItem: item1st || {},
                   });
                 } else {
                   setSuppilerStatement({
                     ...suppilerStatement,
                     secondSelectedId: selectedId || 0,
+                    secondSelectedItem: item2nd || {},
                   });
                 }
                 setIsModalShowObj({
