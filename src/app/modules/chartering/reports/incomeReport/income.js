@@ -28,6 +28,7 @@ import { getSalesOrgList } from "../../transaction/timeCharter/helper";
 import { getIncomeReport } from "./helper";
 import JournalDetails from "./journalDetails";
 import AdjustmentJournalCreateForm from "./journals/adjustmentJournal/addEditFrom";
+import AdjustmentJournalCreate from "./adjustmentJournalCreate";
 
 const getHeaders = (values, gridData, buId) => {
   return [
@@ -130,6 +131,8 @@ export default function IncomeReport() {
   const [, postAllJV, isLoading] = useAxiosPost();
   const [showJournalDetails, setShowJournalDetails] = useState(false);
   const [rowData, getJournalDetails, detailsLoader] = useAxiosGet();
+  const [createAJSignleItem, setCreateAJSignleItem] = useState({});
+  const [createAJModalShow, setCreateAJModalShow] = useState(false);
 
   const getGridData = (values) => {
     getIncomeReport(
@@ -599,14 +602,14 @@ export default function IncomeReport() {
                                     className="btn btn-info btn-sm"
                                     type="button"
                                     onClick={() => {
-                                      // setSingleData(item);
-                                      // setShow(true);
-                                      JournalPost(
-                                        values,
-                                        item,
-                                        index,
-                                        "adjustmentJournal"
-                                      );
+                                      setCreateAJSignleItem(item);
+                                      setCreateAJModalShow(true);
+                                      // JournalPost(
+                                      //   values,
+                                      //   item,
+                                      //   index,
+                                      //   "adjustmentJournal"
+                                      // );
                                     }}
                                   >
                                     AJ
@@ -629,6 +632,23 @@ export default function IncomeReport() {
                 </ICustomTable>
               </div>
             </form>
+
+            {/* Adjustment Journal Create */}
+            <IViewModal
+              show={createAJModalShow}
+              onHide={() => {
+                setCreateAJModalShow(false);
+                setCreateAJSignleItem({});
+              }}
+            
+            >
+              <AdjustmentJournalCreate
+                objProps={{
+                  createAJSignleItem,
+                }}
+              />
+            </IViewModal>
+
             <IViewModal show={show} onHide={() => setShow(false)}>
               <AdjustmentJournalCreateForm
                 preData={{ ...values, ...singleData }}
