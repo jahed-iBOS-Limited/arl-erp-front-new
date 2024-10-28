@@ -20,19 +20,37 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
     };
 
     // Function to handle adding cargo to a specific charterer
-    const handleAddCargo = (index) => {
+    // const handleAddCargo = (index) => {
+    //     const updatedChartererList = [...chartererList];
+    //     updatedChartererList[index].nominationCargosList.push({
+    //         intRowId: 0,
+    //         intVesselNominationId: 0,
+    //         intChartererId: 0,
+    //         intCargoId: 0,
+    //         strCargoName: "",
+    //         intCargoQuantityMts: 0,
+    //         intLoadPortId: 0,
+    //         strLoadPortName: "",
+    //         intDischargePortId: 0,
+    //         strDischargePortName: "",
+    //     });
+    //     setChartererList(updatedChartererList);
+    // };
+
+    // Function to handle adding cargo to a specific charterer
+    const handleAddCargo = (index, cargoName, cargoQuantity, loadPort, dischargePort) => {
         const updatedChartererList = [...chartererList];
         updatedChartererList[index].nominationCargosList.push({
             intRowId: 0,
             intVesselNominationId: 0,
-            intChartererId: 0,
-            intCargoId: 0,
-            strCargoName: "",
-            intCargoQuantityMts: 0,
-            intLoadPortId: 0,
-            strLoadPortName: "",
-            intDischargePortId: 0,
-            strDischargePortName: "",
+            intChartererId: updatedChartererList[index].intChartererId,
+            intCargoId: cargoName.value || 0,
+            strCargoName: cargoName.label || "",
+            intCargoQuantityMts: cargoQuantity || 0,
+            intLoadPortId: loadPort.value || 0,
+            strLoadPortName: loadPort.label || "",
+            intDischargePortId: dischargePort.value || 0,
+            strDischargePortName: dischargePort.label || "",
         });
         setChartererList(updatedChartererList);
     };
@@ -101,7 +119,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                 options={cargoDDL}
                                 label="Cargo Name"
                                 onChange={(valueOption) => {
-                                    // handle cargo name change for a new cargo
+                                    setFieldValue(`cargoName-${index}`, valueOption)
                                 }}
                                 errors={errors}
                                 touched={touched}
@@ -113,7 +131,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                 name={`cargoQuantity-${index}`}
                                 type="number"
                                 onChange={(e) => {
-                                    // handle cargo quantity change for a new cargo
+                                    setFieldValue(`cargoQuantity-${index}`, e.target.value)
                                 }}
                                 errors={errors}
                             />
@@ -124,7 +142,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                 options={portDDL}
                                 label="Load Port"
                                 onChange={(valueOption) => {
-                                    // handle load port change for a new cargo
+                                    setFieldValue(`loadPort-${index}`, valueOption)
                                 }}
                                 errors={errors}
                                 touched={touched}
@@ -136,7 +154,7 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                                 options={portDDL}
                                 label="Discharge Port"
                                 onChange={(valueOption) => {
-                                    // handle discharge port change for a new cargo
+                                    setFieldValue(`dischargePort-${index}`, valueOption)
                                 }}
                                 errors={errors}
                                 touched={touched}
@@ -145,7 +163,15 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
                         <div className="">
                             <button
                                 className="btn btn-primary ml-5 mt-5"
-                                onClick={() => handleAddCargo(index)}
+                                onClick={() => {
+                                    handleAddCargo(
+                                        index,
+                                        values[`cargoName-${index}`] || {},
+                                        values[`cargoQuantity-${index}`] || 0,
+                                        values[`loadPort-${index}`] || {},
+                                        values[`dischargePort-${index}`] || {}
+                                    )
+                                }}
                             >
                                 Add Cargo +
                             </button>
