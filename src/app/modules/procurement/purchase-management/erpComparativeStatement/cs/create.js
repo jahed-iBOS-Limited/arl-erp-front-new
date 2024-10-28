@@ -29,7 +29,7 @@ const initData = {
   organizationName: "",
 };
 
-export default function PurchaseOrgAddForm({
+export default function CreateCs({
   history,
   match: {
     params: { id },
@@ -53,6 +53,7 @@ export default function PurchaseOrgAddForm({
     placePartnerListLoading,
   ] = useAxiosGet();
   const [rowDtos, setRowDtos] = useState([]);
+  const [expandedRow, setExpandedRow] = useState(null);
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -105,6 +106,11 @@ export default function PurchaseOrgAddForm({
         suppilerStatement?.firstSelectedItem?.partnerRfqId
       }&secondPlacePartnerRfqId=0`
     );
+  };
+
+  const handleExpandClick = (id) => {
+    // Toggle expand/collapse
+    setExpandedRow(expandedRow === id ? null : id);
   };
 
   const saveHandler = async (values, cb) => {};
@@ -304,12 +310,12 @@ export default function PurchaseOrgAddForm({
                 <table className="table table-striped table-bordered bj-table bj-table-landing">
                   <thead>
                     <tr>
-                      <th>Serial No</th>
-                      <th>RFQ Quantity</th>
-                      <th>Supplier Rate</th>
-                      <th>Negotiation Rate</th>
-                      <th>Total Amount</th>
-                      <th>Description</th>
+                      <th>Item Name</th>
+                      <th>UOM Name</th>
+                      <th>Item Category Name</th>
+                      <th>Item Description</th>
+                      <th>Quantity</th>
+                      <th>Collapse View</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -318,14 +324,67 @@ export default function PurchaseOrgAddForm({
                       "fast page placePartnerList@@@"
                     )}
                     {placePartnerList?.map((item, index) => (
-                      <tr key={index}>
-                        <td>{item?.itemCategoryName}</td>
-                        <td>{item?.rfqquantity}</td>
-                        <td>{item?.supplierRate}</td>
-                        <td>{item?.negotiationRate}</td>
-                        <td>{item?.totalAmount}</td>
-                        <td>{item?.description}</td>
-                      </tr>
+                      <>
+                        <tr key={index}>
+                          <td>{item?.itemName}</td>
+                          <td>{item?.uoMname}</td>
+                          <td>{item?.itemCategoryName}</td>
+                          <td>{item?.itemDescription}</td>
+                          <td>{item?.quantity}</td>
+                          <td>
+                            <button
+                              className="btn btn-primary btn-sm"
+                              onClick={() => handleExpandClick(item.id)}
+                            >
+                              {expandedRow === item.id ? "Collapse" : "Expand"}
+                            </button>
+                          </td>
+                        </tr>
+
+                        {expandedRow === item.id && (
+                          <>
+                            <tr>
+                              {" "}
+                              <th colSpan="3">1st</th>
+                              <th colSpan="3">2nd</th>
+                            </tr>
+
+                            <tr>
+                              {" "}
+                              <th>Serial No</th>
+                              <th>Supplier Rate</th>
+                              <th>Total Amount</th>
+                              <th>Serial No</th>
+                              <th>Supplier Rate</th>
+                              <th>Total Amount</th>
+                            </tr>
+
+                            <tr>
+                              <td>
+                                {item?.firstAndSecondPlaceList[0]?.serialNo}
+                              </td>
+                              <td>
+                                {item?.firstAndSecondPlaceList[0]?.supplierRate}
+                              </td>
+
+                              <td>
+                                {item?.firstAndSecondPlaceList[0]?.serialNo}
+                              </td>
+
+                              <td>
+                                {item?.firstAndSecondPlaceList[1]?.serialNo}
+                              </td>
+                              <td>
+                                {item?.firstAndSecondPlaceList[1]?.supplierRate}
+                              </td>
+
+                              <td>
+                                {item?.firstAndSecondPlaceList[1]?.serialNo}
+                              </td>
+                            </tr>
+                          </>
+                        )}
+                      </>
                     ))}
                   </tbody>
                 </table>
@@ -353,7 +412,6 @@ export default function PurchaseOrgAddForm({
             }}
           >
             <PlaceModal
-              uomDDL={[]}
               modalType={isModalShowObj}
               dataList={suppilerStatement}
               CB={(selectedId, item1st, item2nd) => {

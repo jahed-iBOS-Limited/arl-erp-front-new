@@ -1,10 +1,12 @@
 import { Checkbox } from "@material-ui/core";
 import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
 import Loading from "../../../../_helper/_loading";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import IView from "../../../../_helper/_helperIcons/_view";
+import IViewModal from "../../../../_helper/_viewModal";
 
 const validationSchema = Yup.object().shape({
   productName: Yup.string().required("Product Name is required"),
@@ -14,10 +16,12 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-function PlaceModal({ uomDDL, modalType, CB, dataList }) {
+function PlaceModal({ modalType, CB, dataList }) {
   // get user profile data and business data from store
-  const [firstSelectedItem, setfirstSelectedItem] = React.useState({});
-  const [secondSelectedItem, setsecondSelectedItem] = React.useState({});
+  const [firstSelectedItem, setfirstSelectedItem] = useState({});
+  const [secondSelectedItem, setsecondSelectedItem] = useState({});
+  const [attachmentListModal, setAttachmentListModal] = useState(false);
+  const [attachmentItemList, setAttachmentItemList] = useState([]);
 
   const { selectedBusinessUnit, profileData } = useSelector(
     (state) => state.authData,
@@ -78,17 +82,7 @@ function PlaceModal({ uomDDL, modalType, CB, dataList }) {
                         <th>Amount</th>
                         <th>Currency</th>
                         <th>Terms And Conditions</th>
-                        {/* <th>RFQ Type</th>
-                        <th>RFQ Title</th>
-                        <th>Plant</th>
-                        <th>Warehouse</th>
-                        <th>Currency</th>
-                        <th>Quotation Start Date-Time</th>
-                        <th>Quotation End Date-Time</th>
-                        <th>RFQ Status</th>
-                        <th>Approval Status</th>
-                        <th>Created by</th> */}
-                        <th>Action</th>
+                        <th>Attachment</th>
                         <th>Selected</th>
                       </tr>
                     </thead>
@@ -96,44 +90,24 @@ function PlaceModal({ uomDDL, modalType, CB, dataList }) {
                       {dataList?.data?.map((item, index) => (
                         <tr key={index}>
                           <td>{item?.rank}</td>
-                          {/* <td>
-                            {item?.purchaseOrganizationName ===
-                            "Foreign Procurement" ? (
-                              <span>
-                                <LocalAirportOutlinedIcon
-                                  style={{
-                                    color: "#00FF00",
-                                    marginRight: "5px",
-                                    rotate: "90deg",
-                                    fontSize: "15px",
-                                  }}
-                                />
-                                {item?.requestForQuotationCode}
-                              </span>
-                            ) : (
-                              <span>
-                                <LocalShippingIcon
-                                  style={{
-                                    color: "#000000",
-                                    marginRight: "5px",
-                                    fontSize: "15px",
-                                  }}
-                                />
 
-                                {item?.requestForQuotationCode}
-                              </span>
-                            )}
-                          </td> */}
-                          {/* <td className="text-center">
-                            {_dateFormatter(item?.rfqdate)}
-                          </td> */}
                           <td>{item?.businessPartnerName}</td>
                           <td>{item?.contactNumber}</td>
                           <td>{item?.email}</td>
                           <td>{item?.totalAmount}</td>
                           <td>{item?.currencyCode}</td>
                           <td>{item?.termsAndCondition}</td>
-                          <td>{"Test"}</td>
+                          <td>
+                            {item?.attachmentList?.length === 0 ? (
+                              <IView
+                                title="View Attachment"
+                                clickHandler={() => {
+                                  setAttachmentItemList(item?.attachmentList);
+                                  setAttachmentListModal(true);
+                                }}
+                              />
+                            ) : null}
+                          </td>
                           <td>
                             {" "}
                             <Checkbox
@@ -223,6 +197,16 @@ function PlaceModal({ uomDDL, modalType, CB, dataList }) {
                 </div>
               </div>
             </Form>
+            <IViewModal
+              show={attachmentListModal}
+              onHide={() => {
+                setAttachmentListModal(false);
+                setAttachmentItemList([]);
+              }}
+              modelSize="sm"
+            >
+              {/* <AttachmentListTable attachmentItemList={attachmentItemList} /> */}
+            </IViewModal>
           </>
         )}
       </Formik>
