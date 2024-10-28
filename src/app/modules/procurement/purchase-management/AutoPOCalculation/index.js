@@ -1,17 +1,14 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import styles from "./Tooltip.module.css";
-import { shallowEqual, useSelector } from "react-redux";
-import axios from "axios";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
 
 const initData = {
   businessUnit: "",
@@ -42,9 +39,24 @@ export default function AutoPOCalculation() {
   const saveHandler = (values, cb) => {};
   const [autoPOData, getAutoPOData, loading, setAutoPOData] = useAxiosGet();
   const [, onCreatePOHandler, loader] = useAxiosPost();
-  const [itemTypeList, setItemTypeList] = useState("");
-  const [itemCategoryList, setItemCategoryList] = useState("");
-  const [itemSubCategoryList, setItemSubCategoryList] = useState("");
+  const [
+    itemTypeList,
+    getitemTypeList,
+    itemTypeLoading,
+    setItemTypeList,
+  ] = useAxiosGet();
+  const [
+    itemCategoryList,
+    getCategoryData,
+    categoryLoading,
+    setItemCategoryList,
+  ] = useAxiosGet();
+  const [
+    itemSubCategoryList,
+    getSubCategoryData,
+    subCategoryLoading,
+    setItemSubCategoryList,
+  ] = useAxiosGet();
   const [itemTypeOption, setItemTypeOption] = useState([]);
 
   // get selected business unit from store
@@ -56,15 +68,8 @@ export default function AutoPOCalculation() {
   );
 
   useEffect(() => {
-    getInfoData();
+    getitemTypeList(`/item/ItemCategory/GetItemTypeListDDL`);
   }, []);
-
-  const getInfoData = async () => {
-    try {
-      const res = await axios.get("/item/ItemCategory/GetItemTypeListDDL");
-      setItemTypeList(res.data);
-    } catch (error) {}
-  };
 
   useEffect(() => {
     let itemTypes = [];
@@ -80,29 +85,29 @@ export default function AutoPOCalculation() {
   }, [itemTypeList]);
 
   const categoryApiCaller = async (typeId) => {
-    const res = await axios.get(
-      `/item/MasterCategory/GetItemMasterCategoryDDL?AccountId=${profileData?.accountId}&ItemTypeId=${typeId}`
+    getCategoryData(
+      `/item/MasterCategory/GetItemMasterCategoryDDL?AccountId=${profileData?.accountId}&ItemTypeId=${typeId}`,
+      (data) => {
+        let dataList = data || [];
+        dataList.unshift({ value: 0, label: "All" });
+        setItemCategoryList(dataList);
+      }
     );
-    if (res.data) {
-      let dataList = res.data || [];
-      dataList.unshift({ value: 0, label: "All" });
-      setItemCategoryList(dataList);
-    }
   };
 
   const subcategoryApiCaller = async (categoryId, typeId) => {
-    const res = await axios.get(
-      `/item/MasterCategory/GetItemMasterSubCategoryDDL?AccountId=${profileData?.accountId}&ItemMasterCategoryId=${categoryId}&ItemMasterTypeId=${typeId}`
+    getSubCategoryData(
+      `/item/MasterCategory/GetItemMasterSubCategoryDDL?AccountId=${profileData?.accountId}&ItemMasterCategoryId=${categoryId}&ItemMasterTypeId=${typeId}`,
+      (data) => {
+        let dataList = data || [];
+        dataList.unshift({ value: 0, label: "All" });
+        setItemSubCategoryList(dataList);
+      }
     );
-    if (res.data) {
-      let dataList = res.data || [];
-      dataList.unshift({ value: 0, label: "All" });
-      setItemSubCategoryList(dataList);
-    }
   };
 
   const getData = (values) => {
-    const apiUrl = `/procurement/AutoPurchase/GetPurchaseRequestWithRateAgreement?BusinessUnitId=${values?.businessUnit?.value}&ItemMasterCategoryId=${values.itemCategory.value}&ItemMasterSubCategoryId=${values.itemSubCategory.value}`;
+    const apiUrl = `/procurement/AutoPurchase/GetPurchaseRequestWithRateAgreement?BusinessUnitId=${values?.businessUnit?.value}&ItemMasterCategoryId=${values?.itemCategory?.value}&ItemMasterSubCategoryId=${values?.itemSubCategory?.value}`;
     getAutoPOData(apiUrl);
   };
 

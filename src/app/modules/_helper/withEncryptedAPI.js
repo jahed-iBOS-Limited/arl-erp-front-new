@@ -11,4 +11,7 @@ export const withEncryptedAPI = [
   "/RequestForQuotation/CreateRequestForQuotation",
   "/RequestForQuotation/EditRequestForQuotation",
   "/identity/TokenGenerate/IbosLogin",
+
+  // CS
+  "/ComparativeStatement/GetSupplierStatementForCS",
 ];

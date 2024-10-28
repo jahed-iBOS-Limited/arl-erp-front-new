@@ -224,7 +224,7 @@ const ReconciliationJournal = () => {
         formattedDate = customDate.toISOString().split("T")[0];
       }
 
-      console.log(formattedDate);
+      // console.log(formattedDate);
 
       incomeTaxProvisionViewCreate(
         `/fino/AdjustmentJournal/IncomeTaxProvisionJV`,
@@ -238,7 +238,7 @@ const ReconciliationJournal = () => {
     }
   };
 
-  console.log(incomeTaxProvisionViewCreateData);
+  // console.log(incomeTaxProvisionViewCreateData);
 
   // handle collapse panel change
   const handleChange = (panel) => (event, isExpanded) => {
@@ -396,6 +396,8 @@ const ReconciliationJournal = () => {
                       Create Journal
                     </button>
                   )}
+
+                  {/* Income Tax Provision */}
                   {values?.type?.value === 3 && (
                     <button
                       onClick={() =>
@@ -407,20 +409,18 @@ const ReconciliationJournal = () => {
                             date: values?.taxMonth,
                             actionBy: profileData?.userId,
                           },
-                          null,
-                          // (response) => {
-                          //   // status code
-                          //   const statusCode = response?.[0]?.statusCode;
-                          //   const message = response?.[0]?.message;
+                          (response) => {
+                            // status code
+                            const statusCode = response?.[0]?.statusCode;
+                            const message = response?.[0]?.message;
 
-                          //   if (statusCode === 500 || statusCode !== 200) {
-                          //     toast.warn(message);
-                          //   }
-                          //   if (statusCode === 200) {
-                          //     toast.success(message);
-                          //   }
-                          // },
-                          true
+                            if (statusCode === 500 || statusCode !== 200) {
+                              toast.warn(message);
+                            }
+                            if (statusCode === 200) {
+                              toast.success(message);
+                            }
+                          }
                         )
                       }
                       className="btn btn-primary ml-2"
@@ -430,8 +430,10 @@ const ReconciliationJournal = () => {
                       Create Journal
                     </button>
                   )}
-                  {(values?.type?.value !== 4 && values?.type?.value !== 6) ||
-                    (values?.type?.value !== 3 && (
+                  {/* For Type 1 COGS */}
+                  {values?.type?.value !== 4 &&
+                    values?.type?.value !== 6 &&
+                    values?.type?.value !== 3 && (
                       <button
                         onClick={handleSubmit}
                         className="btn btn-primary ml-2"
@@ -451,7 +453,7 @@ const ReconciliationJournal = () => {
                       >
                         Create Journal
                       </button>
-                    ))}
+                    )}
                   {values?.type?.value === 4 && (
                     <button
                       onClick={
