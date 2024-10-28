@@ -69,7 +69,7 @@ const App = ({ store, persistor, basename }) => {
           data: payload,
           headers: { ...newConfig.headers, "Content-Type": "application/json" },
         };
-  
+
         return newConfig;
       }
 
@@ -132,7 +132,7 @@ const App = ({ store, persistor, basename }) => {
       return response;
     },
     async (error) => {
-      console.log("error", error);
+      console.log("error response", JSON.stringify(error, null, 2));
       const url = error?.config?.url;
       if (withEncryptedAPI?.some((element) => url?.includes(element))) {
         let decryptedData = await makeDecryption(error?.response?.data);

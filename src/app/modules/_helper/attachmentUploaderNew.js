@@ -1,24 +1,38 @@
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { uploadAttachment, uploadAttachmentNew } from "../financialManagement/invoiceManagementSystem/billregister/helper";
+import {
+  uploadAttachment,
+  uploadAttachmentForPeopleDeskApi,
+  uploadAttachmentNew,
+} from "../financialManagement/invoiceManagementSystem/billregister/helper";
 import { compressfile } from "./compressfile";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Loading from "./_loading";
 
-export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attachmentIcon, customStyle, tooltipLabel, fileUploadLimits, isExistAttachment=false, isForPublicRoute=false }) {
+export default function AttachmentUploaderNew({
+  CBAttachmentRes,
+  showIcon,
+  attachmentIcon,
+  customStyle,
+  tooltipLabel,
+  fileUploadLimits,
+  isExistAttachment = false,
+  isForPublicRoute = false,
+  isForPeopleDeskApi = false,
+}) {
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] =  useState(false)
+  const [loading, setLoading] = useState(false);
 
-  const defaultStyle = { border: 'none', }
-  const mergeStyle = customStyle ? { ...defaultStyle, ...customStyle } : defaultStyle
+  const defaultStyle = { border: "none" };
+  const mergeStyle = customStyle
+    ? { ...defaultStyle, ...customStyle }
+    : defaultStyle;
 
   return (
     <>
-    {
-      loading && <Loading/>
-    }
+      {loading && <Loading />}
       {!showIcon ? (
         <button
           className={`btn ${isExistAttachment ? "btn-success" : "btn-primary"}`}
@@ -28,13 +42,23 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attac
           Attachment
         </button>
       ) : (
-        <OverlayTrigger overlay={<Tooltip id="cs-icon">{tooltipLabel || "Upload Attachment"}</Tooltip>}>
-
+        <OverlayTrigger
+          overlay={
+            <Tooltip id="cs-icon">
+              {tooltipLabel || "Upload Attachment"}
+            </Tooltip>
+          }
+        >
           <button
             onClick={() => setOpen(true)}
             type="button"
-            style={mergeStyle}>
-            <i class={`${attachmentIcon || 'fa fa-upload'}`} style={{ fontSize: "16px" }} aria-hidden="true"></i>
+            style={mergeStyle}
+          >
+            <i
+              class={`${attachmentIcon || "fa fa-upload"}`}
+              style={{ fontSize: "16px" }}
+              aria-hidden="true"
+            ></i>
           </button>
         </OverlayTrigger>
       )}
@@ -55,12 +79,12 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attac
           // Current
           setFileObjects((prevFileObjs) => {
             if (fileObjects.length >= fileUploadLimits) {
-              toast.warn(`Your file limit is ${fileUploadLimits} only`)
-              return prevFileObjs
+              toast.warn(`Your file limit is ${fileUploadLimits} only`);
+              return prevFileObjs;
             } else {
-              return [...prevFileObjs, ...newFileObjs]
+              return [...prevFileObjs, ...newFileObjs];
             }
-          })
+          });
         }}
         onDelete={(deleteFileObj) => {
           const newData = fileObjects?.filter(
@@ -75,7 +99,7 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attac
         onSave={() => {
           (async () => {
             setOpen(false);
-            setLoading(true)
+            setLoading(true);
             try {
               let compressedFile = [];
               if (fileObjects?.length > 0) {
@@ -86,13 +110,21 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attac
               if (compressedFile?.length < 1) {
                 return toast.warn("Attachment required");
               } else {
-                const uploadFunction = isForPublicRoute ? uploadAttachmentNew : uploadAttachment;
+                // const uploadFunction = isForPublicRoute
+                //   ? uploadAttachmentNew
+                //   : uploadAttachment;
+                const uploadFunction = isForPublicRoute
+                  ? uploadAttachmentNew
+                  : isForPeopleDeskApi
+                  ? uploadAttachmentForPeopleDeskApi
+                  : uploadAttachment;
+
                 uploadFunction(compressedFile, setLoading)
                   .then((res) => {
                     if (res?.length) {
                       setOpen(false);
                       CBAttachmentRes && CBAttachmentRes(res);
-                      setFileObjects([])
+                      setFileObjects([]);
                     } else {
                       CBAttachmentRes && CBAttachmentRes([]);
                     }
@@ -101,9 +133,9 @@ export default function AttachmentUploaderNew({ CBAttachmentRes, showIcon, attac
                     CBAttachmentRes && CBAttachmentRes([]);
                   });
               }
-              setLoading(false)
+              setLoading(false);
             } catch (error) {
-              setLoading(false)
+              setLoading(false);
               toast.error("File upload error");
             }
           })();
