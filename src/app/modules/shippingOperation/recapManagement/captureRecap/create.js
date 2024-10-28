@@ -9,34 +9,39 @@ import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../_helper/_form";
+import ChartererComponent from "./chartererComponent";
+import { toast } from "react-toastify";
 
 const initData = {
   voyageType: "",
   shipType: "",
   vesselName: "",
-  accountName: "",
-  cargoName: "",
-  cargoQuantity: "",
   deliveryPort: "",
-  loadPort: "",
   laycanFrom: "",
   laycanTo: "",
+  dteVoyageCommenced: "",
+  dteVoyageCompletion: "",
   loadRate: "",
   demurrageDispatch: "",
   numDispatch: "",
   etaLoadPort: "",
-  dischargePort: "",
   dischargeRate: "",
   freight: "",
   loadPortDA: "",
   dischargePortDA: "",
   shipperEmail: "",
-  chartererName: "",
   brokerName: "",
   brokerEmail: "",
-  nominationSchedule: "",
-  dteVoyageCompletion: "",
-  dteVoyageCommenced: "",
+  strRemarks: "",
+
+
+  // dischargePort: "",
+  // accountName: "",
+  // cargoName: "",
+  // cargoQuantity: "",
+  // loadPort: "",
+  // chartererName: "",
+  // nominationSchedule: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -59,26 +64,26 @@ const validationSchema = Yup.object().shape({
       label: Yup.string().required("Vessel is required"),
     })
     .typeError("Vessel is required"),
-  accountName: Yup.string().required("Account Name is required"),
-  cargoName: Yup.object()
-    .shape({
-      value: Yup.string().required("Cargo is required"),
-      label: Yup.string().required("Cargo is required"),
-    })
-    .typeError("Cargo is required"),
-  cargoQuantity: Yup.string().required("Cargo Quantity is required"),
+  // accountName: Yup.string().required("Account Name is required"),
+  // cargoName: Yup.object()
+  //   .shape({
+  //     value: Yup.string().required("Cargo is required"),
+  //     label: Yup.string().required("Cargo is required"),
+  //   })
+  //   .typeError("Cargo is required"),
+  // cargoQuantity: Yup.string().required("Cargo Quantity is required"),
   deliveryPort: Yup.object()
     .shape({
       value: Yup.string().required("Delivery Port is required"),
       label: Yup.string().required("Delivery Port is required"),
     })
     .typeError("Delivery Port is required"),
-  loadPort: Yup.object()
-    .shape({
-      value: Yup.string().required("Load Port Name is required"),
-      label: Yup.string().required("Load Port Name is required"),
-    })
-    .typeError("Load Port Name is required"),
+  // loadPort: Yup.object()
+  //   .shape({
+  //     value: Yup.string().required("Load Port Name is required"),
+  //     label: Yup.string().required("Load Port Name is required"),
+  //   })
+  //   .typeError("Load Port Name is required"),
   laycanFrom: Yup.date().required("Laycan From Date is required"),
   laycanTo: Yup.date().required("Laycan To Date is required"),
   // dteVoyageCompletion: Yup.date().required(
@@ -89,21 +94,21 @@ const validationSchema = Yup.object().shape({
   demurrageDispatch: Yup.string().required("Demurrage is required"),
   numDispatch: Yup.string().required("Dispatch is required"),
   etaLoadPort: Yup.date().required("ETA Load Port Date is required"),
-  dischargePort: Yup.string().required("Discharge Port Name is required"),
+  // dischargePort: Yup.string().required("Discharge Port Name is required"),
   dischargeRate: Yup.string().required("Discharge Rate is required"),
-  shipperEmail: Yup.string()
-    .required("Shipper Email is required")
-    .test("is-valid-email-list", "Invalid email format", function(value) {
-      if (!value) return true; // If no email is provided, Yup.required will handle the error.
-      const emails = value.split(",").map((email) => email.trim());
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      for (let email of emails) {
-        if (!emailRegex.test(email)) {
-          return false; // Return false if any email is invalid.
-        }
-      }
-      return true; // Return true if all emails are valid.
-    }),
+  // shipperEmail: Yup.string()
+  //   .required("Shipper Email is required")
+  //   .test("is-valid-email-list", "Invalid email format", function (value) {
+  //     if (!value) return true; // If no email is provided, Yup.required will handle the error.
+  //     const emails = value.split(",").map((email) => email.trim());
+  //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //     for (let email of emails) {
+  //       if (!emailRegex.test(email)) {
+  //         return false; // Return false if any email is invalid.
+  //       }
+  //     }
+  //     return true; // Return true if all emails are valid.
+  //   }),
 });
 
 export default function RecapCreate() {
@@ -120,7 +125,23 @@ export default function RecapCreate() {
   const [chartererDDL, getChartererDDL] = useAxiosGet();
   const [brokerList, getbrokerList] = useAxiosGet();
   const [shipperEmailList, getshipperEmailList] = useAxiosGet();
-  const [shipperNameList, getshipperNameList] = useState([]);
+  const [shipperNameList, getshipperNameList] = useAxiosGet();
+  const chartererData = [
+    {
+      intRowId: 0,
+      intVesselNominationId: 0,
+      intChartererId: 0,
+      strChartererName: "",
+      numFreightRate: "",
+      strShipperName: "",
+      strShipperEmailForVesselNomination: "",
+      intShipperId: 0,
+      nominationCargosList: [
+
+      ]
+    }
+  ]
+  const [chartererList, setChartererList] = useState(chartererData);
 
   useEffect(() => {
     getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}
@@ -132,6 +153,8 @@ export default function RecapCreate() {
       `${imarineBaseUrl}/domain/PortPDA/GetCharterParty?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
     getbrokerList(`${imarineBaseUrl}/domain/VesselNomination/GetBrokerDDL`);
+    getshipperNameList(`${imarineBaseUrl}/domain/VesselNomination/GetShipperDDL`)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getFilteredShipperMail = (data) => {
@@ -146,22 +169,58 @@ export default function RecapCreate() {
   };
 
   const saveHandler = async (values, cb) => {
+
+    if (chartererList.length < 1) {
+      toast.warn("At least one charterer is required.");
+      return;
+    }
+
+    const isValid = chartererList.every((charterer, index) => {
+      // Check if required fields are filled and if nominationCargosList has at least one item
+      const hasRequiredFields = (
+        charterer.strChartererName &&
+        charterer.numFreightRate &&
+        charterer.strShipperName &&
+        charterer.strShipperEmailForVesselNomination &&
+        charterer.nominationCargosList?.length > 0
+      );
+
+      if (!hasRequiredFields) {
+        toast.warn(`Please fill out all required fields for charterer at index ${index + 1}.`);
+      }
+
+      return hasRequiredFields; // Return true if all required fields are filled
+    });
+
+    if (!isValid) {
+      return; // Prevent submission if any validation failed
+    }
+
+    const hasNominationCargos = chartererList.every(charterer => {
+      return charterer.nominationCargosList && charterer.nominationCargosList.length > 0;
+    });
+
+    if (!hasNominationCargos) {
+      toast.warn("Each charterer must have at least one nomination cargo.");
+      return; // Prevent form submission
+    }
+
     const payload = {
-      vesselId: values?.vesselName?.value || 0,
-      voyageTypeId: values?.voyageType?.value || 0,
-      intCargoId: values?.cargoName?.value || 0,
+      intVoyageTypeId: values?.voyageType?.value || 0,
+      // intCargoId: values?.cargoName?.value || 0,
       IsActive: 1,
       intAccountId: profileData?.accountId,
-      intLoadPortId: values?.loadPort?.value,
-      intDischargePortId: values?.dischargePort?.value,
+      // intLoadPortId: values?.loadPort?.value,
+      // intDischargePortId: values?.dischargePort?.value,
       strVoyageType: values.voyageType?.label || "",
       intShipTyeId: values?.shipType?.value || 0,
       strShipType: values?.shipType?.label || "",
       strNameOfVessel: values.vesselName?.label || "",
-      strAccountName: values.accountName || "",
-      strCargo: values.cargoName?.label || "",
-      intCargoQuantityMTS: +values.cargoQuantity || 0,
-      strNameOfLoadPort: values.loadPort?.label || "",
+      intVesselId: values.vesselName?.value || "",
+      // strAccountName: values.accountName || "",
+      // strCargo: values.cargoName?.label || "",
+      // intCargoQuantityMTS: +values.cargoQuantity || 0,
+      // strNameOfLoadPort: values.loadPort?.label || "",
       strPlaceOfDelivery: values?.deliveryPort?.label || "",
       strLaycan: values.laycanFrom || "",
       dteVoyageCompletion: values?.dteVoyageCompletion,
@@ -172,19 +231,75 @@ export default function RecapCreate() {
       numDemurrageDispatch: +values.demurrageDispatch || 0,
       numDispatch: +values.numDispatch || 0,
       dteETALoadPort: values.etaLoadPort || "",
-      strDischargePort: values.dischargePort?.label || "",
+      // strDischargePort: values.dischargePort?.label || "",
       intDischargeRate: +values.dischargeRate || 0,
       numFreight: +values.freight || 0,
       numLoadPortDA: +values.loadPortDA || 0,
       numDischargePortDA: +values.dischargePortDA || 0,
-      strShipperEmailForVesselNomination: values.shipperEmail || "",
-      strChartererName: values.chartererName?.label || "",
+      // strShipperEmailForVesselNomination: values.shipperEmail || "",
+      // strChartererName: values.chartererName?.label || "",
+      intBrokerId: values.brokerName.value || 0,
       strBrokerName: values.brokerName.label || "",
       strBrokerEmail: values.brokerEmail || "",
       intUserEnrollId: profileData?.employeeId || 0,
+      chartererList: chartererList,
+      intBusinessUnitId: selectedBusinessUnit?.value,
+      strBusinessUnitName: selectedBusinessUnit?.label,
+      strRemarks: values?.strRemarks || "",
+      intLastActionBy: profileData?.userId
+
+
+      // "intId": 0,
+      // "": 0,
+      // "intVoyageDurationDays": 0,
+      // "dteCpdate": "2024-10-28T16:07:46.266Z",
+      // "numFreightPerMt": 0,
+      // "dteEtaloadPort": "2024-10-28T16:07:46.266Z",
+      // "numLoadPortDa": 0,
+      // "numDischargePortDa": 0,
+      // "numBallast": 0,
+      // "numSteaming": 0,
+      // "numAdditionalDistance": 0,
+      // "numBallastSpeed": 0,
+      // "numLadenSpeed": 0,
+      // "intExtraDays": 0,
+      // "strShipperEmailForVesselNomination": "string",
+      // "strBunkerAgent": "string",
+      // "strExpendituresForPisurvey": "string",
+      // "strDischargePortAgentEmail": "string",
+      // "isPisurveyEmailSent": true,
+      // "isVesselNominationEmailSent": true,
+      // "strAcceptReject": "string",
+      // "strRemarks": "string",
+      // "dteEpdalastSubmissionDateTime": "2024-10-28T16:07:46.266Z",
+      // "dteEpdadischargeLastSubmissionDateTime": "2024-10-28T16:07:46.266Z",
+      // "dteOnHireBunkerLastSubmissionDateTime": "2024-10-28T16:07:46.266Z",
+      // "dteOffHireBunkerLastSubmissionDateTime": "2024-10-28T16:07:46.266Z",
+      // "strVesselOwnerName": "string",
+      // "strServiceType": "string",
+      // "strVendorName": "string",
+      // "numBrokerCommissionPercentage": 0,
+      // "numAddressCommissionPercentage": 0,
+      // "dteDeliveryDateGmt": "2024-10-28T16:07:46.266Z",
+      // "dteReDeliveryDateGmt": "2024-10-28T16:07:46.266Z",
+      // "strRedeliveryPlace": "string",
+      // "numLsfopricePerMt": 0,
+      // "numLsmgopricePerMt": 0,
+      // "numDailyHire": 0,
+      // "numIlohc": 0,
+      // "numCve30days": 0,
+      // "numAp": 0,
+      // "numOthers": 0,
+      // "numFreightPercentage": 0,
+      // "numDespatchRate": 0,
+      // "numDetention": 0,
+      // "numDeadFreight": 0,
+      // "numDemurrageRate": 0,
+      // "strEpdaSelectedAgentName": "string",
+      // "strEpdaSelectedAgentMail": "string",
     };
 
-    onSave(`${marineBaseUrlPythonAPI}/automation/recap`, payload, cb, true);
+    onSave(`${imarineBaseUrl}/domain/VesselNomination/CreateVesselNominationRecape`, payload, cb, true);
   };
 
   return (
@@ -195,6 +310,8 @@ export default function RecapCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setChartererList([])
+          setChartererList(chartererData)
         });
         setSubmitting(false);
       }}
@@ -277,7 +394,7 @@ export default function RecapCreate() {
                   touched={touched}
                 />
               </div>
-              <div className="col-lg-3">
+              {/* <div className="col-lg-3">
                 <InputField
                   value={values.accountName}
                   label="Account Name"
@@ -286,8 +403,8 @@ export default function RecapCreate() {
                   onChange={(e) => setFieldValue("accountName", e.target.value)}
                   errors={errors}
                 />
-              </div>
-              <div className="col-lg-3">
+              </div> */}
+              {/* <div className="col-lg-3">
                 <NewSelect
                   name="cargoName"
                   options={cargoDDL}
@@ -299,8 +416,8 @@ export default function RecapCreate() {
                   errors={errors}
                   touched={touched}
                 />
-              </div>
-              <div className="col-lg-3">
+              </div> */}
+              {/* <div className="col-lg-3">
                 <InputField
                   value={values.cargoQuantity}
                   label="Cargo Quantity (Mts)"
@@ -311,7 +428,7 @@ export default function RecapCreate() {
                   }
                   errors={errors}
                 />
-              </div>
+              </div> */}
               <div className="col-lg-3">
                 <NewSelect
                   name="deliveryPort"
@@ -325,7 +442,7 @@ export default function RecapCreate() {
                   touched={touched}
                 />
               </div>
-              <div className="col-lg-3">
+              {/* <div className="col-lg-3">
                 <NewSelect
                   name="loadPort"
                   options={portDDL}
@@ -356,7 +473,7 @@ export default function RecapCreate() {
                   errors={errors}
                   touched={touched}
                 />
-              </div>
+              </div> */}
 
               <div className="col-lg-3">
                 <InputField
@@ -446,7 +563,7 @@ export default function RecapCreate() {
                   errors={errors}
                 />
               </div>
-              <div className="col-lg-3">
+              {/* <div className="col-lg-3">
                 <NewSelect
                   name="dischargePort"
                   options={portDDL}
@@ -458,7 +575,7 @@ export default function RecapCreate() {
                   errors={errors}
                   touched={touched}
                 />
-              </div>
+              </div> */}
               <div className="col-lg-3">
                 <InputField
                   value={values.dischargeRate}
@@ -503,7 +620,7 @@ export default function RecapCreate() {
                   errors={errors}
                 />
               </div>
-              <div className="col-lg-3">
+              {/* <div className="col-lg-3">
                 <NewSelect
                   name="shipperName"
                   options={
@@ -544,8 +661,8 @@ export default function RecapCreate() {
                     values?.shipperName?.value !== "other" ? true : false
                   }
                 />
-              </div>
-              <div className="col-lg-3">
+              </div> */}
+              {/* <div className="col-lg-3">
                 <NewSelect
                   name="chartererName"
                   options={chartererDDL}
@@ -557,7 +674,7 @@ export default function RecapCreate() {
                   errors={errors}
                   touched={touched}
                 />
-              </div>
+              </div> */}
               <div className="col-lg-3">
                 <NewSelect
                   name="brokerName"
@@ -582,7 +699,154 @@ export default function RecapCreate() {
                   errors={errors}
                 />
               </div>
+              <div className="col-lg-3">
+                <InputField
+                  value={values.strRemarks}
+                  label="Remarks"
+                  name="strRemarks"
+                  type="test"
+                  onChange={(e) => setFieldValue("strRemarks", e.target.value)}
+                  errors={errors}
+                />
+              </div>
             </div>
+            {/* <div className="border p-2 mt-5">
+              <div className="form-group global-form">
+                <div className="row">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="chartererName"
+                      options={chartererDDL || []}
+                      value={values.chartererName}
+                      label="Charterer Name"
+                      onChange={(valueOption) =>
+                        setFieldValue("chartererName", valueOption)
+                      }
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values.freightRate}
+                      label="Freight Rate"
+                      name="freightRate"
+                      type="number"
+                      onChange={(e) => setFieldValue("freightRate", e.target.value)}
+                      errors={errors}
+                    />
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="cargoName"
+                      options={cargoDDL}
+                      value={values.cargoName}
+                      label="Cargo Name"
+                      onChange={(valueOption) =>
+                        setFieldValue("cargoName", valueOption)
+                      }
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values.cargoQuantity}
+                      label="Cargo Quantity (Mts)"
+                      name="cargoQuantity"
+                      type="number"
+                      onChange={(e) =>
+                        setFieldValue("cargoQuantity", e.target.value)
+                      }
+                      errors={errors}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="loadPort"
+                      options={portDDL}
+                      value={values.loadPort}
+                      label="Load Port"
+                      onChange={(valueOption) =>
+                        setFieldValue("loadPort", valueOption)
+                      }
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="dischargePort"
+                      options={portDDL}
+                      value={values.dischargePort}
+                      label="Discharge Port"
+                      onChange={(valueOption) =>
+                        setFieldValue("dischargePort", valueOption)
+                      }
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="">
+                    <button className="btn btn-primary ml-5 mt-5">Add +</button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-12">
+                  {[].length > 0 && (
+                    <div className="table-responsive">
+                      <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Cargo Name</th>
+                            <th>Load Port</th>
+                            <th>Discharge Port</th>
+                            <th>Cargo Quantity</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {[]?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{index + 1}</td>
+                              <td>{index + 1}</td>
+                              <td>{index + 1}</td>
+                              <td>Delete</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12 text-center mt-2">
+                  <button type="button" class="btn btn-lg btn-info col-lg-6 px-3 py-2">+ Add Charterer</button></div>
+              </div>
+            </div> */}
+            {chartererList?.length > 0 && (<div className="my-3">
+              <ChartererComponent
+                chartererList={chartererList}
+                setChartererList={setChartererList}
+                chartererDDL={chartererDDL}
+                cargoDDL={cargoDDL}
+                portDDL={portDDL}
+                values={values}
+                setFieldValue={setFieldValue}
+                errors={errors}
+                touched={touched}
+                shipperNameList={shipperNameList}
+              />
+            </div>)}
+
           </Form>
         </IForm>
       )}
