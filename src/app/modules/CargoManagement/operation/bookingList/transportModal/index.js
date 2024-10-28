@@ -3,13 +3,13 @@ import moment from "moment";
 import React, { useEffect } from "react";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../../App";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import "./style.css";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 const validationSchema = Yup.object().shape({
   transportPlanning: Yup.object()
     .shape({
@@ -77,7 +77,7 @@ function TransportModal({ rowClickData, CB }) {
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
         (resData) => {
           if (formikRef.current) {
-            const data = resData || {}; 
+            const data = resData || {};
             const transportPlanning = data?.transportPlanning || {};
             formikRef.current.setFieldValue(
               "transportPlanning",
@@ -132,12 +132,24 @@ function TransportModal({ rowClickData, CB }) {
               transportPlanning?.arrivalDateTime || ""
             );
             formikRef.current.setFieldValue(
+              "berthDate ",
+              transportPlanning?.berthDate || ""
+            );
+            formikRef.current.setFieldValue(
+              "cutOffDate",
+              transportPlanning?.cutOffDate || ""
+            );
+            formikRef.current.setFieldValue(
+              "estimatedTimeOfDepart",
+              transportPlanning?.estimatedTimeOfDepart || ""
+            );
+            formikRef.current.setFieldValue(
               "transportMode",
               data?.confTransportMode
                 ? {
-                    value: 0,
-                    label: data?.confTransportMode,
-                  }
+                  value: 0,
+                  label: data?.confTransportMode,
+                }
                 : ""
             );
           }
@@ -174,6 +186,9 @@ function TransportModal({ rowClickData, CB }) {
       arrivalDateTime:
         moment(values?.arrivalDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
         new Date(),
+      ...(values?.berthDate && { berthDate: moment(values?.berthDate).format("YYYY-MM-DDTHH:mm:ss") }),
+      ...(values?.cutOffDate && { cutOffDate: moment(values?.cutOffDate).format("YYYY-MM-DDTHH:mm:ss") }),
+      ...(values?.estimatedTimeOfDepart && { estimatedTimeOfDepart: moment(values?.estimatedTimeOfDepart).format("YYYY-MM-DDTHH:mm:ss") }),
       transportMode: values?.transportMode?.label || 0,
       isActive: true,
     };
@@ -205,6 +220,9 @@ function TransportModal({ rowClickData, CB }) {
           departureDateTime: "",
           arrivalDateTime: "",
           transportMode: "",
+          estimatedTimeOfDepart: "",
+          berthDate: "",
+          cutOffDate: ""
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -428,6 +446,42 @@ function TransportModal({ rowClickData, CB }) {
                     placeholder="Transport Mode"
                     errors={errors}
                     touched={touched}
+                  />
+                </div>
+                {/* BerthDate  */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.berthDate}
+                    label="Berth Date"
+                    name="berthDate"
+                    type="datetime-local"
+                    onChange={(e) =>
+                      setFieldValue("berthDate", e.target.value)
+                    }
+                  />
+                </div>
+                {/* CutOffDate */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.cutOffDate}
+                    label="Cut Off Date"
+                    name="cutOffDate"
+                    type="datetime-local"
+                    onChange={(e) =>
+                      setFieldValue("cutOffDate", e.target.value)
+                    }
+                  />
+                </div>
+                {/* EstimatedTimeOfDepart */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.estimatedTimeOfDepart}
+                    label="Estimated Time Of Depart"
+                    name="estimatedTimeOfDepart"
+                    type="datetime-local"
+                    onChange={(e) =>
+                      setFieldValue("estimatedTimeOfDepart", e.target.value)
+                    }
                   />
                 </div>
               </div>
