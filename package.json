@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "cp-cli build _site/ && serve",
     "start": "react-scripts --max_old_space_size=8048 start -o",
-    "build": "GENERATE_SOURCEMAP=false react-scripts --max_old_space_size=16096 build",
+    "build": " react-scripts --max_old_space_size=16096 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write \"src/**/*.{js,css,scss,html}\"",
