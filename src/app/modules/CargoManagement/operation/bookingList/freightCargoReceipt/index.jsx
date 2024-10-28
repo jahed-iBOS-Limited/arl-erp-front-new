@@ -5,9 +5,12 @@ import { useReactToPrint } from "react-to-print";
 import { imarineBaseUrl } from '../../../../../App';
 import Loading from '../../../../_helper/_loading';
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
 
 const FreightCargoReceipt = ({ rowClickData }) => {
     const componentRef = useRef();
+    const [, createHblFcrNumber, createHblFcrNumberLoading] = useAxiosPut();
+
     const { selectedBusinessUnit } = useSelector(
         (state) => state?.authData || {},
         shallowEqual
@@ -41,9 +44,24 @@ const FreightCargoReceipt = ({ rowClickData }) => {
             setShipBookingRequestGetById(
                 `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
             );
+            commonGetByIdHandler();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bookingRequestId]);
+    const saveHandler = (values) => {
+        createHblFcrNumber(
+            `${imarineBaseUrl}/domain/ShippingService/CreateHblFcrNumber?BookingId=${bookingRequestId}&typeId=2`,
+            null,
+            () => {
+                commonGetByIdHandler();
+            }
+        );
+    };
+    const commonGetByIdHandler = () => {
+        setShipBookingRequestGetById(
+            `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
+        );
+    };
     const bookingData = shipBookingRequestGetById || {};
     if (shipBookingRequestLoading) return <div
         className='d-flex justify-content-center align-items-center'
@@ -56,14 +74,14 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                 {/* Save button add */}
 
                 <div className="d-flex justify-content-end">
-                    {!bookingData?.invoiceNo && (
+                    {!bookingData?.fcrnumber && (
                         <>
                             {" "}
                             <button
                                 type="button"
                                 className="btn btn-primary"
                                 onClick={() => {
-                                    // saveHandler();
+                                    saveHandler();
                                 }}
                             >
                                 Generate
@@ -71,7 +89,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                         </>
                     )}
 
-                    {bookingData?.invoiceNo && (
+                    {bookingData?.fcrnumber && (
                         <>
                             <button
                                 onClick={handlePrint}
@@ -309,7 +327,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                             }}
                         >
                             <span style={{ padding: 2 }}>MBL/MAWB DATE</span>
-                            <span style={{ padding: 2 }}>: {moment(bookingData?.bldate).format('DD-MM-YYYY')}</span>
+                            <span style={{ padding: 2 }}>: {moment(bookingData?.bldate).format("YYYY-MM-DD, HH:mm A")}</span>
                         </div>
                         <div
                             style={{
@@ -319,7 +337,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                             }}
                         >
                             <span style={{ padding: 2 }}>HBL/HAWB DATE</span>
-                            <span style={{ padding: 2 }}>: {moment(bookingData?.hbldate).format('DD-MM-YYYY')}</span>
+                            <span style={{ padding: 2 }}>: {moment(bookingData?.hbldate).format("YYYY-MM-DD, HH:mm A")}</span>
                         </div>
                         <div
                             style={{
@@ -329,7 +347,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                             }}
                         >
                             <span style={{ padding: 2 }}>SEAL NUMBER</span>
-                            <span style={{ padding: 2 }}>: YMAM972638</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.fcrnumber || 'N/A'}</span>
                         </div>
 
                     </div>
