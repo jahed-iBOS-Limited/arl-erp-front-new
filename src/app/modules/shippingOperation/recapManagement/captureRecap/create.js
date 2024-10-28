@@ -299,7 +299,7 @@ export default function RecapCreate() {
       // "strEpdaSelectedAgentMail": "string",
     };
 
-    onSave(`${marineBaseUrlPythonAPI}/domain/VesselNomination/CreateVesselNominationRecape`, payload, cb, true);
+    onSave(`${imarineBaseUrl}/domain/VesselNomination/CreateVesselNominationRecape`, payload, cb, true);
   };
 
   return (
@@ -310,6 +310,7 @@ export default function RecapCreate() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
+          setChartererList([])
           setChartererList(chartererData)
         });
         setSubmitting(false);
