@@ -224,7 +224,7 @@ const ReconciliationJournal = () => {
         formattedDate = customDate.toISOString().split("T")[0];
       }
 
-      console.log(formattedDate);
+      // console.log(formattedDate);
 
       incomeTaxProvisionViewCreate(
         `/fino/AdjustmentJournal/IncomeTaxProvisionJV`,
@@ -238,7 +238,7 @@ const ReconciliationJournal = () => {
     }
   };
 
-  console.log(incomeTaxProvisionViewCreateData);
+  // console.log(incomeTaxProvisionViewCreateData);
 
   // handle collapse panel change
   const handleChange = (panel) => (event, isExpanded) => {
@@ -396,6 +396,8 @@ const ReconciliationJournal = () => {
                       Create Journal
                     </button>
                   )}
+
+                  {/* Income Tax Provision */}
                   {values?.type?.value === 3 && (
                     <button
                       onClick={() =>
@@ -430,8 +432,10 @@ const ReconciliationJournal = () => {
                       Create Journal
                     </button>
                   )}
-                  {(values?.type?.value !== 4 && values?.type?.value !== 6) ||
-                    (values?.type?.value !== 3 && (
+                  {/* For Type 1 COGS */}
+                  {values?.type?.value !== 4 &&
+                    values?.type?.value !== 6 &&
+                    values?.type?.value !== 3 && (
                       <button
                         onClick={handleSubmit}
                         className="btn btn-primary ml-2"
@@ -451,7 +455,7 @@ const ReconciliationJournal = () => {
                       >
                         Create Journal
                       </button>
-                    ))}
+                    )}
                   {values?.type?.value === 4 && (
                     <button
                       onClick={
