@@ -206,16 +206,6 @@ export default function DeliveryNoteModal({ rowClickData }) {
 
                             }}
                         >
-                            <span style={{ padding: 2, fontWeight: 600, }}>Ship Point </span>
-                            <span style={{ padding: 2 }}>: N/A</span>
-                        </div>
-                        <div
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns: "1fr 3fr ",
-
-                            }}
-                        >
                             <span style={{ padding: 2, fontWeight: 600, }}>Address</span>
                             <span style={{ padding: 2 }}>: {bookingData?.shipperAddress}</span>
                         </div>
@@ -294,11 +284,11 @@ export default function DeliveryNoteModal({ rowClickData }) {
                                 <tr key={index}>
                                     <td style={{ textAlign: "center" }}>{index + 1}</td>
                                     <td>{row?.headOfCharges}</td>
-                                    <td style={{ textAlign: "left" }}>{row.chargeAmount}</td>
+                                    <td style={{ textAlign: "right" }}>{row.chargeAmount}</td>
                                 </tr>
                             ))}
                             <tr style={{ fontSize: 14, fontWeight: 600, textAlign: "right" }}>
-                                <td colSpan="2" > Total</td>
+                                <td colSpan="2" style={{ textAlign: "right" }}> Total</td>
                                 <td>{bookingData?.billingData?.reduce((acc, cur) => {
                                     return acc + (+cur?.chargeAmount || 0);
                                 }, 0)}</td>
@@ -325,7 +315,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
                             style={{
                                 textAlign: "right"
                             }}
-                        >  <span style={{ borderTop: "1px solid #000000", paddingTop: 2 }}>Receiver's Signature With Seal & Date 22</span></div>
+                        >  <span style={{ borderTop: "1px solid #000000", paddingTop: 2 }}>Receiver's Signature With Seal & Date</span></div>
 
                     </div>
                 </div>
