@@ -69,13 +69,7 @@ export const authSlice = createSlice({
       state.haveBusinessUnit = data[0]?.haveBusinessUnit;
     },
     LogOut: (state) => {
-      state.msg = "";
-      state.isAuth = false;
-      state.haveBusinessUnit = false;
-      state.profileData = {};
-      state.selectedBusinessUnit = false;
-      state.businessUnitList = [];
-      state.selectedBusinessUnit = { label: "", value: "" };
+      return initAuthState;
     },
     SetBusinessUnitTrue: (state) => {
       state.msg = "";
