@@ -6,10 +6,15 @@ import { _formatMoney } from "../../../_helper/_formatMoney";
 import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { imarineBaseUrl } from "../../../../App";
 
 const AdjustmentJournalCreate = ({ objProps }) => {
   // destructure
-  const { createAJSignleItem } = objProps;
+  const {
+    createAJSignleItem,
+    setCreateAJModalShow,
+    setCreateAJSignleItem,
+  } = objProps;
 
   // destructure single item
   const { voyageNo, vesselName } = createAJSignleItem;
@@ -35,7 +40,7 @@ const AdjustmentJournalCreate = ({ objProps }) => {
   // inital use effect
   useEffect(() => {
     getNetAndJournalAmount(
-      `/domain/Report/GetNetIncomeAndFetchJournalAmount?VesselName=${vesselName}&VoyageNo=${voyageNo}`
+      `${imarineBaseUrl}/domain/Report/GetNetIncomeAndFetchJournalAmount?VesselName=${vesselName}&VoyageNo=${voyageNo}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -43,7 +48,16 @@ const AdjustmentJournalCreate = ({ objProps }) => {
   // handleCreateVesselWiseAJ
   const handleCreateVesselWiseAJ = () => {
     createVesselWiseAJ(
-      `/domain/Report/VesselWiseAdjustmentJournal?businessUnitId=${selectedBusinessUnit?.value}&VesselName=${vesselName}&VoyageNo=${voyageNo}&ActionBy=${profileData?.userId}`
+      `${imarineBaseUrl}/domain/Report/VesselWiseAdjustmentJournal?businessUnitId=${selectedBusinessUnit?.value}&VesselName=${vesselName}&VoyageNo=${voyageNo}&ActionBy=${profileData?.userId}`,
+      "",
+      function(res) {
+        const statusCode = res?.[0]?.statusCode;
+        if (statusCode === 200) {
+          setCreateAJModalShow(false);
+          setCreateAJSignleItem({});
+        }
+      },
+      true
     );
   };
 

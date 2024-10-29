@@ -645,6 +645,8 @@ export default function IncomeReport() {
               <AdjustmentJournalCreate
                 objProps={{
                   createAJSignleItem,
+                  setCreateAJSignleItem,
+                  setCreateAJModalShow
                 }}
               />
             </IViewModal>
