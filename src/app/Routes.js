@@ -86,7 +86,19 @@ export function Routes() {
   useEffect(() => {
     const loginInfoPeopleDesk = getCookie("loginInfoPeopleDesk");
     let info = JSON.parse(loginInfoPeopleDesk || "{}");
-    if (info?.isAuth) {
+
+    // invalid user check for peopleDesk
+    if (info?.isAuth && info?.email && profileData?.emailAddress) {
+      if (profileData?.emailAddress !== info?.email) {
+        if (window.location.origin === "https://erp.peopledesk.io") {
+          toast.error("Invalid User");
+          dispatch(actions.LogOut());
+          window.location.href = "https://arl.peopledesk.io";
+        }
+      }
+    }
+    // if new user than login  "peopleDesk to erp" than login info and business unit set
+    if (info?.isAuth && !selectedBusinessUnit?.value) {
       dispatch(
         actions.LoginFetched({
           isAuth: info?.isAuth,
@@ -140,7 +152,9 @@ export function Routes() {
           console.log(error);
           dispatch(actions.LogOut());
         });
-    } else {
+    }
+    // if is not auth then redirect to peopledesk login page
+    if (!info?.isAuth) {
       if (window.location.origin === "https://erp.peopledesk.io") {
         dispatch(actions.LogOut());
         window.location.href = "https://arl.peopledesk.io";
@@ -249,7 +263,6 @@ export function Routes() {
 
   return (
     <Switch>
-      
       {/* Public route here.... */}
       {publicRouteList?.length > 0 &&
         publicRouteList.map((route, index) => (
