@@ -7,6 +7,7 @@ import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { imarineBaseUrl } from "../../../../App";
+import { toast } from "react-toastify";
 
 const AdjustmentJournalCreate = ({ objProps }) => {
   // destructure
@@ -52,12 +53,18 @@ const AdjustmentJournalCreate = ({ objProps }) => {
       "",
       function(res) {
         const statusCode = res?.[0]?.statusCode;
+        const statusMessage = res?.[0]?.message;
         if (statusCode === 200) {
           setCreateAJModalShow(false);
           setCreateAJSignleItem({});
+          toast.success(statusMessage);
         }
-      },
-      true
+        if (statusCode === 500) {
+          setCreateAJModalShow(false);
+          setCreateAJSignleItem({});
+          toast.warn(statusMessage);
+        }
+      }
     );
   };
 
