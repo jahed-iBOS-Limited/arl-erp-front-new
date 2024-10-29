@@ -47,7 +47,6 @@ const TokenExpiredPopUp = ({ isCancel }) => {
         newPassword: newPassword,
       });
       dispatch(passwordExpiredUpdateAction(false));
-      setPeopledeskCookie("loginInfoPeopleDesk", "", 100);
     } catch (error) {
       alert("Failed, please try again");
     }
@@ -73,7 +72,7 @@ const TokenExpiredPopUp = ({ isCancel }) => {
       updatePassword();
     } else {
       dispatch(Login(profileData?.emailAddress, password, setLoading, cb));
-      setPeopledeskCookie("loginInfoPeopleDesk", "", 100);
+
     }
   };
   useEffect(() => {
