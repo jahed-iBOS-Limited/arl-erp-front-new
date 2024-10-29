@@ -10,9 +10,27 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import BreakDownModal from "./breakdownModal";
+import InputField from "../../../_helper/_inputField";
+import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
+
+const months = [
+  { name: "Jan", value: 1 },
+  { name: "Feb", value: 2 },
+  { name: "Mar", value: 3 },
+  { name: "Apr", value: 4 },
+  { name: "May", value: 5 },
+  { name: "Jun", value: 6 },
+  { name: "Jul", value: 7 },
+  { name: "Aug", value: 8 },
+  { name: "Sep", value: 9 },
+  { name: "Oct", value: 10 },
+  { name: "Nov", value: 11 },
+  { name: "Dec", value: 12 },
+];
 
 const initData = {
-  purchaseOrganization: "",
+  businessUnit: "",
+  monthYear: _getCurrentMonthYearForInput(),
 };
 export default function RawMaterialAutoPR() {
   const saveHandler = (values, cb) => {};
@@ -22,32 +40,7 @@ export default function RawMaterialAutoPR() {
     loading,
     setAutoRawMaterialData,
   ] = useAxiosGet();
-  const [
-    landingData,
-    getLandingData,
-    landingLoading,
-    setLandingData,
-  ] = useAxiosGet();
-  const [, onCreatePRHandler, loader] = useAxiosPost();
-  const [
-    itemTypeList,
-    getItemTypeList,
-    itemTypeListLoader,
-    setItemTypeList,
-  ] = useAxiosGet();
-  const [
-    itemCategoryList,
-    getItemCategoryList,
-    categoryLoader,
-    setItemCategoryList,
-  ] = useAxiosGet();
-  const [
-    itemSubCategoryList,
-    getItemSubCategoryList,
-    subCategoryLoader,
-    setItemSubCategoryList,
-  ] = useAxiosGet();
-  const [, saveHeaderData] = useAxiosPost();
+  const [, saveHeaderData, loader] = useAxiosPost();
   const [singleRowData, setSingleRowData] = useState();
 
   const { profileData, businessUnitList } = useSelector((state) => {
@@ -57,37 +50,34 @@ export default function RawMaterialAutoPR() {
   const [showBreakdownModal, setShowBreakdownModal] = useState(false);
 
   const getData = (values) => {
-    console.log("trr", values);
     getAutoRawMaterialData(
       `/procurement/AutoPurchase/GetInsertPRCalculation?BusinessUnitId=${
         values?.businessUnit?.value
-      }&FromMonth=${`${values?.year?.value}-${values?.month?.value}-01`}&ItemCategoryId=0&ItemSubCategoryId=0`
-      //   (data) => {
-      //     getLandingData(
-      //       `/procurement/AutoPurchase/GetPRCalculationLanding?MonthId=${values?.month?.value}&YearId=${values?.year?.value}&BusinessUnitId=${values?.businessUnit?.value}`
-      //     );
-      //   }
+      }&FromMonth=${`${values?.monthYear?.split("-")[0]}-${
+        values?.monthYear?.split("-")[1]
+      }-01`}&ItemCategoryId=0&ItemSubCategoryId=0`
     );
   };
-  console.log("landingData", landingData);
 
-  useEffect(() => {
-    getItemTypeList("/item/ItemCategory/GetItemTypeListDDL", (data) => {
-      const modData = data?.map((itm) => {
-        return {
-          ...itm,
-          value: itm?.itemTypeId,
-          label: itm?.itemTypeName,
-        };
-      });
-      setItemTypeList(modData);
-    });
-  }, []);
+  const getSelectedAndNextMonths = (selectedValue) => {
+    const selectedIndex = months.findIndex(
+      (month) => month.value === selectedValue
+    );
+
+    if (selectedIndex === -1) return []; // Return empty if month not found
+
+    // Get the selected month and the next two months, using modulo for wrapping around the array
+    return [
+      months[selectedIndex],
+      months[(selectedIndex + 1) % months.length],
+      months[(selectedIndex + 2) % months.length],
+    ];
+  };
 
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{}}
+      initialValues={initData}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -105,8 +95,7 @@ export default function RawMaterialAutoPR() {
         touched,
       }) => (
         <>
-          {(loading || loader || itemTypeListLoader || categoryLoader,
-          subCategoryLoader) && <Loading />}
+          {(loading || loader) && <Loading />}
           <IForm
             title="Raw Material Auto PR Calculation"
             isHiddenReset
@@ -160,7 +149,7 @@ export default function RawMaterialAutoPR() {
                       touched={touched}
                     />
                   </div>
-                  <YearMonthForm
+                  {/* <YearMonthForm
                     obj={{
                       values,
                       setFieldValue,
@@ -168,32 +157,23 @@ export default function RawMaterialAutoPR() {
                         setAutoRawMaterialData([]);
                       },
                     }}
-                  />
-                  {/* <div className="col-lg-3">
-                    <NewSelect
-                      name="purchaseOrganization"
-                      options={[
-                        { value: 11, label: "Local Procurement" },
-                        { value: 12, label: "Forign Procurement" },
-                      ]}
-                      value={values?.purchaseOrganization}
-                      label="Purchase Organization"
-                      onChange={(valueOption) => {
-                        setFieldValue(
-                          "purchaseOrganization",
-                          valueOption || ""
-                        );
+                  /> */}
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.monthYear}
+                      name="monthYear"
+                      label="Month & Year"
+                      type="month"
+                      onChange={(e) => {
+                        setFieldValue("monthYear", e?.target?.value);
                         setAutoRawMaterialData([]);
                       }}
-                      errors={errors}
-                      touched={touched}
                     />
-                  </div> */}
+                  </div>
                   <div>
                     <button
                       type="button"
                       onClick={() => {
-                        // setShowBreakdownModal(true);
                         getData(values);
                       }}
                       disabled={!values?.businessUnit}
@@ -222,7 +202,11 @@ export default function RawMaterialAutoPR() {
                                 getAutoRawMaterialData(
                                   `/procurement/AutoPurchase/GetInsertPRCalculation?BusinessUnitId=${
                                     values?.businessUnit?.value
-                                  }&FromMonth=${`${values?.year?.value}-${values?.month?.value}-01`}&ItemCategoryId=0&ItemSubCategoryId=0`
+                                  }&FromMonth=${`${
+                                    values?.monthYear?.split("-")[0]
+                                  }-${
+                                    values?.monthYear?.split("-")[1]
+                                  }-01`}&ItemCategoryId=0&ItemSubCategoryId=0`
                                 );
                               },
                               true
@@ -247,14 +231,42 @@ export default function RawMaterialAutoPR() {
                             <th>Item Code</th>
                             <th>Item Name</th>
                             <th>UOM</th>
-                            <th>Business Unit</th>
-                            <th>Budget QTY(3 Month)</th>
-                            <th>Opening QTY Silo</th>
+                            <th>
+                              {
+                                getSelectedAndNextMonths(
+                                  values?.monthYear?.split("-")[1] || 0
+                                )?.[0]?.name
+                              }
+                            </th>
+                            <th>
+                              {
+                                getSelectedAndNextMonths(
+                                  values?.monthYear?.split("-")[1] || 0
+                                )?.[1]?.name
+                              }
+                            </th>
+                            <th>
+                              {
+                                getSelectedAndNextMonths(
+                                  values?.monthYear?.split("-")[1] || 0
+                                )?.[2]?.name
+                              }
+                            </th>
+                            <th>Total QTY</th>
+                            <th>Warehouse Stock</th>
                             <th>Floating Stock</th>
                             <th>In Transit</th>
                             <th>Open PR</th>
                             <th>Available Stock</th>
-                            <th>Closing Balance</th>
+                            <th>
+                              {`${
+                                getSelectedAndNextMonths(
+                                  values?.month?.value || 0
+                                )?.[0]?.name
+                              } Requirment` || ""}
+                            </th>
+                            <th>Total Requirment</th>
+                            <th>Schedule Quantity</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -268,7 +280,15 @@ export default function RawMaterialAutoPR() {
                                 </td>
                                 <td>{item?.itemName}</td>
                                 <td className="text-center">{item?.uomName}</td>
-                                <td>{item?.businessUnitName}</td>
+                                <td className="text-center">
+                                  {item?.firstMonthQty || ""}
+                                </td>
+                                <td className="text-center">
+                                  {item?.secondMonthQty || ""}
+                                </td>
+                                <td className="text-center">
+                                  {item?.thirdMonthQty || ""}
+                                </td>
                                 <td className="text-center">
                                   {item?.totalBudgetQty
                                     ? item?.totalBudgetQty?.toFixed(2)
@@ -290,7 +310,15 @@ export default function RawMaterialAutoPR() {
                                   {item?.availableStock?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
+                                  {(
+                                    item?.availableStock - item?.firstMonthQty
+                                  )?.toFixed(2) || 0}
+                                </td>
+                                <td className="text-center">
                                   {item?.closingBlance?.toFixed(2) || 0}
+                                </td>
+                                <td className="text-center">
+                                  {item?.scheduleQuantity?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
                                   {item?.prCalculationHeaderId && (
