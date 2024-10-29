@@ -52,7 +52,7 @@ export function AsideMenuList({ layoutProps }) {
         .start()
         .then(() => {
           connection.on(`sendToGlobalAllOnlyForERPControls`, (data) => {
-            console.log("sig")
+            console.log("sig");
             dispatch(getMenu_action(profileData?.userId));
           });
         })
@@ -65,6 +65,41 @@ export function AsideMenuList({ layoutProps }) {
     dispatch(passwordExpiredAndForceLogoutAction(profileData?.loginId));
   }, []);
 
+  // Add a request interceptor
+  Axios.interceptors.request.use(
+    function(config) {
+      return config;
+    },
+    function(error) {
+      if (
+        error?.response?.data?.message ===
+        "No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions)."
+      ) {
+        dispatch(setIsExpiredTokenActions(true));
+        return Promise.reject(error);
+      } else {
+        return Promise.reject(error);
+      }
+    }
+  );
+
+  // Add a response interceptor
+  Axios.interceptors.response.use(
+    function(response) {
+      return response;
+    },
+    function(error) {
+      if (
+        error?.response?.data?.message ===
+        "No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions)."
+      ) {
+        dispatch(setIsExpiredTokenActions(true));
+        return Promise.reject(error);
+      } else {
+        return Promise.reject(error);
+      }
+    }
+  );
 
   let history = useHistory();
 
@@ -143,15 +178,30 @@ export function AsideMenuList({ layoutProps }) {
 
                   <SVG src={toAbsoluteUrl(menuOne?.icon)} />
                 </span>
-                <span onClick={() => {
-                  if (menuOne?.id === 27) {
-                    setCookie("loginInfoRegister", JSON.stringify({isAuth , email, tokenData, buId: selectedBusinessUnit?.value}), 100);
+                <span
+                  onClick={() => {
+                    if (menuOne?.id === 27) {
+                      setCookie(
+                        "loginInfoRegister",
+                        JSON.stringify({
+                          isAuth,
+                          email,
+                          tokenData,
+                          buId: selectedBusinessUnit?.value,
+                        }),
+                        100
+                      );
 
-                    setTimeout(()=>{
-                      redirectToIbosRegister();
-                    })
-                  }
-                }} className="menu-text"> {menuOne?.label} </span>
+                      setTimeout(() => {
+                        redirectToIbosRegister();
+                      });
+                    }
+                  }}
+                  className="menu-text"
+                >
+                  {" "}
+                  {menuOne?.label}{" "}
+                </span>
                 <i className="menu-arrow" />
               </NavLink>
               <div className="menu-submenu ">
