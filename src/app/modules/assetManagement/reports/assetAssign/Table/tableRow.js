@@ -1,19 +1,17 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Formik } from 'formik';
 import React, { useEffect, useState } from "react";
-import { Formik } from 'formik'
-import * as Yup from 'yup'
-import { useSelector, shallowEqual } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
+import * as Yup from 'yup';
+import ICustomCard from "../../../../_helper/_customCard";
+import Loading from "../../../../_helper/_loading";
+import PaginationSearch from "../../../../_helper/_search";
+import IViewModal from "../../../../_helper/_viewModal";
 import {
   getAssetAssignReportData,
 } from "../helper";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
 import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IViewModal from "../../../../_helper/_viewModal";
-import MailModal from "./mailModal";
 
 
 const validationSchema = Yup.object().shape({})
@@ -179,16 +177,6 @@ export function TableRow(props) {
                     paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
                   />
                 )}
-                <div>
-                  <IViewModal
-                    show={showMailModal}
-                    onHide={() => {
-                      setShowMailModal(false);
-                    }}
-                  >
-                    <MailModal singleItem={singleItem} />
-                  </IViewModal>
-                </div>
               </>
             )}
           </Formik>

@@ -48,7 +48,7 @@
     "bootstrap": "4.5.0",
     "browser-image-compression": "^1.0.15",
     "clsx": "1.1.0",
-    "crypto-js": "^4.0.0",
+    "crypto-js": "^4.1.1",
     "exceljs": "^4.2.1",
     "file-saver": "^2.0.5",
     "formik": "2.1.4",
@@ -119,7 +119,6 @@
     "yup": "0.29.0"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.18.6",
     "copyfiles": "2.1.1",
     "eslint-plugin-react-hooks": "^4.1.2",
     "prettier": "1.19.1",
