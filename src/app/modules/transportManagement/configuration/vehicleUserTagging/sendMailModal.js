@@ -127,7 +127,7 @@ const SendMailModal = ({ singleItem }) => {
           </div>
 
           <div className={`${styles.section} ${styles.note}`}>
-            <p>Note: System generated mail</p>
+            <p>Note: This is a system-generated email and does not require a physical signature.</p>
           </div>
         </div>
         <div
