@@ -19,6 +19,8 @@ import {
   UpdateVehicleTaggingEntry_api,
 } from "./helper";
 import VehicleUserTaggingUpdate from "./updateModel";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import SendMailModal from "./sendMailModal";
 
 const initData = {
   vehicle: "",
@@ -34,6 +36,9 @@ export default function VehicleUserTagging() {
   const [loading, setLoading] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [vehicleDDL, setVehicleDDL] = useState([]);
+  const [singleItem, setSingleItem] = useState(null);
+  const [showMailModal, setShowMailModal] = useState(false);
+
   const saveHandler = () => {};
 
   const loadEmployeeInfo = (v) => {
@@ -93,6 +98,8 @@ export default function VehicleUserTagging() {
       setLoading
     );
   };
+
+  // console.log(rowDto);
 
   return (
     <>
@@ -220,62 +227,84 @@ export default function VehicleUserTagging() {
                     </div>
                   </div>
                   {rowDto?.length > 0 && (
-                   <div className="table-responsive">
-                     <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Business Unit Name</th>
-                          <th>Employee Name</th>
-                          <th>Vehicle No</th>
-                          <th>Driver Name</th>
-                          <th>Driver Contact</th>
-                          <th>Vehicel User Name</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.strBusinessUnitName}</td>
-                            <td>{item?.strEmployeeFullName}</td>
-                            <td>{item?.strVehicleNo}</td>
-                            <td>{item?.strDriverName}</td>
-                            <td>{item?.strDriverContact}</td>
-                            <td>{item?.strVehicelUserName}</td>
-                            <td>
-                              {item?.ysnPermission && (
-                                <div className="d-flex justify-content-center align-items-center">
-                                  <button
-                                    type="button"
-                                    className="btn btn-primary"
-                                    onClick={() => {
-                                      setIsShowModal(true);
-                                      setClickRowData(item);
-                                    }}
-                                    style={{ padding: "3px 14px" }}
-                                  >
-                                    Update
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="btn btn-primary ml-2"
-                                    onClick={() => {
-                                      deleteHandler(item, values);
-                                    }}
-                                    style={{ padding: "3px 14px" }}
-                                  >
-                                    Delete
-                                  </button>
-                                </div>
-                              )}
-                            </td>
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Business Unit Name</th>
+                            <th>Employee Name</th>
+                            <th>Vehicle No</th>
+                            <th>Driver Name</th>
+                            <th>Driver Contact</th>
+                            <th>Vehicel User Name</th>
+                            <th>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                   </div>
+                        </thead>
+                        <tbody>
+                          {rowDto?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.strBusinessUnitName}</td>
+                              <td>{item?.strEmployeeFullName}</td>
+                              <td>{item?.strVehicleNo}</td>
+                              <td>{item?.strDriverName}</td>
+                              <td>{item?.strDriverContact}</td>
+                              <td>{item?.strVehicelUserName}</td>
+                              <td>
+                                {item?.ysnPermission && (
+                                  <div className="d-flex justify-content-center align-items-center">
+                                    <button
+                                      type="button"
+                                      className="btn btn-primary"
+                                      onClick={() => {
+                                        setIsShowModal(true);
+                                        setClickRowData(item);
+                                      }}
+                                      style={{ padding: "3px 14px" }}
+                                    >
+                                      Update
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="btn btn-primary mx-2"
+                                      onClick={() => {
+                                        deleteHandler(item, values);
+                                      }}
+                                      style={{ padding: "3px 14px" }}
+                                    >
+                                      Delete
+                                    </button>
+                                    <span>
+                                      <OverlayTrigger
+                                        overlay={
+                                          <Tooltip id="cs-icon">
+                                            {"Send Mail"}
+                                          </Tooltip>
+                                        }
+                                      >
+                                        <span
+                                          onClick={() => {
+                                            setSingleItem(item);
+                                            setShowMailModal(true);
+                                          }}
+                                        >
+                                          <i
+                                            style={{ fontSize: "16px" }}
+                                            class="fa fa-envelope pointer"
+                                            aria-hidden="true"
+                                          ></i>{" "}
+                                        </span>
+                                      </OverlayTrigger>
+                                    </span>
+                                  </div>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   )}
 
                   <IViewModal
@@ -308,6 +337,18 @@ export default function VehicleUserTagging() {
                 </Form>
               </CardBody>
             </Card>
+
+            {/* Send Mail Modal */}
+            <div>
+              <IViewModal
+                show={showMailModal}
+                onHide={() => {
+                  setShowMailModal(false);
+                }}
+              >
+                <SendMailModal singleItem={singleItem} />
+              </IViewModal>
+            </div>
           </>
         )}
       </Formik>
