@@ -54,19 +54,25 @@ export default function BreakDownModal({ singleRowData }) {
     }
   }, []);
   const addHandler = (values, setFieldValue) => {
-    const closingBlance = Math.abs(singleRowData?.closingBlance);
+    const closingBlance = Math.abs(
+      singleRowData?.availableStock - singleRowData?.firstMonthQty
+    );
 
     if (!values?.plant) {
       toast.warn("Plant is Required");
+      return;
     }
     if (!values?.warehouse) {
       toast.warn("Warehouse is Required");
+      return;
     }
     if (!values?.purchaseRequestDate) {
-      toast.warn("PR Date is Required");
+      toast.warn("Schedule Date is Required");
+      return;
     }
     if (!values?.quantity) {
       toast.warn("Breakdown Quantity is Required");
+      return;
     }
 
     const exists = rowData?.some(
@@ -79,7 +85,7 @@ export default function BreakDownModal({ singleRowData }) {
     );
     if (exists) {
       toast.warn(
-        "Item with the same Plant, Warehouse and PR Date already exists"
+        "Item with the same Plant, Warehouse and Schedule Date already exists"
       );
       return;
     }
@@ -99,6 +105,7 @@ export default function BreakDownModal({ singleRowData }) {
       warehouseId: values?.warehouse?.value,
       warehouseName: values?.warehouse?.label,
       actionBy: profileData?.userId,
+      narration: values?.narration || "",
     };
     const totalClosingBalance =
       rowData?.reduce((acc, itm) => acc + itm?.requestQuantity, 0) +
@@ -109,6 +116,7 @@ export default function BreakDownModal({ singleRowData }) {
     }
     setRowData([data, ...rowData]);
     setFieldValue("quantity", "");
+    setFieldValue("narration", "");
   };
 
   const removeHandler = (index) => {
@@ -117,7 +125,7 @@ export default function BreakDownModal({ singleRowData }) {
   };
 
   const saveHandler = (values, cb) => {
-    if (rowData?.length < 0) {
+    if (rowData?.length < 1) {
       toast.warn("Please add atleast 1 row");
       return;
     }
@@ -142,7 +150,9 @@ export default function BreakDownModal({ singleRowData }) {
   };
 
   const calculateRemainingBalance = (singleRowData, rowData, values) => {
-    const closingBalance = Math.abs(singleRowData?.closingBlance || 0);
+    const closingBalance = Math.abs(
+      singleRowData?.availableStock - singleRowData?.firstMonthQty || 0
+    );
 
     const totalRequestedQuantity = rowData?.reduce(
       (acc, item) => acc + (item?.requestQuantity || 0),
@@ -176,7 +186,9 @@ export default function BreakDownModal({ singleRowData }) {
         touched,
       }) => (
         <>
-          {(plantListDDLloader || warehouseListDDLloader) && <Loading />}
+          {(plantListDDLloader || warehouseListDDLloader || loader) && (
+            <Loading />
+          )}
           <IForm
             isHiddenBack
             isHiddenReset
@@ -222,22 +234,37 @@ export default function BreakDownModal({ singleRowData }) {
                     isDisabled={false}
                   />
                 </div>
-                <div className="col-lg-2">
+                <div className="col-lg-3">
                   <InputField
-                    label="PR Date"
+                    label="Schedule Date"
                     value={values?.purchaseRequestDate}
                     name="purchaseRequestDate"
                     type="date"
                   />
                 </div>
-                <div className="col-lg-2">
+                <div className="col-lg-3">
                   <InputField
                     value={values?.quantity}
                     label="Breakdown Quantity"
                     name="quantity"
+                    type="number"
+                    onChange={(e) => {
+                      if (+e.target.value > 0) {
+                        setFieldValue("quantity", e.target.value);
+                      } else {
+                        setFieldValue("quantity", "");
+                      }
+                    }}
+                  />
+                </div>
+                <div className="col-lg-6">
+                  <InputField
+                    value={values?.narration}
+                    label="Narration"
+                    name="narration"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("quantity", e.target.value);
+                      setFieldValue("narration", e.target.value);
                     }}
                   />
                 </div>
@@ -256,11 +283,22 @@ export default function BreakDownModal({ singleRowData }) {
                     Add
                   </button>
                 </div>
-                <div className="col-lg-3">
+                <div className="col-lg-12 d-flex">
                   <p
                     style={{
-                      fontSize: "16px",
+                      fontSize: "14px",
                       marginTop: "8px",
+                    }}
+                  >
+                    Item:{" "}
+                    {`${singleRowData?.itemName}[${singleRowData?.itemCode}], ` ||
+                      ""}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "14px",
+                      marginTop: "8px",
+                      marginLeft: "4px",
                     }}
                   >
                     Remaining Quantity:{" "}
@@ -276,8 +314,9 @@ export default function BreakDownModal({ singleRowData }) {
                         <th>SL</th>
                         <th>Plant</th>
                         <th>Warehouse</th>
-                        <th>PR Date</th>
+                        <th>Schedule Date</th>
                         <th>Breakdown Quantity</th>
+                        <th>Narration</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -296,6 +335,10 @@ export default function BreakDownModal({ singleRowData }) {
                             <td className="text-center">
                               {item?.requestQuantity}
                             </td>
+                            <td className="text-center">
+                              {item?.narration || ""}
+                            </td>
+
                             <td>
                               {!item?.prcalculationRowId && (
                                 <IDelete remover={removeHandler} id={index} />
