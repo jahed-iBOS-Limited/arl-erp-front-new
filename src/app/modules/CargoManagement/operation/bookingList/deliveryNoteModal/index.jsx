@@ -105,7 +105,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
                             textAlign: "center",
                         }}
                     >
-                        <span style={{ fontSize: 14, fontWeight: 600 }}>DELIVERY CHALLAN</span><br />
+                        <span style={{ fontSize: 14, fontWeight: 600 }}>DELIVERY NOTE</span><br />
                         <span > {selectedBusinessUnit?.label}</span><br />
                         <span>  {selectedBusinessUnit?.address}</span> <br />
                     </div>
@@ -139,7 +139,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
 
                             }}
                         >
-                            <span style={{ padding: 2, fontWeight: 600, }}>Sold To Partner </span>
+                            <span style={{ padding: 2, fontWeight: 600, }}>Consignee</span>
                             <span style={{ padding: 2 }}>: {bookingData?.consigneeName}</span>
                         </div>
                         <div
@@ -192,7 +192,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
 
                             }}
                         >
-                            <span style={{ padding: 2, fontWeight: 600, }}>Delivery From </span>
+                            <span style={{ padding: 2, fontWeight: 600, }}>Shipper </span>
                             <span style={{ padding: 2 }}>: {bookingData?.shipperName}</span>
                         </div>
                         <div
@@ -203,7 +203,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
                             }}
                         >
                             <span style={{ padding: 2, fontWeight: 600, }}>Ship Point </span>
-                            <span style={{ padding: 2 }}>: {bookingData?.shipperAddress}</span>
+                            <span style={{ padding: 2 }}>: N/A</span>
                         </div>
                         <div
                             style={{
@@ -213,7 +213,37 @@ export default function DeliveryNoteModal({ rowClickData }) {
                             }}
                         >
                             <span style={{ padding: 2, fontWeight: 600, }}>Address</span>
-                            <span style={{ padding: 2 }}>: {bookingData?.consigneeAddress}</span>
+                            <span style={{ padding: 2 }}>: {bookingData?.shipperAddress}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>contactPerson </span>
+                            <span style={{ padding: 2 }}>: {bookingData?.shipperContactPerson}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Contact </span>
+                            <span style={{ padding: 2 }}>: {bookingData?.shipperContact}</span>
+                        </div>
+                        <div
+                            style={{
+                                display: "grid",
+                                gridTemplateColumns: "1fr 3fr ",
+
+                            }}
+                        >
+                            <span style={{ padding: 2, fontWeight: 600, }}>Email </span>
+                            <span style={{ padding: 2 }}>: {bookingData?.shipperEmail}</span>
                         </div>
                         <div
                             style={{
@@ -251,23 +281,23 @@ export default function DeliveryNoteModal({ rowClickData }) {
                         <thead>
                             <tr style={{ backgroundColor: "#D6DADD" }}>
                                 <th>SL</th>
-                                <th>PRODUCT DESCRIPTION</th>
-                                <th>UOM</th>
-                                <th>QNT.</th>
+                                <th>Attribute</th>
+                                <th>Amount</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {tableData.map((row, index) => (
+                            {bookingData?.billingData?.map((row, index) => (
                                 <tr key={index}>
                                     <td style={{ textAlign: "center" }}>{index + 1}</td>
-                                    <td>{row.description}</td>
-                                    <td style={{ textAlign: "left" }}>{row.rate}</td>
-                                    <td style={{ textAlign: "right" }}>{row.conversion}</td>
+                                    <td>{row?.headOfCharges}</td>
+                                    <td style={{ textAlign: "left" }}>{row.chargeAmount}</td>
                                 </tr>
                             ))}
                             <tr style={{ fontSize: 14, fontWeight: 600, textAlign: "right" }}>
-                                <td colSpan="3" > Total</td>
-                                <td> 67,487.88</td>
+                                <td colSpan="2" > Total</td>
+                                <td>{bookingData?.billingData?.reduce((acc, cur) => {
+                                    return acc + (+cur?.chargeAmount || 0);
+                                }, 0)}</td>
                             </tr>
                         </tbody>
                     </table>
