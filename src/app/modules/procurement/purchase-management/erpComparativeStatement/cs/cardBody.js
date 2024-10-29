@@ -8,10 +8,7 @@ const CardBody = ({ name, id, item, CB }) => {
       {/* <h5 className="card-title">Special title treatment</h5> */}
       {id && id !== 0 ? (
         <div style={{ marginBottom: "8px" }}>
-          <Chips
-            classes="badge-primary"
-            status={"Rank - " + item?.rank ? item?.rank : ""}
-          />
+          <Chips classes="badge-primary" status={"Rank - " + item?.rank} />
           <h5 className="card-title mt-2">{item?.businessPartnerName}</h5>
           <p>
             {item?.currencyCode} {item?.totalAmount}

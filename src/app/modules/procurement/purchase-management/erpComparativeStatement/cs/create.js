@@ -27,6 +27,7 @@ import CardBody from "./cardBody";
 import InputField from "../../../../_helper/_inputField";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { IInput } from "../../../../_helper/_input";
 
 const initData = {
   id: undefined,
@@ -62,6 +63,7 @@ export default function CreateCs({
     placePartnerList,
     getPlacePartnerList,
     placePartnerListLoading,
+    setPlacePartnerList,
   ] = useAxiosGet();
   const location = useLocation();
 
@@ -130,7 +132,11 @@ export default function CreateCs({
 
   const getPlacePartnerListCsWise = () => {
     getPlacePartnerList(
-      `${eProcurementBaseURL}/ComparativeStatement/GetSupplierWiseCS?requestForQuotationId=${rfqDetail?.requestForQuotationId}&firstPlacePartnerRfqId=${suppilerStatement?.firstSelectedItem?.partnerRfqId}&secondPlacePartnerRfqId=0`
+      `${eProcurementBaseURL}/ComparativeStatement/GetSupplierWiseCS?requestForQuotationId=${
+        rfqDetail?.requestForQuotationId
+      }&firstPlacePartnerRfqId=${suppilerStatement?.firstSelectedItem
+        ?.partnerRfqId || 0}&secondPlacePartnerRfqId=${suppilerStatement
+        ?.secondSelectedItem?.partnerRfqId || 0}`
     );
   };
 
@@ -212,6 +218,12 @@ export default function CreateCs({
     );
 
     setRowData(filterData);
+  };
+
+  const rowDataHandler = (field, value, index) => {
+    const copyRowDto = [...placePartnerList];
+    copyRowDto[index][field] = value;
+    setPlacePartnerList(copyRowDto);
   };
 
   return (
@@ -597,6 +609,7 @@ export default function CreateCs({
                           <th>UOM Name</th>
                           <th>Item Category Name</th>
                           <th>Item Description</th>
+                          <th>Taken Quantity</th>
                           <th>Quantity</th>
                           <th>Collapse View</th>
                         </tr>
@@ -613,6 +626,26 @@ export default function CreateCs({
                               <td>{item?.uoMname}</td>
                               <td>{item?.itemCategoryName}</td>
                               <td>{item?.itemDescription}</td>
+                              <td
+                                style={{ width: "90px" }}
+                                className="disabled-feedback disable-border"
+                              >
+                                <IInput
+                                  value={placePartnerList[index]?.takenQty || 0}
+                                  name="takenQty"
+                                  required
+                                  placeholder="Taken Quantity"
+                                  type="number"
+                                  min="0"
+                                  // max={item?.referenceNo && item?.restofQty}
+                                  // max={!item?.newItem ? item?.restofQty + item?.initOrderQty : item?.restofQty}
+                                  onChange={(e) => {
+                                    let validNum = e.target.value;
+
+                                    rowDataHandler("takenQty", validNum, index);
+                                  }}
+                                />
+                              </td>
                               <td>{item?.quantity}</td>
                               <td>
                                 <button
@@ -628,13 +661,13 @@ export default function CreateCs({
 
                             {expandedRow === item.id && (
                               <>
-                                <tr>
+                                {/* <tr>
                                   {" "}
                                   <th colSpan="3">1st</th>
                                   <th colSpan="3">2nd</th>
-                                </tr>
+                                </tr> */}
 
-                                <tr>
+                                {/* <tr>
                                   {" "}
                                   <th>Serial No</th>
                                   <th>Supplier Rate</th>
@@ -642,37 +675,52 @@ export default function CreateCs({
                                   <th>Serial No</th>
                                   <th>Supplier Rate</th>
                                   <th>Total Amount</th>
-                                </tr>
+                                </tr> */}
 
-                                <tr>
-                                  <td>
-                                    {item?.firstAndSecondPlaceList[0]?.serialNo}
-                                  </td>
-                                  <td>
-                                    {
-                                      item?.firstAndSecondPlaceList[0]
-                                        ?.supplierRate
-                                    }
-                                  </td>
+                                {/* <tr colSpan="3"> */}
+                                <div className="row">
+                                  <div className="col-lg-6">
+                                    <b>
+                                      Supplier Rate:{" "}
+                                      {item?.firstAndSecondPlaceList[0]
+                                        ?.supplierRate || 0}
+                                    </b>
+                                    <br />
+                                    <b>
+                                      Amount:{" "}
+                                      {item?.firstAndSecondPlaceList[0]
+                                        ?.supplierRate *
+                                        placePartnerList[index]?.takenQty || 0
 
-                                  <td>
-                                    {item?.firstAndSecondPlaceList[0]?.serialNo}
-                                  </td>
+                                      // item?.firstAndSecondPlaceList[0]
+                                      // ?.totalAmount || 0
+                                      }
+                                    </b>
+                                  </div>
 
-                                  <td>
-                                    {item?.firstAndSecondPlaceList[1]?.serialNo}
-                                  </td>
-                                  <td>
-                                    {
-                                      item?.firstAndSecondPlaceList[1]
-                                        ?.supplierRate
-                                    }
-                                  </td>
+                                  <div className="col-lg-6">
+                                    <b>
+                                      Supplier Rate:{" "}
+                                      {item?.firstAndSecondPlaceList[1]
+                                        ?.supplierRate || 0}
+                                    </b>
+                                    <br />
+                                    <b>
+                                      Amount:{" "}
+                                      {item?.firstAndSecondPlaceList[1]
+                                        ?.supplierRate *
+                                        placePartnerList[index]?.takenQty || 0
+                                      // item?.firstAndSecondPlaceList[1]
+                                      //   ?.totalAmount || 0
+                                      }
+                                    </b>
+                                  </div>
+                                </div>
+                                {/* </tr> */}
 
-                                  <td>
-                                    {item?.firstAndSecondPlaceList[1]?.serialNo}
-                                  </td>
-                                </tr>
+                                {/* <tr colSpan="3"> */}
+
+                                {/* </tr> */}
                               </>
                             )}
                           </>
