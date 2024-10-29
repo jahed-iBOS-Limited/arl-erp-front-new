@@ -8,11 +8,16 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
+import { useState } from "react";
+import { Tab, Tabs } from "react-bootstrap";
+import OthersItem from "./othersItem";
+import RawMaterialAutoPR from "./rawMaterial";
 
 const initData = {
   purchaseOrganization: "",
 };
 export default function AutoPRCalculation() {
+  const [objProps, setObjprops] = useState({});
   const saveHandler = (values, cb) => {};
   const [autoPRData, getAutoPRData, loading, setAutoPRData] = useAxiosGet();
   const [, onCreatePRHandler, loader] = useAxiosPost();
@@ -125,364 +130,68 @@ export default function AutoPRCalculation() {
           {(loading || loader || itemTypeListLoader || categoryLoader,
           subCategoryLoader) && <Loading />}
           <IForm
-            title="Auto PR Calculation"
-            isHiddenReset
             isHiddenBack
             isHiddenSave
+            isHiddenReset
+            title="Auto PR Calculation"
+            getProps={setObjprops}
             renderProps={() => {
               return (
+                <div className="d-flex align-items-center justify-content-between">
+                  {/* <h1
+                style={{
+                  marginRight: isMobile ? 0 : "320px",
+                  background: "rgb(27, 197, 189)",
+                  padding: "10px 20px",
+                  borderRadius: "4px",
+                }}
+              >
+                <b>Weight: {weight || 0} Kg</b>
+              </h1>
+              {connectedPort ? (
                 <div>
-                  <button
-                    type="button"
-                    disabled={!autoPRData?.length}
-                    className="btn btn-primary"
-                    onClick={() => {
-                      const payLoad = autoPRData?.map((item) => {
-                        return {
-                          accountId: profileData?.accountId,
-                          itemId: item?.intItemId,
-                          uomId: item?.intUoMId,
-                          uomName: item?.strUoMName,
-                          itemCode: item?.strItemCode,
-                          itemName: item?.strItemName,
-                          itemTypeId: values?.itemType?.value || 0,
-                          itemTypeName: values?.itemType?.label || "",
-                          warehouseId: item?.intWarehouseId,
-                          warehouseName: item?.strWarehouseName,
-                          plantId: item?.intPlantId,
-                          plantName: item?.strPlantName,
-                          businessUnitId: item?.intBusinessUnitId,
-                          businessUnitName: item?.strBusinessUnitName,
-                          reorderLevel: 0, // no need
-                          reorderQuantity:
-                            item?.openingQTYSilo +
-                            item?.balanceOnGhat +
-                            (item?.openPOQty - item?.balanceOnGhat) -
-                            item?.totalMonthlyRequirement,
-                          inventoryStock: item?.openingQTYSilo || 0,
-                          currentTotalStock:
-                            item?.openingQTYSilo +
-                              item?.balanceOnGhat +
-                              (item?.openPOQty - item?.balanceOnGhat) || 0,
-                          purchaseRequestStock: item?.openPRQty || 0,
-                          purchaseOrderStock: item?.openPOQty || 0,
-                          intItemMasterCategoryId:
-                            item?.intItemMasterCategoryId,
-                          intItemMasterSubCategoryId:
-                            item?.intItemMasterSubCategoryId,
-                          intPurchaseOrganizationId:
-                            values?.purchaseOrganization?.value || 0,
-                          strPurchaseOrganizationName:
-                            values?.purchaseOrganization?.label || "",
-                        };
-                      });
-                      IConfirmModal({
-                        message: `Are you sure to create PR ?`,
-                        yesAlertFunc: () => {
-                          onCreatePRHandler(
-                            `/procurement/AutoPurchase/GetFormatedItemListForAutoPRCreate`,
-                            payLoad,
-                            () => {
-                              getData(values);
-                            },
-                            true
-                          );
-                        },
-                        noAlertFunc: () => {},
-                      });
-                    }}
-                  >
-                    Create PR
-                  </button>
+                  <b className="mx-2">
+                    Status : <span className="text-success">Connected</span>
+                  </b>
+                  {connectedPortInfo && (
+                    <b className="mr-2">
+                      Port :{" "}
+                      <span className="text-success">{portTitleHandler()}</span>
+                    </b>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <b className="mx-2">
+                    Status : <span className="text-danger">Disconnected</span>
+                  </b>
+                </div>
+              )}
+
+              <ButtonStyleOne
+                className="btn btn-primary"
+                style={{ padding: "0.65rem 1rem" }}
+                onClick={(e) => {
+                  connectHandler();
+                }}
+                label="Connect"
+              /> */}
                 </div>
               );
             }}
           >
-            <Form>
-              <>
-                <div className="form-group  global-form row">
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="businessUnit"
-                      options={businessUnitList || []}
-                      value={values?.businessUnit}
-                      label="Business Unit"
-                      onChange={(valueOption) => {
-                        setFieldValue("businessUnit", valueOption || "");
-                        setAutoPRData([]);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="purchaseOrganization"
-                      options={[
-                        { value: 11, label: "Local Procurement" },
-                        { value: 12, label: "Forign Procurement" },
-                      ]}
-                      value={values?.purchaseOrganization}
-                      label="Purchase Organization"
-                      onChange={(valueOption) => {
-                        setFieldValue(
-                          "purchaseOrganization",
-                          valueOption || ""
-                        );
-                        setAutoPRData([]);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="itemType"
-                      options={itemTypeList || []}
-                      value={values?.itemType}
-                      label="Item Type"
-                      onChange={(valueOption) => {
-                        if (valueOption) {
-                          setFieldValue("itemType", valueOption || "");
-                          setAutoPRData([]);
-                          getItemCategoryList(
-                            `/item/MasterCategory/GetItemMasterCategoryDDL?AccountId=${profileData?.accountId}&ItemTypeId=${valueOption?.value}`
-                          );
-                        } else {
-                          setFieldValue("itemType", "");
-                          setFieldValue("itemCategory", "");
-                          setFieldValue("itemSubCategory", "");
-                          setItemCategoryList([]);
-                          setItemSubCategoryList([]);
-                          setAutoPRData([]);
-                        }
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="itemCategory"
-                      options={itemCategoryList}
-                      value={values?.itemCategory}
-                      label="Item Category"
-                      onChange={(valueOption) => {
-                        if (valueOption) {
-                          setFieldValue("itemSubCategory", "");
-                          setFieldValue("itemCategory", valueOption);
-                          getItemSubCategoryList(
-                            `/item/MasterCategory/GetItemMasterSubCategoryDDL?AccountId=${profileData?.accountId}&ItemMasterCategoryId=${valueOption?.value}&ItemMasterTypeId=${values?.itemType?.value}`
-                          );
-                          setAutoPRData([]);
-                        } else {
-                          setFieldValue("itemCategory", "");
-                          setFieldValue("itemSubCategory", "");
-                          setItemSubCategoryList([]);
-                          setAutoPRData([]);
-                        }
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="itemSubCategory"
-                      options={itemSubCategoryList || []}
-                      value={values?.itemSubCategory}
-                      label="Item Sub-category"
-                      onChange={(valueOption) => {
-                        setFieldValue("itemSubCategory", valueOption);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        getData(values);
-                      }}
-                      disabled={
-                        !values?.businessUnit ||
-                        !values?.itemType ||
-                        !values?.itemCategory ||
-                        !values?.itemSubCategory ||
-                        !values?.purchaseOrganization
-                      }
-                      className="btn btn-primary mt-5"
-                    >
-                      Show
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  {autoPRData?.length > 0 && (
-                    <div className="table-responsive">
-                      <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Item Code</th>
-                            <th>Item Name</th>
-                            <th>UOM</th>
-                            <th>Warehouse</th>
-                            <th>Business Unit</th>
-                            <th>Total Monthly Requirment</th>
-                            <th>Opening QTY Silo</th>
-                            <th>Floating Stock</th>
-                            <th>In Transit</th>
-                            <th>Open PR</th>
-                            <th>Available Stock</th>
-                            <th>Closing Balance</th>
-                            {/* <th>Current Stock</th>
-                            <th>Open PR</th>
-                            <th>Open PO</th>
-                            <th>Ghat Stock</th>
-                            <th>Port Stock</th>
-                            <th>Reorder Level</th>
-                            <th>PR Quantity</th>
-                            <th>Action</th> */}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {autoPRData?.length > 0 &&
-                            autoPRData?.map((item, index) => (
-                              <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td className="text-center">
-                                  {item?.strItemCode}
-                                </td>
-                                <td>{item?.strItemName}</td>
-                                <td className="text-center">
-                                  {item?.strUoMName}
-                                </td>
-                                <td className="text-center">
-                                  {item?.strWarehouseName}
-                                </td>
-                                <td>{item?.strBusinessUnitName}</td>
-                                <td className="text-center">
-                                  {item?.totalMonthlyRequirement
-                                    ? item?.totalMonthlyRequirement?.toFixed(2)
-                                    : ""}
-                                </td>
-                                <td className="text-center">
-                                  {item?.openingQTYSilo || 0}
-                                </td>
-                                <td className="text-center">
-                                  {item?.balanceOnGhat || 0}
-                                </td>
-                                <td className="text-center">
-                                  {item?.openPOQty - item?.balanceOnGhat || 0}
-                                </td>
-                                <td className="text-center">
-                                  {item?.openPRQty || 0}
-                                </td>
-                                <td className="text-center">
-                                  {item?.openingQTYSilo +
-                                    item?.balanceOnGhat +
-                                    (item?.openPOQty - item?.balanceOnGhat) ||
-                                    0}
-                                </td>
-                                <td className="text-center">
-                                  {(
-                                    item?.openingQTYSilo +
-                                    item?.balanceOnGhat +
-                                    (item?.openPOQty - item?.balanceOnGhat) -
-                                    item?.totalMonthlyRequirement
-                                  )?.toFixed(2) || 0}
-                                </td>
-                                {/* <td className="text-center">
-                                  {values?.purchaseOrganization?.value ===
-                                    2 && (
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">
-                                          <table className={styles.table}>
-                                            <tbody>
-                                              <tr>
-                                                <td>
-                                                  <strong>Current Stock</strong>
-                                                </td>
-                                                <td>
-                                                  + {item?.inventoryStock || 0}
-                                                </td>
-                                              </tr>
-                                              <tr>
-                                                <td>
-                                                  <strong>Port Stock</strong>
-                                                </td>
-                                                <td>
-                                                  + {item?.portStock || 0}
-                                                </td>
-                                              </tr>
-                                              <tr>
-                                                <td>
-                                                  <strong>Ghat Stock</strong>
-                                                </td>
-                                                <td>
-                                                  + {item?.balanceOnGhat || 0}
-                                                </td>
-                                              </tr>
-
-                                              <tr>
-                                                <td>
-                                                  <strong>Open PO</strong>
-                                                </td>
-                                                <td>
-                                                  -{" "}
-                                                  {item?.purchaseOrderStock ||
-                                                    0}
-                                                </td>
-                                              </tr>
-                                              <tr>
-                                                <td>
-                                                  <strong>Open PR</strong>
-                                                </td>
-                                                <td>
-                                                  -{" "}
-                                                  {item?.purchaseRequestStock ||
-                                                    0}
-                                                </td>
-                                              </tr>
-
-                                              <tr>
-                                                <td>
-                                                  <strong>PR Quantity</strong>
-                                                </td>
-                                                <td>
-                                                  {(item?.inventoryStock || 0) +
-                                                    (item?.portStock || 0) +
-                                                    (item?.balanceOnGhat || 0) -
-                                                    ((item?.purchaseOrderStock ||
-                                                      0) +
-                                                      (item?.purchaseRequestStock ||
-                                                        0))}
-                                                </td>
-                                              </tr>
-                                            </tbody>
-                                          </table>
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <span>
-                                        <i className="fa fa-info-circle pointer"></i>
-                                      </span>
-                                    </OverlayTrigger>
-                                  )}
-                                </td> */}
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                </div>
-              </>
-            </Form>
+            <Tabs
+              defaultActiveKey="raw-material"
+              id="uncontrolled-tab-example"
+              className="mb-3"
+            >
+              <Tab unmountOnExit eventKey="raw-material" title="Raw Material">
+                <RawMaterialAutoPR />
+              </Tab>
+              <Tab unmountOnExit eventKey="others" title="Others Item">
+                <OthersItem />
+              </Tab>
+            </Tabs>
           </IForm>
         </>
       )}
