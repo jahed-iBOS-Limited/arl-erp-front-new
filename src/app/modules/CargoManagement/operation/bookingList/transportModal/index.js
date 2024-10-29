@@ -29,6 +29,10 @@ const validationSchema = Yup.object().shape({
     is: (val) => val?.value === 1,
     then: Yup.string().required("Air Line is required"),
   }),
+  iataNumber: Yup.string().when("transportPlanning", {
+    is: (val) => val?.value === 1,
+    then: Yup.string().required("Iata Number is required"),
+  }),
   carton: Yup.string().when("transportPlanning", {
     is: (val) => val?.value === 1,
     then: Yup.string().required("Carton is required"),
@@ -108,6 +112,10 @@ function TransportModal({ rowClickData, CB }) {
               transportPlanning?.airLine || ""
             );
             formikRef.current.setFieldValue(
+              "iataNumber",
+              transportPlanning?.iataNumber || ""
+            );
+            formikRef.current.setFieldValue(
               "carton",
               transportPlanning?.carton || ""
             );
@@ -177,6 +185,7 @@ function TransportModal({ rowClickData, CB }) {
       vehicleInfo: values?.vehicleInfo || "",
       noOfPallets: values?.noOfPallet || 0,
       carton: values?.carton || 0,
+      iataNumber: values?.iataNumber || 0,
       noOfContainer: values?.continer || 0,
       airLineOrShippingLine: values?.airLine || values?.shippingLine || "",
       vesselName: values?.vesselName || "",
@@ -222,7 +231,8 @@ function TransportModal({ rowClickData, CB }) {
           transportMode: "",
           estimatedTimeOfDepart: "",
           berthDate: "",
-          cutOffDate: ""
+          cutOffDate: "",
+          iataNumber: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -267,6 +277,7 @@ function TransportModal({ rowClickData, CB }) {
                       setFieldValue("noOfPallet", "");
                       setFieldValue("airLine", "");
                       setFieldValue("carton", "");
+                      setFieldValue("iataNumber", "");
                       setFieldValue("continer", "");
                       setFieldValue("shippingLine", "");
                       setFieldValue("vesselName", "");
@@ -339,6 +350,18 @@ function TransportModal({ rowClickData, CB }) {
                         type="text"
                         onChange={(e) =>
                           setFieldValue("airLine", e.target.value)
+                        }
+                      />
+                    </div>
+                    {/* iataNumber */}
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.iataNumber}
+                        label="IATA Number"
+                        name="iataNumber"
+                        type="number"
+                        onChange={(e) =>
+                          setFieldValue("iataNumber", e.target.value)
                         }
                       />
                     </div>
