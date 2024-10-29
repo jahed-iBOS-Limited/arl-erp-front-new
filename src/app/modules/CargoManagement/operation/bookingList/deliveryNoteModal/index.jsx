@@ -83,14 +83,16 @@ export default function DeliveryNoteModal({ rowClickData }) {
                 style={{
                     fontSize: 11,
                     display: "grid",
-                    gap: 10
+                    gap: 10,
+                    position: 'relative'
                 }}
                 ref={componentRef}
             >
                 <div
                     style={{
-                        display: "grid",
-                        gridTemplateColumns: "1fr 11fr"
+                        position: "absolute",
+                        top: 0,
+                        left: 0
                     }}
                 >
                     <img src={logisticsLogo} alt=""
@@ -100,17 +102,19 @@ export default function DeliveryNoteModal({ rowClickData }) {
                             objectFit: "cover",
                         }}
                     />
-                    <div
-                        style={{
-                            textAlign: "center",
-                        }}
-                    >
-                        <span style={{ fontSize: 14, fontWeight: 600 }}>DELIVERY NOTE</span><br />
-                        <span > {selectedBusinessUnit?.label}</span><br />
-                        <span>  {selectedBusinessUnit?.address}</span> <br />
-                    </div>
-
                 </div>
+
+                <div
+                    style={{
+                        textAlign: "center",
+                    }}
+                >
+                    <span style={{ fontSize: 14, fontWeight: 600 }}>DELIVERY NOTE</span><br />
+                    <span > {selectedBusinessUnit?.label}</span><br />
+                    <span>  {selectedBusinessUnit?.address}</span> <br />
+                </div>
+
+
                 <div style={{ backgroundColor: "#D6DADD", height: "1px" }} />
                 <div
                     style={{
