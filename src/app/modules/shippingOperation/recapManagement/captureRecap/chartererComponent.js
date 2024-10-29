@@ -2,6 +2,7 @@ import React from "react";
 import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
+import { toast } from "react-toastify";
 
 const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, cargoDDL, portDDL, values, setFieldValue, errors, touched, shipperNameList, viewId }) => {
     // Function to handle adding a new charterer
@@ -26,6 +27,14 @@ const ChartererComponent = ({ chartererList, setChartererList, chartererDDL, car
     // Function to handle adding cargo to a specific charterer
     const handleAddCargo = (index, cargoName, cargoQuantity, loadPort, dischargePort) => {
         const updatedChartererList = [...chartererList];
+        const existingCargo = updatedChartererList[index].nominationCargosList.find(
+            (cargo) => cargo.strCargoName === cargoName.label
+        );
+
+        if(existingCargo){
+            return toast.warn("Cargo already exists and will not be added again.")
+        }
+        
         updatedChartererList[index].nominationCargosList.push({
             intRowId: 0,
             intVesselNominationId: 0,

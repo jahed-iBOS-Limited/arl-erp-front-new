@@ -267,7 +267,7 @@ export default function VehicleUserTagging() {
                                     </button>
                                     <button
                                       type="button"
-                                      className="btn btn-primary mx-2"
+                                      className="btn btn-primary mx-4"
                                       onClick={() => {
                                         deleteHandler(item, values);
                                       }}
@@ -290,7 +290,7 @@ export default function VehicleUserTagging() {
                                           }}
                                         >
                                           <i
-                                            style={{ fontSize: "16px" }}
+                                            style={{ fontSize: "22px" }}
                                             class="fa fa-envelope pointer"
                                             aria-hidden="true"
                                           ></i>{" "}
