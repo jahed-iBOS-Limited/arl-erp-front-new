@@ -8,6 +8,8 @@ export const withEncryptedAPI = [
   "/EProcurement/GetPaymentTermsListDDL",
   "/EProcurement/GetSupplierListDDL",
   "/EProcurement/GetItemsForPRReference",
+  "/RequestForQuotation/CreateRequestForQuotation",
+  "/RequestForQuotation/EditRequestForQuotation",
 
   // CS
   "/ComparativeStatement/GetSupplierStatementForCS",

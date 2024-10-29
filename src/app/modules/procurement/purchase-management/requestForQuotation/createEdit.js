@@ -122,7 +122,7 @@ export default function RFQCreateEdit() {
   }, shallowEqual);
   // const [attachmentData, setAttchmentData] = useState([]);
   // const [open, setOpen] = useState(false);
-  // const [fileObjects, setFileObjects] = useState([]);
+  const [fileObjects, setFileObjects] = useState([]);
   const [, uploadFile] = useAxiosPost();
 
   const saveHandler = (values, cb) => {
@@ -159,23 +159,30 @@ export default function RFQCreateEdit() {
       0
     );
 
+    const fileList = fileObjects?.map((itm) => {
+      return {
+        id: +id ? itm?.id : 0,
+        attachmentId: +id ? itm?.attachmentId : itm?.id,
+      };
+    });
     const rowListWithReferance = itemList?.map((item) => {
       return {
         rowId: item?.rowId,
         partnerRfqid: item?.partnerRfqid || 0,
         requestForQuotationId: item?.requestForQuotationId || 0,
         requestForQuotationCode: "",
-        referenceId: item?.purchaseRequestId,
-        prreferenceCode: "",
-        itemId: item?.value,
+        referenceId: item?.referenceId,
+        prreferenceCode: item?.referenceCode,
+        itemId: item?.itemId,
         itemCode: item?.itemCode,
-        itemName: item?.label,
-        uoMid: item?.baseUomId,
-        uoMname: item?.baseUomName,
+        itemName: item?.itemName,
+        uoMid: item?.uoMid,
+        uoMname: item?.uoMname,
         //@ts-ignore
-        rfqquantity: item?.rfqquantity,
+        rfqquantity: item?.reqquantity,
         referenceQuantity: item?.referenceQuantity,
         description: item?.description,
+        chatList: [], // chat list
       };
     });
 
@@ -184,20 +191,20 @@ export default function RFQCreateEdit() {
         partnerRfqid: item?.partnerRfqid || 0,
         requestForQuotationId: item?.requestForQuotationId || 0,
         requestForQuotationCode: item?.requestForQuotationCode || "",
-        accountId: 0,
+        accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
-        businessPartnerId: item?.value,
-        businessPartnerName: item?.label,
-        businessPartnerCode: item?.code,
-        businessPartnerAddress: item?.supplierAddress,
+        businessPartnerId: item?.businessPartnerId,
+        businessPartnerName: item?.businessPartnerName,
+        businessPartnerCode: item?.businessPartnerCode,
+        businessPartnerAddress: item?.businessPartnerAddress,
         supplierRefNo: item?.supplierRefNo || "",
-        email: item?.supplierEmail,
-        contactNumber: item?.supplierContact,
+        email: item?.email,
+        contactNumber: item?.contactNumber,
         issueDate: _todayDate(),
         docAttachmentLink: "",
         isQuotationReceived: true,
         isEmailSend: true,
-        lastActionBy: 0,
+        lastActionBy: profileData?.userId,
         isActive: true,
       };
     });
@@ -294,8 +301,8 @@ export default function RFQCreateEdit() {
       isApproved: true,
       businessUnitId: selectedBusinessUnit?.value,
       businessUnitName: selectedBusinessUnit?.label,
-      sbuId: sbu?.sbuId, //need discussion
-      sbuName: "",
+      sbuId: values?.sbu?.value || 0,
+      sbuName: values?.sbu?.label || "",
       termsAndConditions: values?.termsAndConditions,
       totalItems: itemList?.length || 0,
       totalQuantity: totalRowQuantity || 0,
@@ -312,25 +319,24 @@ export default function RFQCreateEdit() {
       requestTypeId: values?.rfqType?.value,
       requestTypeName: values?.rfqType?.label,
       referenceTypeName: "",
-      // attachmentList: formateImage?.length > 0 ? formateImage : [],
+      attachmentList: fileList?.length > 0 ? fileList : [],
       actionBy: profileData?.userId,
       rowList: rowListWithReferance,
       partnerList: partnerList,
       incotermsId: 0,
       transportCostProvider: values?.transportCostProvider?.label || "",
       transportCost: +values?.transportAmount || 0,
-      objRow: rowListWithReferance,
-      supplierRow: partnerList,
     };
     saveData(
       id
-        ? `/RequestForQuotation/EditRequestForQuotation`
-        : `/RequestForQuotation/CreateRequestForQuotation`,
+        ? `${eProcurementBaseURL}/RequestForQuotation/EditRequestForQuotation`
+        : `${eProcurementBaseURL}/RequestForQuotation/CreateRequestForQuotation`,
       payload,
       cb,
       true
     );
   };
+  // console.log("itemList", JSON.stringify(itemList, null, 2));
 
   useEffect(() => {
     // /RequestForQuotation/GetRequestForQuotationDetails
@@ -499,6 +505,7 @@ export default function RFQCreateEdit() {
         requestForQuotationId: id ? +id : 0,
         businessPartnerId: values?.supplier?.value,
         businessPartnerName: values?.supplier?.label,
+        businessPartnerCode: values?.supplier?.code,
         businessPartnerAddress: values?.supplier?.supplierAddress,
         email:
           values?.supplierEmail === ""
@@ -569,16 +576,17 @@ export default function RFQCreateEdit() {
             rowList.push({
               rowId: 0,
               itemId: item?.value || 0,
-              itemCode: item?.code || "",
+              itemCode: item?.itemCode || "",
               itemName: item?.label || "",
-              itemtypeName: item?.itemtypeName || "",
-              uoMid: item?.uoMId || 0,
-              uoMname: item?.uoMName || "",
-              reqquantity: 0,
+              itemtypeId: item?.itemTypeId || "",
+              itemtypeName: item?.itemTypeName || "",
+              uoMid: item?.baseUomId || 0,
+              uoMname: item?.baseUomName || "",
+              reqquantity: item?.reqquantity || 0,
               referenceId: values?.referenceNo?.value || 0,
               referenceCode: values?.referenceNo?.label || "",
               referenceQuantity: item?.referenceQuantity || 0,
-              description: item?.itemPurpose,
+              description: item?.itemPurpose || "",
             });
           }
         });
@@ -606,15 +614,16 @@ export default function RFQCreateEdit() {
           {
             rowId: 0,
             itemId: values?.item?.value || 0,
-            itemCode: values?.item?.code || "",
+            itemCode: values?.item?.itemCode || "",
             itemName: values?.item?.label || "",
-            itemtypeName: values?.item?.itemtypeName || "",
-            uoMid: values?.item?.uoMId || 0,
-            uoMname: values?.item?.uoMName || "",
+            itemtypeId: values?.item?.itemTypeId || "",
+            itemtypeName: values?.item?.itemTypeName || "",
+            uoMid: values?.item?.baseUomId || 0,
+            uoMname: values?.item?.baseUomName || "",
             reqquantity: +values?.quantity || 0,
             referenceId: values?.referenceNo?.value || 0,
             referenceCode: values?.referenceNo?.label || "",
-            referenceQuantity: +values?.item?.refQty || 0,
+            referenceQuantity: +values?.item?.referenceQuantity || 0,
             description:
               values?.itemDescription === ""
                 ? values?.item?.description
@@ -666,19 +675,19 @@ export default function RFQCreateEdit() {
   //     attachmentId: id ? item?.attachmentId : item?.id,
   //   };
   // });
-  const handleUploadAttachment = (file, applicationId) => {
-    const url = `${eProcurementBaseURL}/EProcurement/UploadFile`;
-    console.log("file", JSON.stringify(file, null, 2));
-    //payload for single file upload
-    const payload = {
-      applicationId,
-      attachmentUrl: file[0]?.id,
-    };
-    uploadFile(url, payload);
-  };
+  // const handleUploadAttachment = (file, applicationId) => {
+  //   const url = `${eProcurementBaseURL}/EProcurement/UploadFile`;
+  //   console.log("file", JSON.stringify(file, null, 2));
+  //   //payload for single file upload
+  //   const payload = {
+  //     id: 0,
+  //     attachmentId: file[0]?.id,
+  //   };
+  //   uploadFile(url, payload);
+  // };
 
   // console.log("fileObjects", fileObjects);
-
+  // console.log("partnerList", JSON.stringify(supplierList, null, 2));
   return (
     <Formik
       enableReinitialize={true}
@@ -1244,6 +1253,7 @@ export default function RFQCreateEdit() {
                     Attachment
                   </button> */}
                   <AttachmentUploaderNew
+                    isForPeopleDeskApi={true}
                     showIcon
                     style={{
                       color: "black",
@@ -1251,7 +1261,7 @@ export default function RFQCreateEdit() {
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
                         console.log(attachmentData);
-                        handleUploadAttachment(attachmentData, 1);
+                        setFileObjects(attachmentData);
                       }
                     }}
                   />

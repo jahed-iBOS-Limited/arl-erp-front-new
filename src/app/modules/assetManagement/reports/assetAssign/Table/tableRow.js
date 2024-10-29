@@ -103,7 +103,7 @@ export function TableRow(props) {
                             <th>Responsible Employee Name</th>
                             <th>Using Department Name</th>
                             <th>Manufacturer Serial No</th>
-                            <th>Action</th>
+                            {/* <th>Action</th> */}
                           </tr>
                         </thead>
                         <tbody>
@@ -153,7 +153,7 @@ export function TableRow(props) {
                                       {item.manufacturerSerialNo}
                                     </span>
                                   </td>
-                                  <td className="text-center">
+                                  {/* <td className="text-center">
                                     {(["Transport & Vehicle"].includes(item?.assetType) || true) && (<span>
                                       <OverlayTrigger overlay={<Tooltip id='cs-icon'>{"Send Mail"}</Tooltip>}>
                                         <span onClick={() => {
@@ -163,7 +163,7 @@ export function TableRow(props) {
                                           <i style={{ fontSize: "16px" }} class="fa fa-envelope pointer" aria-hidden="true"></i>                                        </span>
                                       </OverlayTrigger>
                                     </span>)}
-                                  </td>
+                                  </td> */}
                                 </tr>
                               );
                             })}
