@@ -1,17 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
+import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
-import YearMonthForm from "../../../_helper/commonInputFieldsGroups/yearMonthForm";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import BreakDownModal from "./breakdownModal";
-import InputField from "../../../_helper/_inputField";
-import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
 
 const months = [
   { name: "Jan", value: 1 },
@@ -61,7 +60,7 @@ export default function RawMaterialAutoPR() {
 
   const getSelectedAndNextMonths = (selectedValue) => {
     const selectedIndex = months.findIndex(
-      (month) => month.value === selectedValue
+      (month) => month?.value === +selectedValue
     );
 
     if (selectedIndex === -1) return []; // Return empty if month not found
@@ -248,7 +247,7 @@ export default function RawMaterialAutoPR() {
                             <th>
                               {
                                 getSelectedAndNextMonths(
-                                  values?.monthYear?.split("-")[1] || 0
+                                  values?.monthYear?.split("-")[1]
                                 )?.[2]?.name
                               }
                             </th>
@@ -261,7 +260,7 @@ export default function RawMaterialAutoPR() {
                             <th>
                               {`${
                                 getSelectedAndNextMonths(
-                                  values?.month?.value || 0
+                                  values?.monthYear?.split("-")[1]
                                 )?.[0]?.name
                               } Requirment` || ""}
                             </th>
