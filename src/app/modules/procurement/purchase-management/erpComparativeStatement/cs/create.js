@@ -28,6 +28,8 @@ import InputField from "../../../../_helper/_inputField";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { IInput } from "../../../../_helper/_input";
+import CostEntry from "./costEntry";
+import { set } from "lodash";
 
 const initData = {
   id: undefined,
@@ -48,6 +50,7 @@ export default function CreateCs({
     setSuppilerStatement,
   ] = useAxiosGet();
   const [itemDDL, getItemDDL, itemDDLLoading, setItemDDL] = useAxiosGet();
+  const [isCostEntryModal, setIsCostEntryModal] = useState(false);
   const [
     SupplierDDL,
     getSupplierDDL,
@@ -580,6 +583,15 @@ export default function CreateCs({
                       />
                     </div>
                   </div>
+                  <div className="col-lg-3">
+                    <button
+                      className="btn btn-danger"
+                      type="button"
+                      onClick={() => setIsCostEntryModal(true)}
+                    >
+                      Cost Entry
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -774,6 +786,26 @@ export default function CreateCs({
                   ...isModalShowObj,
                   isModalOpen: false,
                 });
+              }}
+            />
+          </IViewModal>
+        </>
+      )}
+
+      {isCostEntryModal && (
+        <>
+          <IViewModal
+            title={"Create Cost Entry"}
+            show={isCostEntryModal}
+            onHide={() => {
+              setIsCostEntryModal(false);
+              // getFirstPlacePartnerList();
+            }}
+          >
+            <CostEntry
+              dataList={suppilerStatement}
+              CB={(list) => {
+                // commonLandingApi();
               }}
             />
           </IViewModal>
