@@ -26,13 +26,13 @@ const useRowStyles = makeStyles({
 });
 
 function Row(props) {
-  const { row, data, key, rowDataHandler, index } = props;
+  const { row, data, type, rowDataHandler, index } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
 
   return (
     <React.Fragment>
-      <TableRow className={classes.root}>
+      <TableRow>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -42,13 +42,11 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          {row?.itemName}
-        </TableCell>
-        <TableCell align="right">{row?.uoMname}</TableCell>
-        <TableCell align="right">{row?.itemCategoryName}</TableCell>
-        <TableCell align="right">{row?.itemDescription}</TableCell>
-        <TableCell align="right">
+        <TableCell align="center">{row?.itemName}</TableCell>
+        <TableCell align="center">{row?.uoMname}</TableCell>
+        <TableCell align="center">{row?.itemCategoryName}</TableCell>
+        <TableCell align="center">{row?.itemDescription}</TableCell>
+        <TableCell align="center">
           {" "}
           <IInput
             value={data[index]?.takenQty || 0}
@@ -66,97 +64,172 @@ function Row(props) {
             }}
           />
         </TableCell>
-        <TableCell align="right">{row?.quantity}</TableCell>
+        <TableCell align="center">{row?.quantity}</TableCell>
       </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                1st Choice Supplier
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Supplier Rate</TableCell>
-                    <TableCell>Amount</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {/* {row?.history?.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
+      {type === "Foreign Procurement" ? (
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box margin={1}>
+                <Typography variant="h6" gutterBottom component="div">
+                  1st Choice Supplier
+                </Typography>
+                <Table size="small" aria-label="purchases">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Port Name</TableCell>
+                      <TableCell>Port Rate</TableCell>
+                      <TableCell>Amount</TableCell>
+                      <TableCell>Port Remarks</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {row?.firstAndSecondPlaceList[0]?.portList?.map((port) => (
+                      <TableRow key={port.portId}>
+                        <TableCell>{port?.portName}</TableCell>
+                        <TableCell>{port?.portRate}</TableCell>
+                        <TableCell>
+                          {
+                            <TableCell>
+                              {" "}
+                              {row?.firstAndSecondPlaceList[0]?.supplierRate *
+                                data[index]?.takenQty || 0
+
+                              // item?.firstAndSecondPlaceList[0]
+                              // ?.totalAmount || 0
+                              }
+                            </TableCell>
+                          }
+                        </TableCell>
+                        <TableCell>{port?.portRemarks}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box margin={1}>
+                <Typography variant="h6" gutterBottom component="div">
+                  2nd Choice Supplier
+                </Typography>
+                <Table size="small" aria-label="purchases">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Port Name</TableCell>
+                      <TableCell>Port Rate</TableCell>
+                      <TableCell>Amount</TableCell>
+                      <TableCell>Port Remarks</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {row?.firstAndSecondPlaceList[1]?.portList?.map((port) => (
+                      <TableRow key={port.portId}>
+                        <TableCell>{port?.portName}</TableCell>
+                        <TableCell>{port?.portRate}</TableCell>
+                        <TableCell>
+                          {
+                            <TableCell>
+                              {" "}
+                              {row?.firstAndSecondPlaceList[1]?.supplierRate *
+                                data[index]?.takenQty || 0
+
+                              // item?.firstAndSecondPlaceList[0]
+                              // ?.totalAmount || 0
+                              }
+                            </TableCell>
+                          }
+                        </TableCell>
+                        <TableCell>{port?.portRemarks}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      ) : (
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box margin={1}>
+                <Typography variant="h6" gutterBottom component="div">
+                  1st Choice Supplier
+                </Typography>
+                <Table size="small" aria-label="purchases">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Supplier Rate</TableCell>
+                      <TableCell>Amount</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow key={new Date()}>
+                      <TableCell>
+                        {row?.firstAndSecondPlaceList[0]?.supplierRate || 0}
                       </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
+                      <TableCell>
+                        {" "}
+                        {row?.firstAndSecondPlaceList[0]?.supplierRate *
+                          data[index]?.takenQty || 0
+
+                        // item?.firstAndSecondPlaceList[0]
+                        // ?.totalAmount || 0
+                        }
                       </TableCell>
                     </TableRow>
-                  ))} */}
-                  <TableRow key={new Date()}>
-                    <TableCell component="th" scope="row">
-                      {row?.firstAndSecondPlaceList[0]?.supplierRate || 0}
-                    </TableCell>
-                    <TableCell>
-                      {" "}
-                      {row?.firstAndSecondPlaceList[0]?.supplierRate *
-                        data[index]?.takenQty || 0
-
-                      // item?.firstAndSecondPlaceList[0]
-                      // ?.totalAmount || 0
-                      }
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                2nd Choice Supplier
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Supplier Rate</TableCell>
-                    <TableCell>Amount</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {/* {row?.history?.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
-                      </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                    
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={3}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box margin={1}>
+                <Typography variant="h6" gutterBottom component="div">
+                  2nd Choice Supplier
+                </Typography>
+                <Table size="small" aria-label="purchases">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Supplier Rate</TableCell>
+                      <TableCell>Amount</TableCell>
                     </TableRow>
-                  ))} */}
-                  <TableRow key={new Date()}>
-                    <TableCell component="th" scope="row">
-                      {row?.firstAndSecondPlaceList[1]?.supplierRate || 0}
-                    </TableCell>
-                    <TableCell>
-                      {" "}
-                      {row?.firstAndSecondPlaceList[1]?.supplierRate *
-                        data[index]?.takenQty || 0
+                  </TableHead>
+                  <TableBody>
+                    {/* {row?.history?.map((historyRow) => (
+                        <TableRow key={historyRow.date}>
+                          <TableCell component="th" scope="row">
+                            {historyRow.date}
+                          </TableCell>
+                          <TableCell>{historyRow.customerId}</TableCell>
+                        
+                        </TableRow>
+                      ))} */}
+                    <TableRow key={new Date()}>
+                      <TableCell>
+                        {row?.firstAndSecondPlaceList[1]?.supplierRate || 0}
+                      </TableCell>
+                      <TableCell>
+                        {" "}
+                        {row?.firstAndSecondPlaceList[1]?.supplierRate *
+                          data[index]?.takenQty || 0
 
-                      // item?.firstAndSecondPlaceList[0]
-                      // ?.totalAmount || 0
-                      }
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
+                        // item?.firstAndSecondPlaceList[0]
+                        // ?.totalAmount || 0
+                        }
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      )}
     </React.Fragment>
   );
 }
@@ -179,19 +252,19 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function SupplyWiseTable({ data, rowDataHandler }) {
+export default function SupplyWiseTable({ type, data, rowDataHandler }) {
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="collapsible table">
+      <Table aria-label="collapsible table" size="small">
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>Item Name</TableCell>
-            <TableCell align="right">UOM Name</TableCell>
-            <TableCell align="right">Item Category Name</TableCell>
-            <TableCell align="right">Item Description</TableCell>
-            <TableCell align="right">Taken Quantity</TableCell>
-            <TableCell align="right">Quantity</TableCell>
+            <TableCell align="center">Item Name</TableCell>
+            <TableCell align="center">UOM Name</TableCell>
+            <TableCell align="center">Item Category Name</TableCell>
+            <TableCell align="center">Item Description</TableCell>
+            <TableCell align="center">Taken Quantity</TableCell>
+            <TableCell align="center">Quantity</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -201,6 +274,7 @@ export default function SupplyWiseTable({ data, rowDataHandler }) {
               index={index}
               row={row}
               data={data}
+              type={type}
               rowDataHandler={rowDataHandler}
             />
           ))}

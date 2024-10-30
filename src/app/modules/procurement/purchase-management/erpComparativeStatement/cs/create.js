@@ -678,6 +678,7 @@ export default function CreateCs({
               ></button>
               {values?.csType?.value === 1 && (
                 <SupplyWiseTable
+                  type={rfqDetail?.purchaseOrganizationName}
                   data={placePartnerList}
                   rowDataHandler={rowDataHandler}
                 />
