@@ -449,9 +449,9 @@ const FreightInvoice = ({ rowClickData }) => {
                 <span>Chrg. Wt</span>
               </div>
               <div style={{ padding: 2 }}>
-                <span>{bookingData?.lcNo} </span>
+                <span>{bookingData?.lcNo ?? 'N/A'} </span>
                 <br />
-                <span>{bookingData?.lcDate}</span>
+                <span>{bookingData?.lcDate ? moment(bookingData?.lcDate).format("DD MMM YYYY HH:mm A") : 'N/A'}</span>
                 <br />
                 <span>{bookingData?.pickupPlace}</span>
                 <br />
