@@ -449,9 +449,9 @@ const FreightInvoice = ({ rowClickData }) => {
                 <span>Chrg. Wt</span>
               </div>
               <div style={{ padding: 2 }}>
-                <span></span>
+                <span>{bookingData?.lcNo} </span>
                 <br />
-                <span></span>
+                <span>{bookingData?.lcDate}</span>
                 <br />
                 <span>{bookingData?.pickupPlace}</span>
                 <br />
