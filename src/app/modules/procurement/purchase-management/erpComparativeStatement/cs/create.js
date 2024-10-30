@@ -180,20 +180,31 @@ export default function CreateCs({
   console.log(placePartnerList, "fast page placePartnerList");
 
   const addNewSupplierInfos = (values) => {
-    let foundData = rowData?.filter(
-      (item) =>
+    // Adjust foundData check to include port value if required
+    let foundData = rowData?.filter((item) => {
+      const isSameItemSupplier =
         item?.itemWiseCode === values?.itemWise?.value &&
-        item?.supplierCode === values?.supplier?.value
-    );
+        item?.supplierCode === values?.supplier?.value;
+
+      // Add port comparison for "Foreign Procurement"
+      if (rfqDetail?.purchaseOrganizationName === "Foreign Procurement") {
+        return isSameItemSupplier && item?.port?.value === values?.port?.value;
+      }
+
+      return isSameItemSupplier;
+    });
+
     const totalTakenQuantity = rowData.reduce((accumulator, currentItem) => {
       return accumulator + (currentItem.takenQuantity || 0);
     }, 0);
+
     if (totalTakenQuantity >= values?.itemWise?.rfqquantity) {
       toast.warning("Total taken quantity can't be greater than RFQ quantity", {
         toastId: "Fae22",
       });
       return;
     }
+
     if (foundData?.length > 0) {
       toast.warning("Already exist", { toastId: "Fae" });
     } else {
@@ -209,6 +220,18 @@ export default function CreateCs({
         itemId: values?.itemWise?.itemId,
         note: values?.note,
       };
+
+      // Add port field if Foreign Procurement and port value exists
+      if (
+        rfqDetail?.purchaseOrganizationName === "Foreign Procurement" &&
+        values?.port?.value
+      ) {
+        payload.port = {
+          value: values.port.value,
+          label: values.port.label,
+        };
+      }
+
       setRowData([...rowData, payload]);
     }
   };
@@ -280,6 +303,22 @@ export default function CreateCs({
                   </div>
                   {values?.csType?.value === 0 && (
                     <div className="col-lg-3">
+                      <InputField
+                        label="Note"
+                        value={values?.note}
+                        name="note"
+                        onChange={(e) => {
+                          setFieldValue("note", e.target.value);
+                        }}
+                        placeholder="Note"
+                        type="text"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  )}
+                  {values?.csType?.value === 0 && (
+                    <div className="col-lg-3">
                       <NewSelect
                         name="itemWise"
                         options={itemDDL || []}
@@ -291,18 +330,16 @@ export default function CreateCs({
                             `${eProcurementBaseURL}/ComparativeStatement/GetItemWiseStatementDetails?requestForQuotationId=${
                               rfqDetail?.requestForQuotationId
                             }&itemId=${valueOption?.value || 0}`,
-                            (data) => {
-                              let list = [];
-                              // eslint-disable-next-line array-callback-return, no-unused-expressions
-                              data?.map((item) => {
-                                list.push({
+                            (res) => {
+                              const modData = res?.map((item) => {
+                                return {
+                                  ...item,
                                   value: item?.businessPartnerId,
                                   label: item?.businessPartnerName,
                                   rowIdSupplier: item?.rowId,
-                                  partnerRfqId: item?.partnerRfqId,
-                                });
+                                };
                               });
-                              setSupplierDDL(list);
+                              setSupplierDDL(modData);
                             }
                           );
                         }}
@@ -328,6 +365,34 @@ export default function CreateCs({
                       />
                     </div>
                   )}
+                  {values?.csType?.value === 0 &&
+                    rfqDetail?.purchaseOrganizationName ===
+                      "Foreign Procurement" && (
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="port"
+                          options={
+                            SupplierDDL.find(
+                              (item) =>
+                                item?.businessPartnerId ===
+                                values?.supplier?.value
+                            )?.portList?.map((port) => ({
+                              value: port?.portId,
+                              label: port?.portName,
+                              ...port, // keep the original properties as well
+                            })) || []
+                          }
+                          value={values?.port}
+                          label="Port"
+                          onChange={(valueOption) => {
+                            setFieldValue("port", valueOption);
+                          }}
+                          placeholder="Port"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                    )}
                   {values?.csType?.value === 0 && (
                     <div className="col-lg-3">
                       <label>Taken Quantity</label>
@@ -353,22 +418,6 @@ export default function CreateCs({
                         }}
                         placeholder="supplierRate"
                         type="number"
-                      />
-                    </div>
-                  )}
-                  {values?.csType?.value === 0 && (
-                    <div className="col-lg-3">
-                      <InputField
-                        label="Note"
-                        value={values?.note}
-                        name="note"
-                        onChange={(e) => {
-                          setFieldValue("note", e.target.value);
-                        }}
-                        placeholder="Note"
-                        type="text"
-                        errors={errors}
-                        touched={touched}
                       />
                     </div>
                   )}
@@ -399,6 +448,8 @@ export default function CreateCs({
                           <th>SL</th>
                           <th>Item</th>
                           <th>Supplier</th>
+                          {rfqDetail?.purchaseOrganizationName ===
+                            "Foreign Procurement" && <th>Port</th>}
                           <th>Taken Quantity</th>
                           <th>Supplier Rate</th>
                           <th>Actions</th>
@@ -426,6 +477,14 @@ export default function CreateCs({
                                   {item?.supplier}
                                 </span>
                               </td>
+                              {rfqDetail?.purchaseOrganizationName ===
+                                "Foreign Procurement" && (
+                                <td>
+                                  <span className="pl-2 text-center">
+                                    {item?.port?.label}
+                                  </span>
+                                </td>
+                              )}
                               <td>
                                 <span className="pl-2 text-center">
                                   {item?.takenQuantity}
