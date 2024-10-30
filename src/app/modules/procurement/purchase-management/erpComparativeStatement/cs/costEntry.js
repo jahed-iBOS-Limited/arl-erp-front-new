@@ -1,21 +1,17 @@
-import React, { useState } from "react";
-import IForm from "../../../../_helper/_form";
-import * as Yup from "yup";
-import { Formik, Form } from "formik";
-import { useLocation, useHistory } from "react-router-dom";
-import { values } from "lodash";
-import { toast } from "react-toastify";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { useEffect } from "react";
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import axios from "axios";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { useHistory, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
 import { CardHeaderToolbar } from "../../../../../../_metronic/_partials/controls";
+import { eProcurementBaseURL } from "../../../../../App";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   productName: "",
@@ -26,17 +22,25 @@ const validationSchema = Yup.object().shape({
   //   productName: Yup.string().required("Product Name is required"),
   //   finishedGood: Yup.string().required("Finished Good is required"),
 });
-const CostEntry = ({ dataList, CB }) => {
+const CostEntry = ({ costEntryList, dataList, CB }) => {
   console.log(dataList, "2nd dataList");
   const [, saveData, tagFGloading] = useAxiosPost();
   const [productInfo, getProductInfo, productInfoLoading] = useAxiosGet();
-  const [
-    productLanding,
-    getProductLanding,
-    productLandingLandingLoading,
-  ] = useAxiosGet();
+
   const [objProps, setObjprops] = useState({});
-  const [rowData, setRowData] = useState([]);
+  const [
+    costHeadDDL,
+    getCostHeadDDL,
+    costHeadDDLLoading,
+    setCostHeadDDL,
+  ] = useAxiosGet();
+  const [
+    currencyDDL,
+    getCurrencyDDL,
+    currencyDDLLoading,
+    setCurrencyDDL,
+  ] = useAxiosGet();
+  const [rowData, setRowData] = useState(costEntryList || []);
   const location = useLocation();
 
   const history = useHistory();
@@ -49,80 +53,88 @@ const CostEntry = ({ dataList, CB }) => {
     shallowEqual
   );
   useEffect(() => {
-    getProductInfo(`costmgmt/Precosting/ProductGetById?productId=0`, (data) => {
-      setRowData(data?.commonCostElement || []);
-    });
-  }, [selectedBusinessUnit?.value]);
-
-  const saveHandler = (values) => {
-    const costElemtList = [];
-
-    // Use forEach instead of map for side effects (pushing data)
-    // eslint-disable-next-line no-unused-expressions
-    rowData?.forEach((data) => {
-      if (data?.costElementName) {
-        costElemtList.push({
-          costElementId: data?.costElementId || 0,
-          costElementName: data?.costElementName,
-        });
-      } else {
-        console.error("Invalid data in rowData: ", data);
-      }
-    });
-
-    const payload = {
-      actionBy: profileData?.userId,
-      mappingType: "commonCostElement",
-      finishGoodMappings: [],
-      materialMappings: [],
-      commonCostElement: [...costElemtList],
-    };
-    saveData(
-      `/costmgmt/Precosting/ProductItemMaterialElementConfigure`,
-      payload,
+    getCostHeadDDL(
+      `${eProcurementBaseURL}/ComparativeStatement/GetByCostComponentByUnit?BusinessUnitId=${selectedBusinessUnit?.value}`,
       (res) => {
-        if (res.statuscode === 200) {
-          toast.success("Created Successfully");
-        } else {
-          toast.error("Failed!");
-        }
+        const modData = res?.map((item) => {
+          return {
+            ...item,
+            value: item?.intCostComponentId,
+            label: item?.strCostComponentName,
+          };
+        });
+        setCostHeadDDL(modData);
       }
     );
+
+    getCurrencyDDL(
+      `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`
+    );
+  }, []);
+
+  const saveHandler = (values) => {
+    CB(rowData);
   };
 
   const addNewFeatureHandler = (values) => {
+    // Check if the combination of supplier and cost head already exists
+    console.log("values", values);
+    console.log("rowData", rowData);
     let foundData = rowData?.filter(
-      (item) => item?.costElementName === values?.costElementName
+      (item) =>
+        item?.supplierName?.value === values?.supplierName?.value &&
+        item?.costHead?.value === values?.costHead?.value
     );
+
     if (foundData?.length > 0) {
-      toast.warning("Cost element already exist", { toastId: "Fae" });
+      toast.warning(
+        "Cost element with this supplier and cost head already exists",
+        {
+          toastId: "duplicateEntry",
+        }
+      );
     } else {
+      // Create payload with all form fields
       let payload = {
-        costElementName: values?.costElementName,
+        supplierName: values?.supplierName,
+        costHead: values?.costHead,
+        currency: values?.currency,
+        amount: parseFloat(values?.amount) || 0,
+        // Generate a unique ID for the row if needed
+        id: Date.now(),
       };
+
+      // Add new row to the existing data
       setRowData([...rowData, payload]);
     }
   };
 
-  const handleDelete = (fgValue) => {
+  const handleDelete = (rowItem) => {
     const filterData = rowData.filter(
-      (item) => item.costElementName !== fgValue
+      (item) =>
+        !(
+          item.supplierName?.value === rowItem.supplierName?.value &&
+          item.costHead?.value === rowItem.costHead?.value
+        )
     );
+
     setRowData(filterData);
   };
   const getSupplier = () => {
     let data = [];
-    if (dataList?.firstSelectedItem)
+    if (dataList?.firstSelectedItem) {
       data.push({
         value: dataList?.firstSelectedItem?.businessPartnerId,
         label: dataList?.firstSelectedItem?.businessPartnerName,
       });
+    }
 
-    if (dataList?.secondSelectedItem)
+    if (dataList?.secondSelectedItem) {
       data.push({
         value: dataList?.secondSelectedItem?.businessPartnerId,
         label: dataList?.secondSelectedItem?.businessPartnerName,
       });
+    }
 
     return data;
   };
@@ -151,7 +163,7 @@ const CostEntry = ({ dataList, CB }) => {
             {(tagFGloading || productInfoLoading) && <Loading />}
             <Form className="global-form form form-label-right">
               <div className="form-group row">
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <InputField
                     value={values?.costElementName}
                     label="Cost Element Name"
@@ -161,26 +173,68 @@ const CostEntry = ({ dataList, CB }) => {
                       setFieldValue("costElementName", e.target.value)
                     }
                   />
-                </div>
-                {/* <div className="col-lg-3">
+                </div> */}
+                <div className="col-lg-3">
                   <NewSelect
-                    name="csType"
-                    options={getSupplier || []}
-                    value={values?.csType}
-                    label="CS Type"
+                    name="supplier"
+                    options={getSupplier() || []}
+                    value={values?.supplierName}
+                    label="Supplier"
                     onChange={(valueOption) => {
-                      setFieldValue("csType", valueOption);
+                      setFieldValue("supplierName", valueOption);
                     }}
-                    placeholder="CS Type"
+                    placeholder="supplierName"
                     errors={errors}
                     touched={touched}
                   />
-                </div> */}
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="costHead"
+                    options={costHeadDDL || []}
+                    value={values?.costHead}
+                    label="Cost Head"
+                    onChange={(valueOption) => {
+                      setFieldValue("costHead", valueOption);
+                    }}
+                    placeholder="Cost Head"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="currency"
+                    options={currencyDDL || []}
+                    value={values?.currency}
+                    label="Currency"
+                    onChange={(valueOption) => {
+                      setFieldValue("currency", valueOption);
+                    }}
+                    placeholder="Currency"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.amount}
+                    label="Amount"
+                    name="amount"
+                    type="number"
+                    onChange={(e) => setFieldValue("amount", e.target.value)}
+                  />
+                </div>
 
                 <div className="col-lg-3 pt-6">
                   <button
                     type="button"
-                    disabled={!values?.costElementName}
+                    disabled={
+                      !values?.supplierName ||
+                      !values?.costHead ||
+                      !values?.currency ||
+                      !values?.amount
+                    }
                     className="btn btn-primary"
                     onClick={() => {
                       addNewFeatureHandler(values);
@@ -220,8 +274,11 @@ const CostEntry = ({ dataList, CB }) => {
                   <thead>
                     <tr>
                       <th>SL</th>
-                      <th>Cost Element</th>
-                      <th>Actions</th>
+                      <th>Supplier</th>
+                      <th>Cost Head</th>
+                      <th>Currency</th>
+                      <th>Amount</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                 )}
@@ -235,14 +292,30 @@ const CostEntry = ({ dataList, CB }) => {
                           </td>
                           <td>
                             <span className="pl-2 text-center">
-                              {item?.costElementName}
+                              {item?.supplierName?.label}
                             </span>
                           </td>
+                          <td>
+                            <span className="pl-2 text-center">
+                              {item?.costHead?.label}
+                            </span>
+                          </td>
+                          <td>
+                            <span className="pl-2 text-center">
+                              {item?.currency?.label}
+                            </span>
+                          </td>
+                          <td>
+                            <span className="pl-2 text-center">
+                              {item?.amount}
+                            </span>
+                          </td>
+
                           <td>
                             <span
                               style={{ cursor: "pointer" }}
                               onClick={() => {
-                                handleDelete(item?.costElementName);
+                                handleDelete(item);
                               }}
                             >
                               <IDelete />

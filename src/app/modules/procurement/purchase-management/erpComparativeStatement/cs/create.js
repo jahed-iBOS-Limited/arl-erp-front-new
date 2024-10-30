@@ -68,6 +68,8 @@ export default function CreateCs({
     placePartnerListLoading,
     setPlacePartnerList,
   ] = useAxiosGet();
+
+  const [costEntryList, setCostEntryList] = useState([]);
   const location = useLocation();
 
   const { rfqDetail } = location?.state;
@@ -228,6 +230,8 @@ export default function CreateCs({
     copyRowDto[index][field] = value;
     setPlacePartnerList(copyRowDto);
   };
+
+  console.log(costEntryList, "costEntryList");
 
   return (
     <IForm getProps={setObjprops} isDisabled={isDisabled} title={"Create"}>
@@ -583,15 +587,18 @@ export default function CreateCs({
                       />
                     </div>
                   </div>
-                  <div className="col-lg-3">
-                    <button
-                      className="btn btn-danger"
-                      type="button"
-                      onClick={() => setIsCostEntryModal(true)}
-                    >
-                      Cost Entry
-                    </button>
-                  </div>
+                  {rfqDetail?.purchaseOrganizationName ===
+                    "Foreign Procurement" && (
+                    <div className="col-lg-3">
+                      <button
+                        className="btn btn-danger"
+                        type="button"
+                        onClick={() => setIsCostEntryModal(true)}
+                      >
+                        Cost Entry
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -803,9 +810,11 @@ export default function CreateCs({
             }}
           >
             <CostEntry
+              costEntryList={costEntryList}
               dataList={suppilerStatement}
               CB={(list) => {
-                // commonLandingApi();
+                setCostEntryList(list);
+                setIsCostEntryModal(false);
               }}
             />
           </IViewModal>

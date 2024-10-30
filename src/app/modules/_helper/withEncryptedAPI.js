@@ -19,4 +19,5 @@ export const withEncryptedAPI = [
   "/ComparativeStatement/GetItemWiseStatementDetails",
   "/ComparativeStatement/CreateAndUpdateSupplierWiseCS",
   "/ComparativeStatement/CreateAndUpdateItemWiseCS",
+  "/ComparativeStatement/GetByCostComponentByUnit",
 ];
