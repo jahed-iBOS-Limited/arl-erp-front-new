@@ -417,8 +417,55 @@ function BookingDetailsInfo({ bookingData }) {
             </div>
           </div>
         </div>
+        {/* stages */}
+        <div className="mt-4">
+          {" "}
+          <h5>Stages</h5>
+          <div className="table-responsive">
+            <table className="table table-striped global-table mt-0">
+              <thead>
+                <tr>
+                  <th>Pending</th>
+                  <th>Confirmed</th>
+                  <th>Pickup</th>
+                  <th>Received</th>
+                  <th>Transport</th>
+                  <th>BL</th>
+                  <th>HBL</th>
+                  <th>Charges</th>
+                  <th>Document Checklist</th>
+                  <th>Dispatch</th>
+                  <th>Customs Clear</th>
+                  <th>In Transit</th>
+                  <th>Dest Port Receive</th>
+                  <th>Delivered</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    {bookingData?.createdAt && moment(bookingData?.createdAt).format("YYYY-MM-DD")}
+                  </td>
+                  <td> {bookingData?.confirmDate ? moment(bookingData?.confirmDate).format("YYYY-MM-DD") : "Not Confirmed  "} </td>
+                  <td> {bookingData?.pickupDate ? moment(bookingData?.pickupDate).format("YYYY-MM-DD") : "Not Picked Up  "} </td>
+                  <td> {bookingData?.receivedDate ? moment(bookingData?.receivedDate).format("YYYY-MM-DD") : "Not Received  "} </td>
+                  <td> N/A </td>
+                  <td> {bookingData?.bldate && moment(bookingData?.bldate).format("YYYY-MM-DD")} </td>
+                  <td> {bookingData?.hbldate && moment(bookingData?.hbldate).format("YYYY-MM-DD")} </td>
+                  <td> {bookingData?.isCharges ? "Completed" : "Incomplete"} </td>
+                  <td> {bookingData?.isDocumentChecklist ? "Completed" : "Incomplete"} </td>
+                  <td> {bookingData?.dispatchDate ? moment(bookingData?.dispatchDate).format("YYYY-MM-DD") : "Not Dispatched  "} </td>
+                  <td> {bookingData?.customsClearDt ? moment(bookingData?.customsClearDt).format("YYYY-MM-DD") : "Not Cleared  "} </td>
+                  <td> {bookingData?.isInTransit ? "Completed" : "Incomplete"} </td>
+                  <td> {bookingData?.destPortReceiveDt ? moment(bookingData?.destPortReceiveDt).format("YYYY-MM-DD") : "Not Received  "} </td>
+                  <td> {bookingData?.buyerReceiveDt ? moment(bookingData?.buyerReceiveDt).format("YYYY-MM-DD") : "Not Delivered  "} </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-    </div>
+    </div >
   );
 }
 
