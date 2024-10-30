@@ -1,10 +1,11 @@
 import moment from "moment";
 import React from "react";
 import { useDispatch } from "react-redux";
-import "./bookingDetailsInfo.css";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import "./bookingDetailsInfo.css";
 
 function BookingDetailsInfo({ bookingData }) {
+  console.log(bookingData);
   const dispatch = useDispatch();
   return (
     <div className="BookingDetailsInfo">
@@ -77,6 +78,12 @@ function BookingDetailsInfo({ bookingData }) {
               <strong>Buyer PO Number:</strong> {bookingData?.ponumber}
             </p>
             <p>
+              <strong>Buyer Name:</strong> {bookingData?.buyerName}
+            </p>
+            <p>
+              <strong>Buyer Email:</strong> {bookingData?.buyerEmail}
+            </p>
+            <p>
               {" "}
               <strong>Buyer PO Date:</strong>{" "}
               {moment(bookingData?.dateOfRequest).format("YYYY-MM-DD")}
@@ -107,6 +114,10 @@ function BookingDetailsInfo({ bookingData }) {
             <p>
               {" "}
               <strong>Mode of Transport:</strong> {bookingData?.modeOfTransport}
+            </p>
+            <p>
+              <strong>Type of Loading:</strong>{" "}
+              {bookingData?.typeOfLoading}
             </p>
             <p>
               <strong>Country of Loading:</strong>{" "}
@@ -144,6 +155,9 @@ function BookingDetailsInfo({ bookingData }) {
             </p>
             <p>
               <strong>Terms of Shipment List:</strong> {bookingData?.incoterms}
+            </p>
+            <p>
+              <strong>Type Of Loading Qty:</strong> {bookingData?.typeOfLoadingQty}
             </p>
           </div>
 
@@ -190,10 +204,14 @@ function BookingDetailsInfo({ bookingData }) {
               {bookingData?.isWarehouseService ? "Yes" : "No"}
             </p>
             <p>
+              <strong>Store Rent:</strong>{" "}
+              {bookingData?.isStoreRent ? "Yes" : "No"}
+            </p>
+            <p>
               <strong>
-                Store Rent, Haulage/Local Transportation/Pickup Service:
+                Haulage/Local Transportation/Pickup Service
               </strong>{" "}
-              {bookingData?.isStoreRentPickupService ? "Yes" : "No"}
+              {bookingData?.isHaulagePickupService ? "Yes" : "No"}
             </p>
             <p>
               <strong>Destination Haulage:</strong>{" "}
@@ -295,14 +313,12 @@ function BookingDetailsInfo({ bookingData }) {
                   <th>Cargo Type</th>
 
                   <th>HS Code</th>
-                  <th>Number of Packages/Units/Carton</th>
+                  <th>Total Number Of Packages</th>
                   <th>Per Unit Gross Weight (kg)</th>
                   <th>Per Unit Net Weight (kg)</th>
                   <th>Gross Weight (KG)</th>
                   <th>Net Weight (KG)</th>
                   <th>Volume (CBM)</th>
-                  <th>Type of Loading</th>
-
                   <th>Temperature Range</th>
 
                   <th>Special Handling Instructions</th>
@@ -313,16 +329,14 @@ function BookingDetailsInfo({ bookingData }) {
                 {bookingData?.rowsData?.map((row, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-
-                    <td>{row?.hsCode}</td>
                     <td>{row?.typeOfCargo}</td>
-                    <td>{row?.numberOfPackages}</td>
-                    <td>{row?.pugrossWeightKg}</td>
-                    <td>{row?.punetWeightKg}</td>
-                    <td>{row?.grossWeightKG}</td>
-                    <td>{row?.netWeightKG}</td>
+                    <td>{row?.hsCode}</td>
+                    <td>{row?.totalNumberOfPackages}</td>
+                    <td>{row?.totalPerUnitGrossWeightKG}</td>
+                    <td>{row?.totalPerUnitNetWeightKG}</td>
+                    <td>{row?.totalGrossWeightKG}</td>
+                    <td>{row?.totalNetWeightKG}</td>
                     <td>{row?.totalVolumeCBM}</td>
-                    <td>{row?.typeOfLoading}</td>
 
                     <td>{row?.temperatureRange || "N/A"}</td>
 
