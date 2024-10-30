@@ -150,9 +150,8 @@ export default function BreakDownModal({ singleRowData }) {
   };
 
   const calculateRemainingBalance = (singleRowData, rowData, values) => {
-    const closingBalance = Math.abs(
-      singleRowData?.availableStock - singleRowData?.firstMonthQty || 0
-    );
+    const closingBalance =
+      singleRowData?.availableStock - singleRowData?.firstMonthQty || 0;
 
     const totalRequestedQuantity = rowData?.reduce(
       (acc, item) => acc + (item?.requestQuantity || 0),

@@ -11,6 +11,7 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import BreakDownModal from "./breakdownModal";
+import { toast } from "react-toastify";
 
 const months = [
   { name: "Jan", value: 1 },
@@ -320,20 +321,38 @@ export default function RawMaterialAutoPR() {
                                   {item?.scheduleQuantity?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
-                                  {item?.prCalculationHeaderId && (
-                                    <span
-                                      style={{ cursor: "pointer" }}
-                                      onClick={() => {
-                                        setSingleRowData(item);
-                                        setShowBreakdownModal(true);
-                                      }}
-                                    >
-                                      <i
-                                        style={{ fontSize: "16px" }}
-                                        className="fa fa-plus-square text-primary mr-2"
-                                      />
-                                    </span>
-                                  )}
+                                  {item?.prCalculationHeaderId &&
+                                    item?.availableStock - item?.firstMonthQty >
+                                      0 && (
+                                      <span
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => {
+                                          if (
+                                            item?.availableStock -
+                                              item?.firstMonthQty >
+                                            0
+                                          ) {
+                                            setSingleRowData(item);
+                                            setShowBreakdownModal(true);
+                                          } else {
+                                            toast.warn(
+                                              `You don't need to break down this item for the month ${
+                                                getSelectedAndNextMonths(
+                                                  values?.monthYear?.split(
+                                                    "-"
+                                                  )[1] || 0
+                                                )?.[0]?.name
+                                              }`
+                                            );
+                                          }
+                                        }}
+                                      >
+                                        <i
+                                          style={{ fontSize: "16px" }}
+                                          className="fa fa-plus-square text-primary mr-2"
+                                        />
+                                      </span>
+                                    )}
                                 </td>
                               </tr>
                             ))}
