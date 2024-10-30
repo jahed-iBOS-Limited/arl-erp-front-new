@@ -435,7 +435,7 @@ export default function RequestForQuotationLanding() {
                               )}
                             </td>
                             <td className="text-center">
-                              {_dateFormatter(item?.rfqdate)}
+                              {_dateFormatter(item?.rfqDate)}
                             </td>
                             <td>{item?.currencyCode}</td>
                             <td className="text-center">
