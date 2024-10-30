@@ -26,6 +26,7 @@ import LocalAirportOutlinedIcon from "@material-ui/icons/LocalAirportOutlined";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import PaginationSearch from "../../../_helper/_search";
 import RfqModalForView from "./viewDetailsModal/rfqModalForView";
+import { eProcurementBaseURL } from "../../../../App";
 const initData = {
   purchaseOrganization: { value: 0, label: "ALL" },
   rfqType: { value: 1, label: "Standard RFQ" },
@@ -91,9 +92,21 @@ export default function RequestForQuotationLanding() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // businessUnitId: sbu?.businessUnitId,
+  //       plantId: 0,
+  //       warehouseId: 0,
+  //       status: topBarActiveitem?.nameForApi,
+  //       pageNo: currentPage,
+  //       pageSize: 30,
+  //       search: searchQuery,
+
   const getData = (values, pageNo, pageSize, searchValue = "") => {
     getLandingData(
-      `/procurement/RequestForQuotation/GetRequestForQuotationPasignation?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&RequestTypeId=${values?.rfqType?.value}&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}&status=${values?.status?.label}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&search=${searchValue}`
+      `${eProcurementBaseURL}/RequestForQuotation/GetRequestForQuotationLanding?businessUnitId=${
+        selectedBusinessUnit?.value
+      }&plantId=${0}&warehouseId=${0}&status=${
+        values?.status?.label
+      }&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
     );
   };
 
@@ -188,7 +201,7 @@ export default function RequestForQuotationLanding() {
           >
             <Form>
               <div className="row global-form">
-                <div className="col-lg-2">
+                {/* <div className="col-lg-2">
                   <NewSelect
                     name="purchaseOrganization"
                     options={
@@ -281,16 +294,17 @@ export default function RequestForQuotationLanding() {
                     touched={touched}
                     isDisabled={!values?.plant}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-2">
                   <NewSelect
                     name="status"
                     options={[
                       { value: 0, label: "All" },
                       { value: 1, label: "Live" },
-                      { value: 2, label: "Closed" },
-                      { value: 3, label: "Pending" },
-                      { value: 4, label: "Waiting" },
+                      { value: 2, label: "Prepared" },
+                      { value: 3, label: "Upcoming" },
+                      { value: 4, label: "Closed" },
+                      { value: 5, label: "Approved" },
                     ]}
                     value={values?.status}
                     label="Status"
@@ -303,7 +317,7 @@ export default function RequestForQuotationLanding() {
                     touched={touched}
                   />
                 </div>
-                <div className="col-lg-2">
+                {/* <div className="col-lg-2">
                   <InputField
                     label="From Date"
                     value={values?.fromDate}
@@ -329,7 +343,7 @@ export default function RequestForQuotationLanding() {
                     }}
                     disabled={false}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-4">
                   <button
                     type="button"
@@ -340,20 +354,11 @@ export default function RequestForQuotationLanding() {
                     onClick={() => {
                       getData(values, pageNo, pageSize);
                     }}
-                    disabled={
-                      !values?.purchaseOrganization ||
-                      !values?.rfqType ||
-                      !values?.sbu ||
-                      !values?.plant ||
-                      !values?.warehouse ||
-                      !values?.status ||
-                      !values?.fromDate ||
-                      !values?.toDate
-                    }
+                    disabled={!values?.status}
                   >
                     View
                   </button>
-                  <button
+                  {/* <button
                     className="btn btn-primary ml-2"
                     style={{ marginTop: "18px" }}
                     onClick={() => {
@@ -368,7 +373,7 @@ export default function RequestForQuotationLanding() {
                     type="button"
                   >
                     Export Excel
-                  </button>
+                  </button> */}
                 </div>
               </div>
 
@@ -460,7 +465,7 @@ export default function RequestForQuotationLanding() {
                                     width: "50px",
                                   }}
                                 />
-                              ) : item?.status === "Pending" ? (
+                              ) : item?.status === "Prepared" ? (
                                 <Chips
                                   classes="badge-warning"
                                   status={item?.status}
@@ -469,9 +474,19 @@ export default function RequestForQuotationLanding() {
                                     width: "50px",
                                   }}
                                 />
-                              ) : item?.status === "Waiting" ? (
+                              ) : item?.status === "Upcoming" ? (
                                 <Chips
                                   classes="badge-info"
+                                  status={item?.status}
+                                  style={{
+                                    height: "17px",
+                                    width: "50px",
+                                    backgroundColor: "#2ecc71",
+                                  }}
+                                />
+                              ) : item?.status === "Approved" ? (
+                                <Chips
+                                  classes="badge-success"
                                   status={item?.status}
                                   style={{
                                     height: "17px",
