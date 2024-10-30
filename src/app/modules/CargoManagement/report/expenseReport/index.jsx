@@ -3,7 +3,7 @@ import { IconButton } from '@material-ui/core';
 import React from 'react';
 import ICustomCard from "../../../_helper/_customCard";
 import IViewModal from "../../../_helper/_viewModal";
-import Details from '../bookingList/bookingDetails';
+import Details from '../../operation/bookingList/bookingDetails';
 
 const data = [
     {
