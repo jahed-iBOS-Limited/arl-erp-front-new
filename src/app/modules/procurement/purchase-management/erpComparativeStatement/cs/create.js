@@ -30,6 +30,7 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { IInput } from "../../../../_helper/_input";
 import CostEntry from "./costEntry";
 import { set } from "lodash";
+import SupplyWiseTable from "./supplyWiseTable";
 
 const initData = {
   id: undefined,
@@ -226,12 +227,13 @@ export default function CreateCs({
   };
 
   const rowDataHandler = (field, value, index) => {
+    console.log(field, value, index, "field, value, index");
     const copyRowDto = [...placePartnerList];
     copyRowDto[index][field] = value;
     setPlacePartnerList(copyRowDto);
   };
 
-  console.log(costEntryList, "costEntryList");
+  console.log(placePartnerList, "placePartnerList");
 
   return (
     <IForm getProps={setObjprops} isDisabled={isDisabled} title={"Create"}>
@@ -616,138 +618,10 @@ export default function CreateCs({
                 onSubmit={() => resetForm(initData)}
               ></button>
               {values?.csType?.value === 1 && (
-                <>
-                  <div
-                    className="table-responsive"
-                    style={{ marginTop: "15px" }}
-                  >
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>Item Name</th>
-                          <th>UOM Name</th>
-                          <th>Item Category Name</th>
-                          <th>Item Description</th>
-                          <th>Taken Quantity</th>
-                          <th>Quantity</th>
-                          <th>Collapse View</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {console.log(
-                          placePartnerList,
-                          "fast page placePartnerList@@@"
-                        )}
-                        {placePartnerList?.map((item, index) => (
-                          <>
-                            <tr key={index}>
-                              <td>{item?.itemName}</td>
-                              <td>{item?.uoMname}</td>
-                              <td>{item?.itemCategoryName}</td>
-                              <td>{item?.itemDescription}</td>
-                              <td
-                                style={{ width: "90px" }}
-                                className="disabled-feedback disable-border"
-                              >
-                                <IInput
-                                  value={placePartnerList[index]?.takenQty || 0}
-                                  name="takenQty"
-                                  required
-                                  placeholder="Taken Quantity"
-                                  type="number"
-                                  min="0"
-                                  // max={item?.referenceNo && item?.restofQty}
-                                  // max={!item?.newItem ? item?.restofQty + item?.initOrderQty : item?.restofQty}
-                                  onChange={(e) => {
-                                    let validNum = e.target.value;
-
-                                    rowDataHandler("takenQty", validNum, index);
-                                  }}
-                                />
-                              </td>
-                              <td>{item?.quantity}</td>
-                              <td>
-                                <button
-                                  className="btn btn-primary btn-sm"
-                                  onClick={() => handleExpandClick(item.id)}
-                                >
-                                  {expandedRow === item.id
-                                    ? "Collapse"
-                                    : "Expand"}
-                                </button>
-                              </td>
-                            </tr>
-
-                            {expandedRow === item.id && (
-                              <>
-                                {/* <tr>
-                                  {" "}
-                                  <th colSpan="3">1st</th>
-                                  <th colSpan="3">2nd</th>
-                                </tr> */}
-
-                                {/* <tr>
-                                  {" "}
-                                  <th>Serial No</th>
-                                  <th>Supplier Rate</th>
-                                  <th>Total Amount</th>
-                                  <th>Serial No</th>
-                                  <th>Supplier Rate</th>
-                                  <th>Total Amount</th>
-                                </tr> */}
-
-                                {/* <tr colSpan="3"> */}
-                                <div className="row">
-                                  <div className="col-lg-6">
-                                    <b>
-                                      Supplier Rate:{" "}
-                                      {item?.firstAndSecondPlaceList[0]
-                                        ?.supplierRate || 0}
-                                    </b>
-                                    <br />
-                                    <b>
-                                      Amount:{" "}
-                                      {item?.firstAndSecondPlaceList[0]
-                                        ?.supplierRate *
-                                        placePartnerList[index]?.takenQty || 0
-
-                                      // item?.firstAndSecondPlaceList[0]
-                                      // ?.totalAmount || 0
-                                      }
-                                    </b>
-                                  </div>
-
-                                  <div className="col-lg-6">
-                                    <b>
-                                      Supplier Rate:{" "}
-                                      {item?.firstAndSecondPlaceList[1]
-                                        ?.supplierRate || 0}
-                                    </b>
-                                    <br />
-                                    <b>
-                                      Amount:{" "}
-                                      {item?.firstAndSecondPlaceList[1]
-                                        ?.supplierRate *
-                                        placePartnerList[index]?.takenQty || 0
-                                      // item?.firstAndSecondPlaceList[1]
-                                      //   ?.totalAmount || 0
-                                      }
-                                    </b>
-                                  </div>
-                                </div>
-                                {/* </tr> */}
-
-                                {/* <tr colSpan="3"> */}
-
-                                {/* </tr> */}
-                              </>
-                            )}
-                          </>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </>
+                <SupplyWiseTable
+                  data={placePartnerList}
+                  rowDataHandler={rowDataHandler}
+                />
               )}
             </Form>
           </>
