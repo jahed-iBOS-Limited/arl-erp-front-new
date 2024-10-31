@@ -37,9 +37,15 @@ export default function SalesCommissionConfigureEntryForm() {
   ] = useAxiosGet();
 
   const {
-    profileData: { userId, userName },
+    profileData: { userId, userName, accountId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
+
+  const [desginationList, getDesignationList] = useAxiosGet();
+
+  useEffect(()=>{
+    getDesignationList(`/hcm/HCMDDL/GetPeopleDeskDesignationDDL?accountId=${accountId}&businessUnitId=${buId}`)
+  },[])
 
   useEffect(() => {
     getCommissionTypes(
@@ -92,27 +98,33 @@ export default function SalesCommissionConfigureEntryForm() {
       }
 
       setRowData(newArray);
-    } else if ([17, 18, 25, 27, 22].includes(commissionTypeId)) {
+    } else if ([17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(commissionTypeId)) {
+
+      const isCommonRateApplicable = [35, 36, 37, 38, 39, 40].includes(commissionTypeId);
+      const commissionRate = commonRate || 0;
+
       const newRow = {
         value: values?.area?.value,
         label: values?.area?.label,
         areaId: values?.area?.value,
         areaName: values?.area?.label,
         commissionDate: "",
-        commissionRate: "",
+        commissionRate: isCommonRateApplicable ? commissionRate : 0,
         salesQty: "",
         ratePerBag: "",
-        bpcommissionRate: commonRate,
-        bacommissionRate: commonRate,
-        cpcommissionRate: commonRate,
-        firstSlabCommissionRate: "",
-        secondSlabCommissionRate: "",
-        thirdSlabCommissionRate: "",
+        bpcommissionRate: isCommonRateApplicable ? 0 : commissionRate,
+        bacommissionRate: isCommonRateApplicable ? 0 : commissionRate,
+        cpcommissionRate: isCommonRateApplicable ? 0 : commissionRate,
+        firstSlabCommissionRate: 0,
+        secondSlabCommissionRate: 0,
+        thirdSlabCommissionRate: 0,
 
         offerQntFrom: +values?.fromQuantity,
         offerQntTo: +values?.toQuantity,
         achievementFrom: +values?.fromAchievement,
         achievementTo: +values?.toAchievement,
+        itemGroupId: values?.itemGroup?.value || 0,
+        designationId: values?.designation?.value || 0
       };
       setRowData([...rowData, newRow]);
       cb && cb();
@@ -165,7 +177,7 @@ export default function SalesCommissionConfigureEntryForm() {
         territoryId: 0,
         commissionTypeId: values?.commissionType?.value,
         commissiontTypeName: values?.commissionType?.label,
-        commissionRate: 0,
+        commissionRate: +item?.commissionRate || 0,
         bpcommissionRate: +item?.bpcommissionRate || 0,
         bacommissionRate: +item?.bacommissionRate || 0,
         cpcommissionRate: +item?.cpcommissionRate || 0,
@@ -216,6 +228,7 @@ export default function SalesCommissionConfigureEntryForm() {
         rowData={rowData}
         setRowData={setRowData}
         commissionTypes={commissionTypes}
+        desginationList={desginationList}
       />
     </>
   );
