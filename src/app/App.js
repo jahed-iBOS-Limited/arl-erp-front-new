@@ -30,7 +30,7 @@ export const marineBaseUrlPythonAPI =
 export const eProcurementBaseURL =
   process.env.NODE_ENV === "development" ||
   window.location?.hostname === "deverp.ibos.io"
-    ? "https://devarl.peopledesk.io/api"
+    ? "https://arl.peopledesk.io/api"
     : "https://arl.peopledesk.io/api";
 
 // live-url: https://erp.peopledesk.io

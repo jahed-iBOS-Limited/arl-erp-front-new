@@ -214,6 +214,7 @@ export default function CreateCs({
         itemWiseCode: values?.itemWise?.value,
         supplierRate: values?.supplierRate,
         supplier: values?.supplier?.label,
+        supplierInfo: values?.supplier,
         supplierCode: values?.supplier?.value,
         takenQuantity: values?.takenQuantity,
         rowIdSupplier: values?.supplier?.rowIdSupplier,

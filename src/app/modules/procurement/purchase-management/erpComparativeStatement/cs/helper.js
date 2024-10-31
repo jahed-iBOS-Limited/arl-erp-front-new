@@ -16,12 +16,15 @@ export const saveHandlerPayload = (
       payload.push({
         requestForQuotationId: rfqDetail?.requestForQuotationId,
         partnerRfqId: row?.partnerRfqId,
-        rowId: row?.rowId, // problem
+        rowId: row?.itemWiseCode, // have to check if need
         itemId: row?.itemId,
         takenQuantity: +row?.takenQuantity,
         rate: +row?.supplierRate,
         approvalNotes: row?.note,
-        portList: [],
+        portList:
+          rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
+            ? [...row?.supplierInfo?.portList]
+            : [],
       });
     });
     return payload;
