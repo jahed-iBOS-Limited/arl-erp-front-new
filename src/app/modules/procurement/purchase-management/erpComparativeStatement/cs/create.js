@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
@@ -31,6 +32,7 @@ import { IInput } from "../../../../_helper/_input";
 import CostEntry from "./costEntry";
 import { set } from "lodash";
 import SupplyWiseTable from "./supplyWiseTable";
+import { saveHandlerPayload } from "./helper";
 
 const initData = {
   id: undefined,
@@ -73,7 +75,7 @@ export default function CreateCs({
   const [costEntryList, setCostEntryList] = useState([]);
   const location = useLocation();
 
-  const { rfqDetail } = location?.state;
+  const { rfqDetail, isView } = location?.state;
   console.log(rfqDetail, "rfqDetail");
   const [rowData, setRowData] = useState([]);
   const [, saveData] = useAxiosPost();
@@ -105,26 +107,61 @@ export default function CreateCs({
   //Dispatch Get emplist action for get emplist ddl
 
   useEffect(() => {
-    getSuppilerStatement(
-      `${eProcurementBaseURL}/ComparativeStatement/GetSupplierStatementForCS?requestForQuotationId=${rfqDetail?.requestForQuotationId}`
-    );
+    if (!isView) {
+      getSuppilerStatement(
+        `${eProcurementBaseURL}/ComparativeStatement/GetSupplierStatementForCS?requestForQuotationId=${rfqDetail?.requestForQuotationId}`
+      );
 
-    getItemDDL(
-      `${eProcurementBaseURL}/ComparativeStatement/GetItemWiseStatementForCS?requestForQuotationId=${rfqDetail?.requestForQuotationId}`,
-      (data) => {
-        let list = [];
-        // eslint-disable-next-line array-callback-return, no-unused-expressions
-        data?.map((item) => {
-          list.push({
-            value: item?.rowId,
-            label: item?.itemName,
-            rfqquantity: item?.rfqquantity,
-            itemId: item?.itemId,
+      getItemDDL(
+        `${eProcurementBaseURL}/ComparativeStatement/GetItemWiseStatementForCS?requestForQuotationId=${rfqDetail?.requestForQuotationId}`,
+        (data) => {
+          let list = [];
+          // eslint-disable-next-line array-callback-return, no-unused-expressions
+          data?.map((item) => {
+            list.push({
+              value: item?.rowId,
+              label: item?.itemName,
+              rfqquantity: item?.rfqquantity,
+              itemId: item?.itemId,
+            });
           });
-        });
-        setItemDDL(list);
-      }
-    );
+          setItemDDL(list);
+        }
+      );
+    }
+
+    if (isView) {
+      getSuppilerStatement(
+        `${eProcurementBaseURL}/ComparativeStatement/GetCSInfoDetails?requestForQuotationId=${rfqDetail?.requestForQuotationId}`,
+        (data) => {
+          setSuppilerStatement((prev) => ({
+            ...prev,
+            firstSelectedItem: data?.supplierPlaceNoList
+              ? data?.supplierPlaceNoList[0]
+              : {},
+            secondSelectedItem: data?.supplierPlaceNoList
+              ? data?.supplierPlaceNoList[1]
+              : {},
+            firstSelectedId: data?.supplierPlaceNoList
+              ? data?.supplierPlaceNoList[0]?.businessPartnerId
+              : null,
+            secondSelectedId: data?.supplierPlaceNoList
+              ? data?.supplierPlaceNoList[1]?.businessPartnerId
+              : null,
+          }));
+          data?.itemDataList?.map((item) => {
+            setRowData((prev) => [
+              ...prev,
+              {
+                itemWise: item?.itemName,
+                takenSupplier: item?.takenSupplier,
+                takenQuantity: item?.totalTakenSupplier,
+              },
+            ]);
+          });
+        }
+      );
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -146,33 +183,41 @@ export default function CreateCs({
     );
   };
 
-  const handleExpandClick = (id) => {
-    // Toggle expand/collapse
-    setExpandedRow(expandedRow === id ? null : id);
-  };
-
   const saveHandler = async (values, cb) => {
     console.log(values, "values");
     console.log("rowData", rowData);
     // Create item list array from rowData
-    let itemList =
-      rowData?.map((data) => ({
-        rowId: data?.rowIdSupplier || 0, // row id from supply
-        partnerRfqId: data?.partnerRfqId,
-        itemId: data?.itemId,
-        takenQuantity: data?.takenQuantity,
-        approvalNotes: data?.note,
-        rate: data?.supplierRate || 0,
-        portList: [],
-      })) || [];
-    let payload = itemList;
+
+    if (!suppilerStatement?.firstSelectedItem) {
+      toast.warning("Please select 1st place supplier!");
+      return;
+    }
+    let payload = null;
+    payload = saveHandlerPayload(
+      values?.csType,
+      payload,
+      rfqDetail,
+      suppilerStatement,
+      placePartnerList,
+      rowData
+    );
+
     console.log(payload, "payload");
-    // saveData(
-    //   `/ComparativeStatement/CreateAndUpdateItemWiseCS`,
-    //   payload,
-    //   cb,
-    //   true
-    // );
+    let apiURL =
+      values?.csType?.value === 0
+        ? `/ComparativeStatement/CreateAndUpdateItemWiseCS
+`
+        : `/ComparativeStatement/CreateAndUpdateSupplierWiseCS`;
+    // saveData(apiURL, payload, cb, true);
+  };
+
+  const getCsTypes = () => {
+    let list = [];
+    rfqDetail?.comparativeStatementType === "Item Wise CS"
+      ? list.push({ value: 0, label: "Item Wise Create" })
+      : list.push({ value: 1, label: "Supplier Wise Create" });
+
+    return list;
   };
 
   const [objProps, setObjprops] = useState({});
@@ -213,6 +258,7 @@ export default function CreateCs({
         itemWiseCode: values?.itemWise?.value,
         supplierRate: values?.supplierRate,
         supplier: values?.supplier?.label,
+        supplierInfo: values?.supplier,
         supplierCode: values?.supplier?.value,
         takenQuantity: values?.takenQuantity,
         rowIdSupplier: values?.supplier?.rowIdSupplier,
@@ -259,7 +305,7 @@ export default function CreateCs({
   console.log(placePartnerList, "placePartnerList");
 
   return (
-    <IForm getProps={setObjprops} isDisabled={isDisabled} title={"Create"}>
+    <IForm getProps={setObjprops} isDisabled={isView} title={"Create"}>
       {isDisabled && <Loading />}
       <Formik
         enableReinitialize={true}
@@ -287,10 +333,14 @@ export default function CreateCs({
                   <div className="col-lg-3">
                     <NewSelect
                       name="csType"
-                      options={[
-                        { value: 0, label: "Item Wise Create" },
-                        { value: 1, label: "Supplier Wise Create" },
-                      ]}
+                      options={
+                        isView
+                          ? getCsTypes()
+                          : [
+                              { value: 0, label: "Item Wise Create" },
+                              { value: 1, label: "Supplier Wise Create" },
+                            ]
+                      }
                       value={values?.csType}
                       label="CS Type"
                       onChange={(valueOption) => {
@@ -301,140 +351,144 @@ export default function CreateCs({
                       touched={touched}
                     />
                   </div>
-                  {values?.csType?.value === 0 && (
-                    <div className="col-lg-3">
-                      <InputField
-                        label="Note"
-                        value={values?.note}
-                        name="note"
-                        onChange={(e) => {
-                          setFieldValue("note", e.target.value);
-                        }}
-                        placeholder="Note"
-                        type="text"
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                  )}
-                  {values?.csType?.value === 0 && (
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="itemWise"
-                        options={itemDDL || []}
-                        value={values?.itemWise}
-                        label="Item Wise List"
-                        onChange={(valueOption) => {
-                          setFieldValue("itemWise", valueOption);
-                          getSupplierDDL(
-                            `${eProcurementBaseURL}/ComparativeStatement/GetItemWiseStatementDetails?requestForQuotationId=${
-                              rfqDetail?.requestForQuotationId
-                            }&itemId=${valueOption?.value || 0}`,
-                            (res) => {
-                              const modData = res?.map((item) => {
-                                return {
-                                  ...item,
-                                  value: item?.businessPartnerId,
-                                  label: item?.businessPartnerName,
-                                  rowIdSupplier: item?.rowId,
-                                };
-                              });
-                              setSupplierDDL(modData);
-                            }
-                          );
-                        }}
-                        placeholder="Item Wise"
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                  )}
-                  {values?.csType?.value === 0 && (
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="supplier"
-                        options={SupplierDDL || []}
-                        value={values?.supplier}
-                        label="Supplier"
-                        onChange={(valueOption) => {
-                          setFieldValue("supplier", valueOption);
-                        }}
-                        placeholder="Supplier"
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                  )}
-                  {values?.csType?.value === 0 &&
-                    rfqDetail?.purchaseOrganizationName ===
-                      "Foreign Procurement" && (
-                      <div className="col-lg-3">
-                        <NewSelect
-                          name="port"
-                          options={
-                            SupplierDDL.find(
-                              (item) =>
-                                item?.businessPartnerId ===
-                                values?.supplier?.value
-                            )?.portList?.map((port) => ({
-                              value: port?.portId,
-                              label: port?.portName,
-                              ...port, // keep the original properties as well
-                            })) || []
-                          }
-                          value={values?.port}
-                          label="Port"
-                          onChange={(valueOption) => {
-                            setFieldValue("port", valueOption);
-                          }}
-                          placeholder="Port"
-                          errors={errors}
-                          touched={touched}
-                        />
-                      </div>
-                    )}
-                  {values?.csType?.value === 0 && (
-                    <div className="col-lg-3">
-                      <label>Taken Quantity</label>
-                      <InputField
-                        value={values?.takenQuantity}
-                        name="takenQuantity"
-                        onChange={(e) => {
-                          setFieldValue("takenQuantity", e.target.value);
-                        }}
-                        placeholder="takenQuantity"
-                        type="number"
-                      />
-                    </div>
-                  )}
-                  {values?.csType?.value === 0 && (
-                    <div className="col-lg-3">
-                      <label>Supplier Rate</label>
-                      <InputField
-                        value={values?.supplierRate}
-                        name="supplierRate"
-                        onChange={(e) => {
-                          setFieldValue("supplierRate", e.target.value);
-                        }}
-                        placeholder="supplierRate"
-                        type="number"
-                      />
-                    </div>
-                  )}
+                  {!isView && (
+                    <>
+                      {values?.csType?.value === 0 && (
+                        <div className="col-lg-3">
+                          <InputField
+                            label="Note"
+                            value={values?.note}
+                            name="note"
+                            onChange={(e) => {
+                              setFieldValue("note", e.target.value);
+                            }}
+                            placeholder="Note"
+                            type="text"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                      )}
+                      {values?.csType?.value === 0 && (
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="itemWise"
+                            options={itemDDL || []}
+                            value={values?.itemWise}
+                            label="Item Wise List"
+                            onChange={(valueOption) => {
+                              setFieldValue("itemWise", valueOption);
+                              getSupplierDDL(
+                                `${eProcurementBaseURL}/ComparativeStatement/GetItemWiseStatementDetails?requestForQuotationId=${
+                                  rfqDetail?.requestForQuotationId
+                                }&itemId=${valueOption?.value || 0}`,
+                                (res) => {
+                                  const modData = res?.map((item) => {
+                                    return {
+                                      ...item,
+                                      value: item?.businessPartnerId,
+                                      label: item?.businessPartnerName,
+                                      rowIdSupplier: item?.rowId,
+                                    };
+                                  });
+                                  setSupplierDDL(modData);
+                                }
+                              );
+                            }}
+                            placeholder="Item Wise"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                      )}
+                      {values?.csType?.value === 0 && (
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="supplier"
+                            options={SupplierDDL || []}
+                            value={values?.supplier}
+                            label="Supplier"
+                            onChange={(valueOption) => {
+                              setFieldValue("supplier", valueOption);
+                            }}
+                            placeholder="Supplier"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                      )}
+                      {values?.csType?.value === 0 &&
+                        rfqDetail?.purchaseOrganizationName ===
+                          "Foreign Procurement" && (
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="port"
+                              options={
+                                SupplierDDL.find(
+                                  (item) =>
+                                    item?.businessPartnerId ===
+                                    values?.supplier?.value
+                                )?.portList?.map((port) => ({
+                                  value: port?.portId,
+                                  label: port?.portName,
+                                  ...port, // keep the original properties as well
+                                })) || []
+                              }
+                              value={values?.port}
+                              label="Port"
+                              onChange={(valueOption) => {
+                                setFieldValue("port", valueOption);
+                              }}
+                              placeholder="Port"
+                              errors={errors}
+                              touched={touched}
+                            />
+                          </div>
+                        )}
+                      {values?.csType?.value === 0 && (
+                        <div className="col-lg-3">
+                          <label>Taken Quantity</label>
+                          <InputField
+                            value={values?.takenQuantity}
+                            name="takenQuantity"
+                            onChange={(e) => {
+                              setFieldValue("takenQuantity", e.target.value);
+                            }}
+                            placeholder="takenQuantity"
+                            type="number"
+                          />
+                        </div>
+                      )}
+                      {values?.csType?.value === 0 && (
+                        <div className="col-lg-3">
+                          <label>Supplier Rate</label>
+                          <InputField
+                            value={values?.supplierRate}
+                            name="supplierRate"
+                            onChange={(e) => {
+                              setFieldValue("supplierRate", e.target.value);
+                            }}
+                            placeholder="supplierRate"
+                            type="number"
+                          />
+                        </div>
+                      )}
 
-                  {values?.csType?.value === 0 && (
-                    <div className="col-lg-3 pt-6">
-                      <button
-                        type="button"
-                        disabled={!values?.supplierRate}
-                        className="btn btn-primary"
-                        onClick={() => {
-                          addNewSupplierInfos(values);
-                        }}
-                      >
-                        Add
-                      </button>
-                    </div>
+                      {values?.csType?.value === 0 && (
+                        <div className="col-lg-3 pt-6">
+                          <button
+                            type="button"
+                            disabled={!values?.supplierRate}
+                            className="btn btn-primary"
+                            onClick={() => {
+                              addNewSupplierInfos(values);
+                            }}
+                          >
+                            Add
+                          </button>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
@@ -444,16 +498,26 @@ export default function CreateCs({
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     {rowData?.length > 0 && (
                       <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Item</th>
-                          <th>Supplier</th>
-                          {rfqDetail?.purchaseOrganizationName ===
-                            "Foreign Procurement" && <th>Port</th>}
-                          <th>Taken Quantity</th>
-                          <th>Supplier Rate</th>
-                          <th>Actions</th>
-                        </tr>
+                        {isView ? (
+                          <tr>
+                            <th>SL</th>
+                            <th>Item</th>
+
+                            <th>Taken Quantity</th>
+                            <th>Taken Supplier</th>
+                          </tr>
+                        ) : (
+                          <tr>
+                            <th>SL</th>
+                            <th>Item</th>
+                            <th>Supplier</th>
+                            {rfqDetail?.purchaseOrganizationName ===
+                              "Foreign Procurement" && <th>Port</th>}
+                            <th>Taken Quantity</th>
+                            <th>Supplier Rate</th>
+                            <th>Actions</th>
+                          </tr>
+                        )}
                       </thead>
                     )}
                     <tbody>
@@ -472,42 +536,58 @@ export default function CreateCs({
                                   {item?.itemWise}
                                 </span>
                               </td>
-                              <td>
-                                <span className="pl-2 text-center">
-                                  {item?.supplier}
-                                </span>
-                              </td>
-                              {rfqDetail?.purchaseOrganizationName ===
-                                "Foreign Procurement" && (
+                              {!isView && (
                                 <td>
                                   <span className="pl-2 text-center">
-                                    {item?.port?.label}
+                                    {item?.supplier}
                                   </span>
                                 </td>
                               )}
+
+                              {rfqDetail?.purchaseOrganizationName ===
+                                "Foreign Procurement" &&
+                                !isView && (
+                                  <td>
+                                    <span className="pl-2 text-center">
+                                      {item?.port?.label}
+                                    </span>
+                                  </td>
+                                )}
                               <td>
                                 <span className="pl-2 text-center">
                                   {item?.takenQuantity}
                                 </span>
                               </td>
-                              <td>
-                                <span className="pl-2 text-center">
-                                  {item?.supplierRate}
-                                </span>
-                              </td>
-                              <td>
-                                <span
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() => {
-                                    handleDelete(
-                                      item?.itemWiseCode,
-                                      item?.supplierCode
-                                    );
-                                  }}
-                                >
-                                  <IDelete />
-                                </span>
-                              </td>
+                              {isView && (
+                                <td>
+                                  <span className="pl-2 text-center">
+                                    {item?.takenSupplier}
+                                  </span>
+                                </td>
+                              )}
+                              {!isView && (
+                                <td>
+                                  <span className="pl-2 text-center">
+                                    {item?.supplierRate}
+                                  </span>
+                                </td>
+                              )}
+
+                              {!isView && (
+                                <td>
+                                  <span
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                      handleDelete(
+                                        item?.itemWiseCode,
+                                        item?.supplierCode
+                                      );
+                                    }}
+                                  >
+                                    <IDelete />
+                                  </span>
+                                </td>
+                              )}
                             </tr>
                           );
                         })}
@@ -535,7 +615,8 @@ export default function CreateCs({
                       }}
                     >
                       {suppilerStatement?.firstSelectedId &&
-                      suppilerStatement?.firstSelectedId !== 0 ? (
+                      suppilerStatement?.firstSelectedId !== 0 &&
+                      !isView ? (
                         <button
                           onClick={() => {
                             if (
@@ -600,7 +681,8 @@ export default function CreateCs({
                       }}
                     >
                       {suppilerStatement?.secondSelectedId &&
-                      suppilerStatement?.secondSelectedId !== 0 ? (
+                      suppilerStatement?.secondSelectedId !== 0 &&
+                      !isView ? (
                         <button
                           onClick={() => {
                             setSuppilerStatement((prev) => ({
@@ -678,6 +760,7 @@ export default function CreateCs({
               ></button>
               {values?.csType?.value === 1 && (
                 <SupplyWiseTable
+                  isView={isView}
                   type={rfqDetail?.purchaseOrganizationName}
                   data={placePartnerList}
                   rowDataHandler={rowDataHandler}

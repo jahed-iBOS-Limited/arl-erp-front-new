@@ -38,10 +38,10 @@ let statusDDL = [
     nameForApi: "All",
   },
   {
-    value: "Ready for CS",
-    label: "Ready for CS",
+    value: "Ready For CS",
+    label: "Ready For CS",
     isActive: false,
-    nameForApi: "Ready for CS",
+    nameForApi: "Ready For CS",
   },
   {
     value: "Pending",
@@ -361,7 +361,7 @@ export default function ErpComparativeStatementLanding() {
                         <th>Quotation Start Date-Time</th>
                         <th>Quotation End Date-Time</th>
                         <th>RFQ Status</th>
-                        <th>Approval Status</th>
+                        {/* <th>Approval Status</th> */}
                         <th>Total Items</th>
                         <th>Action</th>
                       </tr>
@@ -418,29 +418,30 @@ export default function ErpComparativeStatementLanding() {
                                 classes="badge-primary"
                                 status={item?.status}
                               />
-                            ) : item?.status === "Ready for CS" ? (
+                            ) : item?.status &&
+                              item?.status === "Ready For CS" ? (
                               <Chips
-                                classes="badge-danger"
+                                classes="badge-success"
                                 status={item?.status}
                               />
-                            ) : item?.status === "Pending" ? (
+                            ) : item?.status && item?.status === "Pending" ? (
                               <Chips
                                 classes="badge-warning"
                                 status={item?.status}
                               />
-                            ) : item?.status === "Approved" ? (
+                            ) : item?.status && item?.status === "Approved" ? (
                               <Chips
                                 classes="badge-info"
                                 status={item?.status}
                               />
-                            ) : item?.status === "All" ? (
+                            ) : item?.status && item?.status === "All" ? (
                               <Chips
-                                classes="badge-info"
+                                classes="badge-primary"
                                 status={item?.status}
                               />
                             ) : null}
                           </td>
-                          <td className="text-center">
+                          {/* <td className="text-center">
                             {item?.status && item?.status === "Approved" ? (
                               <Chips
                                 classes="badge-success"
@@ -452,21 +453,39 @@ export default function ErpComparativeStatementLanding() {
                                 status={item?.status}
                               />
                             ) : null}
-                          </td>
+                          </td> */}
                           <td>{item?.totalItems}</td>
-                          <td className="text-center">
-                            <span
-                              className="ml-2 mr-3"
-                              onClick={() => {
-                                history.push({
-                                  pathname: `/mngProcurement/purchase-management/cs/create`,
-                                  state: { rfqDetail: item },
-                                });
-                              }}
-                            >
-                              <IAdd title={"Add"} />
-                            </span>
-                          </td>
+                          {item?.status &&
+                          item?.status === "Ready For CS" &&
+                          !item?.comparativeStatementType ? (
+                            <td className="text-center">
+                              <span
+                                className="ml-2 mr-3"
+                                onClick={() => {
+                                  history.push({
+                                    pathname: `/mngProcurement/purchase-management/cs/create`,
+                                    state: { rfqDetail: item, isView: false },
+                                  });
+                                }}
+                              >
+                                <IAdd title={"Add"} />
+                              </span>
+                            </td>
+                          ) : item?.comparativeStatementType ? (
+                            <td className="text-center">
+                              <span
+                                className="ml-2 mr-3"
+                                onClick={() => {
+                                  history.push({
+                                    pathname: `/mngProcurement/purchase-management/cs/view`,
+                                    state: { rfqDetail: item, isView: true },
+                                  });
+                                }}
+                              >
+                                <IView title={"View"} />
+                              </span>
+                            </td>
+                          ) : null}
                         </tr>
                       ))}
                     </tbody>
