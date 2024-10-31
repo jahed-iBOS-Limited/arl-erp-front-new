@@ -26,7 +26,7 @@ const useRowStyles = makeStyles({
 });
 
 function Row(props) {
-  const { row, data, type, rowDataHandler, index } = props;
+  const { row, data, type, isView, rowDataHandler, index } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
 
@@ -55,6 +55,7 @@ function Row(props) {
             placeholder="Taken Quantity"
             type="number"
             min="0"
+            disabled={isView}
             // max={item?.referenceNo && item?.restofQty}
             // max={!item?.newItem ? item?.restofQty + item?.initOrderQty : item?.restofQty}
             onChange={(e) => {
@@ -252,7 +253,12 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function SupplyWiseTable({ type, data, rowDataHandler }) {
+export default function SupplyWiseTable({
+  isView,
+  type,
+  data,
+  rowDataHandler,
+}) {
   return (
     <TableContainer component={Paper} className="mt-4">
       <Table aria-label="collapsible table" size="small">
@@ -270,6 +276,7 @@ export default function SupplyWiseTable({ type, data, rowDataHandler }) {
         <TableBody>
           {data?.map((row, index) => (
             <Row
+              isView={isView}
               key={index}
               index={index}
               row={row}
