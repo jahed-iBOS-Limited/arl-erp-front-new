@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
@@ -31,6 +32,7 @@ import { IInput } from "../../../../_helper/_input";
 import CostEntry from "./costEntry";
 import { set } from "lodash";
 import SupplyWiseTable from "./supplyWiseTable";
+import { saveHandlerPayload } from "./helper";
 
 const initData = {
   id: undefined,
@@ -146,33 +148,32 @@ export default function CreateCs({
     );
   };
 
-  const handleExpandClick = (id) => {
-    // Toggle expand/collapse
-    setExpandedRow(expandedRow === id ? null : id);
-  };
-
   const saveHandler = async (values, cb) => {
     console.log(values, "values");
     console.log("rowData", rowData);
     // Create item list array from rowData
-    let itemList =
-      rowData?.map((data) => ({
-        rowId: data?.rowIdSupplier || 0, // row id from supply
-        partnerRfqId: data?.partnerRfqId,
-        itemId: data?.itemId,
-        takenQuantity: data?.takenQuantity,
-        approvalNotes: data?.note,
-        rate: data?.supplierRate || 0,
-        portList: [],
-      })) || [];
-    let payload = itemList;
+
+    if (!suppilerStatement?.firstSelectedItem) {
+      toast.warning("Please select 1st place supplier!");
+      return;
+    }
+    let payload = null;
+    payload = saveHandlerPayload(
+      values?.csType,
+      payload,
+      rfqDetail,
+      suppilerStatement,
+      placePartnerList,
+      rowData
+    );
+
     console.log(payload, "payload");
-    // saveData(
-    //   `/ComparativeStatement/CreateAndUpdateItemWiseCS`,
-    //   payload,
-    //   cb,
-    //   true
-    // );
+    let apiURL =
+      values?.csType?.value === 0
+        ? `/ComparativeStatement/CreateAndUpdateItemWiseCS
+`
+        : `/ComparativeStatement/CreateAndUpdateSupplierWiseCS`;
+    saveData(apiURL, payload, cb, true);
   };
 
   const [objProps, setObjprops] = useState({});

@@ -254,7 +254,7 @@ Row.propTypes = {
 
 export default function SupplyWiseTable({ type, data, rowDataHandler }) {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} className="mt-4">
       <Table aria-label="collapsible table" size="small">
         <TableHead>
           <TableRow>
