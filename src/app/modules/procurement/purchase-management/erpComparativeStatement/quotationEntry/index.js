@@ -19,6 +19,8 @@ import {
 } from "../../../../_helper/_dateFormate";
 import Chips from "../../../../_helper/chips/Chips";
 import { useHistory } from "react-router-dom";
+import IAdd from "../../../../_helper/_helperIcons/_add";
+import { eProcurementBaseURL } from "../../../../../App";
 const initData = {
   purchaseOrganization: { value: 0, label: "ALL" },
   plant: "",
@@ -28,6 +30,39 @@ const initData = {
   fromDate: _threeMonthAgoDate(),
   toDate: _todayDate(),
 };
+let statusDDL = [
+  {
+    value: "All",
+    label: "All",
+    isActive: true,
+    nameForApi: "All",
+  },
+  {
+    value: "Ready for CS",
+    label: "Ready for CS",
+    isActive: false,
+    nameForApi: "Ready for CS",
+  },
+  {
+    value: "Pending",
+    label: "Pending",
+    isActive: false,
+    nameForApi: "Pending",
+  },
+  {
+    value: "Live",
+    label: "Live",
+    isActive: false,
+    nameForApi: "Live",
+  },
+  {
+    value: "Approved",
+    label: "Approved",
+    isActive: false,
+    nameForApi: "Approved",
+  },
+];
+
 export default function ErpComparativeStatementLanding() {
   const [
     landingData,
@@ -45,11 +80,17 @@ export default function ErpComparativeStatementLanding() {
     getPurchaseOrgListDDL,
     purchaseOrgListDDLloader,
   ] = useAxiosGet();
-  const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
+  const [
+    plantListDDL,
+    getPlantListDDL,
+    plantListDDLloader,
+    setPlantListDDL,
+  ] = useAxiosGet();
   const [
     warehouseListDDL,
     getWarehouseListDDL,
     warehouseListDDLloader,
+    setWarehouseListDDL,
   ] = useAxiosGet();
 
   useEffect(() => {
@@ -58,7 +99,18 @@ export default function ErpComparativeStatementLanding() {
     );
 
     getPlantListDDL(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`,
+      (data) => {
+        // let list = [];
+        // // eslint-disable-next-line array-callback-return, no-unused-expressions
+        // data?.map((item) => {
+        //   list.push({
+        //     value: item?.rowId,
+        //     label: item?.itemName,
+        //   });
+        // });
+        setPlantListDDL([{ value: 0, label: "All" }, ...data]);
+      }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -99,38 +151,38 @@ export default function ErpComparativeStatementLanding() {
         touched,
       }) => (
         <>
-          {/* {(purchaseOrgListDDLloader ||
+          {(purchaseOrgListDDLloader ||
             plantListDDLloader ||
             warehouseListDDLloader ||
-            landingDataLoader) && <Loading />} */}
+            landingDataLoader) && <Loading />}
           <IForm
             title="Comparative Statement"
             isHiddenReset
             isHiddenBack
             isHiddenSave
             getProps={setObjprops}
-            renderProps={() => {
-              return (
-                <div>
-                  <button
-                    type="button"
-                    col-lg-2
-                    className="btn btn-primary"
-                    onClick={() => {
-                      history.push(
-                        "/mngProcurement/purchase-management/cs/create"
-                      );
-                    }}
-                  >
-                    Create
-                  </button>
-                </div>
-              );
-            }}
+            // renderProps={() => {
+            //   return (
+            //     <div>
+            //       <button
+            //         type="button"
+            //         col-lg-2
+            //         className="btn btn-primary"
+            //         onClick={() => {
+            //           history.push(
+            //             "/mngProcurement/purchase-management/cs/create"
+            //           );
+            //         }}
+            //       >
+            //         Create
+            //       </button>
+            //     </div>
+            //   );
+            // }}
           >
             <Form>
               <div className="form-group  global-form row">
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <NewSelect
                     name="purchaseOrganization"
                     options={
@@ -165,7 +217,7 @@ export default function ErpComparativeStatementLanding() {
                     errors={errors}
                     touched={touched}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="plant"
@@ -177,7 +229,13 @@ export default function ErpComparativeStatementLanding() {
                       if (v) {
                         setFieldValue("plant", v);
                         getWarehouseListDDL(
-                          `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${v?.value}`
+                          `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${v?.value}`,
+                          (data) => {
+                            setWarehouseListDDL([
+                              { value: 0, label: "All" },
+                              ...data,
+                            ]);
+                          }
                         );
                       } else {
                         setFieldValue("plant", "");
@@ -208,13 +266,7 @@ export default function ErpComparativeStatementLanding() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="status"
-                    options={[
-                      { value: 0, label: "All" },
-                      { value: 1, label: "Ready for CS" },
-                      { value: 2, label: "Pending" },
-                      { value: 3, label: "Live" },
-                      { value: 4, label: "Approved" },
-                    ]}
+                    options={statusDDL || []}
                     value={values?.status}
                     label="Status"
                     onChange={(v) => {
@@ -226,7 +278,7 @@ export default function ErpComparativeStatementLanding() {
                     touched={touched}
                   />
                 </div>
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <InputField
                     label="From Date"
                     value={values?.fromDate}
@@ -252,7 +304,7 @@ export default function ErpComparativeStatementLanding() {
                     }}
                     disabled={false}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-3">
                   <button
                     type="button"
@@ -262,48 +314,13 @@ export default function ErpComparativeStatementLanding() {
                     }}
                     onClick={() => {
                       getLandingData(
-                        `/ComparativeStatement/GetComparativeStatementLanding?businessUnitId=${
+                        `${eProcurementBaseURL}/ComparativeStatement/GetComparativeStatementLanding?businessUnitId=${
                           selectedBusinessUnit?.value
-                        }&plantId=${
-                          values?.plant?.value
-                        }&warehouseId=${111}&partnerId=${222}&status=${
-                          values?.status?.value
-                        }`
+                        }&plantId=${values?.plant?.value}&warehouseId=${
+                          values?.warehouse?.value
+                        }&partnerId=${0}&status=${values?.status?.label}`
                       );
-                      console.log("values", values);
-                      const dummyData = [
-                        {
-                          purchaseOrganizationName: "Foreign Procurement",
-                          requestForQuotationCode: "RFQ-2021-0001",
-                          rfqdate: "2021-07-01T00:00:00",
-                          rfqType: "Standard",
-                          rfqTitle: "ARL stationery items",
-                          plant: "ACCL Narayangonj",
-                          warehouse: "ACCL Factory",
-                          currencyCode: "USD",
-                          startDateTime: "2021-07-01T00:00:00",
-                          endDateTime: "2021-07-01T00:00:00",
-                          rfqStatus: "Live",
-                          approvalStatus: "Approved",
-                          createdBy: "Wahed",
-                        },
-                        {
-                          purchaseOrganizationName: "Local Procurement",
-                          requestForQuotationCode: "RFQ-2021-0001",
-                          rfqdate: "2021-07-01T00:00:00",
-                          rfqType: "Standard",
-                          rfqTitle: "ARL stationery items",
-                          plant: "ACCL Narayangonj",
-                          warehouse: "APFIL Factory",
-                          currencyCode: "BDT",
-                          startDateTime: "2021-07-01T00:00:00",
-                          endDateTime: "2021-07-01T00:00:00",
-                          rfqStatus: "Closed",
-                          approvalStatus: "Pending",
-                          createdBy: "Wahed",
-                        },
-                      ];
-                      setLandingData(dummyData);
+
                       // getData(values, pageNo, pageSize)
                     }}
                     // disabled={
@@ -345,7 +362,7 @@ export default function ErpComparativeStatementLanding() {
                         <th>Quotation End Date-Time</th>
                         <th>RFQ Status</th>
                         <th>Approval Status</th>
-                        <th>Created by</th>
+                        <th>Total Items</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -382,60 +399,72 @@ export default function ErpComparativeStatementLanding() {
                             )}
                           </td>
                           <td className="text-center">
-                            {_dateFormatter(item?.rfqdate)}
+                            {_dateFormatter(item?.rfqDate)}
                           </td>
-                          <td>{item?.rfqType}</td>
+                          <td>{item?.requestTypeName}</td>
                           <td>{item?.rfqTitle}</td>
-                          <td>{item?.plant}</td>
-                          <td>{item?.warehouse}</td>
+                          <td>{item?.plantName}</td>
+                          <td>{item?.warehouseName}</td>
                           <td>{item?.currencyCode}</td>
                           <td className="text-center">
-                            {_dateTimeFormatter(item?.startDateTime)}
+                            {_dateTimeFormatter(item?.quotationEntryStart)}
                           </td>
                           <td className="text-center">
-                            {_dateTimeFormatter(item?.endDateTime)}
+                            {_dateTimeFormatter(item?.validTillDate)}
                           </td>
                           <td className="text-center">
-                            {item?.rfqStatus && item?.rfqStatus === "Live" ? (
+                            {item?.status && item?.status === "Live" ? (
                               <Chips
                                 classes="badge-primary"
-                                status={item?.rfqStatus}
+                                status={item?.status}
                               />
-                            ) : item?.rfqStatus === "Closed" ? (
+                            ) : item?.status === "Ready for CS" ? (
                               <Chips
                                 classes="badge-danger"
-                                status={item?.rfqStatus}
+                                status={item?.status}
                               />
-                            ) : item?.rfqStatus === "Pending" ? (
+                            ) : item?.status === "Pending" ? (
                               <Chips
                                 classes="badge-warning"
-                                status={item?.rfqStatus}
+                                status={item?.status}
                               />
-                            ) : item?.rfqStatus === "Waiting" ? (
+                            ) : item?.status === "Approved" ? (
                               <Chips
                                 classes="badge-info"
-                                status={item?.rfqStatus}
+                                status={item?.status}
+                              />
+                            ) : item?.status === "All" ? (
+                              <Chips
+                                classes="badge-info"
+                                status={item?.status}
                               />
                             ) : null}
                           </td>
                           <td className="text-center">
-                            {item?.approvalStatus &&
-                            item?.approvalStatus === "Approved" ? (
+                            {item?.status && item?.status === "Approved" ? (
                               <Chips
                                 classes="badge-success"
-                                status={item?.approvalStatus}
+                                status={item?.status}
                               />
-                            ) : item?.approvalStatus === "Pending" ? (
+                            ) : item?.status === "Pending" ? (
                               <Chips
                                 classes="badge-warning"
-                                status={item?.approvalStatus}
+                                status={item?.status}
                               />
                             ) : null}
                           </td>
-                          <td>{item?.createdBy}</td>
+                          <td>{item?.totalItems}</td>
                           <td className="text-center">
-                            <span className="ml-2 mr-3">
-                              <IView clickHandler={() => {}} />
+                            <span
+                              className="ml-2 mr-3"
+                              onClick={() => {
+                                history.push({
+                                  pathname: `/mngProcurement/purchase-management/cs/create`,
+                                  state: { rfqDetail: item },
+                                });
+                              }}
+                            >
+                              <IAdd title={"Add"} />
                             </span>
                           </td>
                         </tr>
