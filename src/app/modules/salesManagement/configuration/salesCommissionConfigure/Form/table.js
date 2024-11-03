@@ -35,13 +35,13 @@ const SalesCommissionConfigureFormTable = ({ obj }) => {
         19,
         // 22
       ].includes(values?.commissionType?.value) && (
-        <TableOne obj={{ selectedAll, allSelect, rowData, rowDataHandler }} />
-      )}
+          <TableOne obj={{ selectedAll, allSelect, rowData, rowDataHandler }} />
+        )}
       {[14, 16, 20, 23].includes(values?.commissionType?.value) && (
         <TableTwo obj={{ selectedAll, allSelect, rowData, rowDataHandler }} />
       )}
-      {[17, 18, 25, 27, 22].includes(values?.commissionType?.value) && (
-        <TableThree obj={{ selectedAll, allSelect, rowData, rowDataHandler }} />
+      {[17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(values?.commissionType?.value) && (
+        <TableThree obj={{ selectedAll, allSelect, rowData, rowDataHandler, values }} />
       )}
     </div>
   );
@@ -65,7 +65,7 @@ const TableOne = ({ obj }) => {
                   type="checkbox"
                   value={selectedAll()}
                   checked={selectedAll()}
-                  onChange={() => {}}
+                  onChange={() => { }}
                 />
               </th>
               <th style={{ width: "40px" }}>SL</th>
@@ -92,7 +92,7 @@ const TableOne = ({ obj }) => {
                       type="checkbox"
                       value={item?.isSelected}
                       checked={item?.isSelected}
-                      onChange={() => {}}
+                      onChange={() => { }}
                     />
                   </td>
                   <td> {index + 1}</td>
@@ -168,7 +168,7 @@ const TableTwo = ({ obj }) => {
                   type="checkbox"
                   value={selectedAll()}
                   checked={selectedAll()}
-                  onChange={() => {}}
+                  onChange={() => { }}
                 />
               </th>
               <th style={{ width: "40px" }}>SL</th>
@@ -193,7 +193,7 @@ const TableTwo = ({ obj }) => {
                       type="checkbox"
                       value={item?.isSelected}
                       checked={item?.isSelected}
-                      onChange={() => {}}
+                      onChange={() => { }}
                     />
                   </td>
                   <td> {index + 1}</td>
@@ -269,7 +269,7 @@ const TableTwo = ({ obj }) => {
 };
 
 const TableThree = ({ obj }) => {
-  const { selectedAll, allSelect, rowData, rowDataHandler } = obj;
+  const { selectedAll, allSelect, rowData, rowDataHandler, values } = obj;
   return (
     <>
       <div className="table-responsive">
@@ -285,7 +285,7 @@ const TableThree = ({ obj }) => {
                   type="checkbox"
                   value={selectedAll()}
                   checked={selectedAll()}
-                  onChange={() => {}}
+                  onChange={() => { }}
                 />
               </th>
               <th rowSpan={2} style={{ width: "40px" }}>
@@ -294,9 +294,15 @@ const TableThree = ({ obj }) => {
               <th rowSpan={2}>Area Name</th>
               <th colSpan={2}>Achievement</th>
               <th colSpan={2}>Quantity</th>
-              <th rowSpan={2}>BP Rate/bag</th>
-              <th rowSpan={2}>BA Rate/bag</th>
-              <th rowSpan={2}>CP Rate/bag</th>
+              {![35, 36, 37, 38, 39, 40].includes(values?.commissionType?.value) && (
+                <>
+                  <th rowSpan={2}>BP Rate/bag</th>
+                  <th rowSpan={2}>BA Rate/bag</th>
+                  <th rowSpan={2}>CP Rate/bag</th>
+                </>
+              )}
+              {[35, 36, 37, 38, 39, 40].includes(values?.commissionType?.value) && (<th rowSpan={2}>Common Rate</th>)}
+              
 
               {/* <th>1-99%</th>
               <th>100-999%</th>
@@ -323,7 +329,7 @@ const TableThree = ({ obj }) => {
                       type="checkbox"
                       value={item?.isSelected}
                       checked={item?.isSelected}
-                      onChange={() => {}}
+                      onChange={() => { }}
                     />
                   </td>
                   <td> {index + 1}</td>
@@ -332,51 +338,69 @@ const TableThree = ({ obj }) => {
                   <td>{item?.achievementTo}</td>
                   <td>{item?.offerQntFrom}</td>
                   <td>{item?.offerQntTo}</td>
-                  <td>
+                  {![35, 36, 37, 38, 39, 40].includes(values?.commissionType?.value) && (<>
+
+                    <td>
+                      <InputField
+                        value={item?.bpcommissionRate}
+                        name="bpcommissionRate"
+                        placeholder="BP"
+                        type="text"
+                        onChange={(e) => {
+                          rowDataHandler(
+                            index,
+                            "bpcommissionRate",
+                            e?.target?.value
+                          );
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <InputField
+                        value={item?.bacommissionRate}
+                        name="bacommissionRate"
+                        placeholder="BA"
+                        type="text"
+                        onChange={(e) => {
+                          rowDataHandler(
+                            index,
+                            "bacommissionRate",
+                            e?.target?.value
+                          );
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <InputField
+                        value={item?.cpcommissionRate}
+                        name="cpcommissionRate"
+                        placeholder="CP"
+                        type="text"
+                        onChange={(e) => {
+                          rowDataHandler(
+                            index,
+                            "cpcommissionRate",
+                            e?.target?.value
+                          );
+                        }}
+                      />
+                    </td>
+                  </>)}
+                  {[35, 36, 37, 38, 39, 40].includes(values?.commissionType?.value) && (<td>
                     <InputField
-                      value={item?.bpcommissionRate}
-                      name="bpcommissionRate"
-                      placeholder="BP"
+                      value={item?.commissionRate}
+                      name="commissionRate"
+                      placeholder="Commission Rate"
                       type="text"
                       onChange={(e) => {
                         rowDataHandler(
                           index,
-                          "bpcommissionRate",
+                          "commissionRate",
                           e?.target?.value
                         );
                       }}
                     />
-                  </td>
-                  <td>
-                    <InputField
-                      value={item?.bacommissionRate}
-                      name="bacommissionRate"
-                      placeholder="BA"
-                      type="text"
-                      onChange={(e) => {
-                        rowDataHandler(
-                          index,
-                          "bacommissionRate",
-                          e?.target?.value
-                        );
-                      }}
-                    />
-                  </td>
-                  <td>
-                    <InputField
-                      value={item?.cpcommissionRate}
-                      name="cpcommissionRate"
-                      placeholder="CP"
-                      type="text"
-                      onChange={(e) => {
-                        rowDataHandler(
-                          index,
-                          "cpcommissionRate",
-                          e?.target?.value
-                        );
-                      }}
-                    />
-                  </td>
+                  </td>)}
                   {/* <td>
                     <InputField
                       value={item?.firstSlabCommissionRate}

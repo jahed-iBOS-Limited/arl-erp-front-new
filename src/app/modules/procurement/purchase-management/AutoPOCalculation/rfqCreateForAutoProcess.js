@@ -5,26 +5,22 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import TextArea from "../../../_helper/TextArea";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import {
   _oneMonthLater,
   _todayDate,
   _todayDateTime12HFormet,
 } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import NewSupplierModal from "./newSupplierModal";
 import { eProcurementBaseURL } from "../../../../App";
-import { uploadAttachment } from "../../../inventoryManagement/warehouseManagement/invTransaction/helper";
-import { DropzoneDialogBase } from "material-ui-dropzone";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Loading from "../../../_helper/_loading";
+import IForm from "../../../_helper/_form";
+import NewSelect from "../../../_helper/_select";
+import InputField from "../../../_helper/_inputField";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import TextArea from "../../../_helper/TextArea";
 
 const initData = {
   sbu: "",
@@ -74,7 +70,7 @@ const initData = {
   isSentToSupplier: null,
 };
 
-export default function RFQCreateEdit() {
+export default function RFQCreateForAutoProcess() {
   const [showAddSupplierModal, setShowAddSupplierModal] = useState(false);
   const { id } = useParams();
   const [isRfqQty, setIsRfqQty] = useState(false);
@@ -526,44 +522,6 @@ export default function RFQCreateEdit() {
   };
 
   const handleAddItem = (values, setFieldValue) => {
-    // if (values?.referenceType?.value === "without reference") {
-    //   if (!values?.item) {
-    //     return toast.warn("Please Select Item");
-    //   }
-    //   if (!values?.quantity) {
-    //     return toast.warn("Please Enter Quantity");
-    //   }
-    //   const isDuplicate = itemList.some(
-    //     (item) => item?.itemId === values?.item?.value
-    //   );
-    //   if (isDuplicate) {
-    //     toast.warn(`${values?.item?.label} already added`);
-    //   } else {
-    //     setItemList([
-    //       ...itemList,
-    //       {
-    //         rowId: 0,
-    //         itemId: values?.item?.value || 0,
-    //         itemCode: values?.item?.code || "",
-    //         itemName: values?.item?.label || "",
-    //         itemtypeName: values?.item?.itemtypeName || "",
-    //         uoMid: values?.item?.uoMId || 0,
-    //         uoMname: values?.item?.uoMName || "",
-    //         rfqquantity: +values?.quantity || 0,
-    //         referenceId: 0,
-    //         referenceCode: "",
-    //         referenceQuantity: 0,
-    //         description:
-    //           values?.itemDescription === ""
-    //             ? values?.item?.description
-    //             : values?.itemDescription,
-    //       },
-    //     ]);
-    //     setFieldValue("item", "");
-    //     setFieldValue("itemDescription", "");
-    //     setFieldValue("quantity", "");
-    //   }
-    // } else {
     if (values?.isAllItem) {
       let rowList = [];
       if (itemListDDL?.length > 0) {
@@ -655,40 +613,6 @@ export default function RFQCreateEdit() {
     }
   };
 
-  // const uploadAtt = uploadAttachment(fileObjects).then((res) => {
-  //   // console.log(res)
-  //   // const payload = {
-  //   //   referenceId: poData?.inventoryTransactionId,
-  //   //   referenceCode: poData?.inventoryTransactionCode,
-  //   //   documentId: res?.data[0]?.id || '',
-  //   //   isActive: true,
-  //   //   lastActionDatetime: _todayDate(),
-  //   //   transectionType: "Inventory Transaction"
-  //   // }
-  //   setFileObjects(res?.data[0]);
-  // });
-
-  // const formateImage = fileObjects?.map((item) => {
-  //   return {
-  //     //@ts-ignore
-  //     id: id ? item?.id : 0,
-  //     //@ts-ignore
-  //     attachmentId: id ? item?.attachmentId : item?.id,
-  //   };
-  // });
-  // const handleUploadAttachment = (file, applicationId) => {
-  //   const url = `${eProcurementBaseURL}/EProcurement/UploadFile`;
-  //   console.log("file", JSON.stringify(file, null, 2));
-  //   //payload for single file upload
-  //   const payload = {
-  //     id: 0,
-  //     attachmentId: file[0]?.id,
-  //   };
-  //   uploadFile(url, payload);
-  // };
-
-  // console.log("fileObjects", fileObjects);
-  // console.log("partnerList", JSON.stringify(supplierList, null, 2));
   return (
     <Formik
       enableReinitialize={true}
@@ -731,7 +655,7 @@ export default function RFQCreateEdit() {
           >
             <Form>
               <div className="form-group  global-form row">
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <NewSelect
                     name="sbu"
                     options={sbuListDDL || []}
@@ -824,7 +748,7 @@ export default function RFQCreateEdit() {
                       !values?.plant || (id && values?.isSentToSupplier)
                     }
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="rfqType"
@@ -848,17 +772,17 @@ export default function RFQCreateEdit() {
                       if (v) {
                         setFieldValue("referenceNo", "");
                         setFieldValue("rfqType", v);
-                        getReferenceNoDDL(
-                          `${eProcurementBaseURL}/EProcurement/GetPRReferrenceDDL?businessUnitId=${
-                            selectedBusinessUnit?.value
-                          }&purchaseOrganizationId=${
-                            values?.purchaseOrganization?.value
-                          }&plantId=${values?.plant?.value}&warehouseId=${
-                            values?.warehouse?.value
-                          }&transactiontType=${
-                            values?.rfqType?.label
-                          }&search=${""}`
-                        );
+                        // getReferenceNoDDL(
+                        //   `${eProcurementBaseURL}/EProcurement/GetPRReferrenceDDL?businessUnitId=${
+                        //     selectedBusinessUnit?.value
+                        //   }&purchaseOrganizationId=${
+                        //     values?.purchaseOrganization?.value
+                        //   }&plantId=${values?.plant?.value}&warehouseId=${
+                        //     values?.warehouse?.value
+                        //   }&transactiontType=${
+                        //     values?.rfqType?.label
+                        //   }&search=${""}`
+                        // );
                         setReferenceNoDDL([]);
                         setFieldValue("referenceNo", "");
                         setFieldValue("item", "");
@@ -886,7 +810,7 @@ export default function RFQCreateEdit() {
                     // isDisabled={true}
                   />
                 </div>
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <NewSelect
                     name="purchaseOrganization"
                     options={purchangeOrgListDDL || []}
@@ -933,7 +857,7 @@ export default function RFQCreateEdit() {
                     touched={touched}
                     isDisabled={id && values?.isSentToSupplier}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-3">
                   <InputField
                     value={values?.rfqTitle}
@@ -1276,7 +1200,7 @@ export default function RFQCreateEdit() {
               </div>
               <h4 className="mt-2">Add Item</h4>
               <div className="form-group  global-form row">
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <NewSelect
                     name="referenceNo"
                     options={referenceNoDDL || []}
@@ -1316,7 +1240,7 @@ export default function RFQCreateEdit() {
                       (id && values?.isSentToSupplier)
                     }
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-9"></div>
                 <div className="col-lg-3">
                   <NewSelect
@@ -1743,14 +1667,6 @@ export default function RFQCreateEdit() {
                 onSubmit={() => resetForm(initData)}
               ></button>
             </Form>
-            <IViewModal
-              show={showAddSupplierModal}
-              onHide={() => {
-                setShowAddSupplierModal(false);
-              }}
-            >
-              <NewSupplierModal />
-            </IViewModal>
           </IForm>
         </>
       )}
