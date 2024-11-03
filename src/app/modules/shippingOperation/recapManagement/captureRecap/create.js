@@ -604,12 +604,12 @@ export default function RecapCreate() {
                             <td>{charterer.strShipperName}</td>
                             <td className="text-center">{charterer.strShipperEmailForVesselNomination}</td>
                             <td className="text-center d-flex justify-content-around">
-                              <span onClick={() => {
+                              {!viewId && (<span onClick={() => {
                                 const deletedChartererList = chartererList?.filter((item, index) => index !== idx);
                                 setChartererList(deletedChartererList)
                               }}>
                                 <IDelete />
-                              </span>
+                              </span>)}
                               <span onClick={(e) => {
                                 e.stopPropagation();
                                 setIsShowModal(true);
