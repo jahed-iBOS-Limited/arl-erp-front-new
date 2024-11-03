@@ -615,7 +615,7 @@ export default function RecapCreate() {
                                 setIsShowModal(true);
                                 setSingleData(charterer)
                               }}>
-                                <IView />
+                                <IView title="View Cargo List" />
                               </span>
                             </td>
                           </tr>
