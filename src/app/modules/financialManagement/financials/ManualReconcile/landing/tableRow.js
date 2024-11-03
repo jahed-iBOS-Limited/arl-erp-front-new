@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Formik } from "formik";
+import { toast } from "react-toastify";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Card, CardBody } from "../../../../../../_metronic/_partials/controls";
@@ -189,6 +190,9 @@ const TableRow = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+
+
+
   return (
     <>
       <Formik
@@ -362,6 +366,23 @@ const TableRow = () => {
                     }
                     type="button"
                     onClick={() => {
+                      const leftTableTotal =  Math.abs(
+                        getItemCheckedTotal(
+                          bankReconsileManualData,
+                          "numAmount"
+                        )
+                      )
+                      const rightTableTotal =  Math.abs(
+                        getItemCheckedTotal(
+                          bankStatementDataMatch,
+                          "monAmount"
+                        )
+                      )
+                      const isNotCompleted  =  values?.isManualReconsile === false
+                      if (Math.floor(leftTableTotal) !== Math.floor(rightTableTotal) && isNotCompleted) {
+                        toast.warning("Amount Mismatch");
+                        return
+                      }
                       if (values.isManualReconsile === false) {
                         return forceReconcileSaved(values);
                       }
