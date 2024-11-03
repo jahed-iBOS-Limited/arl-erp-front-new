@@ -1,10 +1,11 @@
 import moment from "moment";
 import React from "react";
 import { useDispatch } from "react-redux";
-import "./bookingDetailsInfo.css";
 import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import "./bookingDetailsInfo.css";
 
 function BookingDetailsInfo({ bookingData }) {
+  console.log(bookingData);
   const dispatch = useDispatch();
   return (
     <div className="BookingDetailsInfo">
@@ -77,9 +78,15 @@ function BookingDetailsInfo({ bookingData }) {
               <strong>Buyer PO Number:</strong> {bookingData?.ponumber}
             </p>
             <p>
+              <strong>Buyer Name:</strong> {bookingData?.buyerName}
+            </p>
+            <p>
+              <strong>Buyer Email:</strong> {bookingData?.buyerEmail}
+            </p>
+            <p>
               {" "}
               <strong>Buyer PO Date:</strong>{" "}
-              {moment(bookingData?.dateOfRequest).format("YYYY-MM-DD")}
+              {moment(bookingData?.dateOfRequest).format("DD MMM YYYY")}
             </p>
             <p>
               {" "}
@@ -107,6 +114,10 @@ function BookingDetailsInfo({ bookingData }) {
             <p>
               {" "}
               <strong>Mode of Transport:</strong> {bookingData?.modeOfTransport}
+            </p>
+            <p>
+              <strong>Type of Loading:</strong>{" "}
+              {bookingData?.typeOfLoading}
             </p>
             <p>
               <strong>Country of Loading:</strong>{" "}
@@ -144,6 +155,9 @@ function BookingDetailsInfo({ bookingData }) {
             </p>
             <p>
               <strong>Terms of Shipment List:</strong> {bookingData?.incoterms}
+            </p>
+            <p>
+              <strong>Type Of Loading Qty:</strong> {bookingData?.typeOfLoadingQty}
             </p>
           </div>
 
@@ -190,10 +204,14 @@ function BookingDetailsInfo({ bookingData }) {
               {bookingData?.isWarehouseService ? "Yes" : "No"}
             </p>
             <p>
+              <strong>Store Rent:</strong>{" "}
+              {bookingData?.isStoreRent ? "Yes" : "No"}
+            </p>
+            <p>
               <strong>
-                Store Rent, Haulage/Local Transportation/Pickup Service:
+                Haulage/Local Transportation/Pickup Service
               </strong>{" "}
-              {bookingData?.isStoreRentPickupService ? "Yes" : "No"}
+              {bookingData?.isHaulagePickupService ? "Yes" : "No"}
             </p>
             <p>
               <strong>Destination Haulage:</strong>{" "}
@@ -205,14 +223,14 @@ function BookingDetailsInfo({ bookingData }) {
             <h5>Shipping Schedule</h5>
             <p>
               <strong>Requested Pickup Date:</strong>{" "}
-              {moment(bookingData?.requestPickupDate).format("YYYY-MM-DD")}
+              {moment(bookingData?.requestPickupDate).format("DD MMM YYYY")}
             </p>
             <p>
               <strong>Pickup Place</strong> {bookingData?.pickupPlace}
             </p>
             <p>
               <strong>Estimated Delivery Date:</strong>{" "}
-              {moment(bookingData?.requestDeliveryDate).format("YYYY-MM-DD")}
+              {moment(bookingData?.requestDeliveryDate).format("DD MMM YYYY")}
             </p>
           </div>
 
@@ -226,7 +244,7 @@ function BookingDetailsInfo({ bookingData }) {
             <p>
               <strong>Pickup Date:</strong>{" "}
               {moment(bookingData?.transportPlanning?.pickupDate).format(
-                "YYYY-MM-DD"
+                "DD MMM YYYY"
               )}
             </p>
             <p>
@@ -268,13 +286,13 @@ function BookingDetailsInfo({ bookingData }) {
             <p>
               <strong>Departure Date & Time:</strong>{" "}
               {moment(bookingData?.transportPlanning?.departureDateTime).format(
-                "YYYY-MM-DD HH:mm A"
+                "DD MMM YYYY HH:mm A"
               )}
             </p>
             <p>
               <strong>Arrival Date & Time:</strong>{" "}
               {moment(bookingData?.transportPlanning?.arrivalDateTime).format(
-                "YYYY-MM-DD HH:mm A"
+                "DD MMM YYYY HH:mm A"
               )}
             </p>
             <p>
@@ -295,14 +313,12 @@ function BookingDetailsInfo({ bookingData }) {
                   <th>Cargo Type</th>
 
                   <th>HS Code</th>
-                  <th>Number of Packages/Units/Carton</th>
+                  <th>Total Number Of Packages</th>
                   <th>Per Unit Gross Weight (kg)</th>
                   <th>Per Unit Net Weight (kg)</th>
                   <th>Gross Weight (KG)</th>
                   <th>Net Weight (KG)</th>
                   <th>Volume (CBM)</th>
-                  <th>Type of Loading</th>
-
                   <th>Temperature Range</th>
 
                   <th>Special Handling Instructions</th>
@@ -313,16 +329,14 @@ function BookingDetailsInfo({ bookingData }) {
                 {bookingData?.rowsData?.map((row, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-
-                    <td>{row?.hsCode}</td>
                     <td>{row?.typeOfCargo}</td>
-                    <td>{row?.numberOfPackages}</td>
-                    <td>{row?.pugrossWeightKg}</td>
-                    <td>{row?.punetWeightKg}</td>
-                    <td>{row?.grossWeightKG}</td>
-                    <td>{row?.netWeightKG}</td>
+                    <td>{row?.hsCode}</td>
+                    <td>{row?.totalNumberOfPackages}</td>
+                    <td>{row?.totalPerUnitGrossWeightKG}</td>
+                    <td>{row?.totalPerUnitNetWeightKG}</td>
+                    <td>{row?.totalGrossWeightKG}</td>
+                    <td>{row?.totalNetWeightKG}</td>
                     <td>{row?.totalVolumeCBM}</td>
-                    <td>{row?.typeOfLoading}</td>
 
                     <td>{row?.temperatureRange || "N/A"}</td>
 
@@ -403,8 +417,55 @@ function BookingDetailsInfo({ bookingData }) {
             </div>
           </div>
         </div>
+        {/* stages */}
+        <div className="mt-4">
+          {" "}
+          <h5>Stages</h5>
+          <div className="table-responsive">
+            <table className="table table-striped global-table mt-0">
+              <thead>
+                <tr>
+                  <th>Pending</th>
+                  <th>Confirmed</th>
+                  <th>Pickup</th>
+                  <th>Received</th>
+                  <th>Transport</th>
+                  <th>BL</th>
+                  <th>HBL</th>
+                  <th>Charges</th>
+                  <th>Document Checklist</th>
+                  <th>Dispatch</th>
+                  <th>Customs Clear</th>
+                  <th>In Transit</th>
+                  <th>Dest Port Receive</th>
+                  <th>Delivered</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    {bookingData?.createdAt && moment(bookingData?.createdAt).format("DD MMM YYYY")}
+                  </td>
+                  <td> {bookingData?.confirmDate ? moment(bookingData?.confirmDate).format("DD MMM YYYY") : "Not Confirmed  "} </td>
+                  <td> {bookingData?.pickupDate ? moment(bookingData?.pickupDate).format("DD MMM YYYY") : "Not Picked Up  "} </td>
+                  <td> {bookingData?.receivedDate ? moment(bookingData?.receivedDate).format("DD MMM YYYY") : "Not Received  "} </td>
+                  <td> N/A </td>
+                  <td> {bookingData?.bldate && moment(bookingData?.bldate).format("DD MMM YYYY")} </td>
+                  <td> {bookingData?.hbldate && moment(bookingData?.hbldate).format("DD MMM YYYY")} </td>
+                  <td> {bookingData?.isCharges ? "Completed" : "Incomplete"} </td>
+                  <td> {bookingData?.isDocumentChecklist ? "Completed" : "Incomplete"} </td>
+                  <td> {bookingData?.dispatchDate ? moment(bookingData?.dispatchDate).format("DD MMM YYYY") : "Not Dispatched  "} </td>
+                  <td> {bookingData?.customsClearDt ? moment(bookingData?.customsClearDt).format("DD MMM YYYY") : "Not Cleared  "} </td>
+                  <td> {bookingData?.isInTransit ? "Completed" : "Incomplete"} </td>
+                  <td> {bookingData?.destPortReceiveDt ? moment(bookingData?.destPortReceiveDt).format("DD MMM YYYY") : "Not Received  "} </td>
+                  <td> {bookingData?.buyerReceiveDt ? moment(bookingData?.buyerReceiveDt).format("DD MMM YYYY") : "Not Delivered  "} </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-    </div>
+    </div >
   );
 }
 
