@@ -219,6 +219,11 @@ export function PurchasePages() {
       />
 
       <ContentRoute
+        from="/mngProcurement/purchase-management/cs/view"
+        component={CreateCs}
+      />
+
+      <ContentRoute
         from="/mngProcurement/purchase-management/cs/create"
         component={CreateCs}
       />

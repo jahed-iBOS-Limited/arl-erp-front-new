@@ -12,5 +12,13 @@ export const withEncryptedAPI = [
   "/RequestForQuotation/EditRequestForQuotation",
 
   // CS
+  "/ComparativeStatement/GetComparativeStatementLanding",
   "/ComparativeStatement/GetSupplierStatementForCS",
+  "/ComparativeStatement/GetSupplierWiseCS",
+  "ComparativeStatement/GetItemWiseStatementForCS",
+  "/ComparativeStatement/GetItemWiseStatementDetails",
+  "/ComparativeStatement/CreateAndUpdateSupplierWiseCS",
+  "/ComparativeStatement/CreateAndUpdateItemWiseCS",
+  "/ComparativeStatement/GetByCostComponentByUnit",
+  "/ComparativeStatement/GetCSInfoDetails",
 ];

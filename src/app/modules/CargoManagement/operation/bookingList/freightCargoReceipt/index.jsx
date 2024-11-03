@@ -268,7 +268,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                                 }}
                             >
                                 <span style={{ padding: 2 }}>L/C NO </span>
-                                <span style={{ padding: 2 }}>: 0000285923021229</span>
+                                <span style={{ padding: 2 }}>: {bookingData?.lcNo ?? "N/A"}</span>
                             </div>
                             <div
                                 style={{
@@ -277,7 +277,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                                 }}
                             >
                                 <span style={{ padding: 2 }}>L/C DATE </span>
-                                <span style={{ padding: 2 }}>: </span>
+                                <span style={{ padding: 2 }}>: {bookingData?.lcDate ? moment(bookingData?.lcDate).format("DD MMM YYYY HH:mm A") : 'N/A'}</span>
                             </div>
                             <div
                                 style={{
