@@ -10,6 +10,7 @@ import {
 } from "../../../../_helper/_dateFormate";
 import ReactToPrint from "react-to-print";
 import "./rfqModalForView.css";
+import { eProcurementBaseURL } from "../../../../../App";
 const initData = {};
 export default function RfqModalForView({
   rfqId,
@@ -23,11 +24,11 @@ export default function RfqModalForView({
     return state?.authData;
   }, shallowEqual);
   const printRef = useRef();
-
+  // /RequestForQuotation/GetRequestForQuotationDetails?requestForQuotationId=${requestForQuotationId}
   useEffect(() => {
     if (rfqId) {
       getRfqData(
-        `/procurement/RequestForQuotation/GetRequestForQuotationById?RequestForQuotationId=${rfqId}`
+        `${eProcurementBaseURL}/RequestForQuotation/GetRequestForQuotationDetails?requestForQuotationId=${rfqId}`
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,33 +107,29 @@ export default function RfqModalForView({
                         </div>
                         <div>
                           <span className="font-weight-bold">RFQ Type:</span>{" "}
-                          {rfqData?.objHeader?.requestTypeName}
+                          {rfqData?.requestTypeName}
                         </div>
                         <div>
                           <span className="font-weight-bold">RFQ Date:</span>{" "}
-                          {_dateTimeFormatter(rfqData?.objHeader?.deliveryDate)}
+                          {_dateTimeFormatter(rfqData?.deliveryDate)}
                         </div>
                       </div>
                       <div className="rfq-grid-container">
                         <div>
                           <span className="font-weight-bold"> RFQ Title:</span>{" "}
-                          {rfqData?.objHeader?.rfqtitle}
+                          {rfqData?.rfqTitle}
                         </div>
                         <div>
                           <span className="font-weight-bold">
-                            Quotation Start Date:
+                            Start Date & Time:
                           </span>{" "}
-                          {_dateTimeFormatter(
-                            rfqData?.objHeader?.quotationEntryStart
-                          )}
+                          {_dateTimeFormatter(rfqData?.quotationEntryStart)}
                         </div>
                         <div>
                           <span className="font-weight-bold">
-                            Quotation End Date:
+                            End Date & Time:
                           </span>{" "}
-                          {_dateTimeFormatter(
-                            rfqData?.objHeader?.validTillDate
-                          )}
+                          {_dateTimeFormatter(rfqData?.validTillDate)}
                         </div>
                       </div>
                       <div className="rfq-grid-container">
@@ -141,57 +138,58 @@ export default function RfqModalForView({
                             {" "}
                             Purchase Org:
                           </span>{" "}
-                          {rfqData?.objHeader?.purchaseOrganizationName}
+                          {rfqData?.purchaseOrganizationName}
                         </div>
                         <div>
                           <span className="font-weight-bold">Plant:</span>{" "}
-                          {rfqData?.objHeader?.plantName}
+                          {rfqData?.plantName}
                         </div>
                         <div>
                           <span className="font-weight-bold">Warehouse:</span>{" "}
-                          {rfqData?.objHeader?.warehouseName}
+                          {rfqData?.warehouseName}
                         </div>
                       </div>
+                      {rfqData?.purchaseOrganizationId === 11 && (
+                        <div className="rfq-grid-container">
+                          <div>
+                            <span className="font-weight-bold">VAT/AIT:</span>{" "}
+                            {rfqData?.isVatAitInclude
+                              ? "Including"
+                              : "Excluding"}
+                          </div>
+                          <div>
+                            <span className="font-weight-bold">
+                              Transport Cost:
+                            </span>{" "}
+                            {rfqData?.isTransportCostInclude
+                              ? "Including"
+                              : "Excluding"}
+                          </div>
+                          <div>
+                            <span className="font-weight-bold">TDS:</span>{" "}
+                            {rfqData?.isTdsInclude ? "Including" : "Excluding"}
+                          </div>
+                        </div>
+                      )}
+
                       <div className="rfq-grid-container">
-                        <div>
-                          <span className="font-weight-bold">VAT/AIT:</span>{" "}
-                          {rfqData?.objHeader?.isVatAitInclude
-                            ? "Including"
-                            : "Excluding"}
-                        </div>
-                        <div>
-                          <span className="font-weight-bold">
-                            Transport Cost:
-                          </span>{" "}
-                          {rfqData?.objHeader?.isTransportCostInclude
-                            ? "Including"
-                            : "Excluding"}
-                        </div>
-                        <div>
-                          <span className="font-weight-bold">TDS:</span>{" "}
-                          {rfqData?.objHeader?.isTdsInclude
-                            ? "Including"
-                            : "Excluding"}
-                        </div>
-                      </div>
-                      <div className="rfq-grid-container">
-                        <div>
-                          <span className="font-weight-bold">VDS:</span>{" "}
-                          {rfqData?.objHeader?.isVdsInclude
-                            ? "Including"
-                            : "Excluding"}
-                        </div>
+                        {rfqData?.purchaseOrganizationId === 11 && (
+                          <div>
+                            <span className="font-weight-bold">VDS:</span>{" "}
+                            {rfqData?.isVdsInclude ? "Including" : "Excluding"}
+                          </div>
+                        )}
                         <div>
                           <span className="font-weight-bold">
                             Delivery Date:
                           </span>{" "}
-                          {_dateFormatter(rfqData?.objHeader?.deliveryDate)}
+                          {_dateFormatter(rfqData?.deliveryDate)}
                         </div>
                         <div>
                           <span className="font-weight-bold">
                             Payment Terms:
                           </span>{" "}
-                          {rfqData?.objHeader?.paymentTerms}
+                          {rfqData?.paymentTerms}
                         </div>
                       </div>
                       <div className="rfq-grid-container">
@@ -218,13 +216,13 @@ export default function RfqModalForView({
                         </div>
                         <div>
                           <span className="font-weight-bold">Currency:</span>{" "}
-                          {rfqData?.objHeader?.currencyCode}
+                          {rfqData?.currencyCode}
                         </div>
                         <div>
                           <span className="font-weight-bold">
                             Delivery Address:
                           </span>{" "}
-                          {rfqData?.objHeader?.deliveryAddress}
+                          {rfqData?.deliveryAddress}
                         </div>
                       </div>
                       <div className="rfq-grid-container">
@@ -232,9 +230,7 @@ export default function RfqModalForView({
                           <span className="font-weight-bold">
                             Bidding Rank :
                           </span>{" "}
-                          {rfqData?.objHeader?.isRankVisible
-                            ? "Show"
-                            : "Hidden"}
+                          {rfqData?.isRankVisible ? "Show" : "Hidden"}
                         </div>
                       </div>
                     </div>
@@ -245,42 +241,48 @@ export default function RfqModalForView({
                           <thead>
                             <tr>
                               <th style={{ width: "30px" }}>Sl</th>
-                              {rfqData?.objHeader?.referenceTypeName ===
+                              {/* {rfqData?.referenceTypeName ===
                                 "with reference" && (
                                 <th style={{ width: "100px" }}>Reference No</th>
-                              )}
+                              )} */}
                               <th>Item Name</th>
                               <th style={{ width: "80px" }}>Uom</th>
                               <th>Description</th>
-                              {rfqData?.objHeader?.referenceTypeName ===
+                              {rfqData?.referenceTypeName ===
                                 "with reference" && (
                                 <th style={{ width: "100px" }}>PR Quantity</th>
                               )}
                               <th style={{ width: "100px" }}>Quantity</th>
+                              <th style={{ width: "100px" }}>
+                                Supplier Bid Count
+                              </th>
                             </tr>
                           </thead>
                           <tbody>
-                            {rfqData?.objRow?.length > 0 &&
-                              rfqData?.objRow?.map((item, index) => (
+                            {rfqData?.rowList?.length > 0 &&
+                              rfqData?.rowList?.map((item, index) => (
                                 <tr key={index}>
                                   <td>{index + 1}</td>
-                                  {rfqData?.objHeader?.referenceTypeName ===
+                                  {/* {rfqData?.referenceTypeName ===
                                     "with reference" && (
                                     <td className="text-center">
                                       {item?.referenceCode}
                                     </td>
-                                  )}
+                                  )} */}
                                   <td>{item?.itemName}</td>
                                   <td>{item?.uoMname}</td>
                                   <td>{item?.description}</td>
-                                  {rfqData?.objHeader?.referenceTypeName ===
+                                  {rfqData?.referenceTypeName ===
                                     "with reference" && (
                                     <td className="text-center">
                                       {item?.referenceQuantity}
                                     </td>
                                   )}
                                   <td className="text-center">
-                                    {item?.reqquantity}
+                                    {item?.rfqquantity || ""}
+                                  </td>
+                                  <td className="text-center">
+                                    {rfqData?.totalBidder || ""}
                                   </td>
                                 </tr>
                               ))}
@@ -303,8 +305,8 @@ export default function RfqModalForView({
                               </tr>
                             </thead>
                             <tbody>
-                              {rfqData?.supplierRow?.length > 0 &&
-                                rfqData?.supplierRow?.map((item, index) => (
+                              {rfqData?.partnerList?.length > 0 &&
+                                rfqData?.partnerList?.map((item, index) => (
                                   <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>{item?.businessPartnerName}</td>
@@ -321,7 +323,7 @@ export default function RfqModalForView({
 
                     <div className="termsAndConditions">
                       <h3 className="mt-2">Terms & Conditions</h3>
-                      <p>{rfqData?.objHeader?.termsAndConditions}</p>
+                      <p>{rfqData?.termsAndConditions}</p>
                     </div>
                     <div className="footer-section">
                       <div className="row">

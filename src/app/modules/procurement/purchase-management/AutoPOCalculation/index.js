@@ -1,144 +1,23 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Formik } from "formik";
+import React, { useState } from "react";
+import { Tab, Tabs } from "react-bootstrap";
+import IForm from "../../../_helper/_form";
+import RFQAutoProcess from "./rfqAutoProcess";
+import POAutoProcess from "./poAutoProcess";
 
 const initData = {
-  businessUnit: "",
-  itemSubCategory: "",
-  itemCategory: "",
-  itemType: "",
+  purchaseOrganization: "",
 };
-
-const validationSchema = Yup.object().shape({
-  businessUnit: Yup.object().shape({
-    label: Yup.string().required("Business Unit is required"),
-    value: Yup.string().required("Business Unit is required"),
-  }),
-  itemSubCategory: Yup.object().shape({
-    label: Yup.string().required("Item Sub Category is required"),
-    value: Yup.string().required("Item Sub Category is required"),
-  }),
-  itemCategory: Yup.object().shape({
-    label: Yup.string().required("Item Category is required"),
-    value: Yup.string().required("Item Category is required"),
-  }),
-  itemType: Yup.object().shape({
-    label: Yup.string().required("Items type is required"),
-    value: Yup.string().required("Items type is required"),
-  }),
-});
 export default function AutoPOCalculation() {
+  const [objProps, setObjprops] = useState({});
+
   const saveHandler = (values, cb) => {};
-  const [autoPOData, getAutoPOData, loading, setAutoPOData] = useAxiosGet();
-  const [, onCreatePOHandler, loader] = useAxiosPost();
-  const [
-    itemTypeList,
-    getitemTypeList,
-    itemTypeLoading,
-    setItemTypeList,
-  ] = useAxiosGet();
-  const [
-    itemCategoryList,
-    getCategoryData,
-    categoryLoading,
-    setItemCategoryList,
-  ] = useAxiosGet();
-  const [
-    itemSubCategoryList,
-    getSubCategoryData,
-    subCategoryLoading,
-    setItemSubCategoryList,
-  ] = useAxiosGet();
-  const [itemTypeOption, setItemTypeOption] = useState([]);
-
-  // get selected business unit from store
-  const { selectedBusinessUnit, profileData, businessUnitList } = useSelector(
-    (state) => {
-      return state.authData;
-    },
-    shallowEqual
-  );
-
-  useEffect(() => {
-    getitemTypeList(`/item/ItemCategory/GetItemTypeListDDL`);
-  }, []);
-
-  useEffect(() => {
-    let itemTypes = [];
-    itemTypeList &&
-      itemTypeList.forEach((item) => {
-        let items = {
-          value: item.itemTypeId,
-          label: item.itemTypeName,
-        };
-        itemTypes.push(items);
-      });
-    setItemTypeOption(itemTypes);
-  }, [itemTypeList]);
-
-  const categoryApiCaller = async (typeId) => {
-    getCategoryData(
-      `/item/MasterCategory/GetItemMasterCategoryDDL?AccountId=${profileData?.accountId}&ItemTypeId=${typeId}`,
-      (data) => {
-        let dataList = data || [];
-        dataList.unshift({ value: 0, label: "All" });
-        setItemCategoryList(dataList);
-      }
-    );
-  };
-
-  const subcategoryApiCaller = async (categoryId, typeId) => {
-    getSubCategoryData(
-      `/item/MasterCategory/GetItemMasterSubCategoryDDL?AccountId=${profileData?.accountId}&ItemMasterCategoryId=${categoryId}&ItemMasterTypeId=${typeId}`,
-      (data) => {
-        let dataList = data || [];
-        dataList.unshift({ value: 0, label: "All" });
-        setItemSubCategoryList(dataList);
-      }
-    );
-  };
-
-  const getData = (values) => {
-    const apiUrl = `/procurement/AutoPurchase/GetPurchaseRequestWithRateAgreement?BusinessUnitId=${values?.businessUnit?.value}&ItemMasterCategoryId=${values?.itemCategory?.value}&ItemMasterSubCategoryId=${values?.itemSubCategory?.value}`;
-    getAutoPOData(apiUrl);
-  };
-
-  const payloadMapping = (data) => {
-    return data.map((item) => ({
-      accountId: item.accountId || 0,
-      businessUnitId: item.businessUnitId || 0,
-      sbuId: item.sbuId || 0,
-      plantId: item.plantId || 0,
-      plantName: item.plantName || "",
-      warehouseId: item.warehouseId || 0,
-      purchaseOrganizationId: item.purchaseOrganizationId || 0,
-      supplierId: item.supplierId || 0,
-      supplierName: item.supplierName || "",
-      purchaseRequestId: item.purchaseRequestId || 0,
-      purchaseRequestCode: item.purchaseRequestCode || "",
-      restQuantity: item.restQuantity || 0,
-      itemId: item.itemId || 0,
-      itemName: item.itemName || "",
-      uoMId: item.uoMId || 0,
-      uoMName: item.uoMName || "",
-      itemRate: item.itemRate || 0,
-      finalPrice: item.finalPrice || 0,
-    }));
-  };
-
   return (
     <Formik
       enableReinitialize={true}
       initialValues={{}}
-      validationSchema={validationSchema}
+      // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
@@ -155,197 +34,27 @@ export default function AutoPOCalculation() {
         touched,
       }) => (
         <>
-          {(loading || loader) && <Loading />}
+          {/* {(loading || loader || itemTypeListLoader || categoryLoader,
+          subCategoryLoader) && <Loading />} */}
           <IForm
-            title="Auto PO Calculation"
-            isHiddenReset
             isHiddenBack
             isHiddenSave
-            renderProps={() => {
-              return (
-                <div>
-                  <button
-                    type="button"
-                    disabled={!autoPOData?.length}
-                    className="btn btn-primary"
-                    onClick={() => {
-                      IConfirmModal({
-                        message: `Are you sure to create PO ?`,
-                        yesAlertFunc: () => {
-                          onCreatePOHandler(
-                            `/procurement/AutoPurchase/CreateFormatedItemListForAutoPO`,
-                            payloadMapping(autoPOData),
-                            () => {
-                              getData(values);
-                            },
-                            true
-                          );
-                        },
-                        noAlertFunc: () => {},
-                      });
-                    }}
-                  >
-                    Create PO
-                  </button>
-                </div>
-              );
-            }}
+            isHiddenReset
+            title="Auto PO Calculation"
+            getProps={setObjprops}
           >
-            <Form>
-              <>
-                <div className="form-group  global-form row">
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="businessUnit"
-                      options={businessUnitList || []}
-                      value={values?.businessUnit}
-                      label="Business Unit"
-                      onChange={(valueOption) => {
-                        setFieldValue("businessUnit", valueOption || "");
-                        setAutoPOData([]);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="itemType"
-                      options={itemTypeOption || []}
-                      value={values?.itemType}
-                      label="Select Item Type"
-                      onChange={(valueOption) => {
-                        categoryApiCaller(valueOption?.value);
-                        setFieldValue("itemCategory", "");
-                        setFieldValue("itemType", valueOption);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="itemCategory"
-                      options={itemCategoryList || []}
-                      value={values?.itemCategory}
-                      label="Select Item Category"
-                      onChange={(valueOption) => {
-                        setFieldValue("itemSubCategory", "");
-                        subcategoryApiCaller(
-                          valueOption?.value,
-                          values.itemType.value
-                        );
-                        setFieldValue("itemCategory", valueOption);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="itemSubCategory"
-                      options={itemSubCategoryList || []}
-                      value={values?.itemSubCategory}
-                      label="Select Item Sub-category"
-                      onChange={(valueOption) => {
-                        setFieldValue("itemSubCategory", valueOption);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-
-                  <div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (
-                          !values.businessUnit ||
-                          !values.itemType ||
-                          !values.itemCategory ||
-                          !values.itemSubCategory
-                        ) {
-                          toast.error("All fields are required");
-                          return;
-                        }
-                        getData(values);
-                      }}
-                      className="btn btn-primary mt-5"
-                    >
-                      Show
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  {autoPOData?.length > 0 && (
-                    <div className="table-responsive">
-                      <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Item Code</th>
-                            <th>Item Name</th>
-                            <th>UOM</th>
-                            <th>Warehouse</th>
-                            <th>Plant Name</th>
-                            {/* <th>Business Unit</th> */}
-                            {/* <th>Current Stock</th> */}
-                            {/* <th>Open PR</th>
-                            <th>Open PO</th> */}
-                            {/* <th>Ghat Stock</th>
-                            <th>Port Stock</th> */}
-                            {/* <th>Reorder Level</th> */}
-                            <th>PO Quantity</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {autoPOData?.length > 0 &&
-                            autoPOData?.map((item, index) => (
-                              <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td className="text-center">
-                                  {item?.itemCode}
-                                </td>
-                                <td>{item?.itemName}</td>
-                                <td className="text-center">{item?.uoMName}</td>
-                                <td className="text-center">
-                                  {item?.warehouseName}
-                                </td>
-                                <td className="text-center">
-                                  {item?.plantName}
-                                </td>
-                                {/* <td>{item?.businessUnitName}</td> */}
-                                {/* <td className="text-center">
-                                  {item?.inventoryStock}
-                                </td> */}
-                                {/* <td className="text-center">
-                                  {item?.purchaseRequestStock}
-                                </td>
-                                <td className="text-center">
-                                  {item?.purchaseOrderStock}
-                                </td> */}
-                                {/* <td className="text-center">
-                                  {item?.balanceOnGhat || 0}
-                                </td>
-                                <td className="text-center">
-                                  {item?.portStock || 0}
-                                </td> */}
-                                {/* <td className="text-center">
-                                  {item?.reorderLevel}
-                                </td> */}
-                                <td className="text-center">
-                                  {item?.restQuantity}
-                                </td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                </div>
-              </>
-            </Form>
+            <Tabs
+              defaultActiveKey="rfq-auto-process"
+              id="uncontrolled-tab-example"
+              className="mb-3"
+            >
+              <Tab unmountOnExit eventKey="rfq-auto-process" title="RFQ">
+                <RFQAutoProcess />
+              </Tab>
+              <Tab unmountOnExit eventKey="po-create" title="PO Create">
+                <POAutoProcess />
+              </Tab>
+            </Tabs>
           </IForm>
         </>
       )}
