@@ -1,22 +1,22 @@
 import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
-import BookingList from "./bookingList";
+import ExpenseReport from "./expenseReport";
 
-export function OperationPages() {
+export function ReportPages() {
     return (
         <Switch>
             <Redirect
                 exact={true}
                 from='/cargoManagement'
-                to='/cargoManagement/operation'
+                to='/cargoManagement/report'
             />
             <ContentRoute
-                path='/cargoManagement/operation/bookingList'
-                component={BookingList}
+                path='/cargoManagement/report/expense-report'
+                component={ExpenseReport}
             />
 
         </Switch>
     );
 }
-export default OperationPages;
+export default ReportPages;

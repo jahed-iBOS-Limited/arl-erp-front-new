@@ -477,7 +477,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                   (acc, item) => acc + +item?.totalDimsLength,
                   0
                 )}
-                <br/>
+                <br />
                 Total CBM :{" "}
                 {bookingData?.rowsData?.reduce(
                   (acc, item) => acc + +item?.totalVolumeCBM,
@@ -514,7 +514,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 >
                   <div className="medium-font">
                     <p>INV.NO.: GG22ZM2422</p>
-                    <p>L/C NO.: 00001LCB2204270</p>
+                    <p>L/C NO.: {bookingData?.lcNo}</p>
                     <p>EXP NO.: 2228-009860-2022</p>
                     <p>S.B.NO.:</p>
                   </div>
