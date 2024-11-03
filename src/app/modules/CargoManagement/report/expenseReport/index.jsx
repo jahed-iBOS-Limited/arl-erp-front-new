@@ -13,18 +13,6 @@ import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 // import Details from '../../operation/bookingList/bookingDetails';
 import ShippingExpenseIncomeDetails from './shippingExpenseIncomeDetails';
 
-const data = [
-    {
-        bookingRequestCode: "123",
-        income: "1000",
-        expense: "500"
-    },
-    {
-        bookingRequestCode: "124",
-        income: "2000",
-        expense: "5000"
-    }
-]
 const validationSchema = Yup.object().shape({
     fromDate: Yup.date().required("From Date is required"),
     toDate: Yup.date().required("To Date is required")
@@ -76,7 +64,7 @@ export default function ExpenseReport() {
                                     <div className="col-sm-3 ">
                                         <InputField
                                             value={values?.date}
-                                            label={"From Date"}
+                                            label={"To Date"}
                                             name="toDate"
                                             type="date"
                                             onChange={(e) => setFieldValue("toDate", e.target.value)}
@@ -123,7 +111,7 @@ export default function ExpenseReport() {
                                     <th style={{
                                         minWidth: "100px",
                                     }}>
-                                        Revenue
+                                        Net Profit/Loss
                                     </th>
                                     <th>Action</th>
 
