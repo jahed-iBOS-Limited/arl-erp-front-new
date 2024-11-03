@@ -80,6 +80,30 @@ export default function CreateCs({
   const [rowData, setRowData] = useState([]);
   const [, saveData] = useAxiosPost();
 
+  const [rowDtos, setRowDtos] = useState([]);
+  const [expandedRow, setExpandedRow] = useState(null);
+
+  // get user profile data from store
+  const profileData = useSelector((state) => {
+    return state.authData.profileData;
+  }, shallowEqual);
+
+  // get selected business unit from store
+  const selectedBusinessUnit = useSelector((state) => {
+    return state.authData.selectedBusinessUnit;
+  }, shallowEqual);
+
+  // get emplist ddl from store
+  const businessUnitDDL = useSelector((state) => {
+    return state?.commonDDL?.buDDL;
+  }, shallowEqual);
+
+  // get single controlling  unit from store
+  const singleData = useSelector((state) => {
+    return state.purchaseOrg?.singleData;
+  }, shallowEqual);
+  const dispatch = useDispatch();
+
   //Dispatch Get emplist action for get emplist ddl
 
   useEffect(() => {
@@ -232,7 +256,6 @@ export default function CreateCs({
       toast.warning("Already exist", { toastId: "Fae" });
     } else {
       let payload = {
-        id: rowData?.length,
         itemWise: values?.itemWise?.label,
         itemWiseCode: values?.itemWise?.value,
         supplierRate: values?.supplierRate,
@@ -261,9 +284,26 @@ export default function CreateCs({
     }
   };
 
-  const handleDelete = (idx) => {
-    // Filter out only the rows that match both itemWiseCode and supplierCode
-    const filterData = rowData.filter((items) => !(items?.id === idx));
+  const handleDelete = (item, supplier, portValue) => {
+    console.log(item, supplier, "item, supplier");
+    console.log(rowData, "rowData");
+
+    const filterData = rowData.filter((items) => {
+      // Check if purchaseOrganizationName is "Foreign Procurement"
+      if (rfqDetail?.purchaseOrganizationName === "Foreign Procurement") {
+        // Add the portValue check when it's Foreign Procurement
+        return !(
+          items?.itemWiseCode === item &&
+          items?.supplierCode === supplier &&
+          items?.port?.value === portValue
+        );
+      } else {
+        // Only check itemWiseCode and supplierCode otherwise
+        return !(
+          items?.itemWiseCode === item && items?.supplierCode === supplier
+        );
+      }
+    });
 
     setRowData(filterData);
   };
@@ -571,8 +611,11 @@ export default function CreateCs({
                                   <span
                                     style={{ cursor: "pointer" }}
                                     onClick={() => {
-                                      console.log(index, "object");
-                                      handleDelete(index);
+                                      handleDelete(
+                                        item?.itemWiseCode,
+                                        item?.supplierCode,
+                                        item?.port?.value
+                                      );
                                     }}
                                   >
                                     <IDelete />
