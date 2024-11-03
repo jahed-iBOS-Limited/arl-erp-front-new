@@ -21,6 +21,7 @@ import InputField from "../../../_helper/_inputField";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
 import IDelete from "../../../_helper/_helperIcons/_delete";
 import TextArea from "../../../_helper/TextArea";
+import { useLocation } from "react-router";
 
 const initData = {
   sbu: "",
@@ -45,10 +46,6 @@ const initData = {
   vatOrAit: { value: 1, label: "Including" },
   tds: { value: 1, label: "Including" },
   vds: { value: 1, label: "Including" },
-  referenceType: {
-    value: "with reference",
-    label: "With reference",
-  },
   deliveryDate: "",
   referenceNo: "",
   isRankVisible: {
@@ -124,13 +121,10 @@ export default function RFQCreateForAutoProcess() {
   const [fileObjects, setFileObjects] = useState([]);
   const [, uploadFile] = useAxiosPost();
 
+  const location = useLocation();
+  const prData = location?.state || {};
+  console.log("prData", prData);
   const saveHandler = (values, cb) => {
-    if (!values?.sbu) return toast.warn("Please select SBU");
-    if (!values?.plant) return toast.warn("Please select Plant");
-    if (!values?.warehouse) return toast.warn("Please select Warehouse");
-    if (!values?.purchaseOrganization)
-      return toast.warn("Please select Purchase Organization");
-    if (!values?.rfqType) return toast.warn("Please select RFQ Type");
     if (!values?.rfqTitle) return toast.warn("Please enter RFQ Title");
     if (!values?.currency) return toast.warn("Please select Currency");
     if (!values?.paymentTerms) return toast.warn("Please select Payment Terms");
@@ -143,15 +137,22 @@ export default function RFQCreateForAutoProcess() {
     if (!values?.deliveryDate) return toast.warn("Please select Delivery Date");
     if (!values?.deliveryAddress)
       return toast.warn("Please enter Delivery Address");
-    if (!values?.vatOrAit) return toast.warn("Please select VAT/AIT");
-    if (!values?.tds) return toast.warn("Please select TDS");
-    if (!values?.vds) return toast.warn("Please select VDS");
     if (!values?.isRankVisible) return toast.warn("Please select Bidding Rank");
-    if (!values?.referenceType)
-      return toast.warn("Please select Reference Type");
     if (!itemList?.length) return toast.warn("Please add item");
     if (supplierList?.length < 3)
       return toast.warn("Please add at least 3 supplier");
+
+    const rfqDetailsFunction = (lanData) => {
+      if (lanData?.purchaseRequestTypeId === 2) {
+        return { rfqTypeId: 1, rfqTypeName: "Standard RFQ" };
+      } else if (lanData?.purchaseRequestTypeId === 8) {
+        return { rfqTypeId: 2, rfqTypeName: "Service RFQ" };
+      } else if (lanData?.purchaseRequestTypeId === 9) {
+        return { rfqTypeId: 3, rfqTypeName: "Asset RFQ" };
+      } else {
+        return { rfqTypeId: 0, rfqTypeName: "" };
+      }
+    };
 
     const totalRowQuantity = itemList?.reduce(
       (acc, itm) => acc + +itm?.rfqquantity,
@@ -166,12 +167,12 @@ export default function RFQCreateForAutoProcess() {
     });
     const rowListWithReferance = itemList?.map((item) => {
       return {
-        rowId: item?.rowId,
+        rowId: 0,
         partnerRfqid: item?.partnerRfqid || 0,
         requestForQuotationId: item?.requestForQuotationId || 0,
         requestForQuotationCode: "",
-        referenceId: item?.referenceId,
-        prreferenceCode: item?.referenceCode,
+        referenceId: item?.purchaseRequestId,
+        prreferenceCode: item?.purchaseRequestCode,
         itemId: item?.itemId,
         itemCode: item?.itemCode,
         itemName: item?.itemName,
@@ -179,8 +180,8 @@ export default function RFQCreateForAutoProcess() {
         uoMname: item?.uoMname,
         //@ts-ignore
         rfqquantity: item?.rfqquantity,
-        referenceQuantity: item?.referenceQuantity,
-        description: item?.description,
+        referenceQuantity: item?.approvedQuantity,
+        description: item?.description || "",
         chatList: [], // chat list
       };
     });
@@ -209,62 +210,9 @@ export default function RFQCreateForAutoProcess() {
     });
 
     const payload = {
-      // data: {
-      //   requestForQuotationId: id ? +id : 0,
-      //   rfqdate: _todayDate(),
-      //   accountId: profileData?.accountId,
-      //   businessUnitId: selectedBusinessUnit?.value,
-      //   businessUnitName: selectedBusinessUnit?.label,
-      //   sbuname: values?.sbu?.label || "",
-      //   sbuid: values?.sbu?.value || 0,
-      //   purchaseOrganizationId: values?.purchaseOrganization?.value,
-      //   purchaseOrganizationName: values?.purchaseOrganization?.label,
-      //   plantId: values?.plant?.value || 0,
-      //   plantName: values?.plant?.label || "",
-      //   warehouseId: values?.warehouse?.value || 0,
-      //   warehouseName: values?.warehouse?.label || "",
-      //   requestTypeId: values?.rfqType?.value || 0,
-      //   requestTypeName: values?.rfqType?.label || "",
-      //   referenceTypeName: values?.referenceType?.value || "",
-      //   currencyId: values?.currency?.value || 0,
-      //   validTillDate: values?.validTillDate,
-      //   actionBy: profileData?.userId,
-      //   paymentTerms: values?.paymentTerms?.value || "",
-      //   isTransportCostInclude:
-      //     values?.purchaseOrganization?.value === 11
-      //       ? values?.transportCost?.value === 1
-      //         ? true
-      //         : false
-      //       : false,
-      //   isVatAitInclude:
-      //     values?.purchaseOrganization?.value === 11
-      //       ? values?.vatOrAit?.value === 1
-      //         ? true
-      //         : false
-      //       : false,
-      //   isTdsInclude:
-      //     values?.purchaseOrganization?.value === 11
-      //       ? values?.tds?.value === 1
-      //         ? true
-      //         : false
-      //       : false,
-      //   isVdsInclude:
-      //     values?.purchaseOrganization?.value === 11
-      //       ? values?.vds?.value === 1
-      //         ? true
-      //         : false
-      //       : false,
-      //   deliveryAddress: values?.deliveryAddress,
-      //   deliveryDate: values?.deliveryDate,
-      //   quotationEntryStart: values?.quotationEntryStart,
-      //   rfqtitle: values?.rfqTitle,
-      //   isRankVisible: values?.isRankVisible?.value,
-      //   termsAndConditions: values?.termsAndConditions,
-      // },
-      requestForQuotationId: +id ? +id : 0,
-      requestForQuotationCode:
-        singleData?.objHeader?.requestForQuotationCode || "",
-      rfqDate: singleData?.objHeader?.rfqDate || _todayDate(),
+      requestForQuotationId: 0,
+      requestForQuotationCode: "",
+      rfqDate: _todayDate(),
       rfqtitle: values?.rfqTitle,
       currencyId: values?.currency?.value || 0,
       currencyCode: values?.currency?.code || "",
@@ -272,25 +220,25 @@ export default function RFQCreateForAutoProcess() {
       validTillDate: values?.validTillDate,
       paymentTerms: values?.paymentTerms?.label,
       isTransportCostInclude:
-        values?.purchaseOrganization?.value === 11
+        prData?.purchaseOrganizationId?.value === 11
           ? values?.transportCost?.value === 1
             ? true
             : false
           : false,
       isVatAitInclude:
-        values?.purchaseOrganization?.value === 11
+        prData?.purchaseOrganizationId?.value === 11
           ? values?.vatOrAit?.value === 1
             ? true
             : false
           : false,
       isTdsInclude:
-        values?.purchaseOrganization?.value === 11
+        prData?.purchaseOrganizationId?.value === 11
           ? values?.tds?.value === 1
             ? true
             : false
           : false,
       isVdsInclude:
-        values?.purchaseOrganization?.value === 11
+        prData?.purchaseOrganizationId?.value === 11
           ? values?.vds?.value === 1
             ? true
             : false
@@ -298,10 +246,10 @@ export default function RFQCreateForAutoProcess() {
       deliveryAddress: values?.deliveryAddress,
       deliveryDate: values?.deliveryDate,
       isApproved: true,
-      businessUnitId: selectedBusinessUnit?.value,
-      businessUnitName: selectedBusinessUnit?.label,
-      sbuId: values?.sbu?.value || 0,
-      sbuName: values?.sbu?.label || "",
+      businessUnitId: prData?.businessUnitId,
+      businessUnitName: prData?.businessUnitName,
+      sbuId: prData?.sbuid || 0,
+      sbuName: prData?.sbuname || "",
       termsAndConditions: values?.termsAndConditions,
       totalItems: itemList?.length || 0,
       totalQuantity: totalRowQuantity || 0,
@@ -309,14 +257,15 @@ export default function RFQCreateForAutoProcess() {
       rank: 0,
       amount: 0,
       isRankVisible: values?.isRankVisible?.value,
-      purchaseOrganizationId: values?.purchaseOrganization?.value,
-      purchaseOrganizationName: values?.purchaseOrganization?.label,
-      plantId: values?.plant?.value,
-      plantName: values?.plant?.label,
-      warehouseId: values?.warehouse?.value,
-      warehouseName: values?.warehouse?.label,
-      requestTypeId: values?.rfqType?.value,
-      requestTypeName: values?.rfqType?.label,
+      purchaseOrganizationId: prData?.purchaseOrganizationId,
+      purchaseOrganizationName: prData?.purchaseOrganizationName,
+      plantId: prData?.plantId,
+      plantName: prData?.plantName,
+      warehouseId: prData?.warehouseId,
+      warehouseName: prData?.warehouseName,
+      requestTypeId: rfqDetailsFunction(prData)?.rfqTypeId || 0,
+      // 2 = standardPr,8 = servicePr, 9 = assetPr
+      requestTypeName: rfqDetailsFunction(prData)?.rfqTypeName || "", //
       referenceTypeName: "",
       attachmentList: fileList?.length > 0 ? fileList : [],
       actionBy: profileData?.userId,
@@ -339,117 +288,94 @@ export default function RFQCreateForAutoProcess() {
 
   useEffect(() => {
     // /RequestForQuotation/GetRequestForQuotationDetails
-    if (id) {
-      getSingleData(
-        `${eProcurementBaseURL}/RequestForQuotation/GetRequestForQuotationDetails?requestForQuotationId=${id}`,
-        (data) => {
-          console.log("data", data);
-          const { rowList, partnerList } = data;
-          setItemList(rowList);
-          setSupplierList(partnerList);
-          const viewData = {
-            sbu: {
-              value: data?.sbuId,
-              label: data?.sbuName,
-            },
-            plant: {
-              value: data?.plantId,
-              label: data?.plantName,
-            },
-            warehouse: {
-              value: data?.warehouseId,
-              label: data?.warehouseName,
-            },
-            rfqType: {
-              value: data?.requestTypeId,
-              label: data?.requestTypeName,
-            },
-            purchaseOrganization: {
-              value: data?.purchaseOrganizationId,
-              label: data?.purchaseOrganizationName,
-            },
-            rfqTitle: data?.rfqTitle,
-            currency: {
-              value: data?.currencyId,
-              label: data?.currencyCode,
-            },
-            paymentTerms: {
-              value: data?.paymentTerms,
-              label: data?.paymentTerms,
-            },
-            transportCost: {
-              value: data?.isTransportCostInclude ? 1 : 2,
-              label: data?.isTransportCostInclude ? "Including" : "Excluding",
-            },
-            quotationEntryStart: data?.quotationEntryStart,
-            validTillDate: data?.validTillDate,
-            deliveryDate: _dateFormatter(data?.deliveryDate),
-            deliveryAddress: data?.deliveryAddress,
-            vatOrAit: {
-              value: data?.isVatAitInclude ? 1 : 2,
-              label: data?.isVatAitInclude ? "Including" : "Excluding",
-            },
-            tds: {
-              value: data?.isTdsInclude ? 1 : 2,
-              label: data?.isTdsInclude ? "Including" : "Excluding",
-            },
-            vds: {
-              value: data?.isVdsInclude ? 1 : 2,
-              label: data?.isVdsInclude ? "Including" : "Excluding",
-            },
-            referenceType: {
-              value: data?.referenceTypeName,
-              label: data?.referenceTypeName,
-            },
-            isRankVisible: {
-              value: data?.isRankVisible,
-              label: data?.isRankVisible ? "Show" : "Hidden",
-            },
-            referenceNo: "",
-            termsAndConditions: data?.termsAndConditions,
-            isSentToSupplier: true,
-          };
-          // if (data?.referenceTypeName === "without reference") {
-          //   getItemListDDL(
-          //     `/procurement/RequestForQuotation/GetRFQItemWithoutRef?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${data?.plantId}&WarehouseId=${data?.warehouseId}`
-          //   );
-          // } else {
-          getReferenceNoDDL(
-            `${eProcurementBaseURL}/EProcurement/GetPRReferrenceDDL?businessUnitId=${
-              selectedBusinessUnit?.value
-            }&purchaseOrganizationId=${data?.purchaseOrganizationId}&plantId=${
-              data?.plantId
-            }&warehouseId=${data?.warehouseId}&transactiontType=${
-              data?.rfqType
-            }&search=${""}`
-          );
-          // getReferenceNoDDL(
-          //   `/procurement/RequestForQuotation/GetPRReferrenceNoDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${data?.sbuid}&PurchaseOrganizationId=${data?.purchaseOrganizationId}&PlantId=${data?.plantId}&WearHouseId=${data?.warehouseId}`
-          // );
-          // }
-          getPlantListDDL(
-            `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`
-          );
-          getWarehouseListDDL(
-            `${eProcurementBaseURL}/EProcurement/GetPermissionWiseWarehouseDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${data?.plantId}&orgUnitTypeId=8`
-          );
-          // getWarehouseListDDL(
-          //   `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${data?.plantId}`
-          // );
-          // getSupplierListDDL(
-          //   `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${data?.sbuid}`
-          // );
-          getSupplierListDDL(
-            `${eProcurementBaseURL}/EProcurement/GetSupplierListDDL?businessUnitId=${
-              selectedBusinessUnit?.value
-            }&search=${""}`
-          );
-          getPurchaseOrgListDDL(
-            `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`
-          );
-          setModifiedData(viewData);
-        }
-      );
+    if (prData?.purchaseRequestId) {
+      setItemList(prData?.rows || []);
+      // const viewData = {
+      //   sbu: {
+      //     value: data?.sbuId,
+      //     label: data?.sbuName,
+      //   },
+      //   plant: {
+      //     value: data?.plantId,
+      //     label: data?.plantName,
+      //   },
+      //   warehouse: {
+      //     value: data?.warehouseId,
+      //     label: data?.warehouseName,
+      //   },
+      //   rfqType: {
+      //     value: data?.requestTypeId,
+      //     label: data?.requestTypeName,
+      //   },
+      //   purchaseOrganization: {
+      //     value: data?.purchaseOrganizationId,
+      //     label: data?.purchaseOrganizationName,
+      //   },
+      //   rfqTitle: data?.rfqTitle,
+      //   currency: {
+      //     value: data?.currencyId,
+      //     label: data?.currencyCode,
+      //   },
+      //   paymentTerms: {
+      //     value: data?.paymentTerms,
+      //     label: data?.paymentTerms,
+      //   },
+      //   transportCost: {
+      //     value: data?.isTransportCostInclude ? 1 : 2,
+      //     label: data?.isTransportCostInclude ? "Including" : "Excluding",
+      //   },
+      //   quotationEntryStart: data?.quotationEntryStart,
+      //   validTillDate: data?.validTillDate,
+      //   deliveryDate: _dateFormatter(data?.deliveryDate),
+      //   deliveryAddress: data?.deliveryAddress,
+      //   vatOrAit: {
+      //     value: data?.isVatAitInclude ? 1 : 2,
+      //     label: data?.isVatAitInclude ? "Including" : "Excluding",
+      //   },
+      //   tds: {
+      //     value: data?.isTdsInclude ? 1 : 2,
+      //     label: data?.isTdsInclude ? "Including" : "Excluding",
+      //   },
+      //   vds: {
+      //     value: data?.isVdsInclude ? 1 : 2,
+      //     label: data?.isVdsInclude ? "Including" : "Excluding",
+      //   },
+      //   referenceType: {
+      //     value: data?.referenceTypeName,
+      //     label: data?.referenceTypeName,
+      //   },
+      //   isRankVisible: {
+      //     value: data?.isRankVisible,
+      //     label: data?.isRankVisible ? "Show" : "Hidden",
+      //   },
+      //   referenceNo: "",
+      //   termsAndConditions: data?.termsAndConditions,
+      //   isSentToSupplier: true,
+      // };
+      // getReferenceNoDDL(
+      //   `${eProcurementBaseURL}/EProcurement/GetPRReferrenceDDL?businessUnitId=${
+      //     selectedBusinessUnit?.value
+      //   }&purchaseOrganizationId=${data?.purchaseOrganizationId}&plantId=${
+      //     data?.plantId
+      //   }&warehouseId=${data?.warehouseId}&transactiontType=${
+      //     data?.rfqType
+      //   }&search=${""}`
+      // );
+      // getPlantListDDL(
+      //   `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`
+      // );
+      // getWarehouseListDDL(
+      //   `${eProcurementBaseURL}/EProcurement/GetPermissionWiseWarehouseDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${data?.plantId}&orgUnitTypeId=8`
+      // );
+      // getSupplierListDDL(
+      //   `${eProcurementBaseURL}/EProcurement/GetSupplierListDDL?businessUnitId=${
+      //     selectedBusinessUnit?.value
+      //   }&search=${""}`
+      // );
+      // getPurchaseOrgListDDL(
+      //   `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`
+      // );
+      // setModifiedData(viewData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -521,82 +447,6 @@ export default function RFQCreateForAutoProcess() {
     setFieldValue("supplierEmail", "");
   };
 
-  const handleAddItem = (values, setFieldValue) => {
-    if (values?.isAllItem) {
-      let rowList = [];
-      if (itemListDDL?.length > 0) {
-        itemListDDL.forEach((item) => {
-          const isDuplicate = itemList?.some(
-            (itemList) =>
-              itemList?.itemId === item?.value &&
-              itemList?.referenceCode === values?.referenceNo?.label
-          );
-          if (!isDuplicate) {
-            rowList.push({
-              rowId: 0,
-              itemId: item?.value || 0,
-              itemCode: item?.itemCode || "",
-              itemName: item?.label || "",
-              itemtypeId: item?.itemTypeId || "",
-              itemtypeName: item?.itemTypeName || "",
-              uoMid: item?.baseUomId || 0,
-              uoMname: item?.baseUomName || "",
-              rfqquantity: item?.rfqquantity || 0,
-              referenceId: values?.referenceNo?.value || 0,
-              referenceCode: values?.referenceNo?.label || "",
-              referenceQuantity: item?.referenceQuantity || 0,
-              description: item?.itemPurpose || "",
-            });
-          }
-        });
-      }
-      setItemList([...itemList, ...rowList]);
-    } else {
-      if (!values?.item) {
-        return toast.warn("Please Select Item");
-      }
-      if (!values?.quantity) {
-        return toast.warn("Please Enter Quantity");
-      }
-      const isDuplicate = itemList.some(
-        (item) =>
-          item?.itemId === values?.item?.value &&
-          item?.referenceCode === values?.referenceNo?.label
-      );
-      if (isDuplicate) {
-        toast.warn(
-          `${values?.item?.label} already added for ${values?.referenceNo?.label}`
-        );
-      } else {
-        setItemList([
-          ...itemList,
-          {
-            rowId: 0,
-            itemId: values?.item?.value || 0,
-            itemCode: values?.item?.itemCode || "",
-            itemName: values?.item?.label || "",
-            itemtypeId: values?.item?.itemTypeId || "",
-            itemtypeName: values?.item?.itemTypeName || "",
-            uoMid: values?.item?.baseUomId || 0,
-            uoMname: values?.item?.baseUomName || "",
-            rfqquantity: +values?.quantity || 0,
-            referenceId: values?.referenceNo?.value || 0,
-            referenceCode: values?.referenceNo?.label || "",
-            referenceQuantity: +values?.item?.referenceQuantity || 0,
-            description:
-              values?.itemDescription === ""
-                ? values?.item?.description
-                : values?.itemDescription,
-          },
-        ]);
-        setFieldValue("item", "");
-        setFieldValue("itemDescription", "");
-        setFieldValue("quantity", "");
-      }
-    }
-    // }
-  };
-
   const handleDescriptionChange = (e, index) => {
     const temp = [...itemList];
     temp[index] = { ...temp[index], description: e.target.value };
@@ -637,16 +487,9 @@ export default function RFQCreateForAutoProcess() {
         d,
       }) => (
         <>
-          {(purchaseOrgListDDLloader ||
-            currencyDDLloader ||
-            referenceNoDDLloader ||
-            itemListDDLloader ||
-            supplierListDDLloader ||
-            sbuListDDLloader ||
-            plantListDDLloader ||
-            warehouseListDDLloader ||
-            saveDataLoader ||
-            singleDataLoader) && <Loading />}
+          {(currencyDDLloader || supplierListDDLloader || saveDataLoader) && (
+            <Loading />
+          )}
           <IForm
             title={
               id ? "Edit Request For Quotation" : "Create Request For Quotation"
@@ -655,209 +498,6 @@ export default function RFQCreateForAutoProcess() {
           >
             <Form>
               <div className="form-group  global-form row">
-                {/* <div className="col-lg-3">
-                  <NewSelect
-                    name="sbu"
-                    options={sbuListDDL || []}
-                    value={values?.sbu}
-                    label="SBU"
-                    onChange={(v) => {
-                      if (v) {
-                        setFieldValue("referenceNo", "");
-                        setIsRfqQty(false);
-                        setItemList([]);
-                        setItemListDDL([]);
-                        setFieldValue("sbu", v);
-                        setFieldValue("plant", "");
-                        setFieldValue("warehouse", "");
-                      } else {
-                        setFieldValue("referenceNo", "");
-                        setIsRfqQty(false);
-                        setItemList([]);
-                        setItemListDDL([]);
-                        setSupplierListDDL([]);
-                        setFieldValue("sbu", "");
-                        setFieldValue("plant", "");
-                        setFieldValue("warehouse", "");
-                        setFieldValue("supplier", "");
-                        setFieldValue("supplierContactNo", "");
-                        setFieldValue("supplierEmail", "");
-                      }
-                    }}
-                    placeholder="SBU"
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={id && values?.isSentToSupplier}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="plant"
-                    options={plantListDDL || []}
-                    value={values?.plant}
-                    label="Plant"
-                    onChange={(v) => {
-                      if (v) {
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("isAllItem", false);
-                        setIsRfqQty(false);
-                        setItemList([]);
-                        setItemListDDL([]);
-                        setFieldValue("plant", v);
-                        setFieldValue("warehouse", "");
-                        setFieldValue("referenceType", "");
-                        getWarehouseListDDL(
-                          `${eProcurementBaseURL}/EProcurement/GetPermissionWiseWarehouseDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${v?.value}&orgUnitTypeId=8`
-                        );
-                      } else {
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("isAllItem", false);
-                        setIsRfqQty(false);
-                        setItemList([]);
-                        setItemListDDL([]);
-                        setFieldValue("plant", "");
-                        setFieldValue("warehouse", "");
-                        setFieldValue("referenceType", "");
-                      }
-                    }}
-                    placeholder="Plant"
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={id && values?.isSentToSupplier}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="warehouse"
-                    options={warehouseListDDL || []}
-                    value={values?.warehouse}
-                    label="Warehouse"
-                    onChange={(v) => {
-                      setFieldValue("referenceNo", "");
-                      setIsRfqQty(false);
-                      setFieldValue("isAllItem", false);
-                      setItemList([]);
-                      setItemListDDL([]);
-                      setFieldValue("warehouse", v);
-                      setFieldValue("referenceType", "");
-                    }}
-                    placeholder="Warehouse"
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={
-                      !values?.plant || (id && values?.isSentToSupplier)
-                    }
-                  />
-                </div> */}
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="rfqType"
-                    options={[
-                      {
-                        value: 1,
-                        label: "Standard RFQ",
-                      },
-                      {
-                        value: 2,
-                        label: "Service RFQ",
-                      },
-                      {
-                        value: 3,
-                        label: "Asset RFQ",
-                      },
-                    ]}
-                    value={values?.rfqType}
-                    label="RFQ Type"
-                    onChange={(v) => {
-                      if (v) {
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("rfqType", v);
-                        // getReferenceNoDDL(
-                        //   `${eProcurementBaseURL}/EProcurement/GetPRReferrenceDDL?businessUnitId=${
-                        //     selectedBusinessUnit?.value
-                        //   }&purchaseOrganizationId=${
-                        //     values?.purchaseOrganization?.value
-                        //   }&plantId=${values?.plant?.value}&warehouseId=${
-                        //     values?.warehouse?.value
-                        //   }&transactiontType=${
-                        //     values?.rfqType?.label
-                        //   }&search=${""}`
-                        // );
-                        setReferenceNoDDL([]);
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
-                        setItemListDDL([]);
-                        setItemList([]);
-                        setItemListDDL([]);
-                        setFieldValue("isAllItem", false);
-                      } else {
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("rfqType", "");
-                        setReferenceNoDDL([]);
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
-                        setItemListDDL([]);
-                        setItemList([]);
-                        setItemListDDL([]);
-                        setFieldValue("isAllItem", false);
-                      }
-                    }}
-                    placeholder="RFQ Type"
-                    errors={errors}
-                    touched={touched}
-                    // isDisabled={true}
-                  />
-                </div>
-                {/* <div className="col-lg-3">
-                  <NewSelect
-                    name="purchaseOrganization"
-                    options={purchangeOrgListDDL || []}
-                    value={values?.purchaseOrganization}
-                    label="Purchase Organization"
-                    onChange={(v) => {
-                      if (v) {
-                        setItemList([]);
-                        setItemListDDL([]);
-                        setIsRfqQty(false);
-                        setFieldValue("isAllItem", false);
-                        setReferenceNoDDL([]);
-                        setFieldValue("referenceType", "");
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("currency", "");
-                        setFieldValue("purchaseOrganization", v);
-                        if (v?.value === 11) {
-                          setFieldValue("currency", {
-                            value: 141,
-                            label: "Taka",
-                            code: "BDT",
-                          });
-                        } else {
-                          setFieldValue("currency", {
-                            value: 155,
-                            label: "US Dollar",
-                            code: "USD",
-                          });
-                        }
-                      } else {
-                        setItemList([]);
-                        setItemListDDL([]);
-                        setIsRfqQty(false);
-                        setFieldValue("isAllItem", false);
-                        setReferenceNoDDL([]);
-                        setFieldValue("currency", "");
-                        setFieldValue("purchaseOrganization", "");
-                        setFieldValue("referenceType", "");
-                        setFieldValue("referenceNo", "");
-                      }
-                    }}
-                    placeholder="Purchase Organization"
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={id && values?.isSentToSupplier}
-                  />
-                </div> */}
                 <div className="col-lg-3">
                   <InputField
                     value={values?.rfqTitle}
@@ -971,7 +611,7 @@ export default function RFQCreateForAutoProcess() {
                     disabled={id && values?.isSentToSupplier}
                   />
                 </div>
-                {values?.purchaseOrganization?.value === 11 && (
+                {prData?.purchaseOrganizationId === 11 && (
                   <>
                     <div className="col-lg-3">
                       <NewSelect
@@ -1104,52 +744,6 @@ export default function RFQCreateForAutoProcess() {
                 )}
                 <div className="col-lg-3">
                   <NewSelect
-                    name="referenceType"
-                    options={[
-                      {
-                        value: "with reference",
-                        label: "With reference",
-                      },
-                    ]}
-                    value={values?.referenceType}
-                    label="Reference Type"
-                    onChange={(v) => {
-                      if (v) {
-                        setFieldValue("referenceType", v);
-                        setReferenceNoDDL([]);
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
-                        setItemListDDL([]);
-                        setItemList([]);
-                        setItemListDDL([]);
-                        setFieldValue("isAllItem", false);
-                      } else {
-                        setReferenceNoDDL([]);
-                        setFieldValue("referenceType", "");
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
-                        setItemListDDL([]);
-                        setItemList([]);
-                        setItemListDDL([]);
-                        setFieldValue("isAllItem", false);
-                      }
-                    }}
-                    placeholder="Reference Type"
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={
-                      !values?.plant ||
-                      !values?.warehouse ||
-                      !values?.purchaseOrganization ||
-                      id ||
-                      itemList?.length > 0
-                    }
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
                     name="isRankVisible"
                     options={[
                       {
@@ -1198,172 +792,19 @@ export default function RFQCreateForAutoProcess() {
                   />
                 </div>
               </div>
-              <h4 className="mt-2">Add Item</h4>
-              <div className="form-group  global-form row">
-                {/* <div className="col-lg-3">
-                  <NewSelect
-                    name="referenceNo"
-                    options={referenceNoDDL || []}
-                    value={values?.referenceNo}
-                    label="Reference No"
-                    onChange={(v) => {
-                      if (v) {
-                        setFieldValue("isAllItem", false);
-                        setFieldValue("referenceNo", v);
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
-                        setFieldValue("quantity", "");
-                        setItemListDDL([]);
-                        setItemList([]);
-                        getItemListDDL(
-                          `${eProcurementBaseURL}/EProcurement/GetItemsForPRReference?businessUnitId=${selectedBusinessUnit?.value}&purchaseOrganizationId=${values?.purchaseOrganization?.value}&plantId=${values?.plant?.value}&wearHouseId=${values?.warehouse?.value}&purchaseRequestId=${v?.value}&transactiontType=${values?.rfqType?.label}`
-                        );
-                        // getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}&PurchaseRequestId=${v?.value}
-                        //                     `);
-                      } else {
-                        setFieldValue("isAllItem", false);
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
-                        setFieldValue("quantity", "");
-                        setItemListDDL([]);
-                        setItemList([]);
-                      }
-                    }}
-                    placeholder="Reference No"
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={
-                      !values?.plant ||
-                      !values?.warehouse ||
-                      values?.referenceType?.value === "without reference" ||
-                      (id && values?.isSentToSupplier)
-                    }
-                  />
-                </div> */}
-                <div className="col-lg-9"></div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="item"
-                    options={itemListDDL || []}
-                    value={values?.item}
-                    label="Item"
-                    onChange={(v) => {
-                      if (v) {
-                        setFieldValue("item", v);
-                        setFieldValue("itemDescription", v?.itemPurpose);
-                        setFieldValue("quantity", v?.referenceQuantity);
-                      } else {
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
-                        setFieldValue("quantity", "");
-                      }
-                    }}
-                    placeholder="Item"
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={id || values?.isAllItem}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.itemDescription}
-                    label="Item Description"
-                    name="itemDescription"
-                    type="text"
-                    placeholder="Item Description"
-                    onChange={(e) => {
-                      setFieldValue("itemDescription", e.target.value);
-                    }}
-                    disabled={id || values?.isAllItem}
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <InputField
-                    value={values?.quantity}
-                    label="Quantity"
-                    name="quantity"
-                    type="number"
-                    placeholder="Quantity"
-                    onChange={(e) => {
-                      setFieldValue("quantity", e.target.value);
-                    }}
-                    disabled={id || values?.isAllItem}
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <label style={{ position: "absolute", top: "24px" }}>
-                    All Item
-                  </label>
-                  <Field
-                    name={values.isAllItem}
-                    component={() => (
-                      <input
-                        style={{
-                          position: "absolute",
-                          top: "28px",
-                          left: "65px",
-                        }}
-                        id="rfqIsAllItem"
-                        type="checkbox"
-                        className="ml-2"
-                        disabled={
-                          !values?.referenceType ||
-                          values?.referenceType?.value ===
-                            "without reference" ||
-                          (id && values?.isSentToSupplier) ||
-                          !itemListDDL?.length > 0
-                        }
-                        value={values.isAllItem || ""}
-                        checked={values.isAllItem}
-                        name="isAllItem"
-                        onChange={(e) => {
-                          setFieldValue("isAllItem", e.target.checked);
-                          setFieldValue("item", "");
-                          setFieldValue("itemDescription", "");
-                          setFieldValue("quantity", "");
-                        }}
-                      />
-                    )}
-                    label="isAllItem"
-                  />
-                </div>
-                <div className="col-lg-2">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    style={{
-                      marginTop: "18px",
-                    }}
-                    onClick={() => {
-                      handleAddItem(values, setFieldValue);
-                      setFieldValue("isAllItem", false);
-                      setIsRfqQty(false);
-                      setFieldValue("isAllItem", false);
-                      setFieldValue("itemDescription", "");
-                      setFieldValue("quantity", "");
-                    }}
-                    disabled={id && values?.isSentToSupplier}
-                  >
-                    Add Item
-                  </button>
-                </div>
-              </div>
+              <h4 className="mt-2">Item's</h4>
               <div className="mt-2">
                 <div className="table-responsive">
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         <th>Sl</th>
-                        {values?.referenceType?.value === "with reference" && (
-                          <th>Reference No</th>
-                        )}
+                        <th>Reference No</th>
                         <th>Item Name</th>
                         <th>Uom</th>
                         <th>Description</th>
-                        {values?.referenceType?.value === "with reference" && (
-                          <th>PR Quantity</th>
-                        )}
+                        <th>PR Quantity</th>
+                        <th>Rest Quantity</th>
                         <th>
                           <OverlayTrigger
                             placement="top"
@@ -1387,7 +828,7 @@ export default function RFQCreateForAutoProcess() {
                                   setIsRfqQty(true);
                                   setFieldValue("isAllItem", false);
                                   itemList.forEach((item) => {
-                                    item.rfqquantity = item.referenceQuantity;
+                                    item.rfqquantity = item?.numRestQuantity;
                                   });
                                   setItemList([...itemList]);
                                 } else {
@@ -1401,15 +842,13 @@ export default function RFQCreateForAutoProcess() {
                               }}
                               disabled={
                                 itemList?.length === 0 ||
-                                (id && values?.isSentToSupplier) ||
-                                values?.referenceType?.value ===
-                                  "without reference"
+                                (id && values?.isSentToSupplier)
                               }
                             />
                           </OverlayTrigger>
                           Quantity
                         </th>
-                        <th>Action</th>
+                        {/* <th>Action</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -1417,12 +856,9 @@ export default function RFQCreateForAutoProcess() {
                         itemList?.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            {values?.referenceType?.value ===
-                              "with reference" && (
-                              <td className="text-center">
-                                {item?.referenceCode}
-                              </td>
-                            )}
+                            <td className="text-center">
+                              {item?.purchaseRequestCode}
+                            </td>
                             <td>{item?.itemName}</td>
                             <td>{item?.uoMname}</td>
                             <td>
@@ -1437,12 +873,12 @@ export default function RFQCreateForAutoProcess() {
                                 disabled={id && values?.isSentToSupplier}
                               />
                             </td>
-                            {values?.referenceType?.value ===
-                              "with reference" && (
-                              <td className="text-center">
-                                {item?.referenceQuantity}
-                              </td>
-                            )}
+                            <td className="text-center">
+                              {item?.approvedQuantity || ""}
+                            </td>
+                            <td className="text-center">
+                              {item?.numRestQuantity || ""}
+                            </td>
                             <td>
                               <InputField
                                 value={item?.rfqquantity}
@@ -1455,7 +891,7 @@ export default function RFQCreateForAutoProcess() {
                                 disabled={id && values?.isSentToSupplier}
                               />
                             </td>
-                            <td className="text-center">
+                            {/* <td className="text-center">
                               <span
                                 onClick={() => {
                                   if (id && values?.isSentToSupplier) {
@@ -1470,7 +906,7 @@ export default function RFQCreateForAutoProcess() {
                               >
                                 <IDelete />
                               </span>
-                            </td>
+                            </td> */}
                           </tr>
                         ))}
                     </tbody>
@@ -1502,26 +938,6 @@ export default function RFQCreateForAutoProcess() {
                     touched={touched}
                     isDisabled={id && values?.isSentToSupplier}
                   />
-                  <span
-                    style={{
-                      cursor: "pointer",
-                      marginTop: "8px",
-                    }}
-                    onClick={() => {
-                      setShowAddSupplierModal(true);
-                    }}
-                  >
-                    <OverlayTrigger
-                      placement="top"
-                      overlay={<Tooltip>Add New Supplier</Tooltip>}
-                    >
-                      <AddCircleOutlineOutlinedIcon
-                        style={{
-                          color: "#1976d2",
-                        }}
-                      />
-                    </OverlayTrigger>
-                  </span>
                 </div>
                 <div className="col-lg-3">
                   <InputField
@@ -1629,31 +1045,6 @@ export default function RFQCreateForAutoProcess() {
                   />
                 </div>
               </div>
-              {/* <DropzoneDialogBase
-                filesLimit={1}
-                acceptedFiles={["image/*", "application/pdf"]}
-                fileObjects={fileObjects}
-                cancelButtonText={"cancel"}
-                submitButtonText={"submit"}
-                maxFileSize={1000000}
-                open={open}
-                onAdd={(newFileObjs) => {
-                  setFileObjects(fileObjects.concat(newFileObjs));
-                  //setFileObjects([].concat(newFileObjs));
-                }}
-                onDelete={(deleteFileObj) => {
-                  const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name
-                  );
-                  setFileObjects(newData);
-                }}
-                onClose={() => setOpen(false)}
-                onSave={() => {
-                  setOpen(false);
-                }}
-                showPreviews={true}
-                showFileNamesInPreview={true}
-              /> */}
               <button
                 type="submit"
                 style={{ display: "none" }}

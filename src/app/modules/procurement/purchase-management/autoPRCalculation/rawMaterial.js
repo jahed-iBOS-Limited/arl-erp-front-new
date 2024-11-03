@@ -311,7 +311,7 @@ export default function RawMaterialAutoPR() {
                                 </td>
                                 <td className="text-center">
                                   {(
-                                    item?.availableStock - item?.firstMonthQty
+                                    item?.firstMonthQty - item?.availableStock
                                   )?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">

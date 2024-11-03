@@ -12,6 +12,8 @@ import IConfirmModal from "../../../_helper/_confirmModal";
 import NewSelect from "../../../_helper/_select";
 import { IInput } from "../../../_helper/_input";
 import { set } from "lodash";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 const initData = {
   businessUnit: "",
@@ -68,6 +70,7 @@ export default function RFQAutoProcess() {
     warehouseLoader,
     setWarehouseDDL,
   ] = useAxiosGet();
+  const history = useHistory();
 
   // get selected business unit from store
   const { selectedBusinessUnit, profileData, businessUnitList } = useSelector(
@@ -123,7 +126,7 @@ export default function RFQAutoProcess() {
   };
 
   const getData = (values) => {
-    const apiUrl = `/procurement/AutoPurchase/GetActivePurchaseRequests?BusinessUnitId=${values?.businessUnit?.value}&PlantId=${values?.plant?.value}&WarehouseId=${values?.warehouse?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&status=${values?.status?.value}&IntItemCategoryId=${values?.itemCategory?.value}&IntItemSubCategoryId=${values?.itemSubCategory?.value}`;
+    const apiUrl = `/procurement/AutoPurchase/GetActivePurchaseRequestsForRFQ?BusinessUnitId=${values?.businessUnit?.value}&PlantId=${values?.plant?.value}&WarehouseId=${values?.warehouse?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&status=${values?.status?.value}&IntItemCategoryId=${values?.itemCategory?.value}&IntItemSubCategoryId=${values?.itemSubCategory?.value}`;
     getAutoRFQData(apiUrl);
   };
 
@@ -393,9 +396,9 @@ export default function RFQAutoProcess() {
                             <th>SL</th>
                             <th>PR Code</th>
                             <th>PR Type</th>
-                            <th>Item Code</th>
+                            {/* <th>Item Code</th>
                             <th>Item Name</th>
-                            <th>UOM</th>
+                            <th>UOM</th> */}
                             <th>Warehouse</th>
                             <th>Plant Name</th>
                             {/* <th>Business Unit</th> */}
@@ -405,7 +408,9 @@ export default function RFQAutoProcess() {
                             {/* <th>Ghat Stock</th>
                             <th>Port Stock</th> */}
                             {/* <th>Reorder Level</th> */}
-                            <th>Quantity</th>
+                            <th>Total Item</th>
+                            <th>Total Quantity</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -420,11 +425,11 @@ export default function RFQAutoProcess() {
                                 <td className="text-center">
                                   {item?.purchaseRequestTypeName || ""}
                                 </td>
-                                <td className="text-center">
+                                {/* <td className="text-center">
                                   {item?.itemCode}
                                 </td>
                                 <td>{item?.itemName}</td>
-                                <td className="text-center">{item?.uoMName}</td>
+                                <td className="text-center">{item?.uoMName}</td> */}
                                 <td className="text-center">
                                   {item?.warehouseName}
                                 </td>
@@ -451,7 +456,35 @@ export default function RFQAutoProcess() {
                                   {item?.reorderLevel}
                                 </td> */}
                                 <td className="text-center">
-                                  {item?.restQuantity}
+                                  {item?.noOfItem || ""}
+                                </td>
+                                <td className="text-center">
+                                  {item?.totalQuantity || ""}
+                                </td>
+                                <td className="text-center">
+                                  {values?.status?.value === 4 && (
+                                    <OverlayTrigger
+                                      overlay={
+                                        <Tooltip id="plus-icon">
+                                          Create RFQ
+                                        </Tooltip>
+                                      }
+                                    >
+                                      <i
+                                        onClick={() => {
+                                          history.push({
+                                            pathname: `/mngProcurement/purchase-management/AutoPOCalculation/rfqCreate`,
+                                            state: item,
+                                          });
+                                        }}
+                                        className="fas fa-plus-circle fa-2x "
+                                        style={{
+                                          color: "#007bff",
+                                          cursor: "pointer",
+                                        }}
+                                      ></i>
+                                    </OverlayTrigger>
+                                  )}
                                 </td>
                               </tr>
                             ))}
