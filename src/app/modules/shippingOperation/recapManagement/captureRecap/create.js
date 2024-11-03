@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../App";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
@@ -12,7 +13,10 @@ import NewSelect from "../../../_helper/_select";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import ChartererComponent from "./chartererComponent";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import IViewModal from "../../../_helper/_viewModal";
+import IView from "../../../_helper/_helperIcons/_view";
+import NominationCargosList from "./nominationCargosList";
 
 
 
@@ -37,23 +41,18 @@ const initData = {
   brokerName: "",
   brokerEmail: "",
   strRemarks: "",
+
+  // =====================
+  strChartererName: "",
+  numFreightRate: "",
+  strShipperName: "",
+  strShipperEmailForVesselNomination: "",
+  // =============
+  cargoName: "",
+  cargoQuantity: "",
+  loadPort: "",
+  dischargePort: "",
 };
-
-const chartererData = [
-  {
-    intRowId: 0,
-    intVesselNominationId: 0,
-    intChartererId: 0,
-    strChartererName: "",
-    numFreightRate: "",
-    strShipperName: "",
-    strShipperEmailForVesselNomination: "",
-    intShipperId: 0,
-    nominationCargosList: [
-
-    ]
-  }
-]
 
 
 const validationSchema = Yup.object().shape({
@@ -136,12 +135,13 @@ export default function RecapCreate() {
   const [cargoDDL, getCargoDDL] = useAxiosGet();
   const [chartererDDL, getChartererDDL] = useAxiosGet();
   const [brokerList, getbrokerList] = useAxiosGet();
-  const [shipperEmailList, getshipperEmailList] = useAxiosGet();
   const [shipperNameList, getshipperNameList] = useAxiosGet();
   const [viewData, getViewData] = useAxiosGet()
   const { viewId } = useParams();
   const [modifyInitData, setModifyInitData] = useState(initData)
-  const [chartererList, setChartererList] = useState(chartererData);
+  const [chartererList, setChartererList] = useState([]);
+  const [isShowModal, setIsShowModal] = useState(false)
+  const [singleData, setSingleData] = useState(null)
 
 
 
@@ -191,16 +191,7 @@ export default function RecapCreate() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getFilteredShipperMail = (data) => {
-    return data
-      .reduce((acc, item) => {
-        if (item.email) {
-          acc.push(item.email);
-        }
-        return acc;
-      }, [])
-      .join(", ");
-  };
+
 
   const saveHandler = async (values, cb) => {
 
@@ -285,7 +276,6 @@ export default function RecapCreate() {
         saveHandler(values, () => {
           resetForm(initData);
           setChartererList([])
-          setChartererList(chartererData)
         });
         setSubmitting(false);
       }}
@@ -373,41 +363,7 @@ export default function RecapCreate() {
 
                 />
               </div>
-              {/* <div className="col-lg-3">
-                <InputField
-                  value={values.accountName}
-                  label="Account Name"
-                  name="accountName"
-                  type="text"
-                  onChange={(e) => setFieldValue("accountName", e.target.value)}
-                  errors={errors}
-                />
-              </div> */}
-              {/* <div className="col-lg-3">
-                <NewSelect
-                  name="cargoName"
-                  options={cargoDDL}
-                  value={values.cargoName}
-                  label="Cargo Name"
-                  onChange={(valueOption) =>
-                    setFieldValue("cargoName", valueOption)
-                  }
-                  errors={errors}
-                  touched={touched}
-                />
-              </div> */}
-              {/* <div className="col-lg-3">
-                <InputField
-                  value={values.cargoQuantity}
-                  label="Cargo Quantity (Mts)"
-                  name="cargoQuantity"
-                  type="number"
-                  onChange={(e) =>
-                    setFieldValue("cargoQuantity", e.target.value)
-                  }
-                  errors={errors}
-                />
-              </div> */}
+
               <div className="col-lg-3">
                 <NewSelect
                   name="deliveryPort"
@@ -423,38 +379,7 @@ export default function RecapCreate() {
 
                 />
               </div>
-              {/* <div className="col-lg-3">
-                <NewSelect
-                  name="loadPort"
-                  options={portDDL}
-                  value={values.loadPort}
-                  label="Load Port"
-                  onChange={(valueOption) => {
-                    setFieldValue("loadPort", valueOption);
-                    if (valueOption?.value) {
-                      getshipperEmailList(
-                        `${imarineBaseUrl}/domain/VesselNomination/GetShipperDDL?portId=${valueOption.value}`,
-                        (data) => {
-                          let otherAdd = [...data];
-                          otherAdd.push({
-                            value: "other",
-                            label: "OTHERS",
-                            email: "",
-                            ownerId: null,
-                            ownerName: null,
-                            isOwner: false,
-                            code: null,
-                            isDollarConvesionRequire: null,
-                          });
-                          getshipperNameList(otherAdd);
-                        }
-                      );
-                    }
-                  }}
-                  errors={errors}
-                  touched={touched}
-                />
-              </div> */}
+
 
               <div className="col-lg-3">
                 <InputField
@@ -559,19 +484,7 @@ export default function RecapCreate() {
 
                 />
               </div>
-              {/* <div className="col-lg-3">
-                <NewSelect
-                  name="dischargePort"
-                  options={portDDL}
-                  value={values.dischargePort}
-                  label="Discharge Port"
-                  onChange={(valueOption) =>
-                    setFieldValue("dischargePort", valueOption)
-                  }
-                  errors={errors}
-                  touched={touched}
-                />
-              </div> */}
+
               <div className="col-lg-3">
                 <InputField
                   value={values.dischargeRate}
@@ -624,61 +537,7 @@ export default function RecapCreate() {
 
                 />
               </div>
-              {/* <div className="col-lg-3">
-                <NewSelect
-                  name="shipperName"
-                  options={
-                    shipperNameList || [
-                      {
-                        value: "other",
-                        label: "OTHERS",
-                        email: "",
-                        ownerId: null,
-                        ownerName: null,
-                        isOwner: false,
-                        code: null,
-                        isDollarConvesionRequire: null,
-                      },
-                    ]
-                  }
-                  value={values.shipperName}
-                  label="Shipper Name"
-                  onChange={(valueOption) => {
-                    setFieldValue("shipperName", valueOption);
-                    setFieldValue("shipperEmail", valueOption?.email || "");
-                  }}
-                  errors={errors}
-                  touched={touched}
-                />
-              </div>
-              <div className="col-lg-3">
-                <InputField
-                  value={values.shipperEmail}
-                  label="Shipper Email"
-                  name="shipperEmail"
-                  type="email"
-                  onChange={(e) =>
-                    setFieldValue("shipperEmail", e.target.value)
-                  }
-                  errors={errors}
-                  disabled={
-                    values?.shipperName?.value !== "other" ? true : false
-                  }
-                />
-              </div> */}
-              {/* <div className="col-lg-3">
-                <NewSelect
-                  name="chartererName"
-                  options={chartererDDL}
-                  value={values.chartererName}
-                  label="Charterer Name"
-                  onChange={(valueOption) =>
-                    setFieldValue("chartererName", valueOption)
-                  }
-                  errors={errors}
-                  touched={touched}
-                />
-              </div> */}
+
               <div className="col-lg-3">
                 <NewSelect
                   name="brokerName"
@@ -687,7 +546,7 @@ export default function RecapCreate() {
                   label="Broker Name"
                   onChange={(valueOption) => {
                     setFieldValue("brokerName", valueOption);
-                    setFieldValue("brokerEmail", valueOption.email || "");
+                    setFieldValue("brokerEmail", valueOption?.email || "");
                   }}
                   errors={errors}
                   touched={touched}
@@ -720,129 +579,55 @@ export default function RecapCreate() {
                 />
               </div>
             </div>
-            {/* <div className="border p-2 mt-5">
-              <div className="form-group global-form">
-                <div className="row">
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="chartererName"
-                      options={chartererDDL || []}
-                      value={values.chartererName}
-                      label="Charterer Name"
-                      onChange={(valueOption) =>
-                        setFieldValue("chartererName", valueOption)
-                      }
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <InputField
-                      value={values.freightRate}
-                      label="Freight Rate"
-                      name="freightRate"
-                      type="number"
-                      onChange={(e) => setFieldValue("freightRate", e.target.value)}
-                      errors={errors}
-                    />
-                  </div>
-                </div>
-                <hr />
-                <div className="row">
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="cargoName"
-                      options={cargoDDL}
-                      value={values.cargoName}
-                      label="Cargo Name"
-                      onChange={(valueOption) =>
-                        setFieldValue("cargoName", valueOption)
-                      }
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <InputField
-                      value={values.cargoQuantity}
-                      label="Cargo Quantity (Mts)"
-                      name="cargoQuantity"
-                      type="number"
-                      onChange={(e) =>
-                        setFieldValue("cargoQuantity", e.target.value)
-                      }
-                      errors={errors}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="loadPort"
-                      options={portDDL}
-                      value={values.loadPort}
-                      label="Load Port"
-                      onChange={(valueOption) =>
-                        setFieldValue("loadPort", valueOption)
-                      }
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="dischargePort"
-                      options={portDDL}
-                      value={values.dischargePort}
-                      label="Discharge Port"
-                      onChange={(valueOption) =>
-                        setFieldValue("dischargePort", valueOption)
-                      }
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="">
-                    <button className="btn btn-primary ml-5 mt-5">Add +</button>
-                  </div>
-                </div>
-              </div>
 
-              <div className="row">
-                <div className="col-12">
-                  {[].length > 0 && (
-                    <div className="table-responsive">
-                      <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Cargo Name</th>
-                            <th>Load Port</th>
-                            <th>Discharge Port</th>
-                            <th>Cargo Quantity</th>
-                            <th>Action</th>
+            {chartererList?.length > 0 && (<div className="row mt-3">
+              <div className="col-12">
+                {chartererList.length > 0 && (
+                  <div className="table-responsive">
+                    <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Charterer Name</th>
+                          <th>Freight Rate</th>
+                          <th>Shipper Name</th>
+                          <th>Shipper Email</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {chartererList.map((charterer, idx) => (
+                          <tr key={idx}>
+                            <td>{idx + 1}</td>
+                            <td>{charterer.strChartererName}</td>
+                            <td className="text-center">{charterer.numFreightRate}</td>
+                            <td>{charterer.strShipperName}</td>
+                            <td className="text-center">{charterer.strShipperEmailForVesselNomination}</td>
+                            <td className="text-center d-flex justify-content-around">
+                              {!viewId && (<span onClick={() => {
+                                const deletedChartererList = chartererList?.filter((item, index) => index !== idx);
+                                setChartererList(deletedChartererList)
+                              }}>
+                                <IDelete />
+                              </span>)}
+                              <span onClick={(e) => {
+                                e.stopPropagation();
+                                setIsShowModal(true);
+                                setSingleData(charterer)
+                              }}>
+                                <IView title="View Cargo List" />
+                              </span>
+                            </td>
                           </tr>
-                        </thead>
-                        <tbody>
-                          {[]?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{index + 1}</td>
-                              <td>{index + 1}</td>
-                              <td>{index + 1}</td>
-                              <td>Delete</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                </div>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
-              <div className="row">
-                <div className="col-12 text-center mt-2">
-                  <button type="button" class="btn btn-lg btn-info col-lg-6 px-3 py-2">+ Add Charterer</button></div>
-              </div>
-            </div> */}
-            {chartererList?.length > 0 && (<div className="my-3">
+            </div>)}
+
+            {!viewId && (<div className="my-3">
               <ChartererComponent
                 viewId={viewId}
                 chartererList={chartererList}
@@ -857,6 +642,19 @@ export default function RecapCreate() {
                 shipperNameList={shipperNameList}
               />
             </div>)}
+
+            {isShowModal && (
+              <IViewModal
+                show={isShowModal}
+                onHide={() => {
+                  setIsShowModal(false);
+                  setSingleData(null);
+                }}
+                title="Cargo List"
+              >
+                <NominationCargosList nominationCargosList={singleData?.nominationCargosList} isModalView={true} />
+              </IViewModal>
+            )}
 
           </Form>
         </IForm>
