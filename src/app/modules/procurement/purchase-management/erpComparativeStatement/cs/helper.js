@@ -3,6 +3,27 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { Table } from "antd";
 
+export const getCostEntryPayload = (costEntryList, rfqDetail) => {
+  let payload = [];
+  costEntryList?.map((item) => {
+    payload.push({
+      intCostComponentTransactionRowId: 0,
+      intRequestForQuotationId: rfqDetail?.requestForQuotationId,
+      intPartnerRfqid: item?.supplierName?.info?.partnerRfqId,
+      intCostComponentId: item?.costHead?.intCostComponentId,
+      strCostComponentName: item?.costHead?.strCostComponentName,
+      intCurrencyId: item?.currency?.value,
+      strCurrencyCode: item?.currency?.code,
+      numAmount: item?.amount,
+      numConversionRateInTaka: 0,
+      isActive: true,
+      dteCreateDate: new Date(),
+      intBusinessPartnerId: item?.supplierName?.info?.businessPartnerId,
+    });
+  });
+  return payload || [];
+};
+
 export const saveHandlerPayload = (
   values,
   payload,
@@ -78,7 +99,6 @@ export const saveHandlerPayload = (
       });
       return portListDS;
     };
-
     payload = [
       {
         requestForQuotationId: rfqDetail?.requestForQuotationId,

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable array-callback-return */
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -22,10 +24,15 @@ const validationSchema = Yup.object().shape({
   //   productName: Yup.string().required("Product Name is required"),
   //   finishedGood: Yup.string().required("Finished Good is required"),
 });
-const CostEntry = ({ costEntryList, dataList, CB }) => {
+const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
   console.log(dataList, "2nd dataList");
   const [, saveData, tagFGloading] = useAxiosPost();
   const [productInfo, getProductInfo, productInfoLoading] = useAxiosGet();
+  const [
+    costEntryListFromAPI,
+    getCostEntryList,
+    costEntryListLoading,
+  ] = useAxiosGet();
 
   const [objProps, setObjprops] = useState({});
   const [
@@ -53,23 +60,53 @@ const CostEntry = ({ costEntryList, dataList, CB }) => {
     shallowEqual
   );
   useEffect(() => {
-    getCostHeadDDL(
-      `${eProcurementBaseURL}/ComparativeStatement/GetByCostComponentByUnit?BusinessUnitId=${selectedBusinessUnit?.value}`,
-      (res) => {
-        const modData = res?.map((item) => {
-          return {
-            ...item,
-            value: item?.intCostComponentId,
-            label: item?.strCostComponentName,
-          };
-        });
-        setCostHeadDDL(modData);
-      }
-    );
+    if (isView) {
+      setRowData([]);
+      getCostEntryList(
+        `${eProcurementBaseURL}/ComparativeStatement/GetByCostComponentPartner?RequestForQuotationId=${rfqId}`,
+        (data) => {
+          let modDataList = [];
+          data?.map((item) => {
+            console.log(item, "item");
+            modDataList.push({
+              supplierName: {
+                value: item?.intBusinessPartnerId,
+                label: item?.strBusinessPartnerName,
+                info: { ...item },
+              },
+              costHead: {
+                value: item?.intCostComponentId,
+                label: item?.strCostComponentName,
+              },
+              currency: {
+                value: item?.intCurrencyId,
+                label: item?.strCurrencyCode,
+              },
+              amount: item?.numAmount,
+            });
+          });
+          setRowData([...modDataList]);
+        }
+      );
+    } else {
+      getCostHeadDDL(
+        `${eProcurementBaseURL}/ComparativeStatement/GetByCostComponentByUnit?BusinessUnitId=${selectedBusinessUnit?.value}`,
+        (res) => {
+          const modData = res?.map((item) => {
+            return {
+              ...item,
+              value: item?.intCostComponentId,
+              label: item?.strCostComponentName,
+            };
+          });
+          setCostHeadDDL(modData);
+        }
+      );
 
-    getCurrencyDDL(
-      `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`
-    );
+      getCurrencyDDL(
+        `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`
+      );
+    }
   }, []);
 
   const saveHandler = (values) => {
@@ -126,6 +163,7 @@ const CostEntry = ({ costEntryList, dataList, CB }) => {
       data.push({
         value: dataList?.firstSelectedItem?.businessPartnerId,
         label: dataList?.firstSelectedItem?.businessPartnerName,
+        info: { ...dataList?.firstSelectedItem },
       });
     }
 
@@ -133,6 +171,7 @@ const CostEntry = ({ costEntryList, dataList, CB }) => {
       data.push({
         value: dataList?.secondSelectedItem?.businessPartnerId,
         label: dataList?.secondSelectedItem?.businessPartnerName,
+        info: { ...dataList?.secondSelectedItem },
       });
     }
 
@@ -160,10 +199,14 @@ const CostEntry = ({ costEntryList, dataList, CB }) => {
           isValid,
         }) => (
           <>
-            {(tagFGloading || productInfoLoading) && <Loading />}
-            <Form className="global-form form form-label-right">
-              <div className="form-group row">
-                {/* <div className="col-lg-3">
+            {(tagFGloading || productInfoLoading || costEntryListLoading) && (
+              <Loading />
+            )}
+            {!isView && (
+              <>
+                <Form className="global-form form form-label-right">
+                  <div className="form-group row">
+                    {/* <div className="col-lg-3">
                   <InputField
                     value={values?.costElementName}
                     label="Cost Element Name"
@@ -174,100 +217,106 @@ const CostEntry = ({ costEntryList, dataList, CB }) => {
                     }
                   />
                 </div> */}
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="supplier"
-                    options={getSupplier() || []}
-                    value={values?.supplierName}
-                    label="Supplier"
-                    onChange={(valueOption) => {
-                      setFieldValue("supplierName", valueOption);
-                    }}
-                    placeholder="supplierName"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="costHead"
-                    options={costHeadDDL || []}
-                    value={values?.costHead}
-                    label="Cost Head"
-                    onChange={(valueOption) => {
-                      setFieldValue("costHead", valueOption);
-                    }}
-                    placeholder="Cost Head"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="currency"
-                    options={currencyDDL || []}
-                    value={values?.currency}
-                    label="Currency"
-                    onChange={(valueOption) => {
-                      setFieldValue("currency", valueOption);
-                    }}
-                    placeholder="Currency"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.amount}
-                    label="Amount"
-                    name="amount"
-                    type="number"
-                    onChange={(e) => setFieldValue("amount", e.target.value)}
-                  />
-                </div>
 
-                <div className="col-lg-3 pt-6">
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="supplier"
+                        options={getSupplier() || []}
+                        value={values?.supplierName}
+                        label="Supplier"
+                        onChange={(valueOption) => {
+                          setFieldValue("supplierName", valueOption);
+                        }}
+                        placeholder="supplierName"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="costHead"
+                        options={costHeadDDL || []}
+                        value={values?.costHead}
+                        label="Cost Head"
+                        onChange={(valueOption) => {
+                          setFieldValue("costHead", valueOption);
+                        }}
+                        placeholder="Cost Head"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="currency"
+                        options={currencyDDL || []}
+                        value={values?.currency}
+                        label="Currency"
+                        onChange={(valueOption) => {
+                          setFieldValue("currency", valueOption);
+                        }}
+                        placeholder="Currency"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.amount}
+                        label="Amount"
+                        name="amount"
+                        type="number"
+                        onChange={(e) =>
+                          setFieldValue("amount", e.target.value)
+                        }
+                      />
+                    </div>
+
+                    <div className="col-lg-3 pt-6">
+                      <button
+                        type="button"
+                        disabled={
+                          !values?.supplierName ||
+                          !values?.costHead ||
+                          !values?.currency ||
+                          !values?.amount
+                        }
+                        className="btn btn-primary"
+                        onClick={() => {
+                          addNewFeatureHandler(values);
+                        }}
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    style={{ display: "none" }}
+                    ref={objProps.btnRef}
+                    onSubmit={() => handleSubmit()}
+                  ></button>
+
+                  <button
+                    type="reset"
+                    style={{ display: "none" }}
+                    ref={objProps.resetBtnRef}
+                    onSubmit={() => resetForm(initData)}
+                  ></button>
+                </Form>
+                <CardHeaderToolbar>
                   <button
                     type="button"
-                    disabled={
-                      !values?.supplierName ||
-                      !values?.costHead ||
-                      !values?.currency ||
-                      !values?.amount
-                    }
                     className="btn btn-primary"
-                    onClick={() => {
-                      addNewFeatureHandler(values);
-                    }}
+                    onClick={() => saveHandler()}
                   >
-                    Add
+                    Save
                   </button>
-                </div>
-              </div>
+                </CardHeaderToolbar>
+              </>
+            )}
 
-              <button
-                type="submit"
-                style={{ display: "none" }}
-                ref={objProps.btnRef}
-                onSubmit={() => handleSubmit()}
-              ></button>
-
-              <button
-                type="reset"
-                style={{ display: "none" }}
-                ref={objProps.resetBtnRef}
-                onSubmit={() => resetForm(initData)}
-              ></button>
-            </Form>
-            <CardHeaderToolbar>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => saveHandler()}
-              >
-                Save
-              </button>
-            </CardHeaderToolbar>
             <div className="table-responsive pt-5">
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                 {rowData?.length > 0 && (
@@ -278,7 +327,7 @@ const CostEntry = ({ costEntryList, dataList, CB }) => {
                       <th>Cost Head</th>
                       <th>Currency</th>
                       <th>Amount</th>
-                      <th>Action</th>
+                      {!isView && <th>Action</th>}
                     </tr>
                   </thead>
                 )}
@@ -310,17 +359,18 @@ const CostEntry = ({ costEntryList, dataList, CB }) => {
                               {item?.amount}
                             </span>
                           </td>
-
-                          <td>
-                            <span
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                handleDelete(item);
-                              }}
-                            >
-                              <IDelete />
-                            </span>
-                          </td>
+                          {!isView && (
+                            <td>
+                              <span
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                  handleDelete(item);
+                                }}
+                              >
+                                <IDelete />
+                              </span>
+                            </td>
+                          )}
                         </tr>
                       );
                     })}

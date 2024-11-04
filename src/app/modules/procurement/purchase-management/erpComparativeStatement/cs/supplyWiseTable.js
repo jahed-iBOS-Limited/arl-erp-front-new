@@ -88,13 +88,12 @@ function Row(props) {
                     {row?.firstAndSecondPlaceList[0]?.portList?.map((port) => (
                       <TableRow key={port.portId}>
                         <TableCell>{port?.portName}</TableCell>
-                        <TableCell>{port?.portRate}</TableCell>
+                        <TableCell>{port?.rate}</TableCell>
                         <TableCell>
                           {
                             <TableCell>
                               {" "}
-                              {row?.firstAndSecondPlaceList[0]?.supplierRate *
-                                data[index]?.csQuantity || 0
+                              {port?.rate * data[index]?.csQuantity || 0
 
                               // item?.firstAndSecondPlaceList[0]
                               // ?.totalAmount || 0
@@ -129,13 +128,12 @@ function Row(props) {
                     {row?.firstAndSecondPlaceList[1]?.portList?.map((port) => (
                       <TableRow key={port.portId}>
                         <TableCell>{port?.portName}</TableCell>
-                        <TableCell>{port?.portRate}</TableCell>
+                        <TableCell>{port?.rate}</TableCell>
                         <TableCell>
                           {
                             <TableCell>
                               {" "}
-                              {row?.firstAndSecondPlaceList[1]?.supplierRate *
-                                data[index]?.csQuantity || 0
+                              {port?.rate * data[index]?.csQuantity || 0
 
                               // item?.firstAndSecondPlaceList[0]
                               // ?.totalAmount || 0
