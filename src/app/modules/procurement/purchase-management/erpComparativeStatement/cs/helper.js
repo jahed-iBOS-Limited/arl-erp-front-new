@@ -3,6 +3,27 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { Table } from "antd";
 
+export const getCostEntryPayload = (costEntryList, rfqDetail) => {
+  let payload = [];
+  costEntryList?.map((item) => {
+    payload.push({
+      intCostComponentTransactionRowId: 0,
+      intRequestForQuotationId: rfqDetail?.requestForQuotationId,
+      intPartnerRfqid: item?.supplierName?.info?.partnerRfqId,
+      intCostComponentId: item?.costHead?.intCostComponentId,
+      strCostComponentName: item?.costHead?.strCostComponentName,
+      intCurrencyId: item?.currency?.value,
+      strCurrencyCode: item?.currency?.code,
+      numAmount: item?.amount,
+      numConversionRateInTaka: 0,
+      isActive: true,
+      dteCreateDate: new Date(),
+      intBusinessPartnerId: item?.supplierName?.info?.businessPartnerId,
+    });
+  });
+  return payload || [];
+};
+
 export const saveHandlerPayload = (
   values,
   payload,
@@ -12,6 +33,23 @@ export const saveHandlerPayload = (
   rowData
 ) => {
   if (values?.csType?.value === 0) {
+    const getSinglePort = (portId, data) => {
+      console.log(portId, data, "portId, data");
+      const result = data?.find((port) => port?.portId === portId);
+      if (result) {
+        return {
+          id: result?.id || 0,
+          portId: result?.portId || 0,
+          portName: result?.portName || "",
+          rate: result?.rate || 0,
+          freightCharge: result?.freightCharge || 0,
+          portReamrks: result?.portReamrks || "",
+          conversionRate: result?.conversionRate || 0,
+          convertedAmount: result?.convertedAmount || 0,
+        };
+      }
+      return {}; // Return empty object if no port is found
+    };
     rowData?.map((row) => {
       payload.push({
         requestForQuotationId: rfqDetail?.requestForQuotationId,
@@ -23,12 +61,28 @@ export const saveHandlerPayload = (
         approvalNotes: row?.note || "",
         portList:
           rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
-            ? [...row?.supplierInfo?.portList]
-            : [],
+            ? getSinglePort(row?.port?.value, row?.supplierInfo?.portList)
+            : {},
       });
     });
     return payload;
   } else {
+    const getcsQuantityList = (ind) => {
+      let csQuantityList = [];
+      placePartnerList?.map((item) => {
+        csQuantityList.push({
+          rowId: item?.firstAndSecondPlaceList[ind]?.rowId,
+          csQuantity: +item?.csQuantity || 0,
+          rate: item?.firstAndSecondPlaceList[ind]?.supplierRate || 0,
+          portList:
+            rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
+              ? getPortList(item?.firstAndSecondPlaceList[ind]?.portList)
+              : [],
+        });
+      });
+      return csQuantityList;
+    };
+
     const getPortList = (portList) => {
       let portListDS = [];
       portList?.map((port) => {
@@ -45,33 +99,13 @@ export const saveHandlerPayload = (
       });
       return portListDS;
     };
-    let supplierList = [];
-    // eslint-disable-next-line array-callback-return
-    placePartnerList?.map((item) => {
-      if (
-        item?.firstAndSecondPlaceList &&
-        item?.firstAndSecondPlaceList?.length > 0
-      ) {
-        item?.firstAndSecondPlaceList?.map((supplierItem) => {
-          supplierList.push({
-            rowId: supplierItem?.rowId,
-            csQuantity: +item?.takenQty || 0,
-            rate: supplierItem?.supplierRate || 0,
-            portList:
-              rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
-                ? getPortList(supplierItem?.portList)
-                : [],
-          });
-        });
-      }
-    });
     payload = [
       {
         requestForQuotationId: rfqDetail?.requestForQuotationId,
         partnerRfqId: suppilerStatement?.firstSelectedItem?.partnerRfqId,
         placeNoForCs: 1,
         approvalNotes: values?.approvalNotes || "",
-        csQuantityList: [...supplierList],
+        csQuantityList: getcsQuantityList(0),
       },
     ];
 
@@ -81,7 +115,7 @@ export const saveHandlerPayload = (
         partnerRfqId: suppilerStatement?.secondSelectedItem?.partnerRfqId,
         placeNoForCs: 2,
         approvalNotes: values?.approvalNotes || "",
-        csQuantityList: [...supplierList],
+        csQuantityList: getcsQuantityList(1),
       });
     }
   }
