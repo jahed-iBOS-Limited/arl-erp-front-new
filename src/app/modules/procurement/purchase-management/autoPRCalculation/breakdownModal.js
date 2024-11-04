@@ -55,7 +55,9 @@ export default function BreakDownModal({ singleRowData }) {
   }, []);
   const addHandler = (values, setFieldValue) => {
     const closingBlance = Math.abs(
-      singleRowData?.firstMonthQty - singleRowData?.availableStock
+      singleRowData?.firstMonthQty -
+        singleRowData?.availableStock -
+        singleRowData?.openPRQty
     );
 
     if (!values?.plant) {
@@ -151,7 +153,9 @@ export default function BreakDownModal({ singleRowData }) {
 
   const calculateRemainingBalance = (singleRowData, rowData, values) => {
     const closingBalance =
-      singleRowData?.firstMonthQty - singleRowData?.availableStock || 0;
+      singleRowData?.firstMonthQty -
+        singleRowData?.availableStock -
+        singleRowData?.openPRQty || 0;
 
     const totalRequestedQuantity = rowData?.reduce(
       (acc, item) => acc + (item?.requestQuantity || 0),
