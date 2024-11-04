@@ -29,6 +29,22 @@ export const saveHandlerPayload = (
     });
     return payload;
   } else {
+    const getcsQuantityList = (ind) => {
+      let csQuantityList = [];
+      placePartnerList?.map((item) => {
+        csQuantityList.push({
+          rowId: item?.firstAndSecondPlaceList[ind]?.rowId,
+          csQuantity: +item?.takenQty || 0,
+          rate: item?.firstAndSecondPlaceList[ind]?.supplierRate || 0,
+          portList:
+            rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
+              ? getPortList(item?.firstAndSecondPlaceList[ind]?.portList)
+              : [],
+        });
+      });
+      return csQuantityList;
+    };
+
     const getPortList = (portList) => {
       let portListDS = [];
       portList?.map((port) => {
@@ -45,33 +61,14 @@ export const saveHandlerPayload = (
       });
       return portListDS;
     };
-    let supplierList = [];
-    // eslint-disable-next-line array-callback-return
-    placePartnerList?.map((item) => {
-      if (
-        item?.firstAndSecondPlaceList &&
-        item?.firstAndSecondPlaceList?.length > 0
-      ) {
-        item?.firstAndSecondPlaceList?.map((supplierItem) => {
-          supplierList.push({
-            rowId: supplierItem?.rowId,
-            csQuantity: +item?.takenQty || 0,
-            rate: supplierItem?.supplierRate || 0,
-            portList:
-              rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
-                ? getPortList(supplierItem?.portList)
-                : [],
-          });
-        });
-      }
-    });
+
     payload = [
       {
         requestForQuotationId: rfqDetail?.requestForQuotationId,
         partnerRfqId: suppilerStatement?.firstSelectedItem?.partnerRfqId,
         placeNoForCs: 1,
         approvalNotes: values?.approvalNotes || "",
-        csQuantityList: [...supplierList],
+        csQuantityList: getcsQuantityList(0),
       },
     ];
 
@@ -81,7 +78,7 @@ export const saveHandlerPayload = (
         partnerRfqId: suppilerStatement?.secondSelectedItem?.partnerRfqId,
         placeNoForCs: 2,
         approvalNotes: values?.approvalNotes || "",
-        csQuantityList: [...supplierList],
+        csQuantityList: getcsQuantityList(1),
       });
     }
   }
