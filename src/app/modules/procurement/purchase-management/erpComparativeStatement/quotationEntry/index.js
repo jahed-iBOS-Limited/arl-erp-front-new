@@ -455,10 +455,10 @@ export default function ErpComparativeStatementLanding() {
                             ) : null}
                           </td> */}
                           <td>{item?.totalItems}</td>
-                          {item?.status &&
-                          item?.status === "Ready For CS" &&
-                          !item?.comparativeStatementType ? (
-                            <td className="text-center">
+                          <td className="text-center">
+                            {item?.status &&
+                            item?.status === "Ready For CS" &&
+                            !item?.comparativeStatementType ? (
                               <span
                                 className="ml-2 mr-3"
                                 onClick={() => {
@@ -470,9 +470,7 @@ export default function ErpComparativeStatementLanding() {
                               >
                                 <IAdd title={"Add"} />
                               </span>
-                            </td>
-                          ) : item?.comparativeStatementType ? (
-                            <td className="text-center">
+                            ) : item?.comparativeStatementType ? (
                               <span
                                 className="ml-2 mr-3"
                                 onClick={() => {
@@ -484,8 +482,8 @@ export default function ErpComparativeStatementLanding() {
                               >
                                 <IView title={"View"} />
                               </span>
-                            </td>
-                          ) : null}
+                            ) : null}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
