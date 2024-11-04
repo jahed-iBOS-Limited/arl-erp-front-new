@@ -12,6 +12,23 @@ export const saveHandlerPayload = (
   rowData
 ) => {
   if (values?.csType?.value === 0) {
+    const getSinglePort = (portId, data) => {
+      console.log(portId, data, "portId, data");
+      const result = data?.find((port) => port?.portId === portId);
+      if (result) {
+        return {
+          id: result?.id || 0,
+          portId: result?.portId || 0,
+          portName: result?.portName || "",
+          rate: result?.rate || 0,
+          freightCharge: result?.freightCharge || 0,
+          portReamrks: result?.portReamrks || "",
+          conversionRate: result?.conversionRate || 0,
+          convertedAmount: result?.convertedAmount || 0,
+        };
+      }
+      return {}; // Return empty object if no port is found
+    };
     rowData?.map((row) => {
       payload.push({
         requestForQuotationId: rfqDetail?.requestForQuotationId,
@@ -23,8 +40,8 @@ export const saveHandlerPayload = (
         approvalNotes: row?.note || "",
         portList:
           rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
-            ? [...row?.supplierInfo?.portList]
-            : [],
+            ? getSinglePort(row?.port?.value, row?.supplierInfo?.portList)
+            : {},
       });
     });
     return payload;
@@ -34,7 +51,7 @@ export const saveHandlerPayload = (
       placePartnerList?.map((item) => {
         csQuantityList.push({
           rowId: item?.firstAndSecondPlaceList[ind]?.rowId,
-          csQuantity: +item?.takenQty || 0,
+          csQuantity: +item?.csQuantity || 0,
           rate: item?.firstAndSecondPlaceList[ind]?.supplierRate || 0,
           portList:
             rfqDetail?.purchaseOrganizationName === "Foreign Procurement"

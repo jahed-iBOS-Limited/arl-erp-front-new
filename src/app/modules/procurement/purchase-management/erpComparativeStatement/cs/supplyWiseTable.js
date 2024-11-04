@@ -49,8 +49,8 @@ function Row(props) {
         <TableCell align="center">
           {" "}
           <IInput
-            value={data[index]?.takenQty || 0}
-            name="takenQty"
+            value={data[index]?.csQuantity || 0}
+            name="csQuantity"
             required
             placeholder="Taken Quantity"
             type="number"
@@ -61,7 +61,7 @@ function Row(props) {
             onChange={(e) => {
               let validNum = e.target.value;
 
-              rowDataHandler("takenQty", validNum, index);
+              rowDataHandler("csQuantity", validNum, index);
             }}
           />
         </TableCell>
@@ -94,7 +94,7 @@ function Row(props) {
                             <TableCell>
                               {" "}
                               {row?.firstAndSecondPlaceList[0]?.supplierRate *
-                                data[index]?.takenQty || 0
+                                data[index]?.csQuantity || 0
 
                               // item?.firstAndSecondPlaceList[0]
                               // ?.totalAmount || 0
@@ -135,7 +135,7 @@ function Row(props) {
                             <TableCell>
                               {" "}
                               {row?.firstAndSecondPlaceList[1]?.supplierRate *
-                                data[index]?.takenQty || 0
+                                data[index]?.csQuantity || 0
 
                               // item?.firstAndSecondPlaceList[0]
                               // ?.totalAmount || 0
@@ -175,7 +175,7 @@ function Row(props) {
                       <TableCell>
                         {" "}
                         {row?.firstAndSecondPlaceList[0]?.supplierRate *
-                          data[index]?.takenQty || 0
+                          data[index]?.csQuantity || 0
 
                         // item?.firstAndSecondPlaceList[0]
                         // ?.totalAmount || 0
@@ -217,7 +217,7 @@ function Row(props) {
                       <TableCell>
                         {" "}
                         {row?.firstAndSecondPlaceList[1]?.supplierRate *
-                          data[index]?.takenQty || 0
+                          data[index]?.csQuantity || 0
 
                         // item?.firstAndSecondPlaceList[0]
                         // ?.totalAmount || 0
