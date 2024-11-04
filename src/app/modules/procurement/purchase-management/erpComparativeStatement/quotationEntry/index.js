@@ -21,6 +21,9 @@ import Chips from "../../../../_helper/chips/Chips";
 import { useHistory } from "react-router-dom";
 import IAdd from "../../../../_helper/_helperIcons/_add";
 import { eProcurementBaseURL } from "../../../../../App";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { deleteHandler } from "../cs/helper";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 const initData = {
   purchaseOrganization: { value: 0, label: "ALL" },
   plant: "",
@@ -74,6 +77,8 @@ export default function ErpComparativeStatementLanding() {
     return state.authData;
   }, shallowEqual);
   const history = useHistory();
+
+  const [, deleteRFQById, deleteRFQLoading] = useAxiosPost();
 
   const [
     purchangeOrgListDDL,
@@ -455,7 +460,7 @@ export default function ErpComparativeStatementLanding() {
                             ) : null}
                           </td> */}
                           <td>{item?.totalItems}</td>
-                          <td className="text-center">
+                          <td className="text-center d-flex">
                             {item?.status &&
                             item?.status === "Ready For CS" &&
                             !item?.comparativeStatementType ? (
@@ -472,7 +477,7 @@ export default function ErpComparativeStatementLanding() {
                               </span>
                             ) : item?.comparativeStatementType ? (
                               <span
-                                className="ml-2 mr-3"
+                                className="ml-2"
                                 onClick={() => {
                                   history.push({
                                     pathname: `/mngProcurement/purchase-management/cs/view`,
@@ -483,6 +488,36 @@ export default function ErpComparativeStatementLanding() {
                                 <IView title={"View"} />
                               </span>
                             ) : null}
+                            {item?.status &&
+                              item?.status !== "Approved" &&
+                              item?.comparativeStatementType && (
+                                <span
+                                  className="ml-2 mr-3"
+                                  onClick={() => {
+                                    deleteHandler({
+                                      item: {
+                                        ...item,
+                                      },
+                                      deleteRFQById,
+                                      CB: () => {
+                                        getLandingData(
+                                          `${eProcurementBaseURL}/ComparativeStatement/GetComparativeStatementLanding?businessUnitId=${
+                                            selectedBusinessUnit?.value
+                                          }&plantId=${
+                                            values?.plant?.value
+                                          }&warehouseId=${
+                                            values?.warehouse?.value
+                                          }&partnerId=${0}&status=${
+                                            values?.status?.label
+                                          }`
+                                        );
+                                      },
+                                    });
+                                  }}
+                                >
+                                  <IDelete title={"Delete"} />
+                                </span>
+                              )}
                           </td>
                         </tr>
                       ))}
