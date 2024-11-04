@@ -4,23 +4,23 @@
 import { Table } from "antd";
 
 export const saveHandlerPayload = (
-  type,
+  values,
   payload,
   rfqDetail,
   suppilerStatement,
   placePartnerList,
   rowData
 ) => {
-  if (type?.value === 0) {
+  if (values?.csType?.value === 0) {
     rowData?.map((row) => {
       payload.push({
         requestForQuotationId: rfqDetail?.requestForQuotationId,
         partnerRfqId: row?.partnerRfqId,
         rowId: row?.itemWiseCode, // have to check if need
         itemId: row?.itemId,
-        takenQuantity: +row?.takenQuantity,
-        rate: +row?.supplierRate,
-        approvalNotes: row?.note,
+        takenQuantity: +row?.takenQuantity || 0,
+        rate: +row?.supplierRate || 0,
+        approvalNotes: row?.note || "",
         portList:
           rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
             ? [...row?.supplierInfo?.portList]
@@ -38,27 +38,30 @@ export const saveHandlerPayload = (
           portName: port?.portName || "",
           rate: port?.rate || 0,
           freightCharge: port?.freightCharge || 0,
+          portReamrks: port?.portReamrks || "",
+          conversionRate: port?.conversionRate || 0,
+          convertedAmount: port?.convertedAmount || 0,
         });
       });
       return portListDS;
     };
-
+    let supplierList = [];
     // eslint-disable-next-line array-callback-return
-    let csQuantityList = placePartnerList?.map((item) => {
+    placePartnerList?.map((item) => {
       if (
         item?.firstAndSecondPlaceList &&
         item?.firstAndSecondPlaceList?.length > 0
       ) {
         item?.firstAndSecondPlaceList?.map((supplierItem) => {
-          return {
+          supplierList.push({
             rowId: supplierItem?.rowId,
-            csQuantity: +item?.takenQty,
-            rate: supplierItem?.supplierRate,
+            csQuantity: +item?.takenQty || 0,
+            rate: supplierItem?.supplierRate || 0,
             portList:
               rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
                 ? getPortList(supplierItem?.portList)
                 : [],
-          };
+          });
         });
       }
     });
@@ -66,9 +69,9 @@ export const saveHandlerPayload = (
       {
         requestForQuotationId: rfqDetail?.requestForQuotationId,
         partnerRfqId: suppilerStatement?.firstSelectedItem?.partnerRfqId,
-        placeNoForCs: suppilerStatement?.firstSelectedItem?.placeNoForCs || 0,
-        approvalNotes: "test..",
-        csQuantityList: [...csQuantityList],
+        placeNoForCs: 1,
+        approvalNotes: values?.approvalNotes || "",
+        csQuantityList: [...supplierList],
       },
     ];
 
@@ -76,9 +79,9 @@ export const saveHandlerPayload = (
       payload.push({
         requestForQuotationId: rfqDetail?.requestForQuotationId,
         partnerRfqId: suppilerStatement?.secondSelectedItem?.partnerRfqId,
-        placeNoForCs: suppilerStatement?.secondSelectedItem?.placeNoForCs || 0,
-        approvalNotes: "test..22",
-        csQuantityList: [...csQuantityList],
+        placeNoForCs: 2,
+        approvalNotes: values?.approvalNotes || "",
+        csQuantityList: [...supplierList],
       });
     }
   }
