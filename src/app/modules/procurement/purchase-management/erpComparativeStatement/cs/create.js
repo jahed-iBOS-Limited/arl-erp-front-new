@@ -78,8 +78,8 @@ export default function CreateCs({
   const { rfqDetail, isView } = location?.state;
   console.log(rfqDetail, "rfqDetail");
   const [rowData, setRowData] = useState([]);
-  const [, saveData] = useAxiosPost();
-  const [, saveCostEntry] = useAxiosPost();
+  const [, saveData, mainDataLoading] = useAxiosPost();
+  const [, saveCostEntry, costEntryLoading] = useAxiosPost();
 
   const [rowDtos, setRowDtos] = useState([]);
   const [expandedRow, setExpandedRow] = useState(null);
@@ -347,7 +347,13 @@ export default function CreateCs({
       {isDisabled && <Loading />}
       <Formik
         enableReinitialize={true}
-        initialValues={{}}
+        initialValues={{
+          csType: isView
+            ? rfqDetail?.comparativeStatementType === "Item Wise CS"
+              ? { value: 0, label: "Item Wise Create" }
+              : { value: 1, label: "Supplier Wise Create" }
+            : "",
+        }}
         // validationSchema={{}}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -365,6 +371,12 @@ export default function CreateCs({
           isValid,
         }) => (
           <>
+            {(itemDDLLoading ||
+              SupplierDDLLoading ||
+              suppilerStatementLoading ||
+              placePartnerListLoading ||
+              costEntryLoading ||
+              mainDataLoading) && <Loading />}
             <Form className="form form-label-right">
               <div className="global-form">
                 <div className="row">
@@ -387,6 +399,7 @@ export default function CreateCs({
                       placeholder="CS Type"
                       errors={errors}
                       touched={touched}
+                      isDisabled={isView}
                     />
                   </div>
                   {!isView && values?.csType?.value === 1 && (
