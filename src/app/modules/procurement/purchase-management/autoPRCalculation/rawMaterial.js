@@ -322,14 +322,14 @@ export default function RawMaterialAutoPR() {
                                 </td>
                                 <td className="text-center">
                                   {item?.prCalculationHeaderId &&
-                                    item?.availableStock - item?.firstMonthQty >
+                                    item?.firstMonthQty - item?.availableStock >
                                       0 && (
                                       <span
                                         style={{ cursor: "pointer" }}
                                         onClick={() => {
                                           if (
-                                            item?.availableStock -
-                                              item?.firstMonthQty >
+                                            item?.firstMonthQty -
+                                              item?.availableStock >
                                             0
                                           ) {
                                             setSingleRowData(item);

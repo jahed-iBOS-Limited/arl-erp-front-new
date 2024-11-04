@@ -1387,7 +1387,7 @@ export default function RFQCreateEdit() {
                           !values?.referenceType ||
                           values?.referenceType?.value ===
                             "without reference" ||
-                          (id && values?.isSentToSupplier) ||
+                          id ||
                           !itemListDDL?.length > 0
                         }
                         value={values.isAllItem || ""}
@@ -1578,7 +1578,7 @@ export default function RFQCreateEdit() {
                     touched={touched}
                     isDisabled={id && values?.isSentToSupplier}
                   />
-                  <span
+                  {/* <span
                     style={{
                       cursor: "pointer",
                       marginTop: "8px",
@@ -1597,7 +1597,7 @@ export default function RFQCreateEdit() {
                         }}
                       />
                     </OverlayTrigger>
-                  </span>
+                  </span> */}
                 </div>
                 <div className="col-lg-3">
                   <InputField
