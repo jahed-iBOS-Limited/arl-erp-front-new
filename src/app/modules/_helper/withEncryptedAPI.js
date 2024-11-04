@@ -12,6 +12,7 @@ export const withEncryptedAPI = [
   "/RequestForQuotation/EditRequestForQuotation",
   "/RequestForQuotation/GetRequestForQuotationLanding",
   "/RequestForQuotation/GetRequestForQuotationDetails",
+  "/RequestForQuotation/UpdateRequestForQuotationStatus",
 
   // CS
   "/ComparativeStatement/GetComparativeStatementLanding",

@@ -18,7 +18,7 @@ import {
   _dateTimeFormatter,
 } from "../../../_helper/_dateFormate";
 import Chips from "../../../_helper/chips/Chips";
-import { rfqReportExcel } from "./helper";
+import { createQuotationPrepare, rfqReportExcel } from "./helper";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
@@ -27,6 +27,7 @@ import IConfirmModal from "../../../_helper/_confirmModal";
 import PaginationSearch from "../../../_helper/_search";
 import RfqModalForView from "./viewDetailsModal/rfqModalForView";
 import { eProcurementBaseURL } from "../../../../App";
+import { toast } from "react-toastify";
 const initData = {
   purchaseOrganization: { value: 0, label: "ALL" },
   rfqType: { value: 1, label: "Standard RFQ" },
@@ -148,6 +149,15 @@ export default function RequestForQuotationLanding() {
     setPositionHandler(pageNo, pageSize, values, searchValue);
   };
 
+  const handleREQReadyForPrepared = async (values, rfqId) => {
+    const data = await createQuotationPrepare(profileData?.userId, rfqId);
+    if (data && data?.statusCode === 200) {
+      toast.success("RFQ Ready for Prepared");
+      getData(values, pageNo, pageSize);
+    } else {
+      toast.warn("Failed to Prepared RFQ");
+    }
+  };
   return (
     <Formik
       enableReinitialize={true}
@@ -393,12 +403,12 @@ export default function RequestForQuotationLanding() {
                         <tr>
                           <th>SL</th>
                           <th>RFQ No</th>
+                          <th>RFQ Title</th>
                           <th>RFQ Date</th>
                           <th>Currency</th>
                           <th>RFQ Start Date-Time</th>
                           <th>RFQ End Date-Time</th>
                           <th>Status</th>
-                          <th>Created By</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -433,6 +443,9 @@ export default function RequestForQuotationLanding() {
                                   {item?.requestForQuotationCode}
                                 </span>
                               )}
+                            </td>
+                            <td className="text-left">
+                              {item?.rfqTitle || ""}
                             </td>
                             <td className="text-center">
                               {_dateFormatter(item?.rfqDate)}
@@ -494,9 +507,10 @@ export default function RequestForQuotationLanding() {
                                     backgroundColor: "#2ecc71",
                                   }}
                                 />
-                              ) : null}
+                              ) : (
+                                item?.status || ""
+                              )}
                             </td>
-                            <td>{item?.createdBy}</td>
                             <td>
                               <span
                                 onClick={() => {
@@ -519,30 +533,27 @@ export default function RequestForQuotationLanding() {
                                   }}
                                 />
                               </span>
-                              {item?.isSentToSupplier === false ? (
+                              {item?.status?.trim() === "Upcoming" && (
                                 <OverlayTrigger
                                   overlay={
                                     <Tooltip id="cs-icon">
-                                      {"Send To Supplier"}
+                                      {"Send To Prepared"}
                                     </Tooltip>
                                   }
                                 >
                                   <span
                                     className="ml-2 pointer"
                                     onClick={() => {
-                                      notifySupplierHanlder(
-                                        item?.requestForQuotationId,
-                                        item?.requestForQuotationCode,
-                                        () => {
-                                          getData(values, pageNo, pageSize);
-                                        }
+                                      handleREQReadyForPrepared(
+                                        values,
+                                        item?.requestForQuotationId
                                       );
                                     }}
                                   >
                                     <i class="fas fa-paper-plane"></i>
                                   </span>
                                 </OverlayTrigger>
-                              ) : null}
+                              )}
                             </td>
                           </tr>
                         ))}
