@@ -4,9 +4,9 @@ import { shallowEqual, useSelector } from "react-redux";
 import ICustomCard from "../../../../_helper/_customCard";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import useAxiosGet from "./../../../../_helper/customHooks/useAxiosGet";
 import LandingTable from "./table";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   productName: "",
@@ -66,9 +66,9 @@ const CDPRreportLanding = () => {
 
         const defaultProductName = uniqueProduct?.[0]?.productName
           ? {
-              value: uniqueProduct?.[0]?.productName,
-              label: uniqueProduct?.[0]?.productName,
-            }
+            value: uniqueProduct?.[0]?.productName,
+            label: uniqueProduct?.[0]?.productName,
+          }
           : "";
         if (formikRef.current) {
           formikRef.current.setFieldValue(
@@ -113,7 +113,7 @@ const CDPRreportLanding = () => {
     EditCDPMasterData(
       `/partner/PManagementCommonDDL/EditCDPMasterDataByEnrollId`,
       payload,
-      () => {},
+      () => { },
       true
     );
   };

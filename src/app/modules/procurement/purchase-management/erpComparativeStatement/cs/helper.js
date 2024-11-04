@@ -1,7 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/react-in-jsx-scope */
-import { Table } from "antd";
 
 export const saveHandlerPayload = (
   type,

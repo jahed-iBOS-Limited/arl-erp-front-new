@@ -4,7 +4,6 @@ import * as fs from "file-saver";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { excelGenerator } from "./excelGenerator";
-import axios from "axios";
 import { toast } from "react-toastify";
 
 const createExcelFile = async (
@@ -213,14 +212,11 @@ export const generateExcel = (
     item["debitAccount"] = values?.bankAccountNo?.bankAccNo;
   });
   const dataHeader = [
-    `To\nDate: ${dateFormatWithMonthName(_todayDate())}\nThe Manager\n${
-      values?.bankAccountNo?.bankName
-    }.\n${values?.bankAccountNo?.address}\nSubject : ${
-      values?.advice?.info === "ibbl"
-        ? "Payment Instruction."
-        : "Payment Instruction by BEFTN."
-    }\nDear Sir,\nWe do hereby requesting you to make payment by transferring the amount to the respective Account Holder as shown below in detailed by debiting our CD Account No.${
-      values?.bankAccountNo?.bankAccNo
+    `To\nDate: ${dateFormatWithMonthName(_todayDate())}\nThe Manager\n${values?.bankAccountNo?.bankName
+    }.\n${values?.bankAccountNo?.address}\nSubject : ${values?.advice?.info === "ibbl"
+      ? "Payment Instruction."
+      : "Payment Instruction by BEFTN."
+    }\nDear Sir,\nWe do hereby requesting you to make payment by transferring the amount to the respective Account Holder as shown below in detailed by debiting our CD Account No.${values?.bankAccountNo?.bankAccNo
     }\nDetailed particulars of each Account Holder:`,
   ];
 

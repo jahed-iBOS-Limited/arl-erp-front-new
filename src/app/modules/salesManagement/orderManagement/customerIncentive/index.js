@@ -132,7 +132,7 @@ export default function CustomerIncentive() {
           true
         );
       },
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     });
   };
 
@@ -142,13 +142,13 @@ export default function CustomerIncentive() {
       values?.incentiveType?.value
     )
       ? [
-          {
-            per1: 0,
-            per2: 0,
-            amount: +values?.amount,
-            isAbove: false,
-          },
-        ]
+        {
+          per1: 0,
+          per2: 0,
+          amount: +values?.amount,
+          isAbove: false,
+        },
+      ]
       : percentageList;
 
     if (
@@ -221,7 +221,7 @@ export default function CustomerIncentive() {
             isHiddenReset
             isHiddenBack
             isHiddenSave
-            renderProps={() => {}}
+            renderProps={() => { }}
           >
             <Form>
               <div className="global-form align-items-center">
@@ -317,10 +317,10 @@ export default function CustomerIncentive() {
                       </div>
                     </>
                   ) : [
-                      "WithTarget",
-                      "WithoutTarget",
-                      "DeliveryIncentive(WithAmount)",
-                    ].includes(values?.incentiveType?.value) ? (
+                    "WithTarget",
+                    "WithoutTarget",
+                    "DeliveryIncentive(WithAmount)",
+                  ].includes(values?.incentiveType?.value) ? (
                     <>
                       <div className="col-lg-3">
                         <InputField
@@ -509,18 +509,18 @@ export default function CustomerIncentive() {
                   {["DeliveryIncentive(WithAmount)"].includes(
                     values?.incentiveType?.value
                   ) && (
-                    <div className="col-lg-3">
-                      <InputField
-                        value={values?.amount}
-                        label="Amount"
-                        name="amount"
-                        type="number"
-                        onChange={(e) => {
-                          setFieldValue("amount", e.target.value);
-                        }}
-                      />
-                    </div>
-                  )}
+                      <div className="col-lg-3">
+                        <InputField
+                          value={values?.amount}
+                          label="Amount"
+                          name="amount"
+                          type="number"
+                          onChange={(e) => {
+                            setFieldValue("amount", e.target.value);
+                          }}
+                        />
+                      </div>
+                    )}
                   <div className="col-md-3 d-flex mt-3" style={{ gap: "10px" }}>
                     <div>
                       <button
@@ -637,8 +637,8 @@ export default function CustomerIncentive() {
                           "WithoutTarget",
                           "DeliveryIncentive(WithAmount)",
                         ].includes(values?.incentiveType?.value) && (
-                          <th>Target Quantity</th>
-                        )}
+                            <th>Target Quantity</th>
+                          )}
                         {/* <th>Total Delivery Qty</th> */}
                         {![
                           "WithTarget",
@@ -694,10 +694,10 @@ export default function CustomerIncentive() {
                               "WithoutTarget",
                               "DeliveryIncentive(WithAmount)",
                             ].includes(values?.incentiveType?.value) && (
-                              <td className="text-right">
-                                {item?.targetQuantity || 0}
-                              </td>
-                            )}
+                                <td className="text-right">
+                                  {item?.targetQuantity || 0}
+                                </td>
+                              )}
                             {/* <td className="text-right">
                               {item?.totalDeliveryQTY || 0}
                             </td> */}
@@ -745,10 +745,10 @@ export default function CustomerIncentive() {
                           "WithoutTarget",
                           "DeliveryIncentive(WithAmount)",
                         ].includes(values?.incentiveType?.value) && (
-                          <td className="font-weight-bold text-right">
-                            {countTotal("targetQuantity")}
-                          </td>
-                        )}
+                            <td className="font-weight-bold text-right">
+                              {countTotal("targetQuantity")}
+                            </td>
+                          )}
                         {![
                           "WithTarget",
                           "WithoutTarget",

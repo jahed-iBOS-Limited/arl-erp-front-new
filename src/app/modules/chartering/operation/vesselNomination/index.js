@@ -1,22 +1,19 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { toast } from "react-toastify";
-import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
+import { imarineBaseUrl } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import ICustomTable from "../../_chartinghelper/_customTable";
 import IViewModal from "../../_chartinghelper/_viewModal";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import VoyageLicenseFlagAttachment from "./voyageFlagLicenseAttachment";
-import EmailEditor from "../emailEditor";
-import { getEmailInfoandSendMail } from "../helper";
-import DiffEmailSender from "../diffEmailSender";
 import FormikSelect from "../../_chartinghelper/common/formikSelect";
 import customStyles from "../../_chartinghelper/common/selectCustomStyle";
 import { getVesselDDL, getVoyageDDLNew } from "../../helper";
-import { shallowEqual, useSelector } from "react-redux";
+import DiffEmailSender from "../diffEmailSender";
+import EmailEditor from "../emailEditor";
+import IForm from "./../../../_helper/_form";
+import Loading from "./../../../_helper/_loading";
+import VoyageLicenseFlagAttachment from "./voyageFlagLicenseAttachment";
 
 const initData = {
   voyageFlagLicenseAtt: "",
@@ -52,7 +49,7 @@ const headers = [
 ];
 
 export default function VesselNomination() {
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
   const [show, setShow] = useState(false);
   const onHide = () => setShow(false);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -477,26 +474,26 @@ export default function VesselNomination() {
                               {visibleButtons.includes(
                                 "isBunkerCalculationSave"
                               ) && (
-                                <button
-                                  className={
-                                    item.isBunkerCalculationSave
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
-                                  }
-                                  type="button"
-                                  onClick={() => {
-                                    history.push(
-                                      "/chartering/operation/bunkerManagement/create",
-                                      {
-                                        landingData: item,
-                                      }
-                                    );
-                                  }}
-                                  disabled={item?.isBunkerCalculationSave}
-                                >
-                                  Bunker Calculator
-                                </button>
-                              )}
+                                  <button
+                                    className={
+                                      item.isBunkerCalculationSave
+                                        ? "btn btn-sm btn-success px-1 py-1"
+                                        : "btn btn-sm btn-warning px-1 py-1"
+                                    }
+                                    type="button"
+                                    onClick={() => {
+                                      history.push(
+                                        "/chartering/operation/bunkerManagement/create",
+                                        {
+                                          landingData: item,
+                                        }
+                                      );
+                                    }}
+                                    disabled={item?.isBunkerCalculationSave}
+                                  >
+                                    Bunker Calculator
+                                  </button>
+                                )}
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes("preStowageSend") && (
@@ -567,27 +564,27 @@ export default function VesselNomination() {
                               {visibleButtons.includes(
                                 "onHireBunkerSurveySent"
                               ) && (
-                                <button
-                                  className={
-                                    item.onHireBunkerSurveySent
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
-                                  }
-                                  type="button"
-                                  onClick={() => {
-                                    
+                                  <button
+                                    className={
+                                      item.onHireBunkerSurveySent
+                                        ? "btn btn-sm btn-success px-1 py-1"
+                                        : "btn btn-sm btn-warning px-1 py-1"
+                                    }
+                                    type="button"
+                                    onClick={() => {
 
-                                    setSingleRowData({
-                                      ...item,
-                                      columnName: "ON HIRE BUNKER SURVEY",
-                                    });
-                                    setIsShowMailModal(true);
-                                  }}
-                                  disabled={item.onHireBunkerSurveySent}
-                                >
-                                  ON HIRE BUNKER SURVEY SENT
-                                </button>
-                              )}
+
+                                      setSingleRowData({
+                                        ...item,
+                                        columnName: "ON HIRE BUNKER SURVEY",
+                                      });
+                                      setIsShowMailModal(true);
+                                    }}
+                                    disabled={item.onHireBunkerSurveySent}
+                                  >
+                                    ON HIRE BUNKER SURVEY SENT
+                                  </button>
+                                )}
                             </td>
                             {/* <td className="text-center">
                               {visibleButtons.includes(
@@ -618,25 +615,25 @@ export default function VesselNomination() {
                               {visibleButtons.includes(
                                 "voyageInstructionSent"
                               ) && (
-                                <button
-                                  className={
-                                    item.voyageInstructionSent
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
-                                  }
-                                  type="button"
-                                  onClick={() => {
-                                    setSingleRowData({
-                                      ...item,
-                                      columnName: "VOYAGE INSTRUCTION",
-                                    });
-                                    setIsShowMailModal(true);
-                                  }}
-                                  disabled={item.voyageInstructionSent}
-                                >
-                                  VOYAGE INSTRUCTION SENT
-                                </button>
-                              )}
+                                  <button
+                                    className={
+                                      item.voyageInstructionSent
+                                        ? "btn btn-sm btn-success px-1 py-1"
+                                        : "btn btn-sm btn-warning px-1 py-1"
+                                    }
+                                    type="button"
+                                    onClick={() => {
+                                      setSingleRowData({
+                                        ...item,
+                                        columnName: "VOYAGE INSTRUCTION",
+                                      });
+                                      setIsShowMailModal(true);
+                                    }}
+                                    disabled={item.voyageInstructionSent}
+                                  >
+                                    VOYAGE INSTRUCTION SENT
+                                  </button>
+                                )}
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes("pisurveySent") && (
@@ -664,26 +661,26 @@ export default function VesselNomination() {
                               {visibleButtons.includes(
                                 "voyageLicenseFlagWaiverSend"
                               ) && (
-                                <button
-                                  className={
-                                    item.voyageLicenseFlagWaiverSend
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
-                                  }
-                                  type="button"
-                                  onClick={() => {
-                                    setSingleRowData({
-                                      ...item,
-                                      columnName: "VOYAGE LICENSE/FLAG WAIVER",
-                                    });
-                                    // setIsShowMailModal(true);
-                                    setShow(true);
-                                  }}
-                                  disabled={item.voyageLicenseFlagWaiverSend}
-                                >
-                                  VOYAGE LICENSE/FLAG WAIVER SEND
-                                </button>
-                              )}
+                                  <button
+                                    className={
+                                      item.voyageLicenseFlagWaiverSend
+                                        ? "btn btn-sm btn-success px-1 py-1"
+                                        : "btn btn-sm btn-warning px-1 py-1"
+                                    }
+                                    type="button"
+                                    onClick={() => {
+                                      setSingleRowData({
+                                        ...item,
+                                        columnName: "VOYAGE LICENSE/FLAG WAIVER",
+                                      });
+                                      // setIsShowMailModal(true);
+                                      setShow(true);
+                                    }}
+                                    disabled={item.voyageLicenseFlagWaiverSend}
+                                  >
+                                    VOYAGE LICENSE/FLAG WAIVER SEND
+                                  </button>
+                                )}
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes("tclSend") && (
@@ -695,7 +692,7 @@ export default function VesselNomination() {
                                   }
                                   type="button"
                                   onClick={() => {
-                                    
+
 
                                     setSingleRowData({
                                       ...item,
@@ -713,126 +710,126 @@ export default function VesselNomination() {
                               {visibleButtons.includes(
                                 "weatherRoutingCompanySend"
                               ) && (
-                                <button
-                                  className={
-                                    item.weatherRoutingCompanySend
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
-                                  }
-                                  type="button"
-                                  onClick={() => {
-                                    setSingleRowData({
-                                      ...item,
-                                      columnName: "WEATHER ROUTING COMPANY",
-                                    });
-                                    // setIsShowMailModal(true);
-                                    setIsDiffMailSenderModal(true);
-                                  }}
-                                  disabled={item.weatherRoutingCompanySend}
-                                >
-                                  WEATHER ROUTING COMPANY SEND
-                                </button>
-                              )}
+                                  <button
+                                    className={
+                                      item.weatherRoutingCompanySend
+                                        ? "btn btn-sm btn-success px-1 py-1"
+                                        : "btn btn-sm btn-warning px-1 py-1"
+                                    }
+                                    type="button"
+                                    onClick={() => {
+                                      setSingleRowData({
+                                        ...item,
+                                        columnName: "WEATHER ROUTING COMPANY",
+                                      });
+                                      // setIsShowMailModal(true);
+                                      setIsDiffMailSenderModal(true);
+                                    }}
+                                    disabled={item.weatherRoutingCompanySend}
+                                  >
+                                    WEATHER ROUTING COMPANY SEND
+                                  </button>
+                                )}
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
                                 "departureDocumentLoadPortSend"
                               ) && (
-                                <button
-                                  className={
-                                    item.departureDocumentLoadPortSend
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
-                                  }
-                                  type="button"
-                                  onClick={() => {
-                                    setSingleRowData({
-                                      ...item,
-                                      columnName: "DEPARTURE DOCUMENT LOADPORT",
-                                    });
-                                    setIsShowMailModal(true);
-                                  }}
-                                  disabled={item.departureDocumentLoadPortSend}
-                                >
-                                  DEPARTURE DOCUMENT LOADPORT SEND
-                                </button>
-                              )}
+                                  <button
+                                    className={
+                                      item.departureDocumentLoadPortSend
+                                        ? "btn btn-sm btn-success px-1 py-1"
+                                        : "btn btn-sm btn-warning px-1 py-1"
+                                    }
+                                    type="button"
+                                    onClick={() => {
+                                      setSingleRowData({
+                                        ...item,
+                                        columnName: "DEPARTURE DOCUMENT LOADPORT",
+                                      });
+                                      setIsShowMailModal(true);
+                                    }}
+                                    disabled={item.departureDocumentLoadPortSend}
+                                  >
+                                    DEPARTURE DOCUMENT LOADPORT SEND
+                                  </button>
+                                )}
                             </td>
 
                             <td className="text-center">
                               {visibleButtons.includes(
                                 "epdadischargePortSent"
                               ) && (
-                                <button
-                                  className={
-                                    item.epdadischargePortSent
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
-                                  }
-                                  type="button"
-                                  onClick={() => {
-                                    setSingleRowData({
-                                      ...item,
-                                      columnName: "EPDA DISCHARGE PORT",
-                                    });
-                                    setIsDiffMailSenderModal(true);
-                                  }}
-                                  disabled={item.epdadischargePortSent}
-                                >
-                                  EPDA DISCHARGE PORT SENT
-                                </button>
-                              )}
+                                  <button
+                                    className={
+                                      item.epdadischargePortSent
+                                        ? "btn btn-sm btn-success px-1 py-1"
+                                        : "btn btn-sm btn-warning px-1 py-1"
+                                    }
+                                    type="button"
+                                    onClick={() => {
+                                      setSingleRowData({
+                                        ...item,
+                                        columnName: "EPDA DISCHARGE PORT",
+                                      });
+                                      setIsDiffMailSenderModal(true);
+                                    }}
+                                    disabled={item.epdadischargePortSent}
+                                  >
+                                    EPDA DISCHARGE PORT SENT
+                                  </button>
+                                )}
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
                                 "offHireBunkerSurveySent"
                               ) && (
-                                <button
-                                  className={
-                                    item.offHireBunkerSurveySent
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
-                                  }
-                                  type="button"
-                                  onClick={() => {
-                                    setSingleRowData({
-                                      ...item,
-                                      columnName: "OFFHIRE BUNKER SURVEY",
-                                    });
-                                    setIsShowMailModal(true);
-                                  }}
-                                  disabled={item.offHireBunkerSurveySent}
-                                >
-                                  OFFHIRE BUNKER SURVEY SENT
-                                </button>
-                              )}
+                                  <button
+                                    className={
+                                      item.offHireBunkerSurveySent
+                                        ? "btn btn-sm btn-success px-1 py-1"
+                                        : "btn btn-sm btn-warning px-1 py-1"
+                                    }
+                                    type="button"
+                                    onClick={() => {
+                                      setSingleRowData({
+                                        ...item,
+                                        columnName: "OFFHIRE BUNKER SURVEY",
+                                      });
+                                      setIsShowMailModal(true);
+                                    }}
+                                    disabled={item.offHireBunkerSurveySent}
+                                  >
+                                    OFFHIRE BUNKER SURVEY SENT
+                                  </button>
+                                )}
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
                                 "departureDocumentDischargePortSend"
                               ) && (
-                                <button
-                                  className={
-                                    item.departureDocumentDischargePortSend
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
-                                  }
-                                  type="button"
-                                  onClick={() => {
-                                    setSingleRowData({
-                                      ...item,
-                                      columnName:
-                                        "DEPARTURE DOCUMENT DISCHARGE PORT",
-                                    });
-                                    setIsShowMailModal(true);
-                                  }}
-                                  disabled={
-                                    item.departureDocumentDischargePortSend
-                                  }
-                                >
-                                  DEPARTURE DOCUMENT DISCHARGE PORT SEND
-                                </button>
-                              )}
+                                  <button
+                                    className={
+                                      item.departureDocumentDischargePortSend
+                                        ? "btn btn-sm btn-success px-1 py-1"
+                                        : "btn btn-sm btn-warning px-1 py-1"
+                                    }
+                                    type="button"
+                                    onClick={() => {
+                                      setSingleRowData({
+                                        ...item,
+                                        columnName:
+                                          "DEPARTURE DOCUMENT DISCHARGE PORT",
+                                      });
+                                      setIsShowMailModal(true);
+                                    }}
+                                    disabled={
+                                      item.departureDocumentDischargePortSend
+                                    }
+                                  >
+                                    DEPARTURE DOCUMENT DISCHARGE PORT SEND
+                                  </button>
+                                )}
                             </td>
                           </tr>
                         );

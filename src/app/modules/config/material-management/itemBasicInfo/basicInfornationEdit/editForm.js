@@ -1,22 +1,19 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useEffect, useState, useRef } from "react";
+import Axios from "axios";
+import { isObject } from "lodash";
+import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   Card,
   CardBody,
-  CardHeader,
-  CardHeaderToolbar,
+  ModalProgressBar
 } from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import { useParams } from "react-router-dom";
-import { isObject } from "lodash";
 
-import { useSelector, shallowEqual } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Loading from "../../../../_helper/_loading";
 
-export default function EditForm({ history,isViewPage }) {
+export default function EditForm({ history, isViewPage }) {
   const [isDisabled, setDisabled] = useState(false);
   const [data, setData] = useState("");
 
@@ -31,7 +28,7 @@ export default function EditForm({ history,isViewPage }) {
   }, shallowEqual);
 
   const businessUnitId = selectedBusinessUnit?.value;
-  const isWorkable = (businessUnitId === 138 || businessUnitId === 186 )
+  const isWorkable = (businessUnitId === 138 || businessUnitId === 186)
 
   let { id } = useParams();
   useEffect(() => {
@@ -59,11 +56,11 @@ export default function EditForm({ history,isViewPage }) {
             label: meta.itemSubCategoryName,
           },
           minimumStockQuantity: meta?.minimumStockQuantity || "",
-          safetyStockQuantity : meta?.safetyStockQuantity || "",
-          maximumQuantity :meta?.maximumQuantity || "",
-          reorderQuantity : meta?.reorderQuantity || "",
-          reorderLevel:meta?.reorderLevel || "",
-          isMaintainSerial : meta?.isSerialMaintain
+          safetyStockQuantity: meta?.safetyStockQuantity || "",
+          maximumQuantity: meta?.maximumQuantity || "",
+          reorderQuantity: meta?.reorderQuantity || "",
+          reorderLevel: meta?.reorderLevel || "",
+          isMaintainSerial: meta?.isSerialMaintain
         });
     }
   };
@@ -89,11 +86,11 @@ export default function EditForm({ history,isViewPage }) {
         businessUnitId: selectedBusinessUnit?.value,
         isActive: true,
         minimumStockQuantity: +values?.minimumStockQuantity || 0,
-        safetyStockQuantity : +values?.safetyStockQuantity || 0,
-        maximumQuantity : +values?.maximumQuantity || 0,
-        reorderQuantity : +values?.reorderQuantity || 0,
+        safetyStockQuantity: +values?.safetyStockQuantity || 0,
+        maximumQuantity: +values?.maximumQuantity || 0,
+        reorderQuantity: +values?.reorderQuantity || 0,
         reorderLevel: values?.reorderLevel || "",
-        isSerialMaintain :!!values?.isMaintainSerial || false
+        isSerialMaintain: !!values?.isMaintainSerial || false
       };
 
       try {
@@ -106,7 +103,7 @@ export default function EditForm({ history,isViewPage }) {
           toastId: 2,
         });
       } catch (error) {
-       
+
         toast.error("Sorry! please try again", { toastId: 2 });
 
         setDisabled(false);

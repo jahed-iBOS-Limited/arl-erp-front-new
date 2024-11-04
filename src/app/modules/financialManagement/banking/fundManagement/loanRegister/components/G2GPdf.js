@@ -1,8 +1,7 @@
-import React from "react";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { formatDate } from "./utils";
-import { _formatMoney } from "../../../../../_helper/_formatMoney";
 import moment from "moment";
+import React from "react";
+import { _formatMoney } from "../../../../../_helper/_formatMoney";
+import { formatDate } from "./utils";
 const marginBottom = "9px";
 const G2GPdf = ({ singleItem, selectedBusinessUnit }) => {
   const {
@@ -19,10 +18,10 @@ const G2GPdf = ({ singleItem, selectedBusinessUnit }) => {
   const { buShortName, label } = selectedBusinessUnit;
 
   return (
-    <div style={{margin: "40px 71px 0px" }}>
+    <div style={{ margin: "40px 71px 0px" }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Ref {" "}:{" "}{buShortName}/{strBankShortName}/STL/G2G/
-     
+
         {moment(dteStartDate).format("YYYY.MM.DD")}
       </p>
       <p style={{ marginBottom }} className="font-weight-bolder">
@@ -37,7 +36,7 @@ const G2GPdf = ({ singleItem, selectedBusinessUnit }) => {
 
       <p style={{ marginBottom }} className="font-weight-bolder">
         Subject : Request for disbursement of {" "} {facilityName} - BDT {" "}
-        {_formatMoney(numPrinciple)}{" "}for{" "}{label}{" "}A/C No: {}{strBankAccountNumber}.
+        {_formatMoney(numPrinciple)}{" "}for{" "}{label}{" "}A/C No: { }{strBankAccountNumber}.
       </p>
 
       <p style={{ marginBottom }}>Dear Sir,</p>

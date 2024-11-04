@@ -1,7 +1,6 @@
 import React from "react";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _todayDate } from "../../../../_helper/_todayDate";
 
 const FormatOne = ({
   values,
@@ -106,7 +105,7 @@ const FormatOne = ({
                 textAlign: "center",
               }}
             >
-              Sl No 
+              Sl No
             </td>
             <td
               style={{
@@ -162,10 +161,10 @@ const FormatOne = ({
                       border: "1px solid #000",
                     }}
                   >
-                    <div className="text-center"  
-                     style={{
-                      ...(fontSize && { fontSize }),
-                     }}
+                    <div className="text-center"
+                      style={{
+                        ...(fontSize && { fontSize }),
+                      }}
                     > {index + 1}</div>
                   </td>
                   <td
@@ -175,7 +174,7 @@ const FormatOne = ({
                   >
                     <div className="pl-2" style={{
                       ...(fontSize && { fontSize }),
-                     }}>
+                    }}>
                       <span className="d-none">{` ${"\u200C"} `}</span>
                       <span>{itm?.strAccountNo}</span>
                     </div>
@@ -187,7 +186,7 @@ const FormatOne = ({
                   >
                     <div className="pl-2" style={{
                       ...(fontSize && { fontSize }),
-                     }}>{itm?.strBankAccountName}</div>
+                    }}>{itm?.strBankAccountName}</div>
                   </td>
                   <td
                     style={{
@@ -196,7 +195,7 @@ const FormatOne = ({
                   >
                     <div className="text-right pr-2" style={{
                       ...(fontSize && { fontSize }),
-                     }}>
+                    }}>
                       {numberWithCommas(itm?.numAmount)}
                     </div>
                   </td>
@@ -207,7 +206,7 @@ const FormatOne = ({
                   >
                     <div className="text-left pl-2" style={{
                       ...(fontSize && { fontSize }),
-                     }}>{itm?.strInstrumentNo}</div>
+                    }}>{itm?.strInstrumentNo}</div>
                   </td>
                   <td
                     style={{
@@ -216,7 +215,7 @@ const FormatOne = ({
                   >
                     <div className="pl-2" style={{
                       ...(fontSize && { fontSize }),
-                     }}>{itm?.strBankBranchName}</div>
+                    }}>{itm?.strBankBranchName}</div>
                   </td>
                 </tr>
               );
@@ -233,8 +232,8 @@ const FormatOne = ({
                 }}
               >
                 <div className="font-weight-bold text-left pl-2 text-right" style={{
-                      ...(fontSize && { fontSize }),
-                     }}>
+                  ...(fontSize && { fontSize }),
+                }}>
                   Total Net Amount
                 </div>
               </td>
@@ -246,8 +245,8 @@ const FormatOne = ({
                 }}
               >
                 <div className="font-weight-bold text-right" style={{
-                      ...(fontSize && { fontSize }),
-                     }}>
+                  ...(fontSize && { fontSize }),
+                }}>
                   {adviceReportData.length > 0 && numberWithCommas(total)}
                 </div>
               </td>

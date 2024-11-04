@@ -1,26 +1,25 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 // import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../../_helper/_inputField";
-import { shallowEqual, useSelector } from "react-redux";
-import { _threeMonthAgoDate, _todayDate } from "../../../../_helper/_todayDate";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import IView from "../../../../_helper/_helperIcons/_view";
-import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import LocalAirportOutlinedIcon from "@material-ui/icons/LocalAirportOutlined";
+import LocalShippingIcon from "@material-ui/icons/LocalShipping";
+import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { eProcurementBaseURL } from "../../../../../App";
 import {
   _dateFormatter,
   _dateTimeFormatter,
 } from "../../../../_helper/_dateFormate";
-import Chips from "../../../../_helper/chips/Chips";
-import { useHistory } from "react-router-dom";
+import IForm from "../../../../_helper/_form";
 import IAdd from "../../../../_helper/_helperIcons/_add";
-import { eProcurementBaseURL } from "../../../../../App";
+import IView from "../../../../_helper/_helperIcons/_view";
+import Loading from "../../../../_helper/_loading";
+import PaginationSearch from "../../../../_helper/_search";
+import NewSelect from "../../../../_helper/_select";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import { _threeMonthAgoDate, _todayDate } from "../../../../_helper/_todayDate";
+import Chips from "../../../../_helper/chips/Chips";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 const initData = {
   purchaseOrganization: { value: 0, label: "ALL" },
   plant: "",
@@ -115,10 +114,10 @@ export default function ErpComparativeStatementLanding() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [objProps, setObjprops] = useState({});
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
   // const history = useHistory();
 
-  const getData = (values, pageNo, pageSize) => {};
+  const getData = (values, pageNo, pageSize) => { };
 
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -161,24 +160,24 @@ export default function ErpComparativeStatementLanding() {
             isHiddenBack
             isHiddenSave
             getProps={setObjprops}
-            // renderProps={() => {
-            //   return (
-            //     <div>
-            //       <button
-            //         type="button"
-            //         col-lg-2
-            //         className="btn btn-primary"
-            //         onClick={() => {
-            //           history.push(
-            //             "/mngProcurement/purchase-management/cs/create"
-            //           );
-            //         }}
-            //       >
-            //         Create
-            //       </button>
-            //     </div>
-            //   );
-            // }}
+          // renderProps={() => {
+          //   return (
+          //     <div>
+          //       <button
+          //         type="button"
+          //         col-lg-2
+          //         className="btn btn-primary"
+          //         onClick={() => {
+          //           history.push(
+          //             "/mngProcurement/purchase-management/cs/create"
+          //           );
+          //         }}
+          //       >
+          //         Create
+          //       </button>
+          //     </div>
+          //   );
+          // }}
           >
             <Form>
               <div className="form-group  global-form row">
@@ -314,24 +313,22 @@ export default function ErpComparativeStatementLanding() {
                     }}
                     onClick={() => {
                       getLandingData(
-                        `${eProcurementBaseURL}/ComparativeStatement/GetComparativeStatementLanding?businessUnitId=${
-                          selectedBusinessUnit?.value
-                        }&plantId=${values?.plant?.value}&warehouseId=${
-                          values?.warehouse?.value
+                        `${eProcurementBaseURL}/ComparativeStatement/GetComparativeStatementLanding?businessUnitId=${selectedBusinessUnit?.value
+                        }&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value
                         }&partnerId=${0}&status=${values?.status?.label}`
                       );
 
                       // getData(values, pageNo, pageSize)
                     }}
-                    // disabled={
-                    //     !values?.purchaseOrganization ||
-                    //     !values?.rfqType ||
-                    //     !values?.plant ||
-                    //     !values?.warehouse ||
-                    //     !values?.status ||
-                    //     !values?.fromDate ||
-                    //     !values?.toDate
-                    // }
+                  // disabled={
+                  //     !values?.purchaseOrganization ||
+                  //     !values?.rfqType ||
+                  //     !values?.plant ||
+                  //     !values?.warehouse ||
+                  //     !values?.status ||
+                  //     !values?.fromDate ||
+                  //     !values?.toDate
+                  // }
                   >
                     View
                   </button>
@@ -372,7 +369,7 @@ export default function ErpComparativeStatementLanding() {
                           <td>{index + 1}</td>
                           <td>
                             {item?.purchaseOrganizationName ===
-                            "Foreign Procurement" ? (
+                              "Foreign Procurement" ? (
                               <span>
                                 <LocalAirportOutlinedIcon
                                   style={{
@@ -456,8 +453,8 @@ export default function ErpComparativeStatementLanding() {
                           </td> */}
                           <td>{item?.totalItems}</td>
                           {item?.status &&
-                          item?.status === "Ready For CS" &&
-                          !item?.comparativeStatementType ? (
+                            item?.status === "Ready For CS" &&
+                            !item?.comparativeStatementType ? (
                             <td className="text-center">
                               <span
                                 className="ml-2 mr-3"

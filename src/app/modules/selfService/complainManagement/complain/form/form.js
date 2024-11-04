@@ -175,15 +175,15 @@ function Form({
               view
                 ? false
                 : () => {
-                    handleSubmit();
-                  }
+                  handleSubmit();
+                }
             }
             resetHandler={
               view
                 ? false
                 : () => {
-                    resetForm(initData);
-                  }
+                  resetForm(initData);
+                }
             }
           >
             <form>
@@ -434,9 +434,9 @@ function Form({
                         setFieldValue("sourceCustomerType", valueOption);
                       }}
                       placeholder="Source Customer Type"
-                      // errors={errors}
-                      // touched={touched}
-                      // isDisabled={!values?.respondentBusinessUnit || view}
+                    // errors={errors}
+                    // touched={touched}
+                    // isDisabled={!values?.respondentBusinessUnit || view}
                     />
                   </div>
                 )}
@@ -808,9 +808,8 @@ function Form({
                 <div className="col-lg-3">
                   <InputField
                     value={values?.deliveryDate}
-                    label={`${
-                      values?.respondentType?.value === 2 ? "PO" : "Challan"
-                    } Date`}
+                    label={`${values?.respondentType?.value === 2 ? "PO" : "Challan"
+                      } Date`}
                     placeholder="Delivery Date"
                     name="deliveryDate"
                     type="date"

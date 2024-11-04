@@ -1,10 +1,7 @@
 import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
-import ReactHtmlTableToExcel from 'react-html-table-to-excel';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import './style.css';
-import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 import {
    Card,
    CardBody,
@@ -13,11 +10,12 @@ import {
    ModalProgressBar,
 } from '../../../../../../../_metronic/_partials/controls';
 import { _dateFormatter } from '../../../../../_helper/_dateFormate';
-import { dummyDataForCSDetails } from '../helper';
 import IViewModal from '../../../../../_helper/_viewModal';
-import { SupplierDetailsModal } from './supplierDetailsModal';
-import { LastPurchaseInfoModal } from './lastPurchaseInfoModal';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 import { ItemReferenceModal } from './itemReferenceModal';
+import { LastPurchaseInfoModal } from './lastPurchaseInfoModal';
+import './style.css';
+import { SupplierDetailsModal } from './supplierDetailsModal';
 
 const initData = {
    negotiationRate: '',
@@ -62,7 +60,7 @@ export default function CommonCSDetails() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [location]);
 
-   const saveHandler = async (values, cb) => {};
+   const saveHandler = async (values, cb) => { };
 
    const getPercentageValue = item => {
       if (!item?.numDiscountPercentage) {
@@ -153,8 +151,8 @@ export default function CommonCSDetails() {
                               <b>RFQ Date:</b>{' '}
                               {csDetailsList?.objHeder?.dteRfqdate
                                  ? _dateFormatter(
-                                      csDetailsList?.objHeder?.dteRfqdate
-                                   )
+                                    csDetailsList?.objHeder?.dteRfqdate
+                                 )
                                  : ''}
                            </div>
                            <div>
@@ -174,18 +172,18 @@ export default function CommonCSDetails() {
                               <b>Quotation Start Date:</b>{' '}
                               {csDetailsList?.objHeder?.quotationStartDateTime
                                  ? _dateFormatter(
-                                      csDetailsList?.objHeder
-                                         ?.quotationStartDateTime
-                                   )
+                                    csDetailsList?.objHeder
+                                       ?.quotationStartDateTime
+                                 )
                                  : ''}
                            </div>
                            <div>
                               <b>Quotation End Date:</b>{' '}
                               {csDetailsList?.objHeder?.quotationEndDateTime
                                  ? _dateFormatter(
-                                      csDetailsList?.objHeder
-                                         ?.quotationEndDateTime
-                                   )
+                                    csDetailsList?.objHeder
+                                       ?.quotationEndDateTime
+                                 )
                                  : ''}
                            </div>
                            <div>
@@ -383,8 +381,8 @@ export default function CommonCSDetails() {
                                                                      ?.objPartnerRow
                                                                      ?.strNegotiationRemarks
                                                                      ? partnerData
-                                                                          ?.objPartnerRow
-                                                                          ?.strNegotiationRemarks
+                                                                        ?.objPartnerRow
+                                                                        ?.strNegotiationRemarks
                                                                      : ''}
                                                                </td>
                                                                <td className="text-center">
@@ -392,8 +390,8 @@ export default function CommonCSDetails() {
                                                                      ?.objPartnerRow
                                                                      ?.numCsOrTakenQuantity
                                                                      ? partnerData
-                                                                          ?.objPartnerRow
-                                                                          ?.numCsOrTakenQuantity
+                                                                        ?.objPartnerRow
+                                                                        ?.numCsOrTakenQuantity
                                                                      : ''}
                                                                </td>
                                                                <td className="text-right">
@@ -401,20 +399,20 @@ export default function CommonCSDetails() {
                                                                      ?.objPartnerRow
                                                                      ?.numNegotiationRate
                                                                      ? partnerData
-                                                                          ?.objPartnerRow
-                                                                          ?.numNegotiationRate
+                                                                        ?.objPartnerRow
+                                                                        ?.numNegotiationRate
                                                                      : partnerData
-                                                                          ?.objPartnerRow
-                                                                          ?.numRate ||
-                                                                       ''}
+                                                                        ?.objPartnerRow
+                                                                        ?.numRate ||
+                                                                     ''}
                                                                </td>
                                                                <td className="text-right">
                                                                   {partnerData
                                                                      ?.objPartnerRow
                                                                      ?.numTotalvalue
                                                                      ? partnerData
-                                                                          ?.objPartnerRow
-                                                                          ?.numTotalvalue
+                                                                        ?.objPartnerRow
+                                                                        ?.numTotalvalue
                                                                      : ''}
                                                                </td>
                                                             </>
