@@ -188,13 +188,15 @@ export default function CreateCs({
     console.log("rowData", rowData);
     // Create item list array from rowData
 
-    if (!suppilerStatement?.firstSelectedItem) {
+    console.log("Save hand", suppilerStatement);
+
+    if (values?.csType?.value === 1 && !suppilerStatement?.firstSelectedItem) {
       toast.warning("Please select 1st place supplier!");
       return;
     }
-    let payload = null;
+    let payload = [];
     payload = saveHandlerPayload(
-      values?.csType,
+      values,
       payload,
       rfqDetail,
       suppilerStatement,
@@ -205,10 +207,10 @@ export default function CreateCs({
     console.log(payload, "payload");
     let apiURL =
       values?.csType?.value === 0
-        ? `/ComparativeStatement/CreateAndUpdateItemWiseCS
+        ? `${eProcurementBaseURL}/ComparativeStatement/CreateAndUpdateItemWiseCS
 `
-        : `/ComparativeStatement/CreateAndUpdateSupplierWiseCS`;
-    // saveData(apiURL, payload, cb, true);
+        : `${eProcurementBaseURL}/ComparativeStatement/CreateAndUpdateSupplierWiseCS`;
+    saveData(apiURL, payload, cb, true);
   };
 
   const getCsTypes = () => {
@@ -282,15 +284,26 @@ export default function CreateCs({
     }
   };
 
-  const handleDelete = (item, supplier) => {
+  const handleDelete = (item, supplier, portValue) => {
     console.log(item, supplier, "item, supplier");
     console.log(rowData, "rowData");
 
-    // Filter out only the rows that match both itemWiseCode and supplierCode
-    const filterData = rowData.filter(
-      (items) =>
-        !(items?.itemWiseCode === item && items?.supplierCode === supplier)
-    );
+    const filterData = rowData.filter((items) => {
+      // Check if purchaseOrganizationName is "Foreign Procurement"
+      if (rfqDetail?.purchaseOrganizationName === "Foreign Procurement") {
+        // Add the portValue check when it's Foreign Procurement
+        return !(
+          items?.itemWiseCode === item &&
+          items?.supplierCode === supplier &&
+          items?.port?.value === portValue
+        );
+      } else {
+        // Only check itemWiseCode and supplierCode otherwise
+        return !(
+          items?.itemWiseCode === item && items?.supplierCode === supplier
+        );
+      }
+    });
 
     setRowData(filterData);
   };
@@ -351,6 +364,22 @@ export default function CreateCs({
                       touched={touched}
                     />
                   </div>
+                  {!isView && values?.csType?.value === 1 && (
+                    <div className="col-lg-3">
+                      <InputField
+                        label="Note"
+                        value={values?.approvalNotes}
+                        name="approvalNotes"
+                        onChange={(e) => {
+                          setFieldValue("approvalNotes", e.target.value);
+                        }}
+                        placeholder="Note"
+                        type="text"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  )}
                   {!isView && (
                     <>
                       {values?.csType?.value === 0 && (
@@ -410,6 +439,10 @@ export default function CreateCs({
                             label="Supplier"
                             onChange={(valueOption) => {
                               setFieldValue("supplier", valueOption);
+                              setFieldValue(
+                                "supplierRate",
+                                valueOption?.supplierRate || 0
+                              );
                             }}
                             placeholder="Supplier"
                             errors={errors}
@@ -580,7 +613,8 @@ export default function CreateCs({
                                     onClick={() => {
                                       handleDelete(
                                         item?.itemWiseCode,
-                                        item?.supplierCode
+                                        item?.supplierCode,
+                                        item?.port?.value
                                       );
                                     }}
                                   >
@@ -618,6 +652,7 @@ export default function CreateCs({
                       suppilerStatement?.firstSelectedId !== 0 &&
                       !isView ? (
                         <button
+                          type="button"
                           onClick={() => {
                             if (
                               suppilerStatement?.secondSelectedId &&
@@ -684,6 +719,7 @@ export default function CreateCs({
                       suppilerStatement?.secondSelectedId !== 0 &&
                       !isView ? (
                         <button
+                          type="button"
                           onClick={() => {
                             setSuppilerStatement((prev) => ({
                               ...prev,
@@ -716,7 +752,7 @@ export default function CreateCs({
                             !suppilerStatement?.firstSelectedId
                           ) {
                             toast.warning(
-                              "Please select 1st place supplier first"
+                              "Please select 1st place supplier first!!"
                             );
                             return;
                           }
