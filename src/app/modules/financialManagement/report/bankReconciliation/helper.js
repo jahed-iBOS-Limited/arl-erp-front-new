@@ -33,12 +33,12 @@ export const getBankReconciliationAction = async (
     let typeTwo = [];
     let typeThree = [];
     let typeFour = [];
-    let typeFive = [];
+    let typeBalanceOfBankBook = [];
     let typeOneTotal=0;
     let typeTwoTotal=0;
     let typeThreeTotal=0;
     let typeFourTotal=0;
-    let typeFiveTotal=0;
+    let typeBalanceOfBankBookTotal=0;
     let bankStatementClosing=0;
 
     
@@ -65,8 +65,8 @@ export const getBankReconciliationAction = async (
           bankStatementClosing=Number(item.monBankStatementClosing)
           break
         case "Balance Of Bank Book":
-          typeFive.push(item);
-          typeFiveTotal+=Number(item.monAmount)
+          typeBalanceOfBankBook.push(item);
+          typeBalanceOfBankBookTotal+=Number(item.monAmount)
           bankStatementClosing=Number(item.monBankStatementClosing)
           break
         default :
@@ -94,7 +94,7 @@ export const getBankReconciliationAction = async (
       // if (
       //   item?.strTransection.includes("Aggregated Bank Statement Closing")
       // ) {
-      //   typeFive.push(item);
+      //   typeBalanceOfBankBook.push(item);
       // }
       // if (
       //   item?.strTransection.includes("Actual Bank Statement Closing")
@@ -108,14 +108,14 @@ export const getBankReconciliationAction = async (
       typeTwo,
       typeThree,
       typeFour,
-      typeFive,
-      // typeFive,
+      typeBalanceOfBankBook,
+      // typeBalanceOfBankBook,
       // typeSix,
       typeOneTotal,
       typeTwoTotal,
       typeThreeTotal,
       typeFourTotal,
-      typeFiveTotal,
+      typeBalanceOfBankBookTotal,
       allData : res?.data,
       bankStatementClosing
     });

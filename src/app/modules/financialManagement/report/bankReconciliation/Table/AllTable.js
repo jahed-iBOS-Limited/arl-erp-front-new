@@ -122,12 +122,12 @@ const AllTable = ({ report, values }) => {
 
 
         {
-          report?.typeFive?.length > 0 &&
+          report?.typeBalanceOfBankBook?.length > 0 &&
           <tr>
             <td colSpan="6" className="text-left" style={{ fontSize: "15px", fontWeight: "bold" }}>Balance Of Bank Book</td>
           </tr>
         }
-        {report?.typeFive?.map((item, index) => (
+        {report?.typeBalanceOfBankBook?.map((item, index) => (
           <tr key={index}>
             <td className="text-center">{item?.strVoucherCode}</td>
             <td className="text-left">{item?.strType}</td>
@@ -142,7 +142,7 @@ const AllTable = ({ report, values }) => {
           </tr>
         ))}
         {
-          report?.typeFive?.length > 0 && <Total total={report?.typeFiveTotal} running={report?.typeOneTotal + report?.typeTwoTotal + report?.typeThreeTotal + report?.typeFourTotal + report?.typeFiveTotal} />
+          report?.typeBalanceOfBankBook?.length > 0 && <Total total={report?.typeBalanceOfBankBookTotal} running={report?.typeOneTotal + report?.typeTwoTotal + report?.typeThreeTotal + report?.typeFourTotal + report?.typeBalanceOfBankBookTotal} />
         }
 
         <tr>
@@ -155,7 +155,7 @@ const AllTable = ({ report, values }) => {
           </span></td>
           <td className="text-right" >
             <span style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}>
-              {numberWithCommas((report?.typeOneTotal + report?.typeTwoTotal + report?.typeThreeTotal + report?.typeFourTotal + report?.typeFiveTotal || 0).toFixed(2))}
+              {numberWithCommas((report?.typeOneTotal + report?.typeTwoTotal + report?.typeThreeTotal + report?.typeFourTotal + report?.typeBalanceOfBankBookTotal || 0).toFixed(2))}
             </span>
 
           </td>
@@ -170,9 +170,9 @@ const AllTable = ({ report, values }) => {
           <td className="text-right">
             <span style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}>
               {
-                console.log((report?.typeOneTotal + report?.typeTwoTotal + report?.typeThreeTotal + report?.typeFourTotal + report?.typeFiveTotal) - report?.bankStatementClosing)
+                console.log((report?.typeOneTotal + report?.typeTwoTotal + report?.typeThreeTotal + report?.typeFourTotal + report?.typeBalanceOfBankBookTotal) - report?.bankStatementClosing)
               }
-              {_formatMoney(Number((report?.typeOneTotal + report?.typeTwoTotal + report?.typeThreeTotal + report?.typeFourTotal + report?.typeFiveTotal).toFixed(2)) - Number(report?.bankStatementClosing.toFixed(2)))}
+              {_formatMoney(Number((report?.typeOneTotal + report?.typeTwoTotal + report?.typeThreeTotal + report?.typeFourTotal + report?.typeBalanceOfBankBookTotal).toFixed(2)) - Number(report?.bankStatementClosing.toFixed(2)))}
             </span>
 
           </td>
@@ -297,13 +297,13 @@ const AllTable = ({ report, values }) => {
           </ICustomTable>
         </>
       )} */}
-      {/* {report?.typeFive?.length > 0 && (
+      {/* {report?.typeBalanceOfBankBook?.length > 0 && (
         <>
           <h4 className="mb-0 mt-1">
             Aggregated Bank Statement Closing As On 14/07/2021
           </h4>
           <ICustomTable ths={ths}>
-            {report?.typeFive?.map((item, index) => (
+            {report?.typeBalanceOfBankBook?.map((item, index) => (
               <tr key={index}>
                 <td className="text-center">{item?.strCode}</td>
                 <td className="text-left">{item?.strType}</td>
@@ -317,7 +317,7 @@ const AllTable = ({ report, values }) => {
                 </td>
               </tr>
             ))}
-            <Total report={report} data={report?.typeFive} type={5} />
+            <Total report={report} data={report?.typeBalanceOfBankBook} type={5} />
           </ICustomTable>
         </>
       )} */}
