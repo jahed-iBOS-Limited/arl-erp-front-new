@@ -16,6 +16,9 @@ import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { IInput } from "../../../../_helper/_input";
+import IViewModal from "../../../../_helper/_viewModal";
+import useAxiosGet from "../../purchaseOrder/customHooks/useAxiosGet";
+import { eProcurementBaseURL } from "../../../../../App";
 
 const useRowStyles = makeStyles({
   root: {
@@ -26,8 +29,18 @@ const useRowStyles = makeStyles({
 });
 
 function Row(props) {
-  const { row, data, type, isView, rowDataHandler, index } = props;
+  const {
+    row,
+    data,
+    type,
+    isView,
+    rowDataHandler,
+    index,
+    setShowPurchaseModal,
+    getLastPurchaseInfo,
+  } = props;
   const [open, setOpen] = React.useState(false);
+
   const classes = useRowStyles();
 
   return (
@@ -42,7 +55,24 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell align="center">{row?.itemName}</TableCell>
+        <TableCell align="center">
+          {" "}
+          <span
+            style={{
+              color: "#007bff", // Link color
+              cursor: "pointer",
+              textDecoration: "underline",
+              display: "flex",
+              alignItems: "center",
+            }}
+            onClick={() => {
+              getLastPurchaseInfo(`${eProcurementBaseURL}`);
+              setShowPurchaseModal(true);
+            }}
+          >
+            {row?.itemName}
+          </span>{" "}
+        </TableCell>
         <TableCell align="center">{row?.uoMname}</TableCell>
         <TableCell align="center">{row?.itemCategoryName}</TableCell>
         <TableCell align="center">{row?.itemDescription}</TableCell>
@@ -257,6 +287,14 @@ export default function SupplyWiseTable({
   data,
   rowDataHandler,
 }) {
+  const [showPurchaseModal, setShowPurchaseModal] = React.useState(false);
+  const [
+    lastPurchaseInfo,
+    getLastPurchaseInfo,
+    lastPurchaseInfoLoading,
+    setLastPurchaseInfo,
+  ] = useAxiosGet();
+
   return (
     <TableContainer component={Paper} className="mt-4">
       <Table aria-label="collapsible table" size="small">
@@ -281,10 +319,20 @@ export default function SupplyWiseTable({
               data={data}
               type={type}
               rowDataHandler={rowDataHandler}
+              setShowPurchaseModal={setShowPurchaseModal}
+              getLastPurchaseInfo={getLastPurchaseInfo}
             />
           ))}
         </TableBody>
       </Table>
+      <IViewModal
+        show={showPurchaseModal}
+        onHide={() => {
+          setShowPurchaseModal(false);
+        }}
+      >
+        <h1>Adnan</h1>
+      </IViewModal>
     </TableContainer>
   );
 }

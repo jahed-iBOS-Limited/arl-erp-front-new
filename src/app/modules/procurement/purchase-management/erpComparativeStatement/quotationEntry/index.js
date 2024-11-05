@@ -567,6 +567,7 @@ export default function ErpComparativeStatementLanding() {
                                             }`,
                                             (data) => {
                                               setLandingData(data);
+                                              setBaseLanding(data);
                                             }
                                           );
                                         },
