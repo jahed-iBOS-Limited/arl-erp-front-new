@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getBankAccDDLAction = async (accId,buId, setter) => {
+export const getBankAccDDLAction = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
       `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`
@@ -33,74 +33,51 @@ export const getBankReconciliationAction = async (
     let typeTwo = [];
     let typeThree = [];
     let typeFour = [];
+    let typeFive = [];
     let typeBalanceOfBankBook = [];
-    let typeOneTotal=0;
-    let typeTwoTotal=0;
-    let typeThreeTotal=0;
-    let typeFourTotal=0;
-    let typeBalanceOfBankBookTotal=0;
-    let bankStatementClosing=0;
+    let typeOneTotal = 0;
+    let typeTwoTotal = 0;
+    let typeThreeTotal = 0;
+    let typeFourTotal = 0;
+    let typeFiveTotal = 0;
+    let typeBalanceOfBankBookTotal = 0;
+    let bankStatementClosing = 0;
 
-    
     data.forEach((item) => {
-      switch(item?.strHead){
+      switch (item?.strHead) {
         case "1.Add: Cheque issued but not presented in bank":
-          typeOne.push(item)
-          typeOneTotal+=Number(item.monAmount)
-          bankStatementClosing=Number(item.monBankStatementClosing)
+          typeOne.push(item);
+          typeOneTotal += Number(item.monAmount);
+          bankStatementClosing = Number(item.monBankStatementClosing);
           break;
         case "2.Less: Amount debited in bank book but not credited in bank statement":
-          typeTwo.push(item)
-          typeTwoTotal+=Number(item.monAmount)
-          bankStatementClosing=Number(item.monBankStatementClosing)
+          typeTwo.push(item);
+          typeTwoTotal += Number(item.monAmount);
+          bankStatementClosing = Number(item.monBankStatementClosing);
           break;
         case "3.Add: Amount credited in bank statement but not yet debited in bank book":
-          typeThree.push(item)
-          typeThreeTotal+=Number(item.monAmount)
-          bankStatementClosing=Number(item.monBankStatementClosing)
+          typeThree.push(item);
+          typeThreeTotal += Number(item.monAmount);
+          bankStatementClosing = Number(item.monBankStatementClosing);
           break;
         case "4.Less: Amount debited in bank statement but not yet credited in bank book":
           typeFour.push(item);
-          typeFourTotal+=Number(item.monAmount)
-          bankStatementClosing=Number(item.monBankStatementClosing)
-          break
+          typeFourTotal += Number(item.monAmount);
+          bankStatementClosing = Number(item.monBankStatementClosing);
+          break;
+        case "5.Less: Amount Adjusted in bank statement but not yet credited in bank book":
+          typeFive.push(item);
+          typeFiveTotal += Number(item.monAmount);
+          bankStatementClosing = Number(item.monBankStatementClosing);
+          break;
         case "Balance Of Bank Book":
           typeBalanceOfBankBook.push(item);
-          typeBalanceOfBankBookTotal+=Number(item.monAmount)
-          bankStatementClosing=Number(item.monBankStatementClosing)
-          break
-        default :
+          typeBalanceOfBankBookTotal += Number(item.monAmount);
+          bankStatementClosing = Number(item.monBankStatementClosing);
+          break;
+        default:
       }
-      // if (
-      //   item?.strHead ===
-      //   "1.Add: Cheque issued but not presented in bank"
-      // ) {
-      //   typeOne.push(item);
-      // }else if (
-      //   item?.strHead ===
-      //   "3.Add: Amount credited in bank statement but not yet debited in bank book"
-      // ) {
-      //   typeTwo.push(item);
-      // }
-      // if (
-      //   item?.strHead ===
-      //   "4.Less: Amount debited in bank statement but not yet credited in bank book"
-      // ) {
-      //   typeThree.push(item);
-      // }
-      // if (item?.strHead === "Balance Of Bank Book") {
-      //   typeFour.push(item);
-      // }
-      // if (
-      //   item?.strTransection.includes("Aggregated Bank Statement Closing")
-      // ) {
-      //   typeBalanceOfBankBook.push(item);
-      // }
-      // if (
-      //   item?.strTransection.includes("Actual Bank Statement Closing")
-      // ) {
-      //   typeSix.push(item);
-      // }
+    
     });
 
     setter({
@@ -108,6 +85,7 @@ export const getBankReconciliationAction = async (
       typeTwo,
       typeThree,
       typeFour,
+      typeFive,
       typeBalanceOfBankBook,
       // typeBalanceOfBankBook,
       // typeSix,
@@ -115,9 +93,10 @@ export const getBankReconciliationAction = async (
       typeTwoTotal,
       typeThreeTotal,
       typeFourTotal,
+      typeFiveTotal,
       typeBalanceOfBankBookTotal,
-      allData : res?.data,
-      bankStatementClosing
+      allData: res?.data,
+      bankStatementClosing,
     });
   } catch (error) {
     setLoading(false);
