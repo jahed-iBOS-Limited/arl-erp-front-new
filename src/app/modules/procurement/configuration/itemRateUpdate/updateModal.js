@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import InputField from "../../../_helper/_inputField";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IConfirmModal from "../../../_helper/_confirmModal";
 import { shallowEqual, useSelector } from "react-redux";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import InputField from "../../../_helper/_inputField";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 export default function UpdateItemRateModal({ propsObj }) {
   const {
     getLandingData,
@@ -134,7 +133,7 @@ export default function UpdateItemRateModal({ propsObj }) {
                               true
                             );
                           },
-                          noAlertFunc: () => {},
+                          noAlertFunc: () => { },
                         });
                       }}
                     >

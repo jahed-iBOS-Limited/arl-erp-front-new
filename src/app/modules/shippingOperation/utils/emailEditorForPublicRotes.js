@@ -95,11 +95,6 @@ const EmailEditorForPublicRoutes = ({ featureName, vesselData, payloadInfo, cb }
   // Regular expression to validate a single email address
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // Function to validate multiple email addresses separated by commas
-  const validateEmails = (emailString) => {
-    const emails = emailString.split(",").map((email) => email.trim());
-    return emails.every((email) => emailRegex.test(email));
-  };
 
   // Handle input changes for To, Cc, and Subject fields
   const handleInputChange = (e) => {

@@ -2,37 +2,27 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation, useHistory } from "react-router-dom";
-import { Form, Formik } from "formik";
-import IForm from "../../../../_helper/_form";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "./../../../../_helper/_loading";
-import { PlusCircleFilled } from "@ant-design/icons";
 import {
-  AddCircleOutlineSharp,
-  CloseRounded,
-  CloseSharp,
-  Email,
-  Phone,
+  CloseSharp
 } from "@material-ui/icons";
-import { Button } from "react-bootstrap";
-import IViewModal from "../../../../_helper/_viewModal";
-import PlaceModal from "./placeModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { eProcurementBaseURL } from "../../../../../App";
+import { Form, Formik } from "formik";
+import { React, useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import Chips from "../../../../_helper/chips/Chips";
-import CardBody from "./cardBody";
-import InputField from "../../../../_helper/_inputField";
+import { eProcurementBaseURL } from "../../../../../App";
+import IForm from "../../../../_helper/_form";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
+import IViewModal from "../../../../_helper/_viewModal";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { IInput } from "../../../../_helper/_input";
+import Loading from "./../../../../_helper/_loading";
+import CardBody from "./cardBody";
 import CostEntry from "./costEntry";
-import { set } from "lodash";
-import SupplyWiseTable from "./supplyWiseTable";
 import { getCostEntryPayload, saveHandlerPayload } from "./helper";
+import PlaceModal from "./placeModal";
+import SupplyWiseTable from "./supplyWiseTable";
 
 const initData = {
   id: undefined,
@@ -81,29 +71,8 @@ export default function CreateCs({
   const [, saveData, mainDataLoading] = useAxiosPost();
   const [, saveCostEntry, costEntryLoading] = useAxiosPost();
 
-  const [rowDtos, setRowDtos] = useState([]);
-  const [expandedRow, setExpandedRow] = useState(null);
 
-  // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
 
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
-
-  // get emplist ddl from store
-  const businessUnitDDL = useSelector((state) => {
-    return state?.commonDDL?.buDDL;
-  }, shallowEqual);
-
-  // get single controlling  unit from store
-  const singleData = useSelector((state) => {
-    return state.purchaseOrg?.singleData;
-  }, shallowEqual);
-  const dispatch = useDispatch();
 
   //Dispatch Get emplist action for get emplist ddl
 
@@ -176,11 +145,10 @@ export default function CreateCs({
 
   const getPlacePartnerListCsWise = () => {
     getPlacePartnerList(
-      `${eProcurementBaseURL}/ComparativeStatement/GetSupplierWiseCS?requestForQuotationId=${
-        rfqDetail?.requestForQuotationId
+      `${eProcurementBaseURL}/ComparativeStatement/GetSupplierWiseCS?requestForQuotationId=${rfqDetail?.requestForQuotationId
       }&firstPlacePartnerRfqId=${suppilerStatement?.firstSelectedItem
         ?.partnerRfqId || 0}&secondPlacePartnerRfqId=${suppilerStatement
-        ?.secondSelectedItem?.partnerRfqId || 0}`
+          ?.secondSelectedItem?.partnerRfqId || 0}`
     );
   };
 
@@ -387,9 +355,9 @@ export default function CreateCs({
                         isView
                           ? getCsTypes()
                           : [
-                              { value: 0, label: "Item Wise Create" },
-                              { value: 1, label: "Supplier Wise Create" },
-                            ]
+                            { value: 0, label: "Item Wise Create" },
+                            { value: 1, label: "Supplier Wise Create" },
+                          ]
                       }
                       value={values?.csType}
                       label="CS Type"
@@ -448,8 +416,7 @@ export default function CreateCs({
                               setFieldValue("supplier", []);
 
                               getSupplierDDL(
-                                `${eProcurementBaseURL}/ComparativeStatement/GetItemWiseStatementDetails?requestForQuotationId=${
-                                  rfqDetail?.requestForQuotationId
+                                `${eProcurementBaseURL}/ComparativeStatement/GetItemWiseStatementDetails?requestForQuotationId=${rfqDetail?.requestForQuotationId
                                 }&itemId=${valueOption?.value || 0}`,
                                 (res) => {
                                   const modData = res?.map((item) => {
@@ -512,7 +479,7 @@ export default function CreateCs({
                       )}
                       {values?.csType?.value === 0 &&
                         rfqDetail?.purchaseOrganizationName ===
-                          "Foreign Procurement" && (
+                        "Foreign Procurement" && (
                           <div className="col-lg-3">
                             <NewSelect
                               name="port"
@@ -713,8 +680,8 @@ export default function CreateCs({
                       }}
                     >
                       {suppilerStatement?.firstSelectedId &&
-                      suppilerStatement?.firstSelectedId !== 0 &&
-                      !isView ? (
+                        suppilerStatement?.firstSelectedId !== 0 &&
+                        !isView ? (
                         <button
                           type="button"
                           onClick={() => {
@@ -780,8 +747,8 @@ export default function CreateCs({
                       }}
                     >
                       {suppilerStatement?.secondSelectedId &&
-                      suppilerStatement?.secondSelectedId !== 0 &&
-                      !isView ? (
+                        suppilerStatement?.secondSelectedId !== 0 &&
+                        !isView ? (
                         <button
                           type="button"
                           onClick={() => {
@@ -832,16 +799,16 @@ export default function CreateCs({
                   </div>
                   {rfqDetail?.purchaseOrganizationName ===
                     "Foreign Procurement" && (
-                    <div className="col-lg-3">
-                      <button
-                        className="btn btn-danger"
-                        type="button"
-                        onClick={() => setIsCostEntryModal(true)}
-                      >
-                        Cost Entry
-                      </button>
-                    </div>
-                  )}
+                      <div className="col-lg-3">
+                        <button
+                          className="btn btn-danger"
+                          type="button"
+                          onClick={() => setIsCostEntryModal(true)}
+                        >
+                          Cost Entry
+                        </button>
+                      </div>
+                    )}
                 </div>
               )}
 

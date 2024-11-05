@@ -1,10 +1,8 @@
 /* eslint-disable no-restricted-imports */
-import React from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Collapse from "@material-ui/core/Collapse";
 import IconButton from "@material-ui/core/IconButton";
+import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -12,23 +10,15 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import PropTypes from "prop-types";
+import React from "react";
 import { IInput } from "../../../../_helper/_input";
-
-const useRowStyles = makeStyles({
-  root: {
-    "& > *": {
-      borderBottom: "unset",
-    },
-  },
-});
 
 function Row(props) {
   const { row, data, type, isView, rowDataHandler, index } = props;
   const [open, setOpen] = React.useState(false);
-  const classes = useRowStyles();
 
   return (
     <React.Fragment>
@@ -95,8 +85,8 @@ function Row(props) {
                               {" "}
                               {port?.rate * data[index]?.csQuantity || 0
 
-                              // item?.firstAndSecondPlaceList[0]
-                              // ?.totalAmount || 0
+                                // item?.firstAndSecondPlaceList[0]
+                                // ?.totalAmount || 0
                               }
                             </TableCell>
                           }
@@ -135,8 +125,8 @@ function Row(props) {
                               {" "}
                               {port?.rate * data[index]?.csQuantity || 0
 
-                              // item?.firstAndSecondPlaceList[0]
-                              // ?.totalAmount || 0
+                                // item?.firstAndSecondPlaceList[0]
+                                // ?.totalAmount || 0
                               }
                             </TableCell>
                           }
@@ -175,8 +165,8 @@ function Row(props) {
                         {row?.firstAndSecondPlaceList[0]?.supplierRate *
                           data[index]?.csQuantity || 0
 
-                        // item?.firstAndSecondPlaceList[0]
-                        // ?.totalAmount || 0
+                          // item?.firstAndSecondPlaceList[0]
+                          // ?.totalAmount || 0
                         }
                       </TableCell>
                     </TableRow>
@@ -217,8 +207,8 @@ function Row(props) {
                         {row?.firstAndSecondPlaceList[1]?.supplierRate *
                           data[index]?.csQuantity || 0
 
-                        // item?.firstAndSecondPlaceList[0]
-                        // ?.totalAmount || 0
+                          // item?.firstAndSecondPlaceList[0]
+                          // ?.totalAmount || 0
                         }
                       </TableCell>
                     </TableRow>

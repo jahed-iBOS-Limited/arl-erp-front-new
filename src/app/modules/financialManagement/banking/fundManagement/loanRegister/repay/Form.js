@@ -6,7 +6,6 @@ import * as Yup from "yup";
 import InputField from "../../../../../_helper/_inputField";
 import NewSelect from "../../../../../_helper/_select";
 import { getBankAccountDDLByBankId } from "../../helper";
-import { toast } from "react-toastify";
 
 const loanRegister = Yup.object().shape({
   account: Yup.object().shape({

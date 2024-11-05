@@ -113,33 +113,33 @@ function Form() {
               date: _dateFormatter(resData?.objHeader?.dteDate),
               businessUnit: resData?.objHeader?.intBusinessUnitId
                 ? {
-                    value: resData?.objHeader?.intBusinessUnitId,
-                    label: resData?.objHeader?.strBusinessUnitName,
-                  }
+                  value: resData?.objHeader?.intBusinessUnitId,
+                  label: resData?.objHeader?.strBusinessUnitName,
+                }
                 : "",
               channel: resData?.objHeader?.intCompetitorChannelId
                 ? {
-                    value: resData?.objHeader?.intCompetitorChannelId,
-                    label: resData?.objHeader?.strChannelName,
-                  }
+                  value: resData?.objHeader?.intCompetitorChannelId,
+                  label: resData?.objHeader?.strChannelName,
+                }
                 : "",
               district: resData?.objHeader?.intDistrictId
                 ? {
-                    value: resData?.objHeader?.intDistrictId,
-                    label: resData?.objHeader?.strDistrictName,
-                  }
+                  value: resData?.objHeader?.intDistrictId,
+                  label: resData?.objHeader?.strDistrictName,
+                }
                 : "",
               policeStation: resData?.objHeader?.intThanaId
                 ? {
-                    value: resData?.objHeader?.intThanaId,
-                    label: resData?.objHeader?.strThanaName,
-                  }
+                  value: resData?.objHeader?.intThanaId,
+                  label: resData?.objHeader?.strThanaName,
+                }
                 : "",
               territory: resData?.objHeader?.intTerritoryId
                 ? {
-                    value: resData?.objHeader?.intTerritoryId,
-                    label: resData?.objHeader?.strTerritoryName,
-                  }
+                  value: resData?.objHeader?.intTerritoryId,
+                  label: resData?.objHeader?.strTerritoryName,
+                }
                 : "",
             });
           }
@@ -160,8 +160,7 @@ function Form() {
           );
 
           setPoliceStationDDL(
-            `/oms/TerritoryInfo/GetThanaDDL?countryId=${18}&divisionId=${0}&districtId=${
-              resData?.objHeader?.intDistrictId
+            `/oms/TerritoryInfo/GetThanaDDL?countryId=${18}&divisionId=${0}&districtId=${resData?.objHeader?.intDistrictId
             }`
           );
           setTerritoryDDL(
@@ -174,9 +173,9 @@ function Form() {
         ...initData,
         businessUnit: buId
           ? {
-              value: buId,
-              label: buName,
-            }
+            value: buId,
+            label: buName,
+          }
           : "",
       });
       setTerritoryDDL(
@@ -247,7 +246,7 @@ function Form() {
       putCompetitorPrice(
         "/oms/CompetitorPrice/EditCompetitorPrice",
         payload,
-        () => {},
+        () => { },
         true
       );
     } else {
@@ -392,8 +391,7 @@ function Form() {
                       setFieldValue("district", valueOption || "");
                       setFieldValue("policeStation", "");
                       setPoliceStationDDL(
-                        `/oms/TerritoryInfo/GetThanaDDL?countryId=${18}&divisionId=${0}&districtId=${
-                          valueOption?.value
+                        `/oms/TerritoryInfo/GetThanaDDL?countryId=${18}&divisionId=${0}&districtId=${valueOption?.value
                         }`
                       );
                     }}

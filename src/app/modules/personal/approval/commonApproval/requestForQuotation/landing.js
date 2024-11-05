@@ -44,10 +44,6 @@ const RequestForQuotationApprovalGrid = ({
       return state.authData.selectedBusinessUnit;
    }, shallowEqual);
 
-   const LastPrApprovalId = useSelector(state => {
-      return state.localStorage.LastPrApprovalId;
-   });
-
    useEffect(() => {
       cb();
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -155,7 +151,7 @@ const RequestForQuotationApprovalGrid = ({
             approvalApi(parameter, payload, activityName, cb, setBillSubmitBtn);
             //setBillSubmitBtn(true);
          },
-         noAlertFunc: () => {},
+         noAlertFunc: () => { },
       };
       IConfirmModal(confirmObject);
    };
@@ -186,7 +182,7 @@ const RequestForQuotationApprovalGrid = ({
             );
             // setBillSubmitBtn(true);
          },
-         noAlertFunc: () => {},
+         noAlertFunc: () => { },
       };
       IConfirmModal(confirmObject);
    };
@@ -277,11 +273,11 @@ const RequestForQuotationApprovalGrid = ({
                      </div>
                   </Form>
                   {rowDto?.data?.length ? (
-                    <div className="table-responsive">
-                      <table className="table table-striped table-bordered global-table">
-                        <thead>
-                           <tr>
-                              {/* <th style={{ width: "20px" }}>
+                     <div className="table-responsive">
+                        <table className="table table-striped table-bordered global-table">
+                           <thead>
+                              <tr>
+                                 {/* <th style={{ width: "20px" }}>
                       <input
                         type="checkbox"
                         id="parent"
@@ -290,21 +286,21 @@ const RequestForQuotationApprovalGrid = ({
                         }}
                       />
                     </th> */}
-                              <th>SL</th>
-                              <th>Reff Code</th>
-                              <th>Warehouse Name</th>
-                              <th>Transaction Date</th>
-                              {/* <th>Due Date</th> */}
-                              <th>Quantity</th>
-                              <th>Description</th>
-                              <th>CS Details</th>
-                              <th>Actions</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           {rowDto?.data?.map((item, i) => (
-                              <tr>
-                                 {/* <td>
+                                 <th>SL</th>
+                                 <th>Reff Code</th>
+                                 <th>Warehouse Name</th>
+                                 <th>Transaction Date</th>
+                                 {/* <th>Due Date</th> */}
+                                 <th>Quantity</th>
+                                 <th>Description</th>
+                                 <th>CS Details</th>
+                                 <th>Actions</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              {rowDto?.data?.map((item, i) => (
+                                 <tr>
+                                    {/* <td>
                         <input
                           id="isSelect"
                           type="checkbox"
@@ -315,66 +311,66 @@ const RequestForQuotationApprovalGrid = ({
                           }}
                         />
                       </td> */}
-                                 <td className="text-center">{item?.sl}</td>
-                                 <td>
-                                    <span className="pl-2">{item.strCode}</span>
-                                 </td>
-                                 <td>
-                                    <span className="pl-2">{item.whName}</span>
-                                 </td>
-                                 <td className="text-center">
-                                    {_dateFormatter(item.transectionDate)}
-                                 </td>
-                                 {/* <td className="text-center">
+                                    <td className="text-center">{item?.sl}</td>
+                                    <td>
+                                       <span className="pl-2">{item.strCode}</span>
+                                    </td>
+                                    <td>
+                                       <span className="pl-2">{item.whName}</span>
+                                    </td>
+                                    <td className="text-center">
+                                       {_dateFormatter(item.transectionDate)}
+                                    </td>
+                                    {/* <td className="text-center">
                     {_dateFormatter(item.dueDate)}
                   </td>             */}
-                                 <td className="text-center">
-                                    {item.quantity}
-                                 </td>
-                                 <td className="text-center">
-                                    {item.strNarration}
-                                 </td>
-                                 <td className="text-center">
-                                    {
-                                       <IView
-                                          title="CS Details"
-                                          clickHandler={() =>
-                                             history.push({
-                                                pathname: `/personal/approval/request-for-quotation/${item?.transectionId}`,
-                                                state: { ...item },
-                                             })
-                                          }
-                                       />
-                                    }
-                                 </td>
-                                 <td className="text-center">
-                                    <span
-                                       onClick={e => {
-                                          setCurrentRowData(item);
-                                          setIsShowModal(true);
-                                       }}
-                                    >
-                                       <OverlayTrigger
-                                          overlay={
-                                             <Tooltip id="cs-icon">
-                                                {'View'}
-                                             </Tooltip>
-                                          }
+                                    <td className="text-center">
+                                       {item.quantity}
+                                    </td>
+                                    <td className="text-center">
+                                       {item.strNarration}
+                                    </td>
+                                    <td className="text-center">
+                                       {
+                                          <IView
+                                             title="CS Details"
+                                             clickHandler={() =>
+                                                history.push({
+                                                   pathname: `/personal/approval/request-for-quotation/${item?.transectionId}`,
+                                                   state: { ...item },
+                                                })
+                                             }
+                                          />
+                                       }
+                                    </td>
+                                    <td className="text-center">
+                                       <span
+                                          onClick={e => {
+                                             setCurrentRowData(item);
+                                             setIsShowModal(true);
+                                          }}
                                        >
-                                          <span style={{ cursor: 'pointer' }}>
-                                             <i
-                                                className={`fas fa-eye`}
-                                                aria-hidden="true"
-                                             ></i>
-                                          </span>
-                                       </OverlayTrigger>
-                                    </span>
-                                 </td>
-                              </tr>
-                           ))}
-                        </tbody>
-                     </table>
-                    </div>
+                                          <OverlayTrigger
+                                             overlay={
+                                                <Tooltip id="cs-icon">
+                                                   {'View'}
+                                                </Tooltip>
+                                             }
+                                          >
+                                             <span style={{ cursor: 'pointer' }}>
+                                                <i
+                                                   className={`fas fa-eye`}
+                                                   aria-hidden="true"
+                                                ></i>
+                                             </span>
+                                          </OverlayTrigger>
+                                       </span>
+                                    </td>
+                                 </tr>
+                              ))}
+                           </tbody>
+                        </table>
+                     </div>
                   ) : (
                      ''
                   )}
