@@ -49,7 +49,10 @@ const initData = {
   vatOrAit: { value: 1, label: "Including" },
   tds: { value: 1, label: "Including" },
   vds: { value: 1, label: "Including" },
-  referenceType: "",
+  referenceType: {
+    value: "with reference",
+    label: "With reference",
+  },
   deliveryDate: "",
   referenceNo: "",
   isRankVisible: {
@@ -155,7 +158,7 @@ export default function RFQCreateEdit() {
       return toast.warn("Please add at least 3 supplier");
 
     const totalRowQuantity = itemList?.reduce(
-      (acc, itm) => acc + +itm?.reqquantity,
+      (acc, itm) => acc + +itm?.rfqquantity,
       0
     );
 
@@ -179,7 +182,7 @@ export default function RFQCreateEdit() {
         uoMid: item?.uoMid,
         uoMname: item?.uoMname,
         //@ts-ignore
-        rfqquantity: item?.reqquantity,
+        rfqquantity: item?.rfqquantity,
         referenceQuantity: item?.referenceQuantity,
         description: item?.description,
         chatList: [], // chat list
@@ -210,7 +213,7 @@ export default function RFQCreateEdit() {
     });
 
     const payload = {
-      // objHeader: {
+      // data: {
       //   requestForQuotationId: id ? +id : 0,
       //   rfqdate: _todayDate(),
       //   accountId: profileData?.accountId,
@@ -342,105 +345,103 @@ export default function RFQCreateEdit() {
     // /RequestForQuotation/GetRequestForQuotationDetails
     if (id) {
       getSingleData(
-        `/procurement/RequestForQuotation/GetRequestForQuotationById?RequestForQuotationId=${id}`,
+        `${eProcurementBaseURL}/RequestForQuotation/GetRequestForQuotationDetails?requestForQuotationId=${id}`,
         (data) => {
           console.log("data", data);
-          const { objHeader, objRow, supplierRow } = data;
-          setItemList(objRow);
-          setSupplierList(supplierRow);
+          const { rowList, partnerList } = data;
+          setItemList(rowList);
+          setSupplierList(partnerList);
           const viewData = {
             sbu: {
-              value: objHeader?.sbuid,
-              label: objHeader?.sbuname,
+              value: data?.sbuId,
+              label: data?.sbuName,
             },
             plant: {
-              value: objHeader?.plantId,
-              label: objHeader?.plantName,
+              value: data?.plantId,
+              label: data?.plantName,
             },
             warehouse: {
-              value: objHeader?.warehouseId,
-              label: objHeader?.warehouseName,
+              value: data?.warehouseId,
+              label: data?.warehouseName,
             },
             rfqType: {
-              value: objHeader?.requestTypeId,
-              label: objHeader?.requestTypeName,
+              value: data?.requestTypeId,
+              label: data?.requestTypeName,
             },
             purchaseOrganization: {
-              value: objHeader?.purchaseOrganizationId,
-              label: objHeader?.purchaseOrganizationName,
+              value: data?.purchaseOrganizationId,
+              label: data?.purchaseOrganizationName,
             },
-            rfqTitle: objHeader?.rfqtitle,
+            rfqTitle: data?.rfqTitle,
             currency: {
-              value: objHeader?.currencyId,
-              label: objHeader?.currencyCode,
+              value: data?.currencyId,
+              label: data?.currencyCode,
             },
             paymentTerms: {
-              value: objHeader?.paymentTerms,
-              label: objHeader?.paymentTerms,
+              value: data?.paymentTerms,
+              label: data?.paymentTerms,
             },
             transportCost: {
-              value: objHeader?.isTransportCostInclude ? 1 : 2,
-              label: objHeader?.isTransportCostInclude
-                ? "Including"
-                : "Excluding",
+              value: data?.isTransportCostInclude ? 1 : 2,
+              label: data?.isTransportCostInclude ? "Including" : "Excluding",
             },
-            quotationEntryStart: objHeader?.quotationEntryStart,
-            validTillDate: objHeader?.validTillDate,
-            deliveryDate: _dateFormatter(objHeader?.deliveryDate),
-            deliveryAddress: objHeader?.deliveryAddress,
+            quotationEntryStart: data?.quotationEntryStart,
+            validTillDate: data?.validTillDate,
+            deliveryDate: _dateFormatter(data?.deliveryDate),
+            deliveryAddress: data?.deliveryAddress,
             vatOrAit: {
-              value: objHeader?.isVatAitInclude ? 1 : 2,
-              label: objHeader?.isVatAitInclude ? "Including" : "Excluding",
+              value: data?.isVatAitInclude ? 1 : 2,
+              label: data?.isVatAitInclude ? "Including" : "Excluding",
             },
             tds: {
-              value: objHeader?.isTdsInclude ? 1 : 2,
-              label: objHeader?.isTdsInclude ? "Including" : "Excluding",
+              value: data?.isTdsInclude ? 1 : 2,
+              label: data?.isTdsInclude ? "Including" : "Excluding",
             },
             vds: {
-              value: objHeader?.isVdsInclude ? 1 : 2,
-              label: objHeader?.isVdsInclude ? "Including" : "Excluding",
+              value: data?.isVdsInclude ? 1 : 2,
+              label: data?.isVdsInclude ? "Including" : "Excluding",
             },
             referenceType: {
-              value: objHeader?.referenceTypeName,
-              label: objHeader?.referenceTypeName,
+              value: data?.referenceTypeName,
+              label: data?.referenceTypeName,
             },
             isRankVisible: {
-              value: objHeader?.isRankVisible,
-              label: objHeader?.isRankVisible ? "Show" : "Hidden",
+              value: data?.isRankVisible,
+              label: data?.isRankVisible ? "Show" : "Hidden",
             },
             referenceNo: "",
-            termsAndConditions: objHeader?.termsAndConditions,
-            isSentToSupplier: objHeader?.isSentToSupplier,
+            termsAndConditions: data?.termsAndConditions,
+            isSentToSupplier: true,
           };
-          // if (objHeader?.referenceTypeName === "without reference") {
+          // if (data?.referenceTypeName === "without reference") {
           //   getItemListDDL(
-          //     `/procurement/RequestForQuotation/GetRFQItemWithoutRef?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${objHeader?.plantId}&WarehouseId=${objHeader?.warehouseId}`
+          //     `/procurement/RequestForQuotation/GetRFQItemWithoutRef?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${data?.plantId}&WarehouseId=${data?.warehouseId}`
           //   );
           // } else {
           getReferenceNoDDL(
             `${eProcurementBaseURL}/EProcurement/GetPRReferrenceDDL?businessUnitId=${
               selectedBusinessUnit?.value
-            }&purchaseOrganizationId=${
-              objHeader?.purchaseOrganizationId
-            }&plantId=${objHeader?.plantId}&warehouseId=${
-              objHeader?.warehouseId
-            }&transactiontType=${objHeader?.rfqType}&search=${""}`
+            }&purchaseOrganizationId=${data?.purchaseOrganizationId}&plantId=${
+              data?.plantId
+            }&warehouseId=${data?.warehouseId}&transactiontType=${
+              data?.rfqType
+            }&search=${""}`
           );
           // getReferenceNoDDL(
-          //   `/procurement/RequestForQuotation/GetPRReferrenceNoDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${objHeader?.sbuid}&PurchaseOrganizationId=${objHeader?.purchaseOrganizationId}&PlantId=${objHeader?.plantId}&WearHouseId=${objHeader?.warehouseId}`
+          //   `/procurement/RequestForQuotation/GetPRReferrenceNoDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${data?.sbuid}&PurchaseOrganizationId=${data?.purchaseOrganizationId}&PlantId=${data?.plantId}&WearHouseId=${data?.warehouseId}`
           // );
           // }
           getPlantListDDL(
             `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`
           );
           getWarehouseListDDL(
-            `${eProcurementBaseURL}/EProcurement/GetPermissionWiseWarehouseDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${objHeader?.plantId}&orgUnitTypeId=8`
+            `${eProcurementBaseURL}/EProcurement/GetPermissionWiseWarehouseDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${data?.plantId}&orgUnitTypeId=8`
           );
           // getWarehouseListDDL(
-          //   `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${objHeader?.plantId}`
+          //   `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${data?.plantId}`
           // );
           // getSupplierListDDL(
-          //   `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${objHeader?.sbuid}`
+          //   `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${data?.sbuid}`
           // );
           getSupplierListDDL(
             `${eProcurementBaseURL}/EProcurement/GetSupplierListDDL?businessUnitId=${
@@ -548,7 +549,7 @@ export default function RFQCreateEdit() {
     //         itemtypeName: values?.item?.itemtypeName || "",
     //         uoMid: values?.item?.uoMId || 0,
     //         uoMname: values?.item?.uoMName || "",
-    //         reqquantity: +values?.quantity || 0,
+    //         rfqquantity: +values?.quantity || 0,
     //         referenceId: 0,
     //         referenceCode: "",
     //         referenceQuantity: 0,
@@ -582,7 +583,7 @@ export default function RFQCreateEdit() {
               itemtypeName: item?.itemTypeName || "",
               uoMid: item?.baseUomId || 0,
               uoMname: item?.baseUomName || "",
-              reqquantity: item?.reqquantity || 0,
+              rfqquantity: item?.rfqquantity || 0,
               referenceId: values?.referenceNo?.value || 0,
               referenceCode: values?.referenceNo?.label || "",
               referenceQuantity: item?.referenceQuantity || 0,
@@ -620,7 +621,7 @@ export default function RFQCreateEdit() {
             itemtypeName: values?.item?.itemTypeName || "",
             uoMid: values?.item?.baseUomId || 0,
             uoMname: values?.item?.baseUomName || "",
-            reqquantity: +values?.quantity || 0,
+            rfqquantity: +values?.quantity || 0,
             referenceId: values?.referenceNo?.value || 0,
             referenceCode: values?.referenceNo?.label || "",
             referenceQuantity: +values?.item?.referenceQuantity || 0,
@@ -649,7 +650,7 @@ export default function RFQCreateEdit() {
       return toast?.warn("Quantity cant be negative");
     } else {
       const temp = [...itemList];
-      temp[index].reqquantity = +e.target.value;
+      temp[index].rfqquantity = +e.target.value;
       setItemList(temp);
     }
   };
@@ -847,9 +848,36 @@ export default function RFQCreateEdit() {
                       if (v) {
                         setFieldValue("referenceNo", "");
                         setFieldValue("rfqType", v);
+                        getReferenceNoDDL(
+                          `${eProcurementBaseURL}/EProcurement/GetPRReferrenceDDL?businessUnitId=${
+                            selectedBusinessUnit?.value
+                          }&purchaseOrganizationId=${
+                            values?.purchaseOrganization?.value
+                          }&plantId=${values?.plant?.value}&warehouseId=${
+                            values?.warehouse?.value
+                          }&transactiontType=${
+                            values?.rfqType?.label
+                          }&search=${""}`
+                        );
+                        setReferenceNoDDL([]);
+                        setFieldValue("referenceNo", "");
+                        setFieldValue("item", "");
+                        setFieldValue("itemDescription", "");
+                        setItemListDDL([]);
+                        setItemList([]);
+                        setItemListDDL([]);
+                        setFieldValue("isAllItem", false);
                       } else {
                         setFieldValue("referenceNo", "");
                         setFieldValue("rfqType", "");
+                        setReferenceNoDDL([]);
+                        setFieldValue("referenceNo", "");
+                        setFieldValue("item", "");
+                        setFieldValue("itemDescription", "");
+                        setItemListDDL([]);
+                        setItemList([]);
+                        setItemListDDL([]);
+                        setFieldValue("isAllItem", false);
                       }
                     }}
                     placeholder="RFQ Type"
@@ -1172,27 +1200,6 @@ export default function RFQCreateEdit() {
                         setItemList([]);
                         setItemListDDL([]);
                         setFieldValue("isAllItem", false);
-                        // if (v?.value === "without reference") {
-                        //   getItemListDDL(
-                        //     `/RequestForQuotation/GetRFQItemWithoutReference?businessUnitId=${
-                        //       selectedBusinessUnit?.value
-                        //     }&plantId=${values?.plant?.value}&warehouseId=${
-                        //       values?.warehouse?.value
-                        //     }&search=${""}`
-                        //   );
-                        // } else {
-                        getReferenceNoDDL(
-                          `${eProcurementBaseURL}/EProcurement/GetPRReferrenceDDL?businessUnitId=${
-                            selectedBusinessUnit?.value
-                          }&purchaseOrganizationId=${
-                            values?.purchaseOrganization?.value
-                          }&plantId=${values?.plant?.value}&warehouseId=${
-                            values?.warehouse?.value
-                          }&transactiontType=${
-                            values?.rfqType?.label
-                          }&search=${""}`
-                        );
-                        // }
                       } else {
                         setReferenceNoDDL([]);
                         setFieldValue("referenceType", "");
@@ -1380,7 +1387,7 @@ export default function RFQCreateEdit() {
                           !values?.referenceType ||
                           values?.referenceType?.value ===
                             "without reference" ||
-                          (id && values?.isSentToSupplier) ||
+                          id ||
                           !itemListDDL?.length > 0
                         }
                         value={values.isAllItem || ""}
@@ -1456,14 +1463,14 @@ export default function RFQCreateEdit() {
                                   setIsRfqQty(true);
                                   setFieldValue("isAllItem", false);
                                   itemList.forEach((item) => {
-                                    item.reqquantity = item.referenceQuantity;
+                                    item.rfqquantity = item.referenceQuantity;
                                   });
                                   setItemList([...itemList]);
                                 } else {
                                   setIsRfqQty(false);
                                   setFieldValue("isAllItem", false);
                                   itemList.forEach((item) => {
-                                    item.reqquantity = 0;
+                                    item.rfqquantity = 0;
                                   });
                                   setItemList([...itemList]);
                                 }
@@ -1514,8 +1521,8 @@ export default function RFQCreateEdit() {
                             )}
                             <td>
                               <InputField
-                                value={item?.reqquantity}
-                                name="reqquantity"
+                                value={item?.rfqquantity}
+                                name="rfqquantity"
                                 type="number"
                                 placeholder="Quantity"
                                 onChange={(e) => {
@@ -1571,7 +1578,7 @@ export default function RFQCreateEdit() {
                     touched={touched}
                     isDisabled={id && values?.isSentToSupplier}
                   />
-                  <span
+                  {/* <span
                     style={{
                       cursor: "pointer",
                       marginTop: "8px",
@@ -1590,7 +1597,7 @@ export default function RFQCreateEdit() {
                         }}
                       />
                     </OverlayTrigger>
-                  </span>
+                  </span> */}
                 </div>
                 <div className="col-lg-3">
                   <InputField

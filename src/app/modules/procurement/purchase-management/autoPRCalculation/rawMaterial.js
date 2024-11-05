@@ -257,6 +257,7 @@ export default function RawMaterialAutoPR() {
                             <th>Floating Stock</th>
                             <th>In Transit</th>
                             <th>Open PR</th>
+                            <th>Dead Stock</th>
                             <th>Available Stock</th>
                             <th>
                               {`${
@@ -307,29 +308,36 @@ export default function RawMaterialAutoPR() {
                                   {item?.openPRQty?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
+                                  {item?.deadStockQuantity?.toFixed(2) || 0}
+                                </td>
+                                <td className="text-center">
                                   {item?.availableStock?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
                                   {(
-                                    item?.availableStock - item?.firstMonthQty
+                                    item?.firstMonthQty -
+                                    item?.availableStock -
+                                    item?.openPRQty
                                   )?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
-                                  {item?.closingBlance?.toFixed(2) || 0}
+                                  {(
+                                    item?.closingBlance - item?.openPRQty
+                                  )?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
                                   {item?.scheduleQuantity?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
                                   {item?.prCalculationHeaderId &&
-                                    item?.availableStock - item?.firstMonthQty >
+                                    item?.firstMonthQty - item?.availableStock >
                                       0 && (
                                       <span
                                         style={{ cursor: "pointer" }}
                                         onClick={() => {
                                           if (
-                                            item?.availableStock -
-                                              item?.firstMonthQty >
+                                            item?.firstMonthQty -
+                                              item?.availableStock >
                                             0
                                           ) {
                                             setSingleRowData(item);

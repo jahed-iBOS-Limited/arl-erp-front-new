@@ -109,6 +109,7 @@ console.log(info, "info")
             if (isOldMachine(info)) {
               // old machine
               let newValue = decoder.decode(value);
+              console.log(newValue, "old machine output value")
               weightValue += newValue;
               let replacedValue = weightValue.replace(/[^ -~]+/g, ""); // remove stx string
               let splittedValue = replacedValue.split(" ");
@@ -133,6 +134,7 @@ console.log(info, "info")
             } else {
               // new machine
               let newValue = decoder.decode(value);
+              console.log(newValue, "new machine output value")
               let replacedValue = newValue.replace(/[^ -~]+/g, ""); // remove stx string
 
               if (
