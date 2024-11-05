@@ -24,7 +24,7 @@ const Total = ({ running,total }) => {
   //     (acc, item) => acc + +item?.numAmount,
   //     0
   //   );
-    // let dataFivetotal = report?.typeFive?.reduce(
+    // let dataFivetotal = report?.typeBalanceOfBankBook?.reduce(
     //   (acc, item) => acc + +item?.numAmount,
     //   0
     // );
