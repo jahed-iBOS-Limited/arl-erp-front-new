@@ -332,7 +332,7 @@ export default function CreateCs({
 
     setRowData(filterData);
   };
-
+  ///
   const rowDataHandler = (field, value, index) => {
     console.log(field, value, index, "field, value, index");
     const copyRowDto = [...placePartnerList];
