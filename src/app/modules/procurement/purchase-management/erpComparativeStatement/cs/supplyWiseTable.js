@@ -19,6 +19,7 @@ import { IInput } from "../../../../_helper/_input";
 import IViewModal from "../../../../_helper/_viewModal";
 import useAxiosGet from "../../purchaseOrder/customHooks/useAxiosGet";
 import { eProcurementBaseURL } from "../../../../../App";
+import LastTransactionInfo from "./lastTransactionInfo";
 
 const useRowStyles = makeStyles({
   root: {
@@ -66,7 +67,9 @@ function Row(props) {
               alignItems: "center",
             }}
             onClick={() => {
-              getLastPurchaseInfo(`${eProcurementBaseURL}`);
+              getLastPurchaseInfo(
+                `${eProcurementBaseURL}/ComparativeStatement/GetItemsLastPurchaseInformation?itemId=${row?.itemId}`
+              );
               setShowPurchaseModal(true);
             }}
           >
@@ -331,7 +334,7 @@ export default function SupplyWiseTable({
           setShowPurchaseModal(false);
         }}
       >
-        <h1>Adnan</h1>
+        <LastTransactionInfo data={lastPurchaseInfo} />
       </IViewModal>
     </TableContainer>
   );
