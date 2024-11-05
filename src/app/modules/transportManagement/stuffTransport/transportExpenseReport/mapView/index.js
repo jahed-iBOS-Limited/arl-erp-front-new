@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import { FullscreenControl } from "react-leaflet-fullscreen";
 // import "react-leaflet-fullscreen/styles.css";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import PolylineDecorator from "./polylineDecorator";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _timeFormatter } from "../../../../_helper/_timeFormatter";
 
 export default function MapView({ singleData }) {
   const [mapData, setMapData] = useState({ latitude: "", longitude: "" });

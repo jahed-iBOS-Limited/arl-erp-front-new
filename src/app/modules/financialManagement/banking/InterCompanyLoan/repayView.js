@@ -1,14 +1,13 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IForm from "./../../../_helper/_form";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { useLocation } from "react-router";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { _todayDate } from "../../../_helper/_todayDate";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import IForm from "./../../../_helper/_form";
+import Loading from "./../../../_helper/_loading";
 
 const initData = {
   transactionDate: _todayDate(),
@@ -18,7 +17,7 @@ const initData = {
 export default function RepayViewModal() {
   const [objProps, setObjprops] = useState({});
 
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
   const [rowData, getRowData, loader] = useAxiosGet();
@@ -31,7 +30,7 @@ export default function RepayViewModal() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
 
   const getData = () => {
     getRowData(

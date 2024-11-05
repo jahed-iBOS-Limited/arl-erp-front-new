@@ -1,16 +1,16 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import IEdit from "../../../_helper/_helperIcons/_edit";
 import IView from "../../../_helper/_helperIcons/_view";
+import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import IForm from "./../../../_helper/_form";
+import Loading from "./../../../_helper/_loading";
 import DetailsDistributionView from "./detailsView";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import NewSelect from "../../../_helper/_select";
 import DistributionPlantEditModal from "./distributionPlantEditModal";
 
 const initData = {};
@@ -47,18 +47,17 @@ export default function DistributionPlanLanding() {
     profileData: { accountId, userId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
 
   const setPositionHandler = (pageNo, pageSize, values) => {
     getRowDto(
       // `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&pageNo=${pageNo}&pageSize=${pageSize}`
       `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&plantId=${values
-        ?.plant?.value || 0}&yearId=${values?.year?.value}&monthId=${
-        values?.horizon?.monthId
+        ?.plant?.value || 0}&yearId=${values?.year?.value}&monthId=${values?.horizon?.monthId
       }&warehosueId=${values?.warehouse?.value || 0}&channelId=${values?.channel
         ?.value || 0}&regionId=${values?.region?.value || 0}&areaId=${values
-        ?.area?.value || 0}&territoryId=${values?.territory?.value ||
-        0}&pageNo=${pageNo}&pageSize=${pageSize}`
+          ?.area?.value || 0}&territoryId=${values?.territory?.value ||
+          0}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
 
@@ -368,16 +367,14 @@ export default function DistributionPlanLanding() {
                       onClick={() => {
                         getRowDto(
                           `/oms/DistributionChannel/GetDistributionPlanningLanding?buisnessUnitId=${buId}&plantId=${values
-                            ?.plant?.value || 0}&yearId=${
-                            values?.year?.value
-                          }&monthId=${
-                            values?.horizon?.monthId
+                            ?.plant?.value || 0}&yearId=${values?.year?.value
+                          }&monthId=${values?.horizon?.monthId
                           }&warehosueId=${values?.warehouse?.value ||
-                            0}&channelId=${values?.channel?.value ||
-                            0}&regionId=${values?.region?.value ||
-                            0}&areaId=${values?.area?.value ||
-                            0}&territoryId=${values?.territory?.value ||
-                            0}&pageNo=${pageNo}&pageSize=${pageSize}`
+                          0}&channelId=${values?.channel?.value ||
+                          0}&regionId=${values?.region?.value ||
+                          0}&areaId=${values?.area?.value ||
+                          0}&territoryId=${values?.territory?.value ||
+                          0}&pageNo=${pageNo}&pageSize=${pageSize}`
                         );
                       }}
                     >

@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React, { useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import ICustomCard from "../../../../_helper/_customCard";
@@ -9,7 +9,6 @@ import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/date
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import IButton from "../../../../_helper/iButton";
 import SalesCommissionConfigureFormTable from "./table";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const ValidationSchema = Yup.object().shape({});
 

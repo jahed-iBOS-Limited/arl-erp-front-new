@@ -1,7 +1,6 @@
 import React from "react";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _todayDate } from "../../../../_helper/_todayDate";
 
 const FormatTwo = ({
   values,
@@ -96,7 +95,7 @@ const FormatTwo = ({
       </div>
       <table
         className="table table-striped table-bordered  advice-table table-font-size-sm"
-        // style={{ width: "100%" }}
+      // style={{ width: "100%" }}
       >
         <thead>
           <tr>

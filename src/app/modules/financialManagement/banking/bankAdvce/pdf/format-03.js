@@ -1,7 +1,6 @@
 import React from "react";
 import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
 import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _todayDate } from "../../../../_helper/_todayDate";
 
 const FormatThree = ({
   values,
@@ -93,7 +92,7 @@ const FormatThree = ({
       </div>
       <table
         className="table table-striped table-bordered  advice-table table-font-size-sm"
-        // style={{ width: "100%" }}
+      // style={{ width: "100%" }}
       >
         <thead>
           <tr>
@@ -440,13 +439,13 @@ const FormatThree = ({
             <td></td>
             <td></td>
             <td
-                style={{
-                  border: "1px solid #000",
-                  textAlign: "center",
-                }}
-              >
-                {/* {values?.bankAccountNo?.bankAccNo} */}
-              </td>
+              style={{
+                border: "1px solid #000",
+                textAlign: "center",
+              }}
+            >
+              {/* {values?.bankAccountNo?.bankAccNo} */}
+            </td>
           </tr>
         </tbody>
       </table>

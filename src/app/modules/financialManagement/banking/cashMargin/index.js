@@ -5,12 +5,11 @@ import { useHistory } from "react-router-dom";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
 import { _formatMoney } from "../../../_helper/_formatMoney";
-import IEdit from "../../../_helper/_helperIcons/_edit";
 import IView from "../../../_helper/_helperIcons/_view";
 import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import NewSelect from "../../../_helper/_select";
 
 const initData = {
   cashMarginType: { value: 0, label: "All" },
@@ -47,7 +46,7 @@ export default function CashMarginLanding() {
       enableReinitialize={true}
       initialValues={initData}
       // validationSchema={{}}
-      onSubmit={(values, { setSubmitting, resetForm }) => {}}
+      onSubmit={(values, { setSubmitting, resetForm }) => { }}
     >
       {({
         handleSubmit,
@@ -162,7 +161,7 @@ export default function CashMarginLanding() {
                     <thead>
                       <tr>
                         <th>SL</th>
-                        
+
                         <th>Cash Margin Code</th>
                         <th>Cash Margin Type</th>
                         <th>Ref Type</th>

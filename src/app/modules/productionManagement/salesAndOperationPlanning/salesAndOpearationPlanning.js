@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
 // import DistributionPlanEdit from "./distributionPlan/edit";

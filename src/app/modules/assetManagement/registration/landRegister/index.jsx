@@ -1,23 +1,20 @@
 import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { useReactToPrint } from "react-to-print";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
+import IEdit from "../../../_helper/_helperIcons/_edit";
 import Loading from "../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
+import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import "./styles.css";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IViewModal from "../../../_helper/_viewModal";
 import UpdateMutation from "./UpdateMutation";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 
 const initData = {
   businessUnit: "",
@@ -62,7 +59,7 @@ export default function LandRegister() {
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     getGridData(
       `/asset/AGLandMange/GetTrxGeneralLandingPagination?BusinessUnit=${buId}&PageNo=${pageNo ||
-        1}&PageSize=${pageSize || 20}&viewOrder=desc`
+      1}&PageSize=${pageSize || 20}&viewOrder=desc`
     );
   };
 
@@ -78,7 +75,7 @@ export default function LandRegister() {
       enableReinitialize={true}
       initialValues={initData}
       // validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting, resetForm }) => {}}
+      onSubmit={(values, { setSubmitting, resetForm }) => { }}
     >
       {({
         handleSubmit,
