@@ -24,6 +24,8 @@ import { eProcurementBaseURL } from "../../../../../App";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import { deleteHandler } from "../cs/helper";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
+import IViewModal from "../../../../_helper/_viewModal";
+import RfqModalForView from "../../requestForQuotation/viewDetailsModal/rfqModalForView";
 const initData = {
   purchaseOrganization: { value: 0, label: "ALL" },
   plant: "",
@@ -124,8 +126,20 @@ export default function ErpComparativeStatementLanding() {
   const saveHandler = (values, cb) => {};
   // const history = useHistory();
 
-  const getData = (values, pageNo, pageSize) => {};
-
+  const getData = (values, pageNo, pageSize, searchValue = "") => {
+    getLandingData(
+      `${eProcurementBaseURL}/RequestForQuotation/GetRequestForQuotationLanding?businessUnitId=${
+        selectedBusinessUnit?.value
+      }&plantId=${0}&warehouseId=${0}&status=${
+        values?.status?.label
+      }&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
+    );
+  };
+  const [showModal, setShowModal] = useState(false);
+  const [id, setId] = useState(null);
+  const [rfqCode, setRfqCode] = useState(null);
+  const [createdBy, setCreatedBy] = useState(null);
+  const [status, setStatus] = useState(null);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
 
@@ -135,6 +149,14 @@ export default function ErpComparativeStatementLanding() {
 
   const paginationSearchHandler = (searchValue, values) => {
     setPositionHandler(pageNo, pageSize, values, searchValue);
+  };
+
+  const rfqDetailsView = (item) => {
+    setId(item?.requestForQuotationId);
+    setRfqCode(item?.requestForQuotationCode);
+    setStatus(item?.status);
+    setCreatedBy(item?.createdBy);
+    setShowModal(true);
   };
 
   return (
@@ -160,7 +182,8 @@ export default function ErpComparativeStatementLanding() {
           {(purchaseOrgListDDLloader ||
             plantListDDLloader ||
             warehouseListDDLloader ||
-            landingDataLoader) && <Loading />}
+            landingDataLoader ||
+            deleteRFQLoading) && <Loading />}
           <IForm
             title="Comparative Statement"
             isHiddenReset
@@ -391,7 +414,16 @@ export default function ErpComparativeStatementLanding() {
                           <td>
                             {item?.purchaseOrganizationName ===
                             "Foreign Procurement" ? (
-                              <span>
+                              <span
+                                style={{
+                                  color: "#007bff", // Link color
+                                  cursor: "pointer",
+                                  textDecoration: "underline",
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                                onClick={() => rfqDetailsView(item)}
+                              >
                                 <LocalAirportOutlinedIcon
                                   style={{
                                     color: "#00FF00",
@@ -403,7 +435,16 @@ export default function ErpComparativeStatementLanding() {
                                 {item?.requestForQuotationCode}
                               </span>
                             ) : (
-                              <span>
+                              <span
+                                style={{
+                                  color: "#007bff", // Link color
+                                  cursor: "pointer",
+                                  textDecoration: "underline",
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                                onClick={() => rfqDetailsView(item)}
+                              >
                                 <LocalShippingIcon
                                   style={{
                                     color: "#000000",
@@ -476,8 +517,10 @@ export default function ErpComparativeStatementLanding() {
                           <td className="text-center">
                             <div className="d-flex justify-content-center align-items-center">
                               {item?.status &&
-                              item?.status === "Ready For CS" &&
-                              !item?.comparativeStatementType ? (
+                              ((item?.status === "Ready For CS" &&
+                                !item?.comparativeStatementType) ||
+                                (item?.status === "N/A" &&
+                                  item?.comparativeStatementType === "")) ? (
                                 <span
                                   onClick={() => {
                                     history.push({
@@ -521,7 +564,10 @@ export default function ErpComparativeStatementLanding() {
                                               values?.warehouse?.value
                                             }&partnerId=${0}&status=${
                                               values?.status?.label
-                                            }`
+                                            }`,
+                                            (data) => {
+                                              setLandingData(data);
+                                            }
                                           );
                                         },
                                       });
@@ -565,6 +611,22 @@ export default function ErpComparativeStatementLanding() {
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
+              <IViewModal
+                show={showModal}
+                onHide={() => {
+                  setShowModal(false);
+                  setId(null);
+                  setRfqCode(null);
+                  setStatus(null);
+                }}
+              >
+                <RfqModalForView
+                  rfqId={id}
+                  rfqCode={`${rfqCode}`}
+                  rfqStatus={status}
+                  rfqCreatedBy={createdBy}
+                />
+              </IViewModal>
             </Form>
           </IForm>
         </>
