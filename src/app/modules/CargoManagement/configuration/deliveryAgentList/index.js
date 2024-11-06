@@ -57,15 +57,16 @@ export default function DeliveryAgentList() {
                                     <td>{item?.agentName}</td>
                                     <td>{item?.email}</td>
                                     <td>{item?.contact}</td>
-                                    <td
-                                        style={{ display: "flex", justifyContent: "center" }}
-                                    >
-                                        <button className="btn btn-primary btn-sm"
-                                            onClick={() => {
-                                                history.push(`/cargoManagement/configuration/delivery-agent-edit/${item?.agentId}`)
-                                            }}
-                                        >Edit</button>
+                                    <td >
+                                        <div className="d-flex justify-content-center">
+                                            <button className="btn btn-primary btn-sm"
+                                                onClick={() => {
+                                                    history.push(`/cargoManagement/configuration/delivery-agent-edit/${item?.agentId}`)
+                                                }}
+                                            >Edit</button>
+                                        </div>
                                     </td>
+
                                 </tr>
                             ))}
                         </tbody>
