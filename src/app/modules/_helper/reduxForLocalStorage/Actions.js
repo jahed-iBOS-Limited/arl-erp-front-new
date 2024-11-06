@@ -1,4 +1,4 @@
-import { localStorageSlice } from "./Slice";
+import { localStorageSlice } from './Slice';
 const { actions: slice } = localStorageSlice;
 
 // this redux is for store data to local storage by redux persist
@@ -292,7 +292,7 @@ export const SetFinancialsBankAdviceAction = (data) => (dispatch) => {
   dispatch(slice.setFinancialsBankadvice(data));
 };
 export const SetInvoicemanagementSystemClearSalesInvoiceAction = (data) => (
-  dispatch
+  dispatch,
 ) => {
   dispatch(slice.setInvoicemanagementSystemClearSalesInvoice(data));
 };
@@ -346,17 +346,17 @@ export const setPendingOrderShippointLandingAction = (data) => (dispatch) => {
   dispatch(slice.setPendingOrderShippointLanding(data));
 };
 export const SetFinancialManagementReportRegisterAction = (data) => (
-  dispatch
+  dispatch,
 ) => {
   dispatch(slice.setFinancialManagementReportRegister(data));
 };
 export const SetFinancialManagementReportCashFlowStatementAction = (data) => (
-  dispatch
+  dispatch,
 ) => {
   dispatch(slice.setFinancialManagementReportCashFlowStatement(data));
 };
 export const SetFinancialManagementReportAutoReconcileAction = (data) => (
-  dispatch
+  dispatch,
 ) => {
   dispatch(slice.setFinancialManagementReportAutoReconcile(data));
 };
@@ -405,7 +405,7 @@ export const setInternalControlBudgetInitAction = (data) => (dispatch) => {
   dispatch(slice.setInternalControlBudgetInitData(data));
 };
 export const managementImportTransactionShipmentAction = (data) => (
-  dispatch
+  dispatch,
 ) => {
   dispatch(slice.setManagementImportTransactionShipment(data));
 };
@@ -437,9 +437,15 @@ export const setItemBasicInfoInitDataAction = (data) => (dispatch) => {
 export const setOEECapacityConfigurationAction = (data) => (dispatch) => {
   dispatch(slice.setOEECapacityConfigurationData(data));
 };
-export const setItemQualityCheckLandingInitDataAction = (data) => (dispatch) => {
+export const setItemQualityCheckLandingInitDataAction = (data) => (
+  dispatch,
+) => {
   dispatch(slice.setItemQualityCheckLandingInitData(data));
 };
 export const setSalesCollectionInitDataAction = (data) => (dispatch) => {
   dispatch(slice.setSalesCollectionInitData(data));
+};
+
+export const setWeightScaleConfigValuesAction = (data) => (dispatch) => {
+  dispatch(slice.setWeightScaleConfigValues(data));
 };
