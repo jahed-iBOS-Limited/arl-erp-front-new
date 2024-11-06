@@ -464,6 +464,39 @@ function BookingDetailsInfo({ bookingData }) {
             </table>
           </div>
         </div>
+        {/* container desc table*/}
+        <div className="mt-4">
+          {" "}
+          <h5>Container Description</h5>
+          <div className="table-responsive">
+            <table className="table table-striped global-table mt-0">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Container Number</th>
+                  <th>Seal Number</th>
+                  <th>Size</th>
+                  <th>Quantity</th>
+                  <th>CBM</th>
+                  <th>KGS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bookingData?.transportPlanning?.containerDesc?.map((item, index) => (
+                  <tr key={index}>
+                    <td> {index + 1} </td>
+                    <td>{item?.containerNumber}</td>
+                    <td>{item?.sealNumber}</td>
+                    <td>{item?.size}</td>
+                    <td>{item?.quantity}</td>
+                    <td>{item?.cbm}</td>
+                    <td>{item?.kgs}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div >
   );
