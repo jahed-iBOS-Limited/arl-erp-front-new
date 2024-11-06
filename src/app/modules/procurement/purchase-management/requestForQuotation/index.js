@@ -18,7 +18,7 @@ import {
   _dateTimeFormatter,
 } from "../../../_helper/_dateFormate";
 import Chips from "../../../_helper/chips/Chips";
-import { rfqReportExcel } from "./helper";
+import { createQuotationPrepare, rfqReportExcel } from "./helper";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import LocalShippingIcon from "@material-ui/icons/LocalShipping";
@@ -26,6 +26,8 @@ import LocalAirportOutlinedIcon from "@material-ui/icons/LocalAirportOutlined";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import PaginationSearch from "../../../_helper/_search";
 import RfqModalForView from "./viewDetailsModal/rfqModalForView";
+import { eProcurementBaseURL } from "../../../../App";
+import { toast } from "react-toastify";
 const initData = {
   purchaseOrganization: { value: 0, label: "ALL" },
   rfqType: { value: 1, label: "Standard RFQ" },
@@ -91,9 +93,21 @@ export default function RequestForQuotationLanding() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // businessUnitId: sbu?.businessUnitId,
+  //       plantId: 0,
+  //       warehouseId: 0,
+  //       status: topBarActiveitem?.nameForApi,
+  //       pageNo: currentPage,
+  //       pageSize: 30,
+  //       search: searchQuery,
+
   const getData = (values, pageNo, pageSize, searchValue = "") => {
     getLandingData(
-      `/procurement/RequestForQuotation/GetRequestForQuotationPasignation?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&RequestTypeId=${values?.rfqType?.value}&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}&status=${values?.status?.label}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&search=${searchValue}`
+      `${eProcurementBaseURL}/RequestForQuotation/GetRequestForQuotationLanding?businessUnitId=${
+        selectedBusinessUnit?.value
+      }&plantId=${0}&warehouseId=${0}&status=${
+        values?.status?.label
+      }&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
     );
   };
 
@@ -135,6 +149,15 @@ export default function RequestForQuotationLanding() {
     setPositionHandler(pageNo, pageSize, values, searchValue);
   };
 
+  const handleREQReadyForPrepared = async (values, rfqId) => {
+    const data = await createQuotationPrepare(profileData?.userId, rfqId);
+    if (data && data?.statusCode === 200) {
+      toast.success("RFQ Ready for Prepared");
+      getData(values, pageNo, pageSize);
+    } else {
+      toast.warn("Failed to Prepared RFQ");
+    }
+  };
   return (
     <Formik
       enableReinitialize={true}
@@ -188,7 +211,7 @@ export default function RequestForQuotationLanding() {
           >
             <Form>
               <div className="row global-form">
-                <div className="col-lg-2">
+                {/* <div className="col-lg-2">
                   <NewSelect
                     name="purchaseOrganization"
                     options={
@@ -281,16 +304,17 @@ export default function RequestForQuotationLanding() {
                     touched={touched}
                     isDisabled={!values?.plant}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-2">
                   <NewSelect
                     name="status"
                     options={[
                       { value: 0, label: "All" },
                       { value: 1, label: "Live" },
-                      { value: 2, label: "Closed" },
-                      { value: 3, label: "Pending" },
-                      { value: 4, label: "Waiting" },
+                      { value: 2, label: "Prepared" },
+                      { value: 3, label: "Upcoming" },
+                      { value: 4, label: "Closed" },
+                      { value: 5, label: "Approved" },
                     ]}
                     value={values?.status}
                     label="Status"
@@ -303,7 +327,7 @@ export default function RequestForQuotationLanding() {
                     touched={touched}
                   />
                 </div>
-                <div className="col-lg-2">
+                {/* <div className="col-lg-2">
                   <InputField
                     label="From Date"
                     value={values?.fromDate}
@@ -329,7 +353,7 @@ export default function RequestForQuotationLanding() {
                     }}
                     disabled={false}
                   />
-                </div>
+                </div> */}
                 <div className="col-lg-4">
                   <button
                     type="button"
@@ -340,20 +364,11 @@ export default function RequestForQuotationLanding() {
                     onClick={() => {
                       getData(values, pageNo, pageSize);
                     }}
-                    disabled={
-                      !values?.purchaseOrganization ||
-                      !values?.rfqType ||
-                      !values?.sbu ||
-                      !values?.plant ||
-                      !values?.warehouse ||
-                      !values?.status ||
-                      !values?.fromDate ||
-                      !values?.toDate
-                    }
+                    disabled={!values?.status}
                   >
                     View
                   </button>
-                  <button
+                  {/* <button
                     className="btn btn-primary ml-2"
                     style={{ marginTop: "18px" }}
                     onClick={() => {
@@ -368,7 +383,7 @@ export default function RequestForQuotationLanding() {
                     type="button"
                   >
                     Export Excel
-                  </button>
+                  </button> */}
                 </div>
               </div>
 
@@ -388,12 +403,12 @@ export default function RequestForQuotationLanding() {
                         <tr>
                           <th>SL</th>
                           <th>RFQ No</th>
+                          <th>RFQ Title</th>
                           <th>RFQ Date</th>
                           <th>Currency</th>
                           <th>RFQ Start Date-Time</th>
                           <th>RFQ End Date-Time</th>
                           <th>Status</th>
-                          <th>Created By</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -429,8 +444,11 @@ export default function RequestForQuotationLanding() {
                                 </span>
                               )}
                             </td>
+                            <td className="text-left">
+                              {item?.rfqTitle || ""}
+                            </td>
                             <td className="text-center">
-                              {_dateFormatter(item?.rfqdate)}
+                              {_dateFormatter(item?.rfqDate)}
                             </td>
                             <td>{item?.currencyCode}</td>
                             <td className="text-center">
@@ -460,7 +478,7 @@ export default function RequestForQuotationLanding() {
                                     width: "50px",
                                   }}
                                 />
-                              ) : item?.status === "Pending" ? (
+                              ) : item?.status === "Prepared" ? (
                                 <Chips
                                   classes="badge-warning"
                                   status={item?.status}
@@ -469,7 +487,7 @@ export default function RequestForQuotationLanding() {
                                     width: "50px",
                                   }}
                                 />
-                              ) : item?.status === "Waiting" ? (
+                              ) : item?.status === "Upcoming" ? (
                                 <Chips
                                   classes="badge-info"
                                   status={item?.status}
@@ -479,9 +497,20 @@ export default function RequestForQuotationLanding() {
                                     backgroundColor: "#2ecc71",
                                   }}
                                 />
-                              ) : null}
+                              ) : item?.status === "Approved" ? (
+                                <Chips
+                                  classes="badge-success"
+                                  status={item?.status}
+                                  style={{
+                                    height: "17px",
+                                    width: "50px",
+                                    backgroundColor: "#2ecc71",
+                                  }}
+                                />
+                              ) : (
+                                item?.status || ""
+                              )}
                             </td>
-                            <td>{item?.createdBy}</td>
                             <td>
                               <span
                                 onClick={() => {
@@ -504,30 +533,27 @@ export default function RequestForQuotationLanding() {
                                   }}
                                 />
                               </span>
-                              {item?.isSentToSupplier === false ? (
+                              {item?.status?.trim() === "Upcoming" && (
                                 <OverlayTrigger
                                   overlay={
                                     <Tooltip id="cs-icon">
-                                      {"Send To Supplier"}
+                                      {"Send To Prepared"}
                                     </Tooltip>
                                   }
                                 >
                                   <span
                                     className="ml-2 pointer"
                                     onClick={() => {
-                                      notifySupplierHanlder(
-                                        item?.requestForQuotationId,
-                                        item?.requestForQuotationCode,
-                                        () => {
-                                          getData(values, pageNo, pageSize);
-                                        }
+                                      handleREQReadyForPrepared(
+                                        values,
+                                        item?.requestForQuotationId
                                       );
                                     }}
                                   >
                                     <i class="fas fa-paper-plane"></i>
                                   </span>
                                 </OverlayTrigger>
-                              ) : null}
+                              )}
                             </td>
                           </tr>
                         ))}

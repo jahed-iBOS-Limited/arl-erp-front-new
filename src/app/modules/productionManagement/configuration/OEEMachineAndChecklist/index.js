@@ -1,18 +1,18 @@
 import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Loading from "../../../_helper/_loading";
 import IForm from "../../../_helper/_form";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import IView from "../../../_helper/_helperIcons/_view";
+import Loading from "../../../_helper/_loading";
 import PaginationSearch from "../../../_helper/_search";
 import PaginationTable from "../../../_helper/_tablePagination";
-import { shallowEqual, useSelector } from "react-redux";
-import IView from "../../../_helper/_helperIcons/_view";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 const initData = {};
 export default function OEEMachineAndChecklistLanding() {
   const history = useHistory();
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(25);
   const [tabledata, getTableData, tableDataLoader] = useAxiosGet();
@@ -109,30 +109,30 @@ export default function OEEMachineAndChecklistLanding() {
                     <tbody>
                       {tabledata?.data?.length > 0
                         ? tabledata?.data?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>{item?.strPlantname}</td>
-                              <td>{item?.strShopfloorName}</td>
-                              <td>{item?.strMachineName}</td>
-                              <td>{item?.strSubMachineName}</td>
-                              <td>{item?.strScheduleTypee}</td>
-                              <td>{item?.strHelthCheckPersonName}</td>
-                              <td className="text-center">
-                                <div className="d-flex justify-content-around">
-                                  <span className="mx-1">
-                                    <IView
-                                      clickHandler={(e) => {
-                                        history.push(
-                                          `/production-management/configuration/OEEMachineNChecklist/view/${item?.intAssetHealthCheckId}`,
-                                          { landingData: item }
-                                        );
-                                      }}
-                                    />
-                                  </span>
-                                </div>
-                              </td>
-                            </tr>
-                          ))
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item?.strPlantname}</td>
+                            <td>{item?.strShopfloorName}</td>
+                            <td>{item?.strMachineName}</td>
+                            <td>{item?.strSubMachineName}</td>
+                            <td>{item?.strScheduleTypee}</td>
+                            <td>{item?.strHelthCheckPersonName}</td>
+                            <td className="text-center">
+                              <div className="d-flex justify-content-around">
+                                <span className="mx-1">
+                                  <IView
+                                    clickHandler={(e) => {
+                                      history.push(
+                                        `/production-management/configuration/OEEMachineNChecklist/view/${item?.intAssetHealthCheckId}`,
+                                        { landingData: item }
+                                      );
+                                    }}
+                                  />
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
                         : null}
                     </tbody>
                   </table>

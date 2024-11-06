@@ -10,6 +10,9 @@ export const withEncryptedAPI = [
   "/EProcurement/GetItemsForPRReference",
   "/RequestForQuotation/CreateRequestForQuotation",
   "/RequestForQuotation/EditRequestForQuotation",
+  "/RequestForQuotation/GetRequestForQuotationLanding",
+  "/RequestForQuotation/GetRequestForQuotationDetails",
+  "/RequestForQuotation/UpdateRequestForQuotationStatus",
 
   // CS
   "/ComparativeStatement/GetComparativeStatementLanding",
@@ -21,4 +24,6 @@ export const withEncryptedAPI = [
   "/ComparativeStatement/CreateAndUpdateItemWiseCS",
   "/ComparativeStatement/GetByCostComponentByUnit",
   "/ComparativeStatement/GetCSInfoDetails",
+  "/ComparativeStatement/CreateOrUpdateCostComponentTransaction",
+  "/ComparativeStatement/GetByCostComponentPartner",
 ];

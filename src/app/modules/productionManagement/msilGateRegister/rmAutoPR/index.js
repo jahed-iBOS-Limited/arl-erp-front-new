@@ -1,7 +1,6 @@
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -9,7 +8,6 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IView from "../../../_helper/_helperIcons/_view";
 import InputField from "../../../_helper/_inputField";
@@ -18,9 +16,10 @@ import PaginationSearch from "../../../_helper/_search";
 import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import IViewModal from "../../../_helper/_viewModal";
-import QcViewModal from "../firstWeight/qcViewModal";
-import { PurchaseOrderViewTableRow } from "../../../procurement/purchase-management/purchaseOrder/report/tableRow";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { InventoryTransactionReportViewTableRow } from "../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow";
+import { PurchaseOrderViewTableRow } from "../../../procurement/purchase-management/purchaseOrder/report/tableRow";
+import QcViewModal from "../firstWeight/qcViewModal";
 // import AttachmentView from "./POview";
 
 function RowMaterialAutoPR() {
@@ -35,61 +34,26 @@ function RowMaterialAutoPR() {
   const [POorderType, setPOorderType] = useState(false);
   const [GRN, setGRN] = useState({});
 
-  const [itemRequest, setItemRequest] = useState(true);
-  const history = useHistory();
-
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
   useEffect(() => {
     getRowData(
-      `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${
-        selectedBusinessUnit?.value
+      `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit?.value
       }&Status=${0}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const headerCheckBoxHandler = (name, value) => {
-    const newData = rowData?.qcList?.map((item) => ({
-      ...item,
-      [name]: value,
-    }));
-    setRowData({ ...rowData, qcList: newData });
-    const approval = newData?.some(
-      (itm) => itm.isPRCompleted === true && !itm?.intPurchaseRequestId
-    );
-    if (approval) {
-      setItemRequest(false);
-    } else {
-      setItemRequest(true);
-    }
-  };
-
-  const singleCheckBoxHandler = (name, value, index) => {
-    let data = [...rowData?.qcList];
-    data[index][name] = value;
-    setRowData({ ...rowData, qcList: data });
-
-    const approval = data?.some(
-      (itm) => itm.isPRCompleted === true && !itm?.intPurchaseRequestId
-    );
-    if (approval) {
-      setItemRequest(false);
-    } else {
-      setItemRequest(true);
-    }
-  };
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
     let fromDate = values?.fromDate ? `&FromDate=${values?.fromDate}` : "";
     let toDate = values?.toDate ? `&ToDate=${values?.toDate}` : "";
     getRowData(
-      `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${
-        selectedBusinessUnit?.value
+      `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit?.value
       }${fromDate}${toDate}&Status=${values?.status?.value ||
-        0}&Search=${searchValue}`
+      0}&Search=${searchValue}`
     );
   };
 
@@ -124,7 +88,7 @@ function RowMaterialAutoPR() {
           // fromDate: _todayDate(),
           // toDate: _todayDate()
         }}
-        onSubmit={() => {}}
+        onSubmit={() => { }}
       >
         {({ values, setFieldValue }) => (
           <>
@@ -319,10 +283,10 @@ function RowMaterialAutoPR() {
                                 <td className="text-center">
                                   {item?.strInventoryTransactionCode?.length > 0
                                     ? renderCommaSeparatedItems(
-                                        item?.strInventoryTransactionCode,
-                                        index,
-                                        item
-                                      )
+                                      item?.strInventoryTransactionCode,
+                                      index,
+                                      item
+                                    )
                                     : ""}
                                 </td>
 

@@ -1,11 +1,10 @@
+import Axios from "axios";
+import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
+import Select from "react-select";
 import * as Yup from "yup";
 import { Input } from "../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import Select from "react-select";
 import customStyles from "../../../../selectCustomStyle";
-import NewSelect from "../../../../_helper/_select";
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
@@ -50,7 +49,7 @@ export default function _Form({
     try {
       const res = await Axios.get("/item/ItemCategory/GetItemTypeListDDL");
       setItemTypeList(res.data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
+import { imarineBaseUrl } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
@@ -28,7 +28,7 @@ export default function VesselNominationAccept() {
       enableReinitialize={true}
       initialValues={initData}
       // validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting, resetForm }) => {}}
+      onSubmit={(values, { setSubmitting, resetForm }) => { }}
     >
       {({
         handleSubmit,

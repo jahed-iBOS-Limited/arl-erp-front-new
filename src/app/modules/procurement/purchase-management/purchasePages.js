@@ -28,6 +28,7 @@ import AddQuotationEntry from "./erpQuotationEntry/entryForm/addQuotationEntry";
 import AutoPRCalculation from "./autoPRCalculation";
 import AutoPOCalculation from "./AutoPOCalculation";
 import CreateCs from "./erpComparativeStatement/cs/create";
+import RFQCreateForAutoProcess from "./AutoPOCalculation/rfqCreateForAutoProcess";
 
 export function PurchasePages() {
   const userRole = useSelector(
@@ -213,6 +214,10 @@ export function PurchasePages() {
         component={AutoPRCalculation}
       />
 
+      <ContentRoute
+        from="/mngProcurement/purchase-management/AutoPOCalculation/rfqCreate"
+        component={RFQCreateForAutoProcess}
+      />
       <ContentRoute
         from="/mngProcurement/purchase-management/AutoPOCalculation"
         component={AutoPOCalculation}

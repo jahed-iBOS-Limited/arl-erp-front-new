@@ -3,9 +3,9 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IView from "../../../../_helper/_helperIcons/_view";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 import IViewModal from "../../../../_helper/_viewModal";
 import MarketCompetitorPriceView from "../view";
+import { _dateFormatter } from "./../../../../_helper/_dateFormate";
 const LandingTable = ({ obj }) => {
   const {
     profileData: { employeeId },

@@ -558,9 +558,9 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
                           "busiPartner",
                           valueOption?.actionBy
                             ? {
-                                value: valueOption?.actionBy || 0,
-                                label: valueOption?.actionName || "",
-                              }
+                              value: valueOption?.actionBy || 0,
+                              label: valueOption?.actionName || "",
+                            }
                             : ""
                         );
                         setFieldValue("item", "");
@@ -621,9 +621,9 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
                           "busiPartner",
                           data?.supplierId
                             ? {
-                                value: data?.supplierId || 0,
-                                label: data?.supplierName || "",
-                              }
+                              value: data?.supplierId || 0,
+                              label: data?.supplierName || "",
+                            }
                             : ""
                         );
                         setFieldValue("freight", data?.freight);
@@ -638,8 +638,8 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
                         return axios
                           .get(
                             `/wms/InventoryTransaction/GetPoNoForInventory?PoTypeId=1&businessUnitId=${selectedBusinessUnit?.value ||
-                              0}&SbuId=${landingData?.sbu?.value || 0}&PlantId=${landingData?.plant?.value ||
-                              0}&WearhouseId=${landingData?.warehouse?.value || 0}&Search=${v || ""}`
+                            0}&SbuId=${landingData?.sbu?.value || 0}&PlantId=${landingData?.plant?.value ||
+                            0}&WearhouseId=${landingData?.warehouse?.value || 0}&Search=${v || ""}`
                           )
                           .then((res) => {
                             // const updateList = res?.data.map((item) => ({
@@ -692,9 +692,9 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
                           "busiPartner",
                           data?.supplierId
                             ? {
-                                value: data?.supplierId || 0,
-                                label: data?.supplierName || "",
-                              }
+                              value: data?.supplierId || 0,
+                              label: data?.supplierName || "",
+                            }
                             : ""
                         );
                         setFieldValue("freight", data?.freight);
@@ -928,11 +928,10 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `/wms/InventoryTransaction/GetItemForReceiveInventory?accountId=${
-                              profileData.accountId
+                            `/wms/InventoryTransaction/GetItemForReceiveInventory?accountId=${profileData.accountId
                             }&businessUnitId=${selectedBusinessUnit?.value || 0}&plantId=${landingData?.plant?.value ||
-                              0}&warehouseId=${landingData?.warehouse?.value || 0}&searchTerm=${v ||
-                              ""}&RefTypeId=${values?.refType?.value || 0}`
+                            0}&warehouseId=${landingData?.warehouse?.value || 0}&searchTerm=${v ||
+                            ""}&RefTypeId=${values?.refType?.value || 0}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -1012,7 +1011,7 @@ export default function ReceiveInvCreateForm({ btnRef, resetBtnRef, disableHandl
                 {values.refType.value === 1 && (
                   <div
                     className="col-lg-6 d-flex align-items-end justify-content-end"
-                    // style={{ marginTop: "45px" }}
+                  // style={{ marginTop: "45px" }}
                   >
                     <span className="mr-2 mt-auto font-weight-bold">Vat: {totalVat.toFixed(4)}</span>
                     <span className="mr-2 mt-auto font-weight-bold">Amount: {totalValue.toFixed(4)}</span>

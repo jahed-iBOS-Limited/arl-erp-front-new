@@ -1,34 +1,87 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/react-in-jsx-scope */
-import { Table } from "antd";
+
+export const getCostEntryPayload = (costEntryList, rfqDetail) => {
+  let payload = [];
+  costEntryList?.map((item) => {
+    payload.push({
+      intCostComponentTransactionRowId: 0,
+      intRequestForQuotationId: rfqDetail?.requestForQuotationId,
+      intPartnerRfqid: item?.supplierName?.info?.partnerRfqId,
+      intCostComponentId: item?.costHead?.intCostComponentId,
+      strCostComponentName: item?.costHead?.strCostComponentName,
+      intCurrencyId: item?.currency?.value,
+      strCurrencyCode: item?.currency?.code,
+      numAmount: item?.amount,
+      numConversionRateInTaka: 0,
+      isActive: true,
+      dteCreateDate: new Date(),
+      intBusinessPartnerId: item?.supplierName?.info?.businessPartnerId,
+    });
+  });
+  return payload || [];
+};
 
 export const saveHandlerPayload = (
-  type,
+  values,
   payload,
   rfqDetail,
   suppilerStatement,
   placePartnerList,
   rowData
 ) => {
-  if (type?.value === 0) {
+  if (values?.csType?.value === 0) {
+    const getSinglePort = (portId, data) => {
+      console.log(portId, data, "portId, data");
+      const result = data?.find((port) => port?.portId === portId);
+      if (result) {
+        return {
+          id: result?.id || 0,
+          portId: result?.portId || 0,
+          portName: result?.portName || "",
+          rate: result?.rate || 0,
+          freightCharge: result?.freightCharge || 0,
+          portReamrks: result?.portReamrks || "",
+          conversionRate: result?.conversionRate || 0,
+          convertedAmount: result?.convertedAmount || 0,
+        };
+      }
+      return {}; // Return empty object if no port is found
+    };
     rowData?.map((row) => {
       payload.push({
         requestForQuotationId: rfqDetail?.requestForQuotationId,
         partnerRfqId: row?.partnerRfqId,
         rowId: row?.itemWiseCode, // have to check if need
         itemId: row?.itemId,
-        takenQuantity: +row?.takenQuantity,
-        rate: +row?.supplierRate,
-        approvalNotes: row?.note,
+        takenQuantity: +row?.takenQuantity || 0,
+        rate: +row?.supplierRate || 0,
+        approvalNotes: row?.note || "",
         portList:
           rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
-            ? [...row?.supplierInfo?.portList]
-            : [],
+            ? getSinglePort(row?.port?.value, row?.supplierInfo?.portList)
+            : {},
       });
     });
     return payload;
   } else {
+    const getcsQuantityList = (ind) => {
+      let csQuantityList = [];
+      placePartnerList?.map((item) => {
+        csQuantityList.push({
+          rowId: item?.firstAndSecondPlaceList[ind]?.rowId,
+          csQuantity: +item?.csQuantity || 0,
+          rate: item?.firstAndSecondPlaceList[ind]?.supplierRate || 0,
+          portList:
+            rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
+              ? getPortList(item?.firstAndSecondPlaceList[ind]?.portList)
+              : [],
+        });
+      });
+      return csQuantityList;
+    };
+
     const getPortList = (portList) => {
       let portListDS = [];
       portList?.map((port) => {
@@ -38,37 +91,20 @@ export const saveHandlerPayload = (
           portName: port?.portName || "",
           rate: port?.rate || 0,
           freightCharge: port?.freightCharge || 0,
+          portReamrks: port?.portReamrks || "",
+          conversionRate: port?.conversionRate || 0,
+          convertedAmount: port?.convertedAmount || 0,
         });
       });
       return portListDS;
     };
-
-    // eslint-disable-next-line array-callback-return
-    let csQuantityList = placePartnerList?.map((item) => {
-      if (
-        item?.firstAndSecondPlaceList &&
-        item?.firstAndSecondPlaceList?.length > 0
-      ) {
-        item?.firstAndSecondPlaceList?.map((supplierItem) => {
-          return {
-            rowId: supplierItem?.rowId,
-            csQuantity: +item?.takenQty,
-            rate: supplierItem?.supplierRate,
-            portList:
-              rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
-                ? getPortList(supplierItem?.portList)
-                : [],
-          };
-        });
-      }
-    });
     payload = [
       {
         requestForQuotationId: rfqDetail?.requestForQuotationId,
         partnerRfqId: suppilerStatement?.firstSelectedItem?.partnerRfqId,
-        placeNoForCs: suppilerStatement?.firstSelectedItem?.placeNoForCs || 0,
-        approvalNotes: "test..",
-        csQuantityList: [...csQuantityList],
+        placeNoForCs: 1,
+        approvalNotes: values?.approvalNotes || "",
+        csQuantityList: getcsQuantityList(0),
       },
     ];
 
@@ -76,9 +112,9 @@ export const saveHandlerPayload = (
       payload.push({
         requestForQuotationId: rfqDetail?.requestForQuotationId,
         partnerRfqId: suppilerStatement?.secondSelectedItem?.partnerRfqId,
-        placeNoForCs: suppilerStatement?.secondSelectedItem?.placeNoForCs || 0,
-        approvalNotes: "test..22",
-        csQuantityList: [...csQuantityList],
+        placeNoForCs: 2,
+        approvalNotes: values?.approvalNotes || "",
+        csQuantityList: getcsQuantityList(1),
       });
     }
   }

@@ -1,13 +1,13 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
+import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 import InputField from "../../../../../_helper/_inputField";
 import Loading from "../../../../../_helper/_loading";
 import NewSelect from "../../../../../_helper/_select";
 import { getBankDDL, getFacilityDLL, getFundLimitById } from "../../helper";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { shallowEqual, useSelector } from "react-redux";
 
 const fundLimit = Yup.object().shape({
   limit: Yup.string().required("Limit is required"),
@@ -63,17 +63,17 @@ export default function LimitForm({
         initialValues={
           isEdit
             ? {
-                ...singleData,
-                tenorDays: landingRowData?.tenureDays || "",
-                sanctionReference: landingRowData?.sanctionReference || "",
-                limitExpiryDate:
-                  _dateFormatter(landingRowData?.limitExpiryDate) || "",
-                rate:
-                  +landingRowData?.interestRate || +singleData?.interestRate,
-                rateReview:
-                  +landingRowData?.rateReview || +singleData?.rateReview,
-                remarks: landingRowData?.remarks || singleData?.remarks,
-              }
+              ...singleData,
+              tenorDays: landingRowData?.tenureDays || "",
+              sanctionReference: landingRowData?.sanctionReference || "",
+              limitExpiryDate:
+                _dateFormatter(landingRowData?.limitExpiryDate) || "",
+              rate:
+                +landingRowData?.interestRate || +singleData?.interestRate,
+              rateReview:
+                +landingRowData?.rateReview || +singleData?.rateReview,
+              remarks: landingRowData?.remarks || singleData?.remarks,
+            }
             : initData
         }
         validationSchema={fundLimit}
@@ -178,7 +178,7 @@ export default function LimitForm({
                     type="number"
                     min="0"
                     step="any"
-                    // disabled={isEdit}
+                  // disabled={isEdit}
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
@@ -192,7 +192,7 @@ export default function LimitForm({
                     }}
                     type="string"
                     step="any"
-                    // disabled={isEdit}
+                  // disabled={isEdit}
                   />
                 </div>
                 <div className="col-lg-2">
@@ -202,7 +202,7 @@ export default function LimitForm({
                     name="limitExpiryDate"
                     placeholder="Limit Expiry Date"
                     type="date"
-                    // disabled={isEdit}
+                  // disabled={isEdit}
                   />
                 </div>
 
