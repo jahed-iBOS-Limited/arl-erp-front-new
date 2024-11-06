@@ -39,6 +39,7 @@ function CreateDeliveryAgent() {
         );
     };
     React.useEffect(() => {
+        if (!id) return;
         setDeliveryAgentListById(
             `${imarineBaseUrl}/domain/ShippingService/GetDeliveryAgentById?AgentId=${id}`,
             (data) => {
