@@ -1,4 +1,5 @@
 import { Form, Formik } from "formik";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -6,20 +7,18 @@ import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
+import { YearDDL } from "../../../_helper/_yearDDL";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { YearDDL } from "../../../_helper/_yearDDL";
-import { _todayDate } from "../../../_helper/_todayDate";
-import moment from "moment";
 
 const initData = {
     businessUnit: "",
     year: "",
     isForecast: true,
     gl: "",
-    businessTransaction: ""
+    businessTransaction: "",
+    profitCenter: ""
 };
-
 const months = [
     { name: "July", key: "julAmount", id: 7 },
     { name: "August", key: "augAmount", id: 8 },
@@ -40,15 +39,24 @@ export default function BreakdownEntry() {
     const [tableData, getTableData, tableDataLoader, setTableData] = useAxiosGet();
     const [, saveData, saveDataLoader] = useAxiosPost();
     const [objProps, setObjprops] = useState({});
+    const [
+        profitCenterDDL,
+        getProfitCenterDDL,
+        profitCenterLoder,
+        setProfitCenterDDL,
+    ] = useAxiosGet();
 
     const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
     const [glList, getGLList] = useAxiosGet();
     const [businessTransactionList, getBusinessTransactionList, transLoader, setBusinessTransactionList] = useAxiosGet();
-    const [budgetData, getBudgetData, budgetLoader] = useAxiosGet();
+    const [budgetDataForPrevYear, getBudgetDataForPrevYear, budgetLoader] = useAxiosGet();
+    const [budgetDataForNextYear, getBudgetDataForNextYear, budgetNextLoader] = useAxiosGet();
 
     const { profileData } = useSelector((state) => state.authData, shallowEqual);
 
     useEffect(() => {
+
+
         getBuDDL(
             `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${profileData?.userId}&ClientId=${profileData?.accountId}`,
             (data) => setBuDDL(data.map((item) => ({
@@ -70,13 +78,14 @@ export default function BreakdownEntry() {
             const payload = tableData.flatMap((item) => {
                 return months.map((month) => ({
                     autoId: 0,
+                    ProfitCenterId: values?.profitCenter?.value,
                     businessUnitId: values?.businessUnit?.value,
                     glId: item.generalLedgerId,
                     subGlId: values?.businessTransaction?.value,
                     accountHeadId: item.accountHeadId,
                     budget: +item[month.key],
                     budgetDate: getLastDateOfMonth(values?.year?.value, month.id),
-                    yearId: values?.year?.value,
+                    yearId: month.id >= 7 && month.id <= 12 ? values?.year?.value : values?.year?.value + 1,
                     monthId: month.id,
                     isForecast: values?.isForecast,
                 }));
@@ -96,7 +105,11 @@ export default function BreakdownEntry() {
     const onViewButtonClick = (values) => {
         getTableData(
             `/fino/BudgetaryManage/GetSubGlAccountHead?GeneralLedgerId=${values?.gl?.value}&SubGlCode=${values?.businessTransaction?.buesinessTransactionCode}`,
-            () => getBudgetData(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value}&SubGlId=${values?.businessTransaction?.value}`)
+            () => {
+                getBudgetDataForPrevYear(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value}&SubGlId=${values?.businessTransaction?.value}`)
+                getBudgetDataForNextYear(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value + 1}&SubGlId=${values?.businessTransaction?.value}`)
+            }
+
         );
     }
 
@@ -128,7 +141,7 @@ export default function BreakdownEntry() {
                 touched,
             }) => (
                 <>
-                    {(tableDataLoader || transLoader || budgetLoader || saveDataLoader || buDDLloader) && <Loading />}
+                    {(tableDataLoader || profitCenterLoder || transLoader || budgetLoader || budgetNextLoader || saveDataLoader || buDDLloader) && <Loading />}
                     <IForm
                         title={"Breakdown Entry"}
                         getProps={setObjprops}
@@ -146,6 +159,38 @@ export default function BreakdownEntry() {
                                         label="Business Unit"
                                         onChange={(valueOption) => {
                                             setFieldValue("businessUnit", valueOption);
+                                            setFieldValue("profitCenter", "");
+                                            setFieldValue("gl", "");
+                                            setFieldValue("businessTransaction", "");
+                                            setProfitCenterDDL([])
+                                            setBusinessTransactionList([]);
+                                            setTableData([]);
+                                            if (valueOption) {
+                                                getProfitCenterDDL(
+                                                    `/costmgmt/ProfitCenter/GetProfitCenterInformation?AccountId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}`,
+                                                    (data) => {
+                                                        const newData = data?.map((itm) => {
+                                                            itm.value = itm?.profitCenterId;
+                                                            itm.label = itm?.profitCenterName;
+                                                            return itm;
+                                                        });
+                                                        setProfitCenterDDL(newData);
+                                                    }
+                                                );
+                                            }
+                                        }}
+                                        errors={errors}
+                                        touched={touched}
+                                    />
+                                </div>
+                                <div className="col-lg-3">
+                                    <NewSelect
+                                        name="profitCenter"
+                                        options={profitCenterDDL || []}
+                                        value={values?.profitCenter}
+                                        label="Profit Center"
+                                        onChange={(valueOption) => {
+                                            setFieldValue("profitCenter", valueOption);
                                             setFieldValue("gl", "");
                                             setFieldValue("businessTransaction", "");
                                             setBusinessTransactionList([]);
@@ -153,6 +198,7 @@ export default function BreakdownEntry() {
                                         }}
                                         errors={errors}
                                         touched={touched}
+                                        isDisabled={!values?.businessUnit}
                                     />
                                 </div>
                                 {/* GL Select */}
@@ -161,7 +207,7 @@ export default function BreakdownEntry() {
                                         name="gl"
                                         options={glList || []}
                                         value={values?.gl}
-                                        label="Select GL"
+                                        label="GL"
                                         onChange={(valueOption) => {
                                             setFieldValue("gl", valueOption);
                                             setFieldValue("businessTransaction", "");
@@ -218,7 +264,7 @@ export default function BreakdownEntry() {
                                     />
                                 </div>
                                 {/* Checkbox for Forecast */}
-                                <div className="col-lg-1 mt-4">
+                                <div className="col-lg-1 mt-5">
                                     <div className="d-flex align-items-center">
                                         <input
                                             type="checkbox"
@@ -234,7 +280,7 @@ export default function BreakdownEntry() {
                                         className="btn btn-primary"
                                         type="button"
                                         onClick={() => onViewButtonClick(values)}
-                                        disabled={!values?.year || !values?.businessUnit || !values?.gl || !values?.businessTransaction}
+                                        disabled={!values?.year || !values?.businessUnit || !values?.gl || !values?.businessTransaction || !values?.profitCenter}
                                     >
                                         View
                                     </button>
@@ -252,9 +298,17 @@ export default function BreakdownEntry() {
                                                     <th style={{ minWidth: "140px" }}>Value</th>
                                                     {months.map((month) => (
                                                         <th key={month.id} style={{ minWidth: "140px" }}>
-                                                            {month.name} ({budgetData?.find((item) => item?.monthId === month.id)?.amount || ""})
+                                                            {month.name} ({
+                                                                // Check if the month ID is between July (7) and December (12)
+                                                                (month.id >= 7 && month.id <= 12)
+                                                                    ? // For July to December, get data from the previous year
+                                                                    budgetDataForPrevYear?.find((item) => item?.monthId === month.id)?.amount || ""
+                                                                    : // For January to June, get data from the next year
+                                                                    budgetDataForNextYear?.find((item) => item?.monthId === month.id)?.amount || ""
+                                                            })
                                                         </th>
                                                     ))}
+
                                                 </tr>
                                             </thead>
                                             <tbody>
