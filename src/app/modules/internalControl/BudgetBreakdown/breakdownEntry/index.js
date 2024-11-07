@@ -1,4 +1,5 @@
 import { Form, Formik } from "formik";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -6,49 +7,60 @@ import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
+import { YearDDL } from "../../../_helper/_yearDDL";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { YearDDL } from "../../../_helper/_yearDDL";
-import { _todayDate } from "../../../_helper/_todayDate";
-import moment from "moment";
 
 const initData = {
     businessUnit: "",
     year: "",
-    isForecast: true,
+    isForecast: false,
     gl: "",
-    businessTransaction: ""
+    businessTransaction: "",
+    profitCenter: ""
 };
 
-const months = [
-    { name: "July", key: "julAmount", id: 7 },
-    { name: "August", key: "augAmount", id: 8 },
-    { name: "September", key: "sepAmount", id: 9 },
-    { name: "October", key: "octAmount", id: 10 },
-    { name: "November", key: "novAmount", id: 11 },
-    { name: "December", key: "decAmount", id: 12 },
-    { name: "January", key: "janAmount", id: 1 },
-    { name: "February", key: "febAmount", id: 2 },
-    { name: "March", key: "marAmount", id: 3 },
-    { name: "April", key: "aprAmount", id: 4 },
-    { name: "May", key: "mayAmount", id: 5 },
-    { name: "June", key: "junAmount", id: 6 }
-];
 
 export default function BreakdownEntry() {
     const formikRef = React.useRef(null);
     const [tableData, getTableData, tableDataLoader, setTableData] = useAxiosGet();
     const [, saveData, saveDataLoader] = useAxiosPost();
     const [objProps, setObjprops] = useState({});
+    const [
+        profitCenterDDL,
+        getProfitCenterDDL,
+        profitCenterLoder,
+        setProfitCenterDDL,
+    ] = useAxiosGet();
+
+    const [monthData, setMonthData] = useState([
+        { name: "July", key: "julAmount", id: 7, budgetAmount: 0 },
+        { name: "August", key: "augAmount", id: 8, budgetAmount: 0 },
+        { name: "September", key: "sepAmount", id: 9, budgetAmount: 0 },
+        { name: "October", key: "octAmount", id: 10, budgetAmount: 0 },
+        { name: "November", key: "novAmount", id: 11, budgetAmount: 0 },
+        { name: "December", key: "decAmount", id: 12, budgetAmount: 0 },
+        { name: "January", key: "janAmount", id: 1, budgetAmount: 0 },
+        { name: "February", key: "febAmount", id: 2, budgetAmount: 0 },
+        { name: "March", key: "marAmount", id: 3, budgetAmount: 0 },
+        { name: "April", key: "aprAmount", id: 4, budgetAmount: 0 },
+        { name: "May", key: "mayAmount", id: 5, budgetAmount: 0 },
+        { name: "June", key: "junAmount", id: 6, budgetAmount: 0 }
+    ])
 
     const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
     const [glList, getGLList] = useAxiosGet();
     const [businessTransactionList, getBusinessTransactionList, transLoader, setBusinessTransactionList] = useAxiosGet();
-    const [budgetData, getBudgetData, budgetLoader] = useAxiosGet();
+    const [budgetDataForPrevYear, getBudgetDataForPrevYear, budgetLoader] = useAxiosGet();
+    const [budgetDataForNextYear, getBudgetDataForNextYear, budgetNextLoader] = useAxiosGet();
+    const [fiscalYearDDL, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
+
 
     const { profileData } = useSelector((state) => state.authData, shallowEqual);
 
     useEffect(() => {
+        getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
+
         getBuDDL(
             `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${profileData?.userId}&ClientId=${profileData?.accountId}`,
             (data) => setBuDDL(data.map((item) => ({
@@ -56,7 +68,7 @@ export default function BreakdownEntry() {
                 label: item?.organizationUnitReffName
             })))
         );
-        getGLList(`/fino/FinanceCommonDDL/GetGeneralLedegerDDL?accountId=${profileData?.accountId}`);
+        getGLList(`/fino/FinanceCommonDDL/GetGeneralLedegerForBudgetDDL?accountId=${profileData?.accountId}`);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profileData]);
 
@@ -66,43 +78,90 @@ export default function BreakdownEntry() {
     };
 
     const saveHandler = (values) => {
-        if (tableData.length && values?.businessUnit && values?.year) {
-            const payload = tableData.flatMap((item) => {
-                return months.map((month) => ({
-                    autoId: 0,
-                    businessUnitId: values?.businessUnit?.value,
-                    glId: item.generalLedgerId,
-                    subGlId: values?.businessTransaction?.value,
-                    accountHeadId: item.accountHeadId,
-                    budget: +item[month.key],
-                    budgetDate: getLastDateOfMonth(values?.year?.value, month.id),
-                    yearId: values?.year?.value,
-                    monthId: month.id,
-                    isForecast: values?.isForecast,
-                }));
-            });
+        if (!values?.businessUnit || !values?.year || !tableData.length) {
+            return toast.warn("No data to save");
+        }
 
+        // Filter out rows where all months have zero amounts
+        const filteredData = tableData.filter((item) => Object.keys(item).some(month => item[month]));
+
+        if (!filteredData.length) {
+            return toast.warn("No data to save");
+        }
+
+        // Create payload for saving data
+        const payload = filteredData.flatMap((item) => {
+            return monthData.map((month) => ({
+                autoId: 0,
+                ProfitCenterId: values?.profitCenter?.value,
+                businessUnitId: values?.businessUnit?.value,
+                glId: item.generalLedgerId,
+                subGlId: values?.businessTransaction?.value,
+                accountHeadId: item.accountHeadId,
+                budget: +item[month.key] || 0,
+                budgetDate: getLastDateOfMonth(values?.year?.value, month.id),
+                yearId: month.id >= 7 && month.id <= 12 ? values?.year?.value : values?.year?.value + 1,
+                monthId: month.id,
+                isForecast: values?.isForecast,
+            }));
+        });
+
+        // Filter out items with no budget
+        const validPayload = payload.filter((item) => item?.budget);
+
+        if (validPayload.length) {
             saveData(
-                `/fino/BudgetaryManage/CreateUpdateBudgetEntry`,
-                payload,
+                '/fino/BudgetaryManage/CreateUpdateBudgetEntry',
+                validPayload,
                 () => setTableData([]),
                 true
             );
         } else {
-            toast.warn("No data to save");
+            toast.warn("No valid data to save");
         }
-    }
+    };
+
 
     const onViewButtonClick = (values) => {
         getTableData(
             `/fino/BudgetaryManage/GetSubGlAccountHead?GeneralLedgerId=${values?.gl?.value}&SubGlCode=${values?.businessTransaction?.buesinessTransactionCode}`,
-            () => getBudgetData(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value}&SubGlId=${values?.businessTransaction?.value}`)
+            () => {
+                getBudgetDataForPrevYear(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value}&SubGlId=${values?.businessTransaction?.value}`, (dataForPrev) => {
+                    getBudgetDataForNextYear(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value + 1}&SubGlId=${values?.businessTransaction?.value}`, (dataForNext) => {
+                        updateMonthlyData(dataForPrev, dataForNext);
+                    })
+                })
+
+            }
+
         );
     }
 
+    const updateMonthlyData = (dataForPrev, dataForNext) => {
+        const data = monthData.map((month) => {
+            // For July to December, get data from the previous year (dataForPrev)
+            if (month.id >= 7 && month.id <= 12) {
+                return {
+                    ...month,
+                    budgetAmount: dataForPrev?.find((item) => item?.monthId === month.id)?.amount || ""
+                };
+            }
+            // For January to June, get data from the next year (dataForNext)
+            else {
+                return {
+                    ...month,
+                    budgetAmount: dataForNext?.find((item) => item?.monthId === month.id)?.amount || ""
+                };
+            }
+        });
+
+        setMonthData(data);
+    };
+
+
     const getUpdatedRowObjectForManual = (data, newValue) => {
         const updatedRow = { ...data, fillAllManual: newValue };
-        months.forEach((month) => updatedRow[month.key] = newValue);
+        monthData.forEach((month) => updatedRow[month.key] = newValue);
         return updatedRow;
     };
 
@@ -128,7 +187,7 @@ export default function BreakdownEntry() {
                 touched,
             }) => (
                 <>
-                    {(tableDataLoader || transLoader || budgetLoader || saveDataLoader || buDDLloader) && <Loading />}
+                    {(tableDataLoader || profitCenterLoder || transLoader || budgetLoader || budgetNextLoader || saveDataLoader || buDDLloader) && <Loading />}
                     <IForm
                         title={"Breakdown Entry"}
                         getProps={setObjprops}
@@ -146,6 +205,38 @@ export default function BreakdownEntry() {
                                         label="Business Unit"
                                         onChange={(valueOption) => {
                                             setFieldValue("businessUnit", valueOption);
+                                            setFieldValue("profitCenter", "");
+                                            setFieldValue("gl", "");
+                                            setFieldValue("businessTransaction", "");
+                                            setProfitCenterDDL([])
+                                            setBusinessTransactionList([]);
+                                            setTableData([]);
+                                            if (valueOption) {
+                                                getProfitCenterDDL(
+                                                    `/costmgmt/ProfitCenter/GetProfitCenterInformation?AccountId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}`,
+                                                    (data) => {
+                                                        const newData = data?.map((itm) => {
+                                                            itm.value = itm?.profitCenterId;
+                                                            itm.label = itm?.profitCenterName;
+                                                            return itm;
+                                                        });
+                                                        setProfitCenterDDL(newData);
+                                                    }
+                                                );
+                                            }
+                                        }}
+                                        errors={errors}
+                                        touched={touched}
+                                    />
+                                </div>
+                                <div className="col-lg-3">
+                                    <NewSelect
+                                        name="profitCenter"
+                                        options={profitCenterDDL || []}
+                                        value={values?.profitCenter}
+                                        label="Profit Center"
+                                        onChange={(valueOption) => {
+                                            setFieldValue("profitCenter", valueOption);
                                             setFieldValue("gl", "");
                                             setFieldValue("businessTransaction", "");
                                             setBusinessTransactionList([]);
@@ -153,6 +244,7 @@ export default function BreakdownEntry() {
                                         }}
                                         errors={errors}
                                         touched={touched}
+                                        isDisabled={!values?.businessUnit}
                                     />
                                 </div>
                                 {/* GL Select */}
@@ -161,7 +253,7 @@ export default function BreakdownEntry() {
                                         name="gl"
                                         options={glList || []}
                                         value={values?.gl}
-                                        label="Select GL"
+                                        label="GL"
                                         onChange={(valueOption) => {
                                             setFieldValue("gl", valueOption);
                                             setFieldValue("businessTransaction", "");
@@ -169,7 +261,7 @@ export default function BreakdownEntry() {
                                             setTableData([]);
                                             if (valueOption) {
                                                 getBusinessTransactionList(
-                                                    `/fino/FinanceCommonDDL/GetBusinessTransactionDDL?accountId=${profileData?.accountId}&businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${valueOption?.value}`,
+                                                    `/fino/FinanceCommonDDL/GetBusinessTransactionForBudgetDDL?accountId=${profileData?.accountId}&businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${valueOption?.value}`,
                                                     (res) => {
                                                         const data = res.map((item) => ({
                                                             ...item,
@@ -206,7 +298,7 @@ export default function BreakdownEntry() {
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="year"
-                                        options={YearDDL() || []}
+                                        options={fiscalYearDDL || []}
                                         value={values?.year}
                                         label="Year"
                                         onChange={(valueOption) => {
@@ -218,7 +310,7 @@ export default function BreakdownEntry() {
                                     />
                                 </div>
                                 {/* Checkbox for Forecast */}
-                                <div className="col-lg-1 mt-4">
+                                <div className="col-lg-1 mt-5">
                                     <div className="d-flex align-items-center">
                                         <input
                                             type="checkbox"
@@ -234,7 +326,7 @@ export default function BreakdownEntry() {
                                         className="btn btn-primary"
                                         type="button"
                                         onClick={() => onViewButtonClick(values)}
-                                        disabled={!values?.year || !values?.businessUnit || !values?.gl || !values?.businessTransaction}
+                                        disabled={!values?.year || !values?.businessUnit || !values?.gl || !values?.businessTransaction || !values?.profitCenter}
                                     >
                                         View
                                     </button>
@@ -250,11 +342,12 @@ export default function BreakdownEntry() {
                                                     <th style={{ minWidth: "60px" }}>SL</th>
                                                     <th style={{ minWidth: "200px" }}>Element Name</th>
                                                     <th style={{ minWidth: "140px" }}>Value</th>
-                                                    {months.map((month) => (
+                                                    {monthData?.length > 0 && monthData.map((month) => (
                                                         <th key={month.id} style={{ minWidth: "140px" }}>
-                                                            {month.name} ({budgetData?.find((item) => item?.monthId === month.id)?.amount || ""})
+                                                            {month.name} ({month?.budgetAmount || ""})
                                                         </th>
                                                     ))}
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -275,7 +368,7 @@ export default function BreakdownEntry() {
                                                                 }}
                                                             />
                                                         </td>
-                                                        {months.map((month) => (
+                                                        {monthData.map((month) => (
                                                             <td key={month.id}>
                                                                 <InputField
                                                                     value={item[month.key]}
