@@ -53,7 +53,7 @@ const validationSchema = Yup.object().shape({
     is: (val) => val?.value === 2,
     then: Yup.string().required("Vessel Name is required"),
   }),
-  departureDateTime: Yup.string().required("Departure Date & Time is required"),
+  // departureDateTime: Yup.string().required("Departure Date & Time is required"),
   arrivalDateTime: Yup.string().required("Arrival Date & Time is required"),
   transportMode: Yup.object()
     .shape({
@@ -142,10 +142,10 @@ function TransportModal({ rowClickData, CB }) {
               "vesselName",
               transportPlanning?.vesselName || ""
             );
-            formikRef.current.setFieldValue(
-              "departureDateTime",
-              transportPlanning?.departureDateTime || ""
-            );
+            // formikRef.current.setFieldValue(
+            //   "departureDateTime",
+            //   transportPlanning?.departureDateTime || ""
+            // );
             formikRef.current.setFieldValue(
               "arrivalDateTime",
               transportPlanning?.arrivalDateTime || ""
@@ -213,9 +213,9 @@ function TransportModal({ rowClickData, CB }) {
       noOfContainer: values?.continer || 0,
       airLineOrShippingLine: values?.airLine || values?.shippingLine || "",
       vesselName: values?.vesselName || "",
-      departureDateTime:
-        moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
-        new Date(),
+      // departureDateTime:
+      //   moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
+      //   new Date(),
       arrivalDateTime:
         moment(values?.arrivalDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
         new Date(),
@@ -253,7 +253,7 @@ function TransportModal({ rowClickData, CB }) {
           continer: "",
           shippingLine: "",
           vesselName: "",
-          departureDateTime: "",
+          // departureDateTime: "",
           arrivalDateTime: "",
           transportMode: "",
           estimatedTimeOfDepart: "",
@@ -340,7 +340,7 @@ function TransportModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.pickupDate}
-                    label="Pickup Date"
+                    label="Estimated Pickup Date"
                     name="pickupDate"
                     type="date"
                     onChange={(e) =>
@@ -458,7 +458,7 @@ function TransportModal({ rowClickData, CB }) {
                 )}
 
                 {/* Departure Date & Time */}
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <InputField
                     value={values?.departureDateTime}
                     label="Departure Date & Time"
@@ -468,12 +468,12 @@ function TransportModal({ rowClickData, CB }) {
                       setFieldValue("departureDateTime", e.target.value)
                     }
                   />
-                </div>
+                </div> */}
                 {/* Arrival Date & Time */}
                 <div className="col-lg-3">
                   <InputField
                     value={values?.arrivalDateTime}
-                    label="Arrival Date & Time"
+                    label="Estimated Arrival Date & Time"
                     name="arrivalDateTime"
                     type="datetime-local"
                     onChange={(e) =>
@@ -510,7 +510,7 @@ function TransportModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.berthDate}
-                    label="Berth Date"
+                    label="Estimated Berth Date"
                     name="berthDate"
                     type="datetime-local"
                     onChange={(e) =>
@@ -522,7 +522,7 @@ function TransportModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.cutOffDate}
-                    label="Cut Off Date"
+                    label="Estimated Cut Off Date"
                     name="cutOffDate"
                     type="datetime-local"
                     onChange={(e) =>

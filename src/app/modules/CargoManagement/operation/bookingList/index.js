@@ -16,14 +16,14 @@ import Details from "./bookingDetails";
 import ChargesModal from "./chargesModal";
 import CommonStatusUpdateModal from "./commonStatusUpdateModal";
 import ConfirmModal from "./confirmModal";
+import DeliveryNoteModal from "./deliveryNoteModal";
 import DocumentModal from "./documentModal";
+import FreightCargoReceipt from './freightCargoReceipt';
 import FreightInvoice from "./freightInvoice";
 import HBLCodeGNModal from "./hblCodeGNModal";
 import { cancelHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
-import FreightCargoReceipt from './freightCargoReceipt'
-import DeliveryNoteModal from "./deliveryNoteModal";
 
 const validationSchema = Yup.object().shape({});
 function BookingList() {
@@ -194,10 +194,10 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: "146px",
+                            minWidth: "110px",
                           }}
                         >
-                          Transport
+                          Shipping
                         </th>
                         <th
                           style={{
@@ -419,7 +419,7 @@ function BookingList() {
                                     });
                                   }}
                                 >
-                                  Transport Planning
+                                  Shipping Plan
                                 </button>
                               </span>
                             </td>
@@ -800,7 +800,7 @@ function BookingList() {
       {isModalShowObj?.isPlaning && (
         <>
           <IViewModal
-            title="Transport Booking"
+            title="Shipping Plan"
             show={isModalShowObj?.isPlaning}
             onHide={() => {
               setIsModalShowObj({
