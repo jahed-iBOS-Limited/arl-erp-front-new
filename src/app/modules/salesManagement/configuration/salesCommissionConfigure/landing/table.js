@@ -31,6 +31,7 @@ const TableOne = ({ obj }) => {
               <th>BP Rate/bag</th>
               <th>BA Rate/bag</th>
               <th>CP Rate/bag</th>
+              <th>CA Rate/bag</th>
               {/* {[17, 18, 25, 27].includes(values?.commissionType?.value) && (
                 <>
                   {" "}
@@ -52,6 +53,7 @@ const TableOne = ({ obj }) => {
                   <td className="text-right">{item?.bpcommissionRate}</td>
                   <td className="text-right">{item?.bacommissionRate}</td>
                   <td className="text-right">{item?.cpcommissionRate}</td>
+                  <td className="text-right">{item?.caCommissionRate}</td>
 
                   {/* {[17, 18, 25, 27].includes(values?.commissionType?.value) && (
                     <>
