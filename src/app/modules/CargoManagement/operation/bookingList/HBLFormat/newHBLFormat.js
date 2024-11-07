@@ -1,6 +1,6 @@
 import React from "react";
-import "./newHBLFormat.css";
 import { shallowEqual, useSelector } from "react-redux";
+import "./newHBLFormat.css";
 //============bookingData data=================
 // {
 //   "bookingRequestCode": "SINV0102024000063",
@@ -307,8 +307,6 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 style={{ display: "flex", justifyContent: "center" }}
                 className="large-font"
               >
-                {/* "paymentTerms": "PP/PP", */}
-                {/* if paymentTerms start with PP then show PREPAID else COLLECT */}
                 {bookingData?.paymentTerms?.startsWith("PP") ? "PREPAID" : "FREIGHT COLLECT"}
               </p>
             </div>
