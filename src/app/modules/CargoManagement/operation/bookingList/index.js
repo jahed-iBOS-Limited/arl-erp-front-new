@@ -676,7 +676,7 @@ function BookingList() {
                                       });
                                     }}
                                   >
-                                    FCR
+                                    FC
                                   </button>
                                 </span>
                                 <span>
@@ -902,7 +902,7 @@ function BookingList() {
       {isModalShowObj?.isFreightCargoReceipt && (
         <>
           <IViewModal
-            title="Freight Cargo Receipt (FCR)"
+            title="FC"
             show={isModalShowObj?.isFreightCargoReceipt}
             onHide={() => {
               setIsModalShowObj({

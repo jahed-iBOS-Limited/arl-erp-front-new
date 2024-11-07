@@ -512,7 +512,7 @@ function TransportModal({ rowClickData, CB }) {
                     value={values?.berthDate}
                     label="Estimated Berth Date"
                     name="berthDate"
-                    type="datetime-local"
+                    type="date"
                     onChange={(e) =>
                       setFieldValue("berthDate", e.target.value)
                     }
@@ -524,7 +524,7 @@ function TransportModal({ rowClickData, CB }) {
                     value={values?.cutOffDate}
                     label="Estimated Cut Off Date"
                     name="cutOffDate"
-                    type="datetime-local"
+                    type="date"
                     onChange={(e) =>
                       setFieldValue("cutOffDate", e.target.value)
                     }
@@ -536,7 +536,7 @@ function TransportModal({ rowClickData, CB }) {
                     value={values?.estimatedTimeOfDepart}
                     label="Estimated Time Of Depart"
                     name="estimatedTimeOfDepart"
-                    type="datetime-local"
+                    type="date"
                     onChange={(e) =>
                       setFieldValue("estimatedTimeOfDepart", e.target.value)
                     }

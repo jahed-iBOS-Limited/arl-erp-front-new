@@ -242,7 +242,7 @@ function BookingDetailsInfo({ bookingData }) {
               {bookingData?.transportPlanning?.pickupLocation}
             </p>
             <p>
-              <strong>Pickup Date:</strong>{" "}
+              <strong>Estimated Pickup Date:</strong>{" "}
               {moment(bookingData?.transportPlanning?.pickupDate).format(
                 "DD MMM YYYY"
               )}
@@ -284,13 +284,13 @@ function BookingDetailsInfo({ bookingData }) {
               </>
             )}
             <p>
-              <strong>Departure Date & Time:</strong>{" "}
+              <strong>Estimated Departure Date & Time:</strong>{" "}
               {moment(bookingData?.transportPlanning?.departureDateTime).format(
                 "DD MMM YYYY HH:mm A"
               )}
             </p>
             <p>
-              <strong>Arrival Date & Time:</strong>{" "}
+              <strong>Estimated Arrival Date & Time:</strong>{" "}
               {moment(bookingData?.transportPlanning?.arrivalDateTime).format(
                 "DD MMM YYYY HH:mm A"
               )}
