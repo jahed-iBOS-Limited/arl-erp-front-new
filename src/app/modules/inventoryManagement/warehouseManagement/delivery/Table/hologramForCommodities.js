@@ -9,7 +9,7 @@ import IButton from "../../../../_helper/iButton";
 import signature_of_pran_krishna_kundo from "../../../../_helper/images/signatureOf_pran_krishno_kundo.png";
 import signature_of_rasel_sardar from "../../../../_helper/images/signature_of_rasel_sardar.png";
 import "./hologramForCommodities.css";
-const HologramPrintForAkijCommodities = ({ printDataList }) => {
+const HologramPrintForAkijCommodities = ({ printDataList, buId }) => {
   const printRef = useRef();
 
   // get user data from store
@@ -69,7 +69,8 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                         color: "#303399",
                       }}
                     >
-                      {buName}
+                      {buId === 221 ? buName : `Akij Commodities`} <br/>
+                      {buId === 144 && <small style={{color:"red"}}>( A Concern of Akij Essentials Limited )</small>}
                     </p>
                     <p style={{ fontSize: "14px" }}>{address}</p>
 

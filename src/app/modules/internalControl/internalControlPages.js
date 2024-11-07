@@ -11,6 +11,7 @@ import CostCalculationLanding from "./costingPricingModel/costCalculation/costCa
 import CostConfigurationCreateEdit from "./costingPricingModel/costCalculation/createEdit";
 import ProductToFG from "./costingPricingModel/costConfiguration/product/productToFG";
 import ProductToRM from "./costingPricingModel/costConfiguration/product/productToRM";
+import { BudgetBreakdownPages } from "./BudgetBreakdown/budgetBreakdownPages";
 
 export function InternalControlPages() {
   return (
@@ -43,6 +44,10 @@ export function InternalControlPages() {
         <ContentRoute
           path="/internal-control/internalaudits"
           component={InternalAuditsPages}
+        />
+        <ContentRoute
+          path="/internal-control/BudgetBreakdown"
+          component={BudgetBreakdownPages}
         />
         <ContentRoute
           path="/internal-control/costing/costingconfiguration/product-to-fg"
