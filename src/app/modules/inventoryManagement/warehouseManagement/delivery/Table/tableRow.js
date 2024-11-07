@@ -478,7 +478,7 @@ export function TableRow({
             paginationSearchHandler("", values);
           }}
         >
-          {buId === 221 && (
+          {[221, 144]?.includes(buId) && (
             // Akij Commodities Ltd.
             <HologramPrintForAkijCommodities printDataList={printData} />
           )}
