@@ -11,8 +11,6 @@ import SecondWeightCreateEdit from '../secondWeight/createEdit';
 import { serial as polyfill } from 'web-serial-polyfill';
 import { setSerialPortAction } from '../../../_helper/_redux/Actions';
 import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
-import IViewModal from '../../../_helper/_viewModal';
-import WeightScaleConfig from './weightScaleConfig';
 
 const magnumSteelUnitId = 171;
 const isPatUnitId = 224;
@@ -26,22 +24,6 @@ let reader = null;
 let writer = null;
 
 const WeightScale = () => {
-  const { weightScaleConfigValues } = useSelector(
-    (state) => state.localStorage,
-  );
-  console.log(weightScaleConfigValues, 'weightScaleConfigValues');
-  // {
-  //   "scaleType": {
-  //     "value": "new",
-  //     "label": "New"
-  //   },
-  //   "byteType": {
-  //     "value": "8 byte",
-  //     "label": "8 byte"
-  //   },
-  //   "baudRate": ""
-  // }
-
   const [objProps, setObjprops] = useState({});
   const connectedPort = useSelector(
     (state) => state?.commonDDL?.port,
@@ -58,12 +40,7 @@ const WeightScale = () => {
   const decoder = new TextDecoder();
 
   const isOldMachine = (info) => {
-    if (weightScaleConfigValues?.scaleType?.value === 'new') {
-      return false;
-    } else if (
-      weightScaleConfigValues?.scaleType?.value === 'old' ||
-      (info?.usbProductId === 9123 && info?.usbVendorId === 1659)
-    ) {
+    if (info?.usbProductId === 9123 && info?.usbVendorId === 1659) {
       return true;
     } else {
       return false;
@@ -82,8 +59,16 @@ const WeightScale = () => {
   const connectHandler = async () => {
     closePort();
     const oldMachineOptions = {
-      baudRate: weightScaleConfigValues?.baudRate || 1200,
-      baudrate: weightScaleConfigValues?.baudRate || 1200,
+      baudRate: [magnumSteelUnitId, isPatUnitId].includes(
+        selectedBusinessUnit?.value,
+      )
+        ? 9600
+        : 1200,
+      baudrate: [magnumSteelUnitId, isPatUnitId].includes(
+        selectedBusinessUnit?.value,
+      )
+        ? 9600
+        : 1200,
       bufferSize: 8192,
       dataBits: 7,
       databits: 7,
@@ -95,8 +80,8 @@ const WeightScale = () => {
     };
 
     const newMachineOptions = {
-      baudRate: weightScaleConfigValues?.baudRate || 9600,
-      baudrate: weightScaleConfigValues?.baudRate || 9600,
+      baudRate: 9600,
+      baudrate: 9600,
       bufferSize: 8192,
       dataBits: 7,
       databits: 7,
@@ -113,7 +98,6 @@ const WeightScale = () => {
     }
     let info = port?.getInfo();
     console.log(info, 'info');
-
     try {
       await port.open(
         isOldMachine(info) ? oldMachineOptions : newMachineOptions,
@@ -124,7 +108,6 @@ const WeightScale = () => {
       try {
         while (true) {
           const { value, done } = await reader.read();
-          console.log(value, 'value');
           if (done) {
             reader.releaseLock();
             break;
@@ -134,7 +117,6 @@ const WeightScale = () => {
             if (isOldMachine(info)) {
               // old machine
               let newValue = decoder.decode(value);
-              console.log(newValue, 'old machine output value');
               weightValue += newValue;
               let replacedValue = weightValue.replace(/[^ -~]+/g, ''); // remove stx string
               let splittedValue = replacedValue.split(' ');
@@ -142,24 +124,14 @@ const WeightScale = () => {
 
               splittedValue?.length > 0 &&
                 splittedValue.forEach((item) => {
-                  if (
-                    selectedBusinessUnit?.value === magnumSteelUnitId ||
-                    selectedBusinessUnit.value === isPatUnitId
-                  ) {
-                    if (item?.length === 7) {
-                      setWeight(Number(item));
-                    }
-                  } else {
-                    if (item?.length === 7 && item?.[0] === '+') {
-                      let newValue = item.substring(1, 7);
-                      setWeight(Number(newValue));
-                    }
+                  if (item?.length === 7 && item?.[0] === '+') {
+                    let newValue = item.substring(1, 7);
+                    setWeight(Number(newValue));
                   }
                 });
             } else {
               // new machine
               let newValue = decoder.decode(value);
-              console.log(newValue, 'new machine output value');
               let replacedValue = newValue.replace(/[^ -~]+/g, ''); // remove stx string
 
               if (
@@ -257,6 +229,8 @@ const WeightScale = () => {
     }
   }, [connectedPort]);
 
+  console.log('connectedPortInfo', connectedPortInfo);
+
   const portTitleHandler = () => {
     let isOldMachineValue = isOldMachine(connectedPortInfo);
     if (
@@ -292,8 +266,6 @@ const WeightScale = () => {
     // Cleanup
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  const [configModal, setConfigModal] = useState(false);
   return (
     <div className="main-weight-scale">
       <IForm
@@ -343,21 +315,6 @@ const WeightScale = () => {
                 }}
                 label="Connect"
               />
-
-              <div
-                style={{
-                  width: '20px',
-                  height: '20px',
-                  display: 'inline',
-                  marginLeft: '7px',
-                  cursor: 'pointer',
-                }}
-                onClick={() => {
-                  setConfigModal(true);
-                }}
-              >
-                <i class="fa fa-cog" aria-hidden="true"></i>
-              </div>
             </div>
           );
         }}
@@ -374,17 +331,6 @@ const WeightScale = () => {
             <SecondWeightCreateEdit weight={weight} />
           </Tab>
         </Tabs>
-
-        {configModal && (
-          <IViewModal
-            show={configModal}
-            onHide={() => {
-              setConfigModal(false);
-            }}
-          >
-            <WeightScaleConfig />
-          </IViewModal>
-        )}
       </IForm>
     </div>
   );
