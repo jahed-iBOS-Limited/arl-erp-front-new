@@ -14,7 +14,7 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 const initData = {
     businessUnit: "",
     year: "",
-    isForecast: true,
+    isForecast: false,
     gl: "",
     businessTransaction: "",
     profitCenter: ""
@@ -34,18 +34,18 @@ export default function BreakdownEntry() {
     ] = useAxiosGet();
 
     const [monthData, setMonthData] = useState([
-        { name: "July", key: "julAmount", id: 7 },
-        { name: "August", key: "augAmount", id: 8 },
-        { name: "September", key: "sepAmount", id: 9 },
-        { name: "October", key: "octAmount", id: 10 },
-        { name: "November", key: "novAmount", id: 11 },
-        { name: "December", key: "decAmount", id: 12 },
-        { name: "January", key: "janAmount", id: 1 },
-        { name: "February", key: "febAmount", id: 2 },
-        { name: "March", key: "marAmount", id: 3 },
-        { name: "April", key: "aprAmount", id: 4 },
-        { name: "May", key: "mayAmount", id: 5 },
-        { name: "June", key: "junAmount", id: 6 }
+        { name: "July", key: "julAmount", id: 7, budgetAmount: 0 },
+        { name: "August", key: "augAmount", id: 8, budgetAmount: 0 },
+        { name: "September", key: "sepAmount", id: 9, budgetAmount: 0 },
+        { name: "October", key: "octAmount", id: 10, budgetAmount: 0 },
+        { name: "November", key: "novAmount", id: 11, budgetAmount: 0 },
+        { name: "December", key: "decAmount", id: 12, budgetAmount: 0 },
+        { name: "January", key: "janAmount", id: 1, budgetAmount: 0 },
+        { name: "February", key: "febAmount", id: 2, budgetAmount: 0 },
+        { name: "March", key: "marAmount", id: 3, budgetAmount: 0 },
+        { name: "April", key: "aprAmount", id: 4, budgetAmount: 0 },
+        { name: "May", key: "mayAmount", id: 5, budgetAmount: 0 },
+        { name: "June", key: "junAmount", id: 6, budgetAmount: 0 }
     ])
 
     const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
@@ -53,11 +53,13 @@ export default function BreakdownEntry() {
     const [businessTransactionList, getBusinessTransactionList, transLoader, setBusinessTransactionList] = useAxiosGet();
     const [budgetDataForPrevYear, getBudgetDataForPrevYear, budgetLoader] = useAxiosGet();
     const [budgetDataForNextYear, getBudgetDataForNextYear, budgetNextLoader] = useAxiosGet();
+    const [fiscalYearDDL, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
+
 
     const { profileData } = useSelector((state) => state.authData, shallowEqual);
 
     useEffect(() => {
-
+        getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
 
         getBuDDL(
             `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${profileData?.userId}&ClientId=${profileData?.accountId}`,
@@ -77,7 +79,19 @@ export default function BreakdownEntry() {
 
     const saveHandler = (values) => {
         if (tableData.length && values?.businessUnit && values?.year) {
-            const payload = tableData.flatMap((item) => {
+
+            // Filter rows where at least one month has a non-zero amount
+            const filteredData = tableData.filter((item) =>
+                item.julAmount || item.augAmount || item.sepAmount || item.octAmount || item.novAmount ||
+                item.decAmount || item.janAmount || item.febAmount || item.marAmount || item.aprAmount ||
+                item.mayAmount || item.junAmount
+            );
+
+            if (!filteredData.length) {
+                return toast.warn("No data to save");
+            }
+
+            const payload = filteredData.flatMap((item) => {
                 return monthData.map((month) => ({
                     autoId: 0,
                     ProfitCenterId: values?.profitCenter?.value,
@@ -85,7 +99,7 @@ export default function BreakdownEntry() {
                     glId: item.generalLedgerId,
                     subGlId: values?.businessTransaction?.value,
                     accountHeadId: item.accountHeadId,
-                    budget: +item[month.key],
+                    budget: +item[month.key] || 0,
                     budgetDate: getLastDateOfMonth(values?.year?.value, month.id),
                     yearId: month.id >= 7 && month.id <= 12 ? values?.year?.value : values?.year?.value + 1,
                     monthId: month.id,
@@ -280,7 +294,7 @@ export default function BreakdownEntry() {
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="year"
-                                        options={YearDDL() || []}
+                                        options={fiscalYearDDL || []}
                                         value={values?.year}
                                         label="Year"
                                         onChange={(valueOption) => {
