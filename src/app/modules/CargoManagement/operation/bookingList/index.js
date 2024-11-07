@@ -195,10 +195,10 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: "110px",
+                            minWidth: "140px",
                           }}
                         >
-                          Shipping
+                          Shipment Planning
                         </th>
                         <th
                           style={{
@@ -420,7 +420,7 @@ function BookingList() {
                                     });
                                   }}
                                 >
-                                  Shipping Plan
+                                  Shipment Planning
                                 </button>
                               </span>
                             </td>
@@ -815,7 +815,7 @@ function BookingList() {
       {isModalShowObj?.isPlaning && (
         <>
           <IViewModal
-            title="Shipping Plan"
+            title="Shipment planning"
             show={isModalShowObj?.isPlaning}
             onHide={() => {
               setIsModalShowObj({
