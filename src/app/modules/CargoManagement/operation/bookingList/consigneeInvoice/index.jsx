@@ -338,6 +338,33 @@ const ConsigneeInvoice = ({ rowClickData }) => {
                 Pay able immediately Due net{" "}
               </span>
             </div>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr ",
+              }}
+            >
+              <span
+                style={{
+                  borderTop: "1px solid #000000",
+                  borderRight: "1px solid #000000",
+                  padding: 2,
+                  fontWeight: 600,
+                  backgroundColor: "#DDE3E8",
+                }}
+              >
+                Trade
+              </span>
+              <span
+                style={{
+                  borderTop: "1px solid #000000",
+                  padding: 2,
+                  fontWeight: 600,
+                }}
+              >
+                Export
+              </span>
+            </div>
           </div>
         </div>
         <div>
