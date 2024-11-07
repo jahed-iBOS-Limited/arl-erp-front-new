@@ -19,20 +19,7 @@ const initData = {
     businessTransaction: "",
     profitCenter: ""
 };
-const months = [
-    { name: "July", key: "julAmount", id: 7 },
-    { name: "August", key: "augAmount", id: 8 },
-    { name: "September", key: "sepAmount", id: 9 },
-    { name: "October", key: "octAmount", id: 10 },
-    { name: "November", key: "novAmount", id: 11 },
-    { name: "December", key: "decAmount", id: 12 },
-    { name: "January", key: "janAmount", id: 1 },
-    { name: "February", key: "febAmount", id: 2 },
-    { name: "March", key: "marAmount", id: 3 },
-    { name: "April", key: "aprAmount", id: 4 },
-    { name: "May", key: "mayAmount", id: 5 },
-    { name: "June", key: "junAmount", id: 6 }
-];
+
 
 export default function BreakdownEntry() {
     const formikRef = React.useRef(null);
@@ -45,6 +32,21 @@ export default function BreakdownEntry() {
         profitCenterLoder,
         setProfitCenterDDL,
     ] = useAxiosGet();
+
+    const [monthData, setMonthData] = useState([
+        { name: "July", key: "julAmount", id: 7 },
+        { name: "August", key: "augAmount", id: 8 },
+        { name: "September", key: "sepAmount", id: 9 },
+        { name: "October", key: "octAmount", id: 10 },
+        { name: "November", key: "novAmount", id: 11 },
+        { name: "December", key: "decAmount", id: 12 },
+        { name: "January", key: "janAmount", id: 1 },
+        { name: "February", key: "febAmount", id: 2 },
+        { name: "March", key: "marAmount", id: 3 },
+        { name: "April", key: "aprAmount", id: 4 },
+        { name: "May", key: "mayAmount", id: 5 },
+        { name: "June", key: "junAmount", id: 6 }
+    ])
 
     const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
     const [glList, getGLList] = useAxiosGet();
@@ -76,7 +78,7 @@ export default function BreakdownEntry() {
     const saveHandler = (values) => {
         if (tableData.length && values?.businessUnit && values?.year) {
             const payload = tableData.flatMap((item) => {
-                return months.map((month) => ({
+                return monthData.map((month) => ({
                     autoId: 0,
                     ProfitCenterId: values?.profitCenter?.value,
                     businessUnitId: values?.businessUnit?.value,
@@ -106,16 +108,42 @@ export default function BreakdownEntry() {
         getTableData(
             `/fino/BudgetaryManage/GetSubGlAccountHead?GeneralLedgerId=${values?.gl?.value}&SubGlCode=${values?.businessTransaction?.buesinessTransactionCode}`,
             () => {
-                getBudgetDataForPrevYear(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value}&SubGlId=${values?.businessTransaction?.value}`)
-                getBudgetDataForNextYear(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value + 1}&SubGlId=${values?.businessTransaction?.value}`)
+                getBudgetDataForPrevYear(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value}&SubGlId=${values?.businessTransaction?.value}`, (dataForPrev) => {
+                    getBudgetDataForNextYear(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value + 1}&SubGlId=${values?.businessTransaction?.value}`, (dataForNext) => {
+                        updateMonthlyData(dataForPrev, dataForNext);
+                    })
+                })
+
             }
 
         );
     }
 
+    const updateMonthlyData = (dataForPrev, dataForNext) => {
+        const data = monthData.map((month) => {
+            // For July to December, get data from the previous year (dataForPrev)
+            if (month.id >= 7 && month.id <= 12) {
+                return {
+                    ...month,
+                    budgetAmount: dataForPrev?.find((item) => item?.monthId === month.id)?.amount || ""
+                };
+            }
+            // For January to June, get data from the next year (dataForNext)
+            else {
+                return {
+                    ...month,
+                    budgetAmount: dataForNext?.find((item) => item?.monthId === month.id)?.amount || ""
+                };
+            }
+        });
+
+        setMonthData(data);
+    };
+
+
     const getUpdatedRowObjectForManual = (data, newValue) => {
         const updatedRow = { ...data, fillAllManual: newValue };
-        months.forEach((month) => updatedRow[month.key] = newValue);
+        monthData.forEach((month) => updatedRow[month.key] = newValue);
         return updatedRow;
     };
 
@@ -296,16 +324,9 @@ export default function BreakdownEntry() {
                                                     <th style={{ minWidth: "60px" }}>SL</th>
                                                     <th style={{ minWidth: "200px" }}>Element Name</th>
                                                     <th style={{ minWidth: "140px" }}>Value</th>
-                                                    {months.map((month) => (
+                                                    {monthData?.length > 0 && monthData.map((month) => (
                                                         <th key={month.id} style={{ minWidth: "140px" }}>
-                                                            {month.name} ({
-                                                                // Check if the month ID is between July (7) and December (12)
-                                                                (month.id >= 7 && month.id <= 12)
-                                                                    ? // For July to December, get data from the previous year
-                                                                    budgetDataForPrevYear?.find((item) => item?.monthId === month.id)?.amount || ""
-                                                                    : // For January to June, get data from the next year
-                                                                    budgetDataForNextYear?.find((item) => item?.monthId === month.id)?.amount || ""
-                                                            })
+                                                            {month.name} ({month?.budgetAmount || ""})
                                                         </th>
                                                     ))}
 
@@ -329,7 +350,7 @@ export default function BreakdownEntry() {
                                                                 }}
                                                             />
                                                         </td>
-                                                        {months.map((month) => (
+                                                        {monthData.map((month) => (
                                                             <td key={month.id}>
                                                                 <InputField
                                                                     value={item[month.key]}
