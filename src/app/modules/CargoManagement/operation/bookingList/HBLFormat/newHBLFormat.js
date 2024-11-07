@@ -307,7 +307,9 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 style={{ display: "flex", justifyContent: "center" }}
                 className="large-font"
               >
-                <b>FREIGHT COLLECT</b>
+                {/* "paymentTerms": "PP/PP", */}
+                {/* if paymentTerms start with PP then show PREPAID else COLLECT */}
+                {bookingData?.paymentTerms?.startsWith("PP") ? "PREPAID" : "FREIGHT COLLECT"}
               </p>
             </div>
             <div className="box1_right-box_content-5 small-font word-spacing">
