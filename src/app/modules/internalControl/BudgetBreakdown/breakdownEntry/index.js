@@ -68,7 +68,7 @@ export default function BreakdownEntry() {
                 label: item?.organizationUnitReffName
             })))
         );
-        getGLList(`/fino/FinanceCommonDDL/GetGeneralLedegerDDL?accountId=${profileData?.accountId}`);
+        getGLList(`/fino/FinanceCommonDDL/GetGeneralLedegerForBudgetDDL?accountId=${profileData?.accountId}`);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profileData]);
 
@@ -78,45 +78,49 @@ export default function BreakdownEntry() {
     };
 
     const saveHandler = (values) => {
-        if (tableData.length && values?.businessUnit && values?.year) {
+        if (!values?.businessUnit || !values?.year || !tableData.length) {
+            return toast.warn("No data to save");
+        }
 
-            // Filter rows where at least one month has a non-zero amount
-            const filteredData = tableData.filter((item) =>
-                item.julAmount || item.augAmount || item.sepAmount || item.octAmount || item.novAmount ||
-                item.decAmount || item.janAmount || item.febAmount || item.marAmount || item.aprAmount ||
-                item.mayAmount || item.junAmount
-            );
+        // Filter out rows where all months have zero amounts
+        const filteredData = tableData.filter((item) => Object.keys(item).some(month => item[month]));
 
-            if (!filteredData.length) {
-                return toast.warn("No data to save");
-            }
+        if (!filteredData.length) {
+            return toast.warn("No data to save");
+        }
 
-            const payload = filteredData.flatMap((item) => {
-                return monthData.map((month) => ({
-                    autoId: 0,
-                    ProfitCenterId: values?.profitCenter?.value,
-                    businessUnitId: values?.businessUnit?.value,
-                    glId: item.generalLedgerId,
-                    subGlId: values?.businessTransaction?.value,
-                    accountHeadId: item.accountHeadId,
-                    budget: +item[month.key] || 0,
-                    budgetDate: getLastDateOfMonth(values?.year?.value, month.id),
-                    yearId: month.id >= 7 && month.id <= 12 ? values?.year?.value : values?.year?.value + 1,
-                    monthId: month.id,
-                    isForecast: values?.isForecast,
-                }));
-            });
+        // Create payload for saving data
+        const payload = filteredData.flatMap((item) => {
+            return monthData.map((month) => ({
+                autoId: 0,
+                ProfitCenterId: values?.profitCenter?.value,
+                businessUnitId: values?.businessUnit?.value,
+                glId: item.generalLedgerId,
+                subGlId: values?.businessTransaction?.value,
+                accountHeadId: item.accountHeadId,
+                budget: +item[month.key] || 0,
+                budgetDate: getLastDateOfMonth(values?.year?.value, month.id),
+                yearId: month.id >= 7 && month.id <= 12 ? values?.year?.value : values?.year?.value + 1,
+                monthId: month.id,
+                isForecast: values?.isForecast,
+            }));
+        });
 
+        // Filter out items with no budget
+        const validPayload = payload.filter((item) => item?.budget);
+
+        if (validPayload.length) {
             saveData(
-                `/fino/BudgetaryManage/CreateUpdateBudgetEntry`,
-                payload,
+                '/fino/BudgetaryManage/CreateUpdateBudgetEntry',
+                validPayload,
                 () => setTableData([]),
                 true
             );
         } else {
-            toast.warn("No data to save");
+            toast.warn("No valid data to save");
         }
-    }
+    };
+
 
     const onViewButtonClick = (values) => {
         getTableData(
@@ -257,7 +261,7 @@ export default function BreakdownEntry() {
                                             setTableData([]);
                                             if (valueOption) {
                                                 getBusinessTransactionList(
-                                                    `/fino/FinanceCommonDDL/GetBusinessTransactionDDL?accountId=${profileData?.accountId}&businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${valueOption?.value}`,
+                                                    `/fino/FinanceCommonDDL/GetBusinessTransactionForBudgetDDL?accountId=${profileData?.accountId}&businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${valueOption?.value}`,
                                                     (res) => {
                                                         const data = res.map((item) => ({
                                                             ...item,
