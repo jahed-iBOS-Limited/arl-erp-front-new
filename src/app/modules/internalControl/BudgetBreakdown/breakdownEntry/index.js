@@ -10,6 +10,7 @@ import NewSelect from "../../../_helper/_select";
 import { YearDDL } from "../../../_helper/_yearDDL";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { demoMonthData } from "./helper";
 
 const initData = {
     businessUnit: "",
@@ -33,20 +34,7 @@ export default function BreakdownEntry() {
         setProfitCenterDDL,
     ] = useAxiosGet();
 
-    const [monthData, setMonthData] = useState([
-        { name: "July", key: "julAmount", id: 7, budgetAmount: 0 },
-        { name: "August", key: "augAmount", id: 8, budgetAmount: 0 },
-        { name: "September", key: "sepAmount", id: 9, budgetAmount: 0 },
-        { name: "October", key: "octAmount", id: 10, budgetAmount: 0 },
-        { name: "November", key: "novAmount", id: 11, budgetAmount: 0 },
-        { name: "December", key: "decAmount", id: 12, budgetAmount: 0 },
-        { name: "January", key: "janAmount", id: 1, budgetAmount: 0 },
-        { name: "February", key: "febAmount", id: 2, budgetAmount: 0 },
-        { name: "March", key: "marAmount", id: 3, budgetAmount: 0 },
-        { name: "April", key: "aprAmount", id: 4, budgetAmount: 0 },
-        { name: "May", key: "mayAmount", id: 5, budgetAmount: 0 },
-        { name: "June", key: "junAmount", id: 6, budgetAmount: 0 }
-    ])
+    const [monthDataForHeader, setMonthDataForHeader] = useState(demoMonthData)
 
     const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
     const [glList, getGLList] = useAxiosGet();
@@ -54,6 +42,41 @@ export default function BreakdownEntry() {
     const [budgetDataForPrevYear, getBudgetDataForPrevYear, budgetLoader] = useAxiosGet();
     const [budgetDataForNextYear, getBudgetDataForNextYear, budgetNextLoader] = useAxiosGet();
     const [fiscalYearDDL, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
+    const [previousSaveData, getPreviousSaveData, previousSaveLoader] = useAxiosGet()
+
+
+    const previousSaveDataHandler = ({ values, tableData }) => {
+        getPreviousSaveData(`/fino/BudgetaryManage/GetFilteredAccountHeadBudget?BusinessUnitId=${values?.businessUnit?.value}&GlId=${values?.gl?.value}&SubGlId=${values?.businessTransaction?.value}&ProfitCenterId=${values?.profitCenter?.value}&Forecast=${values?.isForecast}&fiscalYear=${values?.year?.label}`, (apiData) => {
+            if (!apiData || !apiData.length || !tableData?.length) return;
+
+            const updatedTableData = tableData.map((tableRow) => {
+
+                // Find the corresponding API data for the current accountHeadId
+                const matchingApiAccount = apiData.find((apiAccount) => apiAccount.accountHeadId === tableRow.accountHeadId);
+
+                if (!matchingApiAccount || !matchingApiAccount?.monthlyBudgets?.length || !tableRow?.monthData?.length) return tableRow;
+
+
+
+                const monthData = tableRow?.monthData?.map((item) => ({
+                    ...item,
+                    budgetAmount: matchingApiAccount?.monthlyBudgets?.find((month) => month?.monthId === item?.monthId)?.budgetAmount ?? ""
+                }))
+
+
+                return {
+                    ...tableRow,
+                    monthData,
+                }
+
+            });
+
+
+            setTableData(updatedTableData)
+        });
+    };
+
+
 
 
     const { profileData } = useSelector((state) => state.authData, shallowEqual);
@@ -77,13 +100,15 @@ export default function BreakdownEntry() {
         return moment(`${fiscalYear}-${month}-01`).endOf('month').format('YYYY-MM-DD');
     };
 
-    const saveHandler = (values) => {
+    const saveHandler = (values, cb) => {
         if (!values?.businessUnit || !values?.year || !tableData.length) {
             return toast.warn("No data to save");
         }
 
         // Filter out rows where all months have zero amounts
-        const filteredData = tableData.filter((item) => Object.keys(item).some(month => item[month]));
+        const filteredData = tableData.filter((item) =>
+            item.monthData.some(month => parseFloat(month.budgetAmount) > 0)
+        );
 
         if (!filteredData.length) {
             return toast.warn("No data to save");
@@ -91,29 +116,29 @@ export default function BreakdownEntry() {
 
         // Create payload for saving data
         const payload = filteredData.flatMap((item) => {
-            return monthData.map((month) => ({
+            return item.monthData.map((month) => ({
                 autoId: 0,
                 ProfitCenterId: values?.profitCenter?.value,
                 businessUnitId: values?.businessUnit?.value,
                 glId: item.generalLedgerId,
                 subGlId: values?.businessTransaction?.value,
                 accountHeadId: item.accountHeadId,
-                budget: +item[month.key] || 0,
-                budgetDate: getLastDateOfMonth(values?.year?.value, month.id),
-                yearId: month.id >= 7 && month.id <= 12 ? values?.year?.value : values?.year?.value + 1,
-                monthId: month.id,
+                budget: parseFloat(month.budgetAmount) || 0, // Using month.budgetAmount for the budget
+                budgetDate: getLastDateOfMonth(values?.year?.value, month.monthId),
+                yearId: month.monthId >= 7 && month.monthId <= 12 ? values?.year?.value : values?.year?.value + 1,
+                monthId: month.monthId,
                 isForecast: values?.isForecast,
             }));
         });
 
-        // Filter out items with no budget
-        const validPayload = payload.filter((item) => item?.budget);
+        // Filter out items with no valid budget
+        const validPayload = payload.filter((item) => item?.budget > 0);
 
         if (validPayload.length) {
             saveData(
                 '/fino/BudgetaryManage/CreateUpdateBudgetEntry',
                 validPayload,
-                () => setTableData([]),
+                cb, // Reset tableData after saving
                 true
             );
         } else {
@@ -122,10 +147,16 @@ export default function BreakdownEntry() {
     };
 
 
+
     const onViewButtonClick = (values) => {
         getTableData(
             `/fino/BudgetaryManage/GetSubGlAccountHead?GeneralLedgerId=${values?.gl?.value}&SubGlCode=${values?.businessTransaction?.buesinessTransactionCode}`,
-            () => {
+            (data) => {
+                const modiFyData = data?.length > 0 ? data.map((item) => ({
+                    ...item, monthData: demoMonthData
+                })) : []
+                setTableData(modiFyData)
+                previousSaveDataHandler({ tableData: modiFyData, values });
                 getBudgetDataForPrevYear(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value}&SubGlId=${values?.businessTransaction?.value}`, (dataForPrev) => {
                     getBudgetDataForNextYear(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value + 1}&SubGlId=${values?.businessTransaction?.value}`, (dataForNext) => {
                         updateMonthlyData(dataForPrev, dataForNext);
@@ -138,33 +169,40 @@ export default function BreakdownEntry() {
     }
 
     const updateMonthlyData = (dataForPrev, dataForNext) => {
-        const data = monthData.map((month) => {
+        const data = monthDataForHeader.map((month) => {
             // For July to December, get data from the previous year (dataForPrev)
-            if (month.id >= 7 && month.id <= 12) {
+            if (month.monthId >= 7 && month.monthId <= 12) {
                 return {
                     ...month,
-                    budgetAmount: dataForPrev?.find((item) => item?.monthId === month.id)?.amount || ""
+                    budgetAmount: dataForPrev?.find((item) => item?.monthId === month.monthId)?.amount || ""
                 };
             }
             // For January to June, get data from the next year (dataForNext)
             else {
                 return {
                     ...month,
-                    budgetAmount: dataForNext?.find((item) => item?.monthId === month.id)?.amount || ""
+                    budgetAmount: dataForNext?.find((item) => item?.monthId === month.monthId)?.amount || ""
                 };
             }
         });
 
-        setMonthData(data);
+        setMonthDataForHeader(data);
     };
 
 
     const getUpdatedRowObjectForManual = (data, newValue) => {
         const updatedRow = { ...data, fillAllManual: newValue };
-        monthData.forEach((month) => updatedRow[month.key] = newValue);
+
+        // Update the budgetAmount for each month in monthData
+        updatedRow.monthData = updatedRow.monthData.map((monthItem) => ({
+            ...monthItem,
+            budgetAmount: newValue, // Set the new value for all months
+        }));
+
         return updatedRow;
     };
 
+    console.log("tableData", tableData)
     return (
         <Formik
             innerRef={formikRef}
@@ -172,8 +210,8 @@ export default function BreakdownEntry() {
             initialValues={initData}
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 saveHandler(values, () => {
-                    resetForm(initData);
-                    setTableData([])
+                    // resetForm(initData);
+                    previousSaveDataHandler({ values, tableData })
                 });
             }}
         >
@@ -187,7 +225,7 @@ export default function BreakdownEntry() {
                 touched,
             }) => (
                 <>
-                    {(tableDataLoader || profitCenterLoder || transLoader || budgetLoader || budgetNextLoader || saveDataLoader || buDDLloader) && <Loading />}
+                    {(tableDataLoader || profitCenterLoder || transLoader || previousSaveLoader || budgetLoader || budgetNextLoader || saveDataLoader || buDDLloader) && <Loading />}
                     <IForm
                         title={"Breakdown Entry"}
                         getProps={setObjprops}
@@ -342,16 +380,16 @@ export default function BreakdownEntry() {
                                                     <th style={{ minWidth: "60px" }}>SL</th>
                                                     <th style={{ minWidth: "200px" }}>Element Name</th>
                                                     <th style={{ minWidth: "140px" }}>Value</th>
-                                                    {monthData?.length > 0 && monthData.map((month) => (
-                                                        <th key={month.id} style={{ minWidth: "140px" }}>
-                                                            {month.name} ({month?.budgetAmount || ""})
+                                                    {monthDataForHeader?.length > 0 && monthDataForHeader.map((month) => (
+                                                        <th key={month.monthId} style={{ minWidth: "140px" }}>
+                                                            {month.monthName} ({month?.budgetAmount || ""})
                                                         </th>
                                                     ))}
 
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {tableData.map((item, index) => (
+                                                {tableData?.length > 0 && tableData.map((item, index) => (
                                                     <tr key={index}>
                                                         <td>{index + 1}</td>
                                                         <td>{item?.accountHeadName}</td>
@@ -365,18 +403,21 @@ export default function BreakdownEntry() {
                                                                     setTableData(tableData.map((data, idx) =>
                                                                         idx === index ? getUpdatedRowObjectForManual(data, newValue) : data
                                                                     ));
+
                                                                 }}
                                                             />
                                                         </td>
-                                                        {monthData.map((month) => (
-                                                            <td key={month.id}>
+                                                        {item.monthData?.length > 0 && item.monthData.map((month) => (
+                                                            <td key={month.monthId}>
                                                                 <InputField
-                                                                    value={item[month.key]}
+                                                                    value={month.budgetAmount} // Access the budgetAmount directly
                                                                     type="number"
-                                                                    name="entryTypeValue"
+                                                                    name={`entryTypeValue-${month.monthId}`}
                                                                     onChange={(e) => {
                                                                         const updatedData = [...tableData];
-                                                                        updatedData[index][month.key] = e.target.value;
+                                                                        updatedData[index].monthData = updatedData[index].monthData.map((m) =>
+                                                                            m.monthId === month.monthId ? { ...m, budgetAmount: e.target.value } : m
+                                                                        );
                                                                         setTableData(updatedData);
                                                                     }}
                                                                 />
@@ -384,7 +425,19 @@ export default function BreakdownEntry() {
                                                         ))}
                                                     </tr>
                                                 ))}
+                                                <tr>
+                                                    <td colSpan="3">Total</td>
+                                                    {monthDataForHeader.length > 0 && monthDataForHeader.map((month) => {
+                                                        // Calculate the total for the current month by summing up the budgetAmount
+                                                        const monthTotal = tableData?.length > 0 && tableData.reduce((sum, item) => {
+                                                            const monthItem = item?.monthData?.find(m => m.monthId === month.monthId);
+                                                            return sum + (parseFloat(monthItem?.budgetAmount) || 0);
+                                                        }, 0);
+                                                        return <td className="text-center" key={month.monthId}>{monthTotal}</td>;
+                                                    })}
+                                                </tr>
                                             </tbody>
+
                                         </table>
                                     </div>
                                 </div>
