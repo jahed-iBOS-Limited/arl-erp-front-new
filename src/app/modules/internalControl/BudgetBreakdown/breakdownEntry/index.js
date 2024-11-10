@@ -42,6 +42,41 @@ export default function BreakdownEntry() {
     const [budgetDataForPrevYear, getBudgetDataForPrevYear, budgetLoader] = useAxiosGet();
     const [budgetDataForNextYear, getBudgetDataForNextYear, budgetNextLoader] = useAxiosGet();
     const [fiscalYearDDL, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
+    const [previousSaveData, getPreviousSaveData, previousSaveLoader] = useAxiosGet()
+
+
+    const previousSaveDataHandler = ({ values, tableData }) => {
+        getPreviousSaveData(`/fino/BudgetaryManage/GetFilteredAccountHeadBudget?BusinessUnitId=${values?.businessUnit?.value}&GlId=${values?.gl?.value}&SubGlId=${values?.businessTransaction?.value}&ProfitCenterId=${values?.profitCenter?.value}&Forecast=${values?.isForecast}&fiscalYear=${values?.year?.label}`, (apiData) => {
+            if (!apiData || !apiData.length || !tableData?.length) return;
+
+            const updatedTableData = tableData.map((tableRow) => {
+
+                // Find the corresponding API data for the current accountHeadId
+                const matchingApiAccount = apiData.find((apiAccount) => apiAccount.accountHeadId === tableRow.accountHeadId);
+
+                if (!matchingApiAccount || !matchingApiAccount?.monthlyBudgets?.length || !tableRow?.monthData?.length) return tableRow;
+
+
+
+                const monthData = tableRow?.monthData?.map((item) => ({
+                    ...item,
+                    budgetAmount: matchingApiAccount?.monthlyBudgets?.find((month) => month?.monthId === item?.monthId)?.budgetAmount ?? ""
+                }))
+
+
+                return {
+                    ...tableRow,
+                    monthData,
+                }
+
+            });
+
+
+            setTableData(updatedTableData)
+        });
+    };
+
+
 
 
     const { profileData } = useSelector((state) => state.authData, shallowEqual);
@@ -65,7 +100,7 @@ export default function BreakdownEntry() {
         return moment(`${fiscalYear}-${month}-01`).endOf('month').format('YYYY-MM-DD');
     };
 
-    const saveHandler = (values) => {
+    const saveHandler = (values, cb) => {
         if (!values?.businessUnit || !values?.year || !tableData.length) {
             return toast.warn("No data to save");
         }
@@ -103,7 +138,7 @@ export default function BreakdownEntry() {
             saveData(
                 '/fino/BudgetaryManage/CreateUpdateBudgetEntry',
                 validPayload,
-                () => setTableData([]), // Reset tableData after saving
+                cb, // Reset tableData after saving
                 true
             );
         } else {
@@ -121,6 +156,7 @@ export default function BreakdownEntry() {
                     ...item, monthData: demoMonthData
                 })) : []
                 setTableData(modiFyData)
+                previousSaveDataHandler({ tableData: modiFyData, values });
                 getBudgetDataForPrevYear(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value}&SubGlId=${values?.businessTransaction?.value}`, (dataForPrev) => {
                     getBudgetDataForNextYear(`/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${values?.businessUnit?.value}&generalLedgerId=${values?.gl?.value}&yearId=${values?.year?.value + 1}&SubGlId=${values?.businessTransaction?.value}`, (dataForNext) => {
                         updateMonthlyData(dataForPrev, dataForNext);
@@ -174,8 +210,8 @@ export default function BreakdownEntry() {
             initialValues={initData}
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 saveHandler(values, () => {
-                    resetForm(initData);
-                    setTableData([])
+                    // resetForm(initData);
+                    previousSaveDataHandler({ values, tableData })
                 });
             }}
         >
@@ -189,7 +225,7 @@ export default function BreakdownEntry() {
                 touched,
             }) => (
                 <>
-                    {(tableDataLoader || profitCenterLoder || transLoader || budgetLoader || budgetNextLoader || saveDataLoader || buDDLloader) && <Loading />}
+                    {(tableDataLoader || profitCenterLoder || transLoader || previousSaveLoader || budgetLoader || budgetNextLoader || saveDataLoader || buDDLloader) && <Loading />}
                     <IForm
                         title={"Breakdown Entry"}
                         getProps={setObjprops}
@@ -390,7 +426,7 @@ export default function BreakdownEntry() {
                                                     </tr>
                                                 ))}
                                                 <tr>
-                                                    <td colSpan="3">Monthly Totals</td>
+                                                    <td colSpan="3">Total</td>
                                                     {monthDataForHeader.length > 0 && monthDataForHeader.map((month) => {
                                                         // Calculate the total for the current month by summing up the budgetAmount
                                                         const monthTotal = tableData?.length > 0 && tableData.reduce((sum, item) => {
