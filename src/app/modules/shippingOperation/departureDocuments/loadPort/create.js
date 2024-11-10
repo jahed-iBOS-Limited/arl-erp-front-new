@@ -1,19 +1,20 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
 import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
+import { _todayDate } from "../../../_helper/_todayDate";
+import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { useParams } from "react-router-dom";
+import IViewModal from "../../../_helper/_viewModal";
 import { generateFileUrl } from "../../utils/helper";
+import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
 
 
 // Initial data
@@ -50,6 +51,7 @@ export default function CreateLoadPort() {
   const [attachment, setAttachment] = useState("");
   const [, onSave, loader] = useAxiosPost();
   const [vesselDDL, getVesselDDL] = useAxiosGet();
+  const [voyageDDL, getVoyageDDL, , setVoyageDDL] = useAxiosGet();
   const [isShowModal, setIsShowModal] = useState(false);
   const [payloadInfo, setPayloadInfo] = useState(null);
   const [

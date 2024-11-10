@@ -1,15 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import FormikInput from "../../../../../chartering/_chartinghelper/common/formikInput";
-import FormikSelect from "../../../../../chartering/_chartinghelper/common/formikSelect";
-import customStyles from "../../../../../chartering/_chartinghelper/common/selectCustomStyle";
-import {
-  getBusinessPartnerNameByVoyageDDL
-} from "../../../../../chartering/helper";
+import { getCargoDDL, getLayTime, getPortDDL } from "../../helper";
 import { initData } from "../addEditForm";
 import { daysToDDHHMM } from "../utils";
+import FormikSelect from "../../../../../chartering/_chartinghelper/common/formikSelect";
+import customStyles from "../../../../../chartering/_chartinghelper/common/selectCustomStyle";
+import FormikInput from "../../../../../chartering/_chartinghelper/common/formikInput";
+import {
+  getBusinessPartnerNameByVoyageDDL,
+  getVoyageDDLNew,
+} from "../../../../../chartering/helper";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 // import FormikSelect from "../../../../../chartering/_chartinghelper/common/formikSelect";
 // import customStyles from "../../../../../chartering/_chartinghelper/common/selectCustomStyle";
 // import FormikInput from "../../../../../chartering/_chartinghelper/common/formikInput";
@@ -53,7 +56,9 @@ export function CreateHeaderForm({
     return state?.authData;
   }, shallowEqual);
 
+  const { state: preData } = useLocation();
   const [portDDL, getPortDDL] = useAxiosGet();
+  const [cargoDDL, setCargoDDL] = useState([]);
   const [itemList, getItemList, , setItemList] = useAxiosGet();
   const [itemCategoryDDL, getItemCategoryDDL] = useAxiosGet();
   const [partnerDDL, getPartnerDDL] = useAxiosGet();
@@ -95,9 +100,9 @@ export function CreateHeaderForm({
                   id
                     ? setSingleData({ ...initData, layTimeType: valueOption })
                     : setValues({
-                      ...initData,
-                      layTimeType: valueOption,
-                    });
+                        ...initData,
+                        layTimeType: valueOption,
+                      });
                 }}
                 errors={errors}
                 touched={touched}
@@ -629,8 +634,9 @@ export function CreateHeaderForm({
 
             <>
               <HeaderLabelComponent
-                name={`Time allowed for ${values?.layTimeType?.value === 1 ? "Loading" : "Discharging"
-                  }`}
+                name={`Time allowed for ${
+                  values?.layTimeType?.value === 1 ? "Loading" : "Discharging"
+                }`}
               />
               <div className="col-lg-3">
                 <strong>

@@ -1,14 +1,20 @@
 import React from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
 import InputField from "../../../../_helper/_inputField";
 import IViewModal from "../../../../_helper/_viewModal";
 import EditModal from "./editmodal";
 const LandingTable = ({ obj }) => {
-
-  const { gridData, setGridData, landingCB } = obj;
+  const {
+    profileData: { employeeId },
+    tokenData: { token },
+  } = useSelector((state) => state?.authData, shallowEqual);
+  const { gridData, setLoading, setGridData, landingCB } = obj;
   const [isShowModal, setIsShowModal] = React.useState(false);
   const [clickedRow, setClickedRow] = React.useState({});
-
+  const {
+    profileData: { userId },
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   return (
     <>

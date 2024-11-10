@@ -1,25 +1,31 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 // import { useHistory } from "react-router-dom";
-import LocalAirportOutlinedIcon from "@material-ui/icons/LocalAirportOutlined";
-import LocalShippingIcon from "@material-ui/icons/LocalShipping";
+import Loading from "../../../../_helper/_loading";
+import IForm from "../../../../_helper/_form";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import InputField from "../../../../_helper/_inputField";
 import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { eProcurementBaseURL } from "../../../../../App";
+import { _threeMonthAgoDate, _todayDate } from "../../../../_helper/_todayDate";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import PaginationSearch from "../../../../_helper/_search";
+import IView from "../../../../_helper/_helperIcons/_view";
+import LocalShippingIcon from "@material-ui/icons/LocalShipping";
+import LocalAirportOutlinedIcon from "@material-ui/icons/LocalAirportOutlined";
 import {
   _dateFormatter,
   _dateTimeFormatter,
 } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import IAdd from "../../../../_helper/_helperIcons/_add";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _threeMonthAgoDate, _todayDate } from "../../../../_helper/_todayDate";
 import Chips from "../../../../_helper/chips/Chips";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { useHistory } from "react-router-dom";
+import IAdd from "../../../../_helper/_helperIcons/_add";
+import { eProcurementBaseURL } from "../../../../../App";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { deleteHandler } from "../cs/helper";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import IViewModal from "../../../../_helper/_viewModal";
+import RfqModalForView from "../../requestForQuotation/viewDetailsModal/rfqModalForView";
 const initData = {
   purchaseOrganization: { value: 0, label: "ALL" },
   plant: "",
@@ -69,10 +75,13 @@ export default function ErpComparativeStatementLanding() {
     landingDataLoader,
     setLandingData,
   ] = useAxiosGet();
+  const [baseLanding, setBaseLanding] = useState([]);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
   const history = useHistory();
+
+  const [, deleteRFQById, deleteRFQLoading] = useAxiosPost();
 
   const [
     purchangeOrgListDDL,
@@ -114,11 +123,23 @@ export default function ErpComparativeStatementLanding() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [objProps, setObjprops] = useState({});
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   // const history = useHistory();
 
-  const getData = (values, pageNo, pageSize) => { };
-
+  const getData = (values, pageNo, pageSize, searchValue = "") => {
+    getLandingData(
+      `${eProcurementBaseURL}/RequestForQuotation/GetRequestForQuotationLanding?businessUnitId=${
+        selectedBusinessUnit?.value
+      }&plantId=${0}&warehouseId=${0}&status=${
+        values?.status?.label
+      }&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
+    );
+  };
+  const [showModal, setShowModal] = useState(false);
+  const [id, setId] = useState(null);
+  const [rfqCode, setRfqCode] = useState(null);
+  const [createdBy, setCreatedBy] = useState(null);
+  const [status, setStatus] = useState(null);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
 
@@ -128,6 +149,14 @@ export default function ErpComparativeStatementLanding() {
 
   const paginationSearchHandler = (searchValue, values) => {
     setPositionHandler(pageNo, pageSize, values, searchValue);
+  };
+
+  const rfqDetailsView = (item) => {
+    setId(item?.requestForQuotationId);
+    setRfqCode(item?.requestForQuotationCode);
+    setStatus(item?.status);
+    setCreatedBy(item?.createdBy);
+    setShowModal(true);
   };
 
   return (
@@ -153,31 +182,32 @@ export default function ErpComparativeStatementLanding() {
           {(purchaseOrgListDDLloader ||
             plantListDDLloader ||
             warehouseListDDLloader ||
-            landingDataLoader) && <Loading />}
+            landingDataLoader ||
+            deleteRFQLoading) && <Loading />}
           <IForm
             title="Comparative Statement"
             isHiddenReset
             isHiddenBack
             isHiddenSave
             getProps={setObjprops}
-          // renderProps={() => {
-          //   return (
-          //     <div>
-          //       <button
-          //         type="button"
-          //         col-lg-2
-          //         className="btn btn-primary"
-          //         onClick={() => {
-          //           history.push(
-          //             "/mngProcurement/purchase-management/cs/create"
-          //           );
-          //         }}
-          //       >
-          //         Create
-          //       </button>
-          //     </div>
-          //   );
-          // }}
+            // renderProps={() => {
+            //   return (
+            //     <div>
+            //       <button
+            //         type="button"
+            //         col-lg-2
+            //         className="btn btn-primary"
+            //         onClick={() => {
+            //           history.push(
+            //             "/mngProcurement/purchase-management/cs/create"
+            //           );
+            //         }}
+            //       >
+            //         Create
+            //       </button>
+            //     </div>
+            //   );
+            // }}
           >
             <Form>
               <div className="form-group  global-form row">
@@ -313,22 +343,27 @@ export default function ErpComparativeStatementLanding() {
                     }}
                     onClick={() => {
                       getLandingData(
-                        `${eProcurementBaseURL}/ComparativeStatement/GetComparativeStatementLanding?businessUnitId=${selectedBusinessUnit?.value
-                        }&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value
-                        }&partnerId=${0}&status=${values?.status?.label}`
+                        `${eProcurementBaseURL}/ComparativeStatement/GetComparativeStatementLanding?businessUnitId=${
+                          selectedBusinessUnit?.value
+                        }&plantId=${values?.plant?.value}&warehouseId=${
+                          values?.warehouse?.value
+                        }&partnerId=${0}&status=${values?.status?.label}`,
+                        (data) => {
+                          setBaseLanding(data);
+                        }
                       );
 
                       // getData(values, pageNo, pageSize)
                     }}
-                  // disabled={
-                  //     !values?.purchaseOrganization ||
-                  //     !values?.rfqType ||
-                  //     !values?.plant ||
-                  //     !values?.warehouse ||
-                  //     !values?.status ||
-                  //     !values?.fromDate ||
-                  //     !values?.toDate
-                  // }
+                    // disabled={
+                    //     !values?.purchaseOrganization ||
+                    //     !values?.rfqType ||
+                    //     !values?.plant ||
+                    //     !values?.warehouse ||
+                    //     !values?.status ||
+                    //     !values?.fromDate ||
+                    //     !values?.toDate
+                    // }
                   >
                     View
                   </button>
@@ -338,7 +373,16 @@ export default function ErpComparativeStatementLanding() {
               <div className="mb-2 mt-2">
                 <PaginationSearch
                   placeholder="Search RFQ No"
-                  paginationSearchHandler={paginationSearchHandler}
+                  paginationSearchHandler={(searchValue) => {
+                    console.log(landingData, "landingData");
+                    setLandingData(
+                      baseLanding?.filter((item) =>
+                        item?.requestForQuotationCode
+                          ?.toLowerCase()
+                          .includes(searchValue.toLowerCase())
+                      )
+                    );
+                  }}
                   values={values}
                 />
               </div>
@@ -369,8 +413,17 @@ export default function ErpComparativeStatementLanding() {
                           <td>{index + 1}</td>
                           <td>
                             {item?.purchaseOrganizationName ===
-                              "Foreign Procurement" ? (
-                              <span>
+                            "Foreign Procurement" ? (
+                              <span
+                                style={{
+                                  color: "#007bff", // Link color
+                                  cursor: "pointer",
+                                  textDecoration: "underline",
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                                onClick={() => rfqDetailsView(item)}
+                              >
                                 <LocalAirportOutlinedIcon
                                   style={{
                                     color: "#00FF00",
@@ -382,7 +435,16 @@ export default function ErpComparativeStatementLanding() {
                                 {item?.requestForQuotationCode}
                               </span>
                             ) : (
-                              <span>
+                              <span
+                                style={{
+                                  color: "#007bff", // Link color
+                                  cursor: "pointer",
+                                  textDecoration: "underline",
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                                onClick={() => rfqDetailsView(item)}
+                              >
                                 <LocalShippingIcon
                                   style={{
                                     color: "#000000",
@@ -453,40 +515,76 @@ export default function ErpComparativeStatementLanding() {
                           </td> */}
                           <td>{item?.totalItems}</td>
                           <td className="text-center">
-                            {item?.status &&
-                              item?.status === "Ready For CS" &&
-                              !item?.comparativeStatementType ? (
-                              <span
-                                className="ml-2 mr-3"
-                                onClick={() => {
-                                  history.push({
-                                    pathname: `/mngProcurement/purchase-management/cs/create`,
-                                    state: { rfqDetail: item, isView: false },
-                                  });
-                                }}
-                              >
-                                <IAdd title={"Add"} />
-                              </span>
-                            ) : item?.comparativeStatementType ? (
-                              <span
-                                className="ml-2 mr-3"
-                                onClick={() => {
-                                  history.push({
-                                    pathname: `/mngProcurement/purchase-management/cs/view`,
-                                    state: { rfqDetail: item, isView: true },
-                                  });
-                                }}
-                              >
-                                <IView title={"View"} />
-                              </span>
-                            ) : null}
+                            <div className="d-flex justify-content-center align-items-center">
+                              {item?.status &&
+                              ((item?.status === "Ready For CS" &&
+                                !item?.comparativeStatementType) ||
+                                (item?.status === "N/A" &&
+                                  item?.comparativeStatementType === "")) ? (
+                                <span
+                                  onClick={() => {
+                                    history.push({
+                                      pathname: `/mngProcurement/purchase-management/cs/create`,
+                                      state: { rfqDetail: item, isView: false },
+                                    });
+                                  }}
+                                >
+                                  <IAdd title={"Add"} />
+                                </span>
+                              ) : item?.comparativeStatementType ? (
+                                <span
+                                  onClick={() => {
+                                    history.push({
+                                      pathname: `/mngProcurement/purchase-management/cs/view`,
+                                      state: { rfqDetail: item, isView: true },
+                                    });
+                                  }}
+                                >
+                                  <IView title={"View"} />
+                                </span>
+                              ) : null}
+                              {item?.status &&
+                                item?.status !== "Approved" &&
+                                item?.comparativeStatementType && (
+                                  <span
+                                    className="ml-2"
+                                    onClick={() => {
+                                      deleteHandler({
+                                        item: {
+                                          ...item,
+                                        },
+                                        deleteRFQById,
+                                        CB: () => {
+                                          getLandingData(
+                                            `${eProcurementBaseURL}/ComparativeStatement/GetComparativeStatementLanding?businessUnitId=${
+                                              selectedBusinessUnit?.value
+                                            }&plantId=${
+                                              values?.plant?.value
+                                            }&warehouseId=${
+                                              values?.warehouse?.value
+                                            }&partnerId=${0}&status=${
+                                              values?.status?.label
+                                            }`,
+                                            (data) => {
+                                              setLandingData(data);
+                                              setBaseLanding(data);
+                                            }
+                                          );
+                                        },
+                                      });
+                                    }}
+                                  >
+                                    <IDelete title={"Delete"} />
+                                  </span>
+                                )}
+                            </div>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-                {landingData?.data?.length > 0 ? (
+                {/* {landingData?.length > 0 ? (
                   <PaginationTable
                     count={landingData?.totalCount}
                     setPositionHandler={setPositionHandler}
@@ -498,7 +596,7 @@ export default function ErpComparativeStatementLanding() {
                     }}
                     values={values}
                   />
-                ) : null}
+                ) : null} */}
               </div>
 
               <button
@@ -514,6 +612,22 @@ export default function ErpComparativeStatementLanding() {
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
+              <IViewModal
+                show={showModal}
+                onHide={() => {
+                  setShowModal(false);
+                  setId(null);
+                  setRfqCode(null);
+                  setStatus(null);
+                }}
+              >
+                <RfqModalForView
+                  rfqId={id}
+                  rfqCode={`${rfqCode}`}
+                  rfqStatus={status}
+                  rfqCreatedBy={createdBy}
+                />
+              </IViewModal>
             </Form>
           </IForm>
         </>

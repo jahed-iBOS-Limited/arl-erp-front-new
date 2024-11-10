@@ -1,6 +1,7 @@
-import moment from "moment";
 import React from "react";
 import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import moment from "moment";
 
 function Table({ gridData }) {
   const bgStyleFunc = (item) => {

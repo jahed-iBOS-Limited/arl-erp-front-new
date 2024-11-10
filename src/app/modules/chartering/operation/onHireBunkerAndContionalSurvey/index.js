@@ -3,19 +3,19 @@ import React, { useEffect, useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { imarineBaseUrl } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import PaginationTable from "../../../_helper/_tablePagination";
-import { _previousDate, _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IButton from "../../../_helper/iButton";
 import customStyles from "../../../selectCustomStyle";
 import FormikSelect from "../../_chartinghelper/common/formikSelect";
 import { getVesselDDL, getVoyageDDLNew } from "../../helper";
+import { _previousDate, _todayDate } from "../../../_helper/_todayDate";
 
 const initData = {
   fromDate: "",
@@ -38,9 +38,9 @@ export default function OnHireBunkerAndContionalSurvey() {
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [loading2, setLoading] = useState(false);
 
-  useEffect(() => {
+  useEffect(()=>{
     getLandingData({}, pageNo, pageSize);
-  }, [])
+  },[])
 
   const getLandingData = (values, pageNo, pageSize) => {
     const shipTypeSTR = values?.shipType
@@ -56,8 +56,10 @@ export default function OnHireBunkerAndContionalSurvey() {
       ? `&voyageNo=${values?.voyageNo?.label}`
       : "";
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetRfqonHireBunkerQtyLanding?BusinessUnitId=${0}&FromDate=${values?.fromDate || _previousDate()
-      }&ToDate=${values?.toDate || _todayDate()
+      `${imarineBaseUrl}/domain/VesselNomination/GetRfqonHireBunkerQtyLanding?BusinessUnitId=${0}&FromDate=${
+        values?.fromDate || _previousDate()
+      }&ToDate=${
+        values?.toDate || _todayDate()
       }&pageNumber=${pageNo}&pageSize=${pageSize}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
   };
@@ -138,7 +140,7 @@ export default function OnHireBunkerAndContionalSurvey() {
                           setVesselDDL,
                           valueOption?.value === 2 ? 2 : ""
                         );
-                      } else {
+                      }else{
                         getLandingData({}, pageNo, pageSize);
                       }
                     }}

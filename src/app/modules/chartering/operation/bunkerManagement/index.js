@@ -1,15 +1,15 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { imarineBaseUrl } from "../../../../App";
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import customStyles from "../../../selectCustomStyle";
 import ICustomTable from "../../_chartinghelper/_customTable";
-import FormikSelect from "../../_chartinghelper/common/formikSelect";
-import { getVesselDDL, getVoyageDDLNew } from "../../helper";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
+import { shallowEqual, useSelector } from "react-redux";
+import { getVesselDDL, getVoyageDDLNew } from "../../helper";
+import FormikSelect from "../../_chartinghelper/common/formikSelect";
+import customStyles from "../../../selectCustomStyle";
 
 const initData = {
   voyageFlagLicenseAtt: "",
@@ -59,7 +59,7 @@ const headers = [
 ];
 
 export default function BunkerCalculatorLanding() {
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   const [show, setShow] = useState(false);
   const onHide = () => setShow(false);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -164,7 +164,7 @@ export default function BunkerCalculatorLanding() {
                           setVesselDDL,
                           valueOption?.value === 2 ? 2 : ""
                         );
-                      } else {
+                      }else{
                         getGridData()
                       }
                     }}
