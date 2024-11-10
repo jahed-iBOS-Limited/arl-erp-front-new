@@ -1,19 +1,7 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { HumanResourcePages } from "./humanResource/humanResourcePages";
-import { LayoutSplashScreen, ContentRoute } from "../../../_metronic/layout";
-import { Suspense } from "react";
-import { ConfigurationPages } from "./configuration/configurationPages";
-import { LoanPages } from "./loan/loanPages";
-import { ReportPages } from "./report/ReportPages";
-import { LeaveMovementPages } from "./leaveMovement/leaveMovementPages";
-import WorkingCalenderPages from "./workingCalender/workingCalenderPages";
-import { CafeteriaManagementPages } from "./cafeteriaMangement/cafeteriaManagementPages";
-import { EmployeeAttendancePages } from "./attendenceMangement/attendenceMangement";
-import { AdditionDeductionPages } from "./additionDeduction/additionDeductionPages";
-import { PayrollManagementPages } from "./payrollManagement/payrollManagementPages";
-import { JobCircularPages } from "./jobCircular/jobCircularPages";
-import { OverTimeManagementPages } from "./overTimeManagement/overTimeManagementPages";
+import React, { Suspense } from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute, LayoutSplashScreen } from '../../../_metronic/layout';
+import { OverTimeManagementPages } from './overTimeManagement/overTimeManagementPages';
 
 export function HumanCapitalManagementPages() {
   return (
@@ -23,9 +11,9 @@ export function HumanCapitalManagementPages() {
           <Redirect
             exact={true}
             from="/human-capital-management"
-            to="/human-capital-management/humanresource/employeebasic-info"
+            to="/human-capital-management/overtime-management"
           />
-          <ContentRoute
+          {/* <ContentRoute
             path="/human-capital-management/humanResource"
             component={HumanResourcePages}
           />
@@ -72,7 +60,7 @@ export function HumanCapitalManagementPages() {
           <ContentRoute
             path="/human-capital-management/jobcircular"
             component={JobCircularPages}
-          />
+          /> */}
           <ContentRoute
             path="/human-capital-management/overtime-management"
             component={OverTimeManagementPages}

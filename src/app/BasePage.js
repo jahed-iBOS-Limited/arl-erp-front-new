@@ -27,9 +27,9 @@ const financialManagementPages = lazy(() =>
 const inventoryManagementPages = lazy(() =>
   import('./modules/inventoryManagement/inventoryManagementPages'),
 );
-// const HumanCapitalManagementPages = lazy(() =>
-//   import("./modules/humanCapitalManagement/humanCapitalManagementPages")
-// );
+const HumanCapitalManagementPages = lazy(() =>
+  import('./modules/humanCapitalManagement/humanCapitalManagementPages'),
+);
 
 const LearningAndDevelopmentPages = lazy(() =>
   import('./modules/learningAndDevelopment/learningAndDevelopmentPages'),
@@ -166,10 +166,10 @@ const BasePage = () => {
           path="/inventory-management"
           component={inventoryManagementPages}
         />
-        {/* <Route
+        <Route
           path="/human-capital-management"
           component={HumanCapitalManagementPages}
-        /> */}
+        />
         <Route
           path="/learningDevelopment"
           component={LearningAndDevelopmentPages}
