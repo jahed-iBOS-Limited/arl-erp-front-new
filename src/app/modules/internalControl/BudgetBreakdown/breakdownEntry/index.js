@@ -384,6 +384,14 @@ export default function BreakdownEntry() {
                                                         ))}
                                                     </tr>
                                                 ))}
+                                                <tr>
+                                                    <td colSpan="3">Monthly Totals</td>
+                                                    {monthData.map((month) => {
+                                                        // Calculate the total for the current month
+                                                        const monthTotal = tableData.reduce((sum, item) => sum + (parseFloat(item[month.key]) || 0), 0);
+                                                        return <td className="text-center" key={month.id}>{monthTotal}</td>;
+                                                    })}
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
