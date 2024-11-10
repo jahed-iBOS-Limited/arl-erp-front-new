@@ -5,7 +5,11 @@ import { useReactToPrint } from "react-to-print";
 import signature_of_pran_krishna_kundo from "../../../../_helper/images/signatureOf_pran_krishno_kundo.png";
 import signature_of_rasel_sardar from "../../../../_helper/images/signature_of_rasel_sardar.png";
 import "./hologramForCommodities.css";
-const HologramPrintForAkijCommodities = ({ printDataList, buId }) => {
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import moment from "moment";
+import IButton from "../../../../_helper/iButton";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
+const HologramPrintForAkijCommodities = ({ printDataList }) => {
   const printRef = useRef();
 
   // get user data from store
@@ -65,12 +69,7 @@ const HologramPrintForAkijCommodities = ({ printDataList, buId }) => {
                         color: "#303399",
                       }}
                     >
-                      {buId === 221 ? buName : `Akij Commodities`} <br />
-                      {buId === 144 && (
-                        <small style={{ color: "red" }}>
-                          ( A Concern of Akij Essentials Limited )
-                        </small>
-                      )}
+                      {buName}
                     </p>
                     <p style={{ fontSize: "14px" }}>{address}</p>
 
