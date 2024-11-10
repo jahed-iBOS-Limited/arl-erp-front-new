@@ -61,7 +61,7 @@ export default function ShippingExpenseIncomeDetails({ bookingId }) {
                                         <td className="text-left">
                                             {item?.billingId}
                                         </td>
-                                        <td className="text-left">
+                                        <td className="text-right">
                                             {item?.bookingRequestId}
                                         </td>
                                         <td className="text-left">
@@ -76,7 +76,7 @@ export default function ShippingExpenseIncomeDetails({ bookingId }) {
                                         <td className="text-right">
                                             {item?.actualExpense}
                                         </td>
-                                        <td className="text-center">
+                                        <td className="text-right">
                                             {moment(item?.billingDate).format("DD MMM YYYY HH:mm:ss")}
                                         </td>
                                     </tr>

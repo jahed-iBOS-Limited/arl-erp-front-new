@@ -1,11 +1,12 @@
-import { Form, Formik } from "formik";
 import React, { useEffect } from "react";
-import InputField from "../../../../_helper/_inputField";
+import { Formik, Form } from "formik";
 import NewSelect from "../../../../_helper/_select";
+import InputField from "../../../../_helper/_inputField";
 // import CreateTableRow from "../Table/CreateTableRow";
-import { shallowEqual, useSelector } from "react-redux";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
 
 export default function _Form({
   initData,
@@ -81,7 +82,7 @@ export default function _Form({
                     touched={touched}
                     isDisabled={isEdit}
                   />
-
+                    
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
@@ -98,7 +99,7 @@ export default function _Form({
                     touched={touched}
                     isDisabled={isEdit}
                   />
-
+                           
                 </div>
 
                 <div className="col-lg-3">
@@ -114,7 +115,7 @@ export default function _Form({
                     type="date"
                     disabled={isEdit}
                   />
-
+                         
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
@@ -129,7 +130,7 @@ export default function _Form({
                     touched={touched}
                     isDisabled={isEdit}
                   />
-
+                           
                 </div>
                 <div className="col-lg-3">
                   <InputField
@@ -140,7 +141,7 @@ export default function _Form({
                     type="text"
                     disabled={true}
                   />
-
+                           
                 </div>
 
                 <div className="col-lg-3">
@@ -156,7 +157,7 @@ export default function _Form({
                     errors={errors}
                     touched={touched}
                   />
-
+                           
                 </div>
                 {selectedBusinessUnit?.value !== 8 ? (
                   <div className="col-lg-3">
@@ -172,7 +173,7 @@ export default function _Form({
                       errors={errors}
                       touched={touched}
                     />
-
+                         
                   </div>
                 ) : null}
               </div>

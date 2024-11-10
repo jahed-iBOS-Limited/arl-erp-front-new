@@ -1,14 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import React, { useState } from "react";
+import IForm from "../../../../_helper/_form";
 import * as Yup from "yup";
-import { CardHeaderToolbar } from "../../../../../../_metronic/_partials/controls";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import { Formik, Form } from "formik";
+import { useLocation, useHistory } from "react-router-dom";
+import { values } from "lodash";
+import { toast } from "react-toastify";
 import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import Loading from "../../../../_helper/_loading";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import axios from "axios";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { CardHeaderToolbar } from "../../../../../../_metronic/_partials/controls";
 
 const initData = {
   productName: "",
@@ -22,10 +29,19 @@ const validationSchema = Yup.object().shape({
 const ProductToFG = () => {
   const [, saveData, tagFGloading] = useAxiosPost();
   const [productInfo, getProductInfo, productInfoLoading] = useAxiosGet();
-
+  const [
+    productLanding,
+    getProductLanding,
+    productLandingLandingLoading,
+  ] = useAxiosGet();
   const [objProps, setObjprops] = useState({});
   const [rowData, setRowData] = useState([]);
+  const location = useLocation();
 
+  const history = useHistory();
+
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
 
   const { selectedBusinessUnit, profileData } = useSelector(
     (state) => state.authData,

@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import IConfirmModal from "../../../_helper/_confirmModal";
-import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { shallowEqual, useSelector } from "react-redux";
+import Loading from "../../../_helper/_loading";
 
 export default function ApprovalView({
   singleData,
@@ -48,7 +49,7 @@ export default function ApprovalView({
                     }
                   );
                 },
-                noAlertFunc: () => { },
+                noAlertFunc: () => {},
               });
             }}
           >
@@ -73,7 +74,7 @@ export default function ApprovalView({
                     }
                   );
                 },
-                noAlertFunc: () => { },
+                noAlertFunc: () => {},
               });
             }}
           >

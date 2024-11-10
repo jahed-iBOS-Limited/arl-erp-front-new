@@ -9,12 +9,12 @@ import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 import PaginationTable from "../../../_helper/_tablePagination";
-import { _previousDate, _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../_helper/iButton";
-import customStyles from "../../../selectCustomStyle";
-import FormikSelect from "../../_chartinghelper/common/formikSelect";
 import { getVesselDDL, getVoyageDDLNew } from "../../helper";
+import FormikSelect from "../../_chartinghelper/common/formikSelect";
+import customStyles from "../../../selectCustomStyle";
+import { _previousDate, _todayDate } from "../../../_helper/_todayDate";
 
 const initData = {};
 export default function EDPADischargePort() {
@@ -29,9 +29,9 @@ export default function EDPADischargePort() {
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [loading2, setLoading] = useState(false);
 
-  useEffect(() => {
+  useEffect(()=>{
     getLandingData({}, pageNo, pageSize, "");
-  }, [])
+  },[])
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     const shipTypeSTR = values?.shipType
@@ -47,10 +47,11 @@ export default function EDPADischargePort() {
       ? `&voyageNo=${values?.voyageNo?.label}`
       : "";
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetFromEpdaAndDischargePortInfoLanding?BusinessUnitId=${0}&FromDate=${values?.fromDate || _previousDate()
+      `${imarineBaseUrl}/domain/VesselNomination/GetFromEpdaAndDischargePortInfoLanding?BusinessUnitId=${0}&FromDate=${
+        values?.fromDate || _previousDate()
       }&ToDate=${values?.toDate || _todayDate()}&pageNumber=${pageNo ||
-      1}&pageSize=${pageSize ||
-      600}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
+        1}&pageSize=${pageSize ||
+        600}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
   };
 
@@ -126,7 +127,7 @@ export default function EDPADischargePort() {
                           setVesselDDL,
                           valueOption?.value === 2 ? 2 : ""
                         );
-                      } else {
+                      }else{
                         getLandingData({}, pageNo, pageSize, "");
                       }
                     }}

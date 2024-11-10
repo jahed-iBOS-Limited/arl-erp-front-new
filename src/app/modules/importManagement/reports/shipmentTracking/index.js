@@ -1,17 +1,17 @@
 import axios from "axios";
 import { Formik } from "formik";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Form } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
 
-import ICustomCard from "../../../_helper/_customCard";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import ICustomCard from "../../../_helper/_customCard";
+import { _formatMoney } from "../../../_helper/_formatMoney";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import Loading from "../../../_helper/_loading";
+import InputField from "../../../_helper/_inputField";
+import { _todayDate } from "../../../_helper/_todayDate";
 const initData = {
   lcnumber: "",
   po: "",
@@ -328,7 +328,8 @@ export default function ShipmentTracking() {
                       onClick={() => {
                         getGridData(
                           `/imp/Shipment/GetImportShipmentTracking?businessUnitId=${buId}&lcId=${values
-                            ?.lcnumber?.value || 0}&fromDate=${values?.fromDate
+                            ?.lcnumber?.value || 0}&fromDate=${
+                            values?.fromDate
                           }&toDate=${values?.toDate}`
                         );
                       }}
@@ -410,7 +411,7 @@ export default function ShipmentTracking() {
                                 {data?.invoiceAmount}
                               </td>{" "}
                               <td className="text-center">
-                                {_dateFormatter(data?.copyDocReceiveDate)}
+                               {_dateFormatter(data?.copyDocReceiveDate)}
                               </td>{" "}
                               <td className="text-center">
                                 {_dateFormatter(data?.docReceiveDate)}

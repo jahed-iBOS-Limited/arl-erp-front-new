@@ -1,24 +1,25 @@
 import { Formik } from "formik";
 import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../_helper/_dateFormate";
 import { _firstDateofMonth } from "../../_helper/_firstDateOfCurrentMonth";
+import { _todayDate } from "../../_helper/_todayDate";
+import Loading from "../../_helper/_loading";
+import { useHistory } from "react-router-dom";
+import FormikSelect from "../_chartinghelper/common/formikSelect";
+import customStyles from "../../selectCustomStyle";
+import FormikInput from "../_chartinghelper/common/formikInput";
+import { _dateFormatter } from "../../_helper/_dateFormate";
+import { OverlayTrigger } from "react-bootstrap";
+import ICustomTable from "../_chartinghelper/_customTable";
+import { shallowEqual, useSelector } from "react-redux";
+import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
+import PaginationTable from "../../_helper/_tablePagination";
+import * as Yup from "yup";
+import { getVesselDDL } from "./helper";
+import IViewModal from "../../_helper/_viewModal";
+import NCView from "./components/modalView";
+import IView from "../../_helper/_helperIcons/_view";
 import IEdit from "../../_helper/_helperIcons/_edit";
 import IHistory from "../../_helper/_helperIcons/_history";
-import IView from "../../_helper/_helperIcons/_view";
-import Loading from "../../_helper/_loading";
-import PaginationTable from "../../_helper/_tablePagination";
-import { _todayDate } from "../../_helper/_todayDate";
-import IViewModal from "../../_helper/_viewModal";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import customStyles from "../../selectCustomStyle";
-import ICustomTable from "../_chartinghelper/_customTable";
-import FormikInput from "../_chartinghelper/common/formikInput";
-import FormikSelect from "../_chartinghelper/common/formikSelect";
-import NCView from "./components/modalView";
-import { getVesselDDL } from "./helper";
 
 const initData = {
   vesselType: "",
@@ -212,7 +213,7 @@ export default function VesselAuditLanding() {
                       type="submit"
                       className={"btn btn-primary ml-2 mt-5 px-3 py-2"}
                       onClick={handleSubmit}
-                    //disabled={!rowData?.length}
+                      //disabled={!rowData?.length}
                     >
                       View
                     </button>
@@ -340,8 +341,8 @@ export default function VesselAuditLanding() {
                     ViewType === 1
                       ? "NC Details"
                       : ViewType === 2
-                        ? "Non-NC Details"
-                        : "View Details"
+                      ? "Non-NC Details"
+                      : "View Details"
                   }
                 >
                   <NCView

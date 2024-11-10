@@ -38,14 +38,14 @@ import GodownsWiseDeliveryReport from "./GodownWiseDeliveryReport";
 import GhatWiseDeliveryReport from "./ghatWiseDeliveryReport";
 import GodownsEntryReport from "./godownsEntryReport";
 
+import "./style.scss";
 import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
 import BillPreparationReport from "./BillPreparation";
-import "./style.scss";
 const validationSchema = Yup.object().shape({});
 function G2GSalesInvoice() {
   const formikRef = React.useRef(null);
   const {
-    profileData: { accountId },
+    profileData: { userId, accountId },
     selectedBusinessUnit: { value: buUnId, label: buUnName },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [userPrintBtnClick, setUserPrintBtnClick] = useState(false);
@@ -195,50 +195,50 @@ function G2GSalesInvoice() {
     buUnId === 175
       ? readymixLetterhead
       : buUnId === 94
-        ? MTSLetterhead
-        : buUnId === 144
-          ? essentialLetterhead
-          : buUnId === 4
-            ? cementLetterhead
-            : buUnId === 186
-              ? bluePillLetterhead
-              : buUnId === 8
-                ? polyFibreLetterhead
-                : buUnId === 224
-                  ? ispatLetterhead
-                  : buUnId === 220
-                    ? buildingLetterhead
-                    : buUnId === 171
-                      ? magnumLetterhead
-                      : buUnId === 221
-                        ? commoditiesLetterhead
-                        : buUnId === 216
-                          ? tradersLetterhead
-                          : buUnId === 213
-                            ? tradingLetterhead
-                            : buUnId === 181
-                              ? oneTradingLetterhead
-                              : buUnId === 212
-                                ? batayonTradersLetterhead
-                                : buUnId === 178
-                                  ? bongoTradersLetterhead
-                                  : buUnId === 182
-                                    ? dailyTradingLetterhead
-                                    : buUnId === 180
-                                      ? directTradingLetterhead
-                                      : buUnId === 183
-                                        ? eurasiaTradingLetterhead
-                                        : buUnId === 218
-                                          ? exoticaTradersLetterhead
-                                          : buUnId === 209
-                                            ? lineAsiaTradingLetterhead
-                                            : buUnId === 211
-                                              ? nobayonTradersLetterhead
-                                              : buUnId === 214
-                                                ? optimaTradersLetterhead
-                                                : buUnId === 210
-                                                  ? resourceTradersLetterhead
-                                                  : "";
+      ? MTSLetterhead
+      : buUnId === 144
+      ? essentialLetterhead
+      : buUnId === 4
+      ? cementLetterhead
+      : buUnId === 186
+      ? bluePillLetterhead
+      : buUnId === 8
+      ? polyFibreLetterhead
+      : buUnId === 224
+      ? ispatLetterhead
+      : buUnId === 220
+      ? buildingLetterhead
+      : buUnId === 171
+      ? magnumLetterhead
+      : buUnId === 221
+      ? commoditiesLetterhead
+      : buUnId === 216
+      ? tradersLetterhead
+      : buUnId === 213
+      ? tradingLetterhead
+      : buUnId === 181
+      ? oneTradingLetterhead
+      : buUnId === 212
+      ? batayonTradersLetterhead
+      : buUnId === 178
+      ? bongoTradersLetterhead
+      : buUnId === 182
+      ? dailyTradingLetterhead
+      : buUnId === 180
+      ? directTradingLetterhead
+      : buUnId === 183
+      ? eurasiaTradingLetterhead
+      : buUnId === 218
+      ? exoticaTradersLetterhead
+      : buUnId === 209
+      ? lineAsiaTradingLetterhead
+      : buUnId === 211
+      ? nobayonTradersLetterhead
+      : buUnId === 214
+      ? optimaTradersLetterhead
+      : buUnId === 210
+      ? resourceTradersLetterhead
+      : "";
   const isDisableFunction = (values) => {
     const commonConditions =
       !values?.fromDate || !values?.toDate || !values?.motherVessel;
@@ -309,7 +309,7 @@ function G2GSalesInvoice() {
             godownsEntryAttachment: "",
             invoiceId: "",
           }}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,

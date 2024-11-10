@@ -44,15 +44,16 @@ export default function GodownRateConfigLanding() {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   const history = useHistory();
 
   const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
     getGridData(
-      `/procurement/PurchaseOrder/GodownRateConfigurationLanding?businessUnitId=${buId}&plantId=${values?.plant?.value
+      `/procurement/PurchaseOrder/GodownRateConfigurationLanding?businessUnitId=${buId}&plantId=${
+        values?.plant?.value
       }&warehouseId=${values?.warehouse?.value || 0}&supplierId=${values
         ?.supplier?.value ||
-      0}&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
+        0}&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
     );
   };
 
@@ -231,28 +232,28 @@ export default function GodownRateConfigLanding() {
                               {_dateFormatter(item?.contractEndtDate)}
                             </td>
                             <td className="text-center" >
-                              {item?.attachmentId && <span style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }} onClick={(e) => {
-                                e.stopPropagation();
+                              {item?.attachmentId && <span style={{color:"blue",textDecoration:"underline",cursor:"pointer"}} onClick={(e)=>{
+                                 e.stopPropagation();
                                 dispatch(
                                   getDownlloadFileView_Action(
                                     item?.attachmentId
                                     // setLoading
                                   ))
                               }}>
-                                <NewIcon customStyles={{ fontSize: "15px", color: "blue" }} iconName="fa fa-file-image-o" />
+                                <NewIcon customStyles={{fontSize:"15px",color:"blue"}} iconName="fa fa-file-image-o"/>
                               </span>
                               }
                             </td>
                             <td>{item?.status}</td>
                             <td className="text-center">
-                              <div style={{ display: "flex", alignItems: "center", gap: "3px", justifyContent: "center" }} className="">
+                              <div style={{display:"flex",alignItems:"center",gap:"3px",justifyContent:"center"}} className="">
                                 <span
                                   className=""
                                   onClick={() => {
                                     history.push({
-                                      pathname: `/mngProcurement/purchase-configuration/godown-rate-configuration/edit/${item?.godownRateConfigId}`,
-                                      state: { ...item }
-                                    })
+                                      pathname:`/mngProcurement/purchase-configuration/godown-rate-configuration/edit/${item?.godownRateConfigId}`,
+                                      state:{...item}
+                                    })                              
                                   }}
                                 >
                                   <IEdit />
@@ -264,7 +265,7 @@ export default function GodownRateConfigLanding() {
                                     setSingleData(item);
                                   }}
                                 >
-                                  <IView />
+                                 <IView/>
                                 </span>
                               </div>
                             </td>
@@ -298,7 +299,7 @@ export default function GodownRateConfigLanding() {
                     title="Godown Rate"
                   >
                     <GodownRateModal
-
+                     
                     />
                   </IViewModal>
                 )}

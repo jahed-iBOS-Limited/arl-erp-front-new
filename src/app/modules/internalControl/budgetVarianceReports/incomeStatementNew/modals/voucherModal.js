@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import ReactToPrint from "react-to-print";
-import ICustomCard from "../../../../_helper/_customCard";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import ICustomCard from "../../../../_helper/_customCard";
+import ReactToPrint from "react-to-print";
 import Loading from "../../../../_helper/_loading";
-import IViewModal from "../../../../_helper/_viewModal";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import IViewModal from "../../../../_helper/_viewModal";
 import AdjustmentJournalModal from "./adjustmentJournalModal";
 import BankJournalModal from "./bankJournalModal";
 
@@ -21,11 +21,16 @@ const VoucherModal = ({
   useEffect(() => {
     if (subGeneralLedgerRow?.intsubglid) {
       getVoucherInfo(
-        `/fino/IncomeStatement/GetIncomeStatementProjected?partName=VoucherList&dteFromDate=${values?.fromDate
-        }&dteFromDateL=${values?.fromDate}&dteToDate=${values?.toDate
-        }&dteToDateL=${values?.toDate}&BusinessUnitGroup=${values?.enterpriseDivision?.value
-        }&BusinessUnitId=${values?.businessUnit?.value}&GLId=${subGeneralLedgerRow?.glId
-        }&SUBGLId=${subGeneralLedgerRow?.intsubglid}&ConvertionRate=${values?.conversionRate
+        `/fino/IncomeStatement/GetIncomeStatementProjected?partName=VoucherList&dteFromDate=${
+          values?.fromDate
+        }&dteFromDateL=${values?.fromDate}&dteToDate=${
+          values?.toDate
+        }&dteToDateL=${values?.toDate}&BusinessUnitGroup=${
+          values?.enterpriseDivision?.value
+        }&BusinessUnitId=${values?.businessUnit?.value}&GLId=${
+          subGeneralLedgerRow?.glId
+        }&SUBGLId=${subGeneralLedgerRow?.intsubglid}&ConvertionRate=${
+          values?.conversionRate
         }&SubGroup=${values?.subDivision?.value || "All"}`,
         (data) => {
           setTotalAmount(
@@ -198,34 +203,34 @@ const VoucherModal = ({
         {(voucherRow?.intaccountingjournaltypeid === 7 ||
           voucherRow?.intaccountingjournaltypeid === 8 ||
           voucherRow?.intaccountingjournaltypeid === 9) && (
-            <AdjustmentJournalModal
-              id={voucherRow?.intAccountingJournalId}
-              typeId={voucherRow?.intaccountingjournaltypeid}
-            />
-          )}
+          <AdjustmentJournalModal
+            id={voucherRow?.intAccountingJournalId}
+            typeId={voucherRow?.intaccountingjournaltypeid}
+          />
+        )}
 
         {(voucherRow?.intaccountingjournaltypeid === 4 ||
           voucherRow?.intaccountingjournaltypeid === 5 ||
           voucherRow?.intaccountingjournaltypeid === 6) && (
-            <BankJournalModal
-              id={voucherRow?.intAccountingJournalId}
-              headerData={{
-                ...voucherRow,
-                businessUnit,
-                accountingJournalTypeId: voucherRow?.intaccountingjournaltypeid,
-                fromWhere: "incomeStatement",
-              }}
-            />
-            // <BankJournalViewTableRow
-            // id={voucherRow?.intAccountingJournalId}
-            // headerData={{
-            //   ...voucherRow,
-            //   businessUnit,
-            //   accountingJournalTypeId: voucherRow?.intaccountingjournaltypeid,
-            //   fromWhere: "incomeStatement",
-            // }}
-            // />
-          )}
+          <BankJournalModal
+            id={voucherRow?.intAccountingJournalId}
+            headerData={{
+              ...voucherRow,
+              businessUnit,
+              accountingJournalTypeId: voucherRow?.intaccountingjournaltypeid,
+              fromWhere: "incomeStatement",
+            }}
+          />
+          // <BankJournalViewTableRow
+          // id={voucherRow?.intAccountingJournalId}
+          // headerData={{
+          //   ...voucherRow,
+          //   businessUnit,
+          //   accountingJournalTypeId: voucherRow?.intaccountingjournaltypeid,
+          //   fromWhere: "incomeStatement",
+          // }}
+          // />
+        )}
 
         {/* {(
           voucherRow?.intaccountingjournaltypeid === 1 ||

@@ -1,16 +1,17 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router";
-import { toast } from "react-toastify";
+import * as Yup from "yup";
 import IForm from "../../../_helper/_form";
-import IDelete from "../../../_helper/_helperIcons/_delete";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { shallowEqual, useSelector } from "react-redux";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import { toast } from "react-toastify";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { useLocation } from "react-router";
+import { _todayDate } from "../../../_helper/_todayDate";
 
 const initData = {
   castingDate: _todayDate(),
@@ -343,7 +344,7 @@ export default function LogisticEquipmentEntry() {
                   <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th>Total Transit Mixture</th>
+                      <th>Total Transit Mixture</th>
                         <th>Available TM</th>
                         <th>Explanations</th>
                         <th>Total Concrete Pump</th>
@@ -361,7 +362,7 @@ export default function LogisticEquipmentEntry() {
                     <tbody>
                       {formList.map((item, index) => (
                         <tr key={index}>
-                          <td>
+                           <td>
                             <InputField
                               value={item?.totalTransitMixture}
                               type="number"
@@ -498,7 +499,7 @@ export default function LogisticEquipmentEntry() {
                               }}
                             />
                           </td>
-
+                         
                           <td className="text-center">
                             <span
                               onClick={() => {

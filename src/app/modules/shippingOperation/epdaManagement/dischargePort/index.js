@@ -12,13 +12,13 @@ import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import IButton from "../../../_helper/iButton";
 // import { getVesselDDL, getVoyageDDLNew } from "../../helper";
-import IConfirmModal from "../../../_helper/_confirmModal";
 import { _previousDate, _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
 import FormikSelect from "../../../chartering/_chartinghelper/common/formikSelect";
 import customStyles from "../../../chartering/_chartinghelper/common/selectCustomStyle";
 import { getVesselDDL, getVoyageDDLNew } from "../../helper";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
+import IViewModal from "../../../_helper/_viewModal";
 import EmailEditor from "../loadPort/emailEditor";
 
 const initData = {};
@@ -56,9 +56,9 @@ export default function EDPADischargePort() {
       : "";
     getGridData(
       `${imarineBaseUrl}/domain/VesselNomination/GetFromEpdaAndDischargePortInfoLanding?BusinessUnitId=${0}&FromDate=${values?.fromDate ||
-      _previousDate()}&ToDate=${values?.toDate ||
-      _todayDate()}&pageNumber=${pageNo || 1}&pageSize=${pageSize ||
-      600}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
+        _previousDate()}&ToDate=${values?.toDate ||
+        _todayDate()}&pageNumber=${pageNo || 1}&pageSize=${pageSize ||
+        600}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
   };
 
@@ -352,7 +352,7 @@ export default function EDPADischargePort() {
                                       true
                                     );
                                   },
-                                  noAlertFunc: () => { },
+                                  noAlertFunc: () => {},
                                 });
                               }}
                             >

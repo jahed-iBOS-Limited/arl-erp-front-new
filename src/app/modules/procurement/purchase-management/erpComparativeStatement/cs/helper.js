@@ -1,6 +1,27 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/react-in-jsx-scope */
+import { Table } from "antd";
+import IConfirmModal from "../../../../_helper/_confirmModal";
+import { eProcurementBaseURL } from "../../../../../App";
+
+export const deleteHandler = ({ item, deleteRFQById, CB }) => {
+  const obj = {
+    title: "Delete CS",
+    message: "Are you sure you want to delete this?",
+    noAlertFunc: () => {},
+    yesAlertFunc: () => {
+      deleteRFQById(
+        `${eProcurementBaseURL}/ComparativeStatement/DeleteComparativeStatement?requestForQuotationId=${item?.requestForQuotationId}`,
+        null,
+        () => {
+          CB();
+        }
+      );
+    },
+  };
+  IConfirmModal(obj);
+};
 
 export const getCostEntryPayload = (costEntryList, rfqDetail) => {
   let payload = [];

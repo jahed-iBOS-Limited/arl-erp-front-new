@@ -1,9 +1,10 @@
-import moment from "moment";
 import React, { useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
 import ReactToPrint from "react-to-print";
-import { amountToWords } from "../../../../../_helper/_ConvertnumberToWord";
 import printIcon from "../../../../../chartering/_chartinghelper/images/print-icon.png";
+import { shallowEqual, useSelector } from "react-redux";
+import moment from "moment";
+import { _formatMoney } from "../../../../../_helper/_formatMoney";
+import { amountToWords } from "../../../../../_helper/_ConvertnumberToWord";
 
 export default function PrintInvoiceView({ debitData = {} }) {
   const print = useRef();
@@ -159,7 +160,7 @@ export default function PrintInvoiceView({ debitData = {} }) {
                     <p>
                       {amountToWords(
                         +debitData?.objHeader?.despatchRate *
-                        +debitData?.objHeader?.totalUsedDay
+                          +debitData?.objHeader?.totalUsedDay
                       )}{" "}
                     </p>
                   </td>

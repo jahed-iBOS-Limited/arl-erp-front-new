@@ -3,15 +3,15 @@ import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import ICustomTable from "../../../_helper/_customTable";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import QRCodeScanner from "../../../_helper/qrCodeScanner";
+import IForm from "../../../_helper/_form";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import ICustomTable from "../../../_helper/_customTable";
 
 const initData = {
   shipmentId: "",
@@ -49,6 +49,9 @@ export default function FuelRequisitionByShipment() {
   const [isQrCodeShow, setIsQRCodeSHow] = useState(false);
   const [actionType, setActionType] = useState("Manual");
 
+  const selectedBusinessUnit = useSelector((state) => {
+    return state.authData.selectedBusinessUnit;
+  }, shallowEqual);
 
   const saveHandler = (values, cb) => {
     alert("Working...");
@@ -128,7 +131,7 @@ export default function FuelRequisitionByShipment() {
                         gateEntryNo: "",
                         businessTransactionId: 0,
                         generalLedgerId: 0,
-                        intCostElementId: 270
+                        intCostElementId:270
                       };
                       const row = {
                         itemId: reportData?.objHeader?.itemId,
