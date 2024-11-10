@@ -45,7 +45,8 @@ function ChargesModal({ rowClickData, CB }) {
                 billingId: findData?.billingId || 0,
                 checked: findData ? true : false,
                 amount: findData?.chargeAmount || "",
-                actualExpense: findData?.actualExpense || ""
+                actualExpense: findData?.actualExpense || "",
+                consigneeCharge: findData?.consigneeCharge || ""
               };
             });
             const filterNewData = resSveData
@@ -57,7 +58,8 @@ function ChargesModal({ rowClickData, CB }) {
                   checked: true,
                   amount: item?.chargeAmount,
                   billingId: item?.billingId || 0,
-                  actualExpense: item?.actualExpense || 0
+                  actualExpense: item?.actualExpense || 0,
+                  consigneeCharge: item?.consigneeCharge || ""
                 };
               });
             setShippingHeadOfCharges([...modifyData, ...filterNewData]);
@@ -78,6 +80,7 @@ function ChargesModal({ rowClickData, CB }) {
           headOfChargeId: item?.value || 0,
           headOfCharges: item?.label || "",
           chargeAmount: item?.amount || 0,
+          consigneeCharge: item?.consigneeCharge || 0,
           actualExpense: item?.actualExpense || 0,
           isActive: true,
           billingDate: new Date(),
@@ -108,6 +111,7 @@ function ChargesModal({ rowClickData, CB }) {
           amount: "",
           attribute: "",
           actualExpense: "",
+          consigneeCharge: ""
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -158,6 +162,15 @@ function ChargesModal({ rowClickData, CB }) {
                   />
                 </div>
                 <div className="col-lg-3">
+                  <InputField
+                    value={values?.consigneeCharge}
+                    label="Consignee Charge"
+                    name="consigneeCharge"
+                    type="number"
+                    onChange={(e) => setFieldValue("consigneeCharge", e.target.value)}
+                  />
+                </div>
+                <div className="col-lg-3">
                   {/* add button */}
                   <div className="d-flex justify-content-start align-items-center mt-5">
                     <button
@@ -177,7 +190,8 @@ function ChargesModal({ rowClickData, CB }) {
                             value: 0,
                             checked: true,
                             amount: values?.amount,
-                            actualExpense: values?.actualExpense
+                            actualExpense: values?.actualExpense,
+                            consigneeCharge: values?.consigneeCharge
                           },
                         ]);
                         resetForm();
@@ -222,6 +236,7 @@ function ChargesModal({ rowClickData, CB }) {
                         <th className="p-0">Attribute</th>
                         <th className="p-0">Amount</th>
                         <th className="p-0">Expense Amount</th>
+                        <th className="p-0">Consignee Charge</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -270,6 +285,20 @@ function ChargesModal({ rowClickData, CB }) {
                                 setShippingHeadOfCharges(copyprvData);
                               }}
                               name="actualExpense"
+                              min="0"
+                            />
+                          </td>
+                          <td className="align-middle">
+                            <InputField
+                              disabled={!item?.checked}
+                              value={item?.consigneeCharge}
+                              type="number"
+                              onChange={(e) => {
+                                const copyprvData = [...shippingHeadOfCharges];
+                                copyprvData[index].consigneeCharge = e.target.value;
+                                setShippingHeadOfCharges(copyprvData);
+                              }}
+                              name="consigneeCharge"
                               min="0"
                             />
                           </td>

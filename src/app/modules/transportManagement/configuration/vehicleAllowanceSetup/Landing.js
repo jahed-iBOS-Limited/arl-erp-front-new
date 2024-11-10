@@ -1,17 +1,18 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
+import * as Yup from "yup";
 import Loading from "../../../_helper/_loading";
-import { NegetiveCheck } from "../../../_helper/_negitiveCheck";
+import IForm from "../../../_helper/_form";
 import NewSelect from "../../../_helper/_select";
+import InputField from "../../../_helper/_inputField";
+import { NegetiveCheck } from "../../../_helper/_negitiveCheck";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import CarryingAllowanceTable from "./components/componentTable/carryingAllowanceTable";
+import { shallowEqual, useSelector } from "react-redux";
 import DailyAllowanceTable from "./components/componentTable/dailyAllowanceTable";
 import MilageAllowanceTable from "./components/componentTable/milageAllowanceTable";
+import CarryingAllowanceTable from "./components/componentTable/carryingAllowanceTable";
+import { toast } from "react-toastify";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 
 const initData = {
   vahicleCapacity: "",
@@ -202,7 +203,7 @@ export default function KeyRegisterLanding() {
                           );
                         }}
                         type="number"
-                      // disabled={isEdit}
+                        // disabled={isEdit}
                       />
                     </div>
                     <div className="col-lg-3 pl pr-1 mb-1 disable-border disabled-feedback border-gray">
@@ -219,7 +220,7 @@ export default function KeyRegisterLanding() {
                             "downTripAllowance"
                           );
                         }}
-                      // disabled={isEdit}
+                        // disabled={isEdit}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -254,7 +255,7 @@ export default function KeyRegisterLanding() {
                             "localMillageRate"
                           );
                         }}
-                      // disabled={isEdit}
+                        // disabled={isEdit}
                       />
                     </div>
                     <div className="col-lg-3 pl pr-1 mb-1 disable-border disabled-feedback border-gray">
@@ -271,7 +272,7 @@ export default function KeyRegisterLanding() {
                             "outerMillageRate"
                           );
                         }}
-                      // disabled={isEdit}
+                        // disabled={isEdit}
                       />
                     </div>
                   </>
@@ -292,7 +293,7 @@ export default function KeyRegisterLanding() {
                             "carrierAllowanceRate"
                           );
                         }}
-                      // disabled={isEdit}
+                        // disabled={isEdit}
                       />
                     </div>
                   </>

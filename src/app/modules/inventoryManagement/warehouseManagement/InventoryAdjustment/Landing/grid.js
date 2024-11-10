@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
+import IConfirmModal from "../../../../_helper/_confirmModal";
 import ICustomTable from "../../../../_helper/_customTable";
 import IViewModal from "../../../../_helper/_viewModal";
 import ViewForm from "../attachmentView/viewForm";
+import { inventoryTransactionCancelAction } from "../helper";
 import { InventoryTransactionReportViewTableRow } from "../report/tableRow";
 
 const GridData = ({ history, values, viewGridData, setLoading }) => {
@@ -24,6 +26,11 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
     return state.invTransa;
   }, shallowEqual);
 
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
+
   const tableInvIndex = useSelector((state) => {
     return state.localStorage.tableInventoryIndex;
   });
@@ -34,6 +41,24 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
   const [currentRowData, setCurrentRowData] = useState("");
 
+  const cancelPopUp = (td) => {
+    let confirmObject = {
+      title: "Are you sure?",
+      message: `Code : ${td?.inventoryTransactionCode}`,
+      yesAlertFunc: () => {
+        inventoryTransactionCancelAction(
+          td?.inventoryTransactionCode,
+          selectedBusinessUnit?.value,
+          profileData?.userId,
+          viewGridData,
+          values,
+          setLoading
+        );
+      },
+      noAlertFunc: () => {},
+    };
+    IConfirmModal(confirmObject);
+  };
 
   return (
     <>
@@ -63,10 +88,11 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
                     }}
                   >
                     <i
-                      class={`fas fa-eye ${tableInvIndex === td?.inventoryTransactionId
-                        ? "text-primary"
-                        : ""
-                        }`}
+                      class={`fas fa-eye ${
+                        tableInvIndex === td?.inventoryTransactionId
+                          ? "text-primary"
+                          : ""
+                      }`}
                     ></i>
                   </button>
                   {td?.referenceTypeId === 1 && (
@@ -105,7 +131,7 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
                         title="Cancel"
                       />
                     </div>  
-                  )}   cancel button remove order by ziaul vai 11-01-24 */}
+                  )}   cancel button remove order by ziaul vai 11-01-24 */}  
                 </div>
               </td>
             </tr>

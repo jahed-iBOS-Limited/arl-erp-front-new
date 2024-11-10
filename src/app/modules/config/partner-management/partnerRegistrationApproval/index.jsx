@@ -1,14 +1,16 @@
-import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import CommonTable from "../../../_helper/commonTable";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from "formik";
+import IForm from "../../../_helper/_form";
+import CommonTable from "../../../_helper/commonTable";
+import PaginationTable from "../../../_helper/_tablePagination";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Loading from "../../../_helper/_loading";
+import IEdit from "../../../_helper/_helperIcons/_edit";
+import NewSelect from "../../../_helper/_select";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const initData = {
   partner: "customer",
@@ -31,9 +33,10 @@ export default function PartnerRegApproval() {
     }
   }
 
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   const history = useHistory();
   const {
+    profileData: { userTypeName },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
@@ -68,12 +71,14 @@ export default function PartnerRegApproval() {
 
     if (values?.partner === "customer") {
       getGridData(
-        `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=LandingForApproval&pageNo=${pageNo}&pageSize=${pageSize}&businessUnitId=${buId}&isApproved=${values?.approveStatus?.label === "Approved" ? true : false
+        `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=LandingForApproval&pageNo=${pageNo}&pageSize=${pageSize}&businessUnitId=${buId}&isApproved=${
+          values?.approveStatus?.label === "Approved" ? true : false
         }&partnerType=customer&autoId=0`
       );
     } else {
       getGridData(
-        `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=LandingForApproval&pageNo=${pageNo}&pageSize=${pageSize}&businessUnitId=${buId}&isApproved=${values?.approveStatus?.label === "Approved" ? true : false
+        `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=LandingForApproval&pageNo=${pageNo}&pageSize=${pageSize}&businessUnitId=${buId}&isApproved=${
+          values?.approveStatus?.label === "Approved" ? true : false
         }&partnerType=supplier&autoId=0
       `
       );

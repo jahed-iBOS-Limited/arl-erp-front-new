@@ -5,6 +5,10 @@ import signature_two from "./signature_2.png";
 function RequestForIssuance({ obj }) {
   const { values, buName, singleData } = obj;
   const {
+    // date,
+    item,
+    pi_no,
+    quantity,
     reference_id,
     total_amount,
   } = {

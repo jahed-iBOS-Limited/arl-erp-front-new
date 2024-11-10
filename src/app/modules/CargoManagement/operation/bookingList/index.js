@@ -16,14 +16,15 @@ import Details from "./bookingDetails";
 import ChargesModal from "./chargesModal";
 import CommonStatusUpdateModal from "./commonStatusUpdateModal";
 import ConfirmModal from "./confirmModal";
+import ConsigneeInvoice from "./consigneeInvoice";
+import DeliveryNoteModal from "./deliveryNoteModal";
 import DocumentModal from "./documentModal";
+import FreightCargoReceipt from './freightCargoReceipt';
 import FreightInvoice from "./freightInvoice";
 import HBLCodeGNModal from "./hblCodeGNModal";
 import { cancelHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
-import FreightCargoReceipt from './freightCargoReceipt'
-import DeliveryNoteModal from "./deliveryNoteModal";
 
 const validationSchema = Yup.object().shape({});
 function BookingList() {
@@ -194,10 +195,10 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: "146px",
+                            minWidth: "140px",
                           }}
                         >
-                          Transport
+                          Shipment Planning
                         </th>
                         <th
                           style={{
@@ -264,7 +265,7 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: "260px",
+                            minWidth: "440px",
                           }}
                         >
                           Action
@@ -419,7 +420,7 @@ function BookingList() {
                                     });
                                   }}
                                 >
-                                  Transport Planning
+                                  Shipment Planning
                                 </button>
                               </span>
                             </td>
@@ -676,7 +677,7 @@ function BookingList() {
                                       });
                                     }}
                                   >
-                                    FCR
+                                    FC
                                   </button>
                                 </span>
                                 <span>
@@ -690,7 +691,21 @@ function BookingList() {
                                       });
                                     }}
                                   >
-                                    Invoice
+                                    Freight Invoice
+                                  </button>
+                                </span>
+                                <span>
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isConsigneeInvoice: true,
+                                      });
+                                    }}
+                                  >
+                                    Consignee Invoice
                                   </button>
                                 </span>
                               </div>
@@ -800,7 +815,7 @@ function BookingList() {
       {isModalShowObj?.isPlaning && (
         <>
           <IViewModal
-            title="Transport Booking"
+            title="Shipment planning"
             show={isModalShowObj?.isPlaning}
             onHide={() => {
               setIsModalShowObj({
@@ -902,7 +917,7 @@ function BookingList() {
       {isModalShowObj?.isFreightCargoReceipt && (
         <>
           <IViewModal
-            title="Freight Cargo Receipt (FCR)"
+            title="FC"
             show={isModalShowObj?.isFreightCargoReceipt}
             onHide={() => {
               setIsModalShowObj({
@@ -922,7 +937,7 @@ function BookingList() {
       {isModalShowObj?.isFreightInvoice && (
         <>
           <IViewModal
-            title="Invoice"
+            title="Freight Invoice"
             show={isModalShowObj?.isFreightInvoice}
             onHide={() => {
               setIsModalShowObj({
@@ -932,6 +947,23 @@ function BookingList() {
             }}
           >
             <FreightInvoice rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
+      {/* Consignee Invoice  */}
+      {isModalShowObj?.isConsigneeInvoice && (
+        <>
+          <IViewModal
+            title="Consignee Invoice"
+            show={isModalShowObj?.isConsigneeInvoice}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isConsigneeInvoice: false,
+              });
+            }}
+          >
+            <ConsigneeInvoice rowClickData={rowClickData} />
           </IViewModal>
         </>
       )}

@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import {
+  _dateFormatter,
+  _dateTimeFormatter,
+} from "../../../_helper/_dateFormate";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import {
-  _dateTimeFormatter
-} from "../../../_helper/_dateFormate";
 import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 export default function ItemRateHistoryModal({ propsObj }) {
   const { singleData } = propsObj;
   const [historyData, getHistoryData] = useAxiosGet();

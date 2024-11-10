@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { TableAction } from "../../../../_helper/columnFormatter";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { useUIContext } from "../../../../_helper/uiContextHelper";
+import { TableAction } from "../../../../_helper/columnFormatter";
 import { getTradeOfferItemGroupGridData } from "../_redux/Actions";
 import Loading from "./../../../../_helper/_loading";
 import PaginationTable from "./../../../../_helper/_tablePagination";

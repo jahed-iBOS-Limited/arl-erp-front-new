@@ -1,7 +1,6 @@
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import React, { useState } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import IView from "../../../_helper/_helperIcons/_view";
 import Loading from "../../../_helper/_loading";
@@ -37,6 +36,9 @@ import ViewSalesCommission from "./salesCommission/view/viewSalesCommission";
 import ViewStevedoreBill from "./stevedoreBill/view/table";
 import ViewSurveyorBill from "./surveyorBill/view/table";
 import ViewTransportBill from "./transportBill/view/viewBillRegister";
+import ICon from "../../../chartering/_chartinghelper/icons/_icon";
+import { useDispatch } from "react-redux";
+import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 const GridData = ({
   rowDto,
   values,
@@ -102,125 +104,125 @@ const GridData = ({
     <>
       <div className="row ">
         <div className="col-lg-12">
-          <div className="table-responsive">
-            <table className="table table-striped table-bordered global-table table-font-size-sm">
-              <thead>
-                <tr>
-                  <th style={{ width: "20px" }}>SL</th>
-                  <th style={{ width: "80px" }}>Register Code</th>
-                  <th style={{ width: "80px" }}>Register Date</th>
-                  <th style={{ width: "100px" }}>Partner</th>
-                  <th style={{ width: "100px" }}>Type Name</th>
-                  <th style={{ width: "80px" }}>Adj. Amount</th>
-                  <th style={{ width: "80px" }}>Total Amount</th>
-                  <th style={{ width: "80px" }}>Bill Status</th>
-                  <th style={{ width: "80px" }}>Progress</th>
-                  <th style={{ width: "150px" }}>Remarks</th>
-                  <th style={{ width: "50px" }}>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(createBillAttachmentLoading || disabled) && <Loading />}
-                {rowDto?.data?.map((tableData, index) => (
-                  <tr key={index}>
-                    <td> {tableData?.sl} </td>
-                    <td> {tableData?.billRegisterCode} </td>
-                    <td className="text-center">
-                      {" "}
-                      {_dateFormatter(tableData?.billRegisterDate)}{" "}
-                    </td>
-                    <td> {tableData?.partnerName} </td>
-                    <td> {tableData?.billTypeName} </td>
-                    <td
-                      className="text-right"
-                      style={
-                        tableData?.adjustmentAmount > 0 ? { color: "red" } : {}
-                      }
-                    >
-                      {" "}
-                      {_fixedPoint(tableData?.adjustmentAmount || 0)}{" "}
-                    </td>
-                    <td className="text-right"> {tableData?.monTotalAmount} </td>
-                    <td> {tableData?.billStatus} </td>
-                    <td className="text-center"> {tableData?.progress} </td>
-                    <td> {tableData?.remarks} </td>
-                    <td className="text-center">
-                      {/* <span > */}
-                      <div className="d-flex justify-content-around align-items-center">
-                        {tableData?.billType === 18 ? (
-                          <OverlayTrigger
-                            placement="top"
-                            overlay={
-                              <Tooltip id="quick-user-tooltip">
-                                {" "}
-                                Details View
-                              </Tooltip>
-                            }
-                          >
-                            <span className="ml-2 cursor: pointer">
-                              <i
-                                class="fa fa-info-circle"
-                                aria-hidden="true"
-                                onClick={() => {
-                                  setPumpFoodingDetailsView(true);
-                                  setSelectedItemForPumpFooding(tableData);
-                                }}
-                              ></i>
-                            </span>
-                          </OverlayTrigger>
-                        ) : null}
-
-                        {tableData?.billType !== 5 && (
-                          <IView
-                            clickHandler={() => {
-                              setModalShow(true);
-                              setGridItem({
-                                ...tableData,
-                                billStatus: "Approved",
-                              });
-                            }}
-                          />
-                        )}
-                        {tableData?.billType === 5 &&
-                          tableData?.attatchment?.length ? (
-                          <IView
-                            title="View Attachment"
-                            clickHandler={() => {
-                              setAttachmentItemList(tableData?.attatchment);
-                              setAttachmentListModal(true);
-                            }}
-                          />
-                        ) : null}
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setBillId(tableData?.billRegisterId);
-                          }}
-                          style={{
-                            border: "none",
-                            background: "none",
-                            cursor: "pointer",
-                            padding: 0,
-                          }}
+        <div className="table-responsive">
+          <table className="table table-striped table-bordered global-table table-font-size-sm">
+            <thead>
+              <tr>
+                <th style={{ width: "20px" }}>SL</th>
+                <th style={{ width: "80px" }}>Register Code</th>
+                <th style={{ width: "80px" }}>Register Date</th>
+                <th style={{ width: "100px" }}>Partner</th>
+                <th style={{ width: "100px" }}>Type Name</th>
+                <th style={{ width: "80px" }}>Adj. Amount</th>
+                <th style={{ width: "80px" }}>Total Amount</th>
+                <th style={{ width: "80px" }}>Bill Status</th>
+                <th style={{ width: "80px" }}>Progress</th>
+                <th style={{ width: "150px" }}>Remarks</th>
+                <th style={{ width: "50px" }}>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(createBillAttachmentLoading || disabled) && <Loading />}
+              {rowDto?.data?.map((tableData, index) => (
+                <tr key={index}>
+                  <td> {tableData?.sl} </td>
+                  <td> {tableData?.billRegisterCode} </td>
+                  <td className="text-center">
+                    {" "}
+                    {_dateFormatter(tableData?.billRegisterDate)}{" "}
+                  </td>
+                  <td> {tableData?.partnerName} </td>
+                  <td> {tableData?.billTypeName} </td>
+                  <td
+                    className="text-right"
+                    style={
+                      tableData?.adjustmentAmount > 0 ? { color: "red" } : {}
+                    }
+                  >
+                    {" "}
+                    {_fixedPoint(tableData?.adjustmentAmount || 0)}{" "}
+                  </td>
+                  <td className="text-right"> {tableData?.monTotalAmount} </td>
+                  <td> {tableData?.billStatus} </td>
+                  <td className="text-center"> {tableData?.progress} </td>
+                  <td> {tableData?.remarks} </td>
+                  <td className="text-center">
+                    {/* <span > */}
+                    <div className="d-flex justify-content-around align-items-center">
+                      {tableData?.billType === 18 ? (
+                        <OverlayTrigger
+                          placement="top"
+                          overlay={
+                            <Tooltip id="quick-user-tooltip">
+                              {" "}
+                              Details View
+                            </Tooltip>
+                          }
                         >
-                          <OverlayTrigger
-                            overlay={
-                              <Tooltip id="cs-icon">
-                                {"Upload Attachment"}
-                              </Tooltip>
-                            }
-                          >
-                            <i class="far fa-file-image"></i>
-                          </OverlayTrigger>
-                        </button>
-                      </div>
-                      {/* </span> */}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                          <span className="ml-2 cursor: pointer">
+                            <i
+                              class="fa fa-info-circle"
+                              aria-hidden="true"
+                              onClick={() => {
+                                setPumpFoodingDetailsView(true);
+                                setSelectedItemForPumpFooding(tableData);
+                              }}
+                            ></i>
+                          </span>
+                        </OverlayTrigger>
+                      ) : null}
+
+                      {tableData?.billType !== 5 && (
+                        <IView
+                          clickHandler={() => {
+                            setModalShow(true);
+                            setGridItem({
+                              ...tableData,
+                              billStatus: "Approved",
+                            });
+                          }}
+                        />
+                      )}
+                      {tableData?.billType === 5 &&
+                      tableData?.attatchment?.length ? (
+                        <IView
+                          title="View Attachment"
+                          clickHandler={() => {
+                            setAttachmentItemList(tableData?.attatchment);
+                            setAttachmentListModal(true);
+                          }}
+                        />
+                      ) : null}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setBillId(tableData?.billRegisterId);
+                        }}
+                        style={{
+                          border: "none",
+                          background: "none",
+                          cursor: "pointer",
+                          padding: 0,
+                        }}
+                      >
+                        <OverlayTrigger
+                          overlay={
+                            <Tooltip id="cs-icon">
+                              {"Upload Attachment"}
+                            </Tooltip>
+                          }
+                        >
+                          <i class="far fa-file-image"></i>
+                        </OverlayTrigger>
+                      </button>
+                    </div>
+                    {/* </span> */}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
           </div>
         </div>
         <>

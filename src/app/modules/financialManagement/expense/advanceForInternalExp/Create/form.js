@@ -5,14 +5,14 @@ import Select from "react-select";
 import * as Yup from "yup";
 import FormikError from "../../../../_helper/_formikError";
 import { IInput } from "../../../../_helper/_input";
-import Loading from "../../../../_helper/_loading";
 import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { CostElementDDLApi } from "../../../../inventoryManagement/warehouseManagement/invTransaction/Form/issueInvantory/helper";
 import customStyles from "../../../../selectCustomStyle";
-import { getCostCenter } from "../../expenseRegister/helper";
-import { getRequestedEmp, getSBU } from "../helper";
+import { getPaymentType, getRequestedEmp, getSBU } from "../helper";
 import NewSelect from "./../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { getCostCenter } from "../../expenseRegister/helper";
+import Loading from "../../../../_helper/_loading";
+import { CostElementDDLApi } from "../../../../inventoryManagement/warehouseManagement/invTransaction/Form/issueInvantory/helper";
 
 // Validation schema for Advance for Internal Expense
 const validationSchema = Yup.object().shape({
@@ -54,10 +54,15 @@ export default function _Form({
   btnRef,
   saveHandler,
   resetBtnRef,
+  rowDto,
+  remover,
+  setter,
   profileData,
   selectedBusinessUnit,
+  jorunalType,
   isEdit,
   state,
+  approval,
 }) {
   const [requestedEmp, setRequestedEmp] = useState([]);
   const [costCenterDDl, setCostCenter] = useState([]);
@@ -109,10 +114,12 @@ export default function _Form({
   useEffect(() => {
     if ([184].includes(selectedBusinessUnit?.value)) {
       getProfitcenterDDL(
-        `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=0&businessUnitId=${selectedBusinessUnit.value
-        }&employeeId=${[184].includes(selectedBusinessUnit?.value)
-          ? profileData?.employeeId
-          : 0
+        `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=0&businessUnitId=${
+          selectedBusinessUnit.value
+        }&employeeId=${
+          [184].includes(selectedBusinessUnit?.value)
+            ? profileData?.employeeId
+            : 0
         }`
       );
     }
@@ -132,17 +139,17 @@ export default function _Form({
           isEdit
             ? initData
             : {
-              ...initData,
-              requestedEmp: {
-                value: state?.selectedEmp?.value,
-                label: state?.selectedEmp?.label,
-              },
+                ...initData,
+                requestedEmp: {
+                  value: state?.selectedEmp?.value,
+                  label: state?.selectedEmp?.label,
+                },
 
-              SBU: {
-                value: state?.selectedSbu?.value,
-                label: state?.selectedSbu?.label,
-              },
-            }
+                SBU: {
+                  value: state?.selectedSbu?.value,
+                  label: state?.selectedSbu?.label,
+                },
+              }
         }
         // initialValues={initData}
         validationSchema={validationSchema}
@@ -263,11 +270,14 @@ export default function _Form({
                               setFieldValue("profitCenter", "");
                               setProfitcenterDDL([]);
                               getProfitcenterDDL(
-                                `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value
-                                }&businessUnitId=${selectedBusinessUnit.value
-                                }&employeeId=${[184].includes(selectedBusinessUnit?.value)
-                                  ? profileData?.employeeId
-                                  : 0
+                                `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${
+                                  valueOption?.value
+                                }&businessUnitId=${
+                                  selectedBusinessUnit.value
+                                }&employeeId=${
+                                  [184].includes(selectedBusinessUnit?.value)
+                                    ? profileData?.employeeId
+                                    : 0
                                 }`,
                                 (data) => {
                                   if (data?.length === 1) {
@@ -413,7 +423,7 @@ export default function _Form({
                         placeholder="Expense Group"
                         errors={errors}
                         touched={touched}
-                      // isDisabled={isEdit}
+                        // isDisabled={isEdit}
                       />
                     </div>
 

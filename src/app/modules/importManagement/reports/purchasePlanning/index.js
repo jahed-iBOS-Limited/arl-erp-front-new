@@ -7,6 +7,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 // import InputField from "../../../_helper/_inputField";
 import { shallowEqual, useSelector } from "react-redux";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import InputField from "../../../_helper/_inputField";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { _todayDate } from "../../../_helper/_todayDate";
 
@@ -39,7 +40,7 @@ export default function PurchasePlanningAndScheduling() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   const [
     tableData,
     getTableData,
@@ -50,12 +51,14 @@ export default function PurchasePlanningAndScheduling() {
   const getData = (pageNo, pageSize, values) => {
     const url =
       values?.type?.value === 1
-        ? `/imp/ImportReport/PurchasePlanningAndSchedulingReport?partName=ItemWiseSchedulingReport&businessUnitId=${selectedBusinessUnit?.value
-        }&asOnDate=${values?.date}&itemId=${values?.item?.value ||
-        0}&pageNo=${pageNo}&pageSize=${pageSize}`
-        : `/imp/ImportReport/PurchasePlanningAndSchedulingReport?partName=PurchasePlanningNSchedulingReport&businessUnitId=${selectedBusinessUnit?.value
-        }&asOnDate=${values?.date}&itemId=${values?.item?.value ||
-        0}&pageNo=${pageNo}&pageSize=${pageSize}`;
+        ? `/imp/ImportReport/PurchasePlanningAndSchedulingReport?partName=ItemWiseSchedulingReport&businessUnitId=${
+            selectedBusinessUnit?.value
+          }&asOnDate=${values?.date}&itemId=${values?.item?.value ||
+            0}&pageNo=${pageNo}&pageSize=${pageSize}`
+        : `/imp/ImportReport/PurchasePlanningAndSchedulingReport?partName=PurchasePlanningNSchedulingReport&businessUnitId=${
+            selectedBusinessUnit?.value
+          }&asOnDate=${values?.date}&itemId=${values?.item?.value ||
+            0}&pageNo=${pageNo}&pageSize=${pageSize}`;
 
     getTableData(url);
   };
