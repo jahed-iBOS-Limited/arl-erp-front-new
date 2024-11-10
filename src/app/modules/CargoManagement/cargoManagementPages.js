@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
+import DeliveryAgentPages from "./configuration/configurationPages";
 import OperationPages from "./operation/operationPages";
 import ReportPages from "./report/reportPages";
 
@@ -20,6 +21,10 @@ export function CargoManagementPages() {
         <ContentRoute
           path="/cargoManagement/report"
           component={ReportPages}
+        />
+        <ContentRoute
+          path="/cargoManagement/configuration"
+          component={DeliveryAgentPages}
         />
       </Switch>
     </Suspense>

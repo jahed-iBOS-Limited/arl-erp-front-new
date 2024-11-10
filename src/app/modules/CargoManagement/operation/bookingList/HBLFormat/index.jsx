@@ -79,49 +79,28 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
     (state) => state?.authData || {},
     shallowEqual
   );
-  const data = [
-    {
-      id: 1,
-      marksNo: "As per invoice",
-      shippingUnit: "170 ( ONE HUNDRED SEVENTY CTNS ONLY) CTNS",
-      text1: "MAN TROUSERS",
-      text2: "98% COTTON 2% ELASTANE",
-      orderNo: "24982-D/1",
-      hsCode: "H.S. CODE: 62034200 CAT: 6",
-      description: "M/VSL:NORTHERN MAGNITUDE V-336W",
-      invoiceNo: " JDL/GW/23/866",
-      license: "253012375998-G",
-      exp: " 1741-009662-2023",
-      item: [
-        {
-          id: 1,
-          containerNo: "CIPU5033940",
-          sealNo: "MLBD0184369",
-          size: "40'HC",
-          qty: "92",
-          cbm: "8.821",
-          mode: "CFS/CY",
-          kgs: "2143.059"
-        },
-        {
-          id: 2,
-          containerNo: " HASU4434640",
-          sealNo: "MLBD0184370",
-          size: "40'HC",
-          qty: "78",
-          cbm: "8.821",
-          mode: "CFS/CY",
-          kgs: "2143.059"
-        }
-      ],
-      grossWeight: "3960.000",
-      measurement: "16.300",
-      // SHIPPED ON BOARD EX:CHATTOGRAM, Bangladesh 01.09.2023 Feeder Vessel: HANSA HOMBURG V-10W1
-      shippedOnBoard: "Bangladesh 01.09.2023",
-      feederVessel: "HANSA HOMBURG V-10W1"
+  const data =
+  {
+    id: 1,
+    marksNo: "As per invoice",
+    shippingUnit: "170 ( ONE HUNDRED SEVENTY CTNS ONLY) CTNS",
+    text1: "MAN TROUSERS",
+    text2: "98% COTTON 2% ELASTANE",
+    orderNo: "24982-D/1",
+    hsCode: "H.S. CODE: 62034200 CAT: 6",
+    description: "M/VSL:NORTHERN MAGNITUDE V-336W",
+    invoiceNo: " JDL/GW/23/866",
+    license: "253012375998-G",
+    exp: " 1741-009662-2023",
+    item: bookingData?.transportPlanning?.containerDesc,
+    grossWeight: "3960.000",
+    measurement: "16.300",
+    // SHIPPED ON BOARD EX:CHATTOGRAM, Bangladesh 01.09.2023 Feeder Vessel: HANSA HOMBURG V-10W1
+    shippedOnBoard: "Bangladesh 01.09.2023",
+    feederVessel: "HANSA HOMBURG V-10W1"
 
-    }
-  ]
+  }
+
   const SingleItem = ({ item }) => {
     return (
       <div
@@ -211,12 +190,11 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
             <table>
               <thead>
                 <tr>
-                  <th style={{ textAlign: "start" }}>Container No.</th>
+                  <th style={{ textAlign: "center" }}>Container No.</th>
                   <th style={{ textAlign: "start" }}>Seal No.</th>
                   <th style={{ textAlign: "start" }}>Size</th>
                   <th style={{ textAlign: "start" }}>Qty</th>
                   <th style={{ textAlign: "start" }}>CBM</th>
-                  <th style={{ textAlign: "start" }}>Mode</th>
                   <th style={{ textAlign: "start" }}>Kgs</th>
                 </tr>
               </thead>
@@ -224,12 +202,11 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 {
                   item?.item?.map((list) => (
                     <tr key={list}>
-                      <td>{list.containerNo}</td>
-                      <td>{list.sealNo}</td>
+                      <td>{list.containerNumber}</td>
+                      <td>{list.sealNumber}</td>
                       <td>{list.size}</td>
-                      <td>{list.qty}</td>
+                      <td>{list.quantity}</td>
                       <td>{list.cbm}</td>
-                      <td>{list.mode}</td>
                       <td>{list.kgs}</td>
                     </tr>
                   ))
@@ -543,12 +520,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
           </div>
 
         </div>
-
-        {
-          data?.map((item) =>
-            <SingleItem item={item} key={item.id} />
-          )
-        }
+        <SingleItem item={data} />
         {/* table footer section */}
         <div
           style={{
