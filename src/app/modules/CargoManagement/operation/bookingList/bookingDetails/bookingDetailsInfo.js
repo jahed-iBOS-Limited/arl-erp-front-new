@@ -242,7 +242,7 @@ function BookingDetailsInfo({ bookingData }) {
               {bookingData?.transportPlanning?.pickupLocation}
             </p>
             <p>
-              <strong>Pickup Date:</strong>{" "}
+              <strong>Estimated Pickup Date:</strong>{" "}
               {moment(bookingData?.transportPlanning?.pickupDate).format(
                 "DD MMM YYYY"
               )}
@@ -284,13 +284,13 @@ function BookingDetailsInfo({ bookingData }) {
               </>
             )}
             <p>
-              <strong>Departure Date & Time:</strong>{" "}
+              <strong>Estimated Departure Date & Time:</strong>{" "}
               {moment(bookingData?.transportPlanning?.departureDateTime).format(
                 "DD MMM YYYY HH:mm A"
               )}
             </p>
             <p>
-              <strong>Arrival Date & Time:</strong>{" "}
+              <strong>Estimated Arrival Date & Time:</strong>{" "}
               {moment(bookingData?.transportPlanning?.arrivalDateTime).format(
                 "DD MMM YYYY HH:mm A"
               )}
@@ -460,6 +460,39 @@ function BookingDetailsInfo({ bookingData }) {
                   <td> {bookingData?.destPortReceiveDt ? moment(bookingData?.destPortReceiveDt).format("DD MMM YYYY") : "Not Received  "} </td>
                   <td> {bookingData?.buyerReceiveDt ? moment(bookingData?.buyerReceiveDt).format("DD MMM YYYY") : "Not Delivered  "} </td>
                 </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {/* container desc table*/}
+        <div className="mt-4">
+          {" "}
+          <h5>Container Description</h5>
+          <div className="table-responsive">
+            <table className="table table-striped global-table mt-0">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Container Number</th>
+                  <th>Seal Number</th>
+                  <th>Size</th>
+                  <th>Quantity</th>
+                  <th>CBM</th>
+                  <th>KGS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bookingData?.transportPlanning?.containerDesc?.map((item, index) => (
+                  <tr key={index}>
+                    <td> {index + 1} </td>
+                    <td>{item?.containerNumber}</td>
+                    <td>{item?.sealNumber}</td>
+                    <td>{item?.size}</td>
+                    <td>{item?.quantity}</td>
+                    <td>{item?.cbm}</td>
+                    <td>{item?.kgs}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
