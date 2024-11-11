@@ -103,7 +103,8 @@ export default function QualityCheckCreateForm() {
     const singleGrandParentItem = updatedHeaderData[grandParentIndex];
     singleGrandParentItem.qcQtyBeg = +e.target.value;
     singleGrandParentItem.bagWeightDeductQuantity = +e.target.value;
-    singleGrandParentItem.netWeightWithoutBag = singleGrandParentItem.netWeight - +e.target.value;
+    singleGrandParentItem.netWeightWithoutBag =
+      singleGrandParentItem.netWeight - +e.target.value;
     setHeaderData(updatedHeaderData);
   };
   const handleQcQty = (e, grandParentIndex) => {
@@ -112,15 +113,14 @@ export default function QualityCheckCreateForm() {
     singleGrandParentItem.qcQty = +e.target.value;
     setHeaderData(updatedHeaderData);
   };
-  const handleBagWeightDeductionQty=(e,grandParentIndex)=>{
+  const handleBagWeightDeductionQty = (e, grandParentIndex) => {
     const updatedHeaderData = [...headerData];
-    const singleGrandParentItem = {...updatedHeaderData[grandParentIndex]}; 
+    const singleGrandParentItem = { ...updatedHeaderData[grandParentIndex] };
     singleGrandParentItem.bagWeightDeductQuantity = +e.target.value;
-    // singleGrandParentItem.actualQuantity -= +e.target.value; 
-    updatedHeaderData[grandParentIndex] = singleGrandParentItem; 
+    // singleGrandParentItem.actualQuantity -= +e.target.value;
+    updatedHeaderData[grandParentIndex] = singleGrandParentItem;
     setHeaderData(updatedHeaderData);
-
-  }
+  };
   const handleAdd = (grandParentIndex, grandParentItem) => {
     const updatedHeaderData = [...headerData];
     const singleGrandParentItem = updatedHeaderData[grandParentIndex];
@@ -159,20 +159,20 @@ export default function QualityCheckCreateForm() {
     setHeaderData(updatedHeaderData);
   };
 
-  
   // Grand Parent handler finish
 
   // Parent handler start or 2nd level table handler start
   const handleQcQtyBegForParent = (e, grandParentIndex, parentIndex) => {
     const updatedHeaderData = [...headerData];
-    const grandParentItem = updatedHeaderData[grandParentIndex]  
-  
-    const challanQtyDeviedResult = (grandParentItem?.netWeightWithoutBag / grandParentItem?.qcQtyBeg)
-    const parentSingleData =grandParentItem["headersList"][parentIndex];
+    const grandParentItem = updatedHeaderData[grandParentIndex];
+
+    const challanQtyDeviedResult =
+      grandParentItem?.netWeightWithoutBag / grandParentItem?.qcQtyBeg;
+    const parentSingleData = grandParentItem["headersList"][parentIndex];
     parentSingleData.qcQuantityBag = +e.target.value;
-    parentSingleData.qcQuantity =challanQtyDeviedResult* +e.target.value
-     //calculate actual value and deduction qty
-     parentSingleData.deductionPercentage = parentSingleData.rowList.reduce(
+    parentSingleData.qcQuantity = challanQtyDeviedResult * +e.target.value;
+    //calculate actual value and deduction qty
+    parentSingleData.deductionPercentage = parentSingleData.rowList.reduce(
       (acc, item) => {
         return acc + item?.manualDeduction;
       },
@@ -185,14 +185,12 @@ export default function QualityCheckCreateForm() {
       parentSingleData.qcQuantity -
       (parentSingleData.deductionQuantity +
         parentSingleData.unloadedDeductionQuantity);
-        const grandTotalSum = grandParentTotalSum(
-          grandParentItem?.headersList
-        );
-        grandParentItem.actualQuantity = grandTotalSum.actualQuantity;
-        grandParentItem.deductionQuantity = grandTotalSum.deductionQuantity;
-        grandParentItem.totalQcQty = grandTotalSum.qcQuantity;
-        grandParentItem.unloadDeductionQuantity =
-          grandTotalSum.unloadedDeductionQuantity;
+    const grandTotalSum = grandParentTotalSum(grandParentItem?.headersList);
+    grandParentItem.actualQuantity = grandTotalSum.actualQuantity;
+    grandParentItem.deductionQuantity = grandTotalSum.deductionQuantity;
+    grandParentItem.totalQcQty = grandTotalSum.qcQuantity;
+    grandParentItem.unloadDeductionQuantity =
+      grandTotalSum.unloadedDeductionQuantity;
 
     setHeaderData(updatedHeaderData);
   };
@@ -238,7 +236,8 @@ export default function QualityCheckCreateForm() {
       0
     );
     parentSingleData.deductionQuantity =
-      (parentSingleData.qcQuantity * parentSingleData.deductionPercentage) / 100;
+      (parentSingleData.qcQuantity * parentSingleData.deductionPercentage) /
+      100;
     const checkValidity =
       parentSingleData.qcQuantity >
       parentSingleData.deductionQuantity +
@@ -284,19 +283,49 @@ export default function QualityCheckCreateForm() {
   // Parent handler end or 2nd level table handler end
 
   //row Items handler start
+  // const actualValueHandler = (e, grandParentIndex, parentIndex, childIndex) => {
+  //   const updatedHeaderData = [...headerData];
+  //   const childRowItem =
+  //     updatedHeaderData[grandParentIndex]["headersList"][parentIndex][
+  //       "rowList"
+  //     ][childIndex];
+  //   childRowItem.actualValue = +e.target?.value;
+  //   childRowItem.systemDeduction =
+  //     +e.target?.value > childRowItem?.standardValue
+  //       ? +e.target?.value - childRowItem?.standardValue
+  //       : 0;
+  //   setHeaderData(updatedHeaderData);
+  // };
+
   const actualValueHandler = (e, grandParentIndex, parentIndex, childIndex) => {
     const updatedHeaderData = [...headerData];
     const childRowItem =
       updatedHeaderData[grandParentIndex]["headersList"][parentIndex][
         "rowList"
       ][childIndex];
-    childRowItem.actualValue = +e.target?.value;
-    childRowItem.systemDeduction =
-      +e.target?.value > childRowItem?.standardValue
-        ? +e.target?.value - childRowItem?.standardValue
+
+    const inputValue = +e.target?.value;
+    const maxDeductionValue =
+      childRowItem.standardValue + childRowItem.differenceLimit;
+    const calculatedDeduction =
+      inputValue > childRowItem.standardValue
+        ? inputValue - childRowItem.standardValue
         : 0;
+
+    if (calculatedDeduction > childRowItem.differenceLimit) {
+      toast.error(
+        `You cannot deduct more than ${childRowItem.differenceLimit}`
+      );
+      childRowItem.actualValue = maxDeductionValue;
+      childRowItem.systemDeduction = childRowItem.differenceLimit;
+    } else {
+      childRowItem.actualValue = inputValue;
+      childRowItem.systemDeduction = calculatedDeduction;
+    }
+
     setHeaderData(updatedHeaderData);
   };
+
   const handleManualDeduction = (
     e,
     grandParentIndex,
@@ -304,8 +333,8 @@ export default function QualityCheckCreateForm() {
     childIndex
   ) => {
     const updatedHeaderData = [...headerData];
-    const grandParentSingleItem =updatedHeaderData[grandParentIndex]
-    const parentItem =grandParentSingleItem["headersList"][parentIndex];
+    const grandParentSingleItem = updatedHeaderData[grandParentIndex];
+    const parentItem = grandParentSingleItem["headersList"][parentIndex];
     const childRowItem = parentItem["rowList"][childIndex];
     childRowItem.manualDeduction = +e.target?.value;
     //calculate deduction qty value and actual value
@@ -317,15 +346,15 @@ export default function QualityCheckCreateForm() {
     parentItem.actualQuantity =
       parentItem.qcQuantity -
       (parentItem.deductionQuantity + parentItem.unloadedDeductionQuantity);
-      //grand total sum
-      const grandTotalSum = grandParentTotalSum(
-        grandParentSingleItem?.headersList
-      );
-      grandParentSingleItem.actualQuantity = grandTotalSum.actualQuantity;
-      grandParentSingleItem.deductionQuantity = grandTotalSum.deductionQuantity;
-      grandParentSingleItem.totalQcQty = grandTotalSum.qcQuantity;
-      grandParentSingleItem.unloadDeductionQuantity =
-        grandTotalSum.unloadedDeductionQuantity;
+    //grand total sum
+    const grandTotalSum = grandParentTotalSum(
+      grandParentSingleItem?.headersList
+    );
+    grandParentSingleItem.actualQuantity = grandTotalSum.actualQuantity;
+    grandParentSingleItem.deductionQuantity = grandTotalSum.deductionQuantity;
+    grandParentSingleItem.totalQcQty = grandTotalSum.qcQuantity;
+    grandParentSingleItem.unloadDeductionQuantity =
+      grandTotalSum.unloadedDeductionQuantity;
     setHeaderData(updatedHeaderData);
   };
   const handleRemarks = (e, grandParentIndex, parentIndex, childIndex) => {
@@ -339,87 +368,79 @@ export default function QualityCheckCreateForm() {
   };
   const handleRowItemDelete = (grandParentIndex, parentIndex, childIndex) => {
     const updatedHeaderData = [...headerData];
-    const grandParentSingleItem =updatedHeaderData[grandParentIndex]
-    const parentItem =grandParentSingleItem["headersList"][parentIndex];
+    const grandParentSingleItem = updatedHeaderData[grandParentIndex];
+    const parentItem = grandParentSingleItem["headersList"][parentIndex];
     updatedHeaderData[grandParentIndex]["headersList"][parentIndex][
       "rowList"
     ].splice(childIndex, 1);
-      //calculate deduction qty value and actual value
-      parentItem.deductionPercentage = parentItem.rowList.reduce((acc, item) => {
-        return acc + item?.manualDeduction;
-      }, 0);
-      parentItem.deductionQuantity =
-        (parentItem.qcQuantity * parentItem.deductionPercentage) / 100;
-      parentItem.actualQuantity =
-        parentItem.qcQuantity -
-        (parentItem.deductionQuantity + parentItem.unloadedDeductionQuantity);
-        //grand total sum
-        const grandTotalSum = grandParentTotalSum(
-          grandParentSingleItem?.headersList
-        );
-        grandParentSingleItem.actualQuantity = grandTotalSum.actualQuantity;
-        grandParentSingleItem.deductionQuantity = grandTotalSum.deductionQuantity;
-        grandParentSingleItem.totalQcQty = grandTotalSum.qcQuantity;
-        grandParentSingleItem.unloadDeductionQuantity =
-          grandTotalSum.unloadedDeductionQuantity;
+    //calculate deduction qty value and actual value
+    parentItem.deductionPercentage = parentItem.rowList.reduce((acc, item) => {
+      return acc + item?.manualDeduction;
+    }, 0);
+    parentItem.deductionQuantity =
+      (parentItem.qcQuantity * parentItem.deductionPercentage) / 100;
+    parentItem.actualQuantity =
+      parentItem.qcQuantity -
+      (parentItem.deductionQuantity + parentItem.unloadedDeductionQuantity);
+    //grand total sum
+    const grandTotalSum = grandParentTotalSum(
+      grandParentSingleItem?.headersList
+    );
+    grandParentSingleItem.actualQuantity = grandTotalSum.actualQuantity;
+    grandParentSingleItem.deductionQuantity = grandTotalSum.deductionQuantity;
+    grandParentSingleItem.totalQcQty = grandTotalSum.qcQuantity;
+    grandParentSingleItem.unloadDeductionQuantity =
+      grandTotalSum.unloadedDeductionQuantity;
 
     setHeaderData(updatedHeaderData);
   };
 
-
   // save handler
   const saveHandler = (values, cb) => {
-
-    const isqcQtyNullable = headerData?.some((item)=> !item?.qcQty)
-    if(isqcQtyNullable){
+    const isqcQtyNullable = headerData?.some((item) => !item?.qcQty);
+    if (isqcQtyNullable) {
       return toast.warn("Challan Qty must be input first");
     }
-    const payload = headerData?.map(item=>({
-      headerObject:{
-      purchaseOrderRowId : item?.purchaseOrderRowId,
-      actualQuantity:item?.actualQuantity,
-      businessUnitId:buId,
-      purchaseOrderId:values?.poNo?.value,
-      createdBy:userId,
-      supplierId:item?.supplierId,
-      supplierName:item?.supplierName,
-      supplierAddress:item?.address,
-      itemId:item?.itemId,
-      itemName:item?.itemName,
-      uomId:item?.uomId,
-      uomName:item?.uomName,
-      entryCode:item?.entryCode,
-      gateEntryListId:item?.gateEntryItemListId,
-      vehicleId:item?.vehicleId,
-      vehicleNo:item?.vehicleNo,
-      netWeight:item?.netWeight,
-      challanQuantity:item?.qcQty,
-      deductionQuantity:item?.deductionQuantity,
-      unloadedDeductionQuantity:item?.unloadDeduct||0,
-      isReceived:item?.isReceived,
-      warehouseComment:item?.warehouseComment||"",
-      challanQuantityBag:item?.qcQtyBeg,
-      bagWeightDeductQuantity:item?.bagWeightDeductQuantity || 0
-
+    const payload = headerData?.map((item) => ({
+      headerObject: {
+        purchaseOrderRowId: item?.purchaseOrderRowId,
+        actualQuantity: item?.actualQuantity,
+        businessUnitId: buId,
+        purchaseOrderId: values?.poNo?.value,
+        createdBy: userId,
+        supplierId: item?.supplierId,
+        supplierName: item?.supplierName,
+        supplierAddress: item?.address,
+        itemId: item?.itemId,
+        itemName: item?.itemName,
+        uomId: item?.uomId,
+        uomName: item?.uomName,
+        entryCode: item?.entryCode,
+        gateEntryListId: item?.gateEntryItemListId,
+        vehicleId: item?.vehicleId,
+        vehicleNo: item?.vehicleNo,
+        netWeight: item?.netWeight,
+        challanQuantity: item?.qcQty,
+        deductionQuantity: item?.deductionQuantity,
+        unloadedDeductionQuantity: item?.unloadDeduct || 0,
+        isReceived: item?.isReceived,
+        warehouseComment: item?.warehouseComment || "",
+        challanQuantityBag: item?.qcQtyBeg,
+        bagWeightDeductQuantity: item?.bagWeightDeductQuantity || 0,
       },
-      headerDetailsList:item?.headersList?.map(parentItem=>({
-        qcQuantityBag:parentItem.qcQuantityBag,
-        qcQuantity:parentItem.qcQuantity,
-        deductionPercentage:parentItem.deductionPercentage,
-        deductionQuantity:parentItem.deductionQuantity,
-        actualQuantity:parentItem.actualQuantity,
-        unloadedDeductionQuantity:parentItem.unloadedDeductionQuantity,
-        remarks:parentItem.remarks,
-        rowList:parentItem?.rowList
-      }))
-    }))
+      headerDetailsList: item?.headersList?.map((parentItem) => ({
+        qcQuantityBag: parentItem.qcQuantityBag,
+        qcQuantity: parentItem.qcQuantity,
+        deductionPercentage: parentItem.deductionPercentage,
+        deductionQuantity: parentItem.deductionQuantity,
+        actualQuantity: parentItem.actualQuantity,
+        unloadedDeductionQuantity: parentItem.unloadedDeductionQuantity,
+        remarks: parentItem.remarks,
+        rowList: parentItem?.rowList,
+      })),
+    }));
 
-    saveQcItem(
-      `/mes/QCTest/CreateItemQualityCheck`,
-      payload,
-      ()=>{},
-      true
-    )
+    saveQcItem(`/mes/QCTest/CreateItemQualityCheck`, payload, () => {}, true);
   };
   // effects
   useEffect(() => {
@@ -589,7 +610,6 @@ export default function QualityCheckCreateForm() {
                     handleRowItemDelete,
                   }}
                 >
-                
                   <CommonTable headersData={grandParentTableHeaders}>
                     {headerData?.map((grandParentItem, grandParentIndex) => (
                       <GrandParentTableBody
@@ -604,7 +624,9 @@ export default function QualityCheckCreateForm() {
                         handleStatus={handleStatus}
                         handleHeaderRowDelete={handleHeaderRowDelete}
                         handleWarehouseComment={handleWarehouseComment}
-                        handleBagWeightDeductionQty={handleBagWeightDeductionQty}
+                        handleBagWeightDeductionQty={
+                          handleBagWeightDeductionQty
+                        }
                       />
                     ))}
                   </CommonTable>
