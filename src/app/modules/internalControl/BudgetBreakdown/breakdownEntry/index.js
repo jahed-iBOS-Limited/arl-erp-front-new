@@ -64,7 +64,7 @@ export default function BreakdownEntry() {
                     return {
                         ...item,
                         budgetAmount: matchingBudget.budgetAmount ?? "",
-                        autoId: matchingBudget.autoId ?? 0
+                        autoId: matchingBudget.intAutoId ?? 0
                     };
                 });
 
@@ -122,7 +122,7 @@ export default function BreakdownEntry() {
         // Create payload for saving data
         const payload = filteredData.flatMap((item) => {
             return item.monthData.map((month) => ({
-                autoId: item?.autoId || 0,
+                autoId: month?.autoId || 0,
                 ProfitCenterId: values?.profitCenter?.value,
                 businessUnitId: values?.businessUnit?.value,
                 glId: item.generalLedgerId,
