@@ -152,7 +152,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
           >
 
             <div>
-              <div>Shipper/Exporter (Complete Name and Address)</div>
+              <div className="printSectionNoneWithNewLine" >Shipper/Exporter (Complete Name and Address)</div>
               <div>{bookingData?.shipperName}</div>
               <div>{bookingData?.shipperAddress}</div>
               <div>{bookingData?.shipperContactPerson}</div>
@@ -169,7 +169,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 }}
               >
                 <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
-                  <div>Booking Number</div>
+                  <div className="printSectionNoneWithNewLine">Booking Number</div>
                   <div>{bookingData?.bookingRequestCode}</div>
                 </div>
                 <div
@@ -178,14 +178,14 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                   }}
                 >
                   <div style={{ paddingLeft: 5 }}>
-                    <div>Bill of Lading Number</div>
+                    <div className="printSectionNoneWithNewLine">Bill of Lading Number</div>
                     <div>{bookingData?.hblnumber}</div>
                   </div>
                 </div>
 
               </div>
               <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
-                <div>Export References</div>
+                <div className="printSectionNoneWithNewLine">Export References</div>
                 <br />
                 <br />
                 <br />
@@ -208,7 +208,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
             }}
           >
             <div>
-              <div>Consignee (Complete Name and Address)</div>
+              <div className="printSectionNoneWithNewLine">Consignee (Complete Name and Address)</div>
               <div>{bookingData?.consigneeName}</div>
               <div>{bookingData?.consigneeAddress}</div>
               <div>{bookingData?.consigneeContactPerson}</div>
@@ -224,7 +224,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 }}
               >
                 <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
-                  <div>Forwarding Agent – References (Complete Name and Address)</div>
+                  <div className="printSectionNoneWithNewLine">Forwarding Agent – References (Complete Name and Address)</div>
                   <div>{bookingData?.freightAgentReference}</div>
                   <br />
                 </div>
@@ -232,7 +232,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
 
               </div>
               <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
-                <div>Point and Country of Origin</div>
+                <div className="printSectionNoneWithNewLine">Point and Country of Origin</div>
                 <div>{bookingData?.originAddress}, {bookingData?.countryOfOrigin}</div>
                 <br />
                 <br />
@@ -253,7 +253,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
             }}
           >
             <div>
-              <div>Notify Party (Complete Name and Address)</div>
+              <div className="printSectionNoneWithNewLine">Notify Party (Complete Name and Address)</div>
               <div>{bookingData?.notifyParty}</div>
               <br />
               <br />
@@ -262,7 +262,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
             <div>
 
               <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
-                <div>For Delivery Please Apply To</div>
+                <div className="printSectionNoneWithNewLine">For Delivery Please Apply To</div>
                 <br />
                 <br />
                 <br />
@@ -290,7 +290,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
               }}
             >
               <div>
-                <div>Loading Pier/Terminal</div>
+                <div className="printSectionNoneWithNewLine">Loading Pier/Terminal</div>
                 <br />
               </div>
               <div
@@ -299,7 +299,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 }}
               >
                 <div style={{ paddingLeft: 5 }}>
-                  <div>Place of Receipt</div>
+                  <div className="printSectionNoneWithNewLine">Place of Receipt</div>
                   <div>{bookingData?.pickupPlace} </div>
                 </div>
               </div>
@@ -312,7 +312,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
               }}
             >
               <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
-                <div>Pre-Carriage By</div>
+                <div className="printSectionNoneWithNewLine">Pre-Carriage By</div>
                 <br />
               </div>
               <div
@@ -321,7 +321,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 }}
               >
                 <div style={{ paddingLeft: 5 }}>
-                  <div>Number of Originals</div>
+                  <div className="printSectionNoneWithNewLine">Number of Originals</div>
                   <br />
                 </div>
               </div>
@@ -353,7 +353,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 }}
               >
                 <div>
-                  <div>Vessel/Voyage Number</div>
+                  <div className="printSectionNoneWithNewLine">Vessel/Voyage Number</div>
                   <div>{bookingData?.transportPlanning?.vesselName}</div>
                   <div>
 
@@ -366,7 +366,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                   }}
                 >
                   <div style={{ paddingLeft: 5 }}>
-                    <div>Port of Export</div>
+                    <div className="printSectionNoneWithNewLine">Port of Export</div>
                     <div>{bookingData?.portOfLoading}</div>
                   </div>
                 </div>
@@ -381,7 +381,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
               }}
             >
               <div>
-                <div>Port of Discharge</div>
+                <div className="printSectionNoneWithNewLine">Port of Discharge</div>
                 <div>{bookingData?.portOfDischarge}</div>
               </div>
               <div
@@ -390,7 +390,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 }}
               >
                 <div style={{ paddingLeft: 5 }}>
-                  <div>Container Number</div>
+                  <div className="printSectionNoneWithNewLine">Container Number</div>
                   <br />
                 </div>
               </div>
@@ -399,7 +399,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
 
           </div>
           <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
-            <div>For Delivery Please Apply To</div>
+            <div className="printSectionNoneWithNewLine">For Delivery Please Apply To</div>
             <div>{bookingData?.finalDestinationAddress}</div>
             <br />
             <br />
