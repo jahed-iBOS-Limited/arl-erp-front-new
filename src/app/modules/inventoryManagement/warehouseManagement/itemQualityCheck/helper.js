@@ -54,6 +54,7 @@ export const headerRowTableHeaders = [
   "Actual Value (%)",
   "System Deduction(%)",
   // "Manual Deduction(%)",
+  "Difference Limit",
   "Remarks",
   "Action",
 ];
@@ -81,6 +82,7 @@ export const getRowWithItemId = async (buId, itemId) => {
     const response = await axios.get(api);
 
     return response?.data?.map((item) => ({
+      ...item,
       parameterName: item?.parameterName,
       standardValue: item?.standardValue,
       actualValue: 0,
@@ -95,7 +97,6 @@ export const getRowWithItemId = async (buId, itemId) => {
 
 //grandParentColum's Total Sum
 export const grandParentTotalSum = (arr) => {
-  console.log("arr", arr);
   const totalSum = arr?.reduce(
     (acc, item) => ({
       qcQuantity: acc.qcQuantity + item?.qcQuantity,
