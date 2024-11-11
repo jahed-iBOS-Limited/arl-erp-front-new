@@ -16,6 +16,10 @@ import Paper from "@material-ui/core/Paper";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import { IInput } from "../../../../_helper/_input";
+import IViewModal from "../../../../_helper/_viewModal";
+import useAxiosGet from "../../purchaseOrder/customHooks/useAxiosGet";
+import { eProcurementBaseURL } from "../../../../../App";
+import LastTransactionInfo from "./lastTransactionInfo";
 
 const useRowStyles = makeStyles({
   root: {
@@ -26,8 +30,18 @@ const useRowStyles = makeStyles({
 });
 
 function Row(props) {
-  const { row, data, type, isView, rowDataHandler, index } = props;
+  const {
+    row,
+    data,
+    type,
+    isView,
+    rowDataHandler,
+    index,
+    setShowPurchaseModal,
+    getLastPurchaseInfo,
+  } = props;
   const [open, setOpen] = React.useState(false);
+
   const classes = useRowStyles();
 
   return (
@@ -42,15 +56,34 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell align="center">{row?.itemName}</TableCell>
+        <TableCell align="center">
+          {" "}
+          <span
+            style={{
+              color: "#007bff", // Link color
+              cursor: "pointer",
+              textDecoration: "underline",
+              display: "flex",
+              alignItems: "center",
+            }}
+            onClick={() => {
+              getLastPurchaseInfo(
+                `${eProcurementBaseURL}/ComparativeStatement/GetItemsLastPurchaseInformation?itemId=${row?.itemId}`
+              );
+              setShowPurchaseModal(true);
+            }}
+          >
+            {row?.itemName}
+          </span>{" "}
+        </TableCell>
         <TableCell align="center">{row?.uoMname}</TableCell>
         <TableCell align="center">{row?.itemCategoryName}</TableCell>
         <TableCell align="center">{row?.itemDescription}</TableCell>
         <TableCell align="center">
           {" "}
           <IInput
-            value={data[index]?.takenQty || 0}
-            name="takenQty"
+            value={data[index]?.csQuantity || 0}
+            name="csQuantity"
             required
             placeholder="Taken Quantity"
             type="number"
@@ -61,7 +94,7 @@ function Row(props) {
             onChange={(e) => {
               let validNum = e.target.value;
 
-              rowDataHandler("takenQty", validNum, index);
+              rowDataHandler("csQuantity", validNum, index);
             }}
           />
         </TableCell>
@@ -88,13 +121,12 @@ function Row(props) {
                     {row?.firstAndSecondPlaceList[0]?.portList?.map((port) => (
                       <TableRow key={port.portId}>
                         <TableCell>{port?.portName}</TableCell>
-                        <TableCell>{port?.portRate}</TableCell>
+                        <TableCell>{port?.rate}</TableCell>
                         <TableCell>
                           {
                             <TableCell>
                               {" "}
-                              {row?.firstAndSecondPlaceList[0]?.supplierRate *
-                                data[index]?.takenQty || 0
+                              {port?.rate * data[index]?.csQuantity || 0
 
                               // item?.firstAndSecondPlaceList[0]
                               // ?.totalAmount || 0
@@ -129,13 +161,12 @@ function Row(props) {
                     {row?.firstAndSecondPlaceList[1]?.portList?.map((port) => (
                       <TableRow key={port.portId}>
                         <TableCell>{port?.portName}</TableCell>
-                        <TableCell>{port?.portRate}</TableCell>
+                        <TableCell>{port?.rate}</TableCell>
                         <TableCell>
                           {
                             <TableCell>
                               {" "}
-                              {row?.firstAndSecondPlaceList[1]?.supplierRate *
-                                data[index]?.takenQty || 0
+                              {port?.rate * data[index]?.csQuantity || 0
 
                               // item?.firstAndSecondPlaceList[0]
                               // ?.totalAmount || 0
@@ -175,7 +206,7 @@ function Row(props) {
                       <TableCell>
                         {" "}
                         {row?.firstAndSecondPlaceList[0]?.supplierRate *
-                          data[index]?.takenQty || 0
+                          data[index]?.csQuantity || 0
 
                         // item?.firstAndSecondPlaceList[0]
                         // ?.totalAmount || 0
@@ -217,7 +248,7 @@ function Row(props) {
                       <TableCell>
                         {" "}
                         {row?.firstAndSecondPlaceList[1]?.supplierRate *
-                          data[index]?.takenQty || 0
+                          data[index]?.csQuantity || 0
 
                         // item?.firstAndSecondPlaceList[0]
                         // ?.totalAmount || 0
@@ -259,6 +290,14 @@ export default function SupplyWiseTable({
   data,
   rowDataHandler,
 }) {
+  const [showPurchaseModal, setShowPurchaseModal] = React.useState(false);
+  const [
+    lastPurchaseInfo,
+    getLastPurchaseInfo,
+    lastPurchaseInfoLoading,
+    setLastPurchaseInfo,
+  ] = useAxiosGet();
+
   return (
     <TableContainer component={Paper} className="mt-4">
       <Table aria-label="collapsible table" size="small">
@@ -283,10 +322,20 @@ export default function SupplyWiseTable({
               data={data}
               type={type}
               rowDataHandler={rowDataHandler}
+              setShowPurchaseModal={setShowPurchaseModal}
+              getLastPurchaseInfo={getLastPurchaseInfo}
             />
           ))}
         </TableBody>
       </Table>
+      <IViewModal
+        show={showPurchaseModal}
+        onHide={() => {
+          setShowPurchaseModal(false);
+        }}
+      >
+        <LastTransactionInfo data={lastPurchaseInfo} />
+      </IViewModal>
     </TableContainer>
   );
 }

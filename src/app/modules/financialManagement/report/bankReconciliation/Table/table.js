@@ -21,7 +21,8 @@ export const BankReconciliationTable = () => {
     typeTwo: [],
     typeThree: [],
     typeFour: [],
-    // typeFive: [],
+    typeFive: [],
+    // typeBalanceOfBankBook: [],
     // typeSix: [],
     allData: [],
   });

@@ -31,6 +31,7 @@ const TableOne = ({ obj }) => {
               <th>BP Rate/bag</th>
               <th>BA Rate/bag</th>
               <th>CP Rate/bag</th>
+              <th>CA Rate/bag</th>
               {/* {[17, 18, 25, 27].includes(values?.commissionType?.value) && (
                 <>
                   {" "}
@@ -52,6 +53,7 @@ const TableOne = ({ obj }) => {
                   <td className="text-right">{item?.bpcommissionRate}</td>
                   <td className="text-right">{item?.bacommissionRate}</td>
                   <td className="text-right">{item?.cpcommissionRate}</td>
+                  <td className="text-right">{item?.cacommissionRate}</td>
 
                   {/* {[17, 18, 25, 27].includes(values?.commissionType?.value) && (
                     <>
@@ -107,6 +109,7 @@ const TableTwo = ({ obj }) => {
               <th rowSpan={2}>BP Rate/bag</th>
               <th rowSpan={2}>BA Rate/bag</th>
               <th rowSpan={2}>CP Rate/bag</th>
+              <th rowSpan={2}>CA Rate/bag</th>
               <th rowSpan={2}>Insert By</th>
               <th rowSpan={2}>Action</th>
             </tr>
@@ -130,7 +133,7 @@ const TableTwo = ({ obj }) => {
                   <td className="text-right">{item?.bpcommissionRate}</td>
                   <td className="text-right">{item?.bacommissionRate}</td>
                   <td className="text-right">{item?.cpcommissionRate}</td>
-
+                  <td className="text-right">{item?.cacommissionRate}</td>
                   <td className="text-right">{item?.actionName}</td>
                   <td className="text-center">
                     <div className="d-flex justify-content-around">
