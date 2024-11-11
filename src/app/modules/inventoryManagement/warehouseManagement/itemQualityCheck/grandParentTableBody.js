@@ -38,8 +38,8 @@ export default function GrandParentTableBody({
           </span>
         </td>
         <td className="text-center">{grandParentIndex + 1}</td>
-        {/* <td className="text-center">{grandParentItem?.supplierName}</td> */}
-        {/* <td className="text-center">{grandParentItem?.address}</td> */}
+        <td className="text-center">{grandParentItem?.supplierName}</td>
+        <td className="text-center">{grandParentItem?.address}</td>
         <td className="text-center">{grandParentItem?.itemName}</td>
         <td className="text-center">{grandParentItem?.uomName}</td>
         <td className="text-center">
