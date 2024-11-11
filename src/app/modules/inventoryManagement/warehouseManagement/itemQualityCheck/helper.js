@@ -3,8 +3,8 @@ import * as Yup from "yup";
 export const grandParentTableHeaders = [
   "",
   "SL",
-  // "Supplier",
-  // "Address",
+  "Supplier",
+  "Address",
   "Item Name",
   "UOM",
 
@@ -53,8 +53,8 @@ export const headerRowTableHeaders = [
   "Standard Value (%)",
   "Actual Value (%)",
   "System Deduction(%)",
-  // "Manual Deduction(%)",
-  "Difference Limit",
+  "Manual Deduction(%)",
+  // "Difference Limit",
   "Remarks",
   "Action",
 ];
