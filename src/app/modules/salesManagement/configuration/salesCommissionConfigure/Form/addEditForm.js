@@ -21,6 +21,7 @@ const initData = {
   fromQuantity: "",
   toQuantity: "",
   commonRate: "",
+  cacommissionRate: "",
 };
 
 export default function SalesCommissionConfigureEntryForm() {
@@ -43,9 +44,11 @@ export default function SalesCommissionConfigureEntryForm() {
 
   const [desginationList, getDesignationList] = useAxiosGet();
 
-  useEffect(()=>{
-    getDesignationList(`/hcm/HCMDDL/GetPeopleDeskDesignationDDL?accountId=${accountId}&businessUnitId=${buId}`)
-  },[])
+  useEffect(() => {
+    getDesignationList(
+      `/hcm/HCMDDL/GetPeopleDeskDesignationDDL?accountId=${accountId}&businessUnitId=${buId}`
+    );
+  }, []);
 
   useEffect(() => {
     getCommissionTypes(
@@ -88,6 +91,7 @@ export default function SalesCommissionConfigureEntryForm() {
           bpcommissionRate: commonRate,
           bacommissionRate: commonRate,
           cpcommissionRate: commonRate,
+          cacommissionRate: commonRate,
           firstSlabCommissionRate: commonRate,
           secondSlabCommissionRate: commonRate,
           thirdSlabCommissionRate: commonRate,
@@ -98,9 +102,12 @@ export default function SalesCommissionConfigureEntryForm() {
       }
 
       setRowData(newArray);
-    } else if ([17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(commissionTypeId)) {
-
-      const isCommonRateApplicable = [35, 36, 37, 38, 39, 40].includes(commissionTypeId);
+    } else if (
+      [17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(commissionTypeId)
+    ) {
+      const isCommonRateApplicable = [35, 36, 37, 38, 39, 40].includes(
+        commissionTypeId
+      );
       const commissionRate = commonRate || 0;
 
       const newRow = {
@@ -124,7 +131,7 @@ export default function SalesCommissionConfigureEntryForm() {
         achievementFrom: +values?.fromAchievement,
         achievementTo: +values?.toAchievement,
         itemGroupId: values?.itemGroup?.value || 0,
-        designationId: values?.designation?.value || 0
+        designationId: values?.designation?.value || 0,
       };
       setRowData([...rowData, newRow]);
       cb && cb();
@@ -181,6 +188,7 @@ export default function SalesCommissionConfigureEntryForm() {
         bpcommissionRate: +item?.bpcommissionRate || 0,
         bacommissionRate: +item?.bacommissionRate || 0,
         cpcommissionRate: +item?.cpcommissionRate || 0,
+        cacommissionRate: +item?.cacommissionRate || 0,
         firstSlabCommissionRate: +item?.firstSlabCommissionRate || 0,
         secondSlabCommissionRate: +item?.secondSlabCommissionRate || 0,
         thirdSlabCommissionRate: +item?.thirdSlabCommissionRate || 0,

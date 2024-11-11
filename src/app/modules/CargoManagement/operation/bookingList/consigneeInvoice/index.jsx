@@ -11,7 +11,7 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import logisticsLogo from "./logisticsLogo.png";
 import "./style.css";
 
-const FreightInvoice = ({ rowClickData }) => {
+const ConsigneeInvoice = ({ rowClickData }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual
@@ -668,4 +668,4 @@ const FreightInvoice = ({ rowClickData }) => {
   );
 };
 
-export default FreightInvoice;
+export default ConsigneeInvoice;

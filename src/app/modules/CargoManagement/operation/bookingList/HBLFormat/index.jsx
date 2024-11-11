@@ -6,7 +6,6 @@ import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import logisticsLogo from "./logisticsLogo.png";
 import NewHBLFormatAir from "./newHBLFormat";
-import "./style.css";
 
 const HBLFormat = ({ rowClickData }) => {
   const bookingRequestId = rowClickData?.bookingRequestId;
@@ -79,482 +78,463 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
     (state) => state?.authData || {},
     shallowEqual
   );
-  const data = [
-    {
-      id: 1,
-      marksNo: "As per invoice",
-      shippingUnit: "170 ( ONE HUNDRED SEVENTY CTNS ONLY) CTNS",
-      text1: "MAN TROUSERS",
-      text2: "98% COTTON 2% ELASTANE",
-      orderNo: "24982-D/1",
-      hsCode: "H.S. CODE: 62034200 CAT: 6",
-      description: "M/VSL:NORTHERN MAGNITUDE V-336W",
-      invoiceNo: " JDL/GW/23/866",
-      license: "253012375998-G",
-      exp: " 1741-009662-2023",
-      item: [
-        {
-          id: 1,
-          containerNo: "CIPU5033940",
-          sealNo: "MLBD0184369",
-          size: "40'HC",
-          qty: "92",
-          cbm: "8.821",
-          mode: "CFS/CY",
-          kgs: "2143.059"
-        },
-        {
-          id: 2,
-          containerNo: " HASU4434640",
-          sealNo: "MLBD0184370",
-          size: "40'HC",
-          qty: "78",
-          cbm: "8.821",
-          mode: "CFS/CY",
-          kgs: "2143.059"
-        }
-      ],
-      grossWeight: "3960.000",
-      measurement: "16.300",
-      // SHIPPED ON BOARD EX:CHATTOGRAM, Bangladesh 01.09.2023 Feeder Vessel: HANSA HOMBURG V-10W1
-      shippedOnBoard: "Bangladesh 01.09.2023",
-      feederVessel: "HANSA HOMBURG V-10W1"
+  console.log(selectedBusinessUnit)
+  return (
+    <div
+      style={{
+        fontSize: 11,
+        fontWeight: 400,
+        display: "flex",
+        flexDirection: "column",
+        gap: 10,
 
-    }
-  ]
-  const SingleItem = ({ item }) => {
-    return (
+      }}
+      ref={componentRef}
+    >
+      {/* header */}
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr 6fr 1fr 1fr",
-          fontSize: 11,
-          textTransform: "uppercase"
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+
         }}
       >
         <div
           style={{
-            borderRight: "1px solid #000000",
-            borderBottom: "1px solid #000000",
-            padding: 2
-
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
           }}
         >
-          {item?.marksNo}
+          <img
+            src={logisticsLogo}
+            alt="Logo"
+            style={{
+              height: 25,
+              width: 150,
+            }}
+          />
+          <div>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 600
+              }}
+            >
+              {selectedBusinessUnit?.label}
+            </div>
+            <div>
+              {selectedBusinessUnit?.address}
+            </div>
+          </div>
         </div>
         <div
           style={{
-            borderRight: "1px solid #000000",
-            borderBottom: "1px solid #000000",
-            padding: 2
-
+            fontSize: 20,
+            fontWeight: 500
           }}
-        >
-          {item?.shippingUnit}
-        </div>
+        >BILL OF LADING</div>
+      </div>
+      <div>
+        {/* shipper */}
         <div
           style={{
-            borderRight: "1px solid #000000",
+            borderTop: "1px solid #000000",
             borderBottom: "1px solid #000000",
-            padding: 2
-
           }}
         >
           <div
             style={{
               display: "grid",
-              gap: 20
+              gridTemplateColumns: "1fr 1fr",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-around"
-              }}
-            >
+
+            <div>
+              <div>Shipper/Exporter (Complete Name and Address)</div>
+              <div>{bookingData?.shipperName}</div>
+              <div>{bookingData?.shipperAddress}</div>
+              <div>{bookingData?.shipperContactPerson}</div>
+              <div>{bookingData?.shipperContact}</div>
+              <div>{bookingData?.shipperEmail}</div>
+              <div>{bookingData?.shipperState} ,{bookingData?.shipperCountry}</div>
+            </div>
+            <div>
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column"
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  borderBottom: "1px solid #000000",
                 }}
               >
-                <span>{item?.text1}</span>
-                <span> {item?.text2}</span>
-                <span> {item?.orderNo}</span>
-                <span>  {item?.hsCode}</span>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column"
-                }}
-              >
-                <span>SHIPPED ON BOARD: <br />{item?.shippedOnBoard}</span>
-                <span>Feeder Vessel: <br />{item?.feederVessel}</span>
-              </div>
-            </div>
-            <div
-              style={{ textAlign: "center" }}
-            >
-              {item?.description}
-            </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column"
-              }}
-            >
-              <div style={{ display: "flex", justifyContent: "space-around" }}><span>INV.NO.: {item?.invoiceNo}</span> <span>DATE.: 23.08.2023</span></div>
-              <div style={{ display: "flex", justifyContent: "space-around" }}><span>L/C NO: {item?.license}</span><span>DATE.: 23.08.2023</span></div>
-              <div style={{ display: "flex", justifyContent: "space-around" }}> <span>EXP No.:  {item?.exp}</span><span>DATE.: 23.08.2023</span></div>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th style={{ textAlign: "start" }}>Container No.</th>
-                  <th style={{ textAlign: "start" }}>Seal No.</th>
-                  <th style={{ textAlign: "start" }}>Size</th>
-                  <th style={{ textAlign: "start" }}>Qty</th>
-                  <th style={{ textAlign: "start" }}>CBM</th>
-                  <th style={{ textAlign: "start" }}>Mode</th>
-                  <th style={{ textAlign: "start" }}>Kgs</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  item?.item?.map((list) => (
-                    <tr key={list}>
-                      <td>{list.containerNo}</td>
-                      <td>{list.sealNo}</td>
-                      <td>{list.size}</td>
-                      <td>{list.qty}</td>
-                      <td>{list.cbm}</td>
-                      <td>{list.mode}</td>
-                      <td>{list.kgs}</td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-            </table>
-
-          </div>
-        </div>
-        <div
-          style={{
-            borderRight: "1px solid #000000",
-            borderBottom: "1px solid #000000",
-            padding: 2,
-            textAlign: "center"
-
-          }}
-        >{item?.grossWeight} <br /> kgs</div>
-        <div
-          style={{
-            borderBottom: "1px solid #000000",
-            padding: 2,
-            textAlign: "center"
-          }}
-        >
-          {item?.measurement} <br /> cbm
-        </div>
-      </div>
-
-    )
-  }
-  return (
-    <div className="hbl-container" ref={componentRef}>
-      <div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            borderBottom: "1px solid #000000"
-          }}
-        >
-          <p
-            style={{
-              fontSize: 12,
-              textTransform: 'uppercase',
-              textAlign: "center",
-              fontWeight: 500
-
-            }}
-          >Bill of Landing</p>
-          <p
-            style={{
-              fontSize: 11,
-              textTransform: 'uppercase',
-              textAlign: "center"
-
-            }}
-          >
-            NOT NEGOTIABLE UNLESS CONSIGNED &quot;TO ORDER&quot;
-          </p>
-        </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            fontSize: 11
-          }}
-        >
-          <div
-            style={{
-              borderRight: "1px solid #000000",
-              borderBottom: "1px solid #000000",
-            }}
-          >
-            {/* shipper section */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                paddingTop: 4,
-                paddingBottom: 5,
-                borderBottom: '1px solid #000000'
-              }}
-            >
-              <span>{bookingData?.shipperName}</span>
-              <span>{bookingData?.shipperAddress}</span>
-              <span>{bookingData?.shipperContactPerson}</span>
-              <span>{bookingData?.shipperContact}</span>
-              <span>{bookingData?.shipperEmail}</span>
-
-            </div>
-            {/* Consignee section */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                paddingTop: 4,
-                paddingBottom: 5,
-                borderBottom: "1px solid #000000",
-
-              }}
-            >
-              <span>Consignee (if To Order so indicate)</span>
-              <span>UNTO THE ORDER OF:</span>
-              <span>{bookingData?.consigneeName}</span>
-              <span>{bookingData?.consigneeContactPerson}</span>
-              <span>{bookingData?.consigneeContact}</span>
-              <span>{bookingData?.consigneeEmail}</span>
-              <span>{bookingData?.consigneeAddress} {bookingData?.consigneeAddress && ","} {bookingData?.consigState} {bookingData?.consigState && ","}{bookingData?.consigneeAddress}</span>
-              <span> {bookingData?.consigCountry}</span>
-
-            </div>
-            {/* Notify Part */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                paddingTop: 4,
-                paddingBottom: 20,
-                borderBottom: "1px solid #000000"
-              }}
-            >
-              <span>Notify Party (No claim shall attach for failure to notify)</span>
-              <span>{bookingData?.notifyParty}</span>
-              {/* <span>NIEUWEZIJDS VOORBURGWAL 307</span>
-              <span>1012 RM AMSTERDAM</span>
-              <span>THE NETHERLANDS, EORI: ESA15075062-Netherlands</span> */}
-
-
-            </div>
-            {/* Precarriage */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                fontSize: 11,
-                gap: 2,
-                borderBottom: "1px solid #000000"
-              }}
-            >
-              <div style={{ borderRight: '1px solid #000000', paddingRight: 2, paddingLeft: 2 }}> Precarriage by </div>
-              <div style={{ paddingBottom: 2 }}>Place of Receipt <br />{bookingData?.transportPlanning?.pickupLocation}</div>
-            </div>
-
-            {/* Vessel */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                fontSize: 11,
-                gap: 2,
-                borderBottom: "1px solid #000000"
-              }}
-            >
-              <div style={{ borderRight: '1px solid #000000', paddingRight: 2, paddingLeft: 2 }}>Vessel <br />{bookingData?.transportPlanning?.vesselName}</div>
-              <div style={{ paddingBottom: 2 }}>Port of Loading <br />{bookingData?.portOfLoading}</div>
-            </div>
-            {/* Port of Discharge */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                fontSize: 11,
-                gap: 2,
-              }}
-            >
-              <div style={{ borderRight: '1px solid #000000', paddingRight: 2, paddingLeft: 2 }}>Vessel <br />Port of Discharge : {bookingData?.portOfDischarge}</div>
-              <div style={{ paddingBottom: 2 }}>Place of delivery <br />{bookingData?.pickupPlace}</div>
-            </div>
-          </div>
-          {/* //! right section */}
-          <div
-            style={{
-              borderBottom: "1px solid #000000",
-            }}
-          >
-            {/* country of origin */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                fontSize: 11,
-                borderBottom: '1px solid #000',
-                gap: 2,
-              }}
-            >
-              <div style={{ borderRight: '1px solid #000000', paddingRight: 2, paddingLeft: 2 }}> Country of Origin <br />{bookingData?.countryOfOrigin} </div>
-              <div>Bill of Lading No. <br />MLL3002</div>
-            </div>
-            {/* image  */}
-            <div
-              style={{
-                borderBottom: "1px solid #000000"
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: "center",
-                  justifyContent: "center",
-                  paddingTop: 20
-
-                }}
-              >
-                <img src={logisticsLogo} alt=""
+                <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
+                  <div>Booking Number</div>
+                  <div>{bookingData?.bookingRequestCode}</div>
+                </div>
+                <div
                   style={{
-                    height: 25,
-                    width: 150,
-                    objectFit: "cover",
+                    borderLeft: "1px solid #000000",
                   }}
-                />
-              </div>
-              <div
-                style={{
-                  textAlign: "center"
-                }}
-              >
-                {selectedBusinessUnit?.label}
-              </div>
-              <div
-                style={{
-                  textAlign: "center",
-                  paddingBottom: 2
-                }}
-              >
-                {selectedBusinessUnit?.address}
-              </div>
-            </div>
-            {/* delivery agent section */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                paddingLeft: 2,
-                paddingTop: 4,
-                paddingBottom: 20,
-                borderBottom: '1px solid #000000',
+                >
+                  <div style={{ paddingLeft: 5 }}>
+                    <div>Bill of Lading Number</div>
+                    <div>{bookingData?.hblnumber}</div>
+                  </div>
+                </div>
 
-              }}
-            >
-              <span>Delivery Agent:</span>
-              <span>INDITEX-ZARA, LELYSTAD BRANCH</span>
-              <span>NIEUWEZIJDS VOORBURGWAL 307</span>
-              <span>1012 RM AMSTERDAM</span>
-              <span>-Netherlan</span>
+              </div>
+              <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
+                <div>Export References</div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+              </div>
             </div>
+          </div>
+        </div>
+        {/* Consignee */}
+        <div
+          style={{
+            borderBottom: "1px solid #000000",
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+            }}
+          >
+            <div>
+              <div>Consignee (Complete Name and Address)</div>
+              <div>{bookingData?.consigneeName}</div>
+              <div>{bookingData?.consigneeAddress}</div>
+              <div>{bookingData?.consigneeContactPerson}</div>
+              <div>{bookingData?.consigneeContact}</div>
+              <div>{bookingData?.consigState}, {bookingData?.consigCountry}</div>
+              <div>{bookingData?.consigneeEmail}</div>
+
+            </div>
+            <div>
+              <div
+                style={{
+                  borderBottom: "1px solid #000000",
+                }}
+              >
+                <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
+                  <div>Forwarding Agent – References (Complete Name and Address)</div>
+                  <div>{bookingData?.freightAgentReference}</div>
+                  <br />
+                </div>
+
+
+              </div>
+              <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
+                <div>Point and Country of Origin</div>
+                <div>{bookingData?.originAddress}, {bookingData?.countryOfOrigin}</div>
+                <br />
+                <br />
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Notify Party (Complete Name and Address) */}
+        <div
+          style={{
+            borderBottom: "1px solid #000000",
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+            }}
+          >
+            <div>
+              <div>Notify Party (Complete Name and Address)</div>
+              <div>{bookingData?.notifyParty}</div>
+              <br />
+              <br />
+              <br />
+            </div>
+            <div>
+
+              <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
+                <div>For Delivery Please Apply To</div>
+                <br />
+                <br />
+                <br />
+                <br />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          style={{
+            borderBottom: "1px solid #000000",
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+            }}
+          >
+
             <div
               style={{
-                display: "flex",
-                flexDirection: "column",
-                paddingLeft: 2,
-                paddingTop: 4,
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
               }}
             >
               <div>
-                No. of Bills of Lading
+                <div>Loading Pier/Terminal</div>
+                <br />
               </div>
+              <div
+                style={{
+                  borderLeft: "1px solid #000000",
+                }}
+              >
+                <div style={{ paddingLeft: 5 }}>
+                  <div>Place of Receipt</div>
+                  <div>{bookingData?.pickupPlace} </div>
+                </div>
+              </div>
+
+            </div>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+              }}
+            >
+              <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
+                <div>Pre-Carriage By</div>
+                <br />
+              </div>
+              <div
+                style={{
+                  borderLeft: "1px solid #000000",
+                }}
+              >
+                <div style={{ paddingLeft: 5 }}>
+                  <div>Number of Originals</div>
+                  <br />
+                </div>
+              </div>
+
+            </div>
+            <div>
+
             </div>
           </div>
-
         </div>
+        {/* Vessel/Voyage */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            borderBottom: "1px solid #000000",
+          }}
+        >
+          <div >
+            <div
+              style={{
+                borderBottom: "1px solid #000000",
+              }}
+            >
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                }}
+              >
+                <div>
+                  <div>Vessel/Voyage Number</div>
+                  <div>{bookingData?.transportPlanning?.vesselName}</div>
+                  <div>
 
+                  </div>
+                  <br />
+                </div>
+                <div
+                  style={{
+                    borderLeft: "1px solid #000000",
+                  }}
+                >
+                  <div style={{ paddingLeft: 5 }}>
+                    <div>Port of Export</div>
+                    <div>{bookingData?.portOfLoading}</div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+              }}
+            >
+              <div>
+                <div>Port of Discharge</div>
+                <div>{bookingData?.portOfDischarge}</div>
+              </div>
+              <div
+                style={{
+                  borderLeft: "1px solid #000000",
+                }}
+              >
+                <div style={{ paddingLeft: 5 }}>
+                  <div>Container Number</div>
+                  <br />
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <div style={{ paddingLeft: 5, borderLeft: "1px solid #000000", }}>
+            <div>For Delivery Please Apply To</div>
+            <div>{bookingData?.finalDestinationAddress}</div>
+            <br />
+            <br />
+          </div>
+        </div>
+        <div
+          style={{
+            borderBottom: "1px solid #000000",
+            textAlign: "center",
+            padding: 5,
+          }}
+        >PARTICULARS FURNISHED BY SHIPPER</div>
         {/* table */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr 6fr 1fr 1fr",
-            borderBottom: "1px solid #000000",
-            fontSize: 11
+            gridTemplateColumns: "1fr 6fr 1fr 1fr",
           }}
         >
           <div
             style={{
               borderRight: "1px solid #000000",
+              borderBottom: "1px solid #000000",
+              padding: 2,
+              textAlign: "center"
+
+            }}
+          >
+            Marks and Numbers
+          </div>
+
+          <div
+            style={{
+              borderRight: "1px solid #000000",
+              borderBottom: "1px solid #000000",
               padding: 2
 
             }}
           >
-            Marks & Numbers
+            <div
+              style={{
+                display: "grid",
+                gap: 200
+              }}
+            >
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column"
+                  }}
+                >
+                  <span>Number/Kinds of Packages</span>
+                  {
+                    bookingData?.rowsData?.map((item, index) => (
+                      <div key={Math.random()}>
+                        {item?.totalNumberOfPackages}
+                        {index < bookingData?.rowsData?.length - 1 ? "," : ""}
+                        <br />
+                      </div>
+                    ))
+                  }
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column"
+                  }}
+                >
+                  <div>Description of Goods</div>
+                  {
+                    bookingData?.rowsData?.map((item, index) => (
+                      <div key={Math.random()}>
+                        {item?.descriptionOfGoods}, {item?.hsCode}
+                        {index < bookingData.rowsData.length - 1 ? "," : ""}
+                        <br />
+                      </div>
+                    ))
+                  }
+                  <br />
+                </div>
+              </div>
+
+              <div>These commodities, technologies, or software were exported from the United States in accordance with
+                the Export Administration Regulations. Diversion contrary to U.S. law prohibited.</div>
+
+            </div>
           </div>
           <div
             style={{
               borderRight: "1px solid #000000",
-              padding: 2
-
-            }}
-          >No. of pkgs. or
-            shipping units</div>
-          <div
-            style={{
-              borderRight: "1px solid #000000",
-              padding: 2
+              borderBottom: "1px solid #000000",
+              padding: 2,
+              textAlign: "center"
 
             }}
           >
-            Description of Goods & Pkgs
+            Gross Weight <br />
+            {
+              bookingData?.rowsData?.map((item, index) => (
+                <div key={Math.random()}>
+                  {item?.totalGrossWeightKG}
+                </div>
+              ))
+            }
           </div>
           <div
             style={{
-              borderRight: "1px solid #000000",
-              padding: 2
-
-            }}
-          >Gross Weight <br /> kgs</div>
-          <div
-            style={{
-              padding: 2
+              borderBottom: "1px solid #000000",
+              padding: 2,
+              textAlign: "center"
             }}
           >
-            Measurement <br /> M3
-          </div>
+            Measurement
+            <br />
+            {
+              bookingData?.rowsData?.map((item, index) => (
+                <div key={Math.random()}>
+                  {item?.totalVolumeCBM}
+                </div>
+              ))
 
+            }
+          </div>
         </div>
-
-        {
-          data?.map((item) =>
-            <SingleItem item={item} key={item.id} />
-          )
-        }
         {/* table footer section */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr 6fr 1fr 1fr",
-            fontSize: 11,
+            gridTemplateColumns: "7fr 1fr 1fr",
             textTransform: "uppercase",
           }}
         >
@@ -562,112 +542,147 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
             style={{
               borderRight: "1px solid #000000",
               borderBottom: "1px solid #000000",
-              padding: 10,
+              padding: 5
+
+            }}
+          >
+            Liability Limits for loss or damage to Goods are applicable. Carrier’s liability for Goods is limited to $500 per package or shipping unit.
+            Excess Liability Coverage is requested by Merchant in the amount of _____________________. Merchant understands that there is an
+            additional charge for excess liability coverage and you are willing to pay such charge. Excess liability coverage cannot exceed the actual
+            value of the Goods.
+          </div>
+          <div
+            style={{
+              borderRight: "1px solid #000000",
+              borderBottom: "1px solid #000000",
               textAlign: "center"
 
             }}
           >
             Total
+            <br />
+            {
+              bookingData?.rowsData?.map((item, index) => (
+                <div key={Math.random()}>
+                  {item?.totalGrossWeightKG}
+                </div>
+              ))
+            }
           </div>
           <div
             style={{
-              borderRight: "1px solid #000000",
               borderBottom: "1px solid #000000",
-              padding: 10,
-
-            }}
-          >
-
-          </div>
-          <div
-            style={{
-              borderRight: "1px solid #000000",
-              borderBottom: "1px solid #000000",
-              padding: 10,
-
-            }}
-          >
-            Temperature Control Instruction
-          </div>
-          <div
-            style={{
-              borderRight: "1px solid #000000",
-              borderBottom: "1px solid #000000",
-              padding: 10,
               textAlign: "center"
 
             }}
-          ></div>
-          <div
-            style={{
-              borderBottom: "1px solid #000000",
-              padding: 10,
-              textAlign: "center"
-            }}
           >
+            Total <br />
+            {
+              bookingData?.rowsData?.map((item, index) => (
+                <div key={Math.random()}>
+                  {item?.totalVolumeCBM}
+                </div>
+              ))
 
+            }
           </div>
+
+
+
         </div>
         {/* bottom section */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 2fr",
-            fontSize: 11,
-
+            gridTemplateColumns: "3fr 2fr ",
+            gap: 10,
+            padding: 5,
+            alignItems: "center"
           }}
         >
-          {/* bottom left */}
-          <div
-            style={{
-              borderRight: "1px solid #000000"
-            }}
-          >
-            <span> Freight Details, Charges etc</span>
-            <p style={{ paddingLeft: 20, paddingBottom: "5rem" }}>FREIGHT COLLECT</p>
-            <p style={{ borderTop: "1px solid #000000" }}>
-              <span style={{ paddingLeft: 20, paddingBottom: "2rem" }}>JURISDICTION AND LAW CLAUSE</span>
-            </p>
-            <p style={{ paddingLeft: 5, paddingRight: 5, lineHeight: 1.5 }}> The contract evidenced by or contained in this Bill of lading is governed by
-              the law of Bangladesh and any claim or dispute arising hereunder or in
-              connection herewith shall be determined by the courts of Bangladesh and no
-              other courts</p>
+          <div>
+            RECEIVED by the Carrier from the Merchant in apparent good order and condition unless otherwise indicated, the Goods mentioned
+            above to be carried by the Vessel and carriers subject to the Bill of Lading from the Place of Receipt or the Port of Export to the Port of
+            Discharge or Place of Delivery shown above.
+            <br />
+            <br />
+            If the Goods are shipped by the Merchant in a Container, then this Bill of Lading is a receipt and part of the contract for the Container
+            and any statements made by the Carrier in this Bill of Lading as to the number, good order and condition of the Goods shall apply only to
+            the number of such Containers and their exterior condition.
+            <br />
+            <br />
+            The Carrier has the right to use feeder ships, barges, airplanes, motor carrier, air or rail cars for all or any part of this Carriage of the
+            Goods. When the Place of Receipt is an inland point, notations in this Bill of Lading such as “On Board,” “Loaded on Board,” “Shipped on
+            Board” mean on board the conveyance performing the overland or air carriage from the Place of Receipt to the Load Port.
+            <br />
+            <br />
+            One original of this Bill of Lading must be surrendered duly endorsed in exchange for the Goods. When one of the originals of this Bill of
+            Lading has been accomplished, other bills of lading will stand void.
           </div>
-          {/* bottom right */}
-          <div
+          <div>
+            Carrier: <span
+              style={{
+                borderBottom: "1px solid #000000",
+                display: "inline-block",
+                textAlign: "center"
+              }}
+            >
+              {selectedBusinessUnit?.label}
+            </span>
+            <br />
+            <br />
+            <br />
+            <br />
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "2fr 1fr",
+                alignItems: "center"
+              }}
+            >
+              <div>
+                By: <span
+                  style={{
+                    borderBottom: "1px solid #000000",
+                    display: "inline-block",
+                    textAlign: "center",
+                    width: "50%"
+                  }}
 
-          >
-            <div style={{ borderBottom: "1px solid #000000", padding: 2 }}>Excess Value Declaration: Refer to Clause 6(4) (B) + (C) on reverse side</div>
-            <div style={{ padding: 2, paddingRight: 20, paddingBottom: 5 }}>
-              RECEIVED by the Carrier the Goods as specified above in apparent good order and condition unless
-              otherwise stated to be transported to such place as agreed authorised or permitted here in and subject to
-              all the terms and conditions appearing on the front and reverse of this bill of lading to which the merchant
-              agrees by accepting this Bill of lading any local privileges and customs not with standing. The particulars
-              given above as stated by the shipper and the weight, measure, quantity, condition, contents and value of the
-              Goods are unknown to the carrier.  In WITNESS where of one (1) original Bill of Lading has been signed if
-              not otherwise stated above, the same being accomplished the other (s) if any, to be void. If required by the
-              Carrier one (1) original Bill of Lading must be surrendered duly endorsed in exchange for the goods or
-              delivery order.
-            </div>
-            <div style={{ display: "flex", gap: 5, width: "100%", paddingBottom: 2, paddingLeft: 2 }}>
-              <div> Place and date of issue</div>
-              <div style={{ width: "70%", borderBottom: "1px solid #CCCCCC" }}> 01.09.2023</div>
-            </div>
-            <div style={{ paddingLeft: 2 }}>Signed on behalf of the Carrier:</div>
-            <div style={{ padding: 10 }}> FOR MGH LOGISTICS PVT. LTD.</div>
+                >
 
-            <div style={{ display: "flex", gap: 5, width: "100%", paddingBottom: 2, paddingLeft: 2 }}>
-              <div> By AS</div>
-              <div style={{ width: "70%", borderBottom: "1px solid #CCCCCC" }}> AGENT</div>
-            </div>
-            <div style={{ paddingLeft: 2 }}>MGH LOGISTICS PVT. LTD.</div>
+                </span>
+                <span> (As Carrier)</span>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 5
+                }}
+              >
+                <div>
+                  Date:
+                </div>
+                <span
+                  style={{
+                    borderBottom: "1px solid #000000",
+                    display: "inline-block",
+                    textAlign: "center",
+                    width: "100%"
+                  }}
+                >
 
+                </span>
+
+              </div>
+
+            </div>
           </div>
-
 
         </div>
 
       </div>
+
     </div>
   );
 };

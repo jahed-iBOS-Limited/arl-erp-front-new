@@ -1,146 +1,146 @@
 /* eslint-disable no-unused-vars */
-import React, { lazy, Suspense, useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Route, Switch, useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import { LayoutSplashScreen } from "../_metronic/layout";
-import { useKeyPress } from "./modules/_helper/useKeyPress";
-import PaymentPages from "./modules/payment/PaymentPages";
-import SelfServicePages from "./modules/selfService/SelfServicePages";
-import TokenExpiredPopUp from "./TokenExpiredPopUp";
-import MobileFirstAlert from "./modules/_helper/mobileFirstAlert";
+import React, { lazy, Suspense, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { LayoutSplashScreen } from '../_metronic/layout';
+import { useKeyPress } from './modules/_helper/useKeyPress';
+import PaymentPages from './modules/payment/PaymentPages';
+import SelfServicePages from './modules/selfService/SelfServicePages';
+import TokenExpiredPopUp from './TokenExpiredPopUp';
+import MobileFirstAlert from './modules/_helper/mobileFirstAlert';
 
 const ShippingOperaionPages = lazy(() =>
-  import("./modules/shippingOperation/shippingOperationPages.js")
+  import('./modules/shippingOperation/shippingOperationPages.js'),
 );
 const procurementPages = lazy(() =>
-  import("./modules/procurement/procurementPages")
+  import('./modules/procurement/procurementPages'),
 );
 const SafetyComplianceMainPages = lazy(() =>
-  import("./modules/safetyCompliance/SafetyComplianceMainPages")
+  import('./modules/safetyCompliance/SafetyComplianceMainPages'),
 );
-const TrustMgmtPages = lazy(() => import("./modules/trustMgmt/TrustMgmtPages"));
-const configPages = lazy(() => import("./modules/config/configPages"));
+const TrustMgmtPages = lazy(() => import('./modules/trustMgmt/TrustMgmtPages'));
+const configPages = lazy(() => import('./modules/config/configPages'));
 const financialManagementPages = lazy(() =>
-  import("./modules/financialManagement/financialManagementPages")
+  import('./modules/financialManagement/financialManagementPages'),
 );
 const inventoryManagementPages = lazy(() =>
-  import("./modules/inventoryManagement/inventoryManagementPages")
+  import('./modules/inventoryManagement/inventoryManagementPages'),
 );
 const HumanCapitalManagementPages = lazy(() =>
-  import("./modules/humanCapitalManagement/humanCapitalManagementPages")
+  import('./modules/humanCapitalManagement/humanCapitalManagementPages'),
 );
 
 const LearningAndDevelopmentPages = lazy(() =>
-  import("./modules/learningAndDevelopment/learningAndDevelopmentPages")
+  import('./modules/learningAndDevelopment/learningAndDevelopmentPages'),
 );
 
 const productionPages = lazy(() =>
-  import("./modules/productionManagement/productionPages.js")
+  import('./modules/productionManagement/productionPages.js'),
 );
 const SalesManagementPages = lazy(() =>
-  import("./modules/salesManagement/salesManagementPages.js")
+  import('./modules/salesManagement/salesManagementPages.js'),
 );
 const InternalControlPages = lazy(() =>
-  import("./modules/internalControl/internalControlPages.js")
+  import('./modules/internalControl/internalControlPages.js'),
 );
 
-const PersonalPages = lazy(() => import("./modules/personal/personalPages"));
+const PersonalPages = lazy(() => import('./modules/personal/personalPages'));
 
 const TransportManagementPages = lazy(() =>
-  import("./modules/transportManagement/transportManagementPages")
+  import('./modules/transportManagement/transportManagementPages'),
 );
 
 const AssetManagementPages = lazy(() =>
-  import("./modules/assetManagement/AssetManagementPages")
+  import('./modules/assetManagement/AssetManagementPages'),
 );
-const ChatPages = lazy(() => import("./modules/chats/chatsPages"));
+const ChatPages = lazy(() => import('./modules/chats/chatsPages'));
 const PerformanceMgtPages = lazy(() =>
-  import("./modules/performanceManagement/performanceMgtPages")
+  import('./modules/performanceManagement/performanceMgtPages'),
 );
 const VatManagementPages = lazy(() =>
-  import("./modules/vatManagement/vatManagementPages")
+  import('./modules/vatManagement/vatManagementPages'),
 );
 const TransPortManagementPages = lazy(() =>
-  import("./modules/transportManagement/transportManagementPages")
+  import('./modules/transportManagement/transportManagementPages'),
 );
 const RtmManagementPages = lazy(() =>
-  import("./modules/rtmManagement/rtmManagementPages")
+  import('./modules/rtmManagement/rtmManagementPages'),
 );
 
 const ImportManagementPages = lazy(() =>
-  import("./modules/importManagement/importManagementPages")
+  import('./modules/importManagement/importManagementPages'),
 );
 
 const AttachmentViewer = lazy(() =>
-  import("./modules/_helper/attachmentViewer")
+  import('./modules/_helper/attachmentViewer'),
 );
 const MultipleAttachmentViewer = lazy(() =>
-  import("./modules/_helper/multipleAttachmentViewer")
+  import('./modules/_helper/multipleAttachmentViewer'),
 );
 const PosManagementPages = lazy(() =>
-  import("./modules/posManagement/posManagementPages")
+  import('./modules/posManagement/posManagementPages'),
 );
 
 const CallCenterPages = lazy(() =>
-  import("./modules/callCenter/callCenterPages")
+  import('./modules/callCenter/callCenterPages'),
 );
 const VesselManagementPages = lazy(() =>
-  import("./modules/vesselManagement/vesselManagementPages")
+  import('./modules/vesselManagement/vesselManagementPages'),
 );
 
 const CharteringPages = lazy(() =>
-  import("./modules/chartering/charteringPages")
+  import('./modules/chartering/charteringPages'),
 );
 
 const HashPerformanceMgtPages = lazy(() =>
-  import("./modules/hashPerformanceManagement/HashPerformanceMgtPages")
+  import('./modules/hashPerformanceManagement/HashPerformanceMgtPages'),
 );
 const ExportManagementPages = lazy(() =>
-  import("./modules/exportManagement/exportmanagementPages")
+  import('./modules/exportManagement/exportmanagementPages'),
 );
-const PowerBIPages = lazy(() => import("./modules/powerBI/powerBIPages"));
+const PowerBIPages = lazy(() => import('./modules/powerBI/powerBIPages'));
 const ShippingAgencyPages = lazy(() =>
-  import("./modules/shippingAgency/shippingAgencyPages.js")
+  import('./modules/shippingAgency/shippingAgencyPages.js'),
 );
 const CargoManagementPages = lazy(() =>
-  import("./modules/CargoManagement/cargoManagementPages.js")
+  import('./modules/CargoManagement/cargoManagementPages.js'),
 );
 const BasePage = () => {
   const { isExpiredToken, isAuth, isExpiredPassword } = useSelector(
     (state) => state?.authData,
-    shallowEqual
+    shallowEqual,
   );
   // const isExpiredToken = true;
   // const isAuth = true;
 
   useEffect(() => {
     const offlineMessageFunc = (event) => {
-      toast.warning("No Internet connection", {
-        toastId: "offline",
+      toast.warning('No Internet connection', {
+        toastId: 'offline',
       });
     };
     const onlineMessageFunc = (event) => {
-      toast.success("Back Online", {
-        toastId: "online",
+      toast.success('Back Online', {
+        toastId: 'online',
       });
     };
-    window.addEventListener("offline", offlineMessageFunc);
-    window.addEventListener("online", onlineMessageFunc);
+    window.addEventListener('offline', offlineMessageFunc);
+    window.addEventListener('online', onlineMessageFunc);
     return () => {
-      window.removeEventListener("offline", offlineMessageFunc);
-      window.removeEventListener("online", onlineMessageFunc);
+      window.removeEventListener('offline', offlineMessageFunc);
+      window.removeEventListener('online', onlineMessageFunc);
     };
   }, []);
   const history = useHistory();
   const onKeyPress = (event) => {
     //Sales Invoice Page Redirect
-    if (event.altKey && event.code === "KeyV") {
+    if (event.altKey && event.code === 'KeyV') {
       event.preventDefault();
-      history.push("/mngVat/sales/salesInvoiceiBOS");
+      history.push('/mngVat/sales/salesInvoiceiBOS');
     }
   };
-  useKeyPress(["Alt", "v"], onKeyPress);
+  useKeyPress(['Alt', 'v'], onKeyPress);
   return (
     <Suspense fallback={<LayoutSplashScreen />}>
       <AttachmentViewer />

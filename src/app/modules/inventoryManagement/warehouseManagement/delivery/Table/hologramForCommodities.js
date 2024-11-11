@@ -243,9 +243,7 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                   }}
                   className="text-center"
                 >
-                  <h2 style={{ color: "#eb2f06" }}>
-                    CUSTOMER COPY
-                  </h2>
+                  <h2 style={{ color: "#eb2f06" }}>CUSTOMER COPY</h2>
                 </div>
               </div>
 

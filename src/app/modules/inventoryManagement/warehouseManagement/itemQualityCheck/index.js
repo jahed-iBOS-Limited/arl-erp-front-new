@@ -263,6 +263,7 @@ export default function ItemQualityCheckLanding() {
                       <th>MRR Code</th>
                       <th>Purchase Order Code</th>
                       <th>Entry Code</th>
+                      <th>Gate In/Out</th>
                       <th>Date</th>
                       <th>Supplier Name</th>
                       <th>Address</th>
@@ -312,6 +313,7 @@ export default function ItemQualityCheckLanding() {
                         </td>
                         <td className="text-center">{item?.purchaseOrderCode}</td>
                         <td className="text-center">{item?.entryCode}</td>
+                        <td className="text-center">{item?.isGateOut ? "Gate Out" : "Gate In"}</td>
                         <td>{_dateFormatter(item?.createdAt)}</td>
                         <td>{item?.supplierName}</td>
                         <td>{item?.supplierAddress}</td>

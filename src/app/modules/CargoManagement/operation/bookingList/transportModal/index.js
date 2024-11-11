@@ -1,9 +1,13 @@
+import { Divider, IconButton } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import moment from "moment";
 import React, { useEffect } from "react";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
+
 import { imarineBaseUrl } from "../../../../../App";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
@@ -49,7 +53,7 @@ const validationSchema = Yup.object().shape({
     is: (val) => val?.value === 2,
     then: Yup.string().required("Vessel Name is required"),
   }),
-  departureDateTime: Yup.string().required("Departure Date & Time is required"),
+  // departureDateTime: Yup.string().required("Departure Date & Time is required"),
   arrivalDateTime: Yup.string().required("Arrival Date & Time is required"),
   transportMode: Yup.object()
     .shape({
@@ -58,6 +62,13 @@ const validationSchema = Yup.object().shape({
     })
     .nullable()
     .typeError("Transport Mode is required"),
+  // containerNumber: Yup.string().required("Container No is required"),
+  // sealNumber: Yup.string().required("Seal No is required"),
+  // size: Yup.string().required("Size is required"),
+  // quantity: Yup.string().required("quantity is required"),
+  // cbm: Yup.string().required("CBM is required"),
+  // kgs: Yup.string().required("KGS is required"),
+
 });
 function TransportModal({ rowClickData, CB }) {
   const [
@@ -131,10 +142,10 @@ function TransportModal({ rowClickData, CB }) {
               "vesselName",
               transportPlanning?.vesselName || ""
             );
-            formikRef.current.setFieldValue(
-              "departureDateTime",
-              transportPlanning?.departureDateTime || ""
-            );
+            // formikRef.current.setFieldValue(
+            //   "departureDateTime",
+            //   transportPlanning?.departureDateTime || ""
+            // );
             formikRef.current.setFieldValue(
               "arrivalDateTime",
               transportPlanning?.arrivalDateTime || ""
@@ -177,6 +188,19 @@ function TransportModal({ rowClickData, CB }) {
   }, []);
   const bookingData = shipBookingRequestGetById || {};
   const saveHandler = (values, cb) => {
+
+    const modifyItems = values?.items?.map((item) => ({
+      containerDescId: 0,
+      transportId: 0,
+      containerNumber: item?.containerNumber,
+      sealNumber: item?.sealNumber,
+      size: item?.size,
+      quantity: item?.quantity,
+      cbm: item?.cbm,
+      mode: "",
+      kgs: item?.kgs,
+
+    }))
     const payload = {
       bookingId: bookingRequestId || 0,
       pickupLocation: values?.pickupLoaction || "",
@@ -189,9 +213,9 @@ function TransportModal({ rowClickData, CB }) {
       noOfContainer: values?.continer || 0,
       airLineOrShippingLine: values?.airLine || values?.shippingLine || "",
       vesselName: values?.vesselName || "",
-      departureDateTime:
-        moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
-        new Date(),
+      // departureDateTime:
+      //   moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
+      //   new Date(),
       arrivalDateTime:
         moment(values?.arrivalDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
         new Date(),
@@ -200,7 +224,9 @@ function TransportModal({ rowClickData, CB }) {
       ...(values?.estimatedTimeOfDepart && { estimatedTimeOfDepart: moment(values?.estimatedTimeOfDepart).format("YYYY-MM-DDTHH:mm:ss") }),
       transportMode: values?.transportMode?.label || 0,
       isActive: true,
+      containerDesc: modifyItems || [],
     };
+
 
     SaveShippingTransportPlanning(
       `${imarineBaseUrl}/domain/ShippingService/SaveShippingTransportPlanning`,
@@ -208,6 +234,7 @@ function TransportModal({ rowClickData, CB }) {
       CB
     );
   };
+
   return (
     <div className="confirmModal">
       {(shippingTransportPlanningLoading || shipBookingRequestLoading) && (
@@ -226,13 +253,21 @@ function TransportModal({ rowClickData, CB }) {
           continer: "",
           shippingLine: "",
           vesselName: "",
-          departureDateTime: "",
+          // departureDateTime: "",
           arrivalDateTime: "",
           transportMode: "",
           estimatedTimeOfDepart: "",
           berthDate: "",
           cutOffDate: "",
           iatanumber: "",
+          items: [],
+          containerNumber: "",
+          sealNumber: "",
+          size: "",
+          quantity: "",
+          cbm: "",
+          kgs: "",
+
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -305,7 +340,7 @@ function TransportModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.pickupDate}
-                    label="Pickup Date"
+                    label="Estimated Pickup Date"
                     name="pickupDate"
                     type="date"
                     onChange={(e) =>
@@ -423,7 +458,7 @@ function TransportModal({ rowClickData, CB }) {
                 )}
 
                 {/* Departure Date & Time */}
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <InputField
                     value={values?.departureDateTime}
                     label="Departure Date & Time"
@@ -433,12 +468,12 @@ function TransportModal({ rowClickData, CB }) {
                       setFieldValue("departureDateTime", e.target.value)
                     }
                   />
-                </div>
+                </div> */}
                 {/* Arrival Date & Time */}
                 <div className="col-lg-3">
                   <InputField
                     value={values?.arrivalDateTime}
-                    label="Arrival Date & Time"
+                    label="Estimated Arrival Date & Time"
                     name="arrivalDateTime"
                     type="datetime-local"
                     onChange={(e) =>
@@ -475,9 +510,9 @@ function TransportModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.berthDate}
-                    label="Berth Date"
+                    label="Estimated Berth Date"
                     name="berthDate"
-                    type="datetime-local"
+                    type="date"
                     onChange={(e) =>
                       setFieldValue("berthDate", e.target.value)
                     }
@@ -487,9 +522,9 @@ function TransportModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.cutOffDate}
-                    label="Cut Off Date"
+                    label="Estimated Cut Off Date"
                     name="cutOffDate"
-                    type="datetime-local"
+                    type="date"
                     onChange={(e) =>
                       setFieldValue("cutOffDate", e.target.value)
                     }
@@ -501,18 +536,189 @@ function TransportModal({ rowClickData, CB }) {
                     value={values?.estimatedTimeOfDepart}
                     label="Estimated Time Of Depart"
                     name="estimatedTimeOfDepart"
-                    type="datetime-local"
+                    type="date"
                     onChange={(e) =>
                       setFieldValue("estimatedTimeOfDepart", e.target.value)
                     }
                   />
                 </div>
               </div>
+              <Divider />
+              {/* container details  for sea */}
+              {values?.transportPlanning?.value === 2 && <div className="form-group row global-form">
+                {/* Container No */}
+                <div className="col-lg-2">
+                  <InputField
+                    value={values?.containerNumber || ""}
+                    label="Container No"
+                    name="containerNumber"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue('containerNumber', e.target.value)
+                    }
+                  />
+                </div>
+
+                {/* Seal No */}
+                <div className="col-lg-2">
+                  <InputField
+                    value={values?.sealNumber || ""}
+                    label="Seal No"
+                    name="sealNumber"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue('sealNumber', e.target.value)
+                    }
+                  />
+                </div>
+
+                {/* Size */}
+                <div className="col-lg-2">
+                  <InputField
+                    value={values?.size || ""}
+                    label="Size"
+                    name="size"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue('size', e.target.value)
+                    }
+                  />
+                </div>
+
+                {/* quantity */}
+                <div className="col-lg-2">
+                  <InputField
+                    value={values?.quantity || ""}
+                    label="Quantity"
+                    name="quantity"
+                    type="number"
+                    onChange={(e) =>
+                      setFieldValue('quantity', e.target.value)
+                    }
+                  />
+                </div>
+
+                {/* CBM */}
+                <div className="col-lg-2">
+                  <InputField
+                    value={values?.cbm || ""}
+                    label="CBM"
+                    name="cbm"
+                    type="number"
+                    onChange={(e) =>
+                      setFieldValue('cbm', e.target.value)
+                    }
+                  />
+                </div>
+
+                {/* KGS */}
+                <div className="col-lg-2">
+                  <InputField
+                    value={values?.kgs || ""}
+                    label="KGS"
+                    name="kgs"
+                    type="number"
+                    onChange={(e) =>
+                      setFieldValue('kgs', e.target.value)
+                    }
+                  />
+                </div>
+                <div className="col-lg-2 pt-4">
+                  <button
+                    onClick={() => {
+                      if (!formikRef.current?.values?.containerNumber || !formikRef.current?.values?.sealNumber || !formikRef.current?.values?.size || !formikRef.current?.values?.quantity || !formikRef.current?.values?.cbm || !formikRef.current?.values?.kgs) {
+                        toast.error('Please fill all fields');
+                        return;
+                      }
+                      const items = formikRef.current?.values?.items || [];
+                      items.push({
+                        containerNumber: formikRef.current?.values?.containerNumber,
+                        sealNumber: formikRef.current?.values?.sealNumber,
+                        size: formikRef.current?.values?.size,
+                        quantity: formikRef.current?.values?.quantity,
+                        cbm: formikRef.current?.values?.cbm,
+                        kgs: formikRef.current?.values?.kgs,
+                      });
+                      setFieldValue('items', items);
+                      setFieldValue('containerNumber', '');
+                      setFieldValue('sealNumber', '');
+                      setFieldValue('size', '');
+                      setFieldValue('quantity', '');
+                      setFieldValue('cbm', '');
+                      setFieldValue('kgs', '');
+
+                    }}
+                    className="btn btn-primary"
+                    type="button"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+              }
+              {/* items table */}
+              <div className="pt-4">
+                {formikRef.current?.values?.items.length > 0 && <table table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Container No</th>
+                      <th>Seal No</th>
+                      <th>Size</th>
+                      <th>quantity</th>
+                      <th>CBM</th>
+                      <th>KGS</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      formikRef.current?.values?.items?.map((item, index) => (
+                        <tr key={index}>
+                          <td>
+                            {item?.containerNumber}
+                          </td>
+                          <td>
+                            {item?.sealNumber}
+                          </td>
+                          <td>
+                            {item?.size}
+                          </td>
+                          <td>
+                            {item?.quantity}
+                          </td>
+                          <td>
+                            {item?.cbm}
+                          </td>
+                          <td>
+                            {item?.kgs}
+                          </td>
+                          <td>
+                            <IconButton
+                              onClick={() => {
+                                const items = formikRef.current?.values?.items || [];
+                                items.splice(index, 1);
+                                setFieldValue('items', items);
+                              }}
+                              color="error"
+                              size="small"
+                            >
+                              <IDelete />
+                            </IconButton>
+                          </td>
+                        </tr>
+                      ))
+                    }
+
+                  </tbody>
+                </table>
+                }
+              </div>
+
             </Form>
           </>
         )}
       </Formik>
-    </div>
+    </div >
   );
 }
 
