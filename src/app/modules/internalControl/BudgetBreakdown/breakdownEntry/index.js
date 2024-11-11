@@ -58,10 +58,15 @@ export default function BreakdownEntry() {
 
 
 
-                const monthData = tableRow?.monthData?.map((item) => ({
-                    ...item,
-                    budgetAmount: matchingApiAccount?.monthlyBudgets?.find((month) => month?.monthId === item?.monthId)?.budgetAmount ?? ""
-                }))
+                const monthData = tableRow?.monthData?.map((item) => {
+                    const matchingBudget = matchingApiAccount?.monthlyBudgets?.find((month) => month?.monthId === item?.monthId) || {};
+                    
+                    return {
+                        ...item,
+                        budgetAmount: matchingBudget.budgetAmount ?? "",
+                        autoId: matchingBudget.autoId ?? 0
+                    };
+                });
 
 
                 return {
@@ -117,7 +122,7 @@ export default function BreakdownEntry() {
         // Create payload for saving data
         const payload = filteredData.flatMap((item) => {
             return item.monthData.map((month) => ({
-                autoId: 0,
+                autoId: item?.autoId || 0,
                 ProfitCenterId: values?.profitCenter?.value,
                 businessUnitId: values?.businessUnit?.value,
                 glId: item.generalLedgerId,
