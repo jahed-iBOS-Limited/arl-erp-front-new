@@ -1,13 +1,13 @@
 import axios from "axios";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 export const grandParentTableHeaders = [
   "",
   "SL",
-  "Supplier",
-  "Address",
+  // "Supplier",
+  // "Address",
   "Item Name",
   "UOM",
-  
+
   {
     title: "Gate Entry",
     style: { maxWidth: "80px" },
@@ -34,7 +34,7 @@ export const grandParentTableHeaders = [
   "Status",
   "Action",
 ];
-export const parentTableHeader =[
+export const parentTableHeader = [
   "",
   "Item Name",
   "UOM",
@@ -46,14 +46,15 @@ export const parentTableHeader =[
   "Actual Qty",
   "Remarks",
   "Action",
-]
+];
 export const headerRowTableHeaders = [
   "#",
   "Parameter",
   "Standard Value (%)",
   "Actual Value (%)",
   "System Deduction(%)",
-  "Manual Deduction(%)",
+  // "Manual Deduction(%)",
+  "Difference Limit",
   "Remarks",
   "Action",
 ];
@@ -63,13 +64,13 @@ export const gateEntry = async (buId, entryCode) => {
     const api = `/mes/QCTest/GetVehicleGateEntryInformation?businessUnitId=${buId}&GateEntryCode=${entryCode}`;
 
     const response = await axios.get(api);
-      response.data.qcQtyBeg = 0;
-      response.data.qcQty = 0;
-      response.data.totalQcQty = 0;
-      response.data.deductionQuantity = 0;
-      response.data.unloadDeductionQuantity = 0;
-      response.data.actualQuantity = 0
-      return response.data
+    response.data.qcQtyBeg = 0;
+    response.data.qcQty = 0;
+    response.data.totalQcQty = 0;
+    response.data.deductionQuantity = 0;
+    response.data.unloadDeductionQuantity = 0;
+    response.data.actualQuantity = 0;
+    return response.data;
   } catch (error) {
     return error;
   }
@@ -81,29 +82,28 @@ export const getRowWithItemId = async (buId, itemId) => {
     const response = await axios.get(api);
 
     return response?.data?.map((item) => ({
-      parameterName:item?.parameterName,
-      standardValue:item?.standardValue,
-      actualValue:0,
-      systemDeduction:0,
-      manualDeduction:0,
-      remarks:"",
+      ...item,
+      parameterName: item?.parameterName,
+      standardValue: item?.standardValue,
+      actualValue: 0,
+      systemDeduction: 0,
+      manualDeduction: 0,
+      remarks: "",
     }));
   } catch (error) {
     return error;
   }
 };
 
-
 //grandParentColum's Total Sum
-export const grandParentTotalSum=(arr)=>{
-
-  console.log("arr",arr);
+export const grandParentTotalSum = (arr) => {
   const totalSum = arr?.reduce(
     (acc, item) => ({
-      qcQuantity:acc.qcQuantity + item?.qcQuantity,
-      deductionQuantity:acc.deductionQuantity + item?.deductionQuantity,
-      unloadedDeductionQuantity:acc.unloadedDeductionQuantity +item?.unloadedDeductionQuantity,
-      actualQuantity:acc.actualQuantity + item?.actualQuantity
+      qcQuantity: acc.qcQuantity + item?.qcQuantity,
+      deductionQuantity: acc.deductionQuantity + item?.deductionQuantity,
+      unloadedDeductionQuantity:
+        acc.unloadedDeductionQuantity + item?.unloadedDeductionQuantity,
+      actualQuantity: acc.actualQuantity + item?.actualQuantity,
     }),
     {
       qcQuantity: 0,
@@ -112,9 +112,8 @@ export const grandParentTotalSum=(arr)=>{
       actualQuantity: 0,
     }
   );
-  return totalSum
-}
-
+  return totalSum;
+};
 
 export const _numbering = (value) => {
   let outPut = "";
@@ -140,57 +139,55 @@ export const getSupplierDDL = async (accId, buId, sbuId, setter) => {
   try {
     const res = await axios.get(
       `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accId}&UnitId=${buId}&SBUId=${sbuId}`
-    )
+    );
     if (res.status === 200 && res?.data) {
-      let newData = res?.data?.map(data =>{
+      let newData = res?.data?.map((data) => {
         return {
           ...data,
-          label:data?.labelValue
-        }
-      })
-      setter(newData)
+          label: data?.labelValue,
+        };
+      });
+      setter(newData);
     }
-  } catch (error) {
-    
-  }
-}
+  } catch (error) {}
+};
 export const initData = {
-  refType: '',
-  refNo: '',
-  transType: '',
-  busiPartner: '',
-  personnel: '',
-  remarks: '',
-  item: '',
-  costCenter: '',
-  projName: '',
+  refType: "",
+  refNo: "",
+  transType: "",
+  busiPartner: "",
+  personnel: "",
+  remarks: "",
+  item: "",
+  costCenter: "",
+  projName: "",
   isAllItem: false,
-  getEntry: '',
-  file: '',
-  challanNO:"",
-  challanDate:"",
-  vatChallan:"",
-  vatAmmount:"",
-  freight:"",
-  grossDiscount:"",
-  commission:"",
-  foreignPurchase:"",
-  othersCharge: ""
-}
+  getEntry: "",
+  file: "",
+  challanNO: "",
+  challanDate: "",
+  vatChallan: "",
+  vatAmmount: "",
+  freight: "",
+  grossDiscount: "",
+  commission: "",
+  foreignPurchase: "",
+  othersCharge: "",
+};
 export const validationSchemaForMRR = Yup.object().shape({
   refType: Yup.object().shape({
-    label: Yup.string().required('Refference Type is required'),
-    value: Yup.string().required('Refference Type is required'),
+    label: Yup.string().required("Refference Type is required"),
+    value: Yup.string().required("Refference Type is required"),
   }),
   transType: Yup.object().shape({
-    label: Yup.string().required('Transaction Type is required'),
-    value: Yup.string().required('Transaction Type is required'),
+    label: Yup.string().required("Transaction Type is required"),
+    value: Yup.string().required("Transaction Type is required"),
   }),
   // item: Yup.object().shape({
   //   label: Yup.string().required("Item is required"),
   //   value: Yup.string().required("Item is required")
   // })
-})
+});
 
 export const uploadAttachment = (attachment) => {
   let formData = new FormData();
