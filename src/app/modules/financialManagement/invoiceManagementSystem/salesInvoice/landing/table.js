@@ -219,7 +219,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                               className="cursor-pointer"
                               onClick={() => {
                                 getData(
-                                  `/oms/OManagementReport/GetSalesOrderAttachment?invoiceNumber=${tableData?.strInvoiceNumber}&businessUnitId=${buId}`,
+                                  `/oms/OManagementReport/GetSalesOrderAttachment?invoiceNumber=${tableData?.strInvoiceNumber}&businessUnitId=${buId}&partnerId=${tableData?.intPartnerId}`,
                                   (data) => {
                                     if (data?.length < 0) {
                                       setInvoiceDataShow(false);

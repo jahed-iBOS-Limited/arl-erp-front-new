@@ -14,52 +14,61 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 const initData = {
   parameter: "",
   standardValue: "",
+  // differenceLimit: "",
 };
 
 export default function QcItemConfigCreate() {
   const {
-    profileData: { accountId: accId,userId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [objProps, setObjprops] = useState({});
   const { id } = useParams();
-  const {state} = useLocation();
+  const { state } = useLocation();
   const [rowData, getRowData, loadingRowData, setRowData] = useAxiosGet();
-  const[,saveItem,loadSaveItem] = useAxiosPost()
+  const [, saveItem, loadSaveItem] = useAxiosPost();
 
   const saveHandler = (values, cb) => {
-    saveItem(`/mes/QCTest/ConfigQCItemParameter`,rowData,()=>{},true)
+    saveItem(`/mes/QCTest/ConfigQCItemParameter`, rowData, () => {}, true);
   };
-  const handleRowAdd = (values)=>{
-    const checkDuplicateData = rowData?.some(item=>item?.parameterName.toLowerCase() === values?.parameter.toLowerCase() && item?.standardValue === values?.standardValue)
-    if(checkDuplicateData){
-        toast.warn("Duplicate Data Not Allow")
-        return;
+  const handleRowAdd = (values) => {
+    const checkDuplicateData = rowData?.some(
+      (item) =>
+        item?.parameterName.toLowerCase() === values?.parameter.toLowerCase() &&
+        item?.standardValue === values?.standardValue
+      // && item?.differenceLimit === values?.differenceLimit
+    );
+    if (checkDuplicateData) {
+      toast.warn("Duplicate Data Not Allow");
+      return;
     }
     const rowItem = {
-        configId:0,
-        accountId:accId,
-        businessUnitId:buId,
-        itemId:state?.itemId,
-        itemName:state?.itemName,
-        parameterName:values?.parameter,
-        standardValue:values?.standardValue,
-        createdBy:userId
-    }
-    setRowData([...rowData,rowItem])
-  }
-  const handleRowDelete=(index)=>{
-    const cloneRowData = [...rowData]
-    cloneRowData.splice(index,1)
-    setRowData(cloneRowData)
-  }
+      configId: 0,
+      accountId: accId,
+      businessUnitId: buId,
+      itemId: state?.itemId,
+      itemName: state?.itemName,
+      parameterName: values?.parameter,
+      standardValue: values?.standardValue,
+      differenceLimit: values?.differenceLimit,
+      createdBy: userId,
+    };
+    setRowData([...rowData, rowItem]);
+  };
+  const handleRowDelete = (index) => {
+    const cloneRowData = [...rowData];
+    cloneRowData.splice(index, 1);
+    setRowData(cloneRowData);
+  };
 
   useEffect(() => {
     getRowData(
       `/mes/QCTest/GetQCItemParameterConfigByItem?businessUnitId=${buId}&itemId=${id}`,
-      (data)=>{
-        const updatedData = data?.filter(item=>item?.standardValue >0 && item?.parameterName !== "")
-        setRowData(updatedData)
+      (data) => {
+        const updatedData = data?.filter(
+          (item) => item?.standardValue > 0 && item?.parameterName !== ""
+        );
+        setRowData(updatedData);
       }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,9 +79,9 @@ export default function QcItemConfigCreate() {
       initialValues={initData}
       //   validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        if(rowData?.length<1){
-            toast.warn("Add minimum one item")
-            return;
+        if (rowData?.length < 1) {
+          toast.warn("Add minimum one item");
+          return;
         }
         saveHandler(values, () => {
           resetForm(initData);
@@ -89,27 +98,33 @@ export default function QcItemConfigCreate() {
         touched,
       }) => (
         <>
-          {(loadingRowData || loadSaveItem )&& <Loading />}
+          {(loadingRowData || loadSaveItem) && <Loading />}
           <IForm title="Create QC-Item" getProps={setObjprops}>
             <Form>
               <div className="form-group  global-form row">
                 <div className="col-lg-3">
-                <p style={{fontSize:14,fontWeight:"bold"}}>Item Name : {state?.itemName}</p>
+                  <p style={{ fontSize: 14, fontWeight: "bold" }}>
+                    Item Name : {state?.itemName}
+                  </p>
                 </div>
                 <div className="col-lg-3">
-                <p style={{fontSize:14,fontWeight:"bold"}}>Item Type : {state?.itemTypeName}</p>
+                  <p style={{ fontSize: 14, fontWeight: "bold" }}>
+                    Item Type : {state?.itemTypeName}
+                  </p>
                 </div>
                 <div className="col-lg-3">
-                <p style={{fontSize:14,fontWeight:"bold"}}>Item Category : {state?.itemCategoryName}</p>
+                  <p style={{ fontSize: 14, fontWeight: "bold" }}>
+                    Item Category : {state?.itemCategoryName}
+                  </p>
                 </div>
                 <div className="col-lg-3">
-                <p style={{fontSize:14,fontWeight:"bold"}}>Item SubCategory : {state?.itemSubCategoryName}</p>
+                  <p style={{ fontSize: 14, fontWeight: "bold" }}>
+                    Item SubCategory : {state?.itemSubCategoryName}
+                  </p>
                 </div>
-               
-                
               </div>
               <div className="mt-4 form-group  global-form row">
-              <div className="col-lg-3">
+                <div className="col-lg-3">
                   <InputField
                     value={values?.parameter}
                     label="Parameter"
@@ -121,7 +136,7 @@ export default function QcItemConfigCreate() {
                     }}
                   />
                 </div>
-              <div className="col-lg-3">
+                <div className="col-lg-3">
                   <InputField
                     value={values?.standardValue}
                     label="Standard Value"
@@ -133,6 +148,18 @@ export default function QcItemConfigCreate() {
                     }}
                   />
                 </div>
+                {/* <div className="col-lg-3">
+                  <InputField
+                    value={values?.differenceLimit}
+                    label="Difference Limit"
+                    placeholder="Difference Limit"
+                    name="differenceLimit"
+                    type="number"
+                    onChange={(e) => {
+                      setFieldValue("differenceLimit", e.target.value);
+                    }}
+                  />
+                </div> */}
                 <div className="col-lg-3">
                   <button
                     type="button"
@@ -140,41 +167,91 @@ export default function QcItemConfigCreate() {
                       marginTop: "16px",
                     }}
                     onClick={() => {
-                       handleRowAdd(values)
-                       resetForm(initData)
+                      handleRowAdd(values);
+                      resetForm(initData);
                     }}
                     class="btn btn-primary ml-2"
                     disabled={
-                      !values?.parameter ||
-                      !values.standardValue
+                      !values?.parameter || !values.standardValue
+                      // || !values.differenceLimit
                     }
                   >
                     Add
                   </button>
-                 
                 </div>
               </div>
-             <div className="mt-4">
-                <CommonTable headersData={["Parameter","Standard Value","Action"]}>
-                    <tbody>
-                        {
-                            rowData?.map((item,index)=>(
-                                <tr key={index}>
-                                    <td className="text-center">{item?.parameterName}</td>
-                                    <td className="text-center">{item?.standardValue}</td>
-                                    <td className="text-center">
-                                    <span
-                                    onClick={()=>handleRowDelete(index)}
-                                    >
-                                        <IDelete/>
-                                    </span>
-                                    </td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
+              <div className="mt-4">
+                <CommonTable
+                  headersData={[
+                    "Parameter",
+                    "Standard Value",
+                    // "Difference Limit",
+                    "Action",
+                  ]}
+                >
+                  <tbody>
+                    {rowData?.map((item, index) => (
+                      <tr key={index}>
+                        {/* Parameter Name as Text Input */}
+                        <td className="text-center">
+                          <InputField
+                            value={item?.parameterName || ""}
+                            placeholder="Parameter Name"
+                            name={`parameterName-${index}`}
+                            type="text"
+                            onChange={(e) => {
+                              const newRowData = [...rowData];
+                              newRowData[index].parameterName = e.target.value;
+                              setRowData(newRowData);
+                            }}
+                          />
+                        </td>
+
+                        {/* Standard Value as Number Input */}
+                        <td className="text-center">
+                          <InputField
+                            value={item?.standardValue || ""}
+                            placeholder="Standard Value"
+                            name={`standardValue-${index}`}
+                            type="number"
+                            onChange={(e) => {
+                              const newRowData = [...rowData];
+                              newRowData[index].standardValue = Number(
+                                e.target.value
+                              );
+                              setRowData(newRowData);
+                            }}
+                          />
+                        </td>
+
+                        {/* Difference Limit as Number Input */}
+                        {/* <td className="text-center">
+                          <InputField
+                            value={item?.differenceLimit || ""}
+                            placeholder="Difference Limit"
+                            name={`differenceLimit-${index}`}
+                            type="number"
+                            onChange={(e) => {
+                              const newRowData = [...rowData];
+                              newRowData[index].differenceLimit = Number(
+                                e.target.value
+                              );
+                              setRowData(newRowData);
+                            }}
+                          />
+                        </td> */}
+
+                        {/* Delete Row Button */}
+                        <td className="text-center">
+                          <span onClick={() => handleRowDelete(index)}>
+                            <IDelete />
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
                 </CommonTable>
-             </div>
+              </div>
               <button
                 type="submit"
                 style={{ display: "none" }}

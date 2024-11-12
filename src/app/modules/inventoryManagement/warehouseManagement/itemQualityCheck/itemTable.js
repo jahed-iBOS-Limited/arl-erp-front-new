@@ -70,6 +70,7 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
                         }
                       />
                     </td>
+                    {/* <td>{item?.differenceLimit}</td> */}
                     <td>
                       <input
                         value={item?.remarks || ""}
@@ -104,9 +105,9 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
             <tr>
               <td colSpan={3}>Total</td>
               <td>{totalActualValue}</td>
-
               <td>{""}</td>
-              <td>{totalManualDeduction}</td>
+              {/* <td>{totalManualDeduction}</td> */}
+              <td></td>
               <td></td>
               <td></td>
             </tr>

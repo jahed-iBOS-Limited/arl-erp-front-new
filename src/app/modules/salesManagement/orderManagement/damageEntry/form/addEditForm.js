@@ -64,6 +64,10 @@ function DamageEntryForm() {
   };
 
   const saveHandler = (values) => {
+    if (!uploadedImage[0]?.id) {
+      toast.warn("Please add an attachment.");
+      return;
+    }
     const selectedItems = gridData?.filter((item) => item.isSelected);
     if (selectedItems?.length === 0) {
       toast.warn("Please select at least one item");

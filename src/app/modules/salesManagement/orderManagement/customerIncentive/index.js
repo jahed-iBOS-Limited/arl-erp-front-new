@@ -156,7 +156,7 @@ export default function CustomerIncentive() {
         values?.incentiveType?.value
       )
     ) {
-      let url = `/oms/SalesInformation/GetTradeCommissionTarget?partName=${values?.incentiveType?.value}&businessUnitId=${buId}&customerId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
+      let url = `/oms/SalesInformation/GetTradeCommissionTarget?partName=${values?.incentiveType?.value}&businessUnitId=${buId}&customerId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}&customerCategory=${values.customerCategory.value}`;
       getTargetData(url, payload, (res) => {
         setTradeCommission(res);
       });
@@ -186,7 +186,9 @@ export default function CustomerIncentive() {
           label: "Delivery Incentive (WithAmount)",
         },
       ];
-    } else if (["Cash", "Credit", "Credit (100% BG)"].includes(customerCategoryLabel)) {
+    } else if (
+      ["Cash", "Credit", "Credit (100% BG)"].includes(customerCategoryLabel)
+    ) {
       return [{ value: "Monthly", label: "Monthly" }];
     } else {
       return [];
