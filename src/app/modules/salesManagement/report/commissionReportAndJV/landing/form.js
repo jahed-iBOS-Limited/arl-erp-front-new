@@ -57,6 +57,7 @@ export default function CommissionReportAndJVForm({ obj }) {
                 options={[
                   { value: 1, label: "Pending" },
                   { value: 2, label: "JV Created" },
+                  { value: 3, label: "JV Completed" },
                 ]}
                 value={values?.reportType}
                 label="Report Type"
@@ -125,7 +126,7 @@ export default function CommissionReportAndJVForm({ obj }) {
                 />
               </>
             )}
-            {values?.reportType?.value === 1 && (
+            {[1,3].includes(values?.reportType?.value) && (
               <>
                 {[1, 3, 6, 7].includes(values?.type?.value) && (
                   <YearMonthForm
@@ -282,7 +283,9 @@ export default function CommissionReportAndJVForm({ obj }) {
                     <FromDateToDateForm
                       obj={{ values, setFieldValue, colSize: "col-lg-2" }}
                     />{" "}
-                    <div className="col-lg-2">
+                   {![3].includes(values?.reportType?.value) && (
+                    <>
+                     <div className="col-lg-2">
                       <NewSelect
                         name="status"
                         options={[
@@ -335,6 +338,8 @@ export default function CommissionReportAndJVForm({ obj }) {
                         }}
                       />
                     </div>
+                    </>
+                   )}
                     {values?.viewAs?.value === 2 && (
                       <>
                         <div className="col-md-2">
@@ -381,7 +386,7 @@ export default function CommissionReportAndJVForm({ obj }) {
             )}
 
             <div className="col-12"></div>
-            {values?.reportType?.value === 1 && (
+            {[1,3].includes(values?.reportType?.value) && (
               <>
                 <div className="col-lg-4 mt-5">
                   <h6>
