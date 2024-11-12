@@ -1,3 +1,4 @@
+import CryptoJS from 'crypto-js';
 import { Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -25,11 +26,14 @@ import HBLCodeGNModal from "./hblCodeGNModal";
 import { cancelHandler, statusReturn } from "./helper";
 import ReceiveModal from "./receiveModal";
 import TransportModal from "./transportModal";
-
 const validationSchema = Yup.object().shape({});
 function BookingList() {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
+    shallowEqual
+  );
+  const { token } = useSelector(
+    (state) => state?.authData.tokenData,
     shallowEqual
   );
   const [
@@ -48,6 +52,20 @@ function BookingList() {
   const [rowClickData, setRowClickData] = React.useState({});
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
+
+  // edit booking list
+  const handleEditBookingList = (item) => {
+    const userID = profileData?.userId
+    const targetUrl = process.env.NODE_ENV !== "production" ? 'http://localhost:3010' : 'https://devcargo.ibos.io/'
+
+    // Encrypt the token and userID using base64 encoding
+    const encryptedToken = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(token));
+    const encryptedUserID = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(userID));
+    const superAdmin = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse('superAdmin'));
+
+    window.open(`${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}`, '_blank');
+  }
+
   useEffect(() => {
     commonLandingApi();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -157,6 +175,13 @@ function BookingList() {
                           }}
                         >
                           Status
+                        </th>
+                        <th
+                          style={{
+                            minWidth: "150px",
+                          }}
+                        >
+                          Edit
                         </th>
                         <th
                           style={{
@@ -296,7 +321,17 @@ function BookingList() {
                             <td>
                               <span>{statusReturn(item)}</span>
                             </td>
-
+                            <td className="text-center">
+                              <span>
+                                <button
+                                  disabled={!profileData?.superUser}
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => handleEditBookingList(item)}
+                                >
+                                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </button>
+                              </span>
+                            </td>
                             <td>
                               <span>
                                 <button
@@ -313,6 +348,7 @@ function BookingList() {
                                 </button>
                               </span>
                             </td>
+
                             <td>
                               <span>
                                 <button
