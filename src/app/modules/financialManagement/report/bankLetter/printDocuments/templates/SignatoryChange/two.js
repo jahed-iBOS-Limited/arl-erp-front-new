@@ -19,7 +19,10 @@ const SignatoryChangeTwo = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="bank-letter-template-common-wrapper signatory-wrapper">
+      <div
+        className="bank-letter-template-common-wrapper signatory-wrapper"
+        contentEditable={true}
+      >
         <p style={{ fontSize: 16 }}>
           <b>Date: {moment(strDate).format("LL")} </b>
         </p>

@@ -92,7 +92,15 @@ export default function BankLetter() {
       singleRowItem?.intBankLetterTemplateId === 1 ||
       singleRowItem?.intBankLetterTemplateId === 2 ||
       singleRowItem?.intBankLetterTemplateId === 7 ||
-      singleRowItem?.intBankLetterTemplateId === 8
+      singleRowItem?.intBankLetterTemplateId === 8 ||
+      singleRowItem?.intBankLetterTemplateId === 3 ||
+      singleRowItem?.intBankLetterTemplateId === 4 ||
+      singleRowItem?.intBankLetterTemplateId === 5 ||
+      singleRowItem?.intBankLetterTemplateId === 6 ||
+      singleRowItem?.intBankLetterTemplateId === 10 ||
+      singleRowItem?.intBankLetterTemplateId === 11 ||
+      singleRowItem?.intBankLetterTemplateId === 12 ||
+      singleRowItem?.intBankLetterTemplateId === 13
     ) {
       setShowModal(true);
     } else if (singleRowItem?.intBankLetterTemplateId) {
@@ -666,7 +674,7 @@ export default function BankLetter() {
                           {[2].includes(
                             singleRowItem?.intBankLetterTemplateId
                           ) && <AccountOpenTwo singleRowItem={singleRowItem} />} */}
-                          {[3].includes(
+                          {/* {[3].includes(
                             singleRowItem?.intBankLetterTemplateId
                           ) && (
                             <AccountCloseOne singleRowItem={singleRowItem} />
@@ -685,7 +693,7 @@ export default function BankLetter() {
                             singleRowItem?.intBankLetterTemplateId
                           ) && (
                             <AccountCloseFour singleRowItem={singleRowItem} />
-                          )}
+                          )} */}
                           {/* {[7].includes(
                             singleRowItem?.intBankLetterTemplateId
                           ) && <FdrONE singleRowItem={singleRowItem} />}
@@ -695,7 +703,7 @@ export default function BankLetter() {
                           {[9].includes(
                             singleRowItem?.intBankLetterTemplateId
                           ) && <FdrThree singleRowItem={singleRowItem} />} */}
-                          {[10].includes(
+                          {/* {[10].includes(
                             singleRowItem?.intBankLetterTemplateId
                           ) && (
                             <AuthorizationOne singleRowItem={singleRowItem} />
@@ -714,7 +722,7 @@ export default function BankLetter() {
                             singleRowItem?.intBankLetterTemplateId
                           ) && (
                             <BankCertificateOne singleRowItem={singleRowItem} />
-                          )}
+                          )} */}
                         </div>
                       </tbody>
                       <tfoot>
@@ -806,6 +814,54 @@ export default function BankLetter() {
                             {[8].includes(
                               singleRowItem?.intBankLetterTemplateId
                             ) && <FdrTwo singleRowItem={singleRowItem} />}
+                            {[3].includes(
+                              singleRowItem?.intBankLetterTemplateId
+                            ) && (
+                              <AccountCloseOne singleRowItem={singleRowItem} />
+                            )}
+                            {[4].includes(
+                              singleRowItem?.intBankLetterTemplateId
+                            ) && (
+                              <AccountCloseTwo singleRowItem={singleRowItem} />
+                            )}
+                            {[5].includes(
+                              singleRowItem?.intBankLetterTemplateId
+                            ) && (
+                              <AccountCloseThree
+                                singleRowItem={singleRowItem}
+                              />
+                            )}
+                            {[6].includes(
+                              singleRowItem?.intBankLetterTemplateId
+                            ) && (
+                              <AccountCloseFour singleRowItem={singleRowItem} />
+                            )}
+                            {[10].includes(
+                              singleRowItem?.intBankLetterTemplateId
+                            ) && (
+                              <AuthorizationOne singleRowItem={singleRowItem} />
+                            )}
+                            {[11].includes(
+                              singleRowItem?.intBankLetterTemplateId
+                            ) && (
+                              <SignatoryChangeOne
+                                singleRowItem={singleRowItem}
+                              />
+                            )}
+                            {[12].includes(
+                              singleRowItem?.intBankLetterTemplateId
+                            ) && (
+                              <SignatoryChangeTwo
+                                singleRowItem={singleRowItem}
+                              />
+                            )}
+                            {[13].includes(
+                              singleRowItem?.intBankLetterTemplateId
+                            ) && (
+                              <BankCertificateOne
+                                singleRowItem={singleRowItem}
+                              />
+                            )}
                           </div>
                         </tbody>
                         <tfoot>

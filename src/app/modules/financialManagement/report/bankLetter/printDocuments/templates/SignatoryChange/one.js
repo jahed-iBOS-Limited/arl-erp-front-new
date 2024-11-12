@@ -21,6 +21,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
     <>
       <div
         className="bank-letter-template-common-wrapper signatory-wrapper"
+        contentEditable={true}
         style={{ textAlign: "Justify" }}
       >
         <p style={{ fontSize: 16 }}>

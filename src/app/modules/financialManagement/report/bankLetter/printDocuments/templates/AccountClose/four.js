@@ -18,7 +18,10 @@ const AccountCloseFour = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="bank-letter-template-common-wrapper close-wrapper">
+      <div
+        className="bank-letter-template-common-wrapper close-wrapper"
+        contentEditable={true}
+      >
         <div>
           <br />
           <div>
