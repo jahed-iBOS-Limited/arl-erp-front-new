@@ -81,10 +81,19 @@ const CommissionReportAndJV = () => {
     console.log({ values });
     const ids = [8, 9, 10, 11, 12, 13];
     const typeId = ids.includes(values?.type?.value) ? 8 : values?.type?.value;
-    if (values?.reportType?.value === 1) {
+    if ([1,3].includes(values?.reportType?.value)) {
       if (values?.type?.value === 24) {
+
+        const apiUrl = 
+        values?.reportType?.value === 1 
+          ? `/oms/SalesReturnAndCancelProcess/GetDamageReturnForJv?SalesReturnType=2&accId=${accId}&status=${values?.status?.value}&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&CustomerId=${values?.customer?.value}&ChannelId=${values?.channel?.value}`
+          : values?.reportType?.value === 3
+            ? `/oms/SalesReturnAndCancelProcess/GetJVCompletedDamageReturn?SalesReturnType=2&accId=${accId}&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&CustomerId=${values?.customer?.value}&ChannelId=${values?.channel?.value}`
+            : "";
+      
+
         getDamageData(
-          `/oms/SalesReturnAndCancelProcess/GetDamageReturnForJv?SalesReturnType=2&accId=${accId}&status=${values?.status?.value}&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&CustomerId=${values?.customer?.value}&ChannelId=${values?.channel?.value}`,
+          apiUrl,
           (data) => {
             setRowData(data);
           }
@@ -381,7 +390,7 @@ const CommissionReportAndJV = () => {
                     }}
                   />
                 )}
-                {values?.type?.value == 24 && values?.reportType?.value === 1 && (
+                {values?.type?.value == 24 && [1,3].includes(values?.reportType?.value) && (
                   <DamangeReportAndJVTable
                     obj={{
                       buId,
