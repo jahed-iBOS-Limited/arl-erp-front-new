@@ -283,48 +283,48 @@ export default function QualityCheckCreateForm() {
   // Parent handler end or 2nd level table handler end
 
   //row Items handler start
-  const actualValueHandler = (e, grandParentIndex, parentIndex, childIndex) => {
-    const updatedHeaderData = [...headerData];
-    const childRowItem =
-      updatedHeaderData[grandParentIndex]["headersList"][parentIndex][
-        "rowList"
-      ][childIndex];
-    childRowItem.actualValue = +e.target?.value;
-    childRowItem.systemDeduction =
-      +e.target?.value > childRowItem?.standardValue
-        ? +e.target?.value - childRowItem?.standardValue
-        : 0;
-    setHeaderData(updatedHeaderData);
-  };
-
   // const actualValueHandler = (e, grandParentIndex, parentIndex, childIndex) => {
   //   const updatedHeaderData = [...headerData];
   //   const childRowItem =
   //     updatedHeaderData[grandParentIndex]["headersList"][parentIndex][
   //       "rowList"
   //     ][childIndex];
-
-  //   const inputValue = +e.target?.value;
-  //   const maxDeductionValue =
-  //     childRowItem.standardValue + childRowItem.differenceLimit;
-  //   const calculatedDeduction =
-  //     inputValue > childRowItem.standardValue
-  //       ? inputValue - childRowItem.standardValue
+  //   childRowItem.actualValue = +e.target?.value;
+  //   childRowItem.systemDeduction =
+  //     +e.target?.value > childRowItem?.standardValue
+  //       ? +e.target?.value - childRowItem?.standardValue
   //       : 0;
-
-  //   if (calculatedDeduction > childRowItem.differenceLimit) {
-  //     toast.error(
-  //       `You cannot deduct more than ${childRowItem.differenceLimit}`
-  //     );
-  //     childRowItem.actualValue = maxDeductionValue;
-  //     childRowItem.systemDeduction = childRowItem.differenceLimit;
-  //   } else {
-  //     childRowItem.actualValue = inputValue;
-  //     childRowItem.systemDeduction = calculatedDeduction;
-  //   }
-
   //   setHeaderData(updatedHeaderData);
   // };
+
+  const actualValueHandler = (e, grandParentIndex, parentIndex, childIndex) => {
+    const updatedHeaderData = [...headerData];
+    const childRowItem =
+      updatedHeaderData[grandParentIndex]["headersList"][parentIndex][
+        "rowList"
+      ][childIndex];
+
+    const inputValue = +e.target?.value;
+    const maxDeductionValue =
+      childRowItem.standardValue + childRowItem.differenceLimit;
+    const calculatedDeduction =
+      inputValue > childRowItem.standardValue
+        ? inputValue - childRowItem.standardValue
+        : 0;
+
+    if (calculatedDeduction > childRowItem.differenceLimit) {
+      toast.error(
+        `You cannot deduct more than ${childRowItem.differenceLimit}`
+      );
+      childRowItem.actualValue = maxDeductionValue;
+      childRowItem.systemDeduction = childRowItem.differenceLimit;
+    } else {
+      childRowItem.actualValue = inputValue;
+      childRowItem.systemDeduction = calculatedDeduction;
+    }
+
+    setHeaderData(updatedHeaderData);
+  };
 
   const handleManualDeduction = (
     e,
