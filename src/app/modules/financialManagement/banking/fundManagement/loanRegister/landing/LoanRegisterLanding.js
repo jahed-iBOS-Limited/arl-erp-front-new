@@ -74,8 +74,45 @@ const LoanRegisterLanding = () => {
   const [singleItem, setSingleItem] = useState(null);
   const [isPrinting, setIsPrinting] = useState(false);
 
-  const accountOpenRef = useRef();
   const [showModal, setShowModal] = useState(false);
+
+  // Sorting state for each column
+  const [openDateOrder, setOpenDateOrder] = useState("asc"); // 'asc' or 'desc'
+  const [maturityDateOrder, setMaturityDateOrder] = useState("asc"); // 'asc' or 'desc'
+
+  // State to hold the sorted data
+  const [sortedData, setSortedData] = useState([]);
+
+  useEffect(() => {
+    if (loanRegisterData?.data) {
+      setSortedData(loanRegisterData?.data);
+    }
+  }, [loanRegisterData]);
+
+  const handleSort = (column) => {
+    const dataToSort = [...sortedData];
+    let order, dateField;
+
+    // Set sorting parameters based on the column
+    if (column === "openDate") {
+      order = openDateOrder;
+      dateField = "dteStartDate";
+      setOpenDateOrder(order === "asc" ? "desc" : "asc");
+    } else if (column === "maturityDate") {
+      order = maturityDateOrder;
+      dateField = "dteMaturityDate";
+      setMaturityDateOrder(order === "asc" ? "desc" : "asc");
+    }
+
+    // Sort the data
+    dataToSort.sort((a, b) => {
+      const dateA = new Date(a[dateField]);
+      const dateB = new Date(b[dateField]);
+      return order === "asc" ? dateA - dateB : dateB - dateA;
+    });
+
+    setSortedData(dataToSort);
+  };
 
   useEffect(() => {
     if (singleItem?.intBankLetterTemplateId === 1) {
@@ -383,9 +420,18 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "120px" }}>Facility</th>
                               <th>Loan A/c no.</th>
                               <th style={{ minWidth: "50px" }}>Tenor</th>
-                              <th style={{ minWidth: "90px" }}>Open Date</th>
-                              <th style={{ minWidth: "90px" }}>
-                                Maturity Date
+                              <th
+                                style={{ minWidth: "90px", cursor: "pointer" }}
+                                onClick={() => handleSort("openDate")}
+                              >
+                                Open Date {openDateOrder === "asc" ? "▲" : "▼"}
+                              </th>
+                              <th
+                                style={{ minWidth: "90px", cursor: "pointer" }}
+                                onClick={() => handleSort("maturityDate")}
+                              >
+                                Maturity Date{" "}
+                                {maturityDateOrder === "asc" ? "▲" : "▼"}
                               </th>
                               <th style={{ minWidth: "100px" }}>
                                 Principal Balance
@@ -432,7 +478,7 @@ const LoanRegisterLanding = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {loanRegisterData?.data?.map((item, index) => (
+                            {sortedData?.map((item, index) => (
                               <tr key={index}>
                                 <td className="text-center">{index + 1}</td>
                                 <td className="text-center">
