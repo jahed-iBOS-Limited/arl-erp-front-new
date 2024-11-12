@@ -16,7 +16,10 @@ const BankCertificateOne = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="bank-letter-template-common-wrapper bankCertificate-wrapper">
+      <div
+        className="bank-letter-template-common-wrapper bankCertificate-wrapper"
+        contentEditable={true}
+      >
         <p style={{}}>
           <b>
             {" "}
