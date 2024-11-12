@@ -1875,6 +1875,10 @@ a.menu-link:hover svg {
   .printSectionNone {
     display: none !important;
   }
+  .printSectionNoneWithNewLine {
+   color:'#FFFFFF' !important;
+   opacity:0 !important;
+}
 
   .purchaseRegistration .purchaseRegistrationTable {
     overflow-x: inherit !important;
