@@ -14,7 +14,7 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 const initData = {
   parameter: "",
   standardValue: "",
-  // differenceLimit: "",
+  differenceLimit: "",
 };
 
 export default function QcItemConfigCreate() {
@@ -35,8 +35,8 @@ export default function QcItemConfigCreate() {
     const checkDuplicateData = rowData?.some(
       (item) =>
         item?.parameterName.toLowerCase() === values?.parameter.toLowerCase() &&
-        item?.standardValue === values?.standardValue
-      // && item?.differenceLimit === values?.differenceLimit
+        item?.standardValue === values?.standardValue &&
+        item?.differenceLimit === values?.differenceLimit
     );
     if (checkDuplicateData) {
       toast.warn("Duplicate Data Not Allow");
@@ -148,7 +148,7 @@ export default function QcItemConfigCreate() {
                     }}
                   />
                 </div>
-                {/* <div className="col-lg-3">
+                <div className="col-lg-3">
                   <InputField
                     value={values?.differenceLimit}
                     label="Difference Limit"
@@ -159,7 +159,7 @@ export default function QcItemConfigCreate() {
                       setFieldValue("differenceLimit", e.target.value);
                     }}
                   />
-                </div> */}
+                </div>
                 <div className="col-lg-3">
                   <button
                     type="button"
@@ -172,8 +172,9 @@ export default function QcItemConfigCreate() {
                     }}
                     class="btn btn-primary ml-2"
                     disabled={
-                      !values?.parameter || !values.standardValue
-                      // || !values.differenceLimit
+                      !values?.parameter ||
+                      !values.standardValue ||
+                      !values.differenceLimit
                     }
                   >
                     Add
@@ -185,7 +186,7 @@ export default function QcItemConfigCreate() {
                   headersData={[
                     "Parameter",
                     "Standard Value",
-                    // "Difference Limit",
+                    "Difference Limit",
                     "Action",
                   ]}
                 >
@@ -225,7 +226,7 @@ export default function QcItemConfigCreate() {
                         </td>
 
                         {/* Difference Limit as Number Input */}
-                        {/* <td className="text-center">
+                        <td className="text-center">
                           <InputField
                             value={item?.differenceLimit || ""}
                             placeholder="Difference Limit"
@@ -239,7 +240,7 @@ export default function QcItemConfigCreate() {
                               setRowData(newRowData);
                             }}
                           />
-                        </td> */}
+                        </td>
 
                         {/* Delete Row Button */}
                         <td className="text-center">
