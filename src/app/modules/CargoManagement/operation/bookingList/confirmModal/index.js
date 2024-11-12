@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect } from "react";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../../App";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
-import "./style.css";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect } from 'react';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
+import './style.css';
+import { shallowEqual, useSelector } from 'react-redux';
 const validationSchema = Yup.object().shape({
-  bookingAmount: Yup.number().required("Booking Amount is required"),
+  // bookingAmount: Yup.number().required("Booking Amount is required"),
   // airWaybillNumber: Yup.string().required("This field is required"),
-  departureDateTime: Yup.date().required("Departure Date & Time is required"),
-  arrivalDateTime: Yup.date().required("Arrival Date & Time is required"),
-  flightNumber: Yup.string().required("This field is required"),
+  departureDateTime: Yup.date().required('Departure Date & Time is required'),
+  arrivalDateTime: Yup.date().required('Arrival Date & Time is required'),
+  flightNumber: Yup.string().required('This field is required'),
 
   transitInformation: Yup.object()
     .shape({
@@ -23,66 +23,63 @@ const validationSchema = Yup.object().shape({
       label: Yup.string(),
     })
     .nullable()
-    .when("transportPlanningType", {
-      is: "Sea",
+    .when('transportPlanningType', {
+      is: 'Sea',
       then: (schema) => schema.notRequired(),
       otherwise: (schema) =>
         schema
           .shape({
-            value: Yup.number().required("Transit Information is required"),
-            label: Yup.string().required("Transit Information is required"),
+            value: Yup.number().required('Transit Information is required'),
+            label: Yup.string().required('Transit Information is required'),
           })
-          .typeError("Transit Information is required"),
+          .typeError('Transit Information is required'),
     }),
 
   freightForwarderRepresentative: Yup.string().required(
-    "Freight Forwarder Representative is required"
+    'Freight Forwarder Representative is required',
   ),
 
   confTransportMode: Yup.object()
     .shape({
-      value: Yup.number().required("Transport Mode is required"),
-      label: Yup.string().required("Transport Mode is required"),
+      value: Yup.number().required('Transport Mode is required'),
+      label: Yup.string().required('Transport Mode is required'),
     })
     .nullable()
-    .typeError("Transport Mode is required"),
+    .typeError('Transport Mode is required'),
 
   // Consignee Information
   consigneeName: Yup.object().shape({
-    value: Yup.number().required("Consignee’s Name is required"),
-    label: Yup.string().required("Consignee’s Name is required"),
+    value: Yup.number().required('Consignee’s Name is required'),
+    label: Yup.string().required('Consignee’s Name is required'),
   }),
   consigneeCountry: Yup.object().shape({
-    value: Yup.number().required("Country is required"),
-    label: Yup.string().required("Country is required"),
+    value: Yup.number().required('Country is required'),
+    label: Yup.string().required('Country is required'),
   }),
   consigneeDivisionAndState: Yup.object().shape({
-    value: Yup.number().required("Division/City is required"),
-    label: Yup.string().required("Division/City is required"),
+    value: Yup.number().required('Division/City is required'),
+    label: Yup.string().required('Division/City is required'),
   }),
   consigneeAddress: Yup.string().required(
-    "State/Province & Postal Code is required"
+    'State/Province & Postal Code is required',
   ),
-  consigneeContactPerson: Yup.string().required("Contact Person is required"),
-  consigneeContact: Yup.number().required("Contact Number is required"),
+  consigneeContactPerson: Yup.string().required('Contact Person is required'),
+  consigneeContact: Yup.number().required('Contact Number is required'),
   consigneeEmail: Yup.string()
     .email('Email is invalid')
-    .required("Email is required"),
-  notifyParty: Yup.object().shape({
-    value: Yup.number().required("Notify Party is required"),
-    label: Yup.string().required("Notify Party is required"),
-  }),
-  negotiationParty: Yup.string().required("Negotiation Party is required"),
+    .required('Email is required'),
+  notifyParty: Yup.string().required('Notify Party is required'),
+  negotiationParty: Yup.string().required('Negotiation Party is required'),
   freightAgentReference: Yup.object().shape({
-    value: Yup.number().required("Delivery Agent is required"),
-    label: Yup.string().required("Delivery Agent is required"),
+    value: Yup.number().required('Delivery Agent is required'),
+    label: Yup.string().required('Delivery Agent is required'),
   }),
 });
 
 function ConfirmModal({ rowClickData, CB }) {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, SaveBookingConfirm, bookingConfirmLoading, ,] = useAxiosPut();
@@ -112,7 +109,7 @@ function ConfirmModal({ rowClickData, CB }) {
     consigneeDivisionAndStateList,
     getConsigneeDivisionAndStateList,
   ] = useAxiosGet();
-  const [notifyPartyDDL, GetNotifyPartyDDL, , setNotifyParty] = useAxiosGet();
+  // const [notifyPartyDDL, GetNotifyPartyDDL, , setNotifyParty] = useAxiosGet();
 
   useEffect(() => {
     if (bookingRequestId) {
@@ -122,76 +119,73 @@ function ConfirmModal({ rowClickData, CB }) {
           if (formikRef.current) {
             const data = resData || {};
             formikRef.current.setFieldValue(
-              "transportPlanningType",
-              data?.modeOfTransport
+              'transportPlanningType',
+              data?.modeOfTransport,
             );
 
             //  consignee Information set value
             formikRef.current.setFieldValue(
-              "consigneeName",
+              'consigneeName',
               data?.consigneeId
                 ? {
                     value: data?.consigneeId || 0,
-                    label: data?.consigneeName || "",
+                    label: data?.consigneeName || '',
                   }
-                : ""
+                : '',
             );
             formikRef.current.setFieldValue(
-              "consigneeCountry",
+              'consigneeCountry',
               data?.consigCountryId
                 ? {
                     value: data?.consigCountryId || 0,
-                    label: data?.consigCountry || "",
+                    label: data?.consigCountry || '',
                   }
-                : ""
+                : '',
             );
             formikRef.current.setFieldValue(
-              "consigneeDivisionAndState",
+              'consigneeDivisionAndState',
               data?.consigStateId
                 ? {
                     value: data?.consigStateId || 0,
-                    label: data?.consigState || "",
+                    label: data?.consigState || '',
                   }
-                : ""
+                : '',
             );
             formikRef.current.setFieldValue(
-              "consigneeAddress",
-              data?.consigneeAddress || ""
+              'consigneeAddress',
+              data?.consigneeAddress || '',
             );
             formikRef.current.setFieldValue(
-              "consigneeContactPerson",
-              data?.consigneeContactPerson || ""
+              'consigneeContactPerson',
+              data?.consigneeContactPerson || '',
             );
             formikRef.current.setFieldValue(
-              "consigneeContact",
-              data?.consigneeContact || ""
+              'consigneeContact',
+              data?.consigneeContact || '',
             );
             formikRef.current.setFieldValue(
-              "consigneeEmail",
-              data?.consigneeEmail || ""
+              'consigneeEmail',
+              data?.consigneeEmail || '',
             );
             formikRef.current.setFieldValue(
-              "notifyParty",
-              data?.notifyParty  ? {
-                value:  0,
-                label: data?.notifyParty || "",
-              } : ''
+              'notifyParty',
+              data?.notifyParty || '',
             );
             formikRef.current.setFieldValue(
-              "negotiationParty",
-              data?.negotiationParty || ""
+              'negotiationParty',
+              data?.negotiationParty || '',
             );
             formikRef.current.setFieldValue(
-              "freightAgentReference",
+              'freightAgentReference',
               data?.freightAgentReference
                 ? {
-                    value:  0,
-                    label: data?.freightAgentReference || "",
+                    value: 0,
+                    label: data?.freightAgentReference || '',
                   }
-                : ""
+                : '',
             );
           }
-        }
+        },
       );
     }
 
@@ -200,48 +194,48 @@ function ConfirmModal({ rowClickData, CB }) {
 
   useEffect(() => {
     setTransportModeDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`
+      `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
     );
     getConsigneeName(
       `${imarineBaseUrl}/domain/ShippingService/GetShipperPartnerDDL`,
       (redData) => {
-        console.log(redData, "redData");
+        console.log(redData, 'redData');
         const modifyList =
           redData?.map((i) => {
             return {
               ...i,
-              label: i?.valueName || "",
+              label: i?.valueName || '',
               value: i?.code || 0,
-              email: i?.email || "",
-              address: i?.address || "",
-              contactPerson: i?.contactPerson || "",
-              contactNumber: i?.contactNumber || "",
+              email: i?.email || '',
+              address: i?.address || '',
+              contactPerson: i?.contactPerson || '',
+              contactNumber: i?.contactNumber || '',
             };
           }) || [];
         const setConsigneeListFilter =
           modifyList?.filter((i) => i?.partnerTypeId === 15) || [];
         setConsigneeName(setConsigneeListFilter);
-      }
+      },
     );
 
     getConsigneeCountryList(
-      `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`
+      `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
     );
 
-    GetNotifyPartyDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetNotifyPartyDDL`,
-      (resData) => {
-
-        const modifyData = resData?.map((i) => {
-          return {
-              ...i,
-              label: i?.valueName || '',
-              value: i?.code || 0
-          }
-      }) || []
-        setNotifyParty(modifyData);
-      }
-    );
+    // GetNotifyPartyDDL(
+    //   `${imarineBaseUrl}/domain/ShippingService/GetNotifyPartyDDL`,
+    //   (resData) => {
+    //     const modifyData =
+    //       resData?.map((i) => {
+    //         return {
+    //           ...i,
+    //           label: i?.valueName || '',
+    //           value: i?.code || 0,
+    //         };
+    //       }) || [];
+    //     setNotifyParty(modifyData);
+    //   },
+    // );
     getDeliveryAgentDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetDeliveryAgentDDL`,
       (resData) => {
@@ -249,12 +243,12 @@ function ConfirmModal({ rowClickData, CB }) {
           resData?.map((i) => {
             return {
               ...i,
-              label: i?.valueName || "",
+              label: i?.valueName || '',
               value: i?.code || 0,
             };
           }) || [];
         setDeliveryAgentDDL(modifyData);
-      }
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -262,57 +256,52 @@ function ConfirmModal({ rowClickData, CB }) {
 
   const getConsigneeDivisionAndStateApi = (countryId) => {
     getConsigneeDivisionAndStateList(
-      `/oms/TerritoryInfo/GetDivisionDDL?countryId=${countryId}`
+      `/oms/TerritoryInfo/GetDivisionDDL?countryId=${countryId}`,
     );
   };
 
   const saveHandler = (values, cb) => {
     const paylaod = {
-
-     
-
       bookingRequestId: bookingRequestId || 0,
       departureDateTime:
-        moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
+        moment(values?.departureDateTime).format('YYYY-MM-DDTHH:mm:ss') ||
         new Date(),
       arrivalDateTime:
-        moment(values?.arrivalDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
+        moment(values?.arrivalDateTime).format('YYYY-MM-DDTHH:mm:ss') ||
         new Date(),
-      flightNumber: values?.flightNumber || "",
-      transitInformation: values?.transitInformation?.label || "",
-      awbnumber: values?.airWaybillNumber || "",
+      flightNumber: values?.flightNumber || '',
+      transitInformation: values?.transitInformation?.label || '',
+      awbnumber: values?.airWaybillNumber || '',
       bookingAmount: values?.bookingAmount || 0,
-      primaryContactPerson: values?.freightForwarderRepresentative || "",
+      primaryContactPerson: values?.freightForwarderRepresentative || '',
       isConfirm: true,
       confirmDate: new Date(),
       confTransportMode: values?.confTransportMode?.label || 0,
 
       // Consignee Information
-      freightAgentReference: values?.freightAgentReference?.label || "",
+      freightAgentReference: values?.freightAgentReference?.label || '',
       consigneeId: values?.consigneeName?.value || 0,
-      consigneeName: values?.consigneeName?.label || "",
-      consigneeAddress: values?.consigneeAddress || "",
-      consigneeContactPerson: values?.consigneeContactPerson || "",
-      consigneeContact: values?.consigneeContact || "",
-      consigneeEmail: values?.consigneeEmail || "",
+      consigneeName: values?.consigneeName?.label || '',
+      consigneeAddress: values?.consigneeAddress || '',
+      consigneeContactPerson: values?.consigneeContactPerson || '',
+      consigneeContact: values?.consigneeContact || '',
+      consigneeEmail: values?.consigneeEmail || '',
       consigCountryId: values?.consigneeCountry?.value || 0,
-      consigCountry: values?.consigneeCountry?.label || "",
+      consigCountry: values?.consigneeCountry?.label || '',
       consigStateId: values?.consigneeDivisionAndState?.value || 0,
-      consigState: values?.consigneeDivisionAndState?.label || "",
-      notifyParty: values?.notifyParty?.label || "",
-      negotiationParty: values?.negotiationParty || "",
-      userId: rowClickData?.createdBy  || 0,
+      consigState: values?.consigneeDivisionAndState?.label || '',
+      notifyParty: values?.notifyParty || '',
+      negotiationParty: values?.negotiationParty || '',
+      userId: rowClickData?.createdBy || 0,
       confirmBy: profileData?.userId,
       shipperId: rowClickData?.shipperId || 0,
-
-      
     };
 
     if (paylaod) {
       SaveBookingConfirm(
         `${imarineBaseUrl}/domain/ShippingService/SaveBookingConfirm`,
         paylaod,
-        CB
+        CB,
       );
     }
   };
@@ -323,26 +312,26 @@ function ConfirmModal({ rowClickData, CB }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          bookingAmount: "",
-          airWaybillNumber: "",
-          departureDateTime: "",
-          arrivalDateTime: "",
-          flightNumber: "",
-          transitInformation: "",
-          freightForwarderRepresentative: "",
-          confTransportMode: "",
+          bookingAmount: '',
+          airWaybillNumber: '',
+          departureDateTime: '',
+          arrivalDateTime: '',
+          flightNumber: '',
+          transitInformation: '',
+          freightForwarderRepresentative: '',
+          confTransportMode: '',
 
           // Consignee Information
-          consigneeName: "",
-          consigneeCountry: "",
-          consigneeDivisionAndState: "",
-          consigneeAddress: "",
-          consigneeContactPerson: "",
-          consigneeContact: "",
-          consigneeEmail: "",
-          notifyParty: "",
-          negotiationParty: "",
-          freightAgentReference: "",
+          consigneeName: '',
+          consigneeCountry: '',
+          consigneeDivisionAndState: '',
+          consigneeAddress: '',
+          consigneeContactPerson: '',
+          consigneeContact: '',
+          consigneeEmail: '',
+          notifyParty: '',
+          negotiationParty: '',
+          freightAgentReference: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -365,7 +354,7 @@ function ConfirmModal({ rowClickData, CB }) {
               </div>
               <div className="form-group row global-form mt-0">
                 {/*  Booking Amount*/}
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <InputField
                     value={values?.bookingAmount}
                     label="Booking Amount"
@@ -375,7 +364,7 @@ function ConfirmModal({ rowClickData, CB }) {
                       setFieldValue("bookingAmount", e.target.value)
                     }
                   />
-                </div>
+                </div> */}
                 {/* Air Waybill (AWB) Number */}
                 {/* <div className="col-lg-3">
                   <InputField
@@ -400,7 +389,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="departureDateTime"
                     type="datetime-local"
                     onChange={(e) =>
-                      setFieldValue("departureDateTime", e.target.value)
+                      setFieldValue('departureDateTime', e.target.value)
                     }
                   />
                 </div>
@@ -412,7 +401,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="arrivalDateTime"
                     type="datetime-local"
                     onChange={(e) =>
-                      setFieldValue("arrivalDateTime", e.target.value)
+                      setFieldValue('arrivalDateTime', e.target.value)
                     }
                   />
                 </div>
@@ -421,38 +410,38 @@ function ConfirmModal({ rowClickData, CB }) {
                   <InputField
                     value={values?.flightNumber}
                     label={
-                      values?.transportPlanningType === "Sea"
-                        ? "SI Number"
-                        : "MAWB Number"
+                      values?.transportPlanningType === 'Sea'
+                        ? 'SI Number'
+                        : 'MAWB Number'
                     }
                     name="flightNumber"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("flightNumber", e.target.value)
+                      setFieldValue('flightNumber', e.target.value)
                     }
                   />
                 </div>
                 {/* Transit Information */}
-                {values?.transportPlanningType !== "Sea" && (
+                {values?.transportPlanningType !== 'Sea' && (
                   <>
-                    {" "}
+                    {' '}
                     <div className="col-lg-3">
                       <NewSelect
                         name="transitInformation"
                         options={[
                           {
                             value: 1,
-                            label: "Direct Flight",
+                            label: 'Direct Flight',
                           },
                           {
                             value: 2,
-                            label: "No Transits",
+                            label: 'No Transits',
                           },
                         ]}
                         value={values?.transitInformation}
                         label="Transit Information"
                         onChange={(valueOption) => {
-                          setFieldValue("transitInformation", valueOption);
+                          setFieldValue('transitInformation', valueOption);
                         }}
                         placeholder="Transit Information"
                         errors={errors}
@@ -470,8 +459,8 @@ function ConfirmModal({ rowClickData, CB }) {
                     type="text"
                     onChange={(e) =>
                       setFieldValue(
-                        "freightForwarderRepresentative",
-                        e.target.value
+                        'freightForwarderRepresentative',
+                        e.target.value,
                       )
                     }
                   />
@@ -482,7 +471,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="confTransportMode"
                     options={
                       transportModeDDL?.filter((item) => {
-                        if (values?.transportPlanningType === "Sea") {
+                        if (values?.transportPlanningType === 'Sea') {
                           return [17, 18].includes(item?.value);
                         } else {
                           return [19, 20].includes(item?.value);
@@ -492,7 +481,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.confTransportMode}
                     label="Transport Mode"
                     onChange={(valueOption) => {
-                      setFieldValue("confTransportMode", valueOption);
+                      setFieldValue('confTransportMode', valueOption);
                     }}
                     placeholder="Transport Mode"
                     errors={errors}
@@ -512,7 +501,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.consigneeName}
                     label="Consignee’s Name"
                     onChange={(valueOption) => {
-                      setFieldValue("consigneeName", valueOption);
+                      setFieldValue('consigneeName', valueOption);
                     }}
                     placeholder="Consignee’s Name"
                     errors={errors}
@@ -527,8 +516,8 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.consigneeCountry}
                     label="Country"
                     onChange={(valueOption) => {
-                      setFieldValue("consigneeCountry", valueOption);
-                      setFieldValue("consigneeDivisionAndState", "");
+                      setFieldValue('consigneeCountry', valueOption);
+                      setFieldValue('consigneeDivisionAndState', '');
                       getConsigneeDivisionAndStateApi(valueOption?.value);
                     }}
                     placeholder="Country"
@@ -543,7 +532,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.consigneeDivisionAndState}
                     label="Division/City"
                     onChange={(valueOption) => {
-                      setFieldValue("consigneeDivisionAndState", valueOption);
+                      setFieldValue('consigneeDivisionAndState', valueOption);
                     }}
                     placeholder="Division/City"
                     errors={errors}
@@ -558,7 +547,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="consigneeAddress"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("consigneeAddress", e.target.value)
+                      setFieldValue('consigneeAddress', e.target.value)
                     }
                   />
                 </div>
@@ -570,7 +559,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="consigneeContactPerson"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("consigneeContactPerson", e.target.value)
+                      setFieldValue('consigneeContactPerson', e.target.value)
                     }
                   />
                 </div>
@@ -582,7 +571,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="consigneeContact"
                     type="number"
                     onChange={(e) =>
-                      setFieldValue("consigneeContact", e.target.value)
+                      setFieldValue('consigneeContact', e.target.value)
                     }
                   />
                 </div>
@@ -594,23 +583,34 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="consigneeEmail"
                     type="email"
                     onChange={(e) =>
-                      setFieldValue("consigneeEmail", e.target.value)
+                      setFieldValue('consigneeEmail', e.target.value)
                     }
                   />
                 </div>
                 {/* Notify Party ddl */}
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <NewSelect
                     name="notifyParty"
                     options={notifyPartyDDL || []}
                     value={values?.notifyParty}
                     label="Notify Party"
                     onChange={(valueOption) => {
-                      setFieldValue("notifyParty", valueOption);
+                      setFieldValue('notifyParty', valueOption);
                     }}
                     placeholder="Notify Party"
                     errors={errors}
                     touched={touched}
+                  />
+                </div> */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.notifyParty}
+                    label="Negotiation Party"
+                    name="notifyParty"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue('notifyParty', e.target.value)
+                    }
                   />
                 </div>
                 {/* Negotiation Party input */}
@@ -621,7 +621,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="negotiationParty"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("negotiationParty", e.target.value)
+                      setFieldValue('negotiationParty', e.target.value)
                     }
                   />
                 </div>
@@ -633,7 +633,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.freightAgentReference}
                     label="Delivery Agent"
                     onChange={(valueOption) => {
-                      setFieldValue("freightAgentReference", valueOption);
+                      setFieldValue('freightAgentReference', valueOption);
                     }}
                     placeholder="Delivery Agent"
                     errors={errors}
