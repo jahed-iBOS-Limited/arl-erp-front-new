@@ -21,7 +21,10 @@ const AuthorizationOne = ({ singleRowItem }) => {
   } = singleRowItem;
   return (
     <>
-      <div className="bank-letter-template-common-wrapper authoFDR-wrapper">
+      <div
+        className="bank-letter-template-common-wrapper authoFDR-wrapper"
+        contentEditable={true}
+      >
         <p style={{}}>
           <b>
             {" "}
