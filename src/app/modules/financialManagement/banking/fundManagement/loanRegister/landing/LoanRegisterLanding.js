@@ -37,6 +37,7 @@ import InfoCircle from "../../../../../_helper/_helperIcons/_infoCircle";
 import "./style.css";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import moment from "moment";
+import InputField from "../../../../../_helper/_inputField";
 
 const LoanRegisterLanding = () => {
   const history = useHistory();
@@ -383,6 +384,30 @@ const LoanRegisterLanding = () => {
                       />
                     </div>
                     <div className="col-lg-2">
+                      <label>Opening Date</label>
+                      <div className="d-flex">
+                        <InputField
+                          value={values?.openDate}
+                          name="openDate"
+                          placeholder="Opening date"
+                          type="date"
+                          style={{ width: "100%" }}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-lg-2">
+                      <label>Maturity Date</label>
+                      <div className="d-flex">
+                        <InputField
+                          value={values?.maturityDate}
+                          name="maturityDate"
+                          placeholder="Maturity date"
+                          type="date"
+                          style={{ width: "100%" }}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-lg-2">
                       <button
                         className="btn btn-primary mr-2"
                         type="button"
@@ -577,7 +602,7 @@ const LoanRegisterLanding = () => {
                                         onClick={() => {
                                           setFdrNo(item?.strLoanAccountName);
                                           getAttachments(
-                                            values?.businessUnit?.value,
+                                            item?.intBusinessUnitId,
                                             2,
                                             item?.strLoanAccountName,
                                             setAttachments,
@@ -755,7 +780,6 @@ const LoanRegisterLanding = () => {
                               <td className="text-right">
                                 <b> {_formatMoney(totalBalance)}</b>
                               </td>
-                              <td></td>
                             </tr>
                           </tbody>
                         </table>

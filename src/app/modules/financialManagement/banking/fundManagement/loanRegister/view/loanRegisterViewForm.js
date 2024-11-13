@@ -205,11 +205,11 @@ export default function LoanRegisterViewForm({
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
-                  <label>Term (Days)</label>
+                  <label>Tenor (Days)</label>
                   <InputField
                     value={values?.termDays}
                     name="termDays"
-                    placeholder="Term (Days)"
+                    placeholder="Tenor (Days)"
                     onChange={(e) => {
                       if (e.target.value > 0) {
                         setFieldValue("termDays", e.target.value);
@@ -287,7 +287,20 @@ export default function LoanRegisterViewForm({
                   </div>
                 )}
                 <div className="col-lg-2 ">
-                  <label>Remarks</label>
+                  <label>Facility Info</label>
+                  <InputField
+                    value={values?.facilityInfo}
+                    name="facilityInfo"
+                    placeholder="Facility Info"
+                    onChange={(e) => {
+                      setFieldValue("facilityInfo", "");
+                    }}
+                    type="text"
+                    disabled={true}
+                  />
+                </div>
+                <div className="col-lg-2 ">
+                  <label>Loan Remarks</label>
                   <InputField
                     value={values?.remarks}
                     name="remarks"
