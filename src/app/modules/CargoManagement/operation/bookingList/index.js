@@ -89,12 +89,10 @@ function BookingList() {
     PageSize = pageSize,
   ) => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
-        profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${
-        profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search${searchValue ||
-        ''}`,
+      ''}`,
     );
   };
   return (
@@ -108,7 +106,7 @@ function BookingList() {
             entryCode: '',
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
@@ -1079,9 +1077,8 @@ function BookingList() {
       {/* HBCode GN Modal */}
       {isModalShowObj?.isHBCodeGN && (
         <IViewModal
-          title={`${
-            rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-          } Code Generate`}
+          title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+            } Code Generate`}
           show={isModalShowObj?.isHBCodeGN}
           onHide={() => {
             setIsModalShowObj({
