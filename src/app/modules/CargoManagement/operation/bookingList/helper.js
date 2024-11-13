@@ -1,12 +1,12 @@
-import { toast } from "react-toastify";
-import { imarineBaseUrl } from "../../../../App";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import axios from "axios";
+import { toast } from 'react-toastify';
+import { imarineBaseUrl } from '../../../../App';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import axios from 'axios';
 
 export const cancelHandler = ({ item, deleteBookingRequestById, CB }) => {
   const obj = {
-    title: "Cancel Booking",
-    message: "Are you sure you want to cancel this?",
+    title: 'Cancel Booking',
+    message: 'Are you sure you want to cancel this?',
     noAlertFunc: () => {},
     yesAlertFunc: () => {
       deleteBookingRequestById(
@@ -14,7 +14,7 @@ export const cancelHandler = ({ item, deleteBookingRequestById, CB }) => {
         null,
         () => {
           CB();
-        }
+        },
       );
     },
   };
@@ -56,63 +56,63 @@ export const commonBookingRequestStatusUpdate = (item) => {
     chargesDate: item?.chargesDate || new Date(),
     isBl: item?.isBl || false,
     bldate: item?.bldate || new Date(),
-    isPickup: item?.isPickup || false,
-    pickupDate: item?.pickupDate || new Date(),
+    isStuffing: item?.isStuffing || false,
+    stuffingDate: item?.stuffingDate || new Date(),
     transportDate: item?.transportDate || new Date(),
   };
 };
 
 export const statusReturn = (itemObj) => {
   if (itemObj?.isBuyerReceive) {
-    return "Delivered";
+    return 'Delivered';
   } else if (itemObj?.isDestPortReceive) {
-    return "Dest Port Receive";
+    return 'Dest Port Receive';
   } else if (itemObj?.isInTransit) {
-    return "In Transit";
+    return 'In Transit';
   } else if (itemObj?.isCustomsClear) {
-    return "Customs Clearance";
+    return 'Customs Clearance';
   } else if (itemObj?.isDispatch) {
-    return "Dispatch";
+    return 'Dispatch';
   } else if (itemObj?.isDocumentChecklist) {
-    return "Document Checklist";
+    return 'Document Checklist';
   } else if (itemObj?.isCharges) {
-    return "Charges";
+    return 'Charges';
   } else if (itemObj?.isHbl) {
-    return "HBL";
+    return 'HBL';
   } else if (itemObj?.isBl) {
-    return "BL";
+    return 'BL';
   } else if (itemObj?.isPlaning) {
-    return "Transport";
+    return 'Transport';
   } else if (itemObj?.isReceived) {
-    return "Received";
-  } else if (itemObj?.isPickup) {
-    return "Pickup";
+    return 'Received';
+  } else if (itemObj?.isStuffing) {
+    return 'Stuffing';
   } else if (itemObj?.isConfirm) {
-    return "Confirm";
+    return 'Confirm';
   } else if (itemObj?.isCancel) {
-    return "Cancel";
+    return 'Cancel';
   } else if (itemObj?.isPending) {
-    return "Pending";
+    return 'Pending';
   } else {
-    return "";
+    return '';
   }
 };
 
 export const attachmentUpload = async (attachment, cb) => {
   let formData = new FormData();
   attachment.forEach((file) => {
-    formData.append("files", file?.file);
+    formData.append('files', file?.file);
   });
   try {
-    let { data } = await axios.post("/domain/Document/UploadFile", formData, {
+    let { data } = await axios.post('/domain/Document/UploadFile', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
     // toast.success(res?.data?.message || "Submitted Successfully");
-    toast.success("Upload  successfully");
+    toast.success('Upload  successfully');
     return data;
   } catch (error) {
-    toast.error("Document not upload");
+    toast.error('Document not upload');
   }
 };

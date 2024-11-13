@@ -223,7 +223,7 @@ function BookingList() {
                             minWidth: '100px',
                           }}
                         >
-                          Pickup
+                          Stuffing
                         </th>
                         <th
                           style={{
@@ -411,18 +411,18 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                  disabled={item?.isPickup}
+                                  disabled={item?.isStuffing}
                                   className={
-                                    item?.isPickup
+                                    item?.isStuffing
                                       ? 'btn btn-sm btn-success px-1 py-1'
                                       : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData({
                                       ...item,
-                                      title: 'Pickup',
-                                      isUpdateDate: 'pickupDate',
-                                      isUpdateKey: 'isPickup',
+                                      title: 'Stuffing',
+                                      isUpdateDate: 'stuffingDate',
+                                      isUpdateKey: 'isStuffing',
                                     });
                                     setIsModalShowObj({
                                       ...isModalShowObj,
@@ -431,7 +431,7 @@ function BookingList() {
                                     });
                                   }}
                                 >
-                                  Pickup
+                                  Stuffing
                                 </button>
                               </span>
                             </td>

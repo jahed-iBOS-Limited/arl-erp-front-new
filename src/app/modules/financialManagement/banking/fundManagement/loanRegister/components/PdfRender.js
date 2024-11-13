@@ -4,23 +4,24 @@ import PdfHeader from "./PdfHeader";
 import EBLPdf from "./EBLPdf";
 import WorkingCapitalPdf from "./WorkingCapitalPdf";
 import OthersPdf from "./OthersPdf";
-import './pdf.css'
+import "./pdf.css";
 import G2GPdf from "./G2GPdf";
 const EBLBankId = 17;
 const NRBCBankId = 61;
 const PdfRender = ({ singleItem, printRef }) => {
-  const {selectedBusinessUnit } = useSelector((state) => {
+  const { selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
-
   return (
-    <div className="loan_register_pdf" ref={printRef}>
-      <PdfHeader selectedBusinessUnit={selectedBusinessUnit} />
-      <div
-                  style={{
-                    height: "110px",
-                  }}
-                ></div>
+    <div className="loan_register_pdf" ref={printRef} contentEditable={true}>
+      <div className="loan_pdf_header">
+        <PdfHeader selectedBusinessUnit={selectedBusinessUnit} />
+      </div>
+      {/* <div
+        style={{
+          height: "110px",
+        }}
+      ></div> */}
       <ConditionallyRenderPdf
         singleItem={singleItem}
         selectedBusinessUnit={selectedBusinessUnit}

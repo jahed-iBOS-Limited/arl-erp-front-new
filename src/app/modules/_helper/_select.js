@@ -2,6 +2,7 @@
 import React, { useState, useRef } from "react";
 import Select from "react-select";
 import customStyles from "../selectCustomStyle";
+import CreatableSelect from 'react-select/creatable';
 import FormikError from "./_formikError";
 import { Overlay, Tooltip } from "react-bootstrap";
 const NewSelect = (props) => {
@@ -21,6 +22,7 @@ const NewSelect = (props) => {
     isHiddenToolTip,
     labelIcon,
     isRequiredSymbol,
+    isCreatableSelect
   } = props;
   return (
     <div
@@ -51,18 +53,35 @@ const NewSelect = (props) => {
       )}
 
       <div>
-        <Select
-          isClearable={true}
-          {...props}
-          onChange={onChange}
-          options={options || []}
-          value={value}
-          isSearchable={true}
-          name={name}
-          styles={customStyles}
-          placeholder={placeholder}
-          onBlur={() => setShow(false)}
-        />
+        {
+          isCreatableSelect ? (
+            <CreatableSelect
+              isClearable={true}
+              onChange={onChange}
+              options={options || []}
+              value={value}
+              isSearchable={true}
+              name={name}
+              styles={customStyles}
+              placeholder={placeholder}
+              onBlur={() => setShow(false)}
+              {...props}
+
+            />
+          ) : (<Select
+            isClearable={true}
+            onChange={onChange}
+            options={options || []}
+            value={value}
+            isSearchable={true}
+            name={name}
+            styles={customStyles}
+            placeholder={placeholder}
+            onBlur={() => setShow(false)}
+            {...props}
+
+          />)
+        }
 
         {setClear && (
           <i
