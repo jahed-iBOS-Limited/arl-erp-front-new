@@ -194,7 +194,9 @@ export const getLoanRegisterLanding = async (
   pageSize,
   setter,
   setLoading,
-  applicationType = 0
+  applicationType = 0,
+  fromDate,
+  toDate
 ) => {
   const IsApproved =
     applicationType === 1
@@ -202,10 +204,12 @@ export const getLoanRegisterLanding = async (
       : applicationType === 2
       ? `&isLoanApproved=${true}`
       : "";
+  const dateParam1 = fromDate ? `&fromDate=${fromDate}` : "";
+  const dateParam2 = toDate ? `&toDate=${toDate}` : "";
   try {
     setLoading(true);
     const res = await Axios.get(
-      `/fino/FundManagement/GetLoanRegisterLanding?accountId=${accId}&businessUnitId=${buId}&bankId=${bankId}&statusTypeId=${statusTypeId}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${IsApproved}`
+      `/fino/FundManagement/GetLoanRegisterLanding?accountId=${accId}&businessUnitId=${buId}&bankId=${bankId}&statusTypeId=${statusTypeId}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${IsApproved}${dateParam1}${dateParam2}`
     );
     setter(res?.data);
     setLoading(false);
@@ -233,14 +237,41 @@ export const createLoanRegister = async (
   setDisabled,
   cb,
   isConfirm = false,
-  loanAccountId = 0
+  loanAccountId = 0,
+  facilityRemarks = "",
+  remarks = ""
 ) => {
   setDisabled(true);
   try {
+    // previous
+    // const res = await Axios.post(
+    //   `/fino/FundManagement/FundLoanAccountCreate?accountId=${accId}&businessUnitId=${buId}&loanAcc=${loanAcc}&bankId=${bankId}&bankAccId=${bankAccId}&facilityId=${facilityId}&startDate=${startDate}&tenureDays=${tenureDays}&numPrinciple=${principle}&numIntRate=${interest}&actionById=${actionId}&disbursementPurposeId=${disbursementPurposeId}&disbursementPurposeName=${disbursementPurposeName ||
+    //     ""}&isConfirm=${isConfirm}&loanAccountId=${loanAccountId}`
+    // );
+    const requestBody = {
+      accountId: accId,
+      businessUnitId: buId,
+      loanAcc: loanAcc,
+      bankId: bankId,
+      bankAccId: bankAccId,
+      facilityId: facilityId,
+      startDate: startDate,
+      tenureDays: tenureDays,
+      numPrinciple: principle,
+      numIntRate: interest,
+      actionById: actionId,
+      disbursementPurposeId: disbursementPurposeId,
+      disbursementPurposeName: disbursementPurposeName || "",
+      isConfirm: isConfirm,
+      loanAccountId: loanAccountId,
+      facilityRemarks: facilityRemarks,
+      remarks: remarks,
+    };
     const res = await Axios.post(
-      `/fino/FundManagement/FundLoanAccountCreate?accountId=${accId}&businessUnitId=${buId}&loanAcc=${loanAcc}&bankId=${bankId}&bankAccId=${bankAccId}&facilityId=${facilityId}&startDate=${startDate}&tenureDays=${tenureDays}&numPrinciple=${principle}&numIntRate=${interest}&actionById=${actionId}&disbursementPurposeId=${disbursementPurposeId}&disbursementPurposeName=${disbursementPurposeName ||
-        ""}&isConfirm=${isConfirm}&loanAccountId=${loanAccountId}`
+      "/fino/FundManagement/FundLoanAccountCreate",
+      requestBody
     );
+
     setDisabled(false);
     if (res.status === 200) {
       toast.success(res?.message || "Submitted successfully");

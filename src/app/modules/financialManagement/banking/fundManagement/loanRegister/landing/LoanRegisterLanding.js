@@ -48,6 +48,8 @@ const LoanRegisterLanding = () => {
     loanClass: "",
     businessUnit: "",
     applicationType: { label: "ALL", value: 0 },
+    fromDate: "",
+    toDate: "",
   };
   const [
     historyData,
@@ -387,8 +389,8 @@ const LoanRegisterLanding = () => {
                       <label>Opening Date</label>
                       <div className="d-flex">
                         <InputField
-                          value={values?.openDate}
-                          name="openDate"
+                          value={values?.fromDate}
+                          name="fromDate"
                           placeholder="Opening date"
                           type="date"
                           style={{ width: "100%" }}
@@ -399,15 +401,15 @@ const LoanRegisterLanding = () => {
                       <label>Maturity Date</label>
                       <div className="d-flex">
                         <InputField
-                          value={values?.maturityDate}
-                          name="maturityDate"
+                          value={values?.toDate}
+                          name="toDate"
                           placeholder="Maturity date"
                           type="date"
                           style={{ width: "100%" }}
                         />
                       </div>
                     </div>
-                    <div className="col-lg-2">
+                    <div className="col-lg-1">
                       <button
                         className="btn btn-primary mr-2"
                         type="button"
@@ -423,7 +425,9 @@ const LoanRegisterLanding = () => {
                             pageSize,
                             setLoanRegisterData,
                             setLoading,
-                            values?.applicationType?.value || 0
+                            values?.applicationType?.value || 0,
+                            values?.fromDate,
+                            values?.toDate
                           );
                         }}
                       >
@@ -549,7 +553,7 @@ const LoanRegisterLanding = () => {
                                 <td className="text-">
                                   {item?.disbursementPurposeName}
                                 </td>
-                                <td className="text-"></td>
+                                <td className="text-">{item?.loanRemarks}</td>
                                 <td className="text-"></td>
                                 <td className="text-right">
                                   {_formatMoney(item?.numInterest)}
