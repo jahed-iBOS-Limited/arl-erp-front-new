@@ -373,7 +373,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                  disabled={item?.isConfirm}
+                                  // disabled={item?.isConfirm}
                                   className={
                                     item?.isConfirm
                                       ? "btn btn-sm btn-success px-1 py-1"

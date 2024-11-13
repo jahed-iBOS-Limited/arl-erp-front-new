@@ -1,6 +1,7 @@
 import { Form, Formik } from "formik";
 import moment from "moment";
 import React, { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../../App";
 import InputField from "../../../../_helper/_inputField";
@@ -9,7 +10,6 @@ import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
 import "./style.css";
-import { shallowEqual, useSelector } from "react-redux";
 const validationSchema = Yup.object().shape({
   bookingAmount: Yup.number().required("Booking Amount is required"),
   // airWaybillNumber: Yup.string().required("This field is required"),
@@ -57,9 +57,14 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Country is required"),
   }),
   consigneeDivisionAndState: Yup.object().shape({
-    value: Yup.number().required("Division/City is required"),
-    label: Yup.string().required("Division/City is required"),
+    value: Yup.number().required("State/Province/Region is required"),
+    label: Yup.string().required("State/Province/Region is required"),
   }),
+  consignCity: Yup.object().shape({
+    value: Yup.number().required("City is required"),
+    label: Yup.string().required("City is required"),
+  }),
+  consignPostalCode: Yup.string().required("Zip/Postal Code is required"),
   consigneeAddress: Yup.string().required(
     "State/Province & Postal Code is required"
   ),
@@ -131,27 +136,27 @@ function ConfirmModal({ rowClickData, CB }) {
               "consigneeName",
               data?.consigneeId
                 ? {
-                    value: data?.consigneeId || 0,
-                    label: data?.consigneeName || "",
-                  }
+                  value: data?.consigneeId || 0,
+                  label: data?.consigneeName || "",
+                }
                 : ""
             );
             formikRef.current.setFieldValue(
               "consigneeCountry",
               data?.consigCountryId
                 ? {
-                    value: data?.consigCountryId || 0,
-                    label: data?.consigCountry || "",
-                  }
+                  value: data?.consigCountryId || 0,
+                  label: data?.consigCountry || "",
+                }
                 : ""
             );
             formikRef.current.setFieldValue(
               "consigneeDivisionAndState",
               data?.consigStateId
                 ? {
-                    value: data?.consigStateId || 0,
-                    label: data?.consigState || "",
-                  }
+                  value: data?.consigStateId || 0,
+                  label: data?.consigState || "",
+                }
                 : ""
             );
             formikRef.current.setFieldValue(
@@ -172,8 +177,8 @@ function ConfirmModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               "notifyParty",
-              data?.notifyParty  ? {
-                value:  0,
+              data?.notifyParty ? {
+                value: 0,
                 label: data?.notifyParty || "",
               } : ''
             );
@@ -185,11 +190,13 @@ function ConfirmModal({ rowClickData, CB }) {
               "freightAgentReference",
               data?.freightAgentReference
                 ? {
-                    value:  0,
-                    label: data?.freightAgentReference || "",
-                  }
+                  value: 0,
+                  label: data?.freightAgentReference || "",
+                }
                 : ""
             );
+            formikRef.current.setFieldValue("consignCity", data?.consignCity ? { value: 0, label: data?.consignCity || "" } : "");
+            formikRef.current.setFieldValue("consignPostalCode", data?.consignPostalCode || "");
           }
         }
       );
@@ -234,11 +241,11 @@ function ConfirmModal({ rowClickData, CB }) {
 
         const modifyData = resData?.map((i) => {
           return {
-              ...i,
-              label: i?.valueName || '',
-              value: i?.code || 0
+            ...i,
+            label: i?.valueName || '',
+            value: i?.code || 0
           }
-      }) || []
+        }) || []
         setNotifyParty(modifyData);
       }
     );
@@ -267,10 +274,7 @@ function ConfirmModal({ rowClickData, CB }) {
   };
 
   const saveHandler = (values, cb) => {
-    const paylaod = {
-
-     
-
+    const payload = {
       bookingRequestId: bookingRequestId || 0,
       departureDateTime:
         moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
@@ -301,22 +305,22 @@ function ConfirmModal({ rowClickData, CB }) {
       consigState: values?.consigneeDivisionAndState?.label || "",
       notifyParty: values?.notifyParty?.label || "",
       negotiationParty: values?.negotiationParty || "",
-      userId: rowClickData?.createdBy  || 0,
+      userId: rowClickData?.createdBy || 0,
       confirmBy: profileData?.userId,
       shipperId: rowClickData?.shipperId || 0,
+      consignCity: values?.consignCity?.label || "",
+      consignPostalCode: values?.consignPostalCode || "",
 
-      
     };
 
-    if (paylaod) {
+    if (payload) {
       SaveBookingConfirm(
         `${imarineBaseUrl}/domain/ShippingService/SaveBookingConfirm`,
-        paylaod,
+        payload,
         CB
       );
     }
   };
-
   return (
     <div className="confirmModal">
       {(bookingConfirmLoading || shipBookingRequestLoading) && <Loading />}
@@ -528,33 +532,73 @@ function ConfirmModal({ rowClickData, CB }) {
                     label="Country"
                     onChange={(valueOption) => {
                       setFieldValue("consigneeCountry", valueOption);
-                      setFieldValue("consigneeDivisionAndState", "");
-                      getConsigneeDivisionAndStateApi(valueOption?.value);
+                      // setFieldValue("consigneeDivisionAndState", "");
+                      // getConsigneeDivisionAndStateApi(valueOption?.value);
                     }}
                     placeholder="Country"
                     errors={errors}
                     touched={touched}
                   />
                 </div>
+                {/* State/Province/Region ddl */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="consigneeDivisionAndState"
-                    options={consigneeDivisionAndStateList || []}
+                    options={[]}
                     value={values?.consigneeDivisionAndState}
-                    label="Division/City"
+                    label="State/Province/Region"
                     onChange={(valueOption) => {
-                      setFieldValue("consigneeDivisionAndState", valueOption);
+                      let value = {
+                        ...valueOption,
+                        value: 0,
+                        label: valueOption?.label || "",
+                      }
+                      setFieldValue("consigneeDivisionAndState", value);
                     }}
-                    placeholder="Division/City"
+                    placeholder="Select or Create New Option"
                     errors={errors}
                     touched={touched}
+                    isCreatableSelect={true}
                   />
                 </div>
-                {/* State/Province & Postal Code */}
+                {/* city */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="consignCity"
+                    options={[]}
+                    value={values?.consignCity}
+                    label="City"
+                    onChange={(valueOption) => {
+                      let value = {
+                        ...valueOption,
+                        value: 0,
+                        label: valueOption?.label || "",
+                      }
+                      setFieldValue("consignCity", value);
+                    }}
+                    placeholder="Select or Create New Option"
+                    errors={errors}
+                    touched={touched}
+                    isCreatableSelect={true}
+                  />
+                </div>
+                {/* Zip/Postal Code */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.consignPostalCode}
+                    label="Zip/Postal Code"
+                    name="consignPostalCode"
+                    type='number'
+                    onChange={(e) =>
+                      setFieldValue("consignPostalCode", e.target.value)
+                    }
+                  />
+                </div>
+                {/*  consigneeAddress */}
                 <div className="col-lg-3">
                   <InputField
                     value={values?.consigneeAddress}
-                    label="State/Province & Postal Code"
+                    label="Address"
                     name="consigneeAddress"
                     type="text"
                     onChange={(e) =>
