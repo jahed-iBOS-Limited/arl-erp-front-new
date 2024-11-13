@@ -1,40 +1,40 @@
 import CryptoJS from 'crypto-js';
-import { Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../App";
-import ICustomCard from "../../../_helper/_customCard";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
-import BLModal from "./blModal";
-import Details from "./bookingDetails";
-import ChargesModal from "./chargesModal";
-import CommonStatusUpdateModal from "./commonStatusUpdateModal";
-import ConfirmModal from "./confirmModal";
-import ConsigneeInvoice from "./consigneeInvoice";
-import DeliveryNoteModal from "./deliveryNoteModal";
-import DocumentModal from "./documentModal";
+import { Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../App';
+import ICustomCard from '../../../_helper/_customCard';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPut from '../../../_helper/customHooks/useAxiosPut';
+import BLModal from './blModal';
+import Details from './bookingDetails';
+import ChargesModal from './chargesModal';
+import CommonStatusUpdateModal from './commonStatusUpdateModal';
+import ConfirmModal from './confirmModal';
+import ConsigneeInvoice from './consigneeInvoice';
+import DeliveryNoteModal from './deliveryNoteModal';
+import DocumentModal from './documentModal';
 import FreightCargoReceipt from './freightCargoReceipt';
-import FreightInvoice from "./freightInvoice";
-import HBLCodeGNModal from "./hblCodeGNModal";
-import { cancelHandler, statusReturn } from "./helper";
-import ReceiveModal from "./receiveModal";
-import TransportModal from "./transportModal";
+import FreightInvoice from './freightInvoice';
+import HBLCodeGNModal from './hblCodeGNModal';
+import { cancelHandler, statusReturn } from './helper';
+import ReceiveModal from './receiveModal';
+import TransportModal from './transportModal';
 const validationSchema = Yup.object().shape({});
 function BookingList() {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
   const { token } = useSelector(
     (state) => state?.authData.tokenData,
-    shallowEqual
+    shallowEqual,
   );
   const [
     shipBookingReqLanding,
@@ -55,16 +55,28 @@ function BookingList() {
 
   // edit booking list
   const handleEditBookingList = (item) => {
-    const userID = profileData?.userId
-    const targetUrl = process.env.NODE_ENV !== "production" ? 'http://localhost:3010' : 'https://devcargo.ibos.io/'
+    const userID = profileData?.userId;
+    const targetUrl =
+      process.env.NODE_ENV !== 'production'
+        ? 'http://localhost:3010'
+        : 'https://devcargo.ibos.io/';
 
     // Encrypt the token and userID using base64 encoding
-    const encryptedToken = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(token));
-    const encryptedUserID = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(userID));
-    const superAdmin = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse('superAdmin'));
+    const encryptedToken = CryptoJS.enc.Base64.stringify(
+      CryptoJS.enc.Utf8.parse(token),
+    );
+    const encryptedUserID = CryptoJS.enc.Base64.stringify(
+      CryptoJS.enc.Utf8.parse(userID),
+    );
+    const superAdmin = CryptoJS.enc.Base64.stringify(
+      CryptoJS.enc.Utf8.parse('superAdmin'),
+    );
 
-    window.open(`${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}`, '_blank');
-  }
+    window.open(
+      `${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}`,
+      '_blank',
+    );
+  };
 
   useEffect(() => {
     commonLandingApi();
@@ -74,13 +86,13 @@ function BookingList() {
   const commonLandingApi = (
     searchValue,
     PageNo = pageNo,
-    PageSize = pageSize
+    PageSize = pageSize,
   ) => {
     getShipBookingReqLanding(
       `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
       }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search${searchValue ||
-      ""}`
+      ''}`,
     );
   };
   return (
@@ -89,9 +101,9 @@ function BookingList() {
         <Formik
           enableReinitialize={true}
           initialValues={{
-            strCardNumber: "",
-            shipment: "",
-            entryCode: "",
+            strCardNumber: '',
+            shipment: '',
+            entryCode: '',
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => { }}
@@ -115,182 +127,182 @@ function BookingList() {
                         <th>SL</th>
                         <th
                           style={{
-                            minWidth: "100px",
+                            minWidth: '100px',
                           }}
                         >
                           Booking No
                         </th>
                         <th
                           style={{
-                            minWidth: "150px",
+                            minWidth: '150px',
                           }}
                         >
                           Contact No
                         </th>
                         <th
                           style={{
-                            minWidth: "150px",
+                            minWidth: '150px',
                           }}
                         >
                           Shipper Name
                         </th>
                         <th
                           style={{
-                            minWidth: "150px",
+                            minWidth: '150px',
                           }}
                         >
                           Book Date
                         </th>
                         <th
                           style={{
-                            minWidth: "150px",
+                            minWidth: '150px',
                           }}
                         >
                           Email
                         </th>
                         <th
                           style={{
-                            minWidth: "150px",
+                            minWidth: '150px',
                           }}
                         >
                           Country
                         </th>
                         <th
                           style={{
-                            minWidth: "150px",
+                            minWidth: '150px',
                           }}
                         >
                           Delivery Port
                         </th>
                         <th
                           style={{
-                            minWidth: "150px",
+                            minWidth: '150px',
                           }}
                         >
                           Rate
                         </th>
                         <th
                           style={{
-                            minWidth: "150px",
+                            minWidth: '150px',
                           }}
                         >
                           Status
                         </th>
                         <th
                           style={{
-                            minWidth: "150px",
+                            minWidth: '150px',
                           }}
                         >
                           Edit
                         </th>
                         <th
                           style={{
-                            minWidth: "100px",
+                            minWidth: '100px',
                           }}
                         >
                           Details
                         </th>
                         <th
                           style={{
-                            minWidth: "100px",
+                            minWidth: '100px',
                           }}
                         >
                           Cancel
                         </th>
                         <th
                           style={{
-                            minWidth: "100px",
+                            minWidth: '100px',
                           }}
                         >
                           Confirm
                         </th>
                         <th
                           style={{
-                            minWidth: "100px",
+                            minWidth: '100px',
                           }}
                         >
                           Pickup
                         </th>
                         <th
                           style={{
-                            minWidth: "100px",
+                            minWidth: '100px',
                           }}
                         >
                           Receive
                         </th>
                         <th
                           style={{
-                            minWidth: "140px",
+                            minWidth: '140px',
                           }}
                         >
                           Shipment Planning
                         </th>
                         <th
                           style={{
-                            minWidth: "60px",
+                            minWidth: '60px',
                           }}
                         >
                           BL
                         </th>
                         <th
                           style={{
-                            minWidth: "100px",
+                            minWidth: '100px',
                           }}
                         >
                           HBL
                         </th>
                         <th
                           style={{
-                            minWidth: "146px",
+                            minWidth: '146px',
                           }}
                         >
                           Charges
                         </th>
                         <th
                           style={{
-                            minWidth: "117px",
+                            minWidth: '117px',
                           }}
                         >
                           Doc Checklist
                         </th>
                         <th
                           style={{
-                            minWidth: "100px",
+                            minWidth: '100px',
                           }}
                         >
                           Dispatch
                         </th>
                         <th
                           style={{
-                            minWidth: "149px",
+                            minWidth: '149px',
                           }}
                         >
                           Customs Clearance
                         </th>
                         <th
                           style={{
-                            minWidth: "100px",
+                            minWidth: '100px',
                           }}
                         >
                           In Transit
                         </th>
                         <th
                           style={{
-                            minWidth: "137px",
+                            minWidth: '137px',
                           }}
                         >
                           Des. Port Receive
                         </th>
                         <th
                           style={{
-                            minWidth: "100px",
+                            minWidth: '100px',
                           }}
                         >
                           Delivered
                         </th>
                         <th
                           style={{
-                            minWidth: "440px",
+                            minWidth: '440px',
                           }}
                         >
                           Action
@@ -310,7 +322,7 @@ function BookingList() {
                             </td>
                             <td className="text-left">{item?.shipperName}</td>
                             <td className="text-left">
-                              {moment(item?.createdAt).format("DD-MM-YYYY")}
+                              {moment(item?.createdAt).format('DD-MM-YYYY')}
                             </td>
                             <td className="text-left">{item?.shipperEmail}</td>
                             <td className="text-left">
@@ -328,7 +340,10 @@ function BookingList() {
                                   className="btn btn-sm btn-primary"
                                   onClick={() => handleEditBookingList(item)}
                                 >
-                                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                  <i
+                                    class="fa fa-pencil-square-o"
+                                    aria-hidden="true"
+                                  ></i>
                                 </button>
                               </span>
                             </td>
@@ -373,11 +388,11 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                  // disabled={item?.isConfirm}
+                                  disabled={item?.isConfirm}
                                   className={
                                     item?.isConfirm
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData(item);
@@ -397,15 +412,15 @@ function BookingList() {
                                   disabled={item?.isPickup}
                                   className={
                                     item?.isPickup
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData({
                                       ...item,
-                                      title: "Pickup",
-                                      isUpdateDate: "pickupDate",
-                                      isUpdateKey: "isPickup",
+                                      title: 'Pickup',
+                                      isUpdateDate: 'pickupDate',
+                                      isUpdateKey: 'isPickup',
                                     });
                                     setIsModalShowObj({
                                       ...isModalShowObj,
@@ -424,8 +439,8 @@ function BookingList() {
                                   disabled={item?.isReceived}
                                   className={
                                     item?.isReceived
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData(item);
@@ -445,8 +460,8 @@ function BookingList() {
                                   disabled={item?.isPlaning}
                                   className={
                                     item?.isPlaning
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData(item);
@@ -466,8 +481,8 @@ function BookingList() {
                                   disabled={item?.isBl}
                                   className={
                                     item?.isBl
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData(item);
@@ -477,10 +492,9 @@ function BookingList() {
                                     });
                                   }}
                                 >
-                                  {
-                                    item?.modeOfTransport === "Air" ? "MAWB " : "MBL"
-                                  }
-
+                                  {item?.modeOfTransport === 'Air'
+                                    ? 'MAWB '
+                                    : 'MBL'}
                                 </button>
                               </span>
                             </td>
@@ -490,8 +504,8 @@ function BookingList() {
                                   // disabled={item?.isHbl}
                                   className={
                                     item?.isHbl
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData(item);
@@ -501,9 +515,9 @@ function BookingList() {
                                     });
                                   }}
                                 >
-                                  {item?.modeOfTransport === "Air"
-                                    ? "HAWB"
-                                    : "HBL"}
+                                  {item?.modeOfTransport === 'Air'
+                                    ? 'HAWB'
+                                    : 'HBL'}
                                 </button>
                               </span>
                             </td>
@@ -512,8 +526,8 @@ function BookingList() {
                                 <button
                                   className={
                                     item?.isCharges
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData(item);
@@ -532,8 +546,8 @@ function BookingList() {
                                 <button
                                   className={
                                     item?.isDocumentChecklist
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData(item);
@@ -553,15 +567,15 @@ function BookingList() {
                                   disabled={item?.isDispatch}
                                   className={
                                     item?.isDispatch
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData({
                                       ...item,
-                                      title: "Dispatch",
-                                      isUpdateDate: "dispatchDate",
-                                      isUpdateKey: "isDispatch",
+                                      title: 'Dispatch',
+                                      isUpdateDate: 'dispatchDate',
+                                      isUpdateKey: 'isDispatch',
                                     });
                                     setIsModalShowObj({
                                       ...isModalShowObj,
@@ -580,15 +594,15 @@ function BookingList() {
                                   disabled={item?.isCustomsClear}
                                   className={
                                     item?.isCustomsClear
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData({
                                       ...item,
-                                      title: "Customs Clearance",
-                                      isUpdateDate: "customsClearDt",
-                                      isUpdateKey: "isCustomsClear",
+                                      title: 'Customs Clearance',
+                                      isUpdateDate: 'customsClearDt',
+                                      isUpdateKey: 'isCustomsClear',
                                     });
                                     setIsModalShowObj({
                                       ...isModalShowObj,
@@ -607,15 +621,15 @@ function BookingList() {
                                   disabled={item?.isInTransit}
                                   className={
                                     item?.isInTransit
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData({
                                       ...item,
-                                      title: "In Transit",
-                                      isUpdateDate: "inTransit",
-                                      isUpdateKey: "isInTransit",
+                                      title: 'In Transit',
+                                      isUpdateDate: 'inTransit',
+                                      isUpdateKey: 'isInTransit',
                                     });
                                     setIsModalShowObj({
                                       ...isModalShowObj,
@@ -634,15 +648,15 @@ function BookingList() {
                                   disabled={item?.isDestPortReceive}
                                   className={
                                     item?.isDestPortReceive
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData({
                                       ...item,
-                                      title: "Des. Port Receive",
-                                      isUpdateDate: "destPortReceive",
-                                      isUpdateKey: "isDestPortReceive",
+                                      title: 'Des. Port Receive',
+                                      isUpdateDate: 'destPortReceive',
+                                      isUpdateKey: 'isDestPortReceive',
                                     });
                                     setIsModalShowObj({
                                       ...isModalShowObj,
@@ -660,15 +674,15 @@ function BookingList() {
                                   disabled={item?.isBuyerReceive}
                                   className={
                                     item?.isBuyerReceive
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
                                     setRowClickData({
                                       ...item,
-                                      title: "Delivered",
-                                      isUpdateDate: "buyerReceive",
-                                      isUpdateKey: "isBuyerReceive",
+                                      title: 'Delivered',
+                                      isUpdateDate: 'buyerReceive',
+                                      isUpdateKey: 'isBuyerReceive',
                                     });
                                     setIsModalShowObj({
                                       ...isModalShowObj,
@@ -683,9 +697,9 @@ function BookingList() {
                             <td>
                               <div
                                 style={{
-                                  display: "flex",
-                                  gap: "5px",
-                                  alignItems: "center",
+                                  display: 'flex',
+                                  gap: '5px',
+                                  alignItems: 'center',
                                 }}
                               >
                                 <span>
@@ -727,7 +741,7 @@ function BookingList() {
                                       });
                                     }}
                                   >
-                                    Freight Invoice
+                                    Shipper invoice
                                   </button>
                                 </span>
                                 <span>
@@ -775,7 +789,7 @@ function BookingList() {
       {/* view info */}
       {isModalShowObj?.isView && (
         <>
-          {" "}
+          {' '}
           <IViewModal
             show={isModalShowObj?.isView}
             onHide={() => {
@@ -969,11 +983,11 @@ function BookingList() {
 
       {/* HBL Formate */}
 
-      {/* Freight Invoice */}
+      {/* Shipper Invoice */}
       {isModalShowObj?.isFreightInvoice && (
         <>
           <IViewModal
-            title="Freight Invoice"
+            title="Shipper Invoice"
             show={isModalShowObj?.isFreightInvoice}
             onHide={() => {
               setIsModalShowObj({
@@ -1036,9 +1050,7 @@ function BookingList() {
       {isModalShowObj?.isBlModal && (
         <>
           <IViewModal
-            title={
-              rowClickData?.modeOfTransport === "Air" ? "MAWB" : "MBL"
-            }
+            title={rowClickData?.modeOfTransport === 'Air' ? 'MAWB' : 'MBL'}
             show={isModalShowObj?.isBlModal}
             onHide={() => {
               setIsModalShowObj({
@@ -1065,7 +1077,7 @@ function BookingList() {
       {/* HBCode GN Modal */}
       {isModalShowObj?.isHBCodeGN && (
         <IViewModal
-          title={`${rowClickData?.modeOfTransport === "Air" ? "HAWB" : "HBL"
+          title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
             } Code Generate`}
           show={isModalShowObj?.isHBCodeGN}
           onHide={() => {

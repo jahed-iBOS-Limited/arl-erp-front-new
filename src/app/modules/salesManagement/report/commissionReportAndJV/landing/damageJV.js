@@ -40,7 +40,10 @@ const DamangeReportAndJVTable = ({ obj }) => {
         >
           <thead>
             <tr
-              onClick={() => allSelect(!selectedAll())}
+              onClick={() =>{
+                if(values?.reportType?.value === 3) return;
+                allSelect(!selectedAll())
+              }}
               className="cursor-pointer"
             >
               {![26].includes(values?.type?.value) && (
@@ -50,6 +53,7 @@ const DamangeReportAndJVTable = ({ obj }) => {
                     value={selectedAll()}
                     checked={selectedAll()}
                     onChange={() => {}}
+                    disabled={values?.reportType?.value === 3}
                   />
                 </th>
               )}
@@ -71,6 +75,7 @@ const DamangeReportAndJVTable = ({ obj }) => {
                   {![26].includes(values?.type?.value) && (
                     <td
                       onClick={() => {
+                        if(values?.reportType?.value === 3) return;
                         rowDataHandler(index, "isSelected", !item.isSelected);
                       }}
                       className="text-center"
@@ -88,6 +93,7 @@ const DamangeReportAndJVTable = ({ obj }) => {
                         value={item?.isSelected}
                         checked={item?.isSelected}
                         onChange={() => {}}
+                        disabled={values?.reportType?.value === 3}
                       />
                     </td>
                   )}

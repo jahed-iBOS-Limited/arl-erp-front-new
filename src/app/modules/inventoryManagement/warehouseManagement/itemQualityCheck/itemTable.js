@@ -55,7 +55,7 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
                       />
                     </td>
                     <td>{item?.systemDeduction}</td>
-                    <td>
+                    {/* <td>
                       <input
                         value={item?.manualDeduction || ""}
                         name="manualDeduction"
@@ -69,8 +69,8 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
                           )
                         }
                       />
-                    </td>
-                    {/* <td>{item?.differenceLimit}</td> */}
+                    </td> */}
+                    <td>{item?.differenceLimit}</td>
                     <td>
                       <input
                         value={item?.remarks || ""}
