@@ -84,10 +84,12 @@ export const documentReleaseGetByShipmentId = async (
         documentForwardDate,
         cnfPartnerName,
         cnfPartnerId,
-        tenorDays
+        tenorDays,
+        isLtr,
       } = res?.data;
 
       const newPayload = {
+        isLtr: isLtr,
         currencyId: currencyId,
         currencyName: currencyName,
         shipById: shipById,
@@ -400,6 +402,7 @@ const atSightDocumentReleaseCreatePayloadChange = (
     cnFLCPartnerId: values?.cnfDDL.value,
     cnFLCPartnerName: values?.cnfDDL.label,
     documentForwardDate: _dateFormatter(values?.documentForwardDate),
+    isLtr: values?.isLtr
   };
   return payload;
 };
@@ -503,4 +506,5 @@ export const initData = {
   documentForwardDate: _todayDate(),
   //for at sight
   // totalAmount: "",
+  isLtr: false,
 };
