@@ -1,6 +1,6 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import "./newHBLFormat.css";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import './newHBLFormat.css';
 //============bookingData data=================
 // {
 //   "bookingRequestCode": "SINV0102024000063",
@@ -76,8 +76,8 @@ import "./newHBLFormat.css";
 //   "confirmDate": "2024-10-23T15:17:04.51",
 //   "confTransportMode": "Air to Air",
 //   "isActive": true,
-//   "isPickup": true,
-//   "pickupDate": "2024-10-17T09:44:00",
+//   "isStuffing": true,
+//   "stuffingDate": "2024-10-17T09:44:00",
 //   "blnumber": null,
 //   "isBl": false,
 //   "bldate": "2024-10-24T03:44:54.917",
@@ -175,7 +175,7 @@ import "./newHBLFormat.css";
 function NewHBLFormatAir({ componentRef, bookingData }) {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
 
   return (
@@ -193,7 +193,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               </span>
               TO THE ORDER OF: <br />
               {bookingData?.shipperName} <br />
-              {bookingData?.shipperAddress}, {bookingData?.shipperState},{" "}
+              {bookingData?.shipperAddress}, {bookingData?.shipperState},{' '}
               {bookingData?.shipperCountry}
             </div>
             <div className="box1_left-box_content-2 medium-font line-height word-spacing">
@@ -205,7 +205,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               </span>
               TO THE ORDER OF: <br />
               {bookingData?.consigneeName} <br />
-              {bookingData?.consigneeAddress}, {bookingData?.consigState},{" "}
+              {bookingData?.consigneeAddress}, {bookingData?.consigState},{' '}
               {bookingData?.consigCountry}
             </div>
             <div className="box1_left-box_content-3 medium-font line-height word-spacing">
@@ -224,20 +224,20 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               </p>
             </div>
             <div className="box1_left-box_content-5 small-font">
-              <div style={{ width: "50%", borderRight: "2px solid black" }}>
+              <div style={{ width: '50%', borderRight: '2px solid black' }}>
                 Airport of Destination
                 <p className="medium-font" style={{ paddingTop: 5 }}>
                   LELYSTAD
                 </p>
               </div>
-              <div style={{ width: "25%", borderRight: "2px solid black" }}>
+              <div style={{ width: '25%', borderRight: '2px solid black' }}>
                 Flight/Date
                 <br />
                 <p className="medium-font" style={{ paddingTop: 12 }}>
                   QR8171
                 </p>
               </div>
-              <div style={{ width: "25%" }}>
+              <div style={{ width: '25%' }}>
                 Flight/Date
                 <br />
                 <p className="medium-font" style={{ paddingTop: 12 }}>
@@ -251,8 +251,8 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
             <div className="box1_right-box_content-1">
               <p
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  justifyContent: 'space-between',
                   margin: 0,
                 }}
               >
@@ -268,20 +268,20 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               <p className="small-font">Issued by</p>
               <p
                 style={{
-                  textAlign: "center",
-                  fontWeight: "bold",
+                  textAlign: 'center',
+                  fontWeight: 'bold',
                   fontSize: 25,
                   wordSpacing: 7,
-                  padding: "5px 0",
+                  padding: '5px 0',
                 }}
               >
                 {selectedBusinessUnit?.label}
               </p>
               <p
                 style={{
-                  textAlign: "center",
-                  padding: "0 20px",
-                  wordSpacing: "-1px",
+                  textAlign: 'center',
+                  padding: '0 20px',
+                  wordSpacing: '-1px',
                   fontSize: 10,
                 }}
               >
@@ -304,33 +304,35 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
             <div className="box1_right-box_content-4 small-font word-spacing">
               Accounting Information
               <p
-                style={{ display: "flex", justifyContent: "center" }}
+                style={{ display: 'flex', justifyContent: 'center' }}
                 className="large-font"
               >
-                {bookingData?.paymentTerms?.startsWith("PP") ? "PREPAID" : "FREIGHT COLLECT"}
+                {bookingData?.paymentTerms?.startsWith('PP')
+                  ? 'PREPAID'
+                  : 'FREIGHT COLLECT'}
               </p>
             </div>
             <div className="box1_right-box_content-5 small-font word-spacing">
-              <div style={{ width: "50%", borderRight: "2px solid black" }}>
+              <div style={{ width: '50%', borderRight: '2px solid black' }}>
                 Master Airwaybill No.
                 <p>
                   <b>{bookingData?.flightNumber} </b>
                 </p>
               </div>
-              <div style={{ width: "50%" }}>I.A.T.A Code</div>
+              <div style={{ width: '50%' }}>I.A.T.A Code</div>
             </div>
             <div className="box1_right-box_content-6 small-font word-spacing">
-              <div style={{ width: "50%", borderRight: "2px solid black" }}>
+              <div style={{ width: '50%', borderRight: '2px solid black' }}>
                 Time &amp; Date Broker Notified
               </div>
-              <div style={{ width: "50%" }}>
+              <div style={{ width: '50%' }}>
                 Time &amp; Date Cargo Collected
               </div>
             </div>
             <div className="box1_right-box_content-7">
               <div
                 className="small-font"
-                style={{ width: "20%", borderRight: "2px solid black" }}
+                style={{ width: '20%', borderRight: '2px solid black' }}
               >
                 Currency
                 <p className="medium-font" style={{ paddingTop: 5 }}>
@@ -340,44 +342,44 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               <div
                 className="small-font"
                 style={{
-                  width: "29.2%",
-                  borderRight: "2px solid black",
-                  display: "flex",
-                  flexDirection: "column",
+                  width: '29.2%',
+                  borderRight: '2px solid black',
+                  display: 'flex',
+                  flexDirection: 'column',
                 }}
               >
-                <div style={{ display: "flex", height: "50%" }}>
+                <div style={{ display: 'flex', height: '50%' }}>
                   <div
                     style={{
-                      width: "50%",
-                      borderRight: "2px solid black",
-                      borderBottom: "2px solid black",
+                      width: '50%',
+                      borderRight: '2px solid black',
+                      borderBottom: '2px solid black',
                     }}
                   >
                     WT/VAL
                   </div>
                   <div
-                    style={{ width: "50%", borderBottom: "2px solid black" }}
+                    style={{ width: '50%', borderBottom: '2px solid black' }}
                   >
                     Other
                   </div>
                 </div>
-                <div style={{ display: "flex", height: "50%" }}>
-                  <div style={{ width: "50%", borderRight: "2px solid black" }}>
+                <div style={{ display: 'flex', height: '50%' }}>
+                  <div style={{ width: '50%', borderRight: '2px solid black' }}>
                     PPD
                   </div>
-                  <div style={{ width: "52%", borderRight: "2px solid black" }}>
+                  <div style={{ width: '52%', borderRight: '2px solid black' }}>
                     COLL XX
                   </div>
-                  <div style={{ width: "50%", borderRight: "2px solid black" }}>
+                  <div style={{ width: '50%', borderRight: '2px solid black' }}>
                     PPD XX
                   </div>
-                  <div style={{ width: "50%" }}>COLL</div>
+                  <div style={{ width: '50%' }}>COLL</div>
                 </div>
               </div>
               <div
                 className="small-font"
-                style={{ width: "40%", borderRight: "2px solid black" }}
+                style={{ width: '40%', borderRight: '2px solid black' }}
               >
                 Declared Value for Carriage
                 <p className="medium-font" style={{ paddingTop: 5 }}>
@@ -387,10 +389,10 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               <div />
             </div>
             <div className="box1_right-box_content-8 small-font">
-              <div style={{ width: "30%", borderRight: "2px solid black" }}>
+              <div style={{ width: '30%', borderRight: '2px solid black' }}>
                 Amount of Insurance
               </div>
-              <div style={{ width: "70%" }}>
+              <div style={{ width: '70%' }}>
                 INSURANCE-if Carrier offers insurance and such insurance is
                 requested in accordance with condition on reverse hereof,
                 indicate amount to be insured in figures in box marked amount of
@@ -404,28 +406,28 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
         {/*--- Section: BOX 3 ---*/}
         <div className="box3">
           <div className="box3_heading small-font">
-            <div style={{ width: "5%", borderRight: "2px solid black" }}>
+            <div style={{ width: '5%', borderRight: '2px solid black' }}>
               No Pieces RCP
             </div>
-            <div style={{ width: "10%", borderRight: "2px solid black" }}>
+            <div style={{ width: '10%', borderRight: '2px solid black' }}>
               Gross Weight
             </div>
-            <div style={{ width: "2%", borderRight: "2px solid black" }}>
+            <div style={{ width: '2%', borderRight: '2px solid black' }}>
               Kg lb
             </div>
-            <div style={{ width: "10%", borderRight: "2px solid black" }}>
+            <div style={{ width: '10%', borderRight: '2px solid black' }}>
               Chargeable Weight
             </div>
-            <div style={{ width: "12%", borderRight: "2px solid black" }}>
+            <div style={{ width: '12%', borderRight: '2px solid black' }}>
               Rate <br />
               <br />
-              <p style={{ textAlign: "center" }}>charge</p>
+              <p style={{ textAlign: 'center' }}>charge</p>
             </div>
             <div
               style={{
-                width: "14%",
-                borderRight: "2px solid black",
-                textAlign: "center",
+                width: '14%',
+                borderRight: '2px solid black',
+                textAlign: 'center',
               }}
             >
               Total
@@ -436,8 +438,8 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
             </div>
           </div>
           <div className="box3_content">
-            <div style={{ width: "5%", borderRight: "2px solid black" }}>
-              <p style={{ textAlign: "center" }}>140</p>
+            <div style={{ width: '5%', borderRight: '2px solid black' }}>
+              <p style={{ textAlign: 'center' }}>140</p>
               <p className="medium-font">
                 <u>
                   <b>SHIPPING MARKS</b>
@@ -445,18 +447,18 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               </p>
               <p className="small-font">47805-D/1</p>
             </div>
-            <div style={{ width: "10%", borderRight: "2px solid black" }}>
-              <p style={{ textAlign: "center" }}>
+            <div style={{ width: '10%', borderRight: '2px solid black' }}>
+              <p style={{ textAlign: 'center' }}>
                 {bookingData?.rowsData?.reduce(
                   (acc, item) => acc + +item?.grossWeightKG,
-                  0
+                  0,
                 )}
               </p>
             </div>
-            <div style={{ width: "2%", borderRight: "2px solid black" }}>
+            <div style={{ width: '2%', borderRight: '2px solid black' }}>
               <p
                 className="medium-font"
-                style={{ paddingTop: 20, textAlign: "center" }}
+                style={{ paddingTop: 20, textAlign: 'center' }}
               >
                 <u>
                   <b>DIMENSION</b>
@@ -465,51 +467,51 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               <p className="small-font">
                 {bookingData?.rowsData?.reduce(
                   (acc, item) => acc + +item?.totalDimsHeight,
-                  0
-                )}{" "}
+                  0,
+                )}{' '}
                 x
                 {bookingData?.rowsData?.reduce(
                   (acc, item) => acc + +item?.totalDimsWidth,
-                  0
-                )}{" "}
-                x{" "}
+                  0,
+                )}{' '}
+                x{' '}
                 {bookingData?.rowsData?.reduce(
                   (acc, item) => acc + +item?.totalDimsLength,
-                  0
+                  0,
                 )}
                 <br />
-                Total CBM :{" "}
+                Total CBM :{' '}
                 {bookingData?.rowsData?.reduce(
                   (acc, item) => acc + +item?.totalVolumeCBM,
-                  0
+                  0,
                 )}
               </p>
             </div>
-            <div style={{ width: "10%", borderRight: "2px solid black" }}>
-              <p style={{ textAlign: "center" }}>3337</p>
+            <div style={{ width: '10%', borderRight: '2px solid black' }}>
+              <p style={{ textAlign: 'center' }}>3337</p>
             </div>
-            <div style={{ width: "12%", borderRight: "2px solid black" }} />
-            <div style={{ width: "14%", borderRight: "2px solid black" }} />
-            <div style={{ width: "45%" }}>
+            <div style={{ width: '12%', borderRight: '2px solid black' }} />
+            <div style={{ width: '14%', borderRight: '2px solid black' }} />
+            <div style={{ width: '45%' }}>
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
                 }}
               >
                 <p className="small-font">Said to Contain</p>
-                <p className="medium-font" style={{ letterSpacing: "normal" }}>
+                <p className="medium-font" style={{ letterSpacing: 'normal' }}>
                   MENS SHIRT PO# 47805-D/1 STYLE
                 </p>
                 <p className="medium-font">NO# 1063/407 HS CODE: 62059</p>
                 <div
                   style={{
-                    display: "flex",
-                    marginTop: "auto",
+                    display: 'flex',
+                    marginTop: 'auto',
                     paddingLeft: 5,
                     paddingBottom: 5,
-                    justifyContent: "space-between",
+                    justifyContent: 'space-between',
                   }}
                 >
                   <div className="medium-font">
@@ -521,7 +523,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                   <p className="medium-font"></p>
                   <div
                     className="medium-font"
-                    style={{ flexDirection: "column" }}
+                    style={{ flexDirection: 'column' }}
                   >
                     <p>DT: 25.04.2022</p>
                     <p>DT: 21.12.2021</p>
@@ -542,50 +544,50 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
             <div className="box4_Left-box_content-1">
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
                 }}
               >
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    height: "50%",
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    height: '50%',
                   }}
                   className="small-font "
                 >
                   <p
                     style={{
-                      border: "2px solid black",
-                      borderTop: "none",
-                      borderLeft: "none",
-                      height: "100%",
-                      alignContent: "center",
-                      padding: "0 20px",
+                      border: '2px solid black',
+                      borderTop: 'none',
+                      borderLeft: 'none',
+                      height: '100%',
+                      alignContent: 'center',
+                      padding: '0 20px',
                     }}
                   >
                     Prepaid
                   </p>
                   <p
                     style={{
-                      border: "2px solid black",
-                      borderTop: "none",
-                      height: "100%",
-                      alignContent: "center",
-                      padding: "0 20px",
+                      border: '2px solid black',
+                      borderTop: 'none',
+                      height: '100%',
+                      alignContent: 'center',
+                      padding: '0 20px',
                     }}
                   >
                     Weight charge
                   </p>
                   <p
                     style={{
-                      border: "2px solid black",
-                      borderTop: "none",
-                      borderRight: "none",
-                      height: "100%",
-                      alignContent: "center",
-                      padding: "0 20px",
+                      border: '2px solid black',
+                      borderTop: 'none',
+                      borderRight: 'none',
+                      height: '100%',
+                      alignContent: 'center',
+                      padding: '0 20px',
                     }}
                   >
                     Collect
@@ -593,10 +595,10 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 </div>
                 <div
                   style={{
-                    borderRight: "2px solid black",
-                    borderBottom: "none",
-                    height: "50%",
-                    width: "50%",
+                    borderRight: '2px solid black',
+                    borderBottom: 'none',
+                    height: '50%',
+                    width: '50%',
                   }}
                 />
               </div>
@@ -604,26 +606,26 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
             <div className="box4_Left-box_content-2">
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
                 }}
               >
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    height: "50%",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    height: '50%',
                   }}
                   className="small-font "
                 >
                   <p
                     style={{
-                      border: "2px solid black",
-                      borderTop: "none",
-                      height: "100%",
-                      alignContent: "center",
-                      padding: "0 20px",
+                      border: '2px solid black',
+                      borderTop: 'none',
+                      height: '100%',
+                      alignContent: 'center',
+                      padding: '0 20px',
                     }}
                   >
                     Valuation charge
@@ -631,10 +633,10 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 </div>
                 <div
                   style={{
-                    borderRight: "2px solid black",
-                    borderBottom: "none",
-                    height: "50%",
-                    width: "50%",
+                    borderRight: '2px solid black',
+                    borderBottom: 'none',
+                    height: '50%',
+                    width: '50%',
                   }}
                 />
               </div>
@@ -642,26 +644,26 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
             <div className="box4_Left-box_content-3">
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
                 }}
               >
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    height: "50%",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    height: '50%',
                   }}
                   className="small-font "
                 >
                   <p
                     style={{
-                      border: "2px solid black",
-                      borderTop: "none",
-                      height: "100%",
-                      alignContent: "center",
-                      padding: "0 20px",
+                      border: '2px solid black',
+                      borderTop: 'none',
+                      height: '100%',
+                      alignContent: 'center',
+                      padding: '0 20px',
                     }}
                   >
                     Tax
@@ -669,10 +671,10 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 </div>
                 <div
                   style={{
-                    borderRight: "2px solid black",
-                    borderBottom: "none",
-                    height: "50%",
-                    width: "50%",
+                    borderRight: '2px solid black',
+                    borderBottom: 'none',
+                    height: '50%',
+                    width: '50%',
                   }}
                 />
               </div>
@@ -680,26 +682,26 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
             <div className="box4_Left-box_content-4">
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
                 }}
               >
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    height: "50%",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    height: '50%',
                   }}
                   className="small-font "
                 >
                   <p
                     style={{
-                      border: "2px solid black",
-                      borderTop: "none",
-                      height: "100%",
-                      alignContent: "center",
-                      padding: "0 20px",
+                      border: '2px solid black',
+                      borderTop: 'none',
+                      height: '100%',
+                      alignContent: 'center',
+                      padding: '0 20px',
                     }}
                   >
                     Total Other Charges Due Agent
@@ -707,10 +709,10 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 </div>
                 <div
                   style={{
-                    borderRight: "2px solid black",
-                    borderBottom: "none",
-                    height: "50%",
-                    width: "50%",
+                    borderRight: '2px solid black',
+                    borderBottom: 'none',
+                    height: '50%',
+                    width: '50%',
                   }}
                 />
               </div>
@@ -718,26 +720,26 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
             <div className="box4_Left-box_content-5">
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
                 }}
               >
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    height: "50%",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    height: '50%',
                   }}
                   className="small-font "
                 >
                   <p
                     style={{
-                      border: "2px solid black",
-                      borderTop: "none",
-                      height: "100%",
-                      alignContent: "center",
-                      padding: "0 20px",
+                      border: '2px solid black',
+                      borderTop: 'none',
+                      height: '100%',
+                      alignContent: 'center',
+                      padding: '0 20px',
                     }}
                   >
                     Total Other Charges Due Carrier
@@ -745,71 +747,71 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 </div>
                 <div
                   style={{
-                    borderRight: "2px solid black",
-                    borderBottom: "none",
-                    height: "50%",
-                    width: "50%",
+                    borderRight: '2px solid black',
+                    borderBottom: 'none',
+                    height: '50%',
+                    width: '50%',
                   }}
                 />
               </div>
             </div>
             <div className="box4_Left-box_content-6">
-              <div style={{ borderRight: "2px solid black", width: "50%" }} />
+              <div style={{ borderRight: '2px solid black', width: '50%' }} />
             </div>
             <div className="box4_Left-box_content-7">
               <div
                 style={{
-                  borderRight: "2px solid black",
-                  width: "50%",
-                  alignContent: "center",
+                  borderRight: '2px solid black',
+                  width: '50%',
+                  alignContent: 'center',
                 }}
                 className="small-font"
               >
-                <p style={{ textAlign: "center" }}>Total Prepaid</p>
+                <p style={{ textAlign: 'center' }}>Total Prepaid</p>
               </div>
               <div
-                style={{ alignContent: "center", margin: "0 auto" }}
+                style={{ alignContent: 'center', margin: '0 auto' }}
                 className="small-font"
               >
                 Total Collect
               </div>
             </div>
             <div className="box4_Left-box_content-8">
-              <div style={{ borderRight: "2px solid black", width: "50%" }} />
+              <div style={{ borderRight: '2px solid black', width: '50%' }} />
               <div>0.00</div>
             </div>
             <div className="box4_Left-box_content-9">
               <div
                 style={{
-                  borderRight: "2px solid black",
-                  width: "50%",
-                  alignContent: "center",
+                  borderRight: '2px solid black',
+                  width: '50%',
+                  alignContent: 'center',
                 }}
                 className="small-font"
               >
-                <p style={{ textAlign: "center" }}>Currency Conversion Rate</p>
+                <p style={{ textAlign: 'center' }}>Currency Conversion Rate</p>
               </div>
               <div
-                style={{ alignContent: "center", margin: "0 auto" }}
+                style={{ alignContent: 'center', margin: '0 auto' }}
                 className="small-font"
               >
                 Cc charges in dest currency
               </div>
             </div>
             <div className="box4_Left-box_content-10">
-              <div style={{ borderRight: "2px solid black", width: "50%" }} />
+              <div style={{ borderRight: '2px solid black', width: '50%' }} />
             </div>
             <div className="box4_Left-box_content-11 small-font">
               <p
                 style={{
-                  textAlign: "center",
-                  borderRight: "2px solid black",
-                  width: "50%",
+                  textAlign: 'center',
+                  borderRight: '2px solid black',
+                  width: '50%',
                 }}
               >
                 For Carrier's use only at Destination
               </p>
-              <p style={{ textAlign: "center", width: "50%" }}>
+              <p style={{ textAlign: 'center', width: '50%' }}>
                 Charges at Destination
               </p>
             </div>
@@ -829,13 +831,13 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 is in proper condition for carriage by air according to the
                 applicable Dangerous Goods Regulations.
               </p>
-              <p style={{ textAlign: "center", paddingTop: 40, fontSize: 13 }}>
+              <p style={{ textAlign: 'center', paddingTop: 40, fontSize: 13 }}>
                 A/C OF: GLOBUS GARMENTS LIMITED
               </p>
               <hr
-                style={{ borderTop: "dotted 1px", width: "45%", marginTop: 10 }}
+                style={{ borderTop: 'dotted 1px', width: '45%', marginTop: 10 }}
               />
-              <p style={{ textAlign: "center", fontSize: 13, marginTop: 3 }}>
+              <p style={{ textAlign: 'center', fontSize: 13, marginTop: 3 }}>
                 Signature of Shipper or his Agent
               </p>
             </div>
@@ -843,9 +845,9 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
             <div className="box4_Right-box_content-6">
               <div
                 style={{
-                  display: "flex",
+                  display: 'flex',
                   fontSize: 11,
-                  justifyContent: "space-between",
+                  justifyContent: 'space-between',
                   paddingTop: 10,
                   paddingRight: 60,
                 }}
@@ -855,7 +857,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 <p>MLL/Dhaka-1213,Bangladesh</p>
               </div>
               <hr
-                style={{ borderTop: "dotted 1px", width: "45%", marginTop: 10 }}
+                style={{ borderTop: 'dotted 1px', width: '45%', marginTop: 10 }}
               />
               <p className="small-font" style={{ wordSpacing: 3 }}>
                 Executed on (Date) at (Place) signature of issuing Carrier or
