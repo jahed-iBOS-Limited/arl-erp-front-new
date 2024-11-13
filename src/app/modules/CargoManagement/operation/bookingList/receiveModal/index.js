@@ -1,21 +1,22 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../../App";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
-import BookingDetailsInfo from "../bookingDetails/bookingDetailsInfo";
-import "./style.css";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
+import BookingDetailsInfo from '../bookingDetails/bookingDetailsInfo';
+import './style.css';
 const validationSchema = Yup.object().shape({
   // recvQuantity: Yup.number().required("Receive Quantity is required"),
   wareHouse: Yup.object().shape({
-    value: Yup.string().required("Warehouse is required"),
-    label: Yup.string().required("Warehouse is required"),
+    value: Yup.string().required('Warehouse is required'),
+    label: Yup.string().required('Warehouse is required'),
   }),
+  receivedDate: Yup.date().required('Received Date is required'),
 });
 function ReceiveModal({ rowClickData, CB }) {
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
@@ -43,9 +44,9 @@ function ReceiveModal({ rowClickData, CB }) {
                 ...itm,
                 recvQuantity: itm?.loadingQuantity || 0,
               };
-            }) || []
+            }) || [],
           );
-        }
+        },
       );
     }
 
@@ -57,7 +58,8 @@ function ReceiveModal({ rowClickData, CB }) {
       updthd: {
         bookingId: bookingRequestId,
         warehouseId: values?.wareHouse?.value || 0,
-        warehouseName: values?.wareHouse?.label || "",
+        warehouseName: values?.wareHouse?.label || '',
+        receivedDate: values?.receivedDate || '',
       },
       updtrow: rowsData.map((itm) => {
         return {
@@ -72,7 +74,7 @@ function ReceiveModal({ rowClickData, CB }) {
       paylaod,
       () => {
         CB();
-      }
+      },
     );
   };
 
@@ -80,7 +82,7 @@ function ReceiveModal({ rowClickData, CB }) {
 
   useEffect(() => {
     getWarehouseDDL(
-      `/wms/Warehouse/GetWarehouseFromPlantWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      `/wms/Warehouse/GetWarehouseFromPlantWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -90,7 +92,8 @@ function ReceiveModal({ rowClickData, CB }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          recvQuantity: "",
+          receivedDate: '',
+          wareHouse: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -120,23 +123,23 @@ function ReceiveModal({ rowClickData, CB }) {
                     label="Warehouse"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("wareHouse", valueOption);
+                        setFieldValue('wareHouse', valueOption);
                       } else {
-                        setFieldValue("wareHouse", "");
+                        setFieldValue('wareHouse', '');
                       }
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                {/* <div className="col-lg-4">
+                <div className="col-lg-4">
                   <InputField
-                    value={values?.recvQuantity}
-                    label="Receive Quantity"
-                    name="recvQuantity"
-                    placeholder="Receive Quantity"
+                    value={values?.receivedDate}
+                    label="Received Date"
+                    name="receivedDate"
+                    placeholder="Received Date"
                   />
-                </div> */}
+                </div>
               </div>
 
               <div className="table-responsive">
