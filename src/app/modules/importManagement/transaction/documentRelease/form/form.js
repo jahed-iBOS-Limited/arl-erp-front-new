@@ -422,9 +422,22 @@ export default function _Form({
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
-                      // isDisabled={type === "view"}
+                    // isDisabled={type === "view"}
                     />
                   </div>
+                  {values?.lcType?.label === "At Sight" && (
+                     <div className="col-lg-1 mt-5">
+                     <div className="d-flex align-items-center">
+                       <input
+                         type="checkbox"
+                         checked={values?.isLtr}
+                         onChange={(e) => setFieldValue("isLtr", e.target.checked)}
+                         disabled={type === "view"}
+                       />
+                       <label className="pl-2">Is LTR</label>
+                     </div>
+                   </div>
+                  )}
                 </div>
               </div>
 
@@ -453,14 +466,14 @@ export default function _Form({
                           name="otherCharges"
                           type="number"
                           disabled={type === "view"}
-                          // min="1"
-                          //onChange={(e) => {
-                          //setFieldValue("otherCharges", e?.target?.value);
-                          //  setFieldValue(
-                          //    "pgAmount",
-                          //    initData?.pgAmount + Number(e?.target?.value) || 0
-                          //  );
-                          // }}
+                        // min="1"
+                        //onChange={(e) => {
+                        //setFieldValue("otherCharges", e?.target?.value);
+                        //  setFieldValue(
+                        //    "pgAmount",
+                        //    initData?.pgAmount + Number(e?.target?.value) || 0
+                        //  );
+                        // }}
                         />
                       </div>
                       {/* <div className='col-lg-3'>
@@ -586,15 +599,15 @@ export default function _Form({
                     type !== "view"
                       ? header
                       : [
-                          "SL",
-                          "Invoice Payment Amount",
-                          "Other Amount",
-                          "Net Pay Amount",
-                          "PG Status",
-                          "Start Date",
-                          "Due Date",
-                          "Tenor Days",
-                        ]
+                        "SL",
+                        "Invoice Payment Amount",
+                        "Other Amount",
+                        "Net Pay Amount",
+                        "PG Status",
+                        "Start Date",
+                        "Due Date",
+                        "Tenor Days",
+                      ]
                   }
                 >
                   {rowDto?.length > 0 &&
@@ -690,9 +703,9 @@ export default function _Form({
                     >
                       {_formatMoney(
                         values?.invoiceAmount -
-                          rowDto.reduce((acc, item) => {
-                            return acc + item?.paymentAmount;
-                          }, 0)
+                        rowDto.reduce((acc, item) => {
+                          return acc + item?.paymentAmount;
+                        }, 0)
                       )}
                     </td>
                   </tr>
@@ -709,7 +722,7 @@ export default function _Form({
                 type="reset"
                 style={{ display: "none" }}
                 ref={resetBtnRef}
-                // onSubmit={() => resetForm(initData)}
+              // onSubmit={() => resetForm(initData)}
               ></button>
             </Form>
           </>
