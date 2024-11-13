@@ -88,8 +88,7 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
       </div>
 
       <p style={{ fontStyle: "italic" }}>
-        <span className="font-weight-bolder">*Encloser : </span>Party Bill
-        payment Advice.
+        <span className="font-weight-bolder">*Encloser : </span>Payment Advice.
       </p>
     </div>
   );
