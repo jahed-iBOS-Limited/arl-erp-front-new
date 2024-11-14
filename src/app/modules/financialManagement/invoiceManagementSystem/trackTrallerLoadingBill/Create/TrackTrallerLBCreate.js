@@ -99,6 +99,7 @@ const TrackTrallerLBCreatePage = () => {
         initialValues={trackTrallerLBInitData}
         validationSchema={trackTrallerLBIValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
+          // save track traller loading data
           handleTTLBSaveData(
             {
               saveTrackTrallerLBData,
@@ -109,7 +110,15 @@ const TrackTrallerLBCreatePage = () => {
               headerData,
               attachmentList,
             },
-            () => {}
+            () => {
+              // occured after successfully post by callback
+              // reset form
+              resetForm(trackTrallerLBInitData);
+              // set traller data empty
+              setTrackTrallerLBData([]);
+              // set attacment data empty
+              setAttachmentList([]);
+            }
           );
         }}
       >

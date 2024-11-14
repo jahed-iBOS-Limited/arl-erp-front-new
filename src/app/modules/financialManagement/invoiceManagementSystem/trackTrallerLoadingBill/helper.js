@@ -226,14 +226,15 @@ export const handleTTLBSaveData = (obj, cb) => {
     image: updatedImageList,
   };
 
-  console.log(payload);
+  // console.log(payload);
+
   // save track traller billing data
-  // saveTrackTrallerLBData(
-  //   `/wms/LabourBill/PostLabourBillEntry`,
-  //   payload,
-  //   () => {
-  //      cb();
-  //   },
-  //   true
-  // );
+  saveTrackTrallerLBData(
+    `/wms/LabourBill/PostLabourBillEntry`,
+    payload,
+    () => {
+      cb();
+    },
+    true
+  );
 };
