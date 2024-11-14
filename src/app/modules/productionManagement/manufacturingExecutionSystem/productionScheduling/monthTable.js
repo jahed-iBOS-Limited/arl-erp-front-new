@@ -127,7 +127,7 @@ const MonthTable = ({ tableData, setTableData, singleData, cb, values }) => {
                                         </td>
                                     </tr>
                                 ))}
-                                <tr><td className="text-center"><strong>Total</strong></td> <td className="pl-5">{totalQuantity}</td></tr>
+                                <tr><td className="text-center"><strong>Total</strong></td> <td className=""><span className="pl-4">{totalQuantity}</span></td></tr>
                             </tbody>
                         </table>
                     </div>
