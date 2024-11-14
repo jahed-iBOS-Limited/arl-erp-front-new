@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { Form, Formik } from 'formik';
 import moment from 'moment';
 import React, { useEffect } from 'react';
@@ -80,7 +81,6 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required('Delivery Agent is required'),
   }),
 });
-
 function ConfirmModal({ rowClickData, CB }) {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
@@ -111,7 +111,20 @@ function ConfirmModal({ rowClickData, CB }) {
 
   const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
   const [notifyPartyDDL, GetNotifyPartyDDL, , setNotifyParty] = useAxiosGet();
+  const [stateDDL, setStateDDL] = useAxiosGet();
+  const [cityDDL, setCityDDL] = useAxiosGet();
 
+  const debouncedGetCityList = _.debounce((value) => {
+    setCityDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetPreviousCityDDL?search=${value}`
+    );
+  }, 300);
+
+  const debouncedGetStateList = _.debounce((value) => {
+    setStateDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetPreviousStateDDL?search=${value}`
+    );
+  }, 300);
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
@@ -129,27 +142,27 @@ function ConfirmModal({ rowClickData, CB }) {
               'consigneeName',
               data?.consigneeId
                 ? {
-                    value: data?.consigneeId || 0,
-                    label: data?.consigneeName || '',
-                  }
+                  value: data?.consigneeId || 0,
+                  label: data?.consigneeName || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeCountry',
               data?.consigCountryId
                 ? {
-                    value: data?.consigCountryId || 0,
-                    label: data?.consigCountry || '',
-                  }
+                  value: data?.consigCountryId || 0,
+                  label: data?.consigCountry || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeDivisionAndState',
               data?.consigStateId
                 ? {
-                    value: data?.consigStateId || 0,
-                    label: data?.consigState || '',
-                  }
+                  value: data?.consigStateId || 0,
+                  label: data?.consigState || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -172,9 +185,9 @@ function ConfirmModal({ rowClickData, CB }) {
               'notifyParty',
               data?.notifyParty
                 ? {
-                    value: 0,
-                    label: data?.notifyParty || '',
-                  }
+                  value: 0,
+                  label: data?.notifyParty || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -185,9 +198,9 @@ function ConfirmModal({ rowClickData, CB }) {
               'freightAgentReference',
               data?.freightAgentReference
                 ? {
-                    value: 0,
-                    label: data?.freightAgentReference || '',
-                  }
+                  value: 0,
+                  label: data?.freightAgentReference || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -270,6 +283,7 @@ function ConfirmModal({ rowClickData, CB }) {
   }, []);
   const bookingData = shipBookingRequestGetById || {};
 
+
   const saveHandler = (values, cb) => {
     const payload = {
       bookingRequestId: bookingRequestId || 0,
@@ -326,8 +340,7 @@ function ConfirmModal({ rowClickData, CB }) {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${
-          profileData?.accountId
+        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId
         }&BusinessUnitId=${225}&Search=${v}`,
       )
       .then((res) => {
@@ -553,28 +566,33 @@ function ConfirmModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <NewSelect
                     name="consigneeDivisionAndState"
-                    options={[]}
+                    options={stateDDL || []}
                     value={values?.consigneeDivisionAndState}
                     label="State/Province/Region"
                     onChange={(valueOption) => {
                       let value = {
                         ...valueOption,
                         value: 0,
-                        label: valueOption?.label || '',
-                      };
-                      setFieldValue('consigneeDivisionAndState', value);
+                        label: valueOption?.label || "",
+                      }
+                      setFieldValue("consigneeDivisionAndState", value);
+
                     }}
                     placeholder="Select or Create New Option"
                     errors={errors}
                     touched={touched}
                     isCreatableSelect={true}
+                    onInputChange={(inputValue) => {
+                      debouncedGetStateList(inputValue);
+                    }}
+
                   />
                 </div>
                 {/* city */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="consignCity"
-                    options={[]}
+                    options={cityDDL || []}
                     value={values?.consignCity}
                     label="City"
                     onChange={(valueOption) => {
@@ -589,6 +607,9 @@ function ConfirmModal({ rowClickData, CB }) {
                     errors={errors}
                     touched={touched}
                     isCreatableSelect={true}
+                    onInputChange={(inputValue) => {
+                      debouncedGetCityList(inputValue);
+                    }}
                   />
                 </div>
                 {/* Zip/Postal Code */}
