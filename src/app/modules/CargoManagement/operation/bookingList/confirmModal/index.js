@@ -285,7 +285,7 @@ function ConfirmModal({ rowClickData, CB }) {
       bookingAmount: values?.bookingAmount || 0,
       primaryContactPerson: values?.freightForwarderRepresentative?.label || '',
       primaryContactPersonId:
-        values?.freightForwarderRepresentative?.value || '',
+        values?.freightForwarderRepresentative?.value || 0,
       concernSalesPerson: values?.concernSalesPerson?.label || '',
       concernSalesPersonId: values?.concernSalesPerson?.value || 0,
       isConfirm: true,
