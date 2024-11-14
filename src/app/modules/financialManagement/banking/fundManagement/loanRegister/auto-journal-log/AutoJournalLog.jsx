@@ -10,7 +10,10 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../../../_metronic/_partials/controls";
-import { _dateTimeFormatter } from "../../../../../_helper/_dateFormate";
+import {
+  _dateFormatter,
+  _dateTimeFormatter,
+} from "../../../../../_helper/_dateFormate";
 import Loading from "../../../../../_helper/_loading";
 import NewSelect from "../../../../../_helper/_select";
 import PaginationTable from "../../../../../_helper/_tablePagination";
@@ -218,7 +221,7 @@ const AutoJournalLog = () => {
                                 <td className="text-">{item?.businessUnit}</td>
                                 <td className="text-">{item?.bankName}</td>
                                 <td className="text-">
-                                  {_dateTimeFormatter(item?.statementDate)}
+                                  {_dateFormatter(item?.statementDate)}
                                 </td>
                                 <td className="text-">
                                   {item?.["loan AccountName"]}

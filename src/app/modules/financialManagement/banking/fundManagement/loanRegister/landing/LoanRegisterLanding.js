@@ -43,10 +43,10 @@ const LoanRegisterLanding = () => {
   const history = useHistory();
   const initData = {
     bank: { label: "ALL", value: 0 },
-    status: { label: "ALL", value: 0 },
+    status: { value: 2, label: "Incomplete" },
     loanType: "",
     loanClass: "",
-    businessUnit: "",
+    businessUnit: { value: 0, label: "All" },
     applicationType: { label: "ALL", value: 0 },
     fromDate: "",
     toDate: "",
@@ -146,9 +146,9 @@ const LoanRegisterLanding = () => {
   useEffect(() => {
     getLoanRegisterLanding(
       profileData?.accountId,
-      buId,
       0,
       0,
+      2,
       pageNo,
       pageSize,
       setLoanRegisterData,
@@ -453,7 +453,7 @@ const LoanRegisterLanding = () => {
                   </div>
                   <div></div>
                   <div className="row">
-                    <div className="col-12 common-scrollable-table two-column-sticky">
+                    <div className="col-12 common-scrollable-table four-column-sticky">
                       <div className="scroll-table _table overflow-auto">
                         {/* <div className="table-responsive"> */}
                         <table className="table table-striped table-bordered global-table">
@@ -461,9 +461,12 @@ const LoanRegisterLanding = () => {
                             <tr>
                               <th>SL</th>
                               <th style={{ minWidth: "100px" }}>Status</th>
+                              {[136].includes(buId) && <th>SBU</th>}
                               <th>Bank</th>
-                              <th style={{ minWidth: "120px" }}>Facility</th>
-                              <th>Loan A/c no.</th>
+                              <th style={{ minWidth: "100px" }}>Facility</th>
+                              <th style={{ minWidth: "120px" }}>
+                                Loan A/c no.
+                              </th>
                               <th style={{ minWidth: "50px" }}>Tenor</th>
                               <th
                                 style={{ minWidth: "90px", cursor: "pointer" }}
@@ -484,10 +487,10 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "50px" }}>
                                 Int.Rate (p.a.)
                               </th>
-                              <th style={{ minWidth: "" }}>
+                              <th style={{ minWidth: "120px" }}>
                                 Disbursement Purpose
                               </th>
-                              <th style={{ minWidth: "50px" }}>Remarks</th>
+                              <th style={{ minWidth: "120px" }}>Remarks</th>
                               <th style={{ minWidth: "50px" }}>
                                 Profit Center
                               </th>
@@ -506,7 +509,6 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "50px" }}>
                                 Paid Excise Duty
                               </th>
-                              {[136].includes(buId) && <th>SBU</th>}
                               <th style={{ minWidth: "70px" }}>Loan Class</th>
                               <th style={{ minWidth: "70px" }}>Loan Type</th>
                               <th>BR Number</th>
@@ -531,6 +533,9 @@ const LoanRegisterLanding = () => {
                                     ? "Approved"
                                     : "Pending"}
                                 </td>
+                                {[136].includes(buId) && (
+                                  <td className="text-">{item?.sbuName}</td>
+                                )}
                                 <td className="text-">{item?.strBankName}</td>
                                 <td className="text-">
                                   {item?.facilityName}{" "}
@@ -586,9 +591,7 @@ const LoanRegisterLanding = () => {
                                 <td className="text-right">
                                   {_formatMoney(item?.numExciseDuty)}
                                 </td>
-                                {[136].includes(buId) && (
-                                  <td className="text-">{item?.sbuName}</td>
-                                )}
+
                                 <td className="text-">{item?.loanClassName}</td>
                                 <td className="text-">{item?.loanTypeName}</td>
                                 <td className="text-">{item?.brCode}</td>
@@ -775,7 +778,9 @@ const LoanRegisterLanding = () => {
                             <tr>
                               <td></td>
                               <td className="text-center">Total</td>
-                              <td colSpan={6}></td>
+                              <td className="text-right"></td>
+                              <td className="text-right"></td>
+                              <td colSpan={5}></td>
                               <td className="text-right">
                                 <b> {_formatMoney(totalPrincipleAmount)}</b>
                               </td>
