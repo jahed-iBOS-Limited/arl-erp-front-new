@@ -218,6 +218,29 @@ export const getLoanRegisterLanding = async (
     setter([]);
   }
 };
+export const getLoanRegisterLogs = async (
+  businessUnitId,
+  pageNo,
+  pageSize,
+  setter,
+  setLoading,
+  fromDate,
+  toDate
+) => {
+  const dateParam1 = fromDate ? `&fromDate=${fromDate}` : "";
+  const dateParam2 = toDate ? `&toDate=${toDate}` : "";
+  try {
+    setLoading(true);
+    const res = await Axios.get(
+      `/fino/FundManagement/GetLoanRepayAutoJournalLog?businessUnitId=${businessUnitId}&pageNo=${pageNo}&pageSize=${pageSize}${dateParam1}${dateParam2}`
+    );
+    setter(res?.data);
+    setLoading(false);
+  } catch (error) {
+    setLoading(false);
+    setter([]);
+  }
+};
 
 //create fund limit
 export const createLoanRegister = async (

@@ -434,6 +434,22 @@ const LoanRegisterLanding = () => {
                         Show
                       </button>
                     </div>
+                    {buId === 136 && (
+                      <div className="col-lg-1">
+                        <button
+                          className="btn btn-primary mr-2"
+                          type="button"
+                          onClick={(e) => {
+                            history.push({
+                              pathname: `/financial-management/banking/loan-register/auto-journal-log/`,
+                              state: {},
+                            });
+                          }}
+                        >
+                          Log
+                        </button>
+                      </div>
+                    )}
                   </div>
                   <div></div>
                   <div className="row">
@@ -840,6 +856,7 @@ const LoanRegisterLanding = () => {
                           <th>Amount</th>
                           <th>Narration</th>
                           <th>Journal Code</th>
+                          <th>Created By</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -854,6 +871,7 @@ const LoanRegisterLanding = () => {
                             <td>{item?.amount}</td>
                             <td>{item?.narration}</td>
                             <td>{item?.journalCode}</td>
+                            <td>{item?.createdBy}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -862,7 +880,6 @@ const LoanRegisterLanding = () => {
                 </div>
               </IViewModal>
             )}
-
             {/* <IViewModal show={modalShow} onHide={() => setModalShow(false)}>
          </IViewModal> */}
           </div>
