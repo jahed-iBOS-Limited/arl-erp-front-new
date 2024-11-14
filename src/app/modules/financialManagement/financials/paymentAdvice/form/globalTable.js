@@ -41,7 +41,7 @@ export default function GlobalTableForBillType({
                         checked={allSelect}
                         className="form-control ml-2"
                         type="checkbox"
-                        disabled={rowDto?.some((item) => item?.isLtr)}
+                        disabled={rowDto?.some((item) => item?.isLTR)}
                         onChange={(e) => setAllSelect(!allSelect)}
                       />
                     </span>
@@ -85,7 +85,7 @@ export default function GlobalTableForBillType({
                             checked={item?.isSelect}
                             className="form-control ml-2"
                             type="checkbox"
-                            disabled={item?.isLtr}
+                            disabled={item?.isLTR}
                             onChange={(e) => selectIndividualItem(index)}
                           />
                         </span>
@@ -149,7 +149,7 @@ export default function GlobalTableForBillType({
                             );
                           }}
                         />
-                        {(true || item?.isLtr) && (<span>
+                        {(item?.isLTR) && (<span>
                           <OverlayTrigger
                             overlay={<Tooltip id="cs-icon">{"Create Loan"}</Tooltip>}
                           >

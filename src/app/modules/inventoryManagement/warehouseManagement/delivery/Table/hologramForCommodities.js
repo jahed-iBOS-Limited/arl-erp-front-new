@@ -15,7 +15,7 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
   // get user data from store
   const {
     // profileData: { employeeFullName: empName },
-    selectedBusinessUnit: { label: buName, address },
+    selectedBusinessUnit: { label: buName, address, value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const printHandler = useReactToPrint({
@@ -62,7 +62,19 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                   {/* <div className="logo" style={{ width: "275px" }}></div> */}
 
                   <div className="text-center">
-                    <p
+                    {[144].includes(buId) ? <div>
+                      <p
+                        style={{
+                          fontSize: "45px",
+                          fontWeight: "500",
+                          color: "#303399",
+                        }}
+                      >
+                        Akij Commodities
+                      </p>
+                      <p>( A concern of Akij Essentials Limited )</p>
+
+                    </div> : <p
                       style={{
                         fontSize: "45px",
                         fontWeight: "500",
@@ -70,7 +82,7 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                       }}
                     >
                       {buName}
-                    </p>
+                    </p>}
                     <p style={{ fontSize: "14px" }}>{address}</p>
 
                     <p style={{ fontSize: "14px" }}>
