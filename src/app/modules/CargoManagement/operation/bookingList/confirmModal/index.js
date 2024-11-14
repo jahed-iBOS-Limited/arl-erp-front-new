@@ -1,4 +1,5 @@
 import { Form, Formik } from "formik";
+import _ from "lodash";
 import moment from "moment";
 import React, { useEffect } from "react";
 import { shallowEqual, useSelector } from "react-redux";
@@ -83,7 +84,6 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Delivery Agent is required"),
   }),
 });
-
 function ConfirmModal({ rowClickData, CB }) {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
@@ -112,13 +112,22 @@ function ConfirmModal({ rowClickData, CB }) {
   ] = useAxiosGet();
   const formikRef = React.useRef(null);
 
-  const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
-  const [
-    consigneeDivisionAndStateList,
-    getConsigneeDivisionAndStateList,
-  ] = useAxiosGet();
   const [notifyPartyDDL, GetNotifyPartyDDL, , setNotifyParty] = useAxiosGet();
+  const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
+  const [stateDDL, setStateDDL] = useAxiosGet();
+  const [cityDDL, setCityDDL] = useAxiosGet();
 
+  const debouncedGetCityList = _.debounce((value) => {
+    setCityDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetPreviousCityDDL?search=${value}`
+    );
+  }, 300);
+
+  const debouncedGetStateList = _.debounce((value) => {
+    setStateDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetPreviousStateDDL?search=${value}`
+    );
+  }, 300);
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
@@ -267,11 +276,6 @@ function ConfirmModal({ rowClickData, CB }) {
   }, []);
   const bookingData = shipBookingRequestGetById || {};
 
-  const getConsigneeDivisionAndStateApi = (countryId) => {
-    getConsigneeDivisionAndStateList(
-      `/oms/TerritoryInfo/GetDivisionDDL?countryId=${countryId}`
-    );
-  };
 
   const saveHandler = (values, cb) => {
     const payload = {
@@ -544,7 +548,7 @@ function ConfirmModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <NewSelect
                     name="consigneeDivisionAndState"
-                    options={[]}
+                    options={stateDDL || []}
                     value={values?.consigneeDivisionAndState}
                     label="State/Province/Region"
                     onChange={(valueOption) => {
@@ -554,18 +558,23 @@ function ConfirmModal({ rowClickData, CB }) {
                         label: valueOption?.label || "",
                       }
                       setFieldValue("consigneeDivisionAndState", value);
+
                     }}
                     placeholder="Select or Create New Option"
                     errors={errors}
                     touched={touched}
                     isCreatableSelect={true}
+                    onInputChange={(inputValue) => {
+                      debouncedGetStateList(inputValue);
+                    }}
+
                   />
                 </div>
                 {/* city */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="consignCity"
-                    options={[]}
+                    options={cityDDL || []}
                     value={values?.consignCity}
                     label="City"
                     onChange={(valueOption) => {
@@ -580,6 +589,9 @@ function ConfirmModal({ rowClickData, CB }) {
                     errors={errors}
                     touched={touched}
                     isCreatableSelect={true}
+                    onInputChange={(inputValue) => {
+                      debouncedGetCityList(inputValue);
+                    }}
                   />
                 </div>
                 {/* Zip/Postal Code */}
