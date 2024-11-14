@@ -30,6 +30,7 @@ import { ShopFloorInvTransactionTable } from "./shopFloorInvTrans/Table/tableHea
 import ProductionEntryApprove from "./productionEntry/productionentryApprove";
 import MachineEmpAssign from "./machineEmpAssign";
 import CreateEditMachineEmpAssign from "./machineEmpAssign/CreateEditMachineEmpAssign";
+import ProductionScheduling from "./productionScheduling";
 
 export function ManufacturingExecutionSystemPages() {
   const userRole = useSelector(
@@ -121,6 +122,10 @@ export function ManufacturingExecutionSystemPages() {
       <ContentRoute
         from="/production-management/mes/production-entry-approve"
         component={ProductionEntryApprove}
+      />
+      <ContentRoute
+        from="/production-management/mes/productionScheduling"
+        component={ProductionScheduling}
       />
       <ContentRoute
         from="/production-management/mes/productionentry/approval/:aId/:backCalculationId"
