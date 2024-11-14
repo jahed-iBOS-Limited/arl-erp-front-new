@@ -25,6 +25,7 @@ import SupplierAdvance from "./../supplierAdvance/supplierAdvance";
 import HeaderForm from "./Table/form";
 import CustomerRefundCreateEditForm from "../customerRefund/addEditForm";
 import TruckToDampDeliveryBill from "../truckToDampDelivery/Form/addEditForm";
+import TrackTrallerLBCreate from "../../trackTrallerLoadingBill/Create";
 
 function BillregisterCreate() {
   const { state: headerData } = useLocation();
@@ -80,6 +81,8 @@ function BillregisterCreate() {
         <DamDeliveryBill />
       ) : billType === 33 ? (
         <CustomerRefundCreateEditForm />
+      ) : billType === 34 ? (
+        <TrackTrallerLBCreate />
       ) : (
         <HeaderForm />
       )}
