@@ -1,21 +1,23 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../../App";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
-import "./style.css";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
+import './style.css';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 const validationSchema = Yup.object().shape({
-  bookingAmount: Yup.number().required("Booking Amount is required"),
+  bookingAmount: Yup.number().required('Booking Amount is required'),
   // airWaybillNumber: Yup.string().required("This field is required"),
-  departureDateTime: Yup.date().required("Departure Date & Time is required"),
-  arrivalDateTime: Yup.date().required("Arrival Date & Time is required"),
-  flightNumber: Yup.string().required("This field is required"),
+  departureDateTime: Yup.date().required('Departure Date & Time is required'),
+  arrivalDateTime: Yup.date().required('Arrival Date & Time is required'),
+  flightNumber: Yup.string().required('This field is required'),
 
   transitInformation: Yup.object()
     .shape({
@@ -23,71 +25,66 @@ const validationSchema = Yup.object().shape({
       label: Yup.string(),
     })
     .nullable()
-    .when("transportPlanningType", {
-      is: "Sea",
+    .when('transportPlanningType', {
+      is: 'Sea',
       then: (schema) => schema.notRequired(),
       otherwise: (schema) =>
         schema
           .shape({
-            value: Yup.number().required("Transit Information is required"),
-            label: Yup.string().required("Transit Information is required"),
+            value: Yup.number().required('Transit Information is required'),
+            label: Yup.string().required('Transit Information is required'),
           })
-          .typeError("Transit Information is required"),
+          .typeError('Transit Information is required'),
     }),
-
-  freightForwarderRepresentative: Yup.string().required(
-    "Freight Forwarder Representative is required"
-  ),
-
   confTransportMode: Yup.object()
     .shape({
-      value: Yup.number().required("Transport Mode is required"),
-      label: Yup.string().required("Transport Mode is required"),
+      value: Yup.number().required('Transport Mode is required'),
+      label: Yup.string().required('Transport Mode is required'),
     })
     .nullable()
-    .typeError("Transport Mode is required"),
+    .typeError('Transport Mode is required'),
 
   // Consignee Information
   consigneeName: Yup.object().shape({
-    value: Yup.number().required("Consignee’s Name is required"),
-    label: Yup.string().required("Consignee’s Name is required"),
+    value: Yup.number().required('Consignee’s Name is required'),
+    label: Yup.string().required('Consignee’s Name is required'),
   }),
   consigneeCountry: Yup.object().shape({
-    value: Yup.number().required("Country is required"),
-    label: Yup.string().required("Country is required"),
+    value: Yup.number().required('Country is required'),
+    label: Yup.string().required('Country is required'),
   }),
   consigneeDivisionAndState: Yup.object().shape({
-    value: Yup.number().required("State/Province/Region is required"),
-    label: Yup.string().required("State/Province/Region is required"),
+    value: Yup.number().required('State/Province/Region is required'),
+    label: Yup.string().required('State/Province/Region is required'),
   }),
   consignCity: Yup.object().shape({
-    value: Yup.number().required("City is required"),
-    label: Yup.string().required("City is required"),
+    value: Yup.number().required('City is required'),
+    label: Yup.string().required('City is required'),
   }),
-  consignPostalCode: Yup.string().required("Zip/Postal Code is required"),
+  consignPostalCode: Yup.string().required('Zip/Postal Code is required'),
   consigneeAddress: Yup.string().required(
-    "State/Province & Postal Code is required"
+    'State/Province & Postal Code is required',
   ),
-  consigneeContactPerson: Yup.string().required("Contact Person is required"),
-  consigneeContact: Yup.number().required("Contact Number is required"),
+  consigneeContactPerson: Yup.string().required('Contact Person is required'),
+  consigneeContact: Yup.number().required('Contact Number is required'),
   consigneeEmail: Yup.string()
     .email('Email is invalid')
-    .required("Email is required"),
+    .required('Email is required'),
   notifyParty: Yup.object().shape({
-    value: Yup.number().required("Notify Party is required"),
-    label: Yup.string().required("Notify Party is required"),
+    value: Yup.number().required('Notify Party is required'),
+    label: Yup.string().required('Notify Party is required'),
   }),
-  negotiationParty: Yup.string().required("Negotiation Party is required"),
+  negotiationParty: Yup.string().required('Negotiation Party is required'),
   freightAgentReference: Yup.object().shape({
-    value: Yup.number().required("Delivery Agent is required"),
-    label: Yup.string().required("Delivery Agent is required"),
+    value: Yup.number().required('Delivery Agent is required'),
+    label: Yup.string().required('Delivery Agent is required'),
   }),
 });
 
 function ConfirmModal({ rowClickData, CB }) {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, SaveBookingConfirm, bookingConfirmLoading, ,] = useAxiosPut();
@@ -113,10 +110,6 @@ function ConfirmModal({ rowClickData, CB }) {
   const formikRef = React.useRef(null);
 
   const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
-  const [
-    consigneeDivisionAndStateList,
-    getConsigneeDivisionAndStateList,
-  ] = useAxiosGet();
   const [notifyPartyDDL, GetNotifyPartyDDL, , setNotifyParty] = useAxiosGet();
 
   useEffect(() => {
@@ -127,78 +120,88 @@ function ConfirmModal({ rowClickData, CB }) {
           if (formikRef.current) {
             const data = resData || {};
             formikRef.current.setFieldValue(
-              "transportPlanningType",
-              data?.modeOfTransport
+              'transportPlanningType',
+              data?.modeOfTransport,
             );
 
             //  consignee Information set value
             formikRef.current.setFieldValue(
-              "consigneeName",
+              'consigneeName',
               data?.consigneeId
                 ? {
-                  value: data?.consigneeId || 0,
-                  label: data?.consigneeName || "",
-                }
-                : ""
+                    value: data?.consigneeId || 0,
+                    label: data?.consigneeName || '',
+                  }
+                : '',
             );
             formikRef.current.setFieldValue(
-              "consigneeCountry",
+              'consigneeCountry',
               data?.consigCountryId
                 ? {
-                  value: data?.consigCountryId || 0,
-                  label: data?.consigCountry || "",
-                }
-                : ""
+                    value: data?.consigCountryId || 0,
+                    label: data?.consigCountry || '',
+                  }
+                : '',
             );
             formikRef.current.setFieldValue(
-              "consigneeDivisionAndState",
+              'consigneeDivisionAndState',
               data?.consigStateId
                 ? {
-                  value: data?.consigStateId || 0,
-                  label: data?.consigState || "",
-                }
-                : ""
+                    value: data?.consigStateId || 0,
+                    label: data?.consigState || '',
+                  }
+                : '',
             );
             formikRef.current.setFieldValue(
-              "consigneeAddress",
-              data?.consigneeAddress || ""
+              'consigneeAddress',
+              data?.consigneeAddress || '',
             );
             formikRef.current.setFieldValue(
-              "consigneeContactPerson",
-              data?.consigneeContactPerson || ""
+              'consigneeContactPerson',
+              data?.consigneeContactPerson || '',
             );
             formikRef.current.setFieldValue(
-              "consigneeContact",
-              data?.consigneeContact || ""
+              'consigneeContact',
+              data?.consigneeContact || '',
             );
             formikRef.current.setFieldValue(
-              "consigneeEmail",
-              data?.consigneeEmail || ""
+              'consigneeEmail',
+              data?.consigneeEmail || '',
             );
             formikRef.current.setFieldValue(
-              "notifyParty",
-              data?.notifyParty ? {
-                value: 0,
-                label: data?.notifyParty || "",
-              } : ''
+              'notifyParty',
+              data?.notifyParty
+                ? {
+                    value: 0,
+                    label: data?.notifyParty || '',
+                  }
+                : '',
             );
             formikRef.current.setFieldValue(
-              "negotiationParty",
-              data?.negotiationParty || ""
+              'negotiationParty',
+              data?.negotiationParty || '',
             );
             formikRef.current.setFieldValue(
-              "freightAgentReference",
+              'freightAgentReference',
               data?.freightAgentReference
                 ? {
-                  value: 0,
-                  label: data?.freightAgentReference || "",
-                }
-                : ""
+                    value: 0,
+                    label: data?.freightAgentReference || '',
+                  }
+                : '',
             );
-            formikRef.current.setFieldValue("consignCity", data?.consignCity ? { value: 0, label: data?.consignCity || "" } : "");
-            formikRef.current.setFieldValue("consignPostalCode", data?.consignPostalCode || "");
+            formikRef.current.setFieldValue(
+              'consignCity',
+              data?.consignCity
+                ? { value: 0, label: data?.consignCity || '' }
+                : '',
+            );
+            formikRef.current.setFieldValue(
+              'consignPostalCode',
+              data?.consignPostalCode || '',
+            );
           }
-        }
+        },
       );
     }
 
@@ -207,47 +210,47 @@ function ConfirmModal({ rowClickData, CB }) {
 
   useEffect(() => {
     setTransportModeDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`
+      `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
     );
     getConsigneeName(
       `${imarineBaseUrl}/domain/ShippingService/GetShipperPartnerDDL`,
       (redData) => {
-        console.log(redData, "redData");
+        console.log(redData, 'redData');
         const modifyList =
           redData?.map((i) => {
             return {
               ...i,
-              label: i?.valueName || "",
+              label: i?.valueName || '',
               value: i?.code || 0,
-              email: i?.email || "",
-              address: i?.address || "",
-              contactPerson: i?.contactPerson || "",
-              contactNumber: i?.contactNumber || "",
+              email: i?.email || '',
+              address: i?.address || '',
+              contactPerson: i?.contactPerson || '',
+              contactNumber: i?.contactNumber || '',
             };
           }) || [];
         const setConsigneeListFilter =
           modifyList?.filter((i) => i?.partnerTypeId === 15) || [];
         setConsigneeName(setConsigneeListFilter);
-      }
+      },
     );
 
     getConsigneeCountryList(
-      `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`
+      `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
     );
 
     GetNotifyPartyDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetNotifyPartyDDL`,
       (resData) => {
-
-        const modifyData = resData?.map((i) => {
-          return {
-            ...i,
-            label: i?.valueName || '',
-            value: i?.code || 0
-          }
-        }) || []
+        const modifyData =
+          resData?.map((i) => {
+            return {
+              ...i,
+              label: i?.valueName || '',
+              value: i?.code || 0,
+            };
+          }) || [];
         setNotifyParty(modifyData);
-      }
+      },
     );
     getDeliveryAgentDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetDeliveryAgentDDL`,
@@ -256,70 +259,80 @@ function ConfirmModal({ rowClickData, CB }) {
           resData?.map((i) => {
             return {
               ...i,
-              label: i?.valueName || "",
+              label: i?.valueName || '',
               value: i?.code || 0,
             };
           }) || [];
         setDeliveryAgentDDL(modifyData);
-      }
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const bookingData = shipBookingRequestGetById || {};
 
-  const getConsigneeDivisionAndStateApi = (countryId) => {
-    getConsigneeDivisionAndStateList(
-      `/oms/TerritoryInfo/GetDivisionDDL?countryId=${countryId}`
-    );
-  };
-
   const saveHandler = (values, cb) => {
     const payload = {
       bookingRequestId: bookingRequestId || 0,
       departureDateTime:
-        moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
+        moment(values?.departureDateTime).format('YYYY-MM-DDTHH:mm:ss') ||
         new Date(),
       arrivalDateTime:
-        moment(values?.arrivalDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
+        moment(values?.arrivalDateTime).format('YYYY-MM-DDTHH:mm:ss') ||
         new Date(),
-      flightNumber: values?.flightNumber || "",
-      transitInformation: values?.transitInformation?.label || "",
-      awbnumber: values?.airWaybillNumber || "",
+      flightNumber: values?.flightNumber || '',
+      transitInformation: values?.transitInformation?.label || '',
+      awbnumber: values?.airWaybillNumber || '',
       bookingAmount: values?.bookingAmount || 0,
-      primaryContactPerson: values?.freightForwarderRepresentative || "",
+      primaryContactPerson: values?.freightForwarderRepresentative?.label || '',
+      primaryContactPersonId:
+        values?.freightForwarderRepresentative?.value || '',
+      concernSalesPerson: values?.concernSalesPerson?.label || '',
+      concernSalesPersonId: values?.concernSalesPerson?.value || 0,
       isConfirm: true,
       confirmDate: new Date(),
       confTransportMode: values?.confTransportMode?.label || 0,
 
       // Consignee Information
-      freightAgentReference: values?.freightAgentReference?.label || "",
+      freightAgentReference: values?.freightAgentReference?.label || '',
       consigneeId: values?.consigneeName?.value || 0,
-      consigneeName: values?.consigneeName?.label || "",
-      consigneeAddress: values?.consigneeAddress || "",
-      consigneeContactPerson: values?.consigneeContactPerson || "",
-      consigneeContact: values?.consigneeContact || "",
-      consigneeEmail: values?.consigneeEmail || "",
+      consigneeName: values?.consigneeName?.label || '',
+      consigneeAddress: values?.consigneeAddress || '',
+      consigneeContactPerson: values?.consigneeContactPerson || '',
+      consigneeContact: values?.consigneeContact || '',
+      consigneeEmail: values?.consigneeEmail || '',
       consigCountryId: values?.consigneeCountry?.value || 0,
-      consigCountry: values?.consigneeCountry?.label || "",
+      consigCountry: values?.consigneeCountry?.label || '',
       consigStateId: values?.consigneeDivisionAndState?.value || 0,
-      consigState: values?.consigneeDivisionAndState?.label || "",
-      notifyParty: values?.notifyParty?.label || "",
-      negotiationParty: values?.negotiationParty || "",
+      consigState: values?.consigneeDivisionAndState?.label || '',
+      notifyParty: values?.notifyParty?.label || '',
+      negotiationParty: values?.negotiationParty || '',
       userId: rowClickData?.createdBy || 0,
       confirmBy: profileData?.userId,
       shipperId: rowClickData?.shipperId || 0,
-      consignCity: values?.consignCity?.label || "",
-      consignPostalCode: values?.consignPostalCode || "",
-
+      consignCity: values?.consignCity?.label || '',
+      consignPostalCode: values?.consignPostalCode || '',
     };
 
     if (payload) {
       SaveBookingConfirm(
         `${imarineBaseUrl}/domain/ShippingService/SaveBookingConfirm`,
         payload,
-        CB
+        CB,
       );
     }
+  };
+
+  const loadEmp = (v) => {
+    if (v?.length < 2) return [];
+    return axios
+      .get(
+        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${
+          profileData?.accountId
+        }&BusinessUnitId=${225}&Search=${v}`,
+      )
+      .then((res) => {
+        return res?.data;
+      });
   };
   return (
     <div className="confirmModal">
@@ -327,26 +340,27 @@ function ConfirmModal({ rowClickData, CB }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          bookingAmount: "",
-          airWaybillNumber: "",
-          departureDateTime: "",
-          arrivalDateTime: "",
-          flightNumber: "",
-          transitInformation: "",
-          freightForwarderRepresentative: "",
-          confTransportMode: "",
+          bookingAmount: '',
+          airWaybillNumber: '',
+          departureDateTime: '',
+          arrivalDateTime: '',
+          flightNumber: '',
+          transitInformation: '',
+          freightForwarderRepresentative: '',
+          concernSalesPerson: '',
+          confTransportMode: '',
 
           // Consignee Information
-          consigneeName: "",
-          consigneeCountry: "",
-          consigneeDivisionAndState: "",
-          consigneeAddress: "",
-          consigneeContactPerson: "",
-          consigneeContact: "",
-          consigneeEmail: "",
-          notifyParty: "",
-          negotiationParty: "",
-          freightAgentReference: "",
+          consigneeName: '',
+          consigneeCountry: '',
+          consigneeDivisionAndState: '',
+          consigneeAddress: '',
+          consigneeContactPerson: '',
+          consigneeContact: '',
+          consigneeEmail: '',
+          notifyParty: '',
+          negotiationParty: '',
+          freightAgentReference: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -376,26 +390,10 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="bookingAmount"
                     type="number"
                     onChange={(e) =>
-                      setFieldValue("bookingAmount", e.target.value)
+                      setFieldValue('bookingAmount', e.target.value)
                     }
                   />
                 </div>
-                {/* Air Waybill (AWB) Number */}
-                {/* <div className="col-lg-3">
-                  <InputField
-                    value={values?.airWaybillNumber}
-                    label={
-                      values?.transportPlanningType === "Sea"
-                        ? "HBL"
-                        : "HAWB Number"
-                    }
-                    name="airWaybillNumber"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("airWaybillNumber", e.target.value)
-                    }
-                  />
-                </div> */}
                 {/* Departure Date & Time */}
                 <div className="col-lg-3">
                   <InputField
@@ -404,7 +402,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="departureDateTime"
                     type="datetime-local"
                     onChange={(e) =>
-                      setFieldValue("departureDateTime", e.target.value)
+                      setFieldValue('departureDateTime', e.target.value)
                     }
                   />
                 </div>
@@ -416,7 +414,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="arrivalDateTime"
                     type="datetime-local"
                     onChange={(e) =>
-                      setFieldValue("arrivalDateTime", e.target.value)
+                      setFieldValue('arrivalDateTime', e.target.value)
                     }
                   />
                 </div>
@@ -425,38 +423,38 @@ function ConfirmModal({ rowClickData, CB }) {
                   <InputField
                     value={values?.flightNumber}
                     label={
-                      values?.transportPlanningType === "Sea"
-                        ? "SI Number"
-                        : "MAWB Number"
+                      values?.transportPlanningType === 'Sea'
+                        ? 'SI Number'
+                        : 'MAWB Number'
                     }
                     name="flightNumber"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("flightNumber", e.target.value)
+                      setFieldValue('flightNumber', e.target.value)
                     }
                   />
                 </div>
                 {/* Transit Information */}
-                {values?.transportPlanningType !== "Sea" && (
+                {values?.transportPlanningType !== 'Sea' && (
                   <>
-                    {" "}
+                    {' '}
                     <div className="col-lg-3">
                       <NewSelect
                         name="transitInformation"
                         options={[
                           {
                             value: 1,
-                            label: "Direct Flight",
+                            label: 'Direct Flight',
                           },
                           {
                             value: 2,
-                            label: "No Transits",
+                            label: 'No Transits',
                           },
                         ]}
                         value={values?.transitInformation}
                         label="Transit Information"
                         onChange={(valueOption) => {
-                          setFieldValue("transitInformation", valueOption);
+                          setFieldValue('transitInformation', valueOption);
                         }}
                         placeholder="Transit Information"
                         errors={errors}
@@ -467,17 +465,28 @@ function ConfirmModal({ rowClickData, CB }) {
                 )}
                 {/* freight forwarder representative */}
                 <div className="col-lg-3">
-                  <InputField
-                    value={values?.freightForwarderRepresentative}
-                    label="Freight Forwarder Representative"
-                    name="freightForwarderRepresentative"
-                    type="text"
-                    onChange={(e) =>
+                  <label>Freight Forwarder Representative</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.freightForwarderRepresentative}
+                    isSearchIcon={true}
+                    handleChange={(valueOption) => {
                       setFieldValue(
-                        "freightForwarderRepresentative",
-                        e.target.value
-                      )
-                    }
+                        'freightForwarderRepresentative',
+                        valueOption,
+                      );
+                    }}
+                    loadOptions={loadEmp}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <label>Concern Sales Person</label>
+                  <SearchAsyncSelect
+                    selectedValue={values?.concernSalesPerson}
+                    isSearchIcon={true}
+                    handleChange={(valueOption) => {
+                      setFieldValue('concernSalesPerson', valueOption);
+                    }}
+                    loadOptions={loadEmp}
                   />
                 </div>
                 {/* Transport Mode */}
@@ -486,7 +495,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="confTransportMode"
                     options={
                       transportModeDDL?.filter((item) => {
-                        if (values?.transportPlanningType === "Sea") {
+                        if (values?.transportPlanningType === 'Sea') {
                           return [17, 18].includes(item?.value);
                         } else {
                           return [19, 20].includes(item?.value);
@@ -496,7 +505,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.confTransportMode}
                     label="Transport Mode"
                     onChange={(valueOption) => {
-                      setFieldValue("confTransportMode", valueOption);
+                      setFieldValue('confTransportMode', valueOption);
                     }}
                     placeholder="Transport Mode"
                     errors={errors}
@@ -516,7 +525,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.consigneeName}
                     label="Consignee’s Name"
                     onChange={(valueOption) => {
-                      setFieldValue("consigneeName", valueOption);
+                      setFieldValue('consigneeName', valueOption);
                     }}
                     placeholder="Consignee’s Name"
                     errors={errors}
@@ -531,7 +540,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.consigneeCountry}
                     label="Country"
                     onChange={(valueOption) => {
-                      setFieldValue("consigneeCountry", valueOption);
+                      setFieldValue('consigneeCountry', valueOption);
                       // setFieldValue("consigneeDivisionAndState", "");
                       // getConsigneeDivisionAndStateApi(valueOption?.value);
                     }}
@@ -551,9 +560,9 @@ function ConfirmModal({ rowClickData, CB }) {
                       let value = {
                         ...valueOption,
                         value: 0,
-                        label: valueOption?.label || "",
-                      }
-                      setFieldValue("consigneeDivisionAndState", value);
+                        label: valueOption?.label || '',
+                      };
+                      setFieldValue('consigneeDivisionAndState', value);
                     }}
                     placeholder="Select or Create New Option"
                     errors={errors}
@@ -572,9 +581,9 @@ function ConfirmModal({ rowClickData, CB }) {
                       let value = {
                         ...valueOption,
                         value: 0,
-                        label: valueOption?.label || "",
-                      }
-                      setFieldValue("consignCity", value);
+                        label: valueOption?.label || '',
+                      };
+                      setFieldValue('consignCity', value);
                     }}
                     placeholder="Select or Create New Option"
                     errors={errors}
@@ -588,9 +597,9 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.consignPostalCode}
                     label="Zip/Postal Code"
                     name="consignPostalCode"
-                    type='number'
+                    type="number"
                     onChange={(e) =>
-                      setFieldValue("consignPostalCode", e.target.value)
+                      setFieldValue('consignPostalCode', e.target.value)
                     }
                   />
                 </div>
@@ -602,7 +611,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="consigneeAddress"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("consigneeAddress", e.target.value)
+                      setFieldValue('consigneeAddress', e.target.value)
                     }
                   />
                 </div>
@@ -614,7 +623,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="consigneeContactPerson"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("consigneeContactPerson", e.target.value)
+                      setFieldValue('consigneeContactPerson', e.target.value)
                     }
                   />
                 </div>
@@ -626,7 +635,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="consigneeContact"
                     type="number"
                     onChange={(e) =>
-                      setFieldValue("consigneeContact", e.target.value)
+                      setFieldValue('consigneeContact', e.target.value)
                     }
                   />
                 </div>
@@ -638,7 +647,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="consigneeEmail"
                     type="email"
                     onChange={(e) =>
-                      setFieldValue("consigneeEmail", e.target.value)
+                      setFieldValue('consigneeEmail', e.target.value)
                     }
                   />
                 </div>
@@ -650,7 +659,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.notifyParty}
                     label="Notify Party"
                     onChange={(valueOption) => {
-                      setFieldValue("notifyParty", valueOption);
+                      setFieldValue('notifyParty', valueOption);
                     }}
                     placeholder="Notify Party"
                     errors={errors}
@@ -665,7 +674,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="negotiationParty"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("negotiationParty", e.target.value)
+                      setFieldValue('negotiationParty', e.target.value)
                     }
                   />
                 </div>
@@ -677,7 +686,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.freightAgentReference}
                     label="Delivery Agent"
                     onChange={(valueOption) => {
-                      setFieldValue("freightAgentReference", valueOption);
+                      setFieldValue('freightAgentReference', valueOption);
                     }}
                     placeholder="Delivery Agent"
                     errors={errors}
