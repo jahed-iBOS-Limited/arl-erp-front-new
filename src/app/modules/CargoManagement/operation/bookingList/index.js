@@ -223,15 +223,16 @@ function BookingList() {
                             minWidth: '100px',
                           }}
                         >
-                          Stuffing
+                          Receive
                         </th>
                         <th
                           style={{
                             minWidth: '100px',
                           }}
                         >
-                          Receive
+                          Stuffing
                         </th>
+
                         <th
                           style={{
                             minWidth: '140px',
@@ -408,6 +409,28 @@ function BookingList() {
                                 </button>
                               </span>
                             </td>
+
+                            <td>
+                              <span>
+                                <button
+                                  disabled={item?.isReceived}
+                                  className={
+                                    item?.isReceived
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
+                                  }
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isReceive: true,
+                                    });
+                                  }}
+                                >
+                                  Receive
+                                </button>
+                              </span>
+                            </td>
                             <td>
                               <span>
                                 <button
@@ -432,27 +455,6 @@ function BookingList() {
                                   }}
                                 >
                                   Stuffing
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  disabled={item?.isReceived}
-                                  className={
-                                    item?.isReceived
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isReceive: true,
-                                    });
-                                  }}
-                                >
-                                  Receive
                                 </button>
                               </span>
                             </td>

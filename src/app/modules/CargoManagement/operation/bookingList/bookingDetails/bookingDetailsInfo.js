@@ -425,8 +425,8 @@ function BookingDetailsInfo({ bookingData }) {
                 <tr>
                   <th>Pending</th>
                   <th>Confirmed</th>
-                  <th>Stuffing</th>
                   <th>Received</th>
+                  <th>Stuffing</th>
                   <th>Transport</th>
                   <th>BL</th>
                   <th>HBL</th>
@@ -453,15 +453,15 @@ function BookingDetailsInfo({ bookingData }) {
                   </td>
                   <td>
                     {' '}
-                    {bookingData?.stuffingDate
-                      ? moment(bookingData?.stuffingDate).format('DD MMM YYYY')
-                      : 'Not Picked Up  '}{' '}
-                  </td>
-                  <td>
-                    {' '}
                     {bookingData?.receivedDate
                       ? moment(bookingData?.receivedDate).format('DD MMM YYYY')
                       : 'Not Received  '}{' '}
+                  </td>
+                  <td>
+                    {' '}
+                    {bookingData?.stuffingDate
+                      ? moment(bookingData?.stuffingDate).format('DD MMM YYYY')
+                      : 'Not Stuffing  '}{' '}
                   </td>
                   <td> N/A </td>
                   <td>
