@@ -454,9 +454,12 @@ const LoanRegisterLanding = () => {
                   <div></div>
                   <div className="row">
                     <div className="col-12 common-scrollable-table four-column-sticky">
-                      <div className="scroll-table _table overflow-auto">
+                      <div
+                        className="scroll-table _table overflow-auto"
+                        style={{ height: "700px" }}
+                      >
                         {/* <div className="table-responsive"> */}
-                        <table className="table table-striped table-bordered global-table">
+                        <table className="table table-striped table-bordered global-table table-header-sticky">
                           <thead className="bg-secondary">
                             <tr>
                               <th>SL</th>
@@ -483,6 +486,9 @@ const LoanRegisterLanding = () => {
                               </th>
                               <th style={{ minWidth: "100px" }}>
                                 Principal Balance
+                              </th>
+                              <th style={{ minWidth: "100px" }}>
+                                Disbursed Amount
                               </th>
                               <th style={{ minWidth: "50px" }}>
                                 Int.Rate (p.a.)
@@ -560,6 +566,13 @@ const LoanRegisterLanding = () => {
                                 </td>
                                 <td className="text-">
                                   {_dateFormatter(item?.dteMaturityDate)}
+                                </td>
+                                <td className="text-right">
+                                  {item?.numPrinciple - item?.numPaid >= 0
+                                    ? _formatMoney(
+                                        item?.numPrinciple - item?.numPaid
+                                      )
+                                    : 0}
                                 </td>
                                 <td className="text-right">
                                   {_formatMoney(
