@@ -4,6 +4,7 @@ import Loading from "../../../_helper/_loading";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { shallowEqual, useSelector } from "react-redux";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { toast } from "react-toastify";
 
 const MonthTable = ({ tableData, setTableData, singleData, cb, values }) => {
 
@@ -12,8 +13,17 @@ const MonthTable = ({ tableData, setTableData, singleData, cb, values }) => {
     }, shallowEqual);
     const [, onSave, loading] = useAxiosPost()
 
+    // Calculate total quantity
+    const totalQuantity = tableData[singleData?.productIndex]?.workCenters[singleData?.workCenterIndex]?.dailySchedules.reduce((total, schedule) => {
+        return total + (+schedule.quantity || 0);
+    }, 0);
+
     const saveHandler = () => {
         // Extract product and work center based on the indices
+        const monthlyScheduleQty = tableData[singleData?.productIndex]?.productQty;
+        if (totalQuantity > monthlyScheduleQty) {
+            return toast.warn("Total Quantity should be less then Monthly Schedule Qty")
+        }
         const product = tableData[singleData?.productIndex];
         const workCenter = product?.workCenters[singleData?.workCenterIndex];
 
@@ -68,6 +78,8 @@ const MonthTable = ({ tableData, setTableData, singleData, cb, values }) => {
         }
     };
 
+
+
     // Ensure table data is available and the work center has daily schedules
     const hasValidData =
         singleData?.productIndex !== undefined &&
@@ -76,7 +88,7 @@ const MonthTable = ({ tableData, setTableData, singleData, cb, values }) => {
 
     return (
         <>
-            <div className="text-right mb-3">
+            <div className="text-right mb-5">
                 <button onClick={() => {
                     saveHandler()
                 }} className="btn btn-primary">Save</button>
@@ -115,6 +127,7 @@ const MonthTable = ({ tableData, setTableData, singleData, cb, values }) => {
                                         </td>
                                     </tr>
                                 ))}
+                                <tr><td className="text-center"><strong>Total</strong></td> <td className="pl-5">{totalQuantity}</td></tr>
                             </tbody>
                         </table>
                     </div>
