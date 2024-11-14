@@ -202,7 +202,7 @@ export default function ProductionScheduling() {
                                                                     className="pointer"
                                                                     style={{ color: 'purple' }}
                                                                 >
-                                                                    {workCenter.workCenterName}
+                                                                    {workCenter.workCenterName} ({workCenter?.workCenterQty || 0})
                                                                 </span>
                                                             </td>
                                                         ))}
