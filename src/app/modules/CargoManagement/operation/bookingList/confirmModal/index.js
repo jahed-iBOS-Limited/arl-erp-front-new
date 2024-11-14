@@ -13,7 +13,7 @@ import './style.css';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import axios from 'axios';
 const validationSchema = Yup.object().shape({
-  bookingAmount: Yup.number().required('Booking Amount is required'),
+  // bookingAmount: Yup.number().required('Booking Amount is required'),
   // airWaybillNumber: Yup.string().required("This field is required"),
   departureDateTime: Yup.date().required('Departure Date & Time is required'),
   arrivalDateTime: Yup.date().required('Arrival Date & Time is required'),
@@ -383,7 +383,7 @@ function ConfirmModal({ rowClickData, CB }) {
               </div>
               <div className="form-group row global-form mt-0">
                 {/*  Booking Amount*/}
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <InputField
                     value={values?.bookingAmount}
                     label="Booking Amount"
@@ -393,7 +393,7 @@ function ConfirmModal({ rowClickData, CB }) {
                       setFieldValue('bookingAmount', e.target.value)
                     }
                   />
-                </div>
+                </div> */}
                 {/* Departure Date & Time */}
                 <div className="col-lg-3">
                   <InputField
