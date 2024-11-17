@@ -68,7 +68,7 @@ const LoanRegisterLanding = () => {
 
   const [bankDDL, setBankDDL] = useState([]);
   const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
+  const [pageSize, setPageSize] = useState(200);
   const [open, setOpen] = useState(false);
   const [fdrNo, setFdrNo] = useState("");
   const [attachments, setAttachments] = useState([]);
