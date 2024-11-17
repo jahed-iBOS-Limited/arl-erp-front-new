@@ -55,6 +55,41 @@ export const disbursementPurposeDDL = [
 ];
 
 
+// export const createLoanRegister = async ({
+//     accId,
+//     buId,
+//     loanAcc,
+//     bankId,
+//     bankAccId,
+//     facilityId,
+//     startDate,
+//     tenureDays,
+//     principle,
+//     interest,
+//     disbursementPurposeId,
+//     disbursementPurposeName = "",
+//     actionId,
+//     cb,
+//     isConfirm = false,
+//     loanAccountId = 0
+// }
+// ) => {
+//     try {
+//         const res = await axios.post(
+//             `/fino/FundManagement/FundLoanAccountCreate?accountId=${accId}&businessUnitId=${buId}&loanAcc=${loanAcc}&bankId=${bankId}&bankAccId=${bankAccId}&facilityId=${facilityId}&startDate=${startDate}&tenureDays=${tenureDays}&numPrinciple=${principle}&numIntRate=${interest}&actionById=${actionId}&disbursementPurposeId=${disbursementPurposeId}&disbursementPurposeName=${disbursementPurposeName ||
+//             ""}&isConfirm=${isConfirm}&loanAccountId=${loanAccountId}`
+//         );
+//         if (res.status === 200) {
+//             toast.success(res?.message || "Submitted successfully");
+//             cb();
+//         }
+//     } catch (error) {
+//         toast.error(error?.response?.data?.message);
+//     }
+// };
+
+
+
 export const createLoanRegister = async ({
     accId,
     buId,
@@ -71,19 +106,40 @@ export const createLoanRegister = async ({
     actionId,
     cb,
     isConfirm = false,
-    loanAccountId = 0
-}
-) => {
+    loanAccountId = 0,
+    facilityRemarks = "",
+    remarks = "",
+}) => {
     try {
-        const res = await axios.post(
-            `/fino/FundManagement/FundLoanAccountCreate?accountId=${accId}&businessUnitId=${buId}&loanAcc=${loanAcc}&bankId=${bankId}&bankAccId=${bankAccId}&facilityId=${facilityId}&startDate=${startDate}&tenureDays=${tenureDays}&numPrinciple=${principle}&numIntRate=${interest}&actionById=${actionId}&disbursementPurposeId=${disbursementPurposeId}&disbursementPurposeName=${disbursementPurposeName ||
-            ""}&isConfirm=${isConfirm}&loanAccountId=${loanAccountId}`
-        );
+        // Construct the request body
+        const requestBody = {
+            accountId: accId,
+            businessUnitId: buId,
+            loanAcc,
+            bankId,
+            bankAccId,
+            facilityId,
+            startDate,
+            tenureDays,
+            numPrinciple: principle,
+            numIntRate: interest,
+            actionById: actionId,
+            disbursementPurposeId,
+            disbursementPurposeName,
+            isConfirm,
+            loanAccountId,
+            facilityRemarks,
+            remarks,
+        };
+
+        // Send the POST request with the request body
+        const res = await axios.post(`/fino/FundManagement/FundLoanAccountCreate`, requestBody);
+
         if (res.status === 200) {
             toast.success(res?.message || "Submitted successfully");
             cb();
         }
     } catch (error) {
-        toast.error(error?.response?.data?.message);
+        toast.error(error?.response?.data?.message || "An error occurred");
     }
 };
