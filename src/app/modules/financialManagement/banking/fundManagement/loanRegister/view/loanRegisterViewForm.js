@@ -205,11 +205,11 @@ export default function LoanRegisterViewForm({
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
-                  <label>Term (Days)</label>
+                  <label>Tenor (Days)</label>
                   <InputField
                     value={values?.termDays}
                     name="termDays"
-                    placeholder="Term (Days)"
+                    placeholder="Tenor (Days)"
                     onChange={(e) => {
                       if (e.target.value > 0) {
                         setFieldValue("termDays", e.target.value);
@@ -286,19 +286,34 @@ export default function LoanRegisterViewForm({
                     />
                   </div>
                 )}
-                <div className="col-lg-2 ">
-                  <label>Remarks</label>
-                  <InputField
-                    value={values?.remarks}
-                    name="remarks"
-                    placeholder="Remarks"
-                    onChange={(e) => {
-                      setFieldValue("remarks", "");
-                    }}
-                    type="text"
-                    disabled={true}
-                  />
-                </div>
+                {!(renewId || isEdit) && (
+                  <>
+                    <div className="col-lg-2 ">
+                      <label>Facility Info</label>
+                      <InputField
+                        value={values?.facilityRemarks}
+                        name="facilityRemarks"
+                        placeholder="Facility Info"
+                        onChange={(e) => {
+                          setFieldValue("facilityRemarks", e.target.value);
+                        }}
+                        type="text"
+                      />
+                    </div>
+                    <div className="col-lg-2 ">
+                      <label>Loan Remarks</label>
+                      <InputField
+                        value={values?.remarks}
+                        name="remarks"
+                        placeholder="Remarks"
+                        onChange={(e) => {
+                          setFieldValue("remarks", e.target.value);
+                        }}
+                        type="text"
+                      />
+                    </div>
+                  </>
+                )}
               </div>
 
               <button
