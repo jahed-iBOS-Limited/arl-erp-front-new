@@ -314,12 +314,18 @@ const SalesQuotationForCement = ({
       <p className="bold mt-2"> {`(${employeeFullName})`} </p>
       <p> {designationName} </p>
       <p> Akij Cement Company Limited </p>
+
       <div className="mt-5 pt-5 text-center">
         <p className="mt-5 pt-5">
           This is an automatically generated price quotation, no signature is
           required.
         </p>
       </div>
+      <div
+        style={{
+          height: `${invoiceData?.length > 1 ? "300px" : "100px"}`,
+        }}
+      ></div>
     </div>
   );
 };

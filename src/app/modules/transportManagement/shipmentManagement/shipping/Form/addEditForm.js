@@ -160,7 +160,6 @@ export default function ShipmentForm({
   const deliveryItemVolume = (id) => {
     dispatch(getDeliveryItemVolumeInfoAction(id));
   };
-
   const saveHandler = async (values, cb) => {
     if (rowDto?.length < 1) {
       return toast.warn("Please add at least one item");
@@ -169,7 +168,8 @@ export default function ShipmentForm({
     if ((buId === 4 || buId === 144) && Boolean(values?.packer)) {
       toast.warn("Please add packer");
     }
-
+    console.log(values, "form shipping...");
+    return;
     if (values && accId && buId) {
       if (id) {
         const payload = {
