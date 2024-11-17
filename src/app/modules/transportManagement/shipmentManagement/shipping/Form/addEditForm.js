@@ -47,6 +47,10 @@ const initData = {
   driverContactNo: "",
   driverId: "",
   supplierName: "",
+  truckTrallerSupplier: {
+    label: "M/S Shawan Enterprise [13282]",
+    value: 13282,
+  },
   isLaborImpart: { value: false, label: "No" },
   laborSupplierName: "",
   totalBundle: "",
@@ -168,8 +172,6 @@ export default function ShipmentForm({
     if ((buId === 4 || buId === 144) && Boolean(values?.packer)) {
       toast.warn("Please add packer");
     }
-    console.log(values, "form shipping...");
-    return;
     if (values && accId && buId) {
       if (id) {
         const payload = {
