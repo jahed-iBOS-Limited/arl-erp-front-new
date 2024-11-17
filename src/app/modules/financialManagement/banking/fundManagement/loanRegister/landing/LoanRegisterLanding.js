@@ -37,16 +37,19 @@ import InfoCircle from "../../../../../_helper/_helperIcons/_infoCircle";
 import "./style.css";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import moment from "moment";
+import InputField from "../../../../../_helper/_inputField";
 
 const LoanRegisterLanding = () => {
   const history = useHistory();
   const initData = {
     bank: { label: "ALL", value: 0 },
-    status: { label: "ALL", value: 0 },
+    status: { value: 2, label: "Incomplete" },
     loanType: "",
     loanClass: "",
-    businessUnit: "",
+    businessUnit: { value: 0, label: "All" },
     applicationType: { label: "ALL", value: 0 },
+    fromDate: "",
+    toDate: "",
   };
   const [
     historyData,
@@ -65,7 +68,7 @@ const LoanRegisterLanding = () => {
 
   const [bankDDL, setBankDDL] = useState([]);
   const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
+  const [pageSize, setPageSize] = useState(200);
   const [open, setOpen] = useState(false);
   const [fdrNo, setFdrNo] = useState("");
   const [attachments, setAttachments] = useState([]);
@@ -143,9 +146,9 @@ const LoanRegisterLanding = () => {
   useEffect(() => {
     getLoanRegisterLanding(
       profileData?.accountId,
-      buId,
       0,
       0,
+      2,
       pageNo,
       pageSize,
       setLoanRegisterData,
@@ -383,6 +386,30 @@ const LoanRegisterLanding = () => {
                       />
                     </div>
                     <div className="col-lg-2">
+                      <label>Opening Date</label>
+                      <div className="d-flex">
+                        <InputField
+                          value={values?.fromDate}
+                          name="fromDate"
+                          placeholder="Opening date"
+                          type="date"
+                          style={{ width: "100%" }}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-lg-2">
+                      <label>Maturity Date</label>
+                      <div className="d-flex">
+                        <InputField
+                          value={values?.toDate}
+                          name="toDate"
+                          placeholder="Maturity date"
+                          type="date"
+                          style={{ width: "100%" }}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-lg-1">
                       <button
                         className="btn btn-primary mr-2"
                         type="button"
@@ -398,27 +425,51 @@ const LoanRegisterLanding = () => {
                             pageSize,
                             setLoanRegisterData,
                             setLoading,
-                            values?.applicationType?.value || 0
+                            values?.applicationType?.value || 0,
+                            values?.fromDate,
+                            values?.toDate
                           );
                         }}
                       >
                         Show
                       </button>
                     </div>
+                    {buId === 136 && (
+                      <div className="col-lg-1">
+                        <button
+                          className="btn btn-primary mr-2"
+                          type="button"
+                          onClick={(e) => {
+                            history.push({
+                              pathname: `/financial-management/banking/loan-register/auto-journal-log/`,
+                              state: {},
+                            });
+                          }}
+                        >
+                          Log
+                        </button>
+                      </div>
+                    )}
                   </div>
                   <div></div>
                   <div className="row">
-                    <div className="col-12 common-scrollable-table two-column-sticky">
-                      <div className="scroll-table _table overflow-auto">
+                    <div className="col-12 common-scrollable-table four-column-sticky">
+                      <div
+                        className="scroll-table _table overflow-auto"
+                        style={{ height: "700px" }}
+                      >
                         {/* <div className="table-responsive"> */}
-                        <table className="table table-striped table-bordered global-table">
+                        <table className="table table-striped table-bordered global-table table-header-sticky">
                           <thead className="bg-secondary">
                             <tr>
                               <th>SL</th>
                               <th style={{ minWidth: "100px" }}>Status</th>
+                              {[136].includes(buId) && <th>SBU</th>}
                               <th>Bank</th>
-                              <th style={{ minWidth: "120px" }}>Facility</th>
-                              <th>Loan A/c no.</th>
+                              <th style={{ minWidth: "100px" }}>Facility</th>
+                              <th style={{ minWidth: "120px" }}>
+                                Loan A/c no.
+                              </th>
                               <th style={{ minWidth: "50px" }}>Tenor</th>
                               <th
                                 style={{ minWidth: "90px", cursor: "pointer" }}
@@ -436,13 +487,16 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "100px" }}>
                                 Principal Balance
                               </th>
+                              <th style={{ minWidth: "100px" }}>
+                                Disbursed Amount
+                              </th>
                               <th style={{ minWidth: "50px" }}>
                                 Int.Rate (p.a.)
                               </th>
-                              <th style={{ minWidth: "" }}>
+                              <th style={{ minWidth: "120px" }}>
                                 Disbursement Purpose
                               </th>
-                              <th style={{ minWidth: "50px" }}>Remarks</th>
+                              <th style={{ minWidth: "120px" }}>Remarks</th>
                               <th style={{ minWidth: "50px" }}>
                                 Profit Center
                               </th>
@@ -461,7 +515,6 @@ const LoanRegisterLanding = () => {
                               <th style={{ minWidth: "50px" }}>
                                 Paid Excise Duty
                               </th>
-                              {[136].includes(buId) && <th>SBU</th>}
                               <th style={{ minWidth: "70px" }}>Loan Class</th>
                               <th style={{ minWidth: "70px" }}>Loan Type</th>
                               <th>BR Number</th>
@@ -486,6 +539,9 @@ const LoanRegisterLanding = () => {
                                     ? "Approved"
                                     : "Pending"}
                                 </td>
+                                {[136].includes(buId) && (
+                                  <td className="text-">{item?.sbuName}</td>
+                                )}
                                 <td className="text-">{item?.strBankName}</td>
                                 <td className="text-">
                                   {item?.facilityName}{" "}
@@ -512,6 +568,13 @@ const LoanRegisterLanding = () => {
                                   {_dateFormatter(item?.dteMaturityDate)}
                                 </td>
                                 <td className="text-right">
+                                  {item?.numPrinciple - item?.numPaid >= 0
+                                    ? _formatMoney(
+                                        item?.numPrinciple - item?.numPaid
+                                      )
+                                    : 0}
+                                </td>
+                                <td className="text-right">
                                   {_formatMoney(
                                     item?.numPrinciple < 0
                                       ? 0
@@ -524,7 +587,7 @@ const LoanRegisterLanding = () => {
                                 <td className="text-">
                                   {item?.disbursementPurposeName}
                                 </td>
-                                <td className="text-"></td>
+                                <td className="text-">{item?.loanRemarks}</td>
                                 <td className="text-"></td>
                                 <td className="text-right">
                                   {_formatMoney(item?.numInterest)}
@@ -541,9 +604,7 @@ const LoanRegisterLanding = () => {
                                 <td className="text-right">
                                   {_formatMoney(item?.numExciseDuty)}
                                 </td>
-                                {[136].includes(buId) && (
-                                  <td className="text-">{item?.sbuName}</td>
-                                )}
+
                                 <td className="text-">{item?.loanClassName}</td>
                                 <td className="text-">{item?.loanTypeName}</td>
                                 <td className="text-">{item?.brCode}</td>
@@ -577,7 +638,7 @@ const LoanRegisterLanding = () => {
                                         onClick={() => {
                                           setFdrNo(item?.strLoanAccountName);
                                           getAttachments(
-                                            values?.businessUnit?.value,
+                                            item?.intBusinessUnitId,
                                             2,
                                             item?.strLoanAccountName,
                                             setAttachments,
@@ -730,7 +791,9 @@ const LoanRegisterLanding = () => {
                             <tr>
                               <td></td>
                               <td className="text-center">Total</td>
-                              <td colSpan={6}></td>
+                              <td className="text-right"></td>
+                              <td className="text-right"></td>
+                              <td colSpan={5}></td>
                               <td className="text-right">
                                 <b> {_formatMoney(totalPrincipleAmount)}</b>
                               </td>
@@ -755,7 +818,6 @@ const LoanRegisterLanding = () => {
                               <td className="text-right">
                                 <b> {_formatMoney(totalBalance)}</b>
                               </td>
-                              <td></td>
                             </tr>
                           </tbody>
                         </table>
@@ -812,6 +874,7 @@ const LoanRegisterLanding = () => {
                           <th>Amount</th>
                           <th>Narration</th>
                           <th>Journal Code</th>
+                          <th>Created By</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -826,6 +889,7 @@ const LoanRegisterLanding = () => {
                             <td>{item?.amount}</td>
                             <td>{item?.narration}</td>
                             <td>{item?.journalCode}</td>
+                            <td>{item?.createdBy}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -834,7 +898,6 @@ const LoanRegisterLanding = () => {
                 </div>
               </IViewModal>
             )}
-
             {/* <IViewModal show={modalShow} onHide={() => setModalShow(false)}>
          </IViewModal> */}
           </div>

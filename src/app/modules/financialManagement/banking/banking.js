@@ -33,6 +33,7 @@ import BankStock from "../report/bankStock";
 import InterCompanyLoan from "./InterCompanyLoan";
 import InterCompanyLoanCreate from "./InterCompanyLoan/createEdit";
 import RepayViewModal from "./InterCompanyLoan/repayView";
+import AutoJournalLog from "./fundManagement/loanRegister/auto-journal-log/AutoJournalLog";
 
 export function Banking() {
   return (
@@ -80,6 +81,10 @@ export function Banking() {
         component={LoanRegisterCreate}
       />
       <ContentRoute
+        path="/financial-management/banking/loan-register/auto-journal-log"
+        component={AutoJournalLog}
+      />
+      <ContentRoute
         path="/financial-management/banking/loan-register/create"
         component={LoanRegisterCreate}
       />
@@ -87,7 +92,6 @@ export function Banking() {
         path="/financial-management/banking/loan-register"
         component={LoanRegisterLanding}
       />
-
       {/* fdr register */}
       <ContentRoute
         path="/financial-management/banking/fdr-register/view/:id"
@@ -142,7 +146,6 @@ export function Banking() {
         component={BankStock}
       />
 
-
       <ContentRoute
         path={`/financial-management/banking/CashMargin/:actionType/:id`}
         component={ViewEditCashMargin}
@@ -195,7 +198,7 @@ export function Banking() {
         path="/financial-management/banking/InterCompanyLoan/create"
         component={InterCompanyLoanCreate}
       />
-       <ContentRoute
+      <ContentRoute
         path="/financial-management/banking/InterCompanyLoan"
         component={InterCompanyLoan}
       />
