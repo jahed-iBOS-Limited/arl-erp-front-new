@@ -33,7 +33,7 @@ const initData = {
   monthYear: _getCurrentMonthYearForInput(),
 };
 export default function RawMaterialAutoPR() {
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
   const [
     autoRawMaterialData,
     getAutoRawMaterialData,
@@ -51,10 +51,8 @@ export default function RawMaterialAutoPR() {
 
   const getData = (values) => {
     getAutoRawMaterialData(
-      `/procurement/AutoPurchase/GetInsertPRCalculation?BusinessUnitId=${
-        values?.businessUnit?.value
-      }&FromMonth=${`${values?.monthYear?.split("-")[0]}-${
-        values?.monthYear?.split("-")[1]
+      `/procurement/AutoPurchase/GetInsertPRCalculationNew?BusinessUnitId=${values?.businessUnit?.value
+      }&FromMonth=${`${values?.monthYear?.split("-")[0]}-${values?.monthYear?.split("-")[1]
       }-01`}&ItemCategoryId=0&ItemSubCategoryId=0`
     );
   };
@@ -200,12 +198,9 @@ export default function RawMaterialAutoPR() {
                               payload,
                               () => {
                                 getAutoRawMaterialData(
-                                  `/procurement/AutoPurchase/GetInsertPRCalculation?BusinessUnitId=${
-                                    values?.businessUnit?.value
-                                  }&FromMonth=${`${
-                                    values?.monthYear?.split("-")[0]
-                                  }-${
-                                    values?.monthYear?.split("-")[1]
+                                  `/procurement/AutoPurchase/GetInsertPRCalculation?BusinessUnitId=${values?.businessUnit?.value
+                                  }&FromMonth=${`${values?.monthYear?.split("-")[0]
+                                  }-${values?.monthYear?.split("-")[1]
                                   }-01`}&ItemCategoryId=0&ItemSubCategoryId=0`
                                 );
                               },
@@ -238,7 +233,7 @@ export default function RawMaterialAutoPR() {
                                 )?.[0]?.name
                               }
                             </th>
-                            <th>
+                            {/* <th>
                               {
                                 getSelectedAndNextMonths(
                                   values?.monthYear?.split("-")[1] || 0
@@ -251,21 +246,21 @@ export default function RawMaterialAutoPR() {
                                   values?.monthYear?.split("-")[1]
                                 )?.[2]?.name
                               }
-                            </th>
-                            <th>Total QTY</th>
+                            </th> 
+                            <th>Total QTY</th> */}
                             <th>Warehouse Stock</th>
                             <th>Floating Stock</th>
                             <th>In Transit</th>
                             <th>Open PR</th>
+                            <th>Dead Stock</th>
                             <th>Available Stock</th>
                             <th>
-                              {`${
-                                getSelectedAndNextMonths(
-                                  values?.monthYear?.split("-")[1]
-                                )?.[0]?.name
-                              } Requirment` || ""}
+                              {`${getSelectedAndNextMonths(
+                                values?.monthYear?.split("-")[1]
+                              )?.[0]?.name
+                                } Requirment` || ""}
                             </th>
-                            <th>Total Requirment</th>
+                            {/* <th>Total Requirment</th> */}
                             <th>Schedule Quantity</th>
                             <th>Action</th>
                           </tr>
@@ -283,7 +278,7 @@ export default function RawMaterialAutoPR() {
                                 <td className="text-center">
                                   {item?.firstMonthQty || ""}
                                 </td>
-                                <td className="text-center">
+                                {/* <td className="text-center">
                                   {item?.secondMonthQty || ""}
                                 </td>
                                 <td className="text-center">
@@ -293,12 +288,14 @@ export default function RawMaterialAutoPR() {
                                   {item?.totalBudgetQty
                                     ? item?.totalBudgetQty?.toFixed(2)
                                     : ""}
-                                </td>
+                                </td> */}
                                 <td className="text-center">
                                   {item?.stockQty?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
-                                  {item?.balanceOnGhat?.toFixed(2) || 0}
+                                  {(
+                                    item?.numOpenPOQty - item?.balanceOnGhat
+                                  ).toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
                                   {item?.inTransit?.toFixed(2) || 0}
@@ -307,41 +304,61 @@ export default function RawMaterialAutoPR() {
                                   {item?.openPRQty?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
-                                  {item?.availableStock?.toFixed(2) || 0}
+                                  {item?.deadStockQuantity || 0}
                                 </td>
                                 <td className="text-center">
                                   {(
-                                    item?.firstMonthQty - item?.availableStock
+                                    (item?.stockQty ?? 0) +
+                                    ((item?.numOpenPOQty ?? 0) - (item?.balanceOnGhat ?? 0)) +
+                                    (item?.inTransit ?? 0) -
+                                    (item?.deadStockQuantity ?? 0)
                                   )?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
-                                  {item?.closingBlance?.toFixed(2) || 0}
+                                  {(
+                                    (item?.firstMonthQty ?? 0) -
+                                    ((item?.stockQty ?? 0) +
+                                      ((item?.numOpenPOQty ?? 0) - (item?.balanceOnGhat ?? 0)) +
+                                      (item?.inTransit ?? 0) -
+                                      (item?.deadStockQuantity ?? 0)) -
+                                    (item?.openPRQty ?? 0)
+                                  )?.toFixed(2) || 0}
                                 </td>
+                                {/* <td className="text-center">
+                                  {(
+                                    item?.totalBudgetQty -
+                                    (item?.stockQty +
+                                      (item?.numOpenPOQty -
+                                        item?.balanceOnGhat) +
+                                      item?.inTransit -
+                                      item?.deadStockQuantity) -
+                                    item?.openPRQty
+                                  ).toFixed(2) || 0}
+                                </td> */}
                                 <td className="text-center">
                                   {item?.scheduleQuantity?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
                                   {item?.prCalculationHeaderId &&
                                     item?.firstMonthQty - item?.availableStock >
-                                      0 && (
+                                    0 && (
                                       <span
                                         style={{ cursor: "pointer" }}
                                         onClick={() => {
                                           if (
                                             item?.firstMonthQty -
-                                              item?.availableStock >
+                                            item?.availableStock >
                                             0
                                           ) {
                                             setSingleRowData(item);
                                             setShowBreakdownModal(true);
                                           } else {
                                             toast.warn(
-                                              `You don't need to break down this item for the month ${
-                                                getSelectedAndNextMonths(
-                                                  values?.monthYear?.split(
-                                                    "-"
-                                                  )[1] || 0
-                                                )?.[0]?.name
+                                              `You don't need to break down this item for the month ${getSelectedAndNextMonths(
+                                                values?.monthYear?.split(
+                                                  "-"
+                                                )[1] || 0
+                                              )?.[0]?.name
                                               }`
                                             );
                                           }

@@ -138,6 +138,7 @@ function ReceiveModal({ rowClickData, CB }) {
                     label="Received Date"
                     name="receivedDate"
                     placeholder="Received Date"
+                    type="date"
                   />
                 </div>
               </div>
