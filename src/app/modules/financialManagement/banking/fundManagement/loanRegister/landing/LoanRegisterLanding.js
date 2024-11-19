@@ -38,7 +38,6 @@ import "./style.css";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import moment from "moment";
 import InputField from "../../../../../_helper/_inputField";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
 import { generateJsonToExcel } from "../../../../../_helper/excel/jsonToExcel";
 
 const LoanRegisterLanding = () => {
@@ -67,6 +66,7 @@ const LoanRegisterLanding = () => {
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const [loanRegisterData, setLoanRegisterData] = useState([]);
+  const [loanRegisterExcelData, setLoanRegisterExcelData] = useState([]);
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
 
   const [bankDDL, setBankDDL] = useState([]);
@@ -225,7 +225,6 @@ const LoanRegisterLanding = () => {
   };
 
   const confirm = (item, values) => {
-    console.log({ item });
     let confirmObject = {
       title: "Are you sure?",
       message: "You want to confirm this loan?",
@@ -269,89 +268,200 @@ const LoanRegisterLanding = () => {
     };
     IConfirmModal(confirmObject);
   };
-  const generateExcel = (row) => {
+  const generateExcel = (rows) => {
     const header = [
       {
         text: "SL",
         textFormat: "number",
         alignment: "center:middle",
         key: "sl",
+        width: 50,
       },
       {
-        text: "Shippoint Name",
+        text: "Status",
         textFormat: "text",
         alignment: "center:middle",
-        key: "shippointName",
+        key: "status",
+        width: 120,
       },
       {
-        text: "Transport Zone",
-        textFormat: "money",
+        text: "SBU",
+        textFormat: "text",
         alignment: "center:middle",
-        key: "transportZoneName",
+        key: "sbuName",
+        width: 250,
       },
       {
-        text: "Transport Rate",
-        textFormat: "money",
+        text: "Bank",
+        textFormat: "text",
         alignment: "center:middle",
-        key: "transferRate",
+        key: "strBankName",
+        width: 250,
       },
       {
-        text: "Three Tone Rate",
-        textFormat: "money",
+        text: "Facility",
+        textFormat: "text",
         alignment: "center:middle",
-        key: "num3tonRate",
+        key: "facilityName",
+        width: 180,
       },
       {
-        text: "Five Tone Rate",
-        textFormat: "money",
+        text: "Loan A/c no.",
+        textFormat: "text",
         alignment: "center:middle",
-        key: "num5tonRate",
+        key: "strLoanAccountName",
+        width: 180,
       },
       {
-        text: "Twenty Tone Rate",
-        textFormat: "money",
+        text: "Tenor",
+        textFormat: "number",
         alignment: "center:middle",
-        key: "num7tonRate",
+        key: "intTenureDays",
+        width: 100,
       },
       {
-        text: "Twenty Tone Rate",
-        textFormat: "money",
+        text: "Open Date",
+        textFormat: "date",
         alignment: "center:middle",
-        key: "num20tonRate",
+        key: "dteStartDate",
+        width: 150,
       },
       {
-        text: "Handling Cost",
-        textFormat: "money",
+        text: "Maturity Date",
+        textFormat: "date",
         alignment: "center:middle",
-        key: "handlingCost",
+        key: "dteMaturityDate",
+        width: 150,
       },
       {
-        text: "Dropping Charge",
+        text: "Principal Balance",
         textFormat: "money",
         alignment: "center:middle",
-        key: "labourCost",
+        key: "principalBalance",
+        width: 180,
       },
       {
-        text: "Dropping Charge less 6ton",
+        text: "Disbursed Amount",
         textFormat: "money",
         alignment: "center:middle",
-        key: "labourCostLess6",
+        key: "numPrinciple",
+        width: 180,
       },
       {
-        text: "Subsidy Rate",
+        text: "Int. Rate (p.a.)",
+        textFormat: "percentage",
+        alignment: "center:middle",
+        key: "numInterestRate",
+        width: 140,
+      },
+      {
+        text: "Disbursement Purpose",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "disbursementPurposeName",
+        width: 200,
+      },
+      {
+        text: "Remarks",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "loanRemarks",
+        width: 250,
+      },
+      {
+        text: "Profit Center",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "profitCenter",
+        width: 120,
+      },
+      {
+        text: "Interest Amount",
         textFormat: "money",
         alignment: "center:middle",
-        key: "subsidyCostRate",
+        key: "numInterest",
+        width: 150,
+      },
+      {
+        text: "Total Payable",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "numTotalPayable",
+        width: 150,
+      },
+      {
+        text: "Paid Principal",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "numPaid",
+        width: 150,
+      },
+      {
+        text: "Paid Interest",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "interestAmount",
+        width: 150,
+      },
+      {
+        text: "Paid Excise Duty",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "numExciseDuty",
+        width: 150,
+      },
+      {
+        text: "Loan Class",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "loanClassName",
+        width: 120,
+      },
+      {
+        text: "Loan Type",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "loanTypeName",
+        width: 120,
+      },
+      {
+        text: "BR Number",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "brCode",
+        width: 200,
       },
     ];
-    const _data = row.map((item, index) => {
-      return {
-        ...item,
-        sl: index + 1,
-        transferRate: item?.transferRate || 0,
-      };
-    });
-    generateJsonToExcel(header, _data, "transportZoneRate");
+
+    const _data = rows.map((item, index) => ({
+      sl: index + 1,
+      status: item?.isLoanApproved ? "Approved" : "Pending",
+      sbuName: item?.sbuName || "",
+      strBankName: item?.strBankName || "",
+      facilityName: item?.facilityName || "",
+      strLoanAccountName: item?.strLoanAccountName || "",
+      intTenureDays: item?.intTenureDays || 0,
+      dteStartDate: _dateFormatter(item?.dteStartDate) || "",
+      dteMaturityDate: _dateFormatter(item?.dteMaturityDate) || "",
+      principalBalance:
+        item?.numPrinciple - item?.numPaid >= 0
+          ? item?.numPrinciple - item?.numPaid
+          : 0,
+      numPrinciple: item?.numPrinciple || 0,
+      numInterestRate: item?.numInterestRate || 0,
+      disbursementPurposeName: item?.disbursementPurposeName || "",
+      loanRemarks: item?.loanRemarks || "",
+      profitCenter: "", // Adjust if applicable
+      numInterest: item?.numInterest || 0,
+      numTotalPayable: item?.numTotalPayable || 0,
+      numPaid: item?.numPaid || 0,
+      interestAmount: item?.interestAmount || 0,
+      numExciseDuty: item?.numExciseDuty || 0,
+      loanClassName: item?.loanClassName || "",
+      loanTypeName: item?.loanTypeName || "",
+      brCode: item?.brCode || "",
+    }));
+    generateJsonToExcel(header, _data, "Loan Register");
   };
   return (
     <>
@@ -370,14 +480,15 @@ const LoanRegisterLanding = () => {
               <CardHeader title={"Loan Register"}>
                 <CardHeaderToolbar>
                   {loanRegisterData?.data?.length ? (
-                    <ReactHtmlTableToExcel
-                      id="test-table-xls-button-att-reports"
-                      className="btn btn-primary m-0 mx-2 py-2 px-2"
-                      table="table-to-xlsx"
-                      filename="Loan Register Report"
-                      sheet="Loan Register Report"
-                      buttonText="Export Excel"
-                    />
+                    <button
+                      className="btn btn-primary ml-2"
+                      type="button"
+                      onClick={(e) => generateExcel(loanRegisterData?.data)}
+                      style={{ padding: "6px 5px" }}
+                      disabled={loanRegisterData?.data?.length === 0}
+                    >
+                      Export Excel
+                    </button>
                   ) : null}
                   <button
                     className="btn btn-primary ml-2"
@@ -536,8 +647,10 @@ const LoanRegisterLanding = () => {
                         onClick={(e) => {
                           getLoanRegisterLanding(
                             profileData?.accountId,
-                            values?.businessUnit?.value >= 0
-                              ? values?.businessUnit?.value
+                            buId == 136
+                              ? values?.businessUnit?.value >= 0
+                                ? values?.businessUnit?.value
+                                : buId
                               : buId,
                             values?.bank?.value,
                             values?.status?.value,
