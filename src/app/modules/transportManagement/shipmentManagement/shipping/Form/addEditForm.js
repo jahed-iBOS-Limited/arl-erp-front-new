@@ -47,6 +47,10 @@ const initData = {
   driverContactNo: "",
   driverId: "",
   supplierName: "",
+  truckTrallerSupplier: {
+    label: "M/S Shawan Enterprise [13282]",
+    value: 13282,
+  },
   isLaborImpart: { value: false, label: "No" },
   laborSupplierName: "",
   totalBundle: "",
@@ -160,7 +164,6 @@ export default function ShipmentForm({
   const deliveryItemVolume = (id) => {
     dispatch(getDeliveryItemVolumeInfoAction(id));
   };
-
   const saveHandler = async (values, cb) => {
     if (rowDto?.length < 1) {
       return toast.warn("Please add at least one item");
@@ -169,7 +172,6 @@ export default function ShipmentForm({
     if ((buId === 4 || buId === 144) && Boolean(values?.packer)) {
       toast.warn("Please add packer");
     }
-
     if (values && accId && buId) {
       if (id) {
         const payload = {
@@ -212,6 +214,7 @@ export default function ShipmentForm({
             isLaborImpart: values?.isLaborImpart?.value || false,
             transportZoneId: values.transportZone.value || 0,
             laborSupplierId: values?.laborSupplierName?.value || 0,
+            loadingLabourSupplierId: values?.truckTrallerSupplier?.value || 0,
             laborSupplierName: values?.laborSupplierName?.label || 0,
             totalBundel: values?.totalBundle || 0,
             totalPieces: values?.totalPieces || 0,
@@ -319,6 +322,7 @@ export default function ShipmentForm({
             isLaborImpart: values?.isLaborImpart?.value || false,
             laborSupplierId: values?.laborSupplierName?.value || 0,
             laborSupplierName: values?.laborSupplierName?.label || 0,
+            loadingLabourSupplierId: values?.truckTrallerSupplier?.value || 0,
             transportZoneId: values?.transportZone?.value || 0,
             pumpModelId: values?.pump?.value || 0,
             pumpModelName: values?.pump?.label || "",

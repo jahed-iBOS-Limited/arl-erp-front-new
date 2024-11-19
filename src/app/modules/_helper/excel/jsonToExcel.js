@@ -29,6 +29,7 @@ export const generateJsonToExcel = (header, data, fileName, getZakatBlob) => {
         {
           name: "sheet-1",
           gridLine: false,
+          header: header,
           rows: [header, ...newData],
         },
       ],

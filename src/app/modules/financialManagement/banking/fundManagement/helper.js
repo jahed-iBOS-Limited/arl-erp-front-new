@@ -196,7 +196,8 @@ export const getLoanRegisterLanding = async (
   setLoading,
   applicationType = 0,
   fromDate,
-  toDate
+  toDate,
+  dateFilter
 ) => {
   const IsApproved =
     applicationType === 1
@@ -204,12 +205,13 @@ export const getLoanRegisterLanding = async (
       : applicationType === 2
       ? `&isLoanApproved=${true}`
       : "";
+  const dateFilterParam = dateFilter ? `&dateFilter=${dateFilter}` : "";
   const dateParam1 = fromDate ? `&fromDate=${fromDate}` : "";
   const dateParam2 = toDate ? `&toDate=${toDate}` : "";
   try {
     setLoading(true);
     const res = await Axios.get(
-      `/fino/FundManagement/GetLoanRegisterLanding?accountId=${accId}&businessUnitId=${buId}&bankId=${bankId}&statusTypeId=${statusTypeId}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${IsApproved}${dateParam1}${dateParam2}`
+      `/fino/FundManagement/GetLoanRegisterLanding?accountId=${accId}&businessUnitId=${buId}&bankId=${bankId}&statusTypeId=${statusTypeId}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${IsApproved}${dateFilterParam}${dateParam1}${dateParam2}`
     );
     setter(res?.data);
     setLoading(false);
