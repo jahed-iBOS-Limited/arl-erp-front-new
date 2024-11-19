@@ -13,10 +13,7 @@ import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
     bank: "",
-    facility: {
-        value: 10,
-        label: "LTR"
-    },
+    facility: "",
     account: "",
     openingDate: _todayDate(),
     loanAccNo: "",
@@ -58,13 +55,13 @@ const loanRegister = Yup.object().shape({
     principle: Yup.number()
         .min(1, "Principle is required")
         .required("Principle is required"),
-    disbursementPurpose: Yup.object()
-        .shape({
-            label: Yup.string().required("Disbursement Purpose is required"),
-            value: Yup.string().required("Disbursement Purpose is required"),
-        })
-        .nullable()
-        .required("Disbursement Purpose is required"),
+    // disbursementPurpose: Yup.object()
+    //     .shape({
+    //         label: Yup.string().required("Disbursement Purpose is required"),
+    //         value: Yup.string().required("Disbursement Purpose is required"),
+    //     })
+    //     .nullable()
+    //     .required("Disbursement Purpose is required"),
 });
 
 export default function LoanCreate({ singleData }) {
@@ -227,9 +224,7 @@ export default function LoanCreate({ singleData }) {
                                         value={values?.facility}
                                         onChange={(valueOption) => {
                                             setFieldValue("facility", valueOption);
-                                            // setFieldValue("remarks", valueOption?.remarks);
-                                            // setFieldValue("interestRate", valueOption?.iterestRate);
-                                            // setFieldValue("termDays", valueOption?.tenorDays || 0);
+                                            setFieldValue("facilityRemarks", valueOption?.remarks || "");
                                         }}
                                         errors={errors}
                                         touched={touched}
@@ -312,7 +307,7 @@ export default function LoanCreate({ singleData }) {
                                     />
                                 </div>
 
-                                <div className="col-lg-3">
+                                {/* <div className="col-lg-3">
                                     <NewSelect
                                         name="disbursementPurpose"
                                         options={disbursementPurposeDDL}
@@ -325,7 +320,7 @@ export default function LoanCreate({ singleData }) {
                                         label="Disbursement Purpose"
                                         placeholder="Disbursement Purpose"
                                     />
-                                </div>
+                                </div> */}
                                 <div className="col-lg-3 ">
                                     <InputField
                                         value={values?.remarks}
