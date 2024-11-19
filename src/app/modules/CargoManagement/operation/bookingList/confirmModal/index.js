@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _ from 'lodash';
 import { Form, Formik } from 'formik';
 import moment from 'moment';
 import React, { useEffect } from 'react';
@@ -116,13 +116,13 @@ function ConfirmModal({ rowClickData, CB }) {
 
   const debouncedGetCityList = _.debounce((value) => {
     setCityDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetPreviousCityDDL?search=${value}`
+      `${imarineBaseUrl}/domain/ShippingService/GetPreviousCityDDL?search=${value}`,
     );
   }, 300);
 
   const debouncedGetStateList = _.debounce((value) => {
     setStateDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetPreviousStateDDL?search=${value}`
+      `${imarineBaseUrl}/domain/ShippingService/GetPreviousStateDDL?search=${value}`,
     );
   }, 300);
   useEffect(() => {
@@ -142,27 +142,27 @@ function ConfirmModal({ rowClickData, CB }) {
               'consigneeName',
               data?.consigneeId
                 ? {
-                  value: data?.consigneeId || 0,
-                  label: data?.consigneeName || '',
-                }
+                    value: data?.consigneeId || 0,
+                    label: data?.consigneeName || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeCountry',
               data?.consigCountryId
                 ? {
-                  value: data?.consigCountryId || 0,
-                  label: data?.consigCountry || '',
-                }
+                    value: data?.consigCountryId || 0,
+                    label: data?.consigCountry || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeDivisionAndState',
               data?.consigStateId
                 ? {
-                  value: data?.consigStateId || 0,
-                  label: data?.consigState || '',
-                }
+                    value: data?.consigStateId || 0,
+                    label: data?.consigState || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -185,9 +185,9 @@ function ConfirmModal({ rowClickData, CB }) {
               'notifyParty',
               data?.notifyParty
                 ? {
-                  value: 0,
-                  label: data?.notifyParty || '',
-                }
+                    value: 0,
+                    label: data?.notifyParty || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -198,9 +198,9 @@ function ConfirmModal({ rowClickData, CB }) {
               'freightAgentReference',
               data?.freightAgentReference
                 ? {
-                  value: 0,
-                  label: data?.freightAgentReference || '',
-                }
+                    value: 0,
+                    label: data?.freightAgentReference || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -283,7 +283,6 @@ function ConfirmModal({ rowClickData, CB }) {
   }, []);
   const bookingData = shipBookingRequestGetById || {};
 
-
   const saveHandler = (values, cb) => {
     const payload = {
       bookingRequestId: bookingRequestId || 0,
@@ -340,7 +339,8 @@ function ConfirmModal({ rowClickData, CB }) {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId
+        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${
+          profileData?.accountId
         }&BusinessUnitId=${225}&Search=${v}`,
       )
       .then((res) => {
@@ -385,6 +385,7 @@ function ConfirmModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
+            {console.log(values, 'values')}
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
@@ -573,10 +574,9 @@ function ConfirmModal({ rowClickData, CB }) {
                       let value = {
                         ...valueOption,
                         value: 0,
-                        label: valueOption?.label || "",
-                      }
-                      setFieldValue("consigneeDivisionAndState", value);
-
+                        label: valueOption?.label || '',
+                      };
+                      setFieldValue('consigneeDivisionAndState', value);
                     }}
                     placeholder="Select or Create New Option"
                     errors={errors}
@@ -585,7 +585,6 @@ function ConfirmModal({ rowClickData, CB }) {
                     onInputChange={(inputValue) => {
                       debouncedGetStateList(inputValue);
                     }}
-
                   />
                 </div>
                 {/* city */}
@@ -680,11 +679,17 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.notifyParty}
                     label="Notify Party"
                     onChange={(valueOption) => {
-                      setFieldValue('notifyParty', valueOption);
+                      let valueOptionModify = {
+                        ...valueOption,
+                        value: 0,
+                        label: valueOption?.label || '',
+                      };
+                      setFieldValue('notifyParty', valueOptionModify);
                     }}
                     placeholder="Notify Party"
                     errors={errors}
                     touched={touched}
+                    isCreatableSelect={true}
                   />
                 </div>
                 {/* Negotiation Party input */}
