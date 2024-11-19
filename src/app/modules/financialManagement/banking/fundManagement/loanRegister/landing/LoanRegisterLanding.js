@@ -39,6 +39,7 @@ import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import moment from "moment";
 import InputField from "../../../../../_helper/_inputField";
 import ReactHtmlTableToExcel from "react-html-table-to-excel";
+import { generateJsonToExcel } from "../../../../../_helper/excel/jsonToExcel";
 
 const LoanRegisterLanding = () => {
   const history = useHistory();
@@ -148,7 +149,7 @@ const LoanRegisterLanding = () => {
   useEffect(() => {
     getLoanRegisterLanding(
       profileData?.accountId,
-      0,
+      buId == 136 ? 0 : buId,
       0,
       2,
       pageNo,
@@ -267,6 +268,90 @@ const LoanRegisterLanding = () => {
       },
     };
     IConfirmModal(confirmObject);
+  };
+  const generateExcel = (row) => {
+    const header = [
+      {
+        text: "SL",
+        textFormat: "number",
+        alignment: "center:middle",
+        key: "sl",
+      },
+      {
+        text: "Shippoint Name",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "shippointName",
+      },
+      {
+        text: "Transport Zone",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "transportZoneName",
+      },
+      {
+        text: "Transport Rate",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "transferRate",
+      },
+      {
+        text: "Three Tone Rate",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "num3tonRate",
+      },
+      {
+        text: "Five Tone Rate",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "num5tonRate",
+      },
+      {
+        text: "Twenty Tone Rate",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "num7tonRate",
+      },
+      {
+        text: "Twenty Tone Rate",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "num20tonRate",
+      },
+      {
+        text: "Handling Cost",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "handlingCost",
+      },
+      {
+        text: "Dropping Charge",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "labourCost",
+      },
+      {
+        text: "Dropping Charge less 6ton",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "labourCostLess6",
+      },
+      {
+        text: "Subsidy Rate",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "subsidyCostRate",
+      },
+    ];
+    const _data = row.map((item, index) => {
+      return {
+        ...item,
+        sl: index + 1,
+        transferRate: item?.transferRate || 0,
+      };
+    });
+    generateJsonToExcel(header, _data, "transportZoneRate");
   };
   return (
     <>
