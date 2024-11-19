@@ -409,511 +409,519 @@ export default function _Form({
           touched,
           setFieldValue,
           isValid,
-        }) => (
-          <>
-            {(loading ||
-              loadingTwo ||
-              entryCodeDDLloader ||
-              vehicleEntryDDLloader ||
-              isLoadingVehicleDDL ||
-              loader) && <Loading />}
-            {isSubsidyRunning && (
-              <marquee
-                direction="left"
-                style={{
-                  fontSize: "15px",
-                  fontWeight: "bold",
-                  color: "red",
-                }}
-              >
-                Transport subsidiary is running....
-              </marquee>
-            )}
-            <Form className="form form-label-right">
-              <div className="row mt-1">
-                <div className="col-lg-9 text-center">
-                  <h4>Warehouse: {deliveryeDatabydata?.warehouseName}</h4>
-                </div>
-                {values?.Vehicle && (
-                  <div
-                    className="col-lg-3"
-                    style={{ backgroundColor: "yellow" }}
-                  >
-                    <h5>
-                      {values?.Vehicle?.ownerType &&
-                        `${values?.Vehicle?.ownerType} Vehicle`}
-                    </h5>
+        }) => {
+          return (
+            <>
+              {(loading ||
+                loadingTwo ||
+                entryCodeDDLloader ||
+                vehicleEntryDDLloader ||
+                isLoadingVehicleDDL ||
+                loader) && <Loading />}
+              {isSubsidyRunning && (
+                <marquee
+                  direction="left"
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: "bold",
+                    color: "red",
+                  }}
+                >
+                  Transport subsidiary is running....
+                </marquee>
+              )}
+              <Form className="form form-label-right">
+                <div className="row mt-1">
+                  <div className="col-lg-9 text-center">
+                    <h4>Warehouse: {deliveryeDatabydata?.warehouseName}</h4>
                   </div>
-                )}
-                <div className="col-lg-12 p-0 m-0">
-                  <div
-                    className="row global-form m-0"
-                    style={{ paddingBottom: "10px" }}
-                  >
-                    <>
-                      {controls.map((itm) => {
-                        return itm?.type === "asyncSelect" ? (
-                          isGateMaintain && (
-                            <>
-                              <div className="col-lg-3">
-                                <label>{itm?.label}</label>
-                                <SearchAsyncSelect
-                                  // isDisabled={itm?.isDisabled}
-                                  selectedValue={values[itm?.name]}
-                                  handleChange={(valueOption) => {
-                                    setFieldValue(itm?.name, valueOption || "");
-                                    const find = vehicleDDL?.find(
-                                      (i) =>
-                                        i.veichleId === valueOption?.vehicleId
-                                    );
-                                    if (find) {
-                                      setFieldValue("laborSupplierName", "");
-                                      vehicleSingeDataView(
-                                        find?.label,
-                                        accId,
-                                        buId,
-                                        setFieldValue
+                  {values?.Vehicle && (
+                    <div
+                      className="col-lg-3"
+                      style={{ backgroundColor: "yellow" }}
+                    >
+                      <h5>
+                        {values?.Vehicle?.ownerType &&
+                          `${values?.Vehicle?.ownerType} Vehicle`}
+                      </h5>
+                    </div>
+                  )}
+                  <div className="col-lg-12 p-0 m-0">
+                    <div
+                      className="row global-form m-0"
+                      style={{ paddingBottom: "10px" }}
+                    >
+                      <>
+                        {controls.map((itm) => {
+                          return itm?.type === "asyncSelect" ? (
+                            isGateMaintain && (
+                              <>
+                                <div className="col-lg-3">
+                                  <label>{itm?.label}</label>
+                                  <SearchAsyncSelect
+                                    // isDisabled={itm?.isDisabled}
+                                    selectedValue={values[itm?.name]}
+                                    handleChange={(valueOption) => {
+                                      setFieldValue(
+                                        itm?.name,
+                                        valueOption || ""
                                       );
-                                      setFieldValue("Vehicle", find || "");
-                                      setFieldValue("supplierName", "");
-                                      setFieldValue("laborSupplierName", "");
-                                      const controlsModify = [...controls];
-                                      controlsModify[2].isDisabled = true;
-                                      setControls(controlsModify);
-                                    }
-                                  }}
-                                  placeholder={itm?.label}
-                                  loadOptions={(v) => {
-                                    const searchValue = v.trim();
-                                    if (searchValue?.length < 2) return [];
-                                    return axios
-                                      .get(
-                                        `/wms/ItemPlantWarehouse/GetVehicleEntryDDL?accountId=${accId}&businessUnitId=${buId}&EntryCode=${v}`
-                                      )
-                                      .then((res) => res?.data);
-                                  }}
-                                  isDisabled={
-                                    itm?.isDisabled ||
-                                    (isGateMaintain && buId === 175)
-                                  }
-                                />
-                                <FormikError
-                                  errors={errors}
-                                  name="product"
-                                  touched={touched}
-                                />
-                              </div>
-                            </>
-                          )
-                        ) : itm?.type === "cardInput" ? (
-                          isGateMaintain && (
-                            <>
-                              {isGateMaintain && buId === 175 ? (
-                                <></>
-                              ) : (
-                                <>
-                                  {" "}
-                                  <div
-                                    className="col-lg-3 d-flex"
-                                    style={{
-                                      position: "relative",
+                                      const find = vehicleDDL?.find(
+                                        (i) =>
+                                          i.veichleId === valueOption?.vehicleId
+                                      );
+                                      if (find) {
+                                        setFieldValue("laborSupplierName", "");
+                                        vehicleSingeDataView(
+                                          find?.label,
+                                          accId,
+                                          buId,
+                                          setFieldValue
+                                        );
+                                        setFieldValue("Vehicle", find || "");
+                                        setFieldValue("supplierName", "");
+                                        setFieldValue("laborSupplierName", "");
+                                        const controlsModify = [...controls];
+                                        controlsModify[2].isDisabled = true;
+                                        setControls(controlsModify);
+                                      }
                                     }}
-                                  >
+                                    placeholder={itm?.label}
+                                    loadOptions={(v) => {
+                                      const searchValue = v.trim();
+                                      if (searchValue?.length < 2) return [];
+                                      return axios
+                                        .get(
+                                          `/wms/ItemPlantWarehouse/GetVehicleEntryDDL?accountId=${accId}&businessUnitId=${buId}&EntryCode=${v}`
+                                        )
+                                        .then((res) => res?.data);
+                                    }}
+                                    isDisabled={
+                                      itm?.isDisabled ||
+                                      (isGateMaintain && buId === 175)
+                                    }
+                                  />
+                                  <FormikError
+                                    errors={errors}
+                                    name="product"
+                                    touched={touched}
+                                  />
+                                </div>
+                              </>
+                            )
+                          ) : itm?.type === "cardInput" ? (
+                            isGateMaintain && (
+                              <>
+                                {isGateMaintain && buId === 175 ? (
+                                  <></>
+                                ) : (
+                                  <>
+                                    {" "}
                                     <div
+                                      className="col-lg-3 d-flex"
                                       style={{
-                                        position: "absolute",
-                                        right: 0,
-                                        top: 0,
-                                        cursor: "pointer",
-                                        color: "blue",
-                                        zIndex: "1",
-                                      }}
-                                      onClick={() => {
-                                        setQRCodeScannerModal(true);
+                                        position: "relative",
                                       }}
                                     >
-                                      QR Code{" "}
-                                      <i
-                                        class="fa fa-qrcode"
-                                        aria-hidden="true"
-                                      ></i>
-                                    </div>
-                                    <div
-                                      style={{
-                                        width: "inherit",
-                                      }}
-                                    >
-                                      <InputField
-                                        disabled={
-                                          itm?.isDisabled ||
-                                          (isGateMaintain && buId === 175)
-                                        }
-                                        id="cardNoInput"
-                                        value={values?.strCardNo}
-                                        label={itm?.label}
-                                        name="strCardNo"
-                                        type="text"
-                                        onKeyPress={(e) => {
-                                          if (e.key === "Enter") {
-                                            document.getElementById(
-                                              "cardNoInput"
-                                            ).disabled = true;
-                                            getEntryCodeDDL(
-                                              `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForShipment&BusinessUnitId=${buId}&search=${values?.strCardNo}`,
-                                              (data) => {
-                                                if (data[0]?.strEntryCode) {
-                                                  setFieldValue(
-                                                    "veichleEntry",
-                                                    isGateMaintain
-                                                      ? data?.[0]
-                                                      : ""
-                                                  );
-                                                  getVehicleEntryDDL(
-                                                    `/wms/ItemPlantWarehouse/GetVehicleEntryDDL?accountId=${accId}&businessUnitId=${buId}&EntryCode=${data[0]?.strEntryCode}`,
-                                                    (data) => {
-                                                      const find = vehicleDDL?.find(
-                                                        (i) =>
-                                                          i.veichleId ===
-                                                          data[0]?.vehicleId
-                                                      );
-                                                      if (find) {
-                                                        setFieldValue(
-                                                          "laborSupplierName",
-                                                          ""
-                                                        );
-                                                        vehicleSingeDataView(
-                                                          find?.label,
-                                                          accId,
-                                                          buId,
-                                                          setFieldValue
-                                                        );
-                                                        setFieldValue(
-                                                          "Vehicle",
-                                                          find || ""
-                                                        );
-                                                        setFieldValue(
-                                                          "supplierName",
-                                                          ""
-                                                        );
-                                                        setFieldValue(
-                                                          "laborSupplierName",
-                                                          ""
-                                                        );
-                                                        const controlsModify = [
-                                                          ...controls,
-                                                        ];
-                                                        controlsModify[2].isDisabled = true;
-                                                        setControls(
-                                                          controlsModify
-                                                        );
-                                                      }
-                                                    }
-                                                  );
-                                                } else {
-                                                  setFieldValue(
-                                                    "strCardNo",
-                                                    ""
-                                                  );
-                                                  setFieldValue(
-                                                    "veichleEntry",
-                                                    ""
-                                                  );
-                                                  document.getElementById(
-                                                    "cardNoInput"
-                                                  ).disabled = false;
-                                                  document
-                                                    .getElementById(
-                                                      "cardNoInput"
-                                                    )
-                                                    .focus();
-                                                  toast.warn(
-                                                    "Card Number Not Found"
-                                                  );
-                                                }
-                                              }
-                                            );
-                                          }
-                                        }}
-                                        onChange={(e) => {
-                                          setFieldValue(
-                                            "strCardNo",
-                                            e.target.value
-                                          );
-                                        }}
-                                      />
-                                    </div>
-                                    {!isEdit && (
-                                      <span
+                                      <div
                                         style={{
-                                          display: "flex",
-                                          alignItems: "center",
-                                          justifyContent: "center",
-                                          marginLeft: "5px",
+                                          position: "absolute",
+                                          right: 0,
+                                          top: 0,
                                           cursor: "pointer",
-                                          marginTop: "20px",
+                                          color: "blue",
+                                          zIndex: "1",
                                         }}
                                         onClick={() => {
-                                          setFieldValue("strCardNo", "");
-                                          document.getElementById(
-                                            "cardNoInput"
-                                          ).disabled = false;
-                                          document
-                                            .getElementById("cardNoInput")
-                                            .focus();
-                                          resetForm(initData);
+                                          setQRCodeScannerModal(true);
                                         }}
                                       >
+                                        QR Code{" "}
                                         <i
-                                          style={{
-                                            color: "blue",
-                                          }}
-                                          className="fa fa-refresh"
+                                          class="fa fa-qrcode"
                                           aria-hidden="true"
                                         ></i>
-                                      </span>
-                                    )}
-                                  </div>
-                                </>
-                              )}
-                            </>
-                          )
-                        ) : (
-                          <div className="col-lg-3">
-                            <ISelect
-                              label={itm.label}
-                              placeholder={itm.label}
-                              options={itm.options}
-                              value={values[itm.name]}
-                              name={itm.name}
-                              setFieldValue={setFieldValue}
-                              errors={errors}
-                              values={values}
-                              touched={touched}
-                              dependencyFunc={itm.dependencyFunc}
-                              isDisabled={itm?.isDisabled}
-                            />
-                          </div>
-                        );
-                      })}
-                      <div className="col-lg-3">
-                        <InputField
-                          value={values.lastDistance}
-                          label="Last Distance (KM)"
-                          name="lastDistance"
-                          type="number"
-                          disabled
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <NewSelect
-                          name="isLaborImpart"
-                          options={[
-                            { value: false, label: "No" },
-                            { value: true, label: "Yes" },
-                          ]}
-                          value={values?.isLaborImpart}
-                          label="Labor/Handling Provided"
-                          onChange={(valueOption) => {
-                            setFieldValue("isLaborImpart", valueOption);
-                            setFieldValue("supplierName", "");
-                            setFieldValue("laborSupplierName", "");
-                          }}
-                          placeholder="Labor/Handling Provided"
-                          errors={errors}
-                          touched={touched}
-                          isDisabled={true}
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <label>Estimated of Arrival Date </label>
-                        <ICalendar
-                          value={values.estimatedTimeofArrival || ""}
-                          name="estimatedTimeofArrival"
-                          disabled={isEdit}
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <label>Planned Loading Time </label>
-                        <ICalendar
-                          value={values.planedLoadingTime || ""}
-                          name="planedLoadingTime"
-                          disabled={isEdit}
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <InputField
-                          value={values.driverName || ""}
-                          placeholder="Driver Name"
-                          name="driverName"
-                          label="Driver Name"
-                          component={Input}
-                          type="text"
-                          disabled
-                        />
-                      </div>
-                      <div className="col-lg-3">
-                        <InputField
-                          value={values.driverContactNo || ""}
-                          placeholder="Driver Contact No"
-                          name="driverContactNo"
-                          label="Driver Contact No"
-                          component={Input}
-                          type="text"
-                          disabled
-                        />
-                      </div>
-                      <div className="col-lg-3" style={{ display: "none" }}>
-                        <InputField
-                          value={values.driverId || ""}
-                          placeholder="Driver Id"
-                          name="driverId"
-                          label="Driver Id"
-                          component={Input}
-                          type="text"
-                        />
-                      </div>
-                      {buId === 175 ? (
+                                      </div>
+                                      <div
+                                        style={{
+                                          width: "inherit",
+                                        }}
+                                      >
+                                        <InputField
+                                          disabled={
+                                            itm?.isDisabled ||
+                                            (isGateMaintain && buId === 175)
+                                          }
+                                          id="cardNoInput"
+                                          value={values?.strCardNo}
+                                          label={itm?.label}
+                                          name="strCardNo"
+                                          type="text"
+                                          onKeyPress={(e) => {
+                                            if (e.key === "Enter") {
+                                              document.getElementById(
+                                                "cardNoInput"
+                                              ).disabled = true;
+                                              getEntryCodeDDL(
+                                                `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForShipment&BusinessUnitId=${buId}&search=${values?.strCardNo}`,
+                                                (data) => {
+                                                  if (data[0]?.strEntryCode) {
+                                                    setFieldValue(
+                                                      "veichleEntry",
+                                                      isGateMaintain
+                                                        ? data?.[0]
+                                                        : ""
+                                                    );
+                                                    getVehicleEntryDDL(
+                                                      `/wms/ItemPlantWarehouse/GetVehicleEntryDDL?accountId=${accId}&businessUnitId=${buId}&EntryCode=${data[0]?.strEntryCode}`,
+                                                      (data) => {
+                                                        const find = vehicleDDL?.find(
+                                                          (i) =>
+                                                            i.veichleId ===
+                                                            data[0]?.vehicleId
+                                                        );
+                                                        if (find) {
+                                                          setFieldValue(
+                                                            "laborSupplierName",
+                                                            ""
+                                                          );
+                                                          vehicleSingeDataView(
+                                                            find?.label,
+                                                            accId,
+                                                            buId,
+                                                            setFieldValue
+                                                          );
+                                                          setFieldValue(
+                                                            "Vehicle",
+                                                            find || ""
+                                                          );
+                                                          setFieldValue(
+                                                            "supplierName",
+                                                            ""
+                                                          );
+                                                          setFieldValue(
+                                                            "laborSupplierName",
+                                                            ""
+                                                          );
+                                                          const controlsModify = [
+                                                            ...controls,
+                                                          ];
+                                                          controlsModify[2].isDisabled = true;
+                                                          setControls(
+                                                            controlsModify
+                                                          );
+                                                        }
+                                                      }
+                                                    );
+                                                  } else {
+                                                    setFieldValue(
+                                                      "strCardNo",
+                                                      ""
+                                                    );
+                                                    setFieldValue(
+                                                      "veichleEntry",
+                                                      ""
+                                                    );
+                                                    document.getElementById(
+                                                      "cardNoInput"
+                                                    ).disabled = false;
+                                                    document
+                                                      .getElementById(
+                                                        "cardNoInput"
+                                                      )
+                                                      .focus();
+                                                    toast.warn(
+                                                      "Card Number Not Found"
+                                                    );
+                                                  }
+                                                }
+                                              );
+                                            }
+                                          }}
+                                          onChange={(e) => {
+                                            setFieldValue(
+                                              "strCardNo",
+                                              e.target.value
+                                            );
+                                          }}
+                                        />
+                                      </div>
+                                      {!isEdit && (
+                                        <span
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            marginLeft: "5px",
+                                            cursor: "pointer",
+                                            marginTop: "20px",
+                                          }}
+                                          onClick={() => {
+                                            setFieldValue("strCardNo", "");
+                                            document.getElementById(
+                                              "cardNoInput"
+                                            ).disabled = false;
+                                            document
+                                              .getElementById("cardNoInput")
+                                              .focus();
+                                            resetForm(initData);
+                                          }}
+                                        >
+                                          <i
+                                            style={{
+                                              color: "blue",
+                                            }}
+                                            className="fa fa-refresh"
+                                            aria-hidden="true"
+                                          ></i>
+                                        </span>
+                                      )}
+                                    </div>
+                                  </>
+                                )}
+                              </>
+                            )
+                          ) : (
+                            <div className="col-lg-3">
+                              <ISelect
+                                label={itm.label}
+                                placeholder={itm.label}
+                                options={itm.options}
+                                value={values[itm.name]}
+                                name={itm.name}
+                                setFieldValue={setFieldValue}
+                                errors={errors}
+                                values={values}
+                                touched={touched}
+                                dependencyFunc={itm.dependencyFunc}
+                                isDisabled={itm?.isDisabled}
+                              />
+                            </div>
+                          );
+                        })}
+                        <div className="col-lg-3">
+                          <InputField
+                            value={values.lastDistance}
+                            label="Last Distance (KM)"
+                            name="lastDistance"
+                            type="number"
+                            disabled
+                          />
+                        </div>
                         <div className="col-lg-3">
                           <NewSelect
-                            name="pump"
-                            options={pumpDDL || []}
-                            value={values?.pump}
-                            label="Pump Information"
+                            name="isLaborImpart"
+                            options={[
+                              { value: false, label: "No" },
+                              { value: true, label: "Yes" },
+                            ]}
+                            value={values?.isLaborImpart}
+                            label="Labor/Handling Provided"
                             onChange={(valueOption) => {
-                              setFieldValue("pump", valueOption);
+                              setFieldValue("isLaborImpart", valueOption);
+                              setFieldValue("supplierName", "");
+                              setFieldValue("laborSupplierName", "");
                             }}
-                            placeholder="Pump Information"
+                            placeholder="Labor/Handling Provided"
                             errors={errors}
                             touched={touched}
-                            isDisabled={isEdit}
+                            isDisabled={true}
                           />
                         </div>
-                      ) : null}
-                      {!isEdit && (
-                        <>
+                        <div className="col-lg-3">
+                          <label>Estimated of Arrival Date </label>
+                          <ICalendar
+                            value={values.estimatedTimeofArrival || ""}
+                            name="estimatedTimeofArrival"
+                            disabled={isEdit}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <label>Planned Loading Time </label>
+                          <ICalendar
+                            value={values.planedLoadingTime || ""}
+                            name="planedLoadingTime"
+                            disabled={isEdit}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <InputField
+                            value={values.driverName || ""}
+                            placeholder="Driver Name"
+                            name="driverName"
+                            label="Driver Name"
+                            component={Input}
+                            type="text"
+                            disabled
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <InputField
+                            value={values.driverContactNo || ""}
+                            placeholder="Driver Contact No"
+                            name="driverContactNo"
+                            label="Driver Contact No"
+                            component={Input}
+                            type="text"
+                            disabled
+                          />
+                        </div>
+                        <div className="col-lg-3" style={{ display: "none" }}>
+                          <InputField
+                            value={values.driverId || ""}
+                            placeholder="Driver Id"
+                            name="driverId"
+                            label="Driver Id"
+                            component={Input}
+                            type="text"
+                          />
+                        </div>
+                        {buId === 175 ? (
                           <div className="col-lg-3">
                             <NewSelect
-                              name="pendingDelivery"
-                              placeholder="Pending Delivery List"
-                              label="Pending Delivery List"
-                              options={PendingDeliveryDDL || []}
-                              value={values?.pendingDelivery}
-                              isDisabled={!values?.Vehicle}
+                              name="pump"
+                              options={pumpDDL || []}
+                              value={values?.pump}
+                              label="Pump Information"
                               onChange={(valueOption) => {
-                                setFieldValue("pendingDelivery", valueOption);
-
-                                if (valueOption?.value) {
-                                  dispatch(
-                                    getDeliveryItemVolumeInfoAction(
-                                      valueOption?.value,
-                                      setDisabled
-                                    )
-                                  );
-                                  dispatch(
-                                    getDeliveryeDatabyId(
-                                      valueOption?.value,
-                                      values,
-                                      buId,
-                                      setCostlaborRateStatus,
-                                      setLoading
-                                    )
-                                  );
-                                  dispatch(
-                                    getStockStatusOnShipmentAction(
-                                      valueOption?.value,
-                                      buId,
-                                      setLoadingTwo
-                                    )
-                                  );
-                                  dispatch(
-                                    getVehicleNo_action(
-                                      valueOption?.value,
-                                      buId
-                                    )
-                                  );
-                                  getTransportStatusAndInfo(
-                                    1,
-                                    buId,
-                                    valueOption?.value,
-                                    setTransportStatus,
-                                    setDisabled
-                                  );
-                                  // getShipmentDetailInfo(
-                                  //   `/oms/Shipment/ChallanWiseTransportZoneRate?accountId=${accId}&businessUnitId=${buId}&deliveryId=${valueOption?.value}&shipPointId=${values?.shipPoint?.value}`
-                                  // );
-                                }
+                                setFieldValue("pump", valueOption);
                               }}
-                            />
-                          </div>{" "}
-                          <div className="col-lg-3">
-                            <NewSelect
-                              name="packer"
-                              placeholder="Packer"
-                              label="Packer"
-                              options={packerList || []}
-                              value={values?.packer}
-                              onChange={(valueOption) => {
-                                setFieldValue("packer", valueOption);
-                              }}
+                              placeholder="Pump Information"
+                              errors={errors}
+                              touched={touched}
+                              isDisabled={isEdit}
                             />
                           </div>
-                        </>
-                      )}
+                        ) : null}
+                        {!isEdit && (
+                          <>
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="pendingDelivery"
+                                placeholder="Pending Delivery List"
+                                label="Pending Delivery List"
+                                options={PendingDeliveryDDL || []}
+                                value={values?.pendingDelivery}
+                                isDisabled={!values?.Vehicle}
+                                onChange={(valueOption) => {
+                                  setFieldValue("pendingDelivery", valueOption);
 
-                      <div className="col-lg-3 mt-5">
-                        <button
-                          className="btn btn-primary btn-sm"
-                          type="button"
-                          onClick={() => {
-                            getShipmentDetailInfo(
-                              `/oms/Shipment/ChallanWiseTransportZoneRate?accountId=${accId}&businessUnitId=${buId}&deliveryId=${values?.pendingDelivery?.value}`,
-                              // `/oms/Shipment/ChallanWiseShipmentInfoDetails?accountId=${accId}&businessUnitId=${buId}&deliveryCode=${values?.pendingDelivery?.label}`
-                              (resData) => {
-                                if (resData?.data?.length) {
-                                  setShow(true);
-                                } else {
-                                  toast.warning("Shipment details not found!");
+                                  if (valueOption?.value) {
+                                    dispatch(
+                                      getDeliveryItemVolumeInfoAction(
+                                        valueOption?.value,
+                                        setDisabled
+                                      )
+                                    );
+                                    dispatch(
+                                      getDeliveryeDatabyId(
+                                        valueOption?.value,
+                                        values,
+                                        buId,
+                                        setCostlaborRateStatus,
+                                        setLoading
+                                      )
+                                    );
+                                    dispatch(
+                                      getStockStatusOnShipmentAction(
+                                        valueOption?.value,
+                                        buId,
+                                        setLoadingTwo
+                                      )
+                                    );
+                                    dispatch(
+                                      getVehicleNo_action(
+                                        valueOption?.value,
+                                        buId
+                                      )
+                                    );
+                                    getTransportStatusAndInfo(
+                                      1,
+                                      buId,
+                                      valueOption?.value,
+                                      setTransportStatus,
+                                      setDisabled
+                                    );
+                                    // getShipmentDetailInfo(
+                                    //   `/oms/Shipment/ChallanWiseTransportZoneRate?accountId=${accId}&businessUnitId=${buId}&deliveryId=${valueOption?.value}&shipPointId=${values?.shipPoint?.value}`
+                                    // );
+                                  }
+                                }}
+                              />
+                            </div>{" "}
+                            <div className="col-lg-3">
+                              <NewSelect
+                                name="packer"
+                                placeholder="Packer"
+                                label="Packer"
+                                options={packerList || []}
+                                value={values?.packer}
+                                onChange={(valueOption) => {
+                                  setFieldValue("packer", valueOption);
+                                }}
+                              />
+                            </div>
+                          </>
+                        )}
+
+                        <div className="col-lg-3 mt-5">
+                          <button
+                            className="btn btn-primary btn-sm"
+                            type="button"
+                            onClick={() => {
+                              getShipmentDetailInfo(
+                                `/oms/Shipment/ChallanWiseTransportZoneRate?accountId=${accId}&businessUnitId=${buId}&deliveryId=${values?.pendingDelivery?.value}`,
+                                // `/oms/Shipment/ChallanWiseShipmentInfoDetails?accountId=${accId}&businessUnitId=${buId}&deliveryCode=${values?.pendingDelivery?.label}`
+                                (resData) => {
+                                  if (resData?.data?.length) {
+                                    setShow(true);
+                                  } else {
+                                    toast.warning(
+                                      "Shipment details not found!"
+                                    );
+                                  }
                                 }
-                              }
-                            );
-                          }}
-                          disabled={!values?.pendingDelivery}
-                        >
-                          See Slab Rates
-                        </button>
-                      </div>
-                      <div className="col-lg-3 mt-5">
-                        <button
-                          className="btn btn-primary btn-sm"
-                          type="button"
-                          onClick={() => {
-                            const payload = rowDto?.map((e) => e?.deliveryId);
-                            getItemListForChallan(
-                              accId,
-                              buId,
-                              setPreviewItems,
-                              payload,
-                              setDisabled,
-                              () => {
-                                setOpen(true);
-                              }
-                            );
-                          }}
-                          disabled={!rowDto?.length}
-                        >
-                          Preview
-                        </button>
-                      </div>
-                      {values?.Vehicle?.isRental && (
+                              );
+                            }}
+                            disabled={!values?.pendingDelivery}
+                          >
+                            See Slab Rates
+                          </button>
+                        </div>
+                        <div className="col-lg-3 mt-5">
+                          <button
+                            className="btn btn-primary btn-sm"
+                            type="button"
+                            onClick={() => {
+                              const payload = rowDto?.map((e) => e?.deliveryId);
+                              getItemListForChallan(
+                                accId,
+                                buId,
+                                setPreviewItems,
+                                payload,
+                                setDisabled,
+                                () => {
+                                  setOpen(true);
+                                }
+                              );
+                            }}
+                            disabled={!rowDto?.length}
+                          >
+                            Preview
+                          </button>
+                        </div>
                         <div className="col-lg-3">
-                          <label> Vehicle Supplier Name</label>
+                          <label> Truck Traller Loading Supplier</label>
                           <SearchAsyncSelect
-                            selectedValue={values.supplierName}
+                            selectedValue={values.truckTrallerSupplier}
                             handleChange={(valueOption) => {
-                              setFieldValue("supplierName", valueOption);
+                              setFieldValue(
+                                "truckTrallerSupplier",
+                                valueOption
+                              );
                             }}
                             loadOptions={(v) => {
-                              if (v.length < 3) return [];
+                              // if (v.length < 3) return [];
                               return axios
                                 .get(
                                   `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${0}`
@@ -928,325 +936,362 @@ export default function _Form({
                           />
                           <FormikError
                             errors={errors}
-                            name="supplierName"
+                            name="truckTrallerSupplier"
                             touched={touched}
                           />
                         </div>
-                      )}
-                      {values?.isLaborImpart?.value && (
-                        <div className="col-lg-3">
-                          <label>Labor/Handling Supplier Name</label>
-                          <SearchAsyncSelect
-                            selectedValue={values.laborSupplierName}
-                            handleChange={(valueOption) => {
-                              setFieldValue("laborSupplierName", valueOption);
-                            }}
-                            loadOptions={(v) => {
-                              if (v.length < 3) return [];
-                              return axios
-                                .get(
-                                  `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${0}`
-                                )
-                                .then((res) => {
-                                  const updateList = res?.data.map((item) => ({
-                                    ...item,
-                                  }));
-                                  return updateList;
-                                });
-                            }}
-                            // isDisabled={isEdit}
-                          />
-                          <FormikError
-                            errors={errors}
-                            name="laborSupplierName"
-                            touched={touched}
-                          />
-                        </div>
-                      )}
+                        {values?.Vehicle?.isRental && (
+                          <div className="col-lg-3">
+                            <label> Vehicle Supplier Name</label>
+                            <SearchAsyncSelect
+                              selectedValue={values.supplierName}
+                              handleChange={(valueOption) => {
+                                setFieldValue("supplierName", valueOption);
+                              }}
+                              loadOptions={(v) => {
+                                if (v.length < 3) return [];
+                                return axios
+                                  .get(
+                                    `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${0}`
+                                  )
+                                  .then((res) => {
+                                    const updateList = res?.data.map(
+                                      (item) => ({
+                                        ...item,
+                                      })
+                                    );
+                                    return updateList;
+                                  });
+                              }}
+                            />
+                            <FormikError
+                              errors={errors}
+                              name="supplierName"
+                              touched={touched}
+                            />
+                          </div>
+                        )}
+                        {values?.isLaborImpart?.value && (
+                          <div className="col-lg-3">
+                            <label>Labor/Handling Supplier Name</label>
+                            <SearchAsyncSelect
+                              selectedValue={values.laborSupplierName}
+                              handleChange={(valueOption) => {
+                                setFieldValue("laborSupplierName", valueOption);
+                              }}
+                              loadOptions={(v) => {
+                                if (v.length < 3) return [];
+                                return axios
+                                  .get(
+                                    `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${0}`
+                                  )
+                                  .then((res) => {
+                                    const updateList = res?.data.map(
+                                      (item) => ({
+                                        ...item,
+                                      })
+                                    );
+                                    return updateList;
+                                  });
+                              }}
+                              // isDisabled={isEdit}
+                            />
+                            <FormikError
+                              errors={errors}
+                              name="laborSupplierName"
+                              touched={touched}
+                            />
+                          </div>
+                        )}
 
-                      {/* <div className="col-lg-12"></div> */}
-                      <div
-                        className={
-                          values?.Vehicle?.isRental
-                            ? `col-lg-9 ${
-                                windowSize?.width > 1000
-                                  ? "d-flex justify-content-between align-items-center"
-                                  : ""
-                              }`
-                            : `col-lg-11 ${
-                                windowSize?.width > 1000
-                                  ? "d-flex justify-content-between align-items-center"
-                                  : ""
-                              }`
-                        }
-                        style={{ marginTop: "10px" }}
-                      >
+                        {/* <div className="col-lg-12"></div> */}
                         <div
-                          className={` ${windowSize?.width < 600 &&
-                            "col-lg-6 mr-2"}`}
+                          className={
+                            values?.Vehicle?.isRental
+                              ? `col-lg-9 ${
+                                  windowSize?.width > 1000
+                                    ? "d-flex justify-content-between align-items-center"
+                                    : ""
+                                }`
+                              : `col-lg-11 ${
+                                  windowSize?.width > 1000
+                                    ? "d-flex justify-content-between align-items-center"
+                                    : ""
+                                }`
+                          }
+                          style={{ marginTop: "10px" }}
                         >
-                          <b className="mr-2 ">
-                            Vehicle Capacity : &nbsp;
-                            {rowDto?.length
-                              ? values?.unloadVehicleWeight ||
-                                vehicleSingleData?.weight
-                              : 0}
-                            &nbsp; Ton,
-                          </b>
-                          <b>
-                            {/* Volume Capacity : */}
-                            {rowDto?.length
-                              ? values.itemTotalNetWeight ||
-                                // deliveryItemVolumeInfo.netWeight
-                                vehicleSingleData?.volume
-                              : 0}
-                            &nbsp; CFT
-                          </b>
-                        </div>
-
-                        <div
-                          className={` ${windowSize?.width < 600 &&
-                            "col-lg-6 mr-2"}`}
-                        >
-                          <b className="mr-2">
-                            Product Actual : &nbsp;
-                            {rowDto?.length
-                              ? values?.unloadVehicleVolume ||
-                                // vehicleSingleData?.volume
-                                rowDto
-                                  .map((itm) => itm?.itemTotalGrowssWeight)
-                                  .reduce((sum, curr) => {
-                                    return (sum += curr);
-                                  }, 0)
-                              : 0}
-                            &nbsp; Ton,
-                          </b>
-                          <b>
-                            {rowDto?.length &&
-                              rowDto
-                                .map((itm) => itm?.itemTotalVolume)
-                                .reduce((sum, curr) => {
-                                  return (sum += curr);
-                                }, 0)}
-                            &nbsp; CFT
-                          </b>
-                        </div>
-
-                        <div
-                          className={` ${windowSize?.width < 600 &&
-                            "col-lg-6 mr-2"}`}
-                        >
-                          <b>Total Number Of Challan : {rowDto?.length}</b>{" "}
-                        </div>
-                        <div
-                          className={` ${windowSize?.width < 600 &&
-                            "col-lg-6 mr-2"}`}
-                        >
-                          <b>
-                            Total Quantity :{" "}
-                            {rowDto?.reduce((acc, cur) => {
-                              return acc + Number(cur?.quantity);
-                            }, 0)}
-                          </b>{" "}
-                        </div>
-                        {buId === 4 && (
                           <div
                             className={` ${windowSize?.width < 600 &&
                               "col-lg-6 mr-2"}`}
                           >
-                            <b>Request Vehicle No : {vehicleNo}</b>{" "}
+                            <b className="mr-2 ">
+                              Vehicle Capacity : &nbsp;
+                              {rowDto?.length
+                                ? values?.unloadVehicleWeight ||
+                                  vehicleSingleData?.weight
+                                : 0}
+                              &nbsp; Ton,
+                            </b>
+                            <b>
+                              {/* Volume Capacity : */}
+                              {rowDto?.length
+                                ? values.itemTotalNetWeight ||
+                                  // deliveryItemVolumeInfo.netWeight
+                                  vehicleSingleData?.volume
+                                : 0}
+                              &nbsp; CFT
+                            </b>
+                          </div>
+
+                          <div
+                            className={` ${windowSize?.width < 600 &&
+                              "col-lg-6 mr-2"}`}
+                          >
+                            <b className="mr-2">
+                              Product Actual : &nbsp;
+                              {rowDto?.length
+                                ? values?.unloadVehicleVolume ||
+                                  // vehicleSingleData?.volume
+                                  rowDto
+                                    .map((itm) => itm?.itemTotalGrowssWeight)
+                                    .reduce((sum, curr) => {
+                                      return (sum += curr);
+                                    }, 0)
+                                : 0}
+                              &nbsp; Ton,
+                            </b>
+                            <b>
+                              {rowDto?.length &&
+                                rowDto
+                                  .map((itm) => itm?.itemTotalVolume)
+                                  .reduce((sum, curr) => {
+                                    return (sum += curr);
+                                  }, 0)}
+                              &nbsp; CFT
+                            </b>
+                          </div>
+
+                          <div
+                            className={` ${windowSize?.width < 600 &&
+                              "col-lg-6 mr-2"}`}
+                          >
+                            <b>Total Number Of Challan : {rowDto?.length}</b>{" "}
+                          </div>
+                          <div
+                            className={` ${windowSize?.width < 600 &&
+                              "col-lg-6 mr-2"}`}
+                          >
+                            <b>
+                              Total Quantity :{" "}
+                              {rowDto?.reduce((acc, cur) => {
+                                return acc + Number(cur?.quantity);
+                              }, 0)}
+                            </b>{" "}
+                          </div>
+                          {buId === 4 && (
+                            <div
+                              className={` ${windowSize?.width < 600 &&
+                                "col-lg-6 mr-2"}`}
+                            >
+                              <b>Request Vehicle No : {vehicleNo}</b>{" "}
+                            </div>
+                          )}
+                        </div>
+
+                        {!isEdit && (
+                          <div className="col d-flex justify-content-end align-items-center">
+                            <button
+                              type="button"
+                              className="btn btn-primary mt-2"
+                              onClick={() =>
+                                addBtnHandler(values, setFieldValue)
+                              }
+                              disabled={
+                                !values.pendingDelivery ||
+                                !values.shipPoint ||
+                                !values.loadingPoint
+                              }
+                            >
+                              Add
+                            </button>
                           </div>
                         )}
-                      </div>
-
-                      {!isEdit && (
-                        <div className="col d-flex justify-content-end align-items-center">
-                          <button
-                            type="button"
-                            className="btn btn-primary mt-2"
-                            onClick={() => addBtnHandler(values, setFieldValue)}
-                            disabled={
-                              !values.pendingDelivery ||
-                              !values.shipPoint ||
-                              !values.loadingPoint
-                            }
-                          >
-                            Add
-                          </button>
+                        <div className="col-12 mt-3">
+                          <p>
+                            <strong>Narration: </strong>{" "}
+                            <mark style={{ backgroundColor: "yellow" }}>
+                              {transportStatus[0]?.label}
+                            </mark>{" "}
+                            {[171, 224].includes(buId) && (
+                              <>
+                                , <strong> Unload by Company: </strong>{" "}
+                                {transportStatus[0]?.labourstatus
+                                  ? "Yes"
+                                  : "No"}{" "}
+                              </>
+                            )}
+                          </p>
                         </div>
-                      )}
-                      <div className="col-12 mt-3">
-                        <p>
-                          <strong>Narration: </strong>{" "}
-                          <mark style={{ backgroundColor: "yellow" }}>
-                            {transportStatus[0]?.label}
-                          </mark>{" "}
-                          {[171, 224].includes(buId) && (
-                            <>
-                              , <strong> Unload by Company: </strong>{" "}
-                              {transportStatus[0]?.labourstatus ? "Yes" : "No"}{" "}
-                            </>
-                          )}
-                        </p>
-                      </div>
-                    </>
+                      </>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <hr className="m-1"></hr>
+                <hr className="m-1"></hr>
 
-              <div className="row cash_journal bank-journal bank-journal-custom">
-                <div className="col-lg-12 pr-0 pl-0">
-                  {rowDto?.length >= 0 && (
-                    <div className="table-responsive">
-                      <table className="table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table">
-                        <thead>
-                          <tr>
-                            <th style={{ width: "35px" }}>SL</th>
-                            <th>Delivery Id</th>
-                            <th>Delivery No</th>
-                            {buId === 175 ? <th>Pump</th> : null}
-                            <th>Ship To Party Name</th>
-                            <th>Ship To Address</th>
-                            <th>Transport Zone</th>
-                            <th>Loading Point</th>
-                            <th>Quantity</th>
-                            <th>Net (KG)</th>
-                            <th>Vol (CFT)</th>
-                            {!isEdit && <th>Action</th>}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowDto.map((itm, index) => (
-                            <tr key={index}>
-                              <td className="text-center">{++index}</td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {itm.deliveryId}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {itm.deliveryCode}
-                                </div>
-                              </td>
-                              {buId === 175 ? (
+                <div className="row cash_journal bank-journal bank-journal-custom">
+                  <div className="col-lg-12 pr-0 pl-0">
+                    {rowDto?.length >= 0 && (
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table">
+                          <thead>
+                            <tr>
+                              <th style={{ width: "35px" }}>SL</th>
+                              <th>Delivery Id</th>
+                              <th>Delivery No</th>
+                              {buId === 175 ? <th>Pump</th> : null}
+                              <th>Ship To Party Name</th>
+                              <th>Ship To Address</th>
+                              <th>Transport Zone</th>
+                              <th>Loading Point</th>
+                              <th>Quantity</th>
+                              <th>Net (KG)</th>
+                              <th>Vol (CFT)</th>
+                              {!isEdit && <th>Action</th>}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rowDto.map((itm, index) => (
+                              <tr key={index}>
+                                <td className="text-center">{++index}</td>
                                 <td>
                                   <div className="text-right pr-2">
-                                    {itm?.pumpName || values?.pump?.label}
+                                    {itm.deliveryId}
                                   </div>
                                 </td>
-                              ) : null}
-
-                              <td>
-                                <div className="pl-2">
-                                  {itm.shipToPartnerName}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {itm.shipToPartnerAddress}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {itm.transportZoneName}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {itm.loadingPointName}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {itm?.quantity}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {itm?.itemTotalNetWeight}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {itm?.itemTotalVolume}
-                                </div>
-                              </td>
-                              {!isEdit && (
-                                <td className="text-center">
-                                  <i
-                                    className="fa fa-trash"
-                                    onClick={() =>
-                                      remover(--index, setFieldValue)
-                                    }
-                                  ></i>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {itm.deliveryCode}
+                                  </div>
                                 </td>
-                              )}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
+                                {buId === 175 ? (
+                                  <td>
+                                    <div className="text-right pr-2">
+                                      {itm?.pumpName || values?.pump?.label}
+                                    </div>
+                                  </td>
+                                ) : null}
+
+                                <td>
+                                  <div className="pl-2">
+                                    {itm.shipToPartnerName}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm.shipToPartnerAddress}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm.transportZoneName}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm.loadingPointName}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {itm?.quantity}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {itm?.itemTotalNetWeight}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {itm?.itemTotalVolume}
+                                  </div>
+                                </td>
+                                {!isEdit && (
+                                  <td className="text-center">
+                                    <i
+                                      className="fa fa-trash"
+                                      onClick={() =>
+                                        remover(--index, setFieldValue)
+                                      }
+                                    ></i>
+                                  </td>
+                                )}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <IViewModal
-                modelSize="md"
-                title="Challan Items Preview"
-                show={open}
-                onHide={() => setOpen(false)}
-              >
-                <ChallanItemsPreview rowData={previewItems} />
-              </IViewModal>
-              <IViewModal
-                title="Zone Cost Rates"
-                show={show}
-                onHide={() => setShow(false)}
-              >
-                <ShipmentDetailsInfo rowDto={shipmentDetailInfo?.data} />
-              </IViewModal>
-              {QRCodeScannerModal && (
-                <>
-                  <IViewModal
-                    show={QRCodeScannerModal}
-                    onHide={() => {
-                      setQRCodeScannerModal(false);
-                    }}
-                  >
-                    <QRCodeScanner
-                      QrCodeScannerCB={(result) => {
-                        setFieldValue("strCardNo", result);
+                <IViewModal
+                  modelSize="md"
+                  title="Challan Items Preview"
+                  show={open}
+                  onHide={() => setOpen(false)}
+                >
+                  <ChallanItemsPreview rowData={previewItems} />
+                </IViewModal>
+                <IViewModal
+                  title="Zone Cost Rates"
+                  show={show}
+                  onHide={() => setShow(false)}
+                >
+                  <ShipmentDetailsInfo rowDto={shipmentDetailInfo?.data} />
+                </IViewModal>
+                {QRCodeScannerModal && (
+                  <>
+                    <IViewModal
+                      show={QRCodeScannerModal}
+                      onHide={() => {
                         setQRCodeScannerModal(false);
-                        qurScanHandler({
-                          setFieldValue,
-                          values: {
-                            ...values,
-                            strCardNo: result,
-                          },
-                        });
                       }}
-                    />
-                  </IViewModal>
-                </>
-              )}
-              <button
-                // type="submit"
-                type="button"
-                style={{ display: "none" }}
-                ref={btnRef}
-                // onSubmit={() => handleSubmit()}
-                onClick={() => handleSubmit()}
-              ></button>
-              <button
-                type="reset"
-                style={{ display: "none" }}
-                ref={resetBtnRef}
-                onSubmit={() => resetForm(initData)}
-              ></button>
-            </Form>
-          </>
-        )}
+                    >
+                      <QRCodeScanner
+                        QrCodeScannerCB={(result) => {
+                          setFieldValue("strCardNo", result);
+                          setQRCodeScannerModal(false);
+                          qurScanHandler({
+                            setFieldValue,
+                            values: {
+                              ...values,
+                              strCardNo: result,
+                            },
+                          });
+                        }}
+                      />
+                    </IViewModal>
+                  </>
+                )}
+                <button
+                  // type="submit"
+                  type="button"
+                  style={{ display: "none" }}
+                  ref={btnRef}
+                  // onSubmit={() => handleSubmit()}
+                  onClick={() => handleSubmit()}
+                ></button>
+                <button
+                  type="reset"
+                  style={{ display: "none" }}
+                  ref={resetBtnRef}
+                  onSubmit={() => resetForm(initData)}
+                ></button>
+              </Form>
+            </>
+          );
+        }}
       </Formik>
     </>
   );
