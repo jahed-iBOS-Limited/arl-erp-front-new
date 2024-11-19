@@ -39,7 +39,10 @@ const ConditionallyRenderPdf = ({ singleItem, selectedBusinessUnit }) => {
       />
     );
   }
-  if (singleItem?.intBankId === EBLBankId) {
+  if (
+    singleItem?.intBankId === EBLBankId &&
+    singleItem?.disbursementPurposeName === "Bill Payment"
+  ) {
     return (
       <EBLPdf
         singleItem={singleItem}

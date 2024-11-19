@@ -54,7 +54,7 @@ const FundLimitLanding = () => {
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
   const [fundLimitData, setFundLimitData] = useState([]);
   const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
+  const [pageSize, setPageSize] = useState(100);
   const [singleItem, setSingleItem] = useState({});
   const [isModalShow, setIsModalShow] = useState(false);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -93,17 +93,25 @@ const FundLimitLanding = () => {
     () => fundLimitData?.data?.reduce((a, c) => a + c.numLimit, 0),
     [fundLimitData?.data]
   );
-  const totalUtilizedAmount = useMemo(
-    () => {
-      // console.log(fundLimitData?.data?.reduce((a, c) => a + (c?.facilityName === 'STL' && Math.sign(c?.utilizedAmount) === -1 ? 5 : c?.utilizedAmount), 0))
-      return fundLimitData?.data?.reduce((a, c) => a + (c?.facilityName === 'STL' && c?.utilizedAmount < 0 ? 0 : c?.utilizedAmount), 0)
-    },
-    [fundLimitData?.data]
-  );
+  const totalUtilizedAmount = useMemo(() => {
+    // console.log(fundLimitData?.data?.reduce((a, c) => a + (c?.facilityName === 'STL' && Math.sign(c?.utilizedAmount) === -1 ? 5 : c?.utilizedAmount), 0))
+    return fundLimitData?.data?.reduce(
+      (a, c) =>
+        a +
+        (c?.facilityName === "STL" && c?.utilizedAmount < 0
+          ? 0
+          : c?.utilizedAmount),
+      0
+    );
+  }, [fundLimitData?.data]);
   const totalBalance = useMemo(
     () =>
       fundLimitData?.data?.reduce(
-        (a, c) => a + ((c?.facilityName === 'STL' && c?.utilizedAmount < 0 ? c?.numLimit : c?.numLimit - c?.utilizedAmount)),
+        (a, c) =>
+          a +
+          (c?.facilityName === "STL" && c?.utilizedAmount < 0
+            ? c?.numLimit
+            : c?.numLimit - c?.utilizedAmount),
         0
       ),
     [fundLimitData?.data]
@@ -119,7 +127,7 @@ const FundLimitLanding = () => {
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, (code) => { });
+          saveHandler(values, (code) => {});
         }}
       >
         {({
@@ -317,7 +325,9 @@ const FundLimitLanding = () => {
                                 return (
                                   <tr key={index}>
                                     <td className="text-center">{index + 1}</td>
-                                    <td className="">{item?.businessUnitName}</td>
+                                    <td className="">
+                                      {item?.businessUnitName}
+                                    </td>
                                     <td className="">{item?.bankName}</td>
                                     <td className="">{item?.facilityName}</td>
 
@@ -325,12 +335,19 @@ const FundLimitLanding = () => {
                                       {_formatMoney(item?.numLimit)}
                                     </td>
                                     <td className="text-right">
-                                      {(item?.facilityName === 'STL' && item?.utilizedAmount < 0) ? _formatMoney(0) : _formatMoney(item?.utilizedAmount)}
+                                      {item?.facilityName === "STL" &&
+                                      item?.utilizedAmount < 0
+                                        ? _formatMoney(0)
+                                        : _formatMoney(item?.utilizedAmount)}
                                     </td>
                                     <td className="text-right">
-                                      {
-                                        item?.facilityName === 'STL' && item?.utilizedAmount < 0 ? _formatMoney(item?.numLimit) : _formatMoney(item?.numLimit - item?.utilizedAmount)
-                                      }
+                                      {item?.facilityName === "STL" &&
+                                      item?.utilizedAmount < 0
+                                        ? _formatMoney(item?.numLimit)
+                                        : _formatMoney(
+                                            item?.numLimit -
+                                              item?.utilizedAmount
+                                          )}
                                     </td>
                                     <td className="">{item?.tenureDays}</td>
                                     <td className="">
@@ -382,42 +399,42 @@ const FundLimitLanding = () => {
                                         </span>
                                         {(!item?.limitExpiryDate ||
                                           item?.isDelete) && (
-                                            <>
-                                              <span
-                                                onClick={() => {
-                                                  let confirmObject = {
-                                                    title: "Are you sure?",
-                                                    message: `Are you sure you want to delete this complain?`,
-                                                    yesAlertFunc: () => {
-                                                      DeleteFundManagementApi(
-                                                        item?.bankLoanLimitId,
-                                                        setLoading,
-                                                        () => {
-                                                          getFundLimitLandingData(
-                                                            profileData?.accountId,
-                                                            values?.businessUnit
-                                                              ?.value,
-                                                            pageNo,
-                                                            pageSize,
-                                                            setFundLimitData,
-                                                            setLoading
-                                                          );
-                                                        }
-                                                      );
-                                                    },
-                                                    noAlertFunc: () => { },
-                                                  };
-                                                  IConfirmModal(confirmObject);
-                                                }}
-                                              >
-                                                <IDelete />
-                                              </span>
-                                            </>
-                                          )}
+                                          <>
+                                            <span
+                                              onClick={() => {
+                                                let confirmObject = {
+                                                  title: "Are you sure?",
+                                                  message: `Are you sure you want to delete this complain?`,
+                                                  yesAlertFunc: () => {
+                                                    DeleteFundManagementApi(
+                                                      item?.bankLoanLimitId,
+                                                      setLoading,
+                                                      () => {
+                                                        getFundLimitLandingData(
+                                                          profileData?.accountId,
+                                                          values?.businessUnit
+                                                            ?.value,
+                                                          pageNo,
+                                                          pageSize,
+                                                          setFundLimitData,
+                                                          setLoading
+                                                        );
+                                                      }
+                                                    );
+                                                  },
+                                                  noAlertFunc: () => {},
+                                                };
+                                                IConfirmModal(confirmObject);
+                                              }}
+                                            >
+                                              <IDelete />
+                                            </span>
+                                          </>
+                                        )}
                                       </div>
                                     </td>
                                   </tr>
-                                )
+                                );
                               })}
 
                               <tr>
