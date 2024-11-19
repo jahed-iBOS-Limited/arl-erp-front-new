@@ -38,6 +38,8 @@ import "./style.css";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import moment from "moment";
 import InputField from "../../../../../_helper/_inputField";
+import ReactHtmlTableToExcel from "react-html-table-to-excel";
+import { generateJsonToExcel } from "../../../../../_helper/excel/jsonToExcel";
 
 const LoanRegisterLanding = () => {
   const history = useHistory();
@@ -48,6 +50,7 @@ const LoanRegisterLanding = () => {
     loanClass: "",
     businessUnit: { value: 0, label: "All" },
     applicationType: { label: "ALL", value: 0 },
+    dateFilter: "",
     fromDate: "",
     toDate: "",
   };
@@ -146,7 +149,7 @@ const LoanRegisterLanding = () => {
   useEffect(() => {
     getLoanRegisterLanding(
       profileData?.accountId,
-      0,
+      buId == 136 ? 0 : buId,
       0,
       2,
       pageNo,
@@ -266,6 +269,90 @@ const LoanRegisterLanding = () => {
     };
     IConfirmModal(confirmObject);
   };
+  const generateExcel = (row) => {
+    const header = [
+      {
+        text: "SL",
+        textFormat: "number",
+        alignment: "center:middle",
+        key: "sl",
+      },
+      {
+        text: "Shippoint Name",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "shippointName",
+      },
+      {
+        text: "Transport Zone",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "transportZoneName",
+      },
+      {
+        text: "Transport Rate",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "transferRate",
+      },
+      {
+        text: "Three Tone Rate",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "num3tonRate",
+      },
+      {
+        text: "Five Tone Rate",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "num5tonRate",
+      },
+      {
+        text: "Twenty Tone Rate",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "num7tonRate",
+      },
+      {
+        text: "Twenty Tone Rate",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "num20tonRate",
+      },
+      {
+        text: "Handling Cost",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "handlingCost",
+      },
+      {
+        text: "Dropping Charge",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "labourCost",
+      },
+      {
+        text: "Dropping Charge less 6ton",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "labourCostLess6",
+      },
+      {
+        text: "Subsidy Rate",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "subsidyCostRate",
+      },
+    ];
+    const _data = row.map((item, index) => {
+      return {
+        ...item,
+        sl: index + 1,
+        transferRate: item?.transferRate || 0,
+      };
+    });
+    generateJsonToExcel(header, _data, "transportZoneRate");
+  };
   return (
     <>
       {(loading || closeLoanRegisterLoader || loadingHistory) && <Loading />}
@@ -282,6 +369,16 @@ const LoanRegisterLanding = () => {
               {true && <ModalProgressBar />}
               <CardHeader title={"Loan Register"}>
                 <CardHeaderToolbar>
+                  {loanRegisterData?.data?.length ? (
+                    <ReactHtmlTableToExcel
+                      id="test-table-xls-button-att-reports"
+                      className="btn btn-primary m-0 mx-2 py-2 px-2"
+                      table="table-to-xlsx"
+                      filename="Loan Register Report"
+                      sheet="Loan Register Report"
+                      buttonText="Export Excel"
+                    />
+                  ) : null}
                   <button
                     className="btn btn-primary ml-2"
                     type="submit"
@@ -386,25 +483,48 @@ const LoanRegisterLanding = () => {
                       />
                     </div>
                     <div className="col-lg-2">
-                      <label>Opening Date</label>
+                      <NewSelect
+                        name="dateFilter"
+                        options={[
+                          { value: "Opening Date", label: "Opening Date" },
+                          { value: "Maturity Date", label: "Maturity Date" },
+                        ]}
+                        value={values?.dateFilter}
+                        onChange={(valueOption) => {
+                          if (valueOption) {
+                            setFieldValue("dateFilter", valueOption);
+                          } else {
+                            setFieldValue("dateFilter", "");
+                          }
+                        }}
+                        errors={errors}
+                        touched={touched}
+                        label="Date Filter"
+                        placeholder="Date Filter"
+                      />
+                    </div>
+                    <div className="col-lg-2">
+                      <label>From Date</label>
                       <div className="d-flex">
                         <InputField
                           value={values?.fromDate}
                           name="fromDate"
-                          placeholder="Opening date"
+                          placeholder="From date"
                           type="date"
+                          disabled={!values?.dateFilter?.value}
                           style={{ width: "100%" }}
                         />
                       </div>
                     </div>
                     <div className="col-lg-2">
-                      <label>Maturity Date</label>
+                      <label>To Date</label>
                       <div className="d-flex">
                         <InputField
                           value={values?.toDate}
                           name="toDate"
-                          placeholder="Maturity date"
+                          placeholder="To date"
                           type="date"
+                          disabled={!values?.dateFilter?.value}
                           style={{ width: "100%" }}
                         />
                       </div>
@@ -427,7 +547,8 @@ const LoanRegisterLanding = () => {
                             setLoading,
                             values?.applicationType?.value || 0,
                             values?.fromDate,
-                            values?.toDate
+                            values?.toDate,
+                            values?.dateFilter?.value
                           );
                         }}
                       >
@@ -459,7 +580,10 @@ const LoanRegisterLanding = () => {
                         style={{ height: "700px" }}
                       >
                         {/* <div className="table-responsive"> */}
-                        <table className="table table-striped table-bordered global-table table-header-sticky">
+                        <table
+                          id="table-to-xlsx"
+                          className="table table-striped table-bordered global-table table-header-sticky"
+                        >
                           <thead className="bg-secondary">
                             <tr>
                               <th>SL</th>

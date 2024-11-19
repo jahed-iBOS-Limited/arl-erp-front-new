@@ -148,7 +148,7 @@ const AutoJournalLog = () => {
                         <InputField
                           value={values?.fromDate}
                           name="fromDate"
-                          placeholder="Opening date"
+                          placeholder="From date"
                           type="date"
                           style={{ width: "100%" }}
                         />
@@ -160,7 +160,7 @@ const AutoJournalLog = () => {
                         <InputField
                           value={values?.toDate}
                           name="toDate"
-                          placeholder="Maturity date"
+                          placeholder="To date"
                           type="date"
                           style={{ width: "100%" }}
                         />
