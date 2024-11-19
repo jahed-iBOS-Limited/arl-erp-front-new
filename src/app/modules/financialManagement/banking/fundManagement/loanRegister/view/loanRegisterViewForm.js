@@ -170,7 +170,7 @@ export default function LoanRegisterViewForm({
                     value={values?.facility}
                     onChange={(valueOption) => {
                       setFieldValue("facility", valueOption);
-                      setFieldValue("remarks", valueOption?.remarks);
+                      setFieldValue("facilityRemarks", valueOption?.remarks);
                       setFieldValue("interestRate", valueOption?.iterestRate);
                       setFieldValue("termDays", valueOption?.tenorDays || 0);
                     }}
@@ -289,18 +289,6 @@ export default function LoanRegisterViewForm({
                 {!(renewId || isEdit) && (
                   <>
                     <div className="col-lg-2 ">
-                      <label>Facility Info</label>
-                      <InputField
-                        value={values?.facilityRemarks}
-                        name="facilityRemarks"
-                        placeholder="Facility Info"
-                        onChange={(e) => {
-                          setFieldValue("facilityRemarks", e.target.value);
-                        }}
-                        type="text"
-                      />
-                    </div>
-                    <div className="col-lg-2 ">
                       <label>Loan Remarks</label>
                       <InputField
                         value={values?.remarks}
@@ -309,6 +297,19 @@ export default function LoanRegisterViewForm({
                         onChange={(e) => {
                           setFieldValue("remarks", e.target.value);
                         }}
+                        type="text"
+                      />
+                    </div>
+                    <div className="col-lg-2 ">
+                      <label>Facility Info</label>
+                      <InputField
+                        value={values?.facilityRemarks}
+                        name="facilityRemarks"
+                        placeholder="Facility Info"
+                        onChange={(e) => {
+                          setFieldValue("facilityRemarks", e.target.value);
+                        }}
+                        disabled
                         type="text"
                       />
                     </div>
