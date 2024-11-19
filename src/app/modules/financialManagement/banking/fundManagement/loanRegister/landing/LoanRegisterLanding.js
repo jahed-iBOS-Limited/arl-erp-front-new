@@ -66,7 +66,6 @@ const LoanRegisterLanding = () => {
   // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   const [loanRegisterData, setLoanRegisterData] = useState([]);
-  const [loanRegisterExcelData, setLoanRegisterExcelData] = useState([]);
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
 
   const [bankDDL, setBankDDL] = useState([]);
@@ -268,7 +267,7 @@ const LoanRegisterLanding = () => {
     };
     IConfirmModal(confirmObject);
   };
-  const generateExcel = (rows) => {
+  const generateExcel = (values) => {
     const header = [
       {
         text: "SL",
@@ -432,36 +431,55 @@ const LoanRegisterLanding = () => {
         width: 200,
       },
     ];
-
-    const _data = rows.map((item, index) => ({
-      sl: index + 1,
-      status: item?.isLoanApproved ? "Approved" : "Pending",
-      sbuName: item?.sbuName || "",
-      strBankName: item?.strBankName || "",
-      facilityName: item?.facilityName || "",
-      strLoanAccountName: item?.strLoanAccountName || "",
-      intTenureDays: item?.intTenureDays || 0,
-      dteStartDate: _dateFormatter(item?.dteStartDate) || "",
-      dteMaturityDate: _dateFormatter(item?.dteMaturityDate) || "",
-      principalBalance:
-        item?.numPrinciple - item?.numPaid >= 0
-          ? item?.numPrinciple - item?.numPaid
-          : 0,
-      numPrinciple: item?.numPrinciple || 0,
-      numInterestRate: item?.numInterestRate || 0,
-      disbursementPurposeName: item?.disbursementPurposeName || "",
-      loanRemarks: item?.loanRemarks || "",
-      profitCenter: "", // Adjust if applicable
-      numInterest: item?.numInterest || 0,
-      numTotalPayable: item?.numTotalPayable || 0,
-      numPaid: item?.numPaid || 0,
-      interestAmount: item?.interestAmount || 0,
-      numExciseDuty: item?.numExciseDuty || 0,
-      loanClassName: item?.loanClassName || "",
-      loanTypeName: item?.loanTypeName || "",
-      brCode: item?.brCode || "",
-    }));
-    generateJsonToExcel(header, _data, "Loan Register");
+    getLoanRegisterLanding(
+      profileData?.accountId,
+      buId == 136
+        ? values?.businessUnit?.value >= 0
+          ? values?.businessUnit?.value
+          : buId
+        : buId,
+      values?.bank?.value,
+      values?.status?.value,
+      pageNo,
+      100000, //pageSize
+      (data) => {
+        let excelData = data?.data;
+        const _data = excelData?.map((item, index) => ({
+          sl: index + 1,
+          status: item?.isLoanApproved ? "Approved" : "Pending",
+          sbuName: item?.sbuName || "",
+          strBankName: item?.strBankName || "",
+          facilityName: item?.facilityName || "",
+          strLoanAccountName: item?.strLoanAccountName || "",
+          intTenureDays: item?.intTenureDays || 0,
+          dteStartDate: _dateFormatter(item?.dteStartDate) || "",
+          dteMaturityDate: _dateFormatter(item?.dteMaturityDate) || "",
+          principalBalance:
+            item?.numPrinciple - item?.numPaid >= 0
+              ? item?.numPrinciple - item?.numPaid
+              : 0,
+          numPrinciple: item?.numPrinciple || 0,
+          numInterestRate: item?.numInterestRate || 0,
+          disbursementPurposeName: item?.disbursementPurposeName || "",
+          loanRemarks: item?.loanRemarks || "",
+          profitCenter: "", // Adjust if applicable
+          numInterest: item?.numInterest || 0,
+          numTotalPayable: item?.numTotalPayable || 0,
+          numPaid: item?.numPaid || 0,
+          interestAmount: item?.interestAmount || 0,
+          numExciseDuty: item?.numExciseDuty || 0,
+          loanClassName: item?.loanClassName || "",
+          loanTypeName: item?.loanTypeName || "",
+          brCode: item?.brCode || "",
+        }));
+        generateJsonToExcel(header, _data, "Loan Register");
+      },
+      setLoading,
+      values?.applicationType?.value || 0,
+      values?.fromDate,
+      values?.toDate,
+      values?.dateFilter?.value
+    );
   };
   return (
     <>
@@ -483,7 +501,7 @@ const LoanRegisterLanding = () => {
                     <button
                       className="btn btn-primary ml-2"
                       type="button"
-                      onClick={(e) => generateExcel(loanRegisterData?.data)}
+                      onClick={(e) => generateExcel(values)}
                       style={{ padding: "6px 5px" }}
                       disabled={loanRegisterData?.data?.length === 0}
                     >
