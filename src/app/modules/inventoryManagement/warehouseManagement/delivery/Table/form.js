@@ -234,23 +234,20 @@ export default function HeaderFormDedivery() {
                         touched={touched}
                       />
                     </div>
-                    {(selectedBusinessUnit?.value === 144 ||
-                      selectedBusinessUnit?.value === 221) && (
-                      <div className="col-lg-2">
-                        <NewSelect
-                          name="plant"
-                          options={plantDDL || []}
-                          value={values?.plant}
-                          label="Plant"
-                          onChange={(valueOption) => {
-                            setFieldValue("plant", valueOption);
-                          }}
-                          placeholder="Plant"
-                          errors={errors}
-                          touched={touched}
-                        />
-                      </div>
-                    )}
+                    <div className="col-lg-2">
+                      <NewSelect
+                        name="plant"
+                        options={plantDDL || []}
+                        value={values?.plant}
+                        label="Plant"
+                        onChange={(valueOption) => {
+                          setFieldValue("plant", valueOption);
+                        }}
+                        placeholder="Plant"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
                     <div className="col-lg-2">
                       <NewSelect
                         name="distributionChannel"
