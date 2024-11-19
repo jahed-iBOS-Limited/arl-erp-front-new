@@ -133,7 +133,7 @@ export const createLoanRegister = async ({
         };
 
         // Send the POST request with the request body
-        const res = await axios.post(`/fino/FundManagement/FundLoanAccountCreate`, requestBody);
+        const res = await axios.post(`/fino/FundManagement/LTRFundLoanAccountCreate`, requestBody);
 
         if (res.status === 200) {
             toast.success(res?.message || "Submitted successfully");
