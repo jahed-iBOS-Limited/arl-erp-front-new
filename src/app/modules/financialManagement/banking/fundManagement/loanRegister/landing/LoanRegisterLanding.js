@@ -38,6 +38,7 @@ import "./style.css";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import moment from "moment";
 import InputField from "../../../../../_helper/_inputField";
+import { generateJsonToExcel } from "../../../../../_helper/excel/jsonToExcel";
 
 const LoanRegisterLanding = () => {
   const history = useHistory();
@@ -48,6 +49,7 @@ const LoanRegisterLanding = () => {
     loanClass: "",
     businessUnit: { value: 0, label: "All" },
     applicationType: { label: "ALL", value: 0 },
+    dateFilter: "",
     fromDate: "",
     toDate: "",
   };
@@ -146,7 +148,7 @@ const LoanRegisterLanding = () => {
   useEffect(() => {
     getLoanRegisterLanding(
       profileData?.accountId,
-      0,
+      buId == 136 ? 0 : buId,
       0,
       2,
       pageNo,
@@ -222,7 +224,6 @@ const LoanRegisterLanding = () => {
   };
 
   const confirm = (item, values) => {
-    console.log({ item });
     let confirmObject = {
       title: "Are you sure?",
       message: "You want to confirm this loan?",
@@ -266,6 +267,220 @@ const LoanRegisterLanding = () => {
     };
     IConfirmModal(confirmObject);
   };
+  const generateExcel = (values) => {
+    const header = [
+      {
+        text: "SL",
+        textFormat: "number",
+        alignment: "center:middle",
+        key: "sl",
+        width: 50,
+      },
+      {
+        text: "Status",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "status",
+        width: 120,
+      },
+      {
+        text: "SBU",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "sbuName",
+        width: 250,
+      },
+      {
+        text: "Bank",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "strBankName",
+        width: 250,
+      },
+      {
+        text: "Facility",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "facilityName",
+        width: 180,
+      },
+      {
+        text: "Loan A/c no.",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "strLoanAccountName",
+        width: 180,
+      },
+      {
+        text: "Tenor",
+        textFormat: "number",
+        alignment: "center:middle",
+        key: "intTenureDays",
+        width: 100,
+      },
+      {
+        text: "Open Date",
+        textFormat: "date",
+        alignment: "center:middle",
+        key: "dteStartDate",
+        width: 150,
+      },
+      {
+        text: "Maturity Date",
+        textFormat: "date",
+        alignment: "center:middle",
+        key: "dteMaturityDate",
+        width: 150,
+      },
+      {
+        text: "Principal Balance",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "principalBalance",
+        width: 180,
+      },
+      {
+        text: "Disbursed Amount",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "numPrinciple",
+        width: 180,
+      },
+      {
+        text: "Int. Rate (p.a.)",
+        textFormat: "percentage",
+        alignment: "center:middle",
+        key: "numInterestRate",
+        width: 140,
+      },
+      {
+        text: "Disbursement Purpose",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "disbursementPurposeName",
+        width: 200,
+      },
+      {
+        text: "Remarks",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "loanRemarks",
+        width: 250,
+      },
+      {
+        text: "Profit Center",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "profitCenter",
+        width: 120,
+      },
+      {
+        text: "Interest Amount",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "numInterest",
+        width: 150,
+      },
+      {
+        text: "Total Payable",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "numTotalPayable",
+        width: 150,
+      },
+      {
+        text: "Paid Principal",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "numPaid",
+        width: 150,
+      },
+      {
+        text: "Paid Interest",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "interestAmount",
+        width: 150,
+      },
+      {
+        text: "Paid Excise Duty",
+        textFormat: "money",
+        alignment: "center:middle",
+        key: "numExciseDuty",
+        width: 150,
+      },
+      {
+        text: "Loan Class",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "loanClassName",
+        width: 120,
+      },
+      {
+        text: "Loan Type",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "loanTypeName",
+        width: 120,
+      },
+      {
+        text: "BR Number",
+        textFormat: "text",
+        alignment: "center:middle",
+        key: "brCode",
+        width: 200,
+      },
+    ];
+    getLoanRegisterLanding(
+      profileData?.accountId,
+      buId == 136
+        ? values?.businessUnit?.value >= 0
+          ? values?.businessUnit?.value
+          : buId
+        : buId,
+      values?.bank?.value,
+      values?.status?.value,
+      pageNo,
+      100000, //pageSize
+      (data) => {
+        let excelData = data?.data;
+        const _data = excelData?.map((item, index) => ({
+          sl: index + 1,
+          status: item?.isLoanApproved ? "Approved" : "Pending",
+          sbuName: item?.sbuName || "",
+          strBankName: item?.strBankName || "",
+          facilityName: item?.facilityName || "",
+          strLoanAccountName: item?.strLoanAccountName || "",
+          intTenureDays: item?.intTenureDays || 0,
+          dteStartDate: _dateFormatter(item?.dteStartDate) || "",
+          dteMaturityDate: _dateFormatter(item?.dteMaturityDate) || "",
+          principalBalance:
+            item?.numPrinciple - item?.numPaid >= 0
+              ? item?.numPrinciple - item?.numPaid
+              : 0,
+          numPrinciple: item?.numPrinciple || 0,
+          numInterestRate: item?.numInterestRate || 0,
+          disbursementPurposeName: item?.disbursementPurposeName || "",
+          loanRemarks: item?.loanRemarks || "",
+          profitCenter: "", // Adjust if applicable
+          numInterest: item?.numInterest || 0,
+          numTotalPayable: item?.numTotalPayable || 0,
+          numPaid: item?.numPaid || 0,
+          interestAmount: item?.interestAmount || 0,
+          numExciseDuty: item?.numExciseDuty || 0,
+          loanClassName: item?.loanClassName || "",
+          loanTypeName: item?.loanTypeName || "",
+          brCode: item?.brCode || "",
+        }));
+        generateJsonToExcel(header, _data, "Loan Register");
+      },
+      setLoading,
+      values?.applicationType?.value || 0,
+      values?.fromDate,
+      values?.toDate,
+      values?.dateFilter?.value
+    );
+  };
   return (
     <>
       {(loading || closeLoanRegisterLoader || loadingHistory) && <Loading />}
@@ -282,6 +497,17 @@ const LoanRegisterLanding = () => {
               {true && <ModalProgressBar />}
               <CardHeader title={"Loan Register"}>
                 <CardHeaderToolbar>
+                  {loanRegisterData?.data?.length ? (
+                    <button
+                      className="btn btn-primary ml-2"
+                      type="button"
+                      onClick={(e) => generateExcel(values)}
+                      style={{ padding: "6px 5px" }}
+                      disabled={loanRegisterData?.data?.length === 0}
+                    >
+                      Export Excel
+                    </button>
+                  ) : null}
                   <button
                     className="btn btn-primary ml-2"
                     type="submit"
@@ -386,25 +612,48 @@ const LoanRegisterLanding = () => {
                       />
                     </div>
                     <div className="col-lg-2">
-                      <label>Opening Date</label>
+                      <NewSelect
+                        name="dateFilter"
+                        options={[
+                          { value: "Opening Date", label: "Opening Date" },
+                          { value: "Maturity Date", label: "Maturity Date" },
+                        ]}
+                        value={values?.dateFilter}
+                        onChange={(valueOption) => {
+                          if (valueOption) {
+                            setFieldValue("dateFilter", valueOption);
+                          } else {
+                            setFieldValue("dateFilter", "");
+                          }
+                        }}
+                        errors={errors}
+                        touched={touched}
+                        label="Date Filter"
+                        placeholder="Date Filter"
+                      />
+                    </div>
+                    <div className="col-lg-2">
+                      <label>From Date</label>
                       <div className="d-flex">
                         <InputField
                           value={values?.fromDate}
                           name="fromDate"
-                          placeholder="Opening date"
+                          placeholder="From date"
                           type="date"
+                          disabled={!values?.dateFilter?.value}
                           style={{ width: "100%" }}
                         />
                       </div>
                     </div>
                     <div className="col-lg-2">
-                      <label>Maturity Date</label>
+                      <label>To Date</label>
                       <div className="d-flex">
                         <InputField
                           value={values?.toDate}
                           name="toDate"
-                          placeholder="Maturity date"
+                          placeholder="To date"
                           type="date"
+                          disabled={!values?.dateFilter?.value}
                           style={{ width: "100%" }}
                         />
                       </div>
@@ -416,8 +665,10 @@ const LoanRegisterLanding = () => {
                         onClick={(e) => {
                           getLoanRegisterLanding(
                             profileData?.accountId,
-                            values?.businessUnit?.value >= 0
-                              ? values?.businessUnit?.value
+                            buId == 136
+                              ? values?.businessUnit?.value >= 0
+                                ? values?.businessUnit?.value
+                                : buId
                               : buId,
                             values?.bank?.value,
                             values?.status?.value,
@@ -427,7 +678,8 @@ const LoanRegisterLanding = () => {
                             setLoading,
                             values?.applicationType?.value || 0,
                             values?.fromDate,
-                            values?.toDate
+                            values?.toDate,
+                            values?.dateFilter?.value
                           );
                         }}
                       >
@@ -459,7 +711,10 @@ const LoanRegisterLanding = () => {
                         style={{ height: "700px" }}
                       >
                         {/* <div className="table-responsive"> */}
-                        <table className="table table-striped table-bordered global-table table-header-sticky">
+                        <table
+                          id="table-to-xlsx"
+                          className="table table-striped table-bordered global-table table-header-sticky"
+                        >
                           <thead className="bg-secondary">
                             <tr>
                               <th>SL</th>

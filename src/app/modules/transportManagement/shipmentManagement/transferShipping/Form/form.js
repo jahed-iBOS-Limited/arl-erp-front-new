@@ -660,6 +660,36 @@ export default function _Form({
                           />
                         </div>
                       )}
+
+                      <div className="col-lg-3">
+                        <label> Truck Traller Loading Supplier</label>
+                        <SearchAsyncSelect
+                          selectedValue={values.truckTrallerSupplier}
+                          handleChange={(valueOption) => {
+                            setFieldValue("truckTrallerSupplier", valueOption);
+                          }}
+                          loadOptions={(v) => {
+                            // if (v.length < 3) return [];
+                            return axios
+                              .get(
+                                `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${
+                                  selectedBusinessUnit?.value
+                                }&SBUId=${0}`
+                              )
+                              .then((res) => {
+                                const updateList = res?.data.map((item) => ({
+                                  ...item,
+                                }));
+                                return updateList;
+                              });
+                          }}
+                        />
+                        <FormikError
+                          errors={errors}
+                          name="truckTrallerSupplier"
+                          touched={touched}
+                        />
+                      </div>
                       <div style={{ marginTop: "18px" }}>
                         <label>
                           <input

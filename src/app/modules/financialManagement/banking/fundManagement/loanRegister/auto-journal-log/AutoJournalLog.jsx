@@ -143,24 +143,24 @@ const AutoJournalLog = () => {
                       </div>
                     )}
                     <div className="col-lg-2">
-                      <label>Opening Date</label>
+                      <label>From Date</label>
                       <div className="d-flex">
                         <InputField
                           value={values?.fromDate}
                           name="fromDate"
-                          placeholder="Opening date"
+                          placeholder="From date"
                           type="date"
                           style={{ width: "100%" }}
                         />
                       </div>
                     </div>
                     <div className="col-lg-2">
-                      <label>Maturity Date</label>
+                      <label>To Date</label>
                       <div className="d-flex">
                         <InputField
                           value={values?.toDate}
                           name="toDate"
-                          placeholder="Maturity date"
+                          placeholder="To date"
                           type="date"
                           style={{ width: "100%" }}
                         />

@@ -62,7 +62,7 @@ const initData = {
   creditBackUp: "",
   destination: "",
   creditLimitDaysPropose: "",
-  creditLimitAmountsPropose: ""
+  creditLimitAmountsPropose: "",
 };
 
 export default function SalesQuotationReadyMixForm({
@@ -405,7 +405,6 @@ export default function SalesQuotationReadyMixForm({
     pageStyle:
       "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
   });
-
   return (
     <IForm
       title={
