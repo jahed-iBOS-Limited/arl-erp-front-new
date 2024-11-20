@@ -57,6 +57,16 @@ export const GetLandingData = async (values, setter) => {
     setter([]);
   }
 };
+export const GetBillingData = async (values, setter) => {
+  try {
+    const res = await Axios.get(
+      `/tms/LigterLoadUnload/GetG2GChallanSupportInformation?accountId=1&businessUnitId=${values?.buId}&supplierId=0&challanNumber=${values?.challanNumber}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+    );
+    setter(res?.data);
+  } catch (error) {
+    setter([]);
+  }
+};
 
 export const validationSchema = Yup.object().shape({
   item: Yup.object().shape({
