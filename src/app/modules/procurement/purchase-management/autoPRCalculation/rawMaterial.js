@@ -33,7 +33,7 @@ const initData = {
   monthYear: _getCurrentMonthYearForInput(),
 };
 export default function RawMaterialAutoPR() {
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   const [
     autoRawMaterialData,
     getAutoRawMaterialData,
@@ -51,8 +51,10 @@ export default function RawMaterialAutoPR() {
 
   const getData = (values) => {
     getAutoRawMaterialData(
-      `/procurement/AutoPurchase/GetInsertPRCalculationNew?BusinessUnitId=${values?.businessUnit?.value
-      }&FromMonth=${`${values?.monthYear?.split("-")[0]}-${values?.monthYear?.split("-")[1]
+      `/procurement/AutoPurchase/GetInsertPRCalculationNew?BusinessUnitId=${
+        values?.businessUnit?.value
+      }&FromMonth=${`${values?.monthYear?.split("-")[0]}-${
+        values?.monthYear?.split("-")[1]
       }-01`}&ItemCategoryId=0&ItemSubCategoryId=0`
     );
   };
@@ -198,9 +200,12 @@ export default function RawMaterialAutoPR() {
                               payload,
                               () => {
                                 getAutoRawMaterialData(
-                                  `/procurement/AutoPurchase/GetInsertPRCalculation?BusinessUnitId=${values?.businessUnit?.value
-                                  }&FromMonth=${`${values?.monthYear?.split("-")[0]
-                                  }-${values?.monthYear?.split("-")[1]
+                                  `/procurement/AutoPurchase/GetInsertPRCalculation?BusinessUnitId=${
+                                    values?.businessUnit?.value
+                                  }&FromMonth=${`${
+                                    values?.monthYear?.split("-")[0]
+                                  }-${
+                                    values?.monthYear?.split("-")[1]
                                   }-01`}&ItemCategoryId=0&ItemSubCategoryId=0`
                                 );
                               },
@@ -255,10 +260,11 @@ export default function RawMaterialAutoPR() {
                             <th>Dead Stock</th>
                             <th>Available Stock</th>
                             <th>
-                              {`${getSelectedAndNextMonths(
-                                values?.monthYear?.split("-")[1]
-                              )?.[0]?.name
-                                } Requirment` || ""}
+                              {`${
+                                getSelectedAndNextMonths(
+                                  values?.monthYear?.split("-")[1]
+                                )?.[0]?.name
+                              } Requirment` || ""}
                             </th>
                             {/* <th>Total Requirment</th> */}
                             <th>Schedule Quantity</th>
@@ -293,12 +299,12 @@ export default function RawMaterialAutoPR() {
                                   {item?.stockQty?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
+                                  {item?.floatingStock.toFixed(2) || 0}
+                                </td>
+                                <td className="text-center">
                                   {(
                                     item?.numOpenPOQty - item?.balanceOnGhat
                                   ).toFixed(2) || 0}
-                                </td>
-                                <td className="text-center">
-                                  {item?.inTransit?.toFixed(2) || 0}
                                 </td>
                                 <td className="text-center">
                                   {item?.openPRQty?.toFixed(2) || 0}
@@ -309,7 +315,8 @@ export default function RawMaterialAutoPR() {
                                 <td className="text-center">
                                   {(
                                     (item?.stockQty ?? 0) +
-                                    ((item?.numOpenPOQty ?? 0) - (item?.balanceOnGhat ?? 0)) +
+                                    ((item?.numOpenPOQty ?? 0) -
+                                      (item?.balanceOnGhat ?? 0)) +
                                     (item?.inTransit ?? 0) -
                                     (item?.deadStockQuantity ?? 0)
                                   )?.toFixed(2) || 0}
@@ -318,7 +325,8 @@ export default function RawMaterialAutoPR() {
                                   {(
                                     (item?.firstMonthQty ?? 0) -
                                     ((item?.stockQty ?? 0) +
-                                      ((item?.numOpenPOQty ?? 0) - (item?.balanceOnGhat ?? 0)) +
+                                      ((item?.numOpenPOQty ?? 0) -
+                                        (item?.balanceOnGhat ?? 0)) +
                                       (item?.inTransit ?? 0) -
                                       (item?.deadStockQuantity ?? 0)) -
                                     (item?.openPRQty ?? 0)
@@ -341,24 +349,25 @@ export default function RawMaterialAutoPR() {
                                 <td className="text-center">
                                   {item?.prCalculationHeaderId &&
                                     item?.firstMonthQty - item?.availableStock >
-                                    0 && (
+                                      0 && (
                                       <span
                                         style={{ cursor: "pointer" }}
                                         onClick={() => {
                                           if (
                                             item?.firstMonthQty -
-                                            item?.availableStock >
+                                              item?.availableStock >
                                             0
                                           ) {
                                             setSingleRowData(item);
                                             setShowBreakdownModal(true);
                                           } else {
                                             toast.warn(
-                                              `You don't need to break down this item for the month ${getSelectedAndNextMonths(
-                                                values?.monthYear?.split(
-                                                  "-"
-                                                )[1] || 0
-                                              )?.[0]?.name
+                                              `You don't need to break down this item for the month ${
+                                                getSelectedAndNextMonths(
+                                                  values?.monthYear?.split(
+                                                    "-"
+                                                  )[1] || 0
+                                                )?.[0]?.name
                                               }`
                                             );
                                           }
