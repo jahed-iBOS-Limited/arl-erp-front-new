@@ -169,7 +169,8 @@ export default function ShipmentForm({
       return toast.warn("Please add at least one item");
     }
 
-    if ((buId === 4 || buId === 144) && Boolean(values?.packer)) {
+    // show alert for cement & essential & packer isn't selected
+    if ((buId === 4 || buId === 144) && !Boolean(values?.packer?.value)) {
       toast.warn("Please add packer");
     }
     if (values && accId && buId) {
@@ -223,6 +224,7 @@ export default function ShipmentForm({
             pumpModelId: values?.pump?.value || 0,
             pumpModelName: values?.pump?.label || "",
             pumpGroupHeadEnroll: values?.pump?.pumpGroupHeadEnroll || 0,
+            packerId: values?.packer?.value,
           },
           shipmentRowEntryList: rowDto.map((itm) => {
             return {
