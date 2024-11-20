@@ -12,6 +12,8 @@ import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import BreakDownModal from "./breakdownModal";
 import { toast } from "react-toastify";
+import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
+import WarehouseStockModal from "./rawMaterialModals/warehouseStockModal";
 
 const months = [
   { name: "Jan", value: 1 },
@@ -41,7 +43,9 @@ export default function RawMaterialAutoPR() {
     setAutoRawMaterialData,
   ] = useAxiosGet();
   const [, saveHeaderData, loader] = useAxiosPost();
+  // state
   const [singleRowData, setSingleRowData] = useState();
+  const [warehouseStockModalShow, setWarehouseStockModalShow] = useState(false);
 
   const { profileData, businessUnitList } = useSelector((state) => {
     return state.authData;
@@ -295,8 +299,14 @@ export default function RawMaterialAutoPR() {
                                     ? item?.totalBudgetQty?.toFixed(2)
                                     : ""}
                                 </td> */}
-                                <td className="text-center">
+                                <td className="d-flex flex-row justify-content-between">
                                   {item?.stockQty?.toFixed(2) || 0}
+                                  <InfoCircle
+                                    clickHandler={() => {
+                                      setWarehouseStockModalShow(true);
+                                      setSingleRowData(item);
+                                    }}
+                                  />
                                 </td>
                                 <td className="text-center">
                                   {item?.floatingStock.toFixed(2) || 0}
@@ -393,10 +403,30 @@ export default function RawMaterialAutoPR() {
               show={showBreakdownModal}
               onHide={() => {
                 setShowBreakdownModal(false);
+                setSingleRowData({});
               }}
             >
               <BreakDownModal singleRowData={singleRowData} />
             </IViewModal>
+
+            {/* Warehouse Stock Details Modal */}
+            <IViewModal
+              show={warehouseStockModalShow}
+              onHide={() => {
+                setWarehouseStockModalShow(false);
+                setSingleRowData({});
+              }}
+            >
+              <WarehouseStockModal
+                objProp={{
+                  singleRowData,
+                  setSingleRowData,
+                  values,
+                }}
+              />
+            </IViewModal>
+
+           
           </IForm>
         </>
       )}
