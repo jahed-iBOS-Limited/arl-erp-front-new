@@ -31,7 +31,7 @@ const WarehouseStockModal = ({ objProp }) => {
       setSingleRowData,
       values,
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const isLoading = warehouseStockDataLoading;
@@ -77,19 +77,17 @@ const WarehouseStockModal = ({ objProp }) => {
                       warestockData?.map((item, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td className="text-center">{item?.plantName}</td>
-                          <td>{item?.warehouseName}</td>
-                          <td className="text-center">{}</td>
-                          <td className="text-center">
-                            {item?.requestQuantity}
+                          <td className="text-center">{item?.strItemName}</td>
+                          <td>{item?.strItemCode}</td>
+                          <td className="text-center">{item?.strBaseUOM}</td>
+                          <td className="text-right">
+                            {item?.numOpenQty || 0}
                           </td>
-                          <td className="text-center">
-                            {item?.narration || ""}
-                          </td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
+                          <td className="text-right">{item?.numInQty || 0}</td>
+                          <td>{item?.numOutQty || 0}</td>
+                          <td>{item?.numCloseQty || 0}</td>
+                          <td>{item?.numClosingValue || 0}</td>
+                          <td>{item?.numRate || 0}</td>
                         </tr>
                       ))}
                   </tbody>

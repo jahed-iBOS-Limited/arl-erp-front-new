@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
@@ -14,6 +14,11 @@ import BreakDownModal from "./breakdownModal";
 import { toast } from "react-toastify";
 import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
 import WarehouseStockModal from "./rawMaterialModals/warehouseStockModal";
+import CommonItemDetailsModal from "./rawMaterialModals/commonItemDetailsModal";
+import {
+  commonItemInitialState,
+  commonItemReducer,
+} from "./rawMaterialModals/helper";
 
 const months = [
   { name: "Jan", value: 1 },
@@ -43,9 +48,15 @@ export default function RawMaterialAutoPR() {
     setAutoRawMaterialData,
   ] = useAxiosGet();
   const [, saveHeaderData, loader] = useAxiosPost();
+
   // state
   const [singleRowData, setSingleRowData] = useState();
   const [warehouseStockModalShow, setWarehouseStockModalShow] = useState(false);
+  const [commonItemDetailsState, commonItemDetailsDispatch] = useReducer(
+    commonItemReducer,
+    commonItemInitialState
+  );
+
 
   const { profileData, businessUnitList } = useSelector((state) => {
     return state.authData;
@@ -308,16 +319,43 @@ export default function RawMaterialAutoPR() {
                                     }}
                                   />
                                 </td>
-                                <td className="text-center">
+
+                                <td>
                                   {item?.floatingStock.toFixed(2) || 0}
+                                  <InfoCircle
+                                    clickHandler={() =>
+                                      commonItemDetailsDispatch({
+                                        type: "FloatingStock",
+                                        payload: { singleRowData: item },
+                                      })
+                                    }
+                                  />
                                 </td>
+
                                 <td className="text-center">
                                   {(
                                     item?.numOpenPOQty - item?.balanceOnGhat
                                   ).toFixed(2) || 0}
+                                  <InfoCircle
+                                    clickHandler={() =>
+                                      commonItemDetailsDispatch({
+                                        type: "OpenPo",
+                                        payload: { singleRowData: item },
+                                      })
+                                    }
+                                  />
                                 </td>
+
                                 <td className="text-center">
                                   {item?.openPRQty?.toFixed(2) || 0}
+                                  <InfoCircle
+                                    clickHandler={() =>
+                                      commonItemDetailsDispatch({
+                                        type: "OpenPR",
+                                        payload: { singleRowData: item },
+                                      })
+                                    }
+                                  />
                                 </td>
                                 <td className="text-center">
                                   {item?.deadStockQuantity || 0}
@@ -426,7 +464,20 @@ export default function RawMaterialAutoPR() {
               />
             </IViewModal>
 
-           
+            {/* Common Item Details Modal */}
+            <IViewModal
+              show={commonItemDetailsState?.modalShow}
+              onHide={() => {
+                commonItemDetailsDispatch({ type: "Close" });
+              }}
+            >
+              <CommonItemDetailsModal
+                objProp={{
+                  commonItemDetailsState,
+                  commonItemDetailsDispatch,
+                }}
+              />
+            </IViewModal>
           </IForm>
         </>
       )}
