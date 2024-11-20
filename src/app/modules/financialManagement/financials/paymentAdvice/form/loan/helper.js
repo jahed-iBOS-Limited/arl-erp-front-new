@@ -109,6 +109,8 @@ export const createLoanRegister = async ({
     loanAccountId = 0,
     facilityRemarks = "",
     remarks = "",
+    strPayee,
+    intPartnerId
 }) => {
     try {
         // Construct the request body
@@ -130,6 +132,8 @@ export const createLoanRegister = async ({
             loanAccountId,
             facilityRemarks,
             remarks,
+            strPayee,
+            intPartnerId
         };
 
         // Send the POST request with the request body

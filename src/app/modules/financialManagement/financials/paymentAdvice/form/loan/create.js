@@ -83,7 +83,7 @@ export default function LoanCreate({ singleData }) {
                     formikRef.current.setFieldValue("bank", { value: res?.bankId, label: res?.bankName, bankCode: res?.bankCode });
                     formikRef.current.setFieldValue("account", { value: res?.bankAccountId, label: res?.bankAccountNo });
                     formikRef.current.setFieldValue("principle", +singleData?.monAmount || "");
-                    formikRef.current.setFieldValue("remarks", res?.strLcnumber ? `lcNo-${res?.strLcnumber}` : "");
+                    formikRef.current.setFieldValue("remarks", res?.strLcnumber ? `${res?.strPonumber}, LC No- ${res?.strLcnumber}, ${res?.strShipmentNo}` : "");
                 }
 
                 getBankAccountDDLByBankId(
@@ -142,6 +142,8 @@ export default function LoanCreate({ singleData }) {
             loanAccountId: 0,
             facilityRemarks: values?.facilityRemarks || "",
             remarks: values?.remarks || "",
+            strPayee:singleData?.strPayee || "",
+            intPartnerId: singleData?.intPartnerId || 0,
         }
         );
     };
