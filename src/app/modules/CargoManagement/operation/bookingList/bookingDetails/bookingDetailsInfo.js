@@ -434,7 +434,7 @@ function BookingDetailsInfo({ bookingData }) {
                   <th>Document Checklist</th>
                   <th>Dispatch</th>
                   <th>Customs Clear</th>
-                  <th>In Transit</th>
+                  {/* <th>In Transit</th> */}
                   <th>Dest Port Receive</th>
                   <th>Delivered</th>
                 </tr>
