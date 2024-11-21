@@ -1,22 +1,17 @@
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../purchaseOrder/customHooks/useAxiosGet";
 import {
-    fetchCommonItemDetailsData,
-    floatingStockTableHeader,
-    openPOTableHeader
+  fetchCommonItemDetailsData,
+  floatingStockTableHeader,
+  openPOTableHeader,
 } from "./helper";
 
 const CommonItemDetailsModal = ({ objProp }) => {
   // obj props
-  const { commonItemDetailsState, commonItemDetailsDispatch } = objProp;
-  // redux
-  const { selectedBusinessUnit } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  const { commonItemDetailsState, commonItemDetailsDispatch, values } = objProp;
 
   // state
   const [objProps, setObjprops] = useState({});
@@ -32,14 +27,14 @@ const CommonItemDetailsModal = ({ objProp }) => {
   useEffect(() => {
     fetchCommonItemDetailsData({
       getCommonItemData,
-      selectedBusinessUnit,
       commonItemDetailsState,
       commonItemDetailsDispatch,
+      values
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log("Common", commonItemDetailsState);
+  // console.log("Common", commonItemDetailsState);
 
   // loading
   const isLoading = getCommonItemDataLoading;
