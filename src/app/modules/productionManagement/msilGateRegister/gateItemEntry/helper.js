@@ -1,7 +1,7 @@
 // Convert string times to Date objects
 const formatTime = (strTime) => {
   if (!strTime) return null;
-  
+
   const [hours, minutes, second] = strTime?.split(":")?.map(Number);
   const date = new Date();
   date.setHours(hours, minutes, second, 0);
@@ -16,7 +16,7 @@ export const calculateTimeDifference = (tmInTime = "", tmOutTime = "") => {
 
   // If either time is null, return 0:00:00
   if (!tmIn || !tmOut) {
-    return "0:00:00";
+    return { formattedTimeDiff: "0:00:00", diffInMinutes: 0 };
   }
 
   // Calculate difference in milliseconds
@@ -30,5 +30,11 @@ export const calculateTimeDifference = (tmInTime = "", tmOutTime = "") => {
   const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
   const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
 
-  return `${diffHours} H, ${diffMinutes} M `;
+  // total diff in minutes
+  const totalDiffInMinutes = Math.floor(diffMs / (1000 * 60));
+
+  return {
+    formattedTimeDiff: `${diffHours} H, ${diffMinutes} M `,
+    exceed: totalDiffInMinutes > 150 ? true : false,
+  };
 };

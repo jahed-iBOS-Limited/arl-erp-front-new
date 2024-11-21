@@ -234,86 +234,93 @@ function GateItemEntry() {
                         </thead>
                         <tbody>
                           {rowData?.data?.length > 0 &&
-                            rowData?.data?.map((item, index) => (
-                              <tr key={index}>
-                                <td>{pageNo * pageSize + index + 1}</td>
-                                <td className="text-center">
-                                  {_dateFormatter(item?.dteDate)}
-                                </td>
-                                <td>{item?.strSupplierName}</td>
-                                <td>{item?.strDriverName}</td>
-                                <td className="text-center">
-                                  {item?.strDriverMobileNo}
-                                </td>
-                                <td className="text-center">
-                                  {item?.strTruckNumber}
-                                </td>
-                                <td className="text-center">
-                                  {item?.strEntryCode}
-                                </td>
-                                <td className="text-center">
-                                  {_timeFormatter(item?.tmInTime || "")}
-                                </td>
-                                <td className="text-center">
-                                  {_timeFormatter(item?.tmOutTime || "")}
-                                </td>
-                                <td>
-                                  {calculateTimeDifference(
-                                    item?.tmInTime,
-                                    item?.tmOutTime
+                            rowData?.data?.map((item, index) => {
+                              const {
+                                exceed,
+                                formattedTimeDiff,
+                              } = calculateTimeDifference(
+                                item?.tmInTime,
+                                item?.tmOutTime
+                              );
+
+                              return (
+                                <tr key={index}>
+                                  <td>{pageNo * pageSize + index + 1}</td>
+                                  <td className="text-center">
+                                    {_dateFormatter(item?.dteDate)}
+                                  </td>
+                                  <td>{item?.strSupplierName}</td>
+                                  <td>{item?.strDriverName}</td>
+                                  <td className="text-center">
+                                    {item?.strDriverMobileNo}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.strTruckNumber}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.strEntryCode}
+                                  </td>
+                                  <td className="text-center">
+                                    {_timeFormatter(item?.tmInTime || "")}
+                                  </td>
+                                  <td className="text-center">
+                                    {_timeFormatter(item?.tmOutTime || "")}
+                                  </td>
+                                  <td className={exceed ? "text-danger" : ""}>
+                                    {formattedTimeDiff}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.strInvoiceNumber}
+                                  </td>
+                                  {selectedBusinessUnit?.value === 4 ? (
+                                    <td>{item?.strVatChallanNo}</td>
+                                  ) : null}
+                                  <td>{item?.strItemName}</td>
+                                  <td>{item?.strShiftIncharge}</td>
+                                  <td className="text-center">
+                                    <IEdit
+                                      onClick={() =>
+                                        history.push({
+                                          pathname: `/production-management/msil-gate-register/Gate-Item-Entry/edit/${item?.intGateEntryItemListId}`,
+                                          state: { ...item },
+                                        })
+                                      }
+                                    />
+                                  </td>
+                                  {isBulkEdit?.isEdit && (
+                                    <>
+                                      {item?.isBulk === null ? (
+                                        <td className="text-center">
+                                          <OverlayTrigger
+                                            overlay={
+                                              <Tooltip id="cs-icon">
+                                                {"Bulk"}
+                                              </Tooltip>
+                                            }
+                                          >
+                                            <span>
+                                              <i
+                                                style={{ fontSize: "18px" }}
+                                                className={`fa fa-bullseye pointer`}
+                                                onClick={() => {
+                                                  setIsShowModel(true);
+                                                  setItemList(item);
+                                                  setLandingValues(values);
+                                                }}
+                                              ></i>
+                                            </span>
+                                          </OverlayTrigger>
+                                        </td>
+                                      ) : (
+                                        <td className="text-center">
+                                          {item?.isBulk ? "Yes" : "No"}
+                                        </td>
+                                      )}
+                                    </>
                                   )}
-                                </td>
-                                <td className="text-center">
-                                  {item?.strInvoiceNumber}
-                                </td>
-                                {selectedBusinessUnit?.value === 4 ? (
-                                  <td>{item?.strVatChallanNo}</td>
-                                ) : null}
-                                <td>{item?.strItemName}</td>
-                                <td>{item?.strShiftIncharge}</td>
-                                <td className="text-center">
-                                  <IEdit
-                                    onClick={() =>
-                                      history.push({
-                                        pathname: `/production-management/msil-gate-register/Gate-Item-Entry/edit/${item?.intGateEntryItemListId}`,
-                                        state: { ...item },
-                                      })
-                                    }
-                                  />
-                                </td>
-                                {isBulkEdit?.isEdit && (
-                                  <>
-                                    {item?.isBulk === null ? (
-                                      <td className="text-center">
-                                        <OverlayTrigger
-                                          overlay={
-                                            <Tooltip id="cs-icon">
-                                              {"Bulk"}
-                                            </Tooltip>
-                                          }
-                                        >
-                                          <span>
-                                            <i
-                                              style={{ fontSize: "18px" }}
-                                              className={`fa fa-bullseye pointer`}
-                                              onClick={() => {
-                                                setIsShowModel(true);
-                                                setItemList(item);
-                                                setLandingValues(values);
-                                              }}
-                                            ></i>
-                                          </span>
-                                        </OverlayTrigger>
-                                      </td>
-                                    ) : (
-                                      <td className="text-center">
-                                        {item?.isBulk ? "Yes" : "No"}
-                                      </td>
-                                    )}
-                                  </>
-                                )}
-                              </tr>
-                            ))}
+                                </tr>
+                              );
+                            })}
                         </tbody>
                       </table>
                     </div>
