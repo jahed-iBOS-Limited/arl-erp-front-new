@@ -12,14 +12,24 @@ import {
   GetShipPointDDL,
 } from "../helper";
 import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
+const today = new Date();
+const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 export default function VesselShipPointChange() {
+  const formatDate = (date) => date.toISOString().split("T")[0];
+  const initData = {
+    fromDate: formatDate(firstDayOfMonth),
+    toDate: formatDate(today),
+  };
   const [domesticPortDDL, setDomesticPortDDL] = useState([]);
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
   const [lighterVessel, setLighterVessel] = useState([]);
   const [shipPointDDL, setShipPointDDL] = useState([]);
 
   const [rowDto, setRowDto] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [billingInfo, setBillingInfo] = useState([]);
 
   const {
@@ -35,15 +45,17 @@ export default function VesselShipPointChange() {
   }, [accId, buId]);
 
   const setLandingData = (values) => {
-    GetLandingData(values, setRowDto);
+    GetLandingData(values, setRowDto, setLoading);
   };
   const setBillingData = (values) => {
-    GetBillingData({ ...values, buId: buId }, setBillingInfo);
+    GetBillingData({ ...values, buId: buId }, setBillingInfo, setLoading);
   };
 
   return (
     <>
-      <Formik initialValues={{}} onSubmit={() => {}}>
+      {loading && <Loading />}
+
+      <Formik initialValues={initData} onSubmit={() => {}}>
         {({ values, setFieldValue }) => (
           <ICard title="Vessel Ship Point Change">
             <Form>
@@ -54,16 +66,16 @@ export default function VesselShipPointChange() {
                     options={
                       [
                         {
+                          value: 3,
+                          label: "G2G Billing Info",
+                        },
+                        {
                           value: 1,
                           label: "View",
                         },
                         {
                           value: 2,
                           label: "Update Ship Point",
-                        },
-                        {
-                          value: 3,
-                          label: "G2G Billing Info",
                         },
                       ] || []
                     }
@@ -224,16 +236,168 @@ export default function VesselShipPointChange() {
               </div>
               {values?.type?.value === 3 ? (
                 <div className="row">
-                  <div className="col-12 common-scrollable-table">
+                  <div className="col-12">
                     <div
                       className="scroll-table _table overflow-auto"
                       // style={{ height: "700px" }}
                     >
                       {/* <div className="table-responsive"> */}
-                      <table
+                      <table className="table table-striped table-bordered global-table">
+                        <thead className="bg-secondary">
+                          <tr>
+                            <th style={{ width: "40px" }}>SL</th>
+                            <th>Delivery Id</th>
+                            <th>Delivery Code</th>
+                            <th>SUB Name</th>
+                            <th>Ship To Partner Id</th>
+                            <th>Ship To Partner Name</th>
+                            <th>Mother Vessel Name</th>
+                            <th>Lighter Vessel Name</th>
+                            <th>Sold To Partner Name</th>
+                            <th>Delivery Date</th>
+                            <th>Ship Point Name</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {billingInfo?.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{index + 1}</td>
+                              <td className="text-center">
+                                {item?.deliveryId}
+                              </td>
+                              <td className="text-center">
+                                {item?.deliveryCode}
+                              </td>
+                              <td className="text-center">{item?.sbuName}</td>
+                              <td className="text-center">
+                                {item?.shipToPartnerId}
+                              </td>
+                              <td className="text-center">
+                                {item?.shipToPartnerName}
+                              </td>
+                              <td className="text-center">
+                                {item?.motherVesselName}
+                              </td>
+                              <td className="text-center">
+                                {item?.lighterVesselName}
+                              </td>
+                              <td className="text-center">
+                                {item?.soldToPartnerName}
+                              </td>
+                              <td className="text-center">
+                                {_dateFormatter(item?.deliveryDate)}
+                              </td>
+                              <td className="text-center">
+                                {item?.shipPointName}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <table className="table table-striped table-bordered global-table">
+                        <thead className="bg-secondary">
+                          <tr>
+                            <th>Supplier Name</th>
+                            <th>Godown Labour Supplier</th>
+                            <th>Godown Unload Labour Rate</th>
+                            <th>GoDown Labour Amount</th>
+                            <th>Transport Rate</th>
+                            <th>Transport Amount</th>
+                            <th>Quantity</th>
+                            <th>Header Active</th>
+                            <th>Row Active</th>
+                            <th>SO Number</th>
+                            <th>Vehicle No</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {billingInfo?.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center">
+                                {item?.supplierName}
+                              </td>
+                              <td className="text-center">
+                                {item?.godownLabourSupplier}
+                              </td>
+                              <td className="text-center">
+                                {item?.godownUnloadLabourRate}
+                              </td>
+                              <td className="text-center">
+                                {item?.goDownLabourAmount}
+                              </td>
+                              <td className="text-center">
+                                {item?.transportRate}
+                              </td>
+                              <td className="text-center">
+                                {item?.transportAmount}
+                              </td>
+                              <td className="text-center">{item?.quantity}</td>
+                              <td className="text-center">
+                                {item?.headerActive ? "Active" : "Inactive"}
+                              </td>
+                              <td className="text-center">
+                                {item?.rowActive ? "Active" : "Inactive"}
+                              </td>
+                              <td className="text-center">{item?.soNumber}</td>
+                              <td className="text-center">{item?.vehicleNo}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      <table className="table table-striped table-bordered global-table">
+                        <thead className="bg-secondary">
+                          <tr>
+                            <th>Delivery Address</th>
+                            <th>Supervisor Confirm</th>
+                            <th>Accounting Journal Code</th>
+                            <th>Truck Supplier Bill Register Code</th>
+                            <th>Supervisor Approve Date</th>
+                            <th>Ledger Date</th>
+                            <th>Bill Register Approve Amount</th>
+                            <th>Payment Request Code</th>
+                            <th>Payment Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {billingInfo?.map((item, index) => (
+                            <tr key={index}>
+                              <td className="text-center">
+                                {item?.deliveryAddress}
+                              </td>
+                              <td className="text-center">
+                                {item?.supervisorConfirm
+                                  ? "Confirmed"
+                                  : "Not Confirmed"}
+                              </td>
+                              <td className="text-center">
+                                {item?.accountingJournalCode}
+                              </td>
+                              <td className="text-center">
+                                {item?.trucksupplierBillRegisterCode}
+                              </td>
+                              <td className="text-center">
+                                {_dateFormatter(item?.supervisorApproveDate)}
+                              </td>
+                              <td className="text-center">
+                                {_dateFormatter(item?.ledgerDate)}
+                              </td>
+                              <td className="text-center">
+                                {item?.billregisterApproveAmount}
+                              </td>
+                              <td className="text-center">
+                                {item?.paymentRequestCode}
+                              </td>
+                              <td className="text-center">
+                                {item?.paymentAmount}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                      {/* <table
                         id="table-to-xlsx"
-                        style={{ fontSize: "12px" }}
-                        className="table table-striped table-bordered "
+                        // style={{ fontSize: "12px" }}
+                        className="table table-striped table-bordered global-table"
                       >
                         <thead className="bg-secondary">
                           <tr>
@@ -367,7 +531,7 @@ export default function VesselShipPointChange() {
                             );
                           })}
                         </tbody>
-                      </table>
+                      </table> */}
                     </div>
                   </div>
                 </div>
