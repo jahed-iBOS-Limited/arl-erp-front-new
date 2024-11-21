@@ -18,7 +18,6 @@ export const fetchWarehouseStockDetailsData = (obj) => {
   // destrcuture
   const {
     getWarehouseStockData,
-    selectedBusinessUnit,
     singleRowData,
     setSingleRowData,
     values,
@@ -32,7 +31,7 @@ export const fetchWarehouseStockDetailsData = (obj) => {
   //   console.log(singleRowData);
 
   // params
-  const params = `businessUnitId=${selectedBusinessUnit?.value}&intPlantId=0&fromDate=${date?.firstDate}&toDate=${date?.lastDate}&intItemTypeId=0&itemId=${itemId}&warehouseId=142&pageNo=0&pageSize=100&search=${itemName}`;
+  const params = `businessUnitId=${values?.businessUnit?.value}&intPlantId=0&fromDate=${date?.firstDate}&toDate=${date?.lastDate}&intItemTypeId=0&itemId=${itemId}&warehouseId=142&pageNo=0&pageSize=100&search=${itemName}`;
   // url
   const url = `/procurement/Report/GetInventoryStatement`;
 
@@ -43,6 +42,10 @@ export const fetchWarehouseStockDetailsData = (obj) => {
 
 // common item details reducer
 export function commonItemReducer(state, action) {
+  // destrcuture
+  const { type, payload } = action;
+
+  // update state
   const updateState = (newSingleRowData, newPartName, modalShow) => ({
     ...state,
     singleRowData: newSingleRowData,
@@ -50,25 +53,25 @@ export function commonItemReducer(state, action) {
     modalShow,
   });
 
-  switch (action?.type) {
+  switch (type) {
     case "FloatingStock":
-      return updateState(action?.payload?.singleRowData, "FloatingStock", true);
+      return updateState(payload?.singleRowData, type, true);
     case "OpenPo":
-      return updateState(action?.payload?.singleRowData, "OpenPo", true);
+      return updateState(payload?.singleRowData, type, true);
     case "OpenPR":
-      return updateState(action?.payload?.singleRowData, "OpenPR", true);
+      return updateState(payload?.singleRowData, type, true);
     case "Close":
       // Close the modal when "Close" action is dispatched
       return updateState({}, null, false);
     default:
-      return updateState({}, null, false);
+      return state;
   }
 }
 
 // common item details state
 export const commonItemInitialState = {
   modalShow: false,
-  partName: null,
+  partName: "OpenPo",
   singleRowData: {},
 };
 
@@ -77,9 +80,9 @@ export const fetchCommonItemDetailsData = (obj) => {
   // destrcuture
   const {
     getCommonItemData,
-    selectedBusinessUnit,
     commonItemDetailsState,
     commonItemDetailsDispatch,
+    values,
   } = obj;
 
   // single row
@@ -91,7 +94,7 @@ export const fetchCommonItemDetailsData = (obj) => {
   const { partName } = commonItemDetailsState;
 
   // params
-  const params = `businessUnitId=${selectedBusinessUnit?.value}&itemId=${itemId}&partName=${partName}`;
+  const params = `businessUnitId=${values?.businessUnit?.value}&itemId=${itemId}&partName=${partName}`;
 
   getCommonItemData(`${url}?${params}`);
 };
