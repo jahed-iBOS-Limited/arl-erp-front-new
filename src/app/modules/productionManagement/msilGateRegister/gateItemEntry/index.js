@@ -1,6 +1,9 @@
 import { Formik } from "formik";
 import React, { useEffect, useMemo, useState } from "react";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { toast } from "react-toastify";
 import {
   Card,
   CardBody,
@@ -8,22 +11,19 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import PaginationSearch from "../../../_helper/_search";
+import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IViewModal from "../../../_helper/_viewModal";
-import BulkDetails from "./bulkDetails";
 import { _todayDate } from "../../../_helper/_todayDate";
-import NewSelect from "../../../_helper/_select";
-import { toast } from "react-toastify";
+import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import BulkDetails from "./bulkDetails";
+import { calculateTimeDifference } from "./helper";
 
 const initData = {
   date: _todayDate(),
@@ -219,6 +219,7 @@ function GateItemEntry() {
                             <th>রেজি. নং</th>
                             <th>প্রবেশের সময়</th>
                             <th>বহির্গমনের সময়</th>
+                            <th>সময়কাল</th>
                             <th>চালান নাম্বার </th>
                             {selectedBusinessUnit?.value === 4 ? (
                               <th>ভ্যাট চালান নাম্বার</th>
@@ -255,6 +256,12 @@ function GateItemEntry() {
                                 </td>
                                 <td className="text-center">
                                   {_timeFormatter(item?.tmOutTime || "")}
+                                </td>
+                                <td>
+                                  {calculateTimeDifference(
+                                    item?.tmInTime,
+                                    item?.tmOutTime
+                                  )}
                                 </td>
                                 <td className="text-center">
                                   {item?.strInvoiceNumber}
