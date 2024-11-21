@@ -29,6 +29,7 @@ const initData = {
   hsCode: "",
   lotSize: 0,
   vatItem: "",
+  conversionRatePcs: "",
 };
 
 export default function CreateItemPurchaseInfo({ isViewPage }) {
@@ -136,6 +137,7 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
         minOrderQuantity: 0,
         lotSize: 0,
         isMrp: true,
+        conversionRatePcs: "",
       };
       setData(tobj);
     }
@@ -151,6 +153,12 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
       selectedBusinessUnit
     ) {
       if (values?.distributionChannel?.length > 0) {
+        if (selectedBusinessUnit.value == 144 && !values.conversionRatePcs) {
+          toast.warning("Conversion Rate Pcs is required", {
+            toastId: 1,
+          });
+          return;
+        }
         const payload = values?.distributionChannel?.map((itm, idx) => ({
           id: ++idx,
           configId: itm?.configId || 0,
@@ -172,6 +180,7 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
           actionBy: profileData.userId,
           taxItemId: values.vatItem?.value || 0,
           mrp: +values?.mrp || 0,
+          conversionRatePcs: values.conversionRatePcs,
         }));
         try {
           const url = isExist
