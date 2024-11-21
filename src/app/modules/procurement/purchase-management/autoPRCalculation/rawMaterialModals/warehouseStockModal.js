@@ -4,15 +4,10 @@ import IForm from "../../../../_helper/_form";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../purchaseOrder/customHooks/useAxiosGet";
 import { fetchWarehouseStockDetailsData } from "./helper";
-import { shallowEqual, useSelector } from "react-redux";
 
 const WarehouseStockModal = ({ objProp }) => {
   // obj props
   const { singleRowData, setSingleRowData, values } = objProp;
-  // redux
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
 
   // state
   const [objProps, setObjprops] = useState({});
@@ -26,7 +21,6 @@ const WarehouseStockModal = ({ objProp }) => {
   useEffect(() => {
     fetchWarehouseStockDetailsData({
       getWarehouseStockData,
-      selectedBusinessUnit,
       singleRowData,
       setSingleRowData,
       values,

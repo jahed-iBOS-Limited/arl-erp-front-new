@@ -2,6 +2,7 @@
 import { Form, Formik } from "formik";
 import React, { useReducer, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
 import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
@@ -11,14 +12,12 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import BreakDownModal from "./breakdownModal";
-import { toast } from "react-toastify";
-import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
-import WarehouseStockModal from "./rawMaterialModals/warehouseStockModal";
 import CommonItemDetailsModal from "./rawMaterialModals/commonItemDetailsModal";
 import {
   commonItemInitialState,
   commonItemReducer,
 } from "./rawMaterialModals/helper";
+import WarehouseStockModal from "./rawMaterialModals/warehouseStockModal";
 
 const months = [
   { name: "Jan", value: 1 },
@@ -56,7 +55,6 @@ export default function RawMaterialAutoPR() {
     commonItemReducer,
     commonItemInitialState
   );
-
 
   const { profileData, businessUnitList } = useSelector((state) => {
     return state.authData;
@@ -310,52 +308,81 @@ export default function RawMaterialAutoPR() {
                                     ? item?.totalBudgetQty?.toFixed(2)
                                     : ""}
                                 </td> */}
-                                <td className="d-flex flex-row justify-content-between">
+                                <td
+                                  className="text-right text-primary cursor-pointer"
+                                  onClick={() => {
+                                    setWarehouseStockModalShow(true);
+                                    setSingleRowData(item);
+                                  }}
+                                >
                                   {item?.stockQty?.toFixed(2) || 0}
-                                  <InfoCircle
+                                  {/* <InfoCircle
                                     clickHandler={() => {
                                       setWarehouseStockModalShow(true);
                                       setSingleRowData(item);
                                     }}
-                                  />
+                                  /> */}
                                 </td>
-
-                                <td>
+                                <td
+                                  onClick={() =>
+                                    commonItemDetailsDispatch({
+                                      type: "FloatingStock",
+                                      payload: { singleRowData: item },
+                                    })
+                                  }
+                                  className="text-right text-primary cursor-pointer"
+                                >
                                   {item?.floatingStock.toFixed(2) || 0}
-                                  <InfoCircle
+                                  {/* <InfoCircle
                                     clickHandler={() =>
                                       commonItemDetailsDispatch({
                                         type: "FloatingStock",
                                         payload: { singleRowData: item },
                                       })
                                     }
-                                  />
+                                  /> */}
                                 </td>
 
-                                <td className="text-center">
+                                <td
+                                  className="text-right text-primary cursor-pointer"
+                                  onClick={() =>
+                                    commonItemDetailsDispatch({
+                                      type: "OpenPo",
+                                      payload: { singleRowData: item },
+                                    })
+                                  }
+                                >
                                   {(
                                     item?.numOpenPOQty - item?.balanceOnGhat
                                   ).toFixed(2) || 0}
-                                  <InfoCircle
+                                  {/* <InfoCircle
                                     clickHandler={() =>
                                       commonItemDetailsDispatch({
                                         type: "OpenPo",
                                         payload: { singleRowData: item },
                                       })
                                     }
-                                  />
+                                  /> */}
                                 </td>
 
-                                <td className="text-center">
+                                <td
+                                  className="text-right text-primary cursor-pointer"
+                                  onClick={() =>
+                                    commonItemDetailsDispatch({
+                                      type: "OpenPR",
+                                      payload: { singleRowData: item },
+                                    })
+                                  }
+                                >
                                   {item?.openPRQty?.toFixed(2) || 0}
-                                  <InfoCircle
+                                  {/* <InfoCircle
                                     clickHandler={() =>
                                       commonItemDetailsDispatch({
                                         type: "OpenPR",
                                         payload: { singleRowData: item },
                                       })
                                     }
-                                  />
+                                  /> */}
                                 </td>
                                 <td className="text-center">
                                   {item?.deadStockQuantity || 0}
@@ -475,6 +502,7 @@ export default function RawMaterialAutoPR() {
                 objProp={{
                   commonItemDetailsState,
                   commonItemDetailsDispatch,
+                  values,
                 }}
               />
             </IViewModal>
