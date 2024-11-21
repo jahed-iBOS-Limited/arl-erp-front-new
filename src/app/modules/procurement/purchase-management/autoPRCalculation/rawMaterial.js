@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import InputField from "../../../_helper/_inputField";
 import NewSelect from "../../../_helper/_select";
 import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
@@ -11,7 +12,12 @@ import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IForm from "./../../../_helper/_form";
 import Loading from "./../../../_helper/_loading";
 import BreakDownModal from "./breakdownModal";
-import { toast } from "react-toastify";
+import CommonItemDetailsModal from "./rawMaterialModals/commonItemDetailsModal";
+import {
+  commonItemInitialState,
+  commonItemReducer,
+} from "./rawMaterialModals/helper";
+import WarehouseStockModal from "./rawMaterialModals/warehouseStockModal";
 
 const months = [
   { name: "Jan", value: 1 },
@@ -33,7 +39,7 @@ const initData = {
   monthYear: _getCurrentMonthYearForInput(),
 };
 export default function RawMaterialAutoPR() {
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   const [
     autoRawMaterialData,
     getAutoRawMaterialData,
@@ -41,7 +47,14 @@ export default function RawMaterialAutoPR() {
     setAutoRawMaterialData,
   ] = useAxiosGet();
   const [, saveHeaderData, loader] = useAxiosPost();
+
+  // state
   const [singleRowData, setSingleRowData] = useState();
+  const [warehouseStockModalShow, setWarehouseStockModalShow] = useState(false);
+  const [commonItemDetailsState, commonItemDetailsDispatch] = useReducer(
+    commonItemReducer,
+    commonItemInitialState
+  );
 
   const { profileData, businessUnitList } = useSelector((state) => {
     return state.authData;
@@ -51,8 +64,10 @@ export default function RawMaterialAutoPR() {
 
   const getData = (values) => {
     getAutoRawMaterialData(
-      `/procurement/AutoPurchase/GetInsertPRCalculationNew?BusinessUnitId=${values?.businessUnit?.value
-      }&FromMonth=${`${values?.monthYear?.split("-")[0]}-${values?.monthYear?.split("-")[1]
+      `/procurement/AutoPurchase/GetInsertPRCalculationNew?BusinessUnitId=${
+        values?.businessUnit?.value
+      }&FromMonth=${`${values?.monthYear?.split("-")[0]}-${
+        values?.monthYear?.split("-")[1]
       }-01`}&ItemCategoryId=0&ItemSubCategoryId=0`
     );
   };
@@ -198,9 +213,12 @@ export default function RawMaterialAutoPR() {
                               payload,
                               () => {
                                 getAutoRawMaterialData(
-                                  `/procurement/AutoPurchase/GetInsertPRCalculation?BusinessUnitId=${values?.businessUnit?.value
-                                  }&FromMonth=${`${values?.monthYear?.split("-")[0]
-                                  }-${values?.monthYear?.split("-")[1]
+                                  `/procurement/AutoPurchase/GetInsertPRCalculation?BusinessUnitId=${
+                                    values?.businessUnit?.value
+                                  }&FromMonth=${`${
+                                    values?.monthYear?.split("-")[0]
+                                  }-${
+                                    values?.monthYear?.split("-")[1]
                                   }-01`}&ItemCategoryId=0&ItemSubCategoryId=0`
                                 );
                               },
@@ -255,10 +273,11 @@ export default function RawMaterialAutoPR() {
                             <th>Dead Stock</th>
                             <th>Available Stock</th>
                             <th>
-                              {`${getSelectedAndNextMonths(
-                                values?.monthYear?.split("-")[1]
-                              )?.[0]?.name
-                                } Requirment` || ""}
+                              {`${
+                                getSelectedAndNextMonths(
+                                  values?.monthYear?.split("-")[1]
+                                )?.[0]?.name
+                              } Requirment` || ""}
                             </th>
                             {/* <th>Total Requirment</th> */}
                             <th>Schedule Quantity</th>
@@ -289,19 +308,81 @@ export default function RawMaterialAutoPR() {
                                     ? item?.totalBudgetQty?.toFixed(2)
                                     : ""}
                                 </td> */}
-                                <td className="text-center">
+                                <td
+                                  className="text-right text-primary cursor-pointer"
+                                  onClick={() => {
+                                    setWarehouseStockModalShow(true);
+                                    setSingleRowData(item);
+                                  }}
+                                >
                                   {item?.stockQty?.toFixed(2) || 0}
+                                  {/* <InfoCircle
+                                    clickHandler={() => {
+                                      setWarehouseStockModalShow(true);
+                                      setSingleRowData(item);
+                                    }}
+                                  /> */}
                                 </td>
-                                <td className="text-center">
+                                <td
+                                  onClick={() =>
+                                    commonItemDetailsDispatch({
+                                      type: "FloatingStock",
+                                      payload: { singleRowData: item },
+                                    })
+                                  }
+                                  className="text-right text-primary cursor-pointer"
+                                >
+                                  {item?.floatingStock.toFixed(2) || 0}
+                                  {/* <InfoCircle
+                                    clickHandler={() =>
+                                      commonItemDetailsDispatch({
+                                        type: "FloatingStock",
+                                        payload: { singleRowData: item },
+                                      })
+                                    }
+                                  /> */}
+                                </td>
+
+                                <td
+                                  className="text-right text-primary cursor-pointer"
+                                  onClick={() =>
+                                    commonItemDetailsDispatch({
+                                      type: "OpenPo",
+                                      payload: { singleRowData: item },
+                                    })
+                                  }
+                                >
                                   {(
                                     item?.numOpenPOQty - item?.balanceOnGhat
                                   ).toFixed(2) || 0}
+                                  {/* <InfoCircle
+                                    clickHandler={() =>
+                                      commonItemDetailsDispatch({
+                                        type: "OpenPo",
+                                        payload: { singleRowData: item },
+                                      })
+                                    }
+                                  /> */}
                                 </td>
-                                <td className="text-center">
-                                  {item?.inTransit?.toFixed(2) || 0}
-                                </td>
-                                <td className="text-center">
+
+                                <td
+                                  className="text-right text-primary cursor-pointer"
+                                  onClick={() =>
+                                    commonItemDetailsDispatch({
+                                      type: "OpenPR",
+                                      payload: { singleRowData: item },
+                                    })
+                                  }
+                                >
                                   {item?.openPRQty?.toFixed(2) || 0}
+                                  {/* <InfoCircle
+                                    clickHandler={() =>
+                                      commonItemDetailsDispatch({
+                                        type: "OpenPR",
+                                        payload: { singleRowData: item },
+                                      })
+                                    }
+                                  /> */}
                                 </td>
                                 <td className="text-center">
                                   {item?.deadStockQuantity || 0}
@@ -309,7 +390,8 @@ export default function RawMaterialAutoPR() {
                                 <td className="text-center">
                                   {(
                                     (item?.stockQty ?? 0) +
-                                    ((item?.numOpenPOQty ?? 0) - (item?.balanceOnGhat ?? 0)) +
+                                    ((item?.numOpenPOQty ?? 0) -
+                                      (item?.balanceOnGhat ?? 0)) +
                                     (item?.inTransit ?? 0) -
                                     (item?.deadStockQuantity ?? 0)
                                   )?.toFixed(2) || 0}
@@ -318,7 +400,8 @@ export default function RawMaterialAutoPR() {
                                   {(
                                     (item?.firstMonthQty ?? 0) -
                                     ((item?.stockQty ?? 0) +
-                                      ((item?.numOpenPOQty ?? 0) - (item?.balanceOnGhat ?? 0)) +
+                                      ((item?.numOpenPOQty ?? 0) -
+                                        (item?.balanceOnGhat ?? 0)) +
                                       (item?.inTransit ?? 0) -
                                       (item?.deadStockQuantity ?? 0)) -
                                     (item?.openPRQty ?? 0)
@@ -341,24 +424,25 @@ export default function RawMaterialAutoPR() {
                                 <td className="text-center">
                                   {item?.prCalculationHeaderId &&
                                     item?.firstMonthQty - item?.availableStock >
-                                    0 && (
+                                      0 && (
                                       <span
                                         style={{ cursor: "pointer" }}
                                         onClick={() => {
                                           if (
                                             item?.firstMonthQty -
-                                            item?.availableStock >
+                                              item?.availableStock >
                                             0
                                           ) {
                                             setSingleRowData(item);
                                             setShowBreakdownModal(true);
                                           } else {
                                             toast.warn(
-                                              `You don't need to break down this item for the month ${getSelectedAndNextMonths(
-                                                values?.monthYear?.split(
-                                                  "-"
-                                                )[1] || 0
-                                              )?.[0]?.name
+                                              `You don't need to break down this item for the month ${
+                                                getSelectedAndNextMonths(
+                                                  values?.monthYear?.split(
+                                                    "-"
+                                                  )[1] || 0
+                                                )?.[0]?.name
                                               }`
                                             );
                                           }
@@ -384,9 +468,43 @@ export default function RawMaterialAutoPR() {
               show={showBreakdownModal}
               onHide={() => {
                 setShowBreakdownModal(false);
+                setSingleRowData({});
               }}
             >
               <BreakDownModal singleRowData={singleRowData} />
+            </IViewModal>
+
+            {/* Warehouse Stock Details Modal */}
+            <IViewModal
+              show={warehouseStockModalShow}
+              onHide={() => {
+                setWarehouseStockModalShow(false);
+                setSingleRowData({});
+              }}
+            >
+              <WarehouseStockModal
+                objProp={{
+                  singleRowData,
+                  setSingleRowData,
+                  values,
+                }}
+              />
+            </IViewModal>
+
+            {/* Common Item Details Modal */}
+            <IViewModal
+              show={commonItemDetailsState?.modalShow}
+              onHide={() => {
+                commonItemDetailsDispatch({ type: "Close" });
+              }}
+            >
+              <CommonItemDetailsModal
+                objProp={{
+                  commonItemDetailsState,
+                  commonItemDetailsDispatch,
+                  values,
+                }}
+              />
             </IViewModal>
           </IForm>
         </>
