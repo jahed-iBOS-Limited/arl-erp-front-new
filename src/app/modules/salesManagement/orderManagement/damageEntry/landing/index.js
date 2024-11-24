@@ -42,6 +42,8 @@ const DamageEntryLanding = () => {
   const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
 
+  console.log(gridData);
+
   // get user data from store
   const {
     profileData: { accountId: accId, userId, employeeId },
@@ -53,7 +55,11 @@ const DamageEntryLanding = () => {
   }, [accId, buId]);
 
   const salesReturnLandingActions = (values, _pageNo = 0, _pageSize = 15) => {
-    const url = `/oms/SalesReturnAndCancelProcess/GetDamageReturnPagination?Type=${
+    let url = "";
+    // values destrcuture
+    const { reportType, channel, customer } = values;
+    // damage entry report params
+    let damageEntryLandingParams = `Type=${
       values?.viewAs?.value
     }&accId=${accId}&status=${
       values?.status?.value
@@ -62,7 +68,23 @@ const DamageEntryLanding = () => {
     }&pageNo=${_pageNo}&pageSize=${_pageSize}&SalesReturnType=${2}&viewOrder=desc&CustomerId=${values
       ?.customer?.value || 0}&ChannelId=${values?.channel?.value || 0}`;
 
+    // challan vs damage report params
+    let challanVSDamageReportParams = `salesReturnType=2&accountId=${accId}&busuinessUnitId=${buId}&fromDate=${
+      values?.fromDate
+    }&toDate=${
+      values?.toDate
+    }&pageNo=${_pageNo}&pageSize=${_pageSize}&customerId=${customer?.value ||
+      0}&channelId=${channel?.value || 0}`;
+
+    // url generate
+    if (reportType?.label === "Damage Entry Landing") {
+      url = `/oms/SalesReturnAndCancelProcess/GetDamageReturnPagination?${damageEntryLandingParams}`;
+    } else {
+      url = `/oms/SalesReturnAndCancelProcess/GetDeliveryAndDamageInformation?${challanVSDamageReportParams}`;
+    }
+
     landingActions(url, (resData) => {
+      console.log("Res", resData?.data);
       setGridData({
         ...resData?.data,
         data: resData?.data?.data?.map((item) => ({
@@ -251,6 +273,8 @@ const DamageEntryLanding = () => {
                   salesReturnLandingActions,
                 }}
               />
+
+              {/* Landing Table */}
               <DamageEntryLandingTable
                 obj={{
                   values,
@@ -264,6 +288,18 @@ const DamageEntryLanding = () => {
                   salesReturnApprove,
                 }}
               />
+
+              {/* Pagination Table */}
+              {gridData?.data?.length > 0 && (
+                <PaginationTable
+                  count={gridData?.totalCount}
+                  setPositionHandler={setPaginationHandler}
+                  paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+                  values={values}
+                />
+              )}
+
+              {/* Modal Edit & Approve */}
               <IViewModal
                 show={open}
                 onHide={() => {
@@ -278,14 +314,6 @@ const DamageEntryLanding = () => {
                   preValues={values}
                 />
               </IViewModal>
-              {gridData?.data?.length > 0 && (
-                <PaginationTable
-                  count={gridData?.totalCount}
-                  setPositionHandler={setPaginationHandler}
-                  paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
-                  values={values}
-                />
-              )}
             </ICustomCard>
           </>
         )}
