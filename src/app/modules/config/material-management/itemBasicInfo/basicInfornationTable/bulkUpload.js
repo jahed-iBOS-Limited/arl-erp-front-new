@@ -72,6 +72,12 @@ export default function BulkUpload() {
         isSerialMaintain: item?.isSerialMaintain || false,
         purchaseOrganizationId: item?.purchaseOrganizationId || 0,
         purchaseOrganizationName: item?.purchaseOrganizationName || "",
+        maxLeadDays: item?.maxLeadDays || 0,
+        warehouseId: item?.warehouseId || 0,
+        plantId: item?.plantId || 0,
+        inventoryLocationId: item?.inventoryLocationId || 0,
+        binNumber: item?.binNumber || "",
+        uomName: item?.uomName || "",
       };
       return newItem;
     });
@@ -161,6 +167,12 @@ export default function BulkUpload() {
                     <th>Drawing Code</th>
                     <th>Part No</th>
                     <th>Serial Mantain</th>
+                    <th>Lead Days (Max)</th>
+                    <th>Warehouse Id</th>
+                    <th>Plant Id</th>
+                    <th>Inventory Location Id</th>
+                    <th>Bin No</th>
+                    <th>UOM</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -212,6 +224,12 @@ export default function BulkUpload() {
                       <td className="text-center">
                         {item?.isSerialMaintain ? "Yes" : "No"}
                       </td>
+                      <td>{item?.maxLeadDays}</td>
+                      <td>{item?.warehouseId}</td>
+                      <td>{item?.plantId}</td>
+                      <td>{item?.inventoryLocationId}</td>
+                      <td>{item?.binNumber}</td>
+                      <td>{item?.uomName}</td>
                     </tr>
                   ))}
                 </tbody>
