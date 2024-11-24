@@ -43,8 +43,9 @@ export const GetShipPointDDL = async (accId, buId, setter) => {
     setter([]);
   }
 };
-export const GetLandingData = async (values, setter) => {
+export const GetLandingData = async (values, setter, setLoading) => {
   try {
+    setLoading(true);
     const res = await Axios.get(
       `/tms/LigterLoadUnload/GTOGLighterVesselShipPointChange?intLighterVesselId=${values
         ?.lighterVessel?.value || 0}&intShipPointid=${values?.shipPoint
@@ -53,8 +54,27 @@ export const GetLandingData = async (values, setter) => {
         0}&intPartid=${values?.type?.value || 0}`
     );
     setter(res?.data);
+    setLoading(false);
   } catch (error) {
     setter([]);
+    setLoading(false);
+  } finally {
+    setLoading(false);
+  }
+};
+export const GetBillingData = async (values, setter, setLoading) => {
+  try {
+    setLoading(true);
+    const res = await Axios.get(
+      `/tms/LigterLoadUnload/GetG2GChallanSupportInformation?accountId=1&businessUnitId=${values?.buId}&supplierId=0&challanNumber=${values?.challanNumber}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+    );
+    setter(res?.data);
+    setLoading(false);
+  } catch (error) {
+    setter([]);
+    setLoading(false);
+  } finally {
+    setLoading(false);
   }
 };
 
