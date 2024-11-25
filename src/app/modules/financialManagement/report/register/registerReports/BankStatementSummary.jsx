@@ -10,7 +10,7 @@ import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIRe
 import NewSelect from "../../../../_helper/_select";
 
 const initData = {
-  intUnitId: "",
+  intUnitId: { value: 0, label: "All" },
   reportType: "",
   conversionRate: "",
   fromDate: "",
@@ -46,7 +46,7 @@ export default function BankStateMentSummary() {
     const commonParam = [
       { name: "intUnit", value: values?.intUnitId?.value?.toString() },
       { name: "ConversionRate", value: values?.conversionRate },
-      { name: "ViewType", value: `${values?.viewType?.label}` },
+      { name: "ViewType", value: `${values?.viewType?.value}` },
       { name: "dteFromDate", value: values?.fromDate },
       { name: "dteToDate", value: values?.toDate },
     ];
@@ -106,11 +106,15 @@ export default function BankStateMentSummary() {
                     <div className="col-lg-2">
                       <NewSelect
                         name="intUnitId"
-                        options={businessUnitList}
+                        options={[
+                          { value: 0, label: "All" },
+                          ...businessUnitList,
+                        ]}
                         value={values?.intUnitId}
                         label="Business Unit List"
                         onChange={(valueOption) => {
                           setFieldValue("intUnitId", valueOption || "");
+                          setShow(false);
                         }}
                         errors={errors}
                         touched={touched}
@@ -167,6 +171,7 @@ export default function BankStateMentSummary() {
                       label="View Type"
                       onChange={(valueOption) => {
                         setFieldValue("viewType", valueOption || "");
+                        setShow(false);
                       }}
                       errors={errors}
                       touched={touched}
@@ -181,7 +186,10 @@ export default function BankStateMentSummary() {
                     className="btn btn-primary"
                     onClick={() => {
                       if (values?.reportType?.value == 2) {
-                        setShow(true);
+                        setShow(false);
+                        setTimeout(() => {
+                          setShow(true);
+                        }, 500);
                       } else {
                         getBankStatementData(
                           `/fino/BusinessTransaction/GetBankAccountStatementSummaryReport?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
