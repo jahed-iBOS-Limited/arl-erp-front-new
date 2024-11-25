@@ -218,11 +218,10 @@ export default function RawMaterialAutoPR() {
                                   (itm?.deadStockQuantity ?? 0)
                                 )?.toFixed(2) || 0;
 
-                              totalBudgetQty =
-                                +itm?.firstMonthQty ||
-                                0 + +itm?.secondMonthQty ||
-                                0 + +itm?.thirdMonthQty ||
-                                0;
+                              totalBudgetQty +=
+                                (+itm?.firstMonthQty || 0) +
+                                (+itm?.secondMonthQty || 0) +
+                                (+itm?.thirdMonthQty || 0);
 
                               // console.log(availableStock);
                               // console.log("T", totalBudgetQty);
@@ -346,11 +345,10 @@ export default function RawMaterialAutoPR() {
                                   (item?.deadStockQuantity ?? 0)
                                 )?.toFixed(2) || 0;
 
-                              totalBudgetQty =
-                                +item?.firstMonthQty ||
-                                0 + +item?.secondMonthQty ||
-                                0 + +item?.thirdMonthQty ||
-                                0;
+                              totalBudgetQty +=
+                                (+item?.firstMonthQty || 0) +
+                                (+item?.secondMonthQty || 0) +
+                                (+item?.thirdMonthQty || 0);
 
                               // console.log(availableStock);
                               // console.log("T", totalBudgetQty);
@@ -488,39 +486,36 @@ export default function RawMaterialAutoPR() {
                                     {item?.scheduleQuantity?.toFixed(2) || 0}
                                   </td>
                                   <td className="text-center">
-                                    {item?.prCalculationHeaderId &&
-                                      item?.firstMonthQty -
-                                        item?.availableStock >
-                                        0 && (
-                                        <span
-                                          style={{ cursor: "pointer" }}
-                                          onClick={() => {
-                                            if (
-                                              item?.firstMonthQty -
-                                                item?.availableStock >
-                                              0
-                                            ) {
-                                              setSingleRowData(item);
-                                              setShowBreakdownModal(true);
-                                            } else {
-                                              toast.warn(
-                                                `You don't need to break down this item for the month ${
-                                                  getSelectedAndNextMonths(
-                                                    values?.monthYear?.split(
-                                                      "-"
-                                                    )[1] || 0
-                                                  )?.[0]?.name
-                                                }`
-                                              );
-                                            }
-                                          }}
-                                        >
-                                          <i
-                                            style={{ fontSize: "16px" }}
-                                            className="fa fa-plus-square text-primary mr-2"
-                                          />
-                                        </span>
-                                      )}
+                                    {item?.prCalculationHeaderId && (
+                                      <span
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => {
+                                          if (
+                                            item?.firstMonthQty -
+                                              item?.availableStock >
+                                            0
+                                          ) {
+                                            setSingleRowData(item);
+                                            setShowBreakdownModal(true);
+                                          } else {
+                                            toast.warn(
+                                              `You don't need to break down this item for the month ${
+                                                getSelectedAndNextMonths(
+                                                  values?.monthYear?.split(
+                                                    "-"
+                                                  )[1] || 0
+                                                )?.[0]?.name
+                                              }`
+                                            );
+                                          }
+                                        }}
+                                      >
+                                        <i
+                                          style={{ fontSize: "16px" }}
+                                          className="fa fa-plus-square text-primary mr-2"
+                                        />
+                                      </span>
+                                    )}
                                   </td>
                                 </tr>
                               );
