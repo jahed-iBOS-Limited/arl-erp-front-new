@@ -10,7 +10,7 @@ import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIRe
 import NewSelect from "../../../../_helper/_select";
 
 const initData = {
-  intUnitId: "",
+  intUnitId: { value: 0, label: "All" },
   reportType: "",
   conversionRate: "",
   fromDate: "",
@@ -46,7 +46,7 @@ export default function BankStateMentSummary() {
     const commonParam = [
       { name: "intUnit", value: values?.intUnitId?.value?.toString() },
       { name: "ConversionRate", value: values?.conversionRate },
-      { name: "ViewType", value: `${values?.viewType?.label}` },
+      { name: "ViewType", value: `${values?.viewType?.value}` },
       { name: "dteFromDate", value: values?.fromDate },
       { name: "dteToDate", value: values?.toDate },
     ];
@@ -106,7 +106,10 @@ export default function BankStateMentSummary() {
                     <div className="col-lg-2">
                       <NewSelect
                         name="intUnitId"
-                        options={businessUnitList}
+                        options={[
+                          { value: 0, label: "All" },
+                          ...businessUnitList,
+                        ]}
                         value={values?.intUnitId}
                         label="Business Unit List"
                         onChange={(valueOption) => {
