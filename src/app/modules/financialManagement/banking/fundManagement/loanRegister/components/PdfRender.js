@@ -6,6 +6,7 @@ import WorkingCapitalPdf from "./WorkingCapitalPdf";
 import OthersPdf from "./OthersPdf";
 import "./pdf.css";
 import G2GPdf from "./G2GPdf";
+import SanctionedWorkingCapitalPdf from "./SanctionedWorkingCapitalPdf";
 const EBLBankId = 17;
 const NRBCBankId = 61;
 const PdfRender = ({ singleItem, printRef }) => {
@@ -34,6 +35,14 @@ const ConditionallyRenderPdf = ({ singleItem, selectedBusinessUnit }) => {
   if (singleItem?.disbursementPurposeName === "Working Capital") {
     return (
       <WorkingCapitalPdf
+        singleItem={singleItem}
+        selectedBusinessUnit={selectedBusinessUnit}
+      />
+    );
+  }
+  if (singleItem?.disbursementPurposeName === "Sanctioned Working Capital") {
+    return (
+      <SanctionedWorkingCapitalPdf
         singleItem={singleItem}
         selectedBusinessUnit={selectedBusinessUnit}
       />
