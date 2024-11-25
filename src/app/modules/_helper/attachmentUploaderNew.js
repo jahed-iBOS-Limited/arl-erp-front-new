@@ -66,7 +66,7 @@ export default function AttachmentUploaderNew({
       <DropzoneDialogBase
         filesLimit={fileUploadLimits || 3}
         showAlerts={false}
-        acceptedFiles={["image/*", "application/pdf"]}
+        acceptedFiles={["image/*", "application/pdf",  "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]}
         fileObjects={fileObjects}
         cancelButtonText={"cancel"}
         submitButtonText={"submit"}

@@ -61,6 +61,7 @@ const initValue = {
   hsCode: "",
   lotSize: 0,
   vatItem: "",
+  conversionRatePcs: "",
 };
 
 export default function _Form({
@@ -259,7 +260,6 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            
             {disableHandler(!isValid)}
             <Form className="form form-label-right">
               <div className="form-group row  global-form">
@@ -608,6 +608,16 @@ export default function _Form({
                       ? errors.distributionChannel
                       : ""}
                   </p>
+                </div>
+                <div className="col-lg-3">
+                  <Field
+                    value={values.conversionRatePcs}
+                    name="conversionRatePcs"
+                    component={Input}
+                    placeholder="Conversion Rate Pcs"
+                    label="Conversion Rate Pcs"
+                    type="number"
+                  />
                 </div>
               </div>
 

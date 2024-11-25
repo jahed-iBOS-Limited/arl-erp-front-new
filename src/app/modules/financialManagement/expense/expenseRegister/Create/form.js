@@ -31,6 +31,8 @@ import IView from "./../../../../_helper/_helperIcons/_view";
 import InputField from "./../../../../_helper/_inputField";
 import NewSelect from "./../../../../_helper/_select";
 import { YearDDL } from "./../../../../_helper/_yearDDL";
+import { _todayDate } from "../../../../_helper/_todayDate";
+import { toast } from "react-toastify";
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   // paymentType: Yup.object().shape({
@@ -79,6 +81,9 @@ export default function _Form({
   // cost center state
   const [costCenter, setCostCenter] = useState([]);
   const [costElementDDL, setCostElementDDL] = useState([]);
+  const [bugetHeadWiseBalance, getBugetHeadWiseBalance, budgetWiseLoader, setBugetHeadWiseBalance] = useAxiosGet();
+  const [availableBudgetAdvanceBalance, getAvailableBudgetAdvanceBalance, availableBudgetAdvanceBalanceLoader, setAvailableBudgetAdvanceBalance] = useAxiosGet();
+
   const [
     profitcenterDDL,
     getProfitcenterDDL,
@@ -171,7 +176,7 @@ export default function _Form({
 
   return (
     <>
-      {(loadingOnGetProfitCenter || loading) && <Loading />}
+      {(loadingOnGetProfitCenter || loading || availableBudgetAdvanceBalanceLoader) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={
@@ -198,6 +203,7 @@ export default function _Form({
           saveHandler(values, () => {
             resetForm(initData);
             setRowDto([]);
+            setBugetHeadWiseBalance([]);
           });
         }}
       >
@@ -463,6 +469,7 @@ export default function _Form({
                         onChange={(valueOption) => {
                           setFieldValue("costCenter", valueOption);
                           setFieldValue("costElement", "");
+                          setFieldValue("accountHead", "");
                           setCostElementDDL([]);
                           if (valueOption) {
                             setLoading(true);
@@ -500,6 +507,15 @@ export default function _Form({
                       <Select
                         onChange={(valueOption) => {
                           setFieldValue("costElement", valueOption);
+                          setFieldValue("accountHead", "");
+                          setBugetHeadWiseBalance([])
+                          if(valueOption){
+                            getBugetHeadWiseBalance(`/fino/BudgetaryManage/GetBugetHeadWiseBalance?businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${valueOption?.glId}&subGlId=${valueOption?.subGlId}&accountHeadId=0&dteJournalDate=${_todayDate()}`, (res)=>{
+                              const modiFyData = res?.map((item)=>({...item, value: item?.intAccountHeadId , label: item?.strAccountHeadName}))
+
+                              setBugetHeadWiseBalance(modiFyData)
+                            })
+                          }
                         }}
                         value={values?.costElement || ""}
                         isSearchable={true}
@@ -510,6 +526,27 @@ export default function _Form({
                         isDisabled={!values?.costCenter}
                       />
                     </div>
+                    {(bugetHeadWiseBalance?.length > 0) && (
+                          <>
+                          <div className="col-lg-3">
+                          <NewSelect
+                            name="accountHead"
+                            options={bugetHeadWiseBalance || []}
+                            value={values?.accountHead}
+                            label="Account Head"
+                            onChange={(valueOption) => {
+                              setFieldValue("accountHead", valueOption || "");
+                              if(valueOption){
+                                getAvailableBudgetAdvanceBalance(`/fino/BudgetaryManage/GetAvailableBudgetAdvanceBalance?businessUnitId=${selectedBusinessUnit?.value}&subGlId=${values?.costElement?.subGlId}&accountHeadId=${valueOption?.value}&dteJournalDate=${_todayDate()}`)
+                              }
+
+                            }}
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        </>
+                        )}
                     <div className="col-lg-3">
                       <label>Profit Center</label>
                       <Select
@@ -607,12 +644,21 @@ export default function _Form({
                                 !values?.location ||
                                 !values?.costCenter ||
                                 !values?.costElement ||
-                                !values?.profitCenter
+                                !values?.profitCenter ||
+                                (bugetHeadWiseBalance?.length > 0 && !values?.accountHead)
                           }
                           className="btn btn-primary"
                           onClick={() => {
+                            if (
+                              availableBudgetAdvanceBalance[0].numRemainAmount > 0 &&
+                              availableBudgetAdvanceBalance[0].numRemainAmount < values?.expenseAmount
+                            ) {
+                              return toast.warn("Budget Advance Amount is Exceed");
+                            }
                             setter(values, () => {
                               setFieldValue("expenseAmount", "");
+                              setAvailableBudgetAdvanceBalance(null);
+                              setFieldValue("accountHead", "")
                             });
                             setFieldValue("driverExp", false);
                           }}
@@ -687,6 +733,7 @@ export default function _Form({
                             <th>Expense Date</th>
                             <th>Cost Center</th>
                             <th>Cost Element</th>
+                            <th>Account Head</th>
                             <th>Profit Center</th>
                             <th>Expense Place</th>
                             <th>Expense Amount</th>
@@ -710,6 +757,7 @@ export default function _Form({
                                 </td>
                                 <td>{item?.costCenter?.label}</td>
                                 <td>{item?.costElement?.label}</td>
+                                <td>{item?.accountHead?.label}</td>
                                 <td>{item?.profitCenter?.label}</td>
                                 <td>
                                   <div className="text-left pl-2">

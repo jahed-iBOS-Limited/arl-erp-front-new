@@ -1,19 +1,19 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../../App";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import "./style.css";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import './style.css';
 const validationSchema = Yup.object().shape({});
 function ChargesModal({ rowClickData, CB }) {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, getSaveBookedRequestBilling, bookedRequestBilling] = useAxiosPost();
@@ -38,15 +38,15 @@ function ChargesModal({ rowClickData, CB }) {
           (resSveData) => {
             const modifyData = resShippingHeadOfCharges?.map((item) => {
               const findData = resSveData?.find(
-                (findItem) => findItem?.headOfChargeId === item?.value
+                (findItem) => findItem?.headOfChargeId === item?.value,
               );
               return {
                 ...item,
                 billingId: findData?.billingId || 0,
                 checked: findData ? true : false,
-                amount: findData?.chargeAmount || "",
-                actualExpense: findData?.actualExpense || "",
-                consigneeCharge: findData?.consigneeCharge || ""
+                amount: findData?.chargeAmount || '',
+                actualExpense: findData?.actualExpense || '',
+                consigneeCharge: findData?.consigneeCharge || '',
               };
             });
             const filterNewData = resSveData
@@ -59,13 +59,13 @@ function ChargesModal({ rowClickData, CB }) {
                   amount: item?.chargeAmount,
                   billingId: item?.billingId || 0,
                   actualExpense: item?.actualExpense || 0,
-                  consigneeCharge: item?.consigneeCharge || ""
+                  consigneeCharge: item?.consigneeCharge || '',
                 };
               });
             setShippingHeadOfCharges([...modifyData, ...filterNewData]);
-          }
+          },
         );
-      }
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -78,7 +78,7 @@ function ChargesModal({ rowClickData, CB }) {
           billingId: item?.billingId || 0,
           bookingRequestId: bookingRequestId || 0,
           headOfChargeId: item?.value || 0,
-          headOfCharges: item?.label || "",
+          headOfCharges: item?.label || '',
           chargeAmount: item?.amount || 0,
           consigneeCharge: item?.consigneeCharge || 0,
           actualExpense: item?.actualExpense || 0,
@@ -91,12 +91,12 @@ function ChargesModal({ rowClickData, CB }) {
         };
       });
     if (paylaod.length === 0) {
-      return toast.warn("Please select at least one charge");
+      return toast.warn('Please select at least one charge');
     }
     getSaveBookedRequestBilling(
       `${imarineBaseUrl}/domain/ShippingService/SaveBookedRequestBilling`,
       paylaod,
-      CB
+      CB,
     );
   };
 
@@ -108,10 +108,10 @@ function ChargesModal({ rowClickData, CB }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          amount: "",
-          attribute: "",
-          actualExpense: "",
-          consigneeCharge: ""
+          amount: '',
+          attribute: '',
+          actualExpense: '',
+          consigneeCharge: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -140,25 +140,27 @@ function ChargesModal({ rowClickData, CB }) {
                     label="Attribute"
                     name="attribute"
                     type="text"
-                    onChange={(e) => setFieldValue("attribute", e.target.value)}
+                    onChange={(e) => setFieldValue('attribute', e.target.value)}
                   />
                 </div>
                 <div className="col-lg-3">
                   <InputField
                     value={values?.amount}
-                    label="Amount"
+                    label="Shipper Charge"
                     name="amount"
                     type="number"
-                    onChange={(e) => setFieldValue("amount", e.target.value)}
+                    onChange={(e) => setFieldValue('amount', e.target.value)}
                   />
                 </div>
                 <div className="col-lg-3">
                   <InputField
                     value={values?.actualExpense}
-                    label="Expense Amount"
+                    label="Procured Charge"
                     name=" actualExpense"
                     type="number"
-                    onChange={(e) => setFieldValue("actualExpense", e.target.value)}
+                    onChange={(e) =>
+                      setFieldValue('actualExpense', e.target.value)
+                    }
                   />
                 </div>
                 <div className="col-lg-3">
@@ -167,7 +169,9 @@ function ChargesModal({ rowClickData, CB }) {
                     label="Consignee Charge"
                     name="consigneeCharge"
                     type="number"
-                    onChange={(e) => setFieldValue("consigneeCharge", e.target.value)}
+                    onChange={(e) =>
+                      setFieldValue('consigneeCharge', e.target.value)
+                    }
                   />
                 </div>
                 <div className="col-lg-3">
@@ -178,10 +182,10 @@ function ChargesModal({ rowClickData, CB }) {
                       className="btn btn-primary"
                       onClick={() => {
                         if (!values?.attribute) {
-                          return toast.warn("Attribute is required");
+                          return toast.warn('Attribute is required');
                         }
                         if (!values?.amount) {
-                          return toast.warn("Amount is required");
+                          return toast.warn('Amount is required');
                         }
                         setShippingHeadOfCharges([
                           ...shippingHeadOfCharges,
@@ -191,7 +195,7 @@ function ChargesModal({ rowClickData, CB }) {
                             checked: true,
                             amount: values?.amount,
                             actualExpense: values?.actualExpense,
-                            consigneeCharge: values?.consigneeCharge
+                            consigneeCharge: values?.consigneeCharge,
                           },
                         ]);
                         resetForm();
@@ -203,7 +207,7 @@ function ChargesModal({ rowClickData, CB }) {
                 </div>
               </div>
               <div className="col-lg-12">
-                {" "}
+                {' '}
                 <div className="table-responsive">
                   <table className="table global-table">
                     <thead>
@@ -214,8 +218,8 @@ function ChargesModal({ rowClickData, CB }) {
                             checked={
                               shippingHeadOfCharges?.length > 0
                                 ? shippingHeadOfCharges?.every(
-                                  (item) => item?.checked
-                                )
+                                    (item) => item?.checked,
+                                  )
                                 : false
                             }
                             onChange={(e) => {
@@ -224,18 +228,22 @@ function ChargesModal({ rowClickData, CB }) {
                                   return {
                                     ...item,
                                     checked: e?.target?.checked,
-                                    amount: e?.target?.checked ? item?.amount : "",
-                                    actualExpense: e?.target?.checked ? item?.actualExpense : ""
+                                    amount: e?.target?.checked
+                                      ? item?.amount
+                                      : '',
+                                    actualExpense: e?.target?.checked
+                                      ? item?.actualExpense
+                                      : '',
                                   };
-                                })
+                                }),
                               );
                             }}
                           />
                         </th>
                         <th className="p-0">SL</th>
                         <th className="p-0">Attribute</th>
-                        <th className="p-0">Amount</th>
-                        <th className="p-0">Expense Amount</th>
+                        <th className="p-0">Shipper Charge</th>
+                        <th className="p-0">Procured Charge</th>
                         <th className="p-0">Consignee Charge</th>
                       </tr>
                     </thead>
@@ -249,8 +257,8 @@ function ChargesModal({ rowClickData, CB }) {
                               onChange={(e) => {
                                 const copyprvData = [...shippingHeadOfCharges];
                                 copyprvData[index].checked = e.target.checked;
-                                copyprvData[index].amount = "";
-                                copyprvData[index].actualExpense = "";
+                                copyprvData[index].amount = '';
+                                copyprvData[index].actualExpense = '';
                                 setShippingHeadOfCharges(copyprvData);
                               }}
                             />
@@ -281,7 +289,8 @@ function ChargesModal({ rowClickData, CB }) {
                               type="number"
                               onChange={(e) => {
                                 const copyprvData = [...shippingHeadOfCharges];
-                                copyprvData[index].actualExpense = e.target.value;
+                                copyprvData[index].actualExpense =
+                                  e.target.value;
                                 setShippingHeadOfCharges(copyprvData);
                               }}
                               name="actualExpense"
@@ -295,7 +304,8 @@ function ChargesModal({ rowClickData, CB }) {
                               type="number"
                               onChange={(e) => {
                                 const copyprvData = [...shippingHeadOfCharges];
-                                copyprvData[index].consigneeCharge = e.target.value;
+                                copyprvData[index].consigneeCharge =
+                                  e.target.value;
                                 setShippingHeadOfCharges(copyprvData);
                               }}
                               name="consigneeCharge"

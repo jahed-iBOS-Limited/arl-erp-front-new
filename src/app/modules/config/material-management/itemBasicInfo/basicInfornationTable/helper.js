@@ -60,6 +60,26 @@ export const readAndPrintExcelData = async ({
     setLoading(false);
   }
 };
+export const mapApiResponseToFrontend = (apiData) => {
+  return apiData.map((item) => ({
+    itemMasterCode: item.itemId || "",
+    itemMasterName: item.itemName || "",
+    itemMasterTypeId: item.itemTypeId || 0,
+    itemMasterCategoryId: item.itemCategoryId || 0,
+    itemMasterSubCategoryId: item.itemSubCategoryId || 0,
+    purchaseOrganizationId: item.purchaseOrganizationId || 0,
+    drawingCode: "",
+    partNo: "",
+    isSerialMaintain: "",
+    maxLeadDays: item.maxLeadDays || 0,
+    warehouseId: item.warehouseId || 0,
+    plantId: item.plantId || 0,
+    inventoryLocationId: item.inventoryLocationId || 0,
+    binNumber: item.binNumber || "",
+    uomName: item.uomName || "",
+    status: item.status || "",
+  }));
+};
 
 export const itemListExcelGenerator = (itemList) => {
   const header = [
@@ -117,6 +137,49 @@ export const itemListExcelGenerator = (itemList) => {
       alignment: "center:middle",
       key: "isSerialMaintain",
       formatter: (item) => (item.isSerialMaintain ? "Yes" : "No"),
+    },
+    {
+      text: "maxLeadDays",
+      textFormat: "text",
+      alignment: "center:middle",
+      key: "maxLeadDays",
+    },
+    {
+      text: "warehouseId",
+      textFormat: "text",
+      alignment: "center:middle",
+      key: "warehouseId",
+    },
+    {
+      text: "plantId",
+      textFormat: "text",
+      alignment: "center:middle",
+      key: "plantId",
+    },
+    {
+      text: "inventoryLocationId",
+      textFormat: "text",
+      alignment: "center:middle",
+      key: "inventoryLocationId",
+    },
+    {
+      text: "binNumber",
+      textFormat: "text",
+      alignment: "center:middle",
+      key: "binNumber",
+    },
+    {
+      text: "uomName",
+      textFormat: "text",
+      alignment: "center:middle",
+      key: "uomName",
+    },
+    {
+      text: "Status",
+      textFormat: "text",
+      alignment: "center:middle",
+      key: "status",
+      formatter: (item) => item.status,
     },
   ];
 

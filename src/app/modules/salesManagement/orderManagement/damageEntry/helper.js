@@ -130,3 +130,22 @@ export const salesReturnCancel = async (payload, setLoading, cb) => {
     setLoading(false);
   }
 };
+
+// damage entry
+// damange entry or challan vs damage report view btn disable handler
+export const viewReportBtnValidationHandler = (values) => {
+  // console.log(values);
+
+  // destrcuture
+  const { viewAs, sbu, customer, channel, reportType } = values;
+
+  switch (reportType?.label) {
+    case "Damage Entry Landing":
+      return !viewAs || (viewAs?.value === 2 && !sbu);
+
+    case "Challan Vs Damage Report":
+      return !customer || !channel;
+    default:
+      return true;
+  }
+};
