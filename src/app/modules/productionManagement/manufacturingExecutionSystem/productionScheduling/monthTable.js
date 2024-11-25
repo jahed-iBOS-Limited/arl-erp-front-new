@@ -20,10 +20,10 @@ const MonthTable = ({ tableData, setTableData, singleData, cb, values }) => {
 
     const saveHandler = () => {
         // Extract product and work center based on the indices
-        const monthlyScheduleQty = tableData[singleData?.productIndex]?.productQty;
-        if (totalQuantity > monthlyScheduleQty) {
-            return toast.warn("Total Quantity should be less then Monthly Schedule Qty")
-        }
+        // const monthlyScheduleQty = tableData[singleData?.productIndex]?.productQty;
+        // if (totalQuantity > monthlyScheduleQty) {
+        //     return toast.warn("Total Quantity should be less then Monthly Schedule Qty")
+        // }
         const product = tableData[singleData?.productIndex];
         const workCenter = product?.workCenters[singleData?.workCenterIndex];
 

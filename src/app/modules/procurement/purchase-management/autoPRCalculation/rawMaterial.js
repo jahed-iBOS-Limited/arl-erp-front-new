@@ -18,6 +18,8 @@ import {
   commonItemReducer,
 } from "./rawMaterialModals/helper";
 import WarehouseStockModal from "./rawMaterialModals/warehouseStockModal";
+import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
+import { _monthLastDate } from "../../../_helper/_monthLastDate";
 
 const months = [
   { name: "Jan", value: 1 },
@@ -86,6 +88,8 @@ export default function RawMaterialAutoPR() {
       months[(selectedIndex + 2) % months.length],
     ];
   };
+
+  // console.log(autoRawMaterialData);
 
   return (
     <Formik
@@ -202,12 +206,53 @@ export default function RawMaterialAutoPR() {
                           type="button"
                           onClick={() => {
                             const payload = autoRawMaterialData?.map((itm) => {
+                              let totalBudgetQty = 0;
+                              let availableStock = 0;
+
+                              availableStock =
+                                (
+                                  (itm?.stockQty ?? 0) +
+                                  (itm?.numOpenPOQty ?? 0) +
+                                  (itm?.inTransit ?? 0) +
+                                  (itm?.openPRQty ?? 0) -
+                                  (itm?.deadStockQuantity ?? 0)
+                                )?.toFixed(2) || 0;
+
+                              totalBudgetQty =
+                                +itm?.firstMonthQty ||
+                                0 + +itm?.secondMonthQty ||
+                                0 + +itm?.thirdMonthQty ||
+                                0;
+
+                              // console.log(availableStock);
+                              // console.log("T", totalBudgetQty);
+
                               return {
                                 ...itm,
                                 prCalculationHeaderId: 0,
+                                businessUnitId:
+                                  values?.businessUnit?.value || 0,
+                                businessUnitName:
+                                  values?.businessUnit?.label || "",
+                                fromDate: _monthFirstDate(values?.monthYear),
+                                toDate: _monthLastDate(values?.monthYear),
+                                itemCategoryId: 0,
+                                itemSubCategoryId: 0,
+                                secondMonthQty: itm?.secondMonthQty || 0,
+                                thirdMonthQty: itm?.thirdMonthQty || 0,
+                                totalBudgetQty: totalBudgetQty,
+                                inTransit: 0,
+                                openPRQty: itm?.openPRQty || 0,
+                                availableStock: availableStock,
+                                closingBlance:
+                                  (totalBudgetQty - availableStock).toFixed(
+                                    2
+                                  ) || 0,
+
                                 intActionBy: profileData?.userId,
                               };
                             });
+                            // console.log(payload)
                             saveHeaderData(
                               `/procurement/AutoPurchase/CreatePRCalculationHeader`,
                               payload,
@@ -244,34 +289,36 @@ export default function RawMaterialAutoPR() {
                             <th>Item Code</th>
                             <th>Item Name</th>
                             <th>UOM</th>
-                            <th>
+                            <th style={{ width: "80px" }}>
                               {
                                 getSelectedAndNextMonths(
                                   values?.monthYear?.split("-")[1] || 0
                                 )?.[0]?.name
                               }
                             </th>
-                            {/* <th>
+                            <th style={{ width: "80px" }}>
                               {
                                 getSelectedAndNextMonths(
                                   values?.monthYear?.split("-")[1] || 0
                                 )?.[1]?.name
                               }
                             </th>
-                            <th>
+                            <th style={{ width: "80px" }}>
                               {
                                 getSelectedAndNextMonths(
                                   values?.monthYear?.split("-")[1]
                                 )?.[2]?.name
                               }
-                            </th> 
-                            <th>Total QTY</th> */}
+                            </th>
+
+                            <th>Total QTY</th>
                             <th>Warehouse Stock</th>
                             <th>Floating Stock</th>
                             <th>In Transit</th>
                             <th>Open PR</th>
                             <th>Dead Stock</th>
                             <th>Available Stock</th>
+                            <th>Closing Balance</th>
                             <th>
                               {`${
                                 getSelectedAndNextMonths(
@@ -286,54 +333,76 @@ export default function RawMaterialAutoPR() {
                         </thead>
                         <tbody>
                           {autoRawMaterialData?.length > 0 &&
-                            autoRawMaterialData?.map((item, index) => (
-                              <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td className="text-center">
-                                  {item?.itemCode}
-                                </td>
-                                <td>{item?.itemName}</td>
-                                <td className="text-center">{item?.uomName}</td>
-                                <td className="text-center">
-                                  {item?.firstMonthQty || ""}
-                                </td>
-                                {/* <td className="text-center">
-                                  {item?.secondMonthQty || ""}
-                                </td>
-                                <td className="text-center">
-                                  {item?.thirdMonthQty || ""}
-                                </td>
-                                <td className="text-center">
-                                  {item?.totalBudgetQty
-                                    ? item?.totalBudgetQty?.toFixed(2)
-                                    : ""}
-                                </td> */}
-                                <td
-                                  className="text-right text-primary cursor-pointer"
-                                  onClick={() => {
-                                    setWarehouseStockModalShow(true);
-                                    setSingleRowData(item);
-                                  }}
-                                >
-                                  {item?.stockQty?.toFixed(2) || 0}
-                                  {/* <InfoCircle
+                            autoRawMaterialData?.map((item, index) => {
+                              let totalBudgetQty = 0;
+                              let availableStock = 0;
+
+                              availableStock =
+                                (
+                                  (item?.stockQty ?? 0) +
+                                  (item?.numOpenPOQty ?? 0) +
+                                  (item?.inTransit ?? 0) +
+                                  (item?.openPRQty ?? 0) -
+                                  (item?.deadStockQuantity ?? 0)
+                                )?.toFixed(2) || 0;
+
+                              totalBudgetQty =
+                                +item?.firstMonthQty ||
+                                0 + +item?.secondMonthQty ||
+                                0 + +item?.thirdMonthQty ||
+                                0;
+
+                              // console.log(availableStock);
+                              // console.log("T", totalBudgetQty);
+                              return (
+                                <tr key={index}>
+                                  <td>{index + 1}</td>
+                                  <td className="text-center">
+                                    {item?.itemCode}
+                                  </td>
+                                  <td>{item?.itemName}</td>
+                                  <td className="text-center">
+                                    {item?.uomName}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.firstMonthQty || 0}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.secondMonthQty || 0}
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.thirdMonthQty || 0}
+                                  </td>
+                                  <td className="text-right">
+                                    {totalBudgetQty || 0}
+                                  </td>
+                                  <td
+                                    className="text-right text-primary cursor-pointer"
+                                    onClick={() => {
+                                      setWarehouseStockModalShow(true);
+                                      setSingleRowData(item);
+                                    }}
+                                  >
+                                    {item?.stockQty?.toFixed(2) || 0}
+                                    {/* <InfoCircle
                                     clickHandler={() => {
                                       setWarehouseStockModalShow(true);
                                       setSingleRowData(item);
                                     }}
                                   /> */}
-                                </td>
-                                <td
-                                  onClick={() =>
-                                    commonItemDetailsDispatch({
-                                      type: "FloatingStock",
-                                      payload: { singleRowData: item },
-                                    })
-                                  }
-                                  className="text-right text-primary cursor-pointer"
-                                >
-                                  {item?.floatingStock.toFixed(2) || 0}
-                                  {/* <InfoCircle
+                                  </td>
+                                  <td
+                                    onClick={() =>
+                                      commonItemDetailsDispatch({
+                                        type: "FloatingStock",
+                                        payload: { singleRowData: item },
+                                      })
+                                    }
+                                    className="text-right text-primary cursor-pointer"
+                                  >
+                                    {/* //  ! Update for now */}0
+                                    {/* {item?.floatingStock.toFixed(2) || 0} */}
+                                    {/* <InfoCircle
                                     clickHandler={() =>
                                       commonItemDetailsDispatch({
                                         type: "FloatingStock",
@@ -341,21 +410,19 @@ export default function RawMaterialAutoPR() {
                                       })
                                     }
                                   /> */}
-                                </td>
+                                  </td>
 
-                                <td
-                                  className="text-right text-primary cursor-pointer"
-                                  onClick={() =>
-                                    commonItemDetailsDispatch({
-                                      type: "OpenPo",
-                                      payload: { singleRowData: item },
-                                    })
-                                  }
-                                >
-                                  {(
-                                    item?.numOpenPOQty - item?.balanceOnGhat
-                                  ).toFixed(2) || 0}
-                                  {/* <InfoCircle
+                                  <td
+                                    className="text-right text-primary cursor-pointer"
+                                    onClick={() =>
+                                      commonItemDetailsDispatch({
+                                        type: "OpenPo",
+                                        payload: { singleRowData: item },
+                                      })
+                                    }
+                                  >
+                                    {item?.numOpenPOQty?.toFixed(2) || 0}
+                                    {/* <InfoCircle
                                     clickHandler={() =>
                                       commonItemDetailsDispatch({
                                         type: "OpenPo",
@@ -363,19 +430,19 @@ export default function RawMaterialAutoPR() {
                                       })
                                     }
                                   /> */}
-                                </td>
+                                  </td>
 
-                                <td
-                                  className="text-right text-primary cursor-pointer"
-                                  onClick={() =>
-                                    commonItemDetailsDispatch({
-                                      type: "OpenPR",
-                                      payload: { singleRowData: item },
-                                    })
-                                  }
-                                >
-                                  {item?.openPRQty?.toFixed(2) || 0}
-                                  {/* <InfoCircle
+                                  <td
+                                    className="text-right text-primary cursor-pointer"
+                                    onClick={() =>
+                                      commonItemDetailsDispatch({
+                                        type: "OpenPR",
+                                        payload: { singleRowData: item },
+                                      })
+                                    }
+                                  >
+                                    {item?.openPRQty?.toFixed(2) || 0}
+                                    {/* <InfoCircle
                                     clickHandler={() =>
                                       commonItemDetailsDispatch({
                                         type: "OpenPR",
@@ -383,31 +450,30 @@ export default function RawMaterialAutoPR() {
                                       })
                                     }
                                   /> */}
-                                </td>
-                                <td className="text-center">
-                                  {item?.deadStockQuantity || 0}
-                                </td>
-                                <td className="text-center">
-                                  {(
-                                    (item?.stockQty ?? 0) +
-                                    ((item?.numOpenPOQty ?? 0) -
-                                      (item?.balanceOnGhat ?? 0)) +
-                                    (item?.inTransit ?? 0) -
-                                    (item?.deadStockQuantity ?? 0)
-                                  )?.toFixed(2) || 0}
-                                </td>
-                                <td className="text-center">
-                                  {(
-                                    (item?.firstMonthQty ?? 0) -
-                                    ((item?.stockQty ?? 0) +
-                                      ((item?.numOpenPOQty ?? 0) -
-                                        (item?.balanceOnGhat ?? 0)) +
-                                      (item?.inTransit ?? 0) -
-                                      (item?.deadStockQuantity ?? 0)) -
-                                    (item?.openPRQty ?? 0)
-                                  )?.toFixed(2) || 0}
-                                </td>
-                                {/* <td className="text-center">
+                                  </td>
+                                  <td className="text-right">
+                                    {item?.deadStockQuantity || 0}
+                                  </td>
+                                  <td className="text-right">
+                                    {availableStock}
+                                  </td>
+                                  <td className="text-right">
+                                    {(totalBudgetQty - availableStock).toFixed(
+                                      2
+                                    ) || 0}
+                                  </td>
+                                  <td className="text-right">
+                                    {(
+                                      (item?.firstMonthQty ?? 0) -
+                                      ((item?.stockQty ?? 0) +
+                                        ((item?.numOpenPOQty ?? 0) -
+                                          (item?.balanceOnGhat ?? 0)) +
+                                        (item?.inTransit ?? 0) -
+                                        (item?.deadStockQuantity ?? 0)) -
+                                      (item?.openPRQty ?? 0)
+                                    )?.toFixed(2) || 0}
+                                  </td>
+                                  {/* <td className="text-right">
                                   {(
                                     item?.totalBudgetQty -
                                     (item?.stockQty +
@@ -418,45 +484,47 @@ export default function RawMaterialAutoPR() {
                                     item?.openPRQty
                                   ).toFixed(2) || 0}
                                 </td> */}
-                                <td className="text-center">
-                                  {item?.scheduleQuantity?.toFixed(2) || 0}
-                                </td>
-                                <td className="text-center">
-                                  {item?.prCalculationHeaderId &&
-                                    item?.firstMonthQty - item?.availableStock >
-                                      0 && (
-                                      <span
-                                        style={{ cursor: "pointer" }}
-                                        onClick={() => {
-                                          if (
-                                            item?.firstMonthQty -
-                                              item?.availableStock >
-                                            0
-                                          ) {
-                                            setSingleRowData(item);
-                                            setShowBreakdownModal(true);
-                                          } else {
-                                            toast.warn(
-                                              `You don't need to break down this item for the month ${
-                                                getSelectedAndNextMonths(
-                                                  values?.monthYear?.split(
-                                                    "-"
-                                                  )[1] || 0
-                                                )?.[0]?.name
-                                              }`
-                                            );
-                                          }
-                                        }}
-                                      >
-                                        <i
-                                          style={{ fontSize: "16px" }}
-                                          className="fa fa-plus-square text-primary mr-2"
-                                        />
-                                      </span>
-                                    )}
-                                </td>
-                              </tr>
-                            ))}
+                                  <td className="text-center">
+                                    {item?.scheduleQuantity?.toFixed(2) || 0}
+                                  </td>
+                                  <td className="text-center">
+                                    {item?.prCalculationHeaderId &&
+                                      item?.firstMonthQty -
+                                        item?.availableStock >
+                                        0 && (
+                                        <span
+                                          style={{ cursor: "pointer" }}
+                                          onClick={() => {
+                                            if (
+                                              item?.firstMonthQty -
+                                                item?.availableStock >
+                                              0
+                                            ) {
+                                              setSingleRowData(item);
+                                              setShowBreakdownModal(true);
+                                            } else {
+                                              toast.warn(
+                                                `You don't need to break down this item for the month ${
+                                                  getSelectedAndNextMonths(
+                                                    values?.monthYear?.split(
+                                                      "-"
+                                                    )[1] || 0
+                                                  )?.[0]?.name
+                                                }`
+                                              );
+                                            }
+                                          }}
+                                        >
+                                          <i
+                                            style={{ fontSize: "16px" }}
+                                            className="fa fa-plus-square text-primary mr-2"
+                                          />
+                                        </span>
+                                      )}
+                                  </td>
+                                </tr>
+                              );
+                            })}
                         </tbody>
                       </table>
                     </div>
