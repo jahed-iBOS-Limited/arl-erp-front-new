@@ -32,6 +32,7 @@ import InputField from "./../../../../_helper/_inputField";
 import NewSelect from "./../../../../_helper/_select";
 import { YearDDL } from "./../../../../_helper/_yearDDL";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import { toast } from "react-toastify";
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   // paymentType: Yup.object().shape({
@@ -81,6 +82,8 @@ export default function _Form({
   const [costCenter, setCostCenter] = useState([]);
   const [costElementDDL, setCostElementDDL] = useState([]);
   const [bugetHeadWiseBalance, getBugetHeadWiseBalance, budgetWiseLoader, setBugetHeadWiseBalance] = useAxiosGet();
+  const [availableBudgetAdvanceBalance, getAvailableBudgetAdvanceBalance, availableBudgetAdvanceBalanceLoader, setAvailableBudgetAdvanceBalance] = useAxiosGet();
+
   const [
     profitcenterDDL,
     getProfitcenterDDL,
@@ -173,7 +176,7 @@ export default function _Form({
 
   return (
     <>
-      {(loadingOnGetProfitCenter || loading) && <Loading />}
+      {(loadingOnGetProfitCenter || loading || availableBudgetAdvanceBalanceLoader) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={
@@ -533,6 +536,9 @@ export default function _Form({
                             label="Account Head"
                             onChange={(valueOption) => {
                               setFieldValue("accountHead", valueOption || "");
+                              if(valueOption){
+                                getAvailableBudgetAdvanceBalance(`/fino/BudgetaryManage/GetAvailableBudgetAdvanceBalance?businessUnitId=${selectedBusinessUnit?.value}&subGlId=${values?.costElement?.subGlId}&accountHeadId=${valueOption?.value}&dteJournalDate=${_todayDate()}`)
+                              }
 
                             }}
                             errors={errors}
@@ -638,12 +644,21 @@ export default function _Form({
                                 !values?.location ||
                                 !values?.costCenter ||
                                 !values?.costElement ||
-                                !values?.profitCenter
+                                !values?.profitCenter ||
+                                (bugetHeadWiseBalance?.length > 0 && !values?.accountHead)
                           }
                           className="btn btn-primary"
                           onClick={() => {
+                            if (
+                              availableBudgetAdvanceBalance[0].numRemainAmount > 0 &&
+                              availableBudgetAdvanceBalance[0].numRemainAmount < values?.expenseAmount
+                            ) {
+                              return toast.warn("Budget Advance Amount is Exceed");
+                            }
                             setter(values, () => {
                               setFieldValue("expenseAmount", "");
+                              setAvailableBudgetAdvanceBalance(null);
+                              setFieldValue("accountHead", "")
                             });
                             setFieldValue("driverExp", false);
                           }}

@@ -78,6 +78,8 @@ export default function _Form({
   const [costElementDDL, setCostElementDDL] = useState([]);
   const [loading, setLoading] = useState(false);
   const [bugetHeadWiseBalance, getBugetHeadWiseBalance, budgetWiseLoader, setBugetHeadWiseBalance] = useAxiosGet();
+  const [availableBudgetAdvanceBalance, getAvailableBudgetAdvanceBalance, availableBudgetAdvanceBalanceLoader, setAvailableBudgetAdvanceBalance] = useAxiosGet();
+
 
 
   // const [paymentType, setPaymentType] = useState([]);
@@ -168,9 +170,16 @@ export default function _Form({
           if(bugetHeadWiseBalance?.length > 0 && !values?.accountHead?.label){
             return toast.warn("Account Head is Required !")
           }
+          if (
+            availableBudgetAdvanceBalance[0].numRemainAmount > 0 &&
+            availableBudgetAdvanceBalance[0].numRemainAmount < values?.expenseAmount
+          ) {
+            return toast.warn("Budget Advance Amount is Exceed");
+          }
           saveHandler(values, () => {
             resetForm(initData);
             setBugetHeadWiseBalance([])
+            setAvailableBudgetAdvanceBalance(null);
           });
         }}
       >
@@ -184,7 +193,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {loading && <Loading />}
+            {(loading || budgetWiseLoader || availableBudgetAdvanceBalanceLoader) && <Loading />}
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-12">
@@ -357,7 +366,9 @@ export default function _Form({
                             label="Account Head"
                             onChange={(valueOption) => {
                               setFieldValue("accountHead", valueOption || "");
-
+                              if(valueOption){
+                                getAvailableBudgetAdvanceBalance(`/fino/BudgetaryManage/GetAvailableBudgetAdvanceBalance?businessUnitId=${selectedBusinessUnit?.value}&subGlId=${values?.costElement?.subGlId}&accountHeadId=${valueOption?.value}&dteJournalDate=${_todayDate()}`)
+                              }
                             }}
                             errors={errors}
                             touched={touched}
