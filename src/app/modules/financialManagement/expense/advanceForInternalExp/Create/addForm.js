@@ -31,6 +31,7 @@ const initData = {
   profitCenter: "",
   costElement: "",
   costCenter: "",
+  accountHead:"",
 };
 
 export default function AdvanceCreateForm() {
@@ -98,6 +99,9 @@ export default function AdvanceCreateForm() {
           costElementName: values?.costElement?.label,
           profitCenterName: values?.profitCenter?.label,
           businessTransactionName: "",
+          subGlaccountHeadId : values?.accountHead?.value || 0,
+          strSubGlaccountHead : values?.accountHead?.label || ""
+
         };
         dispatch(
           saveEditedAdvanceExpGridData({ data: payload, cb, setDisabled })
@@ -133,6 +137,8 @@ export default function AdvanceCreateForm() {
           costElementName: values?.costElement?.label,
           profitCenterName: values?.profitCenter?.label,
           businessTransactionName: "",
+          subGlaccountHeadId : values?.accountHead?.value || 0,
+          strSubGlaccountHead : values?.accountHead?.label || ""
         };
         dispatch(
           saveAdvanceExpJournal_Action({ data: payload, cb, setDisabled })

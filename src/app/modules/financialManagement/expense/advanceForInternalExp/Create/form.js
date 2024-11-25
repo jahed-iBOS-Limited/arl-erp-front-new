@@ -13,6 +13,7 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { getCostCenter } from "../../expenseRegister/helper";
 import Loading from "../../../../_helper/_loading";
 import { CostElementDDLApi } from "../../../../inventoryManagement/warehouseManagement/invTransaction/Form/issueInvantory/helper";
+import { toast } from "react-toastify";
 
 // Validation schema for Advance for Internal Expense
 const validationSchema = Yup.object().shape({
@@ -23,6 +24,14 @@ const validationSchema = Yup.object().shape({
   SBU: Yup.object().shape({
     label: Yup.string().required("Requested SBU is required"),
     value: Yup.string().required("Requested SBU is required"),
+  }),
+  costCenter: Yup.object().shape({
+    label: Yup.string().required("Cost Center is required"),
+    value: Yup.string().required("Cost Center is required"),
+  }),
+  costElement: Yup.object().shape({
+    label: Yup.string().required("Cost Element is required"),
+    value: Yup.string().required("Cost Element is required"),
   }),
   expenseGroup: Yup.object().shape({
     label: Yup.string().required("Expense Group is required"),
@@ -68,6 +77,10 @@ export default function _Form({
   const [costCenterDDl, setCostCenter] = useState([]);
   const [costElementDDL, setCostElementDDL] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [bugetHeadWiseBalance, getBugetHeadWiseBalance, budgetWiseLoader, setBugetHeadWiseBalance] = useAxiosGet();
+  const [availableBudgetAdvanceBalance, getAvailableBudgetAdvanceBalance, availableBudgetAdvanceBalanceLoader, setAvailableBudgetAdvanceBalance] = useAxiosGet();
+
+
 
   // const [paymentType, setPaymentType] = useState([]);
   // const [disbursementCenterName, setDisbursementCenterName] = useState([]); // this ddl will be off order by miraz vai
@@ -154,8 +167,19 @@ export default function _Form({
         // initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
+          if(bugetHeadWiseBalance?.length > 0 && !values?.accountHead?.label){
+            return toast.warn("Account Head is Required !")
+          }
+          if (
+            availableBudgetAdvanceBalance[0].numRemainAmount > 0 &&
+            availableBudgetAdvanceBalance[0].numRemainAmount < values?.expenseAmount
+          ) {
+            return toast.warn("Budget Advance Amount is Exceed");
+          }
           saveHandler(values, () => {
             resetForm(initData);
+            setBugetHeadWiseBalance([])
+            setAvailableBudgetAdvanceBalance(null);
           });
         }}
       >
@@ -169,7 +193,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {loading && <Loading />}
+            {(loading || budgetWiseLoader || availableBudgetAdvanceBalanceLoader) && <Loading />}
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-12">
@@ -258,6 +282,8 @@ export default function _Form({
                       <Select
                         onChange={(valueOption) => {
                           setFieldValue("costCenter", valueOption);
+                          setFieldValue("costElement", "");
+                          setFieldValue("accountHead", "");
                           if (valueOption) {
                             setLoading(true);
                             CostElementDDLApi(
@@ -307,6 +333,15 @@ export default function _Form({
                       <Select
                         onChange={(valueOption) => {
                           setFieldValue("costElement", valueOption);
+                          setFieldValue("accountHead", "");
+                          setBugetHeadWiseBalance([])
+                          if(valueOption){
+                            getBugetHeadWiseBalance(`/fino/BudgetaryManage/GetBugetHeadWiseBalance?businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${valueOption?.glId}&subGlId=${valueOption?.subGlId}&accountHeadId=0&dteJournalDate=${_todayDate()}`, (res)=>{
+                              const modiFyData = res?.map((item)=>({...item, value: item?.intAccountHeadId , label: item?.strAccountHeadName}))
+
+                              setBugetHeadWiseBalance(modiFyData)
+                            })
+                          }
                         }}
                         options={costElementDDL || []}
                         value={values?.costElement}
@@ -321,6 +356,26 @@ export default function _Form({
                         touched={touched}
                       />
                     </div>
+                    {(bugetHeadWiseBalance?.length > 0) && (
+                          <>
+                          <div className="col-lg-6 pl pr-1 mb-2">
+                          <NewSelect
+                            name="accountHead"
+                            options={bugetHeadWiseBalance || []}
+                            value={values?.accountHead}
+                            label="Account Head"
+                            onChange={(valueOption) => {
+                              setFieldValue("accountHead", valueOption || "");
+                              if(valueOption){
+                                getAvailableBudgetAdvanceBalance(`/fino/BudgetaryManage/GetAvailableBudgetAdvanceBalance?businessUnitId=${selectedBusinessUnit?.value}&subGlId=${values?.costElement?.subGlId}&accountHeadId=${valueOption?.value}&dteJournalDate=${_todayDate()}`)
+                              }
+                            }}
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        </>
+                        )}
                     <div className="col-lg-6 pl pr-1 mb-2">
                       <label>Profit Center</label>
                       <Select

@@ -183,6 +183,10 @@ export const singleDataById = async (advId, setter, setDisabled) => {
           value: data.businessTransactionId,
           label: data.businessTransactionName,
         },
+        accountHead: {
+          value: data.subGlaccountHeadId,
+          label: data.strSubGlaccountHead,
+        },
         expenseGroup:
           data?.expenseGroup === ""
             ? ""
