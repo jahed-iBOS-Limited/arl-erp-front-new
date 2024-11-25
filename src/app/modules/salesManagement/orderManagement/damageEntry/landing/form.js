@@ -7,6 +7,7 @@ import IButton from "../../../../_helper/iButton";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import axios from "axios";
+import { viewReportBtnValidationHandler } from "../helper";
 
 const DamageEntryLandingForm = ({ obj }) => {
   const {
@@ -33,26 +34,70 @@ const DamageEntryLandingForm = ({ obj }) => {
       .then((res) => res?.data);
   };
 
+  // DamangeEntryFieldForm
+  // View As Field Form
+  const ViewAsFieldForm = () => (
+    <div className="col-lg-2">
+      <NewSelect
+        name="viewAs"
+        options={[
+          { value: 1, label: "Supervisor" },
+          // { value: 2, label: "Accountant" },
+        ]}
+        value={values?.viewAs}
+        label="View As"
+        onChange={(valueOption) => {
+          setFieldValue("viewAs", valueOption);
+          setGridData([]);
+        }}
+        placeholder="View As"
+      />
+    </div>
+  );
+  // Status Form Field
+  const StatusFormField = () => (
+    <div className="col-lg-2">
+      <NewSelect
+        name="status"
+        options={[
+          { value: 0, label: "All" },
+          { value: 1, label: "Approved" },
+          { value: 2, label: "Pending" },
+          { value: 3, label: "Canceled" },
+        ]}
+        value={values?.status}
+        label="Status"
+        onChange={(valueOption) => {
+          setFieldValue("status", valueOption);
+          setGridData([]);
+        }}
+        placeholder="Status"
+      />
+    </div>
+  );
+
   return (
     <>
       <form>
         <div className="row global-form">
           <div className="col-lg-2">
             <NewSelect
-              name="viewAs"
+              name="reportType"
               options={[
-                { value: 1, label: "Supervisor" },
-                // { value: 2, label: "Accountant" },
+                { value: 1, label: "Damage Entry Landing" },
+                { value: 2, label: "Challan Vs Damage Report" },
               ]}
-              value={values?.viewAs}
-              label="View As"
+              value={values?.reportType}
+              label="Report Type"
               onChange={(valueOption) => {
-                setFieldValue("viewAs", valueOption);
+                setFieldValue("reportType", valueOption);
                 setGridData([]);
               }}
-              placeholder="View As"
+              placeholder="Select Report"
             />
           </div>
+          {/* Status Form Field For Damage Entry Landing */}
+          {[1].includes(values?.reportType?.value) && <ViewAsFieldForm />}
           {buId === 4 && (
             <>
               <RATForm
@@ -87,25 +132,9 @@ const DamageEntryLandingForm = ({ obj }) => {
           <FromDateToDateForm
             obj={{ values, setFieldValue, colSize: "col-lg-2" }}
           />{" "}
-          <div className="col-lg-2">
-            <NewSelect
-              name="status"
-              options={[
-                { value: 0, label: "All" },
-                { value: 1, label: "Approved" },
-                { value: 2, label: "Pending" },
-                { value: 3, label: "Canceled" },
-              ]}
-              value={values?.status}
-              label="Status"
-              onChange={(valueOption) => {
-                setFieldValue("status", valueOption);
-                setGridData([]);
-              }}
-              placeholder="Status"
-            />
-          </div>
-          {values?.viewAs?.value === 2 && (
+          {/* Status Form Field For Damage Entry Landing */}
+          {[1].includes(values?.reportType?.value) && <StatusFormField />}
+          {/* {values?.viewAs?.value === 2 && (
             <>
               <div className="col-md-2">
                 <NewSelect
@@ -129,14 +158,12 @@ const DamageEntryLandingForm = ({ obj }) => {
                 />
               </div>
             </>
-          )}
+          )} */}
           <IButton
             onClick={() => {
               salesReturnLandingActions(values, pageNo, pageSize);
             }}
-            disabled={
-              !values?.viewAs || (values?.viewAs?.value === 2 && !values?.sbu)
-            }
+            disabled={viewReportBtnValidationHandler(values)}
           />
           {gridData?.data?.length > 0 && values?.status?.value === 2 && (
             <IButton
