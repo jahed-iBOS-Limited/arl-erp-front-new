@@ -114,6 +114,7 @@ export default function BankStateMentSummary() {
                         label="Business Unit List"
                         onChange={(valueOption) => {
                           setFieldValue("intUnitId", valueOption || "");
+                          setShow(false);
                         }}
                         errors={errors}
                         touched={touched}
@@ -170,6 +171,7 @@ export default function BankStateMentSummary() {
                       label="View Type"
                       onChange={(valueOption) => {
                         setFieldValue("viewType", valueOption || "");
+                        setShow(false);
                       }}
                       errors={errors}
                       touched={touched}
@@ -184,7 +186,10 @@ export default function BankStateMentSummary() {
                     className="btn btn-primary"
                     onClick={() => {
                       if (values?.reportType?.value == 2) {
-                        setShow(true);
+                        setShow(false);
+                        setTimeout(() => {
+                          setShow(true);
+                        }, 500);
                       } else {
                         getBankStatementData(
                           `/fino/BusinessTransaction/GetBankAccountStatementSummaryReport?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
