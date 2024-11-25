@@ -15,6 +15,7 @@ const disbursementPurposeDDL = [
   { value: 2, label: "Bill Payment" },
   { value: 3, label: "Utility Payment" },
   { value: 4, label: "Working Capital" },
+  { value: 5, label: "Sanctioned Working Capital" },
 ];
 const loanRegister = Yup.object().shape({
   bank: Yup.object()
