@@ -190,17 +190,6 @@ function TransportModal({ rowClickData, CB }) {
   }, []);
   const bookingData = shipBookingRequestGetById || {};
   const saveHandler = (values, cb) => {
-    const modifyItems = values?.items?.map((item) => ({
-      containerDescId: 0,
-      transportId: 0,
-      containerNumber: item?.containerNumber,
-      sealNumber: item?.sealNumber,
-      size: item?.size,
-      quantity: item?.quantity,
-      cbm: item?.cbm,
-      mode: "",
-      kgs: item?.kgs,
-    }));
     const payload = values?.rows?.map((row) => ({
       bookingId: bookingRequestId || 0,
       pickupLocation: row?.pickupLocation || "",
@@ -236,7 +225,18 @@ function TransportModal({ rowClickData, CB }) {
       }),
       transportMode: row?.transportMode?.label || 0,
       isActive: true,
-      containerDesc: modifyItems || [],
+      containerDesc: row?.items?.map((item) => ({
+        containerNumber: item?.containerNumber,
+        sealNumber: item?.sealNumber,
+        size: item?.size,
+        quantity: item?.quantity,
+        cbm: item?.cbm,
+        kgs: item?.kgs,
+        mode: "",
+        poNumber: "",
+        style: "",
+        color: "",
+      })),
     }));
     SaveShippingTransportPlanning(
       `${imarineBaseUrl}/domain/ShippingService/SaveShippingTransportPlanning`,
