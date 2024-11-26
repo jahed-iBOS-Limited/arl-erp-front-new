@@ -1,22 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IDelete from "../../../_helper/_helperIcons/_delete";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IForm from "../../../_helper/_form";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+
 const initData = {
   supplierName: "",
   supplierContactNo: "",
   supplierEmail: "",
 };
-export default function BreakDownModal({ singleRowData }) {
+
+export default function BreakDownModal({
+  singleRowData,
+  setShowBreakdownModal,
+  setSingleRowData,
+}) {
   const [objProps, setObjprops] = useState({});
   const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
   const [
@@ -144,6 +150,9 @@ export default function BreakDownModal({ singleRowData }) {
             setRowData(data);
           }
         );
+
+        setShowBreakdownModal(false);
+        setSingleRowData({});
       },
       true
     );
