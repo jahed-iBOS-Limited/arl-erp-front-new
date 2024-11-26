@@ -18,7 +18,7 @@ const validationSchema = Yup.object().shape({
   // airWaybillNumber: Yup.string().required("This field is required"),
   departureDateTime: Yup.date().required('Departure Date & Time is required'),
   arrivalDateTime: Yup.date().required('Arrival Date & Time is required'),
-  flightNumber: Yup.string().required('This field is required'),
+  // flightNumber: Yup.string().required('This field is required'),
 
   transitInformation: Yup.object()
     .shape({
@@ -44,10 +44,13 @@ const validationSchema = Yup.object().shape({
     })
     .nullable()
     .typeError('Transport Mode is required'),
-  wareHouse: Yup.object().shape({
-    value: Yup.string().required('Warehouse is required'),
-    label: Yup.string().required('Warehouse is required'),
-  }).nullable().typeError('Warehouse is required'),
+  wareHouse: Yup.object()
+    .shape({
+      value: Yup.string().required('Warehouse is required'),
+      label: Yup.string().required('Warehouse is required'),
+    })
+    .nullable()
+    .typeError('Warehouse is required'),
   // Consignee Information
   consigneeName: Yup.object().shape({
     value: Yup.number().required('Consignee’s Name is required'),
@@ -83,7 +86,6 @@ const validationSchema = Yup.object().shape({
     value: Yup.number().required('Delivery Agent is required'),
     label: Yup.string().required('Delivery Agent is required'),
   }),
-
 });
 function ConfirmModal({ rowClickData, CB }) {
   const { profileData, selectedBusinessUnit } = useSelector(
@@ -119,7 +121,6 @@ function ConfirmModal({ rowClickData, CB }) {
   const [cityDDL, setCityDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
 
-
   const debouncedGetCityList = _.debounce((value) => {
     setCityDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetPreviousCityDDL?search=${value}`,
@@ -148,27 +149,27 @@ function ConfirmModal({ rowClickData, CB }) {
               'consigneeName',
               data?.consigneeId
                 ? {
-                  value: data?.consigneeId || 0,
-                  label: data?.consigneeName || '',
-                }
+                    value: data?.consigneeId || 0,
+                    label: data?.consigneeName || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeCountry',
               data?.consigCountryId
                 ? {
-                  value: data?.consigCountryId || 0,
-                  label: data?.consigCountry || '',
-                }
+                    value: data?.consigCountryId || 0,
+                    label: data?.consigCountry || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeDivisionAndState',
-              data?.consigStateId
+              data?.consigState
                 ? {
-                  value: data?.consigStateId || 0,
-                  label: data?.consigState || '',
-                }
+                    value: 0,
+                    label: data?.consigState || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -191,9 +192,9 @@ function ConfirmModal({ rowClickData, CB }) {
               'notifyParty',
               data?.notifyParty
                 ? {
-                  value: 0,
-                  label: data?.notifyParty || '',
-                }
+                    value: 0,
+                    label: data?.notifyParty || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -204,9 +205,9 @@ function ConfirmModal({ rowClickData, CB }) {
               'freightAgentReference',
               data?.freightAgentReference
                 ? {
-                  value: 0,
-                  label: data?.freightAgentReference || '',
-                }
+                    value: 0,
+                    label: data?.freightAgentReference || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -218,6 +219,16 @@ function ConfirmModal({ rowClickData, CB }) {
             formikRef.current.setFieldValue(
               'consignPostalCode',
               data?.consignPostalCode || '',
+            );
+            // confTransportMode
+            formikRef.current.setFieldValue(
+              'confTransportMode',
+              data?.confTransportMode
+                ? {
+                    value: 0,
+                    label: data?.confTransportMode || '',
+                  }
+                : '',
             );
           }
         },
@@ -290,7 +301,6 @@ function ConfirmModal({ rowClickData, CB }) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const bookingData = shipBookingRequestGetById || {};
 
   const saveHandler = (values, cb) => {
     const payload = {
@@ -348,7 +358,8 @@ function ConfirmModal({ rowClickData, CB }) {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId
+        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${
+          profileData?.accountId
         }&BusinessUnitId=${225}&Search=${v}`,
       )
       .then((res) => {
@@ -516,15 +527,16 @@ function ConfirmModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <NewSelect
                     name="confTransportMode"
-                    options={
-                      transportModeDDL?.filter((item) => {
-                        if (values?.transportPlanningType === 'Sea') {
-                          return [17, 18].includes(item?.value);
-                        } else {
-                          return [19, 20].includes(item?.value);
-                        }
-                      }) || []
-                    }
+                    // options={
+                    //   transportModeDDL?.filter((item) => {
+                    //     if (values?.transportPlanningType === 'Sea') {
+                    //       return [17, 18, 30, 31].includes(item?.value);
+                    //     } else {
+                    //       return [19, 20,30, 31].includes(item?.value);
+                    //     }
+                    //   }) || []
+                    // }
+                    options={transportModeDDL}
                     value={values?.confTransportMode}
                     label="Transport Mode"
                     onChange={(valueOption) => {
