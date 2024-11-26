@@ -31,8 +31,6 @@ export default function _Form({
 
   const [itemGroupDDL, getItemGroupDDL] = useAxiosGet();
 
-  console.log(itemGroupDDL);
-
   useEffect(() => {
     getItemGroupDDL(
       `/oms/TradeOffer/GetDiscountOfferGroupDDL?businessUnitId=${selectedBusinessUnit?.value}`
