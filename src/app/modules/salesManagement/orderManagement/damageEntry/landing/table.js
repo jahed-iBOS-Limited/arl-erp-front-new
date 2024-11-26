@@ -25,6 +25,25 @@ const DamageEntryLandingTable = ({ obj }) => {
 
   const dispatch = useDispatch();
 
+  const chooseGridDataStatus = (values, item) => {
+    switch (values?.reportType?.value) {
+      case 1:
+        return item?.isApprovedBySupervisor && item?.isApprovedByAccount
+          ? "Approved by Supervisor and Account"
+          : item?.isApprovedBySupervisor
+          ? "Approved by Supervisor"
+          : !item?.isActive
+          ? "Canceled"
+          : "Pending";
+
+      case 2:
+        return item?.damageStatus || "";
+
+      default:
+        return "";
+    }
+  };
+
   return (
     <>
       {gridData?.data?.length > 0 && (
@@ -54,7 +73,9 @@ const DamageEntryLandingTable = ({ obj }) => {
                 <th style={{ width: "120px" }}>Quantity</th>
                 <th style={{ width: "120px" }}>Amount</th>
                 <th>Entry Date</th>
-                <th>Status</th>
+                <th>
+                  {values?.reportType?.value === 1 ? "" : "Damage "}Status
+                </th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -129,13 +150,14 @@ const DamageEntryLandingTable = ({ obj }) => {
                   </td>
                   <td> {_dateFormatter(item?.returnDateTime)}</td>
                   <td>
-                    {item?.isApprovedBySupervisor && item?.isApprovedByAccount
+                    {/* {item?.isApprovedBySupervisor && item?.isApprovedByAccount
                       ? "Approved by Supervisor and Account"
                       : item?.isApprovedBySupervisor
                       ? "Approved by Supervisor"
                       : !item?.isActive
                       ? "Canceled"
-                      : "Pending"}
+                      : "Pending"} */}
+                    {chooseGridDataStatus(values, item)}
                   </td>
                   <td>
                     <div className="d-flex justify-content-around">

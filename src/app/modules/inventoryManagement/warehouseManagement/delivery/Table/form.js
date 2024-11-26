@@ -175,7 +175,6 @@ export default function HeaderFormDedivery() {
     selectedBusinessUnit?.value === 171 || selectedBusinessUnit?.value === 224
       ? [{ value: 0, label: "All" }, ...(distributionChannelDDL || [])]
       : distributionChannelDDL;
-
   return (
     <>
       <Formik
@@ -235,22 +234,20 @@ export default function HeaderFormDedivery() {
                         touched={touched}
                       />
                     </div>
-                    {selectedBusinessUnit?.value === 144 && (
-                      <div className="col-lg-2">
-                        <NewSelect
-                          name="plant"
-                          options={plantDDL || []}
-                          value={values?.plant}
-                          label="Plant"
-                          onChange={(valueOption) => {
-                            setFieldValue("plant", valueOption);
-                          }}
-                          placeholder="Plant"
-                          errors={errors}
-                          touched={touched}
-                        />
-                      </div>
-                    )}
+                    <div className="col-lg-2">
+                      <NewSelect
+                        name="plant"
+                        options={plantDDL || []}
+                        value={values?.plant}
+                        label="Plant"
+                        onChange={(valueOption) => {
+                          setFieldValue("plant", valueOption);
+                        }}
+                        placeholder="Plant"
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
                     <div className="col-lg-2">
                       <NewSelect
                         name="distributionChannel"

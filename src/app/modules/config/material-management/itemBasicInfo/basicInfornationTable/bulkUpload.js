@@ -2,7 +2,11 @@ import React, { useRef, useState } from "react";
 import Loading from "../../../../_helper/_loading";
 import IForm from "../../../../_helper/_form";
 import { downloadFile } from "../../../../_helper/downloadFile";
-import { itemListExcelGenerator, readAndPrintExcelData } from "./helper";
+import {
+  itemListExcelGenerator,
+  mapApiResponseToFrontend,
+  readAndPrintExcelData,
+} from "./helper";
 import Styles from "./bulkUpdate.module.css";
 import { toast } from "react-toastify";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
@@ -43,7 +47,7 @@ export default function BulkUpload() {
   // excel format download handler
   const handleExportExcelFormat = () => {
     downloadFile(
-      `/domain/Document/DownlloadFile?id=638289275056408964_Item-Upload.xlsx`,
+      `/domain/Document/DownlloadFile?id=638681076616563402_Item List Format.xlsx`,
       "Item List Format",
       "xlsx",
       setLoading
@@ -72,12 +76,18 @@ export default function BulkUpload() {
         isSerialMaintain: item?.isSerialMaintain || false,
         purchaseOrganizationId: item?.purchaseOrganizationId || 0,
         purchaseOrganizationName: item?.purchaseOrganizationName || "",
+        maxLeadDays: item?.maxLeadDays || 0,
+        warehouseId: item?.warehouseId || 0,
+        plantId: item?.plantId || 0,
+        inventoryLocationId: item?.inventoryLocationId || 0,
+        binNumber: item?.binNumber || "",
+        uomName: item?.uomName || "",
       };
       return newItem;
     });
 
     const callback = (updatedList) => {
-      setRowData(updatedList || []);
+      setRowData(mapApiResponseToFrontend(updatedList) || []);
       setIsValidationError(false);
     };
     saveItemList(
@@ -87,7 +97,6 @@ export default function BulkUpload() {
       true
     );
   };
-
   return (
     <>
       {(loading || saveItemListLoading) && <Loading />}
@@ -161,6 +170,13 @@ export default function BulkUpload() {
                     <th>Drawing Code</th>
                     <th>Part No</th>
                     <th>Serial Mantain</th>
+                    <th>Lead Days (Max)</th>
+                    <th>Warehouse Id</th>
+                    <th>Plant Id</th>
+                    <th>Inventory Location Id</th>
+                    <th>Bin No</th>
+                    <th>UOM</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -212,6 +228,13 @@ export default function BulkUpload() {
                       <td className="text-center">
                         {item?.isSerialMaintain ? "Yes" : "No"}
                       </td>
+                      <td>{item?.maxLeadDays}</td>
+                      <td>{item?.warehouseId}</td>
+                      <td>{item?.plantId}</td>
+                      <td>{item?.inventoryLocationId}</td>
+                      <td>{item?.binNumber}</td>
+                      <td>{item?.uomName}</td>
+                      <td>{item?.status}</td>
                     </tr>
                   ))}
                 </tbody>

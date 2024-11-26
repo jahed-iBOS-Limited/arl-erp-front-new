@@ -60,7 +60,7 @@ export default function BreakdownEntry() {
 
                 const monthData = tableRow?.monthData?.map((item) => {
                     const matchingBudget = matchingApiAccount?.monthlyBudgets?.find((month) => month?.monthId === item?.monthId) || {};
-                    
+
                     return {
                         ...item,
                         budgetAmount: matchingBudget.budgetAmount ?? "",
@@ -110,9 +110,9 @@ export default function BreakdownEntry() {
             return toast.warn("No data to save");
         }
 
-        // Filter out rows where all months have zero amounts
+
         const filteredData = tableData.filter((item) =>
-            item.monthData.some(month => parseFloat(month.budgetAmount) > 0)
+            item.monthData.some(month => parseFloat(month.budgetAmount) >= 0)
         );
 
         if (!filteredData.length) {
@@ -137,7 +137,7 @@ export default function BreakdownEntry() {
         });
 
         // Filter out items with no valid budget
-        const validPayload = payload.filter((item) => item?.budget > 0);
+        const validPayload = payload.filter((item) => parseFloat(item?.budget) >= 0);
 
         if (validPayload.length) {
             saveData(

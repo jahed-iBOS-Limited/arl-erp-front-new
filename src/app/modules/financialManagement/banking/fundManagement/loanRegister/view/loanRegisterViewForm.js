@@ -15,6 +15,7 @@ const disbursementPurposeDDL = [
   { value: 2, label: "Bill Payment" },
   { value: 3, label: "Utility Payment" },
   { value: 4, label: "Working Capital" },
+  { value: 5, label: "Sanctioned Working Capital" },
 ];
 const loanRegister = Yup.object().shape({
   bank: Yup.object()
@@ -170,7 +171,7 @@ export default function LoanRegisterViewForm({
                     value={values?.facility}
                     onChange={(valueOption) => {
                       setFieldValue("facility", valueOption);
-                      setFieldValue("remarks", valueOption?.remarks);
+                      setFieldValue("facilityRemarks", valueOption?.remarks);
                       setFieldValue("interestRate", valueOption?.iterestRate);
                       setFieldValue("termDays", valueOption?.tenorDays || 0);
                     }}
@@ -205,11 +206,11 @@ export default function LoanRegisterViewForm({
                   />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
-                  <label>Term (Days)</label>
+                  <label>Tenor (Days)</label>
                   <InputField
                     value={values?.termDays}
                     name="termDays"
-                    placeholder="Term (Days)"
+                    placeholder="Tenor (Days)"
                     onChange={(e) => {
                       if (e.target.value > 0) {
                         setFieldValue("termDays", e.target.value);
@@ -286,19 +287,35 @@ export default function LoanRegisterViewForm({
                     />
                   </div>
                 )}
-                <div className="col-lg-2 ">
-                  <label>Remarks</label>
-                  <InputField
-                    value={values?.remarks}
-                    name="remarks"
-                    placeholder="Remarks"
-                    onChange={(e) => {
-                      setFieldValue("remarks", "");
-                    }}
-                    type="text"
-                    disabled={true}
-                  />
-                </div>
+                {!(renewId || isEdit) && (
+                  <>
+                    <div className="col-lg-2 ">
+                      <label>Loan Remarks</label>
+                      <InputField
+                        value={values?.remarks}
+                        name="remarks"
+                        placeholder="Remarks"
+                        onChange={(e) => {
+                          setFieldValue("remarks", e.target.value);
+                        }}
+                        type="text"
+                      />
+                    </div>
+                    <div className="col-lg-2 ">
+                      <label>Facility Info</label>
+                      <InputField
+                        value={values?.facilityRemarks}
+                        name="facilityRemarks"
+                        placeholder="Facility Info"
+                        onChange={(e) => {
+                          setFieldValue("facilityRemarks", e.target.value);
+                        }}
+                        disabled
+                        type="text"
+                      />
+                    </div>
+                  </>
+                )}
               </div>
 
               <button

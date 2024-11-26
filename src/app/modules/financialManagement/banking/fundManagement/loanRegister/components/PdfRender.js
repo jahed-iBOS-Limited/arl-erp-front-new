@@ -6,6 +6,7 @@ import WorkingCapitalPdf from "./WorkingCapitalPdf";
 import OthersPdf from "./OthersPdf";
 import "./pdf.css";
 import G2GPdf from "./G2GPdf";
+import SanctionedWorkingCapitalPdf from "./SanctionedWorkingCapitalPdf";
 const EBLBankId = 17;
 const NRBCBankId = 61;
 const PdfRender = ({ singleItem, printRef }) => {
@@ -17,11 +18,11 @@ const PdfRender = ({ singleItem, printRef }) => {
       <div className="loan_pdf_header">
         <PdfHeader selectedBusinessUnit={selectedBusinessUnit} />
       </div>
-      {/* <div
+      <div
         style={{
           height: "110px",
         }}
-      ></div> */}
+      ></div>
       <ConditionallyRenderPdf
         singleItem={singleItem}
         selectedBusinessUnit={selectedBusinessUnit}
@@ -39,7 +40,18 @@ const ConditionallyRenderPdf = ({ singleItem, selectedBusinessUnit }) => {
       />
     );
   }
-  if (singleItem?.intBankId === EBLBankId) {
+  if (singleItem?.disbursementPurposeName === "Sanctioned Working Capital") {
+    return (
+      <SanctionedWorkingCapitalPdf
+        singleItem={singleItem}
+        selectedBusinessUnit={selectedBusinessUnit}
+      />
+    );
+  }
+  if (
+    singleItem?.intBankId === EBLBankId &&
+    singleItem?.disbursementPurposeName === "Bill Payment"
+  ) {
     return (
       <EBLPdf
         singleItem={singleItem}

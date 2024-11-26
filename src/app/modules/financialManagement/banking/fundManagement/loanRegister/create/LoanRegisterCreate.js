@@ -20,6 +20,8 @@ const initData = {
   principle: "",
   interestRate: "",
   disbursementPurpose: "",
+  facilityRemarks: "",
+  remarks: "",
 };
 
 export default function LoanRegisterCreate({
@@ -33,7 +35,6 @@ export default function LoanRegisterCreate({
   const [modifyData, setModifyData] = useState(null);
   const [, renewSave] = useAxiosPost();
   const location = useLocation();
-  console.log(location?.state, "state");
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
@@ -64,6 +65,7 @@ export default function LoanRegisterCreate({
               label: location?.state?.disbursementPurposeName,
             }
           : "",
+        loanRemarks: location?.state?.loanRemarks,
       });
     }
   }, [renewId, location, editId]);
@@ -144,7 +146,11 @@ export default function LoanRegisterCreate({
       values?.disbursementPurpose?.label || "",
       profileData?.userId,
       setDisabled,
-      cb
+      cb,
+      false,
+      0,
+      values?.facilityRemarks,
+      values?.remarks
     );
   };
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Form, Formik } from 'formik';
-import _ from "lodash";
+import _ from 'lodash';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -122,13 +122,13 @@ function ConfirmModal({ rowClickData, CB }) {
 
   const debouncedGetCityList = _.debounce((value) => {
     setCityDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetPreviousCityDDL?search=${value}`
+      `${imarineBaseUrl}/domain/ShippingService/GetPreviousCityDDL?search=${value}`,
     );
   }, 300);
 
   const debouncedGetStateList = _.debounce((value) => {
     setStateDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetPreviousStateDDL?search=${value}`
+      `${imarineBaseUrl}/domain/ShippingService/GetPreviousStateDDL?search=${value}`,
     );
   }, 300);
   useEffect(() => {
@@ -292,7 +292,6 @@ function ConfirmModal({ rowClickData, CB }) {
   }, []);
   const bookingData = shipBookingRequestGetById || {};
 
-
   const saveHandler = (values, cb) => {
     const payload = {
       bookingRequestId: bookingRequestId || 0,
@@ -308,7 +307,7 @@ function ConfirmModal({ rowClickData, CB }) {
       bookingAmount: values?.bookingAmount || 0,
       primaryContactPerson: values?.freightForwarderRepresentative?.label || '',
       primaryContactPersonId:
-        values?.freightForwarderRepresentative?.value || '',
+        values?.freightForwarderRepresentative?.value || 0,
       concernSalesPerson: values?.concernSalesPerson?.label || '',
       concernSalesPersonId: values?.concernSalesPerson?.value || 0,
       isConfirm: true,
@@ -395,6 +394,7 @@ function ConfirmModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
+            {console.log(values, 'values')}
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
@@ -601,10 +601,9 @@ function ConfirmModal({ rowClickData, CB }) {
                       let value = {
                         ...valueOption,
                         value: 0,
-                        label: valueOption?.label || "",
-                      }
-                      setFieldValue("consigneeDivisionAndState", value);
-
+                        label: valueOption?.label || '',
+                      };
+                      setFieldValue('consigneeDivisionAndState', value);
                     }}
                     placeholder="Select or Create New Option"
                     errors={errors}
@@ -613,7 +612,6 @@ function ConfirmModal({ rowClickData, CB }) {
                     onInputChange={(inputValue) => {
                       debouncedGetStateList(inputValue);
                     }}
-
                   />
                 </div>
                 {/* city */}
@@ -708,11 +706,17 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.notifyParty}
                     label="Notify Party"
                     onChange={(valueOption) => {
-                      setFieldValue('notifyParty', valueOption);
+                      let valueOptionModify = {
+                        ...valueOption,
+                        value: 0,
+                        label: valueOption?.label || '',
+                      };
+                      setFieldValue('notifyParty', valueOptionModify);
                     }}
                     placeholder="Notify Party"
                     errors={errors}
                     touched={touched}
+                    isCreatableSelect={true}
                   />
                 </div>
                 {/* Negotiation Party input */}

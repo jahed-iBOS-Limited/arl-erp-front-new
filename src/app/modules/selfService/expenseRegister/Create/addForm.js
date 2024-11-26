@@ -39,6 +39,7 @@ const initData = {
   file: "",
   driverExp: false,
   expenseGroup: "",
+  accountHead:"",
 };
 
 export default function ExpenseRegisterCreateForm() {
@@ -107,6 +108,8 @@ export default function ExpenseRegisterCreateForm() {
           attachmentLink: item?.attachmentLink || "",
           driverName: item?.driverName || "",
           driverId: item?.driverId || 0,
+          subGlaccountHeadId : values?.accountHead?.value || 0,
+          strSubGlaccountHead : values?.accountHead?.label || ""
         }));
         const payload = {
           objHeader: {
@@ -173,6 +176,8 @@ export default function ExpenseRegisterCreateForm() {
           attachmentLink: item?.attachmentLink || "",
           driverName: item?.driverName || "",
           driverId: item?.driverId || 0,
+          subGlaccountHeadId : values?.accountHead?.value || 0,
+          strSubGlaccountHead : values?.accountHead?.label || ""
         }));
 
         const payload = {
