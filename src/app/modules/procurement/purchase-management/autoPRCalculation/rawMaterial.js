@@ -36,12 +36,30 @@ const months = [
   { name: "Dec", value: 12 },
 ];
 
+// init data
 const initData = {
   businessUnit: "",
   monthYear: _getCurrentMonthYearForInput(),
 };
+
 export default function RawMaterialAutoPR() {
-  const saveHandler = (values, cb) => {};
+  // redux
+  const { profileData, businessUnitList } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
+
+  // state
+  const [singleRowData, setSingleRowData] = useState();
+  const [showBreakdownModal, setShowBreakdownModal] = useState(false);
+  const [warehouseStockModalShow, setWarehouseStockModalShow] = useState(false);
+
+  // reducer
+  const [commonItemDetailsState, commonItemDetailsDispatch] = useReducer(
+    commonItemReducer,
+    commonItemInitialState
+  );
+
+  // axios
   const [
     autoRawMaterialData,
     getAutoRawMaterialData,
@@ -50,19 +68,8 @@ export default function RawMaterialAutoPR() {
   ] = useAxiosGet();
   const [, saveHeaderData, loader] = useAxiosPost();
 
-  // state
-  const [singleRowData, setSingleRowData] = useState();
-  const [warehouseStockModalShow, setWarehouseStockModalShow] = useState(false);
-  const [commonItemDetailsState, commonItemDetailsDispatch] = useReducer(
-    commonItemReducer,
-    commonItemInitialState
-  );
-
-  const { profileData, businessUnitList } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
-
-  const [showBreakdownModal, setShowBreakdownModal] = useState(false);
+  // save handler
+  const saveHandler = (values, cb) => {};
 
   const getData = (values) => {
     getAutoRawMaterialData(
@@ -74,6 +81,7 @@ export default function RawMaterialAutoPR() {
     );
   };
 
+  // func for get landing selected months & next months
   const getSelectedAndNextMonths = (selectedValue) => {
     const selectedIndex = months.findIndex(
       (month) => month?.value === +selectedValue
@@ -88,6 +96,8 @@ export default function RawMaterialAutoPR() {
       months[(selectedIndex + 2) % months.length],
     ];
   };
+
+  // handle save pr auto calculation
 
   // console.log(autoRawMaterialData);
 
@@ -257,7 +267,7 @@ export default function RawMaterialAutoPR() {
                               payload,
                               () => {
                                 getAutoRawMaterialData(
-                                  `/procurement/AutoPurchase/GetInsertPRCalculation?BusinessUnitId=${
+                                  `/procurement/AutoPurchase/GetInsertPRCalculationNew?BusinessUnitId=${
                                     values?.businessUnit?.value
                                   }&FromMonth=${`${
                                     values?.monthYear?.split("-")[0]
@@ -534,7 +544,11 @@ export default function RawMaterialAutoPR() {
                 setSingleRowData({});
               }}
             >
-              <BreakDownModal singleRowData={singleRowData} />
+              <BreakDownModal
+                singleRowData={singleRowData}
+                setShowBreakdownModal={setShowBreakdownModal}
+                setSingleRowData={setSingleRowData}
+              />
             </IViewModal>
 
             {/* Warehouse Stock Details Modal */}
