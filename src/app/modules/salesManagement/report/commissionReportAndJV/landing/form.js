@@ -126,9 +126,11 @@ export default function CommissionReportAndJVForm({ obj }) {
                 />
               </>
             )}
-            {[1,3].includes(values?.reportType?.value) && (
+            {[1, 3].includes(values?.reportType?.value) && (
               <>
-                {[1, 3, 6, 7].includes(values?.type?.value) && (
+                {[1, 3, 6, 7, 35, 36, 37, 38, 39].includes(
+                  values?.type?.value
+                ) && (
                   <YearMonthForm
                     obj={{
                       values,
@@ -146,7 +148,9 @@ export default function CommissionReportAndJVForm({ obj }) {
                   />
                 )}
 
-                {[5, 3, 6, 7, ...allIds].includes(values?.type?.value) && (
+                {[5, 3, 6, 7, ...allIds, 35, 36, 37, 38, 39].includes(
+                  values?.type?.value
+                ) && (
                   <>
                     <RATForm
                       obj={{
@@ -283,63 +287,63 @@ export default function CommissionReportAndJVForm({ obj }) {
                     <FromDateToDateForm
                       obj={{ values, setFieldValue, colSize: "col-lg-2" }}
                     />{" "}
-                   {![3].includes(values?.reportType?.value) && (
-                    <>
-                     <div className="col-lg-2">
-                      <NewSelect
-                        name="status"
-                        options={[
-                          { value: 0, label: "All" },
-                          { value: 1, label: "Approved" },
-                          { value: 2, label: "Pending" },
-                          { value: 3, label: "Canceled" },
-                        ]}
-                        value={values?.status}
-                        label="Status"
-                        onChange={(valueOption) => {
-                          setFieldValue("status", valueOption);
-                        }}
-                        placeholder="Status"
-                      />
-                    </div>
-                    <div className="col-lg-2">
-                      <NewSelect
-                        name="sbu"
-                        options={sbuDDL || []}
-                        value={values?.sbu}
-                        label="SBU"
-                        onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
-                        }}
-                        placeholder="Select SBU"
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <label>Narration</label>
-                      <TextArea
-                        name="narration"
-                        placeholder="Narration"
-                        value={values?.narration}
-                        type="text"
-                      />
-                    </div>
-                    <div className="col">
-                      <IButton
-                        colSize={"text-left "}
-                        onClick={() => setOpen(true)}
-                      >
-                        Attach File
-                      </IButton>
-                      <AttachFile
-                        obj={{
-                          open,
-                          setOpen,
-                          setUploadedImage,
-                        }}
-                      />
-                    </div>
-                    </>
-                   )}
+                    {![3].includes(values?.reportType?.value) && (
+                      <>
+                        <div className="col-lg-2">
+                          <NewSelect
+                            name="status"
+                            options={[
+                              { value: 0, label: "All" },
+                              { value: 1, label: "Approved" },
+                              { value: 2, label: "Pending" },
+                              { value: 3, label: "Canceled" },
+                            ]}
+                            value={values?.status}
+                            label="Status"
+                            onChange={(valueOption) => {
+                              setFieldValue("status", valueOption);
+                            }}
+                            placeholder="Status"
+                          />
+                        </div>
+                        <div className="col-lg-2">
+                          <NewSelect
+                            name="sbu"
+                            options={sbuDDL || []}
+                            value={values?.sbu}
+                            label="SBU"
+                            onChange={(valueOption) => {
+                              setFieldValue("sbu", valueOption);
+                            }}
+                            placeholder="Select SBU"
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <label>Narration</label>
+                          <TextArea
+                            name="narration"
+                            placeholder="Narration"
+                            value={values?.narration}
+                            type="text"
+                          />
+                        </div>
+                        <div className="col">
+                          <IButton
+                            colSize={"text-left "}
+                            onClick={() => setOpen(true)}
+                          >
+                            Attach File
+                          </IButton>
+                          <AttachFile
+                            obj={{
+                              open,
+                              setOpen,
+                              setUploadedImage,
+                            }}
+                          />
+                        </div>
+                      </>
+                    )}
                     {values?.viewAs?.value === 2 && (
                       <>
                         <div className="col-md-2">
@@ -386,7 +390,7 @@ export default function CommissionReportAndJVForm({ obj }) {
             )}
 
             <div className="col-12"></div>
-            {[1,3].includes(values?.reportType?.value) && (
+            {[1, 3].includes(values?.reportType?.value) && (
               <>
                 <div className="col-lg-4 mt-5">
                   <h6>
