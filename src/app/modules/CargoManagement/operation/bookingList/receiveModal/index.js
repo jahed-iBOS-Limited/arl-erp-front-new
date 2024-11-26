@@ -46,6 +46,18 @@ function ReceiveModal({ rowClickData, CB }) {
               };
             }) || [],
           );
+
+          if (formikRef.current) {
+            formikRef.current.setFieldValue(
+              'wareHouse',
+              bookingData?.warehouseId
+                ? {
+                    value: bookingData?.warehouseId,
+                    label: bookingData?.warehouseName,
+                  }
+                : '',
+            );
+          }
         },
       );
     }

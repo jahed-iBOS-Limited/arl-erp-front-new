@@ -323,7 +323,8 @@ function ConfirmModal({ rowClickData, CB }) {
       isConfirm: true,
       confirmDate: new Date(),
       confTransportMode: values?.confTransportMode?.label || 0,
-      wareHouse: values?.wareHouse?.label || '',
+      warehouseName: values?.wareHouse?.label || '',
+      warehouseId: values?.wareHouse?.value || 0,
       // Consignee Information
       freightAgentReference: values?.freightAgentReference?.label || '',
       consigneeId: values?.consigneeName?.value || 0,
