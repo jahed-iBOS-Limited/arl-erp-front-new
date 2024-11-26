@@ -149,3 +149,45 @@ export const viewReportBtnValidationHandler = (values) => {
       return true;
   }
 };
+
+// choose challan vs damage filter data select
+export const isChallanVSDamageFilterSelectShow = (values, data) => {
+  // destructure
+  const { reportType } = values;
+  // if report is challan vs damage has data show select ddl
+  if (reportType?.value === 2 && data?.length > 0) {
+    return true;
+  }
+  return false;
+};
+
+// handle challan vs damage filter data
+export const handleChallanVSDamageDataFilter = (obj) => {
+  // destrcuture
+  const { status, copiedData, setGridData } = obj;
+
+  // filter data (filter method create a new array)
+  if (status === "All") {
+    setGridData(copiedData);
+  } else {
+    const filteredData = copiedData?.data?.filter((item) => {
+      return extractDamageEntryStatusText(item?.damageStatus) === status;
+    });
+    setGridData({ ...copiedData, data: filteredData });
+  }
+};
+
+// get only status from string of full damage status (Damage Entry (Pending) => Pending)
+const extractDamageEntryStatusText = (status) => {
+  if (status) {
+    const match = status?.match(/\((.*?)\)/);
+    return match ? match[1] : null;
+  }
+};
+
+// options
+export const challanVSDamageReportStatusOptions = [
+  { value: 0, label: "All" },
+  { value: 1, label: "Pending" },
+  { value: 2, label: "Done" },
+];

@@ -33,6 +33,7 @@ const initData = {
 
 const DamageEntryLanding = () => {
   const [gridData, setGridData] = useState([]);
+  const [gridDataBackupForFilter, setGridDataBackupForFilter] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -42,7 +43,7 @@ const DamageEntryLanding = () => {
   const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
 
-  console.log(gridData);
+  // console.log(gridData);
 
   // get user data from store
   const {
@@ -84,8 +85,15 @@ const DamageEntryLanding = () => {
     }
 
     landingActions(url, (resData) => {
-      console.log("Res", resData?.data);
       setGridData({
+        ...resData?.data,
+        data: resData?.data?.data?.map((item) => ({
+          ...item,
+          tempQty: item?.quantity,
+        })),
+      });
+
+      setGridDataBackupForFilter({
         ...resData?.data,
         data: resData?.data?.data?.map((item) => ({
           ...item,
@@ -271,6 +279,8 @@ const DamageEntryLanding = () => {
                   setGridData,
                   setFieldValue,
                   salesReturnLandingActions,
+                  gridDataBackupForFilter,
+                  setGridDataBackupForFilter
                 }}
               />
 
