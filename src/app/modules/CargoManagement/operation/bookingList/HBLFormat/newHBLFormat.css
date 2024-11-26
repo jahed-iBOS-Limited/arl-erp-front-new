@@ -28,7 +28,9 @@
 .main-container-mgs-air .container{
     width: 94%;
     height: 1050px;
-    border: 1px solid black;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
     border-collapse: collapse;
     margin-top: 10px;
     margin-left: 6px;

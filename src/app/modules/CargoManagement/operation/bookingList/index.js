@@ -89,12 +89,10 @@ function BookingList() {
     PageSize = pageSize,
   ) => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
-        profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${
-        profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search${searchValue ||
-        ''}`,
+      ''}`,
     );
   };
   return (
@@ -108,7 +106,7 @@ function BookingList() {
             entryCode: '',
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
@@ -216,15 +214,16 @@ function BookingList() {
                             minWidth: '100px',
                           }}
                         >
-                          Confirm
+                          Receive
                         </th>
                         <th
                           style={{
                             minWidth: '100px',
                           }}
                         >
-                          Receive
+                          Confirm
                         </th>
+
                         <th
                           style={{
                             minWidth: '100px',
@@ -391,6 +390,27 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={item?.isReceived}
+                                  className={
+                                    item?.isReceived
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
+                                  }
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isReceive: true,
+                                    });
+                                  }}
+                                >
+                                  Receive
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
                                   disabled={item?.isConfirm}
                                   className={
                                     item?.isConfirm
@@ -410,27 +430,7 @@ function BookingList() {
                               </span>
                             </td>
 
-                            <td>
-                              <span>
-                                <button
-                                  disabled={item?.isReceived}
-                                  className={
-                                    item?.isReceived
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isReceive: true,
-                                    });
-                                  }}
-                                >
-                                  Receive
-                                </button>
-                              </span>
-                            </td>
+
                             <td>
                               <span>
                                 <button
@@ -1081,9 +1081,8 @@ function BookingList() {
       {/* HBCode GN Modal */}
       {isModalShowObj?.isHBCodeGN && (
         <IViewModal
-          title={`${
-            rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-          } Code Generate`}
+          title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+            } Code Generate`}
           show={isModalShowObj?.isHBCodeGN}
           onHide={() => {
             setIsModalShowObj({

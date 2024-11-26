@@ -1,5 +1,6 @@
-import _ from "lodash";
+import axios from 'axios';
 import { Form, Formik } from 'formik';
+import _ from "lodash";
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -10,9 +11,8 @@ import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
-import './style.css';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
-import axios from 'axios';
+import './style.css';
 const validationSchema = Yup.object().shape({
   // bookingAmount: Yup.number().required('Booking Amount is required'),
   // airWaybillNumber: Yup.string().required("This field is required"),
@@ -44,7 +44,10 @@ const validationSchema = Yup.object().shape({
     })
     .nullable()
     .typeError('Transport Mode is required'),
-
+  wareHouse: Yup.object().shape({
+    value: Yup.string().required('Warehouse is required'),
+    label: Yup.string().required('Warehouse is required'),
+  }).nullable().typeError('Warehouse is required'),
   // Consignee Information
   consigneeName: Yup.object().shape({
     value: Yup.number().required('Consignee’s Name is required'),
@@ -80,9 +83,10 @@ const validationSchema = Yup.object().shape({
     value: Yup.number().required('Delivery Agent is required'),
     label: Yup.string().required('Delivery Agent is required'),
   }),
+
 });
 function ConfirmModal({ rowClickData, CB }) {
-  const { profileData } = useSelector(
+  const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
   );
@@ -113,6 +117,8 @@ function ConfirmModal({ rowClickData, CB }) {
   const [notifyPartyDDL, GetNotifyPartyDDL, , setNotifyParty] = useAxiosGet();
   const [stateDDL, setStateDDL] = useAxiosGet();
   const [cityDDL, setCityDDL] = useAxiosGet();
+  const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
+
 
   const debouncedGetCityList = _.debounce((value) => {
     setCityDDL(
@@ -279,6 +285,9 @@ function ConfirmModal({ rowClickData, CB }) {
         setDeliveryAgentDDL(modifyData);
       },
     );
+    getWarehouseDDL(
+      `/wms/Warehouse/GetWarehouseFromPlantWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const bookingData = shipBookingRequestGetById || {};
@@ -305,7 +314,7 @@ function ConfirmModal({ rowClickData, CB }) {
       isConfirm: true,
       confirmDate: new Date(),
       confTransportMode: values?.confTransportMode?.label || 0,
-
+      wareHouse: values?.wareHouse?.label || '',
       // Consignee Information
       freightAgentReference: values?.freightAgentReference?.label || '',
       consigneeId: values?.consigneeName?.value || 0,
@@ -362,6 +371,7 @@ function ConfirmModal({ rowClickData, CB }) {
           freightForwarderRepresentative: '',
           concernSalesPerson: '',
           confTransportMode: '',
+          wareHouse: '',
 
           // Consignee Information
           consigneeName: '',
@@ -521,6 +531,24 @@ function ConfirmModal({ rowClickData, CB }) {
                       setFieldValue('confTransportMode', valueOption);
                     }}
                     placeholder="Transport Mode"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                {/* warehouse */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="wareHouse"
+                    options={[...warehouseDDL]}
+                    value={values?.wareHouse}
+                    label="Warehouse"
+                    onChange={(valueOption) => {
+                      if (valueOption) {
+                        setFieldValue('wareHouse', valueOption);
+                      } else {
+                        setFieldValue('wareHouse', '');
+                      }
+                    }}
                     errors={errors}
                     touched={touched}
                   />
