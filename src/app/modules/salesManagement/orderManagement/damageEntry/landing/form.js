@@ -1,13 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import axios from "axios";
 import React from "react";
-import TextArea from "../../../../_helper/TextArea";
 import NewSelect from "../../../../_helper/_select";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import IButton from "../../../../_helper/iButton";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import IButton from "../../../../_helper/iButton";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import { viewReportBtnValidationHandler } from "../helper";
+import {
+  challanVSDamageReportStatusOptions,
+  handleChallanVSDamageDataFilter,
+  isChallanVSDamageFilterSelectShow,
+  viewReportBtnValidationHandler,
+} from "../helper";
 
 const DamageEntryLandingForm = ({ obj }) => {
   const {
@@ -22,6 +26,8 @@ const DamageEntryLandingForm = ({ obj }) => {
     setGridData,
     setFieldValue,
     salesReturnLandingActions,
+    gridDataBackupForFilter,
+    setGridDataBackupForFilter,
   } = obj;
 
   const customerList = (v) => {
@@ -159,6 +165,28 @@ const DamageEntryLandingForm = ({ obj }) => {
               </div>
             </>
           )} */}
+          {isChallanVSDamageFilterSelectShow(values, gridData?.data) ? (
+            <div className="col-lg-2">
+              <NewSelect
+                name="challanVSDamageReportStatus"
+                options={challanVSDamageReportStatusOptions}
+                value={values?.challanVSDamageReportStatus}
+                label="Status"
+                onChange={(valueOption) => {
+                  setFieldValue("gridDataBackupForFilter?.data", valueOption);
+
+                  handleChallanVSDamageDataFilter({
+                    copiedData: gridDataBackupForFilter,
+                    status: valueOption?.label,
+                    setGridData,
+                  });
+                }}
+                placeholder="Select Filter"
+              />
+            </div>
+          ) : (
+            <></>
+          )}
           <IButton
             onClick={() => {
               salesReturnLandingActions(values, pageNo, pageSize);
