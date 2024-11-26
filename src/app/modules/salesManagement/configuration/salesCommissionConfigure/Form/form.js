@@ -10,6 +10,7 @@ import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
 import IButton from "../../../../_helper/iButton";
 import SalesCommissionConfigureFormTable from "./table";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
 
 const ValidationSchema = Yup.object().shape({});
 
@@ -23,6 +24,19 @@ export default function _Form({
   desginationList,
 }) {
   const history = useHistory();
+  const { selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
+
+  const [itemGroupDDL, getItemGroupDDL] = useAxiosGet();
+
+  useEffect(() => {
+    getItemGroupDDL(
+      `/oms/TradeOffer/GetDiscountOfferGroupDDL?businessUnitId=${selectedBusinessUnit?.value}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedBusinessUnit]);
 
   return (
     <>
@@ -30,7 +44,7 @@ export default function _Form({
         enableReinitialize={true}
         initialValues={initData}
         validationSchema={ValidationSchema}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values, setFieldValue, resetForm }) => (
           <ICustomCard
@@ -67,16 +81,40 @@ export default function _Form({
                     obj={{
                       values,
                       setFieldValue,
-                      area: [14, 16, 20, 23, 17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(
-                        values?.commissionType?.value
-                      ),
+                      area: [
+                        14,
+                        16,
+                        20,
+                        23,
+                        17,
+                        18,
+                        25,
+                        27,
+                        22,
+                        35,
+                        36,
+                        37,
+                        38,
+                        39,
+                        40,
+                      ].includes(values?.commissionType?.value),
                       territory: false,
                       allElement: false,
                       onChange: () => {
                         if (
-                          ![17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(
-                            values?.commissionType?.value
-                          )
+                          ![
+                            17,
+                            18,
+                            25,
+                            27,
+                            22,
+                            35,
+                            36,
+                            37,
+                            38,
+                            39,
+                            40,
+                          ].includes(values?.commissionType?.value)
                         ) {
                           setRowData([]);
                         }
@@ -86,7 +124,9 @@ export default function _Form({
 
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
 
-                  {[17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(values?.commissionType?.value) && (
+                  {[17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(
+                    values?.commissionType?.value
+                  ) && (
                     <>
                       <div className={`col-lg-3`}>
                         <InputField
@@ -136,20 +176,13 @@ export default function _Form({
                       type={`text`}
                     />
                   </div>
-                  {[35, 36, 37, 38, 39, 40].includes(values?.commissionType?.value) && (
+                  {[35, 36, 37, 38, 39, 40].includes(
+                    values?.commissionType?.value
+                  ) && (
                     <div className="col-lg-3">
                       <NewSelect
                         name="itemGroup"
-                        options={[
-                          {
-                            "value": 1,
-                            "label": "Atta"
-                          },
-                          {
-                            "value": 2,
-                            "label": "Suji"
-                          }
-                        ]}
+                        options={itemGroupDDL?.data || []}
                         value={values?.itemGroup}
                         label="Item Group"
                         onChange={(e) => {
@@ -173,7 +206,9 @@ export default function _Form({
                   )}
                   <IButton
                     title={
-                      [17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(values?.commissionType?.value)
+                      [17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(
+                        values?.commissionType?.value
+                      )
                         ? "Add"
                         : "Show"
                     }
