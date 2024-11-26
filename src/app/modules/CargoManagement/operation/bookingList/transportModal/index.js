@@ -83,6 +83,9 @@ function TransportModal({ rowClickData, CB }) {
     shipBookingRequestLoading,
   ] = useAxiosGet();
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
+  const [poNumberDDL, setPoNumberDDL] = React.useState([]);
+  const [styleDDL, setStyleDDL] = React.useState([]);
+  const [colorDDL, setColorDDL] = React.useState([]);
 
   const formikRef = React.useRef(null);
   useEffect(() => {
@@ -173,6 +176,52 @@ function TransportModal({ rowClickData, CB }) {
                 ? { value: 0, label: data?.confTransportMode }
                 : ""
             );
+            // set ddl data
+            //   [
+            //     {
+            //         "dimensionRowId": 2,
+            //         "bookingRequestRowId": 3,
+            //         "dimsHeight": 1,
+            //         "dimsWidth": 1,
+            //         "dimsLength": 10,
+            //         "perUnitCbm": 10,
+            //         "numberOfPackage": 0,
+            //         "perUnitGrossWeight": 1,
+            //         "perUnitNetWeight": 1,
+            //         "measurementType": "cm",
+            //         "poNumber": "",
+            //         "style": "",
+            //         "color": "",
+            //         "isActive": true,
+            //         "createdAt": "2024-11-26T12:16:37.337",
+            //         "createdBy": 1
+            //     }
+            // ]
+            const getUniqueOptions = (key) => {
+              try {
+                const values = [];
+                data.rowsData.forEach((row) => {
+                  if (row.dimensionRow && row.dimensionRow.length > 0) {
+                    row.dimensionRow.forEach((dim) => {
+                      if (dim[key] && !values.includes(dim[key])) {
+                        values.push(dim[key]);
+                      }
+                    });
+                  }
+                });
+                return values.map((value) => ({ value, label: value }));
+              } catch (error) {
+                return [];
+              }
+            };
+
+            // Dropdown options
+            const colorOptions = getUniqueOptions("color");
+            const styleOptions = getUniqueOptions("style");
+            const poNumberOptions = getUniqueOptions("poNumber");
+            setPoNumberDDL(poNumberOptions);
+            setStyleDDL(styleOptions);
+            setColorDDL(colorOptions);
           }
         }
       );
@@ -193,11 +242,12 @@ function TransportModal({ rowClickData, CB }) {
     const payload = values?.rows?.map((row) => ({
       bookingId: bookingRequestId || 0,
       pickupLocation: row?.pickupLocation || "",
-      pickupDate: moment(row?.pickupDate).format("YYYY-MM-DDTHH:mm:ss") || new Date(),
+      pickupDate:
+        moment(row?.pickupDate).format("YYYY-MM-DDTHH:mm:ss") || new Date(),
 
       // stuffingDate:
       //   moment(values?.stuffingDate).format("YYYY-MM-DDTHH:mm:ss") ||
-      //   new Date(), //! prev 
+      //   new Date(), //! prev
 
       vehicleInfo: row?.vehicleInfo || "",
       noOfPallets: row?.noOfPallets || 0,
@@ -233,9 +283,9 @@ function TransportModal({ rowClickData, CB }) {
         cbm: item?.cbm,
         kgs: item?.kgs,
         mode: "",
-        poNumber: "",
-        style: "",
-        color: "",
+        poNumber: row?.poNumber?.value || "",
+        style: row?.style?.value || "",
+        color: row?.color?.value || "",
       })),
     }));
     SaveShippingTransportPlanning(
@@ -341,7 +391,6 @@ function TransportModal({ rowClickData, CB }) {
                                   `rows[${index}].transportPlanning`,
                                   valueOption
                                 );
-
                               }}
                               placeholder="Transport Planning Type"
                               errors={errors}
@@ -418,10 +467,7 @@ function TransportModal({ rowClickData, CB }) {
                               {/* Air Line */}
                               <div className="col-lg-3">
                                 <InputField
-                                  value={
-                                    values?.rows[index]
-                                      ?.airLine || ""
-                                  }
+                                  value={values?.rows[index]?.airLine || ""}
                                   label="Air Line"
                                   name={`rows[${index}].airLine`}
                                   type="text"
@@ -490,8 +536,7 @@ function TransportModal({ rowClickData, CB }) {
                               <div className="col-lg-3">
                                 <InputField
                                   value={
-                                    values?.rows[index]
-                                      ?.shippingLine || ""
+                                    values?.rows[index]?.shippingLine || ""
                                   }
                                   label="Shipping Line"
                                   name={`rows[${index}].shippingLine`}
@@ -630,6 +675,61 @@ function TransportModal({ rowClickData, CB }) {
                         {/* container details  for sea */}
                         {values?.rows[0]?.transportPlanning?.value === 2 && (
                           <div className="form-group row global-form">
+                            {/* PO Number */}
+                            <div className="col-lg-2">
+                              <NewSelect
+                                name={`rows[${index}].poNumber`}
+                                options={poNumberDDL || []}
+                                value={values?.rows[index]?.poNumber}
+                                label="PO Number"
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    `rows[${index}].poNumber`,
+                                    valueOption
+                                  );
+                                }}
+                                placeholder="Select"
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+                            {/* Style */}
+                            <div className="col-lg-2">
+                              <NewSelect
+                                name={`rows[${index}].style`}
+                                options={styleDDL || []}
+                                value={values?.rows[index]?.style}
+                                label="Style"
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    `rows[${index}].style`,
+                                    valueOption
+                                  );
+                                }}
+                                placeholder="Select"
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+                            {/* Color */}
+                            <div className="col-lg-2">
+                              <NewSelect
+                                name={`rows[${index}].color`}
+                                options={colorDDL || []}
+                                value={values?.rows[index]?.color || ""}
+                                label="Color"
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    `rows[${index}].color`,
+                                    valueOption
+                                  );
+                                }}
+                                placeholder="Select"
+                                errors={errors}
+                                touched={touched}
+                              />
+                            </div>
+
                             {/* Container No */}
                             <div className="col-lg-2">
                               <InputField
@@ -750,6 +850,13 @@ function TransportModal({ rowClickData, CB }) {
                                     formikRef.current?.values?.rows[index]
                                       ?.items || [];
                                   items.push({
+                                    poNumber:
+                                      formikRef.current?.values?.rows[index]
+                                        ?.poNumber,
+                                    style: formikRef.current?.values?.rows[index]
+                                      ?.style,
+                                    color: formikRef.current?.values?.rows[index]
+                                      ?.color,
                                     containerNumber:
                                       formikRef.current?.values?.rows[index]
                                         ?.containerNumber,
@@ -770,6 +877,9 @@ function TransportModal({ rowClickData, CB }) {
                                         ?.kgs,
                                   });
                                   setFieldValue(`rows[${index}].items`, items);
+                                  setFieldValue(`rows[${index}].poNumber`, "");
+                                  setFieldValue(`rows[${index}].style`, "");
+                                  setFieldValue(`rows[${index}].color`, "");
                                   setFieldValue(
                                     `rows[${index}].containerNumber`,
                                     ""
@@ -798,6 +908,9 @@ function TransportModal({ rowClickData, CB }) {
                               <table table className="table table-bordered">
                                 <thead>
                                   <tr>
+                                    <th>PO Number</th>
+                                    <th>Style</th>
+                                    <th>Color</th>
                                     <th>Container No</th>
                                     <th>Seal No</th>
                                     <th>Size</th>
@@ -810,35 +923,41 @@ function TransportModal({ rowClickData, CB }) {
                                 <tbody>
                                   {formikRef.current?.values?.rows[
                                     index
-                                  ]?.items?.map((item, index) => (
-                                    <tr key={index}>
-                                      <td>{item?.containerNumber}</td>
-                                      <td>{item?.sealNumber}</td>
-                                      <td>{item?.size}</td>
-                                      <td>{item?.quantity}</td>
-                                      <td>{item?.cbm}</td>
-                                      <td>{item?.kgs}</td>
-                                      <td>
-                                        <IconButton
-                                          onClick={() => {
-                                            const items =
-                                              formikRef.current?.values?.rows[
-                                                index
-                                              ]?.items || [];
-                                            items.splice(index, 1);
-                                            setFieldValue(
-                                              `rows[${index}].items`,
-                                              items
-                                            );
-                                          }}
-                                          color="error"
-                                          size="small"
-                                        >
-                                          <IDelete />
-                                        </IconButton>
-                                      </td>
-                                    </tr>
-                                  ))}
+                                  ]?.items?.map((item, index) => {
+                                    console.log("item", item);
+                                    return (
+                                      <tr key={index}>
+                                        <td>{item?.poNumber?.label}</td>
+                                        <td>{item?.style?.label}</td>
+                                        <td>{item?.color?.label}</td>
+                                        <td>{item?.containerNumber}</td>
+                                        <td>{item?.sealNumber}</td>
+                                        <td>{item?.size}</td>
+                                        <td>{item?.quantity}</td>
+                                        <td>{item?.cbm}</td>
+                                        <td>{item?.kgs}</td>
+                                        <td>
+                                          <IconButton
+                                            onClick={() => {
+                                              const items =
+                                                formikRef.current?.values?.rows[
+                                                  index
+                                                ]?.items || [];
+                                              items.splice(index, 1);
+                                              setFieldValue(
+                                                `rows[${index}].items`,
+                                                items
+                                              );
+                                            }}
+                                            color="error"
+                                            size="small"
+                                          >
+                                            <IDelete />
+                                          </IconButton>
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
                                 </tbody>
                               </table>
                             )}
