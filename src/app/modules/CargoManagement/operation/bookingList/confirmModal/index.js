@@ -1,5 +1,6 @@
-import _ from 'lodash';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
+import _ from 'lodash';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -10,15 +11,14 @@ import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
-import './style.css';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
-import axios from 'axios';
+import './style.css';
 const validationSchema = Yup.object().shape({
   // bookingAmount: Yup.number().required('Booking Amount is required'),
   // airWaybillNumber: Yup.string().required("This field is required"),
   departureDateTime: Yup.date().required('Departure Date & Time is required'),
   arrivalDateTime: Yup.date().required('Arrival Date & Time is required'),
-  flightNumber: Yup.string().required('This field is required'),
+  // flightNumber: Yup.string().required('This field is required'),
 
   transitInformation: Yup.object()
     .shape({
@@ -44,7 +44,13 @@ const validationSchema = Yup.object().shape({
     })
     .nullable()
     .typeError('Transport Mode is required'),
-
+  wareHouse: Yup.object()
+    .shape({
+      value: Yup.string().required('Warehouse is required'),
+      label: Yup.string().required('Warehouse is required'),
+    })
+    .nullable()
+    .typeError('Warehouse is required'),
   // Consignee Information
   consigneeName: Yup.object().shape({
     value: Yup.number().required('Consignee’s Name is required'),
@@ -82,7 +88,7 @@ const validationSchema = Yup.object().shape({
   }),
 });
 function ConfirmModal({ rowClickData, CB }) {
-  const { profileData } = useSelector(
+  const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
   );
@@ -113,6 +119,7 @@ function ConfirmModal({ rowClickData, CB }) {
   const [notifyPartyDDL, GetNotifyPartyDDL, , setNotifyParty] = useAxiosGet();
   const [stateDDL, setStateDDL] = useAxiosGet();
   const [cityDDL, setCityDDL] = useAxiosGet();
+  const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
 
   const debouncedGetCityList = _.debounce((value) => {
     setCityDDL(
@@ -158,9 +165,9 @@ function ConfirmModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               'consigneeDivisionAndState',
-              data?.consigStateId
+              data?.consigState
                 ? {
-                    value: data?.consigStateId || 0,
+                    value: 0,
                     label: data?.consigState || '',
                   }
                 : '',
@@ -212,6 +219,16 @@ function ConfirmModal({ rowClickData, CB }) {
             formikRef.current.setFieldValue(
               'consignPostalCode',
               data?.consignPostalCode || '',
+            );
+            // confTransportMode
+            formikRef.current.setFieldValue(
+              'confTransportMode',
+              data?.confTransportMode
+                ? {
+                    value: 0,
+                    label: data?.confTransportMode || '',
+                  }
+                : '',
             );
           }
         },
@@ -279,9 +296,11 @@ function ConfirmModal({ rowClickData, CB }) {
         setDeliveryAgentDDL(modifyData);
       },
     );
+    getWarehouseDDL(
+      `/wms/Warehouse/GetWarehouseFromPlantWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const bookingData = shipBookingRequestGetById || {};
 
   const saveHandler = (values, cb) => {
     const payload = {
@@ -304,7 +323,8 @@ function ConfirmModal({ rowClickData, CB }) {
       isConfirm: true,
       confirmDate: new Date(),
       confTransportMode: values?.confTransportMode?.label || 0,
-
+      warehouseName: values?.wareHouse?.label || '',
+      warehouseId: values?.wareHouse?.value || 0,
       // Consignee Information
       freightAgentReference: values?.freightAgentReference?.label || '',
       consigneeId: values?.consigneeName?.value || 0,
@@ -362,6 +382,7 @@ function ConfirmModal({ rowClickData, CB }) {
           freightForwarderRepresentative: '',
           concernSalesPerson: '',
           confTransportMode: '',
+          wareHouse: '',
 
           // Consignee Information
           consigneeName: '',
@@ -507,21 +528,40 @@ function ConfirmModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <NewSelect
                     name="confTransportMode"
-                    options={
-                      transportModeDDL?.filter((item) => {
-                        if (values?.transportPlanningType === 'Sea') {
-                          return [17, 18].includes(item?.value);
-                        } else {
-                          return [19, 20].includes(item?.value);
-                        }
-                      }) || []
-                    }
+                    // options={
+                    //   transportModeDDL?.filter((item) => {
+                    //     if (values?.transportPlanningType === 'Sea') {
+                    //       return [17, 18, 30, 31].includes(item?.value);
+                    //     } else {
+                    //       return [19, 20,30, 31].includes(item?.value);
+                    //     }
+                    //   }) || []
+                    // }
+                    options={transportModeDDL}
                     value={values?.confTransportMode}
                     label="Transport Mode"
                     onChange={(valueOption) => {
                       setFieldValue('confTransportMode', valueOption);
                     }}
                     placeholder="Transport Mode"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                {/* warehouse */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="wareHouse"
+                    options={[...warehouseDDL]}
+                    value={values?.wareHouse}
+                    label="Warehouse"
+                    onChange={(valueOption) => {
+                      if (valueOption) {
+                        setFieldValue('wareHouse', valueOption);
+                      } else {
+                        setFieldValue('wareHouse', '');
+                      }
+                    }}
                     errors={errors}
                     touched={touched}
                   />
