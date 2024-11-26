@@ -22,46 +22,47 @@ const validationSchema = Yup.object().shape({
   //   })
   //   .nullable()
   //   .typeError('Transport Planning Type is required'),
-  // pickupLoaction: Yup.string().required('Pickup Loaction is required'),
+  pickupLocation: Yup.string().required('Pickup Location is required'),
   // stuffingDate: Yup.string().required('Stuffing Date is required'),
-  // vehicleInfo: Yup.string().required('Vehicle Info is required'),
-  // noOfPallet: Yup.string().when('transportPlanning', {
-  //   is: (val) => val?.value === 1,
-  //   then: Yup.string().required('No of Pallet is required'),
-  // }),
-  // airLine: Yup.string().when('transportPlanning', {
-  //   is: (val) => val?.value === 1,
-  //   then: Yup.string().required('Air Line is required'),
-  // }),
-  // iatanumber: Yup.string().when('transportPlanning', {
-  //   is: (val) => val?.value === 1,
-  //   then: Yup.string().required('Iata Number is required'),
-  // }),
-  // carton: Yup.string().when('transportPlanning', {
-  //   is: (val) => val?.value === 1,
-  //   then: Yup.string().required('Carton is required'),
-  // }),
-  // continer: Yup.string().when('transportPlanning', {
-  //   is: (val) => val?.value === 2,
-  //   then: Yup.string().required('Continer is required'),
-  // }),
-  // shippingLine: Yup.string().when('transportPlanning', {
-  //   is: (val) => val?.value === 2,
-  //   then: Yup.string().required('Shipping Line is required'),
-  // }),
-  // vesselName: Yup.string().when('transportPlanning', {
-  //   is: (val) => val?.value === 2,
-  //   then: Yup.string().required('Vessel Name is required'),
-  // }),
+  pickupDate: Yup.string().required('Estimated Pickup Date is required'),
+  vehicleInfo: Yup.string().required('Vehicle Info is required'),
+  noOfPallets: Yup.string().when('transportPlanning', {
+    is: (val) => val?.value === 1,
+    then: Yup.string().required('No of Pallets is required'),
+  }),
+  airLine: Yup.string().when('transportPlanning', {
+    is: (val) => val?.value === 1,
+    then: Yup.string().required('Air Line is required'),
+  }),
+  iatanumber: Yup.string().when('transportPlanning', {
+    is: (val) => val?.value === 1,
+    then: Yup.string().required('Iata Number is required'),
+  }),
+  carton: Yup.string().when('transportPlanning', {
+    is: (val) => val?.value === 1,
+    then: Yup.string().required('Carton is required'),
+  }),
+  noOfContainer: Yup.string().when('transportPlanning', {
+    is: (val) => val?.value === 2,
+    then: Yup.string().required('No of Container is required'),
+  }),
+  shippingLine: Yup.string().when('transportPlanning', {
+    is: (val) => val?.value === 2,
+    then: Yup.string().required('Shipping Line is required'),
+  }),
+  vesselName: Yup.string().when('transportPlanning', {
+    is: (val) => val?.value === 2,
+    then: Yup.string().required('Vessel Name is required'),
+  }),
   // // departureDateTime: Yup.string().required("Departure Date & Time is required"),
-  // arrivalDateTime: Yup.string().required('Arrival Date & Time is required'),
-  // transportMode: Yup.object()
-  //   .shape({
-  //     label: Yup.string().required('Transport Mode is required'),
-  //     value: Yup.number().required('Transport Mode is required'),
-  //   })
-  //   .nullable()
-  //   .typeError('Transport Mode is required'),
+  arrivalDateTime: Yup.string().required('Arrival Date & Time is required'),
+  transportMode: Yup.object()
+    .shape({
+      label: Yup.string().required('Transport Mode is required'),
+      value: Yup.number().required('Transport Mode is required'),
+    })
+    .nullable()
+    .typeError('Transport Mode is required'),
   // containerNumber: Yup.string().required("Container No is required"),
   // sealNumber: Yup.string().required("Seal No is required"),
   // size: Yup.string().required("Size is required"),
@@ -352,7 +353,7 @@ function TransportModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
-
+            {/* <h1>{JSON.stringify(errors)}</h1> */}
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
@@ -414,6 +415,9 @@ function TransportModal({ rowClickData, CB }) {
                               }
                               placeholder="Pickup Location"
                             />
+                            {errors.rows && errors.rows[index]?.pickupLocation && touched.rows && (
+                              <div className="text-danger">{errors.rows[index].pickupLocation}</div>
+                            )}
                           </div>
                           {/* Pickup date */}
                           <div className="col-lg-3">
@@ -429,6 +433,9 @@ function TransportModal({ rowClickData, CB }) {
                                 )
                               }
                             />
+                            {errors.rows && errors.rows[index]?.pickupDate && touched.rows && (
+                              <div className="text-danger">{errors.rows[index].pickupDate}</div>
+                            )}
                           </div>
                           {/* Vehicle info */}
                           <div className="col-lg-3">
@@ -444,6 +451,9 @@ function TransportModal({ rowClickData, CB }) {
                                 )
                               }
                             />
+                            {errors.rows && errors.rows[index]?.vehicleInfo && touched.rows && (
+                              <div className="text-danger">{errors.rows[index].vehicleInfo}</div>
+                            )}
                           </div>
 
                           {/* for AIR */}
@@ -463,6 +473,9 @@ function TransportModal({ rowClickData, CB }) {
                                     )
                                   }
                                 />
+                                {errors.rows && errors.rows[index]?.noOfPallets && touched.rows && (
+                                  <div className="text-danger">{errors.rows[index].noOfPallets}</div>
+                                )}
                               </div>
                               {/* Air Line */}
                               <div className="col-lg-3">
@@ -478,6 +491,10 @@ function TransportModal({ rowClickData, CB }) {
                                     )
                                   }
                                 />
+                                {errors.rows && errors.rows[index]?.airLine && touched.rows && (
+                                  <div className="text-danger">{errors.rows[index].airLine}</div>
+                                )}
+
                               </div>
                               {/* iatanumber */}
                               <div className="col-lg-3">
@@ -493,6 +510,9 @@ function TransportModal({ rowClickData, CB }) {
                                     )
                                   }
                                 />
+                                {errors.rows && errors.rows[index]?.iatanumber && touched.rows && (
+                                  <div className="text-danger">{errors.rows[index].iatanumber}</div>
+                                )}
                               </div>
                               {/* Carton */}
                               <div className="col-lg-3">
@@ -508,6 +528,9 @@ function TransportModal({ rowClickData, CB }) {
                                     )
                                   }
                                 />
+                                {errors.rows && errors.rows[index]?.carton && touched.rows && (
+                                  <div className="text-danger">{errors.rows[index].carton}</div>
+                                )}
                               </div>
                             </>
                           )}
@@ -531,6 +554,9 @@ function TransportModal({ rowClickData, CB }) {
                                     )
                                   }
                                 />
+                                {errors.rows && errors.rows[index]?.noOfContainer && touched.rows && (
+                                  <div className="text-danger">{errors.rows[index].noOfContainer}</div>
+                                )}
                               </div>
                               {/* Shipping line */}
                               <div className="col-lg-3">
@@ -548,6 +574,9 @@ function TransportModal({ rowClickData, CB }) {
                                     )
                                   }
                                 />
+                                {errors.rows && errors.rows[index]?.shippingLine && touched.rows && (
+                                  <div className="text-danger">{errors.rows[index].shippingLine}</div>
+                                )}
                               </div>
                               {/* Vessel name */}
                               <div className="col-lg-3">
@@ -563,6 +592,9 @@ function TransportModal({ rowClickData, CB }) {
                                     )
                                   }
                                 />
+                                {errors.rows && errors.rows[index]?.vesselName && touched.rows && (
+                                  <div className="text-danger">{errors.rows[index].vesselName}</div>
+                                )}
                               </div>
                             </>
                           )}
@@ -593,6 +625,9 @@ function TransportModal({ rowClickData, CB }) {
                                 )
                               }
                             />
+                            {errors.rows && errors.rows[index]?.arrivalDateTime && touched.rows && (
+                              <div className="text-danger">{errors.rows[index].arrivalDateTime}</div>
+                            )}
                           </div>
 
                           {/* Transport Mode */}
@@ -623,6 +658,12 @@ function TransportModal({ rowClickData, CB }) {
                               errors={errors}
                               touched={touched}
                             />
+                            {errors.rows &&
+                              errors.rows[index]?.transportMode &&
+                              touched.rows &&
+                              touched.rows[index]?.transportMode && (
+                                <div className="text-danger">{errors.rows[index].transportMode.label || errors.rows[index].transportMode}</div>
+                              )}
                           </div>
                           {/* BerthDate  */}
                           <div className="col-lg-3">
@@ -638,6 +679,10 @@ function TransportModal({ rowClickData, CB }) {
                                 )
                               }
                             />
+                            {errors.rows && errors.rows[index]?.berthDate && touched.rows && (
+                              <div className="text-danger">{errors.rows[index].berthDate}</div>
+                            )}
+
                           </div>
                           {/* CutOffDate */}
                           <div className="col-lg-3">
@@ -653,6 +698,9 @@ function TransportModal({ rowClickData, CB }) {
                                 )
                               }
                             />
+                            {errors.rows && errors.rows[index]?.cutOffDate && touched.rows && (
+                              <div className="text-danger">{errors.rows[index].cutOffDate}</div>
+                            )}
                           </div>
                           {/* EstimatedTimeOfDepart */}
                           <div className="col-lg-3">
@@ -670,6 +718,9 @@ function TransportModal({ rowClickData, CB }) {
                                 )
                               }
                             />
+                            {errors.rows && errors.rows[index]?.estimatedTimeOfDepart && touched.rows && (
+                              <div className="text-danger">{errors.rows[index].estimatedTimeOfDepart}</div>
+                            )}
                           </div>
                         </div>
                         {/* container details  for sea */}
@@ -692,6 +743,7 @@ function TransportModal({ rowClickData, CB }) {
                                 errors={errors}
                                 touched={touched}
                               />
+
                             </div>
                             {/* Style */}
                             <div className="col-lg-2">
@@ -832,6 +884,12 @@ function TransportModal({ rowClickData, CB }) {
                                 onClick={() => {
                                   if (
                                     !formikRef.current?.values?.rows[index]
+                                      ?.poNumber ||
+                                    !formikRef.current?.values?.rows[index]
+                                      ?.style ||
+                                    !formikRef.current?.values?.rows[index]
+                                      ?.color ||
+                                    !formikRef.current?.values?.rows[index]
                                       ?.containerNumber ||
                                     !formikRef.current?.values?.rows[index]
                                       ?.sealNumber ||
@@ -924,7 +982,7 @@ function TransportModal({ rowClickData, CB }) {
                                   {formikRef.current?.values?.rows[
                                     index
                                   ]?.items?.map((item, index) => {
-
+                                    console.log("item", item);
                                     return (
                                       <tr key={index}>
                                         <td>{item?.poNumber?.label}</td>
@@ -1005,16 +1063,16 @@ function TransportModal({ rowClickData, CB }) {
                               })
                             }
                           >
-                            +
+                            <i class="fa fa-plus" aria-hidden="true"></i>
                           </button>
                           <button
                             type="button"
                             className="btn btn-danger"
                             onClick={() => remove(index)}
-                            disabled={values?.rows.length === 1}
+                            disabled={values?.rows?.length === 1}
                             title="Remove"
                           >
-                            -
+                            <i class="fa fa-minus" aria-hidden="true"></i>
                           </button>
                         </div>
                         <br />
@@ -1033,3 +1091,60 @@ function TransportModal({ rowClickData, CB }) {
 }
 
 export default TransportModal;
+
+// const validationSchema = Yup.object().shape({
+//   // transportPlanning: Yup.object()
+//   //   .shape({
+//   //     label: Yup.string().required('Transport Planning Type is required'),
+//   //     value: Yup.number().required('Transport Planning Type is required'),
+//   //   })
+//   //   .nullable()
+//   //   .typeError('Transport Planning Type is required'),
+//   pickupLocation: Yup.string().required('Pickup Location is required'),
+//   // stuffingDate: Yup.string().required('Stuffing Date is required'),
+//   pickupDate: Yup.string().required('Estimated Pickup Date is required'),
+//   vehicleInfo: Yup.string().required('Vehicle Info is required'),
+//   noOfPallets: Yup.string().when('transportPlanning', {
+//     is: (val) => val?.value === 1,
+//     then: Yup.string().required('No of Pallet is required'),
+//   }),
+//   airLine: Yup.string().when('transportPlanning', {
+//     is: (val) => val?.value === 1,
+//     then: Yup.string().required('Air Line is required'),
+//   }),
+//   iatanumber: Yup.string().when('transportPlanning', {
+//     is: (val) => val?.value === 1,
+//     then: Yup.string().required('Iata Number is required'),
+//   }),
+//   carton: Yup.string().when('transportPlanning', {
+//     is: (val) => val?.value === 1,
+//     then: Yup.string().required('Carton is required'),
+//   }),
+//   noOfContainer: Yup.string().when('transportPlanning', {
+//     is: (val) => val?.value === 2,
+//     then: Yup.string().required('No of Container is required'),
+//   }),
+//   shippingLine: Yup.string().when('transportPlanning', {
+//     is: (val) => val?.value === 2,
+//     then: Yup.string().required('Shipping Line is required'),
+//   }),
+//   vesselName: Yup.string().when('transportPlanning', {
+//     is: (val) => val?.value === 2,
+//     then: Yup.string().required('Vessel Name is required'),
+//   }),
+//   // // departureDateTime: Yup.string().required("Departure Date & Time is required"),
+//   arrivalDateTime: Yup.string().required('Arrival Date & Time is required'),
+//   transportMode: Yup.object()
+//     .shape({
+//       label: Yup.string().required('Transport Mode is required'),
+//       value: Yup.number().required('Transport Mode is required'),
+//     })
+//     .nullable()
+//     .typeError('Transport Mode is required'),
+//   // containerNumber: Yup.string().required("Container No is required"),
+//   // sealNumber: Yup.string().required("Seal No is required"),
+//   // size: Yup.string().required("Size is required"),
+//   // quantity: Yup.string().required("quantity is required"),
+//   // cbm: Yup.string().required("CBM is required"),
+//   // kgs: Yup.string().required("KGS is required"),
+// });
