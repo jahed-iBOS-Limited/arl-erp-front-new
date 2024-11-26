@@ -12,6 +12,7 @@ import { useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import OthersItem from "./othersItem";
 import RawMaterialAutoPR from "./rawMaterial";
+import RawMaterialAutoPRNew from "./rawMaterialNew";
 
 const initData = {
   purchaseOrganization: "",
@@ -185,8 +186,11 @@ export default function AutoPRCalculation() {
               id="uncontrolled-tab-example"
               className="mb-3"
             >
-              <Tab unmountOnExit eventKey="raw-material" title="Raw Material">
+              {/* <Tab unmountOnExit eventKey="raw-material" title="Raw Material">
                 <RawMaterialAutoPR />
+              </Tab> */}
+              <Tab unmountOnExit eventKey="raw-material" title="Raw Material">
+                <RawMaterialAutoPRNew />
               </Tab>
               <Tab unmountOnExit eventKey="others" title="Others Item">
                 <OthersItem />
