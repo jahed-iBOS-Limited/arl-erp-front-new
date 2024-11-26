@@ -171,8 +171,9 @@ export default function _Form({
             return toast.warn("Account Head is Required !")
           }
           if (
-            availableBudgetAdvanceBalance[0].numRemainAmount > 0 &&
-            availableBudgetAdvanceBalance[0].numRemainAmount < values?.expenseAmount
+            bugetHeadWiseBalance?.length > 0 &&
+            availableBudgetAdvanceBalance[0]?.numRemainAmount > 0 &&
+            availableBudgetAdvanceBalance[0]?.numRemainAmount < values?.expenseAmount
           ) {
             return toast.warn("Budget Advance Amount is Exceed");
           }
