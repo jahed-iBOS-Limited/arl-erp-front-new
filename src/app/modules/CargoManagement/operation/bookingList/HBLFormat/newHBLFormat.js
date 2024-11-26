@@ -224,13 +224,13 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               </p>
             </div>
             <div className="box1_left-box_content-5 small-font">
-              <div style={{ width: '50%', borderRight: '2px solid black' }}>
+              <div style={{ width: '50%', borderRight: '1px solid black' }}>
                 Airport of Destination
                 <p className="medium-font" style={{ paddingTop: 5 }}>
                   LELYSTAD
                 </p>
               </div>
-              <div style={{ width: '25%', borderRight: '2px solid black' }}>
+              <div style={{ width: '25%', borderRight: '1px solid black' }}>
                 Flight/Date
                 <br />
                 <p className="medium-font" style={{ paddingTop: 12 }}>
@@ -313,7 +313,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               </p>
             </div>
             <div className="box1_right-box_content-5 small-font word-spacing">
-              <div style={{ width: '50%', borderRight: '2px solid black' }}>
+              <div style={{ width: '50%', borderRight: '1px solid black' }}>
                 Master Airwaybill No.
                 <p>
                   <b>{bookingData?.flightNumber} </b>
@@ -322,7 +322,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               <div style={{ width: '50%' }}>I.A.T.A Code</div>
             </div>
             <div className="box1_right-box_content-6 small-font word-spacing">
-              <div style={{ width: '50%', borderRight: '2px solid black' }}>
+              <div style={{ width: '50%', borderRight: '1px solid black' }}>
                 Time &amp; Date Broker Notified
               </div>
               <div style={{ width: '50%' }}>
@@ -332,7 +332,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
             <div className="box1_right-box_content-7">
               <div
                 className="small-font"
-                style={{ width: '20%', borderRight: '2px solid black' }}
+                style={{ width: '20%', borderRight: '1px solid black' }}
               >
                 Currency
                 <p className="medium-font" style={{ paddingTop: 5 }}>
@@ -343,7 +343,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 className="small-font"
                 style={{
                   width: '29.2%',
-                  borderRight: '2px solid black',
+                  borderRight: '1px solid black',
                   display: 'flex',
                   flexDirection: 'column',
                 }}
@@ -352,26 +352,26 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                   <div
                     style={{
                       width: '50%',
-                      borderRight: '2px solid black',
-                      borderBottom: '2px solid black',
+                      borderRight: '1px solid black',
+                      borderBottom: '1px solid black',
                     }}
                   >
                     WT/VAL
                   </div>
                   <div
-                    style={{ width: '50%', borderBottom: '2px solid black' }}
+                    style={{ width: '50%', borderBottom: '1px solid black' }}
                   >
                     Other
                   </div>
                 </div>
                 <div style={{ display: 'flex', height: '50%' }}>
-                  <div style={{ width: '50%', borderRight: '2px solid black' }}>
+                  <div style={{ width: '50%', borderRight: '1px solid black' }}>
                     PPD
                   </div>
-                  <div style={{ width: '52%', borderRight: '2px solid black' }}>
+                  <div style={{ width: '52%', borderRight: '1px solid black' }}>
                     COLL XX
                   </div>
-                  <div style={{ width: '50%', borderRight: '2px solid black' }}>
+                  <div style={{ width: '50%', borderRight: '1px solid black' }}>
                     PPD XX
                   </div>
                   <div style={{ width: '50%' }}>COLL</div>
@@ -379,7 +379,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               </div>
               <div
                 className="small-font"
-                style={{ width: '40%', borderRight: '2px solid black' }}
+                style={{ width: '40%', borderRight: '1px solid black' }}
               >
                 Declared Value for Carriage
                 <p className="medium-font" style={{ paddingTop: 5 }}>
@@ -389,7 +389,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               <div />
             </div>
             <div className="box1_right-box_content-8 small-font">
-              <div style={{ width: '30%', borderRight: '2px solid black' }}>
+              <div style={{ width: '30%', borderRight: '1px solid black' }}>
                 Amount of Insurance
               </div>
               <div style={{ width: '70%' }}>
@@ -406,27 +406,26 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
         {/*--- Section: BOX 3 ---*/}
         <div className="box3">
           <div className="box3_heading small-font">
-            <div style={{ width: '5%', borderRight: '2px solid black' }}>
+            <div style={{ width: '5%', borderRight: '1px solid black' }}>
               No Pieces RCP
             </div>
-            <div style={{ width: '10%', borderRight: '2px solid black' }}>
+            <div style={{ width: '10%', borderRight: '1px solid black' }}>
               Gross Weight
             </div>
-            <div style={{ width: '2%', borderRight: '2px solid black' }}>
+            <div style={{ width: '10%', borderRight: '1px solid black' }}>
               Kg lb
             </div>
-            <div style={{ width: '10%', borderRight: '2px solid black' }}>
+            <div style={{ width: '10%', borderRight: '1px solid black' }}>
               Chargeable Weight
             </div>
-            <div style={{ width: '12%', borderRight: '2px solid black' }}>
+            <div style={{ width: '6%', borderRight: '1px solid black' }}>
               Rate <br />
               <br />
-              <p style={{ textAlign: 'center' }}>charge</p>
             </div>
             <div
               style={{
-                width: '14%',
-                borderRight: '2px solid black',
+                width: '10%',
+                borderRight: '1px solid black',
                 textAlign: 'center',
               }}
             >
@@ -438,7 +437,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
             </div>
           </div>
           <div className="box3_content">
-            <div style={{ width: '5%', borderRight: '2px solid black' }}>
+            <div style={{ width: '5%', borderRight: '1px solid black' }}>
               <p style={{ textAlign: 'center' }}>140</p>
               <p className="medium-font">
                 <u>
@@ -447,7 +446,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               </p>
               <p className="small-font">47805-D/1</p>
             </div>
-            <div style={{ width: '10%', borderRight: '2px solid black' }}>
+            <div style={{ width: '10%', borderRight: '1px solid black' }}>
               <p style={{ textAlign: 'center' }}>
                 {bookingData?.rowsData?.reduce(
                   (acc, item) => acc + +item?.grossWeightKG,
@@ -455,7 +454,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 )}
               </p>
             </div>
-            <div style={{ width: '2%', borderRight: '2px solid black' }}>
+            <div style={{ width: '10%', borderRight: '1px solid black' }}>
               <p
                 className="medium-font"
                 style={{ paddingTop: 20, textAlign: 'center' }}
@@ -487,11 +486,11 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 )}
               </p>
             </div>
-            <div style={{ width: '10%', borderRight: '2px solid black' }}>
+            <div style={{ width: '10%', borderRight: '1px solid black' }}>
               <p style={{ textAlign: 'center' }}>3337</p>
             </div>
-            <div style={{ width: '12%', borderRight: '2px solid black' }} />
-            <div style={{ width: '14%', borderRight: '2px solid black' }} />
+            <div style={{ width: '6%', borderRight: '1px solid black' }} />
+            <div style={{ width: '10%', borderRight: '1px solid black' }} />
             <div style={{ width: '45%' }}>
               <div
                 style={{
@@ -559,7 +558,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 >
                   <p
                     style={{
-                      border: '2px solid black',
+                      border: '1px solid black',
                       borderTop: 'none',
                       borderLeft: 'none',
                       height: '100%',
@@ -571,7 +570,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                   </p>
                   <p
                     style={{
-                      border: '2px solid black',
+                      border: '1px solid black',
                       borderTop: 'none',
                       height: '100%',
                       alignContent: 'center',
@@ -582,7 +581,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                   </p>
                   <p
                     style={{
-                      border: '2px solid black',
+                      border: '1px solid black',
                       borderTop: 'none',
                       borderRight: 'none',
                       height: '100%',
@@ -595,7 +594,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 </div>
                 <div
                   style={{
-                    borderRight: '2px solid black',
+                    borderRight: '1px solid black',
                     borderBottom: 'none',
                     height: '50%',
                     width: '50%',
@@ -621,7 +620,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 >
                   <p
                     style={{
-                      border: '2px solid black',
+                      border: '1px solid black',
                       borderTop: 'none',
                       height: '100%',
                       alignContent: 'center',
@@ -633,7 +632,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 </div>
                 <div
                   style={{
-                    borderRight: '2px solid black',
+                    borderRight: '1px solid black',
                     borderBottom: 'none',
                     height: '50%',
                     width: '50%',
@@ -659,7 +658,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 >
                   <p
                     style={{
-                      border: '2px solid black',
+                      border: '1px solid black',
                       borderTop: 'none',
                       height: '100%',
                       alignContent: 'center',
@@ -671,7 +670,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 </div>
                 <div
                   style={{
-                    borderRight: '2px solid black',
+                    borderRight: '1px solid black',
                     borderBottom: 'none',
                     height: '50%',
                     width: '50%',
@@ -697,7 +696,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 >
                   <p
                     style={{
-                      border: '2px solid black',
+                      border: '1px solid black',
                       borderTop: 'none',
                       height: '100%',
                       alignContent: 'center',
@@ -709,7 +708,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 </div>
                 <div
                   style={{
-                    borderRight: '2px solid black',
+                    borderRight: '1px solid black',
                     borderBottom: 'none',
                     height: '50%',
                     width: '50%',
@@ -735,7 +734,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 >
                   <p
                     style={{
-                      border: '2px solid black',
+                      border: '1px solid black',
                       borderTop: 'none',
                       height: '100%',
                       alignContent: 'center',
@@ -747,7 +746,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 </div>
                 <div
                   style={{
-                    borderRight: '2px solid black',
+                    borderRight: '1px solid black',
                     borderBottom: 'none',
                     height: '50%',
                     width: '50%',
@@ -756,12 +755,12 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               </div>
             </div>
             <div className="box4_Left-box_content-6">
-              <div style={{ borderRight: '2px solid black', width: '50%' }} />
+              <div style={{ borderRight: '1px solid black', width: '50%' }} />
             </div>
             <div className="box4_Left-box_content-7">
               <div
                 style={{
-                  borderRight: '2px solid black',
+                  borderRight: '1px solid black',
                   width: '50%',
                   alignContent: 'center',
                 }}
@@ -777,13 +776,13 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               </div>
             </div>
             <div className="box4_Left-box_content-8">
-              <div style={{ borderRight: '2px solid black', width: '50%' }} />
+              <div style={{ borderRight: '1px solid black', width: '50%' }} />
               <div>0.00</div>
             </div>
             <div className="box4_Left-box_content-9">
               <div
                 style={{
-                  borderRight: '2px solid black',
+                  borderRight: '1px solid black',
                   width: '50%',
                   alignContent: 'center',
                 }}
@@ -799,13 +798,13 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               </div>
             </div>
             <div className="box4_Left-box_content-10">
-              <div style={{ borderRight: '2px solid black', width: '50%' }} />
+              <div style={{ borderRight: '1px solid black', width: '50%' }} />
             </div>
             <div className="box4_Left-box_content-11 small-font">
               <p
                 style={{
                   textAlign: 'center',
-                  borderRight: '2px solid black',
+                  borderRight: '1px solid black',
                   width: '50%',
                 }}
               >
