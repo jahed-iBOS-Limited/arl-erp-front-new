@@ -11,6 +11,7 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../_metronic/_partials/controls";
+import { _currentTime } from "../../../_helper/_currentTime";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import InputField from "../../../_helper/_inputField";
@@ -239,8 +240,8 @@ function GateItemEntry() {
                                 exceed,
                                 formattedTimeDiff,
                               } = calculateTimeDifference(
-                                item?.tmInTime,
-                                item?.tmOutTime
+                                _currentTime(),
+                                item?.tmInTime
                               );
 
                               return (
