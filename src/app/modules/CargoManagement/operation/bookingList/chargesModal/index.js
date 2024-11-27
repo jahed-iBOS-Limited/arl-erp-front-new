@@ -317,6 +317,37 @@ function ChargesModal({ rowClickData, CB }) {
                           </td>
                         </tr>
                       ))}
+                      <tr>
+                        {/* total */}
+                        <td colSpan="3" className="text-center">
+                          Total
+                        </td>
+                        <td>
+                          {shippingHeadOfCharges
+                            ?.filter((item) => item?.checked)
+                            .reduce(
+                              (acc, item) => acc + (+item?.amount || 0),
+                              0,
+                            )}
+                        </td>
+                        <td>
+                          {shippingHeadOfCharges
+                            ?.filter((item) => item?.checked)
+                            .reduce(
+                              (acc, item) =>
+                                acc + (+item?.consigneeCharge || 0),
+                              0,
+                            )}
+                        </td>
+                        <td>
+                          {shippingHeadOfCharges
+                            ?.filter((item) => item?.checked)
+                            .reduce(
+                              (acc, item) => acc + (+item?.actualExpense || 0),
+                              0,
+                            )}
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
