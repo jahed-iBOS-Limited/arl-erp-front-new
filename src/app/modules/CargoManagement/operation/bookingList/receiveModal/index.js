@@ -42,10 +42,22 @@ function ReceiveModal({ rowClickData, CB }) {
             bookingData?.rowsData?.map((itm) => {
               return {
                 ...itm,
-                recvQuantity: itm?.loadingQuantity || 0,
+                recvQuantity: itm?.totalNumberOfPackages || 0,
               };
             }) || [],
           );
+
+          if (formikRef.current) {
+            formikRef.current.setFieldValue(
+              'wareHouse',
+              bookingData?.warehouseId
+                ? {
+                    value: bookingData?.warehouseId,
+                    label: bookingData?.warehouseName,
+                  }
+                : '',
+            );
+          }
         },
       );
     }
@@ -151,7 +163,6 @@ function ReceiveModal({ rowClickData, CB }) {
                       <th>Cargo Type</th>
                       <th>HS Code</th>
                       <th>Number of Packages/Units/Carton</th>
-                      <th>Type Of Loading Qty</th>
                       <th>Receive Quantity</th>
                     </tr>
                   </thead>
@@ -161,8 +172,7 @@ function ReceiveModal({ rowClickData, CB }) {
                         <td>{index + 1}</td>
                         <td>{doc?.typeOfCargo}</td>
                         <td>{doc?.hsCode}</td>
-                        <td>{doc?.numberOfPackages}</td>
-                        <td>{doc?.loadingQuantity}</td>
+                        <td>{doc?.totalNumberOfPackages}</td>
                         <td>
                           <InputField
                             value={rowsData[index]?.recvQuantity}

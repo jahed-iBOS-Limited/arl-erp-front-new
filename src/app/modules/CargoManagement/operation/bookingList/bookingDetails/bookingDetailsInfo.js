@@ -498,10 +498,10 @@ function BookingDetailsInfo({ bookingData }) {
                         )
                       : 'Not Cleared  '}{' '}
                   </td>
-                  <td>
+                  {/* <td>
                     {' '}
                     {bookingData?.isInTransit ? 'Completed' : 'Incomplete'}{' '}
-                  </td>
+                  </td> */}
                   <td>
                     {' '}
                     {bookingData?.destPortReceiveDt

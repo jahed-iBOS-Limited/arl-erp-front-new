@@ -216,22 +216,16 @@ function BookingList() {
                             minWidth: '100px',
                           }}
                         >
-                          Receive
+                          Confirm
                         </th>
                         <th
                           style={{
                             minWidth: '100px',
                           }}
                         >
-                          Confirm
+                          Receive
                         </th>
-                        <th
-                          style={{
-                            minWidth: '140px',
-                          }}
-                        >
-                          Shipment Planning
-                        </th>
+
                         <th
                           style={{
                             minWidth: '100px',
@@ -240,6 +234,13 @@ function BookingList() {
                           Stuffing
                         </th>
 
+                        <th
+                          style={{
+                            minWidth: '140px',
+                          }}
+                        >
+                          Shipment Planning
+                        </th>
                         <th
                           style={{
                             minWidth: '60px',
@@ -273,7 +274,7 @@ function BookingList() {
                             minWidth: '100px',
                           }}
                         >
-                          Dispatched
+                          Dispatch
                         </th>
                         <th
                           style={{
@@ -282,19 +283,19 @@ function BookingList() {
                         >
                           Customs Clearance
                         </th>
-                        {/* <th
+                        <th
                           style={{
                             minWidth: '100px',
                           }}
                         >
                           In Transit
-                        </th> */}
+                        </th>
                         <th
                           style={{
                             minWidth: '137px',
                           }}
                         >
-                          Dest. Port Receive
+                          Des. Port Receive
                         </th>
                         <th
                           style={{
@@ -391,6 +392,27 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={item?.isConfirm}
+                                  className={
+                                    item?.isConfirm
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
+                                  }
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isConfirm: true,
+                                    });
+                                  }}
+                                >
+                                  Confirm
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
                                   disabled={item?.isReceived}
                                   className={
                                     item?.isReceived
@@ -412,21 +434,27 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                  disabled={item?.isConfirm}
+                                  disabled={item?.isStuffing}
                                   className={
-                                    item?.isConfirm
+                                    item?.isStuffing
                                       ? 'btn btn-sm btn-success px-1 py-1'
                                       : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   onClick={() => {
-                                    setRowClickData(item);
+                                    setRowClickData({
+                                      ...item,
+                                      title: 'Stuffing',
+                                      isUpdateDate: 'stuffingDate',
+                                      isUpdateKey: 'isStuffing',
+                                    });
                                     setIsModalShowObj({
                                       ...isModalShowObj,
-                                      isConfirm: true,
+
+                                      isCommonModalShow: true,
                                     });
                                   }}
                                 >
-                                  Confirm
+                                  Stuffing
                                 </button>
                               </span>
                             </td>
@@ -451,39 +479,6 @@ function BookingList() {
                                 </button>
                               </span>
                             </td>
-                            <td>
-                              <span>
-                                <button
-                                  disabled={item?.isStuffing}
-                                  className={
-                                    item?.isStuffing
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData({
-                                      ...item,
-                                      title:
-                                        item?.modeOfTransport === 'Air'
-                                          ? 'Scanned'
-                                          : 'Stuffied',
-                                      isUpdateDate: 'stuffingDate',
-                                      isUpdateKey: 'isStuffing',
-                                    });
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-
-                                      isCommonModalShow: true,
-                                    });
-                                  }}
-                                >
-                                  {item?.modeOfTransport === 'Air'
-                                    ? 'Scanned'
-                                    : 'Stuffied'}
-                                </button>
-                              </span>
-                            </td>
-
                             <td>
                               <span>
                                 <button
@@ -582,7 +577,7 @@ function BookingList() {
                                   onClick={() => {
                                     setRowClickData({
                                       ...item,
-                                      title: 'Dispatched',
+                                      title: 'Dispatch',
                                       isUpdateDate: 'dispatchDate',
                                       isUpdateKey: 'isDispatch',
                                     });
@@ -593,7 +588,7 @@ function BookingList() {
                                     });
                                   }}
                                 >
-                                  Dispatched
+                                  Dispatch
                                 </button>
                               </span>
                             </td>
@@ -624,7 +619,7 @@ function BookingList() {
                                 </button>
                               </span>
                             </td>
-                            {/* <td>
+                            <td>
                               <span>
                                 <button
                                   disabled={item?.isInTransit}
@@ -650,7 +645,7 @@ function BookingList() {
                                   In Transit
                                 </button>
                               </span>
-                            </td> */}
+                            </td>
                             <td>
                               <span>
                                 <button
@@ -663,7 +658,7 @@ function BookingList() {
                                   onClick={() => {
                                     setRowClickData({
                                       ...item,
-                                      title: 'Dest. Port Receive',
+                                      title: 'Des. Port Receive',
                                       isUpdateDate: 'destPortReceive',
                                       isUpdateKey: 'isDestPortReceive',
                                     });
@@ -673,7 +668,7 @@ function BookingList() {
                                     });
                                   }}
                                 >
-                                  Dest. Port Receive
+                                  Des. Port Receive
                                 </button>
                               </span>
                             </td>

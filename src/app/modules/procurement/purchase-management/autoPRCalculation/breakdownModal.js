@@ -1,22 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IDelete from "../../../_helper/_helperIcons/_delete";
 import { toast } from "react-toastify";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IForm from "../../../_helper/_form";
+import IDelete from "../../../_helper/_helperIcons/_delete";
+import InputField from "../../../_helper/_inputField";
+import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+
 const initData = {
   supplierName: "",
   supplierContactNo: "",
   supplierEmail: "",
 };
-export default function BreakDownModal({ singleRowData }) {
+
+export default function BreakDownModal({
+  singleRowData,
+  setShowBreakdownModal,
+  setSingleRowData,
+  callBack,
+}) {
   const [objProps, setObjprops] = useState({});
   const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
   const [
@@ -28,10 +35,10 @@ export default function BreakDownModal({ singleRowData }) {
 
   const [, saveRowData] = useAxiosPost();
   const [
-    detailsData,
+    ,
     getDetailsData,
     loader,
-    setGetDetailsData,
+    ,
   ] = useAxiosGet();
 
   const { profileData } = useSelector((state) => {
@@ -40,13 +47,12 @@ export default function BreakDownModal({ singleRowData }) {
 
   useEffect(() => {
     getPlantListDDL(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${
-        profileData?.userId
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
       }&AccId=${profileData?.accountId}&BusinessUnitId=${4}&OrgUnitTypeId=7`
     );
     if (singleRowData?.prCalculationHeaderId) {
       getDetailsData(
-        `/procurement/AutoPurchase/GetPRCalculationRowLanding?PrcalculationHeaderId=${singleRowData?.prCalculationHeaderId}`,
+        `/procurement/MRPFromProduction/GetPRCalculationRowLanding?MrpfromProductionScheduleRowId=${singleRowData?.mrpfromProductionScheduleRowId}`,
         (data) => {
           setRowData(data);
         }
@@ -81,7 +87,7 @@ export default function BreakDownModal({ singleRowData }) {
         item?.plantId === values.plant?.value &&
         item?.warehouseId === values.warehouse?.value &&
         _dateFormatter(item?.purchaseRequestDate) ===
-          values?.purchaseRequestDate
+        values?.purchaseRequestDate
     );
     if (exists) {
       toast.warn(
@@ -91,14 +97,13 @@ export default function BreakDownModal({ singleRowData }) {
     }
 
     const data = {
-      prcalculationHeaderId: singleRowData?.prCalculationHeaderId,
       purchaseRequestDate: values?.purchaseRequestDate,
       itemId: singleRowData?.itemId,
       itemCode: singleRowData?.itemCode || "",
       itemName: singleRowData?.itemName,
       itemCategoryId: singleRowData?.itemCategoryId,
       itemSubCategoryId: singleRowData?.itemSubCategoryId,
-      uoMid: singleRowData?.uoMId,
+      uoMid: singleRowData?.uoMid,
       requestQuantity: +values?.quantity,
       plantId: values?.plant?.value,
       plantName: values?.plant?.label,
@@ -106,6 +111,8 @@ export default function BreakDownModal({ singleRowData }) {
       warehouseName: values?.warehouse?.label,
       actionBy: profileData?.userId,
       narration: values?.narration || "",
+      mrpfromProductionScheduleRowId: singleRowData?.mrpfromProductionScheduleRowId || 0,
+      mrpfromProductionScheduleHeaderId: singleRowData?.mrpfromProductionScheduleHeaderId || 0,
     };
     const totalClosingBalance =
       rowData?.reduce((acc, itm) => acc + itm?.requestQuantity, 0) +
@@ -135,15 +142,12 @@ export default function BreakDownModal({ singleRowData }) {
       };
     });
     saveRowData(
-      `/procurement/AutoPurchase/CreatePRCalculationRow`,
+      `/procurement/MRPFromProduction/CreatePRCalculationRow`,
       payload,
       () => {
-        getDetailsData(
-          `/procurement/AutoPurchase/GetPRCalculationRowLanding?PrcalculationHeaderId=${singleRowData?.prCalculationHeaderId}`,
-          (data) => {
-            setRowData(data);
-          }
-        );
+        callBack()
+        setShowBreakdownModal(false);
+        setSingleRowData({});
       },
       true
     );

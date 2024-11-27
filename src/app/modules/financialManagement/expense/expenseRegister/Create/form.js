@@ -650,8 +650,9 @@ export default function _Form({
                           className="btn btn-primary"
                           onClick={() => {
                             if (
-                              availableBudgetAdvanceBalance[0].numRemainAmount > 0 &&
-                              availableBudgetAdvanceBalance[0].numRemainAmount < values?.expenseAmount
+                              bugetHeadWiseBalance?.length > 0 &&
+                              availableBudgetAdvanceBalance[0]?.numRemainAmount > 0 &&
+                              availableBudgetAdvanceBalance[0]?.numRemainAmount < values?.expenseAmount
                             ) {
                               return toast.warn("Budget Advance Amount is Exceed");
                             }
