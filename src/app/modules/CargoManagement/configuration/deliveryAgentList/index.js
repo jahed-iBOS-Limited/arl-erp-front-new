@@ -5,6 +5,7 @@ import ICustomCard from '../../../_helper/_customCard';
 import PaginationSearch from '../../../_helper/_search';
 import PaginationTable from '../../../_helper/_tablePagination';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import AssigneeModal from './AssigneeModal';
 
 export default function DeliveryAgentList() {
     const [deliveryAgentList, setDeliveryAgentList] = useAxiosGet();
@@ -68,6 +69,7 @@ export default function DeliveryAgentList() {
                                                     history.push(`/cargoManagement/configuration/delivery-agent-edit/${item?.agentId}`)
                                                 }}
                                             >Edit</button>
+                                            <AssigneeModal />
                                         </div>
                                     </td>
 
