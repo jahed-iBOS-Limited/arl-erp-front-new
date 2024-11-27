@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
+import axios from "axios";
+import { shallowEqual, useSelector } from "react-redux";
 
 const SalesCommissionConfigureLandingTable = ({ obj }) => {
-  const { gridData, values, setOpen, setSingleData } = obj;
+  const { gridData, values, setOpen, setSingleData, getData } = obj;
 
   return (
     <div>
       {[17, 18, 25, 27, 22].includes(values?.commissionType?.value) ? (
-        <TableTwo obj={{ gridData, values, setOpen, setSingleData }} />
+        <TableTwo obj={{ gridData, values, setOpen, setSingleData, getData }} />
       ) : (
-        <TableOne obj={{ gridData, values, setOpen, setSingleData }} />
+        <TableOne obj={{ gridData, values, setOpen, setSingleData, getData }} />
       )}
     </div>
   );
@@ -18,17 +20,90 @@ const SalesCommissionConfigureLandingTable = ({ obj }) => {
 export default SalesCommissionConfigureLandingTable;
 
 const TableOne = ({ obj }) => {
-  const { gridData, setOpen, setSingleData, values } = obj;
+  const profileData = useSelector((state) => {
+    return state.authData.profileData;
+  }, shallowEqual);
+  const { gridData, setOpen, setSingleData, values, getData } = obj;
+  const [selectedRows, setSelectedRows] = useState([]);
 
+  // Check if all rows are selected
+  const isAllSelected = selectedRows.length === gridData?.data?.length;
+
+  // Check if at least one row is selected
+  const isSomeSelected = selectedRows.length > 0 && !isAllSelected;
+
+  // Handle "Select All" toggle
+  const handleSelectAll = () => {
+    if (gridData?.data) {
+      if (isAllSelected) {
+        setSelectedRows([]); // Deselect all
+      } else {
+        setSelectedRows([...gridData?.data]); // Select all
+      }
+    }
+  };
+
+  // Handle individual row toggle
+  const handleSelectRow = (row) => {
+    setSelectedRows((prevSelected) => {
+      const isSelected = prevSelected.some(
+        (selectedRow) => selectedRow.autoId === row.autoId
+      );
+
+      if (isSelected) {
+        // Deselect the row
+        return prevSelected.filter(
+          (selectedRow) => selectedRow.autoId !== row.autoId
+        );
+      } else {
+        // Select the row
+        return [...prevSelected, row];
+      }
+    });
+  };
+  const deleteData = async () => {
+    const url = `oms/CustomerSalesTarget/DeletePartySalesCommissionConfig`;
+    const res = await axios["post"](
+      url,
+      selectedRows?.map((row) => ({
+        autoId: row?.autoId,
+        actionBy: profileData?.userId,
+      }))
+    );
+    selectedRows([]);
+    getData();
+  };
   return (
     <div>
       <div className="table-responsive">
+        {(isAllSelected || isSomeSelected) && (
+          <div className="d-flex justify-content-end">
+            <button
+              className="btn btn-danger mt-1"
+              type="button"
+              onClick={() => {
+                deleteData(values);
+                getData(0, 15, values);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        )}
         <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
+              <th style={{ minWidth: "30px" }}>
+                <input
+                  type="checkbox"
+                  checked={isAllSelected}
+                  indeterminate={isSomeSelected} // Some libraries/frameworks like React allow this directly, otherwise handle styles
+                  onChange={handleSelectAll}
+                />
+              </th>
               <th style={{ width: "40px" }}>SL</th>
               <th>Area Name</th>
-              {![35, 36, 37, 38, 40].includes(
+              {![35, 36, 37, 38, 39, 40].includes(
                 values?.commissionType?.value
               ) && (
                 <>
@@ -42,7 +117,9 @@ const TableOne = ({ obj }) => {
               <th>Offer Qnt To</th>
               <th>Achievement From</th>
               <th>Achievement To</th>
-              {[35, 36, 37, 38, 40].includes(values?.commissionType?.value) && (
+              {[35, 36, 37, 38, 39, 40].includes(
+                values?.commissionType?.value
+              ) && (
                 <>
                   <th>Commission Rate</th>
                 </>
@@ -69,9 +146,18 @@ const TableOne = ({ obj }) => {
             {gridData?.data?.map((item, index) => {
               return (
                 <tr key={index}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.some(
+                        (row) => row.autoId === item.autoId
+                      )}
+                      onChange={() => handleSelectRow(item)}
+                    />
+                  </td>
                   <td> {index + 1}</td>
                   <td>{item?.areaName}</td>
-                  {![35, 36, 37, 38, 40].includes(
+                  {![35, 36, 37, 38, 39, 40].includes(
                     values?.commissionType?.value
                   ) && (
                     <>
@@ -85,7 +171,7 @@ const TableOne = ({ obj }) => {
                   <td className="text-right">{item?.offerQntTo}</td>
                   <td className="text-right">{item?.achievementFrom}</td>
                   <td className="text-right">{item?.achievementTo}</td>
-                  {[35, 36, 37, 38, 40].includes(
+                  {[35, 36, 37, 38, 39, 40].includes(
                     values?.commissionType?.value
                   ) && (
                     <>

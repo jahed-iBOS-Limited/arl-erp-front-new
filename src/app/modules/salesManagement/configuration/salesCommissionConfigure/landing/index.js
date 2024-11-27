@@ -35,12 +35,13 @@ export default function SalesCommissionConfigure() {
 
   //setLandingData
   const getData = (_pageNo = 0, _pageSize = 15, values) => {
-
     const url = `/oms/CustomerSalesTarget/PartySalesCommissionConfigPagination?businessUnitId=${buId}&commissionTypeId=${
       values?.commissionType?.value
     }&channelId=${values?.channel?.value || 0}&regionId=${values?.region
       ?.value || 0}&areaId=${values?.area?.value ||
-      0}&pageNo=${_pageNo}&pageSize=${_pageSize}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&`;
+      0}&pageNo=${_pageNo}&pageSize=${_pageSize}&fromDate=${
+      values?.fromDate
+    }&toDate=${values?.toDate}&`;
     getGridData(url);
   };
 
@@ -69,7 +70,7 @@ export default function SalesCommissionConfigure() {
               }}
             />
             <SalesCommissionConfigureLandingTable
-              obj={{ gridData, values, setOpen, setSingleData }}
+              obj={{ gridData, values, setOpen, setSingleData, getData }}
             />
             {gridData?.data?.length > 0 && (
               <PaginationTable
