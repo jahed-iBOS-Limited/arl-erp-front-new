@@ -1,8 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
-import React, { useReducer, useState } from "react";
+import React, { useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import IConfirmModal from "../../../_helper/_confirmModal";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
+import IView from "../../../_helper/_helperIcons/_view";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
@@ -10,60 +13,26 @@ import { _todayDate } from "../../../_helper/_todayDate";
 import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import BreakDownModal from "./breakdownModal";
-import CommonItemDetailsModal from "./rawMaterialModals/commonItemDetailsModal";
-import {
-  commonItemInitialState,
-  commonItemReducer,
-} from "./rawMaterialModals/helper";
-import WarehouseStockModal from "./rawMaterialModals/warehouseStockModal";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IView from "../../../_helper/_helperIcons/_view";
+import RawMaterialAutoPRNewModalView from "./rawMaterialModalView";
 
-const months = [
-  { name: "Jan", value: 1 },
-  { name: "Feb", value: 2 },
-  { name: "Mar", value: 3 },
-  { name: "Apr", value: 4 },
-  { name: "May", value: 5 },
-  { name: "Jun", value: 6 },
-  { name: "Jul", value: 7 },
-  { name: "Aug", value: 8 },
-  { name: "Sep", value: 9 },
-  { name: "Oct", value: 10 },
-  { name: "Nov", value: 11 },
-  { name: "Dec", value: 12 },
-];
-
-// init data
 const initData = {
   businessUnit: "",
-  // monthYear: _getCurrentMonthYearForInput(),
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
 export default function RawMaterialAutoPRNew() {
-  // redux
-  const { profileData, businessUnitList, selectedBusinessUnit } = useSelector((state) => {
+
+  const { profileData, businessUnitList } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
-  // state
   const [singleRowData, setSingleRowData] = useState();
-  const [showBreakdownModal, setShowBreakdownModal] = useState(false);
-  const [warehouseStockModalShow, setWarehouseStockModalShow] = useState(false);
   const [, onCreateMRPFromProduction, saveLoader] = useAxiosPost()
+  const [showModal, setShowModal] = useState(false);
 
-  // reducer
-  const [commonItemDetailsState, commonItemDetailsDispatch] = useReducer(
-    commonItemReducer,
-    commonItemInitialState
-  );
+  console.log("singleRowData", singleRowData)
 
-  // axios
   const [
     autoRawMaterialData,
     getAutoRawMaterialData,
@@ -79,7 +48,7 @@ export default function RawMaterialAutoPRNew() {
   ] = useAxiosGet();
 
 
-  // save handler
+
   const saveHandler = (values, cb) => {
 
 
@@ -89,7 +58,7 @@ export default function RawMaterialAutoPRNew() {
   const getData = (values) => {
     setAutoRawMaterialData([]);
     setMrpfromProductionScheduleLanding([])
-    getMrpfromProductionScheduleLanding(`/procurement/MRPFromProduction/MrpfromProductionScheduleLanding?businessUnitId=${selectedBusinessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`, (res) => {
+    getMrpfromProductionScheduleLanding(`/procurement/MRPFromProduction/MrpfromProductionScheduleLanding?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`, (res) => {
       if (!res?.length) {
         getAutoRawMaterialData(
           `/procurement/MRPFromProduction/GetMRPFromProductionScheduleDetailsNew?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&isForecast=true`
@@ -98,21 +67,7 @@ export default function RawMaterialAutoPRNew() {
     })
   };
 
-  // func for get landing selected months & next months
-  const getSelectedAndNextMonths = (selectedValue) => {
-    const selectedIndex = months.findIndex(
-      (month) => month?.value === +selectedValue
-    );
 
-    if (selectedIndex === -1) return []; // Return empty if month not found
-
-    // Get the selected month and the next two months, using modulo for wrapping around the array
-    return [
-      months[selectedIndex],
-      months[(selectedIndex + 1) % months.length],
-      months[(selectedIndex + 2) % months.length],
-    ];
-  };
 
 
   return (
@@ -159,8 +114,8 @@ export default function RawMaterialAutoPRNew() {
                         toDate: values?.toDate,
                         actionById: profileData?.userId,
                         actionByName: profileData?.userName,
-                        businessUnitId: selectedBusinessUnit?.value,
-                        businessUnitName: selectedBusinessUnit?.label,
+                        businessUnitId: values?.businessUnit?.value,
+                        businessUnitName: values?.businessUnit?.label,
                         accountId: profileData?.accountId,
                         row: autoRawMaterialData.map((item) => {
 
@@ -294,7 +249,8 @@ export default function RawMaterialAutoPRNew() {
                                 </td>
                                 <td className="text-center">
                                   <span onClick={() => {
-
+                                    setShowModal(true)
+                                    setSingleRowData(item)
                                   }}>
                                     <IView />
                                   </span>
@@ -353,21 +309,12 @@ export default function RawMaterialAutoPRNew() {
                                   </td>
                                   <td
                                     className="text-right text-primary cursor-pointer"
-                                    onClick={() => {
-                                      setWarehouseStockModalShow(true);
-                                      setSingleRowData(item);
-                                    }}
+
                                   >
                                     {item?.stockQty?.toFixed(2) || 0}
 
                                   </td>
                                   <td
-                                    onClick={() =>
-                                      commonItemDetailsDispatch({
-                                        type: "FloatingStock",
-                                        payload: { singleRowData: item },
-                                      })
-                                    }
                                     className="text-right text-primary cursor-pointer"
                                   >
                                     {item?.floatingStock || 0}
@@ -375,12 +322,7 @@ export default function RawMaterialAutoPRNew() {
 
                                   <td
                                     className="text-right text-primary cursor-pointer"
-                                    onClick={() =>
-                                      commonItemDetailsDispatch({
-                                        type: "OpenPo",
-                                        payload: { singleRowData: item },
-                                      })
-                                    }
+
                                   >
                                     {item?.numOpenPOQty?.toFixed(2) || 0}
 
@@ -388,12 +330,7 @@ export default function RawMaterialAutoPRNew() {
 
                                   <td
                                     className="text-right text-primary cursor-pointer"
-                                    onClick={() =>
-                                      commonItemDetailsDispatch({
-                                        type: "OpenPR",
-                                        payload: { singleRowData: item },
-                                      })
-                                    }
+
                                   >
                                     {item?.openPRQty?.toFixed(2) || 0}
                                   </td>
@@ -419,51 +356,16 @@ export default function RawMaterialAutoPRNew() {
 
               </>
             </Form>
-            <IViewModal
-              show={showBreakdownModal}
-              onHide={() => {
-                setShowBreakdownModal(false);
-                setSingleRowData({});
-              }}
-            >
-              <BreakDownModal
-                singleRowData={singleRowData}
-                setShowBreakdownModal={setShowBreakdownModal}
-                setSingleRowData={setSingleRowData}
-              />
-            </IViewModal>
 
-            {/* Warehouse Stock Details Modal */}
             <IViewModal
-              show={warehouseStockModalShow}
+              show={showModal}
+              title={"MRP Calculation"}
               onHide={() => {
-                setWarehouseStockModalShow(false);
-                setSingleRowData({});
+                setShowModal(false);
+                setSingleRowData(null)
               }}
             >
-              <WarehouseStockModal
-                objProp={{
-                  singleRowData,
-                  setSingleRowData,
-                  values,
-                }}
-              />
-            </IViewModal>
-
-            {/* Common Item Details Modal */}
-            <IViewModal
-              show={commonItemDetailsState?.modalShow}
-              onHide={() => {
-                commonItemDetailsDispatch({ type: "Close" });
-              }}
-            >
-              <CommonItemDetailsModal
-                objProp={{
-                  commonItemDetailsState,
-                  commonItemDetailsDispatch,
-                  values,
-                }}
-              />
+              <RawMaterialAutoPRNewModalView singleRowDataFromParent={singleRowData} values={values} />
             </IViewModal>
           </IForm>
         </>
