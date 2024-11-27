@@ -220,7 +220,7 @@ function GateItemEntry() {
                             <th>রেজি. নং</th>
                             <th>প্রবেশের সময়</th>
                             <th>বহির্গমনের সময়</th>
-                            <th>সময়কাল</th>
+                            <th style={{width:'70px'}}>সময়কাল</th>
                             <th>চালান নাম্বার </th>
                             {selectedBusinessUnit?.value === 4 ? (
                               <th>ভ্যাট চালান নাম্বার</th>
@@ -240,7 +240,9 @@ function GateItemEntry() {
                                 exceed,
                                 formattedTimeDiff,
                               } = calculateTimeDifference(
-                                _currentTime(),
+                                item?.tmOutTime
+                                  ? item?.tmOutTime
+                                  : _currentTime(),
                                 item?.tmInTime
                               );
 
