@@ -152,17 +152,7 @@ function ChargesModal({ rowClickData, CB }) {
                     onChange={(e) => setFieldValue('amount', e.target.value)}
                   />
                 </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.actualExpense}
-                    label="Procured Charge"
-                    name=" actualExpense"
-                    type="number"
-                    onChange={(e) =>
-                      setFieldValue('actualExpense', e.target.value)
-                    }
-                  />
-                </div>
+
                 <div className="col-lg-3">
                   <InputField
                     value={values?.consigneeCharge}
@@ -171,6 +161,17 @@ function ChargesModal({ rowClickData, CB }) {
                     type="number"
                     onChange={(e) =>
                       setFieldValue('consigneeCharge', e.target.value)
+                    }
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.actualExpense}
+                    label="Procured Charge"
+                    name=" actualExpense"
+                    type="number"
+                    onChange={(e) =>
+                      setFieldValue('actualExpense', e.target.value)
                     }
                   />
                 </div>
@@ -243,8 +244,9 @@ function ChargesModal({ rowClickData, CB }) {
                         <th className="p-0">SL</th>
                         <th className="p-0">Attribute</th>
                         <th className="p-0">Shipper Charge</th>
-                        <th className="p-0">Procured Charge</th>
+
                         <th className="p-0">Consignee Charge</th>
+                        <th className="p-0">Procured Charge</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -282,21 +284,7 @@ function ChargesModal({ rowClickData, CB }) {
                               min="0"
                             />
                           </td>
-                          <td className="align-middle">
-                            <InputField
-                              disabled={!item?.checked}
-                              value={item?.actualExpense}
-                              type="number"
-                              onChange={(e) => {
-                                const copyprvData = [...shippingHeadOfCharges];
-                                copyprvData[index].actualExpense =
-                                  e.target.value;
-                                setShippingHeadOfCharges(copyprvData);
-                              }}
-                              name="actualExpense"
-                              min="0"
-                            />
-                          </td>
+
                           <td className="align-middle">
                             <InputField
                               disabled={!item?.checked}
@@ -309,6 +297,21 @@ function ChargesModal({ rowClickData, CB }) {
                                 setShippingHeadOfCharges(copyprvData);
                               }}
                               name="consigneeCharge"
+                              min="0"
+                            />
+                          </td>
+                          <td className="align-middle">
+                            <InputField
+                              disabled={!item?.checked}
+                              value={item?.actualExpense}
+                              type="number"
+                              onChange={(e) => {
+                                const copyprvData = [...shippingHeadOfCharges];
+                                copyprvData[index].actualExpense =
+                                  e.target.value;
+                                setShippingHeadOfCharges(copyprvData);
+                              }}
+                              name="actualExpense"
                               min="0"
                             />
                           </td>
