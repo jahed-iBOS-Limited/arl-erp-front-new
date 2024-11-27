@@ -18,7 +18,7 @@ const SalesCommissionConfigureLandingTable = ({ obj }) => {
 export default SalesCommissionConfigureLandingTable;
 
 const TableOne = ({ obj }) => {
-  const { gridData, setOpen, setSingleData } = obj;
+  const { gridData, setOpen, setSingleData, values } = obj;
 
   return (
     <div>
@@ -28,15 +28,31 @@ const TableOne = ({ obj }) => {
             <tr>
               <th style={{ width: "40px" }}>SL</th>
               <th>Area Name</th>
-              <th>BP Rate/bag</th>
-              <th>BA Rate/bag</th>
-              <th>CP Rate/bag</th>
-              <th>CA Rate/bag</th>
+              {![35, 36, 37, 38, 40].includes(
+                values?.commissionType?.value
+              ) && (
+                <>
+                  <th>BP Rate/bag</th>
+                  <th>BA Rate/bag</th>
+                  <th>CP Rate/bag</th>
+                  <th>CA Rate/bag</th>
+                </>
+              )}
               <th>Offer Qnt From</th>
               <th>Offer Qnt To</th>
               <th>Achievement From</th>
               <th>Achievement To</th>
+              {[35, 36, 37, 38, 40].includes(values?.commissionType?.value) && (
+                <>
+                  <th>Commission Rate</th>
+                </>
+              )}
               <th>Group Name</th>
+              {[40].includes(values?.commissionType?.value) ? (
+                <th>Designation Name</th>
+              ) : (
+                ""
+              )}
               {/* {[17, 18, 25, 27].includes(values?.commissionType?.value) && (
                 <>
                   {" "}
@@ -55,15 +71,31 @@ const TableOne = ({ obj }) => {
                 <tr key={index}>
                   <td> {index + 1}</td>
                   <td>{item?.areaName}</td>
-                  <td className="text-right">{item?.bpcommissionRate}</td>
-                  <td className="text-right">{item?.bacommissionRate}</td>
-                  <td className="text-right">{item?.cpcommissionRate}</td>
-                  <td className="text-right">{item?.cacommissionRate}</td>
+                  {![35, 36, 37, 38, 40].includes(
+                    values?.commissionType?.value
+                  ) && (
+                    <>
+                      <td className="text-right">{item?.bpcommissionRate}</td>
+                      <td className="text-right">{item?.bacommissionRate}</td>
+                      <td className="text-right">{item?.cpcommissionRate}</td>
+                      <td className="text-right">{item?.cacommissionRate}</td>
+                    </>
+                  )}
                   <td className="text-right">{item?.offerQntFrom}</td>
                   <td className="text-right">{item?.offerQntTo}</td>
                   <td className="text-right">{item?.achievementFrom}</td>
                   <td className="text-right">{item?.achievementTo}</td>
+                  {[35, 36, 37, 38, 40].includes(
+                    values?.commissionType?.value
+                  ) && (
+                    <>
+                      <td className="text-right">{item?.commissionRate}</td>
+                    </>
+                  )}
                   <td className="text-right">{item?.itemGroupName}</td>
+                  {[40].includes(values?.commissionType?.value) && (
+                    <td className="text-right">{item?.designationName}</td>
+                  )}
 
                   {/* {[17, 18, 25, 27].includes(values?.commissionType?.value) && (
                     <>
