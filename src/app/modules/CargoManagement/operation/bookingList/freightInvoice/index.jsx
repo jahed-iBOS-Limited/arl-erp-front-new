@@ -1,20 +1,20 @@
-import moment from "moment";
-import React, { useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import { imarineBaseUrl } from "../../../../../App";
-import { amountToWords } from "../../../../_helper/_ConvertnumberToWord";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import moment from 'moment';
+import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import { imarineBaseUrl } from '../../../../../App';
+import { amountToWords } from '../../../../_helper/_ConvertnumberToWord';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
-import logisticsLogo from "./logisticsLogo.png";
-import "./style.css";
+import logisticsLogo from './logisticsLogo.png';
+import './style.css';
 
 const FreightInvoice = ({ rowClickData }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [
@@ -32,17 +32,23 @@ const FreightInvoice = ({ rowClickData }) => {
     commonGetByIdHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingRequestId]);
-  const bookingData = shipBookingRequestGetById || {};
+  const bookingData = {
+    ...shipBookingRequestGetById,
+    billingData:
+      shipBookingRequestGetById?.billingData?.filter((item) => {
+        return item?.chargeAmount;
+      }) || [],
+  };
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: "Invoice",
+    documentTitle: 'Invoice',
     pageStyle: `
         @media print {
           body {
             -webkit-print-color-adjust: exact;
-         
+
           }
           @page {
             size: portrait !important;
@@ -55,7 +61,7 @@ const FreightInvoice = ({ rowClickData }) => {
   const commonGetByIdHandler = () => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
       );
     }
   };
@@ -66,7 +72,7 @@ const FreightInvoice = ({ rowClickData }) => {
       unitId: selectedBusinessUnit?.value || 0,
       bookingDate: new Date(),
       bookingNumber: bookingData?.bookingRequestCode || '',
-      paymentTerms: "",
+      paymentTerms: '',
       actionBy: profileData?.userId || 0,
       rowString: bookingData?.billingData?.map((item) => {
         return {
@@ -76,10 +82,10 @@ const FreightInvoice = ({ rowClickData }) => {
           strCurrency: bookingData?.currency,
           numrate: 0,
           numconverstionrate: 0,
-          strUom: "",
+          strUom: '',
           numamount: item?.chargeAmount || 0,
           numvatAmount: 0,
-        }
+        };
       }),
     };
     getCargoBookingInvoice(
@@ -88,8 +94,7 @@ const FreightInvoice = ({ rowClickData }) => {
       () => {
         commonGetByIdHandler();
       },
-      true
-
+      true,
     );
   };
 
@@ -101,7 +106,7 @@ const FreightInvoice = ({ rowClickData }) => {
         <div className="d-flex justify-content-end">
           {!bookingData?.invoiceNo && (
             <>
-              {" "}
+              {' '}
               <button
                 type="button"
                 className="btn btn-primary"
@@ -133,14 +138,14 @@ const FreightInvoice = ({ rowClickData }) => {
         ref={componentRef}
         style={{
           fontSize: 11,
-          display: "grid",
+          display: 'grid',
           gap: 10,
         }}
       >
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 2fr",
+            display: 'grid',
+            gridTemplateColumns: '1fr 2fr',
           }}
         >
           <img
@@ -153,7 +158,7 @@ const FreightInvoice = ({ rowClickData }) => {
           />
           <div
             style={{
-              textAlign: "right",
+              textAlign: 'right',
             }}
           >
             <span style={{ fontSize: 14, fontWeight: 600 }}>
@@ -167,25 +172,25 @@ const FreightInvoice = ({ rowClickData }) => {
           style={{
             fontSize: 14,
             fontWeight: 600,
-            textAlign: "center",
-            backgroundColor: "#DDE3E8",
+            textAlign: 'center',
+            backgroundColor: '#DDE3E8',
             padding: 2,
-            border: "1px solid #000000",
+            border: '1px solid #000000',
           }}
         >
-          {" "}
-          INVOICE : {bookingData?.invoiceNo || "N/A"}
+          {' '}
+          INVOICE : {bookingData?.invoiceNo || 'N/A'}
         </p>
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "7fr .5fr 7fr",
+            display: 'grid',
+            gridTemplateColumns: '7fr .5fr 7fr',
             // border: "1px solid #000000",
           }}
         >
           <div
             style={{
-              border: "1px solid #000000",
+              border: '1px solid #000000',
             }}
           >
             <div style={{ padding: 2 }}>
@@ -201,57 +206,57 @@ const FreightInvoice = ({ rowClickData }) => {
             </div>
           </div>
           <div />
-          <div style={{ border: "1px solid #000000" }}>
+          <div style={{ border: '1px solid #000000' }}>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
               }}
             >
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
-                  borderRight: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
+                  borderRight: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
-                  backgroundColor: "#DDE3E8",
+                  backgroundColor: '#DDE3E8',
                 }}
               >
-                {" "}
+                {' '}
                 INVOICE DATE
               </span>
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
                 }}
               >
                 {bookingData?.invoiceDate
-                  ? moment(bookingData?.invoiceDate).format("YYYY-MM-DD")
-                  : "N/A"}
+                  ? moment(bookingData?.invoiceDate).format('YYYY-MM-DD')
+                  : 'N/A'}
               </span>
             </div>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
               }}
             >
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
-                  borderRight: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
+                  borderRight: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
-                  backgroundColor: "#DDE3E8",
+                  backgroundColor: '#DDE3E8',
                 }}
               >
                 SHIPMENT NO
               </span>
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
                 }}
@@ -261,103 +266,103 @@ const FreightInvoice = ({ rowClickData }) => {
             </div>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
               }}
             >
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
-                  borderRight: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
+                  borderRight: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
-                  backgroundColor: "#DDE3E8",
+                  backgroundColor: '#DDE3E8',
                 }}
               >
                 SALES ORDER NO
               </span>
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
                 }}
               >
-                {" "}
+                {' '}
                 {bookingData?.bookingRequestCode}
               </span>
             </div>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
               }}
             >
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
-                  borderRight: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
+                  borderRight: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
-                  backgroundColor: "#DDE3E8",
+                  backgroundColor: '#DDE3E8',
                 }}
               >
                 DUE DATE
               </span>
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
                 }}
               >
                 {bookingData?.createdAt
-                  ? moment(bookingData?.createdAt).format("YYYY-MM-DD")
-                  : "N/A"}
+                  ? moment(bookingData?.createdAt).format('YYYY-MM-DD')
+                  : 'N/A'}
               </span>
             </div>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
               }}
             >
               <span
                 style={{
-                  borderRight: "1px solid #000000",
+                  borderRight: '1px solid #000000',
                   padding: 2,
                   paddingBottom: 20,
                   fontWeight: 600,
-                  backgroundColor: "#DDE3E8",
+                  backgroundColor: '#DDE3E8',
                 }}
               >
                 TERMS
               </span>
               <span style={{ padding: 2, fontWeight: 600 }}>
-                {" "}
-                Pay able immediately Due net{" "}
+                {' '}
+                Pay able immediately Due net{' '}
               </span>
             </div>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
               }}
             >
               <span
                 style={{
-                  borderTop: "1px solid #000000",
-                  borderRight: "1px solid #000000",
+                  borderTop: '1px solid #000000',
+                  borderRight: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
-                  backgroundColor: "#DDE3E8",
+                  backgroundColor: '#DDE3E8',
                 }}
               >
                 Trade
               </span>
               <span
                 style={{
-                  borderTop: "1px solid #000000",
+                  borderTop: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
                 }}
@@ -370,31 +375,31 @@ const FreightInvoice = ({ rowClickData }) => {
         <div>
           <div
             style={{
-              border: "1px solid #000000",
+              border: '1px solid #000000',
             }}
           >
             <div
               style={{
                 fontSize: 14,
                 fontWeight: 600,
-                backgroundColor: "#DDE3E8",
+                backgroundColor: '#DDE3E8',
                 padding: 2,
-                borderBottom: "1px solid #000000",
+                borderBottom: '1px solid #000000',
               }}
             >
               SHIPMENT DETAILS
             </div>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 2fr 1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 2fr 1fr 1fr ',
               }}
             >
               <div
                 style={{
                   fontWeight: 600,
                   padding: 2,
-                  borderRight: "1px solid #000000",
+                  borderRight: '1px solid #000000',
                 }}
               >
                 <span>Shipper</span>
@@ -417,9 +422,9 @@ const FreightInvoice = ({ rowClickData }) => {
               </div>
               <div
                 style={{
-                  textTransform: "uppercase",
+                  textTransform: 'uppercase',
                   padding: 2,
-                  borderRight: "1px solid #000000",
+                  borderRight: '1px solid #000000',
                 }}
               >
                 <span>{bookingData?.shipperName}</span>
@@ -434,27 +439,27 @@ const FreightInvoice = ({ rowClickData }) => {
                 <br />
                 <span>
                   {bookingData?.dateOfRequest
-                    ? moment(bookingData?.dateOfRequest).format("YYYY-MM-DD")
-                    : "N/A"}
+                    ? moment(bookingData?.dateOfRequest).format('YYYY-MM-DD')
+                    : 'N/A'}
                 </span>
                 <br />
-                <span>{bookingData?.blnumber || "N/A"}</span>
+                <span>{bookingData?.blnumber || 'N/A'}</span>
                 <br />
-                <span>{bookingData?.hblnumber || "N/A"}</span>
+                <span>{bookingData?.hblnumber || 'N/A'}</span>
                 <br />
                 <span>
                   {bookingData?.arrivalDateTime
                     ? moment(bookingData?.arrivalDateTime).format(
-                      "YYYY-MM-DD HH:mm A"
-                    )
-                    : "N/A"}
+                        'YYYY-MM-DD HH:mm A',
+                      )
+                    : 'N/A'}
                 </span>
               </div>
               <div
                 style={{
                   fontWeight: 600,
                   padding: 2,
-                  borderRight: "1px solid #000000",
+                  borderRight: '1px solid #000000',
                 }}
               >
                 <span>LC No.</span>
@@ -478,7 +483,11 @@ const FreightInvoice = ({ rowClickData }) => {
               <div style={{ padding: 2 }}>
                 <span>{bookingData?.lcNo ?? 'N/A'} </span>
                 <br />
-                <span>{bookingData?.lcDate ? moment(bookingData?.lcDate).format("DD MMM YYYY HH:mm A") : 'N/A'}</span>
+                <span>
+                  {bookingData?.lcDate
+                    ? moment(bookingData?.lcDate).format('DD MMM YYYY HH:mm A')
+                    : 'N/A'}
+                </span>
                 <br />
                 <span>{bookingData?.pickupPlace}</span>
                 <br />
@@ -488,14 +497,14 @@ const FreightInvoice = ({ rowClickData }) => {
                 <br />
                 <span>
                   {bookingData?.bldate
-                    ? moment(bookingData?.bldate).format("YYYY-MM-DD")
-                    : "N/A"}
+                    ? moment(bookingData?.bldate).format('YYYY-MM-DD')
+                    : 'N/A'}
                 </span>
                 <br />
                 <span>
                   {bookingData?.hbldate
-                    ? moment(bookingData?.hbldate).format("YYYY-MM-DD")
-                    : "N/A"}
+                    ? moment(bookingData?.hbldate).format('YYYY-MM-DD')
+                    : 'N/A'}
                 </span>
                 <br />
                 <span>
@@ -517,10 +526,10 @@ const FreightInvoice = ({ rowClickData }) => {
           border="1"
           cellPadding="5"
           cellSpacing="0"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
         >
           <thead>
-            <tr style={{ backgroundColor: "#DDE3E8" }}>
+            <tr style={{ backgroundColor: '#DDE3E8' }}>
               <th>SL</th>
               <th>Attribute</th>
               <th>Amount</th>
@@ -529,24 +538,24 @@ const FreightInvoice = ({ rowClickData }) => {
           <tbody>
             {bookingData?.billingData?.map((row, index) => (
               <tr key={index}>
-                <td style={{ textAlign: "right" }}> {index + 1} </td>
+                <td style={{ textAlign: 'right' }}> {index + 1} </td>
                 <td className="align-middle">
                   <label>{row?.headOfCharges}</label>
                 </td>
-                <td style={{ textAlign: "right" }}>{row?.chargeAmount}</td>
+                <td style={{ textAlign: 'right' }}>{row?.chargeAmount}</td>
               </tr>
             ))}
             <tr
               style={{
                 fontSize: 14,
                 fontWeight: 600,
-                backgroundColor: "#DDE3E8",
-                textAlign: "right",
+                backgroundColor: '#DDE3E8',
+                textAlign: 'right',
               }}
             >
               <td colSpan="2"> Total Amount</td>
               <td>
-                {" "}
+                {' '}
                 {bookingData?.billingData?.reduce((acc, cur) => {
                   return acc + (+cur?.chargeAmount || 0);
                 }, 0)}
@@ -558,16 +567,16 @@ const FreightInvoice = ({ rowClickData }) => {
                 style={{
                   fontSize: 14,
                   fontWeight: 600,
-                  textTransform: "uppercase",
-                  textAlign: "left",
+                  textTransform: 'uppercase',
+                  textAlign: 'left',
                 }}
               >
-                {" "}
+                {' '}
                 Amount in Words:
                 {amountToWords(
                   bookingData?.billingData?.reduce((acc, cur) => {
                     return acc + (+cur?.chargeAmount || 0);
-                  }, 0) || 0
+                  }, 0) || 0,
                 )}
               </td>
             </tr>
@@ -575,9 +584,9 @@ const FreightInvoice = ({ rowClickData }) => {
         </table>
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            border: "1px solid #000",
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            border: '1px solid #000',
           }}
         >
           <div
@@ -588,7 +597,7 @@ const FreightInvoice = ({ rowClickData }) => {
           >
             <div
               style={{
-                backgroundColor: "#DDE3E8",
+                backgroundColor: '#DDE3E8',
                 padding: 2,
               }}
             >
@@ -597,7 +606,7 @@ const FreightInvoice = ({ rowClickData }) => {
           </div>
           <div
             style={{
-              borderLeft: "1px solid #000000",
+              borderLeft: '1px solid #000000',
             }}
           >
             <div
@@ -630,8 +639,8 @@ const FreightInvoice = ({ rowClickData }) => {
         </div>
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
             fontSize: 14,
             fontWeight: 600,
           }}
@@ -640,8 +649,8 @@ const FreightInvoice = ({ rowClickData }) => {
           <p>Prepared By: </p>
         </div>
         <p style={{ fontSize: 14, fontWeight: 600 }}>Special Note:</p>
-        <span style={{ fontSize: 14, maxWidth: "70%" }}>
-          {" "}
+        <span style={{ fontSize: 14, maxWidth: '70%' }}>
+          {' '}
           Payment to be made by Payment Order/Electronic transfer only in favor
           of TRANSMARINE LOGISTICS LTD. No query/claim will be entertained after
           07 days from the date of receipt of Invoice. Interest @ 2% pe rMonth
@@ -653,13 +662,13 @@ const FreightInvoice = ({ rowClickData }) => {
           style={{
             fontSize: 14,
             fontWeight: 400,
-            textAlign: "center",
-            backgroundColor: "#DDE3E8",
+            textAlign: 'center',
+            backgroundColor: '#DDE3E8',
             padding: 2,
-            border: "1px solid #000000",
+            border: '1px solid #000000',
           }}
         >
-          {" "}
+          {' '}
           This is a system generated invoice and it does not require any company
           chop and signature
         </p>
