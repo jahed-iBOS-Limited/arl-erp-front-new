@@ -137,8 +137,8 @@ export default function RawMaterialAutoPRNew() {
 
                           const avaiableBlance = (
                             (+item?.stockQty || 0) +
-                            (+item?.numOpenPOQty || 0) +
-                            (+item?.openPRQty || 0) -
+                            (+item?.floatingStock || 0) +
+                            (+item?.numOpenPOQty || 0) -
                             (+item?.deadStockQuantity || 0)
                           ).toFixed(2);
 
@@ -210,7 +210,7 @@ export default function RawMaterialAutoPRNew() {
                       onChange={(e) => {
                         setFieldValue("fromDate", e.target.value);
                       }}
-                      disabled
+                      min={_todayDate()}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -296,7 +296,7 @@ export default function RawMaterialAutoPRNew() {
                             <th>Open PR</th>
                             <th>Dead Stock</th>
                             <th>Available Stock</th>
-                            <th>Closing Balance</th>
+                            <th>Requirment</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -307,8 +307,8 @@ export default function RawMaterialAutoPRNew() {
                               availableStock =
                                 (
                                   (+item?.stockQty || 0) +
-                                  (+item?.numOpenPOQty || 0) +
-                                  (+item?.openPRQty || 0) -
+                                  (+item?.floatingStock || 0) +
+                                  (+item?.numOpenPOQty || 0) -
                                   (+item?.deadStockQuantity || 0)
                                 )?.toFixed(2) || 0;
 
@@ -382,7 +382,7 @@ export default function RawMaterialAutoPRNew() {
                                     {availableStock}
                                   </td>
                                   <td className="text-right">
-                                    {((+item?.totalBudgetQty || 0) - (+availableStock || 0)).toFixed(
+                                    {((+item?.totalBudgetQty || 0) - (+availableStock || 0) - (+item?.openPRQty || 0)).toFixed(
                                       2
                                     ) || 0}
                                   </td>
