@@ -54,7 +54,7 @@ const CommonItemDetailsModal = ({ objProp }) => {
   } = commonItemDetailsState;
 
   return (
-    <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => {}}>
+    <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => { }}>
       {({
         handleSubmit,
         resetForm,
@@ -81,11 +81,11 @@ const CommonItemDetailsModal = ({ objProp }) => {
                       <tr>
                         {partName === "FloatingStock" || partName === "OpenPR"
                           ? floatingStockTableHeader?.map((item, index) => (
-                              <th key={index}>{item}</th>
-                            ))
+                            <th key={index}>{item}</th>
+                          ))
                           : openPOTableHeader?.map((item, index) => (
-                              <th key={index}>{item}</th>
-                            ))}
+                            <th key={index}>{item}</th>
+                          ))}
                       </tr>
                     </thead>
                     <tbody>
@@ -96,7 +96,7 @@ const CommonItemDetailsModal = ({ objProp }) => {
                           <td>{item?.strWarehouseName}</td>
                           <td className="text-center">
                             {partName === "FloatingStock" ||
-                            partName === "OpenPR"
+                              partName === "OpenPR"
                               ? item?.strPurchaseRequestCode
                               : item?.strPurchaseOrderNo}
                           </td>
@@ -107,7 +107,7 @@ const CommonItemDetailsModal = ({ objProp }) => {
                       <tr>
                         <td colSpan={4}>Total</td>
                         <td className="text-right">
-                          {totalPOQty - balanceOnGhat || 0}
+                          {commonItemData.reduce((sum, item) => sum + item.numQTY, 0) || 0}
                         </td>
                       </tr>
                     </tbody>

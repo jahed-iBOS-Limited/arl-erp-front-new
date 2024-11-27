@@ -50,7 +50,7 @@ export default function BreakDownModal({
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
       }&AccId=${profileData?.accountId}&BusinessUnitId=${4}&OrgUnitTypeId=7`
     );
-    if (singleRowData?.prCalculationHeaderId) {
+    if (singleRowData?.mrpfromProductionScheduleRowId) {
       getDetailsData(
         `/procurement/MRPFromProduction/GetPRCalculationRowLanding?MrpfromProductionScheduleRowId=${singleRowData?.mrpfromProductionScheduleRowId}`,
         (data) => {
@@ -136,11 +136,7 @@ export default function BreakDownModal({
       toast.warn("Please add atleast 1 row");
       return;
     }
-    const payload = rowData?.map((itm) => {
-      return {
-        ...itm,
-      };
-    });
+    const payload = rowData?.filter((item) => !item?.mrpfromProductionScheduleTransactionId);
     saveRowData(
       `/procurement/MRPFromProduction/CreatePRCalculationRow`,
       payload,
@@ -153,22 +149,7 @@ export default function BreakDownModal({
     );
   };
 
-  const calculateRemainingBalance = (singleRowData, rowData, values) => {
-    const closingBalance =
-      singleRowData?.firstMonthQty - singleRowData?.availableStock || 0;
 
-    const totalRequestedQuantity = rowData?.reduce(
-      (acc, item) => acc + (item?.requestQuantity || 0),
-      0
-    );
-
-    const newRequestedQuantity = +values?.quantity || 0;
-
-    const remainingBalance =
-      closingBalance - (totalRequestedQuantity + newRequestedQuantity);
-
-    return remainingBalance > 0 ? remainingBalance?.toFixed(2) : 0;
-  };
   return (
     <Formik
       enableReinitialize={true}
@@ -305,7 +286,7 @@ export default function BreakDownModal({
                     }}
                   >
                     Remaining Quantity:{" "}
-                    {calculateRemainingBalance(singleRowData, rowData, values)}
+                    {(+singleRowData?.closingBlance || 0) - (+singleRowData?.totalScheduleQty || 0)}
                   </p>
                 </div>
               </div>
@@ -343,7 +324,7 @@ export default function BreakDownModal({
                             </td>
 
                             <td>
-                              {!item?.prcalculationRowId && (
+                              {!item?.mrpfromProductionScheduleTransactionId && (
                                 <IDelete remover={removeHandler} id={index} />
                               )}
                             </td>

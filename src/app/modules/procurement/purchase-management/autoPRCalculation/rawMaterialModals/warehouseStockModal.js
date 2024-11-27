@@ -30,7 +30,7 @@ const WarehouseStockModal = ({ objProp }) => {
 
   const isLoading = warehouseStockDataLoading;
   return (
-    <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => {}}>
+    <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => { }}>
       {({
         handleSubmit,
         resetForm,
@@ -71,17 +71,17 @@ const WarehouseStockModal = ({ objProp }) => {
                       warestockData?.map((item, index) => (
                         <tr key={index}>
                           <td>{index + 1}</td>
-                          <td className="text-center">{item?.strItemName}</td>
-                          <td>{item?.strItemCode}</td>
+                          <td className="">{item?.strItemName}</td>
+                          <td className="text-center">{item?.strItemCode}</td>
                           <td className="text-center">{item?.strBaseUOM}</td>
                           <td className="text-right">
                             {item?.numOpenQty || 0}
                           </td>
                           <td className="text-right">{item?.numInQty || 0}</td>
-                          <td>{item?.numOutQty || 0}</td>
-                          <td>{item?.numCloseQty || 0}</td>
-                          <td>{item?.numClosingValue || 0}</td>
-                          <td>{item?.numRate || 0}</td>
+                          <td className="text-right">{item?.numOutQty || 0}</td>
+                          <td className="text-right">{item?.numCloseQty || 0}</td>
+                          <td className="text-right">{item?.numClosingValue || 0}</td>
+                          <td className="text-right">{item?.numRate || 0}</td>
                         </tr>
                       ))}
                   </tbody>

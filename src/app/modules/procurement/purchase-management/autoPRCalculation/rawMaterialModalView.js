@@ -100,6 +100,7 @@ export default function RawMaterialAutoPRNewModalView({ singleRowDataFromParent,
                         <td
                           className="text-right text-primary cursor-pointer"
                           onClick={() => {
+                            if (!item?.stockQty) return;
                             setWarehouseStockModalShow(true);
                             setSingleRowData(item);
                           }}
@@ -113,56 +114,41 @@ export default function RawMaterialAutoPRNewModalView({ singleRowDataFromParent,
                         /> */}
                         </td>
                         <td
-                          onClick={() =>
-                            commonItemDetailsDispatch({
-                              type: "FloatingStock",
-                              payload: { singleRowData: item },
-                            })
-                          }
+                          // onClick={() =>
+                          //   commonItemDetailsDispatch({
+                          //     type: "FloatingStock",
+                          //     payload: { singleRowData: item },
+                          //   })
+                          // }
                           className="text-right text-primary cursor-pointer"
                         >
-                          {/* //  ! Update for now */}0
-                          {/* {item?.floatingStock.toFixed(2) || 0} */}
-                          {/* <InfoCircle
-                          clickHandler={() =>
-                            commonItemDetailsDispatch({
-                              type: "FloatingStock",
-                              payload: { singleRowData: item },
-                            })
-                          }
-                        /> */}
+                          0
                         </td>
 
                         <td
                           className="text-right text-primary cursor-pointer"
-                          onClick={() =>
+                          onClick={() => {
+                            if (!item?.inTransit) return;
                             commonItemDetailsDispatch({
                               type: "OpenPo",
                               payload: { singleRowData: item },
                             })
-                          }
+                          }}
                         >
-                          {item?.numOpenPOQty?.toFixed(2) || 0}
-                          {/* <InfoCircle
-                          clickHandler={() =>
-                            commonItemDetailsDispatch({
-                              type: "OpenPo",
-                              payload: { singleRowData: item },
-                            })
-                          }
-                        /> */}
+                          {item?.inTransit?.toFixed(2) || 0}
                         </td>
 
                         <td
                           className="text-right text-primary cursor-pointer"
-                          onClick={() =>
+                          onClick={() => {
+                            if (!item?.openPrqty) return;
                             commonItemDetailsDispatch({
                               type: "OpenPR",
                               payload: { singleRowData: item },
                             })
-                          }
+                          }}
                         >
-                          {item?.openPRQty?.toFixed(2) || 0}
+                          {item?.openPrqty?.toFixed(2) || 0}
                           {/* <InfoCircle
                           clickHandler={() =>
                             commonItemDetailsDispatch({
@@ -173,18 +159,16 @@ export default function RawMaterialAutoPRNewModalView({ singleRowDataFromParent,
                         /> */}
                         </td>
                         <td className="text-right">
-                          {item?.deadStockQuantity || 0}
+                          {item?.deadStock || 0}
                         </td>
                         <td className="text-right">
-                          {availableStock}
+                          {item?.avaiableBlance}
                         </td>
                         <td className="text-right">
-                          {(totalBudgetQty - availableStock).toFixed(
-                            2
-                          ) || 0}
+                          {item?.closingBlance ||  0}
                         </td>
                         <td className="text-center">
-                          {item?.scheduleQuantity?.toFixed(2) || 0}
+                          {item?.totalScheduleQty?.toFixed(2) || 0}
                         </td>
                         <td className="text-center">
                           <span
