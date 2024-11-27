@@ -22,6 +22,7 @@ export default function BreakDownModal({
   singleRowData,
   setShowBreakdownModal,
   setSingleRowData,
+  callBack,
 }) {
   const [objProps, setObjprops] = useState({});
   const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
@@ -34,10 +35,10 @@ export default function BreakDownModal({
 
   const [, saveRowData] = useAxiosPost();
   const [
-    detailsData,
+    ,
     getDetailsData,
     loader,
-    setGetDetailsData,
+    ,
   ] = useAxiosGet();
 
   const { profileData } = useSelector((state) => {
@@ -46,13 +47,12 @@ export default function BreakDownModal({
 
   useEffect(() => {
     getPlantListDDL(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${
-        profileData?.userId
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
       }&AccId=${profileData?.accountId}&BusinessUnitId=${4}&OrgUnitTypeId=7`
     );
-    if (singleRowData?.prCalculationHeaderId) {
+    if (singleRowData?.mrpfromProductionScheduleRowId) {
       getDetailsData(
-        `/procurement/AutoPurchase/GetPRCalculationRowLanding?PrcalculationHeaderId=${singleRowData?.prCalculationHeaderId}`,
+        `/procurement/MRPFromProduction/GetPRCalculationRowLanding?MrpfromProductionScheduleRowId=${singleRowData?.mrpfromProductionScheduleRowId}`,
         (data) => {
           setRowData(data);
         }
@@ -87,7 +87,7 @@ export default function BreakDownModal({
         item?.plantId === values.plant?.value &&
         item?.warehouseId === values.warehouse?.value &&
         _dateFormatter(item?.purchaseRequestDate) ===
-          values?.purchaseRequestDate
+        values?.purchaseRequestDate
     );
     if (exists) {
       toast.warn(
@@ -97,14 +97,13 @@ export default function BreakDownModal({
     }
 
     const data = {
-      prcalculationHeaderId: singleRowData?.prCalculationHeaderId,
       purchaseRequestDate: values?.purchaseRequestDate,
       itemId: singleRowData?.itemId,
       itemCode: singleRowData?.itemCode || "",
       itemName: singleRowData?.itemName,
       itemCategoryId: singleRowData?.itemCategoryId,
       itemSubCategoryId: singleRowData?.itemSubCategoryId,
-      uoMid: singleRowData?.uoMId,
+      uoMid: singleRowData?.uoMid,
       requestQuantity: +values?.quantity,
       plantId: values?.plant?.value,
       plantName: values?.plant?.label,
@@ -112,6 +111,8 @@ export default function BreakDownModal({
       warehouseName: values?.warehouse?.label,
       actionBy: profileData?.userId,
       narration: values?.narration || "",
+      mrpfromProductionScheduleRowId: singleRowData?.mrpfromProductionScheduleRowId || 0,
+      mrpfromProductionScheduleHeaderId: singleRowData?.mrpfromProductionScheduleHeaderId || 0,
     };
     const totalClosingBalance =
       rowData?.reduce((acc, itm) => acc + itm?.requestQuantity, 0) +
@@ -135,22 +136,12 @@ export default function BreakDownModal({
       toast.warn("Please add atleast 1 row");
       return;
     }
-    const payload = rowData?.map((itm) => {
-      return {
-        ...itm,
-      };
-    });
+    const payload = rowData?.filter((item) => !item?.mrpfromProductionScheduleTransactionId);
     saveRowData(
-      `/procurement/AutoPurchase/CreatePRCalculationRow`,
+      `/procurement/MRPFromProduction/CreatePRCalculationRow`,
       payload,
       () => {
-        getDetailsData(
-          `/procurement/AutoPurchase/GetPRCalculationRowLanding?PrcalculationHeaderId=${singleRowData?.prCalculationHeaderId}`,
-          (data) => {
-            setRowData(data);
-          }
-        );
-
+        callBack()
         setShowBreakdownModal(false);
         setSingleRowData({});
       },
@@ -158,22 +149,7 @@ export default function BreakDownModal({
     );
   };
 
-  const calculateRemainingBalance = (singleRowData, rowData, values) => {
-    const closingBalance =
-      singleRowData?.firstMonthQty - singleRowData?.availableStock || 0;
 
-    const totalRequestedQuantity = rowData?.reduce(
-      (acc, item) => acc + (item?.requestQuantity || 0),
-      0
-    );
-
-    const newRequestedQuantity = +values?.quantity || 0;
-
-    const remainingBalance =
-      closingBalance - (totalRequestedQuantity + newRequestedQuantity);
-
-    return remainingBalance > 0 ? remainingBalance?.toFixed(2) : 0;
-  };
   return (
     <Formik
       enableReinitialize={true}
@@ -310,7 +286,7 @@ export default function BreakDownModal({
                     }}
                   >
                     Remaining Quantity:{" "}
-                    {calculateRemainingBalance(singleRowData, rowData, values)}
+                    {(+singleRowData?.closingBlance || 0) - (+singleRowData?.totalScheduleQty || 0)}
                   </p>
                 </div>
               </div>
@@ -348,7 +324,7 @@ export default function BreakDownModal({
                             </td>
 
                             <td>
-                              {!item?.prcalculationRowId && (
+                              {!item?.mrpfromProductionScheduleTransactionId && (
                                 <IDelete remover={removeHandler} id={index} />
                               )}
                             </td>

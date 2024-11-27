@@ -8,6 +8,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import Loading from "../../../_helper/_loading";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import NewSelect from "../../../_helper/_select";
+import { YearDDL } from "../../../_helper/_yearDDL";
 
 const initData = {
   type: {
@@ -16,6 +17,7 @@ const initData = {
   },
   date: _todayDate(),
   businessUnit: "",
+  year: "",
 };
 
 function FundRegisterLanding() {
@@ -26,15 +28,34 @@ function FundRegisterLanding() {
   const [busisnessUnitDDL, getBusinessUnitDDL, businessUnitDDlloader] = useAxiosGet();
   const [showReport, setShowReport] = useState(false);
   const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
-  const reportId = "1c58a47c-1783-438c-ac3c-f718a2bbb13a";
+
+  const getReportId = (values) => {
+    let reportId = "";
+    if ([1, 2].includes(values?.type?.value)) {
+      reportId = "1c58a47c-1783-438c-ac3c-f718a2bbb13a";
+    } else if ([3].includes(values?.type?.value)) {
+      reportId = "f46ad25c-816b-447a-8e93-57e9156799c6";
+    }
+
+    return reportId;
+  }
+
 
   const parameterValues = (values) => {
-    // dteDate, ReportType, businessUnitId
-    return [
-      { name: "ReportType", value: `${values?.type?.value || 0}` },
-      { name: "businessUnitId", value: `${values?.busisnessUnit?.value || 0}` },
-      { name: "dteDate", value: `${values?.date || _todayDate()}` }
-    ];
+    let paramList = [];
+    if ([1, 2].includes(values?.type?.value)) {
+      paramList = [
+        { name: "ReportType", value: `${values?.type?.value || 0}` },
+        { name: "businessUnitId", value: `${values?.busisnessUnit?.value || 0}` },
+        { name: "dteDate", value: `${values?.date || _todayDate()}` }
+      ]
+    } else if ([3].includes(values?.type?.value)) {
+      paramList = [
+        { name: "businessUnitId", value: `${values?.busisnessUnit?.value || 0}` },
+        { name: "ExpiryDate", value: `${values?.year?.label}` }
+      ]
+    }
+    return paramList;
   };
   useEffect(() => {
     getBusinessUnitDDL(`/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`)
@@ -73,11 +94,15 @@ function FundRegisterLanding() {
                       {
                         value: 2,
                         label: "Group  Liability Position",
+                      },
+                      {
+                        value: 3,
+                        label: "Group Liability For Bank",
                       }
                     ]}
                   />
                 </div>
-                {values?.type?.value === 2 && (<div className="col-lg-3">
+                {[2, 3].includes(values?.type?.value) && (<div className="col-lg-3">
                   <NewSelect
                     name="busisnessUnit"
                     placeholder=""
@@ -93,6 +118,19 @@ function FundRegisterLanding() {
                       }
                     }}
                     options={[{ value: 0, label: "All" }, ...busisnessUnitDDL] || []}
+                  />
+                </div>)}
+                {[3].includes(values?.type?.value) && (<div className="col-lg-3">
+                  <NewSelect
+                    name="year"
+                    placeholder=""
+                    label="Select Year"
+                    value={values?.year}
+                    onChange={(v) => {
+                      setFieldValue("year", v || "");
+                      setShowReport(false);
+                    }}
+                    options={YearDDL()}
                   />
                 </div>)}
                 {
@@ -120,7 +158,10 @@ function FundRegisterLanding() {
                       marginTop: "17px",
                     }}
                     onClick={() => {
-                      setShowReport(true);
+                      setShowReport(false);
+                      setTimeout(() => {
+                        setShowReport(true);
+                      }, 1000);
                     }}
                     className="btn btn-primary"
                   >
@@ -131,7 +172,7 @@ function FundRegisterLanding() {
             </form>
             {showReport && (
               <PowerBIReport
-                reportId={reportId}
+                reportId={getReportId(values)}
                 groupId={groupId}
                 parameterValues={parameterValues(values)}
                 parameterPanel={false}
