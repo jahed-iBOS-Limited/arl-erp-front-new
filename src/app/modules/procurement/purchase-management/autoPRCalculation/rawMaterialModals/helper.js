@@ -31,7 +31,7 @@ export const fetchWarehouseStockDetailsData = (obj) => {
   //   console.log(singleRowData);
 
   // params
-  const params = `businessUnitId=${values?.businessUnit?.value}&intPlantId=0&fromDate=${date?.firstDate}&toDate=${date?.lastDate}&intItemTypeId=0&itemId=${itemId}&warehouseId=142&pageNo=0&pageSize=100&search=${itemName}`;
+  const params = `businessUnitId=${values?.businessUnit?.value}&intPlantId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}&intItemTypeId=0&itemId=${itemId}&warehouseId=142&pageNo=0&pageSize=100&search=${itemName}`;
   // url
   const url = `/procurement/Report/GetInventoryStatement`;
 

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
@@ -14,6 +14,13 @@ import IViewModal from "../../../_helper/_viewModal";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import RawMaterialAutoPRNewModalView from "./rawMaterialModalView";
+import BreakDownModal from "./breakdownModal";
+import CommonItemDetailsModal from "./rawMaterialModals/commonItemDetailsModal";
+import {
+  commonItemInitialState,
+  commonItemReducer,
+} from "./rawMaterialModals/helper";
+import WarehouseStockModal from "./rawMaterialModals/warehouseStockModal";
 
 const initData = {
   businessUnit: "",
@@ -30,6 +37,15 @@ export default function RawMaterialAutoPRNew() {
   const [singleRowData, setSingleRowData] = useState();
   const [, onCreateMRPFromProduction, saveLoader] = useAxiosPost()
   const [showModal, setShowModal] = useState(false);
+
+  const [showBreakdownModal, setShowBreakdownModal] = useState(false);
+  const [warehouseStockModalShow, setWarehouseStockModalShow] = useState(false);
+
+  // reducer
+  const [commonItemDetailsState, commonItemDetailsDispatch] = useReducer(
+    commonItemReducer,
+    commonItemInitialState
+  );
 
   console.log("singleRowData", singleRowData)
 
@@ -138,7 +154,9 @@ export default function RawMaterialAutoPRNew() {
                             inTransit: item.numOpenPOQty || 0,
                             openPrqty: item.openPRQty || 0,
                             avaiableBlance: parseFloat(avaiableBlance),
-                            closingBlance: item.balanceOnGhat || 0,
+                            closingBlance: ((+item?.totalBudgetQty || 0) - (+avaiableBlance || 0)).toFixed(
+                              2
+                            ) || 0,
                             deadStock: item.deadStockQuantity || 0,
                           };
                         }),
@@ -309,20 +327,37 @@ export default function RawMaterialAutoPRNew() {
                                   </td>
                                   <td
                                     className="text-right text-primary cursor-pointer"
-
+                                    onClick={() => {
+                                      if (!item?.stockQty) return;
+                                      setWarehouseStockModalShow(true);
+                                      setSingleRowData(item);
+                                    }}
                                   >
                                     {item?.stockQty?.toFixed(2) || 0}
 
                                   </td>
                                   <td
                                     className="text-right text-primary cursor-pointer"
+                                    onClick={() => {
+                                      if (!item?.floatingStock) return;
+                                      commonItemDetailsDispatch({
+                                        type: "FloatingStock",
+                                        payload: { singleRowData: item },
+                                      })
+                                    }}
                                   >
                                     {item?.floatingStock || 0}
                                   </td>
 
                                   <td
                                     className="text-right text-primary cursor-pointer"
-
+                                    onClick={() => {
+                                      if (!item?.numOpenPOQty) return;
+                                      commonItemDetailsDispatch({
+                                        type: "OpenPo",
+                                        payload: { singleRowData: item },
+                                      })
+                                    }}
                                   >
                                     {item?.numOpenPOQty?.toFixed(2) || 0}
 
@@ -330,7 +365,13 @@ export default function RawMaterialAutoPRNew() {
 
                                   <td
                                     className="text-right text-primary cursor-pointer"
-
+                                    onClick={() => {
+                                      if (!item?.openPRQty) return;
+                                      commonItemDetailsDispatch({
+                                        type: "OpenPR",
+                                        payload: { singleRowData: item },
+                                      })
+                                    }}
                                   >
                                     {item?.openPRQty?.toFixed(2) || 0}
                                   </td>
@@ -356,6 +397,53 @@ export default function RawMaterialAutoPRNew() {
 
               </>
             </Form>
+
+            <IViewModal
+              show={showBreakdownModal}
+              onHide={() => {
+                setShowBreakdownModal(false);
+                setSingleRowData({});
+              }}
+            >
+              <BreakDownModal
+                singleRowData={singleRowData}
+                setShowBreakdownModal={setShowBreakdownModal}
+                setSingleRowData={setSingleRowData}
+              />
+            </IViewModal>
+
+            {/* Warehouse Stock Details Modal */}
+            <IViewModal
+              show={warehouseStockModalShow}
+              onHide={() => {
+                setWarehouseStockModalShow(false);
+                setSingleRowData({});
+              }}
+            >
+              <WarehouseStockModal
+                objProp={{
+                  singleRowData,
+                  setSingleRowData,
+                  values,
+                }}
+              />
+            </IViewModal>
+
+            {/* Common Item Details Modal */}
+            <IViewModal
+              show={commonItemDetailsState?.modalShow}
+              onHide={() => {
+                commonItemDetailsDispatch({ type: "Close" });
+              }}
+            >
+              <CommonItemDetailsModal
+                objProp={{
+                  commonItemDetailsState,
+                  commonItemDetailsDispatch,
+                  values,
+                }}
+              />
+            </IViewModal>
 
             <IViewModal
               show={showModal}
