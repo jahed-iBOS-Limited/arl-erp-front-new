@@ -265,7 +265,11 @@ export default function _Form({
                       }
                     }}
                     disabled={
-                      isView || (isEdit && values?.isSlabProgram && buId !== 94 && buId !== 175)
+                      isView ||
+                      (isEdit &&
+                        values?.isSlabProgram &&
+                        buId !== 94 &&
+                        buId !== 175)
                     }
                   />
                 </div>
@@ -281,7 +285,11 @@ export default function _Form({
                       }
                     }}
                     disabled={
-                      isView || (isEdit && values?.isSlabProgram && buId === 94 && buId === 175)
+                      isView ||
+                      (isEdit &&
+                        values?.isSlabProgram &&
+                        buId === 94 &&
+                        buId === 175)
                     }
                   />
                 </div>
@@ -297,7 +305,11 @@ export default function _Form({
                       }
                     }}
                     disabled={
-                      isView || (isEdit && values?.isSlabProgram && buId === 94 && buId === 175)
+                      isView ||
+                      (isEdit &&
+                        values?.isSlabProgram &&
+                        buId === 94 &&
+                        buId === 175)
                     }
                   />
                 </div>
@@ -313,7 +325,7 @@ export default function _Form({
                       }
                     }}
                     disabled={
-                      isView 
+                      isView
                       // || (isEdit && values?.isSlabProgram && buId === 94)
                     }
                   />
@@ -331,7 +343,11 @@ export default function _Form({
                       }
                     }}
                     disabled={
-                      isView || (isEdit && values?.isSlabProgram && buId !== 94 && buId !== 175)
+                      isView ||
+                      (isEdit &&
+                        values?.isSlabProgram &&
+                        buId !== 94 &&
+                        buId !== 175)
                     }
                   />
                 </div>
@@ -457,7 +473,7 @@ export default function _Form({
                           placeholder="Select Category name"
                           errors={errors}
                           touched={touched}
-                          isDisabled={isView || isEdit}
+                          isDisabled={isView}
                         />
                       </div>
                     ) : (
@@ -509,34 +525,34 @@ export default function _Form({
                 {rows?.length ? (
                   <div className="col-lg-12 pr-0 pl-0">
                     <div className="table-responsive">
-                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Range From</th>
-                          <th>Range To</th>
-                          <th>Slab Rate</th>
-                          <th>Category Name</th>
-                          <th>Is Amount Base</th>
-                          <th style={{ width: "70px" }}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rows?.map((item, index) => (
+                      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                        <thead>
                           <tr>
-                            <td className="text-center">{index + 1}</td>
-                            <td className="text-right">{item?.rangeFrom}</td>
-                            <td className="text-right">{item?.rangeTo}</td>
-                            <td className="text-right">{item?.slabRate}</td>
-                            <td>{item?.categoryName}</td>
-                            <td>{item?.isAmountBase ? "True" : "False"}</td>
-                            <td className="text-center">
-                              <IDelete remover={remover} id={index} />
-                            </td>
+                            <th>SL</th>
+                            <th>Range From</th>
+                            <th>Range To</th>
+                            <th>Slab Rate</th>
+                            <th>Category Name</th>
+                            <th>Is Amount Base</th>
+                            <th style={{ width: "70px" }}>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rows?.map((item, index) => (
+                            <tr>
+                              <td className="text-center">{index + 1}</td>
+                              <td className="text-right">{item?.rangeFrom}</td>
+                              <td className="text-right">{item?.rangeTo}</td>
+                              <td className="text-right">{item?.slabRate}</td>
+                              <td>{item?.categoryName}</td>
+                              <td>{item?.isAmountBase ? "True" : "False"}</td>
+                              <td className="text-center">
+                                <IDelete remover={remover} id={index} />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 ) : null}
