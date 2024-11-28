@@ -9,18 +9,18 @@ const formatTime = (strTime) => {
 };
 
 // calculate time difference
-export const calculateTimeDifference = (tmInTime = "", tmOutTime = "") => {
-  // Get Date objects for in-time and out-time
+export const calculateTimeDifference = (currentTime = "", tmInTime = "") => {
+  // Get Date objects for current time and out-time
+  const tmCurrent = formatTime(currentTime);
   const tmIn = formatTime(tmInTime);
-  const tmOut = formatTime(tmOutTime);
 
   // If either time is null, return 0:00:00
-  if (!tmIn || !tmOut) {
+  if (!tmCurrent || !tmIn) {
     return { formattedTimeDiff: "0:00:00", diffInMinutes: 0 };
   }
 
   // Calculate difference in milliseconds
-  let diffMs = tmOut - tmIn;
+  let diffMs = tmCurrent - tmIn;
 
   if (diffMs < 0) {
     diffMs += 24 * 60 * 60 * 1000;
