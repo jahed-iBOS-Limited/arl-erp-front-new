@@ -22,6 +22,11 @@ export default function EditForm({ obj }) {
         firstSlabCommissionRate: values?.firstSlabCommissionRate || 0,
         secondSlabCommissionRate: values?.secondSlabCommissionRate || 0,
         thirdSlabCommissionRate: values?.thirdSlabCommissionRate || 0,
+        offerQntFrom: Number(values?.offerQntFrom),
+        offerQntTo: Number(values?.offerQntTo),
+        achievementFrom: Number(values?.achievementFrom),
+        achievementTo: Number(values?.achievementTo),
+        commissionRate: Number(values?.commissionRate),
       },
     ];
     postData(
@@ -59,10 +64,27 @@ export default function EditForm({ obj }) {
                   <tr>
                     <th>Date</th>
                     <th>Area Name</th>
-                    <th>BP Rate/bag</th>
-                    <th>BA Rate/bag</th>
-                    <th>CP Rate/bag</th>
-                    {[17, 18, 25, 27].includes(preValues?.commissionType?.value) && (
+                    {[35, 36, 37, 38, 39, 40].includes(
+                      preValues?.commissionType?.value
+                    ) ? (
+                      <>
+                        <th>Offer Qnt From</th>
+                        <th>Offer Qnt To</th>
+                        <th>Achievement From</th>
+                        <th>Achievement To</th>
+                        <th>Commission Rate</th>
+                      </>
+                    ) : (
+                      <>
+                        <th>BP Rate/bag</th>
+                        <th>BA Rate/bag</th>
+                        <th>CP Rate/bag</th>
+                      </>
+                    )}
+
+                    {[17, 18, 25, 27].includes(
+                      preValues?.commissionType?.value
+                    ) && (
                       <>
                         <th>1-99%</th>
                         <th>100-999%</th>
@@ -83,42 +105,120 @@ export default function EditForm({ obj }) {
                           setFieldValue("commissionDate", e?.target?.value);
                         }}
                       />
-                    </td>{" "}
+                    </td>
                     <td>{values?.areaName}</td>
-                    <td>
-                      <InputField
-                        value={values?.bpcommissionRate}
-                        name="bpcommissionRate"
-                        placeholder="BP"
-                        type="text"
-                        onChange={(e) => {
-                          setFieldValue("bpcommissionRate", e?.target?.value);
-                        }}
-                      />
-                    </td>
-                    <td>
-                      <InputField
-                        value={values?.bacommissionRate}
-                        name="bacommissionRate"
-                        placeholder="BA"
-                        type="text"
-                        onChange={(e) => {
-                          setFieldValue("bacommissionRate", e?.target?.value);
-                        }}
-                      />
-                    </td>
-                    <td>
-                      <InputField
-                        value={values?.cpcommissionRate}
-                        name="cpcommissionRate"
-                        placeholder="CP"
-                        type="text"
-                        onChange={(e) => {
-                          setFieldValue("cpcommissionRate", e?.target?.value);
-                        }}
-                      />
-                    </td>
-                    {[17, 18, 25, 27].includes(preValues?.commissionType?.value) && (
+                    {[35, 36, 37, 38, 39, 40].includes(
+                      preValues?.commissionType?.value
+                    ) ? (
+                      <>
+                        <td>
+                          <InputField
+                            value={values?.offerQntFrom}
+                            name="offerQntFrom"
+                            placeholder="offerQntFrom"
+                            type="text"
+                            onChange={(e) => {
+                              setFieldValue("offerQntFrom", e?.target?.value);
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={values?.offerQntTo}
+                            name="offerQntTo"
+                            placeholder="BA"
+                            type="text"
+                            onChange={(e) => {
+                              setFieldValue("offerQntTo", e?.target?.value);
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={values?.achievementFrom}
+                            name="achievementFrom"
+                            placeholder="CP"
+                            type="text"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "achievementFrom",
+                                e?.target?.value
+                              );
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={values?.achievementTo}
+                            name="achievementTo"
+                            placeholder="CP"
+                            type="text"
+                            onChange={(e) => {
+                              setFieldValue("achievementTo", e?.target?.value);
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={values?.commissionRate}
+                            name="commissionRate"
+                            placeholder="CP"
+                            type="text"
+                            onChange={(e) => {
+                              setFieldValue("commissionRate", e?.target?.value);
+                            }}
+                          />
+                        </td>
+                      </>
+                    ) : (
+                      <>
+                        <td>
+                          <InputField
+                            value={values?.bpcommissionRate}
+                            name="bpcommissionRate"
+                            placeholder="BP"
+                            type="text"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "bpcommissionRate",
+                                e?.target?.value
+                              );
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={values?.bacommissionRate}
+                            name="bacommissionRate"
+                            placeholder="BA"
+                            type="text"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "bacommissionRate",
+                                e?.target?.value
+                              );
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={values?.cpcommissionRate}
+                            name="cpcommissionRate"
+                            placeholder="CP"
+                            type="text"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "cpcommissionRate",
+                                e?.target?.value
+                              );
+                            }}
+                          />
+                        </td>
+                      </>
+                    )}
+                    {[17, 18, 25, 27].includes(
+                      preValues?.commissionType?.value
+                    ) && (
                       <>
                         <td>
                           <InputField

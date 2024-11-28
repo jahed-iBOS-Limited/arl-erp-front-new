@@ -33,14 +33,68 @@ export default function SalesCommissionConfigure() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
+  // selection state
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  // Check if all rows are selected
+  const isAllSelected =
+    gridData?.data?.length > 0 &&
+    gridData.data.every((row) =>
+      selectedRows.some((selectedRow) => selectedRow.autoId === row.autoId)
+    );
+
+  // Check if at least one row is selected
+  const isSomeSelected = selectedRows.length > 0 && !isAllSelected;
+
+  // Handle "Select All" toggle
+  const handleSelectAll = () => {
+    if (gridData?.data) {
+      if (isAllSelected) {
+        setSelectedRows([]); // Deselect all
+      } else {
+        setSelectedRows([...gridData?.data]); // Select all
+      }
+    }
+  };
+
+  // Handle individual row toggle
+  const handleSelectRow = (row) => {
+    setSelectedRows((prevSelected) => {
+      const isSelected = prevSelected.some(
+        (selectedRow) => selectedRow.autoId === row.autoId
+      );
+
+      if (isSelected) {
+        // Deselect the row
+        return prevSelected.filter(
+          (selectedRow) => selectedRow.autoId !== row.autoId
+        );
+      } else {
+        // Select the row
+        return [...prevSelected, row];
+      }
+    });
+  };
+
+  const dataSelection = {
+    selectedRows,
+    setSelectedRows,
+    isAllSelected,
+    isSomeSelected,
+    handleSelectAll,
+    handleSelectRow,
+  };
+
   //setLandingData
   const getData = (_pageNo = 0, _pageSize = 15, values) => {
-
     const url = `/oms/CustomerSalesTarget/PartySalesCommissionConfigPagination?businessUnitId=${buId}&commissionTypeId=${
       values?.commissionType?.value
     }&channelId=${values?.channel?.value || 0}&regionId=${values?.region
       ?.value || 0}&areaId=${values?.area?.value ||
-      0}&pageNo=${_pageNo}&pageSize=${_pageSize}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&`;
+      0}&pageNo=${_pageNo}&pageSize=${_pageSize}&fromDate=${
+      values?.fromDate
+    }&toDate=${values?.toDate}&`;
+    setSelectedRows([]);
     getGridData(url);
   };
 
@@ -69,7 +123,14 @@ export default function SalesCommissionConfigure() {
               }}
             />
             <SalesCommissionConfigureLandingTable
-              obj={{ gridData, values, setOpen, setSingleData }}
+              obj={{
+                gridData,
+                values,
+                setOpen,
+                setSingleData,
+                getData,
+                dataSelection,
+              }}
             />
             {gridData?.data?.length > 0 && (
               <PaginationTable
