@@ -13,14 +13,13 @@ import {
 // import Envelope from "../../../_chartinghelper/assets/images/social/envelope.svg";
 // import Internet from "../../../_chartinghelper/assets/images/social/internet.svg";
 // import WhatsApp from "../../../_chartinghelper/assets/images/social/whatsapp.svg";
-import { ExportPDF } from "../../../_chartinghelper/exportPdf";
-import letterhead from "../../assets/images/shipping_line_pte_letterhead.jpeg";
-import { getOwnerBankInfoDetailsById } from "../helper";
-import { BankInfoComponent } from "./bankInfoComponent";
-import "./style.css";
 import { useLocation } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { getLetterHead } from "../../../../financialManagement/report/bankLetter/helper";
+import { ExportPDF } from "../../../_chartinghelper/exportPdf";
+import { getOwnerBankInfoDetailsById } from "../helper";
+import { BankInfoComponent } from "./bankInfoComponent";
+import "./style.css";
 
 const toWords = new ToWords({
   localeCode: "en-US",
@@ -36,6 +35,7 @@ export default function InvoiceForOwnerView({
   invoiceHireData,
   formikprops,
   rowData,
+  buId
 }) {
   const [bankInfoData, setBankInfoData] = useState();
   const [loading, setLoading] = useState(false);
@@ -177,7 +177,7 @@ export default function InvoiceForOwnerView({
             className="invoice-header"
             style={{
               backgroundImage: `url(${getLetterHead({
-                buId: invoiceHireData?.businessUnitId,
+                buId: buId,
               })})`,
               backgroundRepeat: "no-repeat",
               height: "170px",
@@ -193,7 +193,7 @@ export default function InvoiceForOwnerView({
             className="invoice-footer"
             style={{
               backgroundImage: `url(${getLetterHead({
-                buId: invoiceHireData?.businessUnitId,
+                buId: buId,
               })})`,
               backgroundRepeat: "no-repeat",
               height: "100px",
