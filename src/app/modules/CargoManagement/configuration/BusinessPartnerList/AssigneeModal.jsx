@@ -2,20 +2,24 @@ import { Button } from '@material-ui/core';
 import { Form, Formik } from "formik";
 import React from 'react';
 import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../App';
 import ICustomCard from '../../../_helper/_customCard';
 import IDelete from '../../../_helper/_helperIcons/_delete';
 import NewSelect from '../../../_helper/_select';
 import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const validationSchema = Yup.object().shape({
-    shipper: Yup.object().shape({ value: Yup.string().required("Shipper is required") }),
     consignee: Yup.object().shape({ value: Yup.string().required("Consignee is required") }),
-    deliveryAgent: Yup.object().shape({ value: Yup.string().required("Delivery Agent is required") }),
-    notifyParty: Yup.object().shape({ value: Yup.string().required("Notify Party is required") }),
+    businessPartnerType: Yup.object().shape({ value: Yup.string().required("Business Partner Type is required") }),
+    shipper: Yup.string().when('businessPartnerType.value', {
+        is: 4, // Check if businessPartnerType's value is 4
+        then: Yup.string().required('Shipper is required'),
+    })
 })
 
 const initialValues = {
-    shipper: { value: "", label: "" },
+    shipper: "",
     consignee: { value: "", label: "" },
     deliveryAgent: { value: "", label: "" },
     notifyParty: { value: "", label: "" },
@@ -27,12 +31,31 @@ export default function AssigneeModal() {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const formikRef = React.useRef(null);
     const [addedItem, setAddedItem] = React.useState([]);
+    const [
+        participantTypeListDDL,
+        GetParticipantTypeListDDL,
+        ,
+        setParticipantTypeList,
+    ] = useAxiosGet();
 
     const saveHandler = (values, cb) => {
         console.log(values, "values");
         setAddedItem((prev) => [...prev, values]);
         cb();
     }
+
+    React.useEffect(() => {
+        GetParticipantTypeListDDL(
+            `${imarineBaseUrl}/domain/ShippingService/GettblParticipantType`,
+            (redData) => {
+                const updatedData = redData?.filter(item => item.value !== 1);
+                setParticipantTypeList(updatedData);
+            },
+        );
+
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return (
         <div>
             <button
@@ -78,6 +101,11 @@ export default function AssigneeModal() {
                     >
                         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
                             <>
+                                <h1>
+                                    {
+                                        JSON.stringify(values)
+                                    }
+                                </h1>
                                 <Form className="form form-label-right">
 
                                     <div className="form-group row global-form">
@@ -107,12 +135,7 @@ export default function AssigneeModal() {
                                         <div className="col-lg-3">
                                             <NewSelect
                                                 label="Business Partner Type"
-                                                options={[
-                                                    { value: "Shipper", label: "Shipper" },
-                                                    { value: "Consignee", label: "Consignee" },
-                                                    { value: "Delivery Agent", label: "Delivery Agent" },
-                                                    { value: "Notify Party", label: "Notify Party" },
-                                                ]}
+                                                options={participantTypeListDDL || []}
                                                 value={values?.businessPartnerType}
                                                 name="businessPartnerType"
                                                 onChange={(valueOption) => {
@@ -129,73 +152,79 @@ export default function AssigneeModal() {
                                         </div>
 
                                         {/* Shipper */}
-                                        <div className="col-lg-3">
-                                            <NewSelect
-                                                label="Select Shipper"
-                                                options={[
-                                                    { value: "Shipper 1", label: "Shipper 1" },
-                                                    { value: "Shipper 2", label: " Shipper 2" },
+                                        {values?.businessPartnerType?.value === 4 && (
+                                            <div className="col-lg-3">
+                                                <NewSelect
+                                                    label="Select Shipper"
+                                                    options={[
+                                                        { value: "Shipper 1", label: "Shipper 1" },
+                                                        { value: "Shipper 2", label: " Shipper 2" },
 
-                                                ]}
-                                                value={values?.shipper}
-                                                name="shipper"
-                                                onChange={(valueOption) => {
-                                                    if (valueOption) {
-                                                        setFieldValue('shipper', valueOption);
-                                                    } else {
-                                                        setFieldValue('shipper', '');
-                                                    }
-                                                }}
-                                                errors={errors}
-                                                touched={touched}
+                                                    ]}
+                                                    value={values?.shipper}
+                                                    name="shipper"
+                                                    onChange={(valueOption) => {
+                                                        if (valueOption) {
+                                                            setFieldValue('shipper', valueOption);
+                                                        } else {
+                                                            setFieldValue('shipper', '');
+                                                        }
+                                                    }}
+                                                    errors={errors}
+                                                    touched={touched}
 
 
-                                            />
-                                        </div>
+                                                />
+                                            </div>
+                                        )}
                                         {/* Delivery Agent */}
-                                        <div className="col-lg-3">
-                                            <NewSelect
-                                                label="Select Delivery Agent"
-                                                options={[
-                                                    { value: "Delivery Agent 1", label: "Delivery Agent 1" },
-                                                    { value: "Delivery Agent 2", label: "Delivery Agent 2" },
-                                                ]}
-                                                value={values?.deliveryAgent}
-                                                name="deliveryAgent"
-                                                onChange={(valueOption) => {
-                                                    if (valueOption) {
-                                                        setFieldValue('deliveryAgent', valueOption);
-                                                    } else {
-                                                        setFieldValue('deliveryAgent', '');
-                                                    }
-                                                }}
-                                                errors={errors}
-                                                touched={touched}
-                                            />
-                                        </div>
+                                        {values?.businessPartnerType?.value === 2 && (
+                                            <div className="col-lg-3">
+                                                <NewSelect
+                                                    label="Select Delivery Agent"
+                                                    options={[
+                                                        { value: "Delivery Agent 1", label: "Delivery Agent 1" },
+                                                        { value: "Delivery Agent 2", label: "Delivery Agent 2" },
+                                                    ]}
+                                                    value={values?.deliveryAgent}
+                                                    name="deliveryAgent"
+                                                    onChange={(valueOption) => {
+                                                        if (valueOption) {
+                                                            setFieldValue('deliveryAgent', valueOption);
+                                                        } else {
+                                                            setFieldValue('deliveryAgent', '');
+                                                        }
+                                                    }}
+                                                    errors={errors}
+                                                    touched={touched}
+                                                />
+                                            </div>
+                                        )}
                                         {/* Notify Party */}
-                                        <div className="col-lg-3">
-                                            <NewSelect
-                                                label="Select Notify Party"
-                                                options={[
-                                                    { value: "Notify Party 1", label: "Notify Party 1" },
-                                                    { value: "Notify Party 2", label: "Notify Party 2" },
-                                                ]}
+                                        {values?.businessPartnerType?.value === 3 && (
+                                            <div className="col-lg-3">
+                                                <NewSelect
+                                                    label="Select Notify Party"
+                                                    options={[
+                                                        { value: "Notify Party 1", label: "Notify Party 1" },
+                                                        { value: "Notify Party 2", label: "Notify Party 2" },
+                                                    ]}
 
-                                                value={values?.notifyParty}
-                                                name="notifyParty"
-                                                onChange={(valueOption) => {
-                                                    if (valueOption) {
-                                                        setFieldValue('notifyParty', valueOption);
-                                                    } else {
-                                                        setFieldValue('notifyParty', '');
-                                                    }
-                                                }}
-                                                errors={errors}
-                                                touched={touched}
+                                                    value={values?.notifyParty}
+                                                    name="notifyParty"
+                                                    onChange={(valueOption) => {
+                                                        if (valueOption) {
+                                                            setFieldValue('notifyParty', valueOption);
+                                                        } else {
+                                                            setFieldValue('notifyParty', '');
+                                                        }
+                                                    }}
+                                                    errors={errors}
+                                                    touched={touched}
 
-                                            />
-                                        </div>
+                                                />
+                                            </div>
+                                        )}
 
                                     </div>
                                     <div className="d-flex justify-content-end my-1">
