@@ -11,6 +11,7 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from "../../../../../_metronic/_partials/controls";
+import { _currentTime } from "../../../_helper/_currentTime";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IEdit from "../../../_helper/_helperIcons/_edit";
 import InputField from "../../../_helper/_inputField";
@@ -219,7 +220,7 @@ function GateItemEntry() {
                             <th>রেজি. নং</th>
                             <th>প্রবেশের সময়</th>
                             <th>বহির্গমনের সময়</th>
-                            <th>সময়কাল</th>
+                            <th style={{width:'70px'}}>সময়কাল</th>
                             <th>চালান নাম্বার </th>
                             {selectedBusinessUnit?.value === 4 ? (
                               <th>ভ্যাট চালান নাম্বার</th>
@@ -239,8 +240,10 @@ function GateItemEntry() {
                                 exceed,
                                 formattedTimeDiff,
                               } = calculateTimeDifference(
-                                item?.tmInTime,
                                 item?.tmOutTime
+                                  ? item?.tmOutTime
+                                  : _currentTime(),
+                                item?.tmInTime
                               );
 
                               return (
