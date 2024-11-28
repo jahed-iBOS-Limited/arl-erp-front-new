@@ -22,11 +22,11 @@ export default function EditForm({ obj }) {
         firstSlabCommissionRate: values?.firstSlabCommissionRate || 0,
         secondSlabCommissionRate: values?.secondSlabCommissionRate || 0,
         thirdSlabCommissionRate: values?.thirdSlabCommissionRate || 0,
-        offerQntFrom: values?.offerQntFrom,
-        offerQntTo: values?.offerQntTo,
-        achievementFrom: values?.achievementFrom,
-        achievementTo: values?.achievementTo,
-        commissionRate: values?.commissionRate,
+        offerQntFrom: Number(values?.offerQntFrom),
+        offerQntTo: Number(values?.offerQntTo),
+        achievementFrom: Number(values?.achievementFrom),
+        achievementTo: Number(values?.achievementTo),
+        commissionRate: Number(values?.commissionRate),
       },
     ];
     postData(
@@ -105,7 +105,7 @@ export default function EditForm({ obj }) {
                           setFieldValue("commissionDate", e?.target?.value);
                         }}
                       />
-                    </td>{" "}
+                    </td>
                     <td>{values?.areaName}</td>
                     {[35, 36, 37, 38, 39, 40].includes(
                       preValues?.commissionType?.value
@@ -118,10 +118,7 @@ export default function EditForm({ obj }) {
                             placeholder="offerQntFrom"
                             type="text"
                             onChange={(e) => {
-                              setFieldValue(
-                                "offerQntFrom",
-                                Number(e?.target?.value)
-                              );
+                              setFieldValue("offerQntFrom", e?.target?.value);
                             }}
                           />
                         </td>
@@ -132,10 +129,7 @@ export default function EditForm({ obj }) {
                             placeholder="BA"
                             type="text"
                             onChange={(e) => {
-                              setFieldValue(
-                                "offerQntTo",
-                                Number(e?.target?.value)
-                              );
+                              setFieldValue("offerQntTo", e?.target?.value);
                             }}
                           />
                         </td>
@@ -148,7 +142,7 @@ export default function EditForm({ obj }) {
                             onChange={(e) => {
                               setFieldValue(
                                 "achievementFrom",
-                                Number(e?.target?.value)
+                                e?.target?.value
                               );
                             }}
                           />
@@ -160,10 +154,7 @@ export default function EditForm({ obj }) {
                             placeholder="CP"
                             type="text"
                             onChange={(e) => {
-                              setFieldValue(
-                                "achievementTo",
-                                Number(e?.target?.value)
-                              );
+                              setFieldValue("achievementTo", e?.target?.value);
                             }}
                           />
                         </td>
@@ -174,10 +165,7 @@ export default function EditForm({ obj }) {
                             placeholder="CP"
                             type="text"
                             onChange={(e) => {
-                              setFieldValue(
-                                "commissionRate",
-                                Number(e?.target?.value)
-                              );
+                              setFieldValue("commissionRate", e?.target?.value);
                             }}
                           />
                         </td>

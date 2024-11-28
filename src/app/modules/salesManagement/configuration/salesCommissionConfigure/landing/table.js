@@ -4,14 +4,30 @@ import axios from "axios";
 import { shallowEqual, useSelector } from "react-redux";
 
 const SalesCommissionConfigureLandingTable = ({ obj }) => {
-  const { gridData, values, setOpen, setSingleData, getData } = obj;
+  const {
+    gridData,
+    values,
+    setOpen,
+    setSingleData,
+    getData,
+    dataSelection,
+  } = obj;
 
   return (
     <div>
       {[17, 18, 25, 27, 22].includes(values?.commissionType?.value) ? (
         <TableTwo obj={{ gridData, values, setOpen, setSingleData, getData }} />
       ) : (
-        <TableOne obj={{ gridData, values, setOpen, setSingleData, getData }} />
+        <TableOne
+          obj={{
+            gridData,
+            values,
+            setOpen,
+            setSingleData,
+            getData,
+            dataSelection,
+          }}
+        />
       )}
     </div>
   );
@@ -23,44 +39,22 @@ const TableOne = ({ obj }) => {
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
-  const { gridData, setOpen, setSingleData, values, getData } = obj;
-  const [selectedRows, setSelectedRows] = useState([]);
+  const {
+    gridData,
+    setOpen,
+    setSingleData,
+    values,
+    getData,
+    dataSelection: {
+      selectedRows,
+      setSelectedRows,
+      isAllSelected,
+      isSomeSelected,
+      handleSelectAll,
+      handleSelectRow,
+    },
+  } = obj;
 
-  // Check if all rows are selected
-  const isAllSelected = selectedRows.length === gridData?.data?.length;
-
-  // Check if at least one row is selected
-  const isSomeSelected = selectedRows.length > 0 && !isAllSelected;
-
-  // Handle "Select All" toggle
-  const handleSelectAll = () => {
-    if (gridData?.data) {
-      if (isAllSelected) {
-        setSelectedRows([]); // Deselect all
-      } else {
-        setSelectedRows([...gridData?.data]); // Select all
-      }
-    }
-  };
-
-  // Handle individual row toggle
-  const handleSelectRow = (row) => {
-    setSelectedRows((prevSelected) => {
-      const isSelected = prevSelected.some(
-        (selectedRow) => selectedRow.autoId === row.autoId
-      );
-
-      if (isSelected) {
-        // Deselect the row
-        return prevSelected.filter(
-          (selectedRow) => selectedRow.autoId !== row.autoId
-        );
-      } else {
-        // Select the row
-        return [...prevSelected, row];
-      }
-    });
-  };
   const deleteData = async () => {
     const url = `oms/CustomerSalesTarget/DeletePartySalesCommissionConfig`;
     const res = await axios["post"](
@@ -70,8 +64,8 @@ const TableOne = ({ obj }) => {
         actionBy: profileData?.userId,
       }))
     );
-    selectedRows([]);
-    getData();
+    setSelectedRows([]);
+    getData(0, 15, values);
   };
   return (
     <div>
