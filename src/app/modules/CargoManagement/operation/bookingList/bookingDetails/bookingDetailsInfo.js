@@ -416,7 +416,7 @@ function BookingDetailsInfo({ bookingData }) {
           </div>
         </div>
         {/* stages */}
-        <div className="mt-4">
+        {/* <div className="mt-4">
           {' '}
           <h5>Stages</h5>
           <div className="table-responsive">
@@ -434,7 +434,6 @@ function BookingDetailsInfo({ bookingData }) {
                   <th>Document Checklist</th>
                   <th>Dispatch</th>
                   <th>Customs Clear</th>
-                  {/* <th>In Transit</th> */}
                   <th>Dest Port Receive</th>
                   <th>Delivered</th>
                 </tr>
@@ -498,10 +497,6 @@ function BookingDetailsInfo({ bookingData }) {
                         )
                       : 'Not Cleared  '}{' '}
                   </td>
-                  {/* <td>
-                    {' '}
-                    {bookingData?.isInTransit ? 'Completed' : 'Incomplete'}{' '}
-                  </td> */}
                   <td>
                     {' '}
                     {bookingData?.destPortReceiveDt
@@ -522,7 +517,7 @@ function BookingDetailsInfo({ bookingData }) {
               </tbody>
             </table>
           </div>
-        </div>
+        </div> */}
         {/* container desc table*/}
         <div className="mt-4">
           {' '}
