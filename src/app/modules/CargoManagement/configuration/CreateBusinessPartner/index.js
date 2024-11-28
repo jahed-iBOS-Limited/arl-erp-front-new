@@ -51,7 +51,12 @@ function CreateBusinessPartner() {
   const [countryList, getCountryList] = useAxiosGet();
   const [stateDDL, setStateDDL] = useAxiosGet();
   const [cityDDL, setCityDDL] = useAxiosGet();
-  const [gettblParticipantType, setGettblParticipantType] = useAxiosGet();
+  const [
+    participantTypeListDDL,
+    GetParticipantTypeListDDL,
+    ,
+    setParticipantTypeList,
+  ] = useAxiosGet();
 
   const saveHandler = (values, cb) => {
     const payload = {
@@ -106,9 +111,15 @@ function CreateBusinessPartner() {
 
   React.useEffect(() => {
     getCountryList(`${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`);
-    setGettblParticipantType(
-      `${imarineBaseUrl}/domain/ShippingService/GettblParticipantType`
+
+    GetParticipantTypeListDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GettblParticipantType`,
+      (redData) => {
+        const updatedData = redData?.filter(item => item.value !== 4);
+        setParticipantTypeList(updatedData);
+      },
     );
+
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -181,7 +192,7 @@ function CreateBusinessPartner() {
                 <div className="col-lg-3">
                   <NewSelect
                     label="Business Partner Type"
-                    options={gettblParticipantType || []}
+                    options={participantTypeListDDL || []}
                     name="participantType"
                     placeholder="Business Partner Type"
                     value={values?.participantType}
