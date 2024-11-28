@@ -13,14 +13,13 @@ import {
 // import Envelope from "../../../_chartinghelper/assets/images/social/envelope.svg";
 // import Internet from "../../../_chartinghelper/assets/images/social/internet.svg";
 // import WhatsApp from "../../../_chartinghelper/assets/images/social/whatsapp.svg";
+import { useLocation } from "react-router-dom";
+import * as XLSX from "xlsx";
+import { getLetterHead } from "../../../../financialManagement/report/bankLetter/helper";
 import { ExportPDF } from "../../../_chartinghelper/exportPdf";
-import letterhead from "../../assets/images/shipping_line_pte_letterhead.jpeg";
 import { getOwnerBankInfoDetailsById } from "../helper";
 import { BankInfoComponent } from "./bankInfoComponent";
 import "./style.css";
-import { useLocation } from "react-router-dom";
-import * as XLSX from "xlsx";
-
 
 const toWords = new ToWords({
   localeCode: "en-US",
@@ -36,11 +35,12 @@ export default function InvoiceForOwnerView({
   invoiceHireData,
   formikprops,
   rowData,
+  buId
 }) {
   const [bankInfoData, setBankInfoData] = useState();
   const [loading, setLoading] = useState(false);
   const { values } = formikprops;
-  const location = useLocation()
+  const location = useLocation();
 
   /* Bank Info & Prev Hire API */
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function InvoiceForOwnerView({
         invoiceHireData?.beneficiaryId,
         setBankInfoData
       );
-    }else if(location?.actionType === "view"){
+    } else if (location?.actionType === "view") {
       getOwnerBankInfoDetailsById(
         location?.state?.beneficiaryId,
         setBankInfoData
@@ -66,11 +66,22 @@ export default function InvoiceForOwnerView({
 
   const exportToExcel = () => {
     const wsData = [
-      ["VESSEL & VOYAGE :", `${invoiceHireData?.vesselName} & V${invoiceHireData?.voyageNo}`],
+      [
+        "VESSEL & VOYAGE :",
+        `${invoiceHireData?.vesselName} & V${invoiceHireData?.voyageNo}`,
+      ],
       ["OWNER :", invoiceHireData?.ownerName],
       ["CHTR :", invoiceHireData?.chtrName],
-      ["DELIVERY :", moment(invoiceHireData?.deliveryDate).format("DD-MMM-YYYY HH:mm A")],
-      ["REDELIVERY :", moment(invoiceHireData?.reDeliveryDate || invoiceHireData?.dteReDeliveryDate).format("DD-MMM-YYYY HH:mm A")],
+      [
+        "DELIVERY :",
+        moment(invoiceHireData?.deliveryDate).format("DD-MMM-YYYY HH:mm A"),
+      ],
+      [
+        "REDELIVERY :",
+        moment(
+          invoiceHireData?.reDeliveryDate || invoiceHireData?.dteReDeliveryDate
+        ).format("DD-MMM-YYYY HH:mm A"),
+      ],
       ["TOTAL DURATION :", invoiceHireData?.totalDuration],
       ["BROKERAGE :", `${invoiceHireData?.brokerage}%`],
       ["ADD COMM :", `${invoiceHireData?.comm}%`],
@@ -94,9 +105,27 @@ export default function InvoiceForOwnerView({
         _formatMoneyWithDoller(item.credit?.toFixed(2)),
         _formatMoneyWithDoller(item.debit?.toFixed(2)),
       ]),
-      ["Total", "", "", "", _formatMoneyWithDoller(totalCredit?.toFixed(2)), _formatMoneyWithDoller(totalDebit?.toFixed(2))],
-      ["AMOUNT PAYABLE TO OWNERS", "", "", "", "", _formatMoneyWithDoller((totalCredit - totalDebit)?.toFixed(2))],
-      [`(In Word USD) ${toWords.convert((totalCredit - totalDebit)?.toFixed(2))}`],
+      [
+        "Total",
+        "",
+        "",
+        "",
+        _formatMoneyWithDoller(totalCredit?.toFixed(2)),
+        _formatMoneyWithDoller(totalDebit?.toFixed(2)),
+      ],
+      [
+        "AMOUNT PAYABLE TO OWNERS",
+        "",
+        "",
+        "",
+        "",
+        _formatMoneyWithDoller((totalCredit - totalDebit)?.toFixed(2)),
+      ],
+      [
+        `(In Word USD) ${toWords.convert(
+          (totalCredit - totalDebit)?.toFixed(2)
+        )}`,
+      ],
     ];
 
     const wb = XLSX.utils.book_new();
@@ -142,30 +171,30 @@ export default function InvoiceForOwnerView({
           Export Excel
         </button>
       </div>
-      <div
-        ref={printRef}
-        className="p-4 transactionInvoice"
-        id="pdf-section"
-      >
-         <div>
+      <div ref={printRef} className="p-4 transactionInvoice" id="pdf-section">
+        <div>
           <div
             className="invoice-header"
             style={{
-              backgroundImage: `url(${letterhead})`,
+              backgroundImage: `url(${getLetterHead({
+                buId: buId,
+              })})`,
               backgroundRepeat: "no-repeat",
-              height: "150px",
+              height: "170px",
               backgroundPosition: "left 10px",
               backgroundSize: "cover",
               position: "fixed",
               width: "100%",
               top: "-50px",
-              left:"-2px"
+              left: "-2px",
             }}
           ></div>
           <div
             className="invoice-footer"
             style={{
-              backgroundImage: `url(${letterhead})`,
+              backgroundImage: `url(${getLetterHead({
+                buId: buId,
+              })})`,
               backgroundRepeat: "no-repeat",
               height: "100px",
               backgroundPosition: "left bottom",
@@ -173,10 +202,10 @@ export default function InvoiceForOwnerView({
               bottom: "-0px",
               position: "fixed",
               width: "100%",
-              left:"-2px"
+              left: "-2px",
             }}
           ></div>
-          <table style={{width:"100%"}}>
+          <table style={{ width: "100%" }}>
             <thead>
               <tr>
                 <td
@@ -194,7 +223,10 @@ export default function InvoiceForOwnerView({
               </tr>
             </thead>
             <tbody>
-              <div style={{marginTop:"2px"}} className="invoiceForChartererWraper">
+              <div
+                style={{ marginTop: "2px" }}
+                className="invoiceForChartererWraper"
+              >
                 <h5
                   className="text-center uppercase mb-4 statementTitle"
                   // style={{ marginTop: "120px" }}
