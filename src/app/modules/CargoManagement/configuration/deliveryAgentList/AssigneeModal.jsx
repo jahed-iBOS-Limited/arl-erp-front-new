@@ -210,7 +210,7 @@ export default function AssigneeModal() {
 
                                                         <Button
                                                             onClick={() => {
-
+                                                                setAddedItem((prev) => prev.filter((itm, i) => i !== index));
                                                             }}
                                                             color="error"
                                                             size="small"
