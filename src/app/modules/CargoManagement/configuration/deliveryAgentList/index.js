@@ -5,6 +5,7 @@ import ICustomCard from '../../../_helper/_customCard';
 import PaginationSearch from '../../../_helper/_search';
 import PaginationTable from '../../../_helper/_tablePagination';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import AssigneeModal from './AssigneeModal';
 
 export default function DeliveryAgentList() {
     const [deliveryAgentList, setDeliveryAgentList] = useAxiosGet();
@@ -27,13 +28,13 @@ export default function DeliveryAgentList() {
         );
     };
     return (
-        <ICustomCard title="Delivery Agent List"
+        <ICustomCard title="Business Partner Basic Info"
             createHandler={() => {
                 history.push("/cargoManagement/configuration/delivery-agent-create")
             }}
         >
             <PaginationSearch
-                placeholder="Search Delivery Agent"
+                placeholder="Search Business Partner"
                 paginationSearchHandler={(searchValue) => {
                     commonLandingApi(searchValue, 1, 100);
                 }}
@@ -44,9 +45,11 @@ export default function DeliveryAgentList() {
                         <thead>
                             <tr>
                                 <th>SL</th>
-                                <th>Agent Name</th>
-                                <th>Email</th>
+                                <th>Business Partner Name</th>
+                                <th>Business Partner Type</th>
+                                <th>Country</th>
                                 <th>Contact Number</th>
+                                <th>Email</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -54,9 +57,11 @@ export default function DeliveryAgentList() {
                             {deliveryAgentList?.dAgentdata?.map((item, index) => (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
-                                    <td>{item?.agentName}</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
                                     <td>{item?.email}</td>
-                                    <td>{item?.contact}</td>
                                     <td >
                                         <div className="d-flex justify-content-center">
                                             <button className="btn btn-primary btn-sm"
@@ -64,8 +69,10 @@ export default function DeliveryAgentList() {
                                                     history.push(`/cargoManagement/configuration/delivery-agent-edit/${item?.agentId}`)
                                                 }}
                                             >Edit</button>
+                                            <AssigneeModal />
                                         </div>
                                     </td>
+
 
                                 </tr>
                             ))}
