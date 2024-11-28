@@ -7,7 +7,7 @@ import PaginationTable from '../../../_helper/_tablePagination';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import AssigneeModal from './AssigneeModal';
 
-export default function DeliveryAgentList() {
+export default function BusinessPartnerList() {
     const [deliveryAgentList, setDeliveryAgentList] = useAxiosGet();
     let history = useHistory()
     const [pageNo, setPageNo] = React.useState(0);
@@ -30,7 +30,7 @@ export default function DeliveryAgentList() {
     return (
         <ICustomCard title="Business Partner Basic Info"
             createHandler={() => {
-                history.push("/cargoManagement/configuration/delivery-agent-create")
+                history.push("/cargoManagement/configuration/business-partner-create")
             }}
             renderProps={() => {
                 return (

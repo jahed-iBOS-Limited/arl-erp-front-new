@@ -17,7 +17,7 @@ const validationSchema = Yup.object().shape({
     contact: Yup.string().required("Contact is required"),
     email: Yup.string().email("Email is not valid").required("Email is required"),
 });
-function CreateDeliveryAgent() {
+function CreateBusinessPartner() {
     const history = useHistory();
     const { id } = useParams()
     const formikRef = React.useRef(null);
@@ -224,4 +224,4 @@ function CreateDeliveryAgent() {
     );
 }
 
-export default CreateDeliveryAgent;
+export default CreateBusinessPartner;
