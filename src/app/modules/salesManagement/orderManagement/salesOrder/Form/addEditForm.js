@@ -670,6 +670,7 @@ export default function SalesOrderForm({
         //if Checkbox true
         const allChecItem = referenceWithItemListById.map((itm) => ({
           ...addData,
+          referenceRowId: itm?.referenceRowId || 0,
           itemCode: itm.itemCode,
           itemId: itm.itemId,
           itemName: itm.itemName,
@@ -701,6 +702,7 @@ export default function SalesOrderForm({
         if (referenceItemDetailsById) {
           const referenceItemDetails = {
             ...addData,
+            referenceRowId: referenceItemDetailsById?.referenceRowId || 0,
             itemCode: referenceItemDetailsById.itemCode,
             itemId: referenceItemDetailsById.itemId,
             itemName: referenceItemDetailsById.itemName,
