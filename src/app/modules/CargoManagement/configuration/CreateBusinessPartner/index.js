@@ -55,7 +55,7 @@ function CreateBusinessPartner() {
     return state?.authData;
   }, shallowEqual);
   const [, SaveShippingParticipants, isLoading] = useAxiosPost();
-  const [getDeliveryAgentListByData, setDeliveryAgentListById] = useAxiosGet();
+  const [, setDeliveryAgentListById] = useAxiosGet();
 
   const [countryList, getCountryList] = useAxiosGet();
   const [stateDDL, setStateDDL] = useAxiosGet();

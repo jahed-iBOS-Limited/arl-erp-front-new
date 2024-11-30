@@ -8,6 +8,7 @@ import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import AssigneeModal from './AssigneeModal';
 
 export default function BusinessPartnerList() {
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [deliveryAgentList, setDeliveryAgentList] = useAxiosGet();
   let history = useHistory();
   const [pageNo, setPageNo] = React.useState(0);
@@ -36,7 +37,18 @@ export default function BusinessPartnerList() {
         history.push('/cargoManagement/configuration/assign/create');
       }}
       renderProps={() => {
-        return <AssigneeModal />;
+        return (
+          <button
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+            className="ml-2 btn btn-primary"
+            title="Assignee"
+            // startIcon={<i class="fa fa-user-plus" aria-hidden="true"></i>}
+          >
+            <i class="fa fa-user-plus" aria-hidden="true"></i>
+          </button>
+        );
       }}
     >
       <PaginationSearch
@@ -92,6 +104,12 @@ export default function BusinessPartnerList() {
           </table>
         </div>
       </div>
+      {isModalOpen && (
+        <AssigneeModal
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
+      )}
       {deliveryAgentList?.dAgentdata?.length > 0 && (
         <PaginationTable
           count={deliveryAgentList?.totalCount}
