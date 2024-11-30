@@ -24,8 +24,8 @@ const validationSchema = Yup.object().shape({
   //   .typeError('Transport Planning Type is required'),
   pickupLocation: Yup.string().required('Pickup Location is required'),
   // stuffingDate: Yup.string().required('Stuffing Date is required'),
-  pickupDate: Yup.string().required('Estimated Pickup Date is required'),
-  vehicleInfo: Yup.string().required('Vehicle Info is required'),
+  // pickupDate: Yup.string().required('Estimated Pickup Date is required'),
+  // vehicleInfo: Yup.string().required('Vehicle Info is required'),
   noOfPallets: Yup.string().when('transportPlanning', {
     is: (val) => val?.value === 1,
     then: Yup.string().required('No of Pallets is required'),
@@ -112,16 +112,16 @@ function TransportModal({ rowClickData, CB }) {
               `rows[0].pickupLocation`,
               transportPlanning?.pickupLocation || data?.pickupPlace || '',
             );
-            formikRef.current.setFieldValue(
-              `rows[0].pickupDate`,
-              transportPlanning?.stuffingDate
-                ? _dateFormatter(transportPlanning?.stuffingDate)
-                : '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].vehicleInfo`,
-              transportPlanning?.vehicleInfo || '',
-            );
+            // formikRef.current.setFieldValue(
+            //   `rows[0].pickupDate`,
+            //   transportPlanning?.stuffingDate
+            //     ? _dateFormatter(transportPlanning?.stuffingDate)
+            //     : '',
+            // );
+            // formikRef.current.setFieldValue(
+            //   `rows[0].vehicleInfo`,
+            //   transportPlanning?.vehicleInfo || '',
+            // );
             formikRef.current.setFieldValue(
               `rows[0].noOfPallets`,
               transportPlanning?.noOfPallets || '',
@@ -222,13 +222,13 @@ function TransportModal({ rowClickData, CB }) {
     const payload = values?.rows?.map((row) => ({
       bookingId: bookingRequestId || 0,
       pickupLocation: row?.pickupLocation || '',
-      pickupDate:
-        moment(row?.pickupDate).format('YYYY-MM-DDTHH:mm:ss') || new Date(),
+      // pickupDate:
+      //   moment(row?.pickupDate).format('YYYY-MM-DDTHH:mm:ss') || new Date(),
 
       // stuffingDate:
       //   moment(values?.stuffingDate).format("YYYY-MM-DDTHH:mm:ss") ||
       //   new Date(), //! prev
-
+      pickupDate: new Date(),
       vehicleInfo: row?.vehicleInfo || '',
       noOfPallets: row?.noOfPallets || 0,
       carton: row?.carton || 0,
@@ -300,22 +300,6 @@ function TransportModal({ rowClickData, CB }) {
               berthDate: '',
               cutOffDate: '',
               estimatedTimeOfDepart: '',
-              // containerDesc: [
-              //   {
-              //     containerNumber: "",
-              //     sealNumber: "",
-              //     size: "",
-              //     quantity: "",
-              //     cbm:  "",
-              //     mode: "",
-              //     kgs:  "",
-              //     poNumber: "",
-              //     style: "",
-              //     color: "",
-              //   },
-              // ],
-
-              //
               items: [],
             },
           ],
@@ -404,7 +388,7 @@ function TransportModal({ rowClickData, CB }) {
                               )}
                           </div>
                           {/* Pickup date */}
-                          <div className="col-lg-3">
+                          {/* <div className="col-lg-3">
                             <InputField
                               value={values?.rows[index]?.pickupDate || ''}
                               label="Estimated Pickup Date"
@@ -424,9 +408,9 @@ function TransportModal({ rowClickData, CB }) {
                                   {errors.rows[index].pickupDate}
                                 </div>
                               )}
-                          </div>
+                          </div> */}
                           {/* Vehicle info */}
-                          <div className="col-lg-3">
+                          {/* <div className="col-lg-3">
                             <InputField
                               value={values.rows[index]?.vehicleInfo || ''}
                               label="Vehicle Info"
@@ -446,7 +430,7 @@ function TransportModal({ rowClickData, CB }) {
                                   {errors.rows[index].vehicleInfo}
                                 </div>
                               )}
-                          </div>
+                          </div> */}
 
                           {/* for AIR */}
                           {values?.rows[0]?.transportPlanning?.value === 1 && (
@@ -858,7 +842,7 @@ function TransportModal({ rowClickData, CB }) {
 
                             {/* Size */}
                             <div className="col-lg-2">
-                              <InputField
+                              {/* <InputField
                                 value={values?.rows[index]?.size || ''}
                                 label="Container Size"
                                 name={`rows[${index}].size`}
@@ -869,6 +853,32 @@ function TransportModal({ rowClickData, CB }) {
                                     e.target.value,
                                   )
                                 }
+                              /> */}
+                              <NewSelect
+                                name={`rows[${index}].size`}
+                                options={[
+                                  { value: '20', label: '20FT' },
+                                  { value: '40', label: '40FT' },
+                                  { value: '40+', label: '40FT High' },
+                                ]}
+                                value={
+                                  values?.rows[index]?.size
+                                    ? {
+                                        value: 0,
+                                        label: values?.rows[index]?.size,
+                                      }
+                                    : ''
+                                }
+                                label="Container Size"
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    `rows[${index}].size`,
+                                    valueOption?.label,
+                                  );
+                                }}
+                                placeholder="Select"
+                                errors={errors}
+                                touched={touched}
                               />
                             </div>
 
@@ -876,7 +886,7 @@ function TransportModal({ rowClickData, CB }) {
                             <div className="col-lg-2">
                               <InputField
                                 value={values?.rows[index]?.quantity || ''}
-                                label="Quantity"
+                                label="Cartoon Quantity"
                                 name={`rows[${index}].quantity`}
                                 type="number"
                                 onChange={(e) =>
@@ -1005,7 +1015,10 @@ function TransportModal({ rowClickData, CB }) {
                         <div className="pt-4">
                           {formikRef.current?.values?.rows[index]?.items
                             ?.length > 0 && (
-                            <table table className="table table-bordered">
+                            <table
+                              table
+                              className="table table-bordered global-table"
+                            >
                               <thead>
                                 <tr>
                                   <th>PO Number</th>
@@ -1133,60 +1146,3 @@ function TransportModal({ rowClickData, CB }) {
 }
 
 export default TransportModal;
-
-// const validationSchema = Yup.object().shape({
-//   // transportPlanning: Yup.object()
-//   //   .shape({
-//   //     label: Yup.string().required('Transport Planning Type is required'),
-//   //     value: Yup.number().required('Transport Planning Type is required'),
-//   //   })
-//   //   .nullable()
-//   //   .typeError('Transport Planning Type is required'),
-//   pickupLocation: Yup.string().required('Pickup Location is required'),
-//   // stuffingDate: Yup.string().required('Stuffing Date is required'),
-//   pickupDate: Yup.string().required('Estimated Pickup Date is required'),
-//   vehicleInfo: Yup.string().required('Vehicle Info is required'),
-//   noOfPallets: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 1,
-//     then: Yup.string().required('No of Pallet is required'),
-//   }),
-//   airLine: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 1,
-//     then: Yup.string().required('Air Line is required'),
-//   }),
-//   iatanumber: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 1,
-//     then: Yup.string().required('Iata Number is required'),
-//   }),
-//   carton: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 1,
-//     then: Yup.string().required('Carton is required'),
-//   }),
-//   noOfContainer: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 2,
-//     then: Yup.string().required('No of Container is required'),
-//   }),
-//   shippingLine: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 2,
-//     then: Yup.string().required('Shipping Line is required'),
-//   }),
-//   vesselName: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 2,
-//     then: Yup.string().required('Vessel Name is required'),
-//   }),
-//   // // departureDateTime: Yup.string().required("Departure Date & Time is required"),
-//   arrivalDateTime: Yup.string().required('Arrival Date & Time is required'),
-//   transportMode: Yup.object()
-//     .shape({
-//       label: Yup.string().required('Transport Mode is required'),
-//       value: Yup.number().required('Transport Mode is required'),
-//     })
-//     .nullable()
-//     .typeError('Transport Mode is required'),
-//   // containerNumber: Yup.string().required("Container No is required"),
-//   // sealNumber: Yup.string().required("Seal No is required"),
-//   // size: Yup.string().required("Size is required"),
-//   // quantity: Yup.string().required("quantity is required"),
-//   // cbm: Yup.string().required("CBM is required"),
-//   // kgs: Yup.string().required("KGS is required"),
-// });
