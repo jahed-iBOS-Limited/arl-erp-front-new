@@ -7,7 +7,7 @@ import PaginationTable from '../../../_helper/_tablePagination';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import AssigneeModal from './AssigneeModal';
 
-export default function DeliveryAgentList() {
+export default function BusinessPartnerList() {
     const [deliveryAgentList, setDeliveryAgentList] = useAxiosGet();
     let history = useHistory()
     const [pageNo, setPageNo] = React.useState(0);
@@ -30,8 +30,16 @@ export default function DeliveryAgentList() {
     return (
         <ICustomCard title="Business Partner Basic Info"
             createHandler={() => {
-                history.push("/cargoManagement/configuration/delivery-agent-create")
+                history.push("/cargoManagement/configuration/business-partner-create")
             }}
+            renderProps={() => {
+                return (
+                    <AssigneeModal />
+
+                )
+            }
+            }
+
         >
             <PaginationSearch
                 placeholder="Search Business Partner"
@@ -64,12 +72,11 @@ export default function DeliveryAgentList() {
                                     <td>{item?.email}</td>
                                     <td >
                                         <div className="d-flex justify-content-center">
-                                            <button className="btn btn-primary btn-sm"
+                                            <button className="btn btn-primary"
                                                 onClick={() => {
                                                     history.push(`/cargoManagement/configuration/delivery-agent-edit/${item?.agentId}`)
                                                 }}
-                                            >Edit</button>
-                                            <AssigneeModal />
+                                            ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
                                         </div>
                                     </td>
 
