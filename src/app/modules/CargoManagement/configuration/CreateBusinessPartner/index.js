@@ -69,10 +69,10 @@ function CreateBusinessPartner() {
 
   const saveHandler = (values, cb) => {
     const payload = {
-      participantId: 0,
+      participantId: id || 0,
       participantCode: '',
       participantTypeId: values?.participantType?.value || 0,
-      participantType: values?.participantType?.label || 'label',
+      participantType: values?.participantType?.label || '',
       participantsName: values?.participantsName || '',
       companyName: values?.companyName || '',
       contactPerson: values?.contactPerson || '',
@@ -80,13 +80,9 @@ function CreateBusinessPartner() {
       email: values?.email || '',
       countryId: values?.country?.value || 0,
       country: values?.country?.label || '',
-      stateId:
-        typeof values?.state?.value === 'string'
-          ? 0
-          : values?.state?.value || 0,
-      state: values?.state?.label || 0,
-      cityId:
-        typeof values?.city?.value === 'string' ? 0 : values?.city?.value || 0,
+      stateId: values?.state?.value || 0,
+      state: values?.state?.label || '',
+      cityId: values?.city?.value || 0,
       city: values?.city?.label || '',
       address: values?.address || '',
       zipCode: values?.zipCode || '',
@@ -99,19 +95,72 @@ function CreateBusinessPartner() {
       `${imarineBaseUrl}/domain/ShippingService/SaveShippingParticipants`,
       payload,
       () => {
-        formikRef.current.resetForm();
+        if (id) {
+          history.push('/cargoManagement/configuration/assign');
+        } else {
+          cb();
+        }
       },
     );
   };
   React.useEffect(() => {
     if (!id) return;
     setDeliveryAgentListById(
-      `${imarineBaseUrl}/domain/ShippingService/GetDeliveryAgentById?AgentId=${id}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetShippingParticipantsById?participantId=${id}`,
       (data) => {
         if (formikRef.current) {
-          formikRef.current.setFieldValue('agentName', data?.agentName || '');
-          formikRef.current.setFieldValue('contact', data?.contact || '');
+          formikRef.current.setFieldValue(
+            'participantType',
+            data?.participantType
+              ? {
+                  value: data?.participantTypeId || 0,
+                  label: data?.participantType || '',
+                }
+              : '',
+          );
+          formikRef.current.setFieldValue(
+            'participantsName',
+            data?.participantsName || '',
+          );
+
+          formikRef.current.setFieldValue(
+            'contactPerson',
+            data?.contactPerson || '',
+          );
+          formikRef.current.setFieldValue(
+            'contactNumber',
+            data?.contactNumber || '',
+          );
           formikRef.current.setFieldValue('email', data?.email || '');
+          formikRef.current.setFieldValue(
+            'country',
+            data?.country
+              ? {
+                  value: data?.countryId || 0,
+                  label: data?.country || '',
+                }
+              : '',
+          );
+          formikRef.current.setFieldValue(
+            'state',
+            data?.state
+              ? {
+                  value: data?.stateId || 0,
+                  label: data?.state || '',
+                }
+              : '',
+          );
+          formikRef.current.setFieldValue(
+            'city',
+            data?.city
+              ? {
+                  value: data?.cityId || 0,
+                  label: data?.city || '',
+                }
+              : '',
+          );
+          formikRef.current.setFieldValue('zipCode', data?.zipCode || '');
+          formikRef.current.setFieldValue('address', data?.address || '');
         }
       },
     );

@@ -29,28 +29,6 @@ export default function BusinessPartnerList() {
     );
   };
 
-  //   {
-  //     "participantId": 7,
-  //     "participantCode": "",
-  //     "participantTypeId": 3,
-  //     "participantType": "Notify Party",
-  //     "participantsName": "Ibos Ltd",
-  //     "companyName": "",
-  //     "contactPerson": "Md Abdul Kader",
-  //     "contactNumber": "01700000000",
-  //     "email": "kader@ibos.io",
-  //     "countryId": 18,
-  //     "country": "Bangladesh",
-  //     "stateId": 0,
-  //     "state": "Dhaka",
-  //     "cityId": 0,
-  //     "city": "md",
-  //     "address": "Lalmatia mohammad pur",
-  //     "zipCode": "1216",
-  //     "isActive": true,
-  //     "createdBy": 521235,
-  //     "createdAt": "2024-11-28T12:38:08.86"
-  // },
   return (
     <ICustomCard
       title="Consignee’s/Buyer Assign"
