@@ -117,10 +117,21 @@ function ConfirmModal({ rowClickData, CB }) {
   const formikRef = React.useRef(null);
 
   const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
+  const [getBankListDDL, setBankListDDL] = useAxiosGet();
+  const [, setBlobalBankAddressDDL] = useAxiosGet();
   const [, getParticipantsWithConsigneeDtl] = useAxiosGet();
   const [stateDDL, setStateDDL] = useAxiosGet();
   const [cityDDL, setCityDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
+
+  const getGlobalBankAddress = (id) => {
+    setBlobalBankAddressDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetBlobalBankAddressDDL?gBankId=${id}`,
+      (data) => {
+        formikRef.current.setFieldValue('bankAddress', data?.primaryAddress || '');
+      }
+    )
+  }
 
   const debouncedGetCityList = _.debounce((value) => {
     setCityDDL(
@@ -270,6 +281,9 @@ function ConfirmModal({ rowClickData, CB }) {
 
         setConsigneeName(redData);
       },
+    );
+    setBankListDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetBlobalBankDDL`,
     );
 
     getConsigneeCountryList(
@@ -756,17 +770,13 @@ function ConfirmModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <NewSelect
                     name="buyerBank"
-                    options={[]}
+                    options={getBankListDDL || []}
                     value={values?.buyerBank}
                     label="Buyer Bank"
-                    // onChange={(valueOption) => {
-                    //   let valueOptionModify = {
-                    //     ...valueOption,
-                    //     value: 0,
-                    //     label: valueOption?.label || '',
-                    //   };
-                    //   setFieldValue('notifyParty', valueOptionModify);
-                    // }}
+                    onChange={(valueOption) => {
+                      setFieldValue('buyerBank', valueOption);
+                      getGlobalBankAddress(valueOption?.value);
+                    }}
                     placeholder="Buyer Bank"
                     errors={errors}
                     touched={touched}
