@@ -119,6 +119,32 @@ export const getCustomerStatementTopSheet = async (
     setLoading(false);
   }
 };
+export const getCustomerStatementItemBasis = async (
+  accId,
+  buId,
+  fromDate,
+  toDate,
+  customerId,
+  shipPointId,
+  salesOrgId,
+  channelId,
+  setter,
+  setLoading
+) => {
+  setLoading(true);
+  try {
+    const res = await Axios.get(
+      // `/oms/OManagementReport/GetCustomerDeliveryStatementTopSheet?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&CustomerId=${customerId}&ShipPointId=${shipPointId}&salesOrgId=${salesOrgId}&DistribuitionChannelId=${channelId}`
+      `/oms/SalesInformation/getcustomerDeliverystatementOSBase?intpartid=6&ShipPointId=${shipPointId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&intDistributionChannel=${channelId}&intCustomerid=${customerId}`
+    );
+    setter(res?.data);
+    setLoading(false);
+  } catch (error) {
+    setter([]);
+    toast.error(error?.response?.data?.message);
+    setLoading(false);
+  }
+};
 
 export const getRegionAreaTerritory = async ({
   channelId,
