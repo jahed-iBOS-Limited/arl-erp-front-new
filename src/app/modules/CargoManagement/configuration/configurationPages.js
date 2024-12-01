@@ -3,6 +3,7 @@ import { Redirect, Switch } from 'react-router-dom';
 import { ContentRoute } from '../../../../_metronic/layout';
 import BusinessPartnerList from './BusinessPartnerList';
 import CreateBusinessPartner from './CreateBusinessPartner';
+import CreateGlobalBank from './GlobalBank/GlobalBankCreate';
 
 export function ConfigurationPages() {
   return (
@@ -23,6 +24,10 @@ export function ConfigurationPages() {
       <ContentRoute
         path="/cargoManagement/configuration/assign"
         component={BusinessPartnerList}
+      />
+      <ContentRoute
+        path="/cargoManagement/configuration/globalBank"
+        component={CreateGlobalBank}
       />
     </Switch>
   );
