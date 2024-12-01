@@ -77,6 +77,11 @@ const validationSchema = Yup.object().shape({
   consigneeEmail: Yup.string()
     .email('Email is invalid')
     .required('Email is required'),
+  bankAddress: Yup.string().required('Bank Address is required'),
+  buyerBank: Yup.object().shape({
+    value: Yup.number().required('Buyer Bank is required'),
+    label: Yup.string().required('Buyer Bank is required'),
+  }),
   notifyParty: Yup.object().shape({
     value: Yup.number().required('Notify Party is required'),
     label: Yup.string().required('Notify Party is required'),
@@ -107,19 +112,26 @@ function ConfirmModal({ rowClickData, CB }) {
     ,
     setConsigneeName,
   ] = useAxiosGet();
-  const [
-    deliveryAgentDDL,
-    getDeliveryAgentDDL,
-    ,
-    setDeliveryAgentDDL,
-  ] = useAxiosGet();
+  const [deliveryAgentDDL, setDeliveryAgentDDL] = React.useState([]);
+  const [notifyPartyDDL, setNotifyParty] = React.useState([]);
   const formikRef = React.useRef(null);
 
   const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
-  const [notifyPartyDDL, GetNotifyPartyDDL, , setNotifyParty] = useAxiosGet();
+  const [getBankListDDL, setBankListDDL] = useAxiosGet();
+  const [, setBlobalBankAddressDDL] = useAxiosGet();
+  const [, getParticipantsWithConsigneeDtl] = useAxiosGet();
   const [stateDDL, setStateDDL] = useAxiosGet();
   const [cityDDL, setCityDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
+
+  const getGlobalBankAddress = (id) => {
+    setBlobalBankAddressDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetBlobalBankAddressDDL?gBankId=${id}`,
+      (data) => {
+        formikRef.current.setFieldValue('bankAddress', data?.primaryAddress || '');
+      }
+    )
+  }
 
   const debouncedGetCityList = _.debounce((value) => {
     setCityDDL(
@@ -149,32 +161,36 @@ function ConfirmModal({ rowClickData, CB }) {
               'consigneeName',
               data?.consigneeId
                 ? {
-                    value: data?.consigneeId || 0,
-                    label: data?.consigneeName || '',
-                  }
+                  value: data?.consigneeId || 0,
+                  label: data?.consigneeName || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeCountry',
               data?.consigCountryId
                 ? {
-                    value: data?.consigCountryId || 0,
-                    label: data?.consigCountry || '',
-                  }
+                  value: data?.consigCountryId || 0,
+                  label: data?.consigCountry || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeDivisionAndState',
               data?.consigState
                 ? {
-                    value: 0,
-                    label: data?.consigState || '',
-                  }
+                  value: 0,
+                  label: data?.consigState || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeAddress',
               data?.consigneeAddress || '',
+            );
+            formikRef.current.setFieldValue(
+              'consigneeAddress2',
+              data?.consigneeAddress2 || '',
             );
             formikRef.current.setFieldValue(
               'consigneeContactPerson',
@@ -189,14 +205,31 @@ function ConfirmModal({ rowClickData, CB }) {
               data?.consigneeEmail || '',
             );
             formikRef.current.setFieldValue(
+              'bankAddress',
+              data?.bankAddress || '',
+            );
+            formikRef.current.setFieldValue(
               'notifyParty',
               data?.notifyParty
                 ? {
-                    value: 0,
-                    label: data?.notifyParty || '',
-                  }
+                  value: 0,
+                  label: data?.notifyParty || '',
+                }
                 : '',
             );
+            formikRef.current.setFieldValue(
+              'buyerBank',
+              data?.buyerBank
+                ? {
+                  value: 0,
+                  label: data?.bankName || '',
+                }
+                : '',
+            );
+            formikRef.current.setFieldValue('notifyParty2', data?.notifyParty2 ? {
+              value: 0,
+              label: data?.notifyParty || '',
+            } : '',);
             formikRef.current.setFieldValue(
               'negotiationParty',
               data?.negotiationParty || '',
@@ -205,9 +238,9 @@ function ConfirmModal({ rowClickData, CB }) {
               'freightAgentReference',
               data?.freightAgentReference
                 ? {
-                    value: 0,
-                    label: data?.freightAgentReference || '',
-                  }
+                  value: 0,
+                  label: data?.freightAgentReference || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -225,9 +258,9 @@ function ConfirmModal({ rowClickData, CB }) {
               'confTransportMode',
               data?.confTransportMode
                 ? {
-                    value: 0,
-                    label: data?.confTransportMode || '',
-                  }
+                  value: 0,
+                  label: data?.confTransportMode || '',
+                }
                 : '',
             );
           }
@@ -243,64 +276,56 @@ function ConfirmModal({ rowClickData, CB }) {
       `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
     );
     getConsigneeName(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipperPartnerDDL`,
+      `${imarineBaseUrl}/domain/ShippingService/GetParticipantDDL?typeId=1`,
       (redData) => {
-        console.log(redData, 'redData');
-        const modifyList =
-          redData?.map((i) => {
-            return {
-              ...i,
-              label: i?.valueName || '',
-              value: i?.code || 0,
-              email: i?.email || '',
-              address: i?.address || '',
-              contactPerson: i?.contactPerson || '',
-              contactNumber: i?.contactNumber || '',
-            };
-          }) || [];
-        const setConsigneeListFilter =
-          modifyList?.filter((i) => i?.partnerTypeId === 15) || [];
-        setConsigneeName(setConsigneeListFilter);
+
+        setConsigneeName(redData);
       },
+    );
+    setBankListDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetBlobalBankDDL`,
     );
 
     getConsigneeCountryList(
       `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
     );
 
-    GetNotifyPartyDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetNotifyPartyDDL`,
-      (resData) => {
-        const modifyData =
-          resData?.map((i) => {
-            return {
-              ...i,
-              label: i?.valueName || '',
-              value: i?.code || 0,
-            };
-          }) || [];
-        setNotifyParty(modifyData);
-      },
-    );
-    getDeliveryAgentDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetDeliveryAgentDDL`,
-      (resData) => {
-        const modifyData =
-          resData?.map((i) => {
-            return {
-              ...i,
-              label: i?.valueName || '',
-              value: i?.code || 0,
-            };
-          }) || [];
-        setDeliveryAgentDDL(modifyData);
-      },
-    );
     getWarehouseDDL(
       `/wms/Warehouse/GetWarehouseFromPlantWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const consigneeOnChangeHandler = async (id) => {
+    getParticipantsWithConsigneeDtl(
+      `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsigneeDtl?consigneeId=${id}`,
+      (data) => {
+
+        if (data?.deliveryAgentList) {
+          const modifyData = data?.deliveryAgentList?.map((i) => {
+            return {
+              ...i,
+              label: i?.participantsName || "",
+              value: i?.participantId || 0,
+            };
+          });
+          setDeliveryAgentDDL(modifyData || []);
+        }
+        if (data?.notifyPartyList) {
+          const modifyData = data?.notifyPartyList?.map((i) => {
+            return {
+              ...i,
+              label: i?.participantsName || "",
+              value: i?.participantId || 0,
+            };
+          });
+          setNotifyParty(modifyData || []);
+        }
+
+      },
+    );
+
+  };
 
   const saveHandler = (values, cb) => {
     const payload = {
@@ -330,14 +355,19 @@ function ConfirmModal({ rowClickData, CB }) {
       consigneeId: values?.consigneeName?.value || 0,
       consigneeName: values?.consigneeName?.label || '',
       consigneeAddress: values?.consigneeAddress || '',
+      consigneeAddress2: values?.consigneeAddress2 || '',
       consigneeContactPerson: values?.consigneeContactPerson || '',
       consigneeContact: values?.consigneeContact || '',
       consigneeEmail: values?.consigneeEmail || '',
+      bankAddress: values?.bankAddress || '',
+      buyerBank: values?.buyerBank?.label || '',
+      buyerBankId: values?.buyerBank?.value || 0,
       consigCountryId: values?.consigneeCountry?.value || 0,
       consigCountry: values?.consigneeCountry?.label || '',
       consigStateId: values?.consigneeDivisionAndState?.value || 0,
       consigState: values?.consigneeDivisionAndState?.label || '',
       notifyParty: values?.notifyParty?.label || '',
+      notifyParty2: values?.notifyParty2?.label || '',
       negotiationParty: values?.negotiationParty || '',
       userId: rowClickData?.createdBy || 0,
       confirmBy: profileData?.userId,
@@ -359,8 +389,7 @@ function ConfirmModal({ rowClickData, CB }) {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${
-          profileData?.accountId
+        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId
         }&BusinessUnitId=${225}&Search=${v}`,
       )
       .then((res) => {
@@ -389,10 +418,14 @@ function ConfirmModal({ rowClickData, CB }) {
           consigneeCountry: '',
           consigneeDivisionAndState: '',
           consigneeAddress: '',
+          consigneeAddress2: '',
           consigneeContactPerson: '',
           consigneeContact: '',
           consigneeEmail: '',
+          bankAddress: '',
+          buyerBank: '',
           notifyParty: '',
+          notifyParty2: '',
           negotiationParty: '',
           freightAgentReference: '',
         }}
@@ -406,7 +439,6 @@ function ConfirmModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
-            {console.log(values, 'values')}
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
@@ -580,6 +612,17 @@ function ConfirmModal({ rowClickData, CB }) {
                     label="Consignee’s Name"
                     onChange={(valueOption) => {
                       setFieldValue('consigneeName', valueOption);
+                      if (valueOption?.value) {
+                        consigneeOnChangeHandler(valueOption?.value);
+                      }
+                      else {
+                        setDeliveryAgentDDL([]);
+                        setNotifyParty([]);
+                        setFieldValue('freightAgentReference', '');
+                        setFieldValue('notifyParty', '');
+                        setFieldValue('notifyParty2', '');
+                      }
+
                     }}
                     placeholder="Consignee’s Name"
                     errors={errors}
@@ -675,6 +718,18 @@ function ConfirmModal({ rowClickData, CB }) {
                     }
                   />
                 </div>
+                {/*  consigneeAddress2 */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.consigneeAddress2}
+                    label="Address 2"
+                    name="consigneeAddress2"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue('consigneeAddress2', e.target.value)
+                    }
+                  />
+                </div>
                 {/* Contact Person */}
                 <div className="col-lg-3">
                   <InputField
@@ -711,6 +766,34 @@ function ConfirmModal({ rowClickData, CB }) {
                     }
                   />
                 </div>
+                {/* Buyer Bank */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="buyerBank"
+                    options={getBankListDDL || []}
+                    value={values?.buyerBank}
+                    label="Buyer Bank"
+                    onChange={(valueOption) => {
+                      setFieldValue('buyerBank', valueOption);
+                      getGlobalBankAddress(valueOption?.value);
+                    }}
+                    placeholder="Buyer Bank"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                {/*bank Address*/}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.bankAddress}
+                    label="Bank Address"
+                    name="bankAddress"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue('bankAddress', e.target.value)
+                    }
+                  />
+                </div>
                 {/* Notify Party ddl */}
                 <div className="col-lg-3">
                   <NewSelect
@@ -727,6 +810,27 @@ function ConfirmModal({ rowClickData, CB }) {
                       setFieldValue('notifyParty', valueOptionModify);
                     }}
                     placeholder="Notify Party"
+                    errors={errors}
+                    touched={touched}
+                    isCreatableSelect={true}
+                  />
+                </div>
+                {/* Notify Party 2 ddl */}
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="notifyParty2"
+                    options={notifyPartyDDL || []}
+                    value={values?.notifyParty2}
+                    label="Notify Party 2"
+                    onChange={(valueOption) => {
+                      let valueOptionModify = {
+                        ...valueOption,
+                        value: 0,
+                        label: valueOption?.label || '',
+                      };
+                      setFieldValue('notifyParty2', valueOptionModify);
+                    }}
+                    placeholder="Notify Party 2"
                     errors={errors}
                     touched={touched}
                     isCreatableSelect={true}
