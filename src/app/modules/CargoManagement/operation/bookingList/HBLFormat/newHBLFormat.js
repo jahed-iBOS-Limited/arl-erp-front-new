@@ -1,176 +1,292 @@
 import React from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import './newHBLFormat.css';
+import moment from 'moment';
 //============bookingData data=================
 // {
-//   "bookingRequestCode": "SINV0102024000063",
-//   "bookingRequestId": 3,
-//   "shipperId": 102367,
-//   "shipperName": "jahed",
-//   "shipperAddress": "3039",
-//   "shipperContactPerson": "jahed",
-//   "shipperContact": "01755263355",
-//   "shipperEmail": "jahed@ibos.io",
+//   "bookingRequestCode": "SINV0112024000014",
+//   "bookingRequestId": 9,
+//   "shipperId": 0,
+//   "shipperName": "tamal",
+//   "shipperAddress": "ibos, bangladesh",
+//   "shipperContactPerson": "tamal",
+//   "shipperContact": "88001329731854",
+//   "shipperEmail": "tamal@ibos.io",
 //   "shipperCountryId": 18,
 //   "shipperCountry": "Bangladesh",
-//   "shipperStateId": 2,
-//   "shipperState": "Chattogram",
+//   "shipperStateId": 0,
+//   "shipperState": "dhaka",
+//   "shipperCity": "dhaka",
+//   "shipperPostalCode": "1000",
+//   "shipperBankId": 47,
+//   "shipperBank": "UNITED COMMERCIAL BANK LTD",
+//   "buyerBank": "Woori Bank",
 //   "consigneeId": 102186,
 //   "consigneeName": "Zinthin",
-//   "consigneeAddress": "sf",
-//   "consigneeContactPerson": "sf",
-//   "consigneeContact": "255",
-//   "consigneeEmail": "demo@ibos.io",
-//   "consigCountryId": 18,
-//   "consigCountry": "Bangladesh",
-//   "consigStateId": 2,
-//   "consigState": "Chattogram",
-//   "ponumber": "11",
-//   "dateOfRequest": "2024-10-18T00:00:00",
+//   "consigneeAddress": "Singapur",
+//   "consigneeContactPerson": "zinthin",
+//   "consigneeContact": "98959744765",
+//   "consigneeEmail": "miraj&sons@gmail.com",
+//   "consigCountryId": 127,
+//   "consigCountry": "Malaysia",
+//   "consigStateId": 0,
+//   "consigState": "Kualalampur",
+//   "consignCity": "Kualalampur",
+//   "consignPostalCode": "1000",
+//   "expOrCnfNumber": "EXP012364",
+//   "expOrCnfDate": "2024-11-01T00:00:00",
 //   "freightAgentReference": "Alice Josnson",
-//   "modeOfTransport": "Air",
+//   "modeOfTransport": "Sea",
 //   "portOfLoadingId": 0,
-//   "portOfLoading": "sf",
+//   "portOfLoading": "Mongla",
 //   "portOfDischargeId": 0,
-//   "portOfDischarge": "sfs",
-//   "originAddress": "dg",
+//   "portOfDischarge": "Klang",
+//   "originAddress": "",
 //   "countryOfOriginId": 18,
 //   "countryOfOrigin": "Bangladesh",
-//   "finalDestinationAddress": "sdf",
-//   "fdestCountryId": 18,
-//   "fdestCountry": "Bangladesh",
-//   "fdestStateId": 1,
-//   "fdestState": "Barishal",
+//   "finalDestinationAddress": "Menara DBKL 1, Jalan Raja Laut 50350 Kuala Lumpur Malaysia",
+//   "fdestCountryId": 127,
+//   "fdestCountry": "Malaysia",
+//   "fdestStateId": 0,
+//   "fdestState": "Kualalampur",
+//   "fdestCity": "Kualalampur",
+//   "fdestPostalCode": "50050",
+//   "concernSalesPersonId": 564893,
+//   "concernSalesPerson": "Petty Cash (ALL) [ALL-Janata]",
+//   "primaryContactPersonId": 564893,
+//   "primaryContactPerson": "Petty Cash (ALL) [ALL-Janata]",
 //   "modeofStuffings": null,
 //   "modeOfDelivery": null,
 //   "incoterms": "fob",
-//   "requestPickupDate": "2024-10-25T00:00:00",
-//   "requestDeliveryDate": "2024-11-01T00:00:00",
-//   "isCustomsBrokerage": true,
+//   "typeOfLoadingId": 0,
+//   "typeOfLoading": "",
+//   "typeOfLoadingQty": 1.00,
+//   "requestPickupDate": "2024-11-30T00:00:00",
+//   "requestDeliveryDate": "2024-12-20T00:00:00",
+//   "isCustomsBrokerage": false,
 //   "isCargoInsurance": false,
-//   "isWarehouseService": true,
-//   "isStoreRentPickupService": false,
+//   "isWarehouseService": false,
+//   "isStoreRent": false,
+//   "isHaulagePickupService": false,
 //   "isDestiontionHaulage": false,
-//   "paymentTermsId": 1,
-//   "paymentTerms": "PP/CC",
-//   "billingAddress": "sd",
-//   "billCountryId": 18,
-//   "billCountry": "Bangladesh",
-//   "billStateId": 1,
-//   "billState": "Barishal",
-//   "currencyId": 7,
-//   "currency": "AZN",
-//   "invoiceValue": 44,
-//   "packingListReference": "abc-001",
-//   "notifyParty": "XYZ Shipping Co.",
+//   "isLocalTransportation": true,
+//   "freightForwarderTermsId": 1,
+//   "freightForwarderTerms": "PP/CC",
+//   "billingAddress": "",
+//   "billCountryId": 0,
+//   "billCountry": "",
+//   "billStateId": 0,
+//   "billState": "",
+//   "currencyId": 0,
+//   "currency": "",
+//   "invoiceValue": 123456.00,
+//   "packingListReference": "",
+//   "buyerName": "",
+//   "buyerEmail": "",
+//   "buyerAddress": "",
+//   "notifyPartyId": null,
+//   "notifyParty": "Global Logistics Ltd.",
 //   "notifyBank": "",
-//   "negotiationParty": "sdf",
+//   "negotiationParty": "Singapur",
 //   "isPending": false,
 //   "isHandOver": false,
-//   "handOverDate": "2024-10-24T03:44:54.917",
+//   "handOverDate": "2024-11-28T10:29:25.037",
 //   "isReceived": true,
-//   "receivedDate": "2024-10-24T03:45:02.387",
-//   "isPlaning": false,
-//   "planingDate": "2024-10-24T03:44:54.917",
+//   "receivedDate": "2024-11-28T00:00:00",
+//   "isPlaning": true,
+//   "planingDate": "2024-11-28T11:45:47.017",
 //   "isConfirm": true,
-//   "confirmDate": "2024-10-23T15:17:04.51",
-//   "confTransportMode": "Air to Air",
+//   "confirmDate": "2024-11-28T10:28:31.863",
+//   "confTransportMode": "Sea to Sea",
 //   "isActive": true,
 //   "isStuffing": true,
-//   "stuffingDate": "2024-10-17T09:44:00",
+//   "stuffingDate": "2024-11-29T16:29:00",
 //   "blnumber": null,
 //   "isBl": false,
-//   "bldate": "2024-10-24T03:44:54.917",
-//   "hblnumber": null,
-//   "isHbl": false,
-//   "hbldate": null,
+//   "bldate": "2024-11-28T10:29:25.037",
+//   "hblnumber": "ALL-S000003",
+//   "isHbl": true,
+//   "hbldate": "2024-11-28T11:55:19.743",
 //   "fcrnumber": null,
 //   "isDispatch": false,
-//   "dispatchDate": "2024-10-24T03:44:54.917",
+//   "dispatchDate": "2024-11-28T10:29:25.037",
 //   "isCustomsClear": false,
-//   "customsClearDt": "2024-10-24T03:44:54.917",
-//   "createdAt": "2024-10-23T15:14:19.89",
-//   "createdBy": 1,
-//   "departureDateTime": "2024-10-25T21:16:00",
-//   "arrivalDateTime": "2024-10-10T21:16:00",
-//   "flightNumber": "11",
-//   "transitInformation": "Direct Flight",
-//   "awbnumber": "1",
-//   "bookingAmount": 10,
+//   "customsClearDt": "2024-11-28T10:29:25.037",
+//   "createdAt": "2024-11-28T10:09:49.837",
+//   "createdBy": 0,
+//   "departureDateTime": "2024-12-01T21:00:00",
+//   "arrivalDateTime": "2024-12-19T09:00:00",
+//   "flightNumber": "123456",
+//   "transitInformation": "",
+//   "awbnumber": "",
+//   "bookingAmount": 0.00,
 //   "countryOfOrginId": 18,
 //   "countryOfOrgin": "Bangladesh",
-//   "pickupPlace": "sf",
+//   "pickupPlace": "Tongi",
 //   "isCharges": false,
 //   "isInTransit": null,
-//   "inTransitDate": "2024-10-24T03:44:54.917",
+//   "inTransitDate": "2024-11-28T10:29:25.037",
 //   "isDestPortReceive": false,
-//   "destPortReceiveDt": "2024-10-24T03:44:54.917",
+//   "destPortReceiveDt": "2024-11-28T10:29:25.037",
 //   "isBuyerReceive": false,
-//   "buyerReceiveDt": "2024-10-24T03:44:54.917",
-//   "modeOfStuffingSeaId": 7,
-//   "modeOfStuffingSeaName": "Cartton Measurement",
-//   "modeOfDeliveryId": 1,
-//   "modeOfDeliveryName": "Door to Door",
-//   "warehouseId": 142,
-//   "warehouseName": "ACCL Factory",
-//   "rowsData": [
-//     {
-//       "bookingRequestRowId": 3,
-//       "bookingRequestHeaderId": 3,
-//       "typeOfCargoId": 1,
-//       "typeOfCargo": "General Cargo ",
-//       "descriptionOfGoods": "10",
-//       "hsCode": "0102",
-//       "numberOfPackages": 1,
-//       "recvQuantity": 100,
-//       "grossWeightKG": 1,
-//       "netWeightKG": 1,
-//       "pugrossWeightKg": 1,
-//       "punetWeightKg": 1,
-//       "totalVolumeCBM": 1,
-//       "totalDimsLength": 1,
-//       "totalDimsWidth": 1,
-//       "totalDimsHeight": 1,
-//       "typeOfLoadingId": 2,
-//       "typeOfLoading": "Carton",
-//       "loadingQuantity": 1,
-//       "isTemperatureControl": true,
-//       "temperatureRange": "11",
-//       "isSHInstruction": true,
-//       "shInstructionText": "11",
-//       "isActive": true,
-//       "createdAt": "2024-10-23T15:14:19.89",
-//       "createdBy": 1,
-//       "dimensionRow": [
-//         {
-//           "dimensionRowId": 3,
-//           "bookingRequestRowId": 3,
-//           "dimsHeight": 1,
-//           "dimsWidth": 1,
-//           "dimsLength": 1,
-//           "perUnitCbm": 1,
+//   "buyerReceiveDt": "2024-11-28T10:29:25.037",
+//   "modeOfStuffingSeaId": 3,
+//   "modeOfStuffingSeaName": "CFS/CY",
+//   "modeOfDeliveryId": 4,
+//   "modeOfDeliveryName": "Port to Port",
+//   "warehouseId": 10648,
+//   "warehouseName": "ALL Factory",
+//   "invoiceNumber": null,
+//   "invoiceDate": null,
+//   "objPurchase": [
+//       {
+//           "purchaseInfoId": 3,
+//           "bookingId": 9,
+//           "ponumber": null,
+//           "podate": null,
+//           "lcnumber": "LC1235456",
+//           "lcdate": "2024-11-20T00:00:00",
 //           "isActive": true,
-//           "createdAt": "2024-10-23T15:14:19.89",
-//           "createdBy": 1
-//         }
-//       ]
-//     }
+//           "createdAt": "2024-11-28T10:09:50.627",
+//           "createdBy": 8
+//       }
+//   ],
+//   "rowsData": [
+//       {
+//           "bookingRequestRowId": 16,
+//           "bookingRequestHeaderId": 9,
+//           "typeOfCargoId": 1,
+//           "typeOfCargo": "General Cargo ",
+//           "descriptionOfGoods": "Mens ware",
+//           "hsCode": "00000-RMG",
+//           "totalNumberOfPackages": 30.00,
+//           "recvQuantity": 30.00,
+//           "totalGrossWeightKG": 150.00,
+//           "totalNetWeightKG": 150.00,
+//           "totalPerUnitNetWeightKG": 150.00,
+//           "totalPerUnitGrossWeightKG": 150.00,
+//           "totalVolumeCBM": 30.0,
+//           "totalDimsLength": 25.00,
+//           "totalDimsWidth": 18.00,
+//           "totalDimsHeight": 30.00,
+//           "isTemperatureControl": false,
+//           "temperatureRange": "",
+//           "isSHInstruction": false,
+//           "shInstructionText": "",
+//           "isActive": true,
+//           "createdAt": "2024-11-28T10:12:30.037",
+//           "createdBy": 0,
+//           "dimensionRow": [
+//               {
+//                   "dimensionRowId": 13,
+//                   "bookingRequestRowId": 16,
+//                   "dimsHeight": 30.00,
+//                   "dimsWidth": 18.00,
+//                   "dimsLength": 25.00,
+//                   "perUnitCbm": 30.0,
+//                   "numberOfPackage": 30.00,
+//                   "perUnitGrossWeight": 150.00,
+//                   "perUnitNetWeight": 150.00,
+//                   "measurementType": "cm",
+//                   "poNumber": "PO123456",
+//                   "style": "Modern",
+//                   "color": "Blue",
+//                   "isActive": true,
+//                   "createdAt": "2024-11-28T10:09:49.84",
+//                   "createdBy": 8
+//               }
+//           ]
+//       }
 //   ],
 //   "documents": [
-//     {
-//       "documentId": 3,
-//       "bookingRequestId": 0,
-//       "documentTypeId": 2,
-//       "documentType": "Shipper’s Declaration for Dangerous Goods",
-//       "documentFileId": "638652932580763176_unnamed__1_-removebg-preview.png",
-//       "isActive": true,
-//       "createdAt": "2024-10-23T15:14:19.89",
-//       "createdBy": 1,
-//       "documentsNumber": null
-//     }
+//       {
+//           "documentId": 11,
+//           "bookingRequestId": 0,
+//           "documentTypeId": 3,
+//           "documentType": "Commercial Invoice",
+//           "documentFileId": "638683851217574345_upload.png",
+//           "isActive": true,
+//           "createdAt": "2024-11-28T10:12:31.143",
+//           "createdBy": 0,
+//           "documentsNumber": null
+//       },
+//       {
+//           "documentId": 12,
+//           "bookingRequestId": 0,
+//           "documentTypeId": 4,
+//           "documentType": "Packing List",
+//           "documentFileId": "638683851344024627_Screenshot 2024-09-05 104203.png",
+//           "isActive": true,
+//           "createdAt": "2024-11-28T10:12:31.147",
+//           "createdBy": 0,
+//           "documentsNumber": null
+//       },
+//       {
+//           "documentId": 13,
+//           "bookingRequestId": 0,
+//           "documentTypeId": 8,
+//           "documentType": "BIN Certificate",
+//           "documentFileId": "638683851438574117_sazzad.jpg",
+//           "isActive": true,
+//           "createdAt": "2024-11-28T10:12:31.147",
+//           "createdBy": 0,
+//           "documentsNumber": null
+//       },
+//       {
+//           "documentId": 14,
+//           "bookingRequestId": 0,
+//           "documentTypeId": 7,
+//           "documentType": "CNF Certificate",
+//           "documentFileId": "638683851528666960_514672.pdf",
+//           "isActive": true,
+//           "createdAt": "2024-11-28T10:12:31.147",
+//           "createdBy": 0,
+//           "documentsNumber": null
+//       }
 //   ],
 //   "billingData": [],
-//   "transportPlanning": null
+//   "transportPlanning": [
+//       {
+//           "transportId": 9,
+//           "bookingId": 9,
+//           "pickupLocation": "Tongi",
+//           "pickupDate": "2024-11-26T00:00:00",
+//           "vehicleInfo": "rgthyjuk",
+//           "noOfPallets": 0,
+//           "carton": 0,
+//           "noOfContainer": 1,
+//           "airLineOrShippingLine": "Jahed Shipping Line",
+//           "iatanumber": "0",
+//           "vesselName": "Jahed & Sons",
+//           "departureDateTime": null,
+//           "arrivalDateTime": "2024-11-28T17:43:00",
+//           "transportMode": "Air to Sea",
+//           "berthDate": "2024-11-21T17:43:00",
+//           "cutOffDate": "2024-11-27T17:44:00",
+//           "estimatedTimeOfDepart": "2024-12-01T00:00:00",
+//           "isActive": true,
+//           "containerDesc": [
+//               {
+//                   "containerDescId": 7,
+//                   "transportId": 9,
+//                   "containerNumber": "CON12345",
+//                   "sealNumber": "5566122",
+//                   "size": "20'",
+//                   "quantity": 30.0,
+//                   "cbm": 30.00,
+//                   "mode": "",
+//                   "kgs": 150.00,
+//                   "poNumber": "",
+//                   "style": "",
+//                   "color": "",
+//                   "isActive": true,
+//                   "createdBy": null,
+//                   "createdAt": "2024-11-28T11:45:47.05"
+//               }
+//           ]
+//       }
+//   ]
+// }
 // }
 function NewHBLFormatAir({ componentRef, bookingData }) {
   const { profileData, selectedBusinessUnit } = useSelector(
@@ -212,36 +328,51 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               <span className="small-font word-spacing">Also notify</span>
               <p>
                 {bookingData?.notifyParty}
-                {/* INDITEX-ZARA, LELYSTAD BRANCH NIEUWEZIJDS VOORBURGWAL 307 1012
-                RM AMSTERDAM THE NETHERLANDS */}
-                <b className="large-font">,,Netherlands</b>
+                <br />
+                {bookingData?.notifyPartyAddress}
               </p>
             </div>
             <div className="box1_left-box_content-4 small-font">
               Airport of Departure and Requested Routing
               <p className="medium-font" style={{ paddingTop: 3 }}>
-                DHAKA
+                {bookingData?.transportPlanning
+                  ?.map((item) => item?.pickupLocation)
+                  .join(' - ')}
               </p>
             </div>
             <div className="box1_left-box_content-5 small-font">
               <div style={{ width: '50%', borderRight: '1px solid black' }}>
                 Airport of Destination
                 <p className="medium-font" style={{ paddingTop: 5 }}>
-                  LELYSTAD
+                  {bookingData?.transportPlanning
+                    ?.map((item) => item?.airLineOrShippingLine)
+                    .join(' - ')}
                 </p>
               </div>
               <div style={{ width: '25%', borderRight: '1px solid black' }}>
                 Flight/Date
                 <br />
                 <p className="medium-font" style={{ paddingTop: 12 }}>
-                  QR8171
+                  {bookingData?.transportPlanning
+                    ?.map((item) => {
+                      return item?.departureDateTime
+                        ? moment(item?.departureDateTime).format('DD.MM.YYYY')
+                        : '';
+                    })
+                    .join(' - ')}
                 </p>
               </div>
               <div style={{ width: '25%' }}>
                 Flight/Date
                 <br />
                 <p className="medium-font" style={{ paddingTop: 12 }}>
-                  30.04.2022
+                  {bookingData?.transportPlanning
+                    ?.map((item) => {
+                      return item?.arrivalDateTime
+                        ? moment(item?.arrivalDateTime).format('DD.MM.YYYY')
+                        : '';
+                    })
+                    .join(' - ')}
                 </p>
               </div>
             </div>
@@ -369,10 +500,10 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                     PPD
                   </div>
                   <div style={{ width: '52%', borderRight: '1px solid black' }}>
-                    COLL XX
+                    COLL
                   </div>
                   <div style={{ width: '50%', borderRight: '1px solid black' }}>
-                    PPD XX
+                    PPD
                   </div>
                   <div style={{ width: '50%' }}>COLL</div>
                 </div>
@@ -438,18 +569,23 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
           </div>
           <div className="box3_content">
             <div style={{ width: '5%', borderRight: '1px solid black' }}>
-              <p style={{ textAlign: 'center' }}>140</p>
+              <p style={{ textAlign: 'center' }}>
+                {bookingData?.rowsData?.reduce(
+                  (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
+                  0,
+                )}
+              </p>
               <p className="medium-font">
                 <u>
                   <b>SHIPPING MARKS</b>
                 </u>
               </p>
-              <p className="small-font">47805-D/1</p>
+              <p className="small-font"></p>
             </div>
             <div style={{ width: '10%', borderRight: '1px solid black' }}>
               <p style={{ textAlign: 'center' }}>
                 {bookingData?.rowsData?.reduce(
-                  (acc, item) => acc + +item?.grossWeightKG,
+                  (acc, item) => acc + (+item?.grossWeightKG || 0),
                   0,
                 )}
               </p>
@@ -465,23 +601,23 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               </p>
               <p className="small-font">
                 {bookingData?.rowsData?.reduce(
-                  (acc, item) => acc + +item?.totalDimsHeight,
-                  0,
-                )}{' '}
-                x
-                {bookingData?.rowsData?.reduce(
-                  (acc, item) => acc + +item?.totalDimsWidth,
+                  (acc, item) => acc + (+item?.totalDimsHeight || 0),
                   0,
                 )}{' '}
                 x{' '}
                 {bookingData?.rowsData?.reduce(
-                  (acc, item) => acc + +item?.totalDimsLength,
+                  (acc, item) => acc + (+item?.totalDimsWidth || 0),
+                  0,
+                )}{' '}
+                x{' '}
+                {bookingData?.rowsData?.reduce(
+                  (acc, item) => acc + (+item?.totalDimsLength || 0),
                   0,
                 )}
                 <br />
                 Total CBM :{' '}
                 {bookingData?.rowsData?.reduce(
-                  (acc, item) => acc + +item?.totalVolumeCBM,
+                  (acc, item) => acc + (+item?.totalVolumeCBM || 0),
                   0,
                 )}
               </p>
@@ -501,9 +637,19 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
               >
                 <p className="small-font">Said to Contain</p>
                 <p className="medium-font" style={{ letterSpacing: 'normal' }}>
-                  MENS SHIRT PO# 47805-D/1 STYLE
+                  DESCRIPTION OF GOODS : <br />{' '}
+                  {bookingData?.rowsData?.reduce(
+                    (acc, item) => acc + item?.descriptionOfGoods + ', ',
+                    '',
+                  )}
                 </p>
-                <p className="medium-font">NO# 1063/407 HS CODE: 62059</p>
+                <p className="medium-font">
+                  HSCode:
+                  {bookingData?.rowsData?.reduce(
+                    (acc, item) => acc + item?.hsCode + ', ',
+                    '',
+                  )}
+                </p>
                 <div
                   style={{
                     display: 'flex',
@@ -514,19 +660,34 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                   }}
                 >
                   <div className="medium-font">
-                    <p>INV.NO.: GG22ZM2422</p>
+                    <p>INV.NO.: {bookingData?.invoiceNumber}</p>
                     <p>L/C NO.: {bookingData?.lcNo}</p>
-                    <p>EXP NO.: 2228-009860-2022</p>
-                    <p>S.B.NO.:</p>
+                    <p>EXP NO.: {bookingData?.expOrCnfNumber}</p>
+                    <p>S.B.NO.: {bookingData?.sbNo}</p>
                   </div>
                   <p className="medium-font"></p>
                   <div
                     className="medium-font"
                     style={{ flexDirection: 'column' }}
                   >
-                    <p>DT: 25.04.2022</p>
-                    <p>DT: 21.12.2021</p>
-                    <p>DT: 25.04.2022</p>
+                    <p>
+                      DT:
+                      {bookingData?.invoiceDate
+                        ? moment(bookingData?.invoiceDate).format('DD.MM.YYYY')
+                        : ''}
+                    </p>
+                    <p>
+                      DT:
+                      {bookingData?.lcDate
+                        ? moment(bookingData?.lcDate).format('DD.MM.YYYY')
+                        : ''}
+                    </p>
+                    <p>
+                      DT:{' '}
+                      {bookingData?.expOrCnfDate
+                        ? moment(bookingData?.expOrCnfDate).format('DD.MM.YYYY')
+                        : ''}
+                    </p>
                     <p>DT:</p>
                   </div>
                   <p />
@@ -831,7 +992,7 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                 applicable Dangerous Goods Regulations.
               </p>
               <p style={{ textAlign: 'center', paddingTop: 40, fontSize: 13 }}>
-                A/C OF: GLOBUS GARMENTS LIMITED
+                A/C OF: {bookingData?.shipperName}
               </p>
               <hr
                 style={{ borderTop: 'dotted 1px', width: '45%', marginTop: 10 }}
@@ -851,9 +1012,9 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
                   paddingRight: 60,
                 }}
               >
-                <p>25.04.2022 </p>
-                <p>Dhaka-1213,Bangladesh</p>
-                <p>MLL/Dhaka-1213,Bangladesh</p>
+                <p></p>
+                <p></p>
+                <p></p>
               </div>
               <hr
                 style={{ borderTop: 'dotted 1px', width: '45%', marginTop: 10 }}
