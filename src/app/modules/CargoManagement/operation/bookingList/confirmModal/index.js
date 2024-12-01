@@ -190,7 +190,7 @@ function ConfirmModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               'consigneeAddress2',
-              data?.consigneeAddress2 || '',
+              data?.buyerAddress2 || '',
             );
             formikRef.current.setFieldValue(
               'consigneeContactPerson',
@@ -355,7 +355,7 @@ function ConfirmModal({ rowClickData, CB }) {
       consigneeId: values?.consigneeName?.value || 0,
       consigneeName: values?.consigneeName?.label || '',
       consigneeAddress: values?.consigneeAddress || '',
-      consigneeAddress2: values?.consigneeAddress2 || '',
+      buyerAddress2: values?.consigneeAddress2 || '',
       consigneeContactPerson: values?.consigneeContactPerson || '',
       consigneeContact: values?.consigneeContact || '',
       consigneeEmail: values?.consigneeEmail || '',
@@ -367,7 +367,9 @@ function ConfirmModal({ rowClickData, CB }) {
       consigStateId: values?.consigneeDivisionAndState?.value || 0,
       consigState: values?.consigneeDivisionAndState?.label || '',
       notifyParty: values?.notifyParty?.label || '',
+      notifyPartyId: values?.notifyParty?.value || 0,
       notifyParty2: values?.notifyParty2?.label || '',
+      notifyParty2Id: values?.notifyParty2?.value || 0,
       negotiationParty: values?.negotiationParty || '',
       userId: rowClickData?.createdBy || 0,
       confirmBy: profileData?.userId,
