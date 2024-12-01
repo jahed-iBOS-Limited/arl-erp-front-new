@@ -190,7 +190,7 @@ function ConfirmModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               'consigneeAddress2',
-              data?.consigneeAddress2 || '',
+              data?.buyerAddress2 || '',
             );
             formikRef.current.setFieldValue(
               'consigneeContactPerson',
@@ -206,7 +206,7 @@ function ConfirmModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               'bankAddress',
-              data?.bankAddress || '',
+              data?.notifyBankAddr || '',
             );
             formikRef.current.setFieldValue(
               'notifyParty',
@@ -222,13 +222,13 @@ function ConfirmModal({ rowClickData, CB }) {
               data?.buyerBank
                 ? {
                   value: 0,
-                  label: data?.bankName || '',
+                  label: data?.buyerBank || '',
                 }
                 : '',
             );
             formikRef.current.setFieldValue('notifyParty2', data?.notifyParty2 ? {
               value: 0,
-              label: data?.notifyParty || '',
+              label: data?.notifyParty2 || '',
             } : '',);
             formikRef.current.setFieldValue(
               'negotiationParty',
@@ -355,11 +355,11 @@ function ConfirmModal({ rowClickData, CB }) {
       consigneeId: values?.consigneeName?.value || 0,
       consigneeName: values?.consigneeName?.label || '',
       consigneeAddress: values?.consigneeAddress || '',
-      consigneeAddress2: values?.consigneeAddress2 || '',
+      buyerAddress2: values?.consigneeAddress2 || '',
       consigneeContactPerson: values?.consigneeContactPerson || '',
       consigneeContact: values?.consigneeContact || '',
       consigneeEmail: values?.consigneeEmail || '',
-      bankAddress: values?.bankAddress || '',
+      notifyBankAddr: values?.bankAddress || '',
       buyerBank: values?.buyerBank?.label || '',
       buyerBankId: values?.buyerBank?.value || 0,
       consigCountryId: values?.consigneeCountry?.value || 0,
@@ -367,7 +367,9 @@ function ConfirmModal({ rowClickData, CB }) {
       consigStateId: values?.consigneeDivisionAndState?.value || 0,
       consigState: values?.consigneeDivisionAndState?.label || '',
       notifyParty: values?.notifyParty?.label || '',
+      notifyPartyId: values?.notifyParty?.value || 0,
       notifyParty2: values?.notifyParty2?.label || '',
+      notifyParty2Id: values?.notifyParty2?.value || 0,
       negotiationParty: values?.negotiationParty || '',
       userId: rowClickData?.createdBy || 0,
       confirmBy: profileData?.userId,
@@ -837,7 +839,7 @@ function ConfirmModal({ rowClickData, CB }) {
                   />
                 </div>
                 {/* Negotiation Party input */}
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <InputField
                     value={values?.negotiationParty}
                     label="Negotiation Party"
@@ -847,7 +849,7 @@ function ConfirmModal({ rowClickData, CB }) {
                       setFieldValue('negotiationParty', e.target.value)
                     }
                   />
-                </div>
+                </div> */}
                 {/* Delivery Agent ddl  */}
                 <div className="col-lg-3">
                   <NewSelect
