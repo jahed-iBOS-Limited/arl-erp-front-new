@@ -25,15 +25,8 @@ const validationSchema = Yup.object().shape({
     website: Yup.string().required("Website is required").url("Website is invalid"),
     currency: Yup.string().required("Currency is required"),
     swiftcode: Yup.string().required("Swift Code is required"),
-    isMultiple: Yup.bool(),
-    bankName2: Yup.string().when("isMultiple", {
-        is: true,
-        then: Yup.string().required("Bank Name is required"),
-    }),
-    address2: Yup.string().when("isMultiple", {
-        is: true,
-        then: Yup.string().required("Address is required"),
-    }),
+
+
 
 });
 function GlobalBankCreate() {
@@ -92,7 +85,6 @@ function GlobalBankCreate() {
                     website: "",
                     currency: "",
                     swiftcode: "",
-                    isMultiple: false,
 
                     bankName2: "",
                     address2: "",
@@ -243,86 +235,66 @@ function GlobalBankCreate() {
                                             }}
                                         />
                                     </div>
-                                    <div className="col-lg-3">
-                                        <div className="d-flex align-items-center">
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={values?.isMultiple}
-                                                        onChange={(e) => {
-                                                            setFieldValue("isMultiple", e.target.checked);
-                                                        }}
-                                                        name="isMultiple"
-                                                        color="primary"
-                                                    />
-                                                }
-                                                label="Multiple Address"
-                                            />
-                                        </div>
-                                    </div>
-
                                 </div>
 
-                                {
-                                    values.isMultiple &&
-
-                                    <div className="form-group row global-form">
-                                        <div className="col-lg-3">
-                                            <InputField
-                                                label="Bank Name"
-                                                type="text"
-                                                name="bankName2"
-                                                value={values?.bankName2}
-                                                onChange={(e) => {
-                                                    setFieldValue("bankName2", e.target.value);
-                                                }}
-
-                                            />
-                                        </div>
-                                        <div className="col-lg-3">
-                                            <InputField
-                                                label="Address"
-                                                type="text"
-                                                name="address2"
-                                                value={values?.address2}
-                                                onChange={(e) => {
-                                                    setFieldValue("address2", e.target.value);
-                                                }}
 
 
-                                            />
-                                        </div>
-                                        <div className="col-sm-12">
-                                            <button
-                                                type="button"
-                                                className="btn btn-primary  mt-4"
-                                                onClick={() => {
-                                                    if (values.bankName2 === "") {
-                                                        toast.error("Bank Name is required");
-                                                        return;
-                                                    }
-                                                    if (values.address2 === "") {
-                                                        toast.error("Address is required");
-                                                        return;
-                                                    }
+                                <div className="form-group row global-form">
+                                    <div className="col-lg-3">
+                                        <InputField
+                                            label="Bank Name"
+                                            type="text"
+                                            name="bankName2"
+                                            value={values?.bankName2}
+                                            onChange={(e) => {
+                                                setFieldValue("bankName2", e.target.value);
+                                            }}
 
-                                                    setFieldValue("gbankAddress", [
-                                                        ...values.gbankAddress,
-                                                        {
-                                                            bankName: values.bankName2,
-                                                            address: values.address2,
-                                                        },
-                                                    ]);
-                                                    setFieldValue("address2", "");
-                                                    setFieldValue("bankName2", "");
-                                                }}
-
-                                            >
-                                                Add
-                                            </button>
-                                        </div>
+                                        />
                                     </div>
-                                }
+                                    <div className="col-lg-3">
+                                        <InputField
+                                            label="Address"
+                                            type="text"
+                                            name="address2"
+                                            value={values?.address2}
+                                            onChange={(e) => {
+                                                setFieldValue("address2", e.target.value);
+                                            }}
+
+
+                                        />
+                                    </div>
+                                    <div className="col-sm-12">
+                                        <button
+                                            type="button"
+                                            className="btn btn-primary  mt-4"
+                                            onClick={() => {
+                                                if (values.bankName2 === "") {
+                                                    toast.error("Bank Name is required");
+                                                    return;
+                                                }
+                                                if (values.address2 === "") {
+                                                    toast.error("Address is required");
+                                                    return;
+                                                }
+
+                                                setFieldValue("gbankAddress", [
+                                                    ...values.gbankAddress,
+                                                    {
+                                                        bankName: values.bankName2,
+                                                        address: values.address2,
+                                                    },
+                                                ]);
+                                                setFieldValue("address2", "");
+                                                setFieldValue("bankName2", "");
+                                            }}
+
+                                        >
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             <Divider />
                         </Form>
