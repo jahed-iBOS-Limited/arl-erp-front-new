@@ -100,8 +100,11 @@ const MonthTable = ({ tableData, setTableData, singleData, cb, values }) => {
                 <div>
                     <p><strong>Month: </strong> {values?.month?.label}</p>
                 </div>
-                <div>
+                {/* <div>
                     <p><strong>Monthly Schedule Qty: </strong> {tableData[singleData?.productIndex]?.productQty}</p>
+                </div> */}
+                <div>
+                    <p><strong>Year: </strong> {values?.year?.label}</p>
                 </div>
             </div>
             {loading && <Loading />}
