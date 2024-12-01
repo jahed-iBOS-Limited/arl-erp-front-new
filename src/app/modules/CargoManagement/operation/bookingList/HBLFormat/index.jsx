@@ -1,330 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
-import { useReactToPrint } from 'react-to-print';
-import { imarineBaseUrl } from '../../../../../App';
-import Loading from '../../../../_helper/_loading';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import React from 'react';
 import logisticsLogo from './logisticsLogo.png';
-import NewHBLFormatAir from './newHBLFormat';
-// {
-//   "bookingRequestCode": "SINV0102024000014",
-//   "bookingRequestId": 16,
-//   "shipperId": 102367,
-//   "shipperName": "jahed",
-//   "shipperAddress": "3039",
-//   "shipperContactPerson": "jahed",
-//   "shipperContact": "01755263355",
-//   "shipperEmail": "jahed@ibos.io",
-//   "shipperCountryId": 18,
-//   "shipperCountry": "Bangladesh",
-//   "shipperStateId": 2,
-//   "shipperState": "Chattogram",
-//   "shipperCity": null,
-//   "shipperPostalCode": null,
-//   "consigneeId": 102186,
-//   "consigneeName": "Zinthin",
-//   "consigneeAddress": "Singapur",
-//   "consigneeContactPerson": "zinthin",
-//   "consigneeContact": "8801775263355",
-//   "consigneeEmail": "demo@ibos.io",
-//   "consigCountryId": 18,
-//   "consigCountry": "Bangladesh",
-//   "consigStateId": 1,
-//   "consigState": "Barishal",
-//   "consignCity": null,
-//   "consignPostalCode": null,
-//   "expOrCnfNumber": "new ",
-//   "freightAgentReference": "Alice Josnson",
-//   "modeOfTransport": "Sea",
-//   "portOfLoadingId": 0,
-//   "portOfLoading": "10",
-//   "portOfDischargeId": 0,
-//   "portOfDischarge": "11",
-//   "originAddress": "dhaka",
-//   "countryOfOriginId": 18,
-//   "countryOfOrigin": "Bangladesh",
-//   "finalDestinationAddress": "dhaka",
-//   "fdestCountryId": 18,
-//   "fdestCountry": "Bangladesh",
-//   "fdestStateId": 1,
-//   "fdestState": "Barishal",
-//   "fdestCity": null,
-//   "fdestPostalCode": null,
-//   "concernSalesPersonId": null,
-//   "concernSalesPerson": null,
-//   "primaryContactPersonId": null,
-//   "primaryContactPerson": null,
-//   "modeofStuffings": null,
-//   "modeOfDelivery": null,
-//   "incoterms": "exw",
-//   "typeOfLoadingId": 1,
-//   "typeOfLoading": "Pallet",
-//   "typeOfLoadingQty": 10.00,
-//   "requestPickupDate": "2024-09-30T00:00:00",
-//   "requestDeliveryDate": "2024-10-15T00:00:00",
-//   "isCustomsBrokerage": true,
-//   "isCargoInsurance": true,
-//   "isWarehouseService": true,
-//   "isStoreRent": true,
-//   "isHaulagePickupService": false,
-//   "isDestiontionHaulage": true,
-//   "freightForwarderTermsIdTermsId": 0,
-//   "freightForwarderTermsIdTermsTerms": null,
-//   "billingAddress": "10",
-//   "billCountryId": 18,
-//   "billCountry": "Bangladesh",
-//   "billStateId": 1,
-//   "billState": "Barishal",
-//   "currencyId": 6,
-//   "currency": "AUD",
-//   "invoiceValue": 10100323.00,
-//   "packingListReference": "abc 123",
-//   "buyerName": "demobuyer1",
-//   "buyerEmail": "demo@ibos.io",
-//   "notifyPartyId": null,
-//   "notifyParty": "Port Solutions Corp.",
-//   "notifyBank": "",
-//   "negotiationParty": "10",
-//   "isPending": true,
-//   "isHandOver": false,
-//   "handOverDate": "2024-11-10T09:43:58.817",
-//   "isReceived": true,
-//   "receivedDate": "2024-11-10T09:45:47.457",
-//   "isPlaning": true,
-//   "planingDate": "2024-11-10T09:45:42.093",
-//   "isConfirm": true,
-//   "confirmDate": "2024-11-10T09:46:10.7",
-//   "confTransportMode": "Sea to Sea",
-//   "isActive": true,
-//   "isStuffing": true,
-//   "stuffingDate": "2024-11-28T15:45:00",
-//   "blnumber": null,
-//   "isBl": false,
-//   "bldate": "2024-11-10T09:43:58.817",
-//   "hblnumber": "ALL-A000002",
-//   "isHbl": true,
-//   "hbldate": "2024-11-10T09:33:35.387",
-//   "fcrnumber": null,
-//   "isDispatch": true,
-//   "dispatchDate": "2024-11-22T15:44:00",
-//   "isCustomsClear": true,
-//   "customsClearDt": "2024-11-30T15:44:00",
-//   "createdAt": "2024-10-30T07:11:06.137",
-//   "createdBy": 0,
-//   "departureDateTime": "2024-11-01T15:45:00",
-//   "arrivalDateTime": "2024-11-09T15:46:00",
-//   "flightNumber": "11",
-//   "transitInformation": "",
-//   "awbnumber": "",
-//   "bookingAmount": 101.00,
-//   "countryOfOrginId": 18,
-//   "countryOfOrgin": "Bangladesh",
-//   "pickupPlace": "10",
-//   "isCharges": false,
-//   "isInTransit": null,
-//   "inTransitDate": "2024-11-10T09:45:50.617",
-//   "isDestPortReceive": true,
-//   "destPortReceiveDt": "2024-11-10T09:45:50.617",
-//   "isBuyerReceive": true,
-//   "buyerReceiveDt": "2024-11-10T09:45:50.617",
-//   "modeOfStuffingSeaId": 1,
-//   "modeOfStuffingSeaName": "CY/CFS",
-//   "modeOfDeliveryId": 1,
-//   "modeOfDeliveryName": "Door to Door",
-//   "warehouseId": 10302,
-//   "warehouseName": "MV Akij Moon(WH-PTE-Deck)",
-//   "invoiceNumber": null,
-//   "invoiceDate": null,
-//   "objPurchase": [],
-//   "rowsData": [
-//       {
-//           "bookingRequestRowId": 16,
-//           "bookingRequestHeaderId": 16,
-//           "typeOfCargoId": 1,
-//           "typeOfCargo": "General Cargo ",
-//           "descriptionOfGoods": "100",
-//           "hsCode": "0101 - Horses, asses, mules and hinnies, live",
-//           "totalNumberOfPackages": 40.00,
-//           "recvQuantity": 0.00,
-//           "totalGrossWeightKG": 2000.00,
-//           "totalNetWeightKG": 2000.00,
-//           "totalPerUnitNetWeightKG": 50.00,
-//           "totalPerUnitGrossWeightKG": 50.00,
-//           "totalVolumeCBM": 6000.0,
-//           "totalDimsLength": 30.00,
-//           "totalDimsWidth": 20.00,
-//           "totalDimsHeight": 10.00,
-//           "isTemperatureControl": false,
-//           "temperatureRange": "",
-//           "isSHInstruction": false,
-//           "shInstructionText": "",
-//           "isActive": true,
-//           "createdAt": "2024-11-12T09:55:37.99",
-//           "createdBy": 0,
-//           "dimensionRow": [
-//               {
-//                   "dimensionRowId": 16,
-//                   "bookingRequestRowId": 16,
-//                   "dimsHeight": 10.00,
-//                   "dimsWidth": 20.00,
-//                   "dimsLength": 30.00,
-//                   "perUnitCbm": 6000.0,
-//                   "numberOfPackage": 40.00,
-//                   "perUnitGrossWeight": 50.00,
-//                   "perUnitNetWeight": 50.00,
-//                   "isActive": true,
-//                   "createdAt": "2024-10-30T07:11:06.137",
-//                   "createdBy": 1
-//               }
-//           ]
-//       }
-//   ],
-//   "documents": [
-//       {
-//           "documentId": 37,
-//           "bookingRequestId": 0,
-//           "documentTypeId": 2,
-//           "documentType": "Shipper’s Declaration for Dangerous Goods",
-//           "documentFileId": "638657694026990622_unnamed__1_-removebg-preview.png",
-//           "isActive": true,
-//           "createdAt": "2024-11-12T09:55:37.99",
-//           "createdBy": 0,
-//           "documentsNumber": null
-//       }
-//   ],
-//   "billingData": [
-//       {
-//           "billingId": 13,
-//           "bookingRequestId": 16,
-//           "headOfChargeId": 1,
-//           "headOfCharges": "Freight",
-//           "chargeAmount": 11.00,
-//           "consigneeCharge": 1.00,
-//           "actualExpense": 1.00,
-//           "isActive": true,
-//           "billingDate": "2024-11-10T10:12:21.347",
-//           "createdBy": 521235,
-//           "createdAt": null,
-//           "updatedBy": null,
-//           "updatedAt": 521235
-//       },
-//       {
-//           "billingId": 14,
-//           "bookingRequestId": 16,
-//           "headOfChargeId": 2,
-//           "headOfCharges": "Local Transportation",
-//           "chargeAmount": 443.00,
-//           "consigneeCharge": 45.00,
-//           "actualExpense": 3443.00,
-//           "isActive": true,
-//           "billingDate": "2024-11-10T10:12:21.347",
-//           "createdBy": 521235,
-//           "createdAt": null,
-//           "updatedBy": null,
-//           "updatedAt": null
-//       }
-//   ],
-//   "transportPlanning": {
-//       "transportId": 33,
-//       "bookingId": 16,
-//       "pickupLocation": "Mirpur",
-//       "pickupDate": "2024-11-20T00:00:00",
-//       "vehicleInfo": "Car",
-//       "noOfPallets": 0,
-//       "carton": 0,
-//       "noOfContainer": 10,
-//       "airLineOrShippingLine": "USA Airlines ",
-//       "iatanumber": "0",
-//       "vesselName": "DH-Vessel-101",
-//       "departureDateTime": null,
-//       "arrivalDateTime": "2024-11-15T15:45:00",
-//       "transportMode": "Sea to Sea",
-//       "berthDate": "2024-10-31T00:00:00",
-//       "cutOffDate": "2024-11-27T00:00:00",
-//       "estimatedTimeOfDepart": "2024-11-27T00:00:00",
-//       "isActive": true,
-//       "containerDesc": [
-//           {
-//               "containerDescId": 8,
-//               "transportId": 33,
-//               "containerNumber": "1",
-//               "sealNumber": "1",
-//               "size": "1",
-//               "quantity": 1.0,
-//               "cbm": 1.00,
-//               "mode": "",
-//               "kgs": 1.00,
-//               "isActive": true,
-//               "createdBy": null,
-//               "createdAt": "2024-11-10T09:45:42.22"
-//           }
-//       ]
-//   }
-// }
-const HBLFormat = ({ rowClickData }) => {
-  const bookingRequestId = rowClickData?.bookingRequestId;
-
-  const [
-    shipBookingRequestGetById,
-    setShipBookingRequestGetById,
-    shipBookingRequestLoading,
-  ] = useAxiosGet();
-  useEffect(() => {
-    if (bookingRequestId) {
-      setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
-      );
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookingRequestId]);
-
-  const bookingData = shipBookingRequestGetById || {};
-
-  const componentRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-    documentTitle: 'Customs-RTGS',
-    pageStyle: `
-      @media print {
-        body {
-          -webkit-print-color-adjust: exact;
-
-        }
-        @page {
-          size: portrait !important;
-          margin: 15px !important;
-        }
-      }
-    `,
-  });
-
-  return (
-    <>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          marginBottom: '20px',
-        }}
-      >
-        <button
-          onClick={handlePrint}
-          type="button"
-          className="btn btn-primary px-3 py-2"
-        >
-          <i className="mr-1 fa fa-print pointer" aria-hidden="true"></i>
-          Print
-        </button>
-      </div>
-      {shipBookingRequestLoading && <Loading />}
-      <NewHBLFormatAir componentRef={componentRef} bookingData={bookingData} />
-      {/* <HBLFormatInvoice componentRef={componentRef} bookingData={bookingData} /> */}
-    </>
-  );
-};
-
-export default HBLFormat;
 
 export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
   return (
@@ -397,7 +72,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
             }}
           >
             <div>
-              <div className="printSectionNoneWithNewLine">
+              <div className="">
                 Shipper/Exporter (Complete Name and Address)
               </div>
               <div>{bookingData?.shipperName}</div>
@@ -420,9 +95,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 <div
                   style={{ paddingLeft: 5, borderLeft: '1px solid #000000' }}
                 >
-                  <div className="printSectionNoneWithNewLine">
-                    Booking Number
-                  </div>
+                  <div className="">Booking Number</div>
                   <div>{bookingData?.bookingRequestCode}</div>
                 </div>
                 <div
@@ -431,21 +104,15 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                   }}
                 >
                   <div style={{ paddingLeft: 5 }}>
-                    <div className="printSectionNoneWithNewLine">
-                      Bill of Lading Number
-                    </div>
+                    <div className="">Bill of Lading Number</div>
                     <div>{bookingData?.hblnumber}</div>
                   </div>
                 </div>
               </div>
               <div style={{ paddingLeft: 5, borderLeft: '1px solid #000000' }}>
-                <div className="printSectionNoneWithNewLine">
-                  Export References
-                </div>
-                <br />
-                <br />
-                <br />
-                <br />
+                <div className="">Export References</div>
+                <p>Akij Logistics Limited</p>
+                <p>Bir Uttam Mir Shawkat Sarak, Dhaka 1208</p>
                 <br />
               </div>
             </div>
@@ -464,9 +131,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
             }}
           >
             <div>
-              <div className="printSectionNoneWithNewLine">
-                Consignee (Complete Name and Address)
-              </div>
+              <div className="">Consignee (Complete Name and Address)</div>
               <div>{bookingData?.consigneeName}</div>
               <div>{bookingData?.consigneeAddress}</div>
               <div>{bookingData?.consigneeContactPerson}</div>
@@ -485,7 +150,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 <div
                   style={{ paddingLeft: 5, borderLeft: '1px solid #000000' }}
                 >
-                  <div className="printSectionNoneWithNewLine">
+                  <div className="">
                     Forwarding Agent – References (Complete Name and Address)
                   </div>
                   <div>{bookingData?.freightAgentReference}</div>
@@ -493,9 +158,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 </div>
               </div>
               <div style={{ paddingLeft: 5, borderLeft: '1px solid #000000' }}>
-                <div className="printSectionNoneWithNewLine">
-                  Point and Country of Origin
-                </div>
+                <div className="">Point and Country of Origin</div>
                 <div>
                   {bookingData?.originAddress}, {bookingData?.countryOfOrigin}
                 </div>
@@ -518,23 +181,15 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
             }}
           >
             <div>
-              <div className="printSectionNoneWithNewLine">
-                Notify Party (Complete Name and Address)
-              </div>
+              <div className="">Notify Party (Complete Name and Address)</div>
               <div>{bookingData?.notifyParty}</div>
-              <br />
-              <br />
-              <br />
             </div>
             <div>
               <div style={{ paddingLeft: 5, borderLeft: '1px solid #000000' }}>
-                <div className="printSectionNoneWithNewLine">
-                  For Delivery Please Apply To
-                </div>
+                <div className="">For Delivery Please Apply To</div>
+                {bookingData?.freightAgentReference}
                 <br />
-                <br />
-                <br />
-                <br />
+                {bookingData?.freightAgentAddress}
               </div>
             </div>
           </div>
@@ -557,10 +212,8 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
               }}
             >
               <div>
-                <div className="printSectionNoneWithNewLine">
-                  Loading Pier/Terminal
-                </div>
-                <br />
+                <div className="">Loading Pier/Terminal</div>
+                {bookingData?.portOfLoading}
               </div>
               <div
                 style={{
@@ -568,9 +221,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 }}
               >
                 <div style={{ paddingLeft: 5 }}>
-                  <div className="printSectionNoneWithNewLine">
-                    Place of Receipt
-                  </div>
+                  <div className="">Place of Receipt</div>
                   <div>{bookingData?.pickupPlace} </div>
                 </div>
               </div>
@@ -582,10 +233,19 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
               }}
             >
               <div style={{ paddingLeft: 5, borderLeft: '1px solid #000000' }}>
-                <div className="printSectionNoneWithNewLine">
-                  Pre-Carriage By
-                </div>
-                <br />
+                <div className="">Pre-Carriage By</div>
+                <p>
+                  {bookingData?.transportPlanning?.map((item, index) => {
+                    return (
+                      <>
+                        {item?.vesselName}{' '}
+                        {index < bookingData?.transportPlanning?.length - 1
+                          ? ','
+                          : ''}
+                      </>
+                    );
+                  })}
+                </p>
               </div>
               <div
                 style={{
@@ -593,9 +253,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 }}
               >
                 <div style={{ paddingLeft: 5 }}>
-                  <div className="printSectionNoneWithNewLine">
-                    Number of Originals
-                  </div>
+                  <div className="">Number of Originals</div>
                   <br />
                 </div>
               </div>
@@ -624,10 +282,19 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 }}
               >
                 <div>
-                  <div className="printSectionNoneWithNewLine">
-                    Vessel/Voyage Number
+                  <div className="">Vessel/Voyage Number</div>
+                  <div>
+                    {bookingData?.transportPlanning?.map((item, index) => {
+                      return (
+                        <>
+                          {item?.vesselName} / {item?.voyageNumber} <br />
+                          {index < bookingData?.transportPlanning?.length - 1
+                            ? ','
+                            : ''}
+                        </>
+                      );
+                    })}
                   </div>
-                  <div>{bookingData?.transportPlanning?.vesselName}</div>
                   <div></div>
                   <br />
                 </div>
@@ -637,9 +304,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                   }}
                 >
                   <div style={{ paddingLeft: 5 }}>
-                    <div className="printSectionNoneWithNewLine">
-                      Port of Export
-                    </div>
+                    <div className="">Port of Export</div>
                     <div>{bookingData?.portOfLoading}</div>
                   </div>
                 </div>
@@ -652,9 +317,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
               }}
             >
               <div>
-                <div className="printSectionNoneWithNewLine">
-                  Port of Discharge
-                </div>
+                <div className="">Port of Discharge</div>
                 <div>{bookingData?.portOfDischarge}</div>
               </div>
               <div
@@ -663,18 +326,14 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 }}
               >
                 <div style={{ paddingLeft: 5 }}>
-                  <div className="printSectionNoneWithNewLine">
-                    Container Number
-                  </div>
+                  <div className="">Container Number</div>
                   <br />
                 </div>
               </div>
             </div>
           </div>
           <div style={{ paddingLeft: 5, borderLeft: '1px solid #000000' }}>
-            <div className="printSectionNoneWithNewLine">
-              For Delivery Please Apply To
-            </div>
+            <div className="">Ultimate Destination on Carriage Point</div>
             <div>{bookingData?.finalDestinationAddress}</div>
             <br />
             <br />
@@ -700,22 +359,35 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
             style={{
               borderRight: '1px solid #000000',
               borderBottom: '1px solid #000000',
-              padding: 2,
+
               textAlign: 'center',
             }}
           >
-            Marks and Numbers <br />
+            <p
+              style={{
+                borderBottom: '1px solid #000000',
+              }}
+            >
+              Marks and Numbers
+            </p>
             {/* sealNumber */}
-            {bookingData?.transportPlanning?.containerDesc?.map(
-              (item, index) => `${item?.sealNumber}, <br />`,
-            )}
+            {bookingData?.transportPlanning?.map((item) => {
+              return item?.containerDesc?.map((i, index) => {
+                return (
+                  <div key={Math.random()}>
+                    {i?.sealNumber}
+                    {index < item?.containerDesc?.length - 1 ? ',' : ''}
+                    <br />
+                  </div>
+                );
+              });
+            })}
           </div>
 
           <div
             style={{
               borderRight: '1px solid #000000',
               borderBottom: '1px solid #000000',
-              padding: 2,
             }}
           >
             <div
@@ -736,7 +408,14 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                     flexDirection: 'column',
                   }}
                 >
-                  <span>Number/Kinds of Packages</span>
+                  <p
+                    style={{
+                      borderBottom: '1px solid #000000',
+                      borderRight: '1px solid #000000',
+                    }}
+                  >
+                    Number/Kinds of Packages
+                  </p>
                   {bookingData?.rowsData?.map((item, index) => (
                     <div key={Math.random()}>
                       {item?.totalNumberOfPackages}
@@ -751,7 +430,13 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                     flexDirection: 'column',
                   }}
                 >
-                  <div>Description of Goods</div>
+                  <p
+                    style={{
+                      borderBottom: '1px solid #000000',
+                    }}
+                  >
+                    Description of Goods
+                  </p>
                   {bookingData?.rowsData?.map((item, index) => (
                     <div key={Math.random()}>
                       {item?.descriptionOfGoods}, {item?.hsCode}
@@ -774,14 +459,24 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
             style={{
               borderRight: '1px solid #000000',
               borderBottom: '1px solid #000000',
-              padding: 2,
+
               textAlign: 'center',
             }}
           >
-            Gross Weight <br />
+            <p
+              style={{
+                borderBottom: '1px solid #000000',
+              }}
+            >
+              {' '}
+              Gross Weight{' '}
+            </p>
+            <br />
             {bookingData?.rowsData?.map((item, index) => (
               <div key={Math.random()}>
-                {item?.totalGrossWeightKG}
+                {item?.totalGrossWeightKG}{' '}
+                {item?.dimensionRow?.[0]?.measurementType}
+                {index < bookingData?.rowsData?.length - 1 ? ',' : ''}
                 <br />
               </div>
             ))}
@@ -789,11 +484,13 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
           <div
             style={{
               borderBottom: '1px solid #000000',
-              padding: 2,
+
               textAlign: 'center',
             }}
           >
-            Measurement
+            <p style={{ borderBottom: '1px solid #000000' }}>
+              Measurement (CBM)
+            </p>
             <br />
             {bookingData?.rowsData?.map((item, index) => (
               <div key={Math.random()}>
@@ -902,9 +599,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 display: 'inline-block',
                 textAlign: 'center',
               }}
-            >
-              {bookingData?.transportPlanning?.vehicleInfo}
-            </span>
+            ></span>
             <br />
             <br />
             <br />

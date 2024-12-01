@@ -67,7 +67,7 @@ export default function TdsVdsJvDataTable({
     // setEditableData(modifiedData);
     const modifiedData = [...tableData];
     modifiedData[index]["isSelect"] = !modifiedData[index].isSelect;
-    setEditableData(modifiedData)
+    setEditableData(modifiedData);
   };
 
   return (
@@ -107,7 +107,10 @@ export default function TdsVdsJvDataTable({
                             //     };
                             //   }
                             // })
-                            editableData?.map((item) => ({...item, isSelect: e.target.checked}))
+                            editableData?.map((item) => ({
+                              ...item,
+                              isSelect: e.target.checked,
+                            }))
                         );
                       }}
                     />
@@ -119,6 +122,7 @@ export default function TdsVdsJvDataTable({
                 <th style={{ minWidth: "130px" }}>Request Amount</th>
                 <th style={{ minWidth: "70px" }}>TDS Amount</th>
                 <th style={{ minWidth: "70px" }}>VDS Amount</th>
+                <th style={{ minWidth: "70px" }}>Challan No</th>
                 <th style={{ minWidth: "70px" }}>Action</th>
               </tr>
             </thead>
@@ -174,6 +178,9 @@ export default function TdsVdsJvDataTable({
                       </td>
                       <td className="text-center" style={{ fontSize: 11 }}>
                         {item?.vdsamount}
+                      </td>
+                      <td className="text-center" style={{ fontSize: 11 }}>
+                        {item?.vatChallanNo}
                       </td>
                       <td className="text-center" style={{ fontSize: 11 }}>
                         <div>{/* <IView /> */}</div>

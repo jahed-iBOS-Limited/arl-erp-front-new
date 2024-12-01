@@ -25,6 +25,7 @@ import TripCostReportReport from "./tripCostReport/landing/landing";
 import TripSlabCostReport from "./tripSlabCostReport/landing/table";
 import VehicleFuelCostReport from "./vehicleFuelCostReport/landing";
 import VehicleFuelReport from "./vehicleFuelReport/landing/landing";
+import ChallanCancel from "./challanCancel/landing";
 const DeliveryProcessReportPage = lazy(() => import("./deliveryProcessReport"));
 
 export function TransportReportPages() {
@@ -117,6 +118,10 @@ export function TransportReportPages() {
           path="/transport-management/report/challanInformationUpdate"
           component={ChallanInformationUpdate}
         />
+        {/* <ContentRoute
+          path="/transport-management/report/challanCancel"
+          component={ChallanCancel}
+        /> */}
         <ContentRoute
           path="/transport-management/report/sheduleNUnshedule"
           component={SheduleNUnshedule}

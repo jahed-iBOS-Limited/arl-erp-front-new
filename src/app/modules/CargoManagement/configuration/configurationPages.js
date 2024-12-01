@@ -1,31 +1,30 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import CreateDeliveryAgent from "./createDeliveryAgent";
-import DeliveryAgentList from "./deliveryAgentList";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import BusinessPartnerList from './BusinessPartnerList';
+import CreateBusinessPartner from './CreateBusinessPartner';
 
 export function ConfigurationPages() {
-    return (
-        <Switch>
-            <Redirect
-                exact={true}
-                from='/cargoManagement'
-                to='/cargoManagement/configuration'
-            />
-            <ContentRoute
-                path='/cargoManagement/configuration/delivery-agent-create'
-                component={CreateDeliveryAgent}
-            />
-            <ContentRoute
-                path='/cargoManagement/configuration/delivery-agent-edit/:id'
-                component={CreateDeliveryAgent}
-            />
-            <ContentRoute
-                path='/cargoManagement/configuration/delivery-agent-list'
-                component={DeliveryAgentList}
-            />
-
-        </Switch>
-    );
+  return (
+    <Switch>
+      <Redirect
+        exact={true}
+        from="/cargoManagement"
+        to="/cargoManagement/configuration"
+      />
+      <ContentRoute
+        path="/cargoManagement/configuration/assign/create"
+        component={CreateBusinessPartner}
+      />
+      <ContentRoute
+        path="/cargoManagement/configuration/assign/edit/:id"
+        component={CreateBusinessPartner}
+      />
+      <ContentRoute
+        path="/cargoManagement/configuration/assign"
+        component={BusinessPartnerList}
+      />
+    </Switch>
+  );
 }
 export default ConfigurationPages;

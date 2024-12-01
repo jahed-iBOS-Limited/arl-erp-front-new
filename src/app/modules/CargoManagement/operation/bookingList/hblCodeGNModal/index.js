@@ -1,13 +1,14 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef } from "react";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../../App";
-import Loading from "../../../../_helper/_loading";
-import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
-import { HBLFormatInvoice } from "../HBLFormat";
-import { useReactToPrint } from "react-to-print";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import NewHBLFormatAir from "../HBLFormat/newHBLFormat";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef } from 'react';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
+import Loading from '../../../../_helper/_loading';
+import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
+import { HBLFormatInvoice } from '../HBLFormat';
+import { useReactToPrint } from 'react-to-print';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import NewHBLFormatAir from '../HBLFormat/newHBLFormat';
+import './style.css';
 const validationSchema = Yup.object().shape({
   // date: Yup.date().required("Date is required"),
 });
@@ -27,13 +28,13 @@ function HBLCodeGNModal({ CB, rowClickData }) {
       () => {
         CB();
         commonGetByIdHandler();
-      }
+      },
     );
   };
 
   const commonGetByIdHandler = () => {
     setShipBookingRequestGetById(
-      `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
+      `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
     );
   };
   useEffect(() => {
@@ -49,12 +50,12 @@ function HBLCodeGNModal({ CB, rowClickData }) {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: "Customs-RTGS",
+    documentTitle: 'Customs-RTGS',
     pageStyle: `
       @media print {
         body {
           -webkit-print-color-adjust: exact;
-       
+
         }
         @page {
           size: portrait !important;
@@ -64,12 +65,12 @@ function HBLCodeGNModal({ CB, rowClickData }) {
     `,
   });
   return (
-    <div className="commonStatusUpdateModal">
+    <div className="hblCodeGNModal">
       {(createHblFcrNumberLoading || shipBookingRequestLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{
-          date: "",
+          date: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -85,7 +86,7 @@ function HBLCodeGNModal({ CB, rowClickData }) {
                 {/* Save button add */}
 
                 <div className="d-flex justify-content-end">
-                  {!bookingData?.hblnumber && (
+                  {/* {!bookingData?.hblnumber && (
                     <>
                       {" "}
                       <button type="submit" className="btn btn-primary">
@@ -108,17 +109,28 @@ function HBLCodeGNModal({ CB, rowClickData }) {
                         Print
                       </button>
                     </>
-                  )}
+                  )} */}
+                  <button
+                    onClick={handlePrint}
+                    type="button"
+                    className="btn btn-primary px-3 py-2"
+                  >
+                    <i
+                      className="mr-1 fa fa-print pointer"
+                      aria-hidden="true"
+                    ></i>
+                    Print
+                  </button>
                 </div>
               </div>
-              {rowClickData?.modeOfTransport === "Air" && (
+              {rowClickData?.modeOfTransport === 'Air' && (
                 <NewHBLFormatAir
                   bookingData={bookingData}
                   componentRef={componentRef}
                 />
               )}
 
-              {rowClickData?.modeOfTransport !== "Air" && (
+              {rowClickData?.modeOfTransport !== 'Air' && (
                 <HBLFormatInvoice
                   componentRef={componentRef}
                   bookingData={bookingData}

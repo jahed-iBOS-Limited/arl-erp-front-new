@@ -797,6 +797,7 @@ export default function _Form({
                       }}
                       rowData={rowData}
                       setRowData={setRowData}
+                      buId={buId}
                     />
                   </>
                 ) : viewType === "edit" ? (

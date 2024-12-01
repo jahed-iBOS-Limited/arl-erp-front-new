@@ -1,19 +1,18 @@
-import { Divider, IconButton } from "@material-ui/core";
-import { FieldArray, Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect } from "react";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import { Divider, IconButton } from '@material-ui/core';
+import { FieldArray, Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
-import { imarineBaseUrl } from "../../../../../App";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import "./style.css";
+import { imarineBaseUrl } from '../../../../../App';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import './style.css';
 const validationSchema = Yup.object().shape({
   // transportPlanning: Yup.object()
   //   .shape({
@@ -24,8 +23,8 @@ const validationSchema = Yup.object().shape({
   //   .typeError('Transport Planning Type is required'),
   pickupLocation: Yup.string().required('Pickup Location is required'),
   // stuffingDate: Yup.string().required('Stuffing Date is required'),
-  pickupDate: Yup.string().required('Estimated Pickup Date is required'),
-  vehicleInfo: Yup.string().required('Vehicle Info is required'),
+  // pickupDate: Yup.string().required('Estimated Pickup Date is required'),
+  // vehicleInfo: Yup.string().required('Vehicle Info is required'),
   noOfPallets: Yup.string().when('transportPlanning', {
     is: (val) => val?.value === 1,
     then: Yup.string().required('No of Pallets is required'),
@@ -53,6 +52,10 @@ const validationSchema = Yup.object().shape({
   vesselName: Yup.string().when('transportPlanning', {
     is: (val) => val?.value === 2,
     then: Yup.string().required('Vessel Name is required'),
+  }),
+  voyageNumber: Yup.string().when('transportPlanning', {
+    is: (val) => val?.value === 2,
+    then: Yup.string().required('Voyage Number is required'),
   }),
   // // departureDateTime: Yup.string().required("Departure Date & Time is required"),
   arrivalDateTime: Yup.string().required('Arrival Date & Time is required'),
@@ -104,51 +107,55 @@ function TransportModal({ rowClickData, CB }) {
             //     : { value: 2, label: 'Sea' },
             // );
             formikRef.current.setFieldValue(`rows[0].transportPlanning`, {
-              ...(data?.modeOfTransport === "Air"
-                ? { value: 1, label: "Air" }
-                : { value: 2, label: "Sea" }),
+              ...(data?.modeOfTransport === 'Air'
+                ? { value: 1, label: 'Air' }
+                : { value: 2, label: 'Sea' }),
             });
             formikRef.current.setFieldValue(
               `rows[0].pickupLocation`,
-              transportPlanning?.pickupLocation || data?.pickupPlace || ""
+              transportPlanning?.pickupLocation || data?.pickupPlace || '',
             );
-            formikRef.current.setFieldValue(
-              `rows[0].pickupDate`,
-              transportPlanning?.stuffingDate
-                ? _dateFormatter(transportPlanning?.stuffingDate)
-                : ""
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].vehicleInfo`,
-              transportPlanning?.vehicleInfo || ""
-            );
+            // formikRef.current.setFieldValue(
+            //   `rows[0].pickupDate`,
+            //   transportPlanning?.stuffingDate
+            //     ? _dateFormatter(transportPlanning?.stuffingDate)
+            //     : '',
+            // );
+            // formikRef.current.setFieldValue(
+            //   `rows[0].vehicleInfo`,
+            //   transportPlanning?.vehicleInfo || '',
+            // );
             formikRef.current.setFieldValue(
               `rows[0].noOfPallets`,
-              transportPlanning?.noOfPallets || ""
+              transportPlanning?.noOfPallets || '',
             );
             formikRef.current.setFieldValue(
               `rows[0].airLineOrShippingLine`,
-              transportPlanning?.airLine || ""
+              transportPlanning?.airLine || '',
             );
             formikRef.current.setFieldValue(
               `rows[0].iatanumber`,
-              transportPlanning?.iatanumber || ""
+              transportPlanning?.iatanumber || '',
             );
             formikRef.current.setFieldValue(
               `rows[0].carton`,
-              transportPlanning?.carton || ""
+              transportPlanning?.carton || '',
             );
             formikRef.current.setFieldValue(
               `rows[0].noOfContainer`,
-              transportPlanning?.noOfContainer || ""
+              transportPlanning?.noOfContainer || '',
             );
             formikRef.current.setFieldValue(
               `rows[0].airLineOrShippingLine`,
-              transportPlanning?.airLineOrShippingLine || ""
+              transportPlanning?.airLineOrShippingLine || '',
             );
             formikRef.current.setFieldValue(
               `rows[0].vesselName`,
-              transportPlanning?.vesselName || ""
+              transportPlanning?.vesselName || '',
+            );
+            formikRef.current.setFieldValue(
+              `rows[0].voyageNumber`,
+              transportPlanning?.voyageNumber || '',
             );
             // formikRef.current.setFieldValue(
             //   "departureDateTime",
@@ -157,47 +164,26 @@ function TransportModal({ rowClickData, CB }) {
 
             formikRef.current.setFieldValue(
               `rows[0].arrivalDateTime`,
-              transportPlanning?.arrivalDateTime || ""
+              transportPlanning?.arrivalDateTime || '',
             );
             formikRef.current.setFieldValue(
               `rows[0].berthDate`,
-              transportPlanning?.berthDate || ""
+              transportPlanning?.berthDate || '',
             );
             formikRef.current.setFieldValue(
               `rows[0].cutOffDate`,
-              transportPlanning?.cutOffDate || ""
+              transportPlanning?.cutOffDate || '',
             );
             formikRef.current.setFieldValue(
               `rows[0].estimatedTimeOfDepart`,
-              transportPlanning?.estimatedTimeOfDepart || ""
+              transportPlanning?.estimatedTimeOfDepart || '',
             );
             formikRef.current.setFieldValue(
               `rows[0].transportMode`,
-              data?.transportMode
+              data?.confTransportMode
                 ? { value: 0, label: data?.confTransportMode }
-                : ""
+                : '',
             );
-            // set ddl data
-            //   [
-            //     {
-            //         "dimensionRowId": 2,
-            //         "bookingRequestRowId": 3,
-            //         "dimsHeight": 1,
-            //         "dimsWidth": 1,
-            //         "dimsLength": 10,
-            //         "perUnitCbm": 10,
-            //         "numberOfPackage": 0,
-            //         "perUnitGrossWeight": 1,
-            //         "perUnitNetWeight": 1,
-            //         "measurementType": "cm",
-            //         "poNumber": "",
-            //         "style": "",
-            //         "color": "",
-            //         "isActive": true,
-            //         "createdAt": "2024-11-26T12:16:37.337",
-            //         "createdBy": 1
-            //     }
-            // ]
             const getUniqueOptions = (key) => {
               try {
                 const values = [];
@@ -217,14 +203,14 @@ function TransportModal({ rowClickData, CB }) {
             };
 
             // Dropdown options
-            const colorOptions = getUniqueOptions("color");
-            const styleOptions = getUniqueOptions("style");
-            const poNumberOptions = getUniqueOptions("poNumber");
+            const colorOptions = getUniqueOptions('color');
+            const styleOptions = getUniqueOptions('style');
+            const poNumberOptions = getUniqueOptions('poNumber');
             setPoNumberDDL(poNumberOptions);
             setStyleDDL(styleOptions);
             setColorDDL(colorOptions);
           }
-        }
+        },
       );
     }
 
@@ -233,7 +219,7 @@ function TransportModal({ rowClickData, CB }) {
 
   useEffect(() => {
     setTransportModeDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`
+      `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -242,36 +228,37 @@ function TransportModal({ rowClickData, CB }) {
   const saveHandler = (values, cb) => {
     const payload = values?.rows?.map((row) => ({
       bookingId: bookingRequestId || 0,
-      pickupLocation: row?.pickupLocation || "",
-      pickupDate:
-        moment(row?.pickupDate).format("YYYY-MM-DDTHH:mm:ss") || new Date(),
+      pickupLocation: row?.pickupLocation || '',
+      // pickupDate:
+      //   moment(row?.pickupDate).format('YYYY-MM-DDTHH:mm:ss') || new Date(),
 
       // stuffingDate:
       //   moment(values?.stuffingDate).format("YYYY-MM-DDTHH:mm:ss") ||
       //   new Date(), //! prev
-
-      vehicleInfo: row?.vehicleInfo || "",
+      pickupDate: new Date(),
+      vehicleInfo: row?.vehicleInfo || '',
       noOfPallets: row?.noOfPallets || 0,
       carton: row?.carton || 0,
       iatanumber: row?.iatanumber || 0,
       noOfContainer: row?.noOfContainer || 0,
-      airLineOrShippingLine: row?.airLine || row?.shippingLine || "",
-      vesselName: row?.vesselName || "",
+      airLineOrShippingLine: row?.airLine || row?.shippingLine || '',
+      vesselName: row?.vesselName || '',
+      voyageNumber: row?.voyageNumber || '',
       // departureDateTime:
       //   moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
       //   new Date(),
       arrivalDateTime:
-        moment(row?.arrivalDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
+        moment(row?.arrivalDateTime).format('YYYY-MM-DDTHH:mm:ss') ||
         new Date(),
       ...(row?.berthDate && {
-        berthDate: moment(row?.berthDate).format("YYYY-MM-DDTHH:mm:ss"),
+        berthDate: moment(row?.berthDate).format('YYYY-MM-DDTHH:mm:ss'),
       }),
       ...(row?.cutOffDate && {
-        cutOffDate: moment(row?.cutOffDate).format("YYYY-MM-DDTHH:mm:ss"),
+        cutOffDate: moment(row?.cutOffDate).format('YYYY-MM-DDTHH:mm:ss'),
       }),
       ...(row?.estimatedTimeOfDepart && {
         estimatedTimeOfDepart: moment(row?.estimatedTimeOfDepart).format(
-          "YYYY-MM-DDTHH:mm:ss"
+          'YYYY-MM-DDTHH:mm:ss',
         ),
       }),
       transportMode: row?.transportMode?.label || 0,
@@ -283,16 +270,16 @@ function TransportModal({ rowClickData, CB }) {
         quantity: item?.quantity,
         cbm: item?.cbm,
         kgs: item?.kgs,
-        mode: "",
-        poNumber: row?.poNumber?.value || "",
-        style: row?.style?.value || "",
-        color: row?.color?.value || "",
+        mode: '',
+        poNumber: row?.poNumber?.value || '',
+        style: row?.style?.value || '',
+        color: row?.color?.value || '',
       })),
     }));
     SaveShippingTransportPlanning(
       `${imarineBaseUrl}/domain/ShippingService/SaveShippingTransportPlanning`,
       payload,
-      CB
+      CB,
     );
   };
   return (
@@ -305,38 +292,23 @@ function TransportModal({ rowClickData, CB }) {
         initialValues={{
           rows: [
             {
-              pickupLocation: "",
-              pickupDate: "",
-              vehicleInfo: "",
-              noOfPallets: "",
-              carton: "",
-              noOfContainer: "",
-              airLine: "",
-              shippingLine: "",
-              iatanumber: "",
-              vesselName: "",
-              departureDateTime: "",
-              arrivalDateTime: "",
-              transportMode: "",
-              berthDate: "",
-              cutOffDate: "",
-              estimatedTimeOfDepart: "",
-              // containerDesc: [
-              //   {
-              //     containerNumber: "",
-              //     sealNumber: "",
-              //     size: "",
-              //     quantity: "",
-              //     cbm:  "",
-              //     mode: "",
-              //     kgs:  "",
-              //     poNumber: "",
-              //     style: "",
-              //     color: "",
-              //   },
-              // ],
-
-              //
+              pickupLocation: '',
+              pickupDate: '',
+              vehicleInfo: '',
+              noOfPallets: '',
+              carton: '',
+              noOfContainer: '',
+              airLine: '',
+              shippingLine: '',
+              iatanumber: '',
+              vesselName: '',
+              voyageNumber: '',
+              departureDateTime: '',
+              arrivalDateTime: '',
+              transportMode: '',
+              berthDate: '',
+              cutOffDate: '',
+              estimatedTimeOfDepart: '',
               items: [],
             },
           ],
@@ -353,6 +325,7 @@ function TransportModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
+            {console.log('values', values)}
             {/* <h1>{JSON.stringify(errors)}</h1> */}
             <Form className="form form-label-right">
               <div className="">
@@ -377,11 +350,11 @@ function TransportModal({ rowClickData, CB }) {
                                 [
                                   {
                                     value: 1,
-                                    label: "Air",
+                                    label: 'Air',
                                   },
                                   {
                                     value: 2,
-                                    label: "Sea",
+                                    label: 'Sea',
                                   },
                                 ] || []
                               }
@@ -390,7 +363,7 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(valueOption) => {
                                 setFieldValue(
                                   `rows[${index}].transportPlanning`,
-                                  valueOption
+                                  valueOption,
                                 );
                               }}
                               placeholder="Transport Planning Type"
@@ -403,58 +376,70 @@ function TransportModal({ rowClickData, CB }) {
                           {/* Pickup Location */}
                           <div className="col-lg-3">
                             <InputField
-                              value={values?.rows[index]?.pickupLocation || ""}
+                              value={values?.rows[index]?.pickupLocation || ''}
                               label="Pickup Location"
                               name={`rows[${index}].pickupLocation`}
                               type="text"
                               onChange={(e) =>
                                 setFieldValue(
                                   `rows[${index}].pickupLocation`,
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                               placeholder="Pickup Location"
                             />
-                            {errors.rows && errors.rows[index]?.pickupLocation && touched.rows && (
-                              <div className="text-danger">{errors.rows[index].pickupLocation}</div>
-                            )}
+                            {errors.rows &&
+                              errors.rows[index]?.pickupLocation &&
+                              touched.rows && (
+                                <div className="text-danger">
+                                  {errors.rows[index].pickupLocation}
+                                </div>
+                              )}
                           </div>
                           {/* Pickup date */}
-                          <div className="col-lg-3">
+                          {/* <div className="col-lg-3">
                             <InputField
-                              value={values?.rows[index]?.pickupDate || ""}
+                              value={values?.rows[index]?.pickupDate || ''}
                               label="Estimated Pickup Date"
                               name={`rows[${index}].pickupDate`}
                               type="date"
                               onChange={(e) =>
                                 setFieldValue(
                                   `rows[${index}].pickupDate`,
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                             />
-                            {errors.rows && errors.rows[index]?.pickupDate && touched.rows && (
-                              <div className="text-danger">{errors.rows[index].pickupDate}</div>
-                            )}
-                          </div>
+                            {errors.rows &&
+                              errors.rows[index]?.pickupDate &&
+                              touched.rows && (
+                                <div className="text-danger">
+                                  {errors.rows[index].pickupDate}
+                                </div>
+                              )}
+                          </div> */}
                           {/* Vehicle info */}
-                          <div className="col-lg-3">
+                          {/* <div className="col-lg-3">
                             <InputField
-                              value={values.rows[index]?.vehicleInfo || ""}
+                              value={values.rows[index]?.vehicleInfo || ''}
                               label="Vehicle Info"
                               name={`rows[${index}].vehicleInfo`}
                               type="text"
                               onChange={(e) =>
                                 setFieldValue(
                                   `rows[${index}].vehicleInfo`,
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                             />
-                            {errors.rows && errors.rows[index]?.vehicleInfo && touched.rows && (
-                              <div className="text-danger">{errors.rows[index].vehicleInfo}</div>
-                            )}
-                          </div>
+                            {errors.rows &&
+                              errors.rows[index]?.vehicleInfo &&
+                              touched.rows && (
+                                <div className="text-danger">
+                                  {errors.rows[index].vehicleInfo}
+                                </div>
+                              )}
+                          </div> */}
 
                           {/* for AIR */}
                           {values?.rows[0]?.transportPlanning?.value === 1 && (
@@ -462,75 +447,90 @@ function TransportModal({ rowClickData, CB }) {
                               {/* No of Pallet */}
                               <div className="col-lg-3">
                                 <InputField
-                                  value={values?.rows[index]?.noOfPallets || ""}
+                                  value={values?.rows[index]?.noOfPallets || ''}
                                   label="No of Pallet"
                                   name={`rows[${index}].noOfPallets`}
                                   type="number"
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].noOfPallets`,
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                 />
-                                {errors.rows && errors.rows[index]?.noOfPallets && touched.rows && (
-                                  <div className="text-danger">{errors.rows[index].noOfPallets}</div>
-                                )}
+                                {errors.rows &&
+                                  errors.rows[index]?.noOfPallets &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].noOfPallets}
+                                    </div>
+                                  )}
                               </div>
                               {/* Air Line */}
                               <div className="col-lg-3">
                                 <InputField
-                                  value={values?.rows[index]?.airLine || ""}
+                                  value={values?.rows[index]?.airLine || ''}
                                   label="Air Line"
                                   name={`rows[${index}].airLine`}
                                   type="text"
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].airLine`,
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                 />
-                                {errors.rows && errors.rows[index]?.airLine && touched.rows && (
-                                  <div className="text-danger">{errors.rows[index].airLine}</div>
-                                )}
-
+                                {errors.rows &&
+                                  errors.rows[index]?.airLine &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].airLine}
+                                    </div>
+                                  )}
                               </div>
                               {/* iatanumber */}
                               <div className="col-lg-3">
                                 <InputField
-                                  value={values?.rows[index]?.iatanumber || ""}
+                                  value={values?.rows[index]?.iatanumber || ''}
                                   label="IATA Number"
                                   name={`rows[${index}].iatanumber`}
                                   type="number"
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].iatanumber`,
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                 />
-                                {errors.rows && errors.rows[index]?.iatanumber && touched.rows && (
-                                  <div className="text-danger">{errors.rows[index].iatanumber}</div>
-                                )}
+                                {errors.rows &&
+                                  errors.rows[index]?.iatanumber &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].iatanumber}
+                                    </div>
+                                  )}
                               </div>
                               {/* Carton */}
                               <div className="col-lg-3">
                                 <InputField
-                                  value={values?.rows[index]?.carton || ""}
+                                  value={values?.rows[index]?.carton || ''}
                                   label="Carton"
                                   name={`rows[${index}].carton`}
                                   type="number"
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].carton`,
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                 />
-                                {errors.rows && errors.rows[index]?.carton && touched.rows && (
-                                  <div className="text-danger">{errors.rows[index].carton}</div>
-                                )}
+                                {errors.rows &&
+                                  errors.rows[index]?.carton &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].carton}
+                                    </div>
+                                  )}
                               </div>
                             </>
                           )}
@@ -542,7 +542,7 @@ function TransportModal({ rowClickData, CB }) {
                               <div className="col-lg-3">
                                 <InputField
                                   value={
-                                    values?.rows[index]?.noOfContainer || ""
+                                    values?.rows[index]?.noOfContainer || ''
                                   }
                                   label="No of Container"
                                   name={`rows[${index}].noOfContainer`}
@@ -550,19 +550,23 @@ function TransportModal({ rowClickData, CB }) {
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].noOfContainer`,
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                 />
-                                {errors.rows && errors.rows[index]?.noOfContainer && touched.rows && (
-                                  <div className="text-danger">{errors.rows[index].noOfContainer}</div>
-                                )}
+                                {errors.rows &&
+                                  errors.rows[index]?.noOfContainer &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].noOfContainer}
+                                    </div>
+                                  )}
                               </div>
                               {/* Shipping line */}
                               <div className="col-lg-3">
                                 <InputField
                                   value={
-                                    values?.rows[index]?.shippingLine || ""
+                                    values?.rows[index]?.shippingLine || ''
                                   }
                                   label="Shipping Line"
                                   name={`rows[${index}].shippingLine`}
@@ -570,31 +574,63 @@ function TransportModal({ rowClickData, CB }) {
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].shippingLine`,
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                 />
-                                {errors.rows && errors.rows[index]?.shippingLine && touched.rows && (
-                                  <div className="text-danger">{errors.rows[index].shippingLine}</div>
-                                )}
+                                {errors.rows &&
+                                  errors.rows[index]?.shippingLine &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].shippingLine}
+                                    </div>
+                                  )}
                               </div>
                               {/* Vessel name */}
                               <div className="col-lg-3">
                                 <InputField
-                                  value={values?.rows[index]?.vesselName || ""}
+                                  value={values?.rows[index]?.vesselName || ''}
                                   label="Vessel Name"
                                   name={`rows[${index}].vesselName`}
                                   type="text"
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].vesselName`,
-                                      e.target.value
+                                      e.target.value,
                                     )
                                   }
                                 />
-                                {errors.rows && errors.rows[index]?.vesselName && touched.rows && (
-                                  <div className="text-danger">{errors.rows[index].vesselName}</div>
-                                )}
+                                {errors.rows &&
+                                  errors.rows[index]?.vesselName &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].vesselName}
+                                    </div>
+                                  )}
+                              </div>
+                              {/* Voyage Number */}
+                              <div className="col-lg-3">
+                                <InputField
+                                  value={
+                                    values?.rows[index]?.voyageNumber || ''
+                                  }
+                                  label="Voyage Number"
+                                  name={`rows[${index}].voyageNumber`}
+                                  type="text"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      `rows[${index}].voyageNumber`,
+                                      e.target.value,
+                                    )
+                                  }
+                                />
+                                {errors.rows &&
+                                  errors.rows[index]?.voyageNumber &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].voyageNumber}
+                                    </div>
+                                  )}
                               </div>
                             </>
                           )}
@@ -614,20 +650,24 @@ function TransportModal({ rowClickData, CB }) {
                           {/* Arrival Date & Time */}
                           <div className="col-lg-3">
                             <InputField
-                              value={values?.rows[index]?.arrivalDateTime || ""}
+                              value={values?.rows[index]?.arrivalDateTime || ''}
                               label="Estimated Arrival Date & Time"
                               name={`rows[${index}].arrivalDateTime`}
                               type="datetime-local"
                               onChange={(e) =>
                                 setFieldValue(
                                   `rows[${index}].arrivalDateTime`,
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                             />
-                            {errors.rows && errors.rows[index]?.arrivalDateTime && touched.rows && (
-                              <div className="text-danger">{errors.rows[index].arrivalDateTime}</div>
-                            )}
+                            {errors.rows &&
+                              errors.rows[index]?.arrivalDateTime &&
+                              touched.rows && (
+                                <div className="text-danger">
+                                  {errors.rows[index].arrivalDateTime}
+                                </div>
+                              )}
                           </div>
 
                           {/* Transport Mode */}
@@ -638,11 +678,15 @@ function TransportModal({ rowClickData, CB }) {
                               options={
                                 transportModeDDL?.filter((item) => {
                                   if (
-                                    values?.transportPlanning?.label === "Sea"
+                                    values?.transportPlanning?.label === 'Air'
                                   ) {
-                                    return [17, 18].includes(item?.value);
+                                    return [19, 20, 30, 31].includes(
+                                      item?.value,
+                                    );
                                   } else {
-                                    return [19, 20].includes(item?.value);
+                                    return [17, 18, 30, 31].includes(
+                                      item?.value,
+                                    );
                                   }
                                 }) || []
                               }
@@ -651,7 +695,7 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(valueOption) => {
                                 setFieldValue(
                                   `rows[${index}].transportMode`,
-                                  valueOption
+                                  valueOption,
                                 );
                               }}
                               placeholder="Transport Mode"
@@ -662,51 +706,61 @@ function TransportModal({ rowClickData, CB }) {
                               errors.rows[index]?.transportMode &&
                               touched.rows &&
                               touched.rows[index]?.transportMode && (
-                                <div className="text-danger">{errors.rows[index].transportMode.label || errors.rows[index].transportMode}</div>
+                                <div className="text-danger">
+                                  {errors.rows[index].transportMode.label ||
+                                    errors.rows[index].transportMode}
+                                </div>
                               )}
                           </div>
                           {/* BerthDate  */}
                           <div className="col-lg-3">
                             <InputField
-                              value={values?.rows[index]?.berthDate || ""}
+                              value={values?.rows[index]?.berthDate || ''}
                               label="Estimated Berth Date"
                               name={`rows[${index}].berthDate`}
                               type="datetime-local"
                               onChange={(e) =>
                                 setFieldValue(
                                   `rows[${index}].berthDate`,
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                             />
-                            {errors.rows && errors.rows[index]?.berthDate && touched.rows && (
-                              <div className="text-danger">{errors.rows[index].berthDate}</div>
-                            )}
-
+                            {errors.rows &&
+                              errors.rows[index]?.berthDate &&
+                              touched.rows && (
+                                <div className="text-danger">
+                                  {errors.rows[index].berthDate}
+                                </div>
+                              )}
                           </div>
                           {/* CutOffDate */}
                           <div className="col-lg-3">
                             <InputField
-                              value={values?.rows[index]?.cutOffDate || ""}
+                              value={values?.rows[index]?.cutOffDate || ''}
                               label="Estimated Cut Off Date"
                               name={`rows[${index}].cutOffDate`}
                               type="datetime-local"
                               onChange={(e) =>
                                 setFieldValue(
                                   `rows[${index}].cutOffDate`,
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                             />
-                            {errors.rows && errors.rows[index]?.cutOffDate && touched.rows && (
-                              <div className="text-danger">{errors.rows[index].cutOffDate}</div>
-                            )}
+                            {errors.rows &&
+                              errors.rows[index]?.cutOffDate &&
+                              touched.rows && (
+                                <div className="text-danger">
+                                  {errors.rows[index].cutOffDate}
+                                </div>
+                              )}
                           </div>
                           {/* EstimatedTimeOfDepart */}
                           <div className="col-lg-3">
                             <InputField
                               value={
-                                values?.rows[index]?.estimatedTimeOfDepart || ""
+                                values?.rows[index]?.estimatedTimeOfDepart || ''
                               }
                               label="Estimated Time Of Depart"
                               name={`rows[${index}].estimatedTimeOfDepart`}
@@ -714,13 +768,17 @@ function TransportModal({ rowClickData, CB }) {
                               onChange={(e) =>
                                 setFieldValue(
                                   `rows[${index}].estimatedTimeOfDepart`,
-                                  e.target.value
+                                  e.target.value,
                                 )
                               }
                             />
-                            {errors.rows && errors.rows[index]?.estimatedTimeOfDepart && touched.rows && (
-                              <div className="text-danger">{errors.rows[index].estimatedTimeOfDepart}</div>
-                            )}
+                            {errors.rows &&
+                              errors.rows[index]?.estimatedTimeOfDepart &&
+                              touched.rows && (
+                                <div className="text-danger">
+                                  {errors.rows[index].estimatedTimeOfDepart}
+                                </div>
+                              )}
                           </div>
                         </div>
                         {/* container details  for sea */}
@@ -736,14 +794,13 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(valueOption) => {
                                   setFieldValue(
                                     `rows[${index}].poNumber`,
-                                    valueOption
+                                    valueOption,
                                   );
                                 }}
                                 placeholder="Select"
                                 errors={errors}
                                 touched={touched}
                               />
-
                             </div>
                             {/* Style */}
                             <div className="col-lg-2">
@@ -755,7 +812,7 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(valueOption) => {
                                   setFieldValue(
                                     `rows[${index}].style`,
-                                    valueOption
+                                    valueOption,
                                   );
                                 }}
                                 placeholder="Select"
@@ -768,12 +825,12 @@ function TransportModal({ rowClickData, CB }) {
                               <NewSelect
                                 name={`rows[${index}].color`}
                                 options={colorDDL || []}
-                                value={values?.rows[index]?.color || ""}
+                                value={values?.rows[index]?.color || ''}
                                 label="Color"
                                 onChange={(valueOption) => {
                                   setFieldValue(
                                     `rows[${index}].color`,
-                                    valueOption
+                                    valueOption,
                                   );
                                 }}
                                 placeholder="Select"
@@ -786,7 +843,7 @@ function TransportModal({ rowClickData, CB }) {
                             <div className="col-lg-2">
                               <InputField
                                 value={
-                                  values?.rows[index]?.containerNumber || ""
+                                  values?.rows[index]?.containerNumber || ''
                                 }
                                 label="Container No"
                                 name={`rows[${index}].containerNumber`}
@@ -794,7 +851,7 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].containerNumber`,
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               />
@@ -803,14 +860,14 @@ function TransportModal({ rowClickData, CB }) {
                             {/* Seal No */}
                             <div className="col-lg-2">
                               <InputField
-                                value={values?.rows[index]?.sealNumber || ""}
+                                value={values?.rows[index]?.sealNumber || ''}
                                 label="Seal No"
                                 name={`rows[${index}].sealNumber`}
                                 type="text"
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].sealNumber`,
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               />
@@ -818,31 +875,57 @@ function TransportModal({ rowClickData, CB }) {
 
                             {/* Size */}
                             <div className="col-lg-2">
-                              <InputField
-                                value={values?.rows[index]?.size || ""}
-                                label="Size"
+                              {/* <InputField
+                                value={values?.rows[index]?.size || ''}
+                                label="Container Size"
                                 name={`rows[${index}].size`}
                                 type="text"
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].size`,
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
+                              /> */}
+                              <NewSelect
+                                name={`rows[${index}].size`}
+                                options={[
+                                  { value: '20', label: '20FT' },
+                                  { value: '40', label: '40FT' },
+                                  { value: '40+', label: '40FT High' },
+                                ]}
+                                value={
+                                  values?.rows[index]?.size
+                                    ? {
+                                        value: 0,
+                                        label: values?.rows[index]?.size,
+                                      }
+                                    : ''
+                                }
+                                label="Container Size"
+                                onChange={(valueOption) => {
+                                  setFieldValue(
+                                    `rows[${index}].size`,
+                                    valueOption?.label,
+                                  );
+                                }}
+                                placeholder="Select"
+                                errors={errors}
+                                touched={touched}
                               />
                             </div>
 
                             {/* quantity */}
                             <div className="col-lg-2">
                               <InputField
-                                value={values?.rows[index]?.quantity || ""}
-                                label="Quantity"
+                                value={values?.rows[index]?.quantity || ''}
+                                label="Cartoon Quantity"
                                 name={`rows[${index}].quantity`}
                                 type="number"
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].quantity`,
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               />
@@ -851,14 +934,14 @@ function TransportModal({ rowClickData, CB }) {
                             {/* CBM */}
                             <div className="col-lg-2">
                               <InputField
-                                value={values?.rows[index]?.cbm || ""}
+                                value={values?.rows[index]?.cbm || ''}
                                 label="CBM"
                                 name={`rows[${index}].cbm`}
                                 type="number"
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].cbm`,
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               />
@@ -867,14 +950,14 @@ function TransportModal({ rowClickData, CB }) {
                             {/* KGS */}
                             <div className="col-lg-2">
                               <InputField
-                                value={values?.rows[index]?.kgs || ""}
+                                value={values?.rows[index]?.kgs || ''}
                                 label="KGS"
                                 name={`rows[${index}].kgs`}
                                 type="number"
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].kgs`,
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               />
@@ -901,7 +984,7 @@ function TransportModal({ rowClickData, CB }) {
                                       ?.cbm ||
                                     !formikRef.current?.values?.rows[index]?.kgs
                                   ) {
-                                    toast.error("Please fill all fields");
+                                    toast.error('Please fill all fields');
                                     return;
                                   }
                                   const items =
@@ -911,10 +994,12 @@ function TransportModal({ rowClickData, CB }) {
                                     poNumber:
                                       formikRef.current?.values?.rows[index]
                                         ?.poNumber,
-                                    style: formikRef.current?.values?.rows[index]
-                                      ?.style,
-                                    color: formikRef.current?.values?.rows[index]
-                                      ?.color,
+                                    style:
+                                      formikRef.current?.values?.rows[index]
+                                        ?.style,
+                                    color:
+                                      formikRef.current?.values?.rows[index]
+                                        ?.color,
                                     containerNumber:
                                       formikRef.current?.values?.rows[index]
                                         ?.containerNumber,
@@ -935,21 +1020,21 @@ function TransportModal({ rowClickData, CB }) {
                                         ?.kgs,
                                   });
                                   setFieldValue(`rows[${index}].items`, items);
-                                  setFieldValue(`rows[${index}].poNumber`, "");
-                                  setFieldValue(`rows[${index}].style`, "");
-                                  setFieldValue(`rows[${index}].color`, "");
+                                  setFieldValue(`rows[${index}].poNumber`, '');
+                                  setFieldValue(`rows[${index}].style`, '');
+                                  setFieldValue(`rows[${index}].color`, '');
                                   setFieldValue(
                                     `rows[${index}].containerNumber`,
-                                    ""
+                                    '',
                                   );
                                   setFieldValue(
                                     `rows[${index}].sealNumber`,
-                                    ""
+                                    '',
                                   );
-                                  setFieldValue(`rows[${index}].size`, "");
-                                  setFieldValue(`rows[${index}].quantity`, "");
-                                  setFieldValue(`rows[${index}].cbm`, "");
-                                  setFieldValue(`rows[${index}].kgs`, "");
+                                  setFieldValue(`rows[${index}].size`, '');
+                                  setFieldValue(`rows[${index}].quantity`, '');
+                                  setFieldValue(`rows[${index}].cbm`, '');
+                                  setFieldValue(`rows[${index}].kgs`, '');
                                 }}
                                 className="btn btn-primary"
                                 type="button"
@@ -963,69 +1048,72 @@ function TransportModal({ rowClickData, CB }) {
                         <div className="pt-4">
                           {formikRef.current?.values?.rows[index]?.items
                             ?.length > 0 && (
-                              <table table className="table table-bordered">
-                                <thead>
-                                  <tr>
-                                    <th>PO Number</th>
-                                    <th>Style</th>
-                                    <th>Color</th>
-                                    <th>Container No</th>
-                                    <th>Seal No</th>
-                                    <th>Size</th>
-                                    <th>quantity</th>
-                                    <th>CBM</th>
-                                    <th>KGS</th>
-                                    <th>Action</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {formikRef.current?.values?.rows[
-                                    index
-                                  ]?.items?.map((item, index) => {
-                                    console.log("item", item);
-                                    return (
-                                      <tr key={index}>
-                                        <td>{item?.poNumber?.label}</td>
-                                        <td>{item?.style?.label}</td>
-                                        <td>{item?.color?.label}</td>
-                                        <td>{item?.containerNumber}</td>
-                                        <td>{item?.sealNumber}</td>
-                                        <td>{item?.size}</td>
-                                        <td>{item?.quantity}</td>
-                                        <td>{item?.cbm}</td>
-                                        <td>{item?.kgs}</td>
-                                        <td>
-                                          <IconButton
-                                            onClick={() => {
-                                              const items =
-                                                formikRef.current?.values?.rows[
-                                                  index
-                                                ]?.items || [];
-                                              items.splice(index, 1);
-                                              setFieldValue(
-                                                `rows[${index}].items`,
-                                                items
-                                              );
-                                            }}
-                                            color="error"
-                                            size="small"
-                                          >
-                                            <IDelete />
-                                          </IconButton>
-                                        </td>
-                                      </tr>
-                                    );
-                                  })}
-                                </tbody>
-                              </table>
-                            )}
+                            <table
+                              table
+                              className="table table-bordered global-table"
+                            >
+                              <thead>
+                                <tr>
+                                  <th>PO Number</th>
+                                  <th>Style</th>
+                                  <th>Color</th>
+                                  <th>Container No</th>
+                                  <th>Seal No</th>
+                                  <th>Size</th>
+                                  <th>quantity</th>
+                                  <th>CBM</th>
+                                  <th>KGS</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {formikRef.current?.values?.rows[
+                                  index
+                                ]?.items?.map((item, index) => {
+                                  console.log('item', item);
+                                  return (
+                                    <tr key={index}>
+                                      <td>{item?.poNumber?.label}</td>
+                                      <td>{item?.style?.label}</td>
+                                      <td>{item?.color?.label}</td>
+                                      <td>{item?.containerNumber}</td>
+                                      <td>{item?.sealNumber}</td>
+                                      <td>{item?.size}</td>
+                                      <td>{item?.quantity}</td>
+                                      <td>{item?.cbm}</td>
+                                      <td>{item?.kgs}</td>
+                                      <td>
+                                        <IconButton
+                                          onClick={() => {
+                                            const items =
+                                              formikRef.current?.values?.rows[
+                                                index
+                                              ]?.items || [];
+                                            items.splice(index, 1);
+                                            setFieldValue(
+                                              `rows[${index}].items`,
+                                              items,
+                                            );
+                                          }}
+                                          color="error"
+                                          size="small"
+                                        >
+                                          <IDelete />
+                                        </IconButton>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
+                          )}
                         </div>
 
                         <div
                           style={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            gap: "10px",
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            gap: '10px',
                           }}
                         >
                           <button
@@ -1035,31 +1123,32 @@ function TransportModal({ rowClickData, CB }) {
                               push({
                                 transportPlanning:
                                   shipBookingRequestGetById?.modeOfTransport ===
-                                    "Air"
-                                    ? { value: 1, label: "Air" }
-                                    : { value: 2, label: "Sea" },
-                                pickupLoaction: "",
-                                stuffingDate: "",
-                                vehicleInfo: "",
-                                noOfPallet: "",
-                                airLine: "",
-                                carton: "",
-                                continer: "",
-                                shippingLine: "",
-                                vesselName: "",
-                                arrivalDateTime: "",
-                                transportMode: "",
-                                estimatedTimeOfDepart: "",
-                                berthDate: "",
-                                cutOffDate: "",
-                                iatanumber: "",
+                                  'Air'
+                                    ? { value: 1, label: 'Air' }
+                                    : { value: 2, label: 'Sea' },
+                                pickupLoaction: '',
+                                stuffingDate: '',
+                                vehicleInfo: '',
+                                noOfPallet: '',
+                                airLine: '',
+                                carton: '',
+                                continer: '',
+                                shippingLine: '',
+                                vesselName: '',
+                                voyageNumber: '',
+                                arrivalDateTime: '',
+                                transportMode: '',
+                                estimatedTimeOfDepart: '',
+                                berthDate: '',
+                                cutOffDate: '',
+                                iatanumber: '',
                                 items: [],
-                                containerNumber: "",
-                                sealNumber: "",
-                                size: "",
-                                quantity: "",
-                                cbm: "",
-                                kgs: "",
+                                containerNumber: '',
+                                sealNumber: '',
+                                size: '',
+                                quantity: '',
+                                cbm: '',
+                                kgs: '',
                               })
                             }
                           >
@@ -1091,60 +1180,3 @@ function TransportModal({ rowClickData, CB }) {
 }
 
 export default TransportModal;
-
-// const validationSchema = Yup.object().shape({
-//   // transportPlanning: Yup.object()
-//   //   .shape({
-//   //     label: Yup.string().required('Transport Planning Type is required'),
-//   //     value: Yup.number().required('Transport Planning Type is required'),
-//   //   })
-//   //   .nullable()
-//   //   .typeError('Transport Planning Type is required'),
-//   pickupLocation: Yup.string().required('Pickup Location is required'),
-//   // stuffingDate: Yup.string().required('Stuffing Date is required'),
-//   pickupDate: Yup.string().required('Estimated Pickup Date is required'),
-//   vehicleInfo: Yup.string().required('Vehicle Info is required'),
-//   noOfPallets: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 1,
-//     then: Yup.string().required('No of Pallet is required'),
-//   }),
-//   airLine: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 1,
-//     then: Yup.string().required('Air Line is required'),
-//   }),
-//   iatanumber: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 1,
-//     then: Yup.string().required('Iata Number is required'),
-//   }),
-//   carton: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 1,
-//     then: Yup.string().required('Carton is required'),
-//   }),
-//   noOfContainer: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 2,
-//     then: Yup.string().required('No of Container is required'),
-//   }),
-//   shippingLine: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 2,
-//     then: Yup.string().required('Shipping Line is required'),
-//   }),
-//   vesselName: Yup.string().when('transportPlanning', {
-//     is: (val) => val?.value === 2,
-//     then: Yup.string().required('Vessel Name is required'),
-//   }),
-//   // // departureDateTime: Yup.string().required("Departure Date & Time is required"),
-//   arrivalDateTime: Yup.string().required('Arrival Date & Time is required'),
-//   transportMode: Yup.object()
-//     .shape({
-//       label: Yup.string().required('Transport Mode is required'),
-//       value: Yup.number().required('Transport Mode is required'),
-//     })
-//     .nullable()
-//     .typeError('Transport Mode is required'),
-//   // containerNumber: Yup.string().required("Container No is required"),
-//   // sealNumber: Yup.string().required("Seal No is required"),
-//   // size: Yup.string().required("Size is required"),
-//   // quantity: Yup.string().required("quantity is required"),
-//   // cbm: Yup.string().required("CBM is required"),
-//   // kgs: Yup.string().required("KGS is required"),
-// });
