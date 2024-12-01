@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 import { imarineBaseUrl } from '../../../../../App';
-import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import IDelete from '../../../../_helper/_helperIcons/_delete';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
@@ -53,6 +52,10 @@ const validationSchema = Yup.object().shape({
   vesselName: Yup.string().when('transportPlanning', {
     is: (val) => val?.value === 2,
     then: Yup.string().required('Vessel Name is required'),
+  }),
+  voyageNumber: Yup.string().when('transportPlanning', {
+    is: (val) => val?.value === 2,
+    then: Yup.string().required('Voyage Number is required'),
   }),
   // // departureDateTime: Yup.string().required("Departure Date & Time is required"),
   arrivalDateTime: Yup.string().required('Arrival Date & Time is required'),
@@ -150,6 +153,10 @@ function TransportModal({ rowClickData, CB }) {
               `rows[0].vesselName`,
               transportPlanning?.vesselName || '',
             );
+            formikRef.current.setFieldValue(
+              `rows[0].voyageNumber`,
+              transportPlanning?.voyageNumber || '',
+            );
             // formikRef.current.setFieldValue(
             //   "departureDateTime",
             //   transportPlanning?.departureDateTime || ""
@@ -236,6 +243,7 @@ function TransportModal({ rowClickData, CB }) {
       noOfContainer: row?.noOfContainer || 0,
       airLineOrShippingLine: row?.airLine || row?.shippingLine || '',
       vesselName: row?.vesselName || '',
+      voyageNumber: row?.voyageNumber || '',
       // departureDateTime:
       //   moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
       //   new Date(),
@@ -294,6 +302,7 @@ function TransportModal({ rowClickData, CB }) {
               shippingLine: '',
               iatanumber: '',
               vesselName: '',
+              voyageNumber: '',
               departureDateTime: '',
               arrivalDateTime: '',
               transportMode: '',
@@ -596,6 +605,30 @@ function TransportModal({ rowClickData, CB }) {
                                   touched.rows && (
                                     <div className="text-danger">
                                       {errors.rows[index].vesselName}
+                                    </div>
+                                  )}
+                              </div>
+                              {/* Voyage Number */}
+                              <div className="col-lg-3">
+                                <InputField
+                                  value={
+                                    values?.rows[index]?.voyageNumber || ''
+                                  }
+                                  label="Voyage Number"
+                                  name={`rows[${index}].voyageNumber`}
+                                  type="text"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      `rows[${index}].voyageNumber`,
+                                      e.target.value,
+                                    )
+                                  }
+                                />
+                                {errors.rows &&
+                                  errors.rows[index]?.voyageNumber &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].voyageNumber}
                                     </div>
                                   )}
                               </div>
@@ -1102,6 +1135,7 @@ function TransportModal({ rowClickData, CB }) {
                                 continer: '',
                                 shippingLine: '',
                                 vesselName: '',
+                                voyageNumber: '',
                                 arrivalDateTime: '',
                                 transportMode: '',
                                 estimatedTimeOfDepart: '',

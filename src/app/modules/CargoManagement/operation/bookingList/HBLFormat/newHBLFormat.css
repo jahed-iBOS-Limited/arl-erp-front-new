@@ -38,7 +38,7 @@
 
 
 
-/*<----- Section: BOX 1 STYLES -----> */ 
+/*<----- Section: BOX 1 STYLES -----> */
 .main-container-mgs-air .box1{
     display: flex;
     height: 441px;
@@ -74,7 +74,7 @@
     padding-right: 50px;
 }
 .main-container-mgs-air .box1_left-box_content-4{
-    
+
     border-bottom: 1px solid black;
     height: 30px;
 }
@@ -108,7 +108,7 @@
     border-bottom: 1px solid black;
     height: 26px;
 }
-.main-container-mgs-air .box1_right-box_content-6{ 
+.main-container-mgs-air .box1_right-box_content-6{
     display: flex;
     border-bottom: 1px solid black;
     height: 27px;
@@ -124,14 +124,14 @@
 }
 
 
-/*<----- Section: BOX 2 STYLES -----> */ 
+/*<----- Section: BOX 2 STYLES -----> */
 
 .main-container-mgs-air .box2{
     height: 53px;
     border-bottom: 1px solid black;
 }
 
-/*<----- Section: BOX 3 STYLES -----> */ 
+/*<----- Section: BOX 3 STYLES -----> */
 .main-container-mgs-air .box3{
     height: 230px;
     width: 100%;
@@ -147,7 +147,7 @@
     display: flex;
 }
 
-/*<----- Section: BOX 4 STYLES -----> */ 
+/*<----- Section: BOX 4 STYLES -----> */
 .main-container-mgs-air .box4{
     height: 324px;
     border-bottom: 1px solid black;
