@@ -195,7 +195,23 @@ function ChallanCancel() {
                             <td>{item?.strchallan || "N/A"}</td>
                             <td>{item?.strunint || "N/A"}</td>
                             <td>{item?.intsalesjvid || "N/A"}</td>
-                            <td>{item?.strChallanStatus || "N/A"}</td>
+                            <td>
+                              <span
+                                style={{
+                                  display: "inline-block",
+                                  padding: "0.15em 0.5em",
+                                  borderRadius: "1em",
+                                  color: "white",
+                                  backgroundColor:
+                                    item?.strChallanStatus === "Active"
+                                      ? "green"
+                                      : "yellow",
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                {item?.strChallanStatus || "N/A"}
+                              </span>
+                            </td>
                             <td>{item?.stroder || "N/A"}</td>
                             <td>{item?.ordercomplete ? "Yes" : "No"}</td>
                             <td>{item?.orderqnt || "N/A"}</td>
