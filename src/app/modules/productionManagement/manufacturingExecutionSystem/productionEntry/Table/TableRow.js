@@ -214,10 +214,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
                 // isDisabled={isEdit}
               />
             </div>
-            {selectedBusinessUnit?.value === 188 ||
-            selectedBusinessUnit?.value === 189 ||
-            selectedBusinessUnit?.value === 144 ? (
-              <div className="col-lg-2">
+            <div className="col-lg-2">
                 <NewSelect
                   name="status"
                   options={[
@@ -232,7 +229,6 @@ export function TableRow({ dataForBackCalculationCheck }) {
                   }}
                 />
               </div>
-            ) : null}
             <div className="col-lg-2">
               <label>From Date</label>
               <input
