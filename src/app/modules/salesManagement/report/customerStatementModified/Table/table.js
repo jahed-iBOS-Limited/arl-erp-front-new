@@ -134,11 +134,14 @@ export default function CustomerStatementModifiedReportTable() {
       { value: 1, label: "Details" },
       { value: 2, label: "Top Sheet" },
       { value: 4, label: "Moth Basis Sales" },
-      { value: 6, label: "Item Basis" },
     ];
-    return [94, 178].includes(buId)
-      ? [...reports, { value: 3, label: "G2G Sales Details" }]
-      : reports;
+    if ([94, 178].includes(buId)) {
+      return [...reports, { value: 3, label: "G2G Sales Details" }];
+    }
+    if ([4].includes(buId)) {
+      return [...reports, { value: 6, label: "Item Basis" }];
+    }
+    return reports;
   };
 
   return (
