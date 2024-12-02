@@ -13,6 +13,9 @@ import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import _ from "lodash";
+import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import Loading from "../../../../_helper/_loading";
 // import Loading from '../../../../_helper/_loading';
 
 const validationSchema = Yup.object().shape({
@@ -21,13 +24,14 @@ const validationSchema = Yup.object().shape({
     country: Yup.string().required("Country is required"),
     city: Yup.string().required("City is required"),
     phoneNo: Yup.number().required("Phone No is required"),
-    email: Yup.string().required("Email is required").email("Email is invalid"),
-    website: Yup.string().required("Website is required").url("Website is invalid"),
+    email: Yup.string()
+        .required("Email is required")
+        .email("Email is invalid"),
+    website: Yup.string()
+        .required("Website is required")
+        .url("Website is invalid"),
     currency: Yup.string().required("Currency is required"),
     swiftcode: Yup.string().required("Swift Code is required"),
-
-
-
 });
 function GlobalBankCreate() {
     const history = useHistory();
@@ -41,23 +45,65 @@ function GlobalBankCreate() {
     }, shallowEqual);
     const [countryList, getCountryList] = useAxiosGet();
     const [cityDDL, setCityDDL] = useAxiosGet();
+    const [, SaveGlobalBankConfirm, bookingGlobalBankLoading, ,] = useAxiosPost();
+
 
     const saveHandler = (values, cb) => {
-        const payload = {};
+        const payload = {
+            bankId: 0,
+            bankName: values?.bankName || "",
+            primaryAddress: values?.primaryAddress || "",
+            countryId: values?.country?.value || 0,
+            country: values?.country?.label || "",
+            city: values?.city?.label || "",
+            phoneNo: values?.phoneNo || "",
+            email: values?.email || "",
+            website: values?.website || "",
+            currency: values?.currency || "",
+            swiftcode: values?.swiftcode || "",
+            isActive: true,
+            // createdAt: "2024-12-02T03:14:05.807Z",
+            createdBy: userId,
+            // gbankAddress: [
+            //     {
+            //         bankAddrId: 0,
+            //         bankId: 0,
+            //         bankName: "string",
+            //         address: "string",
+            //         isActive: true,
+            //         createdAt: "2024-12-02T03:14:05.807Z",
+            //         createdBy: 0,
+            //     },
+            // ],
+            gbankAddress: values?.gbankAddress.map((item) => {
+                return {
+                    ...item,
+                    bankName: item?.bankName,
+                    address: item?.address,
+                    // createdAt: "2024-12-02T03:14:05.807Z",
+                    createdBy: userId,
+                };
+            }),
+        };
+        SaveGlobalBankConfirm(
+            `${imarineBaseUrl}/domain/ShippingService/SaveGlobalBank`,
+            payload,
+            cb()
+        );
     };
 
     // Get City DDL
     const debouncedGetCityList = _.debounce((value) => {
         setCityDDL(
-            `${imarineBaseUrl}/domain/ShippingService/GetPreviousCityDDL?search=${value}`,
+            `${imarineBaseUrl}/domain/ShippingService/GetPreviousCityDDL?search=${value}`
         );
     }, 300);
 
     // Get ALL DDL
     React.useEffect(() => {
-        getCountryList(
-            `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
-        );
+        getCountryList(`${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <ICustomCard
@@ -72,7 +118,7 @@ function GlobalBankCreate() {
                 formikRef.current.resetForm();
             }}
         >
-            {/* {isLoading && <Loading />} */}
+            {bookingGlobalBankLoading && <Loading />}
             <Formik
                 enableReinitialize={true}
                 initialValues={{
@@ -88,8 +134,7 @@ function GlobalBankCreate() {
 
                     bankName2: "",
                     address2: "",
-                    gbankAddress: []
-
+                    gbankAddress: [],
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -145,7 +190,7 @@ function GlobalBankCreate() {
                                             value={values?.country}
                                             name="country"
                                             onChange={(valueOption) => {
-                                                setFieldValue('country', valueOption || "");
+                                                setFieldValue("country", valueOption || "");
                                             }}
                                             errors={errors}
                                             touched={touched}
@@ -164,7 +209,7 @@ function GlobalBankCreate() {
                                                     value: 0,
                                                     label: valueOption?.label || null,
                                                 };
-                                                setFieldValue('city', value);
+                                                setFieldValue("city", value);
                                             }}
                                             placeholder="Select or Create New Option"
                                             errors={errors}
@@ -237,8 +282,6 @@ function GlobalBankCreate() {
                                     </div>
                                 </div>
 
-
-
                                 <div className="form-group row global-form">
                                     <div className="col-lg-3">
                                         <InputField
@@ -249,7 +292,6 @@ function GlobalBankCreate() {
                                             onChange={(e) => {
                                                 setFieldValue("bankName2", e.target.value);
                                             }}
-
                                         />
                                     </div>
                                     <div className="col-lg-3">
@@ -261,8 +303,6 @@ function GlobalBankCreate() {
                                             onChange={(e) => {
                                                 setFieldValue("address2", e.target.value);
                                             }}
-
-
                                         />
                                     </div>
                                     <div className="col-sm-12">
@@ -271,11 +311,11 @@ function GlobalBankCreate() {
                                             className="btn btn-primary  mt-4"
                                             onClick={() => {
                                                 if (values.bankName2 === "") {
-                                                    toast.error("Bank Name is required");
+                                                    toast.warn("Bank Name is required");
                                                     return;
                                                 }
                                                 if (values.address2 === "") {
-                                                    toast.error("Address is required");
+                                                    toast.warn("Address is required");
                                                     return;
                                                 }
 
@@ -289,7 +329,6 @@ function GlobalBankCreate() {
                                                 setFieldValue("address2", "");
                                                 setFieldValue("bankName2", "");
                                             }}
-
                                         >
                                             Add
                                         </button>
@@ -298,50 +337,48 @@ function GlobalBankCreate() {
                             </div>
                             <Divider />
                         </Form>
-                        {
-                            values.gbankAddress?.length > 0 && (
-                                <div className="table-responsive">
-                                    <table className="table table-bordered global-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Bank Name</th>
-                                                <th>Address</th>
-                                                <th>Action</th>
+                        {values.gbankAddress?.length > 0 && (
+                            <div className="table-responsive">
+                                <table className="table table-bordered global-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Bank Name</th>
+                                            <th>Address</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {values.gbankAddress?.map((item, index) => (
+                                            <tr key={index}>
+                                                <td>{item.bankName}</td>
+                                                <td>{item.address}</td>
+                                                <td>
+                                                    <div className="d-flex justify-content-center">
+                                                        <Button
+                                                            onClick={() => {
+                                                                const filterData = values.gbankAddress.filter(
+                                                                    (itm, indx) => indx !== index
+                                                                );
+                                                                setFieldValue("gbankAddress", filterData);
+                                                            }}
+                                                            color="error"
+                                                            size="small"
+                                                            title="Remove"
+                                                        >
+                                                            <IDelete />
+                                                        </Button>
+                                                    </div>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            {values.gbankAddress?.map((item, index) => (
-                                                <tr key={index}>
-                                                    <td>{item.bankName}</td>
-                                                    <td>{item.address}</td>
-                                                    <td>
-                                                        <div className="d-flex justify-content-center">
-                                                            <Button
-                                                                onClick={() => {
-                                                                    const filterData = values.gbankAddress.filter(
-                                                                        (itm, indx) => indx !== index
-                                                                    );
-                                                                    setFieldValue("gbankAddress", filterData);
-                                                                }}
-                                                                color="error"
-                                                                size="small"
-                                                                title="Remove"
-                                                            >
-                                                                <IDelete />
-                                                            </Button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            )
-                        }
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
                     </>
                 )}
             </Formik>
-        </ICustomCard >
+        </ICustomCard>
     );
 }
 
