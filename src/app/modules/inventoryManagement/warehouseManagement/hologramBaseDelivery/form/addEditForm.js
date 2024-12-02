@@ -123,6 +123,7 @@ const HologramBaseDeliveryForm = () => {
   };
 
   const addBtnHandler = (values, setValues) => {
+    console.log(salesOrderList?.objRow, "objRow =================== ");
     if (salesOrderList?.objRow?.length > 0) {
       const modifiedSalesOrderList = [];
       if (salesOrderList?.objRow?.length > 0) {
