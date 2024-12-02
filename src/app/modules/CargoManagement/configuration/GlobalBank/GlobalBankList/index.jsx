@@ -11,6 +11,7 @@ import Loading from '../../../../_helper/_loading';
 
 export default function GlobalBankList() {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [selectedItem, setSelectedItem] = React.useState(null);
     const [globalBankList, GetGlobalBankList, isLoading] = useAxiosGet();
     let history = useHistory();
     const [pageNo, setPageNo] = React.useState(0);
@@ -88,6 +89,7 @@ export default function GlobalBankList() {
                                                 className="btn btn-primary ml-2"
                                                 onClick={() => {
                                                     setIsModalOpen(true);
+                                                    setSelectedItem(item);
                                                 }}
                                             >
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
@@ -112,6 +114,8 @@ export default function GlobalBankList() {
                 isModalOpen && <BankDetailsModal
                     isModalOpen={isModalOpen}
                     setIsModalOpen={setIsModalOpen}
+                    selectedItem={selectedItem}
+
 
                 />
             }

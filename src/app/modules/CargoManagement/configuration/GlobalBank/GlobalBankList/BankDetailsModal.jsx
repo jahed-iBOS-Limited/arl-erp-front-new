@@ -1,19 +1,18 @@
 import React from 'react'
 import IViewModal from '../../../../_helper/_viewModal';
 import ICustomCard from '../../../../_helper/_customCard';
-// "gbankAddress": [
-//     {
-//         "bankName": "DDBL",
-//         "address": "Dhaka",
-//         "createdBy": 521235
-//     },
-//     {
-//         "bankName": "2w",
-//         "address": "23",
-//         "createdBy": 521235
-//     }
-// ]
-export default function BankDetailsModal({ isModalOpen, setIsModalOpen }) {
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { imarineBaseUrl } from '../../../../../App';
+import Loading from '../../../../_helper/_loading';
+
+export default function BankDetailsModal({ isModalOpen, setIsModalOpen, selectedItem }) {
+    const [bankAddressById, GetBankAddressById, isLoading] = useAxiosGet();
+    React.useEffect(() => {
+        GetBankAddressById(
+            `${imarineBaseUrl}/domain/ShippingService/GetGlobalBankById?bankId=${selectedItem?.bankId}`,
+        );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedItem]);
     return (
         <IViewModal
             title="Bank Details Modal"
@@ -22,6 +21,9 @@ export default function BankDetailsModal({ isModalOpen, setIsModalOpen }) {
                 setIsModalOpen(false);
             }}
         >
+            {
+                isLoading && <Loading />
+            }
             <ICustomCard
                 title={'Bank Details'}
                 backHandler={() => {
@@ -29,23 +31,23 @@ export default function BankDetailsModal({ isModalOpen, setIsModalOpen }) {
                 }}
             >
                 <p>
-                    Bank Name: <span>Bank Name</span>
+                    Bank Name: <span>{bankAddressById?.bankName}</span>
                     <br />
-                    Primary Address: <span>Primary Address</span>
+                    Primary Address: <span>{bankAddressById?.primaryAddress}</span>
                     <br />
-                    Country: <span>Country</span>
+                    Country: <span>{bankAddressById?.country}</span>
                     <br />
-                    City: <span>City</span>
+                    City: <span>{bankAddressById?.city}</span>
                     <br />
-                    Phone Number: <span>Phone Number</span>
+                    Phone Number: <span>{bankAddressById?.phoneNo}</span>
                     <br />
-                    Email: <span>Email</span>
+                    Email: <span>{bankAddressById?.email}</span>
                     <br />
-                    Website: <span>Website</span>
+                    Website: <span>{bankAddressById?.website}</span>
                     <br />
-                    Swift Code: <span>Swift Code</span>
+                    Swift Code: <span>{bankAddressById?.swiftcode}</span>
                     <br />
-                    Currency: <span>Currency</span>
+                    Currency: <span>{bankAddressById?.currency}</span>
                     <br />
 
                 </p>
@@ -61,11 +63,15 @@ export default function BankDetailsModal({ isModalOpen, setIsModalOpen }) {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>N/A</td>
-                                <td>N/A</td>
-                            </tr>
+                            {bankAddressById?.gbankAddress?.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.bankName}</td>
+                                    <td>{item.address}</td>
+                                </tr>
+                            ))}
+
+
                         </tbody>
                     </table>
                 </div>
