@@ -4,6 +4,7 @@ import { ContentRoute } from '../../../../_metronic/layout';
 import BusinessPartnerList from './BusinessPartnerList';
 import CreateBusinessPartner from './CreateBusinessPartner';
 import CreateGlobalBank from './GlobalBank/GlobalBankCreate';
+import GlobalBankList from './GlobalBank/GlobalBankList';
 
 export function ConfigurationPages() {
   return (
@@ -26,8 +27,16 @@ export function ConfigurationPages() {
         component={BusinessPartnerList}
       />
       <ContentRoute
-        path="/cargoManagement/configuration/globalBank"
+        path="/cargoManagement/configuration/globalBank/create"
         component={CreateGlobalBank}
+      />
+      <ContentRoute
+        path="/cargoManagement/configuration/globalBank/edit/:id"
+        component={CreateGlobalBank}
+      />
+      <ContentRoute
+        path="/cargoManagement/configuration/globalBank"
+        component={GlobalBankList}
       />
     </Switch>
   );

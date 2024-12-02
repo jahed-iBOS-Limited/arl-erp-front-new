@@ -1,0 +1,112 @@
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { imarineBaseUrl } from '../../../../../App';
+import ICustomCard from '../../../../_helper/_customCard';
+import { toast } from 'react-toastify';
+import BankDetailsModal from './BankDetailsModal';
+
+export default function GlobalBankList() {
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [deliveryAgentList, setDeliveryAgentList] = useAxiosGet();
+    let history = useHistory();
+    const [pageNo, setPageNo] = React.useState(0);
+    const [pageSize, setPageSize] = React.useState(15);
+
+    React.useEffect(() => {
+        commonLandingApi();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const commonLandingApi = (
+        searchValue,
+        PageNo = pageNo,
+        PageSize = pageSize,
+    ) => {
+        setDeliveryAgentList(
+            `${imarineBaseUrl}/domain/ShippingService/GetParticipantsLanding?PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue ??
+            ''}`,
+        );
+
+    };
+
+    return (
+        <ICustomCard
+            title="Bank List"
+            createHandler={() => {
+                history.push('/cargoManagement/configuration/globalBank/create');
+            }}
+            backHandler={() => {
+                history.goBack();
+            }}
+        >
+            <div className="col-lg-12">
+                <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
+                        <thead>
+                            <tr>
+                                <th>SL</th>
+                                <th>Bank Name</th>
+                                <th>Primary Address</th>
+                                <th>Country </th>
+                                <th>Country</th>
+                                <th>City</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {deliveryAgentList?.participant?.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>
+                                        <div className="d-flex justify-content-center">
+                                            <button
+                                                className="btn btn-primary"
+                                                onClick={() => {
+                                                    history.push(
+                                                        `/cargoManagement/configuration/globalBank/edit/${item?.bankId}`,
+                                                    );
+                                                }}
+                                            >
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            </button>
+                                            <button
+                                                className="btn btn-primary ml-2"
+                                                onClick={() => {
+                                                    setIsModalOpen(true);
+                                                }}
+                                            >
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </button>
+                                            <button
+                                                className="btn btn-danger ml-2"
+                                                onClick={() => {
+                                                    toast.info("This feature is not implemented yet")
+                                                }}
+                                            >
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {
+                isModalOpen && <BankDetailsModal
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+
+                />
+            }
+
+        </ICustomCard>
+    );
+}
