@@ -46,11 +46,11 @@ function GlobalBankCreate() {
     const [countryList, getCountryList] = useAxiosGet();
     const [cityDDL, setCityDDL] = useAxiosGet();
     const [, SaveGlobalBankConfirm, bookingGlobalBankLoading, ,] = useAxiosPost();
-
+    const [, GetBankAddressById, isLoading] = useAxiosGet();
 
     const saveHandler = (values, cb) => {
         const payload = {
-            bankId: 0,
+            bankId: id || 0,
             bankName: values?.bankName || "",
             primaryAddress: values?.primaryAddress || "",
             countryId: values?.country?.value || 0,
@@ -62,26 +62,16 @@ function GlobalBankCreate() {
             currency: values?.currency || "",
             swiftcode: values?.swiftcode || "",
             isActive: true,
-            // createdAt: "2024-12-02T03:14:05.807Z",
             createdBy: userId,
-            // gbankAddress: [
-            //     {
-            //         bankAddrId: 0,
-            //         bankId: 0,
-            //         bankName: "string",
-            //         address: "string",
-            //         isActive: true,
-            //         createdAt: "2024-12-02T03:14:05.807Z",
-            //         createdBy: 0,
-            //     },
-            // ],
             gbankAddress: values?.gbankAddress.map((item) => {
                 return {
                     ...item,
                     bankName: item?.bankName,
                     address: item?.address,
-                    // createdAt: "2024-12-02T03:14:05.807Z",
-                    createdBy: userId,
+                    createdBy: item?.createdBy || userId,
+                    bankAddrId: item?.bankAddrId || 0,
+                    bankId: item?.bankId || 0,
+                    isActive: true,
                 };
             }),
         };
@@ -105,6 +95,39 @@ function GlobalBankCreate() {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    // get bank data by id for edit
+    React.useEffect(() => {
+        if (id) {
+            GetBankAddressById(
+                `${imarineBaseUrl}/domain/ShippingService/GetGlobalBankById?bankId=${id}`,
+                (data) => {
+                    console.log(data);
+                    formikRef.current.setValues({
+                        bankName: data?.bankName || "",
+                        primaryAddress: data?.primaryAddress || "",
+                        country: {
+                            value: data?.countryId || 0,
+                            label: data?.country || "",
+                        },
+                        city: {
+                            value: 0,
+                            label: data?.city || "",
+                        },
+                        phoneNo: data?.phoneNo || "",
+                        email: data?.email || "",
+                        website: data?.website || "",
+                        currency: data?.currency || "",
+                        swiftcode: data?.swiftcode || "",
+                        bankName2: "",
+                        address2: "",
+                        gbankAddress: data?.gbankAddress || [],
+                    });
+                }
+            );
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id]);
     return (
         <ICustomCard
             title={id ? "Edit Global Bank" : "Create Global Bank"}
@@ -113,12 +136,13 @@ function GlobalBankCreate() {
             }}
             saveHandler={(values) => {
                 formikRef.current.submitForm();
+
             }}
             resetHandler={() => {
                 formikRef.current.resetForm();
             }}
         >
-            {bookingGlobalBankLoading && <Loading />}
+            {(bookingGlobalBankLoading || isLoading) && <Loading />}
             <Formik
                 enableReinitialize={true}
                 initialValues={{
