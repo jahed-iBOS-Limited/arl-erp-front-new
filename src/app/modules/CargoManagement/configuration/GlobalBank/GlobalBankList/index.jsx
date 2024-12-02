@@ -5,10 +5,13 @@ import { imarineBaseUrl } from '../../../../../App';
 import ICustomCard from '../../../../_helper/_customCard';
 import { toast } from 'react-toastify';
 import BankDetailsModal from './BankDetailsModal';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
+import Loading from '../../../../_helper/_loading';
 
 export default function GlobalBankList() {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
-    const [deliveryAgentList, setDeliveryAgentList] = useAxiosGet();
+    const [globalBankList, GetGlobalBankList, isLoading] = useAxiosGet();
     let history = useHistory();
     const [pageNo, setPageNo] = React.useState(0);
     const [pageSize, setPageSize] = React.useState(15);
@@ -17,14 +20,13 @@ export default function GlobalBankList() {
         commonLandingApi();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
     const commonLandingApi = (
         searchValue,
         PageNo = pageNo,
         PageSize = pageSize,
     ) => {
-        setDeliveryAgentList(
-            `${imarineBaseUrl}/domain/ShippingService/GetParticipantsLanding?PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue ??
+        GetGlobalBankList(
+            `${imarineBaseUrl}/domain/ShippingService/GetGlobalBankLanding?PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue ??
             ''}`,
         );
 
@@ -40,6 +42,15 @@ export default function GlobalBankList() {
                 history.goBack();
             }}
         >
+            {
+                isLoading && <Loading />
+            }
+            <PaginationSearch
+                placeholder="Search Bank"
+                paginationSearchHandler={(searchValue) => {
+                    commonLandingApi(searchValue, 1, 100);
+                }}
+            />
             <div className="col-lg-12">
                 <div className="table-responsive">
                     <table className="table table-striped table-bordered global-table">
@@ -49,20 +60,18 @@ export default function GlobalBankList() {
                                 <th>Bank Name</th>
                                 <th>Primary Address</th>
                                 <th>Country </th>
-                                <th>Country</th>
                                 <th>City</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {deliveryAgentList?.participant?.map((item, index) => (
+                            {globalBankList?.data?.map((item, index) => (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
-                                    <td>N/A</td>
-                                    <td>N/A</td>
-                                    <td>N/A</td>
-                                    <td>N/A</td>
-                                    <td>N/A</td>
+                                    <td>{item?.bankName}</td>
+                                    <td>{item?.primaryAddress}</td>
+                                    <td>{item?.country}</td>
+                                    <td>{item?.city}</td>
                                     <td>
                                         <div className="d-flex justify-content-center">
                                             <button
@@ -106,6 +115,20 @@ export default function GlobalBankList() {
 
                 />
             }
+            {globalBankList?.data?.length > 0 && (
+                <PaginationTable
+                    count={globalBankList?.totalCount}
+                    setPositionHandler={(pageNo, pageSize) => {
+                        commonLandingApi(null, pageNo, pageSize);
+                    }}
+                    paginationState={{
+                        pageNo,
+                        setPageNo,
+                        pageSize,
+                        setPageSize,
+                    }}
+                />
+            )}
 
         </ICustomCard>
     );
