@@ -8,11 +8,14 @@ import BankDetailsModal from './BankDetailsModal';
 import PaginationTable from '../../../../_helper/_tablePagination';
 import PaginationSearch from '../../../../_helper/_search';
 import Loading from '../../../../_helper/_loading';
+import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
 
 export default function GlobalBankList() {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [selectedItem, setSelectedItem] = React.useState(null);
     const [globalBankList, GetGlobalBankList, isLoading] = useAxiosGet();
+    const [, DeleteGlobalBank, bdeleteLoading] = useAxiosPut();
+
     let history = useHistory();
     const [pageNo, setPageNo] = React.useState(0);
     const [pageSize, setPageSize] = React.useState(15);
@@ -32,6 +35,16 @@ export default function GlobalBankList() {
         );
 
     };
+    const handleDelete = (id) => {
+        DeleteGlobalBank(
+            `${imarineBaseUrl}/domain/ShippingService/RemoveGlobalBankById?bankId=${id}`,
+            null,
+            () => {
+                commonLandingApi();
+                toast.success('Bank Deleted Successfully');
+            }
+        );
+    }
 
     return (
         <ICustomCard
@@ -97,7 +110,7 @@ export default function GlobalBankList() {
                                             <button
                                                 className="btn btn-danger ml-2"
                                                 onClick={() => {
-                                                    toast.info("This feature is not implemented yet")
+                                                    handleDelete(item?.bankId);
                                                 }}
                                             >
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
