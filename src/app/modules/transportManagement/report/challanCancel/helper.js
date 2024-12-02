@@ -13,7 +13,7 @@ export const getDistributionChannelDDL_api = async (accId, buId, setter) => {
 };
 
 export const getChallanInfo = async (
-  accId,
+  userId,
   buId,
   customerId,
   challan,
@@ -25,7 +25,7 @@ export const getChallanInfo = async (
   setLoading(true);
   try {
     const res = await Axios.get(
-      `/oms/SalesInformation/SalesChallanRollBack?Challan=${challan}&unitid=${buId}&intpartid=${partId}&strNarration=${naration}&intInactiveBy=${accId}&intCustomerid=${customerId}`
+      `/oms/SalesInformation/SalesChallanRollBack?Challan=${challan}&unitid=${buId}&intpartid=${partId}&strNarration=${naration}&intInactiveBy=${userId}&intCustomerid=${customerId}`
     );
     setter(res?.data);
     setLoading(false);
