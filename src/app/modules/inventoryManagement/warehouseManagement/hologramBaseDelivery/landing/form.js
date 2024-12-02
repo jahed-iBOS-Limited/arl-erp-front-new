@@ -68,22 +68,51 @@ const HologramBaseDeliveryLanding = () => {
       `/wms/Delivery/ShippointLatitudeNLongitude?BusinessUnitId=${buId}&ShippointId=${values?.shipPoint?.value}`,
       setIsLoader,
       (resData) => {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          getDistanceOfTwoLocations(
-            // getting distance between two locations
-            `/tms/InternalTransport/DistanceFromLatitudeNLongitude?Source_Longitude=${resData?.longitude}&Source_Latitude=${resData?.latitude}&Target_Longitude=${position.coords.longitude}&Target_Latitude=${position.coords.latitude}`,
-            (res) => {
-              console.log(res);
-              if (res < 1001) {
-                cb();
-              } else {
-                return toast.error(
-                  "This location is not allowed to create hologram base delivery. please try another location!"
-                );
+        navigator.geolocation.getCurrentPosition(
+          function(position) {
+            getDistanceOfTwoLocations(
+              // getting distance between two locations
+              `/tms/InternalTransport/DistanceFromLatitudeNLongitude?Source_Longitude=${resData?.longitude}&Source_Latitude=${resData?.latitude}&Target_Longitude=${position.coords.longitude}&Target_Latitude=${position.coords.latitude}`,
+              (res) => {
+                console.log(res);
+                if (res < 1001) {
+                  cb();
+                } else {
+                  return toast.error(
+                    "This location is not allowed to create hologram base delivery. please try another location!"
+                  );
+                }
               }
+            );
+          },
+          function(error) {
+            // Handle errors
+            switch (error.code) {
+              case error.PERMISSION_DENIED:
+                toast.error(
+                  "Location permission denied. Please enable location services on you device."
+                );
+                break;
+              case error.POSITION_UNAVAILABLE:
+                toast.error(
+                  "Location information is unavailable. Please try again later."
+                );
+                break;
+              case error.TIMEOUT:
+                toast.error("Location request timed out. Please try again.");
+                break;
+              default:
+                toast.error("An unknown error occurred. Please try again.");
+                break;
             }
-          );
-        });
+          },
+          {
+            // Optional settings
+            enableHighAccuracy: true, // Request high accuracy if available
+            timeout: 10000, // Timeout in milliseconds
+            maximumAge: 0, // Avoid caching
+          }
+        );
       }
     );
   };
@@ -95,6 +124,7 @@ const HologramBaseDeliveryLanding = () => {
     getPermission(
       `/wms/FertilizerOperation/GetAllModificationPermission?UserEnroll=${userId}&BusinessUnitId=${buId}&Type=YsnHologramPrint`,
       (permitted) => {
+        console.log(permitted, "permitted");
         if (permitted) {
           locationCheck(values, () => {
             history.push({

@@ -13,6 +13,7 @@ import { Tab, Tabs } from "react-bootstrap";
 import OthersItem from "./othersItem";
 import RawMaterialAutoPR from "./rawMaterial";
 import RawMaterialAutoPRNew from "./rawMaterialNew";
+import ForecastVsActual from "./forecastvsActual";
 
 const initData = {
   purchaseOrganization: "",
@@ -194,6 +195,9 @@ export default function AutoPRCalculation() {
               </Tab>
               <Tab unmountOnExit eventKey="others" title="Others Item">
                 <OthersItem />
+              </Tab>
+              <Tab unmountOnExit eventKey="ForecastvsActual" title="Forecast vs Actual">
+                <ForecastVsActual/>
               </Tab>
             </Tabs>
           </IForm>
