@@ -45,7 +45,7 @@ function ChallanCancel() {
 
   const getChallan = (values, partId) => {
     getChallanInfo(
-      accId,
+      userId,
       buId,
       values?.customer?.value,
       values?.challan,
@@ -201,11 +201,14 @@ function ChallanCancel() {
                                   display: "inline-block",
                                   padding: "0.15em 0.5em",
                                   borderRadius: "1em",
-                                  color: "white",
+                                  color:
+                                    item?.strChallanStatus === "Active"
+                                      ? "white"
+                                      : "#3a3a3a",
                                   backgroundColor:
                                     item?.strChallanStatus === "Active"
                                       ? "green"
-                                      : "yellow",
+                                      : "#ffbf00",
                                   fontWeight: "bold",
                                 }}
                               >
