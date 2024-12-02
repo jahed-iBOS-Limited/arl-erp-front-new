@@ -118,10 +118,10 @@ export function TransportReportPages() {
           path="/transport-management/report/challanInformationUpdate"
           component={ChallanInformationUpdate}
         />
-        {/* <ContentRoute
+        <ContentRoute
           path="/transport-management/report/challanCancel"
           component={ChallanCancel}
-        /> */}
+        />
         <ContentRoute
           path="/transport-management/report/sheduleNUnshedule"
           component={SheduleNUnshedule}
