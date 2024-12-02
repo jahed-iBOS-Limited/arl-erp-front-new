@@ -86,7 +86,7 @@ const validationSchema = Yup.object().shape({
     value: Yup.number().required('Notify Party is required'),
     label: Yup.string().required('Notify Party is required'),
   }),
-  negotiationParty: Yup.string().required('Negotiation Party is required'),
+  // negotiationParty: Yup.string().required('Negotiation Party is required'),
   freightAgentReference: Yup.object().shape({
     value: Yup.number().required('Delivery Agent is required'),
     label: Yup.string().required('Delivery Agent is required'),
