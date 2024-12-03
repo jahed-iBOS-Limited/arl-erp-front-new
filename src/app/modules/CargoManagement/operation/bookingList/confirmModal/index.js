@@ -77,7 +77,10 @@ const validationSchema = Yup.object().shape({
   consigneeEmail: Yup.string()
     .email('Email is invalid')
     .required('Email is required'),
-  bankAddress: Yup.string().required('Bank Address is required'),
+  bankAddress: Yup.object().shape({
+    value: Yup.number().required('Buyer Bank Address is required'),
+    label: Yup.string().required('Buyer Bank Address is required'),
+  }),
   buyerBank: Yup.object().shape({
     value: Yup.number().required('Buyer Bank is required'),
     label: Yup.string().required('Buyer Bank is required'),
@@ -100,6 +103,7 @@ function ConfirmModal({ rowClickData, CB }) {
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, SaveBookingConfirm, bookingConfirmLoading, ,] = useAxiosPut();
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
+  const [buyerBankAddressDDL, setBuyerBankAddressDDL] = React.useState([]);
   const [
     shipBookingRequestGetById,
     setShipBookingRequestGetById,
@@ -125,16 +129,16 @@ function ConfirmModal({ rowClickData, CB }) {
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
 
   const getGlobalBankAddress = (id) => {
+    if (!id) return
+
     setBlobalBankAddressDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetBlobalBankAddressDDL?gBankId=${id}`,
       (data) => {
-        formikRef.current.setFieldValue(
-          'bankAddress',
-          data?.primaryAddress || '',
-        );
-      },
-    );
-  };
+        // formikRef.current.setFieldValue('bankAddress', data?.primaryAddress || '');
+        setBuyerBankAddressDDL(data);
+      }
+    )
+  }
 
   const debouncedGetCityList = _.debounce((value) => {
     setCityDDL(
@@ -164,27 +168,27 @@ function ConfirmModal({ rowClickData, CB }) {
               'consigneeName',
               data?.consigneeId
                 ? {
-                    value: data?.consigneeId || 0,
-                    label: data?.consigneeName || '',
-                  }
+                  value: data?.consigneeId || 0,
+                  label: data?.consigneeName || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeCountry',
               data?.consigCountryId
                 ? {
-                    value: data?.consigCountryId || 0,
-                    label: data?.consigCountry || '',
-                  }
+                  value: data?.consigCountryId || 0,
+                  label: data?.consigCountry || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeDivisionAndState',
               data?.consigState
                 ? {
-                    value: 0,
-                    label: data?.consigState || '',
-                  }
+                  value: 0,
+                  label: data?.consigState || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -207,35 +211,41 @@ function ConfirmModal({ rowClickData, CB }) {
               'consigneeEmail',
               data?.consigneeEmail || '',
             );
+
             formikRef.current.setFieldValue(
               'bankAddress',
-              data?.notifyBankAddr || '',
+              data?.notifyBankAddr
+                ? {
+                  value: 0,
+                  label: data?.notifyBankAddr || '',
+                }
+                : '',
             );
             formikRef.current.setFieldValue(
               'notifyParty',
               data?.notifyParty
                 ? {
-                    value: 0,
-                    label: data?.notifyParty || '',
-                  }
+                  value: 0,
+                  label: data?.notifyParty || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'buyerBank',
               data?.buyerBank
                 ? {
-                    value: 0,
-                    label: data?.buyerBank || '',
-                  }
+                  value: 0,
+                  label: data?.buyerBank || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
               'notifyParty2',
               data?.notifyParty2
                 ? {
-                    value: 0,
-                    label: data?.notifyParty2 || '',
-                  }
+                  value: 0,
+                  label: data?.notifyParty2 || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -246,9 +256,9 @@ function ConfirmModal({ rowClickData, CB }) {
               'freightAgentReference',
               data?.freightAgentReference
                 ? {
-                    value: 0,
-                    label: data?.freightAgentReference || '',
-                  }
+                  value: 0,
+                  label: data?.freightAgentReference || '',
+                }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -266,9 +276,9 @@ function ConfirmModal({ rowClickData, CB }) {
               'confTransportMode',
               data?.confTransportMode
                 ? {
-                    value: 0,
-                    label: data?.confTransportMode || '',
-                  }
+                  value: 0,
+                  label: data?.confTransportMode || '',
+                }
                 : '',
             );
           }
@@ -361,7 +371,7 @@ function ConfirmModal({ rowClickData, CB }) {
       consigneeContactPerson: values?.consigneeContactPerson || '',
       consigneeContact: values?.consigneeContact || '',
       consigneeEmail: values?.consigneeEmail || '',
-      notifyBankAddr: values?.bankAddress || '',
+      notifyBankAddr: values?.bankAddress.label || '',
       buyerBank: values?.buyerBank?.label || '',
       buyerBankId: values?.buyerBank?.value || 0,
       consigCountryId: values?.consigneeCountry?.value || 0,
@@ -379,6 +389,8 @@ function ConfirmModal({ rowClickData, CB }) {
       consignCity: values?.consignCity?.label || '',
       consignPostalCode: values?.consignPostalCode || '',
     };
+    // console.log(payload)
+    // return
 
     if (payload) {
       SaveBookingConfirm(
@@ -393,8 +405,7 @@ function ConfirmModal({ rowClickData, CB }) {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${
-          profileData?.accountId
+        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId
         }&BusinessUnitId=${225}&Search=${v}`,
       )
       .then((res) => {
@@ -779,6 +790,10 @@ function ConfirmModal({ rowClickData, CB }) {
                     onChange={(valueOption) => {
                       setFieldValue('buyerBank', valueOption);
                       getGlobalBankAddress(valueOption?.value);
+                      setFieldValue('bankAddress', {
+                        value: 0,
+                        label: '',
+                      })
                     }}
                     placeholder="Buyer Bank"
                     errors={errors}
@@ -787,14 +802,17 @@ function ConfirmModal({ rowClickData, CB }) {
                 </div>
                 {/*bank Address*/}
                 <div className="col-lg-3">
-                  <InputField
+                  <NewSelect
+                    name="bankAddress"
+                    options={buyerBankAddressDDL || []}
                     value={values?.bankAddress}
                     label="Bank Address"
-                    name="bankAddress"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue('bankAddress', e.target.value)
-                    }
+                    onChange={(valueOption) => {
+                      setFieldValue('bankAddress', valueOption);
+                    }}
+                    placeholder="Delivery Agent"
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 {/* Notify Party ddl */}
