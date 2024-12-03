@@ -287,7 +287,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                     {bookingData?.transportPlanning?.map((item, index) => {
                       return (
                         <>
-                          {item?.vesselName} / {item?.voyageNumber} <br />
+                          {item?.vesselName} / {item?.voyagaNo} <br />
                           {index < bookingData?.transportPlanning?.length - 1
                             ? ','
                             : ''}
