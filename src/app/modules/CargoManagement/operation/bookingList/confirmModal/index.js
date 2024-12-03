@@ -239,10 +239,15 @@ function ConfirmModal({ rowClickData, CB }) {
                 }
                 : '',
             );
-            formikRef.current.setFieldValue('notifyParty2', data?.notifyParty2 ? {
-              value: 0,
-              label: data?.notifyParty2 || '',
-            } : '',);
+            formikRef.current.setFieldValue(
+              'notifyParty2',
+              data?.notifyParty2
+                ? {
+                  value: 0,
+                  label: data?.notifyParty2 || '',
+                }
+                : '',
+            );
             formikRef.current.setFieldValue(
               'negotiationParty',
               data?.negotiationParty || '',
@@ -291,13 +296,10 @@ function ConfirmModal({ rowClickData, CB }) {
     getConsigneeName(
       `${imarineBaseUrl}/domain/ShippingService/GetParticipantDDL?typeId=1`,
       (redData) => {
-
         setConsigneeName(redData);
       },
     );
-    setBankListDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetBlobalBankDDL`,
-    );
+    setBankListDDL(`${imarineBaseUrl}/domain/ShippingService/GetBlobalBankDDL`);
 
     getConsigneeCountryList(
       `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
@@ -313,12 +315,11 @@ function ConfirmModal({ rowClickData, CB }) {
     getParticipantsWithConsigneeDtl(
       `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsigneeDtl?consigneeId=${id}`,
       (data) => {
-
         if (data?.deliveryAgentList) {
           const modifyData = data?.deliveryAgentList?.map((i) => {
             return {
               ...i,
-              label: i?.participantsName || "",
+              label: i?.participantsName || '',
               value: i?.participantId || 0,
             };
           });
@@ -328,16 +329,14 @@ function ConfirmModal({ rowClickData, CB }) {
           const modifyData = data?.notifyPartyList?.map((i) => {
             return {
               ...i,
-              label: i?.participantsName || "",
+              label: i?.participantsName || '',
               value: i?.participantId || 0,
             };
           });
           setNotifyParty(modifyData || []);
         }
-
       },
     );
-
   };
 
   const saveHandler = (values, cb) => {
@@ -631,15 +630,13 @@ function ConfirmModal({ rowClickData, CB }) {
                       setFieldValue('consigneeName', valueOption);
                       if (valueOption?.value) {
                         consigneeOnChangeHandler(valueOption?.value);
-                      }
-                      else {
+                      } else {
                         setDeliveryAgentDDL([]);
                         setNotifyParty([]);
                         setFieldValue('freightAgentReference', '');
                         setFieldValue('notifyParty', '');
                         setFieldValue('notifyParty2', '');
                       }
-
                     }}
                     placeholder="Consignee’s Name"
                     errors={errors}
