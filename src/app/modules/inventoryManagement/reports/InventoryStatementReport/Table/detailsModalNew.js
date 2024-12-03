@@ -110,8 +110,8 @@ const DetailsModalNew = ({ tableItem, values, type, whId }) => {
                 <th>Quantity</th>
                 <th>Value</th>
                 <th>Closing Stock</th>
-                {/* <th>Running Rate</th> */}
-                <th>Avg Rate</th>
+                <th>Running Unit Rate</th>
+                <th>Weighted Avg Rate</th>
               </tr>
             </thead>
             <tbody>
@@ -132,7 +132,7 @@ const DetailsModalNew = ({ tableItem, values, type, whId }) => {
                         {item?.issueOrReceiveValue?.toFixed(4)}
                       </td>
                       <td className="text-right">{item?.closingStock}</td>
-                      {/* <td className="text-right">{(item?.runingRate)?.toFixed(4)}</td> */}
+                      <td className="text-right">{(item?.runingRate)?.toFixed(4)}</td>
                       <td className="text-right">
                         {item?.avgRate?.toFixed(4)}
                       </td>

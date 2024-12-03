@@ -53,7 +53,7 @@ const validationSchema = Yup.object().shape({
     is: (val) => val?.value === 2,
     then: Yup.string().required('Vessel Name is required'),
   }),
-  voyageNumber: Yup.string().when('transportPlanning', {
+  voyagaNo: Yup.string().when('transportPlanning', {
     is: (val) => val?.value === 2,
     then: Yup.string().required('Voyage Number is required'),
   }),
@@ -154,8 +154,8 @@ function TransportModal({ rowClickData, CB }) {
               transportPlanning?.vesselName || '',
             );
             formikRef.current.setFieldValue(
-              `rows[0].voyageNumber`,
-              transportPlanning?.voyageNumber || '',
+              `rows[0].voyagaNo`,
+              transportPlanning?.voyagaNo || '',
             );
             // formikRef.current.setFieldValue(
             //   "departureDateTime",
@@ -243,7 +243,7 @@ function TransportModal({ rowClickData, CB }) {
       noOfContainer: row?.noOfContainer || 0,
       airLineOrShippingLine: row?.airLine || row?.shippingLine || '',
       vesselName: row?.vesselName || '',
-      voyageNumber: row?.voyageNumber || '',
+      voyagaNo: row?.voyagaNo || '',
       // departureDateTime:
       //   moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
       //   new Date(),
@@ -302,7 +302,7 @@ function TransportModal({ rowClickData, CB }) {
               shippingLine: '',
               iatanumber: '',
               vesselName: '',
-              voyageNumber: '',
+              voyagaNo: '',
               departureDateTime: '',
               arrivalDateTime: '',
               transportMode: '',
@@ -611,24 +611,22 @@ function TransportModal({ rowClickData, CB }) {
                               {/* Voyage Number */}
                               <div className="col-lg-3">
                                 <InputField
-                                  value={
-                                    values?.rows[index]?.voyageNumber || ''
-                                  }
+                                  value={values?.rows[index]?.voyagaNo || ''}
                                   label="Voyage Number"
-                                  name={`rows[${index}].voyageNumber`}
+                                  name={`rows[${index}].voyagaNo`}
                                   type="text"
                                   onChange={(e) =>
                                     setFieldValue(
-                                      `rows[${index}].voyageNumber`,
+                                      `rows[${index}].voyagaNo`,
                                       e.target.value,
                                     )
                                   }
                                 />
                                 {errors.rows &&
-                                  errors.rows[index]?.voyageNumber &&
+                                  errors.rows[index]?.voyagaNo &&
                                   touched.rows && (
                                     <div className="text-danger">
-                                      {errors.rows[index].voyageNumber}
+                                      {errors.rows[index].voyagaNo}
                                     </div>
                                   )}
                               </div>
@@ -1135,7 +1133,7 @@ function TransportModal({ rowClickData, CB }) {
                                 continer: '',
                                 shippingLine: '',
                                 vesselName: '',
-                                voyageNumber: '',
+                                voyagaNo: '',
                                 arrivalDateTime: '',
                                 transportMode: '',
                                 estimatedTimeOfDepart: '',
