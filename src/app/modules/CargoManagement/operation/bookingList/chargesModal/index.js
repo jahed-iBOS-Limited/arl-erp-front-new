@@ -71,10 +71,11 @@ function ChargesModal({ rowClickData, CB }) {
   }, []);
 
   const saveHandler = (values, cb) => {
-    const paylaod = shippingHeadOfCharges
+    const payload = shippingHeadOfCharges
       ?.filter((item) => item?.checked)
       .map((item) => {
         return {
+          exchangeRate: values?.exchangeRate || 0,
           billingId: item?.billingId || 0,
           bookingRequestId: bookingRequestId || 0,
           headOfChargeId: item?.value || 0,
@@ -90,12 +91,12 @@ function ChargesModal({ rowClickData, CB }) {
           updatedAt: profileData?.userId || 0,
         };
       });
-    if (paylaod.length === 0) {
+    if (payload.length === 0) {
       return toast.warn('Please select at least one charge');
     }
     getSaveBookedRequestBilling(
       `${imarineBaseUrl}/domain/ShippingService/SaveBookedRequestBilling`,
-      paylaod,
+      payload,
       CB,
     );
   };
@@ -112,6 +113,7 @@ function ChargesModal({ rowClickData, CB }) {
           attribute: '',
           actualExpense: '',
           consigneeCharge: '',
+          exchangeRate: ""
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -136,6 +138,17 @@ function ChargesModal({ rowClickData, CB }) {
               <div className="form-group row global-form">
                 <div className="col-lg-3">
                   <InputField
+                    value={values?.exchangeRate}
+                    label="Exchange Rate"
+                    name="exchangeRate"
+                    type="text"
+                    onChange={(e) => setFieldValue('exchangeRate', e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="form-group row global-form">
+                <div className="col-lg-3">
+                  <InputField
                     value={values?.attribute}
                     label="Attribute"
                     name="attribute"
@@ -146,7 +159,7 @@ function ChargesModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.amount}
-                    label="Shipper Charge"
+                    label="Shipper Charge ($)"
                     name="amount"
                     type="number"
                     onChange={(e) => setFieldValue('amount', e.target.value)}
@@ -156,7 +169,7 @@ function ChargesModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.consigneeCharge}
-                    label="Consignee Charge"
+                    label="Consignee Charge ($)"
                     name="consigneeCharge"
                     type="number"
                     onChange={(e) =>
@@ -167,7 +180,7 @@ function ChargesModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.actualExpense}
-                    label="Procured Charge"
+                    label="Procured Charge ($)"
                     name=" actualExpense"
                     type="number"
                     onChange={(e) =>
@@ -182,6 +195,10 @@ function ChargesModal({ rowClickData, CB }) {
                       type="button"
                       className="btn btn-primary"
                       onClick={() => {
+                        if (!values?.exchangeRate) {
+                          return toast.warn('Exchange Rate is required');
+                        }
+
                         if (!values?.attribute) {
                           return toast.warn('Attribute is required');
                         }
@@ -197,9 +214,14 @@ function ChargesModal({ rowClickData, CB }) {
                             amount: values?.amount,
                             actualExpense: values?.actualExpense,
                             consigneeCharge: values?.consigneeCharge,
+                            exchangeRate: values?.exchangeRate
                           },
                         ]);
-                        resetForm();
+                        // resetForm();
+                        setFieldValue('attribute', '');
+                        setFieldValue('amount', '');
+                        setFieldValue('actualExpense', '');
+                        setFieldValue('consigneeCharge', '');
                       }}
                     >
                       Add
@@ -219,8 +241,8 @@ function ChargesModal({ rowClickData, CB }) {
                             checked={
                               shippingHeadOfCharges?.length > 0
                                 ? shippingHeadOfCharges?.every(
-                                    (item) => item?.checked,
-                                  )
+                                  (item) => item?.checked,
+                                )
                                 : false
                             }
                             onChange={(e) => {
@@ -243,10 +265,10 @@ function ChargesModal({ rowClickData, CB }) {
                         </th>
                         <th className="p-0">SL</th>
                         <th className="p-0">Attribute</th>
-                        <th className="p-0">Shipper Charge</th>
+                        <th className="p-0">Shipper Charge ($)</th>
 
-                        <th className="p-0">Consignee Charge</th>
-                        <th className="p-0">Procured Charge</th>
+                        <th className="p-0">Consignee Charge ($)</th>
+                        <th className="p-0">Procured Charge ($)</th>
                       </tr>
                     </thead>
                     <tbody>
