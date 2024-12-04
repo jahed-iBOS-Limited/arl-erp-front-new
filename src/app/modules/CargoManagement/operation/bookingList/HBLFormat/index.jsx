@@ -558,18 +558,20 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                       ? 'TT No'
                       : 'S/C No'}
                     :{' '}
-                    {bookingData?.objPurchase?.map((item) => {
+                    {bookingData?.objPurchase?.map((item, index) => {
                       return `${item?.lcnumber || ''} : ${item?.lcdate &&
-                        `(${moment(item?.lcdate).format('DD-MM-YYYY')})`}`;
+                        `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${
+                        index < bookingData?.objPurchase?.length - 1 ? ',' : ''
+                      }`;
                     })}
                   </p>
                   <p>
                     Exp No:
                     {bookingData?.expOrCnfNumber} :{' '}
                     {bookingData?.expOrCnfDate &&
-                      `(${moment(bookingData?.expOrCnfDate).format(
+                      `${moment(bookingData?.expOrCnfDate).format(
                         'DD-MM-YYYY',
-                      )})`}
+                      )}`}
                   </p>
                   <br />
                   <table
@@ -591,7 +593,9 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                               <td>{i?.containerNumber}</td>
                               <td>{i?.sealNumber}</td>
                               <td>{i?.size}</td>
-                              <td>{i?.mode}</td>
+                              <td>
+                                {bookingData?.modeOfStuffingSeaName || ''}
+                              </td>
                             </tr>
                           );
                         });
