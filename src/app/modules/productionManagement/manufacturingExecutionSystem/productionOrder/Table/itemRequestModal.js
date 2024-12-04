@@ -253,7 +253,7 @@ export default function ItemRequestModal({
                               </td>
                               <td>
                                 <div className="text-right pr-2">
-                                  {item?.[requestQtyType].toFixed(6)}
+                                  {item?.[requestQtyType]}
                                 </div>
                               </td>
                               {/* <td>
