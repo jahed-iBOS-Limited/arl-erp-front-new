@@ -77,7 +77,10 @@ const validationSchema = Yup.object().shape({
   consigneeEmail: Yup.string()
     .email('Email is invalid')
     .required('Email is required'),
-  bankAddress: Yup.string().required('Bank Address is required'),
+  bankAddress: Yup.object().shape({
+    value: Yup.number().required('Buyer Bank Address is required'),
+    label: Yup.string().required('Buyer Bank Address is required'),
+  }),
   buyerBank: Yup.object().shape({
     value: Yup.number().required('Buyer Bank is required'),
     label: Yup.string().required('Buyer Bank is required'),
@@ -100,6 +103,7 @@ function ConfirmModal({ rowClickData, CB }) {
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, SaveBookingConfirm, bookingConfirmLoading, ,] = useAxiosPut();
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
+  const [buyerBankAddressDDL, setBuyerBankAddressDDL] = React.useState([]);
   const [
     shipBookingRequestGetById,
     setShipBookingRequestGetById,
@@ -125,13 +129,13 @@ function ConfirmModal({ rowClickData, CB }) {
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
 
   const getGlobalBankAddress = (id) => {
+    setBuyerBankAddressDDL([]);
+    if (!id) return;
     setBlobalBankAddressDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetBlobalBankAddressDDL?gBankId=${id}`,
       (data) => {
-        formikRef.current.setFieldValue(
-          'bankAddress',
-          data?.primaryAddress || '',
-        );
+        // formikRef.current.setFieldValue('bankAddress', data?.primaryAddress || '');
+        setBuyerBankAddressDDL(data);
       },
     );
   };
@@ -207,9 +211,15 @@ function ConfirmModal({ rowClickData, CB }) {
               'consigneeEmail',
               data?.consigneeEmail || '',
             );
+
             formikRef.current.setFieldValue(
               'bankAddress',
-              data?.notifyBankAddr || '',
+              data?.notifyBankAddr
+                ? {
+                    value: 0,
+                    label: data?.notifyBankAddr || '',
+                  }
+                : '',
             );
             formikRef.current.setFieldValue(
               'notifyParty',
@@ -301,7 +311,7 @@ function ConfirmModal({ rowClickData, CB }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const consigneeOnChangeHandler = async (id) => {
+  const consigneeOnChangeHandler = async (id, setFieldValue) => {
     getParticipantsWithConsigneeDtl(
       `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsigneeDtl?consigneeId=${id}`,
       (data) => {
@@ -313,6 +323,7 @@ function ConfirmModal({ rowClickData, CB }) {
               value: i?.participantId || 0,
             };
           });
+          setFieldValue('freightAgentReference', modifyData?.[0] || '');
           setDeliveryAgentDDL(modifyData || []);
         }
         if (data?.notifyPartyList) {
@@ -323,6 +334,7 @@ function ConfirmModal({ rowClickData, CB }) {
               value: i?.participantId || 0,
             };
           });
+          setFieldValue('notifyParty', modifyData?.[0] || '');
           setNotifyParty(modifyData || []);
         }
       },
@@ -361,7 +373,7 @@ function ConfirmModal({ rowClickData, CB }) {
       consigneeContactPerson: values?.consigneeContactPerson || '',
       consigneeContact: values?.consigneeContact || '',
       consigneeEmail: values?.consigneeEmail || '',
-      notifyBankAddr: values?.bankAddress || '',
+      notifyBankAddr: values?.bankAddress.label || '',
       buyerBank: values?.buyerBank?.label || '',
       buyerBankId: values?.buyerBank?.value || 0,
       consigCountryId: values?.consigneeCountry?.value || 0,
@@ -379,6 +391,8 @@ function ConfirmModal({ rowClickData, CB }) {
       consignCity: values?.consignCity?.label || '',
       consignPostalCode: values?.consignPostalCode || '',
     };
+    // console.log(payload)
+    // return
 
     if (payload) {
       SaveBookingConfirm(
@@ -444,6 +458,8 @@ function ConfirmModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
+            {console.log(values, 'values')}
+            {console.log(errors, 'errors')}
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
@@ -617,14 +633,17 @@ function ConfirmModal({ rowClickData, CB }) {
                     label="Consignee’s Name"
                     onChange={(valueOption) => {
                       setFieldValue('consigneeName', valueOption);
+                      setDeliveryAgentDDL([]);
+                      setNotifyParty([]);
+                      setFieldValue('freightAgentReference', '');
+                      setFieldValue('notifyParty', '');
+                      setFieldValue('notifyParty2', '');
+
                       if (valueOption?.value) {
-                        consigneeOnChangeHandler(valueOption?.value);
-                      } else {
-                        setDeliveryAgentDDL([]);
-                        setNotifyParty([]);
-                        setFieldValue('freightAgentReference', '');
-                        setFieldValue('notifyParty', '');
-                        setFieldValue('notifyParty2', '');
+                        consigneeOnChangeHandler(
+                          valueOption?.value,
+                          setFieldValue,
+                        );
                       }
                     }}
                     placeholder="Consignee’s Name"
@@ -778,6 +797,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     label="Buyer Bank"
                     onChange={(valueOption) => {
                       setFieldValue('buyerBank', valueOption);
+                      setFieldValue('bankAddress', '');
                       getGlobalBankAddress(valueOption?.value);
                     }}
                     placeholder="Buyer Bank"
@@ -787,27 +807,33 @@ function ConfirmModal({ rowClickData, CB }) {
                 </div>
                 {/*bank Address*/}
                 <div className="col-lg-3">
-                  <InputField
+                  <NewSelect
+                    name="bankAddress"
+                    options={buyerBankAddressDDL || []}
                     value={values?.bankAddress}
                     label="Bank Address"
-                    name="bankAddress"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue('bankAddress', e.target.value)
-                    }
+                    onChange={(valueOption) => {
+                      setFieldValue('bankAddress', valueOption);
+                    }}
+                    placeholder="Bank Address"
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 {/* Notify Party ddl */}
                 <div className="col-lg-3">
                   <NewSelect
                     name="notifyParty"
-                    options={notifyPartyDDL || []}
+                    options={
+                      notifyPartyDDL?.filter((i) => {
+                        return i?.value !== (values?.notifyParty2?.value || 0);
+                      }) || []
+                    }
                     value={values?.notifyParty}
                     label="Notify Party"
                     onChange={(valueOption) => {
                       let valueOptionModify = {
                         ...valueOption,
-                        value: 0,
                         label: valueOption?.label || '',
                       };
                       setFieldValue('notifyParty', valueOptionModify);
@@ -822,7 +848,11 @@ function ConfirmModal({ rowClickData, CB }) {
                 <div className="col-lg-3">
                   <NewSelect
                     name="notifyParty2"
-                    options={notifyPartyDDL || []}
+                    options={
+                      notifyPartyDDL?.filter((i) => {
+                        return i?.value !== (values?.notifyParty?.value || 0);
+                      }) || []
+                    }
                     value={values?.notifyParty2}
                     label="Notify Party 2"
                     onChange={(valueOption) => {
