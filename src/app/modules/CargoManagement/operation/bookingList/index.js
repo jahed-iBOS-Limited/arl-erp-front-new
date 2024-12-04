@@ -176,13 +176,13 @@ function BookingList() {
                         >
                           Delivery Port
                         </th>
-                        <th
+                        {/* <th
                           style={{
                             minWidth: '150px',
                           }}
                         >
                           Rate
-                        </th>
+                        </th> */}
                         <th
                           style={{
                             minWidth: '150px',
@@ -333,7 +333,7 @@ function BookingList() {
                               {item?.shipperCountry}
                             </td>
                             <td className="text-left">{item?.portOfLoading}</td>
-                            <td className="text-left">{item?.bookingAmount}</td>
+                            {/* <td className="text-left">{item?.bookingAmount}</td> */}
                             <td>
                               <span>{statusReturn(item)}</span>
                             </td>
