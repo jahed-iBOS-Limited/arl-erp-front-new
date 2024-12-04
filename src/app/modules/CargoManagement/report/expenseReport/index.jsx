@@ -71,12 +71,12 @@ export default function ExpenseReport() {
                       onChange={(e) => setFieldValue('toDate', e.target.value)}
                     />
                   </div>
-                </div>
-                <div className="pt-4">
-                  {/* Search */}
-                  <button type="submit" className="btn btn-primary">
-                    Search
-                  </button>
+                  <div className="pt-4">
+                    {/* Search */}
+                    <button type="submit" className="btn btn-primary mt-2">
+                      View
+                    </button>
+                  </div>
                 </div>
               </Form>
             </>
@@ -153,6 +153,34 @@ export default function ExpenseReport() {
                       </td>
                     </tr>
                   ))}
+                {/* total */}
+                <tr>
+                  <td colSpan="2" className="text-right">
+                    Total
+                  </td>
+                  <td className="text-right">
+                    {data?.reduce(
+                      (acc, curr) => acc + (+curr?.chargeAmount || 0),
+                      0,
+                    )}
+                  </td>
+                  <td className="text-right">
+                    {data?.reduce(
+                      (acc, curr) => acc + (+curr?.actualExpense || 0),
+                      0,
+                    )}
+                  </td>
+                  <td className="text-right">
+                    {data?.reduce(
+                      (acc, curr) =>
+                        acc +
+                        ((+curr?.chargeAmount || 0) -
+                          (+curr?.actualExpense || 0)),
+                      0,
+                    )}
+                  </td>
+                  <td></td>
+                </tr>
               </tbody>
             </table>
           </div>
