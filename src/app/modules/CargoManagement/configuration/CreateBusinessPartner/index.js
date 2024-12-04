@@ -101,6 +101,7 @@ function CreateBusinessPartner() {
           cb();
         }
       },
+      'post',
     );
   };
   React.useEffect(() => {
@@ -293,7 +294,7 @@ function CreateBusinessPartner() {
                     onChange={(valueOption) => {
                       const obj = valueOption?.label
                         ? {
-                            value: valueOption?.value || 0,
+                            value: 0,
                             label: valueOption?.label || '',
                           }
                         : '';
@@ -318,7 +319,7 @@ function CreateBusinessPartner() {
                     onChange={(valueOption) => {
                       const obj = valueOption?.label
                         ? {
-                            value: valueOption?.value || 0,
+                            value: 0,
                             label: valueOption?.label || '',
                           }
                         : '';
