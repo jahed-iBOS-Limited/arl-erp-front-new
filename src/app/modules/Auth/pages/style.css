@@ -57,7 +57,7 @@
 
 .cancel-button {
     background: #aeaeae !important;
-    color: #FFF!important;
+    color: #FFF !important;
 }
 
 .cancel-button a {
@@ -72,7 +72,7 @@
 }
 
 
-.login-form-label{
+.login-form-label {
     color: #000000 !important;
     font-size: 16px !important;
     font-family: 'Roboto';
@@ -326,7 +326,7 @@ button#dropdown-basic span {
 .userimgbg {
     width: 45px;
     height: 45px;
-    
+
     margin: 0 auto;
     border-radius: 100%;
     -webkit-border-radius: 100%;
@@ -459,7 +459,7 @@ button#dropdown-basic span {
 /* //Sideb bar style */
 
 .sidebarbg {
-    
+
     height: 175px;
     width: 100%;
     background-size: contain;
@@ -559,22 +559,27 @@ button#dropdown-basic span {
     .rwd-table tr:hover:not(:first-child) {
         background-color: #d8e7f3;
     }
+
     .rwd-table td:before {
         display: none;
     }
+
     .rwd-table th,
     .rwd-table td {
         display: table-cell;
         padding: 0.25em 0.5em;
     }
+
     .rwd-table th:first-child,
     .rwd-table td:first-child {
         padding-left: 0;
     }
+
     .rwd-table th:last-child,
     .rwd-table td:last-child {
         padding-right: 0;
     }
+
     .rwd-table th,
     .rwd-table td {
         padding: 0.5em !important;
@@ -743,8 +748,8 @@ svg.MuiSvgIcon-root {
     font-size: 16px;
     font-weight: 700;
     text-transform: unset;
-    font-family: 'Roboto'; 
- 
+    font-family: 'Roboto';
+
 }
 
 .tabStylebox {
@@ -761,19 +766,12 @@ svg.MuiSvgIcon-root {
     padding-left: 15px;
 }
 
-.leftside h4 {
-    color: #5e779d;
-    font-size: 16px;
-    line-height: 45px;
-}
 
-.leftside h4 {
-    text-align: right;
-}
 
 .frombody {
     margin: 20px 0;
 }
+
 /*
 .form-control {
     background: #fcfcfc !important;
@@ -805,9 +803,6 @@ button.addButtonStyle {
     float: right;
 }
 
-.leftside {
-    padding-right: 20px;
-}
 
 .bbstyles {
     border-top: 1px solid #b2b2b2;
@@ -885,11 +880,7 @@ img.bar {
     width: 30px;
 }
 
-.leftside h4 {
-    cursor: pointer;
-}
 
- 
 button.cancel a {
     color: #fff;
     text-decoration: none;
@@ -935,5 +926,3 @@ button.close {
     display: block !important;
     font-size: 31px !important;
 }
-
- 
