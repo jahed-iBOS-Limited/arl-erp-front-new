@@ -119,6 +119,7 @@ function ConfirmModal({ rowClickData, CB }) {
   const [deliveryAgentDDL, setDeliveryAgentDDL] = React.useState([]);
   const [notifyPartyDDL, setNotifyParty] = React.useState([]);
   const formikRef = React.useRef(null);
+  const [, createHblFcrNumber, createHblFcrNumberLoading] = useAxiosPut();
 
   const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
   const [getBankListDDL, setBankListDDL] = useAxiosGet();
@@ -398,9 +399,24 @@ function ConfirmModal({ rowClickData, CB }) {
       SaveBookingConfirm(
         `${imarineBaseUrl}/domain/ShippingService/SaveBookingConfirm`,
         payload,
-        CB,
+        () => {
+          createHblFcrNumberApiCall();
+          CB();
+        },
+        'true',
       );
     }
+  };
+
+  const createHblFcrNumberApiCall = () => {
+    createHblFcrNumber(
+      `${imarineBaseUrl}/domain/ShippingService/CreateHblFcrNumber?BookingId=${bookingRequestId}&typeId=1`,
+      null,
+      () => {
+        CB();
+      },
+      'true',
+    );
   };
 
   const loadEmp = (v) => {
