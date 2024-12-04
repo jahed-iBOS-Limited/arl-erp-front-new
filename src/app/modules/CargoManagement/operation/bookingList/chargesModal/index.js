@@ -1,20 +1,27 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../../App";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import "./style.css";
-import NewSelect from "../../../../_helper/_select";
-const validationSchema = Yup.object().shape({});
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import './style.css';
+import NewSelect from '../../../../_helper/_select';
+const validationSchema = Yup.object().shape({
+  // exchangeRate: Yup.number().required('Exchange Rate is required'),
+  currency: Yup.object().shape({
+    label: Yup.string().required('Currency is required'),
+    value: Yup.string().required('Currency is required'),
+  }),
+});
 function ChargesModal({ rowClickData, CB }) {
+  const formikRef = React.useRef(null);
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, getSaveBookedRequestBilling, bookedRequestBilling] = useAxiosPost();
@@ -40,15 +47,15 @@ function ChargesModal({ rowClickData, CB }) {
           (resSveData) => {
             const modifyData = resShippingHeadOfCharges?.map((item) => {
               const findData = resSveData?.find(
-                (findItem) => findItem?.headOfChargeId === item?.value
+                (findItem) => findItem?.headOfChargeId === item?.value,
               );
               return {
                 ...item,
                 billingId: findData?.billingId || 0,
                 checked: findData ? true : false,
-                amount: findData?.chargeAmount || "",
-                actualExpense: findData?.actualExpense || "",
-                consigneeCharge: findData?.consigneeCharge || "",
+                amount: findData?.chargeAmount || '',
+                actualExpense: findData?.actualExpense || '',
+                consigneeCharge: findData?.consigneeCharge || '',
               };
             });
             const filterNewData = resSveData
@@ -61,13 +68,29 @@ function ChargesModal({ rowClickData, CB }) {
                   amount: item?.chargeAmount,
                   billingId: item?.billingId || 0,
                   actualExpense: item?.actualExpense || 0,
-                  consigneeCharge: item?.consigneeCharge || "",
+                  consigneeCharge: item?.consigneeCharge || '',
                 };
               });
+
+            if (formikRef.current) {
+              formikRef.current.setFieldValue(
+                'currency',
+                resSveData?.[0]
+                  ? {
+                      label: resSveData?.[0]?.currency,
+                      value: resSveData?.[0]?.currencyId,
+                    }
+                  : '',
+              );
+              formikRef.current.setFieldValue(
+                'exchangeRate',
+                resSveData?.[0] ? resSveData?.[0]?.exchangeRate : '',
+              );
+            }
             setShippingHeadOfCharges([...modifyData, ...filterNewData]);
-          }
+          },
         );
-      }
+      },
     );
     GetBaseCurrencyList(
       `${imarineBaseUrl}/domain/Purchase/GetBaseCurrencyList`,
@@ -75,28 +98,27 @@ function ChargesModal({ rowClickData, CB }) {
         const modifyData = res?.map((item) => {
           return {
             ...item,
-            label: item?.code
+            label: item?.code,
           };
         });
         setCurrencyList(modifyData);
-      }
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
 
   const saveHandler = (values, cb) => {
     const payload = shippingHeadOfCharges
       ?.filter((item) => item?.checked)
       .map((item) => {
         return {
-          exchangeRate: item?.exchangeRate || 0,
-          currencyId: item?.currency?.value || 0,
-          currency: item?.currency?.label || "",
+          exchangeRate: +values?.exchangeRate || 0,
+          currencyId: values?.currency?.value || 0,
+          currency: values?.currency?.label || '',
           billingId: item?.billingId || 0,
           bookingRequestId: bookingRequestId || 0,
           headOfChargeId: item?.value || 0,
-          headOfCharges: item?.label || "",
+          headOfCharges: item?.label || '',
           chargeAmount: item?.amount || 0,
           consigneeCharge: item?.consigneeCharge || 0,
           actualExpense: item?.actualExpense || 0,
@@ -109,12 +131,12 @@ function ChargesModal({ rowClickData, CB }) {
         };
       });
     if (payload.length === 0) {
-      return toast.warn("Please select at least one charge");
+      return toast.warn('Please select at least one charge');
     }
     getSaveBookedRequestBilling(
       `${imarineBaseUrl}/domain/ShippingService/SaveBookedRequestBilling`,
       payload,
-      CB
+      CB,
     );
   };
 
@@ -126,12 +148,12 @@ function ChargesModal({ rowClickData, CB }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          amount: "",
-          attribute: "",
-          actualExpense: "",
-          consigneeCharge: "",
-          exchangeRate: "",
-          currency: "",
+          amount: '',
+          attribute: '',
+          actualExpense: '',
+          consigneeCharge: '',
+          exchangeRate: '',
+          currency: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -139,6 +161,7 @@ function ChargesModal({ rowClickData, CB }) {
             resetForm();
           });
         }}
+        innerRef={formikRef}
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
@@ -153,28 +176,34 @@ function ChargesModal({ rowClickData, CB }) {
                   </div>
                 </>
               </div>
-              <div className="form-group row global-form">
-                <div className="col-lg-3">
-                  <NewSelect
-                    label={"Currency"}
-                    options={currencyList}
-                    value={values?.currency}
-                    name="currency"
-                    onChange={(valueOption) => {
-                      setFieldValue("currency", valueOption || "");
-                    }}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.exchangeRate}
-                    label="Exchange Rate"
-                    name="exchangeRate"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue("exchangeRate", e.target.value)
-                    }
-                  />
+              <div className="form-group ">
+                <div className="row global-form">
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label={'Currency'}
+                      options={currencyList}
+                      value={values?.currency}
+                      name="currency"
+                      onChange={(valueOption) => {
+                        setFieldValue('currency', valueOption || '');
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.exchangeRate}
+                      label="Exchange Rate"
+                      name="exchangeRate"
+                      type="text"
+                      onChange={(e) =>
+                        setFieldValue('exchangeRate', e.target.value)
+                      }
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="form-group row global-form">
@@ -184,7 +213,7 @@ function ChargesModal({ rowClickData, CB }) {
                     label="Attribute"
                     name="attribute"
                     type="text"
-                    onChange={(e) => setFieldValue("attribute", e.target.value)}
+                    onChange={(e) => setFieldValue('attribute', e.target.value)}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -193,7 +222,7 @@ function ChargesModal({ rowClickData, CB }) {
                     label="Shipper Charge ($)"
                     name="amount"
                     type="number"
-                    onChange={(e) => setFieldValue("amount", e.target.value)}
+                    onChange={(e) => setFieldValue('amount', e.target.value)}
                   />
                 </div>
 
@@ -204,7 +233,7 @@ function ChargesModal({ rowClickData, CB }) {
                     name="consigneeCharge"
                     type="number"
                     onChange={(e) =>
-                      setFieldValue("consigneeCharge", e.target.value)
+                      setFieldValue('consigneeCharge', e.target.value)
                     }
                   />
                 </div>
@@ -215,7 +244,7 @@ function ChargesModal({ rowClickData, CB }) {
                     name=" actualExpense"
                     type="number"
                     onChange={(e) =>
-                      setFieldValue("actualExpense", e.target.value)
+                      setFieldValue('actualExpense', e.target.value)
                     }
                   />
                 </div>
@@ -226,18 +255,11 @@ function ChargesModal({ rowClickData, CB }) {
                       type="button"
                       className="btn btn-primary"
                       onClick={() => {
-                        if (!values?.currency) {
-                          return toast.warn("Currency is required");
-                        }
-                        if (!values?.exchangeRate) {
-                          return toast.warn("Exchange Rate is required");
-                        }
-
                         if (!values?.attribute) {
-                          return toast.warn("Attribute is required");
+                          return toast.warn('Attribute is required');
                         }
                         if (!values?.amount) {
-                          return toast.warn("Amount is required");
+                          return toast.warn('Amount is required');
                         }
                         setShippingHeadOfCharges([
                           ...shippingHeadOfCharges,
@@ -249,15 +271,14 @@ function ChargesModal({ rowClickData, CB }) {
                             actualExpense: values?.actualExpense,
                             consigneeCharge: values?.consigneeCharge,
                             exchangeRate: values?.exchangeRate,
-                            currency: values?.currency
-
+                            currency: values?.currency,
                           },
                         ]);
                         // resetForm();
-                        setFieldValue("attribute", "");
-                        setFieldValue("amount", "");
-                        setFieldValue("actualExpense", "");
-                        setFieldValue("consigneeCharge", "");
+                        setFieldValue('attribute', '');
+                        setFieldValue('amount', '');
+                        setFieldValue('actualExpense', '');
+                        setFieldValue('consigneeCharge', '');
                       }}
                     >
                       Add
@@ -266,7 +287,7 @@ function ChargesModal({ rowClickData, CB }) {
                 </div>
               </div>
               <div className="col-lg-12">
-                {" "}
+                {' '}
                 <div className="table-responsive">
                   <table className="table global-table">
                     <thead>
@@ -277,8 +298,8 @@ function ChargesModal({ rowClickData, CB }) {
                             checked={
                               shippingHeadOfCharges?.length > 0
                                 ? shippingHeadOfCharges?.every(
-                                  (item) => item?.checked
-                                )
+                                    (item) => item?.checked,
+                                  )
                                 : false
                             }
                             onChange={(e) => {
@@ -289,12 +310,12 @@ function ChargesModal({ rowClickData, CB }) {
                                     checked: e?.target?.checked,
                                     amount: e?.target?.checked
                                       ? item?.amount
-                                      : "",
+                                      : '',
                                     actualExpense: e?.target?.checked
                                       ? item?.actualExpense
-                                      : "",
+                                      : '',
                                   };
-                                })
+                                }),
                               );
                             }}
                           />
@@ -317,8 +338,8 @@ function ChargesModal({ rowClickData, CB }) {
                               onChange={(e) => {
                                 const copyprvData = [...shippingHeadOfCharges];
                                 copyprvData[index].checked = e.target.checked;
-                                copyprvData[index].amount = "";
-                                copyprvData[index].actualExpense = "";
+                                copyprvData[index].amount = '';
+                                copyprvData[index].actualExpense = '';
                                 setShippingHeadOfCharges(copyprvData);
                               }}
                             />
@@ -385,7 +406,7 @@ function ChargesModal({ rowClickData, CB }) {
                             ?.filter((item) => item?.checked)
                             .reduce(
                               (acc, item) => acc + (+item?.amount || 0),
-                              0
+                              0,
                             )}
                         </td>
                         <td>
@@ -394,7 +415,7 @@ function ChargesModal({ rowClickData, CB }) {
                             .reduce(
                               (acc, item) =>
                                 acc + (+item?.consigneeCharge || 0),
-                              0
+                              0,
                             )}
                         </td>
                         <td>
@@ -402,7 +423,7 @@ function ChargesModal({ rowClickData, CB }) {
                             ?.filter((item) => item?.checked)
                             .reduce(
                               (acc, item) => acc + (+item?.actualExpense || 0),
-                              0
+                              0,
                             )}
                         </td>
                       </tr>
