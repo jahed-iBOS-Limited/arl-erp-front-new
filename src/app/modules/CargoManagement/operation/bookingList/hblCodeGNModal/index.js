@@ -50,7 +50,7 @@ function HBLCodeGNModal({ CB, rowClickData }) {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: 'Customs-RTGS',
+    documentTitle: `HBL-${bookingData?.hblnumber || ''}`,
     pageStyle: `
       @media print {
         body {
@@ -59,7 +59,7 @@ function HBLCodeGNModal({ CB, rowClickData }) {
         }
         @page {
           size: portrait !important;
-          margin: 15px !important;
+          margin: 50px 30px 30px 30px !important;
         }
       }
     `,
