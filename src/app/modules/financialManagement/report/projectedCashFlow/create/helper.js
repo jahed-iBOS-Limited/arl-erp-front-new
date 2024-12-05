@@ -54,22 +54,18 @@ export const marginTypeDDL = [
 
 // get po lc number
 export const fetchPOLCNumber = (obj) => {
-  const { profileData, values, value } = obj;
-  if (value?.length < 3) return [];
+  const { profileData, selectedBusinessUnit, v } = obj;
+  if (v?.length < 3) return [];
   return axios
     .get(
-      `/imp/ImportCommonDDL/GetPONOLcNoforLCSummeryDDL?accountId=${profileData?.accountId}&businessUnitId=${values?.sbu?.value}&searchTerm=${value}`
+      `/imp/ImportCommonDDL/GetPONOLcNoforLCSummeryDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`
     )
-    .then((res) => {
-      return res?.data;
-    })
+    .then((res) => res?.data)
     .catch((err) => []);
 };
 
 export const fetchTransactionList = (obj) => {
   const { v, profileData, values } = obj;
-  console.log(values);
- 
   if (v?.length < 3) return [];
   return axios
     .get(

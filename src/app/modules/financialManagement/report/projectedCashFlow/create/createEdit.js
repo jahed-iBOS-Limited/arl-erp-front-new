@@ -62,33 +62,30 @@ export default function ProjectedCashFlowCreateEdit() {
     getSBUDDL(
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`
     );
-    // getBankNameDDL(
-    //   `/imp/ImportCommonDDL/GetBankListDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
-    //   (res) => {
-    //     fetchBankAccountDDL({
-    //       profileData,
-    //       selectedBusinessUnit,
-    //       getBankAccountDDL,
-    //       bankId: res?.value,
-    //     });
-    //   }
-    // );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveHandler = async (values, cb) => {};
 
   // is loading
-  const isLoading = getPOLCNumberDataLoading || savePCFDataLoading;
+  const isLoading =
+    getPOLCNumberDataLoading ||
+    savePCFDataLoading ||
+    getBankNameDDLLoading ||
+    getSBUDDLLoading ||
+    getLCTypeDDLLoading ||
+    getBankAccountDDLLoading ||
+    getPartnerDataDDLLoading;
 
   // handle view type radio change
-  const handleViewTypeChange = (e, setFieldValue) => {
+  const handleViewTypeChange = (e, setFieldValue, resetForm) => {
     const value = e.target?.value;
+    resetForm();
     setFieldValue("viewType", value);
   };
 
   // ! View Type Radio Field
-  const ViewTypeRadioField = (values, setFieldValue) => (
+  const ViewTypeRadioField = (values, setFieldValue, resetForm) => (
     <div
       className="col-lg-12 d-flex"
       style={{ columnGap: "10px" }}
@@ -100,7 +97,7 @@ export default function ProjectedCashFlowCreateEdit() {
           type="radio"
           name="viewType"
           value="payment"
-          onChange={(e) => handleViewTypeChange(e, setFieldValue)}
+          onChange={(e) => handleViewTypeChange(e, setFieldValue, resetForm)}
         />
         Payment
       </label>
@@ -109,7 +106,7 @@ export default function ProjectedCashFlowCreateEdit() {
           type="radio"
           name="viewType"
           value="income"
-          onChange={(e) => handleViewTypeChange(e, setFieldValue)}
+          onChange={(e) => handleViewTypeChange(e, setFieldValue, resetForm)}
         />
         Income
       </label>
@@ -118,7 +115,7 @@ export default function ProjectedCashFlowCreateEdit() {
           type="radio"
           name="viewType"
           value="import"
-          onChange={(e) => handleViewTypeChange(e, setFieldValue)}
+          onChange={(e) => handleViewTypeChange(e, setFieldValue, resetForm)}
         />
         Import
       </label>
@@ -204,11 +201,11 @@ export default function ProjectedCashFlowCreateEdit() {
                 `/fino/FundManagement/GetProjectedCashFlow?partName=GetLcInfoByLcId&lcId=${valueOption?.lcId}`
               );
             }}
-            loadOptions={(value) =>
+            loadOptions={(v) =>
               fetchPOLCNumber({
                 profileData,
-                values,
-                value,
+                selectedBusinessUnit,
+                v,
               })
             }
           />
@@ -387,7 +384,7 @@ export default function ProjectedCashFlowCreateEdit() {
   };
 
   // ! Payment & Income Form Field
-  const PaymentAndIncomeFormField = (obj) => {
+  const PaymentAndIncomeFormField = ({ obj }) => {
     const { values, setFieldValue, errors, touched } = obj;
 
     return (
@@ -439,7 +436,6 @@ export default function ProjectedCashFlowCreateEdit() {
             }}
           />
         </div>
-
         <div className="col-lg-3">
           <InputField
             value={values?.dueDate}
@@ -451,7 +447,6 @@ export default function ProjectedCashFlowCreateEdit() {
             }}
           />
         </div>
-
         <div className="col-lg-3">
           <InputField
             value={values?.remarks}
@@ -553,7 +548,7 @@ export default function ProjectedCashFlowCreateEdit() {
                 <div className="">
                   <div className="row form-group  global-form">
                     {/* View Type */}
-                    {ViewTypeRadioField(values, setFieldValue)}
+                    {ViewTypeRadioField(values, setFieldValue, resetForm)}
 
                     {/* Import View Type Form Field */}
                     {values?.viewType === "import" ? (
