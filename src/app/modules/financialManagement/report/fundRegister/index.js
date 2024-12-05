@@ -249,6 +249,10 @@ function FundRegisterLanding() {
                         }}
                         options={[
                           {
+                            value: 0,
+                            label: "All",
+                          },
+                          {
                             value: 1,
                             label: "At-Sight LC",
                           },
