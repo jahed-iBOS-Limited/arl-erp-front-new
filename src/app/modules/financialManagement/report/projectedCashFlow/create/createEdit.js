@@ -150,10 +150,18 @@ export default function ProjectedCashFlowCreateEdit() {
                     ) : null}
 
                     {/* Income View Type Form Field */}
-                    {values?.viewType === "income" ? <></> : null}
+                    {values?.viewType === "income" ? (
+                      <ExpenseAndIncomeFormField
+                        obj={{ values, setFieldValue, errors, touched }}
+                      />
+                    ) : null}
 
                     {/* Payment View Type Form Field */}
-                    {values?.viewType === "income" ? <></> : null}
+                    {values?.viewType === "payment" ? (
+                      <ExpenseAndIncomeFormField
+                        obj={{ values, setFieldValue, errors, touched }}
+                      />
+                    ) : null}
                   </div>
 
                   {/* Current Data Table */}
@@ -258,7 +266,7 @@ export default function ProjectedCashFlowCreateEdit() {
 }
 
 // ! Import Common Form Field
-const ImportCommonFormField = ({ obj, children, fetchData }) => {
+const ImportCommonFormField = ({ obj, fetchData, children }) => {
   const { values, setFieldValue, errors, touched } = obj;
   const { getPOLCNumberData, profileData, selectedBusinessUnit } = fetchData;
 
@@ -479,6 +487,99 @@ const ImportAtSightPaymentFormField = (obj) => {
           type="text"
           onChange={(e) => {
             setFieldValue("exchangeRate", e.target.value);
+          }}
+        />
+      </div>
+    </>
+  );
+};
+
+// ! Expense & Income Form Field
+const ExpenseAndIncomeFormField = (obj) => {
+  const { values, setFieldValue, errors, touched } = obj;
+
+  return (
+    <>
+      <div className="col-lg-3">
+        <NewSelect
+          name="sbu"
+          label="SBU"
+          options={[]}
+          value={values?.sbu}
+          onChange={(valueOption) => {
+            setFieldValue("sbu", valueOption);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <NewSelect
+          name="bankAccount"
+          label="Bank Account"
+          options={[]}
+          value={values?.bankAccount}
+          onChange={(valueOption) => {
+            setFieldValue("bankAccount", valueOption);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <NewSelect
+          name="partnerType"
+          label="Partner Type"
+          options={[]}
+          value={values?.partnerType}
+          onChange={(valueOption) => {
+            setFieldValue("partnerType", valueOption);
+          }}
+          errors={errors}
+          touched={touched}
+        />
+      </div>
+      <div className="col-lg-3">
+        <NewSelect
+          name="transaction"
+          label="Transaction"
+          options={[]}
+          value={values?.transaction}
+          onChange={(valueOption) => {
+            setFieldValue("transaction", valueOption);
+          }}
+          errors={errors}
+          touched={touched}
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.amount}
+          label="Amount"
+          name="amount"
+          type="number"
+          onChange={(e) => {
+            setFieldValue("amount", e.target.value);
+          }}
+        />
+      </div>
+
+      <div className="col-lg-3">
+        <InputField
+          value={values?.dueDate}
+          label="Due Date"
+          name="dueDate"
+          type="date"
+          onChange={(e) => {
+            setFieldValue("dueDate", e.target.value);
+          }}
+        />
+      </div>
+
+      <div className="col-lg-3">
+        <InputField
+          value={values?.remarks}
+          label="Remarks"
+          name="remarks"
+          type="text"
+          onChange={(e) => {
+            setFieldValue("remarks", e.target.value);
           }}
         />
       </div>
