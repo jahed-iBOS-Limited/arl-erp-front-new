@@ -10,11 +10,8 @@ import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import {
-  fetchPOLCNumber,
-  importPaymentType,
-  initData
-} from "./helper";
+import { fetchPOLCNumber, importPaymentType, initData } from "./helper";
+import ProjectedCashFlowLanding from "./landing";
 
 export default function ProjectedCashFlowCreateEdit() {
   // redux
@@ -24,8 +21,6 @@ export default function ProjectedCashFlowCreateEdit() {
 
   // state
   const [objProps, setObjprops] = useState({});
-  const [cashList, setCashList] = useState([]);
-  const [viewType, setViewType] = useState(1);
 
   // api action
   const [
@@ -34,20 +29,15 @@ export default function ProjectedCashFlowCreateEdit() {
     getPOLCNumberDataLoading,
   ] = useAxiosGet();
 
-  const [shipmentDDL, getShipment] = useAxiosGet();
-  const [previousList, getPreviousList, lodar] = useAxiosGet();
-  const [, saveData] = useAxiosPost();
-  const [, inactiveSave] = useAxiosPost();
+  const [, savePCFData, savePCFDataLoading] = useAxiosPost();
 
   useEffect(() => {
-    getPreviousList(
-      `/fino/FundManagement/FundProjectedExpenseLanding?partName=FundProjectedExpenseForLastThirtyDays`
-    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveHandler = async (values, cb) => {};
 
+  // handle view type radio change
   const handleViewTypeChange = (e, setFieldValue) => {
     const value = e.target?.value;
     setFieldValue("viewType", value);
@@ -91,9 +81,12 @@ export default function ProjectedCashFlowCreateEdit() {
     </div>
   );
 
+  // is loading
+  const isLoading = getPOLCNumberDataLoading || savePCFDataLoading;
+
   return (
     <IForm title="Create Projected Cash Flow" getProps={setObjprops}>
-      {lodar && <Loading />}
+      {isLoading && <Loading />}
       <>
         <Formik
           enableReinitialize={true}
@@ -115,8 +108,6 @@ export default function ProjectedCashFlowCreateEdit() {
           }) => (
             <>
               <Form className="form form-label-right">
-                {false && <Loading />}
-
                 <pre>{JSON.stringify(values, null, 1)}</pre>
                 <div className="">
                   <div className="row form-group  global-form">
@@ -133,22 +124,36 @@ export default function ProjectedCashFlowCreateEdit() {
                           selectedBusinessUnit,
                         }}
                       >
-                        <>
-                          <div className="col-lg-3">
-                            <InputField
-                              value={values?.amount}
-                              label="Amount"
-                              name="amount"
-                              type="number"
-                              onChange={(e) => {
-                                if (+e.target.value < 0) return;
-                                setFieldValue("amount", e.target.value);
-                              }}
-                            />
-                          </div>
-                        </>
+                        {((values) => {
+                          switch (values?.paymentType?.value) {
+                            case "Duty":
+                              return null; // all common are enough for this type
+                            case "At sight payment":
+                              return ImportAtSightPaymentFormField({
+                                values,
+                                setFieldValue,
+                                errors,
+                                touched,
+                              });
+                            case "Margin":
+                              return ImportMarginFormField({
+                                values,
+                                setFieldValue,
+                                errors,
+                                touched,
+                              });
+                            default:
+                              return null;
+                          }
+                        })(values)}
                       </ImportCommonFormField>
                     ) : null}
+
+                    {/* Income View Type Form Field */}
+                    {values?.viewType === "income" ? <></> : null}
+
+                    {/* Payment View Type Form Field */}
+                    {values?.viewType === "income" ? <></> : null}
                   </div>
 
                   {/* Current Data Table */}
@@ -156,6 +161,79 @@ export default function ProjectedCashFlowCreateEdit() {
 
                   {/* Landing Table */}
                 </div>
+
+                <button
+                  type="submit"
+                  style={{ display: "none" }}
+                  ref={objProps?.btnRef}
+                  onSubmit={() => handleSubmit()}
+                ></button>
+
+                <button
+                  type="reset"
+                  style={{ display: "none" }}
+                  ref={objProps?.resetBtnRef}
+                  onSubmit={() => resetForm(initData)}
+                ></button>
+              </Form>
+            </>
+          )}
+        </Formik>
+
+        <Formik
+          enableReinitialize={true}
+          initialValues={{}}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            saveHandler(values, () => {
+              resetForm(initData);
+            });
+          }}
+        >
+          {({
+            handleSubmit,
+            resetForm,
+            values,
+            setFieldValue,
+            isValid,
+            errors,
+            touched,
+          }) => (
+            <>
+              <Form className="form form-label-right">
+                <h4 style={{ marginTop: "30px", marginBottom: "-5px" }}>
+                  Landing
+                </h4>
+                <pre>{JSON.stringify(values, null, 1)}</pre>
+                <div className="row form-group  global-form">
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.fromDate}
+                      label="From Date"
+                      name="fromDate"
+                      type="date"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.toDate}
+                      label="To Date"
+                      name="toDate"
+                      type="date"
+                    />
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      style={{ marginTop: "18px" }}
+                      className="btn btn-primary ml-5"
+                      onClick={() => {}}
+                    >
+                      Show
+                    </button>
+                  </div>
+                </div>
+                {/* Landing Table */}
+                {ProjectedCashFlowLanding({ values, setFieldValue })}
 
                 <button
                   type="submit"
@@ -189,14 +267,12 @@ const ImportCommonFormField = ({ obj, children, fetchData }) => {
       <div className="col-lg-3">
         <label>PO/LC No</label>
         <SearchAsyncSelect
-          selectedValue={values?.poLc}
+          selectedValue={values?.poLC}
           handleChange={(valueOption) => {
-            setFieldValue("poLc", valueOption);
+            setFieldValue("poLC", valueOption);
             // getShipment(
             //   `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${profileData?.accountId}&buId=${selectedBusinessUnit?.value}&searchTerm=${valueOption?.label}`
             // );
-
-            setFieldValue("shipment", "");
           }}
           loadOptions={(value) => {
             fetchPOLCNumber({
@@ -206,7 +282,6 @@ const ImportCommonFormField = ({ obj, children, fetchData }) => {
               value,
             });
           }}
-          disabled={true}
         />
       </div>
       <div className="col-lg-3">
@@ -218,8 +293,6 @@ const ImportCommonFormField = ({ obj, children, fetchData }) => {
           onChange={(valueOption) => {
             setFieldValue("sbu", valueOption);
           }}
-          errors={errors}
-          touched={touched}
         />
       </div>
       <div className="col-lg-3">
@@ -231,8 +304,6 @@ const ImportCommonFormField = ({ obj, children, fetchData }) => {
           onChange={(valueOption) => {
             setFieldValue("bankName", valueOption);
           }}
-          errors={errors}
-          touched={touched}
         />
       </div>
       <div className="col-lg-3">
@@ -244,8 +315,6 @@ const ImportCommonFormField = ({ obj, children, fetchData }) => {
           onChange={(valueOption) => {
             setFieldValue("bankAccount", valueOption);
           }}
-          errors={errors}
-          touched={touched}
         />
       </div>
       <div className="col-lg-3">
@@ -262,19 +331,7 @@ const ImportCommonFormField = ({ obj, children, fetchData }) => {
         />
       </div>
 
-      {children &&
-        (() => {
-          switch (values?.paymentType?.value) {
-            case "Duty":
-              return ImportDutyFormField();
-            case "At sight payment":
-              return ImportAtSightPaymentFormField();
-            case "Margin":
-              return ImportMarginFormField();
-            default:
-              return null;
-          }
-        })()}
+      {children && children}
 
       <div className="col-lg-3">
         <InputField
@@ -294,6 +351,9 @@ const ImportCommonFormField = ({ obj, children, fetchData }) => {
           label="Payment Date"
           name="paymentDate"
           type="date"
+          onChange={(e) => {
+            setFieldValue("paymentDate", e.target.value);
+          }}
         />
       </div>
 
@@ -357,13 +417,6 @@ const ImportMarginFormField = (obj) => {
   );
 };
 
-// ! Import Duty Form Field
-const ImportDutyFormField = (obj) => {
-  const { values, setFieldValue, errors, touched } = obj;
-
-  return <></>;
-};
-
 // ! Import At Sight Payment Form Field
 const ImportAtSightPaymentFormField = (obj) => {
   const { values, setFieldValue, errors, touched } = obj;
@@ -371,25 +424,16 @@ const ImportAtSightPaymentFormField = (obj) => {
   return (
     <>
       <div className="col-lg-3">
-        <InputField
-          value={values?.docValue}
-          label="DOC Value"
-          name="docValue"
-          type="text"
-          onChange={(e) => {
-            setFieldValue("docValue", e.target.value);
+        <NewSelect
+          name="lcType"
+          label="LC Type"
+          options={[]}
+          value={values?.lcType}
+          onChange={(valueOption) => {
+            setFieldValue("lcType", valueOption);
           }}
-        />
-      </div>
-      <div className="col-lg-3">
-        <InputField
-          value={values?.margin}
-          label="(-) Margin %"
-          name="margin"
-          type="text"
-          onChange={(e) => {
-            setFieldValue("margin", e.target.value);
-          }}
+          errors={errors}
+          touched={touched}
         />
       </div>
       <div className="col-lg-3">
@@ -407,12 +451,34 @@ const ImportAtSightPaymentFormField = (obj) => {
       </div>
       <div className="col-lg-3">
         <InputField
+          value={values?.margin}
+          label="(-) Margin %"
+          name="margin"
+          type="text"
+          onChange={(e) => {
+            setFieldValue("margin", e.target.value);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
           value={values?.docValue}
           label="DOC Value"
           name="docValue"
           type="text"
           onChange={(e) => {
             setFieldValue("docValue", e.target.value);
+          }}
+        />
+      </div>
+      <div className="col-lg-3">
+        <InputField
+          value={values?.exchangeRate}
+          label="Exchange rate"
+          name="exchangeRate"
+          type="text"
+          onChange={(e) => {
+            setFieldValue("exchangeRate", e.target.value);
           }}
         />
       </div>
