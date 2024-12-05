@@ -33,11 +33,11 @@ table.global-table.advice-table tbody:first-of-type > tr > td:first-child {
 .advice-table-wrapper h6 {
   color: #000 !important;
 }
-.advice-table-wrapper.rtgs h1{
-  color : rgb(0 128 87) !important;
+.advice-table-wrapper.rtgs h1 {
+  color: rgb(0 128 87) !important;
 }
-.advice-table-wrapper.rtgs .rtgs-address{
-  color : rgba(0, 128, 0, .5) !important;
+.advice-table-wrapper.rtgs .rtgs-address {
+  color: rgba(0, 128, 0, 0.5) !important;
   font-size: 12px;
 }
 
@@ -90,11 +90,10 @@ table.global-table.advice-table tbody:first-of-type > tr > td:first-child {
     counter-increment: page;
 
     @top-right {
-      content: counter(pages);
+      /* content: counter(page); */
     }
   }
 }
-
 
 .global-table.advice_table .font_color_red td {
   color: rgba(255, 58, 58, 0.781) !important;
