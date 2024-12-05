@@ -78,7 +78,8 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                     {bookingData?.transportPlanning?.map((item, index) => {
                       return (
                         <>
-                          {item?.vesselName} / {item?.voyagaNo} <br />
+                          {item?.vesselName || ''} / {item?.voyagaNo || ''}{' '}
+                          <br />
                           {index < bookingData?.transportPlanning?.length - 1
                             ? ','
                             : ''}
@@ -227,7 +228,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                           Po No:{' '}
                           {item?.dimensionRow?.map((i, index) => {
                             return (
-                              i?.poNumber +
+                              (i?.poNumber || '') +
                               (index < item?.dimensionRow?.length - 1
                                 ? ','
                                 : '')
@@ -238,7 +239,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                           Color:{' '}
                           {item?.dimensionRow?.map((i, index) => {
                             return (
-                              i?.color +
+                              (i?.color || '') +
                               (index < item?.dimensionRow?.length - 1
                                 ? ','
                                 : '')
@@ -247,7 +248,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                         </p>
                         <p>
                           H.S Code:{' '}
-                          {item?.hsCode +
+                          {(item?.hsCode || '') +
                             (index < bookingData?.rowsData?.length - 1
                               ? ','
                               : '')}
@@ -275,7 +276,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                   </p>
                   <p>
                     Exp No:
-                    {bookingData?.expOrCnfNumber} :{' '}
+                    {bookingData?.expOrCnfNumber || ''} :{' '}
                     {bookingData?.expOrCnfDate &&
                       `${moment(bookingData?.expOrCnfDate).format(
                         'DD-MM-YYYY',
@@ -385,32 +386,6 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                   </h3>
                 </div>
               </div>
-              {/* <div className="bottomSecondColumn borderBottom">
-                <div className="firstColumn">
-                  <p
-                    className="textTitle"
-                    style={{
-                      fontSize: '14px',
-                      padding: '10px',
-                    }}
-                  >
-                    TOTAL PREPAID
-                  </p>
-                </div>
-              </div>
-              <div className="bottomThirdColumn">
-                <div className="firstColumn">
-                  <p
-                    className="textTitle"
-                    style={{
-                      fontSize: '14px',
-                      padding: '10px',
-                    }}
-                  >
-                    TOTAL COLLECT
-                  </p>
-                </div>
-              </div> */}
             </div>
             <div className="bottomRight">
               <div
