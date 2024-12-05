@@ -21,6 +21,7 @@ import {
   commonItemReducer,
 } from "./rawMaterialModals/helper";
 import WarehouseStockModal from "./rawMaterialModals/warehouseStockModal";
+import AutoPRCreateModal from "./autoPRCreateModal";
 
 const initData = {
   businessUnit: "",
@@ -30,13 +31,14 @@ const initData = {
 
 export default function RawMaterialAutoPRNew() {
 
-  const { profileData, businessUnitList } = useSelector((state) => {
+  const { profileData, selectedBusinessUnit, businessUnitList } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   const [singleRowData, setSingleRowData] = useState();
   const [, onCreateMRPFromProduction, saveLoader] = useAxiosPost()
   const [showModal, setShowModal] = useState(false);
+  const [showSaveModal, setShowSaveModal] = useState(false);
 
   const [showBreakdownModal, setShowBreakdownModal] = useState(false);
   const [warehouseStockModalShow, setWarehouseStockModalShow] = useState(false);
@@ -47,14 +49,6 @@ export default function RawMaterialAutoPRNew() {
     commonItemInitialState
   );
 
-  console.log("singleRowData", singleRowData)
-
-  const [
-    autoRawMaterialData,
-    getAutoRawMaterialData,
-    loading,
-    setAutoRawMaterialData,
-  ] = useAxiosGet();
 
   const [
     mrpfromProductionScheduleLanding,
@@ -72,15 +66,8 @@ export default function RawMaterialAutoPRNew() {
   };
 
   const getData = (values) => {
-    setAutoRawMaterialData([]);
     setMrpfromProductionScheduleLanding([])
-    getMrpfromProductionScheduleLanding(`/procurement/MRPFromProduction/MrpfromProductionScheduleLanding?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`, (res) => {
-      if (!res?.length) {
-        getAutoRawMaterialData(
-          `/procurement/MRPFromProduction/GetMRPFromProductionScheduleDetailsNew?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&isForecast=true`
-        );
-      }
-    })
+    getMrpfromProductionScheduleLanding(`/procurement/MRPFromProduction/MrpfromProductionScheduleLanding?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`)
   };
 
 
@@ -89,7 +76,10 @@ export default function RawMaterialAutoPRNew() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={{
+        ...initData,
+        businessUnit: { value: selectedBusinessUnit?.value, label: selectedBusinessUnit?.label }
+      }}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -101,15 +91,16 @@ export default function RawMaterialAutoPRNew() {
         handleSubmit,
         resetForm,
         values,
+        setValues,
         setFieldValue,
         isValid,
         errors,
         touched,
       }) => (
         <>
-          {(loading || saveLoader || loading2) && <Loading />}
+          {(saveLoader || loading2) && <Loading />}
           <IForm
-            title="Raw Material Auto PR Calculation"
+            title="MPR Calculation"
             isHiddenReset
             isHiddenBack
             isHiddenSave
@@ -118,65 +109,12 @@ export default function RawMaterialAutoPRNew() {
                 <div>
                   <button
                     type="button"
-                    disabled={!autoRawMaterialData?.length || mrpfromProductionScheduleLanding?.length}
                     className="btn btn-primary"
                     onClick={() => {
-                      if (!autoRawMaterialData?.length) {
-                        return
-                      }
-
-                      const payload = {
-                        fromDate: values?.fromDate,
-                        toDate: values?.toDate,
-                        actionById: profileData?.userId,
-                        actionByName: profileData?.userName,
-                        businessUnitId: values?.businessUnit?.value,
-                        businessUnitName: values?.businessUnit?.label,
-                        accountId: profileData?.accountId,
-                        row: autoRawMaterialData.map((item) => {
-
-                          const avaiableBlance = (
-                            (+item?.stockQty || 0) +
-                            (+item?.floatingStock || 0) +
-                            (+item?.numOpenPOQty || 0) -
-                            (+item?.deadStockQuantity || 0)
-                          ).toFixed(2);
-
-                          return {
-                            itemId: item.itemId || 0,
-                            itemCode: item.itemCode || "",
-                            itemName: item.itemName || "",
-                            itemCategoryId: 0,
-                            itemSubCategoryId: 0,
-                            uoMid: item.uoMId || 0,
-                            totalBudgetQty: item?.totalBudgetQty || 0,
-                            stockQty: item.stockQty || 0,
-                            inTransit: item.numOpenPOQty || 0,
-                            openPrqty: item.openPRQty || 0,
-                            avaiableBlance: parseFloat(avaiableBlance),
-                            closingBlance: ((+item?.totalBudgetQty || 0) - (+avaiableBlance || 0)).toFixed(
-                              2
-                            ) || 0,
-                            deadStock: item.deadStockQuantity || 0,
-                          };
-                        }),
-                      };
-
-
-                      IConfirmModal({
-                        message: `Are you sure to generate MRP ?`,
-                        yesAlertFunc: () => {
-                          onCreateMRPFromProduction(`/procurement/MRPFromProduction/CreateMRPFromProduction`, payload, () => {
-                            getData(values)
-                          }, true)
-
-                        },
-                        noAlertFunc: () => { },
-                      });
-
+                      setShowSaveModal(true)
                     }}
                   >
-                    Save
+                    Create
                   </button>
                 </div>
               );
@@ -193,7 +131,6 @@ export default function RawMaterialAutoPRNew() {
                       label="Business Unit"
                       onChange={(valueOption) => {
                         setFieldValue("businessUnit", valueOption || "");
-                        setAutoRawMaterialData([]);
                       }}
                       errors={errors}
                       touched={touched}
@@ -210,7 +147,6 @@ export default function RawMaterialAutoPRNew() {
                       onChange={(e) => {
                         setFieldValue("fromDate", e.target.value);
                       }}
-                      min={_todayDate()}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -238,7 +174,7 @@ export default function RawMaterialAutoPRNew() {
                     </button>
                   </div>
                 </div>
-                {mrpfromProductionScheduleLanding?.length ? <div>
+                {mrpfromProductionScheduleLanding?.length > 0 && <div>
                   <div className="table-responsive">
                     <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                       <thead>
@@ -279,124 +215,23 @@ export default function RawMaterialAutoPRNew() {
                       </tbody>
                     </table>
                   </div>
-                </div> : <div>
-                  {autoRawMaterialData?.length > 0 && (
-                    <div className="table-responsive">
-                      <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Item Code</th>
-                            <th>Item Name</th>
-                            <th>UOM</th>
-                            <th>Total QTY</th>
-                            <th>Warehouse Stock</th>
-                            <th>Floating Stock</th>
-                            <th>In Transit</th>
-                            <th>Open PR</th>
-                            <th>Dead Stock</th>
-                            <th>Available Stock</th>
-                            <th>Requirment</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {autoRawMaterialData?.length > 0 &&
-                            autoRawMaterialData?.map((item, index) => {
-                              let availableStock = 0;
-
-                              availableStock =
-                                (
-                                  (+item?.stockQty || 0) +
-                                  (+item?.floatingStock || 0) +
-                                  (+item?.numOpenPOQty || 0) -
-                                  (+item?.deadStockQuantity || 0)
-                                )?.toFixed(2) || 0;
-
-                              return (
-                                <tr key={index}>
-                                  <td>{index + 1}</td>
-                                  <td className="text-center">
-                                    {item?.itemCode}
-                                  </td>
-                                  <td>{item?.itemName}</td>
-                                  <td className="text-center">
-                                    {item?.uomName}
-                                  </td>
-                                  <td className="text-right">
-                                    {item?.totalBudgetQty || 0}
-                                  </td>
-                                  <td
-                                    className="text-right text-primary cursor-pointer"
-                                    onClick={() => {
-                                      if (!item?.stockQty) return;
-                                      setWarehouseStockModalShow(true);
-                                      setSingleRowData(item);
-                                    }}
-                                  >
-                                    {item?.stockQty?.toFixed(2) || 0}
-
-                                  </td>
-                                  <td
-                                    className="text-right text-primary cursor-pointer"
-                                    onClick={() => {
-                                      if (!item?.floatingStock) return;
-                                      commonItemDetailsDispatch({
-                                        type: "FloatingStock",
-                                        payload: { singleRowData: item },
-                                      })
-                                    }}
-                                  >
-                                    {item?.floatingStock || 0}
-                                  </td>
-
-                                  <td
-                                    className="text-right text-primary cursor-pointer"
-                                    onClick={() => {
-                                      if (!item?.numOpenPOQty) return;
-                                      commonItemDetailsDispatch({
-                                        type: "OpenPo",
-                                        payload: { singleRowData: item },
-                                      })
-                                    }}
-                                  >
-                                    {item?.numOpenPOQty?.toFixed(2) || 0}
-
-                                  </td>
-
-                                  <td
-                                    className="text-right text-primary cursor-pointer"
-                                    onClick={() => {
-                                      if (!item?.openPRQty) return;
-                                      commonItemDetailsDispatch({
-                                        type: "OpenPR",
-                                        payload: { singleRowData: item },
-                                      })
-                                    }}
-                                  >
-                                    {item?.openPRQty?.toFixed(2) || 0}
-                                  </td>
-                                  <td className="text-right">
-                                    {item?.deadStockQuantity || 0}
-                                  </td>
-                                  <td className="text-right">
-                                    {availableStock}
-                                  </td>
-                                  <td className="text-right">
-                                    {((+item?.totalBudgetQty || 0) - (+availableStock || 0) - (+item?.openPRQty || 0)).toFixed(
-                                      2
-                                    ) || 0}
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
                 </div>}
 
               </>
             </Form>
+
+
+            <IViewModal
+              show={showSaveModal}
+              onHide={() => {
+                setShowSaveModal(false)
+              }}
+            >
+              <AutoPRCreateModal parentValues={values} callBack={(childValues) => {
+                setValues({ ...childValues })
+                getData(childValues)
+              }} setShowSaveModal={setShowSaveModal} />
+            </IViewModal>
 
             <IViewModal
               show={showBreakdownModal}
