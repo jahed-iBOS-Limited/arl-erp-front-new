@@ -21,6 +21,7 @@ import {
   commonItemReducer,
 } from "./rawMaterialModals/helper";
 import WarehouseStockModal from "./rawMaterialModals/warehouseStockModal";
+import { toast } from "react-toastify";
 
 const initData = {
   businessUnit: "",
@@ -229,6 +230,24 @@ export default function RawMaterialAutoPRNew() {
                     <button
                       type="button"
                       onClick={() => {
+
+                        const currentDate = new Date();
+                        const currentDateStr = currentDate.toISOString().split("T")[0]; // Get the current date in YYYY-MM-DD format
+                        const fromDate = values?.fromDate;
+                        const toDate = values?.toDate;
+
+                        // Check if 'fromDate' is exactly the current date
+                        if (fromDate !== currentDateStr) {
+                          toast.warn("From Date must be the current date.");
+                          return;
+                        }
+
+                        // Check if 'toDate' is later than or equal to 'fromDate'
+                        if (toDate && toDate < fromDate) {
+                          toast.warn("To Date cannot be before From Date.");
+                          return;
+                        }
+
                         getData(values);
                       }}
                       disabled={!values?.businessUnit}
