@@ -83,7 +83,7 @@ table.global-table.advice-table tbody:first-of-type > tr > td:first-child {
     counter-increment: page;
 
     @top-right {
-      content: counter(pages);
+      /* content: counter(page); */
     }
   }
 }
