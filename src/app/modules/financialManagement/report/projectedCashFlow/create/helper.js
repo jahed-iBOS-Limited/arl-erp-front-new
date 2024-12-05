@@ -2,15 +2,38 @@
 
 // init data
 export const initData = {
+  // global
   viewType: "import",
-  paymentName: "",
-  paymentNameDDL: "",
+
+  // common
+  poLC: "",
+  sbu: "",
+  bankName: "",
+  bankAccount: "",
+  paymentType: "",
   amount: "",
-  date: "",
-  fromDate: "",
-  toDate: "",
-  poLc: "",
-  shipment: "",
+  paymentDate: "",
+  remarks: "",
+
+  // margin & at sight payment
+  marginType: "",
+
+
+  // margin
+  beneficiary: "",
+  poValue: "",
+  paymentName: "",
+
+  // at sight payment
+  lcType: "",
+  margin: "",
+  docValue: "",
+  exchangeRate: "",
+
+  // payment & income
+  partnerType: "",
+  transaction:"",
+  dueDate:""
 };
 
 export const importPaymentType = [
