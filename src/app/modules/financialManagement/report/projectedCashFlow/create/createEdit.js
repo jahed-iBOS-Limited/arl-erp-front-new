@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import IForm from "../../../../_helper/_form";
 import InputField from "../../../../_helper/_inputField";
@@ -22,6 +22,7 @@ import {
   marginTypeDDL,
 } from "./helper";
 import ProjectedCashFlowLanding from "./landing";
+import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 
 export default function ProjectedCashFlowCreateEdit() {
   // redux
@@ -31,6 +32,7 @@ export default function ProjectedCashFlowCreateEdit() {
 
   // state
   const [objProps, setObjprops] = useState({});
+  const formikRef = useRef(null);
 
   // api action
   const [, getPOLCNumberData, getPOLCNumberDataLoading] = useAxiosGet();
@@ -65,8 +67,22 @@ export default function ProjectedCashFlowCreateEdit() {
     getLCTypeDDL(`/imp/ImportCommonDDL/GetLCTypeDDL`);
     // sbu
     getSBUDDL(
-      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`
+      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`,
+      (res) => {
+        formikRef.current.setFieldValue("sbu", res?.[0] || "");
+
+        if (res?.length > 0) {
+          fetchPCFLandingData({
+            values: {
+              ...initData,
+              sbu: res[0],
+            },
+            getPCFLandingData,
+          });
+        }
+      }
     );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -555,6 +571,7 @@ export default function ProjectedCashFlowCreateEdit() {
               fetchPCFLandingData({ values, getPCFLandingData });
             });
           }}
+          innerRef={formikRef}
         >
           {({
             handleSubmit,

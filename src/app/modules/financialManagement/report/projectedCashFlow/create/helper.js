@@ -13,7 +13,7 @@ export const initData = {
   sbu: "",
   bankName: "",
   bankAccount: "",
-  paymentType: "",
+  paymentType: { value: "Duty", label: "Duty" },
   amount: "",
   paymentDate: "",
   remarks: "",
