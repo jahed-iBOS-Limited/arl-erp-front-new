@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import './HAWBFormat.css';
+import logisticsLogo from './logisticsLogo.png';
 import moment from 'moment';
 function NewHBLFormatAir({ componentRef, bookingData }) {
   const { profileData, selectedBusinessUnit } = useSelector(
@@ -9,738 +10,829 @@ function NewHBLFormatAir({ componentRef, bookingData }) {
   );
 
   return (
-    <div className="main-container-mgs-air" ref={componentRef}>
-      <div className="container">
-        <div className="box1">
-          {/*--- Section: BOX 1 LEFT BOX ---*/}
-          <div className="box1_left-box">
-            <div className="box1_left-box_content-1 medium-font line-height word-spacing">
-              <span
-                className="small-font word-spacing"
-                style={{ marginRight: 10 }}
-              >
-                Shippers Name and Address
-              </span>
-              TO THE ORDER OF: <br />
-              {bookingData?.shipperName} <br />
-              {bookingData?.shipperAddress}, {bookingData?.shipperState},{' '}
-              {bookingData?.shipperCountry}
+    <div className="hawbContainer" ref={componentRef}>
+      <div className="shipperAandConsigneeInfo">
+        <div className="top borderBottom">
+          <div className="leftSide borderRight">
+            <div className="shipperInfo borderBottom">
+              <p className="textTitle">Shipper's Name and Address:</p>
+              <p>TO THE ORDER OF</p>
+              <p>
+                {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
+                  bookingData?.shipperBank}
+              </p>
+              <p>
+                {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
+                  bookingData?.shipperBankAddress}
+              </p>
+              <p>{bookingData?.shipperName}</p>
+              {/* <p>{bookingData?.shipperContactPerson}</p> */}
+              <p>{bookingData?.shipperContact}</p>
+              <p>{bookingData?.shipperEmail}</p>
+              <p>
+                {bookingData?.shipperState} ,{bookingData?.shipperCountry},{' '}
+                {bookingData?.shipperAddress}
+              </p>
             </div>
-            <div className="box1_left-box_content-2 medium-font line-height word-spacing">
-              <span
-                className="small-font word-spacing"
-                style={{ marginRight: 10 }}
-              >
-                Consignee's Name and Address
-              </span>
-              TO THE ORDER OF: <br />
-              {bookingData?.consigneeName} <br />
-              {bookingData?.consigneeAddress}, {bookingData?.consigState},{' '}
-              {bookingData?.consigCountry}
+            <div className="consigneeInfo borderBottom">
+              <p className="textTitle">Consignee's Name and Address:</p>
+              <p>TO THE ORDER OF</p>
+              <p>{bookingData?.consigneeName}</p>
+              <p>{bookingData?.consigneeEmail}</p>
+              {/* <p>{bookingData?.consigneeContactPerson}</p> */}
+              <p>{bookingData?.consigneeContact}</p>
+              <p>
+                {bookingData?.consigState}, {bookingData?.consigCountry}{' '}
+                {bookingData?.consigneeAddress}
+              </p>
             </div>
-            <div className="box1_left-box_content-3 medium-font line-height word-spacing">
-              <span className="small-font word-spacing">Also notify</span>
+            {/* Notify Party */}
+            <div className="notifyParty">
+              <p className="textTitle">Notify Party</p>
+              <p>TO THE ORDER OF</p>
               <p>
                 {bookingData?.notifyParty}
                 <br />
                 {bookingData?.notifyPartyAddress}
               </p>
             </div>
-            <div className="box1_left-box_content-4 small-font">
-              Airport of Departure and Requested Routing
-              <p className="medium-font" style={{ paddingTop: 3 }}>
-                {bookingData?.transportPlanning
-                  ?.map((item) => item?.pickupLocation)
-                  .join(' - ')}
-              </p>
-            </div>
-            <div className="box1_left-box_content-5 small-font">
-              <div style={{ width: '50%', borderRight: '1px solid black' }}>
-                Airport of Destination
-                <p className="medium-font" style={{ paddingTop: 5 }}>
-                  {bookingData?.transportPlanning
-                    ?.map((item) => item?.airLineOrShippingLine)
-                    .join(' - ')}
-                </p>
-              </div>
-              <div style={{ width: '25%', borderRight: '1px solid black' }}>
-                Flight/Date
-                <br />
-                <p className="medium-font" style={{ paddingTop: 12 }}>
-                  {bookingData?.transportPlanning
-                    ?.map((item) => {
-                      return item?.departureDateTime
-                        ? moment(item?.departureDateTime).format('DD.MM.YYYY')
-                        : '';
-                    })
-                    .join(' - ')}
-                </p>
-              </div>
-              <div style={{ width: '25%' }}>
-                Flight/Date
-                <br />
-                <p className="medium-font" style={{ paddingTop: 12 }}>
-                  {bookingData?.transportPlanning
-                    ?.map((item) => {
-                      return item?.arrivalDateTime
-                        ? moment(item?.arrivalDateTime).format('DD.MM.YYYY')
-                        : '';
-                    })
-                    .join(' - ')}
-                </p>
-              </div>
-            </div>
           </div>
-          {/*--- Section: BOX 1 RIGHT BOX ---*/}
-          <div className="box1_right-box">
-            <div className="box1_right-box_content-1">
-              <p
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  margin: 0,
-                }}
-              >
-                <span className="small-font">Not negotiable</span>
-                <span className="large-font">
-                  <b>{bookingData?.hblnumber}</b>
-                </span>
-              </p>
-              <p className="medium-font">
-                <b>Air Waybill</b>
-              </p>
-              <p className="small-font">(Air Consignment Note)</p>
-              <p className="small-font">Issued by</p>
-              <p
-                style={{
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                  fontSize: 25,
-                  wordSpacing: 7,
-                  padding: '5px 0',
-                }}
-              >
-                {selectedBusinessUnit?.label}
-              </p>
-              <p
-                style={{
-                  textAlign: 'center',
-                  padding: '0 20px',
-                  wordSpacing: '-1px',
-                  fontSize: 10,
-                }}
-              >
-                {selectedBusinessUnit?.address}
-              </p>
-            </div>
-            <div className="box1_right-box_content-2 small-font word-spacing">
-              Copies 1,2 and 3 of this Air Waybill are originals and have the
-              same validity
-            </div>
-            <div className="box1_right-box_content-3">
-              It is agreed that the goods described herein are accepted in
-              apparent good order and condition (except as noted) for carriage
-              SUBJECT TO THE CONDITIONS OF CONTRACT ON THE REVERSE HEREOF THE
-              SHIPPER'S ATTENTION IS DRAWN TO THE NOTICE CONCERNING CARRIERS
-              LIMITATION OF LIABILITY. shipper may increase such limitation of
-              liability by declaring a higher value for carriage and paying
-              supplement charge if required.
-            </div>
-            <div className="box1_right-box_content-4 small-font word-spacing">
-              Accounting Information
-              <p
-                style={{ display: 'flex', justifyContent: 'center' }}
-                className="large-font"
-              >
-                {bookingData?.paymentTerms?.startsWith('PP')
-                  ? 'PREPAID'
-                  : 'FREIGHT COLLECT'}
-              </p>
-            </div>
-            <div className="box1_right-box_content-5 small-font word-spacing">
-              <div style={{ width: '50%', borderRight: '1px solid black' }}>
-                Master Airwaybill No.
+          <div className="rightSide">
+            <div className="rightSideTop">
+              <div>
+                <p className="textTitle">Not Negotiable</p>
+                <h6 className="airWayBillTitle">AIR WAYBILL</h6>
+                <p>(Air Consigniment Note)</p>
+                <p>Issued by</p>
+              </div>
+              <div>
                 <p>
-                  <b>{bookingData?.flightNumber} </b>
+                  <b>HAWB NO: {bookingData?.hblnumber}</b>
+                </p>
+                <img src={logisticsLogo} alt="barcode" />
+                <p>
+                  <b>Akij Logistics Limited</b>
                 </p>
               </div>
-              <div style={{ width: '50%' }}>I.A.T.A Code</div>
             </div>
-            <div className="box1_right-box_content-6 small-font word-spacing">
-              <div style={{ width: '50%', borderRight: '1px solid black' }}>
-                Time &amp; Date Broker Notified
-              </div>
-              <div style={{ width: '50%' }}>
-                Time &amp; Date Cargo Collected
-              </div>
+            <div className="rightSideBottom" />
+            <div className="rightSideMiddle borderBottom">
+              <p className="rightSideMiddleTitle">
+                Copies 1,2 and 3 of this Air Waybill arc originals and have the
+                same validity
+              </p>
+              <p className="rightSideMiddleContent">
+                It is agreed that the goods described herein are accepted in
+                apparent good order and condition (except as noted) for carriage
+                SUBJECT TO THE CONDITIONS OF CONTRACT ON THE REVERSE HEREOF. ALL
+                GOODS MAY BE CARRIED BY ANY OTHER MEANS INCLUDING ROAD OR ANY
+                OTHER CARRIER UNLESS SPECIFIC CONTRARY INSTRUCTIONS ARE GIVEN
+                HEREON BY THE SHIPPER, AND SHIPPER AGREES THAT THE SHIPMENT MAY
+                BE CARRIED VIA INTERMEDIATE STOPPING PLACES WHICH THE CARRIER
+                DEEMS APPROPRIATE. THE SHIPPER'S ATTENTION IS DRAWN TO THE
+                NOTICE CONCERNING CARRIER·s LIMITATION OF LIABILITY. Shipper may
+                increase such limitation of liabHity by declaring a higher value
+                for carriage and paying a suppfemental charge if required.
+              </p>
             </div>
-            <div className="box1_right-box_content-7">
-              <div
-                className="small-font"
-                style={{ width: '20%', borderRight: '1px solid black' }}
-              >
-                Currency
-                <p className="medium-font" style={{ paddingTop: 5 }}>
-                  {bookingData?.currency}
-                </p>
-              </div>
-              <div
-                className="small-font"
-                style={{
-                  width: '29.2%',
-                  borderRight: '1px solid black',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                <div style={{ display: 'flex', height: '50%' }}>
-                  <div
-                    style={{
-                      width: '50%',
-                      borderRight: '1px solid black',
-                      borderBottom: '1px solid black',
-                    }}
-                  >
-                    WT/VAL
-                  </div>
-                  <div
-                    style={{ width: '50%', borderBottom: '1px solid black' }}
-                  >
-                    Other
-                  </div>
-                </div>
-                <div style={{ display: 'flex', height: '50%' }}>
-                  <div style={{ width: '50%', borderRight: '1px solid black' }}>
-                    PPD
-                  </div>
-                  <div style={{ width: '52%', borderRight: '1px solid black' }}>
-                    COLL
-                  </div>
-                  <div style={{ width: '50%', borderRight: '1px solid black' }}>
-                    PPD
-                  </div>
-                  <div style={{ width: '50%' }}>COLL</div>
+            <div className="rightSideButtom">
+              <div className="borderBottom">
+                <p className="textTitle">Accounting Information</p>
+                <div className="text-center">
+                  <br />
+                  <h2>
+                    FREIGHT{' '}
+                    {['exw'].includes(bookingData?.incoterms) && 'COLLECT EXW'}
+                    {['fca', 'fob'].includes(bookingData?.incoterms) &&
+                      'COLLECT'}
+                    {['cif', 'cpt', 'cfr'].includes(bookingData?.incoterms) &&
+                      'PREPAID'}
+                    {['dap', 'ddp', 'ddu'].includes(bookingData?.incoterms) &&
+                      'COLLECT DAP/DDP/DDU'}
+                    {['other'].includes(bookingData?.incoterms) && 'COLLECT'}
+                  </h2>
+                  <br />
+                  <p>
+                    <b>
+                      MAWB NO:
+                      {bookingData?.flightNumber}
+                    </b>
+                  </p>
                 </div>
               </div>
-              <div
-                className="small-font"
-                style={{ width: '40%', borderRight: '1px solid black' }}
-              >
-                Declared Value for Carriage
-                <p className="medium-font" style={{ paddingTop: 5 }}>
-                  NVD
+              <div className="borderBottom">
+                <p className="textTitle">
+                  I.A.T.A Code{' '}
+                  {bookingData?.transportPlanning?.map((item, index) => {
+                    return (
+                      <>
+                        {item?.iatanumber}
+                        {index < bookingData?.transportPlanning?.length - 1
+                          ? ','
+                          : ''}
+                      </>
+                    );
+                  })}
                 </p>
               </div>
-              <div />
-            </div>
-            <div className="box1_right-box_content-8 small-font">
-              <div style={{ width: '30%', borderRight: '1px solid black' }}>
-                Amount of Insurance
-              </div>
-              <div style={{ width: '70%' }}>
-                INSURANCE-if Carrier offers insurance and such insurance is
-                requested in accordance with condition on reverse hereof,
-                indicate amount to be insured in figures in box marked amount of
-                insurance.
+              <div className="borderBottomTime">
+                <p className="borderRight">Time &amp; Date Broker Notified</p>
+                <p>Time &amp; Date Cargo Collected</p>
               </div>
             </div>
           </div>
         </div>
-        {/*--- Section: BOX 2 ---*/}
-        <div className="box2 small-font">Handling Information</div>
-        {/*--- Section: BOX 3 ---*/}
-        <div className="box3">
-          <div className="box3_heading small-font">
-            <div style={{ width: '5%', borderRight: '1px solid black' }}>
-              No Pieces RCP
+        <div className="top borderBottom airInfo">
+          <div className="leftSide borderRight">
+            <div>
+              <p className="textTitle">
+                Airport of Departure and Requested Routing
+              </p>
+              <p>
+                {bookingData?.transportPlanning?.map((item, index) => {
+                  return (
+                    <>
+                      {item?.pickupLocation}
+                      {index < bookingData?.transportPlanning?.length - 1
+                        ? ','
+                        : ''}
+                    </>
+                  );
+                }) || ''}
+              </p>
             </div>
-            <div style={{ width: '10%', borderRight: '1px solid black' }}>
-              Gross Weight
-            </div>
-            <div style={{ width: '10%', borderRight: '1px solid black' }}>
-              Kg lb
-            </div>
-            <div style={{ width: '10%', borderRight: '1px solid black' }}>
-              Chargeable Weight
-            </div>
-            <div style={{ width: '6%', borderRight: '1px solid black' }}>
-              Rate <br />
-              <br />
+          </div>
+          <div className="rightSide">
+            <div className="rightSideColumnOne borderRight">
+              <div style={{ display: 'flex', height: '100%' }}>
+                <div
+                  style={{ display: 'flex', height: '100%' }}
+                  className="commonWithOne borderRight"
+                >
+                  <div className="hawbCurrency borderRight">
+                    <p className="textTitle">Currency</p>
+                    <p>{bookingData?.currency} </p>
+                  </div>
+                  <div className="air-flight-info">
+                    <div className="air-flight-catagory">
+                      <p className="borderBottom textTitle">WT/VAL</p>
+                      <div style={{ display: 'flex', height: '100%' }}>
+                        <p className="borderRight textTitle">PPD</p>
+                        <p className="textTitle">CCX</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="air-flight-info"
+                  style={{
+                    flex: 1,
+                  }}
+                >
+                  <div className="air-flight-catagory">
+                    <p className="borderBottom textTitle">Other</p>
+                    <div style={{ display: 'flex', height: '100%' }}>
+                      <p className="borderRight textTitle">PPD</p>
+                      <p className="textTitle">CCX</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div
               style={{
-                width: '10%',
-                borderRight: '1px solid black',
-                textAlign: 'center',
+                flex: 1,
               }}
             >
-              Total
-            </div>
-            <div>
-              Nature and Quantity of Goods <br />
-              (incl, Dimensions or volume)
-            </div>
-          </div>
-          <div className="box3_content">
-            <div style={{ width: '5%', borderRight: '1px solid black' }}>
-              <p style={{ textAlign: 'center' }}>
-                {bookingData?.rowsData?.reduce(
-                  (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
-                  0,
-                )}
-              </p>
-              <p className="medium-font">
-                <u>
-                  <b>SHIPPING MARKS</b>
-                </u>
-              </p>
-              <p className="small-font"></p>
-            </div>
-            <div style={{ width: '10%', borderRight: '1px solid black' }}>
-              <p style={{ textAlign: 'center' }}>
-                {bookingData?.rowsData?.reduce(
-                  (acc, item) => acc + (+item?.grossWeightKG || 0),
-                  0,
-                )}
-              </p>
-            </div>
-            <div style={{ width: '10%', borderRight: '1px solid black' }}>
-              <p
-                className="medium-font"
-                style={{ paddingTop: 20, textAlign: 'center' }}
-              >
-                <u>
-                  <b>DIMENSION</b>
-                </u>
-              </p>
-              <p className="small-font">
-                {bookingData?.rowsData?.reduce(
-                  (acc, item) => acc + (+item?.totalDimsHeight || 0),
-                  0,
-                )}{' '}
-                x{' '}
-                {bookingData?.rowsData?.reduce(
-                  (acc, item) => acc + (+item?.totalDimsWidth || 0),
-                  0,
-                )}{' '}
-                x{' '}
-                {bookingData?.rowsData?.reduce(
-                  (acc, item) => acc + (+item?.totalDimsLength || 0),
-                  0,
-                )}
-                <br />
-                Total CBM :{' '}
-                {bookingData?.rowsData?.reduce(
-                  (acc, item) => acc + (+item?.totalVolumeCBM || 0),
-                  0,
-                )}
-              </p>
-            </div>
-            <div style={{ width: '10%', borderRight: '1px solid black' }}>
-              <p style={{ textAlign: 'center' }}>3337</p>
-            </div>
-            <div style={{ width: '6%', borderRight: '1px solid black' }} />
-            <div style={{ width: '10%', borderRight: '1px solid black' }} />
-            <div style={{ width: '45%' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: '100%',
-                }}
-              >
-                <p className="small-font">Said to Contain</p>
-                <p className="medium-font" style={{ letterSpacing: 'normal' }}>
-                  DESCRIPTION OF GOODS : <br />{' '}
-                  {bookingData?.rowsData?.reduce(
-                    (acc, item) => acc + item?.descriptionOfGoods + ', ',
-                    '',
-                  )}
-                </p>
-                <p className="medium-font">
-                  HSCode:
-                  {bookingData?.rowsData?.reduce(
-                    (acc, item) => acc + item?.hsCode + ', ',
-                    '',
-                  )}
-                </p>
+              <div style={{ display: 'flex', height: '100%' }}>
                 <div
+                  className="borderRight"
                   style={{
-                    display: 'flex',
-                    marginTop: 'auto',
-                    paddingLeft: 5,
-                    paddingBottom: 5,
-                    justifyContent: 'space-between',
+                    width: '50%',
                   }}
                 >
-                  <div className="medium-font">
-                    <p>INV.NO.: {bookingData?.invoiceNumber}</p>
-                    <p>L/C NO.: {bookingData?.lcNo}</p>
-                    <p>EXP NO.: {bookingData?.expOrCnfNumber}</p>
-                    <p>S.B.NO.: {bookingData?.sbNo}</p>
-                  </div>
-                  <p className="medium-font"></p>
-                  <div
-                    className="medium-font"
-                    style={{ flexDirection: 'column' }}
-                  >
-                    <p>
-                      DT:
-                      {bookingData?.invoiceDate
-                        ? moment(bookingData?.invoiceDate).format('DD.MM.YYYY')
-                        : ''}
-                    </p>
-                    <p>
-                      DT:
-                      {bookingData?.lcDate
-                        ? moment(bookingData?.lcDate).format('DD.MM.YYYY')
-                        : ''}
-                    </p>
-                    <p>
-                      DT:{' '}
-                      {bookingData?.expOrCnfDate
-                        ? moment(bookingData?.expOrCnfDate).format('DD.MM.YYYY')
-                        : ''}
-                    </p>
-                    <p>DT:</p>
-                  </div>
-                  <p />
-                  <p />
+                  <p className="textTitle">Declared Value for Carriage</p>
                 </div>
+                <div
+                  style={{
+                    width: '50%',
+                  }}
+                >
+                  <p className="textTitle">Declared Value for Customs</p>
+                  <p>
+                    <b>
+                      {bookingData?.invoiceValue
+                        ? bookingData?.invoiceValue
+                        : 'AS PER INV'}
+                    </b>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div />
+        </div>
+        <div className="top borderBottom airInfo">
+          <div className="leftSide borderRight">
+            <div style={{ display: 'flex', height: '100%' }}>
+              <div
+                className="air-destination-info borderRight"
+                style={{ width: '50%' }}
+              >
+                <p className="textTitle">Airport of Destination</p>
+                <p>
+                  <b>
+                    {' '}
+                    <p className="medium-font" style={{ paddingTop: 5 }}>
+                      {bookingData?.transportPlanning
+                        ?.map((item) => item?.airLineOrShippingLine)
+                        .join(' - ')}
+                    </p>
+                  </b>
+                </p>
+              </div>
+              <div style={{ width: '50%' }}>
+                <div style={{ display: 'flex', height: '100%' }}>
+                  <div className="borderRight" style={{ width: '50%' }}>
+                    <p className="textTitle ">Flight/Date</p>
+                    {bookingData?.transportPlanning
+                      ?.map((item) => {
+                        return item?.estimatedTimeOfDepart
+                          ? moment(item?.estimatedTimeOfDepart).format(
+                              'DD.MM.YYYY',
+                            )
+                          : '';
+                      })
+                      .join(' - ')}
+                  </div>
+                  <div className="" style={{ width: '50%' }}>
+                    <p className="textTitle ">Flight/Date</p>
+
+                    <p className="medium-font">
+                      {bookingData?.transportPlanning
+                        ?.map((item) => {
+                          return item?.arrivalDateTime
+                            ? moment(item?.arrivalDateTime).format('DD.MM.YYYY')
+                            : '';
+                        })
+                        .join(' - ')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="rightSide">
+            <div style={{ display: 'flex' }}>
+              <div className="amountofInsurance borderRight commonWithOne">
+                <p className="textTitle">Amount of Insurance</p>
+              </div>
+              <div>
+                <p>
+                  INSURANCE-if Carrier offers insurance and such insurance is
+                  requested in accordance with condition on reverse hereof,
+                  indicate amount to be insured in figures in box marked amount
+                  of insurance
+                </p>
+              </div>
+            </div>
+          </div>
+          <div />
+        </div>
+        <div style={{ minHeight: 50 }} className="borderBottom">
+          <p className="textTitle">Handling Information</p>
+        </div>
+        {/* cargo info */}
+        <div className="cargoInfo borderBottom">
+          <div>
+            <div
+              style={{ display: 'flex', textAlign: 'center' }}
+              className="borderBottom textTitle"
+            >
+              <div className="noPiecesRcp borderRight">
+                <p>No Of Pieces RCP</p>
+              </div>
+              <div className="grossWeight borderRight">
+                <p>Gross Weight</p>
+              </div>
+              <div className="kgIB borderRight">
+                <p>KG IB</p>
+              </div>
+              <div className="chargeableWeight borderRight">
+                <p>Chargeable Weight</p>
+              </div>
+              <div className="rateAndCharge borderRight">
+                <p>Rate</p>
+              </div>
+              <div className="total borderRight">
+                <p>Total</p>
+              </div>
+              <div className="natureandQuantityofGoods">
+                <p>
+                  Nature and Quantity of Goods <br />
+                  (incl, Dimensions or volume)
+                </p>
+              </div>
+            </div>
+          </div>
+          <div style={{ height: '100%', fontWeight: '500' }}>
+            <div style={{ display: 'flex', height: '100%' }}>
+              <div
+                className="noPiecesRcp borderRight"
+                style={{
+                  position: 'relative',
+                }}
+              >
+                <p>
+                  {bookingData?.rowsData?.reduce(
+                    (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
+                    0,
+                  )}
+                </p>
+                <p
+                  style={{
+                    position: 'absolute',
+                    left: '2px',
+                    top: '50px',
+                    width: '104px',
+                    textDecoration: 'underline',
+                  }}
+                >
+                  Shipping Marks:
+                </p>
+              </div>
+              <div className="grossWeight borderRight">
+                <p>
+                  {bookingData?.rowsData?.reduce(
+                    (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
+                    0,
+                  )}{' '}
+                  KG
+                </p>
+              </div>
+              <div className="kgIB borderRight">
+                <p />
+              </div>
+              <div className="chargeableWeight borderRight">
+                <p>
+                  {bookingData?.rowsData?.reduce(
+                    (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
+                    0,
+                  )}{' '}
+                  KG
+                </p>
+              </div>
+              <div className="rateAndCharge borderRight">
+                <p />
+              </div>
+              <div className="total borderRight">
+                <p />
+              </div>
+              <div className="natureandQuantityofGoods">
+                <p style={{ textDecoration: 'underline' }}>
+                  DESCRIPTION OF GOODS :
+                </p>
+                <p>
+                  {bookingData?.rowsData?.map((item, index) => {
+                    return `${item?.descriptionOfGoods}${
+                      index < bookingData?.rowsData?.length - 1 ? ',' : ''
+                    }`;
+                  })}
+                </p>
+                <p />
+                <br />
+                <p>Invoice No: {bookingData?.invoiceNumber}</p>
+                <p>
+                  {bookingData?.infoType === 'lc'
+                    ? 'LC No'
+                    : bookingData?.infoType === 'tt'
+                    ? 'TT No'
+                    : 'S/C No'}
+                  :{' '}
+                  {bookingData?.objPurchase?.map((item, index) => {
+                    return `${item?.lcnumber || ''} : ${item?.lcdate &&
+                      `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${
+                      index < bookingData?.objPurchase?.length - 1 ? ',' : ''
+                    }`;
+                  })}
+                </p>
+                <p>
+                  Exp No:
+                  {bookingData?.expOrCnfNumber || ''} :{' '}
+                  {bookingData?.expOrCnfDate &&
+                    `${moment(bookingData?.expOrCnfDate).format('DD-MM-YYYY')}`}
+                </p>
+                <p>
+                  H.S Code:{' '}
+                  <>
+                    {bookingData?.rowsData?.map((item, index) => {
+                      return `${item?.hsCode || ''}${
+                        index < bookingData?.rowsData?.length - 1 ? ',' : ''
+                      }`;
+                    })}
+                  </>
+                </p>
+                <p>Stuffing mode: {bookingData?.modeOfStuffings}</p>
+
+                <br />
+                <p>
+                  Dimn:{' '}
+                  <>
+                    {bookingData?.rowsData?.reduce(
+                      (acc, item) => acc + (+item?.totalDimsHeight || 0),
+                      0,
+                    )}{' '}
+                    x{' '}
+                    {bookingData?.rowsData?.reduce(
+                      (acc, item) => acc + (+item?.totalDimsWidth || 0),
+                      0,
+                    )}{' '}
+                    x{' '}
+                    {bookingData?.rowsData?.reduce(
+                      (acc, item) => acc + (+item?.totalDimsLength || 0),
+                      0,
+                    )}
+                    <br />
+                    Total CBM :{' '}
+                    {bookingData?.rowsData?.reduce(
+                      (acc, item) => acc + (+item?.totalVolumeCBM || 0),
+                      0,
+                    )}
+                  </>
+                </p>
               </div>
             </div>
           </div>
         </div>
-        {/*--- Section: BOX 4 ---*/}
-        <div className="box4">
-          {/*--- Section: BOX 4 LEFT BOX  ---*/}
-          <div className="box4_Left-box">
-            <div className="box4_Left-box_content-1">
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: '100%',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    height: '50%',
-                  }}
-                  className="small-font "
-                >
-                  <p
-                    style={{
-                      border: '1px solid black',
-                      borderTop: 'none',
-                      borderLeft: 'none',
-                      height: '100%',
-                      alignContent: 'center',
-                      padding: '0 20px',
-                    }}
-                  >
+        {/* collect info */}
+        <div className="collectInfo">
+          {/* row item (1) */}
+          <div className="collectItemRow collectItemRowOne borderBottom">
+            <div className="collectItemLeft borderRight">
+              <div className="collectChart">
+                {/* grap */}
+                <div className="collectChartBox">
+                  <span className=" collectChartBoxItem collectChartBoxPrepaid textTitle">
                     Prepaid
-                  </p>
-                  <p
-                    style={{
-                      border: '1px solid black',
-                      borderTop: 'none',
-                      height: '100%',
-                      alignContent: 'center',
-                      padding: '0 20px',
-                    }}
-                  >
+                  </span>
+                  <sapn className=" collectChartBoxItem collectChartBoxWC textTitle">
                     Weight charge
-                  </p>
-                  <p
-                    style={{
-                      border: '1px solid black',
-                      borderTop: 'none',
-                      borderRight: 'none',
-                      height: '100%',
-                      alignContent: 'center',
-                      padding: '0 20px',
-                    }}
-                  >
+                  </sapn>
+                  <span className=" collectChartBoxItem collectChartBoxCollect textTitle">
                     Collect
+                  </span>
+                </div>
+                <div className="collectChartLeft borderRight">
+                  <p className="collectChartValue" />
+                  {['cif', 'cpt', 'cfr'].includes(bookingData?.incoterms) &&
+                    'As Agreed'}
+                </div>
+                <div className="collectChartRight">
+                  <p className="collectChartValue">
+                    {!['cif', 'cpt', 'cfr'].includes(bookingData?.incoterms) &&
+                      'As Agreed'}
                   </p>
                 </div>
-                <div
-                  style={{
-                    borderRight: '1px solid black',
-                    borderBottom: 'none',
-                    height: '50%',
-                    width: '50%',
-                  }}
-                />
               </div>
             </div>
-            <div className="box4_Left-box_content-2">
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: '100%',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    height: '50%',
-                  }}
-                  className="small-font "
-                >
-                  <p
-                    style={{
-                      border: '1px solid black',
-                      borderTop: 'none',
-                      height: '100%',
-                      alignContent: 'center',
-                      padding: '0 20px',
-                    }}
-                  >
-                    Valuation charge
-                  </p>
-                </div>
-                <div
-                  style={{
-                    borderRight: '1px solid black',
-                    borderBottom: 'none',
-                    height: '50%',
-                    width: '50%',
-                  }}
-                />
+            <div className="collectItemRight">
+              <div>
+                <p className="textTitle">Other charges</p>
               </div>
-            </div>
-            <div className="box4_Left-box_content-3">
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: '100%',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    height: '50%',
-                  }}
-                  className="small-font "
-                >
-                  <p
-                    style={{
-                      border: '1px solid black',
-                      borderTop: 'none',
-                      height: '100%',
-                      alignContent: 'center',
-                      padding: '0 20px',
-                    }}
-                  >
-                    Tax
-                  </p>
-                </div>
-                <div
-                  style={{
-                    borderRight: '1px solid black',
-                    borderBottom: 'none',
-                    height: '50%',
-                    width: '50%',
-                  }}
-                />
-              </div>
-            </div>
-            <div className="box4_Left-box_content-4">
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: '100%',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    height: '50%',
-                  }}
-                  className="small-font "
-                >
-                  <p
-                    style={{
-                      border: '1px solid black',
-                      borderTop: 'none',
-                      height: '100%',
-                      alignContent: 'center',
-                      padding: '0 20px',
-                    }}
-                  >
-                    Total Other Charges Due Agent
-                  </p>
-                </div>
-                <div
-                  style={{
-                    borderRight: '1px solid black',
-                    borderBottom: 'none',
-                    height: '50%',
-                    width: '50%',
-                  }}
-                />
-              </div>
-            </div>
-            <div className="box4_Left-box_content-5">
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: '100%',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    height: '50%',
-                  }}
-                  className="small-font "
-                >
-                  <p
-                    style={{
-                      border: '1px solid black',
-                      borderTop: 'none',
-                      height: '100%',
-                      alignContent: 'center',
-                      padding: '0 20px',
-                    }}
-                  >
-                    Total Other Charges Due Carrier
-                  </p>
-                </div>
-                <div
-                  style={{
-                    borderRight: '1px solid black',
-                    borderBottom: 'none',
-                    height: '50%',
-                    width: '50%',
-                  }}
-                />
-              </div>
-            </div>
-            <div className="box4_Left-box_content-6">
-              <div style={{ borderRight: '1px solid black', width: '50%' }} />
-            </div>
-            <div className="box4_Left-box_content-7">
-              <div
-                style={{
-                  borderRight: '1px solid black',
-                  width: '50%',
-                  alignContent: 'center',
-                }}
-                className="small-font"
-              >
-                <p style={{ textAlign: 'center' }}>Total Prepaid</p>
-              </div>
-              <div
-                style={{ alignContent: 'center', margin: '0 auto' }}
-                className="small-font"
-              >
-                Total Collect
-              </div>
-            </div>
-            <div className="box4_Left-box_content-8">
-              <div style={{ borderRight: '1px solid black', width: '50%' }} />
-              <div>0.00</div>
-            </div>
-            <div className="box4_Left-box_content-9">
-              <div
-                style={{
-                  borderRight: '1px solid black',
-                  width: '50%',
-                  alignContent: 'center',
-                }}
-                className="small-font"
-              >
-                <p style={{ textAlign: 'center' }}>Currency Conversion Rate</p>
-              </div>
-              <div
-                style={{ alignContent: 'center', margin: '0 auto' }}
-                className="small-font"
-              >
-                Cc charges in dest currency
-              </div>
-            </div>
-            <div className="box4_Left-box_content-10">
-              <div style={{ borderRight: '1px solid black', width: '50%' }} />
-            </div>
-            <div className="box4_Left-box_content-11 small-font">
-              <p
-                style={{
-                  textAlign: 'center',
-                  borderRight: '1px solid black',
-                  width: '50%',
-                }}
-              >
-                For Carrier's use only at Destination
-              </p>
-              <p style={{ textAlign: 'center', width: '50%' }}>
-                Charges at Destination
-              </p>
             </div>
           </div>
-          {/*--- Section: BOX 4 RIGHT ---*/}
-          <div className="box4_Right-box">
-            <div className="box4_Right-box_content-1 small-font">
-              Other charges
+          {/* row item (2) */}
+          <div className="collectItemRow collectItemRowTwo borderBottom">
+            <div className="collectItemLeft borderRight">
+              <div className="collectChart">
+                {/* grap */}
+                <div
+                  className="collectChartBox"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    width: '100%',
+                  }}
+                >
+                  <span className=" collectChartBoxItem collectChartBoxValuationCharge textTitle">
+                    Valuation charge
+                  </span>
+                </div>
+                <div className="collectChartLeft borderRight">
+                  <p className="collectChartValue" />
+                </div>
+                <div className="collectChartRight">
+                  <p className="collectChartValue" />
+                </div>
+              </div>
             </div>
-            <div className="box4_Right-box_content-2 small-font">Carriage</div>
-            <div className="box4_Right-box_content-3" />
-            <div className="box4_Right-box_content-4">
-              <p style={{ marginRight: 50 }} className="small-font">
-                Shipper certifies that the particulars on the face hereof are
-                correct and that insofar as any part of the consignment contains
-                restricted articles, such part is properly described by name and
-                is in proper condition for carriage by air according to the
-                applicable Dangerous Goods Regulations.
-              </p>
-              <p style={{ textAlign: 'center', paddingTop: 40, fontSize: 13 }}>
-                A/C OF: {bookingData?.shipperName}
-              </p>
-              <hr
-                style={{ borderTop: 'dotted 1px', width: '45%', marginTop: 10 }}
-              />
-              <p style={{ textAlign: 'center', fontSize: 13, marginTop: 3 }}>
-                Signature of Shipper or his Agent
-              </p>
+            <div className="collectItemRight">
+              <div>
+                <p className="textTitle">Carriage</p>
+              </div>
             </div>
-            <div className="box4_Right-box_content-5" />
-            <div className="box4_Right-box_content-6">
+          </div>
+          {/* row item (3) */}
+          <div className="collectItemRow collectItemRowThree borderBottom">
+            <div className="collectItemLeft borderRight">
+              <div className="collectChart">
+                {/* grap */}
+                <div
+                  className="collectChartBox"
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    width: '100%',
+                  }}
+                >
+                  <span className=" collectChartBoxItem collectChartTax textTitle">
+                    Tax
+                  </span>
+                </div>
+                <div className="collectChartLeft borderRight">
+                  <p className="collectChartValue">
+                    {['cif', 'cpt', 'cfr'].includes(bookingData?.incoterms) &&
+                      'As Agreed'}
+                  </p>
+                </div>
+                <div className="collectChartRight">
+                  <p className="collectChartValue">
+                    {!['cif', 'cpt', 'cfr'].includes(bookingData?.incoterms) &&
+                      'As Agreed'}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="collectItemRight">
+              <div>
+                <p className="textTitle"></p>
+              </div>
+            </div>
+          </div>
+          {/* row item (4) */}
+          <div className="collectItemRow collectItemRowFour borderBottom">
+            <div className="collectItemLeft borderRight">
+              <div className="collectChart">
+                <div style={{ width: '100%' }}>
+                  <div
+                    style={{ display: 'flex', position: 'relative' }}
+                    className="borderBottom totalOtherChargesDueAgent"
+                  >
+                    {/* grap */}
+                    <div
+                      className="collectChartBox"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <span className=" collectChartBoxItem collectChartBoxTotalOtherChargesDueAgent textTitle">
+                        Total Other Charges Due Agent
+                      </span>
+                    </div>
+                    <div className="collectChartLeft borderRight">
+                      <p className="collectChartValue" />
+                    </div>
+                    <div className="collectChartRight">
+                      <p className="collectChartValue" />
+                    </div>
+                  </div>
+                  <div
+                    style={{ display: 'flex', position: 'relative' }}
+                    className="totalOtherChargesDueCarrier borderBottom"
+                  >
+                    {/* grap */}
+                    <div
+                      className="collectChartBox"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <span className=" collectChartBoxItem collectChartBoxTotalOtherChargesDueCarrier textTitle">
+                        Total OtherCharges Due Carrier
+                      </span>
+                    </div>
+                    <div className="collectChartLeft borderRight">
+                      <p className="collectChartValue">
+                        {['cif', 'cpt', 'cfr'].includes(
+                          bookingData?.incoterms,
+                        ) && 'As Agreed'}
+                      </p>
+                    </div>
+                    <div className="collectChartRight">
+                      <p className="collectChartValue">
+                        {!['cif', 'cpt', 'cfr'].includes(
+                          bookingData?.incoterms,
+                        ) && 'As Agreed'}
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    style={{ display: 'flex', position: 'relative' }}
+                    className="totalOtherChargesDueCarrier"
+                  >
+                    {/* grap */}
+                    <div className="collectChartLeft borderRight">
+                      <p className="collectChartValue">
+                        {['cif', 'cpt', 'cfr'].includes(
+                          bookingData?.incoterms,
+                        ) && 'As Agreed'}
+                      </p>
+                    </div>
+                    <div className="collectChartRight">
+                      <p className="collectChartValue">
+                        {!['cif', 'cpt', 'cfr'].includes(
+                          bookingData?.incoterms,
+                        ) && 'As Agreed'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="collectItemRight">
+              <div>
+                <p className="smallTitle">
+                  Shipper certifies that the particulars on the face hereof are
+                  correct and that insofar as any part of the consignment
+                  contains restricted articles, such part is properly described
+                  by name and is in proper condition for carriage by air
+                  according to the applicable Dangerous Goods Regulations.
+                </p>
+                <h1
+                  className="collectChartValue"
+                  style={{
+                    textAlign: 'center',
+                    marginTop: 5,
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {bookingData?.shipperName}
+                </h1>
+                <hr
+                  style={{
+                    borderTop: '1px dotted',
+                    marginTop: 50,
+                    marginBottom: 0,
+                  }}
+                />
+                <p className="text-center">
+                  <b>Signature of Shipper or his Agent</b>
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* row item (5) */}
+          <div className="collectItemRow collectItemRowFive borderBottom">
+            <div className="collectItemLeft borderRight">
+              <div className="collectChart">
+                <div style={{ width: '100%' }}>
+                  <div
+                    style={{ display: 'flex', position: 'relative' }}
+                    className="borderBottom totalOtherChargesTotalPrepaid"
+                  >
+                    {/* grap */}
+                    <div
+                      className="collectChartBox"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <span className=" collectChartBoxItem collectChartBoxTotalPrepaid textTitle">
+                        Total Prepaid
+                      </span>
+                      {/*  Total Collect*/}
+                      <span className=" collectChartBoxItem collectChartBoxTotalCollect textTitle">
+                        Total Collect{' '}
+                      </span>
+                    </div>
+                    <div className="collectChartLeft borderRight">
+                      <p className="collectChartValue" />
+                    </div>
+                    <div className="collectChartRight">
+                      <p className="collectChartValue" />
+                    </div>
+                  </div>
+                  <div
+                    style={{ display: 'flex', position: 'relative' }}
+                    className="currencyConversionRate "
+                  >
+                    {/* grap */}
+                    <div
+                      className="collectChartBox"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <span className=" collectChartBoxItem collectChartBoxCurrencyConversionRate textTitle">
+                        Currency Conversion Rate
+                      </span>
+                      {/* CC charges in dest currency */}
+                      <span className=" collectChartBoxItem collectChartBoxCCChargesInDestCurrency textTitle">
+                        CC Charges in Dest Currency{' '}
+                      </span>
+                    </div>
+                    <div className="collectChartLeft borderRight">
+                      <p className="collectChartValue" />
+                    </div>
+                    <div className="collectChartRight">
+                      <p className="collectChartValue"></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="collectItemRight" style={{ width: '100%' }}>
               <div
+                className=""
                 style={{
                   display: 'flex',
-                  fontSize: 11,
                   justifyContent: 'space-between',
-                  paddingTop: 10,
-                  paddingRight: 60,
+                  gap: 30,
+                  marginTop: 5,
                 }}
               >
-                <p></p>
-                <p></p>
-                <p></p>
+                <p>
+                  <b>
+                    {bookingData?.confirmDate &&
+                      moment(bookingData?.confirmDate).format(
+                        'DD-MM-YYYY',
+                      )}{' '}
+                    Dhaka
+                  </b>
+                </p>
+                <p>
+                  <b>AKIJ iBOS Limited</b>
+                </p>
               </div>
               <hr
-                style={{ borderTop: 'dotted 1px', width: '45%', marginTop: 10 }}
+                style={{
+                  borderTop: '1px dotted',
+                  marginTop: 25,
+                  marginBottom: 0,
+                }}
               />
-              <p className="small-font" style={{ wordSpacing: 3 }}>
-                Executed on (Date) at (Place) signature of issuing Carrier or
-                its Agent
-              </p>
+              <div
+                className="smallTitle"
+                style={{
+                  display: 'flex',
+                  gap: 10,
+                  textTransform: 'uppercase',
+                }}
+              >
+                <p>Executed on</p>
+                <p>(Date)</p>
+                <p>at</p>
+                <p>(Place)</p>
+                <p>signature of issuing Carrier or its Agent</p>
+              </div>
             </div>
-            <div className="box4_Right-box_content-7 small-font">
-              <p>Total Collect Charges</p>
-              <p>Please Code</p>
+          </div>
+          {/* row item (6) */}
+          <div className="collectItemRow collectItemRowSix">
+            <div className="collectItemLeft borderRight">
+              <div className="collectChart">
+                <div style={{ width: '100%' }}>
+                  <div
+                    style={{ display: 'flex', position: 'relative' }}
+                    className="totalOtherChargesChargesAtDestination"
+                  >
+                    {/* grap */}
+                    <div
+                      className="collectChartBox"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <span className=" collectChartBoxItem collectChartBoxChargesAtDestination textTitle">
+                        Charges at Destination
+                      </span>
+                    </div>
+                    <div className="collectChartLeft borderRight">
+                      <p className="">For Carrier's use only at Destination</p>
+                    </div>
+                    <div className="collectChartRight">
+                      <p className="collectChartValue" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="collectItemRight" style={{ width: '100%' }}>
+              <div className="collectChartBox">
+                <span className=" collectChartBoxItem collectChartBoxChargesAtDestination textTitle">
+                  Charges at Destination
+                </span>
+              </div>
             </div>
           </div>
         </div>

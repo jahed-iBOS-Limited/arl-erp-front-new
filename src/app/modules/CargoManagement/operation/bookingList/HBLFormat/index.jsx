@@ -29,7 +29,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 </p>
                 <p>{bookingData?.shipperName}</p>
                 <p>{bookingData?.shipperAddress}</p>
-                <p>{bookingData?.shipperContactPerson}</p>
+                {/* <p>{bookingData?.shipperContactPerson}</p> */}
                 <p>{bookingData?.shipperContact}</p>
                 <p>{bookingData?.shipperEmail}</p>
                 <p>
@@ -40,7 +40,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 <p className="textTitle">Consignee:</p>
                 <p>{bookingData?.consigneeName}</p>
                 <p>{bookingData?.consigneeAddress}</p>
-                <p>{bookingData?.consigneeContactPerson}</p>
+                {/* <p>{bookingData?.consigneeContactPerson}</p> */}
                 <p>{bookingData?.consigneeContact}</p>
                 <p>
                   {bookingData?.consigState}, {bookingData?.consigCountry}
