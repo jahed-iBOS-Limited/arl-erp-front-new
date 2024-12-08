@@ -22,6 +22,7 @@ import { Modal } from "react-bootstrap";
 import { dynamicSerial } from "../../utils";
 import IHistory from "../../../../_helper/_helperIcons/_history";
 import HistoryModal from "../bankJournalHistory";
+import findIndex from "../../../../_helper/_findIndex";
 // import { set } from "object-path";
 
 const GridData = ({
@@ -66,10 +67,14 @@ const GridData = ({
   const [chequePrintModalShow, setChequePrintModalShow] = useState(false);
   const [disabledModalButton, setDisabledModalButton] = useState(false);
 
-  let { profileData, selectedBusinessUnit } = useSelector(
+  let { profileData, selectedBusinessUnit, userRole } = useSelector(
     (state) => state?.authData,
     { shallowEqual }
   );
+
+  const userPermission = userRole[findIndex(userRole, "Bank Journal")];
+
+  const canCreate = userPermission?.isCreate;
 
   const [isShowModal, setIsShowModal] = useState(false);
   const [currentRowData, setCurrentRowData] = useState("");
@@ -208,7 +213,8 @@ const GridData = ({
                       </span>
                       {type === "notComplated" ? (
                         <>
-                          <span
+                          {canCreate && (
+                            <span
                             className="edit ml-3"
                             onClick={() =>
                               history.push({
@@ -224,6 +230,7 @@ const GridData = ({
                           >
                             <IEdit />
                           </span>
+                          )}
 
                           {(item?.instrumentType === 2 ||
                             item?.instrumentType === 3) && (
@@ -293,26 +300,30 @@ const GridData = ({
                               </>
                             )}
 
-                          <span
-                            className="approval ml-3"
-                            onClick={() => {
-                              if (
-                                completeDate < _dateFormatter(item?.journalDate) && values?.accountingJournalTypeId?.label?.trim() !== "Bank Receipts"
-                              )
-                                return toast.warn(
-                                  "Complete date should be greater than or equal to journal date"
-                                );
-                              singleApprovalndler(index, completeDate, journalTypeValue);
-                            }}
-                          >
-                            <IApproval />
-                          </span>
-                          <span
+                         {canCreate && (
+                           <span
+                           className="approval ml-3"
+                           onClick={() => {
+                             if (
+                               completeDate < _dateFormatter(item?.journalDate) && values?.accountingJournalTypeId?.label?.trim() !== "Bank Receipts"
+                             )
+                               return toast.warn(
+                                 "Complete date should be greater than or equal to journal date"
+                               );
+                             singleApprovalndler(index, completeDate, journalTypeValue);
+                           }}
+                         >
+                           <IApproval />
+                         </span>
+                         )}
+                          {canCreate && (
+                            <span
                             className="delete ml-3"
                             onClick={() => remover(index, journalTypeValue)}
                           >
                             <IDelete />
                           </span>
+                          )}
                         </>
                       ) : null}
                       {type === "complated" && (
