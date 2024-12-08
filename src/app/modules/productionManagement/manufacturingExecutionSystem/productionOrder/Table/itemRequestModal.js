@@ -28,7 +28,7 @@ const validationSchema = Yup.object().shape({
   sbu: Yup.object().shape({
     value: Yup.string().required("SBU is required"),
     label: Yup.string().required("SBU is required"),
-  })
+  }),
 });
 
 export default function ItemRequestModal({
@@ -39,7 +39,7 @@ export default function ItemRequestModal({
   setItemRequestModal,
   callLandingApiAgain,
   wareHouseId,
-  warehouseDDL
+  warehouseDDL,
 }) {
   const [loading, setLoading] = useState(false);
 
@@ -95,7 +95,7 @@ export default function ItemRequestModal({
       itemList: modifyRowDto,
       shopFloorId: selectItemRequest?.[0]?.shopFloorId || 0,
       plantId: wareHouseId === 0 ? values?.plant?.value : null,
-      wareHouseId: wareHouseId === 0 ? values?.warehouse?.value : wareHouseId
+      wareHouseId: wareHouseId === 0 ? values?.warehouse?.value : wareHouseId,
     };
 
     const callbackFunck = () => {
@@ -103,8 +103,7 @@ export default function ItemRequestModal({
       setItemRequestModal(false);
     };
 
-
-     createItemRequestNew(payload, callbackFunck, IConfirmModal, setLoading);
+    createItemRequestNew(payload, callbackFunck, IConfirmModal, setLoading);
   };
   const [sbuDDL, setSbuDDL] = useState([]);
   // const [plantDDL, getPlantDDL, plantDDLloader] = useAxiosGet();
@@ -117,7 +116,6 @@ export default function ItemRequestModal({
   //     }&OrgUnitTypeId=7`)
   // }, []);
 
-
   useEffect(() => {
     getSBUDDL_api(
       profileData?.accountId,
@@ -129,7 +127,7 @@ export default function ItemRequestModal({
   return (
     <div>
       <IViewModal show={show} onHide={onHide} title={""} btnText="Close">
-        {(loading ) && <Loading />}
+        {loading && <Loading />}
         <>
           <Formik
             enableReinitialize={true}
@@ -182,10 +180,9 @@ export default function ItemRequestModal({
                           placeholder="SBU"
                         />
                       </div>
-                      {
-                        wareHouseId === 0 ? (
-                          <>
-                            {/* <div className="col-lg-3 pb-2">
+                      {wareHouseId === 0 ? (
+                        <>
+                          {/* <div className="col-lg-3 pb-2">
                               <NewSelect
                                 name="plant"
                                 options={plantDDL}
@@ -204,22 +201,21 @@ export default function ItemRequestModal({
                                 placeholder="Plant"
                               />
                             </div> */}
-                            <div className="col-lg-3 pb-2">
-                              <NewSelect
-                                name="warehouse"
-                                options={warehouseDDL}
-                                value={values?.warehouse}
-                                onChange={(valueOption) => {
-                                  setFieldValue("warehouse", valueOption);
-                                }}
-                                errors={errors}
-                                touched={touched}
-                                placeholder="Warehouse"
-                              />
-                            </div>
-                          </>
-                        ) : null
-                      }
+                          <div className="col-lg-3 pb-2">
+                            <NewSelect
+                              name="warehouse"
+                              options={warehouseDDL}
+                              value={values?.warehouse}
+                              onChange={(valueOption) => {
+                                setFieldValue("warehouse", valueOption);
+                              }}
+                              errors={errors}
+                              touched={touched}
+                              placeholder="Warehouse"
+                            />
+                          </div>
+                        </>
+                      ) : null}
                     </div>
                     <Form className="form form-label-right">
                       {/* Start Table Part */}
@@ -257,7 +253,7 @@ export default function ItemRequestModal({
                               </td>
                               <td>
                                 <div className="text-right pr-2">
-                                  {item?.[requestQtyType].toFixed(2)}
+                                  {item?.[requestQtyType]}
                                 </div>
                               </td>
                               {/* <td>

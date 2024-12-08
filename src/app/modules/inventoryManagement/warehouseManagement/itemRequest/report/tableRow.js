@@ -151,7 +151,7 @@ export function ItemReqViewTableRow({ IrId }) {
                                   {data?.requestQuantity != null
                                     ? Number.isInteger(data?.requestQuantity)
                                       ? data?.requestQuantity
-                                      : data?.requestQuantity.toFixed(2)
+                                      : data?.requestQuantity
                                     : "N/A"}
                                 </td>
 
@@ -159,7 +159,7 @@ export function ItemReqViewTableRow({ IrId }) {
                                   {data?.issueQty != null
                                     ? Number.isInteger(data?.issueQty)
                                       ? data?.issueQty
-                                      : data?.issueQty.toFixed(2)
+                                      : data?.issueQty
                                     : "N/A"}
                                 </td>
                                 <td className="text-right">
