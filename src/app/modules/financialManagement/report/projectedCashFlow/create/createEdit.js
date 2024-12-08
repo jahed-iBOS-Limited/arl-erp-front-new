@@ -1,9 +1,7 @@
 import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IForm from "../../../../_helper/_form";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
@@ -13,8 +11,11 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import {
   fetchBankAccountDDL,
   fetchBankNameDDL,
+  fetchPOLCAndSetFormField,
   fetchPOLCNumber,
   fetchTransactionList,
+  generateSavePayloadAndURL,
+  generateSaveURL,
   importPaymentType,
   initData,
   marginTypeDDL,
@@ -31,11 +32,7 @@ export default function ProjectedCashFlowCreateEdit() {
   const [objProps, setObjprops] = useState({});
 
   // api action
-  const [
-    polcNumberData,
-    getPOLCNumberData,
-    getPOLCNumberDataLoading,
-  ] = useAxiosGet();
+  const [, getPOLCNumberData, getPOLCNumberDataLoading] = useAxiosGet();
 
   const [
     partnerDataDDL,
@@ -65,9 +62,14 @@ export default function ProjectedCashFlowCreateEdit() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const saveHandler = async (values, cb) => {};
+  // create edit save handler
+  const saveHandler = (values, cb) => {
+    const URL = `${generateSaveURL(values?.viewType)}&autoId=0`;
+    const payload = generateSavePayloadAndURL({ values, profileData });
+    savePCFData(URL, payload, cb, true);
+  };
 
-  // is loading
+  // is loadingd
   const isLoading =
     getPOLCNumberDataLoading ||
     savePCFDataLoading ||
@@ -80,7 +82,7 @@ export default function ProjectedCashFlowCreateEdit() {
   // handle view type radio change
   const handleViewTypeChange = (e, setFieldValue, resetForm) => {
     const value = e.target?.value;
-    resetForm();
+    resetForm(initData);
     setFieldValue("viewType", value);
   };
 
@@ -187,7 +189,14 @@ export default function ProjectedCashFlowCreateEdit() {
 
   // ! Import Common Form Field
   const ImportCommonFormField = ({ obj, children }) => {
-    const { values, setFieldValue, errors, touched, getPOLCNumberData } = obj;
+    const {
+      values,
+      setFieldValue,
+      errors,
+      touched,
+      setValues,
+      getPOLCNumberData,
+    } = obj;
 
     return (
       <>
@@ -197,9 +206,12 @@ export default function ProjectedCashFlowCreateEdit() {
             selectedValue={values?.poLC}
             handleChange={(valueOption) => {
               setFieldValue("poLC", valueOption);
-              getPOLCNumberData(
-                `/fino/FundManagement/GetProjectedCashFlow?partName=GetLcInfoByLcId&lcId=${valueOption?.lcId}`
-              );
+              fetchPOLCAndSetFormField({
+                getPOLCNumberData,
+                lcPoId: valueOption?.lcId,
+                setValues,
+                initData,
+              });
             }}
             loadOptions={(v) =>
               fetchPOLCNumber({
@@ -488,37 +500,37 @@ export default function ProjectedCashFlowCreateEdit() {
   };
 
   // ! Current Data Table
-  const CurrentDataTable = () => (
-    <div className="table-responsive">
-      <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-        <thead>
-          <tr>
-            <th style={{ width: "30px" }}>SL</th>
-            <th>Expense/Payment Name</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th style={{ width: "50px" }}>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {[]?.length > 0 &&
-            [].map((item, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item?.paymentName}</td>
-                <td className="text-center">{item?.amount}</td>
-                <td className="text-center">{_dateFormatter(item?.date)}</td>
-                <td className="text-center">
-                  <span onClick={() => {}}>
-                    <IDelete />
-                  </span>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-    </div>
-  );
+  // const CurrentDataTable = () => (
+  //   <div className="table-responsive">
+  //     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+  //       <thead>
+  //         <tr>
+  //           <th style={{ width: "30px" }}>SL</th>
+  //           <th>Expense/Payment Name</th>
+  //           <th>Amount</th>
+  //           <th>Date</th>
+  //           <th style={{ width: "50px" }}>Action</th>
+  //         </tr>
+  //       </thead>
+  //       <tbody>
+  //         {[]?.length > 0 &&
+  //           [].map((item, index) => (
+  //             <tr key={index}>
+  //               <td>{index + 1}</td>
+  //               <td>{item?.paymentName}</td>
+  //               <td className="text-center">{item?.amount}</td>
+  //               <td className="text-center">{_dateFormatter(item?.date)}</td>
+  //               <td className="text-center">
+  //                 <span onClick={() => {}}>
+  //                   <IDelete />
+  //                 </span>
+  //               </td>
+  //             </tr>
+  //           ))}
+  //       </tbody>
+  //     </table>
+  //   </div>
+  // );
 
   return (
     <IForm title="Create Projected Cash Flow" getProps={setObjprops}>
@@ -541,10 +553,10 @@ export default function ProjectedCashFlowCreateEdit() {
             isValid,
             errors,
             touched,
+            setValues,
           }) => (
             <>
               <Form className="form form-label-right">
-                <pre>{JSON.stringify(values, null, 1)}</pre>
                 <div className="">
                   <div className="row form-group  global-form">
                     {/* View Type */}
@@ -558,6 +570,7 @@ export default function ProjectedCashFlowCreateEdit() {
                           setFieldValue,
                           errors,
                           touched,
+                          setValues,
                           getPOLCNumberData,
                         }}
                       >
@@ -585,7 +598,7 @@ export default function ProjectedCashFlowCreateEdit() {
                   </div>
 
                   {/* Current Data Table */}
-                  <div>{CurrentDataTable()}</div>
+                  {/* <div>{CurrentDataTable()}</div> */}
 
                   {/* Landing Table */}
                 </div>
@@ -609,77 +622,7 @@ export default function ProjectedCashFlowCreateEdit() {
         </Formik>
 
         {/* Landing Table */}
-        <Formik
-          enableReinitialize={true}
-          initialValues={{}}
-          onSubmit={(values, { setSubmitting, resetForm }) => {
-            saveHandler(values, () => {
-              resetForm(initData);
-            });
-          }}
-        >
-          {({
-            handleSubmit,
-            resetForm,
-            values,
-            setFieldValue,
-            isValid,
-            errors,
-            touched,
-          }) => (
-            <>
-              <Form className="form form-label-right">
-                <h4 style={{ marginTop: "30px", marginBottom: "-5px" }}>
-                  Landing
-                </h4>
-                <div className="row form-group  global-form">
-                  <div className="col-lg-3">
-                    <InputField
-                      value={values?.fromDate}
-                      label="From Date"
-                      name="fromDate"
-                      type="date"
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <InputField
-                      value={values?.toDate}
-                      label="To Date"
-                      name="toDate"
-                      type="date"
-                    />
-                  </div>
-                  <div>
-                    <button
-                      type="button"
-                      style={{ marginTop: "18px" }}
-                      className="btn btn-primary ml-5"
-                      onClick={() => {}}
-                    >
-                      Show
-                    </button>
-                  </div>
-                </div>
-                {/* Landing Table */}
-                {ProjectedCashFlowLanding({ values, setFieldValue })}
-
-                <button
-                  type="submit"
-                  style={{ display: "none" }}
-                  ref={objProps?.btnRef}
-                  onSubmit={() => handleSubmit()}
-                ></button>
-
-                <button
-                  type="reset"
-                  style={{ display: "none" }}
-                  ref={objProps?.resetBtnRef}
-                  onSubmit={() => resetForm(initData)}
-                ></button>
-              </Form>
-            </>
-          )}
-        </Formik>
+        <ProjectedCashFlowLanding />
       </>
     </IForm>
   );
