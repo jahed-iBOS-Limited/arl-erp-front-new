@@ -11,6 +11,7 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import {
   fetchBankAccountDDL,
   fetchBankNameDDL,
+  fetchPCFLandingData,
   fetchPOLCAndSetFormField,
   fetchPOLCNumber,
   fetchTransactionList,
@@ -47,6 +48,13 @@ export default function ProjectedCashFlowCreateEdit() {
   const [bankNameDDL, getBankNameDDL, getBankNameDDLLoading] = useAxiosGet();
   const [lcTypeDDL, getLCTypeDDL, getLCTypeDDLLoading] = useAxiosGet();
   const [sbuDDL, getSBUDDL, getSBUDDLLoading] = useAxiosGet();
+  // api action
+  const [
+    pcfLandingData,
+    getPCFLandingData,
+    getPCFLandingDataLaoding,
+    setPCFLandingData,
+  ] = useAxiosGet();
 
   const [, savePCFData, savePCFDataLoading] = useAxiosPost();
 
@@ -77,12 +85,14 @@ export default function ProjectedCashFlowCreateEdit() {
     getSBUDDLLoading ||
     getLCTypeDDLLoading ||
     getBankAccountDDLLoading ||
-    getPartnerDataDDLLoading;
+    getPartnerDataDDLLoading ||
+    getPCFLandingDataLaoding;
 
   // handle view type radio change
   const handleViewTypeChange = (e, setFieldValue, resetForm) => {
     const value = e.target?.value;
     resetForm(initData);
+    setPCFLandingData([]);
     setFieldValue("viewType", value);
   };
 
@@ -542,6 +552,7 @@ export default function ProjectedCashFlowCreateEdit() {
           onSubmit={(values, { setSubmitting, resetForm }) => {
             saveHandler(values, () => {
               resetForm(initData);
+              fetchPCFLandingData({ values, getPCFLandingData });
             });
           }}
         >
@@ -598,6 +609,16 @@ export default function ProjectedCashFlowCreateEdit() {
                   </div>
 
                   {/* Current Data Table */}
+                  <ProjectedCashFlowLanding
+                    obj={{
+                      setFieldValue,
+                      values,
+                      errors,
+                      touched,
+                      pcfLandingData,
+                      getPCFLandingData,
+                    }}
+                  />
                   {/* <div>{CurrentDataTable()}</div> */}
 
                   {/* Landing Table */}
@@ -622,7 +643,7 @@ export default function ProjectedCashFlowCreateEdit() {
         </Formik>
 
         {/* Landing Table */}
-        <ProjectedCashFlowLanding />
+        {/* <ProjectedCashFlowLanding /> */}
       </>
     </IForm>
   );

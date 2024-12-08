@@ -1,5 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
+import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
+import { _monthLastDate } from "../../../../_helper/_monthLastDate";
 // create page
 // init data
 export const initData = {
@@ -36,6 +38,10 @@ export const initData = {
 
   // others
   businessPartner: "",
+
+  // landing
+  fromDate: _monthFirstDate(),
+  toDate: _monthLastDate(),
 };
 
 export const generateSaveURL = (viewType) => {
@@ -131,7 +137,7 @@ export const generateSavePayloadAndURL = (obj) => {
 
   const payload = {
     // global
-    actionBy: profileData?.userUd,
+    actionBy: profileData?.userId,
     cashFlowType: viewType,
 
     // common
@@ -174,6 +180,7 @@ export const generateSavePayloadAndURL = (obj) => {
   return payload;
 };
 
+// import payment type
 export const importPaymentType = [
   { value: "Duty", label: "Duty" },
   {
@@ -186,6 +193,7 @@ export const importPaymentType = [
   },
 ];
 
+// margin type ddl
 export const marginTypeDDL = [
   { value: 1, label: "Cash Margin" },
   { value: 2, label: "Fdr Margin" },
@@ -203,6 +211,7 @@ export const fetchPOLCNumber = (obj) => {
     .catch((err) => []);
 };
 
+// fetch transaction list
 export const fetchTransactionList = (obj) => {
   const { v, profileData, values } = obj;
   if (v?.length < 3) return [];
@@ -241,4 +250,77 @@ export const fetchBankAccountDDL = (obj) => {
       profileData?.accountId
     }&BusinessUnitId=${sbu?.value}&BankId=${bankId || 0}`
   );
+};
+
+// landing page
+// generateGetPCFLandingDataURL
+export const generateGetPCFLandingDataURL = (values) => {
+  // destructure
+  const { fromDate, toDate, sbu, viewType, paymentType } = values;
+
+  let baseURL = `/fino/FundManagement/GetProjectedCashFlow`;
+
+  let params = `partName=GetProjectedCashFlow&businessUnitId=${sbu?.value}&fromDate=${fromDate}&toDate=${toDate}`;
+
+  switch (viewType) {
+    case "import": {
+      params += `&cashFlowType=Import`;
+      if (paymentType !== undefined) {
+        params += `&paymentType=${`${paymentType?.value}`}`;
+      }
+      break;
+    }
+    case "payment":
+      params += `&cashFlowType=Payment`;
+      break;
+    case "income":
+      params += `&cashFlowType=Income`;
+      break;
+    default:
+      params += "";
+      break;
+  }
+
+  return `${baseURL}?${params}`;
+};
+
+// landing show btn validation
+export const landingShowBtnValidation = (values) => {
+  if (!values?.sbu?.value) {
+    toast.warn("Please select sbu");
+    return false;
+  }
+
+  if (values?.viewType === "import" && !values?.paymentType?.value) {
+    toast.warn("Please select payment type");
+    return false;
+  }
+
+  return true;
+};
+
+// fetch PCF Landing Data
+export const fetchPCFLandingData = (obj) => {
+  // destructure
+  const { getPCFLandingData, values } = obj;
+
+  // validation of form when show btn click
+  if (!landingShowBtnValidation(values)) {
+    return false; // Stop further execution if validation fails
+  }
+
+  try {
+    // generate url
+    const URL = generateGetPCFLandingDataURL(values);
+    // api call
+    getPCFLandingData(URL);
+
+    // Optionally handle success feedback
+    toast.success("Data Fetched Ssuccessfully!");
+    return true;
+  } catch (e) {
+    // Optionally handle error feedback
+    toast.error("Please try again later.");
+    return false;
+  }
 };
