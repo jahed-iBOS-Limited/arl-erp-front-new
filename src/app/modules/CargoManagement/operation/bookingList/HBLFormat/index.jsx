@@ -14,13 +14,22 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
           <div className="top borderBottom">
             <div className="leftSide borderRight">
               <div className="shipperInfo borderBottom">
-                <p className="textTitle">Shipper:</p>
+                <p className="textTitle">
+                  {bookingData?.objPurchase?.[0]?.infoType === 'lc'
+                    ? 'Shipper And Bank'
+                    : 'Shipper'}
+                </p>
                 <p>
-                  {bookingData?.infoType === 'lc' && bookingData?.shipperBank}
+                  {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
+                    bookingData?.shipperBank}
+                </p>
+                <p>
+                  {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
+                    bookingData?.shipperBankAddress}
                 </p>
                 <p>{bookingData?.shipperName}</p>
                 <p>{bookingData?.shipperAddress}</p>
-                <p>{bookingData?.shipperContactPerson}</p>
+                {/* <p>{bookingData?.shipperContactPerson}</p> */}
                 <p>{bookingData?.shipperContact}</p>
                 <p>{bookingData?.shipperEmail}</p>
                 <p>
@@ -31,7 +40,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                 <p className="textTitle">Consignee:</p>
                 <p>{bookingData?.consigneeName}</p>
                 <p>{bookingData?.consigneeAddress}</p>
-                <p>{bookingData?.consigneeContactPerson}</p>
+                {/* <p>{bookingData?.consigneeContactPerson}</p> */}
                 <p>{bookingData?.consigneeContact}</p>
                 <p>
                   {bookingData?.consigState}, {bookingData?.consigCountry}
@@ -81,7 +90,8 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                     {bookingData?.transportPlanning?.map((item, index) => {
                       return (
                         <>
-                          {item?.vesselName} / {item?.voyagaNo} <br />
+                          {item?.vesselName || ''} / {item?.voyagaNo || ''}{' '}
+                          <br />
                           {index < bookingData?.transportPlanning?.length - 1
                             ? ','
                             : ''}
@@ -230,7 +240,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                           Po No:{' '}
                           {item?.dimensionRow?.map((i, index) => {
                             return (
-                              i?.poNumber +
+                              (i?.poNumber || '') +
                               (index < item?.dimensionRow?.length - 1
                                 ? ','
                                 : '')
@@ -241,7 +251,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                           Color:{' '}
                           {item?.dimensionRow?.map((i, index) => {
                             return (
-                              i?.color +
+                              (i?.color || '') +
                               (index < item?.dimensionRow?.length - 1
                                 ? ','
                                 : '')
@@ -250,7 +260,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                         </p>
                         <p>
                           H.S Code:{' '}
-                          {item?.hsCode +
+                          {(item?.hsCode || '') +
                             (index < bookingData?.rowsData?.length - 1
                               ? ','
                               : '')}
@@ -266,18 +276,19 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                     {bookingData?.infoType === 'lc'
                       ? 'LC No'
                       : bookingData?.infoType === 'tt'
-                        ? 'TT No'
-                        : 'S/C No'}
+                      ? 'TT No'
+                      : 'S/C No'}
                     :{' '}
                     {bookingData?.objPurchase?.map((item, index) => {
                       return `${item?.lcnumber || ''} : ${item?.lcdate &&
-                        `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${index < bookingData?.objPurchase?.length - 1 ? ',' : ''
-                        }`;
+                        `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${
+                        index < bookingData?.objPurchase?.length - 1 ? ',' : ''
+                      }`;
                     })}
                   </p>
                   <p>
                     Exp No:
-                    {bookingData?.expOrCnfNumber} :{' '}
+                    {bookingData?.expOrCnfNumber || ''} :{' '}
                     {bookingData?.expOrCnfDate &&
                       `${moment(bookingData?.expOrCnfDate).format(
                         'DD-MM-YYYY',
@@ -388,11 +399,8 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                       'COLLECT DAP/DDP/DDU'}
                     {['other'].includes(bookingData?.incoterms) && 'COLLECT'}
                   </h3>
-                  <h3>
-                    CARGO SHOULD BE
-                  </h3>
+                  <h3>CARGO SHOULD BE</h3>
                 </div>
-
               </div>
               {/* <div className="bottomSecondColumn borderBottom">
             <div className="firstColumn">
@@ -474,43 +482,41 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
             </div>
           </div>
         </div>
-
       </div>
       <p
         style={{
           textAlign: 'center',
           fontSize: '14px',
           fontWeight: 'bold',
-        }}>
+        }}
+      >
         {footerText}
-
       </p>
     </div>
-  )
+  );
   return (
-    <div className='hblWrapper'>
+    <div className="hblWrapper">
       <SingleItem />
-      <div className='multipleInvoicePrint' ref={componentRef}>
-        <SingleItem footerText='ORIGINAL 1 (FOR CONSIGNEE)' />
+      <div className="multipleInvoicePrint" ref={componentRef}>
+        <SingleItem footerText="ORIGINAL 1 (FOR CONSIGNEE)" />
         <div
           style={{
-            pageBreakAfter: "always",
+            pageBreakAfter: 'always',
           }}
         />
-        <SingleItem footerText='ORIGINAL 2 (FOR CONSIGNEE)' />
+        <SingleItem footerText="ORIGINAL 2 (FOR CONSIGNEE)" />
         <div
           style={{
-            pageBreakAfter: "always",
+            pageBreakAfter: 'always',
           }}
         />
-        <SingleItem footerText='ORIGINAL 3 (FOR SHIPPER)' />
+        <SingleItem footerText="ORIGINAL 3 (FOR SHIPPER)" />
         <div
           style={{
-            pageBreakAfter: "always",
+            pageBreakAfter: 'always',
           }}
         />
-        <SingleItem footerText='ORIGINAL 4 (FOR SHIPPER)' />
-
+        <SingleItem footerText="ORIGINAL 4 (FOR SHIPPER)" />
       </div>
     </div>
   );
