@@ -256,10 +256,10 @@ function ChargesModal({ rowClickData, CB }) {
                             headOfCharges: values?.attribute,
                             headOfChargeId: 0,
                             checked: true,
-                            collectionAccrualAmount: '',
+                            collectionActualAmount: '',
                             collectionDummyAmount: '',
                             collectionType: '',
-                            paymentAccrualAmount: '',
+                            paymentActualAmount: '',
                             paymentDummyAmount: '',
                             paymentType: '',
                           },
@@ -293,8 +293,8 @@ function ChargesModal({ rowClickData, CB }) {
                                 return {
                                   ...item,
                                   checked: e?.target?.checked,
-                                  collectionAccrualAmount: e?.target?.checked
-                                    ? item?.collectionAccrualAmount
+                                  collectionActualAmount: e?.target?.checked
+                                    ? item?.collectionActualAmount
                                     : '',
                                   collectionDummyAmount: e?.target?.checked
                                     ? item?.collectionDummyAmount
@@ -302,8 +302,8 @@ function ChargesModal({ rowClickData, CB }) {
                                   collectionType: e?.target?.checked
                                     ? item?.collectionType
                                     : '',
-                                  paymentAccrualAmount: e?.target?.checked
-                                    ? item?.paymentAccrualAmount
+                                  paymentActualAmount: e?.target?.checked
+                                    ? item?.paymentActualAmount
                                     : '',
                                   paymentDummyAmount: e?.target?.checked
                                     ? item?.paymentDummyAmount
@@ -320,10 +320,10 @@ function ChargesModal({ rowClickData, CB }) {
                       <th rowspan="2">SL</th>
                       <th rowspan="2">Attribute</th>
                       <th colspan="3" class="group-header">
-                        Collection <span>(Amounts & Types)</span>
+                        Collection <span>(Amounts & Party)</span>
                       </th>
                       <th colspan="3" class="group-header">
-                        Payment <span>(Amounts & Types)</span>
+                        Payment <span>(Amounts & Party)</span>
                       </th>
                       <th rowspan="2">Action</th>
                     </tr>
@@ -333,7 +333,7 @@ function ChargesModal({ rowClickData, CB }) {
                           width: '60px',
                         }}
                       >
-                        Accrual Amount
+                        Actual Amount
                       </th>
                       <th
                         style={{
@@ -342,13 +342,13 @@ function ChargesModal({ rowClickData, CB }) {
                       >
                         Dummy Amount
                       </th>
-                      <th>Type</th>
+                      <th>Party</th>
                       <th
                         style={{
                           width: '60px',
                         }}
                       >
-                        Accrual Amount
+                        Actual Amount
                       </th>
                       <th
                         style={{
@@ -357,7 +357,7 @@ function ChargesModal({ rowClickData, CB }) {
                       >
                         Dummy Amount
                       </th>
-                      <th>Type</th>
+                      <th>Party</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -376,9 +376,9 @@ function ChargesModal({ rowClickData, CB }) {
                                         return {
                                           ...data,
                                           checked: e?.target?.checked,
-                                          collectionAccrualAmount: e?.target
+                                          collectionActualAmount: e?.target
                                             ?.checked
-                                            ? item?.collectionAccrualAmount
+                                            ? item?.collectionActualAmount
                                             : '',
                                           collectionDummyAmount: e?.target
                                             ?.checked
@@ -387,9 +387,9 @@ function ChargesModal({ rowClickData, CB }) {
                                           collectionType: e?.target?.checked
                                             ? item?.collectionType
                                             : '',
-                                          paymentAccrualAmount: e?.target
+                                          paymentActualAmount: e?.target
                                             ?.checked
-                                            ? item?.paymentAccrualAmount
+                                            ? item?.paymentActualAmount
                                             : '',
                                           paymentDummyAmount: e?.target?.checked
                                             ? item?.paymentDummyAmount
@@ -408,19 +408,17 @@ function ChargesModal({ rowClickData, CB }) {
                             <td>{index + 1}</td>
                             <td>{item?.headOfCharges}</td>
 
-                            {/*  "Collection  Accrual Amount" =  InputField component */}
+                            {/*  "Collection  actual Amount" =  InputField component */}
                             <td>
                               <InputField
                                 disabled={!item?.checked}
-                                value={item?.collectionAccrualAmount}
-                                name="collectionAccrualAmount"
+                                value={item?.collectionActualAmount}
+                                name="collectionActualAmount"
                                 type="number"
                                 onChange={(e) => {
                                   const value = e.target.value;
                                   const copyPrv = [...shippingHeadOfCharges];
-                                  copyPrv[
-                                    index
-                                  ].collectionAccrualAmount = value;
+                                  copyPrv[index].collectionActualAmount = value;
                                   setShippingHeadOfCharges(copyPrv);
                                 }}
                               />
@@ -460,17 +458,17 @@ function ChargesModal({ rowClickData, CB }) {
                                 }}
                               />
                             </td>
-                            {/* "Payment Accrual Amount" =  InputField component */}
+                            {/* "Payment Actual Amount" =  InputField component */}
                             <td>
                               <InputField
                                 disabled={!item?.checked}
-                                value={item?.paymentAccrualAmount}
-                                name="paymentAccrualAmount"
+                                value={item?.paymentActualAmount}
+                                name="paymentActualAmount"
                                 type="number"
                                 onChange={(e) => {
                                   const value = e.target.value;
                                   const copyPrv = [...shippingHeadOfCharges];
-                                  copyPrv[index].paymentAccrualAmount = value;
+                                  copyPrv[index].paymentActualAmount = value;
                                   setShippingHeadOfCharges(copyPrv);
                                 }}
                               />
