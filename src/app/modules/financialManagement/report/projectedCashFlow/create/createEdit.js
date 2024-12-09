@@ -437,7 +437,7 @@ export default function ProjectedCashFlowCreateEdit() {
         <div className="col-lg-3">
           <InputField
             value={values?.docValue}
-            label="DOC Value"
+            label="Doc Value(FC)"
             name="docValue"
             type="text"
             onChange={(e) => {
@@ -592,9 +592,10 @@ export default function ProjectedCashFlowCreateEdit() {
         <Formik
           enableReinitialize={true}
           initialValues={initData}
-          onSubmit={(values, { setSubmitting, resetForm }) => {
+          onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
             saveHandler(values, () => {
               resetForm(initData);
+              setFieldValue("viewType", values?.viewType);
               fetchPCFLandingData({ values, getPCFLandingData });
             });
           }}

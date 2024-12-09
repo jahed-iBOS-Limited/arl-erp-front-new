@@ -259,7 +259,7 @@ export const fetchTransactionList = (obj) => {
         profileData?.accountId
       }&BusinessUnitId=${values?.sbu?.value ||
         0}&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${values
-        ?.partnerType?.value || 0}`
+        ?.partnerType?.reffPrtTypeId || 0}`
     )
     .then((res) => {
       return res?.data;
@@ -370,7 +370,7 @@ export const fetchPCFLandingData = (obj) => {
     getPCFLandingData(URL);
 
     // Optionally handle success feedback
-    toast.success("Data Fetched Successfully!");
+    // toast.success("Data Fetched Successfully!");
     return true;
   } catch (e) {
     // Optionally handle error feedback
