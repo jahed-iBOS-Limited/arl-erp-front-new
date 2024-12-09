@@ -25,7 +25,7 @@ import ProjectedCashFlowLanding from "./landing";
 
 export default function ProjectedCashFlowCreateEdit() {
   // redux
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
@@ -190,13 +190,11 @@ export default function ProjectedCashFlowCreateEdit() {
   };
 
   // ! SBUBankNameBankAccount Form Field
-  const SBUBankNameBankAccountFormField = (obj) => {
+  const BankNameBankAccountFormField = (obj) => {
     const { values, setFieldValue, errors, touched } = obj;
 
     return (
       <>
-        <SBUFormField obj={{ values, setFieldValue, errors, touched }} />
-
         <div className="col-lg-3">
           <NewSelect
             name="bankName"
@@ -290,35 +288,7 @@ export default function ProjectedCashFlowCreateEdit() {
 
     return (
       <>
-        <div className="col-lg-3">
-          <label>PO/LC No</label>
-          <SearchAsyncSelect
-            selectedValue={values?.poLC}
-            handleChange={(valueOption) => {
-              setFieldValue("poLC", valueOption);
-              fetchPOLCAndSetFormField({
-                getPOLCNumberData,
-                lcPoId: valueOption?.lcId,
-                setValues,
-                initData,
-              });
-            }}
-            loadOptions={(v) =>
-              fetchPOLCNumber({
-                profileData,
-                selectedBusinessUnit,
-                v,
-              })
-            }
-          />
-        </div>
-
-        {SBUBankNameBankAccountFormField({
-          values,
-          setFieldValue,
-          errors,
-          touched,
-        })}
+        <SBUFormField obj={{ values, setFieldValue, errors, touched }} />
 
         <div className="col-lg-3">
           <NewSelect
@@ -333,6 +303,38 @@ export default function ProjectedCashFlowCreateEdit() {
             touched={touched}
           />
         </div>
+
+        <div className="col-lg-3">
+          <label>PO/LC No</label>
+          <SearchAsyncSelect
+            selectedValue={values?.poLC}
+            handleChange={(valueOption) => {
+              setFieldValue("poLC", valueOption);
+              setPCFLandingData([]);
+              fetchPOLCAndSetFormField({
+                getPOLCNumberData,
+                lcPoId: valueOption?.lcId,
+                setValues,
+                values,
+              });
+            }}
+            loadOptions={(v) =>
+              fetchPOLCNumber({
+                profileData,
+                buUnId: values?.sbu?.value,
+                v,
+              })
+            }
+          />
+        </div>
+
+        {BankNameBankAccountFormField({
+          values,
+          setFieldValue,
+          errors,
+          touched,
+        })}
+
         {children && children}
 
         <AmountPaymentDateRemarksFormField
@@ -349,14 +351,16 @@ export default function ProjectedCashFlowCreateEdit() {
     return (
       <>
         <div className="col-lg-3">
-          <InputField
-            value={values?.beneficiary}
-            label="Beneficiary"
+          <NewSelect
             name="beneficiary"
-            type="text"
-            onChange={(e) => {
-              setFieldValue("beneficiary", e.target.value);
+            label="Beneficiary"
+            options={[]}
+            value={values?.beneficiary}
+            onChange={(valueOption) => {
+              setFieldValue("beneficiary", valueOption);
             }}
+            errors={errors}
+            touched={touched}
           />
         </div>
         <div className="col-lg-3">
@@ -437,7 +441,9 @@ export default function ProjectedCashFlowCreateEdit() {
             name="docValue"
             type="text"
             onChange={(e) => {
-              setFieldValue("docValue", e.target.value);
+              const value = e.target.value;
+              setFieldValue("docValue", value);
+              setFieldValue("amount", value * values?.exchangeRate);
             }}
           />
         </div>
@@ -448,7 +454,9 @@ export default function ProjectedCashFlowCreateEdit() {
             name="exchangeRate"
             type="text"
             onChange={(e) => {
-              setFieldValue("exchangeRate", e.target.value);
+              const value = e.target.value;
+              setFieldValue("exchangeRate", value);
+              setFieldValue("amount", value * values?.docValue);
             }}
           />
         </div>
@@ -462,7 +470,9 @@ export default function ProjectedCashFlowCreateEdit() {
 
     return (
       <>
-        {SBUBankNameBankAccountFormField({
+        <SBUFormField obj={{ values, setFieldValue, errors, touched }} />
+
+        {BankNameBankAccountFormField({
           values,
           setFieldValue,
           errors,

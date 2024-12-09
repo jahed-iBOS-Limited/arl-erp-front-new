@@ -63,7 +63,7 @@ export const generateSaveURL = (viewType) => {
 
 // fetch POLC And Set Form Field
 export const fetchPOLCAndSetFormField = (obj) => {
-  const { lcPoId, getPOLCNumberData, setValues, initData } = obj;
+  const { lcPoId, getPOLCNumberData, setValues,  values } = obj;
   getPOLCNumberData(
     `/fino/FundManagement/GetProjectedCashFlow?partName=GetLcInfoByLcId&lcId=${lcPoId}`,
     (res) => {
@@ -82,11 +82,11 @@ export const fetchPOLCAndSetFormField = (obj) => {
         },
         exchangeRate: desData?.exchangeRate || "",
         poLC: {
-          ...initData?.poLC,
+          ...values?.poLC,
           lcId: desData?.lcId || "",
           lcMarginValue: desData?.lcMarginValue || 0,
           lcNumber: desData?.lcNo || 0,
-          poAmount: desData?.poValue || 0,
+          // poAmount: desData?.poValue || 0,
           poId: desData?.purchaseOrderId || 0,
           poNumber: desData?.purchaseOrderNo || "",
           label: desData?.purchaseOrderNo || "",
@@ -97,14 +97,15 @@ export const fetchPOLCAndSetFormField = (obj) => {
           value: desData?.lcTypeId || 0,
         },
         margin: desData?.marginPercentage || 0,
-        businessPartner: {
+        beneficiary: {
           label: desData?.businessPartnerName || "",
           value: desData?.businessPartnerId || 0,
         },
+        poValue: desData?.poValue || 0,
       };
       // set to formik (init data & response data)
       setValues({
-        ...initData,
+        ...values,
         ...responseData,
       });
     }
@@ -127,7 +128,7 @@ export const generateSavePayloadAndURL = (obj) => {
     paymentDate,
     remarks,
     marginType,
-    // beneficiary,
+    beneficiary,
     poValue,
     lcType,
     margin,
@@ -136,7 +137,6 @@ export const generateSavePayloadAndURL = (obj) => {
     partnerType,
     transaction,
     dueDate,
-    businessPartner,
   } = values;
 
   let payload = {};
@@ -150,6 +150,24 @@ export const generateSavePayloadAndURL = (obj) => {
       actionBy: profileData?.userId,
       paymentDate: paymentDate,
     };
+  } else if (viewType === "income" || viewType === "payment") {
+    payload =
+      // income, payment payload
+      {
+        actionBy: profileData?.userId,
+        cashFlowType: viewType,
+        businessUnitId: sbu?.value,
+        bankName: bankName?.label,
+        bankId: bankName?.value,
+        bankAccountId: bankAccount?.value,
+        bankAccountNo: bankAccount?.label,
+        projectedAmount: +amount || 0,
+        remarks: remarks || "",
+        partnerType: partnerType?.label || "",
+        transactionId: transaction?.value || 0,
+        transactionName: transaction?.label || 0,
+        dueDate: dueDate,
+      };
   } else {
     payload =
       // import, income, payment payload
@@ -170,7 +188,7 @@ export const generateSavePayloadAndURL = (obj) => {
         bankAccountNo: bankAccount?.label,
         paymentType: paymentType?.value,
         paymentDate: paymentDate,
-        projectedAmount: amount || 0,
+        projectedAmount: +amount || 0,
         remarks: remarks || "",
 
         // margin & at sight payment
@@ -178,22 +196,22 @@ export const generateSavePayloadAndURL = (obj) => {
         marginTypeName: marginType?.label,
 
         // margin
-        purchaseOrderAmount: poValue,
+        purchaseOrderAmount: +poValue || 0,
 
         // at sight payment
         lcTypeId: lcType?.value,
         lcTypeName: lcType?.label,
-        lcMarginPercentage: margin || 0,
-        docValue: docValue || 0,
-        exchangeRate: exchangeRate,
+        lcMarginPercentage: +margin || 0,
+        docValue: +docValue || 0,
+        exchangeRate: +exchangeRate || 0,
 
         // payment & income
         partnerType: partnerType?.label || "",
         transactionId: transaction?.value || 0,
         transactionName: transaction?.label || 0,
         dueDate: dueDate,
-        businessPartnerId: businessPartner?.value || 0,
-        businessPartnerName: businessPartner?.label || "",
+        businessPartnerId: beneficiary?.value || 0,
+        businessPartnerName: beneficiary?.label || "",
       };
   }
 
@@ -221,11 +239,11 @@ export const marginTypeDDL = [
 
 // get po lc number
 export const fetchPOLCNumber = (obj) => {
-  const { profileData, selectedBusinessUnit, v } = obj;
+  const { profileData, buUnId, v } = obj;
   if (v?.length < 3) return [];
   return axios
     .get(
-      `/imp/ImportCommonDDL/GetPONOLcNoforLCSummeryDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`
+      `/imp/ImportCommonDDL/GetPONOLcNoforLCSummeryDDL?accountId=${profileData?.accountId}&businessUnitId=${buUnId}&searchTerm=${v}`
     )
     .then((res) => res?.data)
     .catch((err) => []);
