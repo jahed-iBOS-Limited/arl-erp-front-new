@@ -223,6 +223,13 @@ function BookingList() {
                             minWidth: '100px',
                           }}
                         >
+                          EPB
+                        </th>
+                        <th
+                          style={{
+                            minWidth: '100px',
+                          }}
+                        >
                           Receive
                         </th>
 
@@ -409,6 +416,28 @@ function BookingList() {
                                   Confirm
                                 </button>
                               </span>
+                            </td>
+
+                            <td>
+                              {item?.modeOfTransport === 'Air' && (
+                                <span>
+                                  <button
+                                    // disabled={item?.isHbl}
+                                    className={
+                                      'btn btn-sm btn-warning px-1 py-1'
+                                    }
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isEPB: true,
+                                      });
+                                    }}
+                                  >
+                                    EPB
+                                  </button>
+                                </span>
+                              )}
                             </td>
                             <td>
                               <span>
@@ -1083,7 +1112,7 @@ function BookingList() {
         <IViewModal
           title={`${
             rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-          } Code Generate`}
+          } Report`}
           show={isModalShowObj?.isHBCodeGN}
           onHide={() => {
             setIsModalShowObj({
@@ -1100,6 +1129,31 @@ function BookingList() {
             }}
           />
         </IViewModal>
+      )}
+
+      {/* EPB modal */}
+      {isModalShowObj?.isEPB && (
+        <>
+          <IViewModal
+            title={`EPB`}
+            show={isModalShowObj?.isEPB}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isEPB: false,
+              });
+              setRowClickData({});
+            }}
+          >
+            <HBLCodeGNModal
+              rowClickData={rowClickData}
+              CB={() => {
+                commonLandingApi();
+              }}
+              isEPBInvoice={true}
+            />
+          </IViewModal>
+        </>
       )}
     </ICustomCard>
   );
