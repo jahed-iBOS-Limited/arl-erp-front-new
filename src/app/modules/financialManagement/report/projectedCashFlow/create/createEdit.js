@@ -22,7 +22,6 @@ import {
   marginTypeDDL,
 } from "./helper";
 import ProjectedCashFlowLanding from "./landing";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 
 export default function ProjectedCashFlowCreateEdit() {
   // redux
@@ -69,13 +68,16 @@ export default function ProjectedCashFlowCreateEdit() {
     getSBUDDL(
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`,
       (res) => {
-        formikRef.current.setFieldValue("sbu", res?.[0] || "");
+        // set default value with formik ref (filter to akij cement)
+        const akijCement = res?.filter((item) => item?.value === 4)[0];
+        formikRef.current.setFieldValue("sbu", akijCement || "");
 
+        // load landing data
         if (res?.length > 0) {
           fetchPCFLandingData({
             values: {
               ...initData,
-              sbu: res[0],
+              sbu: akijCement,
             },
             getPCFLandingData,
           });
@@ -147,8 +149,45 @@ export default function ProjectedCashFlowCreateEdit() {
         />
         Import
       </label>
+      <label>
+        <Field
+          type="radio"
+          name="viewType"
+          value="customer received"
+          onChange={(e) => handleViewTypeChange(e, setFieldValue, resetForm)}
+        />
+        Customer Received
+      </label>
     </div>
   );
+
+  // ! SBU Form Field
+  const SBUFormField = ({ obj }) => {
+    const { values, setFieldValue, errors, touched } = obj;
+
+    return (
+      <div className="col-lg-3">
+        <NewSelect
+          name="sbu"
+          label="SBU"
+          options={sbuDDL || []}
+          value={values?.sbu}
+          onChange={(valueOption) => {
+            setFieldValue("sbu", valueOption);
+            setFieldValue("bankName", "");
+            setFieldValue("bankAccount", "");
+            fetchBankNameDDL({
+              getBankNameDDL,
+              profileData,
+              buUnId: valueOption?.value,
+            });
+          }}
+          errors={errors}
+          touched={touched}
+        />
+      </div>
+    );
+  };
 
   // ! SBUBankNameBankAccount Form Field
   const SBUBankNameBankAccountFormField = (obj) => {
@@ -156,26 +195,8 @@ export default function ProjectedCashFlowCreateEdit() {
 
     return (
       <>
-        <div className="col-lg-3">
-          <NewSelect
-            name="sbu"
-            label="SBU"
-            options={sbuDDL || []}
-            value={values?.sbu}
-            onChange={(valueOption) => {
-              setFieldValue("sbu", valueOption);
-              setFieldValue("bankName", "");
-              setFieldValue("bankAccount", "");
-              fetchBankNameDDL({
-                getBankNameDDL,
-                profileData,
-                buUnId: valueOption?.value,
-              });
-            }}
-            errors={errors}
-            touched={touched}
-          />
-        </div>
+        <SBUFormField obj={{ values, setFieldValue, errors, touched }} />
+
         <div className="col-lg-3">
           <NewSelect
             name="bankName"
@@ -207,6 +228,49 @@ export default function ProjectedCashFlowCreateEdit() {
             }}
             errors={errors}
             touched={touched}
+          />
+        </div>
+      </>
+    );
+  };
+
+  // ! AmountPaymentDateRemarksFormField
+  const AmountPaymentDateRemarksFormField = ({ obj }) => {
+    const { values, setFieldValue } = obj;
+
+    return (
+      <>
+        <div className="col-lg-3">
+          <InputField
+            value={values?.amount}
+            label="Amount"
+            name="amount"
+            type="number"
+            onChange={(e) => {
+              setFieldValue("amount", e.target.value);
+            }}
+          />
+        </div>
+        <div className="col-lg-3">
+          <InputField
+            value={values?.paymentDate}
+            label="Payment Date"
+            name="paymentDate"
+            type="date"
+            onChange={(e) => {
+              setFieldValue("paymentDate", e.target.value);
+            }}
+          />
+        </div>
+        <div className="col-lg-3">
+          <InputField
+            value={values?.remarks}
+            label="Remarks"
+            name="remarks"
+            type="text"
+            onChange={(e) => {
+              setFieldValue("remarks", e.target.value);
+            }}
           />
         </div>
       </>
@@ -270,39 +334,10 @@ export default function ProjectedCashFlowCreateEdit() {
           />
         </div>
         {children && children}
-        <div className="col-lg-3">
-          <InputField
-            value={values?.amount}
-            label="Amount"
-            name="amount"
-            type="number"
-            onChange={(e) => {
-              setFieldValue("amount", e.target.value);
-            }}
-          />
-        </div>
-        <div className="col-lg-3">
-          <InputField
-            value={values?.paymentDate}
-            label="Payment Date"
-            name="paymentDate"
-            type="date"
-            onChange={(e) => {
-              setFieldValue("paymentDate", e.target.value);
-            }}
-          />
-        </div>
-        <div className="col-lg-3">
-          <InputField
-            value={values?.remarks}
-            label="Remarks"
-            name="remarks"
-            type="text"
-            onChange={(e) => {
-              setFieldValue("remarks", e.target.value);
-            }}
-          />
-        </div>
+
+        <AmountPaymentDateRemarksFormField
+          obj={{ values, setFieldValue, errors, touched }}
+        />
       </>
     );
   };
@@ -500,6 +535,21 @@ export default function ProjectedCashFlowCreateEdit() {
     );
   };
 
+  // ! Customer Received Form Field
+  const CustomerReceivedFormField = ({ obj }) => {
+    const { values, setFieldValue, errors, touched } = obj;
+
+    return (
+      <>
+        <SBUFormField obj={{ values, setFieldValue, errors, touched }} />
+        <AmountPaymentDateRemarksFormField
+          obj={{ values, setFieldValue, errors, touched }}
+        />
+      </>
+    );
+  };
+
+  // ! Render Payment Type Form Field in Children
   const RenderPaymentTypeFormFields = (obj) => {
     const { values, setFieldValue, errors, touched } = obj;
 
@@ -524,39 +574,6 @@ export default function ProjectedCashFlowCreateEdit() {
         return null;
     }
   };
-
-  // ! Current Data Table
-  // const CurrentDataTable = () => (
-  //   <div className="table-responsive">
-  //     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-  //       <thead>
-  //         <tr>
-  //           <th style={{ width: "30px" }}>SL</th>
-  //           <th>Expense/Payment Name</th>
-  //           <th>Amount</th>
-  //           <th>Date</th>
-  //           <th style={{ width: "50px" }}>Action</th>
-  //         </tr>
-  //       </thead>
-  //       <tbody>
-  //         {[]?.length > 0 &&
-  //           [].map((item, index) => (
-  //             <tr key={index}>
-  //               <td>{index + 1}</td>
-  //               <td>{item?.paymentName}</td>
-  //               <td className="text-center">{item?.amount}</td>
-  //               <td className="text-center">{_dateFormatter(item?.date)}</td>
-  //               <td className="text-center">
-  //                 <span onClick={() => {}}>
-  //                   <IDelete />
-  //                 </span>
-  //               </td>
-  //             </tr>
-  //           ))}
-  //       </tbody>
-  //     </table>
-  //   </div>
-  // );
 
   return (
     <IForm title="Create Projected Cash Flow" getProps={setObjprops}>
@@ -586,7 +603,7 @@ export default function ProjectedCashFlowCreateEdit() {
             <>
               <Form className="form form-label-right">
                 <div className="">
-                  <div className="row form-group  global-form">
+                  <div className="row form-group global-form">
                     {/* View Type */}
                     {ViewTypeRadioField(values, setFieldValue, resetForm)}
 
@@ -615,6 +632,18 @@ export default function ProjectedCashFlowCreateEdit() {
                     {(values?.viewType === "income" ||
                       values?.viewType === "payment") && (
                       <PaymentAndIncomeFormField
+                        obj={{
+                          values,
+                          setFieldValue,
+                          errors,
+                          touched,
+                        }}
+                      />
+                    )}
+
+                    {/* Customer Received View Type Form Field */}
+                    {values?.viewType === "customer received" && (
+                      <CustomerReceivedFormField
                         obj={{
                           values,
                           setFieldValue,

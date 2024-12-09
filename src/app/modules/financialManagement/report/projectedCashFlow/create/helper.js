@@ -10,7 +10,7 @@ export const initData = {
   // global
   viewType: "import",
 
-  // common
+  // common (import, income, payment, customer received)
   poLC: "",
   sbu: "",
   bankName: "",
@@ -54,6 +54,8 @@ export const generateSaveURL = (viewType) => {
     case "import":
     case "payment":
       return "/fino/FundManagement/SaveProjectedCashFlow?partName=SaveProjectedCashFlow";
+    case "customer received":
+      return "/fino/FundManagement/SaveCustomerPaymentReceived?partName=SaveCustomerPaymentReceived";
     default:
       return "";
   }
@@ -142,7 +144,7 @@ export const generateSavePayloadAndURL = (obj) => {
     actionBy: profileData?.userId,
     cashFlowType: viewType,
 
-    // common
+    // common (import, income, payment, customer received)
     lcId: poLC?.lcId,
     lcNo: poLC?.lcNumber,
     purchaseOrderId: poLC?.poId,
@@ -178,6 +180,10 @@ export const generateSavePayloadAndURL = (obj) => {
     dueDate: dueDate,
     businessPartnerId: businessPartner?.value || 0,
     businessPartnerName: businessPartner?.label || "",
+
+    // customer received
+    sbu: sbu?.value,
+    receivedAmount: amount || 0,
   };
   return payload;
 };
@@ -260,30 +266,46 @@ export const generateGetPCFLandingDataURL = (values) => {
   // destructure
   const { fromDate, toDate, sbu, viewType, paymentType } = values;
 
-  let baseURL = `/fino/FundManagement/GetProjectedCashFlow`;
+  // payment, income & import base url
+  let paymentIncomeImportBaseURL = `/fino/FundManagement/GetProjectedCashFlow`;
+  // payemnt income import params
+  let paymentIncomeImportParams = `partName=GetProjectedCashFlow&businessUnitId=${sbu?.value}&fromDate=${fromDate}&toDate=${toDate}`;
 
-  let params = `partName=GetProjectedCashFlow&businessUnitId=${sbu?.value}&fromDate=${fromDate}&toDate=${toDate}`;
+  // customer received base url
+  let customerReceivedBaseURL = `/fino/FundManagement/GetCustomerPaymentReceived`;
+  // customer received params
+  let customerReceivedParams = `partName=GetCustomerPaymentReceived&businessUnitId=${sbu?.value}&fromDate=${fromDate}&toDate=${toDate}`;
 
   switch (viewType) {
     case "import": {
-      params += `&cashFlowType=Import`;
+      paymentIncomeImportParams += `&cashFlowType=Import`;
       if (paymentType !== undefined) {
-        params += `&paymentType=${`${paymentType?.value}`}`;
+        paymentIncomeImportParams += `&paymentType=${`${paymentType?.value}`}`;
       }
       break;
     }
     case "payment":
-      params += `&cashFlowType=Payment`;
+      paymentIncomeImportParams += `&cashFlowType=Payment`;
       break;
     case "income":
-      params += `&cashFlowType=Income`;
+      paymentIncomeImportParams += `&cashFlowType=Income`;
+      break;
+    case "customer received":
+      customerReceivedParams += `&cashFlowType=Income`;
       break;
     default:
-      params += "";
       break;
   }
 
-  return `${baseURL}?${params}`;
+  return `${
+    viewType !== "customer received"
+      ? paymentIncomeImportBaseURL
+      : customerReceivedBaseURL
+  }?${
+    viewType !== "customer received"
+      ? paymentIncomeImportParams
+      : customerReceivedParams
+  }`;
 };
 
 // landing show btn validation
@@ -318,7 +340,7 @@ export const fetchPCFLandingData = (obj) => {
     getPCFLandingData(URL);
 
     // Optionally handle success feedback
-    toast.success("Data Fetched Ssuccessfully!");
+    toast.success("Data Fetched Successfully!");
     return true;
   } catch (e) {
     // Optionally handle error feedback
@@ -387,6 +409,26 @@ export const paymentAndIncomeLanding = [
   { header: "Action By", key: "actionByUserName" },
 ];
 
+// customer received table header
+export const customerReceivedLanding = [
+  { header: "SL", render: (_i, index) => index + 1 },
+  {
+    header: "Amount",
+    key: "receivedAmount",
+    className: "text-right",
+    render: (item) => _formatMoney(item.receivedAmount),
+  },
+  {
+    header: "Payment Date",
+    key: "paymentDate",
+    render: (item) => _dateFormatter(item.paymentDate),
+  },
+  {
+    header: "Action By",
+    key: "actionByUserName",
+  },
+];
+
 // choose table header
 export const chooseTableColumns = (viewType) => {
   switch (viewType) {
@@ -395,6 +437,8 @@ export const chooseTableColumns = (viewType) => {
     case "payment":
     case "income":
       return paymentAndIncomeLanding;
+    case "customer received":
+      return customerReceivedLanding;
     default:
       return columnsForImportLanding;
   }
