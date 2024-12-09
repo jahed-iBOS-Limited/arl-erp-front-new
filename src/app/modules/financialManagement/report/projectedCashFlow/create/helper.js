@@ -2,6 +2,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
 import { _monthLastDate } from "../../../../_helper/_monthLastDate";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 // create page
 // init data
 export const initData = {
@@ -322,5 +324,78 @@ export const fetchPCFLandingData = (obj) => {
     // Optionally handle error feedback
     toast.error("Please try again later.");
     return false;
+  }
+};
+
+// import table header
+export const columnsForImportLanding = [
+  { header: "SL", render: (_i, index) => index + 1 },
+  { header: "Payment Type", key: "paymentType" },
+  { header: "Cash Flow Type", key: "cashFlowType" },
+  { header: "LC No", key: "lcNo" },
+  { header: "LC Type", key: "lcTypeName" },
+  { header: "PO No", key: "purchaseOrderNo" },
+  { header: "Bank Name", key: "bankName" },
+  { header: "Bank Acc No", key: "bankAccountNo" },
+  { header: "Business Partner Name", key: "businessPartnerName" },
+  {
+    header: "Margin",
+    className: "text-right",
+    render: (item) => _formatMoney(item.lcMarginPercentage),
+  },
+  {
+    header: "Exchange Rate",
+    className: "text-right",
+    render: (item) => _formatMoney(item.exchangeRate),
+  },
+  {
+    header: "PO Amount",
+    className: "text-right",
+    render: (item) => _formatMoney(item.purchaseOrderAmount),
+  },
+  {
+    header: "DOC Value",
+    className: "text-right",
+    render: (item) => _formatMoney(item.docValue),
+  },
+  {
+    header: "Amount",
+    className: "text-right",
+    render: (item) => _formatMoney(item.projectedAmount),
+  },
+  {
+    header: "Payment Date",
+    render: (item) => _dateFormatter(item.paymentDate),
+  },
+  { header: "Action By", key: "actionByUserName" },
+];
+
+// payment & income table header
+export const paymentAndIncomeLanding = [
+  { header: "SL", render: (_i, index) => index + 1 },
+  { header: "Cash Flow Type", key: "cashFlowType" },
+  { header: "Bank Name", key: "bankName" },
+  { header: "Bank Acc No", key: "bankAccountNo" },
+  { header: "Partner Type", key: "partnerType" },
+  { header: "Transaction Name", key: "transactionName" },
+  {
+    header: "Amount",
+    className: "text-right",
+    render: (item) => _formatMoney(item.projectedAmount),
+  },
+  { header: "Due Date", render: (item) => _dateFormatter(item?.dueDate) },
+  { header: "Action By", key: "actionByUserName" },
+];
+
+// choose table header
+export const chooseTableColumns = (viewType) => {
+  switch (viewType) {
+    case "import":
+      return columnsForImportLanding;
+    case "payment":
+    case "income":
+      return paymentAndIncomeLanding;
+    default:
+      return columnsForImportLanding;
   }
 };
