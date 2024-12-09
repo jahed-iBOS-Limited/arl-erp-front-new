@@ -139,52 +139,64 @@ export const generateSavePayloadAndURL = (obj) => {
     businessPartner,
   } = values;
 
-  const payload = {
-    // global
-    actionBy: profileData?.userId,
-    cashFlowType: viewType,
+  let payload = {};
 
-    // common (import, income, payment, customer received)
-    lcId: poLC?.lcId,
-    lcNo: poLC?.lcNumber,
-    purchaseOrderId: poLC?.poId,
-    purchaseOrderNo: poLC?.poNumber,
-    businessUnitId: sbu?.value,
-    bankName: bankName?.label,
-    bankId: bankName?.value,
-    bankAccountId: bankAccount?.value,
-    bankAccountNo: bankAccount?.label,
-    paymentType: paymentType?.value,
-    paymentDate: paymentDate,
-    projectedAmount: amount || 0,
-    remarks: remarks || "",
+  // customer received payload
+  if (viewType === "customer received") {
+    payload = {
+      businessUnitId: sbu?.value,
+      sbu: sbu?.value,
+      receivedAmount: amount || 0,
+      actionBy: profileData?.userId,
+      paymentDate: paymentDate,
+    };
+  } else {
+    payload =
+      // import, income, payment payload
+      {
+        // global
+        actionBy: profileData?.userId,
+        cashFlowType: viewType,
 
-    // margin & at sight payment
-    marginTypeId: marginType?.value,
-    marginTypeName: marginType?.label,
+        // common (import, income, payment, customer received)
+        lcId: poLC?.lcId,
+        lcNo: poLC?.lcNumber,
+        purchaseOrderId: poLC?.poId,
+        purchaseOrderNo: poLC?.poNumber,
+        businessUnitId: sbu?.value,
+        bankName: bankName?.label,
+        bankId: bankName?.value,
+        bankAccountId: bankAccount?.value,
+        bankAccountNo: bankAccount?.label,
+        paymentType: paymentType?.value,
+        paymentDate: paymentDate,
+        projectedAmount: amount || 0,
+        remarks: remarks || "",
 
-    // margin
-    purchaseOrderAmount: poValue,
+        // margin & at sight payment
+        marginTypeId: marginType?.value,
+        marginTypeName: marginType?.label,
 
-    // at sight payment
-    lcTypeId: lcType?.value,
-    lcTypeName: lcType?.label,
-    lcMarginPercentage: margin || 0,
-    docValue: docValue || 0,
-    exchangeRate: exchangeRate,
+        // margin
+        purchaseOrderAmount: poValue,
 
-    // payment & income
-    partnerType: partnerType?.label || "",
-    transactionId: transaction?.value || 0,
-    transactionName: transaction?.label || 0,
-    dueDate: dueDate,
-    businessPartnerId: businessPartner?.value || 0,
-    businessPartnerName: businessPartner?.label || "",
+        // at sight payment
+        lcTypeId: lcType?.value,
+        lcTypeName: lcType?.label,
+        lcMarginPercentage: margin || 0,
+        docValue: docValue || 0,
+        exchangeRate: exchangeRate,
 
-    // customer received
-    sbu: sbu?.value,
-    receivedAmount: amount || 0,
-  };
+        // payment & income
+        partnerType: partnerType?.label || "",
+        transactionId: transaction?.value || 0,
+        transactionName: transaction?.label || 0,
+        dueDate: dueDate,
+        businessPartnerId: businessPartner?.value || 0,
+        businessPartnerName: businessPartner?.label || "",
+      };
+  }
+
   return payload;
 };
 
