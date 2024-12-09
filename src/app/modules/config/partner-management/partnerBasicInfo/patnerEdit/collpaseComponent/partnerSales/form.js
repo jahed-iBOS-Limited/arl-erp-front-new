@@ -623,15 +623,15 @@ export default function _Form({
                     className="separtBorder"
                     style={{
                       position: "absolute",
-                      width: "2px",
+                      width: "3px",
                       background: "white",
-                      height: "81%",
+                      height: "90%",
                       zIndex: "99",
-                      left: "3px",
+                      left: "0px",
                       top: "15px",
                     }}
                   ></span>
-                  <div className="row bank-journal bank-journal-custom bj-left">
+                  <div className="row bank-journal bank-journal-custom bj-left pb-3">
                     <div className="col-lg-3 pr-1 mb-2">
                       <label>Ship To Partner Name</label>
                       <InputField
@@ -650,7 +650,7 @@ export default function _Form({
                         type="text"
                       />
                     </div>
-                    <div className="col-lg-2 pr-1">
+                    <div className="col-lg-3 pr-1">
                       <label>Contact</label>
                       <InputField
                         value={values?.contact}
@@ -660,7 +660,7 @@ export default function _Form({
                         min="0"
                       />
                     </div>
-                    <div className="col-lg-2 pr-1">
+                    <div className="col-lg-3 pr-1">
                       <NewSelect
                         name="transportZone"
                         options={transportZoneDDL}
@@ -690,7 +690,14 @@ export default function _Form({
                         />
                       </div>
                     )}
-                    <div className="col-lg-2">
+                    <div
+                      className="col-lg-2"
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
                       <div>
                         <label>
                           <input
@@ -720,24 +727,55 @@ export default function _Form({
                           <span>Copy Address</span>
                         </label>
                       </div>
+                    </div>
+                    <div
+                      class="col-lg-2"
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
                       <div>
-                        <button
-                          onClick={() => {
-                            setterTwo(values);
-                          }}
-                          className="btn btn-primary mt-2"
-                          disabled={
-                            !values?.address ||
-                            !values?.shipToParner ||
-                            !values?.contact ||
-                            !values?.transportZone
-                          }
-                          type="button"
-                          style={{ padding: "5px" }}
-                        >
-                          Add
-                        </button>
+                        <label>
+                          <input
+                            type="checkbox"
+                            onChange={(e) => {
+                              console.log(e.target.checked);
+                              setFieldValue(
+                                "isCodeShowInChallan",
+                                e.target.checked
+                              );
+                            }}
+                            name="isCodeShowInChallan"
+                            label="Is CodeShowInChallan"
+                            style={{
+                              marginRight: "3px",
+                              position: "relative",
+                              top: "3px",
+                            }}
+                          />
+                          <span>Is CodeShowInChallan</span>
+                        </label>
                       </div>
+                    </div>
+                    <div className="col-lg-2">
+                      <button
+                        onClick={() => {
+                          setterTwo(values);
+                        }}
+                        className="btn btn-primary"
+                        disabled={
+                          !values?.address ||
+                          !values?.shipToParner ||
+                          !values?.contact ||
+                          !values?.transportZone
+                        }
+                        type="button"
+                        style={{ padding: "5px" }}
+                      >
+                        Add
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -824,6 +862,7 @@ export default function _Form({
                               <th>Operational Zone</th>
                             )}
                             <th>Default</th>
+                            <th>IsCodeShowInChallan</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -874,6 +913,18 @@ export default function _Form({
                                           idx
                                         );
                                       }}
+                                    />
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    <input
+                                      id="isCodeShowInChallan"
+                                      type="checkbox"
+                                      className=""
+                                      value={itm?.isCodeShowInChallan}
+                                      checked={itm?.isCodeShowInChallan}
+                                      name={itm?.isCodeShowInChallan}
                                     />
                                   </div>
                                 </td>

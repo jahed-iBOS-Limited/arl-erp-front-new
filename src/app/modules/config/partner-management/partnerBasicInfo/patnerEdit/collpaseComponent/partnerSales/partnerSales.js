@@ -75,7 +75,7 @@ const initProduct = {
   agConcern: "",
   toName: "",
   location: "",
-  district: ""
+  district: "",
 };
 
 export default function PartnerSales() {
@@ -494,6 +494,7 @@ export default function PartnerSales() {
       partnerShippingName: values?.shipToParner.trim(),
       partnerShippingAddress: values?.address,
       partnerShippingContact: values?.contact,
+      isCodeShowInChallan: values?.isCodeShowInChallan,
       transportZoneName: values?.transportZone?.label,
       transportZoneId: values?.transportZone?.value,
       shiptoPartnerId: 0,

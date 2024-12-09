@@ -12,7 +12,7 @@ import './style.css';
 const validationSchema = Yup.object().shape({
   // date: Yup.date().required("Date is required"),
 });
-function HBLCodeGNModal({ CB, rowClickData }) {
+function HBLCodeGNModal({ CB, rowClickData, isEPBInvoice }) {
   const [
     shipBookingRequestGetById,
     setShipBookingRequestGetById,
@@ -127,6 +127,7 @@ function HBLCodeGNModal({ CB, rowClickData }) {
                 <HAWBFormat
                   bookingData={bookingData}
                   componentRef={componentRef}
+                  isEPBInvoice={isEPBInvoice}
                 />
               )}
 
