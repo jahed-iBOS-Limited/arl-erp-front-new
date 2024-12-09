@@ -2,9 +2,29 @@ import moment from 'moment';
 import React from 'react';
 import './HAWBFormat.css';
 import logisticsLogo from './logisticsLogo.png';
-function NewHBLFormatAirItem({ bookingData, footerText }) {
+function NewHBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
   return (
-    <div>
+    <div
+      style={{
+        position: 'relative',
+      }}
+    >
+      {isEPBInvoice && (
+        <p
+          style={{
+            position: 'absolute',
+            top: '20%',
+            left: '35%',
+            fontSize: '23px',
+            color: '#990370',
+            fontWeight: 'bold',
+            transform: 'rotate(-24deg)',
+          }}
+        >
+          COPY NON-NEGOTIABLE
+        </p>
+      )}
+
       <div className="hawbContainer">
         <div className="shipperAandConsigneeInfo">
           <div className="top borderBottom">
@@ -62,7 +82,7 @@ function NewHBLFormatAirItem({ bookingData, footerText }) {
                 </div>
                 <div>
                   <p>
-                    <b>HAWB NO: {bookingData?.hblnumber}</b>
+                    <b>HAWB NO: {isEPBInvoice ? '' : bookingData?.hblnumber}</b>
                   </p>
                   <img src={logisticsLogo} alt="barcode" />
                   <p>
@@ -856,42 +876,56 @@ function NewHBLFormatAirItem({ bookingData, footerText }) {
   );
 }
 
-const NewHBLFormatAir = ({ componentRef, bookingData }) => {
+const NewHBLFormatAir = ({ componentRef, bookingData, isEPBInvoice }) => {
+  console.log(isEPBInvoice, 'isEPBInvoice new');
   return (
     <div className="hawbWrapper">
-      <NewHBLFormatAirItem bookingData={bookingData} />
+      <NewHBLFormatAirItem
+        bookingData={bookingData}
+        isEPBInvoice={isEPBInvoice}
+      />
       <div className="multipleInvoicePrint" ref={componentRef}>
-        <NewHBLFormatAirItem
-          footerText="ORIGINAL 1 (FOR CONSIGNEE)"
-          bookingData={bookingData}
-        />
-        <div
-          style={{
-            pageBreakAfter: 'always',
-          }}
-        />
-        <NewHBLFormatAirItem
-          footerText="ORIGINAL 2 (FOR CONSIGNEE)"
-          bookingData={bookingData}
-        />
-        <div
-          style={{
-            pageBreakAfter: 'always',
-          }}
-        />
-        <NewHBLFormatAirItem
-          footerText="ORIGINAL 3 (FOR SHIPPER)"
-          bookingData={bookingData}
-        />
-        <div
-          style={{
-            pageBreakAfter: 'always',
-          }}
-        />
-        <NewHBLFormatAirItem
-          footerText="ORIGINAL 4 (FOR SHIPPER)"
-          bookingData={bookingData}
-        />
+        {isEPBInvoice ? (
+          <NewHBLFormatAirItem
+            footerText=""
+            bookingData={bookingData}
+            isEPBInvoice={isEPBInvoice}
+          />
+        ) : (
+          <>
+            <NewHBLFormatAirItem
+              footerText="ORIGINAL 1 (FOR CONSIGNEE)"
+              bookingData={bookingData}
+            />
+            <div
+              style={{
+                pageBreakAfter: 'always',
+              }}
+            />
+            <NewHBLFormatAirItem
+              footerText="ORIGINAL 2 (FOR CONSIGNEE)"
+              bookingData={bookingData}
+            />
+            <div
+              style={{
+                pageBreakAfter: 'always',
+              }}
+            />
+            <NewHBLFormatAirItem
+              footerText="ORIGINAL 3 (FOR SHIPPER)"
+              bookingData={bookingData}
+            />
+            <div
+              style={{
+                pageBreakAfter: 'always',
+              }}
+            />
+            <NewHBLFormatAirItem
+              footerText="ORIGINAL 4 (FOR SHIPPER)"
+              bookingData={bookingData}
+            />
+          </>
+        )}
       </div>
     </div>
   );
