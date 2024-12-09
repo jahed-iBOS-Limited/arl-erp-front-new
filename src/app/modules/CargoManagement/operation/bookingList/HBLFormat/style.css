@@ -1,6 +1,7 @@
 .hblContainer {
     font-size: 11px;
     border: 1px solid #000;
+    position: relative;
 }
 
 .hblContainer h1,
@@ -106,10 +107,6 @@
     border-left: 1px solid #000;
 }
 
-.text-center {
-    text-align: center;
-}
-
 .hblContainer .firstColumn {
     width: 230px;
     border-right: 1px solid #000;
@@ -132,6 +129,7 @@
 
 .hblContainer .middle .firstRow {
     display: flex;
+    min-height: 50px;
 }
 
 
@@ -242,4 +240,17 @@
 
 .hblContainer .bottom .bottomLeft .bottomThirdColumn {
     display: flex;
+}
+
+.hblWrapper .multipleInvoicePrint {
+    display: none;
+}
+  
+  @media print {
+    .hblWrapper .multipleInvoicePrint {
+      display: block !important;
+    }
+}
+.printSectionNone {
+    display: none !important;
 }

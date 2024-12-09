@@ -135,7 +135,7 @@ export default function AutoPRCalculation() {
             isHiddenBack
             isHiddenSave
             isHiddenReset
-            title="Auto PR Calculation"
+            title="Material Requirment Planing"
             getProps={setObjprops}
             renderProps={() => {
               return (

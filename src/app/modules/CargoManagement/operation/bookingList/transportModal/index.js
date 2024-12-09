@@ -888,9 +888,15 @@ function TransportModal({ rowClickData, CB }) {
                               <NewSelect
                                 name={`rows[${index}].size`}
                                 options={[
-                                  { value: '20', label: '20FT' },
-                                  { value: '40', label: '40FT' },
-                                  { value: '40+', label: '40FT High' },
+                                  { value: '20', label: '20” FR OGG' },
+                                  { value: '40', label: '40” FR OGG' },
+                                  { value: '40H', label: '40H FR OGH' },
+                                  { value: '20', label: '20” FR IGG' },
+                                  { value: '40', label: '40” FR IGG' },
+                                  { value: '40H', label: '40H FR IGG' },
+                                  { value: '20', label: '20” OT' },
+                                  { value: '40', label: '40” OT' },
+                                  { value: '40H', label: '40H OT' },
                                 ]}
                                 value={
                                   values?.rows[index]?.size

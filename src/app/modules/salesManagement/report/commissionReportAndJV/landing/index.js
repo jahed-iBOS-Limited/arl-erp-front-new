@@ -210,7 +210,7 @@ const CommissionReportAndJV = () => {
       };
 
       createTradeDamageJV(payload, setLoading);
-    } else if ([5, 7, ...allIds].includes(values?.type?.value)) {
+    } else if ([5, 7, ...allIds, 35,36,37,38,39].includes(values?.type?.value)) {
       const selectedItems = rowData?.filter((item) => item?.isSelected);
       const totalAmount = selectedItems?.reduce(
         (a, b) => a + +b?.commissiontaka,
