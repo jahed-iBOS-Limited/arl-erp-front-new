@@ -3,6 +3,20 @@ import React from 'react';
 import './HAWBFormat.css';
 import logisticsLogo from './logisticsLogo.png';
 function HBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
+  const totalGrossWeightKG = bookingData?.rowsData?.reduce(
+    (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
+    0,
+  );
+
+  const totalVolumetricWeight = bookingData?.rowsData?.reduce(
+    (acc, item) => acc + (+item?.totalVolumetricWeight || 0),
+    0,
+  );
+
+  const totalGrossWeight =
+    totalVolumetricWeight > totalGrossWeightKG
+      ? totalVolumetricWeight
+      : totalGrossWeightKG;
   return (
     <div
       style={{
@@ -381,25 +395,13 @@ function HBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
                   </p>
                 </div>
                 <div className="grossWeight borderRight">
-                  <p>
-                    {bookingData?.rowsData?.reduce(
-                      (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
-                      0,
-                    )}{' '}
-                    KG
-                  </p>
+                  <p>{totalGrossWeightKG} KG</p>
                 </div>
                 <div className="kgIB borderRight">
                   <p />
                 </div>
                 <div className="chargeableWeight borderRight">
-                  <p>
-                    {bookingData?.rowsData?.reduce(
-                      (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
-                      0,
-                    )}{' '}
-                    KG
-                  </p>
+                  <p>{totalGrossWeight} KG</p>
                 </div>
                 <div className="rateAndCharge borderRight">
                   <p />
@@ -411,14 +413,44 @@ function HBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
                   <p style={{ textDecoration: 'underline' }}>
                     DESCRIPTION OF GOODS :
                   </p>
-                  <p>
-                    {bookingData?.rowsData?.map((item, index) => {
-                      return `${item?.descriptionOfGoods}${
-                        index < bookingData?.rowsData?.length - 1 ? ',' : ''
-                      }`;
-                    })}
-                  </p>
-                  <p />
+                  {bookingData?.rowsData?.map((item, index) => {
+                    return (
+                      <>
+                        <p>{item?.descriptionOfGoods}</p>
+                        <p>
+                          Po No:{' '}
+                          {item?.dimensionRow?.map((i, index) => {
+                            return (
+                              (i?.poNumber || '') +
+                              (index < item?.dimensionRow?.length - 1
+                                ? ','
+                                : '')
+                            );
+                          })}
+                        </p>
+                        <p>
+                          Color:{' '}
+                          {item?.dimensionRow?.map((i, index) => {
+                            return (
+                              (i?.color || '') +
+                              (index < item?.dimensionRow?.length - 1
+                                ? ','
+                                : '')
+                            );
+                          })}
+                        </p>
+                        <p>
+                          H.S Code:{' '}
+                          {(item?.hsCode || '') +
+                            (index < bookingData?.rowsData?.length - 1
+                              ? ','
+                              : '')}
+                        </p>
+                        <br />
+                      </>
+                    );
+                  })}
+
                   <br />
                   <p>Invoice No: {bookingData?.invoiceNumber}</p>
                   <p>
@@ -442,44 +474,6 @@ function HBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
                       `${moment(bookingData?.expOrCnfDate).format(
                         'DD-MM-YYYY',
                       )}`}
-                  </p>
-                  <p>
-                    H.S Code:{' '}
-                    <>
-                      {bookingData?.rowsData?.map((item, index) => {
-                        return `${item?.hsCode || ''}${
-                          index < bookingData?.rowsData?.length - 1 ? ',' : ''
-                        }`;
-                      })}
-                    </>
-                  </p>
-                  <p>Stuffing mode: {bookingData?.modeOfStuffings}</p>
-
-                  <br />
-                  <p>
-                    Dimn:{' '}
-                    <>
-                      {bookingData?.rowsData?.reduce(
-                        (acc, item) => acc + (+item?.totalDimsHeight || 0),
-                        0,
-                      )}{' '}
-                      x{' '}
-                      {bookingData?.rowsData?.reduce(
-                        (acc, item) => acc + (+item?.totalDimsWidth || 0),
-                        0,
-                      )}{' '}
-                      x{' '}
-                      {bookingData?.rowsData?.reduce(
-                        (acc, item) => acc + (+item?.totalDimsLength || 0),
-                        0,
-                      )}
-                      <br />
-                      Total CBM :{' '}
-                      {bookingData?.rowsData?.reduce(
-                        (acc, item) => acc + (+item?.totalVolumeCBM || 0),
-                        0,
-                      )}
-                    </>
                   </p>
                 </div>
               </div>

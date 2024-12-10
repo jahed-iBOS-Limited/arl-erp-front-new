@@ -20,7 +20,7 @@ h6 {
 
 .hawbContainer p {
   margin: 0;
-  padding: 3px;
+  padding: 2px 3px;
 }
 
 .hawbContainer .smallTitle {
@@ -43,7 +43,7 @@ h6 {
 .hawbContainer .shipperInfo,
 .hawbContainer .consigneeInfo,
 .hawbContainer .notifyParty {
-  height: 120px;
+  height: 115px;
   line-height: 9px;
 }
 

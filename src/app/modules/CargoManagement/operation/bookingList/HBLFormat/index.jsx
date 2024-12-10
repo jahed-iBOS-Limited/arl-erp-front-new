@@ -294,6 +294,7 @@ export const HBLFormatInvoice = ({ componentRef, bookingData }) => {
                         'DD-MM-YYYY',
                       )}`}
                   </p>
+                  <p>Stuffing mode: {bookingData?.modeOfStuffings}</p>
                   <br />
                   <table
                     style={{
