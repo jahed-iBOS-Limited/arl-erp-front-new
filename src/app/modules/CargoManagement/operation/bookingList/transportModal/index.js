@@ -33,10 +33,10 @@ const validationSchema = Yup.object().shape({
     is: (val) => val?.value === 1,
     then: Yup.string().required('Air Line is required'),
   }),
-  iatanumber: Yup.string().when('transportPlanning', {
-    is: (val) => val?.value === 1,
-    then: Yup.string().required('Iata Number is required'),
-  }),
+  // iatanumber: Yup.string().when('transportPlanning', {
+  //   is: (val) => val?.value === 1,
+  //   then: Yup.string().required('Iata Number is required'),
+  // }),
   carton: Yup.string().when('transportPlanning', {
     is: (val) => val?.value === 1,
     then: Yup.string().required('Carton is required'),
@@ -58,7 +58,11 @@ const validationSchema = Yup.object().shape({
     then: Yup.string().required('Voyage Number is required'),
   }),
   // // departureDateTime: Yup.string().required("Departure Date & Time is required"),
-  arrivalDateTime: Yup.string().required('Arrival Date & Time is required'),
+  // arrivalDateTime: Yup.string().required('Arrival Date & Time is required'),
+  arrivalDateTime: Yup.string().when('transportPlanning', {
+    is: (val) => val?.value === 2,
+    then: Yup.string().required('Arrival Date & Time is required'),
+  }),
   transportMode: Yup.object()
     .shape({
       label: Yup.string().required('Transport Mode is required'),
@@ -99,6 +103,10 @@ function TransportModal({ rowClickData, CB }) {
         (resData) => {
           if (formikRef.current) {
             const data = resData || {};
+            const totalNumberOfPackages = data?.rowsData?.reduce(
+              (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
+              0,
+            );
             const transportPlanning = data?.transportPlanning || {};
             // formikRef.current.setFieldValue(
             //   'transportPlanning',
@@ -139,7 +147,7 @@ function TransportModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               `rows[0].carton`,
-              transportPlanning?.carton || '',
+              transportPlanning?.carton || totalNumberOfPackages || 0,
             );
             formikRef.current.setFieldValue(
               `rows[0].noOfContainer`,
@@ -244,12 +252,11 @@ function TransportModal({ rowClickData, CB }) {
       airLineOrShippingLine: row?.airLine || row?.shippingLine || '',
       vesselName: row?.vesselName || '',
       voyagaNo: row?.voyagaNo || '',
-      // departureDateTime:
-      //   moment(values?.departureDateTime).format("YYYY-MM-DDTHH:mm:ss") ||
-      //   new Date(),
-      arrivalDateTime:
-        moment(row?.arrivalDateTime).format('YYYY-MM-DDTHH:mm:ss') ||
-        new Date(),
+      ...(row?.arrivalDateTime && {
+        arrivalDateTime: moment(row?.arrivalDateTime).format(
+          'YYYY-MM-DDTHH:mm:ss',
+        ),
+      }),
       ...(row?.berthDate && {
         berthDate: moment(row?.berthDate).format('YYYY-MM-DDTHH:mm:ss'),
       }),
@@ -536,7 +543,8 @@ function TransportModal({ rowClickData, CB }) {
                           )}
 
                           {/* for SEA */}
-                          {values?.rows[0]?.transportPlanning?.value === 2 && (
+                          {values?.rows?.[0]?.transportPlanning?.value ===
+                            2 && (
                             <>
                               {/* no Of Container */}
                               <div className="col-lg-3">
@@ -630,6 +638,30 @@ function TransportModal({ rowClickData, CB }) {
                                     </div>
                                   )}
                               </div>
+                              {/* Arrival Date & Time */}
+                              <div className="col-lg-3">
+                                <InputField
+                                  value={
+                                    values?.rows[index]?.arrivalDateTime || ''
+                                  }
+                                  label="Estimated Arrival Date & Time"
+                                  name={`rows[${index}].arrivalDateTime`}
+                                  type="datetime-local"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      `rows[${index}].arrivalDateTime`,
+                                      e.target.value,
+                                    )
+                                  }
+                                />
+                                {errors.rows &&
+                                  errors.rows[index]?.arrivalDateTime &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].arrivalDateTime}
+                                    </div>
+                                  )}
+                              </div>
                             </>
                           )}
 
@@ -645,28 +677,6 @@ function TransportModal({ rowClickData, CB }) {
                     }
                   />
                 </div> */}
-                          {/* Arrival Date & Time */}
-                          <div className="col-lg-3">
-                            <InputField
-                              value={values?.rows[index]?.arrivalDateTime || ''}
-                              label="Estimated Arrival Date & Time"
-                              name={`rows[${index}].arrivalDateTime`}
-                              type="datetime-local"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].arrivalDateTime`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                            {errors.rows &&
-                              errors.rows[index]?.arrivalDateTime &&
-                              touched.rows && (
-                                <div className="text-danger">
-                                  {errors.rows[index].arrivalDateTime}
-                                </div>
-                              )}
-                          </div>
 
                           {/* Transport Mode */}
                           <div className="col-lg-3">
@@ -710,50 +720,56 @@ function TransportModal({ rowClickData, CB }) {
                                 </div>
                               )}
                           </div>
-                          {/* BerthDate  */}
-                          <div className="col-lg-3">
-                            <InputField
-                              value={values?.rows[index]?.berthDate || ''}
-                              label="Estimated Berth Date"
-                              name={`rows[${index}].berthDate`}
-                              type="datetime-local"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].berthDate`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                            {errors.rows &&
-                              errors.rows[index]?.berthDate &&
-                              touched.rows && (
-                                <div className="text-danger">
-                                  {errors.rows[index].berthDate}
-                                </div>
-                              )}
-                          </div>
-                          {/* CutOffDate */}
-                          <div className="col-lg-3">
-                            <InputField
-                              value={values?.rows[index]?.cutOffDate || ''}
-                              label="Estimated Cut Off Date"
-                              name={`rows[${index}].cutOffDate`}
-                              type="datetime-local"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].cutOffDate`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                            {errors.rows &&
-                              errors.rows[index]?.cutOffDate &&
-                              touched.rows && (
-                                <div className="text-danger">
-                                  {errors.rows[index].cutOffDate}
-                                </div>
-                              )}
-                          </div>
+                          {values?.rows?.[0]?.transportPlanning?.value ===
+                            2 && (
+                            <>
+                              {/* BerthDate  */}
+                              <div className="col-lg-3">
+                                <InputField
+                                  value={values?.rows[index]?.berthDate || ''}
+                                  label="Estimated Berth Date"
+                                  name={`rows[${index}].berthDate`}
+                                  type="datetime-local"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      `rows[${index}].berthDate`,
+                                      e.target.value,
+                                    )
+                                  }
+                                />
+                                {errors.rows &&
+                                  errors.rows[index]?.berthDate &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].berthDate}
+                                    </div>
+                                  )}
+                              </div>
+                              {/* CutOffDate */}
+                              <div className="col-lg-3">
+                                <InputField
+                                  value={values?.rows[index]?.cutOffDate || ''}
+                                  label="Estimated Cut Off Date"
+                                  name={`rows[${index}].cutOffDate`}
+                                  type="datetime-local"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      `rows[${index}].cutOffDate`,
+                                      e.target.value,
+                                    )
+                                  }
+                                />
+                                {errors.rows &&
+                                  errors.rows[index]?.cutOffDate &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].cutOffDate}
+                                    </div>
+                                  )}
+                              </div>
+                            </>
+                          )}
+
                           {/* EstimatedTimeOfDepart */}
                           <div className="col-lg-3">
                             <InputField
