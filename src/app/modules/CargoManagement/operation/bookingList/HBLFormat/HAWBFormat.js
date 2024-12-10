@@ -2,7 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import './HAWBFormat.css';
 import logisticsLogo from './logisticsLogo.png';
-function NewHBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
+function HBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
   return (
     <div
       style={{
@@ -876,28 +876,21 @@ function NewHBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
   );
 }
 
-const NewHBLFormatAir = ({ componentRef, bookingData, isEPBInvoice }) => {
+const HBLFormatAir = ({ componentRef, bookingData, isEPBInvoice }) => {
   console.log(isEPBInvoice, 'isEPBInvoice new');
   return (
     <div className="hawbWrapper">
-      <NewHBLFormatAirItem
-        bookingData={bookingData}
-        isEPBInvoice={isEPBInvoice}
-      />
+      <HBLFormatAirItem bookingData={bookingData} isEPBInvoice={isEPBInvoice} />
       <div className="multipleInvoicePrint" ref={componentRef}>
         {isEPBInvoice ? (
-          <NewHBLFormatAirItem
+          <HBLFormatAirItem
             footerText=""
             bookingData={bookingData}
             isEPBInvoice={isEPBInvoice}
           />
         ) : (
           <>
-            <NewHBLFormatAirItem
-              footerText=""
-              bookingData={bookingData}
-            />
-
+            <HBLFormatAirItem footerText="" bookingData={bookingData} />
           </>
         )}
       </div>
@@ -905,4 +898,4 @@ const NewHBLFormatAir = ({ componentRef, bookingData, isEPBInvoice }) => {
   );
 };
 
-export default NewHBLFormatAir;
+export default HBLFormatAir;
