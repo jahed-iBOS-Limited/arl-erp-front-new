@@ -218,6 +218,7 @@ function BookingList() {
                         >
                           Confirm
                         </th>
+                        <th style={{ minWidth: '50px' }}>FC</th>
                         <th
                           style={{
                             minWidth: '43px',
@@ -313,7 +314,7 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: '440px',
+                            minWidth: '370px',
                           }}
                         >
                           Action
@@ -417,7 +418,20 @@ function BookingList() {
                                 </button>
                               </span>
                             </td>
-
+                            <span>
+                              <button
+                                className="btn btn-sm btn-primary"
+                                onClick={() => {
+                                  setRowClickData(item);
+                                  setIsModalShowObj({
+                                    ...isModalShowObj,
+                                    isFreightCargoReceipt: true,
+                                  });
+                                }}
+                              >
+                                FC
+                              </button>
+                            </span>
                             <td>
                               {item?.modeOfTransport === 'Air' && (
                                 <span>
@@ -461,31 +475,35 @@ function BookingList() {
                               </span>
                             </td>
                             <td>
-                              <span>
-                                <button
-                                  disabled={item?.isStuffing}
-                                  className={
-                                    item?.isStuffing
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData({
-                                      ...item,
-                                      title: 'Stuffing',
-                                      isUpdateDate: 'stuffingDate',
-                                      isUpdateKey: 'isStuffing',
-                                    });
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
+                              {item?.modeOfTransport === 'Sea' && (
+                                <>
+                                  <span>
+                                    <button
+                                      disabled={item?.isStuffing}
+                                      className={
+                                        item?.isStuffing
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData({
+                                          ...item,
+                                          title: 'Stuffing',
+                                          isUpdateDate: 'stuffingDate',
+                                          isUpdateKey: 'isStuffing',
+                                        });
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
 
-                                      isCommonModalShow: true,
-                                    });
-                                  }}
-                                >
-                                  Stuffing
-                                </button>
-                              </span>
+                                          isCommonModalShow: true,
+                                        });
+                                      }}
+                                    >
+                                      Stuffing
+                                    </button>
+                                  </span>
+                                </>
+                              )}
                             </td>
                             <td>
                               <span>
@@ -749,20 +767,7 @@ function BookingList() {
                                     Delivery Note
                                   </button>
                                 </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isFreightCargoReceipt: true,
-                                      });
-                                    }}
-                                  >
-                                    FC
-                                  </button>
-                                </span>
+
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"

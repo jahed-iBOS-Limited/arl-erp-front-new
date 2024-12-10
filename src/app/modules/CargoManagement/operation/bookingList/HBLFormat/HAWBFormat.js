@@ -894,36 +894,10 @@ const NewHBLFormatAir = ({ componentRef, bookingData, isEPBInvoice }) => {
         ) : (
           <>
             <NewHBLFormatAirItem
-              footerText="ORIGINAL 1 (FOR CONSIGNEE)"
+              footerText=""
               bookingData={bookingData}
             />
-            <div
-              style={{
-                pageBreakAfter: 'always',
-              }}
-            />
-            <NewHBLFormatAirItem
-              footerText="ORIGINAL 2 (FOR CONSIGNEE)"
-              bookingData={bookingData}
-            />
-            <div
-              style={{
-                pageBreakAfter: 'always',
-              }}
-            />
-            <NewHBLFormatAirItem
-              footerText="ORIGINAL 3 (FOR SHIPPER)"
-              bookingData={bookingData}
-            />
-            <div
-              style={{
-                pageBreakAfter: 'always',
-              }}
-            />
-            <NewHBLFormatAirItem
-              footerText="ORIGINAL 4 (FOR SHIPPER)"
-              bookingData={bookingData}
-            />
+
           </>
         )}
       </div>
