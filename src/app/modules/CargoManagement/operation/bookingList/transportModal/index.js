@@ -103,6 +103,10 @@ function TransportModal({ rowClickData, CB }) {
         (resData) => {
           if (formikRef.current) {
             const data = resData || {};
+            const totalNumberOfPackages = data?.rowsData?.reduce(
+              (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
+              0,
+            );
             const transportPlanning = data?.transportPlanning || {};
             // formikRef.current.setFieldValue(
             //   'transportPlanning',
@@ -143,7 +147,7 @@ function TransportModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               `rows[0].carton`,
-              transportPlanning?.carton || '',
+              transportPlanning?.carton || totalNumberOfPackages || 0,
             );
             formikRef.current.setFieldValue(
               `rows[0].noOfContainer`,
