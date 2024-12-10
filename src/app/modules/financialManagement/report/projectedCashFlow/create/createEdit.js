@@ -316,6 +316,8 @@ export default function ProjectedCashFlowCreateEdit() {
                 lcPoId: valueOption?.lcId,
                 setValues,
                 values,
+                getBankAccountDDL,
+                profileData
               });
             }}
             loadOptions={(v) =>
@@ -325,6 +327,7 @@ export default function ProjectedCashFlowCreateEdit() {
                 v,
               })
             }
+            isDisabled={!values?.sbu?.value}
           />
         </div>
 
