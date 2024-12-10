@@ -65,7 +65,7 @@ const GridData = ({
     setDisabledModalButton(false);
   };
 
-  const userPermission = userRole[findIndex(userRole, "Bank Journal")];
+  const userPermission = userRole[findIndex(userRole, "Cash Journal")];
 
   const canCreate = userPermission?.isCreate;
 

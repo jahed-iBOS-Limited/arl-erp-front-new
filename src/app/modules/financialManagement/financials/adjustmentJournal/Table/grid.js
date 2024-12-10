@@ -63,7 +63,7 @@ const GridData = ({
     });
   };
 
-  const userPermission = userRole[findIndex(userRole, "Bank Journal")];
+  const userPermission = userRole[findIndex(userRole, "Adjustment Journal")];
 
   const canCreate = userPermission?.isCreate;
 
