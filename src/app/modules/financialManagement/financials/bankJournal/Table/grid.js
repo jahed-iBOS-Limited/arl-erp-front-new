@@ -300,7 +300,7 @@ const GridData = ({
                               </>
                             )}
 
-                         {canCreate && (
+                         {(canCreate && item?.isApproved && item?.isManual) && (
                            <span
                            className="approval ml-3"
                            onClick={() => {
