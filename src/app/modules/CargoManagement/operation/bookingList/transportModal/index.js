@@ -77,6 +77,7 @@ const validationSchema = Yup.object().shape({
   // quantity: Yup.string().required("quantity is required"),
   // cbm: Yup.string().required("CBM is required"),
   // kgs: Yup.string().required("KGS is required"),
+  flightNumber: Yup.string().required("This field is required"),
 });
 function TransportModal({ rowClickData, CB }) {
   const [
@@ -330,7 +331,7 @@ function TransportModal({ rowClickData, CB }) {
               scheduleFlightNumber: "",
               scheduleVesselName: "",
               gsa: "",
-
+              flightNumber: ""
 
 
             },
@@ -849,6 +850,7 @@ function TransportModal({ rowClickData, CB }) {
                                 </div>
                               )}
                           </div>
+                          {/* GSA */}
                           <div className="col-lg-3">
                             <NewSelect
                               options={
@@ -880,6 +882,34 @@ function TransportModal({ rowClickData, CB }) {
                               touched.rows && (
                                 <div className="text-danger">
                                   {errors.rows[index].gsa}
+                                </div>
+                              )}
+                          </div>
+                          {/* flightNumber */}
+                          <div className="col-lg-3">
+                            <InputField
+                              label={
+                                values?.rows?.[0]?.transportPlanning?.value === 2
+                                  ? 'SI Number'
+                                  : 'MAWB Number'
+                              }
+                              value={
+                                values?.rows[index]?.flightNumber || ''
+                              }
+                              name={`rows[${index}].flightNumber`}
+                              type="text"
+                              onChange={(e) =>
+                                setFieldValue(
+                                  `rows[${index}].flightNumber`,
+                                  e.target.value,
+                                )
+                              }
+                            />
+                            {errors.rows &&
+                              errors.rows[index]?.flightNumber &&
+                              touched.rows && (
+                                <div className="text-danger">
+                                  {errors.rows[index].flightNumber}
                                 </div>
                               )}
                           </div>
@@ -1377,6 +1407,7 @@ function TransportModal({ rowClickData, CB }) {
                               >
                                 <thead>
                                   <tr>
+                                    <th>SL</th>
                                     <th>From</th>
                                     <th>To</th>
                                     <th>Date</th>
@@ -1396,6 +1427,7 @@ function TransportModal({ rowClickData, CB }) {
                                   ]?.flightScheduleItems?.map((item, index) => {
                                     return (
                                       <tr key={index}>
+                                        <td>{index + 1}</td>
                                         <td>{item?.scheduleFrom}</td>
                                         <td>{item?.scheduleTo}</td>
                                         <td>{item?.scheduleDate}</td>
