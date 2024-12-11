@@ -16,6 +16,8 @@ import { checkTwoFactorApproval } from "../../bankJournal/helper";
 import { dynamicSerial } from "../../utils";
 import IHistory from "../../../../_helper/_helperIcons/_history";
 import HistoryModal from "../cashJournalHistory";
+import { shallowEqual, useSelector } from "react-redux";
+import findIndex from "../../../../_helper/_findIndex";
 
 const GridData = ({
   history,
@@ -38,6 +40,11 @@ const GridData = ({
   pageSize,
 }) => {
 
+  let { userRole } = useSelector(
+    (state) => state?.authData,
+    { shallowEqual }
+  );
+
   const [isShowModal, setIsShowModal] = useState(false);
   const [isHistoryModal, setIsHistoryModal] = useState(false);
   const [historyItem, setHistoryItem] = useState("");
@@ -57,6 +64,10 @@ const GridData = ({
     });
     setDisabledModalButton(false);
   };
+
+  const userPermission = userRole[findIndex(userRole, "Cash Journal")];
+
+  const canCreate = userPermission?.isCreate;
 
   return (
     <>
@@ -170,7 +181,8 @@ const GridData = ({
                       </span>
                       {type === "notComplated" ? (
                         <>
-                          <span
+                          {canCreate && (
+                            <span
                             className="edit ml-2"
                             onClick={() =>
                               history.push({
@@ -181,7 +193,9 @@ const GridData = ({
                           >
                             <IEdit />
                           </span>
-                          <span
+                          )}
+                          {(canCreate && item?.isApproved && item?.isManual) && (
+                            <span
                             className="approval ml-2"
                             onClick={() => {
                               if (
@@ -195,12 +209,13 @@ const GridData = ({
                           >
                             <IApproval />
                           </span>
-                          <span
+                          )}
+                          {canCreate && (<span
                             className="delete ml-2"
                             onClick={() => remover(index, journalTypeValue)}
                           >
                             <IDelete />
-                          </span>
+                          </span>)}
                         </>
                       ) : null}
                       {type === "complated" && (

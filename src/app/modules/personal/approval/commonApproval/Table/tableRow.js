@@ -34,6 +34,7 @@ import { saveBOMApproval_api } from "./../helper";
 import "./approval.css";
 import BillOfMaterialTable from "./billOfMaterialTable";
 import RequestForQuotationApprovalGrid from "../requestForQuotation/landing.js";
+import CommonJournalApprovalGrid from "../accountAndFinance/commonJournal/index.js";
 
 export function TableRow(props) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
@@ -388,6 +389,9 @@ export function TableRow(props) {
           activityName?.label === "Purchase Request" ||
           activityName?.label === "Item Request" ||
           activityName?.label === "Purchase Return" ||
+          activityName?.label === "Cash Journal" ||
+          activityName?.label === "Bank Journal" ||
+          activityName?.label === "Adjustment Journal" ||
           activityName?.label === "Gate Pass" ? null : (
             <div className='col-lg-3 mt-4 offset-3 d-flex justify-content-end'>
               <button
@@ -630,6 +634,14 @@ export function TableRow(props) {
         )}
         {activityName?.label === "Inventory Adjustment" && (
           <InventoryAdjust
+            onChangeForActivity={onChangeForActivity}
+            activityName={activityName}
+            activityChange={activityChange}
+            selectedPlant={selectedPlant}
+          />
+        )}
+        {["Bank Journal", "Cash Journal", "Adjustment Journal"].includes(activityName?.label) && (
+          <CommonJournalApprovalGrid
             onChangeForActivity={onChangeForActivity}
             activityName={activityName}
             activityChange={activityChange}

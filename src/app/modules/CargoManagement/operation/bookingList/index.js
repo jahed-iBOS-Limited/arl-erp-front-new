@@ -26,6 +26,7 @@ import HBLCodeGNModal from './hblCodeGNModal';
 import { cancelHandler, statusReturn } from './helper';
 import ReceiveModal from './receiveModal';
 import TransportModal from './transportModal';
+import ManifestModal from './manifestModal';
 const validationSchema = Yup.object().shape({});
 function BookingList() {
   const { profileData } = useSelector(
@@ -89,12 +90,10 @@ function BookingList() {
     PageSize = pageSize,
   ) => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
-        profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${
-        profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search${searchValue ||
-        ''}`,
+      ''}`,
     );
   };
   return (
@@ -108,7 +107,7 @@ function BookingList() {
             entryCode: '',
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
@@ -248,6 +247,13 @@ function BookingList() {
                           }}
                         >
                           Shipment Planning
+                        </th>
+                        <th
+                          style={{
+                            minWidth: '60px',
+                          }}
+                        >
+                          Manifest
                         </th>
                         <th
                           style={{
@@ -523,6 +529,22 @@ function BookingList() {
                                   }}
                                 >
                                   Shipment Planning
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
+                                  className='btn btn-sm btn-warning px-1 py-1'
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isManifest: true,
+                                    });
+                                  }}
+                                >
+                                  Manifest
                                 </button>
                               </span>
                             </td>
@@ -926,6 +948,23 @@ function BookingList() {
           </IViewModal>
         </>
       )}
+      {/* Manifest modal */}
+      {isModalShowObj?.isManifest && (
+        <>
+          <IViewModal
+            title="Manifest"
+            show={isModalShowObj?.isManifest}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isManifest: false,
+              });
+            }}
+          >
+            <ManifestModal rowClickData={rowClickData} />
+          </IViewModal>
+        </>
+      )}
 
       {/* Charges Modal */}
       {isModalShowObj?.isCharges && (
@@ -1115,9 +1154,8 @@ function BookingList() {
       {/* HBCode GN Modal */}
       {isModalShowObj?.isHBCodeGN && (
         <IViewModal
-          title={`${
-            rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-          } Report`}
+          title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+            } Report`}
           show={isModalShowObj?.isHBCodeGN}
           onHide={() => {
             setIsModalShowObj({
