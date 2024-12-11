@@ -125,6 +125,8 @@ const MachienDetils = ({
               <th>Work Section</th>
               <th>Health Check Status</th>
               <th>Work Status</th>
+              <th>Submitted By</th>
+              <th>Comment</th>
             </tr>
           </thead>
           <tbody>
@@ -137,6 +139,8 @@ const MachienDetils = ({
                 <td>{item?.workSection}</td>
                 <td>{item?.healthCheckStatus}</td>
                 <td>{item?.workStatus}</td>
+                <td>{item?.healthCheckPersonName}</td>
+                <td>{item?.remarks}</td>
               </tr>
             ))}
           </tbody>
