@@ -264,7 +264,8 @@ function TransportModal({ rowClickData, CB }) {
       carton: row?.carton || 0,
       iatanumber: row?.iatanumber || 0,
       noOfContainer: row?.noOfContainer || 0,
-      airLineOrShippingLine: row?.airLine || row?.shippingLine || '',
+      airLineOrShippingLine: row?.airLine?.label || row?.shippingLine?.label || '',
+      airLineOrShippingLineId: row?.airLine?.value || row?.shippingLine?.value || 0,
       vesselName: row?.vesselName || '',
       voyagaNo: row?.voyagaNo || '',
       ...(row?.arrivalDateTime && {
@@ -283,7 +284,8 @@ function TransportModal({ rowClickData, CB }) {
           'YYYY-MM-DDTHH:mm:ss',
         ),
       }),
-      gsa: row?.gsa || '',
+      gsa: row?.gsa?.label || '',
+      gsaId: row?.gsa?.value || 0,
       mawbnumber: row?.mawbnumber || '',
       transportMode: row?.transportMode?.label || 0,
       isActive: true,
@@ -520,7 +522,7 @@ function TransportModal({ rowClickData, CB }) {
                                   onChange={(valueOption) => {
                                     setFieldValue(
                                       `rows[${index}].airLine`,
-                                      valueOption?.label || '',
+                                      valueOption
                                     );
                                   }}
                                   placeholder="Air line"
@@ -545,7 +547,7 @@ function TransportModal({ rowClickData, CB }) {
                                   onChange={(valueOption) => {
                                     setFieldValue(
                                       `rows[${index}].gsa`,
-                                      valueOption?.label || '',
+                                      valueOption
                                     );
                                   }}
                                   placeholder="GSA"
@@ -659,7 +661,7 @@ function TransportModal({ rowClickData, CB }) {
                                     onChange={(valueOption) => {
                                       setFieldValue(
                                         `rows[${index}].shippingLine`,
-                                        valueOption?.label || '',
+                                        valueOption
                                       );
                                     }}
                                     placeholder="Shipping Line"
@@ -684,7 +686,7 @@ function TransportModal({ rowClickData, CB }) {
                                     onChange={(valueOption) => {
                                       setFieldValue(
                                         `rows[${index}].gsa`,
-                                        valueOption?.label || '',
+                                        valueOption
                                       );
                                     }}
                                     placeholder="GSA"
