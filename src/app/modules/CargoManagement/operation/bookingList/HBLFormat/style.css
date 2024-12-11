@@ -245,12 +245,21 @@
 .hblWrapper .multipleInvoicePrint {
     display: none;
 }
-  
-  @media print {
+
+@media print {
     .hblWrapper .multipleInvoicePrint {
-      display: block !important;
+        display: block !important;
     }
 }
+
 .printSectionNone {
     display: none !important;
+}
+
+.hblWrapper .ql-editor {
+    padding: 0px;
+    margin: 0px;
+    overflow: unset;
+    font-size: 11px;
+
 }

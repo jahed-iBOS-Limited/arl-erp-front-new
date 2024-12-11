@@ -63,7 +63,15 @@ export const generateSaveURL = (viewType) => {
 
 // fetch POLC And Set Form Field
 export const fetchPOLCAndSetFormField = (obj) => {
-  const { lcPoId, getPOLCNumberData, setValues,  values } = obj;
+  const {
+    lcPoId,
+    getPOLCNumberData,
+    setValues,
+    values,
+    getBankAccountDDL,
+    profileData,
+  } = obj;
+
   getPOLCNumberData(
     `/fino/FundManagement/GetProjectedCashFlow?partName=GetLcInfoByLcId&lcId=${lcPoId}`,
     (res) => {
@@ -72,13 +80,13 @@ export const fetchPOLCAndSetFormField = (obj) => {
 
       // generate form value from response value
       const responseData = {
-        bankAccount: {
-          value: desData?.bankAccountId || 0,
-          label: desData?.bankAccountNo || "",
-        },
         bankName: {
           value: desData?.bankId || 0,
           label: desData?.bankName || "",
+        },
+        bankAccount: {
+          value: desData?.bankAccountId || 0,
+          label: desData?.bankAccountNo || "",
         },
         exchangeRate: desData?.exchangeRate || "",
         poLC: {
@@ -108,6 +116,17 @@ export const fetchPOLCAndSetFormField = (obj) => {
         ...values,
         ...responseData,
       });
+
+      // fetch bank account with bank id
+      if (desData?.bankId) {
+        // fetch bank account ddl
+        fetchBankAccountDDL({
+          getBankAccountDDL,
+          profileData,
+          values,
+          bankId: desData?.bankId,
+        });
+      }
     }
   );
 };
