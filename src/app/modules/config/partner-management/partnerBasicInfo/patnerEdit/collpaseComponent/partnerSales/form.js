@@ -110,6 +110,7 @@ export default function _Form({
   morgazeRowDto,
   itemSlectedHandler,
   setterTwo,
+  setRowDtoTwo,
   itemSlectedHandlerTwo,
   rowDtoTwo,
   removerTwo,
@@ -741,7 +742,6 @@ export default function _Form({
                           <input
                             type="checkbox"
                             onChange={(e) => {
-                              console.log(e.target.checked);
                               setFieldValue(
                                 "isCodeShowInChallan",
                                 e.target.checked
@@ -922,6 +922,18 @@ export default function _Form({
                                       id="isCodeShowInChallan"
                                       type="checkbox"
                                       className=""
+                                      onChange={(e) => {
+                                        setRowDtoTwo((prevState) => {
+                                          return prevState.map((item, index) =>
+                                            index === idx
+                                              ? {
+                                                  ...item,
+                                                  isCodeShowInChallan: !itm?.isCodeShowInChallan,
+                                                }
+                                              : item
+                                          );
+                                        });
+                                      }}
                                       value={itm?.isCodeShowInChallan}
                                       checked={itm?.isCodeShowInChallan}
                                       name={itm?.isCodeShowInChallan}
