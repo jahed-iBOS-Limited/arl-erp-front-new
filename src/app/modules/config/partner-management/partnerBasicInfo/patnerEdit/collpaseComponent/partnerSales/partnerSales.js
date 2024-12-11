@@ -491,7 +491,7 @@ export default function PartnerSales() {
     const { accountId, userId: actionBy } = profileData;
     const { value: businessunitid } = selectedBusinessUnit;
     const obj = {
-      partnerShippingName: values?.shipToParner.trim(),
+      partnerShippingName: values?.shipToParner?.trim(),
       partnerShippingAddress: values?.address,
       partnerShippingContact: values?.contact,
       isCodeShowInChallan: values?.isCodeShowInChallan,
@@ -504,10 +504,9 @@ export default function PartnerSales() {
 
     if (
       !rowDtoTwo?.some(
-        (item) => item?.partnerShippingName === values?.shipToParner.trim()
+        (item) => item?.partnerShippingName === values?.shipToParner?.trim()
       )
     ) {
-      console.log("here");
       setRowDtoTwo((prev) => [
         ...(prev?.length > 0 ? prev : []),
         {
@@ -777,6 +776,7 @@ export default function PartnerSales() {
             setMorgazeRowDto={setMorgazeRowDto}
             itemSlectedHandler={itemSlectedHandler}
             setterTwo={setterTwo}
+            setRowDtoTwo={setRowDtoTwo}
             itemSlectedHandlerTwo={itemSlectedHandlerTwo}
             rowDtoTwo={rowDtoTwo}
             removerTwo={removerTwo}
