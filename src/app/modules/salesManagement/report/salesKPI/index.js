@@ -141,7 +141,7 @@ export default function SalesKPILanding() {
 
               <Grid container spacing={2}>
                 {/* First Card */}
-                <Grid item xs={3}>
+                <Grid item xs={12} md={6} lg={3}>
                   <Card variant="outlined">
                     <GenericCardBody
                       obj={{
@@ -153,7 +153,7 @@ export default function SalesKPILanding() {
                 </Grid>
 
                 {/* Second Card */}
-                <Grid item xs={3}>
+                <Grid item xs={12} md={6} lg={3}>
                   <Card variant="outlined">
                     <GenericCardBody
                       obj={{
@@ -165,7 +165,7 @@ export default function SalesKPILanding() {
                 </Grid>
 
                 {/* Third Card */}
-                <Grid item xs={3}>
+                <Grid item xs={12} md={6} lg={3}>
                   <Card variant="outlined">
                     <GenericCardBody
                       obj={{
@@ -177,7 +177,7 @@ export default function SalesKPILanding() {
                 </Grid>
 
                 {/* Fourth Card */}
-                <Grid item xs={3}>
+                <Grid item xs={12} md={6} lg={3}>
                   <Card variant="outlined">
                     <GenericCardBody
                       obj={{
