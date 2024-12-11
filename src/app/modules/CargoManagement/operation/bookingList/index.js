@@ -129,98 +129,106 @@ function BookingList() {
                         <th>SL</th>
                         <th
                           style={{
-                            minWidth: '100px',
+                            minWidth: '80px',
                           }}
                         >
                           Booking No
                         </th>
                         <th
                           style={{
-                            minWidth: '150px',
+                            minWidth: '120px',
                           }}
                         >
                           Contact No
                         </th>
                         <th
                           style={{
-                            minWidth: '150px',
+                            minWidth: '120px',
                           }}
                         >
                           Shipper Name
                         </th>
                         <th
                           style={{
-                            minWidth: '150px',
+                            minWidth: '120px',
                           }}
                         >
                           Book Date
                         </th>
                         <th
                           style={{
-                            minWidth: '150px',
+                            minWidth: '120px',
                           }}
                         >
                           Email
                         </th>
                         <th
                           style={{
-                            minWidth: '150px',
+                            minWidth: '120px',
                           }}
                         >
                           Country
                         </th>
                         <th
                           style={{
-                            minWidth: '150px',
+                            minWidth: '120px',
                           }}
                         >
                           Delivery Port
                         </th>
                         {/* <th
                           style={{
-                            minWidth: '150px',
+                            minWidth: '120px',
                           }}
                         >
                           Rate
                         </th> */}
                         <th
                           style={{
-                            minWidth: '150px',
+                            minWidth: '63px',
                           }}
                         >
                           Status
                         </th>
                         <th
                           style={{
-                            minWidth: '150px',
+                            minWidth: '70px',
                           }}
                         >
                           Edit
                         </th>
                         <th
                           style={{
-                            minWidth: '100px',
+                            minWidth: '80px',
                           }}
                         >
                           Details
                         </th>
                         <th
                           style={{
-                            minWidth: '100px',
+                            minWidth: '80px',
                           }}
                         >
                           Cancel
                         </th>
                         <th
                           style={{
-                            minWidth: '100px',
+                            minWidth: '80px',
                           }}
                         >
                           Confirm
                         </th>
+                        <th style={{ minWidth: '50px' }}>FC</th>
                         <th
                           style={{
-                            minWidth: '100px',
+                            minWidth: '43px',
+                          }}
+                        >
+                          EPB
+                        </th>
+                        <th
+                          style={{
+                            minWidth: '66px',
                           }}
                         >
                           Receive
@@ -228,7 +236,7 @@ function BookingList() {
 
                         <th
                           style={{
-                            minWidth: '100px',
+                            minWidth: '65px',
                           }}
                         >
                           Stuffing
@@ -250,7 +258,7 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: '100px',
+                            minWidth: '58px',
                           }}
                         >
                           HBL
@@ -271,7 +279,7 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: '100px',
+                            minWidth: '72px',
                           }}
                         >
                           Dispatch
@@ -285,7 +293,7 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: '100px',
+                            minWidth: '80px',
                           }}
                         >
                           In Transit
@@ -299,14 +307,14 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: '100px',
+                            minWidth: '80px',
                           }}
                         >
                           Delivered
                         </th>
                         <th
                           style={{
-                            minWidth: '440px',
+                            minWidth: '371px',
                           }}
                         >
                           Action
@@ -410,6 +418,41 @@ function BookingList() {
                                 </button>
                               </span>
                             </td>
+                            <span>
+                              <button
+                                className="btn btn-sm btn-primary"
+                                onClick={() => {
+                                  setRowClickData(item);
+                                  setIsModalShowObj({
+                                    ...isModalShowObj,
+                                    isFreightCargoReceipt: true,
+                                  });
+                                }}
+                              >
+                                FC
+                              </button>
+                            </span>
+                            <td>
+                              {item?.modeOfTransport === 'Air' && (
+                                <span>
+                                  <button
+                                    // disabled={item?.isHbl}
+                                    className={
+                                      'btn btn-sm btn-warning px-1 py-1'
+                                    }
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isEPB: true,
+                                      });
+                                    }}
+                                  >
+                                    EPB
+                                  </button>
+                                </span>
+                              )}
+                            </td>
                             <td>
                               <span>
                                 <button
@@ -432,31 +475,35 @@ function BookingList() {
                               </span>
                             </td>
                             <td>
-                              <span>
-                                <button
-                                  disabled={item?.isStuffing}
-                                  className={
-                                    item?.isStuffing
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData({
-                                      ...item,
-                                      title: 'Stuffing',
-                                      isUpdateDate: 'stuffingDate',
-                                      isUpdateKey: 'isStuffing',
-                                    });
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
+                              {item?.modeOfTransport === 'Sea' && (
+                                <>
+                                  <span>
+                                    <button
+                                      disabled={item?.isStuffing}
+                                      className={
+                                        item?.isStuffing
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData({
+                                          ...item,
+                                          title: 'Stuffing',
+                                          isUpdateDate: 'stuffingDate',
+                                          isUpdateKey: 'isStuffing',
+                                        });
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
 
-                                      isCommonModalShow: true,
-                                    });
-                                  }}
-                                >
-                                  Stuffing
-                                </button>
-                              </span>
+                                          isCommonModalShow: true,
+                                        });
+                                      }}
+                                    >
+                                      Stuffing
+                                    </button>
+                                  </span>
+                                </>
+                              )}
                             </td>
                             <td>
                               <span>
@@ -720,20 +767,7 @@ function BookingList() {
                                     Delivery Note
                                   </button>
                                 </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isFreightCargoReceipt: true,
-                                      });
-                                    }}
-                                  >
-                                    FC
-                                  </button>
-                                </span>
+
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
@@ -1083,7 +1117,7 @@ function BookingList() {
         <IViewModal
           title={`${
             rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-          } Code Generate`}
+          } Report`}
           show={isModalShowObj?.isHBCodeGN}
           onHide={() => {
             setIsModalShowObj({
@@ -1100,6 +1134,31 @@ function BookingList() {
             }}
           />
         </IViewModal>
+      )}
+
+      {/* EPB modal */}
+      {isModalShowObj?.isEPB && (
+        <>
+          <IViewModal
+            title={`EPB`}
+            show={isModalShowObj?.isEPB}
+            onHide={() => {
+              setIsModalShowObj({
+                ...isModalShowObj,
+                isEPB: false,
+              });
+              setRowClickData({});
+            }}
+          >
+            <HBLCodeGNModal
+              rowClickData={rowClickData}
+              CB={() => {
+                commonLandingApi();
+              }}
+              isEPBInvoice={true}
+            />
+          </IViewModal>
+        </>
       )}
     </ICustomCard>
   );

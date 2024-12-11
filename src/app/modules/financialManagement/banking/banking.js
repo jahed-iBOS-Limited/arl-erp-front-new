@@ -4,7 +4,6 @@ import { ContentRoute } from "../../../../_metronic/layout";
 import FundPositionReport from "../report/fundPositionReport/landing";
 import PlanActCashFlow from "../report/planActCashFlow";
 import ProjectedCashFlowLanding from "../report/projectedCashFlow";
-import ProjectedCashFlowCreateEdit from "../report/projectedCashFlow/createEdit";
 import ChequeRegister from "./chequeRegister/index";
 import FdrCreate from "./fundManagement/fdrRegister/create/FdrCreate";
 import FdrRegisterLanding from "./fundManagement/fdrRegister/landing/FdrRegisterLanding";
@@ -34,6 +33,7 @@ import InterCompanyLoan from "./InterCompanyLoan";
 import InterCompanyLoanCreate from "./InterCompanyLoan/createEdit";
 import RepayViewModal from "./InterCompanyLoan/repayView";
 import AutoJournalLog from "./fundManagement/loanRegister/auto-journal-log/AutoJournalLog";
+import ProjectedCashFlowCreateEdit from "../report/projectedCashFlow/create/createEdit";
 
 export function Banking() {
   return (

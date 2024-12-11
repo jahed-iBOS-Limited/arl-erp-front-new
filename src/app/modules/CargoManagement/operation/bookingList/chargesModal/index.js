@@ -10,6 +10,29 @@ import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import './style.css';
 import NewSelect from '../../../../_helper/_select';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+const paymentPartyDDL = [
+  {
+    value: 1,
+    label: 'Shipper',
+  },
+  {
+    value: 2,
+    label: 'Consignee',
+  },
+  {
+    value: 3,
+    label: 'Delivery Agent',
+  },
+  {
+    value: 4,
+    label: 'Notify Party(1)',
+  },
+  {
+    value: 5,
+    label: 'Notify Party(2)',
+  },
+];
 const validationSchema = Yup.object().shape({
   // exchangeRate: Yup.number().required('Exchange Rate is required'),
   currency: Yup.object().shape({
@@ -56,14 +79,17 @@ function ChargesModal({ rowClickData, CB }) {
                 amount: findData?.chargeAmount || '',
                 actualExpense: findData?.actualExpense || '',
                 consigneeCharge: findData?.consigneeCharge || '',
+                headOfCharges: item?.label || '',
+                headOfChargeId: item?.value || 0,
               };
             });
             const filterNewData = resSveData
               ?.filter((item) => item?.headOfChargeId === 0)
               .map((item) => {
                 return {
-                  label: item?.headOfCharges,
-                  value: 0,
+                  ...item,
+                  headOfCharges: item?.headOfCharges,
+                  headOfChargeId: item?.headOfChargeId,
                   checked: true,
                   amount: item?.chargeAmount,
                   billingId: item?.billingId || 0,
@@ -117,8 +143,8 @@ function ChargesModal({ rowClickData, CB }) {
           currency: values?.currency?.label || '',
           billingId: item?.billingId || 0,
           bookingRequestId: bookingRequestId || 0,
-          headOfChargeId: item?.value || 0,
-          headOfCharges: item?.label || '',
+          headOfChargeId: item?.headOfChargeId || 0,
+          headOfCharges: item?.headOfCharges || '',
           chargeAmount: item?.amount || 0,
           consigneeCharge: item?.consigneeCharge || 0,
           actualExpense: item?.actualExpense || 0,
@@ -128,6 +154,14 @@ function ChargesModal({ rowClickData, CB }) {
           createdAt: new Date(),
           updatedBy: new Date(),
           updatedAt: profileData?.userId || 0,
+          collectionActualAmount: item?.collectionActualAmount || 0,
+          collectionDummyAmount: item?.collectionDummyAmount || 0,
+          collectionParty: item?.collectionParty || '',
+          collectionPartyId: item?.collectionPartyId || 0,
+          paymentActualAmount: item?.paymentActualAmount || 0,
+          paymentDummyAmount: item?.paymentDummyAmount || 0,
+          paymentParty: item?.paymentParty || '',
+          paymentPartyId: item?.paymentPartyId || 0,
         };
       });
     if (payload.length === 0) {
@@ -139,7 +173,6 @@ function ChargesModal({ rowClickData, CB }) {
       CB,
     );
   };
-
   return (
     <div className="chargesModal">
       {(bookedRequestBilling ||
@@ -207,45 +240,13 @@ function ChargesModal({ rowClickData, CB }) {
                 </div>
               </div>
               <div className="form-group row global-form">
-                <div className="col-lg-3">
+                <div className="col-lg-6">
                   <InputField
                     value={values?.attribute}
                     label="Attribute"
                     name="attribute"
                     type="text"
                     onChange={(e) => setFieldValue('attribute', e.target.value)}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.amount}
-                    label="Shipper Charge ($)"
-                    name="amount"
-                    type="number"
-                    onChange={(e) => setFieldValue('amount', e.target.value)}
-                  />
-                </div>
-
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.consigneeCharge}
-                    label="Consignee Charge ($)"
-                    name="consigneeCharge"
-                    type="number"
-                    onChange={(e) =>
-                      setFieldValue('consigneeCharge', e.target.value)
-                    }
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.actualExpense}
-                    label="Procured Charge ($)"
-                    name=" actualExpense"
-                    type="number"
-                    onChange={(e) =>
-                      setFieldValue('actualExpense', e.target.value)
-                    }
                   />
                 </div>
                 <div className="col-lg-3">
@@ -258,178 +259,359 @@ function ChargesModal({ rowClickData, CB }) {
                         if (!values?.attribute) {
                           return toast.warn('Attribute is required');
                         }
-                        if (!values?.amount) {
-                          return toast.warn('Amount is required');
-                        }
                         setShippingHeadOfCharges([
                           ...shippingHeadOfCharges,
                           {
-                            label: values?.attribute,
-                            value: 0,
+                            headOfCharges: values?.attribute,
+                            headOfChargeId: 0,
                             checked: true,
-                            amount: values?.amount,
-                            actualExpense: values?.actualExpense,
-                            consigneeCharge: values?.consigneeCharge,
-                            exchangeRate: values?.exchangeRate,
-                            currency: values?.currency,
+                            collectionActualAmount: '',
+                            collectionDummyAmount: '',
+                            collectionParty: '',
+                            collectionPartyId: 0,
+                            paymentActualAmount: '',
+                            paymentDummyAmount: '',
+                            paymentParty: '',
+                            paymentPartyId: 0,
                           },
                         ]);
                         // resetForm();
                         setFieldValue('attribute', '');
-                        setFieldValue('amount', '');
-                        setFieldValue('actualExpense', '');
-                        setFieldValue('consigneeCharge', '');
                       }}
                     >
                       Add
                     </button>
                   </div>
                 </div>
-              </div>
-              <div className="col-lg-12">
-                {' '}
-                <div className="table-responsive">
-                  <table className="table global-table">
-                    <thead>
-                      <tr>
-                        <th>
-                          <input
-                            type="checkbox"
-                            checked={
-                              shippingHeadOfCharges?.length > 0
-                                ? shippingHeadOfCharges?.every(
-                                    (item) => item?.checked,
-                                  )
-                                : false
-                            }
-                            onChange={(e) => {
-                              setShippingHeadOfCharges(
-                                shippingHeadOfCharges?.map((item) => {
-                                  return {
-                                    ...item,
-                                    checked: e?.target?.checked,
-                                    amount: e?.target?.checked
-                                      ? item?.amount
-                                      : '',
-                                    actualExpense: e?.target?.checked
-                                      ? item?.actualExpense
-                                      : '',
-                                  };
-                                }),
-                              );
-                            }}
-                          />
-                        </th>
-                        <th className="p-0">SL</th>
-                        <th className="p-0">Attribute</th>
-                        <th className="p-0">Shipper Charge ($)</th>
+              </div>{' '}
+              <div className="table-responsive">
+                <table className="table global-table">
+                  <thead>
+                    <tr>
+                      <th rowspan="2">
+                        <input
+                          type="checkbox"
+                          checked={
+                            shippingHeadOfCharges?.length > 0
+                              ? shippingHeadOfCharges?.every(
+                                  (item) => item?.checked,
+                                )
+                              : false
+                          }
+                          onChange={(e) => {
+                            setShippingHeadOfCharges(
+                              shippingHeadOfCharges?.map((item) => {
+                                return {
+                                  ...item,
+                                  checked: e?.target?.checked,
+                                  collectionActualAmount: e?.target?.checked
+                                    ? item?.collectionActualAmount
+                                    : '',
+                                  collectionDummyAmount: e?.target?.checked
+                                    ? item?.collectionDummyAmount
+                                    : '',
+                                  collectionParty: e?.target?.checked
+                                    ? item?.collectionParty
+                                    : '',
+                                  collectionPartyId: e?.target?.checked
+                                    ? item?.collectionPartyId
+                                    : 0,
+                                  paymentActualAmount: e?.target?.checked
+                                    ? item?.paymentActualAmount
+                                    : '',
+                                  paymentDummyAmount: e?.target?.checked
+                                    ? item?.paymentDummyAmount
+                                    : '',
+                                  paymentParty: e?.target?.checked
+                                    ? item?.paymentParty
+                                    : '',
+                                  paymentPartyId: e?.target?.checked
+                                    ? item?.paymentPartyId
+                                    : 0,
+                                };
+                              }),
+                            );
+                          }}
+                        />
+                      </th>
+                      <th rowspan="2">SL</th>
+                      <th rowspan="2">Attribute</th>
+                      <th colspan="3" class="group-header">
+                        Collection <span>(Amounts & Party)</span>
+                      </th>
+                      <th colspan="3" class="group-header">
+                        Payment <span>(Amounts & Party)</span>
+                      </th>
+                      <th rowspan="2">Action</th>
+                    </tr>
+                    <tr>
+                      <th
+                        style={{
+                          width: '60px',
+                        }}
+                      >
+                        Actual Amount
+                      </th>
+                      <th
+                        style={{
+                          width: '60px',
+                        }}
+                      >
+                        Dummy Amount
+                      </th>
+                      <th>Party</th>
+                      <th
+                        style={{
+                          width: '60px',
+                        }}
+                      >
+                        Actual Amount
+                      </th>
+                      <th
+                        style={{
+                          width: '60px',
+                        }}
+                      >
+                        Dummy Amount
+                      </th>
+                      <th>Party</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {shippingHeadOfCharges?.map((item, index) => {
+                      return (
+                        <>
+                          <tr>
+                            <td>
+                              <input
+                                type="checkbox"
+                                checked={item?.checked}
+                                onChange={(e) => {
+                                  setShippingHeadOfCharges(
+                                    shippingHeadOfCharges?.map((data) => {
+                                      if (data?.value === item?.value) {
+                                        return {
+                                          ...data,
+                                          checked: e?.target?.checked,
+                                          collectionActualAmount: e?.target
+                                            ?.checked
+                                            ? item?.collectionActualAmount
+                                            : '',
+                                          collectionDummyAmount: e?.target
+                                            ?.checked
+                                            ? item?.collectionDummyAmount
+                                            : '',
+                                          collectionParty: e?.target?.checked
+                                            ? item?.collectionParty
+                                            : '',
+                                          collectionPartyId: e?.target?.checked
+                                            ? item?.collectionPartyId
+                                            : 0,
+                                          paymentActualAmount: e?.target
+                                            ?.checked
+                                            ? item?.paymentActualAmount
+                                            : '',
+                                          paymentDummyAmount: e?.target?.checked
+                                            ? item?.paymentDummyAmount
+                                            : '',
+                                          paymentParty: e?.target?.checked
+                                            ? item?.paymentParty
+                                            : '',
+                                          paymentPartyId: e?.target?.checked
+                                            ? item?.paymentPartyId
+                                            : 0,
+                                        };
+                                      }
+                                      return data;
+                                    }),
+                                  );
+                                }}
+                              />
+                            </td>
+                            <td>{index + 1}</td>
+                            <td>{item?.headOfCharges}</td>
 
-                        <th className="p-0">Consignee Charge ($)</th>
-                        <th className="p-0">Procured Charge ($)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {shippingHeadOfCharges?.map((item, index) => (
-                        <tr key={index}>
-                          <td className="text-center align-middle">
-                            <input
-                              type="checkbox"
-                              checked={item?.checked}
-                              onChange={(e) => {
-                                const copyprvData = [...shippingHeadOfCharges];
-                                copyprvData[index].checked = e.target.checked;
-                                copyprvData[index].amount = '';
-                                copyprvData[index].actualExpense = '';
-                                setShippingHeadOfCharges(copyprvData);
-                              }}
-                            />
-                          </td>
-                          <td> {index + 1} </td>
-                          <td className="align-middle">
-                            <label>{item?.label}</label>
-                          </td>
-                          <td className="align-middle">
-                            <InputField
-                              disabled={!item?.checked}
-                              value={item?.amount}
-                              required={item?.checked}
-                              type="number"
-                              onChange={(e) => {
-                                const copyprvData = [...shippingHeadOfCharges];
-                                copyprvData[index].amount = e.target.value;
-                                setShippingHeadOfCharges(copyprvData);
-                              }}
-                              name="amount"
-                              min="0"
-                            />
-                          </td>
+                            {/*  "Collection  actual Amount" =  InputField component */}
+                            <td>
+                              <InputField
+                                disabled={!item?.checked}
+                                value={item?.collectionActualAmount}
+                                name="collectionActualAmount"
+                                type="number"
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  const copyPrv = [...shippingHeadOfCharges];
+                                  copyPrv[index].collectionActualAmount = value;
+                                  setShippingHeadOfCharges(copyPrv);
+                                }}
+                              />
+                            </td>
+                            {/* "Collection Dummy  Dummy Amount" =  InputField component */}
+                            <td>
+                              <InputField
+                                disabled={!item?.checked}
+                                value={item?.collectionDummyAmount}
+                                name="collectionDummyAmount"
+                                type="number"
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  const copyPrv = [...shippingHeadOfCharges];
+                                  copyPrv[index].collectionDummyAmount = value;
+                                  setShippingHeadOfCharges(copyPrv);
+                                }}
+                              />
+                            </td>
+                            {/* "Collection Type" =  NewSelect component */}
+                            <td>
+                              <NewSelect
+                                isDisabled={!item?.checked}
+                                options={
+                                  paymentPartyDDL?.filter(
+                                    (item) =>
+                                      item?.value !== item?.paymentParty?.value,
+                                  ) || []
+                                }
+                                value={
+                                  item?.collectionParty
+                                    ? {
+                                        label: item?.collectionParty,
+                                        value: item?.collectionPartyId,
+                                      }
+                                    : ''
+                                }
+                                name="collectionParty"
+                                onChange={(valueOption) => {
+                                  const copyPrv = [...shippingHeadOfCharges];
+                                  copyPrv[index].collectionParty =
+                                    valueOption?.label;
+                                  copyPrv[index].collectionPartyId =
+                                    valueOption?.value;
+                                  setShippingHeadOfCharges(copyPrv);
+                                }}
+                              />
+                            </td>
+                            {/* "Payment Actual Amount" =  InputField component */}
+                            <td>
+                              <InputField
+                                disabled={!item?.checked}
+                                value={item?.paymentActualAmount}
+                                name="paymentActualAmount"
+                                type="number"
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  const copyPrv = [...shippingHeadOfCharges];
+                                  copyPrv[index].paymentActualAmount = value;
+                                  setShippingHeadOfCharges(copyPrv);
+                                }}
+                              />
+                            </td>
+                            {/* "Payment Dummy Amount" =  InputField component */}
+                            <td>
+                              <InputField
+                                disabled={!item?.checked}
+                                value={item?.paymentDummyAmount}
+                                name="paymentDummyAmount"
+                                type="number"
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  const copyPrv = [...shippingHeadOfCharges];
+                                  copyPrv[index].paymentDummyAmount = value;
+                                  setShippingHeadOfCharges(copyPrv);
+                                }}
+                              />
+                            </td>
+                            {/* "Payment Type" =  NewSelect component */}
+                            <td>
+                              <NewSelect
+                                isDisabled={!item?.checked}
+                                options={
+                                  paymentPartyDDL?.filter(
+                                    (item) =>
+                                      item?.value !== item?.paymentParty?.value,
+                                  ) || []
+                                }
+                                value={
+                                  item?.paymentParty
+                                    ? {
+                                        label: item?.paymentParty,
+                                        value: item?.paymentPartyId,
+                                      }
+                                    : ''
+                                }
+                                name="paymentParty"
+                                onChange={(valueOption) => {
+                                  const copyPrv = [...shippingHeadOfCharges];
+                                  copyPrv[index].paymentParty =
+                                    valueOption?.label;
+                                  copyPrv[index].paymentPartyId =
+                                    valueOption?.value;
 
-                          <td className="align-middle">
-                            <InputField
-                              disabled={!item?.checked}
-                              value={item?.consigneeCharge}
-                              type="number"
-                              onChange={(e) => {
-                                const copyprvData = [...shippingHeadOfCharges];
-                                copyprvData[index].consigneeCharge =
-                                  e.target.value;
-                                setShippingHeadOfCharges(copyprvData);
-                              }}
-                              name="consigneeCharge"
-                              min="0"
-                            />
-                          </td>
-                          <td className="align-middle">
-                            <InputField
-                              disabled={!item?.checked}
-                              value={item?.actualExpense}
-                              type="number"
-                              onChange={(e) => {
-                                const copyprvData = [...shippingHeadOfCharges];
-                                copyprvData[index].actualExpense =
-                                  e.target.value;
-                                setShippingHeadOfCharges(copyprvData);
-                              }}
-                              name="actualExpense"
-                              min="0"
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                      <tr>
-                        {/* total */}
-                        <td colSpan="3" className="text-center">
-                          Total
-                        </td>
-                        <td>
-                          {shippingHeadOfCharges
-                            ?.filter((item) => item?.checked)
-                            .reduce(
-                              (acc, item) => acc + (+item?.amount || 0),
-                              0,
-                            )}
-                        </td>
-                        <td>
-                          {shippingHeadOfCharges
-                            ?.filter((item) => item?.checked)
-                            .reduce(
-                              (acc, item) =>
-                                acc + (+item?.consigneeCharge || 0),
-                              0,
-                            )}
-                        </td>
-                        <td>
-                          {shippingHeadOfCharges
-                            ?.filter((item) => item?.checked)
-                            .reduce(
-                              (acc, item) => acc + (+item?.actualExpense || 0),
-                              0,
-                            )}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                                  setShippingHeadOfCharges(copyPrv);
+                                }}
+                              />
+                            </td>
+                            {/* above  row copy button*/}
+                            <td>
+                              <div
+                                className="d-flex justify-content-center"
+                                style={{
+                                  gap: '5px',
+                                }}
+                              >
+                                <button
+                                  disabled={!item?.checked}
+                                  type="button"
+                                  className="btn btn-primary"
+                                  onClick={() => {
+                                    // copy above row item copy and add new row
+                                    const aboveRow =
+                                      shippingHeadOfCharges?.[index];
+                                    if (!aboveRow) {
+                                      return toast.warn(
+                                        'Please select above row',
+                                      );
+                                    }
+                                    // insert new row below the above row
+                                    setShippingHeadOfCharges([
+                                      ...shippingHeadOfCharges?.slice(
+                                        0,
+                                        index + 1,
+                                      ),
+                                      {
+                                        ...aboveRow,
+                                        billingId: aboveRow?.billingId || 0,
+                                      },
+                                      ...shippingHeadOfCharges?.slice(
+                                        index + 1,
+                                      ),
+                                    ]);
+                                  }}
+                                >
+                                  <i class="fa fa-clone" aria-hidden="true"></i>
+                                </button>
+                                {/* delate */}
+                                {/* {item?.headOfChargeId === 0 && ( */}
+                                <span
+                                  type="button"
+                                  onClick={() => {
+                                    setShippingHeadOfCharges(
+                                      shippingHeadOfCharges?.filter(
+                                        (data, i) => i !== index,
+                                      ),
+                                    );
+                                  }}
+                                >
+                                  <IDelete />
+                                </span>
+                                {/* )} */}
+                              </div>
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
             </Form>
           </>

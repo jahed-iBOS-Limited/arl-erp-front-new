@@ -51,6 +51,7 @@ import CustomerYearlyAchievement from "./customerYearlyAchievement";
 import AllEssentialReport from "./AllEssentialReport";
 import ShipToPartyTargetLanding from "./shipToPartyTarget/landing";
 import ShipToPartyTargetEntryForm from "./shipToPartyTarget/form/addEditForm";
+import SalesKPILanding from "./salesKPI";
 
 export function ReportManagementPages() {
   const userRole = useSelector(
@@ -325,6 +326,11 @@ export function ReportManagementPages() {
       <ContentRoute
         path="/sales-management/report/shiptopartnertarget"
         component={ShipToPartyTargetLanding}
+      />
+
+      <ContentRoute
+        path="/sales-management/report/SalesKpi"
+        component={SalesKPILanding}
       />
     </Switch>
   );
