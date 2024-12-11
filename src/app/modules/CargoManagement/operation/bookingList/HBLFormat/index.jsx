@@ -273,21 +273,17 @@ const SingleItem = ({
                       <>
                         <div
                           dangerouslySetInnerHTML={{
-                            __html:
-                              htmlContent?.marksAndNumbersContainerSealNumbers ||
-                              '',
+                            __html: htmlContent?.marks || '',
                           }}
                         ></div>
                       </>
                     ) : (
                       <ReactQuill
-                        value={
-                          htmlContent?.marksAndNumbersContainerSealNumbers || ''
-                        }
+                        value={htmlContent?.marks || ''}
                         onChange={(value) => {
                           changeHandelar &&
                             changeHandelar({
-                              key: 'marksAndNumbersContainerSealNumbers',
+                              key: 'marks',
                               value,
                             });
                         }}
