@@ -535,6 +535,31 @@ function TransportModal({ rowClickData, CB }) {
                                     </div>
                                   )}
                               </div>
+                              {/* GSA */}
+                              <div className="col-lg-3">
+                                <NewSelect
+                                  options={gsaDDL || []
+                                  }
+                                  label="GSA"
+                                  name={`rows[${index}].gsa`}
+                                  onChange={(valueOption) => {
+                                    setFieldValue(
+                                      `rows[${index}].gsa`,
+                                      valueOption?.label || '',
+                                    );
+                                  }}
+                                  placeholder="GSA"
+                                  errors={errors}
+                                  touched={touched}
+                                />
+                                {errors.rows &&
+                                  errors.rows[index]?.gsa &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].gsa}
+                                    </div>
+                                  )}
+                              </div>
                               {/* iatanumber */}
                               <div className="col-lg-3">
                                 <InputField
@@ -646,6 +671,31 @@ function TransportModal({ rowClickData, CB }) {
                                     touched.rows && (
                                       <div className="text-danger">
                                         {errors.rows[index].shippingLine}
+                                      </div>
+                                    )}
+                                </div>
+                                {/* GSA */}
+                                <div className="col-lg-3">
+                                  <NewSelect
+                                    options={gsaDDL || []
+                                    }
+                                    label="GSA"
+                                    name={`rows[${index}].gsa`}
+                                    onChange={(valueOption) => {
+                                      setFieldValue(
+                                        `rows[${index}].gsa`,
+                                        valueOption?.label || '',
+                                      );
+                                    }}
+                                    placeholder="GSA"
+                                    errors={errors}
+                                    touched={touched}
+                                  />
+                                  {errors.rows &&
+                                    errors.rows[index]?.gsa &&
+                                    touched.rows && (
+                                      <div className="text-danger">
+                                        {errors.rows[index].gsa}
                                       </div>
                                     )}
                                 </div>
@@ -849,31 +899,7 @@ function TransportModal({ rowClickData, CB }) {
                                 </div>
                               )}
                           </div>
-                          {/* GSA */}
-                          <div className="col-lg-3">
-                            <NewSelect
-                              options={gsaDDL || []
-                              }
-                              label="GSA"
-                              name={`rows[${index}].gsa`}
-                              onChange={(valueOption) => {
-                                setFieldValue(
-                                  `rows[${index}].gsa`,
-                                  valueOption?.label || '',
-                                );
-                              }}
-                              placeholder="GSA"
-                              errors={errors}
-                              touched={touched}
-                            />
-                            {errors.rows &&
-                              errors.rows[index]?.gsa &&
-                              touched.rows && (
-                                <div className="text-danger">
-                                  {errors.rows[index].gsa}
-                                </div>
-                              )}
-                          </div>
+
                           {/* mawbnumber */}
                           <div className="col-lg-3">
                             <InputField
