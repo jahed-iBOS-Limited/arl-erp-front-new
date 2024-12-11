@@ -363,7 +363,10 @@ const FreightCargoReceipt = ({ rowClickData }) => {
             >
               <span style={{ padding: 2 }}>MBL/MAWB DATE</span>
               <span style={{ padding: 2 }}>
-                : {moment(bookingData?.bldate).format('YYYY-MM-DD, HH:mm A')}
+                :{' '}
+                {bookingData?.bldate
+                  ? moment(bookingData?.bldate).format('YYYY-MM-DD, HH:mm A')
+                  : ''}
               </span>
             </div>
             <div
@@ -374,7 +377,10 @@ const FreightCargoReceipt = ({ rowClickData }) => {
             >
               <span style={{ padding: 2 }}>HBL/HAWB DATE</span>
               <span style={{ padding: 2 }}>
-                : {moment(bookingData?.hbldate).format('YYYY-MM-DD, HH:mm A')}
+                :{' '}
+                {bookingData?.hbldate
+                  ? moment(bookingData?.hbldate).format('YYYY-MM-DD, HH:mm A')
+                  : ''}
               </span>
             </div>
             <div
@@ -404,13 +410,14 @@ const FreightCargoReceipt = ({ rowClickData }) => {
             {shipBookingRequestGetById?.modeOfTransport === 'Air'
               ? 'Air Freight'
               : 'Ocean Freight'}{' '}
-            is {totalVolumetricWeight / totalGrossWeightKG}
+            is {totalVolumetricWeight * totalGrossWeightKG}
           </span>{' '}
           <br />
           <span>Total Container: {totalGrossWeightKG}</span> <br />
           {/* <span>Ex Rate 110.50</span> <br /> */}
           <span>
-            So, Total Ocean Freight is USD 850.00 or BDT 93,925.00
+            So, Total Ocean Freight is BDT{' '}
+            {totalVolumetricWeight * totalGrossWeightKG}
           </span>{' '}
           <br />
           <span>
