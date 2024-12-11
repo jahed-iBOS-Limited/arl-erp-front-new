@@ -2,7 +2,21 @@ import moment from 'moment';
 import React from 'react';
 import './HAWBFormat.css';
 import logisticsLogo from './logisticsLogo.png';
-function NewHBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
+function HBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
+  const totalGrossWeightKG = bookingData?.rowsData?.reduce(
+    (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
+    0,
+  );
+
+  const totalVolumetricWeight = bookingData?.rowsData?.reduce(
+    (acc, item) => acc + (+item?.totalVolumetricWeight || 0),
+    0,
+  );
+
+  const totalGrossWeight =
+    totalVolumetricWeight > totalGrossWeightKG
+      ? totalVolumetricWeight
+      : totalGrossWeightKG;
   return (
     <div
       style={{
@@ -381,25 +395,13 @@ function NewHBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
                   </p>
                 </div>
                 <div className="grossWeight borderRight">
-                  <p>
-                    {bookingData?.rowsData?.reduce(
-                      (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
-                      0,
-                    )}{' '}
-                    KG
-                  </p>
+                  <p>{totalGrossWeightKG} KG</p>
                 </div>
                 <div className="kgIB borderRight">
                   <p />
                 </div>
                 <div className="chargeableWeight borderRight">
-                  <p>
-                    {bookingData?.rowsData?.reduce(
-                      (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
-                      0,
-                    )}{' '}
-                    KG
-                  </p>
+                  <p>{totalGrossWeight} KG</p>
                 </div>
                 <div className="rateAndCharge borderRight">
                   <p />
@@ -411,14 +413,44 @@ function NewHBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
                   <p style={{ textDecoration: 'underline' }}>
                     DESCRIPTION OF GOODS :
                   </p>
-                  <p>
-                    {bookingData?.rowsData?.map((item, index) => {
-                      return `${item?.descriptionOfGoods}${
-                        index < bookingData?.rowsData?.length - 1 ? ',' : ''
-                      }`;
-                    })}
-                  </p>
-                  <p />
+                  {bookingData?.rowsData?.map((item, index) => {
+                    return (
+                      <>
+                        <p>{item?.descriptionOfGoods}</p>
+                        <p>
+                          Po No:{' '}
+                          {item?.dimensionRow?.map((i, index) => {
+                            return (
+                              (i?.poNumber || '') +
+                              (index < item?.dimensionRow?.length - 1
+                                ? ','
+                                : '')
+                            );
+                          })}
+                        </p>
+                        <p>
+                          Color:{' '}
+                          {item?.dimensionRow?.map((i, index) => {
+                            return (
+                              (i?.color || '') +
+                              (index < item?.dimensionRow?.length - 1
+                                ? ','
+                                : '')
+                            );
+                          })}
+                        </p>
+                        <p>
+                          H.S Code:{' '}
+                          {(item?.hsCode || '') +
+                            (index < bookingData?.rowsData?.length - 1
+                              ? ','
+                              : '')}
+                        </p>
+                        <br />
+                      </>
+                    );
+                  })}
+
                   <br />
                   <p>Invoice No: {bookingData?.invoiceNumber}</p>
                   <p>
@@ -442,44 +474,6 @@ function NewHBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
                       `${moment(bookingData?.expOrCnfDate).format(
                         'DD-MM-YYYY',
                       )}`}
-                  </p>
-                  <p>
-                    H.S Code:{' '}
-                    <>
-                      {bookingData?.rowsData?.map((item, index) => {
-                        return `${item?.hsCode || ''}${
-                          index < bookingData?.rowsData?.length - 1 ? ',' : ''
-                        }`;
-                      })}
-                    </>
-                  </p>
-                  <p>Stuffing mode: {bookingData?.modeOfStuffings}</p>
-
-                  <br />
-                  <p>
-                    Dimn:{' '}
-                    <>
-                      {bookingData?.rowsData?.reduce(
-                        (acc, item) => acc + (+item?.totalDimsHeight || 0),
-                        0,
-                      )}{' '}
-                      x{' '}
-                      {bookingData?.rowsData?.reduce(
-                        (acc, item) => acc + (+item?.totalDimsWidth || 0),
-                        0,
-                      )}{' '}
-                      x{' '}
-                      {bookingData?.rowsData?.reduce(
-                        (acc, item) => acc + (+item?.totalDimsLength || 0),
-                        0,
-                      )}
-                      <br />
-                      Total CBM :{' '}
-                      {bookingData?.rowsData?.reduce(
-                        (acc, item) => acc + (+item?.totalVolumeCBM || 0),
-                        0,
-                      )}
-                    </>
                   </p>
                 </div>
               </div>
@@ -876,28 +870,21 @@ function NewHBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
   );
 }
 
-const NewHBLFormatAir = ({ componentRef, bookingData, isEPBInvoice }) => {
+const HBLFormatAir = ({ componentRef, bookingData, isEPBInvoice }) => {
   console.log(isEPBInvoice, 'isEPBInvoice new');
   return (
     <div className="hawbWrapper">
-      <NewHBLFormatAirItem
-        bookingData={bookingData}
-        isEPBInvoice={isEPBInvoice}
-      />
+      <HBLFormatAirItem bookingData={bookingData} isEPBInvoice={isEPBInvoice} />
       <div className="multipleInvoicePrint" ref={componentRef}>
         {isEPBInvoice ? (
-          <NewHBLFormatAirItem
+          <HBLFormatAirItem
             footerText=""
             bookingData={bookingData}
             isEPBInvoice={isEPBInvoice}
           />
         ) : (
           <>
-            <NewHBLFormatAirItem
-              footerText=""
-              bookingData={bookingData}
-            />
-
+            <HBLFormatAirItem footerText="" bookingData={bookingData} />
           </>
         )}
       </div>
@@ -905,4 +892,4 @@ const NewHBLFormatAir = ({ componentRef, bookingData, isEPBInvoice }) => {
   );
 };
 
-export default NewHBLFormatAir;
+export default HBLFormatAir;

@@ -11,7 +11,7 @@ import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import './style.css';
 import NewSelect from '../../../../_helper/_select';
 import IDelete from '../../../../_helper/_helperIcons/_delete';
-const paymentTypeDDL = [
+const paymentPartyDDL = [
   {
     value: 1,
     label: 'Shipper',
@@ -87,6 +87,7 @@ function ChargesModal({ rowClickData, CB }) {
               ?.filter((item) => item?.headOfChargeId === 0)
               .map((item) => {
                 return {
+                  ...item,
                   headOfCharges: item?.headOfCharges,
                   headOfChargeId: item?.headOfChargeId,
                   checked: true,
@@ -153,6 +154,14 @@ function ChargesModal({ rowClickData, CB }) {
           createdAt: new Date(),
           updatedBy: new Date(),
           updatedAt: profileData?.userId || 0,
+          collectionActualAmount: item?.collectionActualAmount || 0,
+          collectionDummyAmount: item?.collectionDummyAmount || 0,
+          collectionParty: item?.collectionParty || '',
+          collectionPartyId: item?.collectionPartyId || 0,
+          paymentActualAmount: item?.paymentActualAmount || 0,
+          paymentDummyAmount: item?.paymentDummyAmount || 0,
+          paymentParty: item?.paymentParty || '',
+          paymentPartyId: item?.paymentPartyId || 0,
         };
       });
     if (payload.length === 0) {
@@ -258,10 +267,12 @@ function ChargesModal({ rowClickData, CB }) {
                             checked: true,
                             collectionActualAmount: '',
                             collectionDummyAmount: '',
-                            collectionType: '',
+                            collectionParty: '',
+                            collectionPartyId: 0,
                             paymentActualAmount: '',
                             paymentDummyAmount: '',
-                            paymentType: '',
+                            paymentParty: '',
+                            paymentPartyId: 0,
                           },
                         ]);
                         // resetForm();
@@ -299,18 +310,24 @@ function ChargesModal({ rowClickData, CB }) {
                                   collectionDummyAmount: e?.target?.checked
                                     ? item?.collectionDummyAmount
                                     : '',
-                                  collectionType: e?.target?.checked
-                                    ? item?.collectionType
+                                  collectionParty: e?.target?.checked
+                                    ? item?.collectionParty
                                     : '',
+                                  collectionPartyId: e?.target?.checked
+                                    ? item?.collectionPartyId
+                                    : 0,
                                   paymentActualAmount: e?.target?.checked
                                     ? item?.paymentActualAmount
                                     : '',
                                   paymentDummyAmount: e?.target?.checked
                                     ? item?.paymentDummyAmount
                                     : '',
-                                  paymentType: e?.target?.checked
-                                    ? item?.paymentType
+                                  paymentParty: e?.target?.checked
+                                    ? item?.paymentParty
                                     : '',
+                                  paymentPartyId: e?.target?.checked
+                                    ? item?.paymentPartyId
+                                    : 0,
                                 };
                               }),
                             );
@@ -384,9 +401,12 @@ function ChargesModal({ rowClickData, CB }) {
                                             ?.checked
                                             ? item?.collectionDummyAmount
                                             : '',
-                                          collectionType: e?.target?.checked
-                                            ? item?.collectionType
+                                          collectionParty: e?.target?.checked
+                                            ? item?.collectionParty
                                             : '',
+                                          collectionPartyId: e?.target?.checked
+                                            ? item?.collectionPartyId
+                                            : 0,
                                           paymentActualAmount: e?.target
                                             ?.checked
                                             ? item?.paymentActualAmount
@@ -394,9 +414,12 @@ function ChargesModal({ rowClickData, CB }) {
                                           paymentDummyAmount: e?.target?.checked
                                             ? item?.paymentDummyAmount
                                             : '',
-                                          paymentType: e?.target?.checked
-                                            ? item?.paymentType
+                                          paymentParty: e?.target?.checked
+                                            ? item?.paymentParty
                                             : '',
+                                          paymentPartyId: e?.target?.checked
+                                            ? item?.paymentPartyId
+                                            : 0,
                                         };
                                       }
                                       return data;
@@ -443,17 +466,26 @@ function ChargesModal({ rowClickData, CB }) {
                               <NewSelect
                                 isDisabled={!item?.checked}
                                 options={
-                                  paymentTypeDDL?.filter(
+                                  paymentPartyDDL?.filter(
                                     (item) =>
-                                      item?.value !== item?.paymentType?.value,
+                                      item?.value !== item?.paymentParty?.value,
                                   ) || []
                                 }
-                                value={item?.collectionType}
-                                name="collectionType"
+                                value={
+                                  item?.collectionParty
+                                    ? {
+                                        label: item?.collectionParty,
+                                        value: item?.collectionPartyId,
+                                      }
+                                    : ''
+                                }
+                                name="collectionParty"
                                 onChange={(valueOption) => {
-                                  const value = valueOption;
                                   const copyPrv = [...shippingHeadOfCharges];
-                                  copyPrv[index].collectionType = value;
+                                  copyPrv[index].collectionParty =
+                                    valueOption?.label;
+                                  copyPrv[index].collectionPartyId =
+                                    valueOption?.value;
                                   setShippingHeadOfCharges(copyPrv);
                                 }}
                               />
@@ -493,17 +525,27 @@ function ChargesModal({ rowClickData, CB }) {
                               <NewSelect
                                 isDisabled={!item?.checked}
                                 options={
-                                  paymentTypeDDL?.filter(
+                                  paymentPartyDDL?.filter(
                                     (item) =>
-                                      item?.value !== item?.paymentType?.value,
+                                      item?.value !== item?.paymentParty?.value,
                                   ) || []
                                 }
-                                value={item?.paymentType}
-                                name="paymentType"
+                                value={
+                                  item?.paymentParty
+                                    ? {
+                                        label: item?.paymentParty,
+                                        value: item?.paymentPartyId,
+                                      }
+                                    : ''
+                                }
+                                name="paymentParty"
                                 onChange={(valueOption) => {
-                                  const value = valueOption;
                                   const copyPrv = [...shippingHeadOfCharges];
-                                  copyPrv[index].paymentType = value;
+                                  copyPrv[index].paymentParty =
+                                    valueOption?.label;
+                                  copyPrv[index].paymentPartyId =
+                                    valueOption?.value;
+
                                   setShippingHeadOfCharges(copyPrv);
                                 }}
                               />
