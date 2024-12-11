@@ -276,12 +276,12 @@ const CommonJournalApprovalGrid = ({ onChangeForActivity, activityName, activity
                                                 </td>
                                                 <td className="text-center">{item?.sl}</td>
                                                 <td>
-                                                    <span className="pl-2">{item?.strCode}</span>
+                                                    <span className="pl-2">{item?.strBankJournalCode||item?.strCode}</span>
                                                 </td>
                                                 <td className="text-center">
-                                                    {_dateFormatter(item?.transectionDate)}
+                                                    {_dateFormatter(item?.dteVoucherDate||item?.transectionDate)}
                                                 </td>
-                                                <td className="text-center">{item?.amount}</td>
+                                                <td className="text-right">{item?.numAmount||item?.amount}</td>
                                                 <td className="text-center">{item?.strNarration}</td>
                                                 <td className="text-center">
                                                     <div className="d-flex justify-content-center">
@@ -335,12 +335,12 @@ const CommonJournalApprovalGrid = ({ onChangeForActivity, activityName, activity
 
                             {activityName?.label === "Bank Journal" && (<>
                                 <IViewModal show={isHistoryModal} onHide={() => setIsHistoryModal(false)}>
-                                    <HistoryModalBankJournal journalId={historyItem?.journalId} journalTypeId={historyItem?.intAccountingJournalTypeId} />
+                                    <HistoryModalBankJournal journalId={historyItem?.intBankJournalId} journalTypeId={historyItem?.intAccountingJournalTypeId} />
                                 </IViewModal>
 
                                 <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
                                     <BankJournalViewTableRow
-                                        id={currentRowData?.journalId}
+                                        id={currentRowData?.intBankJournalId}
                                         headerData={currentRowData}
                                     />
                                 </IViewModal>

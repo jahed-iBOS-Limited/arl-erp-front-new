@@ -39,7 +39,7 @@ export function BankJournalViewTableRow({ id, headerData }) {
     if(id && headerData){
       getBankJournalView(
         id,
-        headerData?.accountingJournalTypeId,
+        headerData?.intAccountingJournalTypeId,
         headerData?.businessUnit
           ? headerData?.businessUnit?.value
           : selectedBusinessUnit?.value,
