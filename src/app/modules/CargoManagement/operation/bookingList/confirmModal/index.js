@@ -530,7 +530,7 @@ function ConfirmModal({ rowClickData, CB }) {
                   />
                 </div>
                 {/* Flight Number */}
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <InputField
                     value={values?.flightNumber}
                     label={
@@ -544,7 +544,7 @@ function ConfirmModal({ rowClickData, CB }) {
                       setFieldValue('flightNumber', e.target.value)
                     }
                   />
-                </div>
+                </div> */}
                 {/* Transit Information */}
                 {values?.transportPlanningType !== 'Sea' && (
                   <>
