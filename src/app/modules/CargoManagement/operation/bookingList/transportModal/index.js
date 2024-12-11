@@ -313,9 +313,8 @@ function TransportModal({ rowClickData, CB }) {
     SaveShippingTransportPlanning(
       `${imarineBaseUrl}/domain/ShippingService/SaveShippingTransportPlanning`,
       payload,
-      () => {
-        cb();
-      },
+      CB,
+      'Transport Planning Saved Successfully',
     );
   };
   return (
