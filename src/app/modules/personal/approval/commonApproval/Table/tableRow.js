@@ -640,14 +640,14 @@ export function TableRow(props) {
             selectedPlant={selectedPlant}
           />
         )}
-        {["Bank Journal", "Cash Journal", "Adjustment Journal"].includes(activityName?.label) && (
+        {/* {["Bank Journal", "Cash Journal", "Adjustment Journal"].includes(activityName?.label) && (
           <CommonJournalApprovalGrid
             onChangeForActivity={onChangeForActivity}
             activityName={activityName}
             activityChange={activityChange}
             selectedPlant={selectedPlant}
           />
-        )}
+        )} */}
         {/* Pagination Code */}
         {gridData?.data?.length > 0 && (
           <PaginationTable
