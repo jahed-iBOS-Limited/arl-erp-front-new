@@ -1,8 +1,16 @@
 import moment from 'moment';
 import React from 'react';
 import './HAWBFormat.css';
+import ReactQuill from 'react-quill';
 import logisticsLogo from './logisticsLogo.png';
-function HBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
+function HBLFormatAirItem({
+  bookingData,
+  footerText,
+  isEPBInvoice,
+  htmlContent,
+  changeHandelar,
+  isPrintView,
+}) {
   const totalGrossWeightKG = bookingData?.rowsData?.reduce(
     (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
     0,
@@ -10,6 +18,11 @@ function HBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
 
   const totalVolumetricWeight = bookingData?.rowsData?.reduce(
     (acc, item) => acc + (+item?.totalVolumetricWeight || 0),
+    0,
+  );
+
+  const totalNumberOfPackages = bookingData?.rowsData?.reduce(
+    (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
     0,
   );
 
@@ -376,12 +389,7 @@ function HBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
                     position: 'relative',
                   }}
                 >
-                  <p>
-                    {bookingData?.rowsData?.reduce(
-                      (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
-                      0,
-                    )}
-                  </p>
+                  <p>{totalNumberOfPackages}</p>
                   <p
                     style={{
                       position: 'absolute',
@@ -404,10 +412,45 @@ function HBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
                   <p>{totalGrossWeight} KG</p>
                 </div>
                 <div className="rateAndCharge borderRight">
-                  <p />
+                  {isPrintView ? (
+                    <>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: htmlContent?.chargeableRate || '',
+                        }}
+                      ></div>
+                    </>
+                  ) : (
+                    <>
+                      {/* rate input */}
+                      <input
+                        style={{
+                          width: '100%',
+                        }}
+                        type="text"
+                        value={htmlContent?.chargeableRate || ''}
+                        onChange={(e) => {
+                          changeHandelar &&
+                            changeHandelar({
+                              key: 'chargeableRate',
+                              value: e.target.value,
+                            });
+                        }}
+                      />
+                    </>
+                  )}
                 </div>
                 <div className="total borderRight">
-                  <p />
+                  <p>
+                    {htmlContent?.chargeableRate ? (
+                      <>
+                        {totalNumberOfPackages *
+                          (+htmlContent?.chargeableRate || 0)}
+                      </>
+                    ) : (
+                      ''
+                    )}
+                  </p>
                 </div>
                 <div className="natureandQuantityofGoods">
                   <p style={{ textDecoration: 'underline' }}>
@@ -870,21 +913,40 @@ function HBLFormatAirItem({ bookingData, footerText, isEPBInvoice }) {
   );
 }
 
-const HBLFormatAir = ({ componentRef, bookingData, isEPBInvoice }) => {
-  console.log(isEPBInvoice, 'isEPBInvoice new');
+const HBLFormatAir = ({
+  componentRef,
+  bookingData,
+  isEPBInvoice,
+  htmlContent,
+  changeHandelar,
+}) => {
   return (
     <div className="hawbWrapper">
-      <HBLFormatAirItem bookingData={bookingData} isEPBInvoice={isEPBInvoice} />
+      <HBLFormatAirItem
+        bookingData={bookingData}
+        isEPBInvoice={isEPBInvoice}
+        htmlContent={htmlContent}
+        changeHandelar={changeHandelar}
+      />
       <div className="multipleInvoicePrint" ref={componentRef}>
         {isEPBInvoice ? (
           <HBLFormatAirItem
             footerText=""
             bookingData={bookingData}
             isEPBInvoice={isEPBInvoice}
+            htmlContent={htmlContent}
+            changeHandelar={changeHandelar}
+            isPrintView={true}
           />
         ) : (
           <>
-            <HBLFormatAirItem footerText="" bookingData={bookingData} />
+            <HBLFormatAirItem
+              footerText=""
+              bookingData={bookingData}
+              htmlContent={htmlContent}
+              changeHandelar={changeHandelar}
+              isPrintView={true}
+            />
           </>
         )}
       </div>

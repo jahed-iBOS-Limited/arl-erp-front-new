@@ -190,6 +190,8 @@ function HBLCodeGNModal({ CB, rowClickData, isEPBInvoice }) {
                   bookingData={bookingData}
                   componentRef={componentRef}
                   isEPBInvoice={isEPBInvoice}
+                  htmlContent={htmlContent}
+                  changeHandelar={changeHandelar}
                 />
               )}
 

@@ -321,3 +321,10 @@ h6 {
 .printSectionNone {
   display: none !important;
 }
+
+.hawbWrapper .ql-editor {
+  padding: 0px;
+  margin: 0px;
+  overflow: unset;
+  font-size: 11px;
+}
