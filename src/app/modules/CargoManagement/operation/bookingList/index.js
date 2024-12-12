@@ -125,6 +125,9 @@ function BookingList() {
                   <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
+                        <th style={{
+                          minWidth: '40px',
+                        }}>Mark</th>
                         <th>SL</th>
                         <th
                           style={{
@@ -331,6 +334,12 @@ function BookingList() {
                       {shipBookingReqLanding?.data?.length > 0 &&
                         shipBookingReqLanding?.data?.map((item, i) => (
                           <tr key={i + 1}>
+                            <td>
+                              <input
+                                type="checkbox"
+
+                              />
+                            </td>
                             <td className="text-center">{i + 1}</td>
                             <td className="text-left">
                               {item?.bookingRequestCode}
