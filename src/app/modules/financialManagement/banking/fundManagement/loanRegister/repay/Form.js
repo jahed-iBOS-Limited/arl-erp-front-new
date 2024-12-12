@@ -151,7 +151,7 @@ export default function RepayForm({
                     type="number"
                     // min={1}
                     max={
-                      location?.state?.principal ||
+                      location?.state?.principal?.toFixed(2) ||
                       "100000000000000000000000000000"
                     }
                     step="any"
