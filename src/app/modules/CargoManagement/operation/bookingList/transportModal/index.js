@@ -96,6 +96,8 @@ function TransportModal({ rowClickData, CB }) {
   const [shippingLineDDL, setShippingLineDDL] = useAxiosGet();
   const [airLineDDL, setAirLineDDL] = useAxiosGet();
   const [gsaDDL, setGSADDL] = useAxiosGet();
+  const [airPortShortCodeDDLData, getAirPortShortCodeDDL, , setGetAirPortShortCodeDDL] = useAxiosGet();
+
   const [poNumberDDL, setPoNumberDDL] = React.useState([]);
   const [styleDDL, setStyleDDL] = React.useState([]);
   const [colorDDL, setColorDDL] = React.useState([]);
@@ -243,6 +245,22 @@ function TransportModal({ rowClickData, CB }) {
     setGSADDL(
       `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${3}`,
     );
+    getAirPortShortCodeDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetAirPortShortCodeDDL`,
+      (res) => {
+        // setGetAirPortShortCodeDDL([
+        //   {
+        //     value: 1,
+        //     label: 'Dhaka',
+        //   }
+        // ]);
+        const modifiedData = res?.map((item) => ({
+          ...item,
+          label: item?.code
+        }));
+        setGetAirPortShortCodeDDL(modifiedData);
+      }
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -284,7 +302,7 @@ function TransportModal({ rowClickData, CB }) {
           'YYYY-MM-DDTHH:mm:ss',
         ),
       }),
-      gsa: row?.gsa?.label || '',
+      gsaName: row?.gsa?.label || '',
       gsaId: row?.gsa?.value || 0,
       mawbnumber: row?.mawbnumber || '',
       transportMode: row?.transportMode?.label || 0,
@@ -1274,7 +1292,7 @@ function TransportModal({ rowClickData, CB }) {
                           </div>
                           {/* From date */}
                           <div className="col-lg-3">
-                            <InputField
+                            {/* <InputField
                               label="From"
                               type="text"
                               name="scheduleFrom"
@@ -1285,10 +1303,25 @@ function TransportModal({ rowClickData, CB }) {
                                   e.target.value,
                                 )
                               }
+                            /> */}
+                            <NewSelect
+                              name="scheduleFrom"
+                              options={airPortShortCodeDDLData || []}
+                              value={values?.rows[index]?.scheduleFrom || ''}
+                              label="From"
+                              onChange={(valueOption) => {
+                                setFieldValue(
+                                  `rows[${index}].scheduleFrom`,
+                                  valueOption
+                                );
+                              }}
+                              placeholder="From"
+                              errors={errors}
+                              touched={touched}
                             />
                           </div>
                           <div className="col-lg-3">
-                            <InputField
+                            {/* <InputField
                               label="To"
                               type="text"
                               name="scheduleTo"
@@ -1299,6 +1332,21 @@ function TransportModal({ rowClickData, CB }) {
                                   e.target.value,
                                 )
                               }
+                            /> */}
+                            <NewSelect
+                              name="scheduleTo"
+                              options={airPortShortCodeDDLData || []}
+                              value={values?.rows[index]?.scheduleTo || ''}
+                              label="To"
+                              onChange={(valueOption) => {
+                                setFieldValue(
+                                  `rows[${index}].scheduleTo`,
+                                  valueOption
+                                );
+                              }}
+                              placeholder="To"
+                              errors={errors}
+                              touched={touched}
                             />
                           </div>
                           {/* for sea 2 , for air 1 */}
@@ -1368,10 +1416,10 @@ function TransportModal({ rowClickData, CB }) {
                                 items.push({
                                   scheduleFrom:
                                     formikRef.current?.values?.rows[index]
-                                      ?.scheduleFrom,
+                                      ?.scheduleFrom?.label || '',
                                   scheduleTo:
                                     formikRef.current?.values?.rows[index]
-                                      ?.scheduleTo,
+                                      ?.scheduleTo?.label || '',
                                   scheduleDate:
                                     formikRef.current?.values?.rows[index]
                                       ?.scheduleDate,
