@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useEffect, useRef } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useReactToPrint } from "react-to-print";
@@ -95,7 +96,11 @@ export default function ManifestModal({ rowClickData }) {
                 <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "center" }}>
                     <thead>
                         <tr>
-                            <th style={{ border: "1px solid black" }}>AIR FREIGHT AGENT</th>
+                            <th style={{ border: "1px solid black" }}>
+                                {bookingData?.modeOfTransport === 'Air'
+                                    ? 'Air Freight'
+                                    : 'Ocean Freight'}{' '}
+                            </th>
                             <th style={{ border: "1px solid black" }}>MASTER AWB NO.</th>
                             <th style={{ border: "1px solid black" }}>PORT OF DISCHARGE</th>
                             <th style={{ border: "1px solid black" }}>TOTAL NO. OF H-SHIP</th>
@@ -107,17 +112,36 @@ export default function ManifestModal({ rowClickData }) {
                         <tr>
                             <td style={{ border: "1px solid black" }}>
                                 <div style={{ textAlign: 'start', paddingLeft: 5 }}>
-                                    N/A <br />
-                                    N/A <br />
-                                    N/A <br />
-                                    N/A
+                                    {bookingData?.freightAgentReference} <br />
+                                    {bookingData?.deliveryAgentDtl?.zipCode &&
+                                        `${bookingData?.deliveryAgentDtl?.zipCode}, `}
+                                    <br />
+                                    {bookingData?.deliveryAgentDtl?.state &&
+                                        `${bookingData?.deliveryAgentDtl?.state}, `}
+                                    <br />
+                                    {bookingData?.deliveryAgentDtl?.city &&
+                                        `${bookingData?.deliveryAgentDtl?.city}, `}
+                                    <br />
+                                    {bookingData?.deliveryAgentDtl?.country &&
+                                        `${bookingData?.deliveryAgentDtl?.country}, `}{' '}
+                                    <br />
+                                    {bookingData?.deliveryAgentDtl?.address &&
+                                        `${bookingData?.deliveryAgentDtl?.address}`}
                                 </div>
                             </td>
                             <td style={{ border: "1px solid black", textAlign: 'start', paddingLeft: 5 }}> N/A</td>
-                            <td style={{ border: "1px solid black", textAlign: 'start', paddingLeft: 5 }}> N/A</td>
+                            <td style={{ border: "1px solid black", textAlign: 'start', paddingLeft: 5 }}> {bookingData?.portOfDischarge}</td>
                             <td style={{ border: "1px solid black" }}>N/A</td>
-                            <td style={{ border: "1px solid black", textAlign: 'start', paddingLeft: 5 }}> N/A</td>
-                            <td style={{ border: "1px solid black", textAlign: 'start', paddingLeft: 5 }}> N/A</td>
+                            <td style={{ border: "1px solid black", textAlign: 'start', paddingLeft: 5 }}>
+                                {
+                                    bookingData?.transportPlanning?.[0]?.airTransportRow?.[0]?.flightNumber
+                                }
+                            </td>
+                            <td style={{ border: "1px solid black", textAlign: 'start', paddingLeft: 5 }}>
+                                {
+                                    moment(bookingData?.transportPlanning?.[0]?.airTransportRow?.[0]?.flightDate).format('YYYY-MM-DD')
+                                }
+                            </td>
                         </tr>
 
                     </tbody>
@@ -140,21 +164,21 @@ export default function ManifestModal({ rowClickData }) {
                     <tbody>
                         <tr>
                             <td style={{ border: "1px solid black", paddingLeft: 5 }}>
-                                {bookingData?.hblnumber ? bookingData?.hblnumber : "N/A"}
+                                {bookingData?.hblnumber}
                             </td>
                             <td style={{ border: "1px solid black", textAlign: 'center', paddingLeft: 5 }}>
-                                {numberOfPackages ? numberOfPackages : "N/A"}
+                                {numberOfPackages}
                             </td>
                             <td style={{ border: "1px solid black", textAlign: 'center', paddingLeft: 5 }}>
                                 {
-                                    totalNetWeightKG ? totalNetWeightKG + " KG" : "N/A"
+                                    totalNetWeightKG ? totalNetWeightKG + " KG" : ""
                                 }
                             </td>
                             <td style={{ border: "1px solid black", paddingLeft: 5 }}>
                                 {bookingData?.rowsData?.map((item, index) => {
                                     return (
                                         <div style={{ display: "grid", gap: 4 }} key={index}>
-                                            {item?.descriptionOfGoods} {item?.descriptionOfGoods ? " :" : "N/A"}
+                                            {item?.descriptionOfGoods} {item?.descriptionOfGoods && " :"}
                                             <div style={{
                                                 border: '1px solid black',
                                                 width: '60%',
