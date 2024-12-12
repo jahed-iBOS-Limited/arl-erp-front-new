@@ -93,10 +93,11 @@ function TransportModal({ rowClickData, CB }) {
     shipBookingRequestLoading,
   ] = useAxiosGet();
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
-  const [shippingLineDDL, setShippingLineDDL] = useAxiosGet();
-  const [airLineDDL, setAirLineDDL] = useAxiosGet();
+  // const [shippingLineDDL, setShippingLineDDL] = useAxiosGet();
+  // const [airLineDDL, setAirLineDDL] = useAxiosGet();
   const [gsaDDL, setGSADDL] = useAxiosGet();
-  const [airPortShortCodeDDLData, getAirPortShortCodeDDL, , setGetAirPortShortCodeDDL] = useAxiosGet();
+  // const [airPortShortCodeDDLData, getAirPortShortCodeDDL, , setGetAirPortShortCodeDDL] = useAxiosGet();
+  const [airServiceProviderDDLData, getAirServiceProviderDDL, , setAirServiceProviderDDL] = useAxiosGet();
 
   const [poNumberDDL, setPoNumberDDL] = React.useState([]);
   const [styleDDL, setStyleDDL] = React.useState([]);
@@ -227,6 +228,8 @@ function TransportModal({ rowClickData, CB }) {
           }
         },
       );
+      GetAirServiceProviderDDL(rowClickData?.modeOfTransport === "Sea" ? 1 : 2);
+
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -236,34 +239,42 @@ function TransportModal({ rowClickData, CB }) {
     setTransportModeDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
     );
-    setShippingLineDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${1}`,
-    );
-    setAirLineDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${2}`,
-    );
+    // setShippingLineDDL(
+    //   `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${1}`,
+    // );
+    // setAirLineDDL(
+    //   `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${2}`,
+    // );
     setGSADDL(
       `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${3}`,
     );
-    getAirPortShortCodeDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetAirPortShortCodeDDL`,
-      (res) => {
-        // setGetAirPortShortCodeDDL([
-        //   {
-        //     value: 1,
-        //     label: 'Dhaka',
-        //   }
-        // ]);
-        const modifiedData = res?.map((item) => ({
-          ...item,
-          label: item?.code
-        }));
-        setGetAirPortShortCodeDDL(modifiedData);
-      }
-    );
+    // getAirPortShortCodeDDL(
+    //   `${imarineBaseUrl}/domain/ShippingService/GetAirPortShortCodeDDL`,
+    //   (res) => {
+    //     // setGetAirPortShortCodeDDL([
+    //     //   {
+    //     //     value: 1,
+    //     //     label: 'Dhaka',
+    //     //   }
+    //     // ]);
+    //     const modifiedData = res?.map((item) => ({
+    //       ...item,
+    //       label: item?.code
+    //     }));
+    //     setGetAirPortShortCodeDDL(modifiedData);
+    //   }
+    // );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const GetAirServiceProviderDDL = (typeId) => {
+    getAirServiceProviderDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${typeId}`,
+      (res) => {
+        setAirServiceProviderDDL(res);
+      },
+    );
+  }
 
   const bookingData = shipBookingRequestGetById || {};
   const saveHandler = (values, cb) => {
@@ -532,7 +543,7 @@ function TransportModal({ rowClickData, CB }) {
                               <div className="col-lg-3">
                                 <NewSelect
                                   name={`rows[${index}].airLine`}
-                                  options={airLineDDL || []
+                                  options={airServiceProviderDDLData || []
                                   }
                                   value={values.rows[index].airLine}
                                   label="Air Line"
@@ -671,7 +682,7 @@ function TransportModal({ rowClickData, CB }) {
                                     }
                                   /> */}
                                   <NewSelect
-                                    options={shippingLineDDL || []
+                                    options={airServiceProviderDDLData || []
                                     }
                                     label="Shipping Line"
                                     name={`rows[${index}].shippingLine`}
@@ -1304,7 +1315,7 @@ function TransportModal({ rowClickData, CB }) {
                             /> */}
                             <NewSelect
                               name="scheduleFrom"
-                              options={airPortShortCodeDDLData || []}
+                              options={airServiceProviderDDLData || []}
                               value={values?.rows[index]?.scheduleFrom || ''}
                               label="From"
                               onChange={(valueOption) => {
@@ -1333,7 +1344,7 @@ function TransportModal({ rowClickData, CB }) {
                             /> */}
                             <NewSelect
                               name="scheduleTo"
-                              options={airPortShortCodeDDLData || []}
+                              options={airServiceProviderDDLData || []}
                               value={values?.rows[index]?.scheduleTo || ''}
                               label="To"
                               onChange={(valueOption) => {
