@@ -210,7 +210,7 @@ function CreateMasterBL() {
                     ]}
                     name="masterBLType"
                     placeholder="Type"
-                    value={values?.participantType}
+                    value={values?.masterBLType}
                     onChange={(valueOption) => {
                       setFieldValue("masterBLType", valueOption);
                       setFieldValue("shippingLineName", "");
