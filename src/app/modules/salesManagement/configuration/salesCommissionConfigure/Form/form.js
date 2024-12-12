@@ -11,6 +11,8 @@ import IButton from "../../../../_helper/iButton";
 import SalesCommissionConfigureFormTable from "./table";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { shallowEqual, useSelector } from "react-redux";
+import axios from "axios";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 
 const ValidationSchema = Yup.object().shape({});
 
@@ -30,6 +32,7 @@ export default function _Form({
   );
 
   const [itemGroupDDL, getItemGroupDDL] = useAxiosGet();
+  const [ItemDDL, getItemDDL] = useAxiosGet();
 
   useEffect(() => {
     getItemGroupDDL(
@@ -37,7 +40,14 @@ export default function _Form({
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit]);
-
+  useEffect(() => {
+    function getItemPlant(accId, buId, disChaId, salesOrgId) {
+      return axios.get(
+        `/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${disChaId}&SalesOrgId=${salesOrgId}`
+      );
+    }
+    getItemPlant();
+  }, []);
   return (
     <>
       <Formik
@@ -97,6 +107,7 @@ export default function _Form({
                         38,
                         39,
                         40,
+                        41,
                       ].includes(values?.commissionType?.value),
                       territory: false,
                       allElement: false,
@@ -124,7 +135,7 @@ export default function _Form({
 
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
 
-                  {[17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(
+                  {[17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 41].includes(
                     values?.commissionType?.value
                   ) && (
                     <>
@@ -166,7 +177,6 @@ export default function _Form({
                       </div>
                     </>
                   )}
-
                   <div className={`col-lg-3`}>
                     <InputField
                       label="Common Rate"
@@ -204,9 +214,22 @@ export default function _Form({
                       />
                     </div>
                   )}
+                  {[41].includes(values?.commissionType?.value) && (
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="itemName"
+                        options={ItemDDL || []}
+                        value={values?.itemName}
+                        label="Item Name"
+                        onChange={(e) => {
+                          setFieldValue("itemName", e);
+                        }}
+                      />
+                    </div>
+                  )}
                   <IButton
                     title={
-                      [17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(
+                      [17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 41].includes(
                         values?.commissionType?.value
                       )
                         ? "Add"
