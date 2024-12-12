@@ -40,7 +40,6 @@ export default function FormTwo({ obj }) {
       .get(`/hcm/HCMDDL/GetEmployeeByAcIdDDL?AccountId=${accId}&search=${v}`)
       .then((res) => res?.data);
   };
-
   return (
     <Formik
       initialValues={initData}
@@ -107,7 +106,13 @@ export default function FormTwo({ obj }) {
                   <SearchAsyncSelect
                     selectedValue={values?.employee}
                     handleChange={(valueOption) => {
-                      setFieldValue("employee", valueOption);
+                      if (valueOption) {
+                        setFieldValue("employee", valueOption);
+                        setBankInfo(valueOption, setFieldValue);
+                      } else {
+                        setFieldValue("employee", "");
+                        setBankInfo("", setFieldValue);
+                      }
                     }}
                     loadOptions={employeeList}
                   />

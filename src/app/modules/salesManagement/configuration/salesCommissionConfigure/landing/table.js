@@ -15,7 +15,7 @@ const SalesCommissionConfigureLandingTable = ({ obj }) => {
 
   return (
     <div>
-      {[17, 18, 25, 27, 22].includes(values?.commissionType?.value) ? (
+      {[17, 18, 25, 27, 22, 41].includes(values?.commissionType?.value) ? (
         <TableTwo obj={{ gridData, values, setOpen, setSingleData, getData }} />
       ) : (
         <TableOne
