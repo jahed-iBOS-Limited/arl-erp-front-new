@@ -19,6 +19,7 @@ export default function EditForm({ obj }) {
         bpcommissionRate: values?.bpcommissionRate || 0,
         bacommissionRate: values?.bacommissionRate || 0,
         cpcommissionRate: values?.cpcommissionRate || 0,
+        cacommissionRate: values?.cacommissionRate || 0,
         firstSlabCommissionRate: values?.firstSlabCommissionRate || 0,
         secondSlabCommissionRate: values?.secondSlabCommissionRate || 0,
         thirdSlabCommissionRate: values?.thirdSlabCommissionRate || 0,
@@ -79,6 +80,7 @@ export default function EditForm({ obj }) {
                         <th>BP Rate/bag</th>
                         <th>BA Rate/bag</th>
                         <th>CP Rate/bag</th>
+                        <th>CA Rate/bag</th>
                       </>
                     )}
 
@@ -209,6 +211,20 @@ export default function EditForm({ obj }) {
                             onChange={(e) => {
                               setFieldValue(
                                 "cpcommissionRate",
+                                e?.target?.value
+                              );
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            value={values?.cacommissionRate}
+                            name="cacommissionRate"
+                            placeholder="CP"
+                            type="text"
+                            onChange={(e) => {
+                              setFieldValue(
+                                "cacommissionRate",
                                 e?.target?.value
                               );
                             }}
