@@ -90,10 +90,12 @@ function BookingList() {
     PageSize = pageSize,
   ) => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
+        profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${
+        profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search${searchValue ||
-      ''}`,
+        ''}`,
     );
   };
   return (
@@ -107,7 +109,7 @@ function BookingList() {
             entryCode: '',
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
@@ -514,7 +516,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                  disabled={item?.isPlaning}
+                                  // disabled={item?.isPlaning}
                                   className={
                                     item?.isPlaning
                                       ? 'btn btn-sm btn-success px-1 py-1'
@@ -535,7 +537,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                  className='btn btn-sm btn-warning px-1 py-1'
+                                  className="btn btn-sm btn-warning px-1 py-1"
                                   onClick={() => {
                                     setRowClickData(item);
                                     setIsModalShowObj({
@@ -1154,8 +1156,9 @@ function BookingList() {
       {/* HBCode GN Modal */}
       {isModalShowObj?.isHBCodeGN && (
         <IViewModal
-          title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-            } Report`}
+          title={`${
+            rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+          } Report`}
           show={isModalShowObj?.isHBCodeGN}
           onHide={() => {
             setIsModalShowObj({

@@ -69,7 +69,7 @@ function HBLFormatAirItem({
                 </p>
                 <p>
                   {bookingData?.objPurchase?.[0]?.infoType === 'lc'
-                    ? 'A/C'
+                    ? 'A/C '
                     : ''}
 
                   {bookingData?.shipperName}
@@ -93,7 +93,12 @@ function HBLFormatAirItem({
                   {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
                     bookingData?.notifyBankAddr}
                 </p>
-                <p>{bookingData?.consigneeName}</p>
+                <p>
+                  {bookingData?.objPurchase?.[0]?.infoType === 'lc'
+                    ? 'A/C '
+                    : ''}{' '}
+                  {bookingData?.consigneeName}
+                </p>
                 <p>{bookingData?.consigneeEmail}</p>
                 {/* <p>{bookingData?.consigneeContactPerson}</p> */}
                 <p>{bookingData?.consigneeContact}</p>
@@ -551,6 +556,7 @@ function HBLFormatAirItem({
                               ? ','
                               : '')}
                         </p>
+                        <p>Dimn: {}</p>
                         <br />
                       </>
                     );
