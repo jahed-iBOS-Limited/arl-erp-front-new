@@ -24,10 +24,10 @@ export default function _Form({
   desginationList,
 }) {
   const history = useHistory();
-  const { selectedBusinessUnit } = useSelector(
-    (state) => state?.authData,
-    shallowEqual
-  );
+  const {
+    selectedBusinessUnit,
+    profileData: { accountId },
+  } = useSelector((state) => state?.authData, shallowEqual);
 
   const [itemGroupDDL, getItemGroupDDL] = useAxiosGet();
 
@@ -97,6 +97,7 @@ export default function _Form({
                         38,
                         39,
                         40,
+                        41,
                       ].includes(values?.commissionType?.value),
                       territory: false,
                       allElement: false,
@@ -124,7 +125,7 @@ export default function _Form({
 
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
 
-                  {[17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(
+                  {[17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 41].includes(
                     values?.commissionType?.value
                   ) && (
                     <>
@@ -166,7 +167,6 @@ export default function _Form({
                       </div>
                     </>
                   )}
-
                   <div className={`col-lg-3`}>
                     <InputField
                       label="Common Rate"
@@ -176,7 +176,7 @@ export default function _Form({
                       type={`text`}
                     />
                   </div>
-                  {[35, 36, 37, 38, 39, 40].includes(
+                  {[35, 36, 37, 38, 39, 40, 41].includes(
                     values?.commissionType?.value
                   ) && (
                     <div className="col-lg-3">
@@ -206,7 +206,7 @@ export default function _Form({
                   )}
                   <IButton
                     title={
-                      [17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(
+                      [17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 41].includes(
                         values?.commissionType?.value
                       )
                         ? "Add"
@@ -215,9 +215,20 @@ export default function _Form({
                     onClick={() => {
                       getAreas(values, () => {
                         if (
-                          [17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(
-                            values?.commissionType?.value
-                          )
+                          [
+                            17,
+                            18,
+                            25,
+                            27,
+                            22,
+                            35,
+                            36,
+                            37,
+                            38,
+                            39,
+                            40,
+                            41,
+                          ].includes(values?.commissionType?.value)
                         ) {
                           setFieldValue("area", "");
                           setFieldValue("fromAchievement", "");
