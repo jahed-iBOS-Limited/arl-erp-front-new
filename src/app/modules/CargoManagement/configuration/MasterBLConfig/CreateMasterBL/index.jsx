@@ -4,7 +4,7 @@ import moment from "moment";
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../../App";
 import ICustomCard from "../../../../_helper/_customCard";
@@ -40,7 +40,7 @@ const validationSchema = Yup.object().shape({
       otherwise: Yup.object().nullable(),
     }),
   masterBL: Yup.string().required("Master BL is required"),
-  gasName: Yup.object().shape({
+  gsaName: Yup.object().shape({
     value: Yup.string().required("GSA is required"),
     label: Yup.string().required("GSA is required"),
   }),
@@ -49,6 +49,8 @@ const validationSchema = Yup.object().shape({
 function CreateMasterBL() {
   const history = useHistory();
   const { id } = useParams();
+  const location = useLocation();
+  const { data } = location?.state || {};
   const formikRef = React.useRef(null);
   const {
     profileData: { userId },
@@ -56,7 +58,7 @@ function CreateMasterBL() {
     return state?.authData;
   }, shallowEqual);
   const [, SaveMasterBL, isLoading] = useAxiosPost();
-  const [, setMasterBLById] = useAxiosGet();
+  //   const [, setMasterBLById] = useAxiosGet();
   const [gsaDDL, setGSADDL] = useAxiosGet();
   const [
     airServiceProviderDDLData,
@@ -72,8 +74,8 @@ function CreateMasterBL() {
       shippingLineName: values?.shippingLineName?.label || "",
       airLine: values?.airLineName?.value || 0,
       airLineName: values?.airLineName?.label || "",
-      gsaId: values?.gasName?.value || 0,
-      gsaName: values?.gasName?.label || "",
+      gsaId: values?.gsaName?.value || 0,
+      gsaName: values?.gsaName?.label || "",
       masterBL: values?.masterBL || "",
       isActive: true,
       createdBy: userId,
@@ -92,65 +94,7 @@ function CreateMasterBL() {
       "post"
     );
   };
-  React.useEffect(() => {
-    if (!id) return;
-    setMasterBLById(
-      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLConfigurationById?mblConfigId=${id}`,
-      (data) => {
-        if (formikRef.current) {
-          const getMasterBLType = () => {
-            if (data?.shippingLineName) {
-              return { value: 1, label: "Sea" };
-            }
-            if (data?.airLineName) {
-              return { value: 2, label: "Air" };
-            }
-            return {
-              value: 0,
-              label: "",
-            };
-          };
-          formikRef.current.setFieldValue("masterBLType", getMasterBLType());
-          formikRef.current.setFieldValue(
-            "shippingLineName",
-            data?.shippingLineName
-              ? {
-                  value: data?.shippingLineId || 0,
-                  label: data?.shippingLineName || "",
-                }
-              : ""
-          );
-          formikRef.current.setFieldValue(
-            "airLineName",
-            data?.airLineName
-              ? {
-                  value: data?.airLine || 0,
-                  label: data?.airLineName || "",
-                }
-              : ""
-          );
-          formikRef.current.setFieldValue("masterBL", data?.masterBL || "");
-          formikRef.current.setFieldValue(
-            "gsaName",
-            data?.gsaName
-              ? {
-                  value: data?.gsaId || 0,
-                  label: data?.gsaName || "",
-                }
-              : ""
-          );
-        }
-      }
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  React.useEffect(() => {
-    setGSADDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${3}`
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const GetAirServiceProviderDDL = (typeId) => {
     getAirServiceProviderDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${typeId}`,
@@ -159,6 +103,61 @@ function CreateMasterBL() {
       }
     );
   };
+  React.useEffect(() => {
+    setGSADDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${3}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    if (!id) return;
+    if (data && formikRef.current) {
+      const getMasterBLType = () => {
+        if (data?.shippingLineName) {
+          return { value: 1, label: "Sea" };
+        }
+        if (data?.airLineName) {
+          return { value: 2, label: "Air" };
+        }
+        return {
+          value: 0,
+          label: "",
+        };
+      };
+      GetAirServiceProviderDDL(getMasterBLType()?.value);
+      formikRef.current.setFieldValue("masterBLType", getMasterBLType());
+      formikRef.current.setFieldValue(
+        "shippingLineName",
+        data?.shippingLineName
+          ? {
+              value: data?.shippingLineId || 0,
+              label: data?.shippingLineName || "",
+            }
+          : ""
+      );
+      formikRef.current.setFieldValue(
+        "airLineName",
+        data?.airLineName
+          ? {
+              value: data?.airLine || 0,
+              label: data?.airLineName || "",
+            }
+          : ""
+      );
+      formikRef.current.setFieldValue("masterBL", data?.masterBL || "");
+      formikRef.current.setFieldValue(
+        "gsaName",
+        data?.gsaName
+          ? {
+              value: data?.gsaId || 0,
+              label: data?.gsaName || "",
+            }
+          : ""
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, id]);
 
   return (
     <ICustomCard
@@ -181,7 +180,7 @@ function CreateMasterBL() {
           airLineName: "",
           shippingLineName: "",
           masterBL: "",
-          gasName: "",
+          gsaName: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -246,7 +245,7 @@ function CreateMasterBL() {
                       options={airServiceProviderDDLData || []}
                       label="Air Line"
                       name={"airLineName"}
-                      value={values?.airLine}
+                      value={values?.airLineName}
                       onChange={(valueOption) => {
                         setFieldValue(`airLineName`, valueOption);
                       }}
@@ -272,10 +271,10 @@ function CreateMasterBL() {
                   <NewSelect
                     options={gsaDDL || []}
                     label="GSA"
-                    name={"gasName"}
-                    value={values?.gasName}
+                    name={"gsaName"}
+                    value={values?.gsaName}
                     onChange={(valueOption) => {
-                      setFieldValue(`gasName`, valueOption);
+                      setFieldValue(`gsaName`, valueOption);
                     }}
                     placeholder="GSA"
                     errors={errors}

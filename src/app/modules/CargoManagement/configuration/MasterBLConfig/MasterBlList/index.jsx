@@ -50,7 +50,8 @@ export default function MasterBlList() {
                         className="btn btn-primary"
                         onClick={() => {
                           history.push(
-                            `/cargoManagement/configuration/masterbl/edit/${item?.mblConfigId}`
+                            `/cargoManagement/configuration/masterbl/edit/${item?.mblConfigId}`,
+                            { data: item }
                           );
                         }}
                       >
