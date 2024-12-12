@@ -406,121 +406,131 @@ export function TableRow({
                   <div className="col-lg-12">
                     {rowDto?.length > 0 && (
                       <>
-                     <div className="table-responsive">
-                     <table className="table table-striped table-bordered global-table">
-                          <thead>
-                            <tr>
-                              {values?.reportType?.value === 1 && (
-                                <th>
-                                  <input
-                                    type="checkbox"
-                                    id="parent"
-                                    onChange={(event) => {
-                                      allGridCheck(event.target.checked);
-                                    }}
-                                  />
-                                </th>
-                              )}
-
-                              <th style={{ width: "30px" }}>SL</th>
-                              <th>Shipment No</th>
-                              <th style={{ width: "90px" }}>Contact Date</th>
-                              <th>Route Name</th>
-                              <th>Transport Mode</th>
-                              <th>Shipping Type Name</th>
-                              <th>Vehicle Name</th>
-                              <th>Total Qty</th>
-                              <th style={{ width: "90px" }}>Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {rowDto?.map((td, index) => (
-                              <tr key={index}>
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered global-table">
+                            <thead>
+                              <tr>
                                 {values?.reportType?.value === 1 && (
-                                  <td>
-                                    <div className="text-center">
-                                      <Field
-                                        name={values.itemCheck}
-                                        component={() => (
-                                          <input
-                                            id="itemCheck"
-                                            type="checkbox"
-                                            value={td.itemCheck}
-                                            checked={
-                                              values.reportType === 2
-                                                ? true
-                                                : td.itemCheck
-                                            }
-                                            name={td.itemCheck}
-                                            onChange={(e) => {
-                                              //setFieldValue("itemCheck", e.target.checked);
-                                              itemSlectedRowHandler(
-                                                e.target.checked,
-                                                index
-                                              );
-                                            }}
-                                          />
-                                        )}
-                                        label="Transshipment"
-                                      />
-                                    </div>
-                                  </td>
+                                  <th>
+                                    <input
+                                      type="checkbox"
+                                      id="parent"
+                                      onChange={(event) => {
+                                        allGridCheck(event.target.checked);
+                                      }}
+                                    />
+                                  </th>
                                 )}
 
-                                <td className="text-center"> {index + 1} </td>
-                                <td>
-                                  <div>{td?.shipmentCode}</div>
-                                </td>
-                                <td>
-                                  <div className="text-center">
-                                    {_dateFormatter(td?.shipmentDate)}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div>{td?.routeName}</div>
-                                </td>
-                                <td>
-                                  <div>{td?.transportModeName}</div>
-                                </td>
-                                <td>
-                                  <div>{td.shippingTypeName}</div>{" "}
-                                </td>
-                                <td>
-                                  <div>{td.vehicleName}</div>{" "}
-                                </td>
-                                <td>
-                                  <div className="text-right">
-                                    {td.itemTotalQty}
-                                  </div>{" "}
-                                </td>
-                                <td>
-                                  <div className="d-flex justify-content-around">
-                                    <span className="view">
-                                      <IView
-                                        clickHandler={() => {
-                                          history.push({
-                                            pathname: `/transport-management/shipmentmanagement/transfershipping/view/${td.shipmentId}/${td.shipmentCode}`,
-                                            state: values,
-                                          });
-                                        }}
-                                      />
-                                    </span>
-                                    {permitted ? (
+                                <th style={{ width: "30px" }}>SL</th>
+                                <th>Shipment No</th>
+                                <th style={{ width: "90px" }}>Contact Date</th>
+                                <th>Route Name</th>
+                                <th>Transport Mode</th>
+                                <th>Shipping Type Name</th>
+                                <th>Vehicle Name</th>
+                                <th>Total Qty</th>
+                                <th style={{ width: "90px" }}>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {rowDto?.map((td, index) => (
+                                <tr
+                                  key={index}
+                                  style={{
+                                    backgroundColor:
+                                      td?.loadingConfirmDate == null ||
+                                      td?.tlm == 0 ||
+                                      null
+                                        ? "#ff7061"
+                                        : "",
+                                  }}
+                                >
+                                  {values?.reportType?.value === 1 && (
+                                    <td>
+                                      <div className="text-center">
+                                        <Field
+                                          name={values.itemCheck}
+                                          component={() => (
+                                            <input
+                                              id="itemCheck"
+                                              type="checkbox"
+                                              value={td.itemCheck}
+                                              checked={
+                                                values.reportType === 2
+                                                  ? true
+                                                  : td.itemCheck
+                                              }
+                                              name={td.itemCheck}
+                                              onChange={(e) => {
+                                                //setFieldValue("itemCheck", e.target.checked);
+                                                itemSlectedRowHandler(
+                                                  e.target.checked,
+                                                  index
+                                                );
+                                              }}
+                                            />
+                                          )}
+                                          label="Transshipment"
+                                        />
+                                      </div>
+                                    </td>
+                                  )}
+
+                                  <td className="text-center"> {index + 1} </td>
+                                  <td>
+                                    <div>{td?.shipmentCode}</div>
+                                  </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {_dateFormatter(td?.shipmentDate)}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div>{td?.routeName}</div>
+                                  </td>
+                                  <td>
+                                    <div>{td?.transportModeName}</div>
+                                  </td>
+                                  <td>
+                                    <div>{td.shippingTypeName}</div>{" "}
+                                  </td>
+                                  <td>
+                                    <div>{td.vehicleName}</div>{" "}
+                                  </td>
+                                  <td>
+                                    <div className="text-right">
+                                      {td.itemTotalQty}
+                                    </div>{" "}
+                                  </td>
+                                  <td>
+                                    <div className="d-flex justify-content-around">
                                       <span className="view">
-                                        <IClose
-                                          title="Cancel Transfer Shipping"
-                                          closer={() => {
-                                            setSingleItem(td);
-                                            setOpen(true);
+                                        <IView
+                                          clickHandler={() => {
+                                            history.push({
+                                              pathname: `/transport-management/shipmentmanagement/transfershipping/view/${td.shipmentId}/${td.shipmentCode}`,
+                                              state: values,
+                                            });
                                           }}
                                         />
                                       </span>
-                                    ) : (
-                                      ""
-                                    )}
+                                      {permitted ? (
+                                        <span className="view">
+                                          <IClose
+                                            title="Cancel Transfer Shipping"
+                                            closer={() => {
+                                              setSingleItem(td);
+                                              setOpen(true);
+                                            }}
+                                          />
+                                        </span>
+                                      ) : (
+                                        ""
+                                      )}
 
-                                    {/* Created Report Type Edit */}
-                                    {/* {values?.reportType?.value === 1 && (
+                                      {/* Created Report Type Edit */}
+                                      {/* {values?.reportType?.value === 1 && (
                                       <span
                                         className="edit"
                                         onClick={() => {
@@ -533,7 +543,7 @@ export function TableRow({
                                         <IEdit />
                                       </span>
                                     )} */}
-                                    {/* {values?.reportType?.label ===
+                                      {/* {values?.reportType?.label ===
                                       "Shipment Created" && (
                                       <span
                                         style={{ cursor: "pointer" }}
@@ -557,23 +567,23 @@ export function TableRow({
                                         </OverlayTrigger>
                                       </span>
                                     )} */}
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                     </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </>
                     )}
 
                     {incompleteRowDto?.length > 0 && (
                       <>
-                       <div className="table-responsive">
-                       <table className="table table-striped table-bordered global-table">
-                          <thead>
-                            <tr>
-                              {/* <th>
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered global-table">
+                            <thead>
+                              <tr>
+                                {/* <th>
                                 <input
                                   type="checkbox"
                                   id="parent"
@@ -584,22 +594,22 @@ export function TableRow({
                                   }}
                                 />
                               </th> */}
-                              <th>SL</th>
-                              <th>Transfer Date</th>
-                              <th>Transfer Code</th>
-                              <th>Transfer Type</th>
-                              <th>Sold To Party</th>
-                              <th>Transport Zone</th>
-                              <th>Total Volume</th>
-                              <th>Total Weight</th>
-                              <th>Total Qty</th>
-                              <th>Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {incompleteRowDto?.map((td, index) => (
-                              <tr key={index}>
-                                {/* <td className="text-center">
+                                <th>SL</th>
+                                <th>Transfer Date</th>
+                                <th>Transfer Code</th>
+                                <th>Transfer Type</th>
+                                <th>Sold To Party</th>
+                                <th>Transport Zone</th>
+                                <th>Total Volume</th>
+                                <th>Total Weight</th>
+                                <th>Total Qty</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {incompleteRowDto?.map((td, index) => (
+                                <tr key={index}>
+                                  {/* <td className="text-center">
                                   <Field
                                     name={values.itemCheck}
                                     component={() => (
@@ -625,64 +635,64 @@ export function TableRow({
                                     label="Transshipment"
                                   />
                                 </td> */}
-                                <td className="text-center"> {index + 1} </td>
-                                <td>
-                                  <div className="text-center">
-                                    {_dateFormatter(td?.dteDeliveryDate)}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div>{td?.strDeliveryCode}</div>
-                                </td>
-                                <td>
-                                  <div>{td?.strDeliveryTypeName}</div>
-                                </td>
-                                <td>
-                                  <div>{td?.strSoldToPartnerName}</div>
-                                </td>
-                                <td>
-                                  <div>{td?.strTransportZoneName}</div>{" "}
-                                </td>
-                                <td>
-                                  <div className="text-right">
-                                    {td?.numTotalVolume}
-                                  </div>{" "}
-                                </td>
-                                <td>
-                                  <div className="text-right">
-                                    {td?.numTotalWeight}
-                                  </div>{" "}
-                                </td>
-                                <td>
-                                  <div className="text-right">
-                                    {td?.itemTotalQty}
-                                  </div>{" "}
-                                </td>
-                                <td>
-                                  <div className="d-flex justify-content-around">
-                                    <span className="view">
-                                      <IView
-                                        clickHandler={() => {
-                                          history.push(
-                                            `/transport-management/shipmentmanagement/transfershipping/incompleteView/${td?.intDeliveryId}`
-                                          );
-                                        }}
-                                      />
-                                    </span>
-                                    {permitted ? (
+                                  <td className="text-center"> {index + 1} </td>
+                                  <td>
+                                    <div className="text-center">
+                                      {_dateFormatter(td?.dteDeliveryDate)}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div>{td?.strDeliveryCode}</div>
+                                  </td>
+                                  <td>
+                                    <div>{td?.strDeliveryTypeName}</div>
+                                  </td>
+                                  <td>
+                                    <div>{td?.strSoldToPartnerName}</div>
+                                  </td>
+                                  <td>
+                                    <div>{td?.strTransportZoneName}</div>{" "}
+                                  </td>
+                                  <td>
+                                    <div className="text-right">
+                                      {td?.numTotalVolume}
+                                    </div>{" "}
+                                  </td>
+                                  <td>
+                                    <div className="text-right">
+                                      {td?.numTotalWeight}
+                                    </div>{" "}
+                                  </td>
+                                  <td>
+                                    <div className="text-right">
+                                      {td?.itemTotalQty}
+                                    </div>{" "}
+                                  </td>
+                                  <td>
+                                    <div className="d-flex justify-content-around">
                                       <span className="view">
-                                        <IClose
-                                          title="Cancel Transfer Shipping"
-                                          closer={() => {
-                                            setSingleItem(td);
-                                            setOpen(true);
+                                        <IView
+                                          clickHandler={() => {
+                                            history.push(
+                                              `/transport-management/shipmentmanagement/transfershipping/incompleteView/${td?.intDeliveryId}`
+                                            );
                                           }}
                                         />
                                       </span>
-                                    ) : (
-                                      ""
-                                    )}
-                                    {/* {values?.reportType?.value === 1 && (
+                                      {permitted ? (
+                                        <span className="view">
+                                          <IClose
+                                            title="Cancel Transfer Shipping"
+                                            closer={() => {
+                                              setSingleItem(td);
+                                              setOpen(true);
+                                            }}
+                                          />
+                                        </span>
+                                      ) : (
+                                        ""
+                                      )}
+                                      {/* {values?.reportType?.value === 1 && (
                                       <span
                                         className="edit"
                                         onClick={() => {
@@ -695,53 +705,53 @@ export function TableRow({
                                         <IEdit />
                                       </span>
                                     )} */}
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                       </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </>
                     )}
                     {canceledRows?.data?.length > 0 && (
                       <>
-                       <div className="table-responsive">
-                       <table className="table table-striped table-bordered global-table">
-                          <thead>
-                            <tr>
-                              <th>SL</th>
-                              <th>Shipment Date</th>
-                              <th>Shipment Code</th>
-                              <th>Shipping Type</th>
-                              <th>Route Name</th>
-                              <th>Vehicle</th>
-                              <th>Total Weight</th>
-                              <th>Total Qty</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {canceledRows?.data?.map((td, index) => (
-                              <tr key={index}>
-                                <td className="text-center"> {index + 1} </td>
-                                <td className="text-center">
-                                  {_dateFormatter(td?.shipmentDate)}
-                                </td>
-                                <td>{td?.shipmentCode}</td>
-                                <td>{td?.shippingTypeName}</td>
-                                <td>{td?.routeName}</td>
-                                <td>{td?.vehicleName}</td>
-                                <td className="text-right">
-                                  {td?.itemTotalGrowssWeight}
-                                </td>
-                                <td className="text-right">
-                                  {td?.itemTotalQty}
-                                </td>
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered global-table">
+                            <thead>
+                              <tr>
+                                <th>SL</th>
+                                <th>Shipment Date</th>
+                                <th>Shipment Code</th>
+                                <th>Shipping Type</th>
+                                <th>Route Name</th>
+                                <th>Vehicle</th>
+                                <th>Total Weight</th>
+                                <th>Total Qty</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                       </div>
+                            </thead>
+                            <tbody>
+                              {canceledRows?.data?.map((td, index) => (
+                                <tr key={index}>
+                                  <td className="text-center"> {index + 1} </td>
+                                  <td className="text-center">
+                                    {_dateFormatter(td?.shipmentDate)}
+                                  </td>
+                                  <td>{td?.shipmentCode}</td>
+                                  <td>{td?.shippingTypeName}</td>
+                                  <td>{td?.routeName}</td>
+                                  <td>{td?.vehicleName}</td>
+                                  <td className="text-right">
+                                    {td?.itemTotalGrowssWeight}
+                                  </td>
+                                  <td className="text-right">
+                                    {td?.itemTotalQty}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </>
                     )}
                   </div>
