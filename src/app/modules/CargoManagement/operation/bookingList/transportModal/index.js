@@ -388,7 +388,6 @@ function TransportModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
-            {console.log('values', values)}
             {/* <h1>{JSON.stringify(errors)}</h1> */}
             <Form className="form form-label-right">
               <div className="">
@@ -1243,7 +1242,6 @@ function TransportModal({ rowClickData, CB }) {
                                   {formikRef.current?.values?.rows[
                                     index
                                   ]?.items?.map((item, index) => {
-                                    console.log('item', item);
                                     return (
                                       <tr key={index}>
                                         <td>{item?.poNumber?.label}</td>
