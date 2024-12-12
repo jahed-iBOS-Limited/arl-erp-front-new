@@ -5,6 +5,8 @@ import BusinessPartnerList from './BusinessPartnerList';
 import CreateBusinessPartner from './CreateBusinessPartner';
 import CreateGlobalBank from './GlobalBank/GlobalBankCreate';
 import GlobalBankList from './GlobalBank/GlobalBankList';
+import CreateMasterBL from './MasterBLConfig/CreateMasterBL';
+import MasterBlList from './MasterBLConfig/MasterBlList';
 
 export function ConfigurationPages() {
   return (
@@ -26,6 +28,20 @@ export function ConfigurationPages() {
         path="/cargoManagement/configuration/assign"
         component={BusinessPartnerList}
       />
+      {/* // */}
+      <ContentRoute
+        path="/cargoManagement/configuration/masterbl/edit/:id"
+        component={CreateMasterBL}
+      />
+      <ContentRoute
+        path="/cargoManagement/configuration/masterbl/create"
+        component={CreateMasterBL}
+      />
+      <ContentRoute
+        path="/cargoManagement/configuration/masterbl"
+        component={MasterBlList}
+      />
+      {/* // */}
       <ContentRoute
         path="/cargoManagement/configuration/globalBank/create"
         component={CreateGlobalBank}
