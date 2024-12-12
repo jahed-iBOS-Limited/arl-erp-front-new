@@ -103,7 +103,9 @@ export default function SalesCommissionConfigureEntryForm() {
 
       setRowData(newArray);
     } else if (
-      [17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40].includes(commissionTypeId)
+      [17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 41].includes(
+        commissionTypeId
+      )
     ) {
       const isCommonRateApplicable = [35, 36, 37, 38, 39, 40].includes(
         commissionTypeId
@@ -122,6 +124,7 @@ export default function SalesCommissionConfigureEntryForm() {
         bpcommissionRate: isCommonRateApplicable ? 0 : commissionRate,
         bacommissionRate: isCommonRateApplicable ? 0 : commissionRate,
         cpcommissionRate: isCommonRateApplicable ? 0 : commissionRate,
+        cacommissionRate: isCommonRateApplicable ? 0 : commissionRate,
         firstSlabCommissionRate: 0,
         secondSlabCommissionRate: 0,
         thirdSlabCommissionRate: 0,
