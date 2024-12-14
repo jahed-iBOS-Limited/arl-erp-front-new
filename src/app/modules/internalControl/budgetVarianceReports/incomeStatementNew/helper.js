@@ -240,6 +240,7 @@ export const parameterValues = (values) => {
     },
     { name: "ReportTypeId", value: "2" },
     { name: "ViewTypeReff", value: "" },
+    { name: "isForecast", value: `${values?.isForecast?.value}` },
   ];
   if (values?.viewType?.value) {
     reportParameter.push({ name: "ViewType", value: values.viewType.value });

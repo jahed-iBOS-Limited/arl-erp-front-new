@@ -325,7 +325,7 @@ export default function IncomestatementNew() {
                   </button>
                 </div>
               </div>
-              {console.log("parameterValues(values)", parameterValues(values))}
+              {/* {console.log("parameterValues(values)", parameterValues(values))} */}
               <div>
                 {values?.viewType?.value === "profitCenter" ? (
                   <ProjectedIncomeStatement
