@@ -194,6 +194,7 @@ function BookingList() {
                         >
                           Delivery Port
                         </th>
+                        <th style={{ minWidth: '50px' }}>HBL No.</th>
                         {/* <th
                           style={{
                             minWidth: '120px',
@@ -373,7 +374,7 @@ function BookingList() {
                               {item?.shipperCountry}
                             </td>
                             <td className="text-left">{item?.portOfLoading}</td>
-                            {/* <td className="text-left">{item?.bookingAmount}</td> */}
+                            <td className="text-left">{item?.hblnumber}</td>
                             <td>
                               <span>{statusReturn(item)}</span>
                             </td>
