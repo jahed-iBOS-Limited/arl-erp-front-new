@@ -90,10 +90,12 @@ function BookingList() {
     PageSize = pageSize
   ) => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
+        profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${
+        profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search${searchValue ||
-      ""}`
+        ''}`,
     );
   };
   const [selectedRow, setSelectedRow] = useState([]);
@@ -121,7 +123,7 @@ function BookingList() {
             entryCode: "",
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
@@ -542,7 +544,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                  disabled={item?.isPlaning}
+                                  // disabled={item?.isPlaning}
                                   className={
                                     item?.isPlaning
                                       ? "btn btn-sm btn-success px-1 py-1"
@@ -1182,8 +1184,14 @@ function BookingList() {
       {/* HBCode GN Modal */}
       {isModalShowObj?.isHBCodeGN && (
         <IViewModal
+<<<<<<< HEAD
+          title={`${
+            rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+          } Report`}
+=======
           title={`${rowClickData?.modeOfTransport === "Air" ? "HAWB" : "HBL"
             } Report`}
+>>>>>>> 6e962a4415074cc6738fa4566bec4d8bf5ffa9e2
           show={isModalShowObj?.isHBCodeGN}
           onHide={() => {
             setIsModalShowObj({
