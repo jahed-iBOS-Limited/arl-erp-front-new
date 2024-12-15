@@ -1,0 +1,264 @@
+.hblContainer {
+    font-size: 11px;
+    border: 1px solid #000;
+    position: relative;
+}
+
+.hblContainer h1,
+.hblContainer h2,
+.hblContainer h3,
+.hblContainer h4,
+.hblContainer h5,
+.hblContainer h6 {
+    margin: 0;
+    padding: 0;
+}
+
+.hblContainer p,
+.hblContainer h3 {
+    margin: 0;
+    padding: 2px 5px 0px 5px;
+    line-height: 12px;
+}
+
+.hblContainer tr td {
+    font-size: 12px !important;
+}
+
+.hblContainer .airandConsigneeInfo .top {
+    display: flex;
+}
+
+.hblContainer .airandConsigneeInfo .top .leftSide {
+    width: 50%;
+}
+
+.hblContainer .airandConsigneeInfo .top .rightSide {
+    width: 50%;
+}
+
+.hblContainer .shipperInfo,
+.hblContainer .consigneeInfo,
+.hblContainer .notifyParty {
+    height: 130px;
+}
+
+.hblContainer .preCarriageInfo,
+.hblContainer .oceanVesselInfo {
+    display: flex;
+}
+
+
+
+.hblContainer .preCarriageInfo .rightSide {
+    width: 189px;
+}
+
+.hblContainer .textTitle {
+    text-transform: uppercase;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.hblContainer .rightSideTop {
+    display: flex;
+    border-bottom: 1px solid #000;
+    height: 40px;
+}
+
+.hblContainer .rightSideMiddleContent {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #000;
+    height: 260px;
+    align-items: center;
+}
+
+.hblContainer .rightSide .rightSideMiddleTitle {
+    border-bottom: 1px solid #000;
+}
+
+.hblContainer .rightSide .rightSideButtom .borderBottomTime {
+    display: flex;
+}
+
+.hblContainer .rightSide .rightSideButtom .borderBottomTime p {
+    width: 50%;
+}
+
+.hblContainer .rightSideBottom {
+    /* padding-left: 5px; */
+    height: 147px;
+}
+
+.hblContainer .borderRight {
+    border-right: 1px solid #000;
+}
+
+.hblContainer .borderBottom {
+    border-bottom: 1px solid #000;
+}
+
+.hblContainer .borderTop {
+    border-top: 1px solid #000;
+}
+
+.hblContainer .borderLeft {
+    border-left: 1px solid #000;
+}
+
+.hblContainer .firstColumn {
+    width: 230px;
+    border-right: 1px solid #000;
+    min-height: 30px;
+}
+
+.hblContainer .secondColumn {
+    width: 530px;
+}
+
+.hblContainer .thirdColumn {
+    flex: 1;
+}
+
+.hblContainer .middle {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.hblContainer .middle .firstRow {
+    display: flex;
+    min-height: 50px;
+}
+
+
+.hblContainer .middle .firstRow .secondColumn {
+    display: flex;
+}
+
+.hblContainer .middle .firstRow .secondColumn .item:nth-child(1) {
+    width: 180px;
+}
+
+.hblContainer .middle .firstRow .secondColumn .item:nth-child(2) {
+    flex: 1;
+    text-align: center;
+}
+
+.hblContainer .middle .firstRow .thirdColumn {
+    text-align: center;
+}
+
+.hblContainer .middle .secondRow {
+    display: flex;
+    text-align: center;
+}
+
+.hblContainer .middle .secondRow .secondColumn {
+    display: flex;
+}
+
+.hblContainer .middle .secondRow .secondColumn .item:nth-child(1) {
+    width: 70px;
+    padding: 0 5px;
+}
+
+.hblContainer .middle .secondRow .secondColumn .item:nth-child(2) {
+    flex: 1;
+}
+
+.hblContainer .middle .secondRow .thirdColumn {
+    display: flex;
+}
+
+.hblContainer .middle .secondRow .thirdColumn .item:nth-child(1) {
+    flex: 1;
+}
+
+.hblContainer .middle .secondRow .thirdColumn .item:nth-child(2) {
+    flex: 1;
+}
+
+.hblContainer .middle .thirdRow {
+    display: flex;
+}
+
+.hblContainer .middle .thirdRow .firstColumn {
+    height: 450px;
+}
+
+.hblContainer .middle .thirdRow .secondColumn {
+    display: flex;
+}
+
+.hblContainer .middle .thirdRow .secondColumn .item:nth-child(1) {
+    padding: 0 5px;
+    width: 70px;
+}
+
+.hblContainer .middle .thirdRow .secondColumn .item:nth-child(2) {
+    flex: 1;
+}
+
+.hblContainer .middle .thirdRow .thirdColumn {
+    display: flex;
+}
+
+.hblContainer .middle .thirdRow .thirdColumn .item:nth-child(1) {
+    flex: 1;
+}
+
+.hblContainer .middle .thirdRow .thirdColumn .item:nth-child(2) {
+    flex: 1;
+}
+
+.hblContainer .bottom {
+    display: flex;
+    width: 100%;
+}
+
+.hblContainer .bottom .bottomLeft {
+    display: flex;
+    flex-direction: column;
+}
+
+.hblContainer .bottom .bottomRight {
+    display: flex;
+    height: 380px;
+    padding: 0 5px;
+}
+
+.hblContainer .bottom .bottomLeft .bottomFirstColumn {
+    display: flex;
+    height: 100%;
+}
+
+.hblContainer .bottom .bottomLeft .bottomSecondColumn {
+    display: flex;
+}
+
+.hblContainer .bottom .bottomLeft .bottomThirdColumn {
+    display: flex;
+}
+
+.hblWrapper .multipleInvoicePrint {
+    display: none;
+}
+
+@media print {
+    .hblWrapper .multipleInvoicePrint {
+        display: block !important;
+    }
+}
+
+.printSectionNone {
+    display: none !important;
+}
+
+.hblWrapper .ql-editor {
+    padding: 0px;
+    margin: 0px;
+    overflow: unset;
+    font-size: 11px;
+}

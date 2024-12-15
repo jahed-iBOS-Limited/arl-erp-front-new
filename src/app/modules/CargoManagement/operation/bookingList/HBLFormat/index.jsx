@@ -1,9 +1,9 @@
-import moment from 'moment';
-import React from 'react';
-import ReactQuill from 'react-quill';
-import { convertNumberToWords } from '../../../../_helper/_convertMoneyToWord';
-import logisticsLogo from './logisticsLogo.png';
-import './style.css';
+import moment from "moment";
+import React from "react";
+import ReactQuill from "react-quill";
+import { convertNumberToWords } from "../../../../_helper/_convertMoneyToWord";
+import logisticsLogo from "./logisticsLogo.png";
+import "./style.css";
 export const HBLFormatInvoice = ({
   componentRef,
   bookingData,
@@ -26,7 +26,7 @@ export const HBLFormatInvoice = ({
         />
         <div
           style={{
-            pageBreakAfter: 'always',
+            pageBreakAfter: "always",
           }}
         />
         <SingleItem
@@ -37,7 +37,7 @@ export const HBLFormatInvoice = ({
         />
         <div
           style={{
-            pageBreakAfter: 'always',
+            pageBreakAfter: "always",
           }}
         />
         <SingleItem
@@ -48,7 +48,7 @@ export const HBLFormatInvoice = ({
         />
         <div
           style={{
-            pageBreakAfter: 'always',
+            pageBreakAfter: "always",
           }}
           isPrintView={true}
         />
@@ -64,7 +64,7 @@ export const HBLFormatInvoice = ({
 };
 
 const SingleItem = ({
-  footerText = '',
+  footerText = "",
   bookingData,
   changeHandelar,
   htmlContent,
@@ -73,6 +73,7 @@ const SingleItem = ({
   const totalNumberOfPackages = bookingData?.rowsData?.reduce((acc, item) => {
     return acc + (+item?.totalNumberOfPackages || 0);
   }, 0);
+
   return (
     <>
       <div>
@@ -82,16 +83,16 @@ const SingleItem = ({
               <div className="leftSide borderRight">
                 <div className="shipperInfo borderBottom">
                   <p className="textTitle">
-                    {bookingData?.objPurchase?.[0]?.infoType === 'lc'
-                      ? 'Shipper And Bank'
-                      : 'Shipper'}
+                    {bookingData?.objPurchase?.[0]?.infoType === "lc"
+                      ? "Shipper And Bank"
+                      : "Shipper"}
                   </p>
                   <p>
-                    {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
+                    {bookingData?.objPurchase?.[0]?.infoType === "lc" &&
                       bookingData?.shipperBank}
                   </p>
                   <p>
-                    {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
+                    {bookingData?.objPurchase?.[0]?.infoType === "lc" &&
                       bookingData?.shipperBankAddress}
                   </p>
                   <p>{bookingData?.shipperName}</p>
@@ -136,10 +137,10 @@ const SingleItem = ({
                       {bookingData?.transportPlanning?.map((item, index) => {
                         return (
                           <>
-                            {item?.vesselName}{' '}
+                            {item?.vesselName}{" "}
                             {index < bookingData?.transportPlanning?.length - 1
-                              ? ','
-                              : ''}
+                              ? ","
+                              : ""}
                           </>
                         );
                       })}
@@ -157,11 +158,11 @@ const SingleItem = ({
                       {bookingData?.transportPlanning?.map((item, index) => {
                         return (
                           <>
-                            {item?.vesselName || ''} / {item?.voyagaNo || ''}{' '}
+                            {item?.vesselName || ""} / {item?.voyagaNo || ""}{" "}
                             <br />
                             {index < bookingData?.transportPlanning?.length - 1
-                              ? ','
-                              : ''}
+                              ? ","
+                              : ""}
                           </>
                         );
                       })}
@@ -179,7 +180,7 @@ const SingleItem = ({
                     <p className="textTitle">Date of Issue:</p>
                     <p>
                       {bookingData?.createdAt &&
-                        moment(bookingData?.createdAt).format('DD-MM-YYYY')}
+                        moment(bookingData?.createdAt).format("DD-MM-YYYY")}
                     </p>
                   </div>
                   <div className="rightSide">
@@ -191,7 +192,7 @@ const SingleItem = ({
                   <img
                     src={logisticsLogo}
                     alt=""
-                    style={{ height: 100, width: 150, objectFit: 'contain' }}
+                    style={{ height: 100, width: 150, objectFit: "contain" }}
                   />
                   <h1>Akij Logistics Limited</h1>
                   <h3>Bir Uttam Mir Shawkat Sarak, Dhaka 1208</h3>
@@ -211,7 +212,7 @@ const SingleItem = ({
                     {bookingData?.deliveryAgentDtl?.city &&
                       `${bookingData?.deliveryAgentDtl?.city}, `}
                     {bookingData?.deliveryAgentDtl?.country &&
-                      `${bookingData?.deliveryAgentDtl?.country}, `}{' '}
+                      `${bookingData?.deliveryAgentDtl?.country}, `}{" "}
                     {bookingData?.deliveryAgentDtl?.address &&
                       `${bookingData?.deliveryAgentDtl?.address}`}
                   </div>
@@ -266,24 +267,24 @@ const SingleItem = ({
                 <div className="firstColumn borderRight">
                   <div
                     style={{
-                      textTransform: 'uppercase',
+                      textTransform: "uppercase",
                     }}
                   >
                     {isPrintView ? (
                       <>
                         <div
                           dangerouslySetInnerHTML={{
-                            __html: htmlContent?.marks || '',
+                            __html: htmlContent?.marks || "",
                           }}
                         ></div>
                       </>
                     ) : (
                       <ReactQuill
-                        value={htmlContent?.marks || ''}
+                        value={htmlContent?.marks || ""}
                         onChange={(value) => {
                           changeHandelar &&
                             changeHandelar({
-                              key: 'marks',
+                              key: "marks",
                               value,
                             });
                         }}
@@ -310,14 +311,14 @@ const SingleItem = ({
                   <div
                     className="item borderRight"
                     style={{
-                      textTransform: 'uppercase',
+                      textTransform: "uppercase",
                     }}
                   >
                     <p>
-                      {' '}
+                      {" "}
                       {totalNumberOfPackages} Cartons (
                       {totalNumberOfPackages &&
-                        convertNumberToWords(totalNumberOfPackages)}{' '}
+                        convertNumberToWords(totalNumberOfPackages)}{" "}
                       Cartons only)
                     </p>
                     <p>Description Of Goods:</p>
@@ -327,33 +328,33 @@ const SingleItem = ({
                         <>
                           <p>{item?.descriptionOfGoods}</p>
                           <p>
-                            Po No:{' '}
+                            Po No:{" "}
                             {item?.dimensionRow?.map((i, index) => {
                               return (
-                                (i?.poNumber || '') +
+                                (i?.poNumber || "") +
                                 (index < item?.dimensionRow?.length - 1
-                                  ? ','
-                                  : '')
+                                  ? ","
+                                  : "")
                               );
                             })}
                           </p>
                           <p>
-                            Color:{' '}
+                            Color:{" "}
                             {item?.dimensionRow?.map((i, index) => {
                               return (
-                                (i?.color || '') +
+                                (i?.color || "") +
                                 (index < item?.dimensionRow?.length - 1
-                                  ? ','
-                                  : '')
+                                  ? ","
+                                  : "")
                               );
                             })}
                           </p>
                           <p>
-                            H.S Code:{' '}
-                            {(item?.hsCode || '') +
+                            H.S Code:{" "}
+                            {(item?.hsCode || "") +
                               (index < bookingData?.rowsData?.length - 1
-                                ? ','
-                                : '')}
+                                ? ","
+                                : "")}
                           </p>
                           <br />
                         </>
@@ -363,34 +364,34 @@ const SingleItem = ({
                     <br />
                     <p>Invoice No: {bookingData?.invoiceNumber}</p>
                     <p>
-                      {bookingData?.infoType === 'lc'
-                        ? 'LC No'
-                        : bookingData?.infoType === 'tt'
-                        ? 'TT No'
-                        : 'S/C No'}
-                      :{' '}
+                      {bookingData?.infoType === "lc"
+                        ? "LC No"
+                        : bookingData?.infoType === "tt"
+                        ? "TT No"
+                        : "S/C No"}
+                      :{" "}
                       {bookingData?.objPurchase?.map((item, index) => {
-                        return `${item?.lcnumber || ''} : ${item?.lcdate &&
-                          `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${
+                        return `${item?.lcnumber || ""} : ${item?.lcdate &&
+                          `${moment(item?.lcdate).format("DD-MM-YYYY")}`}${
                           index < bookingData?.objPurchase?.length - 1
-                            ? ','
-                            : ''
+                            ? ","
+                            : ""
                         }`;
                       })}
                     </p>
                     <p>
                       Exp No:
-                      {bookingData?.expOrCnfNumber || ''} :{' '}
+                      {bookingData?.expOrCnfNumber || ""} :{" "}
                       {bookingData?.expOrCnfDate &&
                         `${moment(bookingData?.expOrCnfDate).format(
-                          'DD-MM-YYYY',
+                          "DD-MM-YYYY"
                         )}`}
                     </p>
                     <p>Stuffing mode: {bookingData?.modeOfStuffings}</p>
                     <br />
                     <table
                       style={{
-                        width: '250px',
+                        width: "250px",
                       }}
                     >
                       <>
@@ -408,7 +409,7 @@ const SingleItem = ({
                                 <td>{i?.sealNumber}</td>
                                 <td>{i?.size}</td>
                                 <td>
-                                  {bookingData?.modeOfStuffingSeaName || ''}
+                                  {bookingData?.modeOfStuffingSeaName || ""}
                                 </td>
                               </tr>
                             );
@@ -424,42 +425,42 @@ const SingleItem = ({
                       {/* totalGrossWeightKG sum */}
                       {bookingData?.rowsData?.reduce((acc, item) => {
                         return acc + (+item?.totalGrossWeightKG || 0);
-                      }, 0)}{' '}
+                      }, 0)}{" "}
                       KGS
                     </p>
                   </div>
                   <div
                     className="item"
                     style={{
-                      position: 'relative',
+                      position: "relative",
                     }}
                   >
                     <p>
                       {/* totalVolumeCBM sum */}
                       {bookingData?.rowsData?.reduce((acc, item) => {
                         return acc + (+item?.totalVolumeCBM || 0);
-                      }, 0)}{' '}
+                      }, 0)}{" "}
                       CBM
                     </p>
                     <div
                       style={{
                         fontWeight: 700,
-                        position: 'absolute',
-                        top: '79px',
-                        left: '-67px',
+                        position: "absolute",
+                        top: "79px",
+                        left: "-67px",
                         zIndex: 9,
-                        fontSize: '13px',
+                        fontSize: "13px",
                       }}
                     >
                       <p>Shipped On Board</p>
                       <p>
-                        Date:{' '}
+                        Date:{" "}
                         {bookingData?.transportPlanning?.[0]
                           ?.estimatedTimeOfDepart &&
                           moment(
                             bookingData?.transportPlanning?.[0]
-                              ?.estimatedTimeOfDepart,
-                          ).format('DD-MM-YYYY')}
+                              ?.estimatedTimeOfDepart
+                          ).format("DD-MM-YYYY")}
                       </p>
                     </div>
                   </div>
@@ -475,23 +476,23 @@ const SingleItem = ({
                     </p>
                     <h3
                       style={{
-                        marginTop: '20px',
-                        marginBottom: '20px',
-                        minHeight: '200px',
-                        borderBottom: '1px solid #000',
+                        marginTop: "20px",
+                        marginBottom: "20px",
+                        minHeight: "200px",
+                        borderBottom: "1px solid #000",
                       }}
                     >
-                      {' '}
-                      FREIGHT{' '}
-                      {['exw'].includes(bookingData?.incoterms) &&
-                        'COLLECT EXW'}
-                      {['fca', 'fob'].includes(bookingData?.incoterms) &&
-                        'COLLECT'}
-                      {['cif', 'cpt', 'cfr'].includes(bookingData?.incoterms) &&
-                        'PREPAID'}
-                      {['dap', 'ddp', 'ddu'].includes(bookingData?.incoterms) &&
-                        'COLLECT DAP/DDP/DDU'}
-                      {['other'].includes(bookingData?.incoterms) && 'COLLECT'}
+                      {" "}
+                      FREIGHT{" "}
+                      {["exw"].includes(bookingData?.incoterms) &&
+                        "COLLECT EXW"}
+                      {["fca", "fob"].includes(bookingData?.incoterms) &&
+                        "COLLECT"}
+                      {["cif", "cpt", "cfr"].includes(bookingData?.incoterms) &&
+                        "PREPAID"}
+                      {["dap", "ddp", "ddu"].includes(bookingData?.incoterms) &&
+                        "COLLECT DAP/DDP/DDU"}
+                      {["other"].includes(bookingData?.incoterms) && "COLLECT"}
                     </h3>
                     <h3>CARGO SHOULD BE</h3>
                   </div>
@@ -527,9 +528,9 @@ const SingleItem = ({
                 <div
                   className="thirdColumn"
                   style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
                   }}
                 >
                   <div>
@@ -552,7 +553,7 @@ const SingleItem = ({
                     <br />
                     <p
                       style={{
-                        fontWeight: 'bold',
+                        fontWeight: "bold",
                       }}
                     >
                       Dhaka, Bangladesh
@@ -560,15 +561,15 @@ const SingleItem = ({
                   </div>
                   <p
                     style={{
-                      borderTop: '1px solid',
-                      padding: '0px 20px',
-                      display: 'flex',
-                      justifyContent: 'end',
-                      width: '240px',
-                      fontSize: '14px',
-                      marginBottom: '23px',
-                      alignSelf: 'flex-end',
-                      marginRight: '20px',
+                      borderTop: "1px solid",
+                      padding: "0px 20px",
+                      display: "flex",
+                      justifyContent: "end",
+                      width: "240px",
+                      fontSize: "14px",
+                      marginBottom: "23px",
+                      alignSelf: "flex-end",
+                      marginRight: "20px",
                     }}
                   >
                     Stamp and authorized signature
@@ -580,9 +581,9 @@ const SingleItem = ({
         </div>
         <p
           style={{
-            textAlign: 'center',
-            fontSize: '14px',
-            fontWeight: 'bold',
+            textAlign: "center",
+            fontSize: "14px",
+            fontWeight: "bold",
           }}
         >
           {footerText}
