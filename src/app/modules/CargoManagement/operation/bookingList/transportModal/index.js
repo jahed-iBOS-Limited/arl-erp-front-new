@@ -13,18 +13,9 @@ import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import './style.css';
+import { shallowEqual, useSelector } from 'react-redux';
 const validationSchema = Yup.object().shape({
-  // transportPlanning: Yup.object()
-  //   .shape({
-  //     label: Yup.string().required('Transport Planning Type is required'),
-  //     value: Yup.number().required('Transport Planning Type is required'),
-  //   })
-  //   .nullable()
-  //   .typeError('Transport Planning Type is required'),
   pickupLocation: Yup.string().required('Pickup Location is required'),
-  // stuffingDate: Yup.string().required('Stuffing Date is required'),
-  // pickupDate: Yup.string().required('Estimated Pickup Date is required'),
-  // vehicleInfo: Yup.string().required('Vehicle Info is required'),
   noOfPallets: Yup.string().when('transportPlanning', {
     is: (val) => val?.value === 1,
     then: Yup.string().required('No of Pallets is required'),
@@ -33,11 +24,6 @@ const validationSchema = Yup.object().shape({
     is: (val) => val?.value === 1,
     then: Yup.string().required('Air Line is required'),
   }),
-
-  // iatanumber: Yup.string().when('transportPlanning', {
-  //   is: (val) => val?.value === 1,
-  //   then: Yup.string().required('Iata Number is required'),
-  // }),
   carton: Yup.string().when('transportPlanning', {
     is: (val) => val?.value === 1,
     then: Yup.string().required('Carton is required'),
@@ -58,8 +44,6 @@ const validationSchema = Yup.object().shape({
     is: (val) => val?.value === 2,
     then: Yup.string().required('Voyage Number is required'),
   }),
-  // // departureDateTime: Yup.string().required("Departure Date & Time is required"),
-  // arrivalDateTime: Yup.string().required('Arrival Date & Time is required'),
   arrivalDateTime: Yup.string().when('transportPlanning', {
     is: (val) => val?.value === 2,
     then: Yup.string().required('Arrival Date & Time is required'),
@@ -71,15 +55,12 @@ const validationSchema = Yup.object().shape({
     })
     .nullable()
     .typeError('Transport Mode is required'),
-  // containerNumber: Yup.string().required("Container No is required"),
-  // sealNumber: Yup.string().required("Seal No is required"),
-  // size: Yup.string().required("Size is required"),
-  // quantity: Yup.string().required("quantity is required"),
-  // cbm: Yup.string().required("CBM is required"),
-  // kgs: Yup.string().required("KGS is required"),
-  // mawbnumber: Yup.string().required('This field is required'),
 });
 function TransportModal({ rowClickData, CB }) {
+  const { profileData } = useSelector(
+    (state) => state?.authData || {},
+    shallowEqual,
+  );
   const [
     ,
     SaveShippingTransportPlanning,
@@ -92,11 +73,9 @@ function TransportModal({ rowClickData, CB }) {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
+  const bookingData = shipBookingRequestGetById || {};
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
-  // const [shippingLineDDL, setShippingLineDDL] = useAxiosGet();
-  // const [airLineDDL, setAirLineDDL] = useAxiosGet();
   const [gsaDDL, setGSADDL] = useAxiosGet();
-  // const [airPortShortCodeDDLData, getAirPortShortCodeDDL, , setGetAirPortShortCodeDDL] = useAxiosGet();
   const [
     airServiceProviderDDLData,
     getAirServiceProviderDDL,
@@ -120,13 +99,7 @@ function TransportModal({ rowClickData, CB }) {
               (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
               0,
             );
-            const transportPlanning = data?.transportPlanning || {};
-            // formikRef.current.setFieldValue(
-            //   'transportPlanning',
-            //   data?.modeOfTransport === 'Air'
-            //     ? { value: 1, label: 'Air' }
-            //     : { value: 2, label: 'Sea' },
-            // );
+            const transportPlanning = data?.transportPlanning?.[0] || {};
             formikRef.current.setFieldValue(`rows[0].transportPlanning`, {
               ...(data?.modeOfTransport === 'Air'
                 ? { value: 1, label: 'Air' }
@@ -136,16 +109,6 @@ function TransportModal({ rowClickData, CB }) {
               `rows[0].pickupLocation`,
               transportPlanning?.pickupLocation || data?.pickupPlace || '',
             );
-            // formikRef.current.setFieldValue(
-            //   `rows[0].pickupDate`,
-            //   transportPlanning?.stuffingDate
-            //     ? _dateFormatter(transportPlanning?.stuffingDate)
-            //     : '',
-            // );
-            // formikRef.current.setFieldValue(
-            //   `rows[0].vehicleInfo`,
-            //   transportPlanning?.vehicleInfo || '',
-            // );
             formikRef.current.setFieldValue(
               `rows[0].noOfPallets`,
               transportPlanning?.noOfPallets || '',
@@ -178,11 +141,6 @@ function TransportModal({ rowClickData, CB }) {
               `rows[0].voyagaNo`,
               transportPlanning?.voyagaNo || '',
             );
-            // formikRef.current.setFieldValue(
-            //   "departureDateTime",
-            //   transportPlanning?.departureDateTime || ""
-            // );
-
             formikRef.current.setFieldValue(
               `rows[0].arrivalDateTime`,
               transportPlanning?.arrivalDateTime || '',
@@ -204,6 +162,34 @@ function TransportModal({ rowClickData, CB }) {
               data?.confTransportMode
                 ? { value: 0, label: data?.confTransportMode }
                 : '',
+            );
+            formikRef.current.setFieldValue(
+              `rows[0].flightScheduleItems`,
+              transportPlanning?.airTransportRow?.map((item) => ({
+                planRowId: item?.planRowId || 0,
+                fromPort: item?.fromPort || '',
+                toPort: item?.toPort || '',
+                flightNumber: item?.flightNumber || '',
+                flightDate: item?.flightDate
+                  ? moment(item?.flightDate).format('YYYY-MM-DD')
+                  : '',
+              })) || [],
+            );
+            formikRef.current.setFieldValue(
+              `rows[0].containerDesc`,
+              transportPlanning?.containerDesc?.map((item) => ({
+                containerNumber: item?.containerNumber || '',
+                sealNumber: item?.sealNumber || '',
+                size: item?.size || '',
+                quantity: item?.quantity || 0,
+                cbm: item?.cbm || 0,
+                kgs: item?.kgs || 0,
+                mode: '',
+                poNumber: item?.poNumber || '',
+                style: item?.style || '',
+                color: item?.color || '',
+                containerDescId: item?.containerDescId || 0,
+              })) || [],
             );
             const getUniqueOptions = (key) => {
               try {
@@ -237,38 +223,15 @@ function TransportModal({ rowClickData, CB }) {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bookingRequestId]);
+  }, []);
 
   useEffect(() => {
     setTransportModeDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
     );
-    // setShippingLineDDL(
-    //   `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${1}`,
-    // );
-    // setAirLineDDL(
-    //   `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${2}`,
-    // );
     setGSADDL(
       `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${3}`,
     );
-    // getAirPortShortCodeDDL(
-    //   `${imarineBaseUrl}/domain/ShippingService/GetAirPortShortCodeDDL`,
-    //   (res) => {
-    //     // setGetAirPortShortCodeDDL([
-    //     //   {
-    //     //     value: 1,
-    //     //     label: 'Dhaka',
-    //     //   }
-    //     // ]);
-    //     const modifiedData = res?.map((item) => ({
-    //       ...item,
-    //       label: item?.code
-    //     }));
-    //     setGetAirPortShortCodeDDL(modifiedData);
-    //   }
-    // );
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const GetAirServiceProviderDDL = (typeId) => {
@@ -279,18 +242,12 @@ function TransportModal({ rowClickData, CB }) {
       },
     );
   };
-
-  const bookingData = shipBookingRequestGetById || {};
   const saveHandler = (values, cb) => {
+    const bookingData = shipBookingRequestGetById || {};
+    const transportId = bookingData?.transportPlanning?.[0]?.transportId || 0;
     const payload = values?.rows?.map((row) => ({
       bookingId: bookingRequestId || 0,
       pickupLocation: row?.pickupLocation || '',
-      // pickupDate:
-      //   moment(row?.pickupDate).format('YYYY-MM-DDTHH:mm:ss') || new Date(),
-
-      // stuffingDate:
-      //   moment(values?.stuffingDate).format("YYYY-MM-DDTHH:mm:ss") ||
-      //   new Date(), //! prev
       pickupDate: new Date(),
       vehicleInfo: row?.vehicleInfo || '',
       noOfPallets: row?.noOfPallets || 0,
@@ -323,31 +280,36 @@ function TransportModal({ rowClickData, CB }) {
       gsaId: row?.gsa?.value || 0,
       mawbnumber: row?.mawbnumber || '',
       transportMode: row?.transportMode?.label || 0,
-      transportId: 0,
+      transportId: transportId,
       strSbNo: row?.strSbNo || '',
       ...(row?.dteSbDate && {
         dteSbDate: moment(row?.dteSbDate).format('YYYY-MM-DDTHH:mm:ss'),
       }),
       isActive: true,
-      containerDesc: row?.items?.map((item) => ({
-        containerNumber: item?.containerNumber,
-        sealNumber: item?.sealNumber,
-        size: item?.size,
-        quantity: item?.quantity,
+      containerDesc: row?.containerDesc?.map((item) => ({
+        containerNumber: item?.containerNumber || '',
+        sealNumber: item?.sealNumber || '',
+        size: item?.size || '',
+        quantity: item?.quantity || 0,
         cbm: item?.cbm,
-        kgs: item?.kgs,
+        kgs: item?.kgs || 0,
         mode: '',
         poNumber: row?.poNumber?.value || '',
         style: row?.style?.value || '',
         color: row?.color?.value || '',
+        containerDescId: item?.containerDescId || 0,
+        transportId: transportId,
+        isActive: true,
+        createdBy: profileData?.userId || 0,
+        createdAt: new Date(),
       })),
       airTransportRow: row?.flightScheduleItems?.map((item) => ({
-        planRowId: 0,
-        transportId: 0,
-        fromPort: item?.scheduleFrom || '',
-        toPort: item?.scheduleTo || '',
-        flightNumber: item?.scheduleFlightNumber || '',
-        flightDate: moment(item?.scheduleDate).format('YYYY-MM-DDTHH:mm:ss'),
+        planRowId: item?.planRowId || 0,
+        transportId: transportId,
+        fromPort: item?.fromPort || '',
+        toPort: item?.toPort || '',
+        flightNumber: item?.flightNumber || '',
+        flightDate: moment(item?.flightDate).format('YYYY-MM-DDTHH:mm:ss'),
         isActive: true,
       })),
     }));
@@ -385,12 +347,12 @@ function TransportModal({ rowClickData, CB }) {
               berthDate: '',
               cutOffDate: '',
               estimatedTimeOfDepart: '',
-              items: [],
+              containerDesc: [],
               flightScheduleItems: [],
-              scheduleFrom: '',
-              scheduleTo: '',
-              scheduleDate: '',
-              scheduleFlightNumber: '',
+              fromPort: '',
+              toPort: '',
+              flightDate: '',
+              flightNumber: '',
               scheduleVesselName: '',
               gsa: '',
               mawbnumber: '',
@@ -1221,10 +1183,10 @@ function TransportModal({ rowClickData, CB }) {
                                     toast.error('Please fill all fields');
                                     return;
                                   }
-                                  const items =
+                                  const containerDesc =
                                     formikRef.current?.values?.rows[index]
-                                      ?.items || [];
-                                  items.push({
+                                      ?.containerDesc || [];
+                                  containerDesc.push({
                                     poNumber:
                                       formikRef.current?.values?.rows[index]
                                         ?.poNumber,
@@ -1253,7 +1215,10 @@ function TransportModal({ rowClickData, CB }) {
                                       formikRef.current?.values?.rows[index]
                                         ?.kgs,
                                   });
-                                  setFieldValue(`rows[${index}].items`, items);
+                                  setFieldValue(
+                                    `rows[${index}].containerDesc`,
+                                    containerDesc,
+                                  );
                                   setFieldValue(`rows[${index}].poNumber`, '');
                                   setFieldValue(`rows[${index}].style`, '');
                                   setFieldValue(`rows[${index}].color`, '');
@@ -1278,9 +1243,9 @@ function TransportModal({ rowClickData, CB }) {
                             </div>
                           </div>
                         )}
-                        {/* items table */}
+                        {/* containerDesc table */}
                         <div className="pt-4">
-                          {formikRef.current?.values?.rows[index]?.items
+                          {formikRef.current?.values?.rows[index]?.containerDesc
                             ?.length > 0 && (
                             <table
                               table
@@ -1303,7 +1268,7 @@ function TransportModal({ rowClickData, CB }) {
                               <tbody>
                                 {formikRef.current?.values?.rows[
                                   index
-                                ]?.items?.map((item, index) => {
+                                ]?.containerDesc?.map((item, index) => {
                                   return (
                                     <tr key={index}>
                                       <td>{item?.poNumber?.label}</td>
@@ -1318,14 +1283,14 @@ function TransportModal({ rowClickData, CB }) {
                                       <td>
                                         <IconButton
                                           onClick={() => {
-                                            const items =
+                                            const containerDesc =
                                               formikRef.current?.values?.rows[
                                                 index
-                                              ]?.items || [];
-                                            items.splice(index, 1);
+                                              ]?.containerDesc || [];
+                                            containerDesc.splice(index, 1);
                                             setFieldValue(
-                                              `rows[${index}].items`,
-                                              items,
+                                              `rows[${index}].containerDesc`,
+                                              containerDesc,
                                             );
                                           }}
                                           color="error"
@@ -1355,23 +1320,23 @@ function TransportModal({ rowClickData, CB }) {
                             {/* <InputField
                               label="From"
                               type="text"
-                              name="scheduleFrom"
-                              value={values?.rows[index]?.scheduleFrom || ''}
+                              name="fromPort"
+                              value={values?.rows[index]?.fromPort || ''}
                               onChange={(e) =>
                                 setFieldValue(
-                                  `rows[${index}].scheduleFrom`,
+                                  `rows[${index}].fromPort`,
                                   e.target.value,
                                 )
                               }
                             /> */}
                             <NewSelect
-                              name="scheduleFrom"
+                              name="fromPort"
                               options={airServiceProviderDDLData || []}
-                              value={values?.rows[index]?.scheduleFrom || ''}
+                              value={values?.rows[index]?.fromPort || ''}
                               label="From"
                               onChange={(valueOption) => {
                                 setFieldValue(
-                                  `rows[${index}].scheduleFrom`,
+                                  `rows[${index}].fromPort`,
                                   valueOption,
                                 );
                               }}
@@ -1384,23 +1349,23 @@ function TransportModal({ rowClickData, CB }) {
                             {/* <InputField
                               label="To"
                               type="text"
-                              name="scheduleTo"
-                              value={values?.rows[index]?.scheduleTo || ''}
+                              name="toPort"
+                              value={values?.rows[index]?.toPort || ''}
                               onChange={(e) =>
                                 setFieldValue(
-                                  `rows[${index}].scheduleTo`,
+                                  `rows[${index}].toPort`,
                                   e.target.value,
                                 )
                               }
                             /> */}
                             <NewSelect
-                              name="scheduleTo"
+                              name="toPort"
                               options={airServiceProviderDDLData || []}
-                              value={values?.rows[index]?.scheduleTo || ''}
+                              value={values?.rows[index]?.toPort || ''}
                               label="To"
                               onChange={(valueOption) => {
                                 setFieldValue(
-                                  `rows[${index}].scheduleTo`,
+                                  `rows[${index}].toPort`,
                                   valueOption,
                                 );
                               }}
@@ -1418,13 +1383,11 @@ function TransportModal({ rowClickData, CB }) {
                                   : 'Flight Number'
                               }
                               type="text"
-                              name="scheduleFlightNumber"
-                              value={
-                                values?.rows[index]?.scheduleFlightNumber || ''
-                              }
+                              name="flightNumber"
+                              value={values?.rows[index]?.flightNumber || ''}
                               onChange={(e) =>
                                 setFieldValue(
-                                  `rows[${index}].scheduleFlightNumber`,
+                                  `rows[${index}].flightNumber`,
                                   e.target.value,
                                 )
                               }
@@ -1434,11 +1397,11 @@ function TransportModal({ rowClickData, CB }) {
                             <InputField
                               label="Date"
                               type="date"
-                              name="scheduleDate"
-                              value={values?.rows[index]?.scheduleDate || ''}
+                              name="flightDate"
+                              value={values?.rows[index]?.flightDate || ''}
                               onChange={(e) =>
                                 setFieldValue(
-                                  `rows[${index}].scheduleDate`,
+                                  `rows[${index}].flightDate`,
                                   e.target.value,
                                 )
                               }
@@ -1450,11 +1413,11 @@ function TransportModal({ rowClickData, CB }) {
                               onClick={() => {
                                 if (
                                   !formikRef.current?.values?.rows[index]
-                                    ?.scheduleFrom ||
+                                    ?.fromPort ||
                                   !formikRef.current?.values?.rows[index]
-                                    ?.scheduleTo ||
+                                    ?.toPort ||
                                   !formikRef.current?.values?.rows[index]
-                                    ?.scheduleDate
+                                    ?.flightDate
                                 ) {
                                   toast.error('Please fill all fields');
                                   return;
@@ -1466,47 +1429,41 @@ function TransportModal({ rowClickData, CB }) {
                                 } else {
                                   if (
                                     !formikRef.current?.values?.rows[index]
-                                      ?.scheduleFlightNumber
+                                      ?.flightNumber
                                   ) {
                                     toast.error('Flight Number is required');
                                     return;
                                   }
                                 }
-                                const items =
+                                const containerDesc =
                                   formikRef.current?.values?.rows[index]
                                     ?.flightScheduleItems || [];
-                                items.push({
-                                  scheduleFrom:
+                                containerDesc.push({
+                                  fromPort:
                                     formikRef.current?.values?.rows[index]
-                                      ?.scheduleFrom?.label || '',
-                                  scheduleTo:
+                                      ?.fromPort?.label || '',
+                                  toPort:
                                     formikRef.current?.values?.rows[index]
-                                      ?.scheduleTo?.label || '',
-                                  scheduleDate:
+                                      ?.toPort?.label || '',
+                                  flightDate:
                                     formikRef.current?.values?.rows[index]
-                                      ?.scheduleDate,
-                                  scheduleFlightNumber:
+                                      ?.flightDate,
+                                  flightNumber:
                                     formikRef.current?.values?.rows[index]
-                                      ?.scheduleFlightNumber || '',
+                                      ?.flightNumber || '',
                                   scheduleVesselName:
                                     formikRef.current?.values?.rows[index]
                                       ?.scheduleVesselName || '',
                                 });
                                 setFieldValue(
                                   `rows[${index}].flightScheduleItems`,
-                                  items,
+                                  containerDesc,
                                 );
+                                setFieldValue(`rows[${index}].fromPort`, '');
+                                setFieldValue(`rows[${index}].toPort`, '');
+                                setFieldValue(`rows[${index}].flightDate`, '');
                                 setFieldValue(
-                                  `rows[${index}].scheduleFrom`,
-                                  '',
-                                );
-                                setFieldValue(`rows[${index}].scheduleTo`, '');
-                                setFieldValue(
-                                  `rows[${index}].scheduleDate`,
-                                  '',
-                                );
-                                setFieldValue(
-                                  `rows[${index}].scheduleFlightNumber`,
+                                  `rows[${index}].flightNumber`,
                                   '',
                                 );
                               }}
@@ -1547,21 +1504,21 @@ function TransportModal({ rowClickData, CB }) {
                                   return (
                                     <tr key={index}>
                                       <td>{index + 1}</td>
-                                      <td>{item?.scheduleFrom}</td>
-                                      <td>{item?.scheduleTo}</td>
-                                      <td>{item?.scheduleDate}</td>
-                                      <td>{item?.scheduleFlightNumber}</td>
+                                      <td>{item?.fromPort}</td>
+                                      <td>{item?.toPort}</td>
+                                      <td>{item?.flightDate}</td>
+                                      <td>{item?.flightNumber}</td>
                                       <td>
                                         <IconButton
                                           onClick={() => {
-                                            const items =
+                                            const containerDesc =
                                               formikRef.current?.values?.rows[
                                                 index
                                               ]?.flightScheduleItems || [];
-                                            items.splice(index, 1);
+                                            containerDesc.splice(index, 1);
                                             setFieldValue(
                                               `rows[${index}].flightScheduleItems`,
-                                              items,
+                                              containerDesc,
                                             );
                                           }}
                                           color="error"
@@ -1611,7 +1568,7 @@ function TransportModal({ rowClickData, CB }) {
                                 berthDate: '',
                                 cutOffDate: '',
                                 iatanumber: '',
-                                items: [],
+                                containerDesc: [],
                                 containerNumber: '',
                                 sealNumber: '',
                                 size: '',
