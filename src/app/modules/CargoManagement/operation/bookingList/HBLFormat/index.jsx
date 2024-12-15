@@ -73,6 +73,8 @@ const SingleItem = ({
   const totalNumberOfPackages = bookingData?.rowsData?.reduce((acc, item) => {
     return acc + (+item?.totalNumberOfPackages || 0);
   }, 0);
+
+  console.log(htmlContent?.marks, 'htmlContent?.marks');
   return (
     <>
       <div>
