@@ -365,11 +365,20 @@ export default function MasterHBLModal({ selectedRow }) {
                               </div>
                               <div
                                 style={{
-                                  fontSize: 20,
+                                  fontSize: 13,
                                   fontWeight: 600,
                                 }}
                               >
-                                123456
+                                {hblListData?.map((item, index) => {
+                                  return (
+                                    <span>
+                                      {item?.hblNumber}
+                                      {index < hblListData?.length - 1
+                                        ? ","
+                                        : ""}
+                                    </span>
+                                  );
+                                })}
                               </div>
                             </div>
                             <div
@@ -510,7 +519,7 @@ export default function MasterHBLModal({ selectedRow }) {
                           </div>
                         </div>
                       </div>
-                      <div className="thirdRow borderBottom">
+                      <div className="thirdRow">
                         <div className="firstColumn borderRight">
                           <div
                             style={{
@@ -657,114 +666,7 @@ export default function MasterHBLModal({ selectedRow }) {
                               {totalVolumeCBM}
                               CBM
                             </p>
-                            <div
-                              style={{
-                                fontWeight: 700,
-                                position: "absolute",
-                                top: "79px",
-                                left: "-67px",
-                                zIndex: 9,
-                                fontSize: "13px",
-                              }}
-                            >
-                              <p>Shipped On Board</p>
-                              <p>
-                                Date:{" "}
-                                {/* {bookingData?.transportPlanning?.[0]
-                          ?.estimatedTimeOfDepart &&
-                          moment(
-                            bookingData?.transportPlanning?.[0]
-                              ?.estimatedTimeOfDepart,
-                          ).format('DD-MM-YYYY')} */}
-                              </p>
-                            </div>
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="bottom">
-                      <div className="bottomLeft">
-                        <div className="bottomFirstColumn">
-                          <div className="firstColumn">
-                            <p className="textTitle text-center">
-                              Freight and Disbursment
-                            </p>
-                            <h3
-                              style={{
-                                marginTop: "20px",
-                                marginBottom: "20px",
-                                minHeight: "200px",
-                                borderBottom: "1px solid #000",
-                              }}
-                            >
-                              {" "}
-                              FREIGHT{" "}
-                              {/* {['exw'].includes(bookingData?.incoterms) &&
-                        'COLLECT EXW'}
-                      {['fca', 'fob'].includes(bookingData?.incoterms) &&
-                        'COLLECT'}
-                      {['cif', 'cpt', 'cfr'].includes(bookingData?.incoterms) &&
-                        'PREPAID'}
-                      {['dap', 'ddp', 'ddu'].includes(bookingData?.incoterms) &&
-                        'COLLECT DAP/DDP/DDU'}
-                      {['other'].includes(bookingData?.incoterms) && 'COLLECT'} */}
-                            </h3>
-                            <h3>CARGO SHOULD BE</h3>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="bottomRight">
-                        <div
-                          className="thirdColumn"
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <div>
-                            <p className="textTitle">
-                              Received by Akij Logistics Limited. for shipment
-                              by ocean vessel, between port of loading and port
-                              of discharge, and for arrangement or procurement
-                              of pre-carriage from place of acceptance and/or on
-                              carriage to place of delivery as indicated above:
-                              the goods as specified above in apparent good
-                              order and condition unless otherwise stated. The
-                              goods to be delivered at the above mentioned port
-                              of discharge or place of delivery whichever
-                              applies. Subject to Akij Logistics Limited. terms
-                              contained on the reverse side hereof, to which the
-                              Shipper agrees by accepting this Bill of Lading.
-                              In witness whereof three (3) original Bills of
-                              Lading have been signed, if not otherwise stated
-                              above, one of which being accomplished the
-                              other(s) to be void.
-                            </p>
-                            <br />
-                            <p
-                              style={{
-                                fontWeight: "bold",
-                              }}
-                            >
-                              Dhaka, Bangladesh
-                            </p>
-                          </div>
-                          <p
-                            style={{
-                              borderTop: "1px solid",
-                              padding: "0px 20px",
-                              display: "flex",
-                              justifyContent: "end",
-                              width: "240px",
-                              fontSize: "14px",
-                              marginBottom: "23px",
-                              alignSelf: "flex-end",
-                              marginRight: "20px",
-                            }}
-                          >
-                            Stamp and authorized signature
-                          </p>
                         </div>
                       </div>
                     </div>
