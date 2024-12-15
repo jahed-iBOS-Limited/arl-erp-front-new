@@ -156,7 +156,11 @@ function TransportModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               `rows[0].estimatedTimeOfDepart`,
-              transportPlanning?.estimatedTimeOfDepart || '',
+              transportPlanning?.estimatedTimeOfDepart
+                ? moment(transportPlanning?.estimatedTimeOfDepart).format(
+                    'YYYY-MM-DDTHH:mm:ss',
+                  )
+                : '',
             );
             formikRef.current.setFieldValue(
               `rows[0].transportMode`,
@@ -344,7 +348,11 @@ function TransportModal({ rowClickData, CB }) {
       })),
     };
     SaveShippingTransportPlanning(
-      `${imarineBaseUrl}/domain/ShippingService/SaveShippingTransportPlanning`,
+      `${imarineBaseUrl}/domain/ShippingService/${
+        transportId
+          ? 'EditShippingTransportPlanning'
+          : 'SaveShippingTransportPlanning'
+      }`,
       payload,
       CB,
       'Transport Planning Saved Successfully',
@@ -901,7 +909,7 @@ function TransportModal({ rowClickData, CB }) {
                               }
                               label="Estimated Time Of Depart"
                               name={`rows[${index}].estimatedTimeOfDepart`}
-                              type="date"
+                              type="datetime-local"
                               onChange={(e) =>
                                 setFieldValue(
                                   `rows[${index}].estimatedTimeOfDepart`,
