@@ -1,10 +1,11 @@
-import { Divider, IconButton } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import { FieldArray, Form, Formik } from 'formik';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
+import { shallowEqual, useSelector } from 'react-redux';
 import { imarineBaseUrl } from '../../../../../App';
 import IDelete from '../../../../_helper/_helperIcons/_delete';
 import InputField from '../../../../_helper/_inputField';
@@ -13,7 +14,6 @@ import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import './style.css';
-import { shallowEqual, useSelector } from 'react-redux';
 const validationSchema = Yup.object().shape({
   pickupLocation: Yup.string().required('Pickup Location is required'),
   noOfPallets: Yup.string().when('transportPlanning', {
@@ -192,6 +192,7 @@ function TransportModal({ rowClickData, CB }) {
             formikRef.current.setFieldValue(
               `rows[0].airTransportRow`,
               transportPlanning?.airTransportRow?.map((item) => ({
+                ...item,
                 planRowId: item?.planRowId || 0,
                 fromPort: item?.fromPort || '',
                 toPort: item?.toPort || '',
@@ -204,6 +205,7 @@ function TransportModal({ rowClickData, CB }) {
             formikRef.current.setFieldValue(
               `rows[0].containerDesc`,
               transportPlanning?.containerDesc?.map((item) => ({
+                ...item,
                 containerNumber: item?.containerNumber || '',
                 sealNumber: item?.sealNumber || '',
                 size: item?.size || '',
@@ -1524,7 +1526,7 @@ function TransportModal({ rowClickData, CB }) {
                           )}
                         </div>
 
-                        <div
+                        {/* <div
                           style={{
                             display: 'flex',
                             justifyContent: 'flex-end',
@@ -1580,9 +1582,9 @@ function TransportModal({ rowClickData, CB }) {
                           >
                             <i class="fa fa-minus" aria-hidden="true"></i>
                           </button>
-                        </div>
-                        <br />
-                        <Divider />
+                        </div> */}
+                        {/* <br />
+                        <Divider /> */}
                       </div>
                     ))}
                   </>
