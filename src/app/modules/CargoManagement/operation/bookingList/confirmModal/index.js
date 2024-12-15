@@ -262,10 +262,10 @@ function ConfirmModal({ rowClickData, CB }) {
                   }
                 : '',
             );
-            //shippingMarks
+            //shippingMark
             formikRef.current.setFieldValue(
-              'shippingMarks',
-              data?.shippingMarks || '',
+              'shippingMark',
+              data?.shippingMark || data?.shippingMark || '',
             );
             formikRef.current.setFieldValue(
               'consignCity',
@@ -372,7 +372,7 @@ function ConfirmModal({ rowClickData, CB }) {
       warehouseId: values?.wareHouse?.value || 0,
       // Consignee Information
       freightAgentReference: values?.freightAgentReference?.label || '',
-      shippingMarks: values?.shippingMarks || '',
+      shippingMark: values?.shippingMark || '',
       consigneeId: values?.consigneeName?.value || 0,
       consigneeName: values?.consigneeName?.label || '',
       consigneeAddress: values?.consigneeAddress || '',
@@ -469,7 +469,7 @@ function ConfirmModal({ rowClickData, CB }) {
           notifyParty2: '',
           negotiationParty: '',
           freightAgentReference: '',
-          shippingMarks: '',
+          shippingMark: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -923,12 +923,12 @@ function ConfirmModal({ rowClickData, CB }) {
                 {/* shipping Marks input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.shippingMarks}
+                    value={values?.shippingMark}
                     label="Shipping Marks"
-                    name="shippingMarks"
+                    name="shippingMark"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue('shippingMarks', e.target.value)
+                      setFieldValue('shippingMark', e.target.value)
                     }
                   />
                 </div>
