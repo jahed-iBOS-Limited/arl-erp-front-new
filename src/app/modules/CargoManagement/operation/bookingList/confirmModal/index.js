@@ -20,23 +20,23 @@ const validationSchema = Yup.object().shape({
   arrivalDateTime: Yup.date().required('Arrival Date & Time is required'),
   // flightNumber: Yup.string().required('This field is required'),
 
-  transitInformation: Yup.object()
-    .shape({
-      value: Yup.number(),
-      label: Yup.string(),
-    })
-    .nullable()
-    .when('transportPlanningType', {
-      is: 'Sea',
-      then: (schema) => schema.notRequired(),
-      otherwise: (schema) =>
-        schema
-          .shape({
-            value: Yup.number().required('Transit Information is required'),
-            label: Yup.string().required('Transit Information is required'),
-          })
-          .typeError('Transit Information is required'),
-    }),
+  // transitInformation: Yup.object()
+  //   .shape({
+  //     value: Yup.number(),
+  //     label: Yup.string(),
+  //   })
+  //   .nullable()
+  //   .when('transportPlanningType', {
+  //     is: 'Sea',
+  //     then: (schema) => schema.notRequired(),
+  //     otherwise: (schema) =>
+  //       schema
+  //         .shape({
+  //           value: Yup.number().required('Transit Information is required'),
+  //           label: Yup.string().required('Transit Information is required'),
+  //         })
+  //         .typeError('Transit Information is required'),
+  //   }),
   confTransportMode: Yup.object()
     .shape({
       value: Yup.number().required('Transport Mode is required'),
@@ -406,7 +406,7 @@ function ConfirmModal({ rowClickData, CB }) {
         `${imarineBaseUrl}/domain/ShippingService/SaveBookingConfirm`,
         payload,
         () => {
-          createHblFcrNumberApiCall();
+          // createHblFcrNumberApiCall();
           CB();
         },
         'true',
@@ -546,7 +546,7 @@ function ConfirmModal({ rowClickData, CB }) {
                   />
                 </div> */}
                 {/* Transit Information */}
-                {values?.transportPlanningType !== 'Sea' && (
+                {/* {values?.transportPlanningType !== 'Sea' && (
                   <>
                     {' '}
                     <div className="col-lg-3">
@@ -573,7 +573,7 @@ function ConfirmModal({ rowClickData, CB }) {
                       />
                     </div>
                   </>
-                )}
+                )} */}
                 {/* freight forwarder representative */}
                 <div className="col-lg-3">
                   <label>Freight Forwarder Representative</label>

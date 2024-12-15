@@ -451,20 +451,22 @@ function BookingList() {
                                 </button>
                               </span>
                             </td>
-                            <span>
-                              <button
-                                className="btn btn-sm btn-primary"
-                                onClick={() => {
-                                  setRowClickData(item);
-                                  setIsModalShowObj({
-                                    ...isModalShowObj,
-                                    isFreightCargoReceipt: true,
-                                  });
-                                }}
-                              >
-                                FC
-                              </button>
-                            </span>
+                            <td>
+                              <span>
+                                <button
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isFreightCargoReceipt: true,
+                                    });
+                                  }}
+                                >
+                                  FC
+                                </button>
+                              </span>
+                            </td>
                             <td>
                               {item?.modeOfTransport === 'Air' && (
                                 <span>
