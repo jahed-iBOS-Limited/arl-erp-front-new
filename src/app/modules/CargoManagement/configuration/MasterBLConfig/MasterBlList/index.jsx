@@ -1,8 +1,8 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { imarineBaseUrl } from "../../../../../App";
-import ICustomCard from "../../../../_helper/_customCard";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { imarineBaseUrl } from '../../../../../App';
+import ICustomCard from '../../../../_helper/_customCard';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 export default function MasterBlList() {
   const [masterBLLandingList, setMasterBLLandingList] = useAxiosGet();
@@ -10,16 +10,16 @@ export default function MasterBlList() {
 
   React.useEffect(() => {
     setMasterBLLandingList(
-      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLConfigurations`
+      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLConfigurations`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <ICustomCard
-      title="Master BL Configuration"
+      title="Master BL Entry"
       createHandler={() => {
-        history.push("/cargoManagement/configuration/masterbl/create");
+        history.push('/cargoManagement/configuration/masterbl/create');
       }}
     >
       <div className="col-lg-12">
@@ -31,6 +31,7 @@ export default function MasterBlList() {
                 <th>Shipping Line/Air Line</th>
                 <th>Master BL</th>
                 <th>GSA</th>
+                <th>Is Bl Genarate</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -44,6 +45,7 @@ export default function MasterBlList() {
                   </td>
                   <td>{item?.masterBL}</td>
                   <td>{item?.gsaName}</td>
+                  <td>{item?.isMasterBlGenarate ? 'True' : 'False'}</td>
                   <td>
                     <div className="d-flex justify-content-center">
                       <button
@@ -51,7 +53,7 @@ export default function MasterBlList() {
                         onClick={() => {
                           history.push(
                             `/cargoManagement/configuration/masterbl/edit/${item?.mblConfigId}`,
-                            { data: item }
+                            { data: item },
                           );
                         }}
                       >
