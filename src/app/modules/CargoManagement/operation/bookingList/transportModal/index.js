@@ -312,9 +312,9 @@ function TransportModal({ rowClickData, CB }) {
         cbm: item?.cbm,
         kgs: item?.kgs || 0,
         mode: '',
-        poNumber: row?.poNumber?.value || '',
-        style: row?.style?.value || '',
-        color: row?.color?.value || '',
+        poNumber: row?.poNumber || '',
+        style: row?.style || '',
+        color: row?.color || '',
         containerDescId: item?.containerDescId || 0,
         transportId: transportId,
         isActive: true,
@@ -1082,19 +1082,12 @@ function TransportModal({ rowClickData, CB }) {
                                   { value: '40', label: '40” OT' },
                                   { value: '40H', label: '40H OT' },
                                 ]}
-                                value={
-                                  values?.rows[index]?.size
-                                    ? {
-                                        value: 0,
-                                        label: values?.rows[index]?.size,
-                                      }
-                                    : ''
-                                }
+                                value={values?.rows[index]?.size}
                                 label="Container Size"
                                 onChange={(valueOption) => {
                                   setFieldValue(
                                     `rows[${index}].size`,
-                                    valueOption?.label,
+                                    valueOption,
                                   );
                                 }}
                                 placeholder="Select"
@@ -1181,13 +1174,13 @@ function TransportModal({ rowClickData, CB }) {
                                   containerDesc.push({
                                     poNumber:
                                       formikRef.current?.values?.rows[index]
-                                        ?.poNumber,
+                                        ?.poNumber?.label,
                                     style:
                                       formikRef.current?.values?.rows[index]
-                                        ?.style,
+                                        ?.style?.label,
                                     color:
                                       formikRef.current?.values?.rows[index]
-                                        ?.color,
+                                        ?.color?.label,
                                     containerNumber:
                                       formikRef.current?.values?.rows[index]
                                         ?.containerNumber,
@@ -1196,7 +1189,7 @@ function TransportModal({ rowClickData, CB }) {
                                         ?.sealNumber,
                                     size:
                                       formikRef.current?.values?.rows[index]
-                                        ?.size,
+                                        ?.size?.label,
                                     quantity:
                                       formikRef.current?.values?.rows[index]
                                         ?.quantity,
@@ -1254,7 +1247,13 @@ function TransportModal({ rowClickData, CB }) {
                                   <th>quantity</th>
                                   <th>CBM</th>
                                   <th>KGS</th>
-                                  <th>Action</th>
+                                  <th
+                                    style={{
+                                      width: '70px',
+                                    }}
+                                  >
+                                    Action
+                                  </th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -1263,9 +1262,9 @@ function TransportModal({ rowClickData, CB }) {
                                 ]?.containerDesc?.map((item, index) => {
                                   return (
                                     <tr key={index}>
-                                      <td>{item?.poNumber?.label}</td>
-                                      <td>{item?.style?.label}</td>
-                                      <td>{item?.color?.label}</td>
+                                      <td>{item?.poNumber}</td>
+                                      <td>{item?.style}</td>
+                                      <td>{item?.color}</td>
                                       <td>{item?.containerNumber}</td>
                                       <td>{item?.sealNumber}</td>
                                       <td>{item?.size}</td>
