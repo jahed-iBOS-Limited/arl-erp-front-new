@@ -115,7 +115,12 @@ function TransportModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               `rows[0].airLineOrShippingLine`,
-              transportPlanning?.airLine || '',
+              transportPlanning?.airLineOrShippingLine
+                ? {
+                    value: transportPlanning?.airLineOrShippingLineId || 0,
+                    label: transportPlanning?.airLineOrShippingLine,
+                  }
+                : '',
             );
             formikRef.current.setFieldValue(
               `rows[0].iatanumber`,
@@ -128,10 +133,6 @@ function TransportModal({ rowClickData, CB }) {
             formikRef.current.setFieldValue(
               `rows[0].noOfContainer`,
               transportPlanning?.noOfContainer || '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].airLineOrShippingLine`,
-              transportPlanning?.airLineOrShippingLine || '',
             );
             formikRef.current.setFieldValue(
               `rows[0].vesselName`,
@@ -164,7 +165,24 @@ function TransportModal({ rowClickData, CB }) {
                 : '',
             );
             formikRef.current.setFieldValue(
-              `rows[0].flightScheduleItems`,
+              `rows[0].gsa`,
+              transportPlanning?.gsaName
+                ? {
+                    value: transportPlanning?.gsaId || 0,
+                    label: transportPlanning?.gsaName,
+                  }
+                : '',
+            );
+            formikRef.current.setFieldValue(
+              `rows[0].strSbNo`,
+              transportPlanning?.strSbNo || '',
+            );
+            formikRef.current.setFieldValue(
+              `rows[0].dteSbDate`,
+              transportPlanning?.dteSbDate ? transportPlanning?.dteSbDate : '',
+            );
+            formikRef.current.setFieldValue(
+              `rows[0].airTransportRow`,
               transportPlanning?.airTransportRow?.map((item) => ({
                 planRowId: item?.planRowId || 0,
                 fromPort: item?.fromPort || '',
@@ -303,7 +321,7 @@ function TransportModal({ rowClickData, CB }) {
         createdBy: profileData?.userId || 0,
         createdAt: new Date(),
       })),
-      airTransportRow: row?.flightScheduleItems?.map((item) => ({
+      airTransportRow: row?.airTransportRow?.map((item) => ({
         planRowId: item?.planRowId || 0,
         transportId: transportId,
         fromPort: item?.fromPort || '',
@@ -320,6 +338,7 @@ function TransportModal({ rowClickData, CB }) {
       'Transport Planning Saved Successfully',
     );
   };
+
   return (
     <div className="confirmModal">
       {(shippingTransportPlanningLoading || shipBookingRequestLoading) && (
@@ -348,7 +367,7 @@ function TransportModal({ rowClickData, CB }) {
               cutOffDate: '',
               estimatedTimeOfDepart: '',
               containerDesc: [],
-              flightScheduleItems: [],
+              airTransportRow: [],
               fromPort: '',
               toPort: '',
               flightDate: '',
@@ -371,6 +390,7 @@ function TransportModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
+            {console.log(values, 'values')}
             {/* <h1>{JSON.stringify(errors)}</h1> */}
             <Form className="form form-label-right">
               <div className="">
@@ -942,34 +962,6 @@ function TransportModal({ rowClickData, CB }) {
                                 </div>
                               )}
                           </div>
-
-                          {/* mawbnumber */}
-                          {/* <div className="col-lg-3">
-                            <InputField
-                              label={
-                                values?.rows?.[0]?.transportPlanning?.value ===
-                                  2
-                                  ? 'SI Number'
-                                  : 'MAWB Number'
-                              }
-                              value={values?.rows[index]?.mawbnumber || ''}
-                              name={`rows[${index}].mawbnumber`}
-                              type="text"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].mawbnumber`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                            {errors?.rows &&
-                              errors?.rows?.[index]?.mawbnumber &&
-                              touched.rows && (
-                                <div className="text-danger">
-                                  {errors?.rows?.[index]?.mawbnumber}
-                                </div>
-                              )}
-                          </div> */}
                         </div>
                         {/* container details  for sea */}
                         {values?.rows[0]?.transportPlanning?.value === 2 && (
@@ -1437,7 +1429,7 @@ function TransportModal({ rowClickData, CB }) {
                                 }
                                 const containerDesc =
                                   formikRef.current?.values?.rows[index]
-                                    ?.flightScheduleItems || [];
+                                    ?.airTransportRow || [];
                                 containerDesc.push({
                                   fromPort:
                                     formikRef.current?.values?.rows[index]
@@ -1456,7 +1448,7 @@ function TransportModal({ rowClickData, CB }) {
                                       ?.scheduleVesselName || '',
                                 });
                                 setFieldValue(
-                                  `rows[${index}].flightScheduleItems`,
+                                  `rows[${index}].airTransportRow`,
                                   containerDesc,
                                 );
                                 setFieldValue(`rows[${index}].fromPort`, '');
@@ -1477,7 +1469,7 @@ function TransportModal({ rowClickData, CB }) {
                         {/* Flight Schedule table */}
                         <div className="pt-4">
                           {formikRef.current?.values?.rows[index]
-                            ?.flightScheduleItems?.length > 0 && (
+                            ?.airTransportRow?.length > 0 && (
                             <table
                               table
                               className="table table-bordered global-table"
@@ -1500,7 +1492,7 @@ function TransportModal({ rowClickData, CB }) {
                               <tbody>
                                 {formikRef.current?.values?.rows[
                                   index
-                                ]?.flightScheduleItems?.map((item, index) => {
+                                ]?.airTransportRow?.map((item, index) => {
                                   return (
                                     <tr key={index}>
                                       <td>{index + 1}</td>
@@ -1514,10 +1506,10 @@ function TransportModal({ rowClickData, CB }) {
                                             const containerDesc =
                                               formikRef.current?.values?.rows[
                                                 index
-                                              ]?.flightScheduleItems || [];
+                                              ]?.airTransportRow || [];
                                             containerDesc.splice(index, 1);
                                             setFieldValue(
-                                              `rows[${index}].flightScheduleItems`,
+                                              `rows[${index}].airTransportRow`,
                                               containerDesc,
                                             );
                                           }}
