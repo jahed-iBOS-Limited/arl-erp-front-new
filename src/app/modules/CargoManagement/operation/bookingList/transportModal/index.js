@@ -99,8 +99,7 @@ function TransportModal({ rowClickData, CB }) {
               (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
               0,
             );
-            const transportPlanning = data?.transportPlanning?.[0] || {};
-            console.log(transportPlanning, 'transportPlanning');
+            const transportPlanning = data?.transportPlanning || {};
             formikRef.current.setFieldValue(`rows[0].transportPlanning`, {
               ...(data?.modeOfTransport === 'Air'
                 ? { value: 1, label: 'Air' }
@@ -273,15 +272,16 @@ function TransportModal({ rowClickData, CB }) {
   };
   const saveHandler = (values, cb) => {
     const bookingData = shipBookingRequestGetById || {};
-    const transportId = bookingData?.transportPlanning?.[0]?.transportId || 0;
-    const payload = values?.rows?.map((row) => ({
+    const transportId = bookingData?.transportPlanning?.transportId || 0;
+    const row = values?.rows[0];
+    const payload = {
       bookingId: bookingRequestId || 0,
       pickupLocation: row?.pickupLocation || '',
       pickupDate: new Date(),
       vehicleInfo: row?.vehicleInfo || '',
       noOfPallets: row?.noOfPallets || 0,
       carton: row?.carton || 0,
-      iatanumber: row?.iatanumber || 0,
+      iatanumber: row?.iatanumber || '',
       noOfContainer: row?.noOfContainer || 0,
       airLineOrShippingLine:
         row?.airLine?.label || row?.shippingLine?.label || '',
@@ -342,7 +342,7 @@ function TransportModal({ rowClickData, CB }) {
         flightDate: moment(item?.flightDate).format('YYYY-MM-DDTHH:mm:ss'),
         isActive: true,
       })),
-    }));
+    };
     SaveShippingTransportPlanning(
       `${imarineBaseUrl}/domain/ShippingService/SaveShippingTransportPlanning`,
       payload,
@@ -667,6 +667,28 @@ function TransportModal({ rowClickData, CB }) {
                                   touched.rows && (
                                     <div className="text-danger">
                                       {errors?.rows?.[index]?.shippingLine}
+                                    </div>
+                                  )}
+                              </div>
+                              {/* iatanumber */}
+                              <div className="col-lg-3">
+                                <InputField
+                                  value={values?.rows[index]?.iatanumber || ''}
+                                  label="IATA Number"
+                                  name={`rows[${index}].iatanumber`}
+                                  type="number"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      `rows[${index}].iatanumber`,
+                                      e.target.value,
+                                    )
+                                  }
+                                />
+                                {errors.rows &&
+                                  errors.rows[index]?.iatanumber &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].iatanumber}
                                     </div>
                                   )}
                               </div>

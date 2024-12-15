@@ -132,18 +132,7 @@ const SingleItem = ({
                 <div className="preCarriageInfo borderBottom">
                   <div className="firstColumn">
                     <p className="textTitle">Pre-Carriage By:</p>
-                    <p>
-                      {bookingData?.transportPlanning?.map((item, index) => {
-                        return (
-                          <>
-                            {item?.vesselName}{' '}
-                            {index < bookingData?.transportPlanning?.length - 1
-                              ? ','
-                              : ''}
-                          </>
-                        );
-                      })}
-                    </p>
+                    <p>{bookingData?.transportPlanning?.vesselName}</p>
                   </div>
                   <div className="rightSide">
                     <p className="textTitle">Place of Receipt:</p>
@@ -154,17 +143,8 @@ const SingleItem = ({
                   <div className="firstColumn">
                     <p className="textTitle">Ocean Vessel:</p>
                     <p>
-                      {bookingData?.transportPlanning?.map((item, index) => {
-                        return (
-                          <>
-                            {item?.vesselName || ''} / {item?.voyagaNo || ''}{' '}
-                            <br />
-                            {index < bookingData?.transportPlanning?.length - 1
-                              ? ','
-                              : ''}
-                          </>
-                        );
-                      })}
+                      {bookingData?.transportPlanning?.vesselName || ''} /{' '}
+                      {bookingData?.transportPlanning?.voyagaNo || ''}
                     </p>
                   </div>
                   <div className="rightSide">
@@ -400,8 +380,8 @@ const SingleItem = ({
                           <td>Size</td>
                           <td>Mode</td>
                         </tr>
-                        {bookingData?.transportPlanning?.map((item) => {
-                          return item?.containerDesc?.map((i, index) => {
+                        {bookingData?.transportPlanning?.containerDesc?.map(
+                          (i, index) => {
                             return (
                               <tr key={Math.random()}>
                                 <td>{i?.containerNumber}</td>
@@ -412,8 +392,8 @@ const SingleItem = ({
                                 </td>
                               </tr>
                             );
-                          });
-                        })}
+                          },
+                        )}
                       </>
                     </table>
                   </div>
@@ -454,10 +434,10 @@ const SingleItem = ({
                       <p>Shipped On Board</p>
                       <p>
                         Date:{' '}
-                        {bookingData?.transportPlanning?.[0]
+                        {bookingData?.transportPlanning
                           ?.estimatedTimeOfDepart &&
                           moment(
-                            bookingData?.transportPlanning?.[0]
+                            bookingData?.transportPlanning
                               ?.estimatedTimeOfDepart,
                           ).format('DD-MM-YYYY')}
                       </p>

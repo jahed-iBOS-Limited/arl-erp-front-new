@@ -185,19 +185,10 @@ function HBLFormatAirItem({
                 </div>
                 <div className="borderBottom">
                   <p className="textTitle">
-                    I.A.T.A Code{' '}
-                    {bookingData?.transportPlanning?.map((item, index) => {
-                      return (
-                        <>
-                          {item?.iatanumber}
-                          {index < bookingData?.transportPlanning?.length - 1
-                            ? ','
-                            : ''}
-                        </>
-                      );
-                    })}
+                    I.A.T.A Code {bookingData?.transportPlanning?.iatanumber}
                   </p>
                 </div>
+                ?.{' '}
                 <div className="borderBottomTime">
                   <p className="borderRight">Time &amp; Date Broker Notified</p>
                   <p>Time &amp; Date Cargo Collected</p>
@@ -211,18 +202,7 @@ function HBLFormatAirItem({
                 <p className="textTitle">
                   Airport of Departure and Requested Routing
                 </p>
-                <p>
-                  {bookingData?.transportPlanning?.map((item, index) => {
-                    return (
-                      <>
-                        {item?.pickupLocation}
-                        {index < bookingData?.transportPlanning?.length - 1
-                          ? ','
-                          : ''}
-                      </>
-                    );
-                  }) || ''}
-                </p>
+                <p>{bookingData?.transportPlanning?.pickupLocation || ''}</p>
               </div>
             </div>
             <div className="rightSide">
@@ -358,9 +338,7 @@ function HBLFormatAirItem({
                     <b>
                       {' '}
                       <p className="medium-font" style={{ paddingTop: 5 }}>
-                        {bookingData?.transportPlanning
-                          ?.map((item) => item?.airLineOrShippingLine)
-                          .join(' - ')}
+                        {bookingData?.transportPlanning?.destinationLocation}
                       </p>
                     </b>
                   </p>
@@ -369,29 +347,22 @@ function HBLFormatAirItem({
                   <div style={{ display: 'flex', height: '100%' }}>
                     <div className="borderRight" style={{ width: '50%' }}>
                       <p className="textTitle ">Flight/Date</p>
-                      {bookingData?.transportPlanning
-                        ?.map((item) => {
-                          return item?.estimatedTimeOfDepart
-                            ? moment(item?.estimatedTimeOfDepart).format(
-                                'DD.MM.YYYY',
-                              )
-                            : '';
-                        })
-                        .join(' - ')}
+                      {bookingData?.transportPlanning?.estimatedTimeOfDepart
+                        ? moment(
+                            bookingData?.transportPlanning
+                              ?.estimatedTimeOfDepart,
+                          ).format('DD.MM.YYYY')
+                        : ''}
                     </div>
                     <div className="" style={{ width: '50%' }}>
                       <p className="textTitle ">Flight/Date</p>
 
                       <p className="medium-font">
-                        {bookingData?.transportPlanning
-                          ?.map((item) => {
-                            return item?.arrivalDateTime
-                              ? moment(item?.arrivalDateTime).format(
-                                  'DD.MM.YYYY',
-                                )
-                              : '';
-                          })
-                          .join(' - ')}
+                        {bookingData?.transportPlanning?.arrivalDateTime
+                          ? moment(
+                              bookingData?.transportPlanning?.arrivalDateTime,
+                            ).format('DD.MM.YYYY')
+                          : ''}
                       </p>
                     </div>
                   </div>
