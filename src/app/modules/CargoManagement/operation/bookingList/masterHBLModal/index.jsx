@@ -20,8 +20,8 @@ export default function MasterHBLModal({ selectedRow }) {
     []
   );
   const [portOfDischargeDDL, setPortOfDischargeDDL] = useState([]);
-  const [blNumberDDL, setBlNumberDDL] = useState([]);
-  const [dateOfIssueDDL, setDateOfIssueDDL] = useState([]);
+  const [vesselNameDDL, setVesselNameDDL] = useState([]);
+  const [voyagaNoDDL, setVoyagaNoDDL] = useState([]);
 
   React.useEffect(() => {
     const payload = selectedRow?.map((item) => {
@@ -67,24 +67,22 @@ export default function MasterHBLModal({ selectedRow }) {
           };
         });
         setPortOfDischargeDDL(portOfDischarge);
-
-        // blNumberDDL
-        const blNumber = data?.map((item, index) => {
+        // vesselNameDDL
+        const vesselName = data?.map((item, index) => {
           return {
             value: index + 1,
-            label: item?.blNumber,
+            label: item?.transportPlanning?.vesselName || "",
           };
         });
-        setBlNumberDDL(blNumber);
+        setVesselNameDDL(vesselName);
 
-        // dateOfIssueDDL
-        const dateOfIssue = data?.map((item, index) => {
+        // voyagaNoDDL
+        const voyagaNo = data?.map((item, index) => {
           return {
             value: index + 1,
-            label: item?.dateOfIssue,
+            label: item?.transportPlanning?.voyagaNo || "",
           };
         });
-        setDateOfIssueDDL(dateOfIssue);
       }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -147,12 +145,22 @@ export default function MasterHBLModal({ selectedRow }) {
                 }}
               >
                 <div className="col-lg-3">
-                  <InputField
-                    value={values?.mblNumber}
-                    label="Master MBL Number"
+                  <NewSelect
                     name="mblNumber"
-                    type="text"
-                    onChange={(e) => setFieldValue("mblNumber", e.target.value)}
+                    options={[]}
+                    value={values?.mblNumber}
+                    label="MBL Number"
+                    onChange={(valueOption) => {
+                      let value = {
+                        ...valueOption,
+                        value: 0,
+                        label: valueOption?.label || "",
+                      };
+                      setFieldValue("mblNumber", value);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                    isCreatableSelect={true}
                   />
                 </div>
                 <div className="masterhblContainer">
@@ -224,6 +232,25 @@ export default function MasterHBLModal({ selectedRow }) {
                         );
                       })} */}
                             </p>
+                            <div className="col-lg-12">
+                              <NewSelect
+                                name="vesselName"
+                                options={vesselNameDDL || []}
+                                value={values?.vesselName}
+                                label=""
+                                onChange={(valueOption) => {
+                                  let value = {
+                                    ...valueOption,
+                                    value: 0,
+                                    label: valueOption?.label || "",
+                                  };
+                                  setFieldValue("vesselName", value);
+                                }}
+                                errors={errors}
+                                touched={touched}
+                                isCreatableSelect={true}
+                              />
+                            </div>
                           </div>
                           <div className="rightSide">
                             <p className="textTitle">Place of Receipt:</p>
@@ -265,6 +292,25 @@ export default function MasterHBLModal({ selectedRow }) {
                         );
                       })} */}
                             </p>
+                            <div className="col-lg-12">
+                              <NewSelect
+                                name="voyagaNo"
+                                options={voyagaNoDDL || []}
+                                value={values?.voyagaNo}
+                                label=""
+                                onChange={(valueOption) => {
+                                  let value = {
+                                    ...valueOption,
+                                    value: 0,
+                                    label: valueOption?.label || "",
+                                  };
+                                  setFieldValue("voyagaNo", value);
+                                }}
+                                errors={errors}
+                                touched={touched}
+                                isCreatableSelect={true}
+                              />
+                            </div>
                           </div>
                           <div className="rightSide">
                             <p className="textTitle">Port of Loading:</p>
@@ -292,57 +338,6 @@ export default function MasterHBLModal({ selectedRow }) {
                         </div>
                       </div>
                       <div className="rightSide">
-                        <div className="rightSideTop">
-                          <div className="leftSide borderRight">
-                            <p className="textTitle">Date of Issue:</p>
-                            <p>
-                              {/* {bookingData?.createdAt &&
-                        moment(bookingData?.createdAt).format('DD-MM-YYYY')} */}
-                            </p>
-                            <div className="col-lg-12">
-                              <NewSelect
-                                name="dateOfIssue"
-                                options={dateOfIssueDDL || []}
-                                value={values?.dateOfIssue}
-                                label=""
-                                onChange={(valueOption) => {
-                                  let value = {
-                                    ...valueOption,
-                                    value: 0,
-                                    label: valueOption?.label || "",
-                                  };
-                                  setFieldValue("dateOfIssue", value);
-                                }}
-                                errors={errors}
-                                touched={touched}
-                                isCreatableSelect={true}
-                              />
-                            </div>
-                          </div>
-                          <div className="rightSide">
-                            <p className="textTitle">B/L Number:</p>
-                            {/* <p>{bookingData?.hblnumber}</p> */}
-                            <div className="col-lg-12">
-                              <NewSelect
-                                name="blNumber"
-                                options={blNumberDDL || []}
-                                value={values?.blNumber}
-                                label=""
-                                onChange={(valueOption) => {
-                                  let value = {
-                                    ...valueOption,
-                                    value: 0,
-                                    label: valueOption?.label || "",
-                                  };
-                                  setFieldValue("blNumber", value);
-                                }}
-                                errors={errors}
-                                touched={touched}
-                                isCreatableSelect={true}
-                              />
-                            </div>
-                          </div>
-                        </div>
                         <div className="rightSideMiddleContent">
                           <div style={{ height: 40 }}></div>
                           <h1>BILL OF LADING</h1>
