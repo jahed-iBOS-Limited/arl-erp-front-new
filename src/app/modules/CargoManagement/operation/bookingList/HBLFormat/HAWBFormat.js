@@ -470,7 +470,7 @@ function HBLFormatAirItem({
                     }}
                   >
                     Shipping Marks: <br />
-                    {bookingData?.shippingMark}
+                    {bookingData?.shippingMark || bookingData?.shippingMark}
                   </p>
                 </div>
                 <div className="grossWeight borderRight">

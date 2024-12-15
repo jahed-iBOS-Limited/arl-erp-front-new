@@ -28,10 +28,10 @@ const validationSchema = Yup.object().shape({
     is: (val) => val?.value === 1,
     then: Yup.string().required('Carton is required'),
   }),
-  noOfContainer: Yup.string().when('transportPlanning', {
-    is: (val) => val?.value === 2,
-    then: Yup.string().required('No of Container is required'),
-  }),
+  // noOfContainer: Yup.string().when('transportPlanning', {
+  //   is: (val) => val?.value === 2,
+  //   then: Yup.string().required('No of Container is required'),
+  // }),
   shippingLine: Yup.string().when('transportPlanning', {
     is: (val) => val?.value === 2,
     then: Yup.string().required('Shipping Line is required'),
@@ -100,6 +100,7 @@ function TransportModal({ rowClickData, CB }) {
               0,
             );
             const transportPlanning = data?.transportPlanning?.[0] || {};
+            console.log(transportPlanning, 'transportPlanning');
             formikRef.current.setFieldValue(`rows[0].transportPlanning`, {
               ...(data?.modeOfTransport === 'Air'
                 ? { value: 1, label: 'Air' }
@@ -114,7 +115,7 @@ function TransportModal({ rowClickData, CB }) {
               transportPlanning?.noOfPallets || '',
             );
             formikRef.current.setFieldValue(
-              `rows[0].airLineOrShippingLine`,
+              `rows[0].shippingLine`,
               transportPlanning?.airLineOrShippingLine
                 ? {
                     value: transportPlanning?.airLineOrShippingLineId || 0,
@@ -179,7 +180,9 @@ function TransportModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               `rows[0].dteSbDate`,
-              transportPlanning?.dteSbDate ? transportPlanning?.dteSbDate : '',
+              transportPlanning?.dteSbDate
+                ? moment(transportPlanning?.dteSbDate).format('YYYY-MM-DD')
+                : '',
             );
             formikRef.current.setFieldValue(
               `rows[0].airTransportRow`,
@@ -200,6 +203,7 @@ function TransportModal({ rowClickData, CB }) {
                 sealNumber: item?.sealNumber || '',
                 size: item?.size || '',
                 quantity: item?.quantity || 0,
+                rate: item?.rate || 0,
                 cbm: item?.cbm || 0,
                 kgs: item?.kgs || 0,
                 mode: '',
@@ -309,12 +313,13 @@ function TransportModal({ rowClickData, CB }) {
         sealNumber: item?.sealNumber || '',
         size: item?.size || '',
         quantity: item?.quantity || 0,
+        rate: item?.rate || 0,
         cbm: item?.cbm,
         kgs: item?.kgs || 0,
         mode: '',
-        poNumber: row?.poNumber || '',
-        style: row?.style || '',
-        color: row?.color || '',
+        poNumber: item?.poNumber || '',
+        style: item?.style || '',
+        color: item?.color || '',
         containerDescId: item?.containerDescId || 0,
         transportId: transportId,
         isActive: true,
@@ -580,28 +585,6 @@ function TransportModal({ rowClickData, CB }) {
                                     </div>
                                   )}
                               </div>
-                              {/* iatanumber */}
-                              {/* <div className="col-lg-3">
-                                <InputField
-                                  value={values?.rows[index]?.iatanumber || ''}
-                                  label="IATA Number"
-                                  name={`rows[${index}].iatanumber`}
-                                  type="number"
-                                  onChange={(e) =>
-                                    setFieldValue(
-                                      `rows[${index}].iatanumber`,
-                                      e.target.value,
-                                    )
-                                  }
-                                />
-                                {errors?.rows &&
-                                  errors?.rows?.[index]?.iatanumber &&
-                                  touched.rows && (
-                                    <div className="text-danger">
-                                      {errors?.rows?.[index]?.iatanumber}
-                                    </div>
-                                  )}
-                              </div> */}
                               {/* Carton */}
                               <div className="col-lg-3">
                                 <InputField
@@ -657,20 +640,6 @@ function TransportModal({ rowClickData, CB }) {
                               </div>
                               {/* Shipping line */}
                               <div className="col-lg-3">
-                                {/* <InputField
-                                    value={
-                                      values?.rows[index]?.shippingLine || ''
-                                    }
-                                    label="Shipping Line"
-                                    name={`rows[${index}].shippingLine`}
-                                    type="text"
-                                    onChange={(e) =>
-                                      setFieldValue(
-                                        `rows[${index}].shippingLine`,
-                                        e.target.value,
-                                      )
-                                    }
-                                  /> */}
                                 <NewSelect
                                   options={airServiceProviderDDLData || []}
                                   label="Shipping Line"
@@ -684,6 +653,7 @@ function TransportModal({ rowClickData, CB }) {
                                   placeholder="Shipping Line"
                                   errors={errors}
                                   touched={touched}
+                                  value={values?.rows?.[index]?.shippingLine}
                                 />
                                 {errors?.rows &&
                                   errors?.rows?.[index]?.shippingLine &&
@@ -708,6 +678,7 @@ function TransportModal({ rowClickData, CB }) {
                                   placeholder="GSA"
                                   errors={errors}
                                   touched={touched}
+                                  value={values?.rows?.[index]?.gsa}
                                 />
                                 {errors?.rows &&
                                   errors?.rows?.[index]?.gsa &&
@@ -1095,8 +1066,22 @@ function TransportModal({ rowClickData, CB }) {
                                 touched={touched}
                               />
                             </div>
+                            <div className="col-lg-2">
+                              <InputField
+                                value={values?.rows[index]?.rate || ''}
+                                label="Cartoon Rate"
+                                name={`rows[${index}].rate`}
+                                type="number"
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `rows[${index}].rate`,
+                                    e.target.value,
+                                  )
+                                }
+                              />
+                            </div>
 
-                            {/* quantity */}
+                            {/* rate */}
                             <div className="col-lg-2">
                               <InputField
                                 value={values?.rows[index]?.quantity || ''}
@@ -1160,6 +1145,8 @@ function TransportModal({ rowClickData, CB }) {
                                     !formikRef.current?.values?.rows[index]
                                       ?.size ||
                                     !formikRef.current?.values?.rows[index]
+                                      ?.rate ||
+                                    !formikRef.current?.values?.rows[index]
                                       ?.quantity ||
                                     !formikRef.current?.values?.rows[index]
                                       ?.cbm ||
@@ -1193,6 +1180,9 @@ function TransportModal({ rowClickData, CB }) {
                                     quantity:
                                       formikRef.current?.values?.rows[index]
                                         ?.quantity,
+                                    rate:
+                                      formikRef.current?.values?.rows[index]
+                                        ?.rate,
                                     cbm:
                                       formikRef.current?.values?.rows[index]
                                         ?.cbm,
@@ -1216,6 +1206,7 @@ function TransportModal({ rowClickData, CB }) {
                                     '',
                                   );
                                   setFieldValue(`rows[${index}].size`, '');
+                                  setFieldValue(`rows[${index}].rate`, '');
                                   setFieldValue(`rows[${index}].quantity`, '');
                                   setFieldValue(`rows[${index}].cbm`, '');
                                   setFieldValue(`rows[${index}].kgs`, '');
@@ -1244,7 +1235,8 @@ function TransportModal({ rowClickData, CB }) {
                                   <th>Container No</th>
                                   <th>Seal No</th>
                                   <th>Size</th>
-                                  <th>quantity</th>
+                                  <th>Rate</th>
+                                  <th>Quantity</th>
                                   <th>CBM</th>
                                   <th>KGS</th>
                                   <th
@@ -1268,6 +1260,7 @@ function TransportModal({ rowClickData, CB }) {
                                       <td>{item?.containerNumber}</td>
                                       <td>{item?.sealNumber}</td>
                                       <td>{item?.size}</td>
+                                      <td>{item?.rate}</td>
                                       <td>{item?.quantity}</td>
                                       <td>{item?.cbm}</td>
                                       <td>{item?.kgs}</td>
@@ -1564,6 +1557,7 @@ function TransportModal({ rowClickData, CB }) {
                                 sealNumber: '',
                                 size: '',
                                 quantity: '',
+                                rate: '',
                                 cbm: '',
                                 kgs: '',
                                 gsa: '',
