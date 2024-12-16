@@ -73,7 +73,7 @@ function TransportModal({ rowClickData, CB }) {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
-  const bookingData = shipBookingRequestGetById || {};
+  // const bookingData = shipBookingRequestGetById || {};
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
   const [gsaDDL, setGSADDL] = useAxiosGet();
   const [
@@ -82,7 +82,12 @@ function TransportModal({ rowClickData, CB }) {
     ,
     setAirServiceProviderDDL,
   ] = useAxiosGet();
-
+  const [
+    airPortShortCodeDDL,
+    getAirPortShortCodeDDL,
+    ,
+    setAirPortShortCodeDDL,
+  ] = useAxiosGet();
   const [poNumberDDL, setPoNumberDDL] = React.useState([]);
   const [styleDDL, setStyleDDL] = React.useState([]);
   const [colorDDL, setColorDDL] = React.useState([]);
@@ -263,6 +268,18 @@ function TransportModal({ rowClickData, CB }) {
     );
     setGSADDL(
       `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${3}`,
+    );
+    getAirPortShortCodeDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetAirPortShortCodeDDL`,
+      (resData) => {
+        const getShortCode = resData?.map((i) => {
+          return {
+            ...i,
+            label: i?.code,
+          };
+        });
+        setAirPortShortCodeDDL(getShortCode);
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -1352,7 +1369,7 @@ function TransportModal({ rowClickData, CB }) {
                             /> */}
                             <NewSelect
                               name="fromPort"
-                              options={airServiceProviderDDLData || []}
+                              options={airPortShortCodeDDL || []}
                               value={values?.rows[index]?.fromPort || ''}
                               label="From"
                               onChange={(valueOption) => {
@@ -1381,7 +1398,7 @@ function TransportModal({ rowClickData, CB }) {
                             /> */}
                             <NewSelect
                               name="toPort"
-                              options={airServiceProviderDDLData || []}
+                              options={airPortShortCodeDDL || []}
                               value={values?.rows[index]?.toPort || ''}
                               label="To"
                               onChange={(valueOption) => {
