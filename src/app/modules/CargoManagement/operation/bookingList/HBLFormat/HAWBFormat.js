@@ -1,3 +1,307 @@
+// {
+//   "bookingRequestCode": "SINV0122024000007",
+//   "bookingRequestId": 16,
+//   "shipperId": 102367,
+//   "shipperName": "jahed",
+//   "shipperAddress": "3039",
+//   "shipperContactPerson": "jahed",
+//   "shipperContact": "01755263355",
+//   "shipperEmail": "jahed@ibos.io",
+//   "shipperCountryId": 18,
+//   "shipperCountry": "Bangladesh",
+//   "shipperStateId": 0,
+//   "shipperState": "Chattogram",
+//   "shipperCity": "",
+//   "shipperPostalCode": "",
+//   "shipperBankId": 1,
+//   "shipperBank": "AGRANI BANK LTD",
+//   "buyerBank": "The India Bank ",
+//   "consigneeId": 2,
+//   "consigneeName": "Mamunuzzaman Mamun",
+//   "consigneeAddress": "Dhaka, Bangladesh",
+//   "consigneeContactPerson": "Mamun",
+//   "consigneeContact": "01929554466",
+//   "consigneeEmail": "mamun@ibos.io",
+//   "consigCountryId": 18,
+//   "consigCountry": "Bangladesh",
+//   "consigStateId": 0,
+//   "consigState": "Dhaka",
+//   "consignCity": "Dhaka",
+//   "consignPostalCode": "1214",
+//   "expOrCnfNumber": "EP-001",
+//   "expCnfType": "EXP",
+//   "expOrCnfDate": "2024-12-20T00:00:00",
+//   "freightAgentReferenceId": 1,
+//   "freightAgentReference": "Emdadul Haque",
+//   "modeOfTransportId": 1,
+//   "modeOfTransport": "Air",
+//   "portOfLoadingId": 15,
+//   "portOfLoading": "DXB",
+//   "portOfDischargeId": 0,
+//   "portOfDischarge": "Dhaka",
+//   "originAddress": "Hartsfield-Jackson Atlanta International Airport",
+//   "countryOfOriginId": 18,
+//   "countryOfOrigin": "Bangladesh",
+//   "finalDestinationAddress": "UK",
+//   "fdestCountryId": 18,
+//   "fdestCountry": "Bangladesh",
+//   "fdestStateId": 0,
+//   "fdestState": "feni",
+//   "fdestCity": "dhaka",
+//   "fdestPostalCode": "3901",
+//   "concernSalesPersonId": 0,
+//   "concernSalesPerson": "",
+//   "primaryContactPersonId": 0,
+//   "primaryContactPerson": "",
+//   "modeofStuffings": null,
+//   "modeOfDelivery": null,
+//   "incoterms": "ddp",
+//   "typeOfLoadingId": 2,
+//   "typeOfLoading": "Carton",
+//   "typeOfLoadingQty": 0,
+//   "requestPickupDate": null,
+//   "requestDeliveryDate": null,
+//   "isCustomsBrokerage": false,
+//   "isCargoInsurance": false,
+//   "isWarehouseService": false,
+//   "isStoreRent": false,
+//   "isHaulagePickupService": false,
+//   "isDestiontionHaulage": false,
+//   "isLocalTransportation": false,
+//   "freightForwarderTermsId": 1,
+//   "freightForwarderTerms": "PP/CC",
+//   "billingAddress": "",
+//   "billCountryId": 0,
+//   "billCountry": "",
+//   "billStateId": 0,
+//   "billState": "",
+//   "currencyId": 141,
+//   "currency": "BDT",
+//   "invoiceValue": 10,
+//   "packingListReference": "Dhaka",
+//   "refInvoiceNo": "IN-001",
+//   "refInvoiceDate": "2024-12-27T00:00:00",
+//   "shippingMark": "SM-001",
+//   "buyerName": "Mamunuzzaman Mamun",
+//   "buyerEmail": "mamun@ibos.io",
+//   "buyerAddress": "Dhaka, Bangladesh",
+//   "buyerAddress2": "Dhaka, Bangladesh",
+//   "notifyPartyId": 3,
+//   "notifyParty": "Md Abdul Kader",
+//   "notifyParty2Id": 0,
+//   "notifyParty2": "",
+//   "notifyBank": "",
+//   "notifyBankAddr": "dhaka bangladesh",
+//   "negotiationParty": "",
+//   "isPending": false,
+//   "isHandOver": false,
+//   "handOverDate": null,
+//   "isReceived": false,
+//   "receivedDate": null,
+//   "isPlaning": true,
+//   "planingDate": "2024-12-16T16:00:00.22",
+//   "isConfirm": true,
+//   "confirmDate": "2024-12-16T09:57:58.467",
+//   "confTransportMode": "Air to Air",
+//   "isActive": true,
+//   "isStuffing": false,
+//   "stuffingDate": null,
+//   "blnumber": null,
+//   "isBl": false,
+//   "bldate": null,
+//   "hblnumber": "ALL-A000002",
+//   "isHbl": true,
+//   "hbldate": "2024-12-16T09:57:57.983",
+//   "fcrnumber": null,
+//   "isDispatch": false,
+//   "dispatchDate": null,
+//   "isCustomsClear": false,
+//   "customsClearDt": null,
+//   "createdAt": "2024-12-16T09:32:54.797",
+//   "createdBy": 1,
+//   "departureDateTime": "2024-12-13T15:57:00",
+//   "arrivalDateTime": "2024-12-05T15:57:00",
+//   "flightNumber": "",
+//   "transitInformation": "",
+//   "bookingAmount": 0,
+//   "countryOfOrginId": 18,
+//   "countryOfOrgin": "Bangladesh",
+//   "pickupPlace": "",
+//   "isCharges": false,
+//   "isInTransit": null,
+//   "inTransitDate": null,
+//   "isDestPortReceive": false,
+//   "destPortReceiveDt": null,
+//   "isBuyerReceive": false,
+//   "buyerReceiveDt": null,
+//   "modeOfStuffingSeaId": 0,
+//   "modeOfStuffingSeaName": "",
+//   "modeOfDeliveryId": 1,
+//   "modeOfDeliveryName": "Door to Door",
+//   "warehouseId": 36,
+//   "warehouseName": "ARL Corporate",
+//   "invoiceNumber": null,
+//   "invoiceDate": null,
+//   "shipperBankBranchId": 1,
+//   "shipperBankBranch": "JATRAPUR BAZAR",
+//   "shipperBankAddress": "BAGERHAT",
+//   "objPurchase": [
+//     {
+//       "purchaseInfoId": 10,
+//       "bookingId": 16,
+//       "infoType": "lc",
+//       "lcnumber": "LC-001",
+//       "lcdate": "2024-12-28T00:00:00",
+//       "isActive": true,
+//       "createdAt": "2024-12-16T09:32:55.267",
+//       "createdBy": 1
+//     }
+//   ],
+//   "rowsData": [
+//     {
+//       "bookingRequestRowId": 25,
+//       "bookingRequestHeaderId": 16,
+//       "typeOfCargoId": 1,
+//       "typeOfCargo": "General Cargo ",
+//       "descriptionOfGoods": "akij cement",
+//       "hsCode": "0101 - Horses, asses, mules and hinnies, live",
+//       "totalNumberOfPackages": 40,
+//       "recvQuantity": 0,
+//       "totalGrossWeightKG": 10,
+//       "totalNetWeightKG": 10,
+//       "totalPerUnitNetWeightKG": 10,
+//       "totalVolumetricWeight": 150,
+//       "totalPerUnitGrossWeightKG": 10,
+//       "totalVolumeCBM": 0.9,
+//       "totalDimsLength": 10,
+//       "totalDimsWidth": 20,
+//       "totalDimsHeight": 30,
+//       "isTemperatureControl": false,
+//       "temperatureRange": "",
+//       "isSHInstruction": false,
+//       "shInstructionText": "",
+//       "isActive": true,
+//       "createdAt": "2024-12-16T09:32:54.797",
+//       "createdBy": 1,
+//       "dimensionRow": [
+//         {
+//           "dimensionRowId": 22,
+//           "bookingRequestRowId": 25,
+//           "dimsHeight": 30,
+//           "dimsWidth": 20,
+//           "dimsLength": 10,
+//           "perUnitCbm": 0.9,
+//           "numberOfPackage": 40,
+//           "perUnitGrossWeight": 10,
+//           "perUnitNetWeight": 10,
+//           "volumetricWeight": 150,
+//           "measurementType": "cm",
+//           "poNumber": "PO-001",
+//           "style": "Style-001",
+//           "color": "001",
+//           "isActive": true,
+//           "createdAt": "2024-12-16T09:32:54.797",
+//           "createdBy": 1
+//         }
+//       ]
+//     }
+//   ],
+//   "documents": [],
+//   "billingData": [],
+//   "transportPlanning": {
+//     "transportId": 20,
+//     "bookingId": 16,
+//     "pickupLocation": "Dhaka",
+//     "pickupDate": "2024-12-16T10:00:00.573",
+//     "vehicleInfo": "",
+//     "noOfPallets": 10,
+//     "carton": 40,
+//     "noOfContainer": 0,
+//     "airLineOrShippingLine": "Sky High Airlines",
+//     "iatanumber": "",
+//     "vesselName": "",
+//     "voyagaNo": "",
+//     "departureDateTime": null,
+//     "arrivalDateTime": null,
+//     "transportMode": "Air to Air",
+//     "berthDate": null,
+//     "cutOffDate": null,
+//     "estimatedTimeOfDepart": "2024-12-21T15:58:00",
+//     "isActive": true,
+//     "airLineOrShippingLineId": 2,
+//     "gsaId": 3,
+//     "gsaName": "Global Sales Agency",
+//     "strSbNo": "10",
+//     "dteSbDate": "2024-12-27T00:00:00",
+//     "containerDesc": [],
+//     "airTransportRow": [
+//       {
+//         "planRowId": 0,
+//         "transportId": 20,
+//         "fromPort": "JFK",
+//         "toPort": "MIA",
+//         "flightNumber": "FN-001",
+//         "flightDate": "2024-12-11T00:00:00",
+//         "isActive": true
+//       },
+//       {
+//         "planRowId": 0,
+//         "transportId": 20,
+//         "fromPort": "SEA",
+//         "toPort": "DEN",
+//         "flightNumber": "FN-002",
+//         "flightDate": "2024-12-12T00:00:00",
+//         "isActive": true
+//       }
+//     ]
+//   },
+//   "deliveryAgentDtl": {
+//     "participantId": 1,
+//     "participantCode": "",
+//     "participantTypeId": 2,
+//     "participantType": "Delivery Agent",
+//     "participantsName": "Emdadul Haque",
+//     "companyName": "iBOS Limited",
+//     "contactPerson": "Emdadul",
+//     "contactNumber": "01929551234",
+//     "email": "emdad@ibos.io",
+//     "countryId": 18,
+//     "country": "Bangladesh",
+//     "stateId": 101,
+//     "state": "Dhaka",
+//     "cityId": 102,
+//     "city": "Dhaka",
+//     "address": "Dhaka, Bangladesh",
+//     "zipCode": "1214",
+//     "isActive": true,
+//     "createdBy": 0,
+//     "createdAt": "2024-12-01T18:56:45.46"
+//   },
+//   "notifyPartyDtl1": {
+//     "participantId": 3,
+//     "participantCode": "",
+//     "participantTypeId": 3,
+//     "participantType": "Notify Party",
+//     "participantsName": "Md Abdul Kader",
+//     "companyName": "iBOS Limited",
+//     "contactPerson": "Kader",
+//     "contactNumber": "01929554466",
+//     "email": "kader@ibos.io",
+//     "countryId": 18,
+//     "country": "Bangladesh",
+//     "stateId": 101,
+//     "state": "Dhaka",
+//     "cityId": 102,
+//     "city": "Dhaka",
+//     "address": "Dhaka, Bangladesh",
+//     "zipCode": "1214",
+//     "isActive": true,
+//     "createdBy": 0,
+//     "createdAt": "2024-12-01T19:16:28.147"
+//   },
+//   "notifyPartyDtl2": null,
+//   "saveWaybillData": null
+// }
 import moment from 'moment';
 import React from 'react';
 import './HAWBFormat.css';
@@ -111,11 +415,8 @@ function HBLFormatAirItem({
               <div className="notifyParty">
                 <p className="textTitle">Notify Party</p>
                 {/* <p>TO THE ORDER OF</p> */}
-                <p>
-                  {bookingData?.notifyParty}
-                  <br />
-                  {bookingData?.notifyPartyAddress}
-                </p>
+                <p>{bookingData?.notifyParty}</p>
+                <p>{bookingData?.notifyBankAddr}</p>
               </div>
             </div>
             <div className="rightSide">
@@ -188,7 +489,6 @@ function HBLFormatAirItem({
                     I.A.T.A Code {bookingData?.transportPlanning?.iatanumber}
                   </p>
                 </div>
-                ?.{' '}
                 <div className="borderBottomTime">
                   <p className="borderRight">Time &amp; Date Broker Notified</p>
                   <p>Time &amp; Date Cargo Collected</p>
@@ -202,7 +502,35 @@ function HBLFormatAirItem({
                 <p className="textTitle">
                   Airport of Departure and Requested Routing
                 </p>
-                <p>{bookingData?.transportPlanning?.pickupLocation || ''}</p>
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: 5,
+                  }}
+                >
+                  <p>
+                    {bookingData?.transportPlanning?.airLineOrShippingLine ||
+                      ''}
+                  </p>
+                  <div
+                    style={{
+                      display: 'flex',
+                      gap: 5,
+                    }}
+                  >
+                    {bookingData?.transportPlanning?.airTransportRow?.map(
+                      (item, index) => {
+                        return (
+                          <p key={index}>
+                            <b>
+                              ({item?.fromPort} - {item?.toPort})
+                            </b>
+                          </p>
+                        );
+                      },
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
             <div className="rightSide">
@@ -246,8 +574,8 @@ function HBLFormatAirItem({
                             {['cif', 'cpt', 'cfr'].includes(
                               bookingData?.incoterms,
                             )
-                              ? 'CCX'
-                              : ''}
+                              ? ''
+                              : 'CCX'}
                           </p>
                         </div>
                       </div>
@@ -273,7 +601,6 @@ function HBLFormatAirItem({
                           )
                             ? 'PPD'
                             : ''}
-                          PPD
                         </p>
                         <p
                           className="textTitle"
@@ -284,9 +611,8 @@ function HBLFormatAirItem({
                           {['cif', 'cpt', 'cfr'].includes(
                             bookingData?.incoterms,
                           )
-                            ? 'CCX'
-                            : ''}
-                          CCX
+                            ? ''
+                            : 'CCX'}
                         </p>
                       </div>
                     </div>
@@ -338,7 +664,12 @@ function HBLFormatAirItem({
                     <b>
                       {' '}
                       <p className="medium-font" style={{ paddingTop: 5 }}>
-                        {bookingData?.transportPlanning?.destinationLocation}
+                        {
+                          bookingData?.transportPlanning?.airTransportRow?.[
+                            bookingData?.transportPlanning?.airTransportRow
+                              ?.length - 1
+                          ]?.toPort
+                        }
                       </p>
                     </b>
                   </p>
@@ -495,6 +826,23 @@ function HBLFormatAirItem({
                     DESCRIPTION OF GOODS :
                   </p>
                   {bookingData?.rowsData?.map((item, index) => {
+                    const dimension = item?.dimensionRow?.reduce(
+                      (acc, cur) => {
+                        return {
+                          dimsLength:
+                            (+acc?.dimsLength || 0) + (+cur?.dimsLength || 0),
+                          dimsWidth:
+                            (+acc?.dimsWidth || 0) + (+cur?.dimsWidth || 0),
+                          dimsHeight:
+                            (+acc?.dimsHeight || 0) + (+cur?.dimsHeight || 0),
+                        };
+                      },
+                      {
+                        dimsLength: 0,
+                        dimsWidth: 0,
+                        dimsHeight: 0,
+                      },
+                    );
                     return (
                       <>
                         <p>{item?.descriptionOfGoods}</p>
@@ -527,14 +875,23 @@ function HBLFormatAirItem({
                               ? ','
                               : '')}
                         </p>
-                        <p>Dimn: {}</p>
+                        <p>
+                          Dimn:{' '}
+                          {`${dimension?.dimsLength} x ${dimension?.dimsWidth} x ${dimension?.dimsHeight}`}
+                        </p>
                         <br />
                       </>
                     );
                   })}
 
                   <br />
-                  <p>Invoice No: {bookingData?.invoiceNumber}</p>
+                  <p>
+                    Invoice No: {bookingData?.refInvoiceNo} :{' '}
+                    {bookingData?.refInvoiceDate &&
+                      `${moment(bookingData?.refInvoiceDate).format(
+                        'DD-MM-YYYY',
+                      )}`}
+                  </p>
                   <p>
                     {bookingData?.infoType === 'lc'
                       ? 'LC No'

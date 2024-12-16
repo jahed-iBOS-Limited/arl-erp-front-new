@@ -96,7 +96,13 @@ const SingleItem = ({
                     {bookingData?.objPurchase?.[0]?.infoType === "lc" &&
                       bookingData?.shipperBankAddress}
                   </p>
-                  <p>{bookingData?.shipperName}</p>
+                  <p>
+                    {' '}
+                    {bookingData?.objPurchase?.[0]?.infoType === 'lc'
+                      ? 'A/C '
+                      : ''}
+                    {bookingData?.shipperName}
+                  </p>
                   <p>{bookingData?.shipperAddress}</p>
                   {/* <p>{bookingData?.shipperContactPerson}</p> */}
                   <p>{bookingData?.shipperContact}</p>
@@ -107,7 +113,21 @@ const SingleItem = ({
                 </div>
                 <div className="consigneeInfo borderBottom">
                   <p className="textTitle">Consignee:</p>
-                  <p>{bookingData?.consigneeName}</p>
+                  <p>
+                    {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
+                      bookingData?.buyerBank}
+                  </p>
+                  <p>
+                    {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
+                      bookingData?.notifyBankAddr}
+                  </p>
+                  <p>
+                    {' '}
+                    {bookingData?.objPurchase?.[0]?.infoType === 'lc'
+                      ? 'A/C '
+                      : ''}
+                    {bookingData?.consigneeName}
+                  </p>
                   <p>{bookingData?.consigneeAddress}</p>
                   {/* <p>{bookingData?.consigneeContactPerson}</p> */}
                   <p>{bookingData?.consigneeContact}</p>
@@ -343,7 +363,13 @@ const SingleItem = ({
                     })}
 
                     <br />
-                    <p>Invoice No: {bookingData?.invoiceNumber}</p>
+                    <p>
+                      Invoice No: {bookingData?.refInvoiceNo} :{' '}
+                      {bookingData?.refInvoiceDate &&
+                        `${moment(bookingData?.refInvoiceDate).format(
+                          'DD-MM-YYYY',
+                        )}`}
+                    </p>
                     <p>
                       {bookingData?.infoType === "lc"
                         ? "LC No"
