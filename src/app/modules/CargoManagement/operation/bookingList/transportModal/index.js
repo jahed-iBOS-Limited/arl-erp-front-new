@@ -100,6 +100,7 @@ function TransportModal({ rowClickData, CB }) {
         (resData) => {
           if (formikRef.current) {
             const data = resData || {};
+            const isAirType = data?.modeOfTransport === 'Air';
             const totalNumberOfPackages = data?.rowsData?.reduce(
               (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
               0,
@@ -120,11 +121,24 @@ function TransportModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               `rows[0].shippingLine`,
-              transportPlanning?.airLineOrShippingLine
+              isAirType
+                ? ''
+                : transportPlanning?.airLineOrShippingLine
                 ? {
                     value: transportPlanning?.airLineOrShippingLineId || 0,
                     label: transportPlanning?.airLineOrShippingLine,
                   }
+                : '',
+            );
+            formikRef.current.setFieldValue(
+              `rows[0].airLine`,
+              isAirType
+                ? transportPlanning?.airLineOrShippingLine
+                  ? {
+                      value: transportPlanning?.airLineOrShippingLineId || 0,
+                      label: transportPlanning?.airLineOrShippingLine,
+                    }
+                  : ''
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -607,6 +621,7 @@ function TransportModal({ rowClickData, CB }) {
                                   }}
                                   placeholder="GSA"
                                   errors={errors}
+                                  value={values?.rows?.[index]?.gsa}
                                   touched={touched}
                                 />
                                 {errors?.rows &&
