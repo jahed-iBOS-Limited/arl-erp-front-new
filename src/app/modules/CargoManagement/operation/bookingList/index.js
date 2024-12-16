@@ -103,44 +103,18 @@ function BookingList() {
   };
 
   const [selectedRow, setSelectedRow] = useState([]);
-  // const getDisabledCheckbox = (item) => {
-  //   // Disable if item is not planning or bookingRequestCode doesn't exist
-  //   if (!item?.isPlaning) {
-  //     return true;
-  //   }
-  //   // Disable if there is a selected row and it's not the current item
-  //   if (selectedRow.length > 0 && !selectedRow.includes(item.shipperName)) {
-  //     return true;
-  //   }
-
-  //   return false;
-  // };
-
-  // const handleSelectRow = (item) => (e) => {
-  //   const { checked } = e.target;
-  //   if (checked) {
-  //     // Add item to selectedRow if checkbox is checked
-  //     setSelectedRow([item.shipperName]);
-  //   } else {
-  //     // Clear selectedRow if unchecked
-  //     setSelectedRow([]);
-  //   }
-  // };
   const getDisabledCheckbox = (item) => {
-    // console.log(item?.deliveryAgentDtl);
-    // if (item?.deliveryAgentDtl === null) {
-    //   return true;
-    // }
     if (
       !item?.isPlaning ||
       (selectedRow.length > 0 &&
-        selectedRow[0]?.freightAgentReference !== item?.freightAgentReference)
+        selectedRow?.[0]?.freightAgentReferenceId !==
+          item?.freightAgentReferenceId)
     ) {
       return true;
     }
     if (
       selectedRow.length > 0 &&
-      selectedRow[0]?.modeOfTransport !== item?.modeOfTransport
+      selectedRow?.[0]?.modeOfTransport !== item?.modeOfTransport
     ) {
       return true;
     }
@@ -164,12 +138,6 @@ function BookingList() {
         return (
           <button
             onClick={() => {
-              // if (selectedRow.length > 0 && selectedRow[0]?.modeOfTransport === 'Sea') {
-              //   setIsModalShowObj({
-              //     ...isModalShowObj,
-              //     isMasterHBL: true,
-              //   });
-              // }
               setIsModalShowObj({
                 ...isModalShowObj,
                 isMasterHBL: true,
@@ -181,7 +149,7 @@ function BookingList() {
               display: selectedRow?.length > 0 ? 'block' : 'none',
             }}
           >
-            <i class="fa fa-eye" aria-hidden="true"></i> Show Master HBL
+            <i class="fa fa-eye" aria-hidden="true"></i> Generate Master HBL
           </button>
         );
       }}
@@ -220,6 +188,7 @@ function BookingList() {
                     value={values?.modeOfTransport || ''}
                     label="Booking Type"
                     onChange={(valueOption) => {
+                      setSelectedRow([]);
                       setFieldValue('modeOfTransport', valueOption);
                       commonLandingApi(
                         null,
@@ -254,9 +223,7 @@ function BookingList() {
                           style={{
                             minWidth: '40px',
                           }}
-                        >
-                          Mark
-                        </th>
+                        ></th>
                         <th>SL</th>
                         <th
                           style={{

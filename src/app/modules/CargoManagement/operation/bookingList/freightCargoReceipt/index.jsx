@@ -1,6 +1,5 @@
 import moment from 'moment';
 import React, { useEffect, useRef } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import { imarineBaseUrl } from '../../../../../App';
 import Loading from '../../../../_helper/_loading';
@@ -11,10 +10,10 @@ const FreightCargoReceipt = ({ rowClickData }) => {
   const componentRef = useRef();
   const [, createHblFcrNumber, createHblFcrNumberLoading] = useAxiosPut();
 
-  const { selectedBusinessUnit } = useSelector(
-    (state) => state?.authData || {},
-    shallowEqual,
-  );
+  // const { selectedBusinessUnit } = useSelector(
+  //   (state) => state?.authData || {},
+  //   shallowEqual,
+  // );
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [
     shipBookingRequestGetById,
@@ -38,14 +37,14 @@ const FreightCargoReceipt = ({ rowClickData }) => {
           }
         `,
   });
-  const totalGrossWeightKG = shipBookingRequestGetById?.rowsData?.reduce(
-    (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
-    0,
-  );
-  const totalVolumetricWeight = shipBookingRequestGetById?.rowsData?.reduce(
-    (acc, item) => acc + (+item?.totalVolumetricWeight || 0),
-    0,
-  );
+  // const totalGrossWeightKG = shipBookingRequestGetById?.rowsData?.reduce(
+  //   (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
+  //   0,
+  // );
+  // const totalVolumetricWeight = shipBookingRequestGetById?.rowsData?.reduce(
+  //   (acc, item) => acc + (+item?.totalVolumetricWeight || 0),
+  //   0,
+  // );
 
   useEffect(() => {
     if (bookingRequestId) {
@@ -77,6 +76,29 @@ const FreightCargoReceipt = ({ rowClickData }) => {
         <Loading />
       </div>
     );
+
+  const groupBySize = bookingData?.transportPlanning?.containerDesc
+    ? bookingData?.transportPlanning?.containerDesc.reduce((acc, obj) => {
+        const key = obj?.size;
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        acc[key].push(obj);
+        return acc;
+      }, {})
+    : [];
+
+  const sumOfRate = Object.keys(groupBySize).map((key) => {
+    const rate = +groupBySize[key]?.[0]?.rate || 0;
+    const containerNo = groupBySize?.[key]?.length;
+    return {
+      size: key,
+      containerNo: containerNo,
+      rate: rate,
+      total: rate * containerNo,
+    };
+  });
+
   return (
     <>
       <div className="">
@@ -217,7 +239,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
             >
               <span style={{ padding: 2 }}>TRANSPORT CARRIER</span>
               <span style={{ padding: 2 }}>
-                : YANG MING MARINE TRANSPORT CORP
+                : {bookingData?.transportPlanning?.airLineOrShippingLine ?? ''}
               </span>
             </div>
             <div
@@ -242,15 +264,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                 : {bookingData?.transportPlanning?.vesselName}
               </span>
             </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>ETA</span>
-              <span style={{ padding: 2 }}>: 27-12-2023</span>
-            </div>
+
             <div
               style={{
                 display: 'grid',
@@ -299,7 +313,12 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               >
                 <span style={{ padding: 2 }}>L/C NO </span>
                 <span style={{ padding: 2 }}>
-                  : {bookingData?.lcNo ?? 'N/A'}
+                  :
+                  {bookingData?.objPurchase?.map((item, index) => {
+                    return `${item?.lcnumber || ''}${
+                      index < bookingData?.objPurchase?.length - 1 ? ',' : ''
+                    }`;
+                  })}
                 </span>
               </div>
               <div
@@ -311,9 +330,12 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                 <span style={{ padding: 2 }}>L/C DATE </span>
                 <span style={{ padding: 2 }}>
                   :{' '}
-                  {bookingData?.lcDate
-                    ? moment(bookingData?.lcDate).format('DD MMM YYYY HH:mm A')
-                    : 'N/A'}
+                  {bookingData?.objPurchase?.map((item, index) => {
+                    return `${item?.lcdate &&
+                      `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${
+                      index < bookingData?.objPurchase?.length - 1 ? ',' : ''
+                    }`;
+                  })}
                 </span>
               </div>
               <div
@@ -335,18 +357,11 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               }}
             >
               <span style={{ padding: 2 }}>M.VSL/FLIGHT NUM</span>
-              <span style={{ padding: 2 }}>: {bookingData?.flightNumber}</span>
+              <span style={{ padding: 2 }}>
+                :{bookingData?.transportPlanning?.voyagaNo}
+              </span>
             </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>F.VSL/FLIGHT NUM</span>
-              <span style={{ padding: 2 }}>: </span>
-            </div>
-            <div
+            {/* <div
               style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 3fr ',
@@ -354,7 +369,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
             >
               <span style={{ padding: 2 }}>ATA</span>
               <span style={{ padding: 2 }}>: 31-12-2023</span>
-            </div>
+            </div> */}
             <div
               style={{
                 display: 'grid',
@@ -408,28 +423,43 @@ const FreightCargoReceipt = ({ rowClickData }) => {
         >
           <span>
             {shipBookingRequestGetById?.modeOfTransport === 'Air'
-              ? 'Air Freight'
-              : 'Ocean Freight'}{' '}
-            is {totalVolumetricWeight * totalGrossWeightKG}
+              ? 'Air Freight '
+              : 'Ocean Freight '}
+            is {/* containerDesc size wise group than total rate show */}
+            {sumOfRate?.map((item, index) => {
+              return `${item?.rate}/${item?.size} `;
+            })}
           </span>{' '}
           <br />
-          <span>Total Container: {totalGrossWeightKG}</span> <br />
+          <span>
+            Total Container:{' '}
+            {sumOfRate?.map((item, index) => {
+              return `${item?.containerNo} x ${item?.size} `;
+            })}
+          </span>{' '}
+          <br />
           {/* <span>Ex Rate 110.50</span> <br /> */}
           <span>
-            So, Total Ocean Freight is BDT{' '}
-            {totalVolumetricWeight * totalGrossWeightKG}
+            So, Total Ocean Freight is USD{' '}
+            {sumOfRate?.reduce((acc, item) => {
+              return acc + item?.total;
+            }, 0) || 0}
           </span>{' '}
           <br />
           <span>
-            Goods Description: BRAND NEW CAPITAL MACHINERY WITH THEIR STANDARD
-            ACCESSORIES
+            Goods Description:{' '}
+            {bookingData?.rowsData?.map((item, index) => {
+              return `${item?.descriptionOfGoods}${
+                index < bookingData?.rowsData?.length - 1 ? ',' : ''
+              }`;
+            })}
           </span>{' '}
           <br />
         </div>
         <span style={{ paddingLeft: 10 }}>Thanks and Best Regards,</span>
         <span>Sincerely Yours</span>
         <div style={{ paddingTop: '5rem' }}>
-          <span>For : {selectedBusinessUnit?.label}</span> <br />
+          <span>For : Akij Logistics Limited</span> <br />
           <span>As Agents</span> <br />
         </div>
         <div style={{ paddingTop: '5rem' }}>
@@ -446,8 +476,8 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               textAlign: 'center',
             }}
           >
-            <span>{selectedBusinessUnit?.label}</span>
-            <span>{selectedBusinessUnit?.address}</span>
+            <span>Akij Logistics Limited</span>
+            <span>Bir Uttam Mir Shawkat Sarak, Dhaka 1208</span>
           </div>
         </div>
       </div>
