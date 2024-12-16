@@ -28,6 +28,7 @@ import ManifestModal from './manifestModal';
 import MasterHBLModal from './masterHBLModal';
 import ReceiveModal from './receiveModal';
 import TransportModal from './transportModal';
+import NewSelect from '../../../_helper/_select';
 const validationSchema = Yup.object().shape({});
 function BookingList() {
   const { profileData } = useSelector(
@@ -61,7 +62,7 @@ function BookingList() {
     const targetUrl =
       process.env.NODE_ENV !== 'production'
         ? 'http://localhost:3010'
-        : 'https://devcargo.ibos.io/';
+        : 'https://cargo.ibos.io/';
 
     // Encrypt the token and userID using base64 encoding
     const encryptedToken = CryptoJS.enc.Base64.stringify(
@@ -89,12 +90,15 @@ function BookingList() {
     searchValue,
     PageNo = pageNo,
     PageSize = pageSize,
+    modeOfTransportId = 1,
   ) => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
+        profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${
+        profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search${searchValue ||
-      ''}`,
+        ''}&modeOfTransportId=${modeOfTransportId}`,
     );
   };
 
@@ -134,8 +138,9 @@ function BookingList() {
     ) {
       return true;
     }
-    if ((selectedRow.length > 0 &&
-      selectedRow[0]?.modeOfTransport !== item?.modeOfTransport)
+    if (
+      selectedRow.length > 0 &&
+      selectedRow[0]?.modeOfTransport !== item?.modeOfTransport
     ) {
       return true;
     }
@@ -147,11 +152,14 @@ function BookingList() {
       setSelectedRow((prev) => [...prev, item]);
     } else {
       // Uncheck and clear the selectedRow array
-      setSelectedRow((prev) => prev.filter((row) => row?.bookingRequestId !== item?.bookingRequestId));
+      setSelectedRow((prev) =>
+        prev.filter((row) => row?.bookingRequestId !== item?.bookingRequestId),
+      );
     }
   };
   return (
-    <ICustomCard title="Booking List"
+    <ICustomCard
+      title="Booking List"
       renderProps={() => {
         return (
           <button
@@ -177,31 +185,67 @@ function BookingList() {
           </button>
         );
       }}
-
     >
       <>
         <Formik
           enableReinitialize={true}
           initialValues={{
-            strCardNumber: '',
-            shipment: '',
-            entryCode: '',
+            modeOfTransport: {
+              value: 1,
+              label: 'Air',
+            },
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
               {(bookingReqLandingLoading ||
                 deleteBookingRequestByIdLoading) && <Loading />}
-              <PaginationSearch
-                placeholder="Booking No, BL No, search..."
-                paginationSearchHandler={(searchValue) => {
-                  commonLandingApi(searchValue, 1, 100);
-                }}
-              />
-              {/* <div className="row global-form"></div> */}
+
+              <div className="row global-form">
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="modeOfTransport"
+                    options={[
+                      {
+                        value: 1,
+                        label: 'Air',
+                      },
+                      {
+                        value: 2,
+                        label: 'Sea',
+                      },
+                    ]}
+                    value={values?.modeOfTransport || ''}
+                    label="Booking Type"
+                    onChange={(valueOption) => {
+                      setFieldValue('modeOfTransport', valueOption);
+                      commonLandingApi(
+                        null,
+                        pageNo,
+                        pageSize,
+                        valueOption?.value,
+                      );
+                    }}
+                    placeholder="Booking Type"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+              </div>
               <div className="col-lg-12">
+                <PaginationSearch
+                  placeholder="Booking No, BL No, Search..."
+                  paginationSearchHandler={(searchValue) => {
+                    commonLandingApi(
+                      searchValue,
+                      1,
+                      100,
+                      values?.modeOfTransport?.value,
+                    );
+                  }}
+                />
                 <div className="table-responsive">
                   <table className="table table-striped table-bordered global-table">
                     <thead>
@@ -490,7 +534,12 @@ function BookingList() {
                                       },
                                       deleteBookingRequestById,
                                       CB: () => {
-                                        commonLandingApi();
+                                        commonLandingApi(
+                                          null,
+                                          pageNo,
+                                          pageSize,
+                                          values?.modeOfTransport?.value,
+                                        );
                                       },
                                     });
                                   }}
@@ -916,7 +965,6 @@ function BookingList() {
                                     Consignee Invoice
                                   </button>
                                 </span>
-
                               </div>
                             </td>
                           </tr>
@@ -929,7 +977,12 @@ function BookingList() {
                 <PaginationTable
                   count={shipBookingReqLanding?.totalCount}
                   setPositionHandler={(pageNo, pageSize) => {
-                    commonLandingApi(null, pageNo, pageSize);
+                    commonLandingApi(
+                      null,
+                      pageNo,
+                      pageSize,
+                      values?.modeOfTransport?.value,
+                    );
                   }}
                   values={values}
                   paginationState={{
@@ -940,415 +993,428 @@ function BookingList() {
                   }}
                 />
               )}
+
+              {/* Confirm Modal */}
+              {isModalShowObj?.isConfirm && (
+                <>
+                  <IViewModal
+                    title="Confirm Booking"
+                    show={isModalShowObj?.isConfirm}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isConfirm: false,
+                      });
+                    }}
+                  >
+                    <ConfirmModal
+                      rowClickData={rowClickData}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isConfirm: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
+
+              {/* Receive Modal */}
+              {isModalShowObj?.isReceive && (
+                <>
+                  <IViewModal
+                    title="Receive Booking"
+                    show={isModalShowObj?.isReceive}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isReceive: false,
+                      });
+                    }}
+                  >
+                    <ReceiveModal
+                      rowClickData={rowClickData}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isReceive: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
+
+              {/* Transport Modal */}
+              {isModalShowObj?.isPlaning && (
+                <>
+                  <IViewModal
+                    title="Shipment planning"
+                    show={isModalShowObj?.isPlaning}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isPlaning: false,
+                      });
+                    }}
+                  >
+                    <TransportModal
+                      rowClickData={rowClickData}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isPlaning: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
+              {/* Manifest modal */}
+              {isModalShowObj?.isManifest && (
+                <>
+                  <IViewModal
+                    title="Manifest"
+                    show={isModalShowObj?.isManifest}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isManifest: false,
+                      });
+                    }}
+                  >
+                    <ManifestModal rowClickData={rowClickData} />
+                  </IViewModal>
+                </>
+              )}
+
+              {/* Charges Modal */}
+              {isModalShowObj?.isCharges && (
+                <>
+                  <IViewModal
+                    title="Services & Charges"
+                    show={isModalShowObj?.isCharges}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isCharges: false,
+                      });
+                    }}
+                  >
+                    <ChargesModal
+                      rowClickData={rowClickData}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isCharges: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
+
+              {/* Document Modal */}
+              {isModalShowObj?.isDocument && (
+                <>
+                  <IViewModal
+                    title="Document Checklist"
+                    show={isModalShowObj?.isDocument}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isDocument: false,
+                      });
+                    }}
+                  >
+                    <DocumentModal
+                      rowClickData={rowClickData}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isDocument: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
+
+              {/* Delivery Note Modal */}
+              {isModalShowObj?.isDeliveryNote && (
+                <>
+                  <IViewModal
+                    title="Delivery Note "
+                    show={isModalShowObj?.isDeliveryNote}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isDeliveryNote: false,
+                      });
+                    }}
+                  >
+                    <DeliveryNoteModal rowClickData={rowClickData} />
+                  </IViewModal>
+                </>
+              )}
+
+              {/* Freight Cargo Receipt */}
+              {isModalShowObj?.isFreightCargoReceipt && (
+                <>
+                  <IViewModal
+                    title="FC"
+                    show={isModalShowObj?.isFreightCargoReceipt}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isFreightCargoReceipt: false,
+                      });
+                    }}
+                  >
+                    <FreightCargoReceipt rowClickData={rowClickData} />
+                  </IViewModal>
+                </>
+              )}
+
+              {/* HBL Formate */}
+
+              {/* Shipper Invoice */}
+              {isModalShowObj?.isFreightInvoice && (
+                <>
+                  <IViewModal
+                    title="Shipper Invoice"
+                    show={isModalShowObj?.isFreightInvoice}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isFreightInvoice: false,
+                      });
+                    }}
+                  >
+                    <FreightInvoice rowClickData={rowClickData} />
+                  </IViewModal>
+                </>
+              )}
+              {/* Consignee Invoice  */}
+              {isModalShowObj?.isConsigneeInvoice && (
+                <>
+                  <IViewModal
+                    title="Consignee Invoice"
+                    show={isModalShowObj?.isConsigneeInvoice}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isConsigneeInvoice: false,
+                      });
+                    }}
+                  >
+                    <ConsigneeInvoice rowClickData={rowClickData} />
+                  </IViewModal>
+                </>
+              )}
+              {/* Common Modal */}
+              {isModalShowObj?.isCommonModalShow && (
+                <>
+                  <IViewModal
+                    title={rowClickData?.title}
+                    show={isModalShowObj?.isCommonModalShow}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isCommonModalShow: false,
+                      });
+                      setRowClickData({});
+                    }}
+                  >
+                    <CommonStatusUpdateModal
+                      rowClickData={rowClickData}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isCommonModalShow: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
+
+              {/* BL Modal */}
+              {isModalShowObj?.isBlModal && (
+                <>
+                  <IViewModal
+                    title={
+                      rowClickData?.modeOfTransport === 'Air' ? 'MAWB' : 'MBL'
+                    }
+                    show={isModalShowObj?.isBlModal}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isBlModal: false,
+                      });
+                    }}
+                  >
+                    <BLModal
+                      rowClickData={rowClickData}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isBlModal: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
+
+              {/* HBCode GN Modal */}
+              {isModalShowObj?.isHBCodeGN && (
+                <IViewModal
+                  title={`${
+                    rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+                  } Report`}
+                  show={isModalShowObj?.isHBCodeGN}
+                  onHide={() => {
+                    setIsModalShowObj({
+                      ...isModalShowObj,
+                      isHBCodeGN: false,
+                    });
+                    setRowClickData({});
+                  }}
+                >
+                  <HBLCodeGNModal
+                    rowClickData={rowClickData}
+                    CB={() => {
+                      commonLandingApi(
+                        null,
+                        pageNo,
+                        pageSize,
+                        values?.modeOfTransport?.value,
+                      );
+                    }}
+                  />
+                </IViewModal>
+              )}
+
+              {/* EPB modal */}
+              {isModalShowObj?.isEPB && (
+                <>
+                  <IViewModal
+                    title={`EPB`}
+                    show={isModalShowObj?.isEPB}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isEPB: false,
+                      });
+                      setRowClickData({});
+                    }}
+                  >
+                    <HBLCodeGNModal
+                      rowClickData={rowClickData}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                      }}
+                      isEPBInvoice={true}
+                    />
+                  </IViewModal>
+                </>
+              )}
+              {/* Master Bl Modal */}
+              {isModalShowObj?.isMasterHBL && (
+                <>
+                  <IViewModal
+                    title={'Master BL'}
+                    show={isModalShowObj?.isMasterHBL}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isMasterHBL: false,
+                      });
+                    }}
+                  >
+                    <MasterHBLModal selectedRow={selectedRow} />
+                  </IViewModal>
+                </>
+              )}
+              {/* view info */}
+              {isModalShowObj?.isView && (
+                <>
+                  {' '}
+                  <IViewModal
+                    show={isModalShowObj?.isView}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isView: false,
+                      });
+                    }}
+                    title="Booking Details"
+                  >
+                    <Details rowClickData={rowClickData} />
+                  </IViewModal>
+                </>
+              )}
             </>
           )}
         </Formik>
       </>
-
-      {/* view info */}
-      {
-        isModalShowObj?.isView && (
-          <>
-            {' '}
-            <IViewModal
-              show={isModalShowObj?.isView}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isView: false,
-                });
-              }}
-              title="Booking Details"
-            >
-              <Details rowClickData={rowClickData} />
-            </IViewModal>
-          </>
-        )
-      }
-
-      {/* Confirm Modal */}
-      {
-        isModalShowObj?.isConfirm && (
-          <>
-            <IViewModal
-              title="Confirm Booking"
-              show={isModalShowObj?.isConfirm}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isConfirm: false,
-                });
-              }}
-            >
-              <ConfirmModal
-                rowClickData={rowClickData}
-                CB={() => {
-                  commonLandingApi();
-                  setIsModalShowObj({
-                    ...isModalShowObj,
-                    isConfirm: false,
-                  });
-                  setRowClickData({});
-                }}
-              />
-            </IViewModal>
-          </>
-        )
-      }
-
-      {/* Receive Modal */}
-      {
-        isModalShowObj?.isReceive && (
-          <>
-            <IViewModal
-              title="Receive Booking"
-              show={isModalShowObj?.isReceive}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isReceive: false,
-                });
-              }}
-            >
-              <ReceiveModal
-                rowClickData={rowClickData}
-                CB={() => {
-                  commonLandingApi();
-                  setIsModalShowObj({
-                    ...isModalShowObj,
-                    isReceive: false,
-                  });
-                  setRowClickData({});
-                }}
-              />
-            </IViewModal>
-          </>
-        )
-      }
-
-      {/* Transport Modal */}
-      {
-        isModalShowObj?.isPlaning && (
-          <>
-            <IViewModal
-              title="Shipment planning"
-              show={isModalShowObj?.isPlaning}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isPlaning: false,
-                });
-              }}
-            >
-              <TransportModal
-                rowClickData={rowClickData}
-                CB={() => {
-                  commonLandingApi();
-                  setIsModalShowObj({
-                    ...isModalShowObj,
-                    isPlaning: false,
-                  });
-                  setRowClickData({});
-                }}
-              />
-            </IViewModal>
-          </>
-        )
-      }
-      {/* Manifest modal */}
-      {
-        isModalShowObj?.isManifest && (
-          <>
-            <IViewModal
-              title="Manifest"
-              show={isModalShowObj?.isManifest}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isManifest: false,
-                });
-              }}
-            >
-              <ManifestModal rowClickData={rowClickData} />
-            </IViewModal>
-          </>
-        )
-      }
-
-      {/* Charges Modal */}
-      {
-        isModalShowObj?.isCharges && (
-          <>
-            <IViewModal
-              title="Services & Charges"
-              show={isModalShowObj?.isCharges}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isCharges: false,
-                });
-              }}
-            >
-              <ChargesModal
-                rowClickData={rowClickData}
-                CB={() => {
-                  commonLandingApi();
-                  setIsModalShowObj({
-                    ...isModalShowObj,
-                    isCharges: false,
-                  });
-                  setRowClickData({});
-                }}
-              />
-            </IViewModal>
-          </>
-        )
-      }
-
-      {/* Document Modal */}
-      {
-        isModalShowObj?.isDocument && (
-          <>
-            <IViewModal
-              title="Document Checklist"
-              show={isModalShowObj?.isDocument}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isDocument: false,
-                });
-              }}
-            >
-              <DocumentModal
-                rowClickData={rowClickData}
-                CB={() => {
-                  commonLandingApi();
-                  setIsModalShowObj({
-                    ...isModalShowObj,
-                    isDocument: false,
-                  });
-                  setRowClickData({});
-                }}
-              />
-            </IViewModal>
-          </>
-        )
-      }
-
-      {/* Delivery Note Modal */}
-      {
-        isModalShowObj?.isDeliveryNote && (
-          <>
-            <IViewModal
-              title="Delivery Note "
-              show={isModalShowObj?.isDeliveryNote}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isDeliveryNote: false,
-                });
-              }}
-            >
-              <DeliveryNoteModal rowClickData={rowClickData} />
-            </IViewModal>
-          </>
-        )
-      }
-
-      {/* Freight Cargo Receipt */}
-      {
-        isModalShowObj?.isFreightCargoReceipt && (
-          <>
-            <IViewModal
-              title="FC"
-              show={isModalShowObj?.isFreightCargoReceipt}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isFreightCargoReceipt: false,
-                });
-              }}
-            >
-              <FreightCargoReceipt rowClickData={rowClickData} />
-            </IViewModal>
-          </>
-        )
-      }
-
-      {/* HBL Formate */}
-
-      {/* Shipper Invoice */}
-      {
-        isModalShowObj?.isFreightInvoice && (
-          <>
-            <IViewModal
-              title="Shipper Invoice"
-              show={isModalShowObj?.isFreightInvoice}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isFreightInvoice: false,
-                });
-              }}
-            >
-              <FreightInvoice rowClickData={rowClickData} />
-            </IViewModal>
-          </>
-        )
-      }
-      {/* Consignee Invoice  */}
-      {
-        isModalShowObj?.isConsigneeInvoice && (
-          <>
-            <IViewModal
-              title="Consignee Invoice"
-              show={isModalShowObj?.isConsigneeInvoice}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isConsigneeInvoice: false,
-                });
-              }}
-            >
-              <ConsigneeInvoice rowClickData={rowClickData} />
-            </IViewModal>
-          </>
-        )
-      }
-      {/* Common Modal */}
-      {
-        isModalShowObj?.isCommonModalShow && (
-          <>
-            <IViewModal
-              title={rowClickData?.title}
-              show={isModalShowObj?.isCommonModalShow}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isCommonModalShow: false,
-                });
-                setRowClickData({});
-              }}
-            >
-              <CommonStatusUpdateModal
-                rowClickData={rowClickData}
-                CB={() => {
-                  commonLandingApi();
-                  setIsModalShowObj({
-                    ...isModalShowObj,
-                    isCommonModalShow: false,
-                  });
-                  setRowClickData({});
-                }}
-              />
-            </IViewModal>
-          </>
-        )
-      }
-
-      {/* BL Modal */}
-      {
-        isModalShowObj?.isBlModal && (
-          <>
-            <IViewModal
-              title={rowClickData?.modeOfTransport === 'Air' ? 'MAWB' : 'MBL'}
-              show={isModalShowObj?.isBlModal}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isBlModal: false,
-                });
-              }}
-            >
-              <BLModal
-                rowClickData={rowClickData}
-                CB={() => {
-                  commonLandingApi();
-                  setIsModalShowObj({
-                    ...isModalShowObj,
-                    isBlModal: false,
-                  });
-                  setRowClickData({});
-                }}
-              />
-            </IViewModal>
-          </>
-        )
-      }
-
-      {/* HBCode GN Modal */}
-      {
-        isModalShowObj?.isHBCodeGN && (
-          <IViewModal
-            title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-              } Report`}
-            show={isModalShowObj?.isHBCodeGN}
-            onHide={() => {
-              setIsModalShowObj({
-                ...isModalShowObj,
-                isHBCodeGN: false,
-              });
-              setRowClickData({});
-            }}
-          >
-            <HBLCodeGNModal
-              rowClickData={rowClickData}
-              CB={() => {
-                commonLandingApi();
-              }}
-            />
-          </IViewModal>
-        )
-      }
-
-      {/* EPB modal */}
-      {
-        isModalShowObj?.isEPB && (
-          <>
-            <IViewModal
-              title={`EPB`}
-              show={isModalShowObj?.isEPB}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isEPB: false,
-                });
-                setRowClickData({});
-              }}
-            >
-              <HBLCodeGNModal
-                rowClickData={rowClickData}
-                CB={() => {
-                  commonLandingApi();
-                }}
-                isEPBInvoice={true}
-              />
-            </IViewModal>
-          </>
-        )
-      }
-      {/* Master Bl Modal */}
-      {
-        isModalShowObj?.isMasterHBL && (
-          <>
-            <IViewModal
-              title={"Master BL"}
-              show={isModalShowObj?.isMasterHBL}
-              onHide={() => {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isMasterHBL: false,
-                });
-              }}
-            >
-              <MasterHBLModal
-                selectedRow={selectedRow}
-              />
-            </IViewModal>
-          </>
-        )
-      }
-    </ICustomCard >
+    </ICustomCard>
   );
 }
 

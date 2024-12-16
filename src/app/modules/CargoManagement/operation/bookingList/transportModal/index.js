@@ -14,6 +14,7 @@ import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import './style.css';
+import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
 const validationSchema = Yup.object().shape({
   pickupLocation: Yup.string().required('Pickup Location is required'),
   noOfPallets: Yup.string().when('transportPlanning', {
@@ -66,6 +67,11 @@ function TransportModal({ rowClickData, CB }) {
     SaveShippingTransportPlanning,
     shippingTransportPlanningLoading,
   ] = useAxiosPost();
+  const [
+    ,
+    editShippingTransportPlanning,
+    shippingTransportPlanningEditLoading,
+  ] = useAxiosPut();
   const bookingRequestId = rowClickData?.bookingRequestId;
 
   const [
@@ -73,7 +79,7 @@ function TransportModal({ rowClickData, CB }) {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
-  const bookingData = shipBookingRequestGetById || {};
+  // const bookingData = shipBookingRequestGetById || {};
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
   const [gsaDDL, setGSADDL] = useAxiosGet();
   const [
@@ -82,7 +88,12 @@ function TransportModal({ rowClickData, CB }) {
     ,
     setAirServiceProviderDDL,
   ] = useAxiosGet();
-
+  const [
+    airPortShortCodeDDL,
+    getAirPortShortCodeDDL,
+    ,
+    setAirPortShortCodeDDL,
+  ] = useAxiosGet();
   const [poNumberDDL, setPoNumberDDL] = React.useState([]);
   const [styleDDL, setStyleDDL] = React.useState([]);
   const [colorDDL, setColorDDL] = React.useState([]);
@@ -95,6 +106,7 @@ function TransportModal({ rowClickData, CB }) {
         (resData) => {
           if (formikRef.current) {
             const data = resData || {};
+            const isAirType = data?.modeOfTransport === 'Air';
             const totalNumberOfPackages = data?.rowsData?.reduce(
               (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
               0,
@@ -115,11 +127,24 @@ function TransportModal({ rowClickData, CB }) {
             );
             formikRef.current.setFieldValue(
               `rows[0].shippingLine`,
-              transportPlanning?.airLineOrShippingLine
+              isAirType
+                ? ''
+                : transportPlanning?.airLineOrShippingLine
                 ? {
                     value: transportPlanning?.airLineOrShippingLineId || 0,
                     label: transportPlanning?.airLineOrShippingLine,
                   }
+                : '',
+            );
+            formikRef.current.setFieldValue(
+              `rows[0].airLine`,
+              isAirType
+                ? transportPlanning?.airLineOrShippingLine
+                  ? {
+                      value: transportPlanning?.airLineOrShippingLineId || 0,
+                      label: transportPlanning?.airLineOrShippingLine,
+                    }
+                  : ''
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -264,6 +289,18 @@ function TransportModal({ rowClickData, CB }) {
     setGSADDL(
       `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${3}`,
     );
+    getAirPortShortCodeDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetAirPortShortCodeDDL`,
+      (resData) => {
+        const getShortCode = resData?.map((i) => {
+          return {
+            ...i,
+            label: i?.code,
+          };
+        });
+        setAirPortShortCodeDDL(getShortCode);
+      },
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const GetAirServiceProviderDDL = (typeId) => {
@@ -347,23 +384,29 @@ function TransportModal({ rowClickData, CB }) {
         isActive: true,
       })),
     };
-    SaveShippingTransportPlanning(
-      `${imarineBaseUrl}/domain/ShippingService/${
-        transportId
-          ? 'EditShippingTransportPlanning'
-          : 'SaveShippingTransportPlanning'
-      }`,
-      payload,
-      CB,
-      'Transport Planning Saved Successfully',
-    );
+    if (transportId) {
+      editShippingTransportPlanning(
+        `${imarineBaseUrl}/domain/ShippingService/EditShippingTransportPlanning`,
+        payload,
+        CB,
+        'Transport Planning Saved Successfully',
+      );
+    } else {
+      SaveShippingTransportPlanning(
+        `${imarineBaseUrl}/domain/ShippingService/SaveShippingTransportPlanning'
+        }`,
+        payload,
+        CB,
+        'Transport Planning Saved Successfully',
+      );
+    }
   };
 
   return (
     <div className="confirmModal">
-      {(shippingTransportPlanningLoading || shipBookingRequestLoading) && (
-        <Loading />
-      )}
+      {(shippingTransportPlanningLoading ||
+        shipBookingRequestLoading ||
+        shippingTransportPlanningEditLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -590,6 +633,7 @@ function TransportModal({ rowClickData, CB }) {
                                   }}
                                   placeholder="GSA"
                                   errors={errors}
+                                  value={values?.rows?.[index]?.gsa}
                                   touched={touched}
                                 />
                                 {errors?.rows &&
@@ -597,6 +641,28 @@ function TransportModal({ rowClickData, CB }) {
                                   touched.rows && (
                                     <div className="text-danger">
                                       {errors?.rows?.[index]?.gsa}
+                                    </div>
+                                  )}
+                              </div>
+                              {/* iatanumber */}
+                              <div className="col-lg-3">
+                                <InputField
+                                  value={values?.rows[index]?.iatanumber || ''}
+                                  label="IATA Number"
+                                  name={`rows[${index}].iatanumber`}
+                                  type="number"
+                                  onChange={(e) =>
+                                    setFieldValue(
+                                      `rows[${index}].iatanumber`,
+                                      e.target.value,
+                                    )
+                                  }
+                                />
+                                {errors.rows &&
+                                  errors.rows[index]?.iatanumber &&
+                                  touched.rows && (
+                                    <div className="text-danger">
+                                      {errors.rows[index].iatanumber}
                                     </div>
                                   )}
                               </div>
@@ -678,28 +744,7 @@ function TransportModal({ rowClickData, CB }) {
                                     </div>
                                   )}
                               </div>
-                              {/* iatanumber */}
-                              <div className="col-lg-3">
-                                <InputField
-                                  value={values?.rows[index]?.iatanumber || ''}
-                                  label="IATA Number"
-                                  name={`rows[${index}].iatanumber`}
-                                  type="number"
-                                  onChange={(e) =>
-                                    setFieldValue(
-                                      `rows[${index}].iatanumber`,
-                                      e.target.value,
-                                    )
-                                  }
-                                />
-                                {errors.rows &&
-                                  errors.rows[index]?.iatanumber &&
-                                  touched.rows && (
-                                    <div className="text-danger">
-                                      {errors.rows[index].iatanumber}
-                                    </div>
-                                  )}
-                              </div>
+
                               {/* GSA */}
                               <div className="col-lg-3">
                                 <NewSelect
@@ -1352,7 +1397,7 @@ function TransportModal({ rowClickData, CB }) {
                             /> */}
                             <NewSelect
                               name="fromPort"
-                              options={airServiceProviderDDLData || []}
+                              options={airPortShortCodeDDL || []}
                               value={values?.rows[index]?.fromPort || ''}
                               label="From"
                               onChange={(valueOption) => {
@@ -1381,7 +1426,7 @@ function TransportModal({ rowClickData, CB }) {
                             /> */}
                             <NewSelect
                               name="toPort"
-                              options={airServiceProviderDDLData || []}
+                              options={airPortShortCodeDDL || []}
                               value={values?.rows[index]?.toPort || ''}
                               label="To"
                               onChange={(valueOption) => {
