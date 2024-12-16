@@ -149,7 +149,8 @@ function BookingList() {
               display: selectedRow?.length > 0 ? 'block' : 'none',
             }}
           >
-            <i class="fa fa-eye" aria-hidden="true"></i> Generate Master HBL
+            {' '}
+            Generate Master HBL
           </button>
         );
       }}
