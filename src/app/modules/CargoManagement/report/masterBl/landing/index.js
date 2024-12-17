@@ -184,7 +184,10 @@ function MasterBLLanding() {
                         setIsMasterBLViewModal(false);
                       }}
                     >
-                      <MasterHBLModal isPrintView={true} />
+                      <MasterHBLModal
+                        isPrintView={true}
+                        sipMasterBlid={clickRowDto?.sipMasterBlid}
+                      />
                     </IViewModal>
                   </>
                 )}
