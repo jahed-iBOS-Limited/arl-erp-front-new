@@ -133,7 +133,6 @@ function BookingList() {
     }
   };
 
-  console.log(selectedRow);
   return (
     <ICustomCard
       title="Booking List"
@@ -1371,7 +1370,22 @@ function BookingList() {
                       });
                     }}
                   >
-                    <MasterHBLModal selectedRow={selectedRow} />
+                    <MasterHBLModal
+                      selectedRow={selectedRow}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isMasterHBL: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
                   </IViewModal>
                 </>
               )}
