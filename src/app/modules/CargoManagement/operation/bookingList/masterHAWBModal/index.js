@@ -307,11 +307,15 @@ import React from 'react';
 import ReactQuill from 'react-quill';
 import './HAWBFormat.css';
 import logisticsLogo from './logisticsLogo.png';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { imarineBaseUrl } from '../../../../../App';
 
 
 const MasterHBAWModal = ({
   selectedRow
 }) => {
+  const [hbawListData, getHBAWList,] = useAxiosPost();
+
   const bookingData = {}
   const totalGrossWeightKG = bookingData?.rowsData?.reduce(
     (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
@@ -332,6 +336,72 @@ const MasterHBAWModal = ({
     totalVolumetricWeight > totalGrossWeightKG
       ? totalVolumetricWeight
       : totalGrossWeightKG;
+
+  React.useEffect(() => {
+    const payload = selectedRow?.map((item) => {
+      return {
+        bookingReqestId: item?.bookingRequestId,
+      };
+    });
+    getHBAWList(
+      `${imarineBaseUrl}/domain/ShippingService/GetHBLList`,
+      payload,
+      (data) => {
+        // // pickupPlaceDDL
+        // const pickupPlace = data?.map((item, index) => {
+        //   return {
+        //     value: index + 1,
+        //     label: item?.pickupPlace,
+        //   };
+        // });
+        // setPickupPlaceDDL(pickupPlace);
+        // // portOfLoadingDDL
+        // const portOfLoading = data?.map((item, index) => {
+        //   return {
+        //     value: index + 1,
+        //     label: item?.portOfLoading,
+        //   };
+        // });
+        // setPortOfLoadingDDL(portOfLoading);
+
+        // // finalDestinationAddressDDL
+        // const finalDestinationAddress = data?.map((item, index) => {
+        //   return {
+        //     value: index + 1,
+        //     label: item?.finalDestinationAddress,
+        //   };
+        // });
+        // setFinalDestinationAddressDDL(finalDestinationAddress);
+
+        // // portOfDischargeDDL
+        // const portOfDischarge = data?.map((item, index) => {
+        //   return {
+        //     value: index + 1,
+        //     label: item?.portOfDischarge,
+        //   };
+        // });
+        // setPortOfDischargeDDL(portOfDischarge);
+        // // vesselNameDDL
+        // const vesselName = data?.map((item, index) => {
+        //   return {
+        //     value: index + 1,
+        //     label: item?.transportPlanning?.vesselName || '',
+        //   };
+        // });
+        // setVesselNameDDL(vesselName);
+
+        // // voyagaNoDDL
+        // const voyagaNo = data?.map((item, index) => {
+        //   return {
+        //     value: index + 1,
+        //     label: item?.transportPlanning?.voyagaNo || '',
+        //   };
+        // });
+
+      },
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="hawbWrapper">
       <div
@@ -339,20 +409,6 @@ const MasterHBAWModal = ({
           position: 'relative',
         }}
       >
-        <p
-          style={{
-            position: 'absolute',
-            top: '20%',
-            left: '35%',
-            fontSize: '23px',
-            color: '#990370',
-            fontWeight: 'bold',
-            transform: 'rotate(-24deg)',
-          }}
-        >
-          COPY NON-NEGOTIABLE
-        </p>
-
         <div className="masterHawbContainer">
           <div className="shipperAandConsigneeInfo">
             <div className="top borderBottom">
