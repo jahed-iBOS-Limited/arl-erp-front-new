@@ -197,7 +197,8 @@ export default function DeliveryReportTable({ id }) {
                     <tr>
                       <td>Sold To Partner</td>
                       <td>:</td>
-                      <td>{soldToPartner}</td>
+                      {/* <td>{soldToPartner}</td> */}
+                      <td>{isCodeShowInChallan ? businessPartnerCode : `${soldToPartner} [${businessPartnerCode}]`}</td>{" "}
                       <td style={{ width: "120px" }}>ShipPoint</td>
                       <td>:</td>
                       <td>{shippointName}</td>
@@ -205,7 +206,8 @@ export default function DeliveryReportTable({ id }) {
                     <tr>
                       <td>Ship To Partner</td>
                       <td>:</td>
-                      <td>{isCodeShowInChallan ? businessPartnerCode : `${shipToPartner} [${businessPartnerCode}]`}</td>{" "}
+                      {/* <td>{isCodeShowInChallan ? businessPartnerCode : `${shipToPartner} [${businessPartnerCode}]`}</td>{" "} */}
+                      <td>{shipToPartner}</td>{" "}
                       <td style={{ width: "120px" }}>Delivery Order</td>
                       <td>:</td>
                       <td>{deliveryOrder}</td>
