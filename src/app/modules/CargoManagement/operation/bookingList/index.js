@@ -29,6 +29,7 @@ import MasterHBLModal from './masterHBLModal';
 import ReceiveModal from './receiveModal';
 import TransportModal from './transportModal';
 import NewSelect from '../../../_helper/_select';
+import { set } from 'lodash';
 const validationSchema = Yup.object().shape({});
 function BookingList() {
   const { profileData } = useSelector(
@@ -134,7 +135,6 @@ function BookingList() {
     }
   };
 
-  console.log(selectedRow);
   return (
     <ICustomCard
       title="Booking List"
@@ -1363,7 +1363,22 @@ function BookingList() {
                       });
                     }}
                   >
-                    <MasterHBLModal selectedRow={selectedRow} />
+                    <MasterHBLModal
+                      selectedRow={selectedRow}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isMasterHBL: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
                   </IViewModal>
                 </>
               )}

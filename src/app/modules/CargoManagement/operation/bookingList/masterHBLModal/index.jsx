@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { imarineBaseUrl } from '../../../../../App';
 import NewSelect from '../../../../_helper/_select';
@@ -7,13 +7,31 @@ import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import logisticsLogo from './logisticsLogo.png';
 import './style.css';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import { useReactToPrint } from 'react-to-print';
 
 const validationSchema = Yup.object().shape({});
-export default function MasterHBLModal({ selectedRow, isPrintView }) {
+export default function MasterHBLModal({
+  selectedRow,
+  isPrintView,
+  CB,
+  sipMasterBlid,
+}) {
+  const { profileData } = useSelector(
+    (state) => state?.authData || {},
+    shallowEqual,
+  );
   const [isPrintViewMode, setIsPrintViewMode] = useState(isPrintView || false);
   // /domain/ShippingService/GetHBLList
   const [hblListData, getHBLList, isLoadingGetHBLList] = useAxiosPost();
+  const [, SaveShipMasterBl, SaveShipMasterBlLoading] = useAxiosPost();
   const [msterBLDDL, getMasterBLDDL, isLoadingGetMasterBLDDL] = useAxiosGet();
+  const [
+    getShipMasteBlById,
+    GetShipMasterBlById,
+    shipMasterBlByIdLoaidng,
+  ] = useAxiosGet();
   // const [pickupPlaceDDL, setPickupPlaceDDL] = useState([]);
   // const [portOfLoadingDDL, setPortOfLoadingDDL] = useState([]);
   // const [finalDestinationAddressDDL, setFinalDestinationAddressDDL] = useState(
@@ -25,154 +43,201 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
 
   const formikRef = React.useRef();
 
-  React.useEffect(() => {
-    if (isPrintViewMode) {
-      return;
-    }
-    const payload = selectedRow?.map((item) => {
-      return {
-        bookingReqestId: item?.bookingRequestId,
-      };
-    });
-    getHBLList(
-      `${imarineBaseUrl}/domain/ShippingService/GetHBLList`,
-      payload,
-      (hblRestData) => {
-        const firstIndex = hblRestData[0];
-        // // pickupPlaceDDL
-        // const pickupPlace = data?.map((item, index) => {
-        //   return {
-        //     value: index + 1,
-        //     label: item?.pickupPlace,
-        //   };
-        // });
-        // setPickupPlaceDDL(pickupPlace);
-        // // portOfLoadingDDL
-        // const portOfLoading = data?.map((item, index) => {
-        //   return {
-        //     value: index + 1,
-        //     label: item?.portOfLoading,
-        //   };
-        // });
-        // setPortOfLoadingDDL(portOfLoading);
-
-        // // finalDestinationAddressDDL
-        // const finalDestinationAddress = data?.map((item, index) => {
-        //   return {
-        //     value: index + 1,
-        //     label: item?.finalDestinationAddress,
-        //   };
-        // });
-        // setFinalDestinationAddressDDL(finalDestinationAddress);
-
-        // // portOfDischargeDDL
-        // const portOfDischarge = data?.map((item, index) => {
-        //   return {
-        //     value: index + 1,
-        //     label: item?.portOfDischarge,
-        //   };
-        // });
-        // setPortOfDischargeDDL(portOfDischarge);
-        // // vesselNameDDL
-        // const vesselName = data?.map((item, index) => {
-        //   return {
-        //     value: index + 1,
-        //     label: item?.transportPlanning?.vesselName || '',
-        //   };
-        // });
-        // setVesselNameDDL(vesselName);
-
-        // // voyagaNoDDL
-        // const voyagaNo = data?.map((item, index) => {
-        //   return {
-        //     value: index + 1,
-        //     label: item?.transportPlanning?.voyagaNo || '',
-        //   };
-        // });
-
-        const subtotalGrossWeight = hblRestData?.reduce((subtotal, item) => {
-          const rows = item?.rowsData || [];
-          const weightSubtotal = rows?.reduce(
-            (sum, row) => sum + (row?.totalGrossWeightKG || 0),
-            0,
-          );
-          return subtotal + weightSubtotal;
-        }, 0);
-        const totalVolumeCBM = hblRestData?.reduce((subtotal, item) => {
-          const rows = item?.rowsData || [];
-          const volumeSubtotal = rows?.reduce(
-            (sum, row) => sum + (row?.totalVolumeCBM || 0),
-            0,
-          );
-          return subtotal + volumeSubtotal;
-        }, 0);
-
-        const totalNumberOfPackages = hblRestData?.reduce((subtotal, item) => {
-          const rows = item?.rowsData || [];
-          const packageSubtotal = rows?.reduce(
-            (sum, row) => sum + (row?.totalNumberOfPackages || 0),
-            0,
-          );
-          return subtotal + packageSubtotal;
-        }, 0);
-
-        const strDescriptionOfPackagesAndGoods = hblRestData
-          .map((item) =>
-            item.rowsData
-              .map((row) => {
-                const description = row?.descriptionOfGoods;
-                const hsCode = `H.S Code: ${row?.hsCode}`;
-                const poNumbers = `Po No: ${row?.dimensionRow
-                  .map((dim) => dim?.poNumber)
-                  .join(', ')}`;
-                const styles = `Style: ${row?.dimensionRow
-                  .map((dim) => dim?.style)
-                  .join(',')}`;
-                const colors = `Color: ${row?.dimensionRow
-                  .map((dim) => dim?.color)
-                  .join(',')}`;
-                return `${description}\n ${hsCode}\n ${poNumbers}\n ${styles}\n ${colors}\n`;
-              })
-              .join('\n'),
-          )
-          .join('\n');
-
-        const obj = {
-          intSipMasterBlid: 0,
-          strShipper: '',
-          strConsignee: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
-          strNotifyParty: `${firstIndex?.notifyPartyDtl1?.participantsName}\n${firstIndex?.notifyPartyDtl1?.zipCode}, ${firstIndex?.notifyPartyDtl1?.state}, ${firstIndex?.notifyPartyDtl1?.city}, ${firstIndex?.notifyPartyDtl1?.country}, ${firstIndex?.notifyPartyDtl1?.address}`,
-          strMasterBlNo:
-            hblRestData
-              ?.map((item, index) => {
-                return item?.hblnumber;
-              })
-              .join(', ') || '',
-          strShippingAgentReferences: `${firstIndex?.shipperName}\n${firstIndex?.shipperAddress}\n${firstIndex?.shipperContactPerson}\n`,
-          strOceanVessel: `${firstIndex?.transportPlanning?.vesselName ||
-            ''} / ${firstIndex?.transportPlanning?.voyagaNo || ''}`,
-          strVoyageNo: '',
-          strPortOfLoading: firstIndex?.portOfLoading || '',
-          strPlaceOfReceipt: firstIndex?.pickupPlace || '',
-          strPreCarriageBy: firstIndex?.transportPlanning?.vesselName || '',
-          strPortOfDischarge: firstIndex?.portOfDischarge || '',
-          strPlaceOfDelivery: firstIndex?.finalDestinationAddress || '',
-          strNumberOfBl: '',
-          strMarksAndNumbers: '',
-          strNoOfPackages: `${totalNumberOfPackages} Cartons`,
-          strDescriptionOfPackagesAndGoods: strDescriptionOfPackagesAndGoods,
-          strGrossWeightOrMeasurement: `${subtotalGrossWeight} Kgs\n${totalVolumeCBM} CBM`,
-          strFreightPayableAt: '',
-          strExRate: '',
-          strPlaceAndDateOfIssue: '',
-          strSignature: '',
-          strNoOfOriginalBl: '',
-        };
-        Object.keys(obj).forEach((key) => {
-          formikRef.current.setFieldValue(key, obj[key]);
-        });
+  const GetShipMasterBlByIdApi = () => {
+    ///domain/ShippingService/GetShipMasterBlById?BlId=3
+    GetShipMasterBlById(
+      `${imarineBaseUrl}/domain/ShippingService/GetShipMasterBlById?BlId=${sipMasterBlid}`,
+      (data) => {
+        if (data) {
+          const obj = {
+            ...data,
+            intSipMasterBlid: data?.intSipMasterBlid,
+            strShipper: data?.strShipper || '',
+            strConsignee: data?.strConsignee || '',
+            strNotifyParty: data?.strNotifyParty || '',
+            strMasterHBLNo: data?.strMasterHBLNo || '',
+            strShippingAgentReferences: data?.strShippingAgentReferences || '',
+            strOceanVessel: data?.strOceanVessel || '',
+            strVoyageNo: data?.strVoyageNo || '',
+            strPortOfLoading: data?.strPortOfLoading || '',
+            strPlaceOfReceipt: data?.strPlaceOfReceipt || '',
+            strPreCarriageBy: data?.strPreCarriageBy || '',
+            strPortOfDischarge: data?.strPortOfDischarge || '',
+            strPlaceOfDelivery: data?.strPlaceOfDelivery || '',
+            strNumberOfBl: data?.strNumberOfBl || '',
+            strMarksAndNumbers: data?.strMarksAndNumbers || '',
+            strNoOfPackages: data?.strNoOfPackages || '',
+            strDescriptionOfPackagesAndGoods:
+              data?.strDescriptionOfPackagesAndGoods || '',
+            strGrossWeightOrMeasurement:
+              data?.strGrossWeightOrMeasurement || '',
+            strFreightPayableAt: data?.strFreightPayableAt || '',
+            strExRate: data?.strExRate || '',
+            strPlaceAndDateOfIssue: data?.strPlaceAndDateOfIssue || '',
+            strSignature: data?.strSignature || '',
+            strNoOfOriginalBl: data?.strNoOfOriginalBl || '',
+          };
+          Object.keys(obj).forEach((key) => {
+            formikRef.current.setFieldValue(key, obj[key]);
+          });
+        }
       },
     );
+  };
+
+  useEffect(() => {
+    if (isPrintViewMode) {
+      GetShipMasterBlByIdApi();
+    } else {
+      const payload = selectedRow?.map((item) => {
+        return {
+          bookingReqestId: item?.bookingRequestId,
+        };
+      });
+      getHBLList(
+        `${imarineBaseUrl}/domain/ShippingService/GetHBLList`,
+        payload,
+        (hblRestData) => {
+          const firstIndex = hblRestData[0];
+          // // pickupPlaceDDL
+          // const pickupPlace = data?.map((item, index) => {
+          //   return {
+          //     value: index + 1,
+          //     label: item?.pickupPlace,
+          //   };
+          // });
+          // setPickupPlaceDDL(pickupPlace);
+          // // portOfLoadingDDL
+          // const portOfLoading = data?.map((item, index) => {
+          //   return {
+          //     value: index + 1,
+          //     label: item?.portOfLoading,
+          //   };
+          // });
+          // setPortOfLoadingDDL(portOfLoading);
+
+          // // finalDestinationAddressDDL
+          // const finalDestinationAddress = data?.map((item, index) => {
+          //   return {
+          //     value: index + 1,
+          //     label: item?.finalDestinationAddress,
+          //   };
+          // });
+          // setFinalDestinationAddressDDL(finalDestinationAddress);
+
+          // // portOfDischargeDDL
+          // const portOfDischarge = data?.map((item, index) => {
+          //   return {
+          //     value: index + 1,
+          //     label: item?.portOfDischarge,
+          //   };
+          // });
+          // setPortOfDischargeDDL(portOfDischarge);
+          // // vesselNameDDL
+          // const vesselName = data?.map((item, index) => {
+          //   return {
+          //     value: index + 1,
+          //     label: item?.transportPlanning?.vesselName || '',
+          //   };
+          // });
+          // setVesselNameDDL(vesselName);
+
+          // // voyagaNoDDL
+          // const voyagaNo = data?.map((item, index) => {
+          //   return {
+          //     value: index + 1,
+          //     label: item?.transportPlanning?.voyagaNo || '',
+          //   };
+          // });
+
+          const subtotalGrossWeight = hblRestData?.reduce((subtotal, item) => {
+            const rows = item?.rowsData || [];
+            const weightSubtotal = rows?.reduce(
+              (sum, row) => sum + (row?.totalGrossWeightKG || 0),
+              0,
+            );
+            return subtotal + weightSubtotal;
+          }, 0);
+          const totalVolumeCBM = hblRestData?.reduce((subtotal, item) => {
+            const rows = item?.rowsData || [];
+            const volumeSubtotal = rows?.reduce(
+              (sum, row) => sum + (row?.totalVolumeCBM || 0),
+              0,
+            );
+            return subtotal + volumeSubtotal;
+          }, 0);
+
+          const totalNumberOfPackages = hblRestData?.reduce(
+            (subtotal, item) => {
+              const rows = item?.rowsData || [];
+              const packageSubtotal = rows?.reduce(
+                (sum, row) => sum + (row?.totalNumberOfPackages || 0),
+                0,
+              );
+              return subtotal + packageSubtotal;
+            },
+            0,
+          );
+
+          const strDescriptionOfPackagesAndGoods = hblRestData
+            .map((item) =>
+              item.rowsData
+                .map((row) => {
+                  const description = row?.descriptionOfGoods;
+                  const hsCode = `H.S Code: ${row?.hsCode}`;
+                  const poNumbers = `Po No: ${row?.dimensionRow
+                    .map((dim) => dim?.poNumber)
+                    .join(', ')}`;
+                  const styles = `Style: ${row?.dimensionRow
+                    .map((dim) => dim?.style)
+                    .join(',')}`;
+                  const colors = `Color: ${row?.dimensionRow
+                    .map((dim) => dim?.color)
+                    .join(',')}`;
+                  return `${description}\n ${hsCode}\n ${poNumbers}\n ${styles}\n ${colors}\n`;
+                })
+                .join('\n'),
+            )
+            .join('\n');
+
+          const obj = {
+            intSipMasterBlid: 0,
+            strShipper: '',
+            strConsignee: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
+            strNotifyParty: `${firstIndex?.notifyPartyDtl1?.participantsName}\n${firstIndex?.notifyPartyDtl1?.zipCode}, ${firstIndex?.notifyPartyDtl1?.state}, ${firstIndex?.notifyPartyDtl1?.city}, ${firstIndex?.notifyPartyDtl1?.country}, ${firstIndex?.notifyPartyDtl1?.address}`,
+            strMasterHBLNo:
+              hblRestData
+                ?.map((item, index) => {
+                  return item?.hblnumber;
+                })
+                .join(', ') || '',
+            strShippingAgentReferences: `${firstIndex?.shipperName}\n${firstIndex?.shipperAddress}\n${firstIndex?.shipperContactPerson}\n`,
+            strOceanVessel: `${firstIndex?.transportPlanning?.vesselName ||
+              ''} / ${firstIndex?.transportPlanning?.voyagaNo || ''}`,
+            strVoyageNo: '',
+            strPortOfLoading: firstIndex?.portOfLoading || '',
+            strPlaceOfReceipt: firstIndex?.pickupPlace || '',
+            strPreCarriageBy: firstIndex?.transportPlanning?.vesselName || '',
+            strPortOfDischarge: firstIndex?.portOfDischarge || '',
+            strPlaceOfDelivery: firstIndex?.finalDestinationAddress || '',
+            strNumberOfBl: '',
+            strMarksAndNumbers: '',
+            strNoOfPackages: `${totalNumberOfPackages} Cartons`,
+            strDescriptionOfPackagesAndGoods: strDescriptionOfPackagesAndGoods,
+            strGrossWeightOrMeasurement: `${subtotalGrossWeight} Kgs\n${totalVolumeCBM} CBM`,
+            strFreightPayableAt: '',
+            strExRate: '',
+            strPlaceAndDateOfIssue: '',
+            strSignature: '',
+            strNoOfOriginalBl: '',
+          };
+          Object.keys(obj).forEach((key) => {
+            formikRef.current.setFieldValue(key, obj[key]);
+          });
+        },
+      );
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -183,7 +248,74 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => {
+    const bookingRequestList = selectedRow?.map((item) => {
+      return {
+        bookingReqestId: item?.bookingRequestId,
+      };
+    });
+    const puayload = {
+      intSipMasterBlid: 0,
+      strShipper: '',
+      strConsignee: values?.strConsignee || '',
+      strNotifyParty: values?.strNotifyParty || '',
+      strMasterBlNo: values?.strMasterBlNo?.label || '',
+      strShippingAgentReferences: values?.strShippingAgentReferences || '',
+      strOceanVessel: values?.strOceanVessel || '',
+      strVoyageNo: values?.strVoyageNo || '',
+      strPortOfLoading: values?.strPortOfLoading || '',
+      strPlaceOfReceipt: values?.strPlaceOfReceipt || '',
+      strPreCarriageBy: values?.strPreCarriageBy || '',
+      strPortOfDischarge: values?.strPortOfDischarge || '',
+      strPlaceOfDelivery: values?.strPlaceOfDelivery || '',
+      strNumberOfBl: values?.strNumberOfBl || '',
+      strMarksAndNumbers: values?.strMarksAndNumbers || '',
+      strNoOfPackages: values?.strNoOfPackages || '',
+      strDescriptionOfPackagesAndGoods:
+        values?.strDescriptionOfPackagesAndGoods || '',
+      strGrossWeightOrMeasurement: values?.strGrossWeightOrMeasurement || '',
+      strFreightPayableAt: values?.strFreightPayableAt || '',
+      strExRate: values?.strExRate || '',
+      strPlaceAndDateOfIssue: values?.strPlaceAndDateOfIssue || '',
+      strSignature: values?.strSignature || '',
+      strNoOfOriginalBl: values?.strNoOfOriginalBl || '',
+      isActive: true,
+      intCreatedBy: profileData?.userId,
+      dteCreatedAt: new Date(),
+      dteServerTime: new Date(),
+      bookingReqest: bookingRequestList || [],
+    };
+
+    //domain/ShippingService/SaveShipMasterBl
+    SaveShipMasterBl(
+      `${imarineBaseUrl}/domain/ShippingService/SaveShipMasterBl`,
+      puayload,
+      (data) => {
+        if (data) {
+          CB();
+        }
+      },
+    );
+  };
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: `Master-BL-${getShipMasteBlById?.strMasterBlNo || ''}`,
+    pageStyle: `
+        @media print {
+          body {
+            -webkit-print-color-adjust: exact;
+
+          }
+          @page {
+            size: portrait !important;
+            margin: 50px 30px 30px 30px !important;
+          }
+        }
+      `,
+  });
+
   return (
     <>
       <Formik
@@ -199,14 +331,33 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
+            {(SaveShipMasterBlLoading ||
+              shipMasterBlByIdLoaidng ||
+              isLoadingGetHBLList) && <Loading />}
             {console.log('values', values)}
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
                 <div className="d-flex justify-content-end my-1">
-                  <button type="submit" className="btn btn-primary">
-                    Save
-                  </button>
+                  {isPrintViewMode ? (
+                    <>
+                      <button
+                        onClick={handlePrint}
+                        type="button"
+                        className="btn btn-primary px-3 py-2"
+                      >
+                        <i
+                          className="mr-1 fa fa-print pointer"
+                          aria-hidden="true"
+                        ></i>
+                        Print
+                      </button>
+                    </>
+                  ) : (
+                    <button type="submit" className="btn btn-primary">
+                      Save
+                    </button>
+                  )}
                 </div>
               </div>
               <div
@@ -218,9 +369,9 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                 {!isPrintViewMode && (
                   <div className="col-lg-3">
                     <NewSelect
-                      name="mblNumber"
+                      name="strMasterBlNo"
                       options={msterBLDDL || []}
-                      value={values?.mblNumber}
+                      value={values?.strMasterBlNo}
                       label="MBL Number"
                       onChange={(valueOption) => {
                         let value = {
@@ -228,7 +379,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                           value: 0,
                           label: valueOption?.label || '',
                         };
-                        setFieldValue('mblNumber', value);
+                        setFieldValue('strMasterBlNo', value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -237,7 +388,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                   </div>
                 )}
 
-                <div className="masterhblContainer">
+                <div className="masterhblContainer" ref={componentRef}>
                   <div className="airandConsigneeInfo">
                     <div className="top borderBottom">
                       <div className="leftSide borderRight">
@@ -452,7 +603,10 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                       <div className="rightSide">
                         <div className="rightSideMiddleContent">
                           <p>
-                            <b>{values?.mblNumber}</b>
+                            <b>
+                              {values?.strMasterBlNo?.label ||
+                                values?.strMasterBlNo}
+                            </b>
                           </p>
                           <div style={{ height: 40 }}></div>
                           <h1>BILL OF LADING</h1>
@@ -472,7 +626,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                               <p>
                                 <b> B/L No:</b>
                               </p>
-                              <p>{values?.strMasterBlNo}</p>
+                              <p>{values?.strMasterHBLNo}</p>
                             </div>
                           </div>
                           <h1 style={{ marginTop: 10, marginBottom: 10 }}>
@@ -781,7 +935,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                           </div>
                         </div>
                         <div className="thirdColumn">
-                          <div className="item borderRight">
+                          <div className="item ">
                             <>
                               {isPrintViewMode ? (
                                 <>
