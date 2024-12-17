@@ -244,7 +244,7 @@ export default function MasterHBLModal({
 
   useEffect(() => {
     getMasterBLDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLDDL?typeId=1`,
+      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLDDL?typeId=2`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
