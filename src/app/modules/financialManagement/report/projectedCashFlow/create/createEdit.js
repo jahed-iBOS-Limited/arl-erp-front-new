@@ -19,6 +19,7 @@ import {
   generateSaveURL,
   importPaymentType,
   initData,
+  landingInitData,
   marginTypeDDL,
 } from "./helper";
 import ProjectedCashFlowLanding from "./landing";
@@ -31,7 +32,7 @@ export default function ProjectedCashFlowCreateEdit() {
 
   // state
   const [objProps, setObjprops] = useState({});
-  const formikRef = useRef(null);
+  const landingFormikRef = useRef(null);
 
   // api action
   const [, getPOLCNumberData, getPOLCNumberDataLoading] = useAxiosGet();
@@ -68,15 +69,16 @@ export default function ProjectedCashFlowCreateEdit() {
     getSBUDDL(
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`,
       (res) => {
-        // set default value with formik ref (filter to akij cement)
+        // set default value with formik ref to landing formik (filter to akij cement)
         const akijCement = res?.filter((item) => item?.value === 4)[0];
-        formikRef.current.setFieldValue("sbu", akijCement || "");
+        landingFormikRef.current.setFieldValue("sbu", akijCement || "");
 
         // load landing data
         if (res?.length > 0) {
           fetchPCFLandingData({
-            values: {
-              ...initData,
+            createPageValues: initData,
+            landingPageValues: {
+              ...landingInitData,
               sbu: akijCement,
             },
             getPCFLandingData,
@@ -178,8 +180,6 @@ export default function ProjectedCashFlowCreateEdit() {
             setFieldValue("bankAccount", "");
             fetchBankNameDDL({
               getBankNameDDL,
-              profileData,
-              buUnId: valueOption?.value,
             });
           }}
           errors={errors}
@@ -317,7 +317,7 @@ export default function ProjectedCashFlowCreateEdit() {
                 setValues,
                 values,
                 getBankAccountDDL,
-                profileData
+                profileData,
               });
             }}
             loadOptions={(v) =>
@@ -599,10 +599,14 @@ export default function ProjectedCashFlowCreateEdit() {
             saveHandler(values, () => {
               resetForm(initData);
               setFieldValue("viewType", values?.viewType);
-              fetchPCFLandingData({ values, getPCFLandingData });
+              fetchPCFLandingData({
+                createPageValues: values,
+                landingPageValues: landingFormikRef?.current?.values,
+                getPCFLandingData,
+              });
             });
           }}
-          innerRef={formikRef}
+          // innerRef={formikRef}
         >
           {({
             handleSubmit,
@@ -668,20 +672,16 @@ export default function ProjectedCashFlowCreateEdit() {
                     )}
                   </div>
 
-                  {/* Current Data Table */}
+                  {/* Landing Table */}
                   <ProjectedCashFlowLanding
                     obj={{
-                      setFieldValue,
-                      values,
-                      errors,
-                      touched,
                       pcfLandingData,
                       getPCFLandingData,
+                      sbuDDL,
+                      createPageValues: values,
+                      landingFormikRef,
                     }}
                   />
-                  {/* <div>{CurrentDataTable()}</div> */}
-
-                  {/* Landing Table */}
                 </div>
 
                 <button
