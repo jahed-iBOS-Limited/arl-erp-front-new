@@ -133,7 +133,7 @@ const MasterHBAWModal = ({
           },
           0,
         );
-        const natureAndQuantityOfGoods = hbawRestData
+        const prepaidNatureAndQuantityOfGoods = hbawRestData
           ?.map((item) =>
             item?.rowsData
               .map((row) => {
@@ -175,14 +175,13 @@ const MasterHBAWModal = ({
           consignee: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
 
           gsaName: "missing",
-          iataCode: "missing",
+          agentIatacode: "agentIatacode",
           referenceNumber: "missing",
           optionalShippingInformation: "missing",
-          noOfPiecesRCP: "noOfPiecesRCP",
-          natureAndQuantityOfGoods: natureAndQuantityOfGoods,
+          noOfPiecesRcp: "noOfPiecesRcp",
+          prepaidNatureAndQuantityOfGoods: prepaidNatureAndQuantityOfGoods,
           grossWeight: "missing",
           grossWeightKgLb: "grossWeightKgLb",
-          rate: "missing",
           to: "missing",
           to1: "to1",
           byFirstCarrierRoutingAndDestination: "byFirstCarrierRoutingAndDestination",
@@ -198,65 +197,33 @@ const MasterHBAWModal = ({
           agentIATACode: "agentIATACode",
           accountNumber: "accountNumber",
           airportOfDepartureAndRouting: "airportOfDepartureAndRouting",
+          rateClassCommodityItemNo: "rateClassCommodityItemNo",
+          chargeableWeight: "chargeableWeight",
+          rateOrCharge: "rateOrCharge",
+          prepaidPrepaidAmount: "prepaidPrepaidAmount",
+          collectPrepaidAmount: "collectPrepaidAmount",
+          prepaidValuationCharge: "prepaidValuationCharge",
+          collectTotalOtherChargesDueCarrier1: "collectTotalOtherChargesDueCarrier1",
+          collectTotalOtherChargesDueCarrier2: "collectTotalOtherChargesDueCarrier2",
 
 
           //
-          intAirMasterBlId: 0,
-          strMasterBlNo: "string",
-          strShipperNameAndAddress: "string",
-          strConsigneeNameAndAddress: "string",
-          strIssuingCarrierAgentNameAndCity: "string",
-
-
-          strRequestedFlightDate: "2024-12-15T06:36:44.358Z",
-
-          strRateClassCommodityItemNo: "string",
-          strChargeableWeight: "strChargeableWeight",
-          strRateOrCharge: "string",
-          strTotal: "string",
-          strPrepaid: "string",
-          strWeightCharge: "string",
-          strValuationCharge: "string",
-          strTax: "string",
-          strTotalOtherChargesDueAgent: "string",
-          strTotalOtherChargesDueCarrier: "string",
-          strTotalPrepaid: "string",
-          strTotalCollect: "string",
-          strCurrencyConversionRates: "string",
-          strCCChargesInDestCurrency: "string",
-          strForCarrierUseOnlyAtDestination: "string",
-          strChargesAtDestination: "string",
-          strTotalCollectCharges: "string",
-          strSignatureOfShipperOrAgent: "string",
-          strExecutedOnDate: "2024-12-15T06:36:44.358Z",
-          strAtPlace: "string",
-          strSignatureOfIssuingCarrierOrAgent: "string",
+          airMasterBlId: 0,
           isActive: true,
-          intCreatedBy: 0,
+          createdBy: 0,
           dteCreatedAt: "2024-12-15T06:36:44.358Z",
           dteServerTime: "2024-12-15T06:36:44.358Z",
           bookingReqest: {
             bookingReqestId: 0,
           },
-
-          /// new 
-          airMasterBlId: 0,
           masterBlNo: "string",
           shipperNameAndAddress: "string",
           consigneeNameAndAddress: "string",
           issuingCarrierAgentNameAndCity: "string",
-          agentIatacode: "string",
           requestedFlightDate: "2024-12-17T12:11:17.873Z",
-          noOfPiecesRcp: "string",
-          rateClassCommodityItemNo: "string",
-          chargeableWeight: "string",
-          rateOrCharge: "string",
           prepaidTotalAmount: "string",
-          prepaidNatureAndQuantityOfGoods: "string",
-          prepaidPrepaidAmount: "string",
           prepaidWeightCharge: "string",
-          prepaidValuationCharge: "string",
-          prepaidTaxAmount: "string",
+          prepaidTaxAmount: "prepaidTaxAmount",
           prepaidTotalOtherChargesDueAgent: "string",
           prepaidTotalOtherChargesDueCarrier1: "string",
           prepaidTotalOtherChargesDueCarrier2: "string",
@@ -271,18 +238,14 @@ const MasterHBAWModal = ({
           executedOnDate: "2024-12-17T12:11:17.873Z",
           atPlace: "string",
           signatureOfIssuingCarrierOrAgent: "string",
-          createdBy: 0,
           createdAt: "2024-12-17T12:11:17.873Z",
           serverTime: "2024-12-17T12:11:17.873Z",
           collectTotalAmount: "string",
           collectNatureAndQuantityOfGoods: "string",
-          collectPrepaidAmount: "string",
           collectWeightCharge: "string",
           collectValuationCharge: "string",
           collectTaxAmount: "string",
           collectTotalOtherChargesDueAgent: "string",
-          collectTotalOtherChargesDueCarrier1: "string",
-          collectTotalOtherChargesDueCarrier2: "string",
 
           hblNos: [
             {
@@ -467,27 +430,27 @@ const MasterHBAWModal = ({
                                   <p className="textTitle">Agent IATA Code</p>
                                   {isPrintViewMode ? (
                                     <>
-                                      <p>{values?.iataCode || ''}</p>
+                                      <p>{values?.agentIatacode || ''}</p>
                                     </>
                                   ) : (
                                     <>
                                       {' '}
                                       <div className="col-lg-12">
                                         <NewSelect
-                                          name="iataCode"
+                                          name="agentIatacode"
                                           options={[]}
                                           value={
-                                            values?.iataCode
+                                            values?.agentIatacode
                                               ? {
                                                 value: 0,
-                                                label: values?.iataCode,
+                                                label: values?.agentIatacode,
                                               }
                                               : ''
                                           }
                                           label=""
                                           onChange={(valueOption) => {
                                             setFieldValue(
-                                              'iataCode',
+                                              'agentIatacode',
                                               valueOption?.label,
                                             );
                                           }}
@@ -1311,19 +1274,19 @@ const MasterHBAWModal = ({
                                   {
                                     isPrintViewMode ? (
                                       <>
-                                        <p>{values?.strRequestedFlightDate || ''}</p>
+                                        <p>{values?.requestedFlightDate || ''}</p>
                                       </>
                                     ) : (
                                       <>
                                         {' '}
                                         <div className="col-lg-12">
                                           <InputField
-                                            name="strRequestedFlightDate"
-                                            value={values?.strRequestedFlightDate}
+                                            name="requestedFlightDate"
+                                            value={values?.requestedFlightDate}
                                             type="date"
                                             onChange={(e) => {
                                               setFieldValue(
-                                                'strRequestedFlightDate',
+                                                'requestedFlightDate',
                                                 e.target.value,
                                               );
                                             }}
@@ -1338,19 +1301,19 @@ const MasterHBAWModal = ({
                                   {
                                     isPrintViewMode ? (
                                       <>
-                                        <p>{values?.strRequestedFlightDate || ''}</p>
+                                        <p>{values?.requestedFlightDate || ''}</p>
                                       </>
                                     ) : (
                                       <>
                                         {' '}
                                         <div className="col-lg-12">
                                           <InputField
-                                            name="strRequestedFlightDate"
-                                            value={values?.strRequestedFlightDate}
+                                            name="requestedFlightDate"
+                                            value={values?.requestedFlightDate}
                                             type="date"
                                             onChange={(e) => {
                                               setFieldValue(
-                                                'strRequestedFlightDate',
+                                                'requestedFlightDate',
                                                 e.target.value,
                                               );
                                             }}
@@ -1502,8 +1465,8 @@ const MasterHBAWModal = ({
                                 isPrintViewMode ? (
                                   <>
                                     <p>
-                                      {values?.noOfPiecesRCP
-                                        ? values?.noOfPiecesRCP
+                                      {values?.noOfPiecesRcp
+                                        ? values?.noOfPiecesRcp
                                           ?.split('\n')
                                           .map((item, index) => {
                                             return (
@@ -1519,11 +1482,11 @@ const MasterHBAWModal = ({
                                 ) : (
                                   <>
                                     <textarea
-                                      name="noOfPiecesRCP"
-                                      value={values?.noOfPiecesRCP}
+                                      name="noOfPiecesRcp"
+                                      value={values?.noOfPiecesRcp}
                                       onChange={(e) => {
                                         setFieldValue(
-                                          'noOfPiecesRCP',
+                                          'noOfPiecesRcp',
                                           e.target.value,
                                         );
                                       }}
@@ -1613,32 +1576,121 @@ const MasterHBAWModal = ({
                               }
                             </div>
                             <div className="grossWeight borderRight">
-                              <p></p>
-                            </div>
-
-                            <div className="chargeableWeight borderRight">
-                              <p>{totalGrossWeight} KG</p>
-                            </div>
-                            <div className="rateAndCharge borderRight">
                               {
                                 isPrintViewMode ? (
                                   <>
-                                    <p>{values?.rate || ''}</p>
+                                    <p>
+                                      {values?.rateClassCommodityItemNo
+                                        ? values?.rateClassCommodityItemNo
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                        : ''}
+                                    </p>
                                   </>
                                 ) : (
                                   <>
                                     {' '}
                                     <div className="col-lg-12">
-                                      <InputField
-                                        name="rate"
-                                        value={values?.rate}
-                                        type="text"
+                                      <textarea
+                                        name="rateClassCommodityItemNo"
+                                        value={values?.rateClassCommodityItemNo}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            'rate',
+                                            'rateClassCommodityItemNo',
                                             e.target.value,
                                           );
                                         }}
+                                        rows={20}
+                                      />
+                                    </div>
+                                  </>
+                                )
+                              }
+                              <p></p>
+                            </div>
+
+                            <div className="chargeableWeight borderRight">
+                              {
+                                isPrintViewMode ? (
+                                  <>
+                                    <p>
+                                      {values?.chargeableWeight
+                                        ? values?.chargeableWeight
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                        : ''}
+                                    </p>
+                                  </>
+                                ) : (
+                                  <>
+                                    {' '}
+                                    <div className="col-lg-12">
+                                      <textarea
+                                        name="chargeableWeight"
+                                        value={values?.chargeableWeight}
+                                        onChange={(e) => {
+                                          setFieldValue(
+                                            'chargeableWeight',
+                                            e.target.value,
+                                          );
+                                        }}
+                                        rows={20}
+                                      />
+                                    </div>
+                                  </>
+                                )
+                              }
+                            </div>
+                            <div className="rateAndCharge borderRight">
+                              {
+                                isPrintViewMode ? (
+                                  <>
+                                    <p>
+                                      {
+                                        values?.rateOrCharge
+                                          ? values?.rateOrCharge
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          : ''
+                                      }
+                                    </p>
+                                  </>
+                                ) : (
+                                  <>
+                                    {' '}
+                                    <div className="col-lg-12">
+                                      <textarea
+                                        name="rateOrCharge"
+                                        value={values?.rateOrCharge}
+                                        onChange={(e) => {
+                                          setFieldValue(
+                                            'rateOrCharge',
+                                            e.target.value,
+                                          );
+                                        }
+                                        }
+                                        rows={20}
                                       />
                                     </div>
                                   </>
@@ -1653,8 +1705,8 @@ const MasterHBAWModal = ({
                             <div className="natureandQuantityofGoods">
                               {isPrintViewMode ? (
                                 <>
-                                  {values?.natureAndQuantityOfGoods
-                                    ? values?.natureAndQuantityOfGoods
+                                  {values?.prepaidNatureAndQuantityOfGoods
+                                    ? values?.prepaidNatureAndQuantityOfGoods
                                       ?.split('\n')
                                       .map((item, index) => {
                                         return (
@@ -1671,14 +1723,14 @@ const MasterHBAWModal = ({
                                   {' '}
                                   <textarea
                                     value={
-                                      values?.natureAndQuantityOfGoods
+                                      values?.prepaidNatureAndQuantityOfGoods
                                     }
-                                    name="natureAndQuantityOfGoods"
+                                    name="prepaidNatureAndQuantityOfGoods"
                                     rows={24}
                                     cols={40}
                                     onChange={(e) => {
                                       setFieldValue(
-                                        'natureAndQuantityOfGoods',
+                                        'prepaidNatureAndQuantityOfGoods',
                                         e.target.value,
                                       );
                                     }}
@@ -1708,80 +1760,91 @@ const MasterHBAWModal = ({
                                 </span>
                               </div>
                               <div className="collectChartLeft borderRight">
-                                {
-                                  isPrintViewMode ? (
-                                    <>
-                                      <p>
-                                        {values?.strPrepaid
-                                          ? values?.strPrepaid
-                                            ?.split('\n')
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
-                                          : ''}
-                                      </p>
-                                    </>
-                                  ) : (
-                                    <>
-                                      {' '}
-                                      <div className="col-lg-12 collectChartValue">
-                                        <textarea
-                                          name="strPrepaid"
-                                          value={values?.strPrepaid}
-                                          onChange={(e) => {
-                                            setFieldValue(
-                                              'strPrepaid',
-                                              e.target.value,
-                                            );
-                                          }}
-                                        />
-                                      </div>
-                                    </>
-                                  )
-                                }
+                                {['cif', 'cpt', 'cfr'].includes(hbawListData?.[0]?.incoterms) && (
+                                  <>
+                                    {
+                                      isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.prepaidPrepaidAmount
+                                              ? values?.prepaidPrepaidAmount
+                                                ?.split('\n')
+                                                .map((item, index) => {
+                                                  return (
+                                                    <>
+                                                      {item}
+                                                      <br />
+                                                    </>
+                                                  );
+                                                })
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12 collectChartValue">
+                                            <textarea
+                                              name="prepaidPrepaidAmount"
+                                              value={values?.prepaidPrepaidAmount}
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'prepaidPrepaidAmount',
+                                                  e.target.value,
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </>
+                                      )
+                                    }
+                                  </>
+                                )}
+
                               </div>
                               <div className="collectChartRight">
-                                {
-                                  isPrintViewMode ? (
+                                {!['cif', 'cpt', 'cfr'].includes(
+                                  bookingData?.incoterms,
+                                ) && (
                                     <>
-                                      <p>
-                                        {values?.strCollect
-                                          ? values?.strCollect
-                                            ?.split('\n')
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
-                                          : ''}
-                                      </p>
+                                      {
+                                        isPrintViewMode ? (
+                                          <>
+                                            <p>
+                                              {values?.collectPrepaidAmount
+                                                ? values?.collectPrepaidAmount
+                                                  ?.split('\n')
+                                                  .map((item, index) => {
+                                                    return (
+                                                      <>
+                                                        {item}
+                                                        <br />
+                                                      </>
+                                                    );
+                                                  })
+                                                : ''}
+                                            </p>
+                                          </>
+                                        ) : (
+                                          <>
+                                            {' '}
+                                            <div className="col-lg-12">
+                                              <textarea
+                                                name="collectPrepaidAmount"
+                                                value={values?.collectPrepaidAmount}
+                                                onChange={(e) => {
+                                                  setFieldValue(
+                                                    'collectPrepaidAmount',
+                                                    e.target.value,
+                                                  );
+                                                }}
+                                              />
+                                            </div>
+                                          </>
+                                        )
+                                      }
                                     </>
-                                  ) : (
-                                    <>
-                                      {' '}
-                                      <div className="col-lg-12">
-                                        <textarea
-                                          name="strCollect"
-                                          value={values?.strCollect}
-                                          onChange={(e) => {
-                                            setFieldValue(
-                                              'strCollect',
-                                              e.target.value,
-                                            );
-                                          }}
-                                        />
-                                      </div>
-                                    </>
-                                  )
-                                }
+                                  )}
                               </div>
                             </div>
                           </div>
@@ -1807,80 +1870,92 @@ const MasterHBAWModal = ({
                                 </span>
                               </div>
                               <div className="collectChartLeft borderRight">
-                                {
-                                  isPrintViewMode ? (
+                                {['cif', 'cpt', 'cfr'].includes(
+                                  bookingData?.incoterms,
+                                ) && (
                                     <>
-                                      <p>
-                                        {values?.strValuationCharge
-                                          ? values?.strValuationCharge
-                                            ?.split('\n')
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
-                                          : ''}
-                                      </p>
+                                      {
+                                        isPrintViewMode ? (
+                                          <>
+                                            <p>
+                                              {values?.prepaidValuationCharge
+                                                ? values?.prepaidValuationCharge
+                                                  ?.split('\n')
+                                                  .map((item, index) => {
+                                                    return (
+                                                      <>
+                                                        {item}
+                                                        <br />
+                                                      </>
+                                                    );
+                                                  })
+                                                : ''}
+                                            </p>
+                                          </>
+                                        ) : (
+                                          <>
+                                            {' '}
+                                            <div className="col-lg-12">
+                                              <textarea
+                                                name="prepaidValuationCharge"
+                                                value={values?.prepaidValuationCharge}
+                                                onChange={(e) => {
+                                                  setFieldValue(
+                                                    'prepaidValuationCharge',
+                                                    e.target.value,
+                                                  );
+                                                }}
+                                              />
+                                            </div>
+                                          </>
+                                        )
+                                      }
                                     </>
-                                  ) : (
-                                    <>
-                                      {' '}
-                                      <div className="col-lg-12">
-                                        <textarea
-                                          name="strValuationCharge"
-                                          value={values?.strValuationCharge}
-                                          onChange={(e) => {
-                                            setFieldValue(
-                                              'strValuationCharge',
-                                              e.target.value,
-                                            );
-                                          }}
-                                        />
-                                      </div>
-                                    </>
-                                  )
-                                }
+                                  )}
                               </div>
                               <div className="collectChartRight">
-                                {
-                                  isPrintViewMode ? (
+                                {!['cif', 'cpt', 'cfr'].includes(
+                                  bookingData?.incoterms,
+                                ) && (
                                     <>
-                                      <p>
-                                        {values?.strValuationCharge
-                                          ? values?.strValuationCharge
-                                            ?.split('\n')
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
-                                          : ''}
-                                      </p>
+                                      {
+                                        isPrintViewMode ? (
+                                          <>
+                                            <p>
+                                              {values?.prepaidValuationCharge
+                                                ? values?.prepaidValuationCharge
+                                                  ?.split('\n')
+                                                  .map((item, index) => {
+                                                    return (
+                                                      <>
+                                                        {item}
+                                                        <br />
+                                                      </>
+                                                    );
+                                                  })
+                                                : ''}
+                                            </p>
+                                          </>
+                                        ) : (
+                                          <>
+                                            {' '}
+                                            <div className="col-lg-12">
+                                              <textarea
+                                                name="prepaidValuationCharge"
+                                                value={values?.prepaidValuationCharge}
+                                                onChange={(e) => {
+                                                  setFieldValue(
+                                                    'prepaidValuationCharge',
+                                                    e.target.value,
+                                                  );
+                                                }}
+                                              />
+                                            </div>
+                                          </>
+                                        )
+                                      }
                                     </>
-                                  ) : (
-                                    <>
-                                      {' '}
-                                      <div className="col-lg-12">
-                                        <textarea
-                                          name="strValuationCharge"
-                                          value={values?.strValuationCharge}
-                                          onChange={(e) => {
-                                            setFieldValue(
-                                              'strValuationCharge',
-                                              e.target.value,
-                                            );
-                                          }}
-                                        />
-                                      </div>
-                                    </>
-                                  )
-                                }
+                                  )}
                               </div>
                             </div>
                           </div>
@@ -1908,36 +1983,95 @@ const MasterHBAWModal = ({
                               <div className="collectChartLeft borderRight">
                                 <p className="collectChartValue">
                                   {['cif', 'cpt', 'cfr'].includes(
-                                    bookingData?.incoterms,
+                                    hbawListData?.[0]?.incoterms,
                                   ) && (
+                                      <>
+                                        {
+                                          isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.prepaidTaxAmount
+                                                  ? values?.prepaidTaxAmount
+                                                    ?.split('\n')
+                                                    .map((item, index) => {
+                                                      return (
+                                                        <>
+                                                          {item}
+                                                          <br />
+                                                        </>
+                                                      );
+                                                    })
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="prepaidTaxAmount"
+                                                  value={values?.prepaidTaxAmount}
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'prepaidTaxAmount',
+                                                      e.target.value,
+                                                    );
+                                                  }}
+                                                  cols={1}
 
-                                      <ReactQuill
-
-                                        modules={{
-                                          toolbar: false,
-                                        }}
-                                        style={{
-                                          padding: 0,
-                                          margin: 0,
-                                        }}
-                                      />
+                                                />
+                                              </div>
+                                            </>
+                                          )
+                                        }
+                                      </>
                                     )}
                                 </p>
                               </div>
                               <div className="collectChartRight">
                                 <p className="collectChartValue">
                                   {!['cif', 'cpt', 'cfr'].includes(
-                                    bookingData?.incoterms,
+                                    hbawListData?.[0]?.incoterms,
                                   ) && (
-                                      <ReactQuill
-                                        modules={{
-                                          toolbar: false,
-                                        }}
-                                        style={{
-                                          padding: 0,
-                                          margin: 0,
-                                        }}
-                                      />
+                                      <>
+                                        {
+                                          isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.prepaidTaxAmount
+                                                  ? values?.prepaidTaxAmount
+                                                    ?.split('\n')
+                                                    .map((item, index) => {
+                                                      return (
+                                                        <>
+                                                          {item}
+                                                          <br />
+                                                        </>
+                                                      );
+                                                    })
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="prepaidTaxAmount"
+                                                  value={values?.prepaidTaxAmount}
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'prepaidTaxAmount',
+                                                      e.target.value,
+                                                    );
+                                                  }}
+                                                  cols={1}
+                                                />
+                                              </div>
+                                            </>
+                                          )
+                                        }
+                                      </>
                                     )}
                                 </p>
                               </div>
@@ -1972,51 +2106,63 @@ const MasterHBAWModal = ({
                                     </span>
                                   </div>
                                   <div className="collectChartLeft borderRight">
-                                    {isPrintViewMode ? (
-                                      <>
-                                        <p>{values?.strTotalOtherChargesDueAgent || ''}</p>
-                                      </>
-                                    ) : (
-                                      <>
-                                        {' '}
-                                        <div className="col-lg-12">
-                                          <input
-                                            name="strTotalOtherChargesDueAgent"
-                                            value={values?.strTotalOtherChargesDueAgent}
-                                            onChange={(e) => {
-                                              setFieldValue(
-                                                'strTotalOtherChargesDueAgent',
-                                                e.target.value,
-                                              );
-                                            }}
-                                          />
-                                        </div>
-                                      </>
-                                    )}
+                                    {['cif', 'cpt', 'cfr'].includes(
+                                      hbawListData?.[0]?.incoterms,
+                                    ) && (
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>{values?.totalOtherChargesDueAgent || ''}</p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <input
+                                                  name="totalOtherChargesDueAgent"
+                                                  value={values?.totalOtherChargesDueAgent}
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'totalOtherChargesDueAgent',
+                                                      e.target.value,
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                   </div>
                                   <div className="collectChartRight">
-                                    {isPrintViewMode ? (
-                                      <>
-                                        <p>{values?.strTotalOtherChargesDueAgent2 || ''}</p>
-                                      </>
-                                    ) : (
-                                      <>
-                                        {' '}
-                                        <div className="col-lg-12">
-                                          <input
-                                            name="strTotalOtherChargesDueAgent2"
-                                            value={values?.strTotalOtherChargesDueAgent2}
-                                            onChange={(e) => {
-                                              setFieldValue(
-                                                'strTotalOtherChargesDueAgent2',
-                                                e.target.value,
-                                              );
-                                            }
-                                            }
-                                          />
-                                        </div>
-                                      </>
-                                    )}
+                                    {!['cif', 'cpt', 'cfr'].includes(
+                                      hbawListData?.[0]?.incoterms,
+                                    ) && (
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>{values?.totalOtherChargesDueAgent || ''}</p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <input
+                                                  name="totalOtherChargesDueAgent"
+                                                  value={values?.totalOtherChargesDueAgent}
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'totalOtherChargesDueAgent',
+                                                      e.target.value,
+                                                    );
+                                                  }
+                                                  }
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                   </div>
                                 </div>
                                 <div
@@ -2037,52 +2183,65 @@ const MasterHBAWModal = ({
                                     </span>
                                   </div>
                                   <div className="collectChartLeft borderRight">
-                                    {isPrintViewMode ? (
-                                      <>
-                                        <p>{values?.strTotalOtherChargesDueCarrier || ''}</p>
-                                      </>
-                                    ) : (
-                                      <>
-                                        {' '}
-                                        <div className="col-lg-12">
-                                          <input
-                                            name="strTotalOtherChargesDueCarrier"
-                                            value={values?.strTotalOtherChargesDueCarrier}
-                                            onChange={(e) => {
-                                              setFieldValue(
-                                                'strTotalOtherChargesDueCarrier',
-                                                e.target.value,
-                                              );
-                                            }}
-                                          />
-                                        </div>
-                                      </>
-                                    )}
+                                    {['cif', 'cpt', 'cfr'].includes(
+                                      hbawListData?.[0]?.incoterms,
+                                    ) && (
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>{values?.collectTotalOtherChargesDueCarrier1 || ''}</p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <input
+                                                  name="collectTotalOtherChargesDueCarrier1"
+                                                  value={values?.collectTotalOtherChargesDueCarrier1}
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'collectTotalOtherChargesDueCarrier1',
+                                                      e.target.value,
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                   </div>
                                   <div className="collectChartRight">
-                                    {
-                                      isPrintViewMode ? (
+                                    {!['cif', 'cpt', 'cfr'].includes(
+                                      bookingData?.incoterms,
+                                    ) && (
                                         <>
-                                          <p>{values?.strTotalOtherChargesDueCarrier || ''}</p>
+                                          {
+                                            isPrintViewMode ? (
+                                              <>
+                                                <p>{values?.collectTotalOtherChargesDueCarrier2 || ''}</p>
+                                              </>
+                                            ) : (
+                                              <>
+                                                {' '}
+                                                <div className="col-lg-12">
+                                                  <input
+                                                    name="collectTotalOtherChargesDueCarrier2"
+                                                    value={values?.collectTotalOtherChargesDueCarrier2}
+                                                    onChange={(e) => {
+                                                      setFieldValue(
+                                                        'collectTotalOtherChargesDueCarrier2',
+                                                        e.target.value,
+                                                      );
+                                                    }}
+                                                  />
+                                                </div>
+                                              </>
+                                            )
+                                          }
                                         </>
-                                      ) : (
-                                        <>
-                                          {' '}
-                                          <div className="col-lg-12">
-                                            <input
-                                              name="strTotalOtherChargesDueCarrier"
-                                              value={values?.strTotalOtherChargesDueCarrier}
-                                              onChange={(e) => {
-                                                setFieldValue(
-                                                  'strTotalOtherChargesDueCarrier',
-                                                  e.target.value,
-                                                );
-                                              }}
-                                            />
-                                          </div>
-                                        </>
-                                      )
-                                    }
+                                      )}
+
                                   </div>
                                 </div>
                                 <div
