@@ -29,6 +29,7 @@ import MasterHBLModal from './masterHBLModal';
 import ReceiveModal from './receiveModal';
 import TransportModal from './transportModal';
 import NewSelect from '../../../_helper/_select';
+import MasterHBAWModal from './masterHAWBModal';
 const validationSchema = Yup.object().shape({});
 function BookingList() {
   const { profileData } = useSelector(
@@ -93,12 +94,10 @@ function BookingList() {
     modeOfTransportId = 1,
   ) => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
-        profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${
-        profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search${searchValue ||
-        ''}&modeOfTransportId=${modeOfTransportId}`,
+      ''}&modeOfTransportId=${modeOfTransportId}`,
     );
   };
 
@@ -108,7 +107,7 @@ function BookingList() {
       !item?.isPlaning ||
       (selectedRow.length > 0 &&
         selectedRow?.[0]?.freightAgentReferenceId !==
-          item?.freightAgentReferenceId)
+        item?.freightAgentReferenceId)
     ) {
       return true;
     }
@@ -138,10 +137,18 @@ function BookingList() {
         return (
           <button
             onClick={() => {
-              setIsModalShowObj({
-                ...isModalShowObj,
-                isMasterHBL: true,
-              });
+              if (selectedRow.length > 0 && selectedRow[0]?.modeOfTransport === 'Sea') {
+                setIsModalShowObj({
+                  ...isModalShowObj,
+                  isMasterHBL: true,
+                });
+              }
+              else {
+                setIsModalShowObj({
+                  ...isModalShowObj,
+                  isMasterHBAW: true,
+                });
+              }
             }}
             className="ml-2 btn btn-primary"
             title="Show Invoice"
@@ -149,8 +156,10 @@ function BookingList() {
               display: selectedRow?.length > 0 ? 'block' : 'none',
             }}
           >
-            {' '}
-            Generate Master HBL
+            {
+              selectedRow?.length > 0 && selectedRow[0]?.modeOfTransport === 'Sea' ? ' Generate Master HBL' : 'Generate Master HAWB'
+            }
+
           </button>
         );
       }}
@@ -165,7 +174,7 @@ function BookingList() {
             },
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
+          onSubmit={(values, { setSubmitting, resetForm }) => { }}
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
@@ -1288,9 +1297,8 @@ function BookingList() {
               {/* HBCode GN Modal */}
               {isModalShowObj?.isHBCodeGN && (
                 <IViewModal
-                  title={`${
-                    rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-                  } Report`}
+                  title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+                    } Report`}
                   show={isModalShowObj?.isHBCodeGN}
                   onHide={() => {
                     setIsModalShowObj({
@@ -1360,6 +1368,25 @@ function BookingList() {
                   </IViewModal>
                 </>
               )}
+
+              {/* Master HBAW Modal */}
+              {isModalShowObj?.isMasterHBAW && (
+                <>
+                  <IViewModal
+                    title={'Master HBAW'}
+                    show={isModalShowObj?.isMasterHBAW}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isMasterHBAW: false,
+                      });
+                    }}
+                  >
+                    <MasterHBAWModal selectedRow={selectedRow} />
+                  </IViewModal>
+                </>
+              )}
+
               {/* view info */}
               {isModalShowObj?.isView && (
                 <>

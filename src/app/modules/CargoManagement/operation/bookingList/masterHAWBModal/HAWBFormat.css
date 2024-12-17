@@ -1,0 +1,330 @@
+.hawbContainer {
+  font-size: 11px;
+  border: 1px solid #000;
+  line-height: 12px;
+}
+
+.hawbContainer h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+.hawbContainer div {
+  box-sizing: border-box !important;
+}
+
+.hawbContainer p {
+  margin: 0;
+  padding: 2px 3px;
+}
+
+.hawbContainer .smallTitle {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.hawbContainer .shipperAandConsigneeInfo .top {
+  display: flex;
+}
+
+.hawbContainer .shipperAandConsigneeInfo .leftSide {
+  width: 50%;
+}
+
+.hawbContainer .shipperAandConsigneeInfo .rightSide {
+  width: 50%;
+}
+
+.hawbContainer .shipperInfo,
+.hawbContainer .consigneeInfo,
+.hawbContainer .notifyParty {
+  height: 115px;
+  line-height: 9px;
+}
+
+.hawbContainer .textTitle {
+  text-transform: uppercase;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 10px;
+}
+
+.hawbContainer .rightSideTop {
+  display: flex;
+  gap: 50px;
+  border-bottom: 1px solid #000;
+  height: 80px;
+}
+
+.hawbContainer .rightSideTop img {
+  width: 150px;
+  padding: 5px 0;
+}
+
+.hawbContainer .rightSideTop .airWayBillTitle {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.hawbContainer .rightSideMiddleContent {
+  font-size: 9px;
+}
+
+.hawbContainer .rightSide .rightSideMiddleTitle {
+  border-bottom: 1px dotted #000;
+}
+
+.hawbContainer .rightSide .rightSideButtom .borderBottomTime {
+  display: flex;
+  height: 40px;
+}
+
+.hawbContainer .rightSide .rightSideButtom .borderBottomTime p {
+  width: 50%;
+}
+
+.hawbContainer .rightSideBottom {
+  border-bottom: 1px solid #000;
+  height: 20px;
+}
+
+.hawbContainer .borderRight {
+  border-right: 1px solid #000;
+}
+
+.hawbContainer .borderBottom {
+  border-bottom: 1px solid #000;
+}
+
+.hawbContainer .borderTop {
+  border-top: 1px solid #000;
+}
+
+.hawbContainer .borderLeft {
+  border-left: 1px solid #000;
+}
+
+.hawbContainer .airInfo {
+  min-height: 50px;
+}
+
+.hawbContainer .airInfo .rightSide {
+  display: flex;
+}
+
+/* .hawbContainer .airInfo .air-flight-info {
+  width: 100px;
+} */
+
+.hawbContainer .airInfo .air-flight-catagory {
+  /* display: flex;
+  justify-content: space-around; */
+  /* height: 100%; */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.hawbContainer .airInfo .rightSideColumnOne {
+  width: 180px;
+}
+
+/* .hawbContainer .airInfo .air-destination-info {
+  width: 150px;
+  height: 100%;
+} */
+
+.hawbContainer .commonWithOne {
+  width: 120px;
+  min-width: 120px;
+}
+
+.hawbContainer .noPiecesRcp {
+  width: 45px;
+}
+
+.hawbContainer .grossWeight {
+  width: 90px;
+}
+
+.hawbContainer .kgIB {
+  width: 25px;
+}
+
+.hawbContainer .chargeableWeight {
+  width: 90px;
+}
+
+.hawbContainer .rateAndCharge {
+  width: 90px;
+}
+
+.hawbContainer .total {
+  width: 100px;
+}
+
+.hawbContainer .hawbCurrency {
+  width: 75px;
+}
+
+.hawbContainer .cargoInfo {
+  height: 360px;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+}
+
+.hawbContainer .natureandQuantityofGoods {
+  flex: 1;
+}
+
+/* collect Info */
+.hawbContainer .collectInfo .collectItemLeft {
+  min-width: 340px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hawbContainer .collectInfo .collectChart {
+  display: flex;
+  height: 100%;
+  position: relative;
+}
+
+.hawbContainer .collectInfo .collectChartBox {
+  display: flex;
+  position: absolute;
+  text-align: center;
+  gap: 11px;
+  padding-left: 5px;
+  margin-top: 1px;
+}
+
+.hawbContainer .collectInfo .collectChartBox .collectChartBoxPrepaid {
+  width: 85px;
+}
+
+.hawbContainer .collectInfo .collectChartBox .collectChartBoxWC {
+  width: 130px;
+}
+
+.hawbContainer .collectInfo .collectChartBox .collectChartBoxCollect {
+  width: 90px;
+}
+
+.hawbContainer .collectInfo .collectChartBox .collectChartBoxValuationCharge {
+  width: 160px;
+}
+
+.hawbContainer .collectInfo .collectChartBox .collectChartTax {
+  width: 90px;
+}
+
+.hawbContainer .collectInfo .collectChartBox .collectChartBoxTotalOtherChargesDueAgent {
+  width: 250px;
+}
+
+.hawbContainer .collectInfo .collectChartBox .collectChartBoxTotalOtherChargesDueCarrier {
+  width: 250px;
+}
+
+.hawbContainer .collectInfo .collectChartLeft {
+  width: 170px;
+  padding-top: 15px;
+}
+
+.hawbContainer .collectInfo .collectChartRight {
+  min-width: 169px;
+  padding-top: 15px;
+
+}
+
+.hawbContainer .collectInfo .collectChartBoxItem {
+  position: relative;
+  border-bottom: 1px solid #000;
+  background: white;
+}
+
+.hawbContainer .collectInfo .collectChartBoxItem::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  top: -1px;
+  height: 124%;
+  width: 1px;
+  background: #000 transparent;
+  transform: rotate(206deg);
+  z-index: 9999;
+  border-right: 1px solid #000;
+}
+
+
+.hawbContainer .collectInfo .collectChartBoxItem::before {
+  content: "";
+  position: absolute;
+  left: -3px;
+  top: -1px;
+  height: 119%;
+  width: 0px;
+  background: #000 transparent;
+  transform: rotate(161deg);
+  z-index: 9999;
+  border-right: 1px solid #000;
+}
+
+.hawbContainer .collectInfo .collectItemRowOne,
+.hawbContainer .collectInfo .collectItemRowTwo,
+.hawbContainer .collectInfo .collectItemRowThree,
+.hawbContainer .collectInfo .totalOtherChargesTotalPrepaid,
+.hawbContainer .collectInfo .currencyConversionRate {
+  height: 50px;
+}
+
+.hawbContainer .collectInfo .collectItemRowFour {
+  height: auto;
+}
+
+.hawbContainer .collectInfo .totalOtherChargesDueAgent,
+.hawbContainer .collectInfo .totalOtherChargesDueCarrier {
+  height: 41px;
+}
+
+
+.hawbContainer .collectInfo .collectItemRow {
+  display: flex;
+}
+
+.hawbContainer .collectInfo .collectChartValue {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.hawbWrapper .multipleInvoicePrint {
+  display: none;
+}
+
+@media print {
+  .hawbWrapper .multipleInvoicePrint {
+    display: block !important;
+  }
+}
+
+.printSectionNone {
+  display: none !important;
+}
+
+.hawbWrapper .ql-editor {
+  padding: 0px;
+  margin: 0px;
+  overflow: unset;
+  font-size: 11px;
+}
