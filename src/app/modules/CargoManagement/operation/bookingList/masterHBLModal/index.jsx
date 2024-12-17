@@ -10,6 +10,7 @@ import './style.css';
 
 const validationSchema = Yup.object().shape({});
 export default function MasterHBLModal({ selectedRow, isPrintView }) {
+  const [isPrintViewMode, setIsPrintViewMode] = useState(isPrintView || false);
   // /domain/ShippingService/GetHBLList
   const [hblListData, getHBLList, isLoadingGetHBLList] = useAxiosPost();
   const [msterBLDDL, getMasterBLDDL, isLoadingGetMasterBLDDL] = useAxiosGet();
@@ -25,6 +26,9 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
   const formikRef = React.useRef();
 
   React.useEffect(() => {
+    if (isPrintViewMode) {
+      return;
+    }
     const payload = selectedRow?.map((item) => {
       return {
         bookingReqestId: item?.bookingRequestId,
@@ -211,25 +215,28 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                   gap: 5,
                 }}
               >
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="mblNumber"
-                    options={msterBLDDL || []}
-                    value={values?.mblNumber}
-                    label="MBL Number"
-                    onChange={(valueOption) => {
-                      let value = {
-                        ...valueOption,
-                        value: 0,
-                        label: valueOption?.label || '',
-                      };
-                      setFieldValue('mblNumber', value);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                    isCreatableSelect={true}
-                  />
-                </div>
+                {!isPrintViewMode && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="mblNumber"
+                      options={msterBLDDL || []}
+                      value={values?.mblNumber}
+                      label="MBL Number"
+                      onChange={(valueOption) => {
+                        let value = {
+                          ...valueOption,
+                          value: 0,
+                          label: valueOption?.label || '',
+                        };
+                        setFieldValue('mblNumber', value);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                      isCreatableSelect={true}
+                    />
+                  </div>
+                )}
+
                 <div className="masterhblContainer">
                   <div className="airandConsigneeInfo">
                     <div className="top borderBottom">
@@ -296,7 +303,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                         <div className="preCarriageInfo borderBottom">
                           <div className="firstColumn">
                             <p className="textTitle">Pre-Carriage By:</p>
-                            {isPrintView ? (
+                            {isPrintViewMode ? (
                               <>
                                 <p>{values?.strPreCarriageBy || ''}</p>
                               </>
@@ -332,7 +339,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                           </div>
                           <div className="rightSide">
                             <p className="textTitle">Place of Receipt:</p>
-                            {isPrintView ? (
+                            {isPrintViewMode ? (
                               <>
                                 <p>{values?.strPlaceOfReceipt || ''}</p>
                               </>
@@ -370,7 +377,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                         <div className="oceanVesselInfo">
                           <div className="firstColumn">
                             <p className="textTitle">Ocean Vessel:</p>
-                            {isPrintView ? (
+                            {isPrintViewMode ? (
                               <>
                                 <p>{values?.strOceanVessel || ''}</p>
                               </>
@@ -406,7 +413,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                           </div>
                           <div className="rightSide">
                             <p className="textTitle">Port of Loading:</p>
-                            {isPrintView ? (
+                            {isPrintViewMode ? (
                               <>
                                 <p>{values?.strPortOfLoading || ''}</p>
                               </>
@@ -444,6 +451,9 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                       </div>
                       <div className="rightSide">
                         <div className="rightSideMiddleContent">
+                          <p>
+                            <b>{values?.mblNumber}</b>
+                          </p>
                           <div style={{ height: 40 }}></div>
                           <h1>BILL OF LADING</h1>
                           <div
@@ -475,7 +485,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                             Shipping Line Details:
                           </p>
                           <div style={{ paddingLeft: 5 }}>
-                            {isPrintView ? (
+                            {isPrintViewMode ? (
                               <p>
                                 {values?.strShippingAgentReferences
                                   ? values?.strShippingAgentReferences
@@ -513,7 +523,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                       <div className="firstRow borderBottom">
                         <div className="firstColumn borderRight">
                           <p className="textTitle">Port of Discharge:</p>
-                          {isPrintView ? (
+                          {isPrintViewMode ? (
                             <>
                               <p>{values?.strPortOfDischarge || ''}</p>
                             </>
@@ -550,7 +560,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                         <div className="secondColumn">
                           <div className="item borderRight">
                             <p className="textTitle">Place Of Delivery</p>
-                            {isPrintView ? (
+                            {isPrintViewMode ? (
                               <>
                                 <p>{values?.strPlaceOfDelivery || ''}</p>
                               </>
@@ -586,7 +596,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                           </div>
                           <div className="item borderRight">
                             <p className="textTitle">Freight payable at</p>
-                            {isPrintView ? (
+                            {isPrintViewMode ? (
                               <>
                                 <p>{values?.strFreightPayableAt || ''}</p>
                               </>
@@ -656,7 +666,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                               textTransform: 'uppercase',
                             }}
                           >
-                            {isPrintView ? (
+                            {isPrintViewMode ? (
                               <>
                                 {values?.strMarksAndNumbers
                                   ? values?.strMarksAndNumbers
@@ -694,7 +704,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                         <div className="secondColumn">
                           <div className="item borderRight">
                             <p>
-                              {isPrintView ? (
+                              {isPrintViewMode ? (
                                 <>
                                   {values?.strNoOfPackages
                                     ? values?.strNoOfPackages
@@ -734,7 +744,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                               textTransform: 'uppercase',
                             }}
                           >
-                            {isPrintView ? (
+                            {isPrintViewMode ? (
                               <>
                                 {values?.strDescriptionOfPackagesAndGoods
                                   ? values?.strDescriptionOfPackagesAndGoods
@@ -773,7 +783,7 @@ export default function MasterHBLModal({ selectedRow, isPrintView }) {
                         <div className="thirdColumn">
                           <div className="item borderRight">
                             <>
-                              {isPrintView ? (
+                              {isPrintViewMode ? (
                                 <>
                                   {values?.strGrossWeightOrMeasurement
                                     ? values?.strGrossWeightOrMeasurement
