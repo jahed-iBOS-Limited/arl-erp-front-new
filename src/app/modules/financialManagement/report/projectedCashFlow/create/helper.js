@@ -40,10 +40,6 @@ export const initData = {
 
   // others
   businessPartner: "",
-
-  // landing
-  fromDate: _monthFirstDate(),
-  toDate: _monthLastDate(),
 };
 
 export const generateSaveURL = (viewType) => {
@@ -288,13 +284,9 @@ export const fetchTransactionList = (obj) => {
 
 // fetch bank name ddl
 export const fetchBankNameDDL = (obj) => {
-  const { getBankNameDDL, profileData, buUnId } = obj;
+  const { getBankNameDDL } = obj;
 
-  getBankNameDDL(
-    `/imp/ImportCommonDDL/GetBankListDDL?accountId=${
-      profileData?.accountId
-    }&businessUnitId=${buUnId || 0}`
-  );
+  getBankNameDDL(`/hcm/HCMDDL/GetBankDDL`);
 };
 
 // fetch bank account ddl
@@ -311,9 +303,13 @@ export const fetchBankAccountDDL = (obj) => {
 
 // landing page
 // generateGetPCFLandingDataURL
-export const generateGetPCFLandingDataURL = (values) => {
+export const generateGetPCFLandingDataURL = ({
+  landingPageValues,
+  createPageValues,
+}) => {
   // destructure
-  const { fromDate, toDate, sbu, viewType, paymentType } = values;
+  const { fromDate, toDate, sbu, paymentType } = landingPageValues;
+  const { viewType } = createPageValues;
 
   // payment, income & import base url
   let paymentIncomeImportBaseURL = `/fino/FundManagement/GetProjectedCashFlow`;
@@ -358,13 +354,19 @@ export const generateGetPCFLandingDataURL = (values) => {
 };
 
 // landing show btn validation
-export const landingShowBtnValidation = (values) => {
-  if (!values?.sbu?.value) {
+export const landingShowBtnValidation = ({
+  landingPageValues,
+  createPageValues,
+}) => {
+  if (!landingPageValues?.sbu) {
     toast.warn("Please select sbu");
     return false;
   }
 
-  if (values?.viewType === "import" && !values?.paymentType?.value) {
+  if (
+    createPageValues?.viewType === "import" &&
+    !landingPageValues?.paymentType
+  ) {
     toast.warn("Please select payment type");
     return false;
   }
@@ -375,16 +377,19 @@ export const landingShowBtnValidation = (values) => {
 // fetch PCF Landing Data
 export const fetchPCFLandingData = (obj) => {
   // destructure
-  const { getPCFLandingData, values } = obj;
+  const { getPCFLandingData, landingPageValues, createPageValues } = obj;
 
   // validation of form when show btn click
-  if (!landingShowBtnValidation(values)) {
+  if (!landingShowBtnValidation({ landingPageValues, createPageValues })) {
     return false; // Stop further execution if validation fails
   }
 
   try {
     // generate url
-    const URL = generateGetPCFLandingDataURL(values);
+    const URL = generateGetPCFLandingDataURL({
+      landingPageValues,
+      createPageValues,
+    });
     // api call
     getPCFLandingData(URL);
 
@@ -491,4 +496,12 @@ export const chooseTableColumns = (viewType) => {
     default:
       return columnsForImportLanding;
   }
+};
+
+// landing table init data
+export const landingInitData = {
+  sbu: "",
+  paymentType: { value: "Duty", label: "Duty" },
+  fromDate: _monthFirstDate(),
+  toDate: _monthLastDate(),
 };
