@@ -8,6 +8,7 @@ import { imarineBaseUrl } from '../../../../App';
 import ICustomCard from '../../../_helper/_customCard';
 import Loading from '../../../_helper/_loading';
 import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
 import PaginationTable from '../../../_helper/_tablePagination';
 import IViewModal from '../../../_helper/_viewModal';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
@@ -25,11 +26,10 @@ import FreightInvoice from './freightInvoice';
 import HBLCodeGNModal from './hblCodeGNModal';
 import { cancelHandler, statusReturn } from './helper';
 import ManifestModal from './manifestModal';
+import MasterHBAWModal from './masterHAWBModal';
 import MasterHBLModal from './masterHBLModal';
 import ReceiveModal from './receiveModal';
 import TransportModal from './transportModal';
-import NewSelect from '../../../_helper/_select';
-import MasterHBAWModal from './masterHAWBModal';
 const validationSchema = Yup.object().shape({});
 function BookingList() {
   const { profileData } = useSelector(
@@ -96,7 +96,7 @@ function BookingList() {
     getShipBookingReqLanding(
       `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
       }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
-      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search${searchValue ||
+      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue ||
       ''}&modeOfTransportId=${modeOfTransportId}`,
     );
   };
@@ -117,6 +117,8 @@ function BookingList() {
     ) {
       return true;
     }
+
+    return false;
   };
 
   const handleSelectRow = (item) => (e) => {
@@ -130,6 +132,8 @@ function BookingList() {
       );
     }
   };
+
+  console.log(selectedRow);
   return (
     <ICustomCard
       title="Booking List"
@@ -444,7 +448,10 @@ function BookingList() {
                             <td>
                               <input
                                 type="checkbox"
-                                disabled={getDisabledCheckbox(item)}
+                                disabled={
+                                  getDisabledCheckbox(item) ||
+                                  item?.masterBlGenarate
+                                }
                                 onChange={handleSelectRow(item)}
                               />
                             </td>
