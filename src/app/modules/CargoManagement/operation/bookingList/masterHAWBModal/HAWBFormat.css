@@ -1,10 +1,10 @@
-.hawbContainer {
+.masterHawbContainer {
   font-size: 11px;
   border: 1px solid #000;
   line-height: 12px;
 }
 
-.hawbContainer h1,
+.masterHawbContainer h1,
 h2,
 h3,
 h4,
@@ -14,114 +14,114 @@ h6 {
   padding: 0;
 }
 
-.hawbContainer div {
+.masterHawbContainer div {
   box-sizing: border-box !important;
 }
 
-.hawbContainer p {
+.masterHawbContainer p {
   margin: 0;
   padding: 2px 3px;
 }
 
-.hawbContainer .smallTitle {
+.masterHawbContainer .smallTitle {
   font-size: 10px;
   font-weight: 600;
 }
 
-.hawbContainer .shipperAandConsigneeInfo .top {
+.masterHawbContainer .shipperAandConsigneeInfo .top {
   display: flex;
 }
 
-.hawbContainer .shipperAandConsigneeInfo .leftSide {
+.masterHawbContainer .shipperAandConsigneeInfo .leftSide {
   width: 50%;
 }
 
-.hawbContainer .shipperAandConsigneeInfo .rightSide {
+.masterHawbContainer .shipperAandConsigneeInfo .rightSide {
   width: 50%;
 }
 
-.hawbContainer .shipperInfo,
-.hawbContainer .consigneeInfo,
-.hawbContainer .notifyParty {
+.masterHawbContainer .shipperInfo,
+.masterHawbContainer .consigneeInfo,
+.masterHawbContainer .notifyParty {
   height: 115px;
   line-height: 9px;
 }
 
-.hawbContainer .textTitle {
+.masterHawbContainer .textTitle {
   text-transform: uppercase;
   font-style: italic;
   font-weight: 600;
   font-size: 10px;
 }
 
-.hawbContainer .rightSideTop {
+.masterHawbContainer .rightSideTop {
   display: flex;
   gap: 50px;
   border-bottom: 1px solid #000;
   height: 80px;
 }
 
-.hawbContainer .rightSideTop img {
+.masterHawbContainer .rightSideTop img {
   width: 150px;
   padding: 5px 0;
 }
 
-.hawbContainer .rightSideTop .airWayBillTitle {
+.masterHawbContainer .rightSideTop .airWayBillTitle {
   font-size: 20px;
   font-weight: bold;
 }
 
-.hawbContainer .rightSideMiddleContent {
+.masterHawbContainer .rightSideMiddleContent {
   font-size: 9px;
 }
 
-.hawbContainer .rightSide .rightSideMiddleTitle {
+.masterHawbContainer .rightSide .rightSideMiddleTitle {
   border-bottom: 1px dotted #000;
 }
 
-.hawbContainer .rightSide .rightSideButtom .borderBottomTime {
+.masterHawbContainer .rightSide .rightSideButtom .borderBottomTime {
   display: flex;
-  height: 40px;
+  height: 60px;
 }
 
-.hawbContainer .rightSide .rightSideButtom .borderBottomTime p {
+.masterHawbContainer .rightSide .rightSideButtom .borderBottomTime p {
   width: 50%;
 }
 
-.hawbContainer .rightSideBottom {
+.masterHawbContainer .rightSideBottom {
   border-bottom: 1px solid #000;
   height: 20px;
 }
 
-.hawbContainer .borderRight {
+.masterHawbContainer .borderRight {
   border-right: 1px solid #000;
 }
 
-.hawbContainer .borderBottom {
+.masterHawbContainer .borderBottom {
   border-bottom: 1px solid #000;
 }
 
-.hawbContainer .borderTop {
+.masterHawbContainer .borderTop {
   border-top: 1px solid #000;
 }
 
-.hawbContainer .borderLeft {
+.masterHawbContainer .borderLeft {
   border-left: 1px solid #000;
 }
 
-.hawbContainer .airInfo {
+.masterHawbContainer .airInfo {
   min-height: 50px;
 }
 
-.hawbContainer .airInfo .rightSide {
+.masterHawbContainer .airInfo .rightSide {
   display: flex;
 }
 
-/* .hawbContainer .airInfo .air-flight-info {
+/* .masterHawbContainer .airInfo .air-flight-info {
   width: 100px;
 } */
 
-.hawbContainer .airInfo .air-flight-catagory {
+.masterHawbContainer .airInfo .air-flight-catagory {
   /* display: flex;
   justify-content: space-around; */
   /* height: 100%; */
@@ -130,73 +130,75 @@ h6 {
   height: 100%;
 }
 
-.hawbContainer .airInfo .rightSideColumnOne {
-  width: 180px;
+.masterHawbContainer .airInfo .rightSideColumnOne {
+  width: 250px;
 }
 
-/* .hawbContainer .airInfo .air-destination-info {
+/* .masterHawbContainer .airInfo .air-destination-info {
   width: 150px;
   height: 100%;
 } */
 
-.hawbContainer .commonWithOne {
-  width: 120px;
-  min-width: 120px;
+.masterHawbContainer .commonWithOne {
+  width: 190px;
+  min-width: 190px;
 }
 
-.hawbContainer .noPiecesRcp {
+.masterHawbContainer .noPiecesRcp {
   width: 45px;
 }
 
-.hawbContainer .grossWeight {
+.masterHawbContainer .grossWeight {
   width: 90px;
 }
 
-.hawbContainer .kgIB {
+.masterHawbContainer .kgIB {
   width: 25px;
 }
 
-.hawbContainer .chargeableWeight {
+.masterHawbContainer .chargeableWeight {
   width: 90px;
 }
 
-.hawbContainer .rateAndCharge {
+.masterHawbContainer .rateAndCharge {
   width: 90px;
 }
 
-.hawbContainer .total {
+.masterHawbContainer .total {
   width: 100px;
 }
 
-.hawbContainer .hawbCurrency {
-  width: 75px;
+.masterHawbContainer .hawbCurrency {
+  width: 305px;
+  display: grid;
+  grid-template-columns: 1fr 1fr ;
 }
 
-.hawbContainer .cargoInfo {
+.masterHawbContainer .cargoInfo {
   height: 360px;
   text-transform: uppercase;
   display: flex;
   flex-direction: column;
 }
 
-.hawbContainer .natureandQuantityofGoods {
+.masterHawbContainer .natureandQuantityofGoods {
   flex: 1;
 }
 
 /* collect Info */
-.hawbContainer .collectInfo .collectItemLeft {
+.masterHawbContainer .collectInfo .collectItemLeft {
   min-width: 340px;
   height: 100%;
   overflow: hidden;
 }
 
-.hawbContainer .collectInfo .collectChart {
+.masterHawbContainer .collectInfo .collectChart {
   display: flex;
   height: 100%;
   position: relative;
 }
 
-.hawbContainer .collectInfo .collectChartBox {
+.masterHawbContainer .collectInfo .collectChartBox {
   display: flex;
   position: absolute;
   text-align: center;
@@ -205,52 +207,52 @@ h6 {
   margin-top: 1px;
 }
 
-.hawbContainer .collectInfo .collectChartBox .collectChartBoxPrepaid {
+.masterHawbContainer .collectInfo .collectChartBox .collectChartBoxPrepaid {
   width: 85px;
 }
 
-.hawbContainer .collectInfo .collectChartBox .collectChartBoxWC {
+.masterHawbContainer .collectInfo .collectChartBox .collectChartBoxWC {
   width: 130px;
 }
 
-.hawbContainer .collectInfo .collectChartBox .collectChartBoxCollect {
+.masterHawbContainer .collectInfo .collectChartBox .collectChartBoxCollect {
   width: 90px;
 }
 
-.hawbContainer .collectInfo .collectChartBox .collectChartBoxValuationCharge {
+.masterHawbContainer .collectInfo .collectChartBox .collectChartBoxValuationCharge {
   width: 160px;
 }
 
-.hawbContainer .collectInfo .collectChartBox .collectChartTax {
+.masterHawbContainer .collectInfo .collectChartBox .collectChartTax {
   width: 90px;
 }
 
-.hawbContainer .collectInfo .collectChartBox .collectChartBoxTotalOtherChargesDueAgent {
+.masterHawbContainer .collectInfo .collectChartBox .collectChartBoxTotalOtherChargesDueAgent {
   width: 250px;
 }
 
-.hawbContainer .collectInfo .collectChartBox .collectChartBoxTotalOtherChargesDueCarrier {
+.masterHawbContainer .collectInfo .collectChartBox .collectChartBoxTotalOtherChargesDueCarrier {
   width: 250px;
 }
 
-.hawbContainer .collectInfo .collectChartLeft {
+.masterHawbContainer .collectInfo .collectChartLeft {
   width: 170px;
   padding-top: 15px;
 }
 
-.hawbContainer .collectInfo .collectChartRight {
+.masterHawbContainer .collectInfo .collectChartRight {
   min-width: 169px;
   padding-top: 15px;
 
 }
 
-.hawbContainer .collectInfo .collectChartBoxItem {
+.masterHawbContainer .collectInfo .collectChartBoxItem {
   position: relative;
   border-bottom: 1px solid #000;
   background: white;
 }
 
-.hawbContainer .collectInfo .collectChartBoxItem::after {
+.masterHawbContainer .collectInfo .collectChartBoxItem::after {
   content: "";
   position: absolute;
   right: -4px;
@@ -264,7 +266,7 @@ h6 {
 }
 
 
-.hawbContainer .collectInfo .collectChartBoxItem::before {
+.masterHawbContainer .collectInfo .collectChartBoxItem::before {
   content: "";
   position: absolute;
   left: -3px;
@@ -277,29 +279,29 @@ h6 {
   border-right: 1px solid #000;
 }
 
-.hawbContainer .collectInfo .collectItemRowOne,
-.hawbContainer .collectInfo .collectItemRowTwo,
-.hawbContainer .collectInfo .collectItemRowThree,
-.hawbContainer .collectInfo .totalOtherChargesTotalPrepaid,
-.hawbContainer .collectInfo .currencyConversionRate {
+.masterHawbContainer .collectInfo .collectItemRowOne,
+.masterHawbContainer .collectInfo .collectItemRowTwo,
+.masterHawbContainer .collectInfo .collectItemRowThree,
+.masterHawbContainer .collectInfo .totalOtherChargesTotalPrepaid,
+.masterHawbContainer .collectInfo .currencyConversionRate {
   height: 50px;
 }
 
-.hawbContainer .collectInfo .collectItemRowFour {
+.masterHawbContainer .collectInfo .collectItemRowFour {
   height: auto;
 }
 
-.hawbContainer .collectInfo .totalOtherChargesDueAgent,
-.hawbContainer .collectInfo .totalOtherChargesDueCarrier {
+.masterHawbContainer .collectInfo .totalOtherChargesDueAgent,
+.masterHawbContainer .collectInfo .totalOtherChargesDueCarrier {
   height: 41px;
 }
 
 
-.hawbContainer .collectInfo .collectItemRow {
+.masterHawbContainer .collectInfo .collectItemRow {
   display: flex;
 }
 
-.hawbContainer .collectInfo .collectChartValue {
+.masterHawbContainer .collectInfo .collectChartValue {
   font-size: 14px;
   font-weight: bold;
 }

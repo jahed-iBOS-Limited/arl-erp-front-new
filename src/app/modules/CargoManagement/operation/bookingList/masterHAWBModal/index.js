@@ -304,12 +304,14 @@
 // }
 import moment from 'moment';
 import React from 'react';
-import './HAWBFormat.css';
 import ReactQuill from 'react-quill';
+import './HAWBFormat.css';
 import logisticsLogo from './logisticsLogo.png';
-function MasterHBAWModalItem({
+
+
+const MasterHBAWModal = ({
   selectedRow
-}) {
+}) => {
   const bookingData = {}
   const totalGrossWeightKG = bookingData?.rowsData?.reduce(
     (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
@@ -331,180 +333,207 @@ function MasterHBAWModalItem({
       ? totalVolumetricWeight
       : totalGrossWeightKG;
   return (
-    <div
-      style={{
-        position: 'relative',
-      }}
-    >
-      <p
+    <div className="hawbWrapper">
+      <div
         style={{
-          position: 'absolute',
-          top: '20%',
-          left: '35%',
-          fontSize: '23px',
-          color: '#990370',
-          fontWeight: 'bold',
-          transform: 'rotate(-24deg)',
+          position: 'relative',
         }}
       >
-        COPY NON-NEGOTIABLE
-      </p>
+        <p
+          style={{
+            position: 'absolute',
+            top: '20%',
+            left: '35%',
+            fontSize: '23px',
+            color: '#990370',
+            fontWeight: 'bold',
+            transform: 'rotate(-24deg)',
+          }}
+        >
+          COPY NON-NEGOTIABLE
+        </p>
 
-      <div className="hawbContainer">
-        <div className="shipperAandConsigneeInfo">
-          <div className="top borderBottom">
-            <div className="leftSide borderRight">
-              <div className="shipperInfo borderBottom">
-                <p className="textTitle">Shipper's Name and Address:</p>
-                <p>TO THE ORDER OF</p>
-                <p>
-                  {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
-                    bookingData?.shipperBank}
-                </p>
-                <p>
-                  {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
-                    bookingData?.shipperBankAddress}
-                </p>
-                <p>
-                  {bookingData?.objPurchase?.[0]?.infoType === 'lc'
-                    ? 'A/C '
-                    : ''}
+        <div className="masterHawbContainer">
+          <div className="shipperAandConsigneeInfo">
+            <div className="top borderBottom">
+              <div className="leftSide borderRight">
+                <div className="shipperInfo borderBottom">
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr'
+                  }}>
+                    <div>
+                      <p className="textTitle">Shipper's Name and Address:</p>
+                      <p>TO THE ORDER OF</p>
+                      <p>
+                        {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
+                          bookingData?.shipperBank}
+                      </p>
+                    </div>
+                    <div className='borderLeft borderBottom p-2' >
+                      <p className="textTitle">Company Info:</p>
 
-                  {bookingData?.shipperName}
-                </p>
-                {/* <p>{bookingData?.shipperContactPerson}</p> */}
-                <p>{bookingData?.shipperContact}</p>
-                <p>{bookingData?.shipperEmail}</p>
-                <p>
-                  {bookingData?.shipperState} ,{bookingData?.shipperCountry},{' '}
-                  {bookingData?.shipperAddress}
-                </p>
-              </div>
-              <div className="consigneeInfo borderBottom">
-                <p className="textTitle">Consignee's Name and Address:</p>
-                <p>TO THE ORDER OF</p>
-                <p>
-                  {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
-                    bookingData?.buyerBank}
-                </p>
-                <p>
-                  {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
-                    bookingData?.notifyBankAddr}
-                </p>
-                <p>
-                  {bookingData?.objPurchase?.[0]?.infoType === 'lc'
-                    ? 'A/C '
-                    : ''}{' '}
-                  {bookingData?.consigneeName}
-                </p>
-                <p>{bookingData?.consigneeEmail}</p>
-                {/* <p>{bookingData?.consigneeContactPerson}</p> */}
-                <p>{bookingData?.consigneeContact}</p>
-                <p>
-                  {bookingData?.consigState}, {bookingData?.consigCountry}{' '}
-                  {bookingData?.consigneeAddress}
-                </p>
-              </div>
-              {/* Notify Party */}
-              <div className="notifyParty">
-                <p className="textTitle">Notify Party</p>
-                {/* <p>TO THE ORDER OF</p> */}
-                <p>{bookingData?.notifyParty}</p>
-                <p>{bookingData?.notifyBankAddr}</p>
-              </div>
-            </div>
-            <div className="rightSide">
-              <div className="rightSideTop">
-                <div>
-                  <p className="textTitle">Not Negotiable</p>
-                  <h6 className="airWayBillTitle">AIR WAYBILL</h6>
-                  <p>(Air Consigniment Note)</p>
-                  <p>Issued by</p>
-                </div>
-                <div>
+                    </div>
+                  </div>
                   <p>
-                    <b>HAWB NO: {bookingData?.hblnumber}</b>
+                    {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
+                      bookingData?.shipperBankAddress}
                   </p>
-                  <img src={logisticsLogo} alt="barcode" />
                   <p>
-                    <b>Akij Logistics Limited</b>
+                    {bookingData?.objPurchase?.[0]?.infoType === 'lc'
+                      ? 'A/C '
+                      : ''}
+
+                    {bookingData?.shipperName}
+                  </p>
+                  {/* <p>{bookingData?.shipperContactPerson}</p> */}
+                  <p>{bookingData?.shipperContact}</p>
+                  <p>{bookingData?.shipperEmail}</p>
+                  <p>
+                    {bookingData?.shipperState} ,{bookingData?.shipperCountry},{' '}
+                    {bookingData?.shipperAddress}
                   </p>
                 </div>
+                <div className="consigneeInfo borderBottom">
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr'
+                  }}>
+                    <div>
+                      <p className="textTitle">Consignee's Name and Address:</p>
+                      <p>TO THE ORDER OF</p>
+                      <p>
+                        {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
+                          bookingData?.buyerBank}
+                      </p>
+                      <p>
+                        {bookingData?.objPurchase?.[0]?.infoType === 'lc' &&
+                          bookingData?.notifyBankAddr}
+                      </p>
+                    </div>
+                    <div className='borderLeft borderBottom p-2' >
+                      <p className="textTitle">Delivery Agent:</p>
+
+                    </div>
+                  </div>
+                  <p>
+                    {bookingData?.objPurchase?.[0]?.infoType === 'lc'
+                      ? 'A/C '
+                      : ''}{' '}
+                    {bookingData?.consigneeName}
+                  </p>
+                  <p>{bookingData?.consigneeEmail}</p>
+                  {/* <p>{bookingData?.consigneeContactPerson}</p> */}
+                  <p>{bookingData?.consigneeContact}</p>
+                  <p>
+                    {bookingData?.consigState}, {bookingData?.consigCountry}{' '}
+                    {bookingData?.consigneeAddress}
+                  </p>
+                </div>
+                {/* GSA Name */}
+                <div>
+                  <div style={{
+                    height: '70px',
+                    borderBottom: '1px solid #000'
+                  }}
+                  >
+                    <p className="textTitle">GSA Name:</p>
+                  </div>
+
+                  <div style={{
+                    height: "60px"
+                  }}>
+                    <div style={{ display: 'flex', height: '100%' }}>
+                      <div
+                        className="borderRight"
+                        style={{ width: '50%' }}
+                      >
+                        <p className="textTitle">Agent IATA Code</p>
+
+                      </div>
+                      <div style={{ width: '50%' }}>
+                        <p className="textTitle ">Account Number</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
               </div>
-              <div className="rightSideBottom" />
-              <div className="rightSideMiddle borderBottom">
-                <p className="rightSideMiddleTitle">
-                  Copies 1,2 and 3 of this Air Waybill arc originals and have
-                  the same validity
-                </p>
-                <p className="rightSideMiddleContent">
-                  It is agreed that the goods described herein are accepted in
-                  apparent good order and condition (except as noted) for
-                  carriage SUBJECT TO THE CONDITIONS OF CONTRACT ON THE REVERSE
-                  HEREOF. ALL GOODS MAY BE CARRIED BY ANY OTHER MEANS INCLUDING
-                  ROAD OR ANY OTHER CARRIER UNLESS SPECIFIC CONTRARY
-                  INSTRUCTIONS ARE GIVEN HEREON BY THE SHIPPER, AND SHIPPER
-                  AGREES THAT THE SHIPMENT MAY BE CARRIED VIA INTERMEDIATE
-                  STOPPING PLACES WHICH THE CARRIER DEEMS APPROPRIATE. THE
-                  SHIPPER'S ATTENTION IS DRAWN TO THE NOTICE CONCERNING
-                  CARRIER·s LIMITATION OF LIABILITY. Shipper may increase such
-                  limitation of liabHity by declaring a higher value for
-                  carriage and paying a suppfemental charge if required.
-                </p>
-              </div>
-              <div className="rightSideButtom">
-                <div className="borderBottom">
-                  <p className="textTitle">Accounting Information</p>
-                  <div className="text-center">
-                    <br />
-                    <h2>
-                      FREIGHT{' '}
-                      {['exw'].includes(bookingData?.incoterms) &&
-                        'COLLECT EXW'}
-                      {['fca', 'fob'].includes(bookingData?.incoterms) &&
-                        'COLLECT'}
-                      {['cif', 'cpt', 'cfr'].includes(bookingData?.incoterms) &&
-                        'PREPAID'}
-                      {['dap', 'ddp', 'ddu'].includes(bookingData?.incoterms) &&
-                        'COLLECT DAP/DDP/DDU'}
-                      {['other'].includes(bookingData?.incoterms) && 'COLLECT'}
-                    </h2>
-                    <br />
+              <div className="rightSide">
+                <div className="rightSideTop">
+                  <div>
+                    <p className="textTitle">Not Negotiable</p>
+                    <h6 className="airWayBillTitle">AIR WAYBILL</h6>
+                    <p>(Air Consigniment Note)</p>
+                    <p>Issued by</p>
+                  </div>
+                  <div>
                     <p>
-                      <b>
-                        MAWB NO:
-                        {bookingData?.flightNumber}
-                      </b>
+                      <b>HAWB NO: {bookingData?.hblnumber}</b>
+                    </p>
+                    <img src={logisticsLogo} alt="barcode" />
+                    <p>
+                      <b>Akij Logistics Limited</b>
                     </p>
                   </div>
                 </div>
-                <div className="borderBottom">
-                  <p className="textTitle">
-                    I.A.T.A Code {bookingData?.transportPlanning?.iatanumber}
+                <div className="rightSideBottom" />
+                <div className="rightSideMiddle borderBottom" style={{ paddingBottom: '8px' }}>
+                  <p className="rightSideMiddleTitle">
+                    Copies 1,2 and 3 of this Air Waybill arc originals and have
+                    the same validity
+                  </p>
+                  <p className="rightSideMiddleContent">
+                    It is agreed that the goods described herein are accepted in
+                    apparent good order and condition (except as noted) for
+                    carriage SUBJECT TO THE CONDITIONS OF CONTRACT ON THE REVERSE
+                    HEREOF. ALL GOODS MAY BE CARRIED BY ANY OTHER MEANS INCLUDING
+                    ROAD OR ANY OTHER CARRIER UNLESS SPECIFIC CONTRARY
+                    INSTRUCTIONS ARE GIVEN HEREON BY THE SHIPPER, AND SHIPPER
+                    AGREES THAT THE SHIPMENT MAY BE CARRIED VIA INTERMEDIATE
+                    STOPPING PLACES WHICH THE CARRIER DEEMS APPROPRIATE. THE
+                    SHIPPER'S ATTENTION IS DRAWN TO THE NOTICE CONCERNING
+                    CARRIER·s LIMITATION OF LIABILITY. Shipper may increase such
+                    limitation of liabHity by declaring a higher value for
+                    carriage and paying a suppfemental charge if required.
                   </p>
                 </div>
-                <div className="borderBottomTime">
-                  <p className="borderRight">Time &amp; Date Broker Notified</p>
-                  <p>Time &amp; Date Cargo Collected</p>
+                <div className="rightSideButtom">
+                  <div >
+                    <p className="textTitle">Accounting Information</p>
+                    <div className="text-center">
+                      <br />
+                      <h2>
+                        FREIGHT{' '}
+                        {['exw'].includes(bookingData?.incoterms) &&
+                          'COLLECT EXW'}
+                        {['fca', 'fob'].includes(bookingData?.incoterms) &&
+                          'COLLECT'}
+                        {['cif', 'cpt', 'cfr'].includes(bookingData?.incoterms) &&
+                          'PREPAID'}
+                        {['dap', 'ddp', 'ddu'].includes(bookingData?.incoterms) &&
+                          'COLLECT DAP/DDP/DDU'}
+                        {['other'].includes(bookingData?.incoterms) && 'COLLECT'}
+                      </h2>
+                      <br />
+                      <p>
+                        <b>
+                          MAWB NO:
+                          {bookingData?.flightNumber}
+                        </b>
+                      </p>
+                    </div>
+                  </div>
+
+
                 </div>
               </div>
             </div>
-          </div>
-          <div className="top borderBottom airInfo">
-            <div className="leftSide borderRight">
-              <div>
-                <p className="textTitle">
-                  Airport of Departure and Requested Routing
-                </p>
-                <div
-                  style={{
-                    display: 'flex',
-                    gap: 5,
-                  }}
-                >
-                  <p>
-                    {bookingData?.transportPlanning?.airLineOrShippingLine ||
-                      ''}
+            <div className='borderBottom' style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '50px' }}>
+              <div className="borderRight">
+                <div>
+                  <p className="textTitle">
+                    Airport of Departure and Requested Routing
                   </p>
                   <div
                     style={{
@@ -512,40 +541,145 @@ function MasterHBAWModalItem({
                       gap: 5,
                     }}
                   >
-                    {bookingData?.transportPlanning?.airTransportRow?.map(
-                      (item, index) => {
-                        return (
-                          <p key={index}>
-                            <b>
-                              ({item?.fromPort} - {item?.toPort})
-                            </b>
-                          </p>
-                        );
-                      },
-                    )}
+                    <p>
+                      {bookingData?.transportPlanning?.airLineOrShippingLine ||
+                        ''}
+                    </p>
+                    <div
+                      style={{
+                        display: 'flex',
+                        gap: 5,
+                      }}
+                    >
+                      {bookingData?.transportPlanning?.airTransportRow?.map(
+                        (item, index) => {
+                          return (
+                            <p key={index}>
+                              <b>
+                                ({item?.fromPort} - {item?.toPort})
+                              </b>
+                            </p>
+                          );
+                        },
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', minHeight: '50px' }}>
+                <p className="borderRight textTitle">Reference Number</p>
+                <p className="textTitle">Optional Shipping Information</p>
+              </div>
+              <div />
             </div>
-            <div className="rightSide">
-              <div className="rightSideColumnOne borderRight">
-                <div style={{ display: 'flex', height: '100%' }}>
-                  <div
-                    style={{ display: 'flex', height: '100%' }}
-                    className="commonWithOne borderRight"
+            <div className="top borderBottom airInfo">
+              <div className="leftSide borderRight">
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '3fr 2fr',
+                    minHeight: '50px',
+                  }}
+                >
+                  <div className='borderRight'
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 4fr',
+                    }}
+
                   >
-                    <div className="hawbCurrency borderRight">
-                      <p className="textTitle">Currency</p>
-                      <p>{bookingData?.currency} </p>
+                    <div className='borderRight'>
+                      <p className='textTitle'>  To</p>
+                    </div>
+                    <div>
+                      <p className='textTitle'>
+                        By First Carrier (Routing and Destination)
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 1fr 1fr 1fr',
+                    }}
+                  >
+                    <div className='borderRight'>
+                      <p className='textTitle'>To</p>
+                    </div>
+                    <div className='borderRight'>
+                      <p className='textTitle'>By</p>
+                    </div>
+                    <div className='borderRight'>
+                      <p className='textTitle'>To</p>
+                    </div>
+                    <div>
+                      <p className='textTitle'>By</p>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div className="rightSide">
+                <div className="rightSideColumnOne borderRight">
+                  <div style={{ display: 'flex', height: '100%' }}>
+                    <div
+                      style={{ display: 'flex', height: '100%' }}
+                      className="commonWithOne borderRight"
+                    >
+                      <div className="hawbCurrency borderRight">
+                        <div className='borderRight'>
+                          <p className="textTitle">Currency</p>
+                          <p>{bookingData?.currency} </p>
+                        </div>
+                        <div>
+                          <p className="textTitle">CHGS Code</p>
+                        </div>
+                      </div>
+                      <div
+                        className="air-flight-info"
+                        style={{
+                          width: '100%',
+                        }}
+                      >
+                        <div className="air-flight-catagory">
+                          <p className="borderBottom textTitle">WT/VAL</p>
+                          <div style={{ display: 'flex', height: '100%' }}>
+                            <p
+                              className="borderRight textTitle"
+                              style={{
+                                width: '50%',
+                              }}
+                            >
+                              {['cif', 'cpt', 'cfr'].includes(
+                                bookingData?.incoterms,
+                              )
+                                ? 'PPD'
+                                : ''}
+                            </p>
+                            <p
+                              className="textTitle"
+                              style={{
+                                width: '50%',
+                              }}
+                            >
+                              {['cif', 'cpt', 'cfr'].includes(
+                                bookingData?.incoterms,
+                              )
+                                ? ''
+                                : 'CCX'}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div
                       className="air-flight-info"
                       style={{
-                        width: '100%',
+                        flex: 1,
                       }}
                     >
                       <div className="air-flight-catagory">
-                        <p className="borderBottom textTitle">WT/VAL</p>
+                        <p className="borderBottom textTitle">Other</p>
                         <div style={{ display: 'flex', height: '100%' }}>
                           <p
                             className="borderRight textTitle"
@@ -575,889 +709,842 @@ function MasterHBAWModalItem({
                       </div>
                     </div>
                   </div>
-                  <div
-                    className="air-flight-info"
-                    style={{
-                      flex: 1,
-                    }}
-                  >
-                    <div className="air-flight-catagory">
-                      <p className="borderBottom textTitle">Other</p>
-                      <div style={{ display: 'flex', height: '100%' }}>
-                        <p
-                          className="borderRight textTitle"
-                          style={{
-                            width: '50%',
-                          }}
-                        >
-                          {['cif', 'cpt', 'cfr'].includes(
-                            bookingData?.incoterms,
-                          )
-                            ? 'PPD'
-                            : ''}
-                        </p>
-                        <p
-                          className="textTitle"
-                          style={{
-                            width: '50%',
-                          }}
-                        >
-                          {['cif', 'cpt', 'cfr'].includes(
-                            bookingData?.incoterms,
-                          )
-                            ? ''
-                            : 'CCX'}
-                        </p>
-                      </div>
+                </div>
+                <div
+                  style={{
+                    flex: 1,
+                  }}
+                >
+                  <div style={{ display: 'flex', height: '100%' }}>
+                    <div
+                      className="borderRight"
+                      style={{
+                        width: '50%',
+                      }}
+                    >
+                      <p className="textTitle">Declared Value for Carriage</p>
+                    </div>
+                    <div
+                      style={{
+                        width: '50%',
+                      }}
+                    >
+                      <p className="textTitle">Declared Value for Customs</p>
+                      <p>
+                        <b>
+                          {bookingData?.invoiceValue
+                            ? bookingData?.invoiceValue
+                            : 'AS PER INV'}
+                        </b>
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div
-                style={{
-                  flex: 1,
-                }}
-              >
+              <div />
+            </div>
+
+            <div className="top borderBottom airInfo">
+              <div className="leftSide borderRight">
                 <div style={{ display: 'flex', height: '100%' }}>
                   <div
-                    className="borderRight"
-                    style={{
-                      width: '50%',
-                    }}
+                    className="air-destination-info borderRight"
+                    style={{ width: '50%' }}
                   >
-                    <p className="textTitle">Declared Value for Carriage</p>
-                  </div>
-                  <div
-                    style={{
-                      width: '50%',
-                    }}
-                  >
-                    <p className="textTitle">Declared Value for Customs</p>
+                    <p className="textTitle">Airport of Destination</p>
                     <p>
                       <b>
-                        {bookingData?.invoiceValue
-                          ? bookingData?.invoiceValue
-                          : 'AS PER INV'}
+                        {' '}
+                        <p className="medium-font" style={{ paddingTop: 5 }}>
+                          {
+                            bookingData?.transportPlanning?.airTransportRow?.[
+                              bookingData?.transportPlanning?.airTransportRow
+                                ?.length - 1
+                            ]?.toPort
+                          }
+                        </p>
                       </b>
                     </p>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div />
-          </div>
-          <div className="top borderBottom airInfo">
-            <div className="leftSide borderRight">
-              <div style={{ display: 'flex', height: '100%' }}>
-                <div
-                  className="air-destination-info borderRight"
-                  style={{ width: '50%' }}
-                >
-                  <p className="textTitle">Airport of Destination</p>
-                  <p>
-                    <b>
-                      {' '}
-                      <p className="medium-font" style={{ paddingTop: 5 }}>
-                        {
-                          bookingData?.transportPlanning?.airTransportRow?.[
-                            bookingData?.transportPlanning?.airTransportRow
-                              ?.length - 1
-                          ]?.toPort
-                        }
-                      </p>
-                    </b>
-                  </p>
-                </div>
-                <div style={{ width: '50%' }}>
-                  <div style={{ display: 'flex', height: '100%' }}>
-                    <div className="borderRight" style={{ width: '50%' }}>
-                      <p className="textTitle ">Flight/Date</p>
-                      {bookingData?.transportPlanning?.estimatedTimeOfDepart
-                        ? moment(
-                          bookingData?.transportPlanning
-                            ?.estimatedTimeOfDepart,
-                        ).format('DD.MM.YYYY')
-                        : ''}
-                    </div>
-                    <div className="" style={{ width: '50%' }}>
-                      <p className="textTitle ">Flight/Date</p>
-
-                      <p className="medium-font">
-                        {bookingData?.transportPlanning?.arrivalDateTime
+                  <div style={{ width: '50%' }}>
+                    <div style={{ display: 'flex', height: '100%' }}>
+                      <div className="borderRight" style={{ width: '50%' }}>
+                        <p className="textTitle ">Flight/Date</p>
+                        {bookingData?.transportPlanning?.estimatedTimeOfDepart
                           ? moment(
-                            bookingData?.transportPlanning?.arrivalDateTime,
+                            bookingData?.transportPlanning
+                              ?.estimatedTimeOfDepart,
                           ).format('DD.MM.YYYY')
                           : ''}
+                      </div>
+                      <div className="" style={{ width: '50%' }}>
+                        <p className="textTitle ">Flight/Date</p>
+
+                        <p className="medium-font">
+                          {bookingData?.transportPlanning?.arrivalDateTime
+                            ? moment(
+                              bookingData?.transportPlanning?.arrivalDateTime,
+                            ).format('DD.MM.YYYY')
+                            : ''}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="rightSide">
+                <div style={{ display: 'flex' }}>
+                  <div className="amountofInsurance borderRight commonWithOne">
+                    <p className="textTitle">Amount of Insurance</p>
+                  </div>
+                  <div>
+                    <p>
+                      INSURANCE-if Carrier offers insurance and such insurance is
+                      requested in accordance with condition on reverse hereof,
+                      indicate amount to be insured in figures in box marked
+                      amount of insurance
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div />
+            </div>
+            <div style={{ minHeight: 50 }} className="borderBottom">
+              <p className="textTitle">Handling Information</p>
+            </div>
+            {/* cargo info */}
+            <div className="cargoInfo borderBottom">
+              <div>
+                <div
+                  style={{ display: 'flex', textAlign: 'center' }}
+                  className="borderBottom textTitle"
+                >
+                  <div className="noPiecesRcp borderRight">
+                    <p>No Of Pieces RCP</p>
+                  </div>
+                  <div className="grossWeight borderRight">
+                    <p>Gross Weight</p>
+                  </div>
+                  <div className="kgIB borderRight">
+                    <p>KG IB</p>
+                  </div>
+                  <div className="grossWeight borderRight">
+                    <p>Rate Class / Community Item No</p>
+                  </div>
+
+                  <div className="chargeableWeight borderRight">
+                    <p>Chargeable Weight</p>
+                  </div>
+                  <div className="rateAndCharge borderRight">
+                    <p>Rate</p>
+                  </div>
+                  <div className="total borderRight">
+                    <p>Total</p>
+                  </div>
+                  <div className="natureandQuantityofGoods">
+                    <p>
+                      Nature and Quantity of Goods <br />
+                      (incl, Dimensions or volume)
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div style={{ height: '100%', fontWeight: '500' }}>
+                <div style={{ display: 'flex', height: '100%' }}>
+                  <div
+                    className="noPiecesRcp borderRight"
+                    style={{
+                      position: 'relative',
+                    }}
+                  >
+                    <p>{totalNumberOfPackages}</p>
+                    <p
+                      style={{
+                        position: 'absolute',
+                        left: '2px',
+                        top: '50px',
+                        width: '104px',
+                        textDecoration: 'underline',
+                      }}
+                    >
+                      Shipping Marks: <br />
+                      {bookingData?.shippingMark || bookingData?.shippingMark}
+                    </p>
+                  </div>
+                  <div className="grossWeight borderRight">
+                    <p>{totalGrossWeightKG} KG</p>
+                  </div>
+                  <div className="kgIB borderRight">
+                    <p />
+                  </div>
+                  <div className="grossWeight borderRight">
+                    <p></p>
+                  </div>
+
+                  <div className="chargeableWeight borderRight">
+                    <p>{totalGrossWeight} KG</p>
+                  </div>
+                  <div className="rateAndCharge borderRight">
+                    {/* rate input */}
+                    <input
+                      style={{
+                        width: '100%',
+                      }}
+                      type="text"
+
+                    />
+                  </div>
+                  <div className="total borderRight">
+                    <p>
+
+                    </p>
+                  </div>
+                  <div className="natureandQuantityofGoods">
+                    <p style={{ textDecoration: 'underline' }}>
+                      DESCRIPTION OF GOODS :
+                    </p>
+                    {bookingData?.rowsData?.map((item, index) => {
+                      const dimension = item?.dimensionRow?.reduce(
+                        (acc, cur) => {
+                          return {
+                            dimsLength:
+                              (+acc?.dimsLength || 0) + (+cur?.dimsLength || 0),
+                            dimsWidth:
+                              (+acc?.dimsWidth || 0) + (+cur?.dimsWidth || 0),
+                            dimsHeight:
+                              (+acc?.dimsHeight || 0) + (+cur?.dimsHeight || 0),
+                          };
+                        },
+                        {
+                          dimsLength: 0,
+                          dimsWidth: 0,
+                          dimsHeight: 0,
+                        },
+                      );
+                      return (
+                        <>
+                          <p>{item?.descriptionOfGoods}</p>
+                          <p>
+                            Po No:{' '}
+                            {item?.dimensionRow?.map((i, index) => {
+                              return (
+                                (i?.poNumber || '') +
+                                (index < item?.dimensionRow?.length - 1
+                                  ? ','
+                                  : '')
+                              );
+                            })}
+                          </p>
+                          <p>
+                            Color:{' '}
+                            {item?.dimensionRow?.map((i, index) => {
+                              return (
+                                (i?.color || '') +
+                                (index < item?.dimensionRow?.length - 1
+                                  ? ','
+                                  : '')
+                              );
+                            })}
+                          </p>
+                          <p>
+                            H.S Code:{' '}
+                            {(item?.hsCode || '') +
+                              (index < bookingData?.rowsData?.length - 1
+                                ? ','
+                                : '')}
+                          </p>
+                          <p>
+                            Dimn:{' '}
+                            {`${dimension?.dimsLength} x ${dimension?.dimsWidth} x ${dimension?.dimsHeight}`}
+                          </p>
+                          <br />
+                        </>
+                      );
+                    })}
+
+                    <br />
+                    <p>
+                      Invoice No: {bookingData?.refInvoiceNo} :{' '}
+                      {bookingData?.refInvoiceDate &&
+                        `${moment(bookingData?.refInvoiceDate).format(
+                          'DD-MM-YYYY',
+                        )}`}
+                    </p>
+                    <p>
+                      {bookingData?.infoType === 'lc'
+                        ? 'LC No'
+                        : bookingData?.infoType === 'tt'
+                          ? 'TT No'
+                          : 'S/C No'}
+                      :{' '}
+                      {bookingData?.objPurchase?.map((item, index) => {
+                        return `${item?.lcnumber || ''} : ${item?.lcdate &&
+                          `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${index < bookingData?.objPurchase?.length - 1 ? ',' : ''
+                          }`;
+                      })}
+                    </p>
+                    <p>
+                      Exp No:
+                      {bookingData?.expOrCnfNumber || ''} :{' '}
+                      {bookingData?.expOrCnfDate &&
+                        `${moment(bookingData?.expOrCnfDate).format(
+                          'DD-MM-YYYY',
+                        )}`}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* collect info */}
+            <div className="collectInfo">
+              {/* row item (1) */}
+              <div className="collectItemRow collectItemRowOne borderBottom">
+                <div className="collectItemLeft borderRight">
+                  <div className="collectChart">
+                    {/* grap */}
+                    <div className="collectChartBox">
+                      <span className=" collectChartBoxItem collectChartBoxPrepaid textTitle">
+                        Prepaid
+                      </span>
+                      <sapn className=" collectChartBoxItem collectChartBoxWC textTitle">
+                        Weight charge
+                      </sapn>
+                      <span className=" collectChartBoxItem collectChartBoxCollect textTitle">
+                        Collect
+                      </span>
+                    </div>
+                    <div className="collectChartLeft borderRight">
+                      <p className="collectChartValue" />
+                      {['cif', 'cpt', 'cfr'].includes(bookingData?.incoterms) && (
+
+                        <ReactQuill
+                          modules={{
+                            toolbar: false,
+                          }}
+                          style={{
+                            padding: 0,
+                            margin: 0,
+                          }}
+                        />
+                      )}
+                    </div>
+                    <div className="collectChartRight">
+                      <p className="collectChartValue">
+                        {!['cif', 'cpt', 'cfr'].includes(
+                          bookingData?.incoterms,
+                        ) && (
+                            <ReactQuill
+                              modules={{
+                                toolbar: false,
+                              }}
+                              style={{
+                                padding: 0,
+                                margin: 0,
+                              }}
+                            />
+                          )}
                       </p>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="rightSide">
-              <div style={{ display: 'flex' }}>
-                <div className="amountofInsurance borderRight commonWithOne">
-                  <p className="textTitle">Amount of Insurance</p>
-                </div>
-                <div>
-                  <p>
-                    INSURANCE-if Carrier offers insurance and such insurance is
-                    requested in accordance with condition on reverse hereof,
-                    indicate amount to be insured in figures in box marked
-                    amount of insurance
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div />
-          </div>
-          <div style={{ minHeight: 50 }} className="borderBottom">
-            <p className="textTitle">Handling Information</p>
-          </div>
-          {/* cargo info */}
-          <div className="cargoInfo borderBottom">
-            <div>
-              <div
-                style={{ display: 'flex', textAlign: 'center' }}
-                className="borderBottom textTitle"
-              >
-                <div className="noPiecesRcp borderRight">
-                  <p>No Of Pieces RCP</p>
-                </div>
-                <div className="grossWeight borderRight">
-                  <p>Gross Weight</p>
-                </div>
-                <div className="kgIB borderRight">
-                  <p>KG IB</p>
-                </div>
-                <div className="chargeableWeight borderRight">
-                  <p>Chargeable Weight</p>
-                </div>
-                <div className="rateAndCharge borderRight">
-                  <p>Rate</p>
-                </div>
-                <div className="total borderRight">
-                  <p>Total</p>
-                </div>
-                <div className="natureandQuantityofGoods">
-                  <p>
-                    Nature and Quantity of Goods <br />
-                    (incl, Dimensions or volume)
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div style={{ height: '100%', fontWeight: '500' }}>
-              <div style={{ display: 'flex', height: '100%' }}>
-                <div
-                  className="noPiecesRcp borderRight"
-                  style={{
-                    position: 'relative',
-                  }}
-                >
-                  <p>{totalNumberOfPackages}</p>
-                  <p
-                    style={{
-                      position: 'absolute',
-                      left: '2px',
-                      top: '50px',
-                      width: '104px',
-                      textDecoration: 'underline',
-                    }}
-                  >
-                    Shipping Marks: <br />
-                    {bookingData?.shippingMark || bookingData?.shippingMark}
-                  </p>
-                </div>
-                <div className="grossWeight borderRight">
-                  <p>{totalGrossWeightKG} KG</p>
-                </div>
-                <div className="kgIB borderRight">
-                  <p />
-                </div>
-                <div className="chargeableWeight borderRight">
-                  <p>{totalGrossWeight} KG</p>
-                </div>
-                <div className="rateAndCharge borderRight">
-                  {/* rate input */}
-                  <input
-                    style={{
-                      width: '100%',
-                    }}
-                    type="text"
-
-                  />
-                </div>
-                <div className="total borderRight">
-                  <p>
-
-                  </p>
-                </div>
-                <div className="natureandQuantityofGoods">
-                  <p style={{ textDecoration: 'underline' }}>
-                    DESCRIPTION OF GOODS :
-                  </p>
-                  {bookingData?.rowsData?.map((item, index) => {
-                    const dimension = item?.dimensionRow?.reduce(
-                      (acc, cur) => {
-                        return {
-                          dimsLength:
-                            (+acc?.dimsLength || 0) + (+cur?.dimsLength || 0),
-                          dimsWidth:
-                            (+acc?.dimsWidth || 0) + (+cur?.dimsWidth || 0),
-                          dimsHeight:
-                            (+acc?.dimsHeight || 0) + (+cur?.dimsHeight || 0),
-                        };
-                      },
-                      {
-                        dimsLength: 0,
-                        dimsWidth: 0,
-                        dimsHeight: 0,
-                      },
-                    );
-                    return (
-                      <>
-                        <p>{item?.descriptionOfGoods}</p>
-                        <p>
-                          Po No:{' '}
-                          {item?.dimensionRow?.map((i, index) => {
-                            return (
-                              (i?.poNumber || '') +
-                              (index < item?.dimensionRow?.length - 1
-                                ? ','
-                                : '')
-                            );
-                          })}
-                        </p>
-                        <p>
-                          Color:{' '}
-                          {item?.dimensionRow?.map((i, index) => {
-                            return (
-                              (i?.color || '') +
-                              (index < item?.dimensionRow?.length - 1
-                                ? ','
-                                : '')
-                            );
-                          })}
-                        </p>
-                        <p>
-                          H.S Code:{' '}
-                          {(item?.hsCode || '') +
-                            (index < bookingData?.rowsData?.length - 1
-                              ? ','
-                              : '')}
-                        </p>
-                        <p>
-                          Dimn:{' '}
-                          {`${dimension?.dimsLength} x ${dimension?.dimsWidth} x ${dimension?.dimsHeight}`}
-                        </p>
-                        <br />
-                      </>
-                    );
-                  })}
-
-                  <br />
-                  <p>
-                    Invoice No: {bookingData?.refInvoiceNo} :{' '}
-                    {bookingData?.refInvoiceDate &&
-                      `${moment(bookingData?.refInvoiceDate).format(
-                        'DD-MM-YYYY',
-                      )}`}
-                  </p>
-                  <p>
-                    {bookingData?.infoType === 'lc'
-                      ? 'LC No'
-                      : bookingData?.infoType === 'tt'
-                        ? 'TT No'
-                        : 'S/C No'}
-                    :{' '}
-                    {bookingData?.objPurchase?.map((item, index) => {
-                      return `${item?.lcnumber || ''} : ${item?.lcdate &&
-                        `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${index < bookingData?.objPurchase?.length - 1 ? ',' : ''
-                        }`;
-                    })}
-                  </p>
-                  <p>
-                    Exp No:
-                    {bookingData?.expOrCnfNumber || ''} :{' '}
-                    {bookingData?.expOrCnfDate &&
-                      `${moment(bookingData?.expOrCnfDate).format(
-                        'DD-MM-YYYY',
-                      )}`}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* collect info */}
-          <div className="collectInfo">
-            {/* row item (1) */}
-            <div className="collectItemRow collectItemRowOne borderBottom">
-              <div className="collectItemLeft borderRight">
-                <div className="collectChart">
-                  {/* grap */}
-                  <div className="collectChartBox">
-                    <span className=" collectChartBoxItem collectChartBoxPrepaid textTitle">
-                      Prepaid
-                    </span>
-                    <sapn className=" collectChartBoxItem collectChartBoxWC textTitle">
-                      Weight charge
-                    </sapn>
-                    <span className=" collectChartBoxItem collectChartBoxCollect textTitle">
-                      Collect
-                    </span>
+                <div className="collectItemRight">
+                  <div>
+                    <p className="textTitle">Other charges</p>
                   </div>
-                  <div className="collectChartLeft borderRight">
-                    <p className="collectChartValue" />
-                    {['cif', 'cpt', 'cfr'].includes(bookingData?.incoterms) && (
+                </div>
+              </div>
+              {/* row item (2) */}
+              <div className="collectItemRow collectItemRowTwo borderBottom">
+                <div className="collectItemLeft borderRight">
+                  <div className="collectChart">
+                    {/* grap */}
+                    <div
+                      className="collectChartBox"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <span className=" collectChartBoxItem collectChartBoxValuationCharge textTitle">
+                        Valuation charge
+                      </span>
+                    </div>
+                    <div className="collectChartLeft borderRight">
+                      <p className="collectChartValue">
+                        {['cif', 'cpt', 'cfr'].includes(
+                          bookingData?.incoterms,
+                        ) && (
 
-                      <ReactQuill
-                        modules={{
-                          toolbar: false,
-                        }}
-                        style={{
-                          padding: 0,
-                          margin: 0,
-                        }}
-                      />
-                    )}
+                            <ReactQuill
+                              modules={{
+                                toolbar: false,
+                              }}
+                              style={{
+                                padding: 0,
+                                margin: 0,
+                              }}
+                            />
+                          )}
+                      </p>
+                    </div>
+                    <div className="collectChartRight">
+                      <p className="collectChartValue">
+                        {!['cif', 'cpt', 'cfr'].includes(
+                          bookingData?.incoterms,
+                        ) && (
+                            <ReactQuill
+                              modules={{
+                                toolbar: false,
+                              }}
+                              style={{
+                                padding: 0,
+                                margin: 0,
+                              }}
+                            />
+
+                          )}
+                      </p>
+                    </div>
                   </div>
-                  <div className="collectChartRight">
-                    <p className="collectChartValue">
-                      {!['cif', 'cpt', 'cfr'].includes(
-                        bookingData?.incoterms,
-                      ) && (
-                          <ReactQuill
-                            modules={{
-                              toolbar: false,
-                            }}
-                            style={{
-                              padding: 0,
-                              margin: 0,
-                            }}
-                          />
-                        )}
+                </div>
+                <div className="collectItemRight">
+                  <div>
+                    <p className="textTitle">Carriage</p>
+                  </div>
+                </div>
+              </div>
+              {/* row item (3) */}
+              <div className="collectItemRow collectItemRowThree borderBottom">
+                <div className="collectItemLeft borderRight">
+                  <div className="collectChart">
+                    {/* grap */}
+                    <div
+                      className="collectChartBox"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <span className=" collectChartBoxItem collectChartTax textTitle">
+                        Tax
+                      </span>
+                    </div>
+                    <div className="collectChartLeft borderRight">
+                      <p className="collectChartValue">
+                        {['cif', 'cpt', 'cfr'].includes(
+                          bookingData?.incoterms,
+                        ) && (
+
+                            <ReactQuill
+
+                              modules={{
+                                toolbar: false,
+                              }}
+                              style={{
+                                padding: 0,
+                                margin: 0,
+                              }}
+                            />
+                          )}
+                      </p>
+                    </div>
+                    <div className="collectChartRight">
+                      <p className="collectChartValue">
+                        {!['cif', 'cpt', 'cfr'].includes(
+                          bookingData?.incoterms,
+                        ) && (
+                            <ReactQuill
+                              modules={{
+                                toolbar: false,
+                              }}
+                              style={{
+                                padding: 0,
+                                margin: 0,
+                              }}
+                            />
+                          )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="collectItemRight">
+                  <div>
+                    <p className="textTitle"></p>
+                  </div>
+                </div>
+              </div>
+              {/* row item (4) */}
+              <div className="collectItemRow collectItemRowFour borderBottom">
+                <div className="collectItemLeft borderRight">
+                  <div className="collectChart">
+                    <div style={{ width: '100%' }}>
+                      <div
+                        style={{ display: 'flex', position: 'relative' }}
+                        className="borderBottom totalOtherChargesDueAgent"
+                      >
+                        {/* grap */}
+                        <div
+                          className="collectChartBox"
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            width: '100%',
+                          }}
+                        >
+                          <span className=" collectChartBoxItem collectChartBoxTotalOtherChargesDueAgent textTitle">
+                            Total Other Charges Due Agent
+                          </span>
+                        </div>
+                        <div className="collectChartLeft borderRight">
+                          <p className="collectChartValue">
+                            {['cif', 'cpt', 'cfr'].includes(
+                              bookingData?.incoterms,
+                            ) && (
+                                <ReactQuill
+                                  modules={{
+                                    toolbar: false,
+                                  }}
+                                  style={{
+                                    padding: 0,
+                                    margin: 0,
+                                  }}
+                                />
+                              )}
+                          </p>
+                        </div>
+                        <div className="collectChartRight">
+                          <p className="collectChartValue">
+                            {!['cif', 'cpt', 'cfr'].includes(
+                              bookingData?.incoterms,
+                            ) && (
+                                <ReactQuill
+                                  modules={{
+                                    toolbar: false,
+                                  }}
+                                  style={{
+                                    padding: 0,
+                                    margin: 0,
+                                  }}
+                                />
+                              )}
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        style={{ display: 'flex', position: 'relative' }}
+                        className="totalOtherChargesDueCarrier borderBottom"
+                      >
+                        {/* grap */}
+                        <div
+                          className="collectChartBox"
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            width: '100%',
+                          }}
+                        >
+                          <span className=" collectChartBoxItem collectChartBoxTotalOtherChargesDueCarrier textTitle">
+                            Total OtherCharges Due Carrier
+                          </span>
+                        </div>
+                        <div className="collectChartLeft borderRight">
+                          <p className="collectChartValue">
+                            {['cif', 'cpt', 'cfr'].includes(
+                              bookingData?.incoterms,
+                            ) && (
+                                <ReactQuill
+                                  modules={{
+                                    toolbar: false,
+                                  }}
+                                  style={{
+                                    padding: 0,
+                                    margin: 0,
+                                  }}
+                                />
+                              )}
+                          </p>
+                        </div>
+                        <div className="collectChartRight">
+                          <p className="collectChartValue">
+                            {!['cif', 'cpt', 'cfr'].includes(
+                              bookingData?.incoterms,
+                            ) && (
+                                <ReactQuill
+                                  modules={{
+                                    toolbar: false,
+                                  }}
+                                  style={{
+                                    padding: 0,
+                                    margin: 0,
+                                  }}
+                                />
+                              )}
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        style={{ display: 'flex', position: 'relative' }}
+                        className="totalOtherChargesDueCarrier"
+                      >
+                        {/* grap */}
+                        <div className="collectChartLeft borderRight">
+                          <p className="collectChartValue">
+                            {['cif', 'cpt', 'cfr'].includes(
+                              bookingData?.incoterms,
+                            ) && (
+                                <ReactQuill
+                                  modules={{
+                                    toolbar: false,
+                                  }}
+                                  style={{
+                                    padding: 0,
+                                    margin: 0,
+                                  }}
+                                />
+                              )}
+                          </p>
+                        </div>
+                        <div className="collectChartRight">
+                          <p className="collectChartValue">
+                            {!['cif', 'cpt', 'cfr'].includes(
+                              bookingData?.incoterms,
+                            ) && (
+                                <ReactQuill
+                                  modules={{
+                                    toolbar: false,
+                                  }}
+                                  style={{
+                                    padding: 0,
+                                    margin: 0,
+                                  }}
+                                />
+                              )}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="collectItemRight">
+                  <div>
+                    <p className="smallTitle">
+                      Shipper certifies that the particulars on the face hereof
+                      are correct and that insofar as any part of the consignment
+                      contains restricted articles, such part is properly
+                      described by name and is in proper condition for carriage by
+                      air according to the applicable Dangerous Goods Regulations.
+                    </p>
+                    <h1
+                      className="collectChartValue"
+                      style={{
+                        textAlign: 'center',
+                        marginTop: 5,
+                        textTransform: 'uppercase',
+                      }}
+                    >
+                      {bookingData?.shipperName}
+                    </h1>
+                    <hr
+                      style={{
+                        borderTop: '1px dotted',
+                        marginTop: 50,
+                        marginBottom: 0,
+                      }}
+                    />
+                    <p className="text-center">
+                      <b>Signature of Shipper or his Agent</b>
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="collectItemRight">
-                <div>
-                  <p className="textTitle">Other charges</p>
+              {/* row item (5) */}
+              <div className="collectItemRow collectItemRowFive borderBottom">
+                <div className="collectItemLeft borderRight">
+                  <div className="collectChart">
+                    <div style={{ width: '100%' }}>
+                      <div
+                        style={{ display: 'flex', position: 'relative' }}
+                        className="borderBottom totalOtherChargesTotalPrepaid"
+                      >
+                        {/* grap */}
+                        <div
+                          className="collectChartBox"
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            width: '100%',
+                          }}
+                        >
+                          <span className=" collectChartBoxItem collectChartBoxTotalPrepaid textTitle">
+                            Total Prepaid
+                          </span>
+                          {/*  Total Collect*/}
+                          <span className=" collectChartBoxItem collectChartBoxTotalCollect textTitle">
+                            Total Collect{' '}
+                          </span>
+                        </div>
+                        <div className="collectChartLeft borderRight">
+                          <p className="collectChartValue">
+                            {['cif', 'cpt', 'cfr'].includes(
+                              bookingData?.incoterms,
+                            ) && (
+                                <ReactQuill
+                                  modules={{
+                                    toolbar: false,
+                                  }}
+                                  style={{
+                                    padding: 0,
+                                    margin: 0,
+                                  }}
+                                />
+                              )}
+                          </p>
+                        </div>
+                        <div className="collectChartRight">
+                          <p className="collectChartValue">
+                            {!['cif', 'cpt', 'cfr'].includes(
+                              bookingData?.incoterms,
+                            ) && (
+                                <ReactQuill
+                                  modules={{
+                                    toolbar: false,
+                                  }}
+                                  style={{
+                                    padding: 0,
+                                    margin: 0,
+                                  }}
+                                />
+                              )}
+                          </p>
+                        </div>
+                      </div>
+                      <div
+                        style={{ display: 'flex', position: 'relative' }}
+                        className="currencyConversionRate "
+                      >
+                        {/* grap */}
+                        <div
+                          className="collectChartBox"
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            width: '100%',
+                          }}
+                        >
+                          <span className=" collectChartBoxItem collectChartBoxCurrencyConversionRate textTitle">
+                            Currency Conversion Rate
+                          </span>
+                          {/* CC charges in dest currency */}
+                          <span className=" collectChartBoxItem collectChartBoxCCChargesInDestCurrency textTitle">
+                            CC Charges in Dest Currency{' '}
+                          </span>
+                        </div>
+                        <div className="collectChartLeft borderRight">
+                          <p className="collectChartValue" />
+                        </div>
+                        <div className="collectChartRight">
+                          <p className="collectChartValue"></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            {/* row item (2) */}
-            <div className="collectItemRow collectItemRowTwo borderBottom">
-              <div className="collectItemLeft borderRight">
-                <div className="collectChart">
-                  {/* grap */}
+                <div className="collectItemRight" style={{ width: '100%' }}>
                   <div
-                    className="collectChartBox"
+                    className=""
                     style={{
                       display: 'flex',
-                      justifyContent: 'center',
-                      width: '100%',
-                    }}
-                  >
-                    <span className=" collectChartBoxItem collectChartBoxValuationCharge textTitle">
-                      Valuation charge
-                    </span>
-                  </div>
-                  <div className="collectChartLeft borderRight">
-                    <p className="collectChartValue">
-                      {['cif', 'cpt', 'cfr'].includes(
-                        bookingData?.incoterms,
-                      ) && (
-
-                          <ReactQuill
-                            modules={{
-                              toolbar: false,
-                            }}
-                            style={{
-                              padding: 0,
-                              margin: 0,
-                            }}
-                          />
-                        )}
-                    </p>
-                  </div>
-                  <div className="collectChartRight">
-                    <p className="collectChartValue">
-                      {!['cif', 'cpt', 'cfr'].includes(
-                        bookingData?.incoterms,
-                      ) && (
-                          <ReactQuill
-                            modules={{
-                              toolbar: false,
-                            }}
-                            style={{
-                              padding: 0,
-                              margin: 0,
-                            }}
-                          />
-
-                        )}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="collectItemRight">
-                <div>
-                  <p className="textTitle">Carriage</p>
-                </div>
-              </div>
-            </div>
-            {/* row item (3) */}
-            <div className="collectItemRow collectItemRowThree borderBottom">
-              <div className="collectItemLeft borderRight">
-                <div className="collectChart">
-                  {/* grap */}
-                  <div
-                    className="collectChartBox"
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      width: '100%',
-                    }}
-                  >
-                    <span className=" collectChartBoxItem collectChartTax textTitle">
-                      Tax
-                    </span>
-                  </div>
-                  <div className="collectChartLeft borderRight">
-                    <p className="collectChartValue">
-                      {['cif', 'cpt', 'cfr'].includes(
-                        bookingData?.incoterms,
-                      ) && (
-
-                          <ReactQuill
-
-                            modules={{
-                              toolbar: false,
-                            }}
-                            style={{
-                              padding: 0,
-                              margin: 0,
-                            }}
-                          />
-                        )}
-                    </p>
-                  </div>
-                  <div className="collectChartRight">
-                    <p className="collectChartValue">
-                      {!['cif', 'cpt', 'cfr'].includes(
-                        bookingData?.incoterms,
-                      ) && (
-                          <ReactQuill
-                            modules={{
-                              toolbar: false,
-                            }}
-                            style={{
-                              padding: 0,
-                              margin: 0,
-                            }}
-                          />
-                        )}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="collectItemRight">
-                <div>
-                  <p className="textTitle"></p>
-                </div>
-              </div>
-            </div>
-            {/* row item (4) */}
-            <div className="collectItemRow collectItemRowFour borderBottom">
-              <div className="collectItemLeft borderRight">
-                <div className="collectChart">
-                  <div style={{ width: '100%' }}>
-                    <div
-                      style={{ display: 'flex', position: 'relative' }}
-                      className="borderBottom totalOtherChargesDueAgent"
-                    >
-                      {/* grap */}
-                      <div
-                        className="collectChartBox"
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          width: '100%',
-                        }}
-                      >
-                        <span className=" collectChartBoxItem collectChartBoxTotalOtherChargesDueAgent textTitle">
-                          Total Other Charges Due Agent
-                        </span>
-                      </div>
-                      <div className="collectChartLeft borderRight">
-                        <p className="collectChartValue">
-                          {['cif', 'cpt', 'cfr'].includes(
-                            bookingData?.incoterms,
-                          ) && (
-                              <ReactQuill
-                                modules={{
-                                  toolbar: false,
-                                }}
-                                style={{
-                                  padding: 0,
-                                  margin: 0,
-                                }}
-                              />
-                            )}
-                        </p>
-                      </div>
-                      <div className="collectChartRight">
-                        <p className="collectChartValue">
-                          {!['cif', 'cpt', 'cfr'].includes(
-                            bookingData?.incoterms,
-                          ) && (
-                              <ReactQuill
-                                modules={{
-                                  toolbar: false,
-                                }}
-                                style={{
-                                  padding: 0,
-                                  margin: 0,
-                                }}
-                              />
-                            )}
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      style={{ display: 'flex', position: 'relative' }}
-                      className="totalOtherChargesDueCarrier borderBottom"
-                    >
-                      {/* grap */}
-                      <div
-                        className="collectChartBox"
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          width: '100%',
-                        }}
-                      >
-                        <span className=" collectChartBoxItem collectChartBoxTotalOtherChargesDueCarrier textTitle">
-                          Total OtherCharges Due Carrier
-                        </span>
-                      </div>
-                      <div className="collectChartLeft borderRight">
-                        <p className="collectChartValue">
-                          {['cif', 'cpt', 'cfr'].includes(
-                            bookingData?.incoterms,
-                          ) && (
-                              <ReactQuill
-                                modules={{
-                                  toolbar: false,
-                                }}
-                                style={{
-                                  padding: 0,
-                                  margin: 0,
-                                }}
-                              />
-                            )}
-                        </p>
-                      </div>
-                      <div className="collectChartRight">
-                        <p className="collectChartValue">
-                          {!['cif', 'cpt', 'cfr'].includes(
-                            bookingData?.incoterms,
-                          ) && (
-                              <ReactQuill
-                                modules={{
-                                  toolbar: false,
-                                }}
-                                style={{
-                                  padding: 0,
-                                  margin: 0,
-                                }}
-                              />
-                            )}
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      style={{ display: 'flex', position: 'relative' }}
-                      className="totalOtherChargesDueCarrier"
-                    >
-                      {/* grap */}
-                      <div className="collectChartLeft borderRight">
-                        <p className="collectChartValue">
-                          {['cif', 'cpt', 'cfr'].includes(
-                            bookingData?.incoterms,
-                          ) && (
-                              <ReactQuill
-                                modules={{
-                                  toolbar: false,
-                                }}
-                                style={{
-                                  padding: 0,
-                                  margin: 0,
-                                }}
-                              />
-                            )}
-                        </p>
-                      </div>
-                      <div className="collectChartRight">
-                        <p className="collectChartValue">
-                          {!['cif', 'cpt', 'cfr'].includes(
-                            bookingData?.incoterms,
-                          ) && (
-                              <ReactQuill
-                                modules={{
-                                  toolbar: false,
-                                }}
-                                style={{
-                                  padding: 0,
-                                  margin: 0,
-                                }}
-                              />
-                            )}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="collectItemRight">
-                <div>
-                  <p className="smallTitle">
-                    Shipper certifies that the particulars on the face hereof
-                    are correct and that insofar as any part of the consignment
-                    contains restricted articles, such part is properly
-                    described by name and is in proper condition for carriage by
-                    air according to the applicable Dangerous Goods Regulations.
-                  </p>
-                  <h1
-                    className="collectChartValue"
-                    style={{
-                      textAlign: 'center',
+                      justifyContent: 'space-between',
+                      gap: 30,
                       marginTop: 5,
-                      textTransform: 'uppercase',
                     }}
                   >
-                    {bookingData?.shipperName}
-                  </h1>
+                    <p>
+                      <b>
+                        {bookingData?.confirmDate &&
+                          moment(bookingData?.confirmDate).format(
+                            'DD-MM-YYYY',
+                          )}{' '}
+                        Dhaka
+                      </b>
+                    </p>
+                    <p>
+                      <b>Akij Logistics Limited</b>
+                    </p>
+                  </div>
                   <hr
                     style={{
                       borderTop: '1px dotted',
-                      marginTop: 50,
+                      marginTop: 25,
                       marginBottom: 0,
                     }}
                   />
-                  <p className="text-center">
-                    <b>Signature of Shipper or his Agent</b>
-                  </p>
+                  <div
+                    className="smallTitle"
+                    style={{
+                      display: 'flex',
+                      gap: 10,
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    <p>Executed on</p>
+                    <p>(Date)</p>
+                    <p>at</p>
+                    <p>(Place)</p>
+                    <p>signature of issuing Carrier or its Agent</p>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* row item (5) */}
-            <div className="collectItemRow collectItemRowFive borderBottom">
-              <div className="collectItemLeft borderRight">
-                <div className="collectChart">
-                  <div style={{ width: '100%' }}>
-                    <div
-                      style={{ display: 'flex', position: 'relative' }}
-                      className="borderBottom totalOtherChargesTotalPrepaid"
-                    >
-                      {/* grap */}
+              {/* row item (6) */}
+              <div className="collectItemRow collectItemRowSix">
+                <div className="collectItemLeft borderRight">
+                  <div className="collectChart">
+                    <div style={{ width: '100%' }}>
                       <div
-                        className="collectChartBox"
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          width: '100%',
-                        }}
+                        style={{ display: 'flex', position: 'relative' }}
+                        className="totalOtherChargesChargesAtDestination"
                       >
-                        <span className=" collectChartBoxItem collectChartBoxTotalPrepaid textTitle">
-                          Total Prepaid
-                        </span>
-                        {/*  Total Collect*/}
-                        <span className=" collectChartBoxItem collectChartBoxTotalCollect textTitle">
-                          Total Collect{' '}
-                        </span>
-                      </div>
-                      <div className="collectChartLeft borderRight">
-                        <p className="collectChartValue">
-                          {['cif', 'cpt', 'cfr'].includes(
-                            bookingData?.incoterms,
-                          ) && (
-                              <ReactQuill
-                                modules={{
-                                  toolbar: false,
-                                }}
-                                style={{
-                                  padding: 0,
-                                  margin: 0,
-                                }}
-                              />
-                            )}
-                        </p>
-                      </div>
-                      <div className="collectChartRight">
-                        <p className="collectChartValue">
-                          {!['cif', 'cpt', 'cfr'].includes(
-                            bookingData?.incoterms,
-                          ) && (
-                              <ReactQuill
-                                modules={{
-                                  toolbar: false,
-                                }}
-                                style={{
-                                  padding: 0,
-                                  margin: 0,
-                                }}
-                              />
-                            )}
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      style={{ display: 'flex', position: 'relative' }}
-                      className="currencyConversionRate "
-                    >
-                      {/* grap */}
-                      <div
-                        className="collectChartBox"
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          width: '100%',
-                        }}
-                      >
-                        <span className=" collectChartBoxItem collectChartBoxCurrencyConversionRate textTitle">
-                          Currency Conversion Rate
-                        </span>
-                        {/* CC charges in dest currency */}
-                        <span className=" collectChartBoxItem collectChartBoxCCChargesInDestCurrency textTitle">
-                          CC Charges in Dest Currency{' '}
-                        </span>
-                      </div>
-                      <div className="collectChartLeft borderRight">
-                        <p className="collectChartValue" />
-                      </div>
-                      <div className="collectChartRight">
-                        <p className="collectChartValue"></p>
+                        {/* grap */}
+                        <div
+                          className="collectChartBox"
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            width: '100%',
+                          }}
+                        >
+                          <span className=" collectChartBoxItem collectChartBoxChargesAtDestination textTitle">
+                            Charges at Destination
+                          </span>
+                        </div>
+                        <div className="collectChartLeft borderRight">
+                          <p className="">
+                            For Carrier's use only at Destination
+                          </p>
+                        </div>
+                        <div className="collectChartRight">
+                          <p className="collectChartValue" />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="collectItemRight" style={{ width: '100%' }}>
-                <div
-                  className=""
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    gap: 30,
-                    marginTop: 5,
-                  }}
-                >
-                  <p>
-                    <b>
-                      {bookingData?.confirmDate &&
-                        moment(bookingData?.confirmDate).format(
-                          'DD-MM-YYYY',
-                        )}{' '}
-                      Dhaka
-                    </b>
-                  </p>
-                  <p>
-                    <b>Akij Logistics Limited</b>
-                  </p>
-                </div>
-                <hr
-                  style={{
-                    borderTop: '1px dotted',
-                    marginTop: 25,
-                    marginBottom: 0,
-                  }}
-                />
-                <div
-                  className="smallTitle"
-                  style={{
-                    display: 'flex',
-                    gap: 10,
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  <p>Executed on</p>
-                  <p>(Date)</p>
-                  <p>at</p>
-                  <p>(Place)</p>
-                  <p>signature of issuing Carrier or its Agent</p>
-                </div>
-              </div>
-            </div>
-            {/* row item (6) */}
-            <div className="collectItemRow collectItemRowSix">
-              <div className="collectItemLeft borderRight">
-                <div className="collectChart">
-                  <div style={{ width: '100%' }}>
-                    <div
-                      style={{ display: 'flex', position: 'relative' }}
-                      className="totalOtherChargesChargesAtDestination"
-                    >
-                      {/* grap */}
-                      <div
-                        className="collectChartBox"
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          width: '100%',
-                        }}
-                      >
-                        <span className=" collectChartBoxItem collectChartBoxChargesAtDestination textTitle">
-                          Charges at Destination
-                        </span>
-                      </div>
-                      <div className="collectChartLeft borderRight">
-                        <p className="">
-                          For Carrier's use only at Destination
-                        </p>
-                      </div>
-                      <div className="collectChartRight">
-                        <p className="collectChartValue" />
-                      </div>
-                    </div>
+                <div className="collectItemRight" style={{ width: '100%' }}>
+                  <div className="collectChartBox">
+                    <span className=" collectChartBoxItem collectChartBoxChargesAtDestination textTitle">
+                      Charges at Destination
+                    </span>
                   </div>
-                </div>
-              </div>
-              <div className="collectItemRight" style={{ width: '100%' }}>
-                <div className="collectChartBox">
-                  <span className=" collectChartBoxItem collectChartBoxChargesAtDestination textTitle">
-                    Charges at Destination
-                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
       </div>
-
-    </div>
-  );
-}
-
-const MasterHBAWModal = ({
-  componentRef,
-  bookingData,
-  isEPBInvoice,
-  htmlContent,
-  changeHandelar,
-}) => {
-  return (
-    <div className="hawbWrapper">
-      <MasterHBAWModalItem
-        bookingData={bookingData}
-        isEPBInvoice={isEPBInvoice}
-        htmlContent={htmlContent}
-        changeHandelar={changeHandelar}
-      />
-
-    </div>
+    </div >
   );
 };
 
