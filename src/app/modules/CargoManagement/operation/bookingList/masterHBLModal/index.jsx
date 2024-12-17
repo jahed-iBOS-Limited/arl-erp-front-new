@@ -55,7 +55,6 @@ export default function MasterHBLModal({
             strShipper: data?.strShipper || '',
             strConsignee: data?.strConsignee || '',
             strNotifyParty: data?.strNotifyParty || '',
-            strMasterHBLNo: data?.strMasterHBLNo || '',
             strShippingAgentReferences: data?.strShippingAgentReferences || '',
             strOceanVessel: data?.strOceanVessel || '',
             strVoyageNo: data?.strVoyageNo || '',
@@ -76,6 +75,8 @@ export default function MasterHBLModal({
             strPlaceAndDateOfIssue: data?.strPlaceAndDateOfIssue || '',
             strSignature: data?.strSignature || '',
             strNoOfOriginalBl: data?.strNoOfOriginalBl || '',
+            strMasterHBLNo:
+              data?.hblNos?.map((item) => item?.hblnumber).join(', ') || '',
           };
           Object.keys(obj).forEach((key) => {
             formikRef.current.setFieldValue(key, obj[key]);
