@@ -115,7 +115,7 @@ const ProjectedCashFlowLanding = ({ obj }) => {
               {pcfLandingData?.length > 0 && (
                 <GenericTable
                   data={pcfLandingData}
-                  columns={chooseTableColumns(values?.viewType)}
+                  columns={chooseTableColumns(createPageValues?.viewType)}
                 />
               )}
             </div>

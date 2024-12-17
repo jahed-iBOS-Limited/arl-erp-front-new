@@ -335,9 +335,6 @@ export const generateGetPCFLandingDataURL = ({
     case "income":
       paymentIncomeImportParams += `&cashFlowType=Income`;
       break;
-    case "customer received":
-      customerReceivedParams += `&cashFlowType=Income`;
-      break;
     default:
       break;
   }
