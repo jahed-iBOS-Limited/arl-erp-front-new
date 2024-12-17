@@ -133,7 +133,7 @@ const MasterHBAWModal = ({
           },
           0,
         );
-        const strNatureAndQuantityOfGoods = hbawRestData
+        const natureAndQuantityOfGoods = hbawRestData
           ?.map((item) =>
             item?.rowsData
               .map((row) => {
@@ -172,16 +172,33 @@ const MasterHBAWModal = ({
 
 
         const obj = {
-          strConsignee: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
+          consignee: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
 
-          strGsaName: "string",
-          strIataCode: "string",
-          strReferenceNumber: "string",
-          strOptionalShippingInformation: "string",
-          strNoOfPiecesRCP: totalNumberOfPackages,
-          strNatureAndQuantityOfGoods: strNatureAndQuantityOfGoods,
-          strGrossWeightOrMeasurement: `${subtotalGrossWeight} Kgs\n${totalVolumeCBM} CBM`,
-          strRate: "",
+          gsaName: "missing",
+          iataCode: "missing",
+          referenceNumber: "missing",
+          optionalShippingInformation: "missing",
+          noOfPiecesRCP: "noOfPiecesRCP",
+          natureAndQuantityOfGoods: natureAndQuantityOfGoods,
+          grossWeight: "missing",
+          grossWeightKgLb: "grossWeightKgLb",
+          rate: "missing",
+          to: "missing",
+          to1: "to1",
+          byFirstCarrierRoutingAndDestination: "byFirstCarrierRoutingAndDestination",
+          to2: "to2",
+          by2: "by2",
+          currency: "currency",
+          cghscode: "cGHSCode",
+          declaredValueForCarriage: "declaredValueForCarriage",
+          declaredValueForCustoms: "declaredValueForCustoms",
+          airportOfDestination: "airportOfDestination",
+          amountOfInsurance: "amountOfInsurance",
+          handlingInformation: "handlingInformation",
+          agentIATACode: "agentIATACode",
+          accountNumber: "accountNumber",
+          airportOfDepartureAndRouting: "airportOfDepartureAndRouting",
+
 
           //
           intAirMasterBlId: 0,
@@ -189,24 +206,12 @@ const MasterHBAWModal = ({
           strShipperNameAndAddress: "string",
           strConsigneeNameAndAddress: "string",
           strIssuingCarrierAgentNameAndCity: "string",
-          strAgentIATACode: "string",
-          strAccountNumber: "string",
-          strAirportOfDepartureAndRouting: "string",
-          strTo1: "string",
-          strByFirstCarrierRoutingAndDestination: "string",
-          strTo2: "string",
-          strBy2: "string",
-          strCurrency: "string",
-          strCGHSCode: "string",
-          strDeclaredValueForCarriage: "string",
-          strDeclaredValueForCustoms: "string",
-          strAirportOfDestination: "string",
+
+
           strRequestedFlightDate: "2024-12-15T06:36:44.358Z",
-          strAmountOfInsurance: "string",
-          strHandlingInformation: "string",
-          strGrossWeightKgLb: "string",
+
           strRateClassCommodityItemNo: "string",
-          strChargeableWeight: "string",
+          strChargeableWeight: "strChargeableWeight",
           strRateOrCharge: "string",
           strTotal: "string",
           strPrepaid: "string",
@@ -234,7 +239,56 @@ const MasterHBAWModal = ({
             bookingReqestId: 0,
           },
 
+          /// new 
+          airMasterBlId: 0,
+          masterBlNo: "string",
+          shipperNameAndAddress: "string",
+          consigneeNameAndAddress: "string",
+          issuingCarrierAgentNameAndCity: "string",
+          agentIatacode: "string",
+          requestedFlightDate: "2024-12-17T12:11:17.873Z",
+          noOfPiecesRcp: "string",
+          rateClassCommodityItemNo: "string",
+          chargeableWeight: "string",
+          rateOrCharge: "string",
+          prepaidTotalAmount: "string",
+          prepaidNatureAndQuantityOfGoods: "string",
+          prepaidPrepaidAmount: "string",
+          prepaidWeightCharge: "string",
+          prepaidValuationCharge: "string",
+          prepaidTaxAmount: "string",
+          prepaidTotalOtherChargesDueAgent: "string",
+          prepaidTotalOtherChargesDueCarrier1: "string",
+          prepaidTotalOtherChargesDueCarrier2: "string",
+          totalPrepaid: "string",
+          totalCollect: "string",
+          currencyConversionRates: "string",
+          ccchargesInDestCurrency: "string",
+          forCarrierUseOnlyAtDestination: "string",
+          chargesAtDestination: "string",
+          totalCollectCharges: "string",
+          signatureOfShipperOrAgent: "string",
+          executedOnDate: "2024-12-17T12:11:17.873Z",
+          atPlace: "string",
+          signatureOfIssuingCarrierOrAgent: "string",
+          createdBy: 0,
+          createdAt: "2024-12-17T12:11:17.873Z",
+          serverTime: "2024-12-17T12:11:17.873Z",
+          collectTotalAmount: "string",
+          collectNatureAndQuantityOfGoods: "string",
+          collectPrepaidAmount: "string",
+          collectWeightCharge: "string",
+          collectValuationCharge: "string",
+          collectTaxAmount: "string",
+          collectTotalOtherChargesDueAgent: "string",
+          collectTotalOtherChargesDueCarrier1: "string",
+          collectTotalOtherChargesDueCarrier2: "string",
 
+          hblNos: [
+            {
+              hblnumber: "string"
+            }
+          ]
 
 
         };
@@ -330,8 +384,8 @@ const MasterHBAWModal = ({
                                   isPrintView ? (
 
                                     <p>
-                                      {values?.strConsignee
-                                        ? values?.strConsignee
+                                      {values?.consignee
+                                        ? values?.consignee
                                           ?.split('\n')
                                           .map((item, index) => {
                                             return (
@@ -345,13 +399,13 @@ const MasterHBAWModal = ({
                                     </p>
                                   ) : (
                                     <textarea
-                                      name="strConsignee"
-                                      value={values?.strConsignee}
+                                      name="consignee"
+                                      value={values?.consignee}
                                       rows={4}
                                       cols={40}
                                       onChange={(e) => {
                                         setFieldValue(
-                                          'strConsignee',
+                                          'consignee',
                                           e.target.value,
                                         );
                                       }}
@@ -371,35 +425,33 @@ const MasterHBAWModal = ({
                               <p className="textTitle">GSA Name:</p>
                               {isPrintViewMode ? (
                                 <>
-                                  <p>{values?.strGsaName || ''}</p>
+                                  <p>
+                                    {values?.gsaName
+                                      ? values?.gsaName
+                                        ?.split('\n')
+                                        .map((item, index) => {
+                                          return (
+                                            <>
+                                              {item}
+                                              <br />
+                                            </>
+                                          );
+                                        })
+                                      : ''}
+                                  </p>
                                 </>
                               ) : (
                                 <>
-                                  {' '}
-                                  <div className="col-lg-12">
-                                    <NewSelect
-                                      name="strGsaName"
-                                      options={[]}
-                                      value={
-                                        values?.strGsaName
-                                          ? {
-                                            value: 0,
-                                            label: values?.strGsaName,
-                                          }
-                                          : ''
-                                      }
-                                      label=""
-                                      onChange={(valueOption) => {
-                                        setFieldValue(
-                                          'strGsaName',
-                                          valueOption?.label,
-                                        );
-                                      }}
-                                      errors={errors}
-                                      touched={touched}
-                                      isCreatableSelect={true}
-                                    />
-                                  </div>
+                                  <textarea
+                                    name="gsaName"
+                                    value={values?.gsaName}
+                                    onChange={(e) => {
+                                      setFieldValue(
+                                        'gsaName',
+                                        e.target.value,
+                                      );
+                                    }}
+                                  />
                                 </>
                               )}
                             </div>
@@ -415,27 +467,27 @@ const MasterHBAWModal = ({
                                   <p className="textTitle">Agent IATA Code</p>
                                   {isPrintViewMode ? (
                                     <>
-                                      <p>{values?.strIataCode || ''}</p>
+                                      <p>{values?.iataCode || ''}</p>
                                     </>
                                   ) : (
                                     <>
                                       {' '}
                                       <div className="col-lg-12">
                                         <NewSelect
-                                          name="strIataCode"
+                                          name="iataCode"
                                           options={[]}
                                           value={
-                                            values?.strIataCode
+                                            values?.iataCode
                                               ? {
                                                 value: 0,
-                                                label: values?.strIataCode,
+                                                label: values?.iataCode,
                                               }
                                               : ''
                                           }
                                           label=""
                                           onChange={(valueOption) => {
                                             setFieldValue(
-                                              'strIataCode',
+                                              'iataCode',
                                               valueOption?.label,
                                             );
                                           }}
@@ -452,27 +504,27 @@ const MasterHBAWModal = ({
                                   <p className="textTitle ">Account Number</p>
                                   {isPrintViewMode ? (
                                     <>
-                                      <p>{values?.strAccountNumber || ''}</p>
+                                      <p>{values?.accountNumber || ''}</p>
                                     </>
                                   ) : (
                                     <>
                                       {' '}
                                       <div className="col-lg-12">
                                         <NewSelect
-                                          name="strAccountNumber"
+                                          name="accountNumber"
                                           options={[]}
                                           value={
-                                            values?.strAccountNumber
+                                            values?.accountNumber
                                               ? {
                                                 value: 0,
-                                                label: values?.strAccountNumber,
+                                                label: values?.accountNumber,
                                               }
                                               : ''
                                           }
                                           label=""
                                           onChange={(valueOption) => {
                                             setFieldValue(
-                                              'strAccountNumber',
+                                              'accountNumber',
                                               valueOption?.label,
                                             );
                                           }}
@@ -559,27 +611,27 @@ const MasterHBAWModal = ({
                             </p>
                             {isPrintViewMode ? (
                               <>
-                                <p>{values?.strAirportOfDepartureAndRouting || ''}</p>
+                                <p>{values?.airportOfDepartureAndRouting || ''}</p>
                               </>
                             ) : (
                               <>
                                 {' '}
                                 <div className="col-lg-12">
                                   <NewSelect
-                                    name="strAirportOfDepartureAndRouting"
+                                    name="airportOfDepartureAndRouting"
                                     options={[]}
                                     value={
-                                      values?.strAirportOfDepartureAndRouting
+                                      values?.airportOfDepartureAndRouting
                                         ? {
                                           value: 0,
-                                          label: values?.strAirportOfDepartureAndRouting,
+                                          label: values?.airportOfDepartureAndRouting,
                                         }
                                         : ''
                                     }
                                     label=""
                                     onChange={(valueOption) => {
                                       setFieldValue(
-                                        'strAirportOfDepartureAndRouting',
+                                        'airportOfDepartureAndRouting',
                                         valueOption?.label,
                                       );
                                     }}
@@ -598,19 +650,19 @@ const MasterHBAWModal = ({
                             {
                               isPrintViewMode ? (
                                 <>
-                                  <p>{values?.strReferenceNumber || ''}</p>
+                                  <p>{values?.referenceNumber || ''}</p>
                                 </>
                               ) : (
                                 <>
                                   {' '}
                                   <div className="col-lg-12">
                                     <InputField
-                                      name="strReferenceNumber"
-                                      value={values?.strReferenceNumber}
+                                      name="referenceNumber"
+                                      value={values?.referenceNumber}
                                       type="text"
                                       onChange={(e) => {
                                         setFieldValue(
-                                          'strReferenceNumber',
+                                          'referenceNumber',
                                           e.target.value,
                                         );
                                       }}
@@ -625,18 +677,32 @@ const MasterHBAWModal = ({
                             {
                               isPrintViewMode ? (
                                 <>
-                                  <p>{values?.strOptionalShippingInformation || ''}</p>
+                                  <p>
+                                    {values?.optionalShippingInformation
+                                      ? values?.optionalShippingInformation
+                                        ?.split('\n')
+                                        .map((item, index) => {
+                                          return (
+                                            <>
+                                              {item}
+                                              <br />
+                                            </>
+                                          );
+                                        })
+                                      : ''}
+                                  </p>
+
                                 </>
                               ) : (
                                 <>
                                   {' '}
                                   <div className="col-lg-12">
                                     <textarea
-                                      name="strOptionalShippingInformation"
-                                      value={values?.strOptionalShippingInformation}
+                                      name="optionalShippingInformation"
+                                      value={values?.optionalShippingInformation}
                                       onChange={(e) => {
                                         setFieldValue(
-                                          'strOptionalShippingInformation',
+                                          'optionalShippingInformation',
                                           e.target.value,
                                         );
                                       }
@@ -668,7 +734,45 @@ const MasterHBAWModal = ({
                             >
                               <div className='borderRight'>
                                 <p className='textTitle'>  To</p>
-
+                                {
+                                  isPrintViewMode ? (
+                                    <>
+                                      <p>
+                                        {values?.to
+                                          ? values?.to
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          : ''}
+                                      </p>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <textarea
+                                        name="to"
+                                        value={values?.to}
+                                        onChange={(e) => {
+                                          setFieldValue(
+                                            'to',
+                                            e.target.value,
+                                          );
+                                        }
+                                        }
+                                        style={{
+                                          minWidth: "40px"
+                                        }}
+                                      //  rows={3}
+                                      // cols={40}
+                                      />
+                                    </>
+                                  )
+                                }
                               </div>
                               <div>
                                 <p className='textTitle'>
@@ -676,18 +780,31 @@ const MasterHBAWModal = ({
                                   {
                                     isPrintViewMode ? (
                                       <>
-                                        <p>{values?.strByFirstCarrierRoutingAndDestination || ''}</p>
+                                        <p>
+                                          {values?.byFirstCarrierRoutingAndDestination
+                                            ? values?.byFirstCarrierRoutingAndDestination
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
+                                            : ''}
+                                        </p>
                                       </>
                                     ) : (
                                       <>
                                         {' '}
                                         <div className="col-lg-12">
                                           <textarea
-                                            name="strByFirstCarrierRoutingAndDestination"
-                                            value={values?.strByFirstCarrierRoutingAndDestination}
+                                            name="byFirstCarrierRoutingAndDestination"
+                                            value={values?.byFirstCarrierRoutingAndDestination}
                                             onChange={(e) => {
                                               setFieldValue(
-                                                'strByFirstCarrierRoutingAndDestination',
+                                                'byFirstCarrierRoutingAndDestination',
                                                 e.target.value,
                                               );
                                             }}
@@ -710,16 +827,29 @@ const MasterHBAWModal = ({
                                 {
                                   isPrintViewMode ? (
                                     <>
-                                      <p>{values?.strTo1 || ''}</p>
+                                      <p>
+                                        {values?.to1
+                                          ? values?.to1
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          : ''}
+                                      </p>
                                     </>
                                   ) : (
                                     <>
                                       <textarea
-                                        name="strTo1"
-                                        value={values?.strTo1}
+                                        name="to1"
+                                        value={values?.to1}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            'strTo1',
+                                            'to1',
                                             e.target.value,
                                           );
                                         }
@@ -739,7 +869,20 @@ const MasterHBAWModal = ({
                                 {
                                   isPrintViewMode ? (
                                     <>
-                                      <p>{values?.strBy1 || ''}</p>
+                                      <p>
+                                        {values?.strBy1
+                                          ? values?.strBy1
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          : ''}
+                                      </p>
                                     </>
                                   ) : (
                                     <>
@@ -770,17 +913,30 @@ const MasterHBAWModal = ({
                                 {
                                   isPrintViewMode ? (
                                     <>
-                                      <p>{values?.strTo2 || ''}</p>
+                                      <p>
+                                        {values?.to2
+                                          ? values?.to2
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          : ''}
+                                      </p>
                                     </>
                                   ) : (
                                     <>
                                       {' '}
                                       <textarea
-                                        name="strTo2"
-                                        value={values?.strTo2}
+                                        name="to2"
+                                        value={values?.to2}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            'strTo2',
+                                            'to2',
                                             e.target.value,
                                           );
                                         }
@@ -800,17 +956,30 @@ const MasterHBAWModal = ({
                                 {
                                   isPrintViewMode ? (
                                     <>
-                                      <p>{values?.strBy2 || ''}</p>
+                                      <p>
+                                        {values?.by2
+                                          ? values?.by2
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          : ''}
+                                      </p>
                                     </>
                                   ) : (
                                     <>
                                       {' '}
                                       <textarea
-                                        name="strBy2"
-                                        value={values?.strBy2}
+                                        name="by2"
+                                        value={values?.by2}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            'strBy2',
+                                            'by2',
                                             e.target.value,
                                           );
                                         }
@@ -842,16 +1011,29 @@ const MasterHBAWModal = ({
                                     {
                                       isPrintViewMode ? (
                                         <>
-                                          <p>{values?.strCurrency || ''}</p>
+                                          <p>
+                                            {values?.currency
+                                              ? values?.currency
+                                                ?.split('\n')
+                                                .map((item, index) => {
+                                                  return (
+                                                    <>
+                                                      {item}
+                                                      <br />
+                                                    </>
+                                                  );
+                                                })
+                                              : ''}
+                                          </p>
                                         </>
                                       ) : (
                                         <>
                                           <textarea
-                                            name="strCurrency"
-                                            value={values?.strCurrency}
+                                            name="currency"
+                                            value={values?.currency}
                                             onChange={(e) => {
                                               setFieldValue(
-                                                'strCurrency',
+                                                'currency',
                                                 e.target.value,
                                               );
                                             }}
@@ -870,16 +1052,29 @@ const MasterHBAWModal = ({
                                     {
                                       isPrintViewMode ? (
                                         <>
-                                          <p>{values?.strCGHSCode || ''}</p>
+                                          <p>
+                                            {values?.cghscode
+                                              ? values?.cghscode
+                                                ?.split('\n')
+                                                .map((item, index) => {
+                                                  return (
+                                                    <>
+                                                      {item}
+                                                      <br />
+                                                    </>
+                                                  );
+                                                })
+                                              : ''}
+                                          </p>
                                         </>
                                       ) : (
                                         <>
                                           <textarea
-                                            name="strCGHSCode"
-                                            value={values?.strCGHSCode}
+                                            name="cghscode"
+                                            value={values?.cghscode}
                                             onChange={(e) => {
                                               setFieldValue(
-                                                'strCGHSCode',
+                                                'cghscode',
                                                 e.target.value,
                                               );
                                             }}
@@ -985,17 +1180,30 @@ const MasterHBAWModal = ({
                                 {
                                   isPrintViewMode ? (
                                     <>
-                                      <p>{values?.strDeclaredValueForCarriage || ''}</p>
+                                      <p>
+                                        {values?.declaredValueForCarriage
+                                          ? values?.declaredValueForCarriage
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          : ''}
+                                      </p>
                                     </>
                                   ) : (
                                     <>
                                       {' '}
                                       <textarea
-                                        name="strDeclaredValueForCarriage"
-                                        value={values?.strDeclaredValueForCarriage}
+                                        name="declaredValueForCarriage"
+                                        value={values?.declaredValueForCarriage}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            'strDeclaredValueForCarriage',
+                                            'declaredValueForCarriage',
                                             e.target.value,
                                           );
                                         }}
@@ -1014,17 +1222,30 @@ const MasterHBAWModal = ({
                                 {
                                   isPrintViewMode ? (
                                     <>
-                                      <p>{values?.strDeclaredValueForCustoms || ''}</p>
+                                      <p>
+                                        {values?.declaredValueForCustoms
+                                          ? values?.declaredValueForCustoms
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          : ''}
+                                      </p>
                                     </>
                                   ) : (
                                     <>
                                       {' '}
                                       <textarea
-                                        name="strDeclaredValueForCustoms"
-                                        value={values?.strDeclaredValueForCustoms}
+                                        name="declaredValueForCustoms"
+                                        value={values?.declaredValueForCustoms}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            'strDeclaredValueForCustoms',
+                                            'declaredValueForCustoms',
                                             e.target.value,
                                           );
                                         }}
@@ -1050,27 +1271,27 @@ const MasterHBAWModal = ({
                               {
                                 isPrintViewMode ? (
                                   <>
-                                    <p>{values?.strAirportOfDestination || ''}</p>
+                                    <p>{values?.airportOfDestination || ''}</p>
                                   </>
                                 ) : (
                                   <>
                                     {' '}
                                     <div className="col-lg-12">
                                       <NewSelect
-                                        name="strAirportOfDestination"
+                                        name="airportOfDestination"
                                         options={[]}
                                         value={
-                                          values?.strAirportOfDestination
+                                          values?.airportOfDestination
                                             ? {
                                               value: 0,
-                                              label: values?.strAirportOfDestination,
+                                              label: values?.airportOfDestination,
                                             }
                                             : ''
                                         }
                                         label=""
                                         onChange={(valueOption) => {
                                           setFieldValue(
-                                            'strAirportOfDestination',
+                                            'airportOfDestination',
                                             valueOption?.label,
                                           );
                                         }}
@@ -1150,16 +1371,29 @@ const MasterHBAWModal = ({
                               {
                                 isPrintViewMode ? (
                                   <>
-                                    <p>{values?.strAmountOfInsurance || ''}</p>
+                                    <p>
+                                      {values?.amountOfInsurance
+                                        ? values?.amountOfInsurance
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                        : ''}
+                                    </p>
                                   </>
                                 ) : (
                                   <>
                                     <textarea
-                                      name="strAmountOfInsurance"
-                                      value={values?.strAmountOfInsurance}
+                                      name="amountOfInsurance"
+                                      value={values?.amountOfInsurance}
                                       onChange={(e) => {
                                         setFieldValue(
-                                          'strAmountOfInsurance',
+                                          'amountOfInsurance',
                                           e.target.value,
                                         );
                                       }}
@@ -1185,18 +1419,31 @@ const MasterHBAWModal = ({
                         {
                           isPrintViewMode ? (
                             <>
-                              <p>{values?.strHandlingInformation || ''}</p>
+                              <p>
+                                {values?.handlingInformation
+                                  ? values?.handlingInformation
+                                    ?.split('\n')
+                                    .map((item, index) => {
+                                      return (
+                                        <>
+                                          {item}
+                                          <br />
+                                        </>
+                                      );
+                                    })
+                                  : ''}
+                              </p>
                             </>
                           ) : (
                             <>
                               {' '}
                               <div className="col-lg-12">
                                 <textarea
-                                  name="strHandlingInformation"
-                                  value={values?.strHandlingInformation}
+                                  name="handlingInformation"
+                                  value={values?.handlingInformation}
                                   onChange={(e) => {
                                     setFieldValue(
-                                      'strHandlingInformation',
+                                      'handlingInformation',
                                       e.target.value,
                                     );
                                   }}
@@ -1254,23 +1501,37 @@ const MasterHBAWModal = ({
                               {
                                 isPrintViewMode ? (
                                   <>
-                                    <p>{values?.strNoOfPiecesRCP || ''}</p>
+                                    <p>
+                                      {values?.noOfPiecesRCP
+                                        ? values?.noOfPiecesRCP
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                        : ''}
+                                    </p>
                                   </>
                                 ) : (
                                   <>
-                                    {' '}
-                                    <div className="col-lg-12">
-                                      <textarea
-                                        name="strNoOfPiecesRCP"
-                                        value={values?.strNoOfPiecesRCP}
-                                        onChange={(e) => {
-                                          setFieldValue(
-                                            'strNoOfPiecesRCP',
-                                            e.target.value,
-                                          );
-                                        }}
-                                      />
-                                    </div>
+                                    <textarea
+                                      name="noOfPiecesRCP"
+                                      value={values?.noOfPiecesRCP}
+                                      onChange={(e) => {
+                                        setFieldValue(
+                                          'noOfPiecesRCP',
+                                          e.target.value,
+                                        );
+                                      }}
+                                      style={{
+                                        minWidth: "40px"
+                                      }}
+                                      rows={20}
+                                    />
                                   </>
                                 )
                               }
@@ -1280,8 +1541,8 @@ const MasterHBAWModal = ({
                               <>
                                 {isPrintViewMode ? (
                                   <>
-                                    {values?.strGrossWeightOrMeasurement
-                                      ? values?.strGrossWeightOrMeasurement
+                                    {values?.grossWeight
+                                      ? values?.grossWeight
                                         ?.split('\n')
                                         .map((item, index) => {
                                           return (
@@ -1297,13 +1558,13 @@ const MasterHBAWModal = ({
                                   <>
                                     {' '}
                                     <textarea
-                                      value={values?.strGrossWeightOrMeasurement}
-                                      name="strGrossWeightOrMeasurement"
+                                      value={values?.grossWeight}
+                                      name="grossWeight"
                                       rows={3}
                                       cols={40}
                                       onChange={(e) => {
                                         setFieldValue(
-                                          'strGrossWeightOrMeasurement',
+                                          'grossWeight',
                                           e.target.value,
                                         );
                                       }}
@@ -1313,7 +1574,43 @@ const MasterHBAWModal = ({
                               </>
                             </div>
                             <div className="kgIB borderRight">
-                              <p />
+                              {
+                                isPrintViewMode ? (
+                                  <>
+                                    <p>
+                                      {values?.grossWeightKgLb
+                                        ? values?.grossWeightKgLb
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                        : ''}
+                                    </p>
+                                  </>
+                                ) : (
+                                  <>
+                                    {' '}
+                                    <div className="col-lg-12">
+                                      <textarea
+                                        name="grossWeightKgLb"
+                                        value={values?.grossWeightKgLb}
+                                        onChange={(e) => {
+                                          setFieldValue(
+                                            'grossWeightKgLb',
+                                            e.target.value,
+                                          );
+                                        }}
+                                        rows={20}
+                                      />
+                                    </div>
+                                  </>
+                                )
+                              }
                             </div>
                             <div className="grossWeight borderRight">
                               <p></p>
@@ -1326,19 +1623,19 @@ const MasterHBAWModal = ({
                               {
                                 isPrintViewMode ? (
                                   <>
-                                    <p>{values?.strRate || ''}</p>
+                                    <p>{values?.rate || ''}</p>
                                   </>
                                 ) : (
                                   <>
                                     {' '}
                                     <div className="col-lg-12">
                                       <InputField
-                                        name="strRate"
-                                        value={values?.strRate}
+                                        name="rate"
+                                        value={values?.rate}
                                         type="text"
                                         onChange={(e) => {
                                           setFieldValue(
-                                            'strRate',
+                                            'rate',
                                             e.target.value,
                                           );
                                         }}
@@ -1356,8 +1653,8 @@ const MasterHBAWModal = ({
                             <div className="natureandQuantityofGoods">
                               {isPrintViewMode ? (
                                 <>
-                                  {values?.strNatureAndQuantityOfGoods
-                                    ? values?.strNatureAndQuantityOfGoods
+                                  {values?.natureAndQuantityOfGoods
+                                    ? values?.natureAndQuantityOfGoods
                                       ?.split('\n')
                                       .map((item, index) => {
                                         return (
@@ -1374,14 +1671,14 @@ const MasterHBAWModal = ({
                                   {' '}
                                   <textarea
                                     value={
-                                      values?.strNatureAndQuantityOfGoods
+                                      values?.natureAndQuantityOfGoods
                                     }
-                                    name="strNatureAndQuantityOfGoods"
+                                    name="natureAndQuantityOfGoods"
                                     rows={24}
                                     cols={40}
                                     onChange={(e) => {
                                       setFieldValue(
-                                        'strNatureAndQuantityOfGoods',
+                                        'natureAndQuantityOfGoods',
                                         e.target.value,
                                       );
                                     }}
@@ -1414,7 +1711,20 @@ const MasterHBAWModal = ({
                                 {
                                   isPrintViewMode ? (
                                     <>
-                                      <p>{values?.strPrepaid || ''}</p>
+                                      <p>
+                                        {values?.strPrepaid
+                                          ? values?.strPrepaid
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          : ''}
+                                      </p>
                                     </>
                                   ) : (
                                     <>
@@ -1439,7 +1749,20 @@ const MasterHBAWModal = ({
                                 {
                                   isPrintViewMode ? (
                                     <>
-                                      <p>{values?.strCollect || ''}</p>
+                                      <p>
+                                        {values?.strCollect
+                                          ? values?.strCollect
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          : ''}
+                                      </p>
                                     </>
                                   ) : (
                                     <>
@@ -1487,7 +1810,20 @@ const MasterHBAWModal = ({
                                 {
                                   isPrintViewMode ? (
                                     <>
-                                      <p>{values?.strValuationCharge || ''}</p>
+                                      <p>
+                                        {values?.strValuationCharge
+                                          ? values?.strValuationCharge
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          : ''}
+                                      </p>
                                     </>
                                   ) : (
                                     <>
@@ -1512,7 +1848,20 @@ const MasterHBAWModal = ({
                                 {
                                   isPrintViewMode ? (
                                     <>
-                                      <p>{values?.strValuationCharge || ''}</p>
+                                      <p>
+                                        {values?.strValuationCharge
+                                          ? values?.strValuationCharge
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          : ''}
+                                      </p>
                                     </>
                                   ) : (
                                     <>
