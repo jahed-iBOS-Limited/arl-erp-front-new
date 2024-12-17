@@ -1,371 +1,34 @@
-// [
-//   {
-//       "bookingRequestCode": "SINV0122024000006",
-//       "bookingRequestId": 15,
-//       "shipperId": 102367,
-//       "shipperName": "jahed",
-//       "shipperAddress": "3039",
-//       "shipperContactPerson": "jahed",
-//       "shipperContact": "01755263355",
-//       "shipperEmail": "jahed@ibos.io",
-//       "shipperCountryId": 18,
-//       "shipperCountry": "Bangladesh",
-//       "shipperStateId": 0,
-//       "shipperState": "Chattogram",
-//       "shipperCity": "",
-//       "shipperPostalCode": "",
-//       "shipperBankId": 2,
-//       "shipperBank": "AL-ARAFAH ISLAMI BANK LTD",
-//       "buyerBank": "The India Bank ",
-//       "consigneeId": 2,
-//       "consigneeName": "Mamunuzzaman Mamun",
-//       "consigneeAddress": "Dhaka, Bangladesh",
-//       "consigneeContactPerson": "Mamun",
-//       "consigneeContact": "01929554466",
-//       "consigneeEmail": "mamun@ibos.io",
-//       "consigCountryId": 18,
-//       "consigCountry": "Bangladesh",
-//       "consigStateId": 0,
-//       "consigState": "Dhaka",
-//       "consignCity": "Dhaka",
-//       "consignPostalCode": "1214",
-//       "expOrCnfNumber": "PO-001",
-//       "expCnfType": "EXP",
-//       "expOrCnfDate": "2025-01-03T00:00:00",
-//       "freightAgentReferenceId": 1,
-//       "freightAgentReference": "Emdadul Haque",
-//       "modeOfTransportId": 2,
-//       "modeOfTransport": "Sea",
-//       "portOfLoadingId": 0,
-//       "portOfLoading": "",
-//       "portOfDischargeId": 0,
-//       "portOfDischarge": "",
-//       "originAddress": "",
-//       "countryOfOriginId": 0,
-//       "countryOfOrigin": "",
-//       "finalDestinationAddress": "",
-//       "fdestCountryId": 0,
-//       "fdestCountry": "",
-//       "fdestStateId": 0,
-//       "fdestState": "",
-//       "fdestCity": "",
-//       "fdestPostalCode": "",
-//       "concernSalesPersonId": 0,
-//       "concernSalesPerson": "",
-//       "primaryContactPersonId": 0,
-//       "primaryContactPerson": "",
-//       "modeofStuffings": null,
-//       "modeOfDelivery": null,
-//       "incoterms": "",
-//       "typeOfLoadingId": 0,
-//       "typeOfLoading": "",
-//       "typeOfLoadingQty": 0.000000,
-//       "requestPickupDate": null,
-//       "requestDeliveryDate": null,
-//       "isCustomsBrokerage": false,
-//       "isCargoInsurance": false,
-//       "isWarehouseService": false,
-//       "isStoreRent": false,
-//       "isHaulagePickupService": false,
-//       "isDestiontionHaulage": false,
-//       "isLocalTransportation": false,
-//       "freightForwarderTermsId": 0,
-//       "freightForwarderTerms": "",
-//       "billingAddress": "",
-//       "billCountryId": 0,
-//       "billCountry": "",
-//       "billStateId": 0,
-//       "billState": "",
-//       "currencyId": 141,
-//       "currency": "BDT",
-//       "invoiceValue": 10.000000,
-//       "packingListReference": "10",
-//       "refInvoiceNo": "10",
-//       "refInvoiceDate": "2024-12-26T00:00:00",
-//       "shippingMark": "abc-001",
-//       "buyerName": "Mamunuzzaman Mamun",
-//       "buyerEmail": "mamun@ibos.io",
-//       "buyerAddress": "Dhaka, Bangladesh",
-//       "buyerAddress2": "Dhaka, Bangladesh",
-//       "notifyPartyId": 3,
-//       "notifyParty": "Md Abdul Kader",
-//       "notifyParty2Id": 0,
-//       "notifyParty2": "",
-//       "notifyBank": "",
-//       "notifyBankAddr": "dhaka bangladesh",
-//       "negotiationParty": "",
-//       "isPending": false,
-//       "isHandOver": false,
-//       "handOverDate": null,
-//       "isReceived": false,
-//       "receivedDate": null,
-//       "isPlaning": true,
-//       "planingDate": "2024-12-15T18:07:00.627",
-//       "isConfirm": true,
-//       "confirmDate": "2024-12-15T08:58:19.123",
-//       "confTransportMode": "Sea to Sea",
-//       "isActive": true,
-//       "isStuffing": false,
-//       "stuffingDate": null,
-//       "blnumber": null,
-//       "isBl": false,
-//       "bldate": null,
-//       "hblnumber": "ALL-S000004",
-//       "isHbl": true,
-//       "hbldate": "2024-12-15T08:58:18.847",
-//       "fcrnumber": null,
-//       "isDispatch": false,
-//       "dispatchDate": null,
-//       "isCustomsClear": false,
-//       "customsClearDt": null,
-//       "createdAt": "2024-12-15T08:56:21.377",
-//       "createdBy": 1,
-//       "departureDateTime": "2024-12-28T14:58:00",
-//       "arrivalDateTime": "2024-12-27T14:58:00",
-//       "flightNumber": "",
-//       "transitInformation": "",
-//       "bookingAmount": 0.000000,
-//       "countryOfOrginId": 0,
-//       "countryOfOrgin": "",
-//       "pickupPlace": "",
-//       "isCharges": false,
-//       "isInTransit": null,
-//       "inTransitDate": null,
-//       "isDestPortReceive": false,
-//       "destPortReceiveDt": null,
-//       "isBuyerReceive": false,
-//       "buyerReceiveDt": null,
-//       "modeOfStuffingSeaId": 0,
-//       "modeOfStuffingSeaName": "",
-//       "modeOfDeliveryId": 0,
-//       "modeOfDeliveryName": "",
-//       "warehouseId": 10656,
-//       "warehouseName": "AAFL Rajshahi Warehouse",
-//       "invoiceNumber": null,
-//       "invoiceDate": null,
-//       "shipperBankBranchId": null,
-//       "shipperBankBranch": null,
-//       "shipperBankAddress": null,
-//       "objPurchase": [
-//           {
-//               "purchaseInfoId": 9,
-//               "bookingId": 15,
-//               "infoType": "lc",
-//               "lcnumber": "lc-001",
-//               "lcdate": "2024-12-25T00:00:00",
-//               "isActive": true,
-//               "createdAt": "2024-12-15T08:57:46.277",
-//               "createdBy": 1
-//           }
-//       ],
-//       "rowsData": [
-//           {
-//               "bookingRequestRowId": 24,
-//               "bookingRequestHeaderId": 15,
-//               "typeOfCargoId": 1,
-//               "typeOfCargo": "General Cargo ",
-//               "descriptionOfGoods": "demo",
-//               "hsCode": "0101 - Horses, asses, mules and hinnies, live",
-//               "totalNumberOfPackages": 10.000000,
-//               "recvQuantity": 0.000000,
-//               "totalGrossWeightKG": 10.000000,
-//               "totalNetWeightKG": 10.000000,
-//               "totalPerUnitNetWeightKG": 10.000000,
-//               "totalVolumetricWeight": 0.000000,
-//               "totalPerUnitGrossWeightKG": 10.000000,
-//               "totalVolumeCBM": 0.600000,
-//               "totalDimsLength": 10.000000,
-//               "totalDimsWidth": 10.000000,
-//               "totalDimsHeight": 10.000000,
-//               "isTemperatureControl": false,
-//               "temperatureRange": "",
-//               "isSHInstruction": false,
-//               "shInstructionText": "",
-//               "isActive": true,
-//               "createdAt": "2024-12-15T08:56:21.377",
-//               "createdBy": 1,
-//               "dimensionRow": [
-//                   {
-//                       "dimensionRowId": 21,
-//                       "bookingRequestRowId": 24,
-//                       "dimsHeight": 10.000000,
-//                       "dimsWidth": 10.000000,
-//                       "dimsLength": 10.000000,
-//                       "perUnitCbm": 0.600000,
-//                       "numberOfPackage": 10.000000,
-//                       "perUnitGrossWeight": 10.000000,
-//                       "perUnitNetWeight": 10.000000,
-//                       "volumetricWeight": 0.000000,
-//                       "measurementType": "cm",
-//                       "poNumber": "po-001",
-//                       "style": "st-001",
-//                       "color": "red",
-//                       "isActive": true,
-//                       "createdAt": "2024-12-15T08:56:21.377",
-//                       "createdBy": 1
-//                   }
-//               ]
-//           }
-//       ],
-//       "documents": [],
-//       "billingData": [],
-//       "transportPlanning": {
-//           "transportId": 17,
-//           "bookingId": 15,
-//           "pickupLocation": "dhaka",
-//           "pickupDate": "2024-12-15T09:16:00.03",
-//           "vehicleInfo": "",
-//           "noOfPallets": 0,
-//           "carton": 10,
-//           "noOfContainer": 10,
-//           "airLineOrShippingLine": "Oceanic Shipping",
-//           "iatanumber": "0",
-//           "vesselName": "demo",
-//           "voyagaNo": "10",
-//           "departureDateTime": null,
-//           "arrivalDateTime": "2024-12-25T15:12:00",
-//           "transportMode": "Sea to Sea",
-//           "berthDate": null,
-//           "cutOffDate": "2024-12-19T15:15:00",
-//           "estimatedTimeOfDepart": "2024-12-18T00:00:00",
-//           "isActive": true,
-//           "airLineOrShippingLineId": 1,
-//           "gsaId": 3,
-//           "gsaName": "Global Sales Agency",
-//           "strSbNo": "demo",
-//           "dteSbDate": "2024-12-18T00:00:00",
-//           "containerDesc": [
-//               {
-//                   "containerDescId": 11,
-//                   "transportId": 17,
-//                   "containerNumber": "abc-011",
-//                   "sealNumber": "demo-001",
-//                   "size": "20” FR OGG",
-//                   "quantity": 1.000000,
-//                   "cbm": 10.000000,
-//                   "mode": "",
-//                   "kgs": 10.000000,
-//                   "poNumber": "po-001",
-//                   "style": "st-001",
-//                   "color": "red",
-//                   "isActive": true,
-//                   "createdBy": 521235,
-//                   "createdAt": "2024-12-15T09:16:00.03",
-//                   "rate": null
-//               }
-//           ],
-//           "airTransportRow": [
-//               {
-//                   "planRowId": 0,
-//                   "transportId": 17,
-//                   "fromPort": "Oceanic Shipping",
-//                   "toPort": "Oceanic Shipping",
-//                   "flightNumber": "10",
-//                   "flightDate": "2024-12-03T00:00:00",
-//                   "isActive": true
-//               }
-//           ]
-//       },
-//       "deliveryAgentDtl": {
-//           "participantId": 1,
-//           "participantCode": "",
-//           "participantTypeId": 2,
-//           "participantType": "Delivery Agent",
-//           "participantsName": "Emdadul Haque",
-//           "companyName": "iBOS Limited",
-//           "contactPerson": "Emdadul",
-//           "contactNumber": "01929551234",
-//           "email": "emdad@ibos.io",
-//           "countryId": 18,
-//           "country": "Bangladesh",
-//           "stateId": 101,
-//           "state": "Dhaka",
-//           "cityId": 102,
-//           "city": "Dhaka",
-//           "address": "Dhaka, Bangladesh",
-//           "zipCode": "1214",
-//           "isActive": true,
-//           "createdBy": 0,
-//           "createdAt": "2024-12-01T18:56:45.46"
-//       },
-//       "notifyPartyDtl1": {
-//           "participantId": 3,
-//           "participantCode": "",
-//           "participantTypeId": 3,
-//           "participantType": "Notify Party",
-//           "participantsName": "Md Abdul Kader",
-//           "companyName": "iBOS Limited",
-//           "contactPerson": "Kader",
-//           "contactNumber": "01929554466",
-//           "email": "kader@ibos.io",
-//           "countryId": 18,
-//           "country": "Bangladesh",
-//           "stateId": 101,
-//           "state": "Dhaka",
-//           "cityId": 102,
-//           "city": "Dhaka",
-//           "address": "Dhaka, Bangladesh",
-//           "zipCode": "1214",
-//           "isActive": true,
-//           "createdBy": 0,
-//           "createdAt": "2024-12-01T19:16:28.147"
-//       },
-//       "notifyPartyDtl2": null,
-//       "saveWaybillData": {
-//           "waybillId": 1,
-//           "bookingId": 15,
-//           "hawbNumber": "",
-//           "chargeableRate": "",
-//           "weightChargePrepaid": "",
-//           "weightChargeCollect": "",
-//           "valuationChargePrepaid": "",
-//           "valuationChargeCollect": "",
-//           "taxPrepaid": "",
-//           "taxCollect": "",
-//           "totOtherChargesDagentPrepaid": "",
-//           "totOtherChargesDagentCollect": "",
-//           "totOtherChargesDcarrierPrepaid": "",
-//           "totOtherChargesDcarrierPrepaid2": null,
-//           "totOtherChargesDcarrierCollect": "",
-//           "totOtherChargesDcarrierCollect2": null,
-//           "totalPrepaid": "",
-//           "totalCollect": "",
-//           "marks": "<p>Style No.</p><p>Short Name Size</p><p>Colour/Aty</p><p>Qty Per Carton</p>",
-//           "isActive": true,
-//           "createdAt": "2024-12-15T11:55:23.737"
-//       }
-//   }
-// ]
 import { Form, Formik } from 'formik';
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { imarineBaseUrl } from '../../../../../App';
-import { convertNumberToWords } from '../../../../_helper/_convertMoneyToWord';
-import InputField from '../../../../_helper/_inputField';
 import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import logisticsLogo from './logisticsLogo.png';
 import './style.css';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const validationSchema = Yup.object().shape({});
-export default function MasterHBLModal({ selectedRow }) {
+export default function MasterHBLModal({ selectedRow, isPrintView }) {
+  const [isPrintViewMode, setIsPrintViewMode] = useState(isPrintView || false);
   // /domain/ShippingService/GetHBLList
   const [hblListData, getHBLList, isLoadingGetHBLList] = useAxiosPost();
   const [msterBLDDL, getMasterBLDDL, isLoadingGetMasterBLDDL] = useAxiosGet();
-  const [pickupPlaceDDL, setPickupPlaceDDL] = useState([]);
-  const [portOfLoadingDDL, setPortOfLoadingDDL] = useState([]);
-  const [finalDestinationAddressDDL, setFinalDestinationAddressDDL] = useState(
-    [],
-  );
-  const [portOfDischargeDDL, setPortOfDischargeDDL] = useState([]);
-  const [vesselNameDDL, setVesselNameDDL] = useState([]);
-  const [voyagaNoDDL, setVoyagaNoDDL] = useState([]);
+  // const [pickupPlaceDDL, setPickupPlaceDDL] = useState([]);
+  // const [portOfLoadingDDL, setPortOfLoadingDDL] = useState([]);
+  // const [finalDestinationAddressDDL, setFinalDestinationAddressDDL] = useState(
+  //   [],
+  // );
+  // const [portOfDischargeDDL, setPortOfDischargeDDL] = useState([]);
+  // // const [vesselNameDDL, setVesselNameDDL] = useState([]);
+  // const [voyagaNoDDL, setVoyagaNoDDL] = useState([]);
 
   const formikRef = React.useRef();
 
   React.useEffect(() => {
+    if (isPrintViewMode) {
+      return;
+    }
     const payload = selectedRow?.map((item) => {
       return {
         bookingReqestId: item?.bookingRequestId,
@@ -374,8 +37,8 @@ export default function MasterHBLModal({ selectedRow }) {
     getHBLList(
       `${imarineBaseUrl}/domain/ShippingService/GetHBLList`,
       payload,
-      (data) => {
-        const firstIndex = data[0];
+      (hblRestData) => {
+        const firstIndex = hblRestData[0];
         // // pickupPlaceDDL
         // const pickupPlace = data?.map((item, index) => {
         //   return {
@@ -427,53 +90,78 @@ export default function MasterHBLModal({ selectedRow }) {
         //   };
         // });
 
+        const subtotalGrossWeight = hblRestData?.reduce((subtotal, item) => {
+          const rows = item?.rowsData || [];
+          const weightSubtotal = rows?.reduce(
+            (sum, row) => sum + (row?.totalGrossWeightKG || 0),
+            0,
+          );
+          return subtotal + weightSubtotal;
+        }, 0);
+        const totalVolumeCBM = hblRestData?.reduce((subtotal, item) => {
+          const rows = item?.rowsData || [];
+          const volumeSubtotal = rows?.reduce(
+            (sum, row) => sum + (row?.totalVolumeCBM || 0),
+            0,
+          );
+          return subtotal + volumeSubtotal;
+        }, 0);
+
+        const totalNumberOfPackages = hblRestData?.reduce((subtotal, item) => {
+          const rows = item?.rowsData || [];
+          const packageSubtotal = rows?.reduce(
+            (sum, row) => sum + (row?.totalNumberOfPackages || 0),
+            0,
+          );
+          return subtotal + packageSubtotal;
+        }, 0);
+
+        const strDescriptionOfPackagesAndGoods = hblRestData
+          .map((item) =>
+            item.rowsData
+              .map((row) => {
+                const description = row?.descriptionOfGoods;
+                const hsCode = `H.S Code: ${row?.hsCode}`;
+                const poNumbers = `Po No: ${row?.dimensionRow
+                  .map((dim) => dim?.poNumber)
+                  .join(', ')}`;
+                const styles = `Style: ${row?.dimensionRow
+                  .map((dim) => dim?.style)
+                  .join(',')}`;
+                const colors = `Color: ${row?.dimensionRow
+                  .map((dim) => dim?.color)
+                  .join(',')}`;
+                return `${description}\n ${hsCode}\n ${poNumbers}\n ${styles}\n ${colors}\n`;
+              })
+              .join('\n'),
+          )
+          .join('\n');
+
         const obj = {
           intSipMasterBlid: 0,
           strShipper: '',
-          strConsignee: `
-            <p>
-            ${firstIndex?.freightAgentReference} <br />
-            </p>
-            ${firstIndex?.deliveryAgentDtl?.zipCode &&
-              `${firstIndex?.deliveryAgentDtl?.zipCode}, `}
-            ${firstIndex?.deliveryAgentDtl?.state &&
-              `${firstIndex?.deliveryAgentDtl?.state}, `}
-            ${firstIndex?.deliveryAgentDtl?.city &&
-              `${firstIndex?.deliveryAgentDtl?.city}, `}
-            ${firstIndex?.deliveryAgentDtl?.country &&
-              `${firstIndex?.deliveryAgentDtl?.country}, `}
-            ${firstIndex?.deliveryAgentDtl?.address}
-          `,
-          strNotifyParty: `
-            <p>
-            ${firstIndex?.notifyPartyDtl1?.participantsName}
-            </p>
-            <p>
-            ${firstIndex?.notifyPartyDtl1?.zipCode &&
-              `${firstIndex?.notifyPartyDtl1?.zipCode}, `}
-            ${firstIndex?.notifyPartyDtl1?.state &&
-              `${firstIndex?.notifyPartyDtl1?.state}, `}
-            ${firstIndex?.notifyPartyDtl1?.city &&
-              `${firstIndex?.notifyPartyDtl1?.city}, `}
-            ${firstIndex?.notifyPartyDtl1?.country &&
-              `${firstIndex?.notifyPartyDtl1?.country}, `}
-            ${firstIndex?.notifyPartyDtl1?.address}
-            </p>
-          `,
-          strMasterBlNo: '',
-          strShippingAgentReferences: '',
-          strOceanVessel: '',
+          strConsignee: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
+          strNotifyParty: `${firstIndex?.notifyPartyDtl1?.participantsName}\n${firstIndex?.notifyPartyDtl1?.zipCode}, ${firstIndex?.notifyPartyDtl1?.state}, ${firstIndex?.notifyPartyDtl1?.city}, ${firstIndex?.notifyPartyDtl1?.country}, ${firstIndex?.notifyPartyDtl1?.address}`,
+          strMasterBlNo:
+            hblRestData
+              ?.map((item, index) => {
+                return item?.hblnumber;
+              })
+              .join(', ') || '',
+          strShippingAgentReferences: `${firstIndex?.shipperName}\n${firstIndex?.shipperAddress}\n${firstIndex?.shipperContactPerson}\n`,
+          strOceanVessel: `${firstIndex?.transportPlanning?.vesselName ||
+            ''} / ${firstIndex?.transportPlanning?.voyagaNo || ''}`,
           strVoyageNo: '',
-          strPortOfLoading: '',
-          strPlaceOfReceipt: '',
-          strPreCarriageBy: '',
-          strPortOfDischarge: '',
-          strPlaceOfDelivery: '',
+          strPortOfLoading: firstIndex?.portOfLoading || '',
+          strPlaceOfReceipt: firstIndex?.pickupPlace || '',
+          strPreCarriageBy: firstIndex?.transportPlanning?.vesselName || '',
+          strPortOfDischarge: firstIndex?.portOfDischarge || '',
+          strPlaceOfDelivery: firstIndex?.finalDestinationAddress || '',
           strNumberOfBl: '',
           strMarksAndNumbers: '',
-          strNoOfPackages: '',
-          strDescriptionOfPackagesAndGoods: '',
-          strGrossWeightOrMeasurement: '',
+          strNoOfPackages: `${totalNumberOfPackages} Cartons`,
+          strDescriptionOfPackagesAndGoods: strDescriptionOfPackagesAndGoods,
+          strGrossWeightOrMeasurement: `${subtotalGrossWeight} Kgs\n${totalVolumeCBM} CBM`,
           strFreightPayableAt: '',
           strExRate: '',
           strPlaceAndDateOfIssue: '',
@@ -487,35 +175,10 @@ export default function MasterHBLModal({ selectedRow }) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const firstIndex = hblListData[0];
-  const subtotalGrossWeight = hblListData?.reduce((subtotal, item) => {
-    const rows = item?.rowsData || [];
-    const weightSubtotal = rows?.reduce(
-      (sum, row) => sum + (row?.totalGrossWeightKG || 0),
-      0,
-    );
-    return subtotal + weightSubtotal;
-  }, 0);
-  const totalVolumeCBM = hblListData?.reduce((subtotal, item) => {
-    const rows = item?.rowsData || [];
-    const volumeSubtotal = rows?.reduce(
-      (sum, row) => sum + (row?.totalVolumeCBM || 0),
-      0,
-    );
-    return subtotal + volumeSubtotal;
-  }, 0);
-  const totalNumberOfPackages = hblListData?.reduce((subtotal, item) => {
-    const rows = item?.rowsData || [];
-    const packageSubtotal = rows?.reduce(
-      (sum, row) => sum + (row?.totalNumberOfPackages || 0),
-      0,
-    );
-    return subtotal + packageSubtotal;
-  }, 0);
 
   useEffect(() => {
     getMasterBLDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLDDL?typeId=0`,
+      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLDDL?typeId=1`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -536,6 +199,7 @@ export default function MasterHBLModal({ selectedRow }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
+            {console.log('values', values)}
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
@@ -551,25 +215,28 @@ export default function MasterHBLModal({ selectedRow }) {
                   gap: 5,
                 }}
               >
-                <div className="col-lg-3">
-                  <NewSelect
-                    name="mblNumber"
-                    options={msterBLDDL || []}
-                    value={values?.mblNumber}
-                    label="MBL Number"
-                    onChange={(valueOption) => {
-                      let value = {
-                        ...valueOption,
-                        value: 0,
-                        label: valueOption?.label || '',
-                      };
-                      setFieldValue('mblNumber', value);
-                    }}
-                    errors={errors}
-                    touched={touched}
-                    isCreatableSelect={true}
-                  />
-                </div>
+                {!isPrintViewMode && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="mblNumber"
+                      options={msterBLDDL || []}
+                      value={values?.mblNumber}
+                      label="MBL Number"
+                      onChange={(valueOption) => {
+                        let value = {
+                          ...valueOption,
+                          value: 0,
+                          label: valueOption?.label || '',
+                        };
+                        setFieldValue('mblNumber', value);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                      isCreatableSelect={true}
+                    />
+                  </div>
+                )}
+
                 <div className="masterhblContainer">
                   <div className="airandConsigneeInfo">
                     <div className="top borderBottom">
@@ -601,135 +268,192 @@ export default function MasterHBLModal({ selectedRow }) {
                         </div>
                         <div className="consigneeInfo borderBottom">
                           <p className="textTitle">Consignee:</p>
-
-                          <div style={{ paddingLeft: 5 }}>
-                            <p
-                              dangerouslySetInnerHTML={{
-                                __html: values?.strConsignee,
-                              }}
-                            ></p>
-                          </div>
+                          <p>
+                            {values?.strConsignee
+                              ? values?.strConsignee
+                                  ?.split('\n')
+                                  .map((item, index) => {
+                                    return (
+                                      <>
+                                        {item}
+                                        <br />
+                                      </>
+                                    );
+                                  })
+                              : ''}
+                          </p>
                         </div>
                         <div className="notifyParty borderBottom">
                           <p className="textTitle">Notify Party:</p>
-                          <div
-                            style={{ paddingLeft: 5 }}
-                            dangerouslySetInnerHTML={{
-                              __html: values?.strNotifyParty,
-                            }}
-                          ></div>
+                          <p>
+                            {values?.strNotifyParty
+                              ? values?.strNotifyParty
+                                  ?.split('\n')
+                                  .map((item, index) => {
+                                    return (
+                                      <>
+                                        {item}
+                                        <br />
+                                      </>
+                                    );
+                                  })
+                              : ''}
+                          </p>
                         </div>
                         <div className="preCarriageInfo borderBottom">
                           <div className="firstColumn">
                             <p className="textTitle">Pre-Carriage By:</p>
-                            <p></p>
-                            <div className="col-lg-12">
-                              <NewSelect
-                                name="vesselName"
-                                options={vesselNameDDL || []}
-                                value={values?.vesselName}
-                                label=""
-                                onChange={(valueOption) => {
-                                  let value = {
-                                    ...valueOption,
-                                    value: 0,
-                                    label: valueOption?.label || '',
-                                  };
-                                  setFieldValue('vesselName', value);
-                                }}
-                                errors={errors}
-                                touched={touched}
-                                isCreatableSelect={true}
-                              />
-                            </div>
+                            {isPrintViewMode ? (
+                              <>
+                                <p>{values?.strPreCarriageBy || ''}</p>
+                              </>
+                            ) : (
+                              <>
+                                {' '}
+                                <div className="col-lg-12">
+                                  <NewSelect
+                                    name="strPreCarriageBy"
+                                    options={[]}
+                                    value={
+                                      values?.strPreCarriageBy
+                                        ? {
+                                            value: 0,
+                                            label: values?.strPreCarriageBy,
+                                          }
+                                        : ''
+                                    }
+                                    label=""
+                                    onChange={(valueOption) => {
+                                      setFieldValue(
+                                        'strPreCarriageBy',
+                                        valueOption?.label,
+                                      );
+                                    }}
+                                    errors={errors}
+                                    touched={touched}
+                                    isCreatableSelect={true}
+                                  />
+                                </div>
+                              </>
+                            )}
                           </div>
                           <div className="rightSide">
                             <p className="textTitle">Place of Receipt:</p>
-                            {/* <p>{bookingData?.pickupPlace}</p> */}
-                            <div className="col-lg-12">
-                              <NewSelect
-                                name="pickupPlace"
-                                options={pickupPlaceDDL || []}
-                                value={values?.pickupPlace}
-                                label=""
-                                onChange={(valueOption) => {
-                                  let value = {
-                                    ...valueOption,
-                                    value: 0,
-                                    label: valueOption?.label || '',
-                                  };
-                                  setFieldValue('pickupPlace', value);
-                                }}
-                                errors={errors}
-                                touched={touched}
-                                isCreatableSelect={true}
-                              />
-                            </div>
+                            {isPrintViewMode ? (
+                              <>
+                                <p>{values?.strPlaceOfReceipt || ''}</p>
+                              </>
+                            ) : (
+                              <>
+                                {' '}
+                                <div className="col-lg-12">
+                                  <NewSelect
+                                    name="strPlaceOfReceipt"
+                                    options={[]}
+                                    value={
+                                      values?.strPlaceOfReceipt
+                                        ? {
+                                            value: 0,
+                                            label: values?.strPlaceOfReceipt,
+                                          }
+                                        : ''
+                                    }
+                                    label=""
+                                    onChange={(valueOption) => {
+                                      setFieldValue(
+                                        'strPlaceOfReceipt',
+                                        valueOption?.label,
+                                      );
+                                    }}
+                                    errors={errors}
+                                    touched={touched}
+                                    isCreatableSelect={true}
+                                  />
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                         <div className="oceanVesselInfo">
                           <div className="firstColumn">
                             <p className="textTitle">Ocean Vessel:</p>
-                            <p>
-                              {/* {bookingData?.transportPlanning?.map((item, index) => {
-                        return (
-                          <>
-                            {item?.vesselName || ''} / {item?.voyagaNo || ''}{' '}
-                            <br />
-                            {index < bookingData?.transportPlanning?.length - 1
-                              ? ','
-                              : ''}
-                          </>
-                        );
-                      })} */}
-                            </p>
-                            <div className="col-lg-12">
-                              <NewSelect
-                                name="voyagaNo"
-                                options={voyagaNoDDL || []}
-                                value={values?.voyagaNo}
-                                label=""
-                                onChange={(valueOption) => {
-                                  let value = {
-                                    ...valueOption,
-                                    value: 0,
-                                    label: valueOption?.label || '',
-                                  };
-                                  setFieldValue('voyagaNo', value);
-                                }}
-                                errors={errors}
-                                touched={touched}
-                                isCreatableSelect={true}
-                              />
-                            </div>
+                            {isPrintViewMode ? (
+                              <>
+                                <p>{values?.strOceanVessel || ''}</p>
+                              </>
+                            ) : (
+                              <>
+                                {' '}
+                                <div className="col-lg-12">
+                                  <NewSelect
+                                    name="strOceanVessel"
+                                    options={[]}
+                                    value={
+                                      values?.strOceanVessel
+                                        ? {
+                                            value: 0,
+                                            label: values?.strOceanVessel,
+                                          }
+                                        : ''
+                                    }
+                                    label=""
+                                    onChange={(valueOption) => {
+                                      setFieldValue(
+                                        'strOceanVessel',
+                                        valueOption?.label,
+                                      );
+                                    }}
+                                    errors={errors}
+                                    touched={touched}
+                                    isCreatableSelect={true}
+                                  />
+                                </div>
+                              </>
+                            )}
                           </div>
                           <div className="rightSide">
                             <p className="textTitle">Port of Loading:</p>
-                            {/* <p> {bookingData?.portOfLoading}</p> */}
-                            <div className="col-lg-12">
-                              <NewSelect
-                                name="portOfLoading"
-                                options={portOfLoadingDDL || []}
-                                value={values?.portOfLoading}
-                                label=""
-                                onChange={(valueOption) => {
-                                  let value = {
-                                    ...valueOption,
-                                    value: 0,
-                                    label: valueOption?.label || '',
-                                  };
-                                  setFieldValue('portOfLoading', value);
-                                }}
-                                errors={errors}
-                                touched={touched}
-                                isCreatableSelect={true}
-                              />
-                            </div>
+                            {isPrintViewMode ? (
+                              <>
+                                <p>{values?.strPortOfLoading || ''}</p>
+                              </>
+                            ) : (
+                              <>
+                                {' '}
+                                <div className="col-lg-12">
+                                  <NewSelect
+                                    name="strPortOfLoading"
+                                    options={[]}
+                                    value={
+                                      values?.strPortOfLoading
+                                        ? {
+                                            value: 0,
+                                            label: values?.strPortOfLoading,
+                                          }
+                                        : ''
+                                    }
+                                    label=""
+                                    onChange={(valueOption) => {
+                                      setFieldValue(
+                                        'strPortOfLoading',
+                                        valueOption?.label,
+                                      );
+                                    }}
+                                    errors={errors}
+                                    touched={touched}
+                                    isCreatableSelect={true}
+                                  />
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
                       <div className="rightSide">
                         <div className="rightSideMiddleContent">
+                          <p>
+                            <b>{values?.mblNumber}</b>
+                          </p>
                           <div style={{ height: 40 }}></div>
                           <h1>BILL OF LADING</h1>
                           <div
@@ -748,42 +472,49 @@ export default function MasterHBLModal({ selectedRow }) {
                               <p>
                                 <b> B/L No:</b>
                               </p>
-                              <p>
-                                {hblListData?.map((item, index) => {
-                                  return (
-                                    <span>
-                                      {item?.hblnumber}
-                                      {index < hblListData?.length - 1
-                                        ? ', '
-                                        : ''}
-                                    </span>
-                                  );
-                                })}
-                              </p>
+                              <p>{values?.strMasterBlNo}</p>
                             </div>
                           </div>
                           <h1 style={{ marginTop: 10, marginBottom: 10 }}>
                             ORIGINAL
                           </h1>
-                          <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Voluptatem nisi porro est labore laborum
-                            consectetur, repellendus, dolorem perspiciatis
-                            consequatur architecto ipsam velit eligendi esse.
-                            Qui exercitationem laboriosam aliquam debitis
-                            recusandae!
-                          </p>
+                          <p></p>
                         </div>
                         <div className="rightSideBottom">
                           <p className="textTitle" style={{ paddingBottom: 5 }}>
                             Shipping Line Details:
                           </p>
                           <div style={{ paddingLeft: 5 }}>
-                            <p>
-                              {/*
-                    // todo: add shipping line details
-                  <br /> */}
-                            </p>
+                            {isPrintViewMode ? (
+                              <p>
+                                {values?.strShippingAgentReferences
+                                  ? values?.strShippingAgentReferences
+                                      ?.split('\n')
+                                      .map((item, index) => {
+                                        return (
+                                          <>
+                                            {item}
+                                            <br />
+                                          </>
+                                        );
+                                      })
+                                  : ''}
+                              </p>
+                            ) : (
+                              <textarea
+                                name="strShippingAgentReferences"
+                                rows={4}
+                                cols={40}
+                                value={values?.strShippingAgentReferences}
+                                onChange={(e) => {
+                                  console.log(JSON.stringify(e.target.value));
+                                  setFieldValue(
+                                    'strShippingAgentReferences',
+                                    e.target.value,
+                                  );
+                                }}
+                              />
+                            )}
                           </div>
                         </div>
                       </div>
@@ -792,59 +523,112 @@ export default function MasterHBLModal({ selectedRow }) {
                       <div className="firstRow borderBottom">
                         <div className="firstColumn borderRight">
                           <p className="textTitle">Port of Discharge:</p>
-                          {/* <p>{bookingData?.portOfDischarge}</p> */}
-                          <div className="col-lg-12">
-                            <NewSelect
-                              name="portOfDischarge"
-                              options={portOfDischargeDDL || []}
-                              value={values?.portOfDischarge}
-                              label=""
-                              onChange={(valueOption) => {
-                                let value = {
-                                  ...valueOption,
-                                  value: 0,
-                                  label: valueOption?.label || '',
-                                };
-                                setFieldValue(
-                                  'portOfLoportOfDischargeading',
-                                  value,
-                                );
-                              }}
-                              errors={errors}
-                              touched={touched}
-                              isCreatableSelect={true}
-                            />
-                          </div>
+                          {isPrintViewMode ? (
+                            <>
+                              <p>{values?.strPortOfDischarge || ''}</p>
+                            </>
+                          ) : (
+                            <>
+                              {' '}
+                              <div className="col-lg-12">
+                                <NewSelect
+                                  name="strPortOfDischarge"
+                                  options={[]}
+                                  value={
+                                    values?.strPortOfDischarge
+                                      ? {
+                                          value: 0,
+                                          label: values?.strPortOfDischarge,
+                                        }
+                                      : ''
+                                  }
+                                  label=""
+                                  onChange={(valueOption) => {
+                                    setFieldValue(
+                                      'strPortOfDischarge',
+                                      valueOption?.label,
+                                    );
+                                  }}
+                                  errors={errors}
+                                  touched={touched}
+                                  isCreatableSelect={true}
+                                />
+                              </div>
+                            </>
+                          )}
                         </div>
                         <div className="secondColumn">
                           <div className="item borderRight">
-                            <p className="textTitle">Final Destination:</p>
-                            {/* <p>{bookingData?.finalDestinationAddress}</p> */}
-                            <div className="col-lg-12">
-                              <NewSelect
-                                name="finalDestinationAddress"
-                                options={finalDestinationAddressDDL || []}
-                                value={values?.finalDestinationAddress}
-                                label=""
-                                onChange={(valueOption) => {
-                                  let value = {
-                                    ...valueOption,
-                                    value: 0,
-                                    label: valueOption?.label || '',
-                                  };
-                                  setFieldValue(
-                                    'finalDestinationAddress',
-                                    value,
-                                  );
-                                }}
-                                errors={errors}
-                                touched={touched}
-                                isCreatableSelect={true}
-                              />
-                            </div>
+                            <p className="textTitle">Place Of Delivery</p>
+                            {isPrintViewMode ? (
+                              <>
+                                <p>{values?.strPlaceOfDelivery || ''}</p>
+                              </>
+                            ) : (
+                              <>
+                                {' '}
+                                <div className="col-lg-12">
+                                  <NewSelect
+                                    name="strPlaceOfDelivery"
+                                    options={[]}
+                                    value={
+                                      values?.strPlaceOfDelivery
+                                        ? {
+                                            value: 0,
+                                            label: values?.strPlaceOfDelivery,
+                                          }
+                                        : ''
+                                    }
+                                    label=""
+                                    onChange={(valueOption) => {
+                                      setFieldValue(
+                                        'strPlaceOfDelivery',
+                                        valueOption?.label,
+                                      );
+                                    }}
+                                    errors={errors}
+                                    touched={touched}
+                                    isCreatableSelect={true}
+                                  />
+                                </div>
+                              </>
+                            )}
                           </div>
                           <div className="item borderRight">
                             <p className="textTitle">Freight payable at</p>
+                            {isPrintViewMode ? (
+                              <>
+                                <p>{values?.strFreightPayableAt || ''}</p>
+                              </>
+                            ) : (
+                              <>
+                                {' '}
+                                <div className="col-lg-12">
+                                  <NewSelect
+                                    name="strFreightPayableAt"
+                                    options={[]}
+                                    value={
+                                      values?.strFreightPayableAt
+                                        ? {
+                                            value: 0,
+                                            label: values?.strFreightPayableAt,
+                                          }
+                                        : ''
+                                    }
+                                    label=""
+                                    onChange={(valueOption) => {
+                                      setFieldValue(
+                                        'strFreightPayableAt',
+                                        valueOption?.label,
+                                      );
+                                    }}
+                                    errors={errors}
+                                    touched={touched}
+                                    isCreatableSelect={true}
+                                  />
+                                </div>
+                              </>
+                            )}
                           </div>
                         </div>
                         <div className="thirdColumn">
@@ -866,33 +650,92 @@ export default function MasterHBLModal({ selectedRow }) {
                           </div>
                         </div>
                         <div className="thirdColumn">
-                          <div className="item borderRight">
-                            <p>Gross weight</p>
-                            <p>KG</p>
+                          <div className="item ">
+                            <p>Gross weight /Measurement</p>
                           </div>
-                          <div className="item">
+                          {/* <div className="item">
                             <p>Measurement</p>
                             <p>CBM</p>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                       <div className="thirdRow">
-                        <div className="firstColumn borderRight">
+                        <div className="firstColumn">
                           <div
                             style={{
                               textTransform: 'uppercase',
                             }}
                           >
-                            Marks
+                            {isPrintViewMode ? (
+                              <>
+                                {values?.strMarksAndNumbers
+                                  ? values?.strMarksAndNumbers
+                                      ?.split('\n')
+                                      .map((item, index) => {
+                                        return (
+                                          <>
+                                            {item}
+                                            <br />
+                                          </>
+                                        );
+                                      })
+                                  : ''}
+                              </>
+                            ) : (
+                              <>
+                                {' '}
+                                <textarea
+                                  name="strMarksAndNumbers"
+                                  value={values?.strMarksAndNumbers}
+                                  rows={4}
+                                  cols={40}
+                                  onChange={(e) => {
+                                    console.log(JSON.stringify(e.target.value));
+                                    setFieldValue(
+                                      'strMarksAndNumbers',
+                                      e.target.value,
+                                    );
+                                  }}
+                                />
+                              </>
+                            )}
                           </div>
                         </div>
                         <div className="secondColumn">
                           <div className="item borderRight">
                             <p>
-                              {/* totalNumberOfPackages sum */}
-                              {totalNumberOfPackages}
-                              <br />
-                              Cartons
+                              {isPrintViewMode ? (
+                                <>
+                                  {values?.strNoOfPackages
+                                    ? values?.strNoOfPackages
+                                        ?.split('\n')
+                                        .map((item, index) => {
+                                          return (
+                                            <>
+                                              {item}
+                                              <br />
+                                            </>
+                                          );
+                                        })
+                                    : ''}
+                                </>
+                              ) : (
+                                <>
+                                  {' '}
+                                  <textarea
+                                    value={values?.strNoOfPackages}
+                                    name="strNoOfPackages"
+                                    rows={3}
+                                    cols={40}
+                                    onChange={(e) => {
+                                      setFieldValue(
+                                        'strNoOfPackages',
+                                        e.target.value,
+                                      );
+                                    }}
+                                  />
+                                </>
+                              )}
                             </p>
                           </div>
                           <div
@@ -901,130 +744,118 @@ export default function MasterHBLModal({ selectedRow }) {
                               textTransform: 'uppercase',
                             }}
                           >
-                            <p>
-                              {' '}
-                              {totalNumberOfPackages} Cartons (
-                              {totalNumberOfPackages &&
-                                convertNumberToWords(
-                                  totalNumberOfPackages,
-                                )}{' '}
-                              Cartons only)
-                            </p>
-                            {hblListData?.map((item, index) => {
-                              return (
-                                <div>
-                                  <p>Description Of Goods:</p>
-
-                                  {item?.rowsData?.map((rowItem, index) => {
-                                    return (
-                                      <>
-                                        <p>{rowItem?.descriptionOfGoods}</p>
-                                        <p>
-                                          Po No:{' '}
-                                          {rowItem?.dimensionRow?.map(
-                                            (i, index) => {
-                                              return (
-                                                (i?.poNumber || '') +
-                                                (index <
-                                                rowItem?.dimensionRow?.length -
-                                                  1
-                                                  ? ','
-                                                  : '')
-                                              );
-                                            },
-                                          )}
-                                        </p>
-                                        <p>
-                                          Color:{' '}
-                                          {rowItem?.dimensionRow?.map(
-                                            (i, index) => {
-                                              return (
-                                                (i?.color || '') +
-                                                (index <
-                                                rowItem?.dimensionRow?.length -
-                                                  1
-                                                  ? ','
-                                                  : '')
-                                              );
-                                            },
-                                          )}
-                                        </p>
-                                        <p>
-                                          H.S Code:{' '}
-                                          {(item?.hsCode || '') +
-                                            (index <
-                                            rowItem?.rowsData?.length - 1
-                                              ? ','
-                                              : '')}
-                                        </p>
-                                        <br />
-                                      </>
+                            {isPrintViewMode ? (
+                              <>
+                                {values?.strDescriptionOfPackagesAndGoods
+                                  ? values?.strDescriptionOfPackagesAndGoods
+                                      ?.split('\n')
+                                      .map((item, index) => {
+                                        return (
+                                          <>
+                                            {item}
+                                            <br />
+                                          </>
+                                        );
+                                      })
+                                  : ''}
+                              </>
+                            ) : (
+                              <>
+                                {' '}
+                                <textarea
+                                  value={
+                                    values?.strDescriptionOfPackagesAndGoods
+                                  }
+                                  name="strDescriptionOfPackagesAndGoods"
+                                  rows={30}
+                                  cols={40}
+                                  onChange={(e) => {
+                                    setFieldValue(
+                                      'strDescriptionOfPackagesAndGoods',
+                                      e.target.value,
                                     );
-                                  })}
-
-                                  <br />
-                                  <p>
-                                    Invoice No:
-                                    {item?.invoiceNumber}
-                                  </p>
-                                  <p>
-                                    {item?.infoType === 'lc'
-                                      ? 'LC No'
-                                      : item?.infoType === 'tt'
-                                      ? 'TT No'
-                                      : 'S/C No'}
-                                    :{' '}
-                                    {item?.objPurchase?.map((item, index) => {
-                                      return `${item?.lcnumber ||
-                                        ''} : ${item?.lcdate &&
-                                        `${moment(item?.lcdate).format(
-                                          'DD-MM-YYYY',
-                                        )}`}${
-                                        index < item?.objPurchase?.length - 1
-                                          ? ','
-                                          : ''
-                                      }`;
-                                    })}
-                                  </p>
-                                  <p>
-                                    Exp No:
-                                    {item?.expOrCnfNumber || ''} :{' '}
-                                    {item?.expOrCnfDate &&
-                                      `${moment(item?.expOrCnfDate).format(
-                                        'DD-MM-YYYY',
-                                      )}`}
-                                  </p>
-                                  <p>
-                                    Stuffing mode:
-                                    {item?.modeOfStuffings}
-                                  </p>
-                                  <br />
-                                </div>
-                              );
-                            })}
+                                  }}
+                                />
+                              </>
+                            )}
                           </div>
                         </div>
                         <div className="thirdColumn">
                           <div className="item borderRight">
-                            <p>
-                              {/* totalGrossWeightKG sum */}
-                              {subtotalGrossWeight}
-                              KGS
-                            </p>
-                          </div>
-                          <div
-                            className="item"
-                            style={{
-                              position: 'relative',
-                            }}
-                          >
-                            <p>
-                              {/* totalVolumeCBM sum */}
-                              {totalVolumeCBM}
-                              CBM
-                            </p>
+                            <>
+                              {isPrintViewMode ? (
+                                <>
+                                  {values?.strGrossWeightOrMeasurement
+                                    ? values?.strGrossWeightOrMeasurement
+                                        ?.split('\n')
+                                        .map((item, index) => {
+                                          return (
+                                            <>
+                                              {item}
+                                              <br />
+                                            </>
+                                          );
+                                        })
+                                    : ''}
+                                </>
+                              ) : (
+                                <>
+                                  {' '}
+                                  <textarea
+                                    value={values?.strGrossWeightOrMeasurement}
+                                    name="strGrossWeightOrMeasurement"
+                                    rows={3}
+                                    cols={40}
+                                    onChange={(e) => {
+                                      setFieldValue(
+                                        'strGrossWeightOrMeasurement',
+                                        e.target.value,
+                                      );
+                                    }}
+                                  />
+                                </>
+                              )}
+                            </>
                           </div>
                         </div>
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        paddingTop: '13px',
+                        borderTop: '1px solid',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: '300px',
+                        }}
+                      >
+                        <p
+                          style={{
+                            textAlign: 'center',
+                            marginBottom: 15,
+                          }}
+                        >
+                          Laden on board
+                        </p>
+
+                        <p>Date</p>
+                      </div>
+                      <div>
+                        <p
+                          style={{
+                            width: '300px',
+                            borderBottom: '1px dashed',
+                            marginTop: '120px',
+                            marginBottom: '15px',
+                          }}
+                        >
+                          By
+                        </p>
                       </div>
                     </div>
                   </div>
