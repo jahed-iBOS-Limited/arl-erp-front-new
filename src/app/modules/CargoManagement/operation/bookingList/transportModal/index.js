@@ -1151,7 +1151,7 @@ function TransportModal({ rowClickData, CB }) {
                             <div className="col-lg-2">
                               <InputField
                                 value={values?.rows[index]?.rate || ''}
-                                label="Cartoon Rate"
+                                label="Rate"
                                 name={`rows[${index}].rate`}
                                 type="number"
                                 onChange={(e) =>
