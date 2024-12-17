@@ -97,7 +97,7 @@ function BookingList() {
         profileData?.userReferenceId
       }&userTypeId=${0}&refrenceId=${
         profileData?.userReferenceId
-      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search${searchValue ||
+      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue ||
         ''}&modeOfTransportId=${modeOfTransportId}`,
     );
   };
@@ -118,6 +118,8 @@ function BookingList() {
     ) {
       return true;
     }
+
+    return false;
   };
 
   const handleSelectRow = (item) => (e) => {
@@ -131,6 +133,8 @@ function BookingList() {
       );
     }
   };
+
+  console.log(selectedRow);
   return (
     <ICustomCard
       title="Booking List"
@@ -435,7 +439,10 @@ function BookingList() {
                             <td>
                               <input
                                 type="checkbox"
-                                disabled={getDisabledCheckbox(item)}
+                                disabled={
+                                  getDisabledCheckbox(item) ||
+                                  item?.masterBlGenarate
+                                }
                                 onChange={handleSelectRow(item)}
                               />
                             </td>
