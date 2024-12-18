@@ -205,7 +205,11 @@ const MasterHBAWModal = ({
           prepaidValuationCharge: "prepaidValuationCharge",
           collectTotalOtherChargesDueCarrier1: "collectTotalOtherChargesDueCarrier1",
           collectTotalOtherChargesDueCarrier2: "collectTotalOtherChargesDueCarrier2",
-
+          totalPrepaid: "totalPrepaid",
+          totalCollect: "totalCollect",
+          currencyConversionRates: "currencyConversionRates",
+          ccchargesInDestCurrency: "ccchargesInDestCurrency",
+          chargesAtDestination: "chargesAtDestination",
 
           //
           airMasterBlId: 0,
@@ -227,26 +231,22 @@ const MasterHBAWModal = ({
           prepaidTotalOtherChargesDueAgent: "string",
           prepaidTotalOtherChargesDueCarrier1: "string",
           prepaidTotalOtherChargesDueCarrier2: "string",
-          totalPrepaid: "string",
-          totalCollect: "string",
-          currencyConversionRates: "string",
-          ccchargesInDestCurrency: "string",
+
           forCarrierUseOnlyAtDestination: "string",
-          chargesAtDestination: "string",
           totalCollectCharges: "string",
           signatureOfShipperOrAgent: "string",
           executedOnDate: "2024-12-17T12:11:17.873Z",
           atPlace: "string",
           signatureOfIssuingCarrierOrAgent: "string",
-          createdAt: "2024-12-17T12:11:17.873Z",
-          serverTime: "2024-12-17T12:11:17.873Z",
+
           collectTotalAmount: "string",
           collectNatureAndQuantityOfGoods: "string",
           collectWeightCharge: "string",
           collectValuationCharge: "string",
           collectTaxAmount: "string",
           collectTotalOtherChargesDueAgent: "string",
-
+          createdAt: "2024-12-17T12:11:17.873Z",
+          serverTime: "2024-12-17T12:11:17.873Z",
           hblNos: [
             {
               hblnumber: "string"
@@ -2321,34 +2321,90 @@ const MasterHBAWModal = ({
                                   <div className="collectChartLeft borderRight">
                                     <p className="collectChartValue">
                                       {['cif', 'cpt', 'cfr'].includes(
-                                        bookingData?.incoterms,
+                                        hbawListData?.[0]?.incoterms,
                                       ) && (
-                                          <ReactQuill
-                                            modules={{
-                                              toolbar: false,
-                                            }}
-                                            style={{
-                                              padding: 0,
-                                              margin: 0,
-                                            }}
-                                          />
+                                          <>
+                                            {isPrintViewMode ? (
+                                              <>
+                                                <p>
+                                                  {values?.totalPrepaid
+                                                    ? values?.totalPrepaid
+                                                      ?.split('\n')
+                                                      .map((item, index) => {
+                                                        return (
+                                                          <>
+                                                            {item}
+                                                            <br />
+                                                          </>
+                                                        );
+                                                      })
+                                                    : ''}
+                                                </p>
+                                              </>
+                                            ) : (
+                                              <>
+                                                {' '}
+                                                <div className="col-lg-12">
+                                                  <textarea
+                                                    name="totalPrepaid"
+                                                    value={values?.totalPrepaid}
+                                                    onChange={(e) => {
+                                                      setFieldValue(
+                                                        'totalPrepaid',
+                                                        e.target.value,
+                                                      );
+                                                    }
+                                                    }
+                                                  />
+                                                </div>
+                                              </>
+                                            )}
+                                          </>
                                         )}
                                     </p>
                                   </div>
                                   <div className="collectChartRight">
                                     <p className="collectChartValue">
                                       {!['cif', 'cpt', 'cfr'].includes(
-                                        bookingData?.incoterms,
+                                        hbawListData?.[0]?.incoterms,
                                       ) && (
-                                          <ReactQuill
-                                            modules={{
-                                              toolbar: false,
-                                            }}
-                                            style={{
-                                              padding: 0,
-                                              margin: 0,
-                                            }}
-                                          />
+                                          <>
+                                            {isPrintViewMode ? (
+                                              <>
+                                                <p>
+                                                  {values?.totalCollect
+                                                    ? values?.totalCollect
+                                                      ?.split('\n')
+                                                      .map((item, index) => {
+                                                        return (
+                                                          <>
+                                                            {item}
+                                                            <br />
+                                                          </>
+                                                        );
+                                                      })
+                                                    : ''}
+                                                </p>
+                                              </>
+                                            ) : (
+                                              <>
+                                                {' '}
+                                                <div className="col-lg-12">
+                                                  <textarea
+                                                    name="totalCollect"
+                                                    value={values?.totalCollect}
+                                                    onChange={(e) => {
+                                                      setFieldValue(
+                                                        'totalCollect',
+                                                        e.target.value,
+                                                      );
+                                                    }
+                                                    }
+                                                  />
+                                                </div>
+                                              </>
+                                            )}
+                                          </>
                                         )}
                                     </p>
                                   </div>
@@ -2375,10 +2431,80 @@ const MasterHBAWModal = ({
                                     </span>
                                   </div>
                                   <div className="collectChartLeft borderRight">
-                                    <p className="collectChartValue" />
+                                    {
+                                      isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.currencyConversionRates
+                                              ? values?.currencyConversionRates
+                                                ?.split('\n')
+                                                .map((item, index) => {
+                                                  return (
+                                                    <>
+                                                      {item}
+                                                      <br />
+                                                    </>
+                                                  );
+                                                })
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="currencyConversionRates"
+                                              value={values?.currencyConversionRates}
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'currencyConversionRates',
+                                                  e.target.value,
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </>
+                                      )
+                                    }
                                   </div>
                                   <div className="collectChartRight">
-                                    <p className="collectChartValue"></p>
+                                    {
+                                      isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.ccchargesInDestCurrency
+                                              ? values?.ccchargesInDestCurrency
+                                                ?.split('\n')
+                                                .map((item, index) => {
+                                                  return (
+                                                    <>
+                                                      {item}
+                                                      <br />
+                                                    </>
+                                                  );
+                                                })
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="ccchargesInDestCurrency"
+                                              value={values?.ccchargesInDestCurrency}
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'ccchargesInDestCurrency',
+                                                  e.target.value,
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </>
+                                      )
+                                    }
                                   </div>
                                 </div>
                               </div>
@@ -2458,7 +2584,42 @@ const MasterHBAWModal = ({
                                     </p>
                                   </div>
                                   <div className="collectChartRight">
-                                    <p className="collectChartValue" />
+                                    {
+                                      isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.chargesAtDestination
+                                              ? values?.chargesAtDestination
+                                                ?.split('\n')
+                                                .map((item, index) => {
+                                                  return (
+                                                    <>
+                                                      {item}
+                                                      <br />
+                                                    </>
+                                                  );
+                                                })
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="chargesAtDestination"
+                                              value={values?.chargesAtDestination}
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'chargesAtDestination',
+                                                  e.target.value,
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </>
+                                      )
+                                    }
                                   </div>
                                 </div>
                               </div>
