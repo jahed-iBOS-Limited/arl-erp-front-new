@@ -331,8 +331,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             ]?.flightDate;
 
           const obj = {
-            consignee: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
-
+            consigneeNameAndAddress: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
+            shipperNameAndAddress: `Akij Logistics Limited \nBir Uttam Mir Shawkat Sarak, Dhaka 1208`,
             gsaName: "missing",
             agentIatacode: `${firstIndex?.transportPlanning?.iatanumber || ""}`,
             referenceNumber: "missing",
@@ -389,8 +389,6 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               },
             ],
             masterBlNo: "string",
-            shipperNameAndAddress: "string",
-            consigneeNameAndAddress: "string",
             issuingCarrierAgentNameAndCity: "string",
             requestedFlightDate: ` ${moment(requestedFlightDate).format(
               "DD-MM-YYYY"
@@ -494,11 +492,38 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   Shipper's Name and Address:
                                 </p>
                                 <p>TO THE ORDER OF</p>
-                                <p>Akij Logistics Limited</p>
                               </div>
                               <div className="borderLeft borderBottom p-2">
                                 <p className="textTitle">Company Info:</p>
-                                <p> Bir Uttam Mir Shawkat Sarak, Dhaka 1208</p>
+                                {isPrintViewMode ? (
+                                  <p>
+                                    {values?.shipperNameAndAddress
+                                      ? values?.shipperNameAndAddress
+                                        ?.split("\n")
+                                        .map((item, index) => {
+                                          return (
+                                            <>
+                                              {item}
+                                              <br />
+                                            </>
+                                          );
+                                        })
+                                      : ""}
+                                  </p>
+                                ) : (
+                                  <textarea
+                                    name="shipperNameAndAddress"
+                                    value={values?.shipperNameAndAddress}
+                                    rows={4}
+                                    cols={40}
+                                    onChange={(e) => {
+                                      setFieldValue(
+                                        "shipperNameAndAddress",
+                                        e.target.value
+                                      );
+                                    }}
+                                  />
+                                )}
                               </div>
                             </div>
                           </div>
@@ -519,8 +544,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 <p className="textTitle">Delivery Agent:</p>
                                 {isPrintViewMode ? (
                                   <p>
-                                    {values?.consignee
-                                      ? values?.consignee
+                                    {values?.consigneeNameAndAddress
+                                      ? values?.consigneeNameAndAddress
                                         ?.split("\n")
                                         .map((item, index) => {
                                           return (
@@ -534,13 +559,13 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   </p>
                                 ) : (
                                   <textarea
-                                    name="consignee"
-                                    value={values?.consignee}
+                                    name="consigneeNameAndAddress"
+                                    value={values?.consigneeNameAndAddress}
                                     rows={4}
                                     cols={40}
                                     onChange={(e) => {
                                       setFieldValue(
-                                        "consignee",
+                                        "consigneeNameAndAddress",
                                         e.target.value
                                       );
                                     }}
