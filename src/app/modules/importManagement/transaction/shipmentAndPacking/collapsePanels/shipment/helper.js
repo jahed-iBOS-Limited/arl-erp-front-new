@@ -1,36 +1,63 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 
 // GetShipTypeDDL
 export const getShipByDDL = async (setter) => {
   try {
-    const res = await axios.get("/imp/ImportCommonDDL/GetShipmentTypeDDL");
+    const res = await axios.get('/imp/ImportCommonDDL/GetShipmentTypeDDL');
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
   } catch (error) {}
 };
 
+export const empAttachment_action = async (attachment) => {
+  let formData = new FormData();
+  attachment.forEach((file) => {
+    formData.append('files', file?.file);
+  });
+  try {
+    let { data } = await axios.post('/domain/Document/UploadFile', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    // toast.success(res?.data?.message || "Submitted Successfully");
+    toast.success('Upload  successfully');
+    return data;
+  } catch (error) {
+    toast.error('Document not upload');
+
+    return [];
+  }
+};
+
 export const createShipment = async (payload, cb, setDisabled) => {
-  setDisabled && setDisabled(true)
+  setDisabled && setDisabled(true);
   try {
     const res = await axios.post(`/imp/Shipment/CreateShipment`, payload);
 
-    setDisabled && setDisabled(false)
+    setDisabled && setDisabled(false);
     toast.success(res.data.message);
     cb();
   } catch (error) {
-    setDisabled && setDisabled(false)
+    setDisabled && setDisabled(false);
     toast.error(error?.response?.data?.message);
   }
 };
 
-export const getShipmentItemDDL = async (accId, buId, poNo, setter, InitialInvoiceAmountHandler) => {
+export const getShipmentItemDDL = async (
+  accId,
+  buId,
+  poNo,
+  setter,
+  InitialInvoiceAmountHandler,
+) => {
   try {
     const res = await axios.get(
-      `/imp/ImportCommonDDL/GetItemInfoForShipmentDDL?accountId=${accId}&businessUnitId=${buId}&PONo=${poNo}`
+      `/imp/ImportCommonDDL/GetItemInfoForShipmentDDL?accountId=${accId}&businessUnitId=${buId}&PONo=${poNo}`,
     );
     if (res.status === 200 && res.data) {
       const item = res?.data.map((data) => {
@@ -62,7 +89,7 @@ export const getShipmentItemDDL = async (accId, buId, poNo, setter, InitialInvoi
 
 export const getCurrencyDDL = async (setter) => {
   try {
-    const res = await axios.get("/imp/ImportCommonDDL/GetCurrencyTypeDDL");
+    const res = await axios.get('/imp/ImportCommonDDL/GetCurrencyTypeDDL');
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
@@ -73,11 +100,11 @@ export const getTollarence = async (
   accountId,
   businessUnitId,
   searchValue,
-  setter
+  setter,
 ) => {
   try {
     const res = await axios.get(
-      `/imp/Shipment/GetTolerance?accountId=${accountId}&businessUnitId=${businessUnitId}&search=${searchValue}`
+      `/imp/Shipment/GetTolerance?accountId=${accountId}&businessUnitId=${businessUnitId}&search=${searchValue}`,
     );
     if (res.status === 200 && res.data) {
       setter(res.data.tolerancePercent);
@@ -90,11 +117,11 @@ export const getShipmentInfo = async (
   businessUnitId,
   searchValue,
   initFormData,
-  setter
+  setter,
 ) => {
   try {
     const res = await axios.get(
-      `/imp/Shipment/GetShipmentInfoByPoNumber?accountId=${accountId}&businessUnitId=${businessUnitId}&poNumber=${searchValue}`
+      `/imp/Shipment/GetShipmentInfoByPoNumber?accountId=${accountId}&businessUnitId=${businessUnitId}&poNumber=${searchValue}`,
     );
     if (res.status === 200 && res.data) {
       setter({
@@ -117,15 +144,15 @@ export const getShipmentLandingData = async (
   setter,
   search,
   fromDate,
-  toDate
+  toDate,
 ) => {
   try {
-    const searchTerm = search ? search : "";
-    const FromDate = fromDate ? fromDate : "";
-    const ToDate = toDate ? toDate : "";
+    const searchTerm = search ? search : '';
+    const FromDate = fromDate ? fromDate : '';
+    const ToDate = toDate ? toDate : '';
 
     const res = await axios.get(
-      `/imp/Shipment/GetShipmentLandingPasignation?searchTerm=${searchTerm}&accountId=${accId}&businessUnitId=${buId}&fromDate=${FromDate}&toDate=${ToDate}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=desc`
+      `/imp/Shipment/GetShipmentLandingPasignation?searchTerm=${searchTerm}&accountId=${accId}&businessUnitId=${buId}&fromDate=${FromDate}&toDate=${ToDate}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=desc`,
     );
     setter(res.data);
   } catch (error) {}
@@ -135,11 +162,11 @@ export const getShipmentDataById = async (
   shipmentId,
   headerSetter,
   rowSetter,
-  setTollerence
+  setTollerence,
 ) => {
   try {
     const res = await axios.get(
-      `/imp/Shipment/GetShipmentById?shipmentId=${shipmentId}`
+      `/imp/Shipment/GetShipmentById?shipmentId=${shipmentId}`,
     );
     const response = res.data;
     if (res.status === 200 && res.data) {
@@ -173,7 +200,7 @@ export const getShipmentDataById = async (
       rowSetter(
         response.objRow?.map((item) => {
           return { ...item, shippedQuantity: 0 };
-        })
+        }),
       );
     }
   } catch (error) {}
@@ -197,7 +224,7 @@ export const EditShipment = async (payload, setDisabled) => {
 export const GetCNFAgencyDDL = async (accountId, businessUnitId, setter) => {
   try {
     let res = await axios.get(
-      `/imp/ImportCommonDDL/GetCnFAgencyList?accountId=${accountId}&businessUnitId=${businessUnitId}`
+      `/imp/ImportCommonDDL/GetCnFAgencyList?accountId=${accountId}&businessUnitId=${businessUnitId}`,
     );
     if (res?.status === 200) {
       setter(res?.data);
@@ -209,16 +236,16 @@ export const GetCNFAgencyDDL = async (accountId, businessUnitId, setter) => {
 
 // validation Schema for insurance policy
 export const validationSchema = Yup.object().shape({
-  blAwbTrNo: Yup.string().required("BL/AWB/TR No is required"),
-  blAwbTrDate: Yup.string().required("BL/AWB/TR Date is required"),
-  invoiceNumber: Yup.string().required("Invoice Number is required"),
+  blAwbTrNo: Yup.string().required('BL/AWB/TR No is required'),
+  blAwbTrDate: Yup.string().required('BL/AWB/TR Date is required'),
+  invoiceNumber: Yup.string().required('Invoice Number is required'),
   //invoiceAmount: Yup.string().required("Invoice Amount is required"),
-  invoiceDate: Yup.string().required("Invoice Date is required"),
+  invoiceDate: Yup.string().required('Invoice Date is required'),
   docReceiveByBank: Yup.string().nullable(),
   cnfProvider: Yup.object().shape({
-    value: Yup.string().required("CNF is required"),
+    value: Yup.string().required('CNF is required'),
   }),
-  etaDate: Yup.date().required("ETA Date is required")
+  etaDate: Yup.date().required('ETA Date is required'),
   // packingCharge: Yup.number()
   //   .positive("Packing Charge is always positive")
   //   .required("Packing Charge is required"),
@@ -230,11 +257,11 @@ export const validationSchema = Yup.object().shape({
 export const cancelShipmentHeaderById = async (id, cb) => {
   try {
     const res = await axios.post(
-      `/imp/Shipment/DeleteShipment?shipmentHeaderId=${id}`
+      `/imp/Shipment/DeleteShipment?shipmentHeaderId=${id}`,
     );
     if (res.status === 200) {
       cb && cb();
-      toast.success(res?.data?.message || "Successfully Deleted");
+      toast.success(res?.data?.message || 'Successfully Deleted');
     }
   } catch (error) {}
 };

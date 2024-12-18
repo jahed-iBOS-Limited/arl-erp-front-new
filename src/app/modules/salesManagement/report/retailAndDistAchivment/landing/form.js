@@ -1,56 +1,56 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { monthDDL } from "../../../../humanCapitalManagement/report/salaryTopSheet/utils";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { YearDDL } from "../../../../_helper/_yearDDL";
+} from '../../../../../../_metronic/_partials/controls';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { YearDDL } from '../../../../_helper/_yearDDL';
 import {
   getCustomerNameDDL,
   GetSalesOrganizationDDL_api,
-} from "../../shipToPartyDelivery/helper";
+} from '../../shipToPartyDelivery/helper';
 import {
   getAchievementReports,
   getNetToCompanyData,
   getUserLoginInfo,
-} from "../helper";
-import SalesOfficersKPIReport from "../report/SalesOfficersKPIReport";
+} from '../helper';
+import SalesOfficersKPIReport from '../report/SalesOfficersKPIReport';
 import RetailAndDistributorAchievementTable, {
   NetToCompanyTable,
-} from "./table";
+} from './table';
+import { monthDDL } from '../../salesanalytics/utils';
 
 const reportTypes = [
-  { value: 1, label: "Retail and Distributor increase" },
-  { value: 2, label: "Target Vs Achievement" },
-  { value: 3, label: "Revenue Target & Collection" },
-  { value: 4, label: "Mortgage Vs Sales" },
-  { value: 5, label: "Net to company" },
-  { value: 6, label: "Sales Officers KPI" },
+  { value: 1, label: 'Retail and Distributor increase' },
+  { value: 2, label: 'Target Vs Achievement' },
+  { value: 3, label: 'Revenue Target & Collection' },
+  { value: 4, label: 'Mortgage Vs Sales' },
+  { value: 5, label: 'Net to company' },
+  { value: 6, label: 'Sales Officers KPI' },
 ];
 
 const initData = {
-  reportType: "",
-  type: "",
-  month: "",
-  year: "",
+  reportType: '',
+  type: '',
+  month: '',
+  year: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  allowBgRate: "",
-  avgProductPrice: "",
-  tradeCommission: "",
-  yearlyRate: "",
+  allowBgRate: '',
+  avgProductPrice: '',
+  tradeCommission: '',
+  yearlyRate: '',
 };
 
 const RetailAndDistributorAchievementForm = () => {
@@ -75,7 +75,7 @@ const RetailAndDistributorAchievementForm = () => {
   useEffect(() => {
     GetSalesOrganizationDDL_api(accId, buId, setSalesOrgDDl);
     getChannelList(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`,
     );
     getUserLoginInfo(accId, buId, userId, setLoading, (resData) => {
       const ratId =
@@ -140,7 +140,7 @@ const RetailAndDistributorAchievementForm = () => {
                           value={values?.reportType}
                           label="Report Type"
                           onChange={(valueOption) => {
-                            setFieldValue("reportType", valueOption);
+                            setFieldValue('reportType', valueOption);
                             setRowData([]);
                           }}
                           placeholder="Select Report Type"
@@ -155,8 +155,8 @@ const RetailAndDistributorAchievementForm = () => {
                               value={values?.channel}
                               label="Distribution Channel"
                               onChange={(valueOption) => {
-                                setFieldValue("channel", valueOption);
-                                setFieldValue("customer", "");
+                                setFieldValue('channel', valueOption);
+                                setFieldValue('customer', '');
                               }}
                               placeholder="Select Distribution Channel"
                             />
@@ -165,13 +165,13 @@ const RetailAndDistributorAchievementForm = () => {
                             <NewSelect
                               name="shippointDDL"
                               options={[
-                                { value: 0, label: "All" },
+                                { value: 0, label: 'All' },
                                 ...shippointDDL,
                               ]}
                               value={values?.shippointDDL}
                               label="Shippoint"
                               onChange={(valueOption) => {
-                                setFieldValue("shippointDDL", valueOption);
+                                setFieldValue('shippointDDL', valueOption);
                               }}
                               placeholder="ShipPoint"
                               errors={errors}
@@ -187,15 +187,15 @@ const RetailAndDistributorAchievementForm = () => {
                               value={values?.salesOrg}
                               label="Sales Org"
                               onChange={(valueOption) => {
-                                setFieldValue("salesOrg", valueOption);
-                                setFieldValue("customerNameDDL", "");
+                                setFieldValue('salesOrg', valueOption);
+                                setFieldValue('customerNameDDL', '');
 
                                 setCustomerNameDDL([]);
                                 getCustomerNameDDL(
                                   accId,
                                   buId,
                                   valueOption?.value,
-                                  setCustomerNameDDL
+                                  setCustomerNameDDL,
                                 );
                               }}
                               isDisabled={!values?.reportType}
@@ -211,7 +211,7 @@ const RetailAndDistributorAchievementForm = () => {
                               value={values?.customerNameDDL}
                               label="Customer Name"
                               onChange={(valueOption) => {
-                                setFieldValue("customerNameDDL", valueOption);
+                                setFieldValue('customerNameDDL', valueOption);
                               }}
                               placeholder="Customer name"
                               errors={errors}
@@ -249,13 +249,13 @@ const RetailAndDistributorAchievementForm = () => {
                                 <NewSelect
                                   name="type"
                                   options={[
-                                    { value: 1, label: "Retail" },
-                                    { value: 2, label: "Distributor" },
+                                    { value: 1, label: 'Retail' },
+                                    { value: 2, label: 'Distributor' },
                                   ]}
                                   value={values?.type}
                                   label="Type"
                                   onChange={(valueOption) => {
-                                    setFieldValue("type", valueOption);
+                                    setFieldValue('type', valueOption);
                                     setRowData([]);
                                   }}
                                   placeholder="Select Type"
@@ -269,7 +269,7 @@ const RetailAndDistributorAchievementForm = () => {
                                   value={values?.month}
                                   label="Month"
                                   onChange={(valueOption) => {
-                                    setFieldValue("month", valueOption);
+                                    setFieldValue('month', valueOption);
                                   }}
                                   placeholder="Month"
                                 />
@@ -281,7 +281,7 @@ const RetailAndDistributorAchievementForm = () => {
                                   value={values?.year}
                                   label="Year"
                                   onChange={(valueOption) => {
-                                    setFieldValue("year", valueOption);
+                                    setFieldValue('year', valueOption);
                                   }}
                                   placeholder="Year"
                                 />
@@ -298,7 +298,7 @@ const RetailAndDistributorAchievementForm = () => {
                                   label="From Date"
                                   type="date"
                                   onChange={(e) => {
-                                    setFieldValue("fromDate", e?.target?.value);
+                                    setFieldValue('fromDate', e?.target?.value);
                                     setIsDetailsReport(false);
                                   }}
                                 />
@@ -310,7 +310,7 @@ const RetailAndDistributorAchievementForm = () => {
                                   label="To Date"
                                   type="date"
                                   onChange={(e) => {
-                                    setFieldValue("toDate", e?.target?.value);
+                                    setFieldValue('toDate', e?.target?.value);
                                     setIsDetailsReport(false);
                                   }}
                                 />
@@ -323,7 +323,7 @@ const RetailAndDistributorAchievementForm = () => {
                                     value={values?.channel}
                                     label="Channel Name"
                                     onChange={(valueOption) => {
-                                      setFieldValue("channel", valueOption);
+                                      setFieldValue('channel', valueOption);
                                       setIsDetailsReport(false);
                                     }}
                                     placeholder="Channel Name"

@@ -1,18 +1,13 @@
-import React from "react";
-import { InformationSectionTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
+import React from 'react';
+import { InformationSectionTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
 import './profileSection.css';
 
 function InformationSectionLanding({ history }) {
   const uIEvents = {
     openEditPage: (id) => {
       history.push(
-        `/config/partner-management/partner-info-section/edit/${id}`
-      );
-    },
-    openViewDialog: (id) => {
-      history.push(
-        `/human-capital-management/hcmconfig/profile-section/view/${id}`
+        `/config/partner-management/partner-info-section/edit/${id}`,
       );
     },
   };
