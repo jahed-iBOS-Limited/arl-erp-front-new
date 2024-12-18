@@ -1,14 +1,13 @@
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IAdd from "../../../../_helper/_helperIcons/_add";
-import InputField from "../../../../_helper/_inputField";
-import IViewModal from "../../../../_helper/_viewModal";
-import BillForm from "./billForm";
-import moment from "moment";
-import POPreview from "./poPreview";
-import { PurchaseOrderViewTableRow } from "../../../../procurement/purchase-management/purchaseOrder/report/tableRow";
-import "./rowTable.css";
-import { toast } from "react-toastify";
+import moment from 'moment';
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IAdd from '../../../../_helper/_helperIcons/_add';
+import InputField from '../../../../_helper/_inputField';
+import IViewModal from '../../../../_helper/_viewModal';
+import { PurchaseOrderViewTableRow } from '../../../../procurement/purchase-management/purchaseOrder/report/tableRow';
+import BillForm from './billForm';
+import POPreview from './poPreview';
+import './rowTable.css';
 function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
   const [isBillModal, isShowBillModal] = React.useState(false);
   const [showViewModal, setShowViewModal] = React.useState(false);
@@ -16,8 +15,8 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
   const [modalShow, setModalShow] = React.useState(false);
 
   return (
-    <div className='table-responsive estimatePDARowTable'>
-      <table className='table table-striped table-bordered global-table'>
+    <div className="table-responsive estimatePDARowTable">
+      <table className="table table-striped table-bordered global-table">
         <thead>
           <tr>
             <th>SL</th>
@@ -25,14 +24,14 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
             <th>Expense Particulars</th>
             <th
               style={{
-                width: "150px",
+                width: '150px',
               }}
             >
               Estimated Amount
             </th>
             <th
               style={{
-                width: "150px",
+                width: '150px',
               }}
             >
               Customer Final Amount
@@ -52,14 +51,14 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
 
             return (
               <tr key={index}>
-                <td className='text-center'> {index + 1}</td>
+                <td className="text-center"> {index + 1}</td>
                 <td>{item?.category}</td>
                 <td>
                   {item?.isEditExpPart ? (
                     <InputField
                       value={item?.particularName}
-                      name='particularName'
-                      type='text'
+                      name="particularName"
+                      type="text"
                       onChange={(e) => {
                         const copyRowDto = [...rowDto];
                         copyRowDto[index].particularName = e.target.value;
@@ -77,20 +76,20 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
                         setRowDto(copyRowDto);
                       }}
                       style={{
-                        paddingLeft: "6px",
-                        display: "inline-block",
+                        paddingLeft: '6px',
+                        display: 'inline-block',
                       }}
-                      className='pointer isEditExpPartIcon'
+                      className="pointer isEditExpPartIcon"
                     >
-                      <i class='fa fa-pencil-square-o' aria-hidden='true'></i>
+                      <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </span>
                   )}
                 </td>
                 <td>
                   <InputField
                     value={item?.estimatedAmount}
-                    name='estimatedAmount'
-                    type='number'
+                    name="estimatedAmount"
+                    type="number"
                     onChange={(e) => {
                       const copyRowDto = [...rowDto];
                       copyRowDto[index].estimatedAmount = e.target.value;
@@ -101,8 +100,8 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
                 <td>
                   <InputField
                     value={item?.customerFinalAmount}
-                    name='customerFinalAmount'
-                    type='number'
+                    name="customerFinalAmount"
+                    type="number"
                     onChange={(e) => {
                       const copyRowDto = [...rowDto];
                       copyRowDto[index].customerFinalAmount = e.target.value;
@@ -110,11 +109,11 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
                     }}
                   />
                 </td>
-                <td className='text-right'>{item?.actualAmount}</td>
-                <td className='text-right'>
+                <td className="text-right">{item?.actualAmount}</td>
+                <td className="text-right">
                   <OverlayTrigger
                     overlay={
-                      <Tooltip className='mytooltip' id='info-tooltip'>
+                      <Tooltip className="mytooltip" id="info-tooltip">
                         <div>
                           {item?.estimatePDABillCreateDtos?.map((itm, idx) => {
                             return (
@@ -122,34 +121,34 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
                                 <div>
                                   <p
                                     style={{
-                                      margin: "0",
+                                      margin: '0',
                                       color:
-                                        itm?.status === "Paid"
-                                          ? "green"
-                                          : "orange",
+                                        itm?.status === 'Paid'
+                                          ? 'green'
+                                          : 'orange',
                                     }}
                                   >
                                     <b>
-                                      {idx + 1}{" "}
+                                      {idx + 1}{' '}
                                       <span
                                         style={{
-                                          display: "inline-block",
-                                          padding: "0 5px",
+                                          display: 'inline-block',
+                                          padding: '0 5px',
                                         }}
                                       >
                                         |
-                                      </span>{" "}
+                                      </span>{' '}
                                       {moment(itm?.billDate).format(
-                                        "YYYY-MM-DD"
-                                      )}{" "}
+                                        'YYYY-MM-DD',
+                                      )}{' '}
                                       <span
                                         style={{
-                                          display: "inline-block",
-                                          padding: "0 5px",
+                                          display: 'inline-block',
+                                          padding: '0 5px',
                                         }}
                                       >
                                         |
-                                      </span>{" "}
+                                      </span>{' '}
                                       {itm?.total}
                                     </b>
                                   </p>
@@ -163,18 +162,18 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
                   >
                     <b
                       style={{
-                        color: "blue",
-                        textDecoration: "underline",
-                        cursor: "pointer",
+                        color: 'blue',
+                        textDecoration: 'underline',
+                        cursor: 'pointer',
                       }}
                     >
                       {item?.estimatePDABillCreateDtos?.length > 0 && billTotal}
                     </b>
                   </OverlayTrigger>
                 </td>
-                <td className='text-center'>
+                <td className="text-center">
                   <span
-                    className='pointer'
+                    className="pointer"
                     onClick={() => {
                       isShowBillModal(true);
                       setClickRowData({
@@ -183,13 +182,13 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
                       });
                     }}
                   >
-                    <IAdd title={"Bill Add"} />
+                    <IAdd title={'Bill Add'} />
                   </span>
                   {editId && !item?.isPo && (
                     <>
-                      <span className='ml-2'>
+                      <span className="ml-2">
                         <OverlayTrigger
-                          overlay={<Tooltip id='cs-icon'>PO Create</Tooltip>}
+                          overlay={<Tooltip id="cs-icon">PO Create</Tooltip>}
                         >
                           <span
                             onClick={() => {
@@ -207,12 +206,12 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
 
                               let list = [];
 
-                              if (item?.category === "Operation") {
+                              if (item?.category === 'Operation') {
                                 list =
                                   rowDto?.filter(
                                     (itm) =>
-                                      itm?.category === "Operation" &&
-                                      +itm?.estimatedAmount > 0
+                                      itm?.category === 'Operation' &&
+                                      +itm?.estimatedAmount > 0,
                                   ) || [];
                               } else {
                                 list = [item];
@@ -221,7 +220,7 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
                               setClickRowData(list);
                             }}
                           >
-                            <i class='fa fa-share' aria-hidden='true'></i>
+                            <i class="fa fa-share" aria-hidden="true"></i>
                           </span>
                         </OverlayTrigger>
                       </span>
@@ -229,9 +228,9 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
                   )}
 
                   {item?.isPo && (
-                    <span className='ml-2'>
+                    <span className="ml-2">
                       <OverlayTrigger
-                        overlay={<Tooltip id='cs-icon'>View PO</Tooltip>}
+                        overlay={<Tooltip id="cs-icon">View PO</Tooltip>}
                       >
                         <span
                           onClick={() => {
@@ -239,7 +238,7 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
                             setClickRowData(item);
                           }}
                         >
-                          <i class='fa fa-eye' aria-hidden='true'></i>
+                          <i class="fa fa-eye" aria-hidden="true"></i>
                         </span>
                       </OverlayTrigger>
                     </span>
@@ -256,7 +255,7 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
               <b>
                 {rowDto?.reduce(
                   (acc, cur) => acc + (+cur?.estimatedAmount || 0),
-                  0
+                  0,
                 ) || 0}
               </b>
             </td>
@@ -264,28 +263,28 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
               <b>
                 {rowDto?.reduce(
                   (acc, cur) => acc + (+cur?.customerFinalAmount || 0),
-                  0
+                  0,
                 ) || 0}
               </b>
             </td>
-            <td className='text-right'>
+            <td className="text-right">
               <b>
                 {rowDto?.reduce(
                   (acc, cur) => acc + (+cur?.actualAmount || 0),
-                  0
+                  0,
                 ) || 0}
               </b>
             </td>
-            <td className='text-right'>
+            <td className="text-right">
               <b>
                 {rowDto?.reduce(
                   (acc, cur) =>
                     acc +
                     (cur?.estimatePDABillCreateDtos?.reduce(
                       (acc, cur) => acc + (+cur?.total || 0),
-                      0
+                      0,
                     ) || 0),
-                  0
+                  0,
                 ) || 0}
               </b>
             </td>
@@ -340,7 +339,7 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
             setShowViewModal(false);
             setClickRowData({});
           }}
-          title='View Purchase Order'
+          title="View Purchase Order"
         >
           <PurchaseOrderViewTableRow
             poId={clickRowData?.poId}

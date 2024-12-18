@@ -124,7 +124,7 @@
 .print-invoice-wrapper .signature {
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: flex-end;
   margin-bottom: -5px;
   padding: 0 50px;
 }
@@ -155,6 +155,7 @@
   .print-invoice-wrapper .signature {
     margin-bottom: 120px;
   }
+
   .sales-collection-table table .sales-collection-hide {
     display: block;
     background-color: white;

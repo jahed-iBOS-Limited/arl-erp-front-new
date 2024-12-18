@@ -1,39 +1,35 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Select from "react-select";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import { SetManufacturePETableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import customStyles from "../../../../selectCustomStyle";
-import ProductionEntryViewModal from "../View/ViewModal";
-import BackCalculationPEViewModal from "../ViewForBackCalculation/ViewModal";
-import { getGridData, getPlantNameDDL, getShopFloorDDL } from "../helper";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import NewSelect from "../../../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import { SetManufacturePETableLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import customStyles from '../../../../selectCustomStyle';
+import ProductionEntryViewModal from '../View/ViewModal';
+import BackCalculationPEViewModal from '../ViewForBackCalculation/ViewModal';
+import { getGridData, getPlantNameDDL, getShopFloorDDL } from '../helper';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import NewSelect from '../../../../_helper/_select';
 
 export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
   const { manufacturePETableLanding } = useSelector(
-    (state) => state.localStorage
+    (state) => state.localStorage,
   );
   const [landingData, setLandingData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
   const [
     modalShowForBackCalculation,
     setModalShowForBackCalculation,
   ] = useState(false);
-  const [singleData, setSingleData] = useState({});
-  const [singleBackCalculationData, setSingleBackCalculationData] = useState(
-    {}
-  );
+
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState({ value: false, label: "Pending" });
+  const [status, setStatus] = useState({ value: false, label: 'Pending' });
 
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -41,12 +37,12 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
 
   const [plant, setPlant] = useState([]);
   const [selectPlant, setselectPlant] = useState(
-    manufacturePETableLanding?.plant
+    manufacturePETableLanding?.plant,
   );
 
   const [shopFloorDDL, setShopFloorDDL] = useState([]);
   const [selectedDDLShop, setselectedDDLShop] = React.useState(
-    manufacturePETableLanding?.shopfloor
+    manufacturePETableLanding?.shopfloor,
   );
 
   const dispatch = useDispatch();
@@ -64,14 +60,15 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
       profileData.userId,
       profileData.accountId,
       selectedBusinessUnit.value,
-      setPlant
+      setPlant,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
     if (!selectPlant || !selectedDDLShop)
-      return toast.warn("Please select plant and shop floor");
+      return toast.warn('Please select plant and shop floor');
     getGridData(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -84,7 +81,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
       searchValue,
       fromDate,
       toDate,
-      status?.value
+      status?.value,
     );
   };
 
@@ -92,13 +89,6 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
     setPositionHandler(pageNo, pageSize, searchValue);
   };
   const history = useHistory();
-
-  // Role mngt
-  const userRole = useSelector(
-    (state) => state?.authData?.userRole,
-    shallowEqual
-  );
-  const productionEntry = userRole[83];
 
   useEffect(() => {
     selectPlant?.value &&
@@ -112,18 +102,19 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
         setLoading,
         pageNo,
         pageSize,
-        "",
+        '',
         fromDate,
         toDate,
-        status?.value
+        status?.value,
       );
     selectPlant?.value &&
       getShopFloorDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         selectPlant?.value,
-        setShopFloorDDL
+        setShopFloorDDL,
       );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -137,24 +128,24 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
                 placeholder="Plant Name"
                 onChange={(valueOption) => {
                   setselectPlant(valueOption);
-                  setselectedDDLShop("");
+                  setselectedDDLShop('');
                   dispatch(
                     SetManufacturePETableLandingAction({
                       plant: valueOption,
-                      shopfloor: "",
-                    })
+                      shopfloor: '',
+                    }),
                   );
                   getShopFloorDDL(
                     profileData?.accountId,
                     selectedBusinessUnit?.value,
                     valueOption?.value,
-                    setShopFloorDDL
+                    setShopFloorDDL,
                   );
                   dispatch(
                     SetManufacturePETableLandingAction({
                       plant: valueOption,
-                      shopfloor: "",
-                    })
+                      shopfloor: '',
+                    }),
                   );
                 }}
                 value={selectPlant}
@@ -177,7 +168,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
                     SetManufacturePETableLandingAction({
                       plant: selectPlant,
                       shopfloor: valueOption,
-                    })
+                    }),
                   );
                 }}
                 isSearchable={true}
@@ -215,8 +206,8 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
               <NewSelect
                 name="status"
                 options={[
-                  { value: false, label: "Pending" },
-                  { value: true, label: "Approved" },
+                  { value: false, label: 'Pending' },
+                  { value: true, label: 'Approved' },
                 ]}
                 value={status}
                 label="Status"
@@ -225,7 +216,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
                 }}
               />
             </div>
-            <div style={{ marginTop: "10px" }} className="col-lg-1 ml-5">
+            <div style={{ marginTop: '10px' }} className="col-lg-1 ml-5">
               <button
                 className="btn btn-primary"
                 disabled={!selectedDDLShop || !selectPlant}
@@ -239,10 +230,10 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
                     setLoading,
                     pageNo,
                     pageSize,
-                    "",
+                    '',
                     fromDate,
                     toDate,
-                    status?.value
+                    status?.value,
                   );
                 }}
               >
@@ -253,7 +244,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
         </div>
       </div>
       <div className="row">
-        <div style={{ marginTop: "10px" }} className="col-lg-12 pr-0 pl-0">
+        <div style={{ marginTop: '10px' }} className="col-lg-12 pr-0 pl-0">
           {loading && <Loading />}
           <PaginationSearch
             placeholder="Item Name Search"
@@ -266,14 +257,14 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
                   <thead>
                     <tr>
                       {/* <th style={{ width: "30px" }}>SL</th> */}
-                      <th style={{ width: "30px" }}>SL</th>
-                      <th style={{ width: "50px" }}>Production Date</th>
-                      <th style={{ width: "50px" }}>Shift</th>
-                      <th style={{ width: "50px" }}>Item Name</th>
-                      <th style={{ width: "50px" }}>UoM Name</th>
-                      <th style={{ width: "50px" }}>Production Order Code</th>
-                      <th style={{ width: "50px" }}>Production Qty</th>
-                      <th style={{ width: "50px" }}>Action</th>
+                      <th style={{ width: '30px' }}>SL</th>
+                      <th style={{ width: '50px' }}>Production Date</th>
+                      <th style={{ width: '50px' }}>Shift</th>
+                      <th style={{ width: '50px' }}>Item Name</th>
+                      <th style={{ width: '50px' }}>UoM Name</th>
+                      <th style={{ width: '50px' }}>Production Order Code</th>
+                      <th style={{ width: '50px' }}>Production Qty</th>
+                      <th style={{ width: '50px' }}>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -299,17 +290,17 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
                             {item?.productionOrderCode ? (
                               <span
                                 className="text-primary font-weight-bold cursor-pointer mr-2"
-                                style={{ textDecoration: "underline" }}
+                                style={{ textDecoration: 'underline' }}
                                 onClick={() => {
                                   history.push(
-                                    `/production-management/mes/productionorder/view/${item?.productionOrderNo}`
+                                    `/production-management/mes/productionorder/view/${item?.productionOrderNo}`,
                                   );
                                 }}
                               >
-                                {item?.productionOrderCode || ""}
+                                {item?.productionOrderCode || ''}
                               </span>
                             ) : (
-                              <span>{item?.productionCode || ""}</span>
+                              <span>{item?.productionCode || ''}</span>
                             )}
                           </div>
                         </td>
@@ -420,12 +411,12 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
           />
         )}
         <ProductionEntryViewModal
-          data={singleData}
+          data={{}}
           show={modalShow}
           onHide={() => setModalShow(false)}
         />
         <BackCalculationPEViewModal
-          data={singleBackCalculationData}
+          data={{}}
           show={modalShowForBackCalculation}
           onHide={() => setModalShowForBackCalculation(false)}
         />

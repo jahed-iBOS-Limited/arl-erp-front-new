@@ -1,16 +1,15 @@
-import { Rating } from "@material-ui/lab";
-import { Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import TextArea from "../../../../_helper/TextArea";
-import Loading from "../../../../_helper/_loading";
-import { feedbackReviewApi } from "../../resolution/helper";
+import { Rating } from '@material-ui/lab';
+import { Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import TextArea from '../../../../_helper/TextArea';
+import Loading from '../../../../_helper/_loading';
+import { feedbackReviewApi } from '../../resolution/helper';
 function FeedbackModalAfterClosing({ clickRowData, landingCB }) {
   const [loading, setLoading] = React.useState(false);
   const [review, setReview] = React.useState(0);
   const {
     profileData: { userId },
-    selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const formikRef = React.useRef(null);
 
@@ -20,7 +19,7 @@ function FeedbackModalAfterClosing({ clickRowData, landingCB }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          feedback: "",
+          feedback: '',
         }}
         innerRef={formikRef}
       >
@@ -41,7 +40,7 @@ function FeedbackModalAfterClosing({ clickRowData, landingCB }) {
               </p> */}
               <div className="mt-2 d-flex justify-content-center mb-2">
                 <div className="d-flex justify-content-center align-items-center">
-                  {" "}
+                  {' '}
                   <b>Low</b>
                   <Rating
                     name="pristine"
@@ -49,7 +48,7 @@ function FeedbackModalAfterClosing({ clickRowData, landingCB }) {
                     onChange={(event, newValue) => {
                       setReview(newValue);
                     }}
-                  />{" "}
+                  />{' '}
                   <b>High</b>
                 </div>
               </div>
@@ -57,12 +56,12 @@ function FeedbackModalAfterClosing({ clickRowData, landingCB }) {
             <div className="col-lg-12">
               <TextArea
                 name="feedback"
-                value={values?.feedback || ""}
+                value={values?.feedback || ''}
                 placeholder="FeedBack"
                 touched={touched}
                 rows="3"
                 onChange={(e) => {
-                  setFieldValue("feedback", e.target.value);
+                  setFieldValue('feedback', e.target.value);
                 }}
                 errors={errors}
               />
@@ -75,7 +74,7 @@ function FeedbackModalAfterClosing({ clickRowData, landingCB }) {
                   const payload = {
                     complainId: clickRowData?.complainId,
                     reviewFeedbackCount: +review,
-                    reviewFeedbackMessage: values?.feedback || "",
+                    reviewFeedbackMessage: values?.feedback || '',
                     reviewFeedbackByUserId: userId,
                   };
                   feedbackReviewApi(payload, setLoading, () => {

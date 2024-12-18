@@ -1,41 +1,39 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _todayDate } from "../../../_helper/_todayDate";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { useParams } from "react-router-dom";
-import IViewModal from "../../../_helper/_viewModal";
-import { generateFileUrl } from "../../utils/helper";
-import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
-
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../App';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import AttachmentUploaderNew from '../../../_helper/attachmentUploaderNew';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import EmailEditorForPublicRoutes from '../../utils/emailEditorForPublicRotes';
+import { generateFileUrl } from '../../utils/helper';
 
 // Initial data
 const initData = {
-  strName: "",
-  strEmail: "",
-  strVesselName: "",
-  strVoyageNo: "",
-  strCode: "",
-  strSoffile: "",
-  strNorfile: "",
-  strFinalDraftSurveyReportFile: "",
-  strFinalStowagePlanFile: "",
-  strMatesReceiptFile: "",
-  strCargoManifestFile: "",
-  strMasterReceiptOfSampleFile: "",
-  strAuthorizationLetterFile: "",
-  strSealingReportFile: "",
-  strHoldInspectionReportFile: "",
-  strRemarks: "",
-  departureDocuments: "",
+  strName: '',
+  strEmail: '',
+  strVesselName: '',
+  strVoyageNo: '',
+  strCode: '',
+  strSoffile: '',
+  strNorfile: '',
+  strFinalDraftSurveyReportFile: '',
+  strFinalStowagePlanFile: '',
+  strMatesReceiptFile: '',
+  strCargoManifestFile: '',
+  strMasterReceiptOfSampleFile: '',
+  strAuthorizationLetterFile: '',
+  strSealingReportFile: '',
+  strHoldInspectionReportFile: '',
+  strRemarks: '',
+  departureDocuments: '',
 };
 
 export default function CreateDischargePort() {
@@ -48,10 +46,7 @@ export default function CreateDischargePort() {
 
   const { paramId, paramCode } = useParams();
 
-  const [attachment, setAttachment] = useState("");
   const [, onSave, loader] = useAxiosPost();
-  const [vesselDDL, getVesselDDL] = useAxiosGet();
-  const [voyageDDL, getVoyageDDL, , setVoyageDDL] = useAxiosGet();
   const [isShowModal, setIsShowModal] = useState(false);
   const [payloadInfo, setPayloadInfo] = useState(null);
   const [
@@ -61,15 +56,9 @@ export default function CreateDischargePort() {
   ] = useAxiosGet();
 
   useEffect(() => {
-    getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${accountId}&BusinessUnitId=${buId}
-      `);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accountId, buId]);
-
-  useEffect(() => {
     if (paramId) {
       getVesselNominationData(
-        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`
+        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -79,37 +68,38 @@ export default function CreateDischargePort() {
     setPayloadInfo({
       // strName: values?.strName,
       // strEmail: values?.strEmail,
-      strVesselName: values?.strNameOfVessel || "",
-      strVoyageNo: values?.intVoyageNo || "",
+      strVesselName: values?.strNameOfVessel || '',
+      strVoyageNo: values?.intVoyageNo || '',
       // intVesselNominationId: +paramId || 0,
-      strCode: paramCode || values.strCode || "",
+      strCode: paramCode || values.strCode || '',
       strSoffile: generateFileUrl(values.strSoffile),
       strNorfile: generateFileUrl(values.strNorfile),
       strFinalDraftSurveyReportFile: generateFileUrl(
-        values.strFinalDraftSurveyReportFile
+        values.strFinalDraftSurveyReportFile,
       ),
       strFinalStowagePlanFile: generateFileUrl(values.strFinalStowagePlanFile),
       strMatesReceiptFile: generateFileUrl(values.strMatesReceiptFile),
       strCargoManifestFile: generateFileUrl(values.strCargoManifestFile),
       strMasterReceiptOfSampleFile: generateFileUrl(
-        values.strMasterReceiptOfSampleFile
+        values.strMasterReceiptOfSampleFile,
       ),
       strAuthorizationLetterFile: generateFileUrl(
-        values.strAuthorizationLetterFile
+        values.strAuthorizationLetterFile,
       ),
       strSealingReportFile: generateFileUrl(values.strSealingReportFile),
       strHoldInspectionReportFile: generateFileUrl(
-        values.strHoldInspectionReportFile
+        values.strHoldInspectionReportFile,
       ),
 
       strRemarks: values.strRemarks,
 
       // Dynamically add extra attachments based on the length of departureDocuments
-      ...(values?.departureDocuments?.length > 0 && values?.departureDocuments.reduce((acc, item, index) => {
-        const attachmentKey = `ExtraAttachment${index + 1}`;
-        acc[attachmentKey] = generateFileUrl(item); // Generate dynamic key and URL
-        return acc;
-      }, {})),
+      ...(values?.departureDocuments?.length > 0 &&
+        values?.departureDocuments.reduce((acc, item, index) => {
+          const attachmentKey = `ExtraAttachment${index + 1}`;
+          acc[attachmentKey] = generateFileUrl(item); // Generate dynamic key and URL
+          return acc;
+        }, {})),
     });
 
     const payload = {
@@ -117,13 +107,13 @@ export default function CreateDischargePort() {
       strEmail: values?.strEmail,
       intAutoId: 0,
       intAccountId: accountId,
-      strAccountName: "Akij",
+      strAccountName: 'Akij',
       intBusinessUnitId: buId,
       strBusinessUnitName: businessUnitName,
-      strVesselName: values?.strNameOfVessel || "",
-      strVoyageNo: values?.intVoyageNo || "",
+      strVesselName: values?.strNameOfVessel || '',
+      strVoyageNo: values?.intVoyageNo || '',
       intVesselNominationId: +paramId || 0,
-      strCode: paramCode || values.strCode || "",
+      strCode: paramCode || values.strCode || '',
       strSoffile: values.strSoffile,
       strNorfile: values.strNorfile,
       strFinalDraftSurveyReportFile: values.strFinalDraftSurveyReportFile,
@@ -139,17 +129,20 @@ export default function CreateDischargePort() {
       dteServerDateTime: _todayDate(),
       intActionBy: userId,
       isActive: true,
-      departureDocuments: values?.departureDocuments?.length > 0 ? values?.departureDocuments?.map((item) => ({
-        strDocumentId: item?.id,
-        headerId: 0,
-      })) : []
+      departureDocuments:
+        values?.departureDocuments?.length > 0
+          ? values?.departureDocuments?.map((item) => ({
+              strDocumentId: item?.id,
+              headerId: 0,
+            }))
+          : [],
     };
 
     onSave(
       `${imarineBaseUrl}/domain/VesselNomination/CreateDepartureDocumentsDischargePort`,
       payload,
       cb,
-      true
+      true,
     );
   };
 
@@ -167,13 +160,13 @@ export default function CreateDischargePort() {
     //     label: Yup.string().required("Voyage No is required"),
     //   })
     //   .typeError("Voyage No is required"),
-    strNameOfVessel: Yup.string().required("Name Of Vessel is required"),
-    intVoyageNo: Yup.string().required("Code is required"),
-    strCode: Yup.string().required("Voyage No is required"),
-    strName: Yup.string().required("Name is required"),
+    strNameOfVessel: Yup.string().required('Name Of Vessel is required'),
+    intVoyageNo: Yup.string().required('Code is required'),
+    strCode: Yup.string().required('Voyage No is required'),
+    strName: Yup.string().required('Name is required'),
     strEmail: Yup.string()
-      .email("Invalid email format")
-      .required("Email is required"),
+      .email('Invalid email format')
+      .required('Email is required'),
   });
 
   return (
@@ -181,9 +174,9 @@ export default function CreateDischargePort() {
       enableReinitialize={true}
       initialValues={{
         ...initData,
-        strCode: paramCode || "",
-        strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
-        intVoyageNo: vesselNominationData?.intVoyageNo || "",
+        strCode: paramCode || '',
+        strNameOfVessel: vesselNominationData?.strNameOfVessel || '',
+        intVoyageNo: vesselNominationData?.intVoyageNo || '',
       }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -231,21 +224,21 @@ export default function CreateDischargePort() {
               <div className="form-group global-form row">
                 <div className="col-lg-2">
                   <InputField
-                    value={values.strName || ""}
+                    value={values.strName || ''}
                     label="Name"
                     name="strName"
                     type="text"
-                    onChange={(e) => setFieldValue("strName", e.target.value)}
+                    onChange={(e) => setFieldValue('strName', e.target.value)}
                     errors={errors}
                   />
                 </div>
                 <div className="col-lg-2">
                   <InputField
-                    value={values.strEmail || ""}
+                    value={values.strEmail || ''}
                     label="Email"
                     name="strEmail"
                     type="text"
-                    onChange={(e) => setFieldValue("strEmail", e.target.value)}
+                    onChange={(e) => setFieldValue('strEmail', e.target.value)}
                     errors={errors}
                   />
                 </div>
@@ -291,7 +284,7 @@ export default function CreateDischargePort() {
                     name="strNameOfVessel"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("strNameOfVessel", e.target.value)
+                      setFieldValue('strNameOfVessel', e.target.value)
                     }
                     errors={errors}
                     disabled
@@ -304,7 +297,7 @@ export default function CreateDischargePort() {
                     name="intVoyageNo"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("intVoyageNo", e.target.value)
+                      setFieldValue('intVoyageNo', e.target.value)
                     }
                     errors={errors}
                     disabled
@@ -317,7 +310,7 @@ export default function CreateDischargePort() {
                     label="Code"
                     name="strCode"
                     type="text"
-                    onChange={(e) => setFieldValue("strCode", e.target.value)}
+                    onChange={(e) => setFieldValue('strCode', e.target.value)}
                     errors={errors}
                     disabled
                   />
@@ -331,8 +324,7 @@ export default function CreateDischargePort() {
                     isExistAttachment={values?.strSoffile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
-                        setFieldValue("strSoffile", attachmentData?.[0]?.id);
+                        setFieldValue('strSoffile', attachmentData?.[0]?.id);
                       }
                     }}
                   />
@@ -346,8 +338,7 @@ export default function CreateDischargePort() {
                     isExistAttachment={values?.strNorfile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
-                        setFieldValue("strNorfile", attachmentData?.[0]?.id);
+                        setFieldValue('strNorfile', attachmentData?.[0]?.id);
                       }
                     }}
                   />
@@ -360,10 +351,9 @@ export default function CreateDischargePort() {
                     isForPublicRoute={true}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
                         setFieldValue(
-                          "strFinalDraftSurveyReportFile",
-                          attachmentData?.[0]?.id
+                          'strFinalDraftSurveyReportFile',
+                          attachmentData?.[0]?.id,
                         );
                       }
                     }}
@@ -378,10 +368,9 @@ export default function CreateDischargePort() {
                     isForPublicRoute={true}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
                         setFieldValue(
-                          "strFinalStowagePlanFile",
-                          attachmentData?.[0]?.id
+                          'strFinalStowagePlanFile',
+                          attachmentData?.[0]?.id,
                         );
                       }
                     }}
@@ -397,10 +386,9 @@ export default function CreateDischargePort() {
                     isExistAttachment={values?.strMatesReceiptFile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
                         setFieldValue(
-                          "strMatesReceiptFile",
-                          attachmentData?.[0]?.id
+                          'strMatesReceiptFile',
+                          attachmentData?.[0]?.id,
                         );
                       }
                     }}
@@ -415,10 +403,9 @@ export default function CreateDischargePort() {
                     isExistAttachment={values?.strCargoManifestFile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
                         setFieldValue(
-                          "strCargoManifestFile",
-                          attachmentData?.[0]?.id
+                          'strCargoManifestFile',
+                          attachmentData?.[0]?.id,
                         );
                       }
                     }}
@@ -433,10 +420,9 @@ export default function CreateDischargePort() {
                     isExistAttachment={values?.strMasterReceiptOfSampleFile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
                         setFieldValue(
-                          "strMasterReceiptOfSampleFile",
-                          attachmentData?.[0]?.id
+                          'strMasterReceiptOfSampleFile',
+                          attachmentData?.[0]?.id,
                         );
                       }
                     }}
@@ -451,10 +437,9 @@ export default function CreateDischargePort() {
                     isExistAttachment={values?.strAuthorizationLetterFile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
                         setFieldValue(
-                          "strAuthorizationLetterFile",
-                          attachmentData?.[0]?.id
+                          'strAuthorizationLetterFile',
+                          attachmentData?.[0]?.id,
                         );
                       }
                     }}
@@ -469,10 +454,9 @@ export default function CreateDischargePort() {
                     isExistAttachment={values?.strSealingReportFile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
                         setFieldValue(
-                          "strSealingReportFile",
-                          attachmentData?.[0]?.id
+                          'strSealingReportFile',
+                          attachmentData?.[0]?.id,
                         );
                       }
                     }}
@@ -487,10 +471,9 @@ export default function CreateDischargePort() {
                     isExistAttachment={values?.strHoldInspectionReportFile}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
                         setFieldValue(
-                          "strHoldInspectionReportFile",
-                          attachmentData?.[0]?.id
+                          'strHoldInspectionReportFile',
+                          attachmentData?.[0]?.id,
                         );
                       }
                     }}
@@ -505,10 +488,9 @@ export default function CreateDischargePort() {
                     fileUploadLimits={5}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
-                        setAttachment(attachmentData?.[0]?.id);
                         setFieldValue(
-                          "departureDocuments",
-                          attachmentData?.map((item) => item)
+                          'departureDocuments',
+                          attachmentData?.map((item) => item),
                         );
                       }
                     }}
@@ -523,7 +505,7 @@ export default function CreateDischargePort() {
                     name="strRemarks"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("strRemarks", e.target.value)
+                      setFieldValue('strRemarks', e.target.value)
                     }
                     errors={errors}
                     touched={touched}
@@ -534,7 +516,7 @@ export default function CreateDischargePort() {
                 <IViewModal
                   show={isShowModal}
                   onHide={() => setIsShowModal(false)}
-                  title={"Send Mail"}
+                  title={'Send Mail'}
                 >
                   {/* <MailSender payloadInfo={payloadInfo} /> */}
                   <EmailEditorForPublicRoutes

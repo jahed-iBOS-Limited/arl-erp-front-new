@@ -1,27 +1,22 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import * as Yup from 'yup';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import AttachmentUploaderNew from '../../../_helper/attachmentUploaderNew';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  monMutationFees: "",
-  monVat: "",
-  strDcrno: "",
-  strHoldingNo: "",
-  strMutitaionKhotianNo: "",
-  strMutationAttachment: "",
+  monMutationFees: '',
+  monVat: '',
+  strDcrno: '',
+  strHoldingNo: '',
+  strMutitaionKhotianNo: '',
+  strMutationAttachment: '',
 };
 export default function UpdateMutation({
   singleData,
@@ -62,16 +57,16 @@ export default function UpdateMutation({
     `,
       payload,
       cb,
-      true
+      true,
     );
   };
   const validationSchema = Yup.object().shape({
     strHoldingNo: Yup.string()
-      .required("Holding No is required")
-      .typeError("Holding No is required"),
+      .required('Holding No is required')
+      .typeError('Holding No is required'),
     strMutitaionKhotianNo: Yup.string()
-      .required("Mutitaion Khotian is required")
-      .typeError("Mutation Khatian is required"),
+      .required('Mutitaion Khotian is required')
+      .typeError('Mutation Khatian is required'),
     // monMutationFees: Yup.number().required("Mutation Fees is required"),
     // monVat: Yup.number().required("Vat is required"),
   });
@@ -107,7 +102,7 @@ export default function UpdateMutation({
                   label="Govt Fee"
                   name="monVat"
                   type="number"
-                  onChange={(e) => setFieldValue("monVat", e.target.value)}
+                  onChange={(e) => setFieldValue('monVat', e.target.value)}
                 />
               </div>
               {/* monMutationFees */}
@@ -118,7 +113,7 @@ export default function UpdateMutation({
                   name="monMutationFees"
                   type="number"
                   onChange={(e) =>
-                    setFieldValue("monMutationFees", e.target.value)
+                    setFieldValue('monMutationFees', e.target.value)
                   }
                 />
               </div>
@@ -130,7 +125,7 @@ export default function UpdateMutation({
                   label="DCR No"
                   name="strDcrno"
                   type="text"
-                  onChange={(e) => setFieldValue("strDcrno", e.target.value)}
+                  onChange={(e) => setFieldValue('strDcrno', e.target.value)}
                 />
               </div>
               {/* strHoldingNo */}
@@ -141,7 +136,7 @@ export default function UpdateMutation({
                   name="strHoldingNo"
                   type="text"
                   onChange={(e) =>
-                    setFieldValue("strHoldingNo", e.target.value)
+                    setFieldValue('strHoldingNo', e.target.value)
                   }
                 />
               </div>
@@ -153,7 +148,7 @@ export default function UpdateMutation({
                   name="strMutitaionKhotianNo"
                   type="text"
                   onChange={(e) =>
-                    setFieldValue("strMutitaionKhotianNo", e.target.value)
+                    setFieldValue('strMutitaionKhotianNo', e.target.value)
                   }
                 />
               </div>
@@ -161,23 +156,23 @@ export default function UpdateMutation({
                 <div className="">
                   <AttachmentUploaderNew
                     style={{
-                      backgroundColor: "transparent",
-                      color: "black",
+                      backgroundColor: 'transparent',
+                      color: 'black',
                     }}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
                         console.log(attachmentData);
                         console.log({ attachment: attachmentData });
                         setFieldValue(
-                          "strMutationAttachment",
-                          attachmentData?.[0]?.id
+                          'strMutationAttachment',
+                          attachmentData?.[0]?.id,
                         );
                       }
                     }}
                   />
                 </div>
               </div>
-              <div className="col-lg-1 mt-3" style={{ marginLeft: "-20px" }}>
+              <div className="col-lg-1 mt-3" style={{ marginLeft: '-20px' }}>
                 <div className="mt-4">
                   {singleData?.strMutationAttachment ? (
                     <OverlayTrigger
@@ -188,14 +183,14 @@ export default function UpdateMutation({
                           e.stopPropagation();
                           dispatch(
                             getDownlloadFileView_Action(
-                              singleData?.strMutationAttachment
-                            )
+                              singleData?.strMutationAttachment,
+                            ),
                           );
                         }}
                         className=" "
                       >
                         <i
-                          style={{ fontSize: "16px" }}
+                          style={{ fontSize: '16px' }}
                           className={`fa pointer fa-eye`}
                           aria-hidden="true"
                         ></i>

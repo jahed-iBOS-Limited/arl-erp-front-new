@@ -1,25 +1,23 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
 import {
-    Card,
-    CardBody,
-    CardHeader,
-    ModalProgressBar
-} from "../../../../../_metronic/_partials/controls";
-import { APIUrl } from "../../../../App";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import Loading from "../../../_helper/_loading";
-import { getMultipleFileView_Action } from "../../../_helper/_redux/Actions";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import printIcon from "../../../_helper/images/print-icon.png";
+  Card,
+  CardBody,
+  CardHeader,
+  ModalProgressBar,
+} from '../../../../../_metronic/_partials/controls';
+import { APIUrl } from '../../../../App';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import Loading from '../../../_helper/_loading';
+import { getMultipleFileView_Action } from '../../../_helper/_redux/Actions';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import printIcon from '../../../_helper/images/print-icon.png';
 
-export default function CustomerRefundModal({
-    billRegisterId
-}) {
+export default function CustomerRefundModal({ billRegisterId }) {
   const [singleData, getSingleData, loadingSingleData] = useAxiosGet([]);
-  const [sbu, getSbu, loadingSbu] = useAxiosGet([]);
+  const [sbu, getSbu] = useAxiosGet([]);
   const printRef = useRef();
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return {
@@ -29,20 +27,18 @@ export default function CustomerRefundModal({
   });
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     getSingleData(
-      `/fino/OthersBillEntry/CustomerRefundGetById?billId=${billRegisterId}`
+      `/fino/OthersBillEntry/CustomerRefundGetById?billId=${billRegisterId}`,
     );
-    getSbu(`/hcm/HCMDDL/GetSBUDDL?AccountId=${profileData?.accountId}&BusineessUnitId=${selectedBusinessUnit?.value}`)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [billRegisterId,profileData,selectedBusinessUnit]);
+    getSbu(
+      `/hcm/HCMDDL/GetSBUDDL?AccountId=${profileData?.accountId}&BusineessUnitId=${selectedBusinessUnit?.value}`,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [billRegisterId, profileData, selectedBusinessUnit]);
   return (
     <>
-      <Formik
-        enableReinitialize={true}
-        
-      >
+      <Formik enableReinitialize={true}>
         {({
           handleSubmit,
           resetForm,
@@ -56,9 +52,7 @@ export default function CustomerRefundModal({
             {loadingSingleData && <Loading />}
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Customer Refund View"}>
-                
-              </CardHeader>
+              <CardHeader title={'Customer Refund View'}></CardHeader>
               <CardBody>
                 <Form
                   className="form form-label-right approveBillRegisterView print-source"
@@ -69,13 +63,13 @@ export default function CustomerRefundModal({
                     <div className="col-lg-12 ">
                       <div
                         style={{
-                          position: "absolute",
-                          left: "15px",
-                          top: "0",
+                          position: 'absolute',
+                          left: '15px',
+                          top: '0',
                         }}
                       >
                         <img
-                          style={{ width: "55px" }}
+                          style={{ width: '55px' }}
                           src={`${APIUrl}/domain/Document/DownlloadFile?id=${selectedBusinessUnit?.imageId}`}
                           alt=""
                         />
@@ -86,13 +80,13 @@ export default function CustomerRefundModal({
                             {selectedBusinessUnit?.imageId && (
                               <div
                                 style={{
-                                  position: "absolute",
-                                  left: "15px",
-                                  top: "0",
+                                  position: 'absolute',
+                                  left: '15px',
+                                  top: '0',
                                 }}
                               >
                                 <img
-                                  style={{ width: "55px" }}
+                                  style={{ width: '55px' }}
                                   src={`${APIUrl}/domain/Document/DownlloadFile?id=${selectedBusinessUnit?.imageId}`}
                                   alt=""
                                 />
@@ -101,7 +95,7 @@ export default function CustomerRefundModal({
 
                             <div
                               className="text-center"
-                              style={{ position: "relative" }}
+                              style={{ position: 'relative' }}
                             >
                               <h2>{selectedBusinessUnit?.label}</h2>
                               <h5>{selectedBusinessUnit?.address} </h5>
@@ -109,23 +103,23 @@ export default function CustomerRefundModal({
 
                               <ReactToPrint
                                 pageStyle={
-                                  "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                                  '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                                 }
                                 trigger={() => (
                                   <button
                                     type="button"
                                     className="btn btn-primary printSectionNone"
                                     style={{
-                                      padding: "2px 5px",
-                                      position: "absolute",
-                                      top: "0",
-                                      right: "0",
+                                      padding: '2px 5px',
+                                      position: 'absolute',
+                                      top: '0',
+                                      right: '0',
                                     }}
                                   >
                                     <img
                                       style={{
-                                        width: "25px",
-                                        paddingRight: "5px",
+                                        width: '25px',
+                                        paddingRight: '5px',
                                       }}
                                       src={printIcon}
                                       alt="print-icon"
@@ -148,7 +142,7 @@ export default function CustomerRefundModal({
 
                           <div className="col-lg-3">
                             <p>
-                              <b>Bill Code: </b>{" "}
+                              <b>Bill Code: </b>{' '}
                               {singleData?.header?.strBillRegisterCode}
                             </p>
                           </div>
@@ -162,13 +156,13 @@ export default function CustomerRefundModal({
                             <p>
                               <b>Bill Date: </b>
                               {_dateFormatter(
-                                singleData?.header?.dteBillRegisterDate
+                                singleData?.header?.dteBillRegisterDate,
                               )}
                             </p>
                           </div>
                           <div className="col-lg-3">
                             <p>
-                              <b>Narration: </b>{" "}
+                              <b>Narration: </b>{' '}
                               {singleData?.header?.strRemarks}
                             </p>
                           </div>
@@ -179,10 +173,10 @@ export default function CustomerRefundModal({
                                   getMultipleFileView_Action(
                                     singleData?.image?.length > 0
                                       ? singleData?.image?.map(
-                                          (item) => item?.strAttatchment
+                                          (item) => item?.strAttatchment,
                                         )
-                                      : []
-                                  )
+                                      : [],
+                                  ),
                                 );
                               }}
                             >
@@ -210,13 +204,27 @@ export default function CustomerRefundModal({
                           </thead>
                           <tbody>
                             <tr>
-                              <td className="text-center">{singleData?.row?.strBusinessPartnerCode}</td>
-                              <td className="text-center">{singleData?.row?.strBusinessPartnerName}</td>
-                              <td className="text-center">{singleData?.row?.strBankName}</td>
-                              <td className="text-center">{singleData?.row?.strBankBranchName}</td>
-                              <td className="text-center">{singleData?.row?.strBankAccountNo}</td>
-                              <td className="text-center">{singleData?.row?.strRoutingNo}</td>
-                              <td className="text-right">{singleData?.row?.monTotalAmount}</td>
+                              <td className="text-center">
+                                {singleData?.row?.strBusinessPartnerCode}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strBusinessPartnerName}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strBankName}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strBankBranchName}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strBankAccountNo}
+                              </td>
+                              <td className="text-center">
+                                {singleData?.row?.strRoutingNo}
+                              </td>
+                              <td className="text-right">
+                                {singleData?.row?.monTotalAmount}
+                              </td>
                             </tr>
                           </tbody>
                         </table>

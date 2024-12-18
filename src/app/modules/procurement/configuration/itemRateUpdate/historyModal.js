@@ -1,19 +1,16 @@
-import React, { useEffect } from "react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import {
-  _dateFormatter,
-  _dateTimeFormatter,
-} from "../../../_helper/_dateFormate";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import React, { useEffect } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { _dateTimeFormatter } from '../../../_helper/_dateFormate';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 export default function ItemRateHistoryModal({ propsObj }) {
   const { singleData } = propsObj;
   const [historyData, getHistoryData] = useAxiosGet();
 
   useEffect(() => {
     getHistoryData(
-      `/procurement/PurchaseOrder/GetItemRateConfigurationHistory?itemId=${singleData?.itemId}&configId=${singleData?.itemRateConfigId}`
+      `/procurement/PurchaseOrder/GetItemRateConfigurationHistory?itemId=${singleData?.itemId}&configId=${singleData?.itemRateConfigId}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleData]);
@@ -70,14 +67,14 @@ export default function ItemRateHistoryModal({ propsObj }) {
                             e.stopPropagation();
                             dispatch(
                               getDownlloadFileView_Action(
-                                singleData?.attachment
-                              )
+                                singleData?.attachment,
+                              ),
                             );
                           }}
                           className="ml-2"
                         >
                           <i
-                            style={{ fontSize: "16px" }}
+                            style={{ fontSize: '16px' }}
                             className={`fa pointer fa-eye`}
                             aria-hidden="true"
                           ></i>

@@ -1,32 +1,32 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import NewSelect from "./../../../../_helper/_select";
-import printIcon from "./../../../../_helper/images/print-icon.png";
+} from '../../../../../../_metronic/_partials/controls';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import NewSelect from './../../../../_helper/_select';
+import printIcon from './../../../../_helper/images/print-icon.png';
 import {
   GetDetailTaxPendingDeliveryListAuto,
   getManualSalesInvoiceIbos,
   getShipPointByBranchId_api,
-  getTaxBranchDDL_api
-} from "./../helper";
-import GridData from "./grid";
+  getTaxBranchDDL_api,
+} from './../helper';
+import GridData from './grid';
 
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { generateJsonToExcel } from "../../../../_helper/excel/jsonToExcel";
-import ModalDateRangeModal from "./modalDateRangeModal";
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { generateJsonToExcel } from '../../../../_helper/excel/jsonToExcel';
+import ModalDateRangeModal from './modalDateRangeModal';
 
 export default function HeaderForm() {
   const [taxBranchDDL, setTaxBranchDDL] = useState([]);
@@ -51,9 +51,9 @@ export default function HeaderForm() {
   const initData = {
     toDate: _todayDate(),
     fromDate: _todayDate(),
-    branch: "",
-    status: "printed",
-    shipPoint: "",
+    branch: '',
+    status: 'printed',
+    shipPoint: '',
   };
 
   //FETCHING ALL DATA FROM helper.js
@@ -64,7 +64,7 @@ export default function HeaderForm() {
         profileData.userId,
         profileData.accountId,
         selectedBusinessUnit?.value,
-        setTaxBranchDDL
+        setTaxBranchDDL,
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -80,14 +80,14 @@ export default function HeaderForm() {
         selectedBusinessUnit.value,
         taxBranchDDL[0]?.value,
         (resData) => {
-          setShipPointByBranchDDL(resData || [])
-          const values  = {
+          setShipPointByBranchDDL(resData || []);
+          const values = {
             ...initData,
-            branch: taxBranchDDL[0] || "",
-            shipPoint: resData[0] || "",
-          }
+            branch: taxBranchDDL[0] || '',
+            shipPoint: resData[0] || '',
+          };
           commonGridFunc(null, values, pageNo, pageSize);
-        }
+        },
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,11 +97,11 @@ export default function HeaderForm() {
     searchValue,
     values,
     _pageNo = pageNo,
-    _pageSize = pageSize
+    _pageSize = pageSize,
   ) => {
     setGirdData([]);
 
-    if (values?.status === "printed") {
+    if (values?.status === 'printed') {
       getManualSalesInvoiceIbos(
         profileData?.accountId,
         selectedBusinessUnit.value,
@@ -112,7 +112,7 @@ export default function HeaderForm() {
         setLoading,
         _pageNo,
         _pageSize,
-        searchValue
+        searchValue,
       );
     } else {
       if (values?.shipPoint?.value) {
@@ -124,7 +124,7 @@ export default function HeaderForm() {
           setLoading,
           _pageNo,
           _pageSize,
-          searchValue
+          searchValue,
         );
       }
     }
@@ -143,40 +143,40 @@ export default function HeaderForm() {
   const generateExcel = (row) => {
     const header = [
       {
-        text: "SL",
-        textFormat: "number",
-        alignment: "center:middle",
-        key: "sl",
+        text: 'SL',
+        textFormat: 'number',
+        alignment: 'center:middle',
+        key: 'sl',
       },
       {
-        text: "Invoice",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "invoice",
+        text: 'Invoice',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'invoice',
       },
       {
-        text: "Transfer Date",
-        textFormat: "date",
-        alignment: "center:middle",
-        key: "transferDate",
+        text: 'Transfer Date',
+        textFormat: 'date',
+        alignment: 'center:middle',
+        key: 'transferDate',
       },
       {
-        text: "Transfer To",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "transferTo",
+        text: 'Transfer To',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'transferTo',
       },
       {
-        text: "Quantity",
-        textFormat: "number",
-        alignment: "center:middle",
-        key: "quantity",
+        text: 'Quantity',
+        textFormat: 'number',
+        alignment: 'center:middle',
+        key: 'quantity',
       },
       {
-        text: "Value",
-        textFormat: "number",
-        alignment: "center:middle",
-        key: "value",
+        text: 'Value',
+        textFormat: 'number',
+        alignment: 'center:middle',
+        key: 'value',
       },
     ];
     const _data = row.map((item, index) => {
@@ -186,7 +186,7 @@ export default function HeaderForm() {
         transferDate: _dateFormatter(item?.transferDate),
       };
     });
-    generateJsonToExcel(header, _data, "Sales Invoice iBOS");
+    generateJsonToExcel(header, _data, 'Sales Invoice iBOS');
   };
 
   return (
@@ -195,7 +195,7 @@ export default function HeaderForm() {
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          branch: taxBranchDDL[0] || "",
+          branch: taxBranchDDL[0] || '',
         }}
         //validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
@@ -204,16 +204,16 @@ export default function HeaderForm() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Auto Sales Invoice"}>
+              <CardHeader title={'Auto Sales Invoice'}>
                 <CardHeaderToolbar>
                   <div className="d-flex justify-content-center align-items-center">
                     {isMagnum && (
                       <>
-                        {" "}
+                        {' '}
                         <button
                           type="button"
                           className="btn btn-primary"
-                          style={{ padding: "5px 11px" }}
+                          style={{ padding: '5px 11px' }}
                           onClick={() => {
                             setModalDateRange(true);
                           }}
@@ -221,7 +221,7 @@ export default function HeaderForm() {
                           <img
                             src={printIcon}
                             alt="print-icon"
-                            style={{ width: "15px" }}
+                            style={{ width: '15px' }}
                           />
                           Date Range Print
                         </button>
@@ -235,7 +235,7 @@ export default function HeaderForm() {
                           `/vat/TaxSalesInvoiceIbos/GetSalesInvoiceIbosSearchPagination?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&taxBranchId=${values?.branch?.value}&status=true&fromdate=${values?.fromDate}&todate=${values?.toDate}&PageNo=1&PageSize=${gridData?.totalCountForExcel}&viewOrder=desc`,
                           (data) => {
                             generateExcel(data?.data);
-                          }
+                          },
                         );
                       }}
                       disabled={!gridData?.data?.length}
@@ -259,20 +259,20 @@ export default function HeaderForm() {
                           const modifyValues = {
                             ...values,
                             branch: valueOption,
-                            status: "printed",
-                            shipPoint: "",
+                            status: 'printed',
+                            shipPoint: '',
                           };
                           getShipPointByBranchId_api(
                             profileData.accountId,
                             selectedBusinessUnit.value,
                             valueOption?.value,
-                            setShipPointByBranchDDL
+                            setShipPointByBranchDDL,
                           );
                           commonGridFunc(null, modifyValues, pageNo, pageSize);
 
-                          setFieldValue("shipPoint", "");
-                          setFieldValue("status", "printed");
-                          setFieldValue("branch", valueOption);
+                          setFieldValue('shipPoint', '');
+                          setFieldValue('status', 'printed');
+                          setFieldValue('branch', valueOption);
                         }}
                         placeholder="Branch"
                         errors={errors}
@@ -287,7 +287,7 @@ export default function HeaderForm() {
                         label="ShipPoint"
                         onChange={(valueOption) => {
                           // setFieldValue("status", "");
-                          setFieldValue("shipPoint", valueOption);
+                          setFieldValue('shipPoint', valueOption);
                           const modifyValues = {
                             ...values,
                             shipPoint: valueOption,
@@ -311,7 +311,7 @@ export default function HeaderForm() {
                             ...values,
                             fromDate: e?.target?.value,
                           };
-                          setFieldValue("fromDate", e?.target?.value);
+                          setFieldValue('fromDate', e?.target?.value);
                           commonGridFunc(null, modifyValues, pageNo, pageSize);
                         }}
                       />
@@ -327,7 +327,7 @@ export default function HeaderForm() {
                             ...values,
                             toDate: e?.target?.value,
                           };
-                          setFieldValue("toDate", e?.target?.value);
+                          setFieldValue('toDate', e?.target?.value);
                           commonGridFunc(null, modifyValues, pageNo, pageSize);
                         }}
                       />
@@ -335,7 +335,7 @@ export default function HeaderForm() {
                     <div className="col-lg-2 d-flex align-items-center">
                       <span
                         className="d-flex align-items-center mr-2"
-                        style={{ marginTop: "15px" }}
+                        style={{ marginTop: '15px' }}
                       >
                         <input
                           id="printed"
@@ -352,12 +352,12 @@ export default function HeaderForm() {
                               null,
                               modifyValues,
                               pageNo,
-                              pageSize
+                              pageSize,
                             );
 
-                            setFieldValue("status", e.target.value);
+                            setFieldValue('status', e.target.value);
                           }}
-                          checked={values?.status === "printed"}
+                          checked={values?.status === 'printed'}
                         />
                         <label className="ml-2" for="printed">
                           Printed
@@ -365,7 +365,7 @@ export default function HeaderForm() {
                       </span>
                       <span
                         className="d-flex align-items-center"
-                        style={{ marginTop: "15px" }}
+                        style={{ marginTop: '15px' }}
                       >
                         <input
                           id="unprinted"
@@ -382,12 +382,12 @@ export default function HeaderForm() {
                               null,
                               modifyValues,
                               pageNo,
-                              pageSize
+                              pageSize,
                             );
 
-                            setFieldValue("status", e.target.value);
+                            setFieldValue('status', e.target.value);
                           }}
-                          checked={values?.status === "unprinted"}
+                          checked={values?.status === 'unprinted'}
                           disabled={!values?.shipPoint}
                         />
                         <label className="ml-2" for="unprinted">

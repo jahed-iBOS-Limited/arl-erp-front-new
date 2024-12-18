@@ -1,56 +1,56 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+/* eslint-disable jsx-a11y/no-distracting-elements */
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import Loading from "../../../../_helper/_loading";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
-import GudamAllotmentForm from "../_form/_form";
-import { deleteGudamAllotment } from "../helper";
+} from '../../../../../../_metronic/_partials/controls';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import Loading from '../../../../_helper/_loading';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getMonth } from '../../../../salesManagement/report/customerSalesTarget/utils';
+import GudamAllotmentForm from '../_form/_form';
+import { deleteGudamAllotment } from '../helper';
 
 const headers = [
-  "SL",
-  "Business Partner",
-  "Buffer Id",
-  "Buffer Name",
+  'SL',
+  'Business Partner',
+  'Buffer Id',
+  'Buffer Name',
   // "ShipPoint",
-  "Mother Vessel",
-  "Item Name",
-  "Month",
-  "Year",
-  "Allotment Qty",
-  "Extra Allotment Qty",
-  "Challan Qty",
-  "Remaining Qty",
-  "Revenue Rate (Tk)",
-  "Revenue Amount",
-  "Action",
+  'Mother Vessel',
+  'Item Name',
+  'Month',
+  'Year',
+  'Allotment Qty',
+  'Extra Allotment Qty',
+  'Challan Qty',
+  'Remaining Qty',
+  'Revenue Rate (Tk)',
+  'Revenue Amount',
+  'Action',
 ];
 
 const initData = {
   fromDate: _monthFirstDate(),
   toDate: _todayDate(),
-  organization: "",
-  reportType: { value: 1, label: "Details" },
-  loadingPort: "",
-  motherVessel: "",
+  organization: '',
+  reportType: { value: 1, label: 'Details' },
+  loadingPort: '',
+  motherVessel: '',
 };
 
 const GudamAllotmentLanding = () => {
@@ -59,7 +59,7 @@ const GudamAllotmentLanding = () => {
   const [rowData, getRowData, isLoading, setRowData] = useAxiosGet();
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState('');
   const [singleItem, setSingleItem] = useState({});
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -80,8 +80,8 @@ const GudamAllotmentLanding = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values, pageNo, pageSize) => {
-    const FromDate = values?.fromDate ? `&FromDate=${values?.fromDate}` : "";
-    const ToDate = values?.toDate ? `&ToDate=${values?.toDate}` : "";
+    const FromDate = values?.fromDate ? `&FromDate=${values?.fromDate}` : '';
+    const ToDate = values?.toDate ? `&ToDate=${values?.toDate}` : '';
     const reportTypeId = values?.reportType?.value;
 
     const urlForDetails = `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotment?BusinessUnitId=${buId}&SoldtoPartnerID=${values
@@ -107,9 +107,10 @@ const GudamAllotmentLanding = () => {
 
   useEffect(() => {
     getOrganizationDDL(
-      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`,
     );
     getData(initData, pageNo, pageSize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
   // set PositionHandler
@@ -124,8 +125,8 @@ const GudamAllotmentLanding = () => {
 
   const deleteHandler = (id, values) => {
     const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this information?",
+      title: 'Are You Sure?',
+      message: 'Are you sure you want to delete this information?',
       yesAlertFunc: () => {
         deleteGudamAllotment(id, setLoading, () => {
           getData(values, pageNo, pageSize);
@@ -172,7 +173,7 @@ const GudamAllotmentLanding = () => {
                   <div className="d-flex justify-content-end">
                     <button
                       onClick={() => {
-                        setFormType("create");
+                        setFormType('create');
                         setShow(true);
                       }}
                       className="btn btn-primary ml-2"
@@ -195,9 +196,9 @@ const GudamAllotmentLanding = () => {
                 <div className="row">
                   <div className="col-lg-1"></div>
                   <div className="col-lg-10">
-                    <marquee scrollamount="8" style={{ color: "#ff0000bd" }}>
+                    <marquee scrollamount="8" style={{ color: '#ff0000bd' }}>
                       <h3>
-                        Please Insert the Allotment Quantity with the Rate{" "}
+                        Please Insert the Allotment Quantity with the Rate{' '}
                       </h3>
                     </marquee>
                   </div>
@@ -211,7 +212,7 @@ const GudamAllotmentLanding = () => {
                       <NewSelect
                         name="organization"
                         options={
-                          [{ value: 0, label: "All" }, ...organizationDDL]
+                          [{ value: 0, label: 'All' }, ...organizationDDL]
                           //   [
                           //   { value: 0, label: "All" },
                           //   { value: 73244, label: "G2G BADC" },
@@ -221,7 +222,7 @@ const GudamAllotmentLanding = () => {
                         value={values?.organization}
                         label="Organization"
                         onChange={(valueOption) => {
-                          setFieldValue("organization", valueOption);
+                          setFieldValue('organization', valueOption);
                         }}
                         placeholder="Organization"
                       />
@@ -234,18 +235,18 @@ const GudamAllotmentLanding = () => {
                         label="Loading Port"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("loadingPort", valueOption);
-                            setFieldValue("motherVessel", "");
+                            setFieldValue('loadingPort', valueOption);
+                            setFieldValue('motherVessel', '');
                             getMotherVesselDDL(
                               `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${
                                 profileData?.accountId
                               }&BusinessUnitId=${
                                 selectedBusinessUnit?.value
-                              }&PortId=${valueOption?.value || 0}`
+                              }&PortId=${valueOption?.value || 0}`,
                             );
                           } else {
-                            setFieldValue("loadingPort", "");
-                            setFieldValue("motherVessel", "");
+                            setFieldValue('loadingPort', '');
+                            setFieldValue('motherVessel', '');
                             setMotherVesselDDL([]);
                           }
                         }}
@@ -256,13 +257,13 @@ const GudamAllotmentLanding = () => {
                       <NewSelect
                         name="motherVessel"
                         options={[
-                          { value: 0, label: "All" },
+                          { value: 0, label: 'All' },
                           ...motherVesselDDL,
                         ]}
                         value={values?.motherVessel}
                         label="Mother Vessel"
                         onChange={(valueOption) => {
-                          setFieldValue("motherVessel", valueOption);
+                          setFieldValue('motherVessel', valueOption);
                         }}
                         placeholder="Mother Vessel"
                       />
@@ -271,20 +272,20 @@ const GudamAllotmentLanding = () => {
                       <NewSelect
                         name="reportType"
                         options={[
-                          { value: 1, label: "Details" },
-                          { value: 2, label: "Top Sheet" },
-                          { value: 3, label: "Mismatch Details" },
+                          { value: 1, label: 'Details' },
+                          { value: 2, label: 'Top Sheet' },
+                          { value: 3, label: 'Mismatch Details' },
                         ]}
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("reportType", valueOption);
+                            setFieldValue('reportType', valueOption);
                             setRowData([]);
                           } else {
-                            setFieldValue("reportType", {
+                            setFieldValue('reportType', {
                               value: 1,
-                              label: "Details",
+                              label: 'Details',
                             });
                             setRowData([]);
                           }
@@ -292,7 +293,7 @@ const GudamAllotmentLanding = () => {
                         placeholder="Report Type"
                       />
                     </div>
-                    <div style={{ marginTop: "16px" }}>
+                    <div style={{ marginTop: '16px' }}>
                       <button
                         className="btn btn-primary"
                         type="button"
@@ -310,7 +311,7 @@ const GudamAllotmentLanding = () => {
                       <table
                         id="table-to-xlsx"
                         className={
-                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                         }
                       >
                         <thead>
@@ -330,7 +331,7 @@ const GudamAllotmentLanding = () => {
                             return (
                               <tr key={index}>
                                 <td
-                                  style={{ width: "40px" }}
+                                  style={{ width: '40px' }}
                                   className="text-center"
                                 >
                                   {index + 1}
@@ -348,7 +349,7 @@ const GudamAllotmentLanding = () => {
                                 <td className="text-right">
                                   {_fixedPoint(
                                     item?.extraAllotmentQuantity,
-                                    true
+                                    true,
                                   )}
                                 </td>
                                 <td
@@ -356,7 +357,7 @@ const GudamAllotmentLanding = () => {
                                   style={
                                     item?.challanQuantity >
                                     item?.allotmentQuantity
-                                      ? { backgroundColor: "#f9ee149c" }
+                                      ? { backgroundColor: '#f9ee149c' }
                                       : {}
                                   }
                                 >
@@ -366,7 +367,7 @@ const GudamAllotmentLanding = () => {
                                   className="text-right"
                                   style={
                                     item?.remaingQuantity < 0
-                                      ? { backgroundColor: "#ff00007d" }
+                                      ? { backgroundColor: '#ff00007d' }
                                       : {}
                                   }
                                 >
@@ -380,14 +381,14 @@ const GudamAllotmentLanding = () => {
                                     (item?.revenueRate || 0)}
                                 </td>
                                 <td
-                                  style={{ width: "80px" }}
+                                  style={{ width: '80px' }}
                                   className="text-center"
                                 >
                                   <div className="d-flex justify-content-around">
                                     <span>
                                       <IEdit
                                         onClick={() => {
-                                          setFormType("edit");
+                                          setFormType('edit');
                                           setSingleItem(item);
                                           setShow(true);
                                         }}
@@ -440,7 +441,7 @@ const GudamAllotmentLanding = () => {
                       <table
                         id="table-to-xlsx"
                         className={
-                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                         }
                       >
                         <thead>
@@ -462,7 +463,7 @@ const GudamAllotmentLanding = () => {
                             return (
                               <tr key={index}>
                                 <td
-                                  style={{ width: "40px" }}
+                                  style={{ width: '40px' }}
                                   className="text-center"
                                 >
                                   {index + 1}
@@ -482,7 +483,7 @@ const GudamAllotmentLanding = () => {
                                   style={
                                     item?.challanQuantity >
                                     item?.allotmentQuantity
-                                      ? { backgroundColor: "#f9ee149c" }
+                                      ? { backgroundColor: '#f9ee149c' }
                                       : {}
                                   }
                                 >
@@ -492,7 +493,7 @@ const GudamAllotmentLanding = () => {
                                   className="text-center"
                                   style={
                                     item?.remaingQuantity < 0
-                                      ? { backgroundColor: "#ff00007d" }
+                                      ? { backgroundColor: '#ff00007d' }
                                       : {}
                                   }
                                 >

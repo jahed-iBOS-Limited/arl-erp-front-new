@@ -1,17 +1,16 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
-import React from "react";
-import NewSelect from "../../../../_helper/_select";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import axios from 'axios';
+import React from 'react';
+import NewSelect from '../../../../_helper/_select';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import {
   challanVSDamageReportStatusOptions,
   handleChallanVSDamageDataFilter,
   isChallanVSDamageFilterSelectShow,
   viewReportBtnValidationHandler,
-} from "../helper";
+} from '../helper';
 
 const DamageEntryLandingForm = ({ obj }) => {
   const {
@@ -19,7 +18,6 @@ const DamageEntryLandingForm = ({ obj }) => {
     accId,
     values,
     pageNo,
-    sbuDDL,
     pageSize,
     gridData,
     editHandler,
@@ -27,7 +25,6 @@ const DamageEntryLandingForm = ({ obj }) => {
     setFieldValue,
     salesReturnLandingActions,
     gridDataBackupForFilter,
-    setGridDataBackupForFilter,
   } = obj;
 
   const customerList = (v) => {
@@ -35,7 +32,7 @@ const DamageEntryLandingForm = ({ obj }) => {
     if (searchValue?.length < 3 || !searchValue) return [];
     return axios
       .get(
-        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`
+        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`,
       )
       .then((res) => res?.data);
   };
@@ -47,13 +44,13 @@ const DamageEntryLandingForm = ({ obj }) => {
       <NewSelect
         name="viewAs"
         options={[
-          { value: 1, label: "Supervisor" },
+          { value: 1, label: 'Supervisor' },
           // { value: 2, label: "Accountant" },
         ]}
         value={values?.viewAs}
         label="View As"
         onChange={(valueOption) => {
-          setFieldValue("viewAs", valueOption);
+          setFieldValue('viewAs', valueOption);
           setGridData([]);
         }}
         placeholder="View As"
@@ -66,15 +63,15 @@ const DamageEntryLandingForm = ({ obj }) => {
       <NewSelect
         name="status"
         options={[
-          { value: 0, label: "All" },
-          { value: 1, label: "Approved" },
-          { value: 2, label: "Pending" },
-          { value: 3, label: "Canceled" },
+          { value: 0, label: 'All' },
+          { value: 1, label: 'Approved' },
+          { value: 2, label: 'Pending' },
+          { value: 3, label: 'Canceled' },
         ]}
         value={values?.status}
         label="Status"
         onChange={(valueOption) => {
-          setFieldValue("status", valueOption);
+          setFieldValue('status', valueOption);
           setGridData([]);
         }}
         placeholder="Status"
@@ -90,13 +87,13 @@ const DamageEntryLandingForm = ({ obj }) => {
             <NewSelect
               name="reportType"
               options={[
-                { value: 1, label: "Damage Entry Landing" },
-                { value: 2, label: "Challan Vs Damage Report" },
+                { value: 1, label: 'Damage Entry Landing' },
+                { value: 2, label: 'Challan Vs Damage Report' },
               ]}
               value={values?.reportType}
               label="Report Type"
               onChange={(valueOption) => {
-                setFieldValue("reportType", valueOption);
+                setFieldValue('reportType', valueOption);
                 setGridData([]);
               }}
               placeholder="Select Report"
@@ -113,9 +110,9 @@ const DamageEntryLandingForm = ({ obj }) => {
                   region: false,
                   area: false,
                   territory: false,
-                  columnSize: "col-lg-2",
+                  columnSize: 'col-lg-2',
                   onChange: () => {
-                    setFieldValue("customer", "");
+                    setFieldValue('customer', '');
                     setGridData([]);
                   },
                 }}
@@ -125,7 +122,7 @@ const DamageEntryLandingForm = ({ obj }) => {
                 <SearchAsyncSelect
                   selectedValue={values?.customer}
                   handleChange={(valueOption) => {
-                    setFieldValue("customer", valueOption);
+                    setFieldValue('customer', valueOption);
                     setGridData([]);
                   }}
                   isDisabled={!values?.channel}
@@ -136,8 +133,8 @@ const DamageEntryLandingForm = ({ obj }) => {
             </>
           )}
           <FromDateToDateForm
-            obj={{ values, setFieldValue, colSize: "col-lg-2" }}
-          />{" "}
+            obj={{ values, setFieldValue, colSize: 'col-lg-2' }}
+          />{' '}
           {/* Status Form Field For Damage Entry Landing */}
           {[1].includes(values?.reportType?.value) && <StatusFormField />}
           {/* {values?.viewAs?.value === 2 && (
@@ -173,7 +170,7 @@ const DamageEntryLandingForm = ({ obj }) => {
                 value={values?.challanVSDamageReportStatus}
                 label="Status"
                 onChange={(valueOption) => {
-                  setFieldValue("gridDataBackupForFilter?.data", valueOption);
+                  setFieldValue('gridDataBackupForFilter?.data', valueOption);
 
                   handleChallanVSDamageDataFilter({
                     copiedData: gridDataBackupForFilter,
@@ -195,7 +192,7 @@ const DamageEntryLandingForm = ({ obj }) => {
           />
           {gridData?.data?.length > 0 && values?.status?.value === 2 && (
             <IButton
-              className={"btn-info"}
+              className={'btn-info'}
               onClick={() => {
                 editHandler(values);
               }}

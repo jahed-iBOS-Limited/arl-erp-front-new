@@ -1,18 +1,11 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import IForm from "../../../../_helper/_form";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 
 export default function InvoiceList({ item, setInvoiceDataShow, data }) {
-  console.log({ item });
-  const {
-    profileData: { userId },
-    selectedBusinessUnit: { value: buId },
-  } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
   const dispatch = useDispatch();
 
   const saveHandler = (values, cb) => {};
@@ -76,13 +69,15 @@ export default function InvoiceList({ item, setInvoiceDataShow, data }) {
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     dispatch(
-                                      getDownlloadFileView_Action(i?.attachment)
+                                      getDownlloadFileView_Action(
+                                        i?.attachment,
+                                      ),
                                     );
                                   }}
                                   className="mt-2 ml-2"
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     className={`fa pointer fa-eye`}
                                     aria-hidden="true"
                                   ></i>

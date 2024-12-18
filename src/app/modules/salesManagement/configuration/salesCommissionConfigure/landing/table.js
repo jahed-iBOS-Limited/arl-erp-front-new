@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import axios from "axios";
-import { shallowEqual, useSelector } from "react-redux";
+import axios from 'axios';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
 
 const SalesCommissionConfigureLandingTable = ({ obj }) => {
   const {
@@ -57,12 +57,12 @@ const TableOne = ({ obj }) => {
 
   const deleteData = async () => {
     const url = `oms/CustomerSalesTarget/DeletePartySalesCommissionConfig`;
-    const res = await axios["post"](
+    await axios['post'](
       url,
       selectedRows?.map((row) => ({
         autoId: row?.autoId,
         actionBy: profileData?.userId,
-      }))
+      })),
     );
     setSelectedRows([]);
     getData(0, 15, values);
@@ -87,7 +87,7 @@ const TableOne = ({ obj }) => {
         <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
-              <th style={{ minWidth: "30px" }}>
+              <th style={{ minWidth: '30px' }}>
                 <input
                   type="checkbox"
                   checked={isAllSelected}
@@ -95,10 +95,10 @@ const TableOne = ({ obj }) => {
                   onChange={handleSelectAll}
                 />
               </th>
-              <th style={{ width: "40px" }}>SL</th>
+              <th style={{ width: '40px' }}>SL</th>
               <th>Area Name</th>
               {![35, 36, 37, 38, 39, 40].includes(
-                values?.commissionType?.value
+                values?.commissionType?.value,
               ) && (
                 <>
                   <th>BP Rate/bag</th>
@@ -112,7 +112,7 @@ const TableOne = ({ obj }) => {
               <th>Achievement From</th>
               <th>Achievement To</th>
               {[35, 36, 37, 38, 39, 40].includes(
-                values?.commissionType?.value
+                values?.commissionType?.value,
               ) && (
                 <>
                   <th>Commission Rate</th>
@@ -122,7 +122,7 @@ const TableOne = ({ obj }) => {
               {[40].includes(values?.commissionType?.value) ? (
                 <th>Designation Name</th>
               ) : (
-                ""
+                ''
               )}
               {/* {[17, 18, 25, 27].includes(values?.commissionType?.value) && (
                 <>
@@ -144,7 +144,7 @@ const TableOne = ({ obj }) => {
                     <input
                       type="checkbox"
                       checked={selectedRows.some(
-                        (row) => row.autoId === item.autoId
+                        (row) => row.autoId === item.autoId,
                       )}
                       onChange={() => handleSelectRow(item)}
                     />
@@ -152,7 +152,7 @@ const TableOne = ({ obj }) => {
                   <td> {index + 1}</td>
                   <td>{item?.areaName}</td>
                   {![35, 36, 37, 38, 39, 40].includes(
-                    values?.commissionType?.value
+                    values?.commissionType?.value,
                   ) && (
                     <>
                       <td className="text-right">{item?.bpcommissionRate}</td>
@@ -166,7 +166,7 @@ const TableOne = ({ obj }) => {
                   <td className="text-right">{item?.achievementFrom}</td>
                   <td className="text-right">{item?.achievementTo}</td>
                   {[35, 36, 37, 38, 39, 40].includes(
-                    values?.commissionType?.value
+                    values?.commissionType?.value,
                   ) && (
                     <>
                       <td className="text-right">{item?.commissionRate}</td>
@@ -222,7 +222,7 @@ const TableTwo = ({ obj }) => {
         <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
-              <th rowSpan={2} style={{ width: "40px" }}>
+              <th rowSpan={2} style={{ width: '40px' }}>
                 SL
               </th>
               <th rowSpan={2}>Area Name</th>

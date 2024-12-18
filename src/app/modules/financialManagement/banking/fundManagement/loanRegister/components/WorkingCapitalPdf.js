@@ -1,9 +1,8 @@
-import React from "react";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { formatDate } from "./utils";
-import { _formatMoney } from "../../../../../_helper/_formatMoney";
-import moment from "moment";
-const marginBottom = "9px";
+import moment from 'moment';
+import React from 'react';
+import { _formatMoney } from '../../../../../_helper/_formatMoney';
+import { formatDate } from './utils';
+const marginBottom = '9px';
 
 const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
   const {
@@ -14,17 +13,16 @@ const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
     bankBranchAddress,
     facilityName,
     strBankAccountNumber,
-    loanTypeName,
     bankBranchName,
   } = singleItem || {};
   const { buShortName, label } = selectedBusinessUnit;
-  const lacks = numPrinciple > 0 ? `${numPrinciple / 100000}L` : "0L";
+  const lacks = numPrinciple > 0 ? `${numPrinciple / 100000}L` : '0L';
 
   return (
-    <div style={{ margin: "40px 71px 0px" }}>
+    <div style={{ margin: '40px 71px 0px' }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Ref : {buShortName}/{strBankShortName}/STL/{lacks}/
-        {moment(dteStartDate).format("YYYY.MM.DD")}
+        {moment(dteStartDate).format('YYYY.MM.DD')}
       </p>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Date : {formatDate(dteStartDate)}
@@ -44,12 +42,12 @@ const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{ marginBottom }}>Dear Sir,</p>
       <p style={{ marginBottom }}>As-salamu alaykum,</p>
       <p style={{ marginBottom }}>
-        With reference to the subject, we would request you to please disburse a{" "}
-        {facilityName} of BDT{" "}
+        With reference to the subject, we would request you to please disburse a{' '}
+        {facilityName} of BDT{' '}
         <span className="font-weight-bolder">
-          {_formatMoney(numPrinciple)}{" "}
-        </span>{" "}
-        in our A/C{" "}
+          {_formatMoney(numPrinciple)}{' '}
+        </span>{' '}
+        in our A/C{' '}
         <span className="font-weight-bolder">{strBankAccountNumber}</span> to
         facilitate our working capital needs.
       </p>
@@ -57,9 +55,9 @@ const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{ marginBottom }}>
         Please process this request and
         <span className="font-weight-bolder">
-          {" "}
+          {' '}
           send the disbursed loan statement
-        </span>{" "}
+        </span>{' '}
         Voucher to us at your earliest convenience.
       </p>
       <p style={{ marginBottom }}>
@@ -71,12 +69,12 @@ const WorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
         For, <span className="font-weight-bolder">{label}</span>
       </p>
 
-      <div className="d-flex" style={{ marginTop: "90px" }}>
-        <p style={{ marginRight: "50px" }}>Authorized Signatory</p>
+      <div className="d-flex" style={{ marginTop: '90px' }}>
+        <p style={{ marginRight: '50px' }}>Authorized Signatory</p>
         <p>Authorized Signatory</p>
       </div>
 
-      <p style={{ fontStyle: "italic" }}>
+      <p style={{ fontStyle: 'italic' }}>
         <span className="font-weight-bolder">*Encloser : </span>
         Payment Advice.
       </p>

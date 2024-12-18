@@ -1,16 +1,16 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _todayDate } from "../../../../chartering/_chartinghelper/_todayDate";
-import { fuelCreateFormValidation } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _todayDate } from '../../../../chartering/_chartinghelper/_todayDate';
+import { fuelCreateFormValidation } from '../helper';
 const initData = {
-  fuel: "",
-  rate: "",
+  fuel: '',
+  rate: '',
   isActive: true,
   dteLastActionDate: _todayDate(),
 };
@@ -19,9 +19,9 @@ export default function FuelRateConfigCreateAndEdit() {
   const [objProps, setObjprops] = useState({});
   const { id } = useParams();
   const { state } = useLocation();
-  const [_, createCofig, configLoader] = useAxiosPost();
+  const [, createCofig, configLoader] = useAxiosPost();
   const [singleData, setSingleData] = useState({});
-  console.log("singleData", singleData);
+  console.log('singleData', singleData);
   const saveHandler = (values, cb) => {
     const payload = {
       intFuelRateId: state?.intFuelRateId || 0,
@@ -35,7 +35,7 @@ export default function FuelRateConfigCreateAndEdit() {
       `/mes/VehicleLog/CreateFuelRateConfig`,
       payload,
       () => {},
-      true
+      true,
     );
   };
   useEffect(() => {
@@ -47,13 +47,13 @@ export default function FuelRateConfigCreateAndEdit() {
       };
       setSingleData(data);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
   return (
     <Formik
       enableReinitialize={true}
       initialValues={id ? singleData : initData}
-        validationSchema={fuelCreateFormValidation}
+      validationSchema={fuelCreateFormValidation}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
@@ -78,15 +78,15 @@ export default function FuelRateConfigCreateAndEdit() {
                   <NewSelect
                     name="fuel"
                     options={[
-                      { value: 1, label: "Octane" },
-                      { value: 2, label: "Diesel" },
-                      { value: 3, label: "CNG" },
-                      { value: 4, label: "LPG" },
+                      { value: 1, label: 'Octane' },
+                      { value: 2, label: 'Diesel' },
+                      { value: 3, label: 'CNG' },
+                      { value: 4, label: 'LPG' },
                     ]}
                     value={values?.fuel}
                     label="Fuel Name"
                     onChange={(valueOption) => {
-                      setFieldValue("fuel", valueOption);
+                      setFieldValue('fuel', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -99,23 +99,23 @@ export default function FuelRateConfigCreateAndEdit() {
                     name="rate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("rate", +e.target.value);
+                      setFieldValue('rate', +e.target.value);
                     }}
                     min={0}
                   />
                 </div>
                 <div
-                  style={{ alignItems: "center", gap: "2px" }}
+                  style={{ alignItems: 'center', gap: '2px' }}
                   className="col-lg-2 mt-4 d-flex"
                 >
                   <input
-                    style={{ marginTop: "5px" }}
+                    style={{ marginTop: '5px' }}
                     id="isActive"
                     type="checkbox"
                     name="isActive"
                     checked={values?.isActive}
                     onChange={(e) =>
-                      setFieldValue("isActive", e?.target?.checked)
+                      setFieldValue('isActive', e?.target?.checked)
                     }
                   />
                   <label htmlFor="isActive">IsActive</label>
@@ -124,14 +124,14 @@ export default function FuelRateConfigCreateAndEdit() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
