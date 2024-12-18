@@ -212,7 +212,7 @@ function MasterBLLanding() {
                     >
                       <MasterHBAWModal
                         isPrintView={true}
-                        sipMasterBlid={clickRowDto?.sipMasterBlid}
+                        airMasterBlid={clickRowDto?.airMasterBlId}
                       />
                     </IViewModal>
                   </>

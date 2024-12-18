@@ -13,7 +13,7 @@ import logisticsLogo from "./logisticsLogo.png";
 import Loading from "../../../../_helper/_loading";
 const validationSchema = Yup.object().shape({});
 
-const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
+const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
   const [hbawListData, getHBAWList, ishbawLodaing] = useAxiosPost();
   const [
     getShipMasteBlById,
@@ -106,7 +106,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
   const GetShipMasterHAWBByIdApi = () => {
     ///domain/ShippingService/GetShipMasterBlById?BlId=3
     GetShipMasterBlById(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipMasterBlById?BlId=${sipMasterBlid}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetAirMasterBlById?BlId=${airMasterBlid}`,
       (data) => {
         if (data) {
           const obj = {
@@ -2254,8 +2254,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
                                           {isPrintViewMode ? (
                                             <>
                                               <p>
-                                                {values?.totalOtherChargesDueAgent
-                                                  ? values?.totalOtherChargesDueAgent
+                                                {values?.prepaidTotalOtherChargesDueAgent
+                                                  ? values?.prepaidTotalOtherChargesDueAgent
                                                     ?.split("\n")
                                                     .map((item, index) => {
                                                       return (
@@ -2273,13 +2273,13 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
                                               {" "}
                                               <div className="col-lg-12">
                                                 <textarea
-                                                  name="totalOtherChargesDueAgent"
+                                                  name="prepaidTotalOtherChargesDueAgent"
                                                   value={
-                                                    values?.totalOtherChargesDueAgent
+                                                    values?.prepaidTotalOtherChargesDueAgent
                                                   }
                                                   onChange={(e) => {
                                                     setFieldValue(
-                                                      "totalOtherChargesDueAgent",
+                                                      "prepaidTotalOtherChargesDueAgent",
                                                       e.target.value
                                                     );
                                                   }}
@@ -2298,8 +2298,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
                                           {isPrintViewMode ? (
                                             <>
                                               <p>
-                                                {values?.totalOtherChargesDueAgent
-                                                  ? values?.totalOtherChargesDueAgent
+                                                {values?.prepaidTotalOtherChargesDueAgent
+                                                  ? values?.prepaidTotalOtherChargesDueAgent
                                                     ?.split("\n")
                                                     .map((item, index) => {
                                                       return (
@@ -2317,13 +2317,13 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
                                               {" "}
                                               <div className="col-lg-12">
                                                 <textarea
-                                                  name="totalOtherChargesDueAgent"
+                                                  name="prepaidTotalOtherChargesDueAgent"
                                                   value={
-                                                    values?.totalOtherChargesDueAgent
+                                                    values?.prepaidTotalOtherChargesDueAgent
                                                   }
                                                   onChange={(e) => {
                                                     setFieldValue(
-                                                      "totalOtherChargesDueAgent",
+                                                      "prepaidTotalOtherChargesDueAgent",
                                                       e.target.value
                                                     );
                                                   }}
