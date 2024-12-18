@@ -148,6 +148,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
             return `(${item?.fromPort} - ${item?.toPort}) `;
           }
         );
+        const requestedFlightDate = firstIndex?.transportPlanning?.airTransportRow?.[
+          firstIndex?.transportPlanning?.airTransportRow?.length - 1
+        ]?.flightDate
 
         const obj = {
           consignee: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
@@ -205,7 +208,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
           shipperNameAndAddress: "string",
           consigneeNameAndAddress: "string",
           issuingCarrierAgentNameAndCity: "string",
-          requestedFlightDate: "2024-12-17T12:11:17.873Z",
+          requestedFlightDate: ` ${moment(requestedFlightDate).format("DD-MM-YYYY")}`,
           prepaidTotalAmount: "string",
           prepaidWeightCharge: "string",
           prepaidTaxAmount: "prepaidTaxAmount",
@@ -1250,13 +1253,25 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                   <p className="textTitle ">Flight/Date</p>
                                   {isPrintViewMode ? (
                                     <>
-                                      <p>{values?.requestedFlightDate || ""}</p>
+                                      <p>{values?.requestedFlightDate
+                                        ? values?.requestedFlightDate
+                                          ?.split("\n")
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                        : ""}
+                                      </p>
                                     </>
                                   ) : (
                                     <>
                                       {" "}
                                       <div className="col-lg-12">
-                                        <InputField
+                                        <textarea
                                           name="requestedFlightDate"
                                           value={values?.requestedFlightDate}
                                           type="date"
@@ -1275,13 +1290,25 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                   <p className="textTitle ">Flight/Date</p>
                                   {isPrintViewMode ? (
                                     <>
-                                      <p>{values?.requestedFlightDate || ""}</p>
+                                      <p>{values?.requestedFlightDate
+                                        ? values?.requestedFlightDate
+                                          ?.split("\n")
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                        : ""}
+                                      </p>
                                     </>
                                   ) : (
                                     <>
                                       {" "}
                                       <div className="col-lg-12">
-                                        <InputField
+                                        <textarea
                                           name="requestedFlightDate"
                                           value={values?.requestedFlightDate}
                                           type="date"
