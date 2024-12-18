@@ -1,7 +1,6 @@
 import { Form, Formik } from "formik";
 import moment from "moment";
 import React, { useRef, useState } from "react";
-import ReactQuill from "react-quill";
 import { useReactToPrint } from "react-to-print";
 import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../../App";
@@ -17,10 +16,6 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
 
   const [isPrintViewMode, setIsPrintViewMode] = useState(isPrintView || false);
   const formikRef = React.useRef();
-
-  const bookingData = {};
-
-
 
   const saveHandler = (values, cb) => {
     console.log(values);
@@ -163,7 +158,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
           optionalShippingInformation: "missing",
           noOfPiecesRcp: totalNumberOfPackages,
           prepaidNatureAndQuantityOfGoods: prepaidNatureAndQuantityOfGoods,
-          grossWeight: subtotalGrossWeight,//"missing",
+          grossWeight: subtotalGrossWeight, //"missing",
           grossWeightKgLb: "grossWeightKgLb",
           to: "missing",
           to1: "to1",
@@ -540,19 +535,21 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                 <br />
                                 <h2>
                                   FREIGHT{" "}
-                                  {["exw"].includes(bookingData?.incoterms) &&
-                                    "COLLECT EXW"}
+                                  {["exw"].includes(
+                                    hbawListData?.[0]?.incoterms
+                                  ) && "COLLECT EXW"}
                                   {["fca", "fob"].includes(
-                                    bookingData?.incoterms
+                                    hbawListData?.[0]?.incoterms
                                   ) && "COLLECT"}
                                   {["cif", "cpt", "cfr"].includes(
-                                    bookingData?.incoterms
+                                    hbawListData?.[0]?.incoterms
                                   ) && "PREPAID"}
                                   {["dap", "ddp", "ddu"].includes(
-                                    bookingData?.incoterms
+                                    hbawListData?.[0]?.incoterms
                                   ) && "COLLECT DAP/DDP/DDU"}
-                                  {["other"].includes(bookingData?.incoterms) &&
-                                    "COLLECT"}
+                                  {["other"].includes(
+                                    hbawListData?.[0]?.incoterms
+                                  ) && "COLLECT"}
                                 </h2>
                                 <br />
                               </div>
@@ -1043,7 +1040,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                         }}
                                       >
                                         {["cif", "cpt", "cfr"].includes(
-                                          bookingData?.incoterms
+                                          hbawListData?.[0]?.incoterms
                                         )
                                           ? "PPD"
                                           : ""}
@@ -1055,7 +1052,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                         }}
                                       >
                                         {["cif", "cpt", "cfr"].includes(
-                                          bookingData?.incoterms
+                                          hbawListData?.[0]?.incoterms
                                         )
                                           ? ""
                                           : "CCX"}
@@ -1084,7 +1081,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                       }}
                                     >
                                       {["cif", "cpt", "cfr"].includes(
-                                        bookingData?.incoterms
+                                        hbawListData?.[0]?.incoterms
                                       )
                                         ? "PPD"
                                         : ""}
@@ -1096,7 +1093,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                       }}
                                     >
                                       {["cif", "cpt", "cfr"].includes(
-                                        bookingData?.incoterms
+                                        hbawListData?.[0]?.incoterms
                                       )
                                         ? ""
                                         : "CCX"}
@@ -1762,7 +1759,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                               </div>
                               <div className="collectChartRight">
                                 {!["cif", "cpt", "cfr"].includes(
-                                  bookingData?.incoterms
+                                  hbawListData?.[0]?.incoterms
                                 ) && (
                                     <>
                                       {isPrintViewMode ? (
@@ -1825,7 +1822,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                               </div>
                               <div className="collectChartLeft borderRight">
                                 {["cif", "cpt", "cfr"].includes(
-                                  bookingData?.incoterms
+                                  hbawListData?.[0]?.incoterms
                                 ) && (
                                     <>
                                       {isPrintViewMode ? (
@@ -1869,7 +1866,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                               </div>
                               <div className="collectChartRight">
                                 {!["cif", "cpt", "cfr"].includes(
-                                  bookingData?.incoterms
+                                  hbawListData?.[0]?.incoterms
                                 ) && (
                                     <>
                                       {isPrintViewMode ? (
@@ -2063,15 +2060,26 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                           {isPrintViewMode ? (
                                             <>
                                               <p>
-                                                {values?.totalOtherChargesDueAgent ||
-                                                  ""}
+                                                {values?.totalOtherChargesDueAgent
+                                                  ? values?.totalOtherChargesDueAgent
+                                                    ?.split("\n")
+                                                    .map((item, index) => {
+                                                      return (
+                                                        <>
+                                                          {item}
+                                                          <br />
+                                                        </>
+                                                      );
+                                                    })
+                                                  : ""
+                                                }
                                               </p>
                                             </>
                                           ) : (
                                             <>
                                               {" "}
                                               <div className="col-lg-12">
-                                                <input
+                                                <textarea
                                                   name="totalOtherChargesDueAgent"
                                                   value={
                                                     values?.totalOtherChargesDueAgent
@@ -2097,15 +2105,26 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                           {isPrintViewMode ? (
                                             <>
                                               <p>
-                                                {values?.totalOtherChargesDueAgent ||
-                                                  ""}
+                                                {values?.totalOtherChargesDueAgent
+                                                  ? values?.totalOtherChargesDueAgent
+                                                    ?.split("\n")
+                                                    .map((item, index) => {
+                                                      return (
+                                                        <>
+                                                          {item}
+                                                          <br />
+                                                        </>
+                                                      );
+                                                    })
+                                                  : ""
+                                                }
                                               </p>
                                             </>
                                           ) : (
                                             <>
                                               {" "}
                                               <div className="col-lg-12">
-                                                <input
+                                                <textarea
                                                   name="totalOtherChargesDueAgent"
                                                   value={
                                                     values?.totalOtherChargesDueAgent
@@ -2152,15 +2171,25 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                           {isPrintViewMode ? (
                                             <>
                                               <p>
-                                                {values?.collectTotalOtherChargesDueCarrier1 ||
-                                                  ""}
+                                                {values?.collectTotalOtherChargesDueCarrier1
+                                                  ? values?.collectTotalOtherChargesDueCarrier1
+                                                    ?.split("\n")
+                                                    .map((item, index) => {
+                                                      return (
+                                                        <>
+                                                          {item}
+                                                          <br />
+                                                        </>
+                                                      );
+                                                    })
+                                                  : ""}
                                               </p>
                                             </>
                                           ) : (
                                             <>
                                               {" "}
                                               <div className="col-lg-12">
-                                                <input
+                                                <textarea
                                                   name="collectTotalOtherChargesDueCarrier1"
                                                   value={
                                                     values?.collectTotalOtherChargesDueCarrier1
@@ -2180,21 +2209,31 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                   </div>
                                   <div className="collectChartRight">
                                     {!["cif", "cpt", "cfr"].includes(
-                                      bookingData?.incoterms
+                                      hbawListData?.[0]?.incoterms
                                     ) && (
                                         <>
                                           {isPrintViewMode ? (
                                             <>
-                                              <p>
-                                                {values?.collectTotalOtherChargesDueCarrier2 ||
-                                                  ""}
-                                              </p>
+                                              {
+                                                values?.collectTotalOtherChargesDueCarrier2
+                                                  ? values?.collectTotalOtherChargesDueCarrier2
+                                                    ?.split("\n")
+                                                    .map((item, index) => {
+                                                      return (
+                                                        <>
+                                                          {item}
+                                                          <br />
+                                                        </>
+                                                      );
+                                                    })
+                                                  : ""
+                                              }
                                             </>
                                           ) : (
                                             <>
                                               {" "}
                                               <div className="col-lg-12">
-                                                <input
+                                                <textarea
                                                   name="collectTotalOtherChargesDueCarrier2"
                                                   value={
                                                     values?.collectTotalOtherChargesDueCarrier2
@@ -2250,7 +2289,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                   textTransform: "uppercase",
                                 }}
                               >
-                                {bookingData?.shipperName}
+                                {hbawListData?.[0]?.shipperName}
                               </h1>
                               <hr
                                 style={{
@@ -2502,10 +2541,10 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                             >
                               <p>
                                 <b>
-                                  {bookingData?.confirmDate &&
-                                    moment(bookingData?.confirmDate).format(
-                                      "DD-MM-YYYY"
-                                    )}{" "}
+                                  {hbawListData?.[0]?.confirmDate &&
+                                    moment(
+                                      hbawListData?.[0]?.confirmDate
+                                    ).format("DD-MM-YYYY")}{" "}
                                   Dhaka
                                 </b>
                               </p>
