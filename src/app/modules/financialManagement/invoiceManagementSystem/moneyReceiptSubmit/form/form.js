@@ -1,12 +1,12 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { getBankBranchDDL_api } from "../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { getBankBranchDDL_api } from '../helper';
 
 export default function _Form({
   type,
@@ -92,13 +92,13 @@ export default function _Form({
                   <NewSelect
                     name="depositMode"
                     options={[
-                      { value: 1, label: "Bank" },
-                      { value: 2, label: "Cash" },
+                      { value: 1, label: 'Bank' },
+                      { value: 2, label: 'Cash' },
                     ]}
                     value={values?.depositMode}
                     label="Deposit Mode"
                     onChange={(valueOption) => {
-                      setFieldValue("depositMode", valueOption);
+                      setFieldValue('depositMode', valueOption);
                     }}
                     placeholder="Deposit Mode"
                     errors={errors}
@@ -114,10 +114,10 @@ export default function _Form({
                         value={values?.bank}
                         label="Bank Name"
                         onChange={(valueOption) => {
-                          setFieldValue("bank", valueOption);
+                          setFieldValue('bank', valueOption);
                           getBankBranchDDL_api(
                             valueOption?.value,
-                            setBranchList
+                            setBranchList,
                           );
                         }}
                         placeholder="Bank Name"
@@ -132,7 +132,7 @@ export default function _Form({
                         value={values?.branch}
                         label="Branch Name"
                         onChange={(valueOption) => {
-                          setFieldValue("branch", valueOption);
+                          setFieldValue('branch', valueOption);
                         }}
                         placeholder="Branch Name"
                         errors={errors}
@@ -190,7 +190,7 @@ export default function _Form({
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
-                      <th style={{ width: "40px" }}>SL</th>
+                      <th style={{ width: '40px' }}>SL</th>
                       <th>Delivery Code</th>
                       <th>Completion Date</th>
                       <th>Quantity</th>

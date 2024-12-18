@@ -1,64 +1,64 @@
-import React, { useEffect, useState } from "react";
-import ICustomCard from "../../../_helper/_customCard";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import ICustomCard from '../../../_helper/_customCard';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
 import {
+  getDepartmentDDL,
   getEmpTypeDDLAction,
   getWorkplaceGroupDDL,
   roasterReportDetailsLanding_api,
-} from "./helper";
-import NewSelect from "../../../_helper/_select";
-import "./rosterDetailsReport.css";
-import Loading from "../../../_helper/_loading";
-import { currentMonthInitData } from "./../../../_helper/_currentMonth";
-import { downloadFile } from "../../../_helper/downloadFile";
-import { getDepartmentDDL } from "../../humanResource/employeeInformation/helper";
+} from './helper';
+import NewSelect from '../../../_helper/_select';
+import './rosterDetailsReport.css';
+import Loading from '../../../_helper/_loading';
+import { currentMonthInitData } from './../../../_helper/_currentMonth';
+import { downloadFile } from '../../../_helper/downloadFile';
 
 let currentYear = new Date().getFullYear();
 
 const initData = {
   month: currentMonthInitData(),
   year: { value: currentYear, label: currentYear },
-  department: "",
-  employmentType: { value: 0, label: "All" },
+  department: '',
+  employmentType: { value: 0, label: 'All' },
 };
 
 const RoasterDetailsReport = () => {
   const [rowDto, setRowDto] = useState([]);
   const [loader, setLoader] = useState(false);
-  const [tableSize, setTableSize] = useState("Small");
+  const [tableSize, setTableSize] = useState('Small');
   const [departmentDDL, setDepartmentDDL] = useState([]);
   const [workplaceGroupDDL, setWorkplaceGroupDDL] = useState([]);
   const [employmentTypeDDL, setEmploymentTypeDDL] = useState([]);
 
   const monthDDL = [
-    { value: 1, label: "January" },
-    { value: 2, label: "February" },
-    { value: 3, label: "March" },
-    { value: 4, label: "April" },
-    { value: 5, label: "May" },
-    { value: 6, label: "June" },
-    { value: 7, label: "July" },
-    { value: 8, label: "August" },
-    { value: 9, label: "September" },
-    { value: 10, label: "October" },
-    { value: 11, label: "November" },
-    { value: 12, label: "December" },
+    { value: 1, label: 'January' },
+    { value: 2, label: 'February' },
+    { value: 3, label: 'March' },
+    { value: 4, label: 'April' },
+    { value: 5, label: 'May' },
+    { value: 6, label: 'June' },
+    { value: 7, label: 'July' },
+    { value: 8, label: 'August' },
+    { value: 9, label: 'September' },
+    { value: 10, label: 'October' },
+    { value: 11, label: 'November' },
+    { value: 12, label: 'December' },
   ];
 
   const YearDDL = [
     {
-      label: "" + new Date().getFullYear() - 1,
-      value: "" + new Date().getFullYear() - 1,
+      label: '' + new Date().getFullYear() - 1,
+      value: '' + new Date().getFullYear() - 1,
     },
     {
-      label: "" + new Date().getFullYear(),
-      value: "" + new Date().getFullYear(),
+      label: '' + new Date().getFullYear(),
+      value: '' + new Date().getFullYear(),
     },
     {
-      label: "" + (new Date().getFullYear() + 1),
-      value: "" + (new Date().getFullYear() + 1),
+      label: '' + (new Date().getFullYear() + 1),
+      value: '' + (new Date().getFullYear() + 1),
     },
   ];
 
@@ -71,23 +71,23 @@ const RoasterDetailsReport = () => {
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setDepartmentDDL,
-      true
+      true,
     );
     getWorkplaceGroupDDL(profileData?.accountId, setWorkplaceGroupDDL);
     getEmpTypeDDLAction(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setEmploymentTypeDDL
+      setEmploymentTypeDDL,
     );
   }, [profileData, selectedBusinessUnit]);
 
   const setPermissionBranchField = (setFieldValue, valueOption) => {
-    const isExistAll = valueOption?.filter((item) => item?.label === "All");
+    const isExistAll = valueOption?.filter((item) => item?.label === 'All');
     if (isExistAll?.length > 0) {
-      let filterArr = valueOption?.filter((item) => item?.label === "All");
-      setFieldValue("department", filterArr);
+      let filterArr = valueOption?.filter((item) => item?.label === 'All');
+      setFieldValue('department', filterArr);
     } else {
-      setFieldValue("department", valueOption);
+      setFieldValue('department', valueOption);
     }
   };
 
@@ -104,12 +104,11 @@ const RoasterDetailsReport = () => {
         >
           {({ values, errors, touched, setFieldValue }) => (
             <>
-              
               <Form
                 className={
-                  process.env.NODE_ENV === "production"
-                    ? "form form-label-right react-select-custom-margin"
-                    : "form form-label-right"
+                  process.env.NODE_ENV === 'production'
+                    ? 'form form-label-right react-select-custom-margin'
+                    : 'form form-label-right'
                 }
               >
                 <div className="row">
@@ -122,7 +121,7 @@ const RoasterDetailsReport = () => {
                             options={monthDDL}
                             value={values?.month}
                             onChange={(valueOption) => {
-                              setFieldValue("month", valueOption);
+                              setFieldValue('month', valueOption);
                             }}
                             label="Month"
                             placeholder="month"
@@ -137,7 +136,7 @@ const RoasterDetailsReport = () => {
                             value={values?.year}
                             label="Year"
                             onChange={(valueOption) => {
-                              setFieldValue("year", valueOption);
+                              setFieldValue('year', valueOption);
                             }}
                             placeholder="Year"
                             errors={errors}
@@ -150,7 +149,7 @@ const RoasterDetailsReport = () => {
                             options={workplaceGroupDDL}
                             value={values?.workplaceGroup}
                             onChange={(valueOption) => {
-                              setFieldValue("workplaceGroup", valueOption);
+                              setFieldValue('workplaceGroup', valueOption);
                             }}
                             label="Workplace Group"
                             placeholder="Workplace Group"
@@ -164,7 +163,7 @@ const RoasterDetailsReport = () => {
                             options={employmentTypeDDL}
                             value={values?.employmentType}
                             onChange={(valueOption) => {
-                              setFieldValue("employmentType", valueOption);
+                              setFieldValue('employmentType', valueOption);
                             }}
                             label="Employment Type"
                             placeholder="Employment Type"
@@ -182,7 +181,7 @@ const RoasterDetailsReport = () => {
                             onChange={(valueOption) => {
                               setPermissionBranchField(
                                 setFieldValue,
-                                valueOption
+                                valueOption,
                               );
                               // setFieldValue("department", valueOption);
                             }}
@@ -191,7 +190,7 @@ const RoasterDetailsReport = () => {
                             touched={touched}
                           />
                         </div>
-                        <div style={{ marginTop: "14px" }} className="col-lg">
+                        <div style={{ marginTop: '14px' }} className="col-lg">
                           <button
                             type="button"
                             className="btn btn-primary"
@@ -204,7 +203,7 @@ const RoasterDetailsReport = () => {
                                 setLoader,
                                 setRowDto,
                                 values?.workplaceGroup?.value,
-                                values?.employmentType?.value
+                                values?.employmentType?.value,
                               );
                             }}
                             disabled={
@@ -225,30 +224,30 @@ const RoasterDetailsReport = () => {
                 {rowDto.tableRow?.length > 0 && (
                   <div className="text-right mb-1">
                     <button
-                      style={{ lineHeight: "14px", padding: "4px 16px" }}
+                      style={{ lineHeight: '14px', padding: '4px 16px' }}
                       type="button"
                       className="btn btn-primary ml-1"
                       onClick={() =>
-                        setTableSize(tableSize === "Small" ? "Large" : "Small")
+                        setTableSize(tableSize === 'Small' ? 'Large' : 'Small')
                       }
                     >
-                      {tableSize === "Small" ? "Large" : "Small"} View
+                      {tableSize === 'Small' ? 'Large' : 'Small'} View
                     </button>
                     <button
-                      style={{ lineHeight: "14px", padding: "4px 16px" }}
+                      style={{ lineHeight: '14px', padding: '4px 16px' }}
                       className="btn btn-primary ml-1"
                       type="button"
                       onClick={(e) => {
-                        let str = "";
+                        let str = '';
                         for (let i = 0; i < values?.department?.length; i++) {
-                          str = `${str}${str && ","}${
+                          str = `${str}${str && ','}${
                             values?.department[i]?.value
                           }`;
                         }
                         downloadFile(
                           `/hcm/HCMRosterReport/GetRosterReportDetailsDownload?monthId=${values?.month?.value}&workplaceGroupId=${values?.workplaceGroup?.value}&yearId=${values?.year?.value}&businessUnitId=${selectedBusinessUnit?.value}&deptList=${str}&employmentTypeId=${values?.employmentType?.value}`,
-                          "Roster Details Report",
-                          "xlsx"
+                          'Roster Details Report',
+                          'xlsx',
                         );
                       }}
                     >
@@ -261,34 +260,34 @@ const RoasterDetailsReport = () => {
                   <div className="loan-scrollable-table employee-overall-status">
                     <div
                       style={
-                        tableSize === "Small"
-                          ? { maxHeight: "400px" }
-                          : { maxHeight: "800px" }
+                        tableSize === 'Small'
+                          ? { maxHeight: '400px' }
+                          : { maxHeight: '800px' }
                       }
                       className="scroll-table _table"
                     >
                       <table className="table table-striped table-bordered bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ minWidth: "50px" }}>SL</th>
+                            <th style={{ minWidth: '50px' }}>SL</th>
                             {rowDto?.headingNames?.map((item, index) => (
                               <th
                                 style={
                                   index === 0 || index === 1
-                                    ? { minWidth: "60px" }
+                                    ? { minWidth: '60px' }
                                     : index > 2
-                                    ? { minWidth: "100px" }
+                                    ? { minWidth: '100px' }
                                     : {}
                                 }
                               >
                                 {index === 0
-                                  ? "Employee Id"
+                                  ? 'Employee Id'
                                   : index === 1
-                                  ? "ERP Emp. Id"
+                                  ? 'ERP Emp. Id'
                                   : index === 2
-                                  ? "Employee Name"
+                                  ? 'Employee Name'
                                   : index === 3
-                                  ? "Cost Center"
+                                  ? 'Cost Center'
                                   : item}
                               </th>
                             ))}
@@ -303,13 +302,13 @@ const RoasterDetailsReport = () => {
                                   <td
                                     style={
                                       idx === 0 || idx === 1
-                                        ? { minWidth: "50px" }
+                                        ? { minWidth: '50px' }
                                         : idx > 2
-                                        ? { minWidth: "100px" }
+                                        ? { minWidth: '100px' }
                                         : {}
                                     }
                                     className={
-                                      (idx === 0 || idx === 1) && "text-center"
+                                      (idx === 0 || idx === 1) && 'text-center'
                                     }
                                   >
                                     {item}

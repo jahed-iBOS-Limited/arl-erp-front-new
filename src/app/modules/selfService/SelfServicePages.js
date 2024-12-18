@@ -1,42 +1,42 @@
-import React, { Suspense } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
-import DashboardPage from "../../pages/DashboardPage";
-import NotPermittedPage from "../_helper/notPermitted/NotPermittedPage";
-import ResolutionLanding from "../salesManagement/complainManagement/resolution/landing/index.js";
-import MyAsset from "./Assets";
-import AchievementTable from "./achievement/Table/table";
-import AllReport from "./allReport";
-import { CommonApprovalTable } from "./approval/commonApproval/Table/tableHeader";
-import BusinessGlossaryReport from "./businessGlossary";
-import FoodCornerLanding from "./cafeteriaMangement/foodCorner/landing";
-import DispatchRequisitionCreateEdit from "./dispatchRequsitoin/createEditForm.js";
-import DispatchRequisitionLanding from "./dispatchRequsitoin/index.js";
-import ExpenseRegisterCreateForm from "./expenseRegister/Create/addForm";
-import { ExpenseRegister } from "./expenseRegister/index.js";
-import BasicInformationlLanding from "./humanResource/employeeInformation/Table/form";
-import OfficialInfoCollapsePanel from "./humanResource/officialInformation/EditForm/mainCollapse";
-import PersonalInfoCollapsePanel from "./humanResource/personalInformation/EditForm/mainCollapse";
-import Jobstation from "./jobstation/Form/addEditForm";
-import LeaveApprovalLanding from "./leaveMovement/LeaveApproval/Landing/Landing";
-import MovementApprovalLanding from "./leaveMovement/MovementApproval/Landing/Landing";
-import { LeaveAddForm } from "./leaveMovement/leaveApplication/Form/addEditForm";
-import { LeaveApplicationTable } from "./leaveMovement/leaveApplication/Table/tableHeader";
-import { MovementAddForm } from "./leaveMovement/movementApplication/Form/addEditForm";
-import { MovementApplicationTable } from "./leaveMovement/movementApplication/Table/tableHeader";
-import PayslipReport from "./payslip";
-import DailyAttendanceLanding from "./report/dailyAttendance/Landing";
-import TrainingLanding from "./training";
-import ViewTraining from "./training/viewTraining";
-import { ItemRequest } from "./warehouse/itemRequest";
-import ItemRequestForm from "./warehouse/itemRequest/Form/addEditForm";
-import ViewItemRequestForm from "./warehouse/itemRequest/view/addEditForm";
-import { ComplainManagementPages } from "./complainManagement/complainManagementPages.js";
+import React, { Suspense } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute, LayoutSplashScreen } from '../../../_metronic/layout';
+import DashboardPage from '../../pages/DashboardPage';
+import NotPermittedPage from '../_helper/notPermitted/NotPermittedPage';
+import ResolutionLanding from '../salesManagement/complainManagement/resolution/landing/index.js';
+import MyAsset from './Assets';
+import AchievementTable from './achievement/Table/table';
+import AllReport from './allReport';
+import { CommonApprovalTable } from './approval/commonApproval/Table/tableHeader';
+import BusinessGlossaryReport from './businessGlossary';
+import FoodCornerLanding from './cafeteriaMangement/foodCorner/landing';
+import DispatchRequisitionCreateEdit from './dispatchRequsitoin/createEditForm.js';
+import DispatchRequisitionLanding from './dispatchRequsitoin/index.js';
+import ExpenseRegisterCreateForm from './expenseRegister/Create/addForm';
+import { ExpenseRegister } from './expenseRegister/index.js';
+import BasicInformationlLanding from './humanResource/employeeInformation/Table/form';
+import OfficialInfoCollapsePanel from './humanResource/officialInformation/EditForm/mainCollapse';
+import PersonalInfoCollapsePanel from './humanResource/personalInformation/EditForm/mainCollapse';
+import Jobstation from './jobstation/Form/addEditForm';
+import LeaveApprovalLanding from './leaveMovement/LeaveApproval/Landing/Landing';
+import MovementApprovalLanding from './leaveMovement/MovementApproval/Landing/Landing';
+import { LeaveAddForm } from './leaveMovement/leaveApplication/Form/addEditForm';
+import { LeaveApplicationTable } from './leaveMovement/leaveApplication/Table/tableHeader';
+import { MovementAddForm } from './leaveMovement/movementApplication/Form/addEditForm';
+import { MovementApplicationTable } from './leaveMovement/movementApplication/Table/tableHeader';
+import PayslipReport from './payslip';
+import DailyAttendanceLanding from './report/dailyAttendance/Landing';
+import TrainingLanding from './training';
+import ViewTraining from './training/viewTraining';
+import { ItemRequest } from './warehouse/itemRequest';
+import ItemRequestForm from './warehouse/itemRequest/Form/addEditForm';
+import ViewItemRequestForm from './warehouse/itemRequest/view/addEditForm';
+import { ComplainManagementPages } from './complainManagement/complainManagementPages.js';
 export function SelfServicePages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual
+    shallowEqual,
   );
 
   let officialInfo = null;
@@ -191,52 +191,6 @@ export function SelfServicePages() {
             path="/self-service/complainmanagement"
             component={ComplainManagementPages}
           />
-          {/* <ContentRoute
-            path="/self-service/humanResource"
-            component={HumanResourcePages}
-          />
-          <ContentRoute
-            path="/self-service/hcmconfig"
-            component={ConfigurationPages}
-          />
-          <ContentRoute path="/self-service/loan" component={LoanPages} />
-          <ContentRoute path="/self-service/report" component={ReportPages} />
-          <ContentRoute
-            path="/self-service/leavemovement"
-            component={LeaveMovementPages}
-          />
-
-          <ContentRoute
-            path="/self-service/cafeteriamgt"
-            component={CafeteriaManagementPages}
-          />
-
-          <ContentRoute
-            path="/self-service/calendar"
-            component={WorkingCalenderPages}
-          />
-          <ContentRoute
-            path="/self-service/attendancemgt"
-            component={EmployeeAttendancePages}
-          />
-          <ContentRoute
-            path="/self-service/additionanddeduction"
-            component={AdditionDeductionPages}
-          />
-
-          <ContentRoute
-            path="/self-service/payrollmanagement"
-            component={PayrollManagementPages}
-          />
-
-          <ContentRoute
-            path="/self-service/jobcircular"
-            component={JobCircularPages}
-          />
-          <ContentRoute
-            path="/self-service/overtime-management"
-            component={OverTimeManagementPages}
-          /> */}
         </Switch>
       </div>
     </Suspense>

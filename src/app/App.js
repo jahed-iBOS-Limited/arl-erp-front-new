@@ -7,13 +7,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PersistGate } from 'redux-persist/integration/react';
-import { I18nProvider } from '../_metronic/i18n';
 import { LayoutSplashScreen, MaterialThemeProvider } from '../_metronic/layout';
 import { Routes } from '../app/Routes';
 import { makeDecryption, makeEncryption } from './modules/_helper/encryption';
 import { withEncryptedAPI } from './modules/_helper/withEncryptedAPI';
 import { setIsExpiredTokenActions } from './modules/Auth/_redux/Auth_Actions';
-
 const origin = window.location.origin;
 export const imarineBaseUrl =
   process.env.NODE_ENV === 'development' ||
@@ -180,11 +178,10 @@ const App = ({ store, persistor, basename }) => {
             {/*This library only returns the location that has been active before the recent location change in the current window lifetime.*/}
             <MaterialThemeProvider>
               {/* Provide `react-intl` context synchronized with Redux state.  */}
-              <I18nProvider>
-                {/* Render routes with provided `Layout`. */}
-                <ToastContainer position="bottom-right" />
-                <Routes />
-              </I18nProvider>
+
+              {/* Render routes with provided `Layout`. */}
+              <ToastContainer position="bottom-right" />
+              <Routes />
             </MaterialThemeProvider>
           </BrowserRouter>
         </React.Suspense>

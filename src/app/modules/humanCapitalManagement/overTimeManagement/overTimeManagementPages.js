@@ -1,19 +1,18 @@
-import React from "react";
-import { Switch, Redirect } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import OvertimeRequisitionApprovalLanding from "./overtimeRequisitionApproval/Landing/Landing";
-import OvertimeApprovalLanding from "./overtimeApproval/Landing/Landing";
-import { OverTimeEntry } from "./overTimeEntry/Form/AddEditForm";
-import { OverTimeReport } from "./overTimeReport/Form/AddEditForm";
-import { OverTimeRequisition } from "./overTimeRequisition/Form/AddEditForm";
-import OvertimeRequisitionLanding from "./overTimeRequisition/table/Landing";
-import { ProcessReport } from "./processReport/form/addEditFrom";
-import { SpDescriptionFrom } from "./spDescription/form/addEditForm";
-import { shallowEqual, useSelector } from "react-redux";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import { PumpFoodingBill } from "./pumpFoodingBill/Form/AddEditForm";
-import PumpFoodingBillLanding from "./pumpFoodingBill/landing/table";
-import PumpFoodingBillReport from "./pumpFoodingBillReport";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import OvertimeApprovalLanding from './overtimeApproval/Landing/Landing';
+import { OverTimeEntry } from './overTimeEntry/Form/AddEditForm';
+import { OverTimeReport } from './overTimeReport/Form/AddEditForm';
+import { OverTimeRequisition } from './overTimeRequisition/Form/AddEditForm';
+import OvertimeRequisitionLanding from './overTimeRequisition/table/Landing';
+import OvertimeRequisitionApprovalLanding from './overtimeRequisitionApproval/Landing/Landing';
+import { ProcessReport } from './processReport/form/addEditFrom';
+import { PumpFoodingBill } from './pumpFoodingBill/Form/AddEditForm';
+import PumpFoodingBillLanding from './pumpFoodingBill/landing/table';
+import PumpFoodingBillReport from './pumpFoodingBillReport';
 
 export function OverTimeManagementPages() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -74,11 +73,6 @@ export function OverTimeManagementPages() {
       <ContentRoute
         path="/human-capital-management/overtime-management/otreqprocessreport"
         component={ProcessReport}
-      />
-
-      <ContentRoute
-        path="/human-capital-management/overtime-management/spDescription"
-        component={SpDescriptionFrom}
       />
 
       <ContentRoute

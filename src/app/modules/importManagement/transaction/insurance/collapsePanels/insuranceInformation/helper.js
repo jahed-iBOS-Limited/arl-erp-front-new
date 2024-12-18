@@ -1,14 +1,33 @@
-import axios from "axios";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import numberWithCommas from "../../../../../_helper/_numberWithCommas";
-import { _formatMoney } from "../../../../../_helper/_formatMoney";
+import axios from 'axios';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import numberWithCommas from '../../../../../_helper/_numberWithCommas';
+import { _formatMoney } from '../../../../../_helper/_formatMoney';
+
+export const empAttachment_action = async (attachment, cb) => {
+  let formData = new FormData();
+  attachment.forEach((file) => {
+    formData.append('files', file?.file);
+  });
+  try {
+    let { data } = await axios.post('/domain/Document/UploadFile', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    // toast.success(res?.data?.message || "Submitted Successfully");
+    toast.success('Upload  successfully');
+    return data;
+  } catch (error) {
+    toast.error('Document not upload');
+  }
+};
 
 // GetInsuranceTypeDDL
 export const GetInsuranceTypeDDL = async (setter) => {
   try {
-    const res = await axios.get("/imp/ImportCommonDDL/GetShipmentTypeDDL");
+    const res = await axios.get('/imp/ImportCommonDDL/GetShipmentTypeDDL');
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
@@ -19,7 +38,7 @@ export const GetInsuranceTypeDDL = async (setter) => {
 export const GetProviderDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/imp/ImportCommonDDL/GetProviderDDL?accountId=${accId}&businessUnitId=${buId}`
+      `/imp/ImportCommonDDL/GetProviderDDL?accountId=${accId}&businessUnitId=${buId}`,
     );
 
     if (res.status === 200 && res.data) {
@@ -31,7 +50,7 @@ export const GetProviderDDL = async (accId, buId, setter) => {
 // Get Currency Type DDL
 export const GetCurrencyTypeDDL = async (setter) => {
   try {
-    const res = await axios.get("/imp/ImportCommonDDL/GetCurrencyTypeDDL");
+    const res = await axios.get('/imp/ImportCommonDDL/GetCurrencyTypeDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -42,7 +61,7 @@ export const GetCurrencyTypeDDL = async (setter) => {
 // Get Insurance Coverage DDL
 export const GetInsuranceCoverageDDL = async (setter) => {
   try {
-    const res = await axios.get("/imp/ImportCommonDDL/GetInsuranceCoverageDDL");
+    const res = await axios.get('/imp/ImportCommonDDL/GetInsuranceCoverageDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -53,7 +72,7 @@ export const GetInsuranceCoverageDDL = async (setter) => {
 // Get Payment Type DDL
 export const GetPaymentTypeDDL = async (setter) => {
   try {
-    const res = await axios.get("/imp/ImportCommonDDL/GetPaymentTypeDDL");
+    const res = await axios.get('/imp/ImportCommonDDL/GetPaymentTypeDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -64,11 +83,11 @@ export const GetPaymentTypeDDL = async (setter) => {
 export const CreateInsuranceCoverNote = async (data, cb) => {
   try {
     const res = await axios.post(
-      "/imp/InsurancePolicy/CreateInsuranceInformation",
-      data
+      '/imp/InsurancePolicy/CreateInsuranceInformation',
+      data,
     );
     if (res.status === 200 && res.data) {
-      toast.success(res.message || "Submitted  successfully");
+      toast.success(res.message || 'Submitted  successfully');
       cb();
     }
   } catch (error) {
@@ -80,11 +99,11 @@ export const CreateInsuranceCoverNote = async (data, cb) => {
 export const EditInstanceCoverNote = async (data, cb) => {
   try {
     const res = await axios.put(
-      "/imp/InsurancePolicy/EditInsuranceCoverNote",
-      data
+      '/imp/InsurancePolicy/EditInsuranceCoverNote',
+      data,
     );
     if (res.status === 200 && res.data) {
-      toast.success(res.message || "Updated  successfully");
+      toast.success(res.message || 'Updated  successfully');
       // cb();
     }
   } catch (error) {
@@ -96,7 +115,7 @@ export const EditInstanceCoverNote = async (data, cb) => {
 export const GetInsuranceCoverNoteById = async (id, setter) => {
   try {
     const res = await axios.get(
-      `/imp/InsurancePolicy/GetinsuranceCoverNoteById?insuranceCoverNoteId=${id}`
+      `/imp/InsurancePolicy/GetinsuranceCoverNoteById?insuranceCoverNoteId=${id}`,
     );
     if (res.status === 200 && res.data) {
       const data = {
@@ -151,14 +170,14 @@ export const ValidatePoNo = async (
   buId,
   PoNo,
   setter,
-  GetCurrencyByPO
+  GetCurrencyByPO,
 ) => {
   try {
     const res = await axios.get(
-      `/imp/ImportCommonDDL/GetPOCheck?accountId=${accId}&businessUnitId=${buId}&PONo=${PoNo}`
+      `/imp/ImportCommonDDL/GetPOCheck?accountId=${accId}&businessUnitId=${buId}&PONo=${PoNo}`,
     );
     if (res?.status === 200 && res?.data) {
-      if (res?.data === "PO number is valid") {
+      if (res?.data === 'PO number is valid') {
         GetCurrencyByPO();
       } else {
         setter(res?.data);
@@ -169,15 +188,10 @@ export const ValidatePoNo = async (
   }
 };
 
-export const getDataByPoNo = async (
-  accId,
-  buId,
-  PoNo,
-  setter
-) => {
+export const getDataByPoNo = async (accId, buId, PoNo, setter) => {
   try {
     const res = await axios.get(
-      `/imp/InsurancePolicy/GetinsuranceCoverNoteByPONumber?accountId=${accId}&businessUnitId=${buId}&poNumber=${PoNo}`
+      `/imp/InsurancePolicy/GetinsuranceCoverNoteByPONumber?accountId=${accId}&businessUnitId=${buId}&poNumber=${PoNo}`,
     );
     if (res?.status === 200) {
       const data = [
@@ -231,11 +245,11 @@ export const GetCurrencyByPO = async (
   PoNo,
   setter,
   initialValue,
-  setDataByPO
+  setDataByPO,
 ) => {
   try {
     const res = await axios.get(
-      `/imp/ImportCommonDDL/GetCurrencyByPO?accountId=${accId}&businessUnitId=${buId}&PONo=${PoNo}`
+      `/imp/ImportCommonDDL/GetCurrencyByPO?accountId=${accId}&businessUnitId=${buId}&PONo=${PoNo}`,
     );
     setter({
       ...initialValue,
@@ -243,11 +257,11 @@ export const GetCurrencyByPO = async (
         value: res?.data?.currencyId,
         label: res?.data?.currencyName,
       },
-      exchangeRate: res?.data?.currencyName === "Taka" ? 1 : "",
+      exchangeRate: res?.data?.currencyName === 'Taka' ? 1 : '',
       PIAmountBDT:
-        res?.data?.currencyName === "Taka"
+        res?.data?.currencyName === 'Taka'
           ? _formatMoney(res?.data?.piAmountFC)
-          : "",
+          : '',
       PIAmountFC: _formatMoney(res?.data?.piAmountFC),
       poId: res?.data?.poId,
     });
@@ -261,7 +275,7 @@ export const GetCurrencyByPO = async (
 export const getCalculationFormLandingForm = async (accId, values, setter) => {
   try {
     const res = await axios.get(
-      `/imp/FormulaForCalculation/GetFormulaCalculationForInsurance?accountId=${accId}&businessPartnerId=${values?.provider?.value}&shipmentTypeId=${values?.shipmentType?.value}&PIBDT=${values?.PIAmountBDT}`
+      `/imp/FormulaForCalculation/GetFormulaCalculationForInsurance?accountId=${accId}&businessPartnerId=${values?.provider?.value}&shipmentTypeId=${values?.shipmentType?.value}&PIBDT=${values?.PIAmountBDT}`,
     );
     if (res?.status === 200 && res?.data) {
       setter({
@@ -284,26 +298,28 @@ export const getCalculationFormLandingForm = async (accId, values, setter) => {
 
 // validation Schema for insurance cover note
 export const validationSchema = Yup.object().shape({
-  poNo: Yup.string().required("PO No is required"),
+  poNo: Yup.string().required('PO No is required'),
   coverage: Yup.object().shape({
-    label: Yup.string().required("Coverage is required"),
-    value: Yup.string().required("Coverage is required"),
+    label: Yup.string().required('Coverage is required'),
+    value: Yup.string().required('Coverage is required'),
   }),
   shipmentType: Yup.object().shape({
-    label: Yup.string().required("Shipment Type is required"),
-    value: Yup.string().required("Shipment Type is required"),
+    label: Yup.string().required('Shipment Type is required'),
+    value: Yup.string().required('Shipment Type is required'),
   }),
   provider: Yup.object().shape({
-    label: Yup.string().required("Provider is required"),
-    value: Yup.string().required("Provider is required"),
+    label: Yup.string().required('Provider is required'),
+    value: Yup.string().required('Provider is required'),
   }),
   paymentBy: Yup.object().shape({
-    label: Yup.string().required("Payment By is required"),
-    value: Yup.string().required("Payment By is required"),
+    label: Yup.string().required('Payment By is required'),
+    value: Yup.string().required('Payment By is required'),
   }),
-  insuranceDate: Yup.string().required("Date is required"),
-  coverNoteNumber: Yup.string().required("Cover note number is required"),
-  exchangeRate: Yup.number().required("Exchange Rate is required"),
-  total: Yup.number().positive().required("Total Amount is required"),
-  vat: Yup.number().required("VAT is required"),
+  insuranceDate: Yup.string().required('Date is required'),
+  coverNoteNumber: Yup.string().required('Cover note number is required'),
+  exchangeRate: Yup.number().required('Exchange Rate is required'),
+  total: Yup.number()
+    .positive()
+    .required('Total Amount is required'),
+  vat: Yup.number().required('VAT is required'),
 });

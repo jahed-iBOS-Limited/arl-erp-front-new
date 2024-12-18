@@ -1,24 +1,23 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import React, { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
-import InputField from "../../../../../_helper/_inputField";
-import NewSelect from "../../../../../_helper/_select";
-import PaginationTable from "../../../../../_helper/_tablePagination";
-import { empAttachment_action } from "../../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
-import { getLandingData } from "../helper";
+} from '../../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
+import InputField from '../../../../../_helper/_inputField';
+import NewSelect from '../../../../../_helper/_select';
+import PaginationTable from '../../../../../_helper/_tablePagination';
+import { getLandingData, empAttachment_action } from '../helper';
 // import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 // import { _formatMoney } from "../../../../../_helper/_formatMoney";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import ServiceBreakDownViewModal from "../serviceBreakDown/serviceBreakDownViewModal";
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import ServiceBreakDownViewModal from '../serviceBreakDown/serviceBreakDownViewModal';
 
 export default function _Form({
   initData,
@@ -49,11 +48,11 @@ export default function _Form({
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
-  const [poNumber, setPoNumber] = useState("");
-  const [shipmentNo, setShipmentNo] = useState("");
-  const [lcNumber, setLcNumber] = useState("");
-  const [referenceId, setReferenceId] = useState("");
-  const [itemData, setItemData] = useState("");
+  const [poNumber, setPoNumber] = useState('');
+  const [shipmentNo, setShipmentNo] = useState('');
+  const [lcNumber, setLcNumber] = useState('');
+  const [referenceId, setReferenceId] = useState('');
+  const [itemData, setItemData] = useState('');
   const [chargeTypeDDL, getChargeTypeDDL] = useAxiosGet();
   const [
     subChargeTypeDDL,
@@ -64,7 +63,7 @@ export default function _Form({
 
   useEffect(() => {
     getChargeTypeDDL(
-      `/imp/ImportCommonDDL/getChargeTypeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+      `/imp/ImportCommonDDL/getChargeTypeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
@@ -73,7 +72,7 @@ export default function _Form({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/imp/ImportCommonDDL/GetPONumberListFromShipment?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`
+        `/imp/ImportCommonDDL/GetPONumberListFromShipment?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`,
       )
       .then((res) => {
         return res?.data;
@@ -97,7 +96,7 @@ export default function _Form({
       pageNo,
       pageSize,
       setDisabled,
-      setTotalCount
+      setTotalCount,
     );
   };
   return (
@@ -123,13 +122,13 @@ export default function _Form({
           <>
             <Card>
               <CardHeader
-                title={`${headerData?.billType?.label} (${"Bill Register"})`}
+                title={`${headerData?.billType?.label} (${'Bill Register'})`}
               >
                 <CardHeaderToolbar>
                   <button
                     type="button"
                     onClick={backHandler}
-                    className={"btn btn-light"}
+                    className={'btn btn-light'}
                   >
                     <i className="fa fa-arrow-left"></i>
                     Back
@@ -138,7 +137,7 @@ export default function _Form({
                     onClick={handleSubmit}
                     className="btn btn-primary ml-2"
                     type="submit"
-                    disabled={values?.billingStatus?.label === "Done"}
+                    disabled={values?.billingStatus?.label === 'Done'}
                   >
                     Save
                   </button>
@@ -154,14 +153,14 @@ export default function _Form({
                         isSearchIcon={true}
                         name="poLc"
                         handleChange={(valueOption) => {
-                          setFieldValue("poLc", valueOption);
-                          setFieldValue("supplier", "");
+                          setFieldValue('poLc', valueOption);
+                          setFieldValue('supplier', '');
                           getLandingDataForCommercialBill(
                             valueOption?.label,
                             values?.supplier?.value,
                             0,
-                            values?.chargeType?.label || "",
-                            values?.subChargeType?.value || 0
+                            values?.chargeType?.label || '',
+                            values?.subChargeType?.value || 0,
                           );
                         }}
                         loadOptions={loadPoLcList || []}
@@ -176,13 +175,13 @@ export default function _Form({
                         name="supplier"
                         value={values?.supplier}
                         onChange={(valueOption) => {
-                          setFieldValue("supplier", valueOption);
+                          setFieldValue('supplier', valueOption);
                           getLandingDataForCommercialBill(
                             values?.poLc?.label,
                             valueOption?.value,
                             0,
-                            values?.chargeType?.label || "",
-                            valueOption?.value || 0
+                            values?.chargeType?.label || '',
+                            valueOption?.value || 0,
                           );
                         }}
                       />
@@ -216,7 +215,7 @@ export default function _Form({
                         value={values?.chargeType}
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("chargeType", valueOption);
+                            setFieldValue('chargeType', valueOption);
                             getSubChargeTypeDDL(
                               `/imp/ImportCommonDDL/SubChargeTypeDDL?ChargeTypeId=${valueOption?.value}`,
                               (data) => {
@@ -226,25 +225,25 @@ export default function _Form({
                                   label: item?.subChargeTypeName,
                                 }));
                                 setSubChargeTypeDDL(result);
-                              }
+                              },
                             );
                             getLandingDataForCommercialBill(
                               values?.poLc?.label,
                               values?.supplier?.value || 0,
                               0,
                               valueOption?.label,
-                              0
+                              0,
                             );
                           } else {
-                            setFieldValue("chargeType", "");
-                            setFieldValue("subChargeType", "");
+                            setFieldValue('chargeType', '');
+                            setFieldValue('subChargeType', '');
                             setSubChargeTypeDDL([]);
                             getLandingDataForCommercialBill(
                               values?.poLc?.label,
                               values?.supplier?.value || 0,
                               0,
-                              "",
-                              values?.subChargeType?.value || 0
+                              '',
+                              values?.subChargeType?.value || 0,
                             );
                           }
                         }}
@@ -258,19 +257,19 @@ export default function _Form({
                           name="subChargeType"
                           value={values?.subChargeType}
                           onChange={(valueOption) => {
-                            setFieldValue("subChargeType", valueOption);
+                            setFieldValue('subChargeType', valueOption);
                             getLandingDataForCommercialBill(
                               values?.poLc?.label,
                               valueOption?.value,
                               0,
-                              values?.chargeType?.label || "",
-                              valueOption?.value || 0
+                              values?.chargeType?.label || '',
+                              valueOption?.value || 0,
                             );
                           }}
                         />
                       </div>
                     ) : (
-                      ""
+                      ''
                     )}
 
                     {values?.billingStatus?.value === 0 && (
@@ -340,10 +339,10 @@ export default function _Form({
 
                     <DropzoneDialogBase
                       filesLimit={5}
-                      acceptedFiles={["image/*"]}
+                      acceptedFiles={['image/*']}
                       fileObjects={fileObjects}
-                      cancelButtonText={"cancel"}
-                      submitButtonText={"submit"}
+                      cancelButtonText={'cancel'}
+                      submitButtonText={'submit'}
                       maxFileSize={1000000}
                       open={open}
                       onAdd={(newFileObjs) => {
@@ -351,7 +350,7 @@ export default function _Form({
                       }}
                       onDelete={(deleteFileObj) => {
                         const newData = fileObjects.filter(
-                          (item) => item.file.name !== deleteFileObj.file.name
+                          (item) => item.file.name !== deleteFileObj.file.name,
                         );
                         setFileObjects(newData);
                       }}
@@ -368,8 +367,8 @@ export default function _Form({
                   </div>
                   <div className="d-flex justify-content-center align-items-center">
                     <div className="mr-5">
-                      <strong style={{ fontSize: "14px" }}>
-                        Total Bill Amount (with VAT) :{" "}
+                      <strong style={{ fontSize: '14px' }}>
+                        Total Bill Amount (with VAT) :{' '}
                         {rowDto?.length > 0
                           ? rowDto
                               ?.filter((item) => item?.isSelect)
@@ -377,7 +376,7 @@ export default function _Form({
                                 (accumulator, currentValue) =>
                                   accumulator +
                                     +currentValue?.totalBilledAmount || 0,
-                                0
+                                0,
                               )
                           : 0}
                       </strong>
@@ -392,11 +391,14 @@ export default function _Form({
                           !rowDto?.filter((item) => item?.isSelect)?.length
                         }
                         onChange={(e) => {
-                          setFieldValue("modifyVatPercentage", e.target.value || "")
+                          setFieldValue(
+                            'modifyVatPercentage',
+                            e.target.value || '',
+                          );
                           const modifyData = rowDto?.map((item) => {
                             let numericTotalAmount =
                               parseFloat(
-                                +item?.totalAmount.replace(/,/g, "")
+                                +item?.totalAmount.replace(/,/g, ''),
                               ) || 0;
 
                             let modifyVatAmount =
@@ -421,14 +423,14 @@ export default function _Form({
                     </div>
                   </div>
                   <div
-                    style={{ maxHeight: "900px" }}
+                    style={{ maxHeight: '900px' }}
                     className="scroll-table-auto"
                   >
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
                           {/* {values?.billingStatus?.label !== "Done" && ( */}
-                          <th style={{ minWidth: "35px" }}>
+                          <th style={{ minWidth: '35px' }}>
                             <input
                               type="checkbox"
                               name="allCheck"
@@ -439,25 +441,25 @@ export default function _Form({
                             />
                           </th>
                           {/* )} */}
-                          <th style={{ minWidth: "150px" }}>Charge Type</th>
-                          <th style={{ minWidth: "100px" }}>PO No</th>
-                          <th style={{ minWidth: "100px" }}>LC No</th>
-                          <th style={{ minWidth: "100px" }}>Shipment</th>
-                          <th style={{ minWidth: "100px" }}>Sub Charge Type</th>
-                          <th style={{ minWidth: "100px" }}>Supplier</th>
-                          <th style={{ minWidth: "80px" }}>Booked Amount</th>
-                          <th style={{ minWidth: "130px" }}>
+                          <th style={{ minWidth: '150px' }}>Charge Type</th>
+                          <th style={{ minWidth: '100px' }}>PO No</th>
+                          <th style={{ minWidth: '100px' }}>LC No</th>
+                          <th style={{ minWidth: '100px' }}>Shipment</th>
+                          <th style={{ minWidth: '100px' }}>Sub Charge Type</th>
+                          <th style={{ minWidth: '100px' }}>Supplier</th>
+                          <th style={{ minWidth: '80px' }}>Booked Amount</th>
+                          <th style={{ minWidth: '130px' }}>
                             Bill Amount (with VAT)
                           </th>
-                          <th style={{ minWidth: "100px" }}>VAT Amount</th>
-                          <th style={{ minWidth: "60px" }}>Due Date</th>
+                          <th style={{ minWidth: '100px' }}>VAT Amount</th>
+                          <th style={{ minWidth: '60px' }}>Due Date</th>
                         </tr>
                       </thead>
                       <tbody className="">
                         {rowDto?.map((item, index) => (
                           <tr
                             key={index}
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: 'pointer' }}
                             onClick={(e) => {
                               if (
                                 // item.costTypeId === 12 ||
@@ -499,10 +501,10 @@ export default function _Form({
                                 onChange={(valueOption) => {
                                   rowDtoSelectHandler(
                                     item?.costTypeName,
-                                    "isSelect",
+                                    'isSelect',
                                     !item?.isSelect,
                                     index,
-                                    values
+                                    values,
                                   );
                                 }}
                               />
@@ -514,7 +516,7 @@ export default function _Form({
                             <td className="text-center">{item?.ponumber}</td>
                             <td className="text-center">{item?.lcnumber}</td>
                             <td className="text-center">
-                              {item?.shipmentCode ? item.shipmentCode : "-"}
+                              {item?.shipmentCode ? item.shipmentCode : '-'}
                             </td>
                             <td>{item?.subChargeTypeName}</td>
                             <td className="text-center">
@@ -539,9 +541,9 @@ export default function _Form({
                                 }}
                                 onChange={(valueOption) => {
                                   rowDtoHandler(
-                                    "totalBilledAmount",
+                                    'totalBilledAmount',
                                     valueOption?.target?.value,
-                                    index
+                                    index,
                                   );
                                 }}
                               />
@@ -563,17 +565,17 @@ export default function _Form({
                                 }}
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "vatamount",
+                                    'vatamount',
                                     e?.target?.value,
-                                    index
+                                    index,
                                   );
 
                                   let data = [...rowDto];
                                   let numericTotalAmount = parseFloat(
-                                    item?.totalAmount.replace(/,/g, "")
+                                    item?.totalAmount.replace(/,/g, ''),
                                   );
                                   // data[index]["totalBilledAmount"] = (numericTotalAmount|| 0) + (numericTotalAmount * +e?.target?.value /100 || 0);
-                                  data[index]["totalBilledAmount"] =
+                                  data[index]['totalBilledAmount'] =
                                     (+numericTotalAmount || 0) +
                                     (+e?.target?.value || 0);
                                   setRowDto(data);
@@ -595,13 +597,13 @@ export default function _Form({
                                 }}
                                 onChange={(valueOption) => {
                                   rowDtoHandler(
-                                    "dueDate",
+                                    'dueDate',
                                     valueOption?.target?.value,
-                                    index
+                                    index,
                                   );
                                 }}
                                 disabled={
-                                  values?.billingStatus?.label === "Done"
+                                  values?.billingStatus?.label === 'Done'
                                 }
                               />
                               {/* )} */}
@@ -614,14 +616,14 @@ export default function _Form({
 
                   <button
                     type="submit"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={btnRef}
                     onSubmit={() => handleSubmit()}
                   ></button>
 
                   <button
                     type="reset"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={resetBtnRef}
                     onSubmit={() => resetForm(initData)}
                   ></button>

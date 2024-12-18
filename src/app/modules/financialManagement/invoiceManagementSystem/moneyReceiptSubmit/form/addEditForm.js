@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { getBankDDL_api } from "../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Form from './form';
+import { getBankDDL_api } from '../helper';
 
 const initData = {
-  depositMode: "",
-  bank: "",
-  branch: "",
-  referenceNo: "",
+  depositMode: '',
+  bank: '',
+  branch: '',
+  referenceNo: '',
   date: _todayDate(),
-  amount: "",
+  amount: '',
 };
 
 export default function MoneyReceiptSubmitForm() {
@@ -80,9 +80,9 @@ export default function MoneyReceiptSubmitForm() {
       rowObjectList: rowData?.map((item) => {
         return {
           bankId: values?.bank?.value || 0,
-          bankName: values?.bank?.label || "",
+          bankName: values?.bank?.label || '',
           branchId: values?.branch?.value || 0,
-          branchName: values?.branch?.label || "",
+          branchName: values?.branch?.label || '',
           depositMode: values?.depositMode?.label,
           refNo: values?.referenceNo,
           depositDate: values?.date,
@@ -90,7 +90,7 @@ export default function MoneyReceiptSubmitForm() {
           deliveryId: item?.intDeliveryId,
           deliveryCode: item?.strdeliverycode,
           attachmentPkid: 0,
-          attachment: "",
+          attachment: '',
           shipmentRowId: item?.intshipmentrowid,
         };
       }),
@@ -102,7 +102,7 @@ export default function MoneyReceiptSubmitForm() {
         cb();
         getRowData();
       },
-      true
+      true,
     );
   };
 
