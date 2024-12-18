@@ -331,26 +331,21 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             ]?.flightDate;
 
           const obj = {
-            consigneeNameAndAddress: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
-            shipperNameAndAddress: `Akij Logistics Limited \nBir Uttam Mir Shawkat Sarak, Dhaka 1208`,
+            // missing items
             gsaName: "missing",
-            agentIatacode: `${firstIndex?.transportPlanning?.iatanumber || ""}`,
             referenceNumber: "missing",
             optionalShippingInformation: "missing",
+            to: "missing",
+            grossWeight: `${subtotalGrossWeight || ""}`, //"missing",
+
+            // bind from data
+            consigneeNameAndAddress: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
+            shipperNameAndAddress: `Akij Logistics Limited \nBir Uttam Mir Shawkat Sarak, Dhaka 1208`,
+            agentIatacode: `${firstIndex?.transportPlanning?.iatanumber || ""}`,
             noOfPiecesRcp: `${totalNumberOfPackages || ""}`,
             prepaidNatureAndQuantityOfGoods: `${prepaidNatureAndQuantityOfGoods ||
               ""}`,
-            grossWeight: `${subtotalGrossWeight || ""}`, //"missing",
-            grossWeightKgLb: "grossWeightKgLb",
-            to: "missing",
-            to1: "to1",
-            byFirstCarrierRoutingAndDestination:
-              "byFirstCarrierRoutingAndDestination",
-            to2: "to2",
-            by2: "by2",
             currency: `${firstIndex?.currency || ""}`,
-            cghscode: "cGHSCode",
-            declaredValueForCarriage: "",
             declaredValueForCustoms: `${firstIndex?.invoiceValue
               ? firstIndex?.invoiceValue
               : "AS PER INVOICE"
@@ -359,52 +354,56 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               firstIndex?.transportPlanning?.airTransportRow?.length - 1
             ]?.toPort
               }`,
-            amountOfInsurance: "amountOfInsurance",
-            handlingInformation: "handlingInformation",
-            accountNumber: "accountNumber",
             airportOfDepartureAndRouting: `${firstIndex?.transportPlanning?.airLineOrShippingLine} \n ${airportOfDepartureAndRouting} `,
-            rateClassCommodityItemNo: "rateClassCommodityItemNo",
-            chargeableWeight: "chargeableWeight",
-            rateOrCharge: "rateOrCharge",
-            prepaidPrepaidAmount: "prepaidPrepaidAmount",
-            collectPrepaidAmount: "collectPrepaidAmount",
-            prepaidValuationCharge: "prepaidValuationCharge",
-            collectTotalOtherChargesDueCarrier1:
-              "collectTotalOtherChargesDueCarrier1",
-            collectTotalOtherChargesDueCarrier2:
-              "collectTotalOtherChargesDueCarrier2",
-            totalPrepaid: "totalPrepaid",
-            totalCollect: "totalCollect",
-            currencyConversionRates: "currencyConversionRates",
-            ccchargesInDestCurrency: "ccchargesInDestCurrency",
-            chargesAtDestination: "chargesAtDestination",
+            requestedFlightDate: `${moment(requestedFlightDate).format(
+              "DD-MM-YYYY"
+            )}`,
+            grossWeightKgLb: "",
+            to1: "to1",
+            byFirstCarrierRoutingAndDestination: "",
+            to2: "",
+            by2: "",
+            cghscode: "",
+            declaredValueForCarriage: "",
+            signatureOfIssuingCarrierOrAgent: `${firstIndex?.shipperName}`,
+            executedOnDate: firstIndex?.confirmDate,
 
-            //
+            amountOfInsurance: "", // can't get initial value
+            handlingInformation: "", // can't get initial value
+            accountNumber: "", // can't get initial value
+            rateClassCommodityItemNo: "", // can't get initial value
+            chargeableWeight: "", // can't get initial value
+            rateOrCharge: "", // can't get initial value
+            prepaidPrepaidAmount: "", // can't get initial value
+            collectPrepaidAmount: "",  // can't get initial value
+            prepaidValuationCharge: "", // can't get initial value
+            prepaidTaxAmount: "", // can't get initial value
+            prepaidTotalOtherChargesDueAgent: "", // can't get initial value
+            collectTotalOtherChargesDueCarrier1: "", // can't get initial value
+
+            collectTotalOtherChargesDueCarrier2: "", // can't get initial value
+            totalPrepaid: "", // can't get initial value
+            totalCollect: "", // can't get initial value
+            currencyConversionRates: "", // can't get initial value
+            ccchargesInDestCurrency: "", // can't get initial value
+            chargesAtDestination: "",// can't get initial value
+
+            // can't bind 
             airMasterBlId: 0,
             isActive: true,
             createdBy: 0,
-            bookingReqest: [
-              {
-                bookingReqestId: 0,
-              },
-            ],
             masterBlNo: "string",
             issuingCarrierAgentNameAndCity: "string",
-            requestedFlightDate: ` ${moment(requestedFlightDate).format(
-              "DD-MM-YYYY"
-            )}`,
+
             prepaidTotalAmount: "string",
             prepaidWeightCharge: "string",
-            prepaidTaxAmount: "prepaidTaxAmount",
-            prepaidTotalOtherChargesDueAgent: "string",
+
             prepaidTotalOtherChargesDueCarrier1: "string",
             prepaidTotalOtherChargesDueCarrier2: "string",
             forCarrierUseOnlyAtDestination: "string",
             totalCollectCharges: "string",
             signatureOfShipperOrAgent: "string",
-            executedOnDate: "2024-12-17T12:11:17.873Z",
             atPlace: "string",
-            signatureOfIssuingCarrierOrAgent: "string",
             collectTotalAmount: "string",
             collectNatureAndQuantityOfGoods: "string",
             collectWeightCharge: "string",
@@ -2496,16 +2495,46 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 air according to the applicable Dangerous Goods
                                 Regulations.
                               </p>
-                              <h1
-                                className="collectChartValue"
-                                style={{
-                                  textAlign: "center",
-                                  marginTop: 5,
-                                  textTransform: "uppercase",
-                                }}
-                              >
-                                {hbawListData?.[0]?.shipperName}
-                              </h1>
+                              {
+                                isPrintViewMode ? (
+                                  <h1
+                                    className="collectChartValue"
+                                    style={{
+                                      textAlign: "center",
+                                      marginTop: 5,
+                                      textTransform: "uppercase",
+                                    }}
+                                  >
+                                    {values?.signatureOfIssuingCarrierOrAgent
+                                      ? values?.signatureOfIssuingCarrierOrAgent
+                                        ?.split("\n")
+                                        .map((item, index) => {
+                                          return (
+                                            <>
+                                              {item}
+                                              <br />
+                                            </>
+                                          );
+                                        })
+                                      : ""}
+                                  </h1>
+                                ) : (
+                                  <div className="col-lg-12">
+                                    <textarea
+                                      name="signatureOfIssuingCarrierOrAgent"
+                                      value={
+                                        values?.signatureOfIssuingCarrierOrAgent
+                                      }
+                                      onChange={(e) => {
+                                        setFieldValue(
+                                          "signatureOfIssuingCarrierOrAgent",
+                                          e.target.value
+                                        );
+                                      }}
+                                    />
+                                  </div>
+                                )
+                              }
                               <hr
                                 style={{
                                   borderTop: "1px dotted",
@@ -2754,18 +2783,35 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 marginTop: 5,
                               }}
                             >
-                              <p>
-                                <b>
-                                  {hbawListData?.[0]?.confirmDate &&
-                                    moment(
-                                      hbawListData?.[0]?.confirmDate
-                                    ).format("DD-MM-YYYY")}{" "}
-                                  Dhaka
-                                </b>
-                              </p>
-                              <p>
-                                <b>Akij Logistics Limited</b>
-                              </p>
+                              <>
+                                {
+                                  isPrintViewMode ? (
+                                    <b>
+                                      {
+                                        moment(values?.executedOnDat).format("DD-MM-YYYY")
+                                      }
+                                    </b>
+                                  ) : (
+                                    <div className="col-lg-3">
+                                      <input
+                                        name="executedOnDate"
+                                        value={values?.executedOnDate}
+                                        type="date"
+                                        onChange={(e) => {
+                                          setFieldValue(
+                                            "executedOnDate",
+                                            e.target.value
+                                          );
+                                        }}
+                                      />
+                                    </div>
+                                  )
+                                }
+                                Dhaka
+                                <p>
+                                  <b>Akij Logistics Limited</b>
+                                </p>
+                              </>
                             </div>
                             <hr
                               style={{
