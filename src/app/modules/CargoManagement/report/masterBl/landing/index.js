@@ -13,6 +13,7 @@ import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import { imarineBaseUrl } from '../../../../../App';
 import IViewModal from '../../../../_helper/_viewModal';
 import MasterHBLModal from '../../../operation/bookingList/masterHBLModal';
+import MasterHBAWModal from '../../../operation/bookingList/masterHAWBModal';
 // import { getBusinessPartnerDDL, getLandingPaginationData } from '../helper';
 
 const initData = {
@@ -28,6 +29,7 @@ function MasterBLLanding() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [isMasterBLViewModal, setIsMasterBLViewModal] = useState(false);
+  const [isMasterHAWBViewModal, setIsMasterHAWBViewModal] = useState(false);
   const [clickRowDto, setClickRowDto] = useState(null);
   const [
     masterBlLanding,
@@ -145,8 +147,16 @@ function MasterBLLanding() {
                               <div className="d-flex justify-content-center">
                                 <span
                                   onClick={() => {
-                                    setIsMasterBLViewModal(true);
-                                    setClickRowDto(item);
+                                    // setIsMasterBLViewModal(true);
+                                    // setClickRowDto(item);
+                                    if (values?.modeOfTransport?.value === 1) {
+                                      setIsMasterHAWBViewModal(true);
+                                      setClickRowDto(item);
+                                    }
+                                    if (values?.modeOfTransport?.value === 2) {
+                                      setIsMasterBLViewModal(true);
+                                      setClickRowDto(item);
+                                    }
                                   }}
                                   className="ml-2 mr-3"
                                 >
@@ -185,6 +195,22 @@ function MasterBLLanding() {
                       }}
                     >
                       <MasterHBLModal
+                        isPrintView={true}
+                        sipMasterBlid={clickRowDto?.sipMasterBlid}
+                      />
+                    </IViewModal>
+                  </>
+                )}
+                {isMasterHAWBViewModal && (
+                  <>
+                    <IViewModal
+                      title={'Master HAWB'}
+                      show={isMasterHAWBViewModal}
+                      onHide={() => {
+                        setIsMasterHAWBViewModal(false);
+                      }}
+                    >
+                      <MasterHBAWModal
                         isPrintView={true}
                         sipMasterBlid={clickRowDto?.sipMasterBlid}
                       />
