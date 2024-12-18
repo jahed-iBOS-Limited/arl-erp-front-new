@@ -1,67 +1,67 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { getVesselDDL, getVoyageDDLNew } from "../../helper";
-import VoyageLicenseFlagAttachment from "./voyageFlagLicenseAttachment";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import FormikSelect from "../../../chartering/_chartinghelper/common/formikSelect";
-import customStyles from "../../../selectCustomStyle";
-import IViewModal from "../../../_helper/_viewModal";
-import { imarineBaseUrl } from "../../../../App";
-import DiffEmailSender from "../../utils/diffEmailSender";
-import EmailEditor from "../../utils/emailEditor";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import ICustomTable from "../../../chartering/_chartinghelper/_customTable";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { getVesselDDL, getVoyageDDLNew } from '../../helper';
+import VoyageLicenseFlagAttachment from './voyageFlagLicenseAttachment';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import FormikSelect from '../../../chartering/_chartinghelper/common/formikSelect';
+import customStyles from '../../../selectCustomStyle';
+import IViewModal from '../../../_helper/_viewModal';
+import { imarineBaseUrl } from '../../../../App';
+import DiffEmailSender from '../../utils/diffEmailSender';
+import EmailEditor from '../../utils/emailEditor';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import ICustomTable from '../../../chartering/_chartinghelper/_customTable';
 
 const initData = {
-  voyageFlagLicenseAtt: "",
+  voyageFlagLicenseAtt: '',
 };
 
 const headers = [
-  { name: "SL" },
-  { name: "Code" },
-  { name: "Vessel Name" },
-  { name: "Voyage Type" },
-  { name: "Voyage No" },
-  { name: "Charterer Name" },
-  { name: "Broker Name" },
-  { name: "Load Port" },
-  { name: "Discharge Port" },
-  { name: "Cargo Quantity(Mt)" },
-  { name: "Freight Per(Mt)" },
-  { name: "Bunker Calculator" },
-  { name: "Dead Weight Calculation & Pre Stowage" },
-  { name: "Vessel Nomination" },
-  { name: "EDPA Loadport" },
-  { name: "On Hire Bunker and Conditional Survey(CS)" },
+  { name: 'SL' },
+  { name: 'Code' },
+  { name: 'Vessel Name' },
+  { name: 'Voyage Type' },
+  { name: 'Voyage No' },
+  { name: 'Charterer Name' },
+  { name: 'Broker Name' },
+  { name: 'Load Port' },
+  { name: 'Discharge Port' },
+  { name: 'Cargo Quantity(Mt)' },
+  { name: 'Freight Per(Mt)' },
+  { name: 'Bunker Calculator' },
+  { name: 'Dead Weight Calculation & Pre Stowage' },
+  { name: 'Vessel Nomination' },
+  { name: 'EDPA Loadport' },
+  { name: 'On Hire Bunker and Conditional Survey(CS)' },
   // { name: "Dead Weight Calculation" },
-  { name: "Voyage Instruction" },
-  { name: "PI & Survey" },
-  { name: "Voyage License/Flag Waiver" },
-  { name: "TCL" },
-  { name: "Weather Routing Company" },
-  { name: "Departure Document Loadport" },
-  { name: "EPDA Discharge Port" },
-  { name: "Off Hire Bunker Survey" },
-  { name: "Departure Document Discharge Port" },
+  { name: 'Voyage Instruction' },
+  { name: 'PI & Survey' },
+  { name: 'Voyage License/Flag Waiver' },
+  { name: 'TCL' },
+  { name: 'Weather Routing Company' },
+  { name: 'Departure Document Loadport' },
+  { name: 'EPDA Discharge Port' },
+  { name: 'Off Hire Bunker Survey' },
+  { name: 'Departure Document Discharge Port' },
 ];
 
 export default function VesselNominationDashboard() {
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   const [show, setShow] = useState(false);
   const onHide = () => setShow(false);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
-  const [landingData, getLandingData, loader] = useAxiosGet();
+  const [landingData, getLandingData] = useAxiosGet();
   const [isShowMailModal, setIsShowMailModal] = useState(false);
   const [isDiffMailSenderModal, setIsDiffMailSenderModal] = useState(false);
   const [vesselDDL, setVesselDDL] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
 
   const [singleRowData, setSingleRowData] = useState({});
   const history = useHistory();
@@ -69,236 +69,47 @@ export default function VesselNominationDashboard() {
   const getGridData = (values) => {
     const shipTypeSTR = values?.shipType
       ? `shipType=${values?.shipType?.label}`
-      : "";
+      : '';
     const voyageTypeSTR = values?.voyageType
       ? `&voyageType=${values?.voyageType?.label}`
-      : "";
+      : '';
     const vesselNameSTR = values?.vesselName
       ? `&vesselName=${values?.vesselName?.label}`
-      : "";
+      : '';
     const voyageNoSTR = values?.voyageNo
       ? `&voyageNo=${values?.voyageNo?.label}`
-      : "";
+      : '';
     getLandingData(
-      `${imarineBaseUrl}/domain/VesselNomination/VesselNominationLanding?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
+      `${imarineBaseUrl}/domain/VesselNomination/VesselNominationLanding?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`,
     );
   };
 
   useEffect(() => {
     getGridData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // const getButtonVisibility = (data) => {
-  //   let visibility = [];
-
-  //   if (data?.isVesselNominationEmailSent) {
-  //     visibility.push("edpaLoadportSend");
-  //   }
-  //   if (data?.isVesselNominationEmailSent && data?.edpaLoadportSend) {
-  //     visibility.push("isBunkerCalculationSave");
-  //   }
-  //   if (
-  //     data?.isVesselNominationEmailSent &&
-  //     data?.isBunkerCalculationSave &&
-  //     data?.edpaLoadportSend
-  //   ) {
-  //     visibility.push("preStowageSend");
-  //   }
-  //   if (
-  //     data?.isVesselNominationEmailSent &&
-  //     data?.isBunkerCalculationSave &&
-  //     data?.edpaLoadportSend &&
-  //     data?.preStowageSend
-  //   ) {
-  //     visibility.push("onHireBunkerSurveySent");
-  //   }
-  //   if (
-  //     data?.isVesselNominationEmailSent &&
-  //     data?.isBunkerCalculationSave &&
-  //     data?.edpaLoadportSend &&
-  //     data?.preStowageSend &&
-  //     data?.onHireBunkerSurveySent
-  //   ) {
-  //     visibility.push("isDeadWeightCalculationSave");
-  //   }
-  //   if (
-  //     data?.isVesselNominationEmailSent &&
-  //     data?.isBunkerCalculationSave &&
-  //     data?.edpaLoadportSend &&
-  //     data?.preStowageSend &&
-  //     data?.onHireBunkerSurveySent &&
-  //     data?.isDeadWeightCalculationSave
-  //   ) {
-  //     visibility.push("voyageInstructionSent");
-  //   }
-  //   if (
-  //     data?.isVesselNominationEmailSent &&
-  //     data?.isBunkerCalculationSave &&
-  //     data?.edpaLoadportSend &&
-  //     data?.preStowageSend &&
-  //     data?.onHireBunkerSurveySent &&
-  //     data?.isDeadWeightCalculationSave &&
-  //     data?.voyageInstructionSent
-  //   ) {
-  //     visibility.push("pisurveySent");
-  //   }
-  //   if (
-  //     data?.isVesselNominationEmailSent &&
-  //     data?.isBunkerCalculationSave &&
-  //     data?.edpaLoadportSend &&
-  //     data?.preStowageSend &&
-  //     data?.onHireBunkerSurveySent &&
-  //     data?.isDeadWeightCalculationSave &&
-  //     data?.voyageInstructionSent &&
-  //     data?.pisurveySent
-  //   ) {
-  //     visibility.push("voyageLicenseFlagWaiverSend");
-  //   }
-  //   if (
-  //     data?.isVesselNominationEmailSent &&
-  //     data?.isBunkerCalculationSave &&
-  //     data?.edpaLoadportSend &&
-  //     data?.preStowageSend &&
-  //     data?.onHireBunkerSurveySent &&
-  //     data?.isDeadWeightCalculationSave &&
-  //     data?.voyageInstructionSent &&
-  //     data?.pisurveySent &&
-  //     data?.voyageLicenseFlagWaiverSend
-  //   ) {
-  //     visibility.push("tclSend");
-  //   }
-  //   if (
-  //     data?.isVesselNominationEmailSent &&
-  //     data?.isBunkerCalculationSave &&
-  //     data?.edpaLoadportSend &&
-  //     data?.preStowageSend &&
-  //     data?.onHireBunkerSurveySent &&
-  //     data?.isDeadWeightCalculationSave &&
-  //     data?.voyageInstructionSent &&
-  //     data?.pisurveySent &&
-  //     data?.voyageLicenseFlagWaiverSend &&
-  //     data?.tclSend
-  //   ) {
-  //     visibility.push("weatherRoutingCompanySend");
-  //   }
-  //   if (
-  //     data?.isVesselNominationEmailSent &&
-  //     data?.isBunkerCalculationSave &&
-  //     data?.edpaLoadportSend &&
-  //     data?.preStowageSend &&
-  //     data?.onHireBunkerSurveySent &&
-  //     data?.isDeadWeightCalculationSave &&
-  //     data?.voyageInstructionSent &&
-  //     data?.pisurveySent &&
-  //     data?.voyageLicenseFlagWaiverSend &&
-  //     data?.tclSend &&
-  //     data?.weatherRoutingCompanySend
-  //   ) {
-  //     visibility.push("departureDocumentLoadPortSend");
-  //   }
-  //   if (
-  //     data?.isVesselNominationEmailSent &&
-  //     data?.isBunkerCalculationSave &&
-  //     data?.edpaLoadportSend &&
-  //     data?.preStowageSend &&
-  //     data?.onHireBunkerSurveySent &&
-  //     data?.isDeadWeightCalculationSave &&
-  //     data?.voyageInstructionSent &&
-  //     data?.pisurveySent &&
-  //     data?.voyageLicenseFlagWaiverSend &&
-  //     data?.tclSend &&
-  //     data?.weatherRoutingCompanySend &&
-  //     data?.departureDocumentLoadPortSend
-  //   ) {
-  //     visibility.push("departureDocumentDischargePortSend");
-  //   }
-  //   if (
-  //     data?.isVesselNominationEmailSent &&
-  //     data?.isBunkerCalculationSave &&
-  //     data?.edpaLoadportSend &&
-  //     data?.preStowageSend &&
-  //     data?.onHireBunkerSurveySent &&
-  //     data?.isDeadWeightCalculationSave &&
-  //     data?.voyageInstructionSent &&
-  //     data?.pisurveySent &&
-  //     data?.voyageLicenseFlagWaiverSend &&
-  //     data?.tclSend &&
-  //     data?.weatherRoutingCompanySend &&
-  //     data?.departureDocumentLoadPortSend &&
-  //     data?.departureDocumentDischargePortSend
-  //   ) {
-  //     visibility.push("epdadischargePortSent");
-  //   }
-  //   if (
-  //     data?.isVesselNominationEmailSent &&
-  //     data?.isBunkerCalculationSave &&
-  //     data?.edpaLoadportSend &&
-  //     data?.preStowageSend &&
-  //     data?.onHireBunkerSurveySent &&
-  //     data?.isDeadWeightCalculationSave &&
-  //     data?.voyageInstructionSent &&
-  //     data?.pisurveySent &&
-  //     data?.voyageLicenseFlagWaiverSend &&
-  //     data?.tclSend &&
-  //     data?.weatherRoutingCompanySend &&
-  //     data?.departureDocumentLoadPortSend &&
-  //     data?.departureDocumentDischargePortSend &&
-  //     data?.epdadischargePortSent
-  //   ) {
-  //     visibility.push("offHireBunkerSurveySent");
-  //   }
-
-  //   return visibility;
-  // };
 
   const getButtonVisibility = (data) => {
     let visibility = [
-      "isBunkerCalculationSave",
-      "edpaLoadportSend",
-      "onHireBunkerSurveySent",
-      "isDeadWeightCalculationSave",
-      "voyageInstructionSent",
-      "pisurveySent",
-      "voyageLicenseFlagWaiverSend",
-      "tclSend",
-      "weatherRoutingCompanySend",
-      "departureDocumentLoadPortSend",
-      "departureDocumentDischargePortSend",
-      "epdadischargePortSent",
-      "offHireBunkerSurveySent",
+      'isBunkerCalculationSave',
+      'edpaLoadportSend',
+      'onHireBunkerSurveySent',
+      'isDeadWeightCalculationSave',
+      'voyageInstructionSent',
+      'pisurveySent',
+      'voyageLicenseFlagWaiverSend',
+      'tclSend',
+      'weatherRoutingCompanySend',
+      'departureDocumentLoadPortSend',
+      'departureDocumentDischargePortSend',
+      'epdadischargePortSent',
+      'offHireBunkerSurveySent',
     ];
-
-    // // First block
-    // if (data?.isVesselNominationEmailSent) {
-    //   visibility.push("isBunkerCalculationSave");
-    // }
 
     // Second block
     if (data?.isBunkerCalculationSave) {
-      visibility.push("preStowageSend");
+      visibility.push('preStowageSend');
     }
-
-    // Third block - Push all remaining visibility states if previous conditions are met
-    // if (
-    //   data?.isVesselNominationEmailSent &&
-    //   data?.isBunkerCalculationSave &&
-    //   data?.preStowageSend
-    // ) {
-    //   visibility.push(
-    //     "edpaLoadportSend",
-    //     "onHireBunkerSurveySent",
-    //     "isDeadWeightCalculationSave",
-    //     "voyageInstructionSent",
-    //     "pisurveySent",
-    //     "voyageLicenseFlagWaiverSend",
-    //     "tclSend",
-    //     "weatherRoutingCompanySend",
-    //     "departureDocumentLoadPortSend",
-    //     "departureDocumentDischargePortSend",
-    //     "epdadischargePortSent",
-    //     "offHireBunkerSurveySent"
-    //   );
-    // }
 
     return visibility;
   };
@@ -352,24 +163,24 @@ export default function VesselNominationDashboard() {
                       value={values?.shipType}
                       isSearchable={true}
                       options={[
-                        { value: 1, label: "Own Ship" },
-                        { value: 2, label: "Charterer Ship" },
+                        { value: 1, label: 'Own Ship' },
+                        { value: 2, label: 'Charterer Ship' },
                       ]}
                       styles={customStyles}
                       name="shipType"
                       placeholder="Ship Type"
                       label="Ship Type"
                       onChange={(valueOption) => {
-                        setFieldValue("shipType", valueOption);
-                        setFieldValue("vesselName", "");
-                        setFieldValue("voyageNo", "");
+                        setFieldValue('shipType', valueOption);
+                        setFieldValue('vesselName', '');
+                        setFieldValue('voyageNo', '');
                         setVesselDDL([]);
                         if (valueOption) {
                           getVesselDDL(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             setVesselDDL,
-                            valueOption?.value === 2 ? 2 : ""
+                            valueOption?.value === 2 ? 2 : '',
                           );
                         } else {
                           getGridData();
@@ -383,17 +194,17 @@ export default function VesselNominationDashboard() {
                       value={values?.voyageType}
                       isSearchable={true}
                       options={[
-                        { value: 1, label: "Time Charter" },
-                        { value: 2, label: "Voyage Charter" },
+                        { value: 1, label: 'Time Charter' },
+                        { value: 2, label: 'Voyage Charter' },
                       ]}
                       styles={customStyles}
                       name="voyageType"
                       placeholder="Voyage Type"
                       label="Voyage Type"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", "");
-                        setFieldValue("voyageNo", "");
-                        setFieldValue("voyageType", valueOption);
+                        setFieldValue('vesselName', '');
+                        setFieldValue('voyageNo', '');
+                        setFieldValue('voyageType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -410,8 +221,8 @@ export default function VesselNominationDashboard() {
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
-                        setFieldValue("voyageNo", "");
+                        setFieldValue('vesselName', valueOption);
+                        setFieldValue('voyageNo', '');
                         if (valueOption) {
                           getVoyageDDL({ ...values, vesselName: valueOption });
                         }
@@ -420,7 +231,7 @@ export default function VesselNominationDashboard() {
                   </div>
                   <div className="col-lg-2">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -428,7 +239,7 @@ export default function VesselNominationDashboard() {
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                       }}
                       isDisabled={!values?.vesselName}
                     />
@@ -440,7 +251,7 @@ export default function VesselNominationDashboard() {
                       onClick={() => {
                         getGridData(values);
                       }}
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       className="btn btn-primary"
                     >
                       Show
@@ -472,41 +283,43 @@ export default function VesselNominationDashboard() {
 
                             <td className="text-center">
                               {visibleButtons.includes(
-                                "isBunkerCalculationSave"
+                                'isBunkerCalculationSave',
                               ) && (
-                                  <button
-                                    className={
-                                      item.isBunkerCalculationSave
-                                        ? "btn btn-sm btn-success px-1 py-1"
-                                        : "btn btn-sm btn-warning px-1 py-1"
-                                    }
-                                    type="button"
-                                    onClick={() => {
-                                      history.push(
-                                        "/shippingOperation/bunker-management/bunker/create",
-                                        {
-                                          landingData: item,
-                                        }
-                                      );
-                                    }}
+                                <button
+                                  className={
+                                    item.isBunkerCalculationSave
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
+                                  }
+                                  type="button"
+                                  onClick={() => {
+                                    history.push(
+                                      '/shippingOperation/bunker-management/bunker/create',
+                                      {
+                                        landingData: item,
+                                      },
+                                    );
+                                  }}
                                   // disabled={item?.isBunkerCalculationSave}
-                                  >
-                                    Bunker Calculator
-                                  </button>
-                                )}
+                                >
+                                  Bunker Calculator
+                                </button>
+                              )}
                             </td>
                             <td className="text-center">
-                              {visibleButtons.includes("preStowageSend") && (
+                              {visibleButtons.includes('preStowageSend') && (
                                 <button
                                   className={
                                     item.preStowageSend
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   type="button"
                                   onClick={() => {
                                     if (item.preStowageSend) {
-                                      const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+                                      const confirmation = window.confirm(
+                                        'Email already sent. Do you want to send it again?',
+                                      );
 
                                       if (!confirmation) {
                                         return;
@@ -514,11 +327,11 @@ export default function VesselNominationDashboard() {
                                     }
                                     setSingleRowData({
                                       ...item,
-                                      columnName: "PRE STOWAGE",
+                                      columnName: 'PRE STOWAGE',
                                     });
                                     setIsShowMailModal(true);
                                   }}
-                                // disabled={item.preStowageSend}
+                                  // disabled={item.preStowageSend}
                                 >
                                   DEAD WEIGHT CALCULATION & PRE STOWAGE SEND
                                 </button>
@@ -528,13 +341,15 @@ export default function VesselNominationDashboard() {
                               <button
                                 className={
                                   item.isVesselNominationEmailSent
-                                    ? "btn btn-sm btn-success px-1 py-1"
-                                    : "btn btn-sm btn-warning px-1 py-1"
+                                    ? 'btn btn-sm btn-success px-1 py-1'
+                                    : 'btn btn-sm btn-warning px-1 py-1'
                                 }
                                 type="button"
                                 onClick={() => {
                                   if (item.isVesselNominationEmailSent) {
-                                    const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+                                    const confirmation = window.confirm(
+                                      'Email already sent. Do you want to send it again?',
+                                    );
 
                                     if (!confirmation) {
                                       return;
@@ -542,27 +357,29 @@ export default function VesselNominationDashboard() {
                                   }
                                   setSingleRowData({
                                     ...item,
-                                    columnName: "VESSEL NOMINATION",
+                                    columnName: 'VESSEL NOMINATION',
                                   });
                                   setIsShowMailModal(true);
                                 }}
-                              // disabled={item.isVesselNominationEmailSent}
+                                // disabled={item.isVesselNominationEmailSent}
                               >
                                 VESSEL NOMINATION SEND
                               </button>
                             </td>
                             <td className="text-center">
-                              {visibleButtons.includes("edpaLoadportSend") && (
+                              {visibleButtons.includes('edpaLoadportSend') && (
                                 <button
                                   className={
                                     item.edpaLoadportSend
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   type="button"
                                   onClick={() => {
                                     if (item.edpaLoadportSend) {
-                                      const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+                                      const confirmation = window.confirm(
+                                        'Email already sent. Do you want to send it again?',
+                                      );
 
                                       if (!confirmation) {
                                         return;
@@ -570,12 +387,12 @@ export default function VesselNominationDashboard() {
                                     }
                                     setSingleRowData({
                                       ...item,
-                                      columnName: "EDPA LOADPORT",
+                                      columnName: 'EDPA LOADPORT',
                                     });
                                     // setIsShowMailModal(true);
                                     setIsDiffMailSenderModal(true);
                                   }}
-                                // disabled={item.edpaLoadportSend}
+                                  // disabled={item.edpaLoadportSend}
                                 >
                                   EDPA LOADPORT SEND
                                 </button>
@@ -583,35 +400,36 @@ export default function VesselNominationDashboard() {
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
-                                "onHireBunkerSurveySent"
+                                'onHireBunkerSurveySent',
                               ) && (
-                                  <button
-                                    className={
-                                      item.onHireBunkerSurveySent
-                                        ? "btn btn-sm btn-success px-1 py-1"
-                                        : "btn btn-sm btn-warning px-1 py-1"
-                                    }
-                                    type="button"
-                                    onClick={() => {
+                                <button
+                                  className={
+                                    item.onHireBunkerSurveySent
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
+                                  }
+                                  type="button"
+                                  onClick={() => {
+                                    if (item.onHireBunkerSurveySent) {
+                                      const confirmation = window.confirm(
+                                        'Email already sent. Do you want to send it again?',
+                                      );
 
-                                      if (item.onHireBunkerSurveySent) {
-                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
-
-                                        if (!confirmation) {
-                                          return;
-                                        }
+                                      if (!confirmation) {
+                                        return;
                                       }
-                                      setSingleRowData({
-                                        ...item,
-                                        columnName: "ON HIRE BUNKER SURVEY",
-                                      });
-                                      setIsShowMailModal(true);
-                                    }}
+                                    }
+                                    setSingleRowData({
+                                      ...item,
+                                      columnName: 'ON HIRE BUNKER SURVEY',
+                                    });
+                                    setIsShowMailModal(true);
+                                  }}
                                   // disabled={item.onHireBunkerSurveySent}
-                                  >
-                                    ON HIRE BUNKER SURVEY SENT
-                                  </button>
-                                )}
+                                >
+                                  ON HIRE BUNKER SURVEY SENT
+                                </button>
+                              )}
                             </td>
                             {/* <td className="text-center">
                               {visibleButtons.includes(
@@ -640,53 +458,58 @@ export default function VesselNominationDashboard() {
                             </td> */}
                             <td className="text-center">
                               {visibleButtons.includes(
-                                "voyageInstructionSent"
+                                'voyageInstructionSent',
                               ) && (
-                                  <button
-                                    className={
-                                      item.voyageInstructionSent
-                                        ? "btn btn-sm btn-success px-1 py-1"
-                                        : "btn btn-sm btn-warning px-1 py-1"
+                                <button
+                                  className={
+                                    item.voyageInstructionSent
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
+                                  }
+                                  type="button"
+                                  onClick={() => {
+                                    let message =
+                                      'Email already sent. Do you want to send it again?';
+
+                                    if (!item.voyageInstructionSent) {
+                                      message = `Please check all fields and ensure they are filled correctly in Voyage instruction for Voyage no: ${item?.intVoyageNo}`;
+                                    } else {
+                                      message += ` \nPlease check all fields and ensure they are filled correctly in Voyage instruction for Voyage no: ${item?.intVoyageNo}`;
                                     }
-                                    type="button"
-                                    onClick={() => {
-                                      let message = "Email already sent. Do you want to send it again?";
 
-                                      if (!item.voyageInstructionSent) {
-                                        message = `Please check all fields and ensure they are filled correctly in Voyage instruction for Voyage no: ${item?.intVoyageNo}`;
-                                      } else {
-                                        message += ` \nPlease check all fields and ensure they are filled correctly in Voyage instruction for Voyage no: ${item?.intVoyageNo}`;
-                                      }
+                                    const confirmation = window.confirm(
+                                      message,
+                                    );
 
-                                      const confirmation = window.confirm(message);
-
-                                      if (!confirmation) {
-                                        return;
-                                      }
-                                      setSingleRowData({
-                                        ...item,
-                                        columnName: "VOYAGE INSTRUCTION",
-                                      });
-                                      setIsShowMailModal(true);
-                                    }}
+                                    if (!confirmation) {
+                                      return;
+                                    }
+                                    setSingleRowData({
+                                      ...item,
+                                      columnName: 'VOYAGE INSTRUCTION',
+                                    });
+                                    setIsShowMailModal(true);
+                                  }}
                                   // disabled={item.voyageInstructionSent}
-                                  >
-                                    VOYAGE INSTRUCTION SENT
-                                  </button>
-                                )}
+                                >
+                                  VOYAGE INSTRUCTION SENT
+                                </button>
+                              )}
                             </td>
                             <td className="text-center">
-                              {visibleButtons.includes("pisurveySent") && (
+                              {visibleButtons.includes('pisurveySent') && (
                                 <button
                                   className={
                                     item.pisurveySent
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   type="button"
                                   onClick={() => {
                                     if (item.pisurveySent) {
-                                      const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+                                      const confirmation = window.confirm(
+                                        'Email already sent. Do you want to send it again?',
+                                      );
 
                                       if (!confirmation) {
                                         return;
@@ -694,11 +517,11 @@ export default function VesselNominationDashboard() {
                                     }
                                     setSingleRowData({
                                       ...item,
-                                      columnName: "PI SURVEY",
+                                      columnName: 'PI SURVEY',
                                     });
                                     setIsShowMailModal(true);
                                   }}
-                                // disabled={item.pisurveySent}
+                                  // disabled={item.pisurveySent}
                                 >
                                   PI SURVEY SENT
                                 </button>
@@ -706,48 +529,52 @@ export default function VesselNominationDashboard() {
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
-                                "voyageLicenseFlagWaiverSend"
+                                'voyageLicenseFlagWaiverSend',
                               ) && (
-                                  <button
-                                    className={
-                                      item.voyageLicenseFlagWaiverSend
-                                        ? "btn btn-sm btn-success px-1 py-1"
-                                        : "btn btn-sm btn-warning px-1 py-1"
-                                    }
-                                    type="button"
-                                    onClick={() => {
-                                      if (item.voyageLicenseFlagWaiverSend) {
-                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+                                <button
+                                  className={
+                                    item.voyageLicenseFlagWaiverSend
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
+                                  }
+                                  type="button"
+                                  onClick={() => {
+                                    if (item.voyageLicenseFlagWaiverSend) {
+                                      const confirmation = window.confirm(
+                                        'Email already sent. Do you want to send it again?',
+                                      );
 
-                                        if (!confirmation) {
-                                          return;
-                                        }
+                                      if (!confirmation) {
+                                        return;
                                       }
-                                      setSingleRowData({
-                                        ...item,
-                                        columnName: "VOYAGE LICENSE/FLAG WAIVER",
-                                      });
-                                      // setIsShowMailModal(true);
-                                      setShow(true);
-                                    }}
+                                    }
+                                    setSingleRowData({
+                                      ...item,
+                                      columnName: 'VOYAGE LICENSE/FLAG WAIVER',
+                                    });
+                                    // setIsShowMailModal(true);
+                                    setShow(true);
+                                  }}
                                   // disabled={item.voyageLicenseFlagWaiverSend}
-                                  >
-                                    VOYAGE LICENSE/FLAG WAIVER SEND
-                                  </button>
-                                )}
+                                >
+                                  VOYAGE LICENSE/FLAG WAIVER SEND
+                                </button>
+                              )}
                             </td>
                             <td className="text-center">
-                              {visibleButtons.includes("tclSend") && (
+                              {visibleButtons.includes('tclSend') && (
                                 <button
                                   className={
                                     item.tclSend
-                                      ? "btn btn-sm btn-success px-1 py-1"
-                                      : "btn btn-sm btn-warning px-1 py-1"
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
                                   }
                                   type="button"
                                   onClick={() => {
                                     if (item.tclSend) {
-                                      const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+                                      const confirmation = window.confirm(
+                                        'Email already sent. Do you want to send it again?',
+                                      );
 
                                       if (!confirmation) {
                                         return;
@@ -756,11 +583,11 @@ export default function VesselNominationDashboard() {
 
                                     setSingleRowData({
                                       ...item,
-                                      columnName: "TCL",
+                                      columnName: 'TCL',
                                     });
                                     setIsShowMailModal(true);
                                   }}
-                                // disabled={item.tclSend}
+                                  // disabled={item.tclSend}
                                 >
                                   TCL SEND
                                 </button>
@@ -768,163 +595,175 @@ export default function VesselNominationDashboard() {
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
-                                "weatherRoutingCompanySend"
+                                'weatherRoutingCompanySend',
                               ) && (
-                                  <button
-                                    className={
-                                      item.weatherRoutingCompanySend
-                                        ? "btn btn-sm btn-success px-1 py-1"
-                                        : "btn btn-sm btn-warning px-1 py-1"
-                                    }
-                                    type="button"
-                                    onClick={() => {
-                                      if (item.weatherRoutingCompanySend) {
-                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+                                <button
+                                  className={
+                                    item.weatherRoutingCompanySend
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
+                                  }
+                                  type="button"
+                                  onClick={() => {
+                                    if (item.weatherRoutingCompanySend) {
+                                      const confirmation = window.confirm(
+                                        'Email already sent. Do you want to send it again?',
+                                      );
 
-                                        if (!confirmation) {
-                                          return;
-                                        }
+                                      if (!confirmation) {
+                                        return;
                                       }
-                                      setSingleRowData({
-                                        ...item,
-                                        columnName: "WEATHER ROUTING COMPANY",
-                                      });
-                                      // setIsShowMailModal(true);
-                                      setIsDiffMailSenderModal(true);
-                                    }}
+                                    }
+                                    setSingleRowData({
+                                      ...item,
+                                      columnName: 'WEATHER ROUTING COMPANY',
+                                    });
+                                    // setIsShowMailModal(true);
+                                    setIsDiffMailSenderModal(true);
+                                  }}
                                   // disabled={item.weatherRoutingCompanySend}
-                                  >
-                                    WEATHER ROUTING COMPANY SEND
-                                  </button>
-                                )}
+                                >
+                                  WEATHER ROUTING COMPANY SEND
+                                </button>
+                              )}
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
-                                "departureDocumentLoadPortSend"
+                                'departureDocumentLoadPortSend',
                               ) && (
-                                  <button
-                                    className={
-                                      item.departureDocumentLoadPortSend
-                                        ? "btn btn-sm btn-success px-1 py-1"
-                                        : "btn btn-sm btn-warning px-1 py-1"
-                                    }
-                                    type="button"
-                                    onClick={() => {
-                                      if (item.departureDocumentLoadPortSend) {
-                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+                                <button
+                                  className={
+                                    item.departureDocumentLoadPortSend
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
+                                  }
+                                  type="button"
+                                  onClick={() => {
+                                    if (item.departureDocumentLoadPortSend) {
+                                      const confirmation = window.confirm(
+                                        'Email already sent. Do you want to send it again?',
+                                      );
 
-                                        if (!confirmation) {
-                                          return;
-                                        }
+                                      if (!confirmation) {
+                                        return;
                                       }
-                                      setSingleRowData({
-                                        ...item,
-                                        columnName: "DEPARTURE DOCUMENT LOADPORT",
-                                      });
-                                      setIsShowMailModal(true);
-                                    }}
+                                    }
+                                    setSingleRowData({
+                                      ...item,
+                                      columnName: 'DEPARTURE DOCUMENT LOADPORT',
+                                    });
+                                    setIsShowMailModal(true);
+                                  }}
                                   // disabled={item.departureDocumentLoadPortSend}
-                                  >
-                                    DEPARTURE DOCUMENT LOADPORT SEND
-                                  </button>
-                                )}
+                                >
+                                  DEPARTURE DOCUMENT LOADPORT SEND
+                                </button>
+                              )}
                             </td>
 
                             <td className="text-center">
                               {visibleButtons.includes(
-                                "epdadischargePortSent"
+                                'epdadischargePortSent',
                               ) && (
-                                  <button
-                                    className={
-                                      item.epdadischargePortSent
-                                        ? "btn btn-sm btn-success px-1 py-1"
-                                        : "btn btn-sm btn-warning px-1 py-1"
-                                    }
-                                    type="button"
-                                    onClick={() => {
-                                      if (item.epdadischargePortSent) {
-                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+                                <button
+                                  className={
+                                    item.epdadischargePortSent
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
+                                  }
+                                  type="button"
+                                  onClick={() => {
+                                    if (item.epdadischargePortSent) {
+                                      const confirmation = window.confirm(
+                                        'Email already sent. Do you want to send it again?',
+                                      );
 
-                                        if (!confirmation) {
-                                          return;
-                                        }
+                                      if (!confirmation) {
+                                        return;
                                       }
-                                      setSingleRowData({
-                                        ...item,
-                                        columnName: "EPDA DISCHARGE PORT",
-                                      });
-                                      setIsDiffMailSenderModal(true);
-                                    }}
+                                    }
+                                    setSingleRowData({
+                                      ...item,
+                                      columnName: 'EPDA DISCHARGE PORT',
+                                    });
+                                    setIsDiffMailSenderModal(true);
+                                  }}
                                   // disabled={item.epdadischargePortSent}
-                                  >
-                                    EPDA DISCHARGE PORT SENT
-                                  </button>
-                                )}
+                                >
+                                  EPDA DISCHARGE PORT SENT
+                                </button>
+                              )}
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
-                                "offHireBunkerSurveySent"
+                                'offHireBunkerSurveySent',
                               ) && (
-                                  <button
-                                    className={
-                                      item.offHireBunkerSurveySent
-                                        ? "btn btn-sm btn-success px-1 py-1"
-                                        : "btn btn-sm btn-warning px-1 py-1"
-                                    }
-                                    type="button"
-                                    onClick={() => {
-                                      if (item.offHireBunkerSurveySent) {
-                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+                                <button
+                                  className={
+                                    item.offHireBunkerSurveySent
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
+                                  }
+                                  type="button"
+                                  onClick={() => {
+                                    if (item.offHireBunkerSurveySent) {
+                                      const confirmation = window.confirm(
+                                        'Email already sent. Do you want to send it again?',
+                                      );
 
-                                        if (!confirmation) {
-                                          return;
-                                        }
+                                      if (!confirmation) {
+                                        return;
                                       }
-                                      setSingleRowData({
-                                        ...item,
-                                        columnName: "OFFHIRE BUNKER SURVEY",
-                                      });
-                                      setIsShowMailModal(true);
-                                    }}
+                                    }
+                                    setSingleRowData({
+                                      ...item,
+                                      columnName: 'OFFHIRE BUNKER SURVEY',
+                                    });
+                                    setIsShowMailModal(true);
+                                  }}
                                   // disabled={item.offHireBunkerSurveySent}
-                                  >
-                                    OFFHIRE BUNKER SURVEY SENT
-                                  </button>
-                                )}
+                                >
+                                  OFFHIRE BUNKER SURVEY SENT
+                                </button>
+                              )}
                             </td>
                             <td className="text-center">
                               {visibleButtons.includes(
-                                "departureDocumentDischargePortSend"
+                                'departureDocumentDischargePortSend',
                               ) && (
-                                  <button
-                                    className={
+                                <button
+                                  className={
+                                    item.departureDocumentDischargePortSend
+                                      ? 'btn btn-sm btn-success px-1 py-1'
+                                      : 'btn btn-sm btn-warning px-1 py-1'
+                                  }
+                                  type="button"
+                                  onClick={() => {
+                                    if (
                                       item.departureDocumentDischargePortSend
-                                        ? "btn btn-sm btn-success px-1 py-1"
-                                        : "btn btn-sm btn-warning px-1 py-1"
-                                    }
-                                    type="button"
-                                    onClick={() => {
-                                      if (item.departureDocumentDischargePortSend) {
-                                        const confirmation = window.confirm("Email already sent. Do you want to send it again?");
+                                    ) {
+                                      const confirmation = window.confirm(
+                                        'Email already sent. Do you want to send it again?',
+                                      );
 
-                                        if (!confirmation) {
-                                          return;
-                                        }
+                                      if (!confirmation) {
+                                        return;
                                       }
-                                      setSingleRowData({
-                                        ...item,
-                                        columnName:
-                                          "DEPARTURE DOCUMENT DISCHARGE PORT",
-                                      });
-                                      setIsShowMailModal(true);
-                                    }}
+                                    }
+                                    setSingleRowData({
+                                      ...item,
+                                      columnName:
+                                        'DEPARTURE DOCUMENT DISCHARGE PORT',
+                                    });
+                                    setIsShowMailModal(true);
+                                  }}
                                   // disabled={
                                   //   item.departureDocumentDischargePortSend
                                   // }
-                                  >
-                                    DEPARTURE DOCUMENT DISCHARGE PORT SEND
-                                  </button>
-                                )}
+                                >
+                                  DEPARTURE DOCUMENT DISCHARGE PORT SEND
+                                </button>
+                              )}
                             </td>
                           </tr>
                         );

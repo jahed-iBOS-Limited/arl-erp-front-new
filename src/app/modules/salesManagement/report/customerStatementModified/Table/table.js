@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../_helper/_card";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../_helper/_card';
 import {
   _todaysEndTime,
   _todaysStartTime,
-} from "../../../../_helper/_currentTime";
-import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { YearDDL } from "../../../../_helper/_yearDDL";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { CreateCustomerStatementExcel } from "../../customerStatement/excel/excel";
+} from '../../../../_helper/_currentTime';
+import { dateFormatWithMonthName } from '../../../../_helper/_dateFormate';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { YearDDL } from '../../../../_helper/_yearDDL';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { CreateCustomerStatementExcel } from '../../customerStatement/excel/excel';
 import {
   GetCustomerStatementLanding,
   GetSalesOrganizationDDL_api,
@@ -24,13 +24,13 @@ import {
   getCustomerStatementTopSheet,
   getDistributionDDL,
   getRegionAreaTerritory,
-} from "../helper";
-import G2GSalesDetailsTable from "./g2gSalesDetails";
-import TableGird from "./gird";
-import TopSheetTable from "./topSheetTable";
-import ItemBasisTable from "./ItemBasisTable";
+} from '../helper';
+import G2GSalesDetailsTable from './g2gSalesDetails';
+import TableGird from './gird';
+import TopSheetTable from './topSheetTable';
+import ItemBasisTable from './ItemBasisTable';
 
-const ALL = { value: 0, label: "All" };
+const ALL = { value: 0, label: 'All' };
 
 const initData = {
   fromDate: _firstDateofMonth(),
@@ -38,8 +38,8 @@ const initData = {
   toDate: _todayDate(),
   toTime: _todaysEndTime(),
   shippointDDL: ALL,
-  customerNameDDL: "",
-  salesOrg: "",
+  customerNameDDL: '',
+  salesOrg: '',
   businessPartner: ALL,
   port: ALL,
   motherVessel: ALL,
@@ -60,7 +60,7 @@ export default function CustomerStatementModifiedReportTable() {
   const [regionDDL, setRegionDDL] = useState();
   const [areaDDL, setAreaDDL] = useState();
   const [territtoryDDL, setTeritroyDDL] = useState();
-  const [isDisabled, setDisabled] = useState(false);
+  const [, setDisabled] = useState(false);
 
   // get user profile data from store
   const {
@@ -99,7 +99,7 @@ export default function CustomerStatementModifiedReportTable() {
         values?.salesOrg?.value,
         values?.distributionChannel?.value,
         setRowDto,
-        setLoading
+        setLoading,
       );
     }
     if (values?.reportType?.value === 6) {
@@ -113,7 +113,7 @@ export default function CustomerStatementModifiedReportTable() {
         values?.salesOrg?.value,
         values?.distributionChannel?.value,
         setRowDto,
-        setLoading
+        setLoading,
       );
     }
     if (values?.reportType?.value === 3) {
@@ -124,22 +124,22 @@ export default function CustomerStatementModifiedReportTable() {
           values?.toDate
         }&motherVesselId=${values?.motherVessel?.value || 0}&portid=${
           values?.port?.value
-        }`
+        }`,
       );
     }
   };
 
   const reportTypes = () => {
     const reports = [
-      { value: 1, label: "Details" },
-      { value: 2, label: "Top Sheet" },
-      { value: 4, label: "Moth Basis Sales" },
+      { value: 1, label: 'Details' },
+      { value: 2, label: 'Top Sheet' },
+      { value: 4, label: 'Moth Basis Sales' },
     ];
     if ([94, 178].includes(buId)) {
-      return [...reports, { value: 3, label: "G2G Sales Details" }];
+      return [...reports, { value: 3, label: 'G2G Sales Details' }];
     }
     if ([4].includes(buId)) {
-      return [...reports, { value: 6, label: "Item Basis" }];
+      return [...reports, { value: 6, label: 'Item Basis' }];
     }
     return reports;
   };
@@ -169,7 +169,7 @@ export default function CustomerStatementModifiedReportTable() {
                               value={values?.reportType}
                               label="Report Type"
                               onChange={(valueOption) => {
-                                setFieldValue("reportType", valueOption);
+                                setFieldValue('reportType', valueOption);
                                 setRowDto([]);
                                 setShowRDLC(false);
                               }}
@@ -187,11 +187,11 @@ export default function CustomerStatementModifiedReportTable() {
                                   value={values?.port}
                                   label="Loading Port"
                                   onChange={(valueOption) => {
-                                    setFieldValue("port", valueOption);
-                                    setFieldValue("motherVessel", "");
+                                    setFieldValue('port', valueOption);
+                                    setFieldValue('motherVessel', '');
                                     getMotherVesselDDL(
                                       `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${valueOption?.value ||
-                                        0}`
+                                        0}`,
                                     );
                                   }}
                                   placeholder="Loading Port"
@@ -201,13 +201,13 @@ export default function CustomerStatementModifiedReportTable() {
                                 <NewSelect
                                   name="motherVessel"
                                   options={[
-                                    { value: 0, label: "All" },
+                                    { value: 0, label: 'All' },
                                     ...motherVesselDDL,
                                   ]}
                                   value={values?.motherVessel}
                                   label="Mother Vessel"
                                   onChange={(valueOption) => {
-                                    setFieldValue("motherVessel", valueOption);
+                                    setFieldValue('motherVessel', valueOption);
                                   }}
                                   placeholder="Mother Vessel"
                                 />
@@ -227,9 +227,9 @@ export default function CustomerStatementModifiedReportTable() {
                                 value={values?.salesOrg}
                                 label="Sales Org"
                                 onChange={(valueOption) => {
-                                  setFieldValue("customerNameDDL", "");
-                                  setFieldValue("distributionChannel", "");
-                                  setFieldValue("salesOrg", valueOption);
+                                  setFieldValue('customerNameDDL', '');
+                                  setFieldValue('distributionChannel', '');
+                                  setFieldValue('salesOrg', valueOption);
                                   setRowDto([]);
                                 }}
                                 placeholder="Sales Org"
@@ -244,14 +244,14 @@ export default function CustomerStatementModifiedReportTable() {
                                 name="shippointDDL"
                                 options={
                                   [
-                                    { value: 0, label: "All" },
+                                    { value: 0, label: 'All' },
                                     ...shippointDDL,
                                   ] || []
                                 }
                                 value={values?.shippointDDL}
                                 label="Shippoint"
                                 onChange={(valueOption) => {
-                                  setFieldValue("shippointDDL", valueOption);
+                                  setFieldValue('shippointDDL', valueOption);
                                   setRowDto([]);
                                   setShowRDLC(false);
                                 }}
@@ -259,8 +259,8 @@ export default function CustomerStatementModifiedReportTable() {
                                 errors={errors}
                                 touched={touched}
                                 isDisabled={
-                                  values?.reportDDL?.label === "All" ||
-                                  values?.reportDDL?.label === "Customer Name"
+                                  values?.reportDDL?.label === 'All' ||
+                                  values?.reportDDL?.label === 'Customer Name'
                                 }
                               />
                             </div>
@@ -270,20 +270,20 @@ export default function CustomerStatementModifiedReportTable() {
                               <NewSelect
                                 name="distributionChannel"
                                 options={[
-                                  { value: 0, label: "All" },
+                                  { value: 0, label: 'All' },
                                   ...distributionChannelDDL,
                                 ]}
                                 value={values?.distributionChannel}
                                 label="Distribution Channel"
                                 onChange={(valueOption) => {
                                   setShowRDLC(false);
-                                  setFieldValue("region", "");
-                                  setFieldValue("area", "");
-                                  setFieldValue("territory", "");
-                                  setFieldValue("customerNameDDL", "");
+                                  setFieldValue('region', '');
+                                  setFieldValue('area', '');
+                                  setFieldValue('territory', '');
+                                  setFieldValue('customerNameDDL', '');
                                   setFieldValue(
-                                    "distributionChannel",
-                                    valueOption
+                                    'distributionChannel',
+                                    valueOption,
                                   );
                                   setRowDto([]);
 
@@ -291,15 +291,15 @@ export default function CustomerStatementModifiedReportTable() {
                                     channelId: valueOption?.value,
                                     setter: setRegionDDL,
                                     setLoading: setDisabled,
-                                    value: "regionId",
-                                    label: "regionName",
+                                    value: 'regionId',
+                                    label: 'regionName',
                                   });
                                   getCustomerNameDDL(
                                     accId,
                                     buId,
                                     values?.salesOrg?.value,
                                     valueOption?.value,
-                                    setCustomerNameDDL
+                                    setCustomerNameDDL,
                                   );
                                 }}
                                 placeholder="Distribution Channel"
@@ -318,9 +318,9 @@ export default function CustomerStatementModifiedReportTable() {
                                   value={values?.region}
                                   label="Region"
                                   onChange={(valueOption) => {
-                                    setFieldValue("region", valueOption);
-                                    setFieldValue("area", "");
-                                    setFieldValue("territory", "");
+                                    setFieldValue('region', valueOption);
+                                    setFieldValue('area', '');
+                                    setFieldValue('territory', '');
                                     setRowDto([]);
                                     setShowRDLC(false);
                                     if (!valueOption) return;
@@ -330,8 +330,8 @@ export default function CustomerStatementModifiedReportTable() {
                                       regionId: valueOption?.value,
                                       setter: setAreaDDL,
                                       setLoading: setDisabled,
-                                      value: "areaId",
-                                      label: "areaName",
+                                      value: 'areaId',
+                                      label: 'areaName',
                                     });
                                   }}
                                   placeholder="Region"
@@ -347,8 +347,8 @@ export default function CustomerStatementModifiedReportTable() {
                                   value={values?.area}
                                   label="Area"
                                   onChange={(valueOption) => {
-                                    setFieldValue("area", valueOption);
-                                    setFieldValue("territory", "");
+                                    setFieldValue('area', valueOption);
+                                    setFieldValue('territory', '');
                                     setShowRDLC(false);
                                     if (!valueOption) return;
                                     getRegionAreaTerritory({
@@ -358,8 +358,8 @@ export default function CustomerStatementModifiedReportTable() {
                                       areaId: valueOption?.value,
                                       setter: setTeritroyDDL,
                                       setLoading: setDisabled,
-                                      value: "territoryId",
-                                      label: "territoryName",
+                                      value: 'territoryId',
+                                      label: 'territoryName',
                                     });
                                   }}
                                   placeholder="Area"
@@ -375,7 +375,7 @@ export default function CustomerStatementModifiedReportTable() {
                                   value={values?.territory}
                                   label="Territory"
                                   onChange={(valueOption) => {
-                                    setFieldValue("territory", valueOption);
+                                    setFieldValue('territory', valueOption);
                                     setShowRDLC(false);
                                     setRowDto([]);
                                   }}
@@ -396,7 +396,7 @@ export default function CustomerStatementModifiedReportTable() {
                                   value={values?.year}
                                   label="Year"
                                   onChange={(valueOption) => {
-                                    setFieldValue("year", valueOption);
+                                    setFieldValue('year', valueOption);
                                     setShowRDLC(false);
                                   }}
                                   placeholder="Year"
@@ -412,7 +412,7 @@ export default function CustomerStatementModifiedReportTable() {
                                 value={values?.customerNameDDL}
                                 label="Customer Name"
                                 onChange={(valueOption) => {
-                                  setFieldValue("customerNameDDL", valueOption);
+                                  setFieldValue('customerNameDDL', valueOption);
                                   setShowRDLC(false);
                                   setRowDto([]);
                                 }}
@@ -428,14 +428,14 @@ export default function CustomerStatementModifiedReportTable() {
                               <NewSelect
                                 name="businessPartner"
                                 options={[
-                                  { value: 0, label: "ALL" },
-                                  { value: 73244, label: "BADC" },
-                                  { value: 73245, label: "BCIC" },
+                                  { value: 0, label: 'ALL' },
+                                  { value: 73244, label: 'BADC' },
+                                  { value: 73245, label: 'BCIC' },
                                 ]}
                                 value={values?.businessPartner}
                                 label="Business Partner"
                                 onChange={(e) => {
-                                  setFieldValue("businessPartner", e);
+                                  setFieldValue('businessPartner', e);
                                 }}
                                 placeholder="Business Partner"
                               />
@@ -448,7 +448,7 @@ export default function CustomerStatementModifiedReportTable() {
                               onClick={() => getGridData(values)}
                               disabled={
                                 ([1, 2, 6].includes(
-                                  values?.reportType?.value
+                                  values?.reportType?.value,
                                 ) &&
                                   !values?.salesOrg &&
                                   !values?.shippointDDL &&
@@ -475,8 +475,8 @@ export default function CustomerStatementModifiedReportTable() {
                                     rowDto,
                                     buName,
                                     buAddress,
-                                    "Customer Statement",
-                                    "Customer Statement"
+                                    'Customer Statement',
+                                    'Customer Statement',
                                     // 100,
                                     // "taka"
                                   );
@@ -510,7 +510,7 @@ export default function CustomerStatementModifiedReportTable() {
                                 {dateFormatWithMonthName(values?.fromDate)}
                               </h5>
                               <h5 className="ml-5">
-                                To Date:{" "}
+                                To Date:{' '}
                                 {dateFormatWithMonthName(values?.toDate)}
                               </h5>
                             </div>
@@ -548,36 +548,36 @@ export default function CustomerStatementModifiedReportTable() {
                           groupId={`e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`}
                           parameterValues={[
                             {
-                              name: "IntShipPointId",
+                              name: 'IntShipPointId',
                               value: `${values?.shipPoint?.value || 0}`,
                             },
                             {
-                              name: "IntBusinessUnitId",
+                              name: 'IntBusinessUnitId',
                               value: `${buId || 0}`,
                             },
                             {
-                              name: "intDistributionChannel",
+                              name: 'intDistributionChannel',
                               value: `${values?.distributionChannel?.value ||
                                 0}`,
                             },
                             {
-                              name: "intregion",
+                              name: 'intregion',
                               value: `${values?.region?.value || 0}`,
                             },
                             {
-                              name: "intarea",
+                              name: 'intarea',
                               value: `${values?.area?.value || 0}`,
                             },
                             {
-                              name: "intTerritory",
+                              name: 'intTerritory',
                               value: `${values?.territory?.value || 0}`,
                             },
                             {
-                              name: "intCustomer",
+                              name: 'intCustomer',
                               value: `${values?.customerNameDDL?.value || 0}`,
                             },
                             {
-                              name: "intYear",
+                              name: 'intYear',
                               value: `${values?.year?.value ||
                                 new Date().getFullYear()}`,
                             },

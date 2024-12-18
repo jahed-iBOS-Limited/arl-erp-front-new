@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import ICustomCard from "../../../_helper/_customCard";
-import ReactToPrint from "react-to-print";
-import Loading from "../../../_helper/_loading";
-import IViewModal from "../../../_helper/_viewModal";
-import ProjectedSubGeneralLedgerModal from "./projectedSubGeneralLedgerModal";
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import ICustomCard from '../../../_helper/_customCard';
+import ReactToPrint from 'react-to-print';
+import Loading from '../../../_helper/_loading';
+import IViewModal from '../../../_helper/_viewModal';
+import ProjectedSubGeneralLedgerModal from './projectedSubGeneralLedgerModal';
 
 const ProjectedIncomeStatementModal = ({
   values,
@@ -16,9 +16,10 @@ const ProjectedIncomeStatementModal = ({
   const selectedBusinessUnit = useMemo(
     () =>
       businessUnitList?.find(
-        (item) => item?.value === values?.businessUnit?.value
+        (item) => item?.value === values?.businessUnit?.value,
       ),
-    [values?.businessUnit?.value]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [values?.businessUnit?.value],
   );
   const [totalAmount, setTotalAmount] = useState(0);
   const [
@@ -29,7 +30,7 @@ const ProjectedIncomeStatementModal = ({
 
   useEffect(() => {
     if (incomeStatementRow?.intFSId) {
-      console.log("values", values);
+      console.log('values', values);
       getGeneralLedgerInfo(
         `/fino/IncomeStatement/GetIncomeStatementProjected?partName=GeneralLedger&dteFromDate=${
           values?.fromDate
@@ -40,19 +41,20 @@ const ProjectedIncomeStatementModal = ({
         }&BusinessUnitId=${values?.businessUnit?.value}&fsComponentId=${
           incomeStatementRow?.intFSId
         }&ConvertionRate=${values?.conversionRate}&SubGroup=${values
-          ?.subDivision?.value || "All"}`,
+          ?.subDivision?.value || 'All'}`,
         (data) => {
           setTotalAmount(
-            data?.reduce((value, row) => (value += row?.numAmount), 0) || 0
+            data?.reduce((value, row) => (value += row?.numAmount), 0) || 0,
           );
-        }
+        },
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incomeStatementRow?.intFSId]);
 
   const [generalLedgerRow, setGeneralLedgerRow] = useState(null);
   const [showSubGeneralLedgerModal, setShowSubGeneralLedgerModal] = useState(
-    false
+    false,
   );
   return (
     <>
@@ -77,8 +79,8 @@ const ProjectedIncomeStatementModal = ({
                 <div className="d-flex flex-column justify-content-center align-items-center my-2">
                   <span
                     style={{
-                      fontSize: "22px",
-                      fontWeight: "bold",
+                      fontSize: '22px',
+                      fontWeight: 'bold',
                     }}
                   >
                     {values?.businessUnit?.value === 0
@@ -98,7 +100,7 @@ const ProjectedIncomeStatementModal = ({
                     <></>
                   )}
                   <span>
-                    Particulars :{" "}
+                    Particulars :{' '}
                     <b>{incomeStatementRow?.strFSComponentName}</b>
                   </span>
                 </div>
@@ -107,7 +109,7 @@ const ProjectedIncomeStatementModal = ({
               <div className="loan-scrollable-table">
                 <div
                   className="scroll-table _table"
-                  style={{ maxHeight: "540px", overflowX: "hidden" }}
+                  style={{ maxHeight: '540px', overflowX: 'hidden' }}
                 >
                   <table
                     className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-2"
@@ -115,16 +117,16 @@ const ProjectedIncomeStatementModal = ({
                   >
                     <thead>
                       <tr>
-                        <th style={{ minWidth: "60px" }}>SL</th>
+                        <th style={{ minWidth: '60px' }}>SL</th>
                         <th>GL Code</th>
                         <th>
-                          <div style={{ textAlign: "left", marginLeft: "5px" }}>
+                          <div style={{ textAlign: 'left', marginLeft: '5px' }}>
                             GL Name
                           </div>
                         </th>
                         <th>
                           <div
-                            style={{ textAlign: "right", marginRight: "5px" }}
+                            style={{ textAlign: 'right', marginRight: '5px' }}
                           >
                             Amount
                           </div>
@@ -139,12 +141,12 @@ const ProjectedIncomeStatementModal = ({
                               <td>{index + 1}</td>
 
                               <td className="text-center">
-                                {item?.strGeneralLedgerCode || "N/A"}
+                                {item?.strGeneralLedgerCode || 'N/A'}
                               </td>
                               <td
-                                style={{ textAlign: "left", marginLeft: "5px" }}
+                                style={{ textAlign: 'left', marginLeft: '5px' }}
                               >
-                                {item?.strGeneralLedgerName || "N/A"}
+                                {item?.strGeneralLedgerName || 'N/A'}
                               </td>
                               <td
                                 onClick={() => {
@@ -152,11 +154,11 @@ const ProjectedIncomeStatementModal = ({
                                   setShowSubGeneralLedgerModal(true);
                                 }}
                                 style={{
-                                  textDecoration: "underline",
-                                  color: "blue",
-                                  cursor: "pointer",
-                                  textAlign: "right",
-                                  marginRight: "5px",
+                                  textDecoration: 'underline',
+                                  color: 'blue',
+                                  cursor: 'pointer',
+                                  textAlign: 'right',
+                                  marginRight: '5px',
                                 }}
                               >
                                 {item?.numAmount}
@@ -173,9 +175,9 @@ const ProjectedIncomeStatementModal = ({
                           colspan="3"
                           className="text-center ml-1"
                           style={{
-                            fontWeight: "bold",
-                            textAlign: "right",
-                            marginRight: "5px",
+                            fontWeight: 'bold',
+                            textAlign: 'right',
+                            marginRight: '5px',
                           }}
                         >
                           Total
@@ -183,7 +185,7 @@ const ProjectedIncomeStatementModal = ({
 
                         <td
                           className="text-right pr-2"
-                          style={{ fontWeight: "bold" }}
+                          style={{ fontWeight: 'bold' }}
                         >
                           {totalAmount || 0}
                         </td>

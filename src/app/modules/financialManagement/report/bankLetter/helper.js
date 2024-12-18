@@ -1,41 +1,40 @@
-import moment from "moment";
-import { akijResourcehead } from "../../invoiceManagementSystem/salesInvoice/base64Images/akijResource";
-import { batayonTradersLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/batayounTraders";
-import { bluePillLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/bluePill";
-import { bongoTradersLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/bongoTraders";
-import { buildingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/building";
-import { cementLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/cement";
-import { commoditiesLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/commodities";
-import { dailyTradingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/dailyTrading";
-import { directTradingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/directTrading";
-import { essentialLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/essential";
-import { eurasiaTradingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/eurasiaTrading";
-import { exoticaTradersLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/exoticaTraders";
-import { ispatLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/ispat";
-import { lineAsiaTradingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/lineAsiaTrading";
-import { magnumLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/magnum";
-import { MTSLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/mts";
-import { nobayonTradersLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/nobayonTraders";
-import { oneTradingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/oneTrading";
-import { optimaTradersLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/optimaTraders";
-import { polyFibreLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/polyFibre";
-import { readymixLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/readymix";
-import { resourceTradersLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/resourceTraders";
-import { tradersLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/traders";
-import { tradingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/trading";
-import { hashemhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/hashem";
-import { akijLogisticshead } from "../../invoiceManagementSystem/salesInvoice/base64Images/akijLogistics";
-import { seaLineLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/seaLine";
-import { seaLineShippingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/seaLineShip";
-import { oceanLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/ocean";
-import { mariTimeLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/mariTime";
-import { akijShippingLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/akijShipping";
-import { akijAgroLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/akijAgro";
-import { infoTechLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/infoTech";
-import { iBosLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/ibos";
-import { kafilLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/kafil";
-import { southAsiaLetterhead } from "../../invoiceManagementSystem/salesInvoice/base64Images/southAsia";
-import { akijIbosLetterHead } from "../../invoiceManagementSystem/salesInvoice/base64Images/akijIbos";
+import moment from 'moment';
+import { akijAgroLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/akijAgro';
+import { akijIbosLetterHead } from '../../invoiceManagementSystem/salesInvoice/base64Images/akijIbos';
+import { akijLogisticshead } from '../../invoiceManagementSystem/salesInvoice/base64Images/akijLogistics';
+import { akijResourcehead } from '../../invoiceManagementSystem/salesInvoice/base64Images/akijResource';
+import { akijShippingLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/akijShipping';
+import { batayonTradersLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/batayounTraders';
+import { bluePillLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/bluePill';
+import { bongoTradersLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/bongoTraders';
+import { buildingLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/building';
+import { cementLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/cement';
+import { commoditiesLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/commodities';
+import { dailyTradingLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/dailyTrading';
+import { directTradingLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/directTrading';
+import { essentialLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/essential';
+import { eurasiaTradingLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/eurasiaTrading';
+import { exoticaTradersLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/exoticaTraders';
+import { hashemhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/hashem';
+import { infoTechLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/infoTech';
+import { ispatLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/ispat';
+import { kafilLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/kafil';
+import { lineAsiaTradingLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/lineAsiaTrading';
+import { magnumLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/magnum';
+import { mariTimeLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/mariTime';
+import { MTSLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/mts';
+import { nobayonTradersLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/nobayonTraders';
+import { oceanLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/ocean';
+import { oneTradingLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/oneTrading';
+import { optimaTradersLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/optimaTraders';
+import { polyFibreLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/polyFibre';
+import { readymixLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/readymix';
+import { resourceTradersLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/resourceTraders';
+import { seaLineLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/seaLine';
+import { seaLineShippingLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/seaLineShip';
+import { southAsiaLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/southAsia';
+import { tradersLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/traders';
+import { tradingLetterhead } from '../../invoiceManagementSystem/salesInvoice/base64Images/trading';
 // 102 singa,
 export const getLetterHead = ({ buId }) => {
   const letterhead =
@@ -111,29 +110,29 @@ export const getLetterHead = ({ buId }) => {
       ? kafilLetterhead
       : buId === 234
       ? southAsiaLetterhead
-      : "";
+      : '';
 
   return letterhead;
 };
 export const formatDate = (dateString) => {
   // Parse the input date
-  const date = moment(dateString, "YYYY-MM-DD");
+  const date = moment(dateString, 'YYYY-MM-DD');
 
   // Get the day and determine the ordinal suffix
   const day = date.date();
   let dayWithSuffix;
   if (day % 10 === 1 && day !== 11) {
-    dayWithSuffix = day + "ST";
+    dayWithSuffix = day + 'ST';
   } else if (day % 10 === 2 && day !== 12) {
-    dayWithSuffix = day + "ND";
+    dayWithSuffix = day + 'ND';
   } else if (day % 10 === 3 && day !== 13) {
-    dayWithSuffix = day + "RD";
+    dayWithSuffix = day + 'RD';
   } else {
-    dayWithSuffix = day + "TH";
+    dayWithSuffix = day + 'TH';
   }
 
   // Get the month in uppercase
-  const month = date.format("MMMM").toUpperCase();
+  const month = date.format('MMMM').toUpperCase();
 
   // Get the year
   const year = date.year();

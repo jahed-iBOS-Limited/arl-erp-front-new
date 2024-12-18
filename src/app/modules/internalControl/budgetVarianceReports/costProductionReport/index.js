@@ -1,30 +1,29 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
+} from '../../../../../_metronic/_partials/controls';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
 
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import "./style.css";
-import ViewModal from "./viewModal";
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import './style.css';
+import ViewModal from './viewModal';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  currentBusinessUnit: "",
+  currentBusinessUnit: '',
   isForecast: false,
-
 };
 
 function CostOfProductionReport() {
@@ -38,14 +37,15 @@ function CostOfProductionReport() {
   }, shallowEqual);
 
   const [isShowModal, setIsShowModal] = useState(false);
-  const [singleData, setSingleData] = useState({});
 
   const getData = (values) => {
     getRowDto(
       `/fino/Report/GetMachineWiseCostOfProduction?intBusinessUnitId=${values
         ?.currentBusinessUnit?.value ||
         selectedBusinessUnit?.value}&fromDate=${values?.fromDate ||
-        _todayDate()}&toDate=${values?.toDate || _todayDate()}&isForecast=${values?.isForecast}`
+        _todayDate()}&toDate=${values?.toDate || _todayDate()}&isForecast=${
+        values?.isForecast
+      }`,
     );
   };
 
@@ -67,7 +67,7 @@ function CostOfProductionReport() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Cost Of Production Variance Report"}>
+              <CardHeader title={'Cost Of Production Variance Report'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -81,7 +81,7 @@ function CostOfProductionReport() {
                       label="Business Unit"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("currentBusinessUnit", valueOption);
+                          setFieldValue('currentBusinessUnit', valueOption);
                           setRowDto([]);
                         } else {
                           setRowDto([]);
@@ -100,7 +100,7 @@ function CostOfProductionReport() {
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e?.target?.value);
+                        setFieldValue('fromDate', e?.target?.value);
                       }}
                     />
                   </div>
@@ -111,29 +111,29 @@ function CostOfProductionReport() {
                       name="toDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e?.target?.value);
+                        setFieldValue('toDate', e?.target?.value);
                       }}
                     />
                   </div>
                   <div className="col-lg-1 mt-4">
                     <div className="d-flex align-items-center">
-                    <p className="pr-1 pt-3">
-                      <input
-                        type="checkbox"
-                        checked={values?.isForecast} 
-                      onChange={(e)=>{
-                        setFieldValue("isForecast", e.target.checked);
-                      }}
-                      />
-                    </p>
-                    <p>
-                      <label>Is Forecast</label>
-                    </p>
-                  </div>
+                      <p className="pr-1 pt-3">
+                        <input
+                          type="checkbox"
+                          checked={values?.isForecast}
+                          onChange={(e) => {
+                            setFieldValue('isForecast', e.target.checked);
+                          }}
+                        />
+                      </p>
+                      <p>
+                        <label>Is Forecast</label>
+                      </p>
                     </div>
+                  </div>
                   <div>
                     <button
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       type="button"
                       class="btn btn-primary"
                       disabled={!values?.fromDate || !values?.toDate}
@@ -231,7 +231,7 @@ function CostOfProductionReport() {
                   show={isShowModal}
                   onHide={() => setIsShowModal(false)}
                 >
-                  <ViewModal singleData={singleData} values={values} />
+                  <ViewModal singleData={{}} values={values} />
                 </IViewModal>
               </CardBody>
             </Card>

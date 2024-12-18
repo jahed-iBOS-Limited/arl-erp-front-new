@@ -1,43 +1,43 @@
-import React, { useEffect } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import { Formik } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import React, { useEffect } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import { Formik } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const initData = {};
 
 function EditModal({ clickedRow, landingCB }) {
-  const [, EditCDPMasterDataById, postLoading] = useAxiosPost();
+  const [, EditCDPMasterDataById] = useAxiosPost();
   const formikRef = React.useRef(null);
 
   const saveHandler = (values) => {
     const payload = {
       intId: clickedRow?.intId || 0,
       no: clickedRow?.no || 0,
-      productName: values?.productName || "",
-      companyName: values?.companyName || "",
-      contactPersonsName: values?.contactPersonName || "",
-      contactNumber: values?.contactNumber || "",
-      activeInactive: values?.activeInactive?.label || "",
-      accountManager: values?.accountManager || "",
-      jobTitle: values?.jobTitle || "",
-      ageRange: values?.ageRange || "",
-      gender: values?.gender?.label || "",
-      industry: values?.industry || "",
-      locationDistrict: values?.locationDistrict || "",
-      employeeNumber: values?.employeeNumber || "",
-      incomeLevel: values?.incomeLevel || "",
-      painPoints: values?.painPoints || "",
-      goals: values?.goals || "",
-      whyTheyChooseUs: values?.whyTheyChooseUs || "",
-      buyingBehavior: values?.buyingBehavior || "",
+      productName: values?.productName || '',
+      companyName: values?.companyName || '',
+      contactPersonsName: values?.contactPersonName || '',
+      contactNumber: values?.contactNumber || '',
+      activeInactive: values?.activeInactive?.label || '',
+      accountManager: values?.accountManager || '',
+      jobTitle: values?.jobTitle || '',
+      ageRange: values?.ageRange || '',
+      gender: values?.gender?.label || '',
+      industry: values?.industry || '',
+      locationDistrict: values?.locationDistrict || '',
+      employeeNumber: values?.employeeNumber || '',
+      incomeLevel: values?.incomeLevel || '',
+      painPoints: values?.painPoints || '',
+      goals: values?.goals || '',
+      whyTheyChooseUs: values?.whyTheyChooseUs || '',
+      buyingBehavior: values?.buyingBehavior || '',
       preferredCommunicationChannels:
-        values?.preferredCommunicationChannels || "",
-      competitorsBrandUsages: values?.competitorsBrandUsages || "",
+        values?.preferredCommunicationChannels || '',
+      competitorsBrandUsages: values?.competitorsBrandUsages || '',
       enroll: values?.enroll || '',
       customerId: values?.customerId || '',
-      channel: values?.channel?.label || "",
+      channel: values?.channel?.label || '',
     };
     EditCDPMasterDataById(
       `/partner/PManagementCommonDDL/EditCDPMasterDataById`,
@@ -45,7 +45,7 @@ function EditModal({ clickedRow, landingCB }) {
       () => {
         landingCB();
       },
-      true
+      true,
     );
   };
 
@@ -53,98 +53,101 @@ function EditModal({ clickedRow, landingCB }) {
     if (formikRef.current) {
       const defaultValues = clickedRow || {};
       formikRef.current.setFieldValue(
-        "productName",
-        defaultValues?.productName || ""
+        'productName',
+        defaultValues?.productName || '',
       );
       formikRef.current.setFieldValue(
-        "companyName",
-        defaultValues?.companyName || ""
+        'companyName',
+        defaultValues?.companyName || '',
       );
       formikRef.current.setFieldValue(
-        "contactPersonName",
-        defaultValues?.contactPersonsName || ""
+        'contactPersonName',
+        defaultValues?.contactPersonsName || '',
       );
       formikRef.current.setFieldValue(
-        "contactNumber",
-        defaultValues?.contactNumber || ""
+        'contactNumber',
+        defaultValues?.contactNumber || '',
       );
       formikRef.current.setFieldValue(
-        "activeInactive",
+        'activeInactive',
         defaultValues?.activeInactive
           ? {
-              value: defaultValues?.activeInactive || "",
-              label: defaultValues?.activeInactive || "",
+              value: defaultValues?.activeInactive || '',
+              label: defaultValues?.activeInactive || '',
             }
-          : ""
+          : '',
       );
       formikRef.current.setFieldValue(
-        "accountManager",
-        defaultValues?.accountManager || ""
+        'accountManager',
+        defaultValues?.accountManager || '',
       );
       formikRef.current.setFieldValue(
-        "jobTitle",
-        defaultValues?.jobTitle || ""
+        'jobTitle',
+        defaultValues?.jobTitle || '',
       );
       formikRef.current.setFieldValue(
-        "ageRange",
-        defaultValues?.ageRange || ""
+        'ageRange',
+        defaultValues?.ageRange || '',
       );
       formikRef.current.setFieldValue(
-        "gender",
+        'gender',
         defaultValues?.gender
           ? {
-              value: defaultValues?.gender || "",
-              label: defaultValues?.gender || "",
+              value: defaultValues?.gender || '',
+              label: defaultValues?.gender || '',
             }
-          : ""
+          : '',
       );
       formikRef.current.setFieldValue(
-        "industry",
-        defaultValues?.industry || ""
+        'industry',
+        defaultValues?.industry || '',
       );
       formikRef.current.setFieldValue(
-        "locationDistrict",
-        defaultValues?.locationDistrict || ""
+        'locationDistrict',
+        defaultValues?.locationDistrict || '',
       );
       formikRef.current.setFieldValue(
-        "employeeNumber",
-        defaultValues?.employeeNumber || ""
+        'employeeNumber',
+        defaultValues?.employeeNumber || '',
       );
       formikRef.current.setFieldValue(
-        "incomeLevel",
-        defaultValues?.incomeLevel || ""
+        'incomeLevel',
+        defaultValues?.incomeLevel || '',
       );
       formikRef.current.setFieldValue(
-        "painPoints",
-        defaultValues?.painPoints || ""
+        'painPoints',
+        defaultValues?.painPoints || '',
       );
-      formikRef.current.setFieldValue("goals", defaultValues?.goals || "");
+      formikRef.current.setFieldValue('goals', defaultValues?.goals || '');
       formikRef.current.setFieldValue(
-        "whyTheyChooseUs",
-        defaultValues?.whyTheyChooseUs || ""
-      );
-      formikRef.current.setFieldValue(
-        "buyingBehavior",
-        defaultValues?.buyingBehavior || ""
+        'whyTheyChooseUs',
+        defaultValues?.whyTheyChooseUs || '',
       );
       formikRef.current.setFieldValue(
-        "preferredCommunicationChannels",
-        defaultValues?.preferredCommunicationChannels || ""
+        'buyingBehavior',
+        defaultValues?.buyingBehavior || '',
       );
       formikRef.current.setFieldValue(
-        "competitorsBrandUsages",
-        defaultValues?.competitorsBrandUsages || ""
+        'preferredCommunicationChannels',
+        defaultValues?.preferredCommunicationChannels || '',
       );
-      formikRef.current.setFieldValue("enroll", defaultValues?.enroll || "");
-      formikRef.current.setFieldValue("customerId", defaultValues?.customerId || "");
       formikRef.current.setFieldValue(
-        "channel",
+        'competitorsBrandUsages',
+        defaultValues?.competitorsBrandUsages || '',
+      );
+      formikRef.current.setFieldValue('enroll', defaultValues?.enroll || '');
+      formikRef.current.setFieldValue(
+        'customerId',
+        defaultValues?.customerId || '',
+      );
+      formikRef.current.setFieldValue(
+        'channel',
         defaultValues?.channel
           ? {
-              value: defaultValues?.channel || "",
-              label: defaultValues?.channel || "",
+              value: defaultValues?.channel || '',
+              label: defaultValues?.channel || '',
             }
-          : ""
+          : '',
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -167,7 +170,7 @@ function EditModal({ clickedRow, landingCB }) {
               <div className="row global-form my-3">
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.productName || ""}
+                    value={values?.productName || ''}
                     label="Product Name"
                     name="productName"
                     placeholder="Product Name"
@@ -178,7 +181,7 @@ function EditModal({ clickedRow, landingCB }) {
                 </div>
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.companyName || ""}
+                    value={values?.companyName || ''}
                     label="Company Name"
                     name="companyName"
                     placeholder="Company Name"
@@ -189,7 +192,7 @@ function EditModal({ clickedRow, landingCB }) {
                 </div>
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.contactPersonName || ""}
+                    value={values?.contactPersonName || ''}
                     label="Contact Person's Name"
                     name="contactPersonName"
                     placeholder="Contact Person's Name"
@@ -200,7 +203,7 @@ function EditModal({ clickedRow, landingCB }) {
                 </div>
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.contactNumber || ""}
+                    value={values?.contactNumber || ''}
                     label="Contact Number"
                     name="contactNumber"
                     placeholder="Contact Number"
@@ -215,19 +218,19 @@ function EditModal({ clickedRow, landingCB }) {
                     options={
                       [
                         {
-                          value: "Active",
-                          label: "Active",
+                          value: 'Active',
+                          label: 'Active',
                         },
                         {
-                          value: "Inactive",
-                          label: "Inactive",
+                          value: 'Inactive',
+                          label: 'Inactive',
                         },
                       ] || []
                     }
                     value={values?.activeInactive}
                     label="Active/ Inactive"
                     onChange={(valueOption) => {
-                      setFieldValue("activeInactive", valueOption || "");
+                      setFieldValue('activeInactive', valueOption || '');
                     }}
                     placeholder="Select Active/ Inactive"
                     errors={errors}
@@ -236,7 +239,7 @@ function EditModal({ clickedRow, landingCB }) {
                 </div>
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.accountManager || ""}
+                    value={values?.accountManager || ''}
                     label="Account Manager"
                     name="accountManager"
                     placeholder="Account Manager"
@@ -247,7 +250,7 @@ function EditModal({ clickedRow, landingCB }) {
                 </div>
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.jobTitle || ""}
+                    value={values?.jobTitle || ''}
                     label="Job Title"
                     name="jobTitle"
                     placeholder="Job Title"
@@ -259,7 +262,7 @@ function EditModal({ clickedRow, landingCB }) {
                 {/* Age Range input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.ageRange || ""}
+                    value={values?.ageRange || ''}
                     label="Age Range"
                     name="ageRange"
                     placeholder="Age Range"
@@ -276,19 +279,19 @@ function EditModal({ clickedRow, landingCB }) {
                     options={
                       [
                         {
-                          value: "Male",
-                          label: "Male",
+                          value: 'Male',
+                          label: 'Male',
                         },
                         {
-                          value: "Female",
-                          label: "Female",
+                          value: 'Female',
+                          label: 'Female',
                         },
                       ] || []
                     }
                     value={values?.gender}
                     label="Gender"
                     onChange={(valueOption) => {
-                      setFieldValue("gender", valueOption || "");
+                      setFieldValue('gender', valueOption || '');
                     }}
                     placeholder="Select Gender"
                     errors={errors}
@@ -299,7 +302,7 @@ function EditModal({ clickedRow, landingCB }) {
                 {/* Industry input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.industry || ""}
+                    value={values?.industry || ''}
                     label="Industry"
                     name="industry"
                     placeholder="Industry"
@@ -311,7 +314,7 @@ function EditModal({ clickedRow, landingCB }) {
                 {/* Location District input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.locationDistrict || ""}
+                    value={values?.locationDistrict || ''}
                     label="Location (District)"
                     name="locationDistrict"
                     placeholder="Location (District)"
@@ -323,7 +326,7 @@ function EditModal({ clickedRow, landingCB }) {
                 {/* Employee Number input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.employeeNumber || ""}
+                    value={values?.employeeNumber || ''}
                     label="Employee Number"
                     name="employeeNumber"
                     placeholder="Employee Number"
@@ -335,7 +338,7 @@ function EditModal({ clickedRow, landingCB }) {
                 {/* Income Level input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.incomeLevel || ""}
+                    value={values?.incomeLevel || ''}
                     label="Income Level"
                     name="incomeLevel"
                     placeholder="Income Level"
@@ -347,7 +350,7 @@ function EditModal({ clickedRow, landingCB }) {
                 {/* Pain Points input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.painPoints || ""}
+                    value={values?.painPoints || ''}
                     label="Pain Points"
                     name="painPoints"
                     placeholder="Pain Points"
@@ -359,7 +362,7 @@ function EditModal({ clickedRow, landingCB }) {
                 {/* Goals input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.goals || ""}
+                    value={values?.goals || ''}
                     label="Goals"
                     name="goals"
                     placeholder="Goals"
@@ -371,7 +374,7 @@ function EditModal({ clickedRow, landingCB }) {
                 {/* Why They Choose Us input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.whyTheyChooseUs || ""}
+                    value={values?.whyTheyChooseUs || ''}
                     label="Why They Choose Us"
                     name="whyTheyChooseUs"
                     placeholder="Why They Choose Us"
@@ -383,7 +386,7 @@ function EditModal({ clickedRow, landingCB }) {
                 {/* Buying Behavior input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.buyingBehavior || ""}
+                    value={values?.buyingBehavior || ''}
                     label="Buying Behavior"
                     name="buyingBehavior"
                     placeholder="Buying Behavior"
@@ -395,7 +398,7 @@ function EditModal({ clickedRow, landingCB }) {
                 {/* Preferred Communication Channels input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.preferredCommunicationChannels || ""}
+                    value={values?.preferredCommunicationChannels || ''}
                     label="Preferred Communication Channels"
                     name="preferredCommunicationChannels"
                     placeholder="Preferred Communication Channels"
@@ -407,7 +410,7 @@ function EditModal({ clickedRow, landingCB }) {
                 {/* Competitors Brand Usages input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.competitorsBrandUsages || ""}
+                    value={values?.competitorsBrandUsages || ''}
                     label="Competitors Brand Usages"
                     name="competitorsBrandUsages"
                     placeholder="Competitors Brand Usages"
@@ -419,7 +422,7 @@ function EditModal({ clickedRow, landingCB }) {
                 {/* Enroll input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.enroll || ""}
+                    value={values?.enroll || ''}
                     label="Enroll"
                     name="enroll"
                     placeholder="Enroll"
@@ -431,7 +434,7 @@ function EditModal({ clickedRow, landingCB }) {
                 {/* customerId */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.customerId || ""}
+                    value={values?.customerId || ''}
                     label="Customer Id"
                     name="customerId"
                     placeholder="Customer Id"
@@ -447,19 +450,19 @@ function EditModal({ clickedRow, landingCB }) {
                     options={
                       [
                         {
-                          value: "B2B",
-                          label: "B2B",
+                          value: 'B2B',
+                          label: 'B2B',
                         },
                         {
-                          value: "B2C",
-                          label: "B2C",
+                          value: 'B2C',
+                          label: 'B2C',
                         },
                       ] || []
                     }
                     value={values?.channel}
                     label="Channel"
                     onChange={(valueOption) => {
-                      setFieldValue("channel", valueOption || "");
+                      setFieldValue('channel', valueOption || '');
                     }}
                     placeholder="Select Channel"
                     errors={errors}

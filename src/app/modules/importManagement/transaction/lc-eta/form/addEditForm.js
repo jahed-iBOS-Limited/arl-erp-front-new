@@ -1,33 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Form from "./form";
-import { date } from "yup";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Form from './form';
 
 const initData = {
-  poNo: "",
+  poNo: '',
   etaDate: _todayDate(),
-  invoiceNo: "",
-  blNo: "",
-  vesselName: "",
-  numberOfContainer: "",
+  invoiceNo: '',
+  blNo: '',
+  vesselName: '',
+  numberOfContainer: '',
 };
 
 export default function LcEatAddEditForm() {
   const [, getCreateLetterOfCreaditETA, postLoading] = useAxiosPost();
-  const [, getLetterOfCreaditETAById, getByIdLoading] = useAxiosGet("");
+  const [, getLetterOfCreaditETAById, getByIdLoading] = useAxiosGet('');
   const params = useParams();
 
   const [objProps, setObjprops] = useState({});
 
   // get singleData
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   useEffect(() => {
     if (params?.id) {
@@ -46,49 +45,49 @@ export default function LcEatAddEditForm() {
               poid,
             } = data || {};
             setSingleData({
-              poNo: poid ? { value: poid, label: ponumber } : "",
+              poNo: poid ? { value: poid, label: ponumber } : '',
               lcid: lcid || 0,
-              etaDate: etaDate ? _dateFormatter(etaDate) : "",
-              invoiceNo: nvoiceNo || "",
-              blNo: blno || "",
-              vesselName: vesselName || "",
-              numberOfContainer: numberOfContainer || "",
+              etaDate: etaDate ? _dateFormatter(etaDate) : '',
+              invoiceNo: nvoiceNo || '',
+              blNo: blno || '',
+              vesselName: vesselName || '',
+              numberOfContainer: numberOfContainer || '',
             });
           }
-        }
+        },
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveHandler = async (values, cb) => {
-    if (!values?.lcid) return toast.warning("LC Not Found");
+    if (!values?.lcid) return toast.warning('LC Not Found');
     const paylaod = {
       lcidetanfoId: params?.id || 0,
       lcid: +values?.lcid || 0,
       poId: values?.poNo?.poId || 0,
-      etaDate: values?.etaDate || "",
-      nvoiceNo: values?.invoiceNo || "",
-      blno: values?.blNo || "",
-      vesselName: values?.vesselName || "",
+      etaDate: values?.etaDate || '',
+      nvoiceNo: values?.invoiceNo || '',
+      blno: values?.blNo || '',
+      vesselName: values?.vesselName || '',
       numberOfContainer: +values?.numberOfContainer || 0,
     };
 
     getCreateLetterOfCreaditETA(
-      "/imp/Shipment/CreateLetterOfCreaditETA",
+      '/imp/Shipment/CreateLetterOfCreaditETA',
       paylaod,
       (data) => {
         if (!params?.id) {
           cb(initData);
         }
       },
-      true
+      true,
     );
   };
-  console.log(singleData, "singleData");
+  console.log(singleData, 'singleData');
   return (
     <IForm
-      title={params?.id ? "Edit LC ETA" : "LC ETA"}
+      title={params?.id ? 'Edit LC ETA' : 'LC ETA'}
       getProps={setObjprops}
       isDisabled={postLoading || getByIdLoading}
     >

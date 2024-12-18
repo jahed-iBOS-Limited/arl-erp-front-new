@@ -1,20 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Formik } from "formik";
-import * as Yup from "yup";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
 
-import { useHistory } from "react-router-dom";
-import { shallowEqual, useSelector } from "react-redux";
-import FormikInput from "../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../_chartinghelper/common/formikSelect";
-import customStyles from "../../_chartinghelper/common/selectCustomStyle";
-import ICustomTable from "../../_chartinghelper/_customTable";
-import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
-import { getAuditTypeDDL, getCategoryDDL, getVesselDDL } from "../helper";
-import Loading from "../../_chartinghelper/loading/_loading";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IViewModal from "../../../_helper/_viewModal";
-import CategoryCreateModal from "./categoryCreateModal";
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import IViewModal from '../../../_helper/_viewModal';
+import ICustomTable from '../../_chartinghelper/_customTable';
+import { _dateFormatter } from '../../_chartinghelper/_dateFormatter';
+import FormikInput from '../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../_chartinghelper/common/formikSelect';
+import customStyles from '../../_chartinghelper/common/selectCustomStyle';
+import Loading from '../../_chartinghelper/loading/_loading';
+import { getAuditTypeDDL, getCategoryDDL, getVesselDDL } from '../helper';
+import CategoryCreateModal from './categoryCreateModal';
 
 export default function _Form({
   title,
@@ -42,38 +42,38 @@ export default function _Form({
 
   const validationSchema = Yup.object().shape({
     vesselType: Yup.object()
-      .required("Vessel Type is required")
-      .typeError("Vessel Type is required"),
+      .required('Vessel Type is required')
+      .typeError('Vessel Type is required'),
     type: Yup.object()
-      .required("Type is required")
-      .typeError("Type is required"),
+      .required('Type is required')
+      .typeError('Type is required'),
     vessel: Yup.object()
-      .required("Vessel is required")
-      .typeError("Vessel is required"),
+      .required('Vessel is required')
+      .typeError('Vessel is required'),
     category: Yup.object()
-      .required("Category is required")
-      .typeError("Category is required"),
-    date: Yup.date().required("Date is required"),
+      .required('Category is required')
+      .typeError('Category is required'),
+    date: Yup.date().required('Date is required'),
     // vesselPosition: Yup.string().required("Position Of Vessel is required"),
-    title: Yup.string().required("Title is required"),
-    description: Yup.string().required("Description is required"),
+    title: Yup.string().required('Title is required'),
+    description: Yup.string().required('Description is required'),
     nc: Yup.boolean(),
-    dueDate: Yup.date().when("nc", {
+    dueDate: Yup.date().when('nc', {
       is: true,
-      then: Yup.date().required("Due Date is required when NC is checked"),
+      then: Yup.date().required('Due Date is required when NC is checked'),
       otherwise: Yup.date().notRequired(),
     }),
     status: Yup.object()
-      .required("Status is required")
-      .typeError("Status is required"),
+      .required('Status is required')
+      .typeError('Status is required'),
   });
   const headers = [
-    { name: "SL" },
-    { name: "Description", style: { minWidth: "65px" } },
-    { name: "NC?" },
-    { name: "Due Date" },
-    { name: "Status" },
-    { name: "Action", style: { minWidth: "40px" } },
+    { name: 'SL' },
+    { name: 'Description', style: { minWidth: '65px' } },
+    { name: 'NC?' },
+    { name: 'Due Date' },
+    { name: 'Status' },
+    { name: 'Action', style: { minWidth: '40px' } },
   ];
   useEffect(() => {
     getAuditTypeDDL(setTypeDDl, setLoading);
@@ -126,10 +126,10 @@ export default function _Form({
           } else {
             setRowDto([...rowDto, values]);
           }
-          setFieldValue("description", "");
-          setFieldValue("nc", false);
-          setFieldValue("dueDate", "");
-          setFieldValue("status", "");
+          setFieldValue('description', '');
+          setFieldValue('nc', false);
+          setFieldValue('dueDate', '');
+          setFieldValue('status', '');
         }}
       >
         {({
@@ -153,16 +153,16 @@ export default function _Form({
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
@@ -170,7 +170,7 @@ export default function _Form({
                   {
                     <button
                       type="button"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={() => {
                         const payload = createPayload(values, rowDto);
                         saveHandler(payload);
@@ -184,9 +184,9 @@ export default function _Form({
                         !values?.category
                       }
                     >
-                      {viewType !== "view" && viewType !== "edit"
-                        ? "Save"
-                        : "Update"}
+                      {viewType !== 'view' && viewType !== 'edit'
+                        ? 'Save'
+                        : 'Update'}
                     </button>
                   }
                 </div>
@@ -195,24 +195,24 @@ export default function _Form({
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselType || ""}
+                      value={values?.vesselType || ''}
                       isSearchable={true}
                       options={[
-                        { value: "MotherVessel", label: "Mother Vessel" },
-                        { value: "LighterVessel", label: "Lighter Vessel" },
+                        { value: 'MotherVessel', label: 'Mother Vessel' },
+                        { value: 'LighterVessel', label: 'Lighter Vessel' },
                       ]}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                       styles={customStyles}
                       name="vesselType"
                       placeholder="Mother, Lighter"
                       label="Vessel Type"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselType", valueOption);
+                        setFieldValue('vesselType', valueOption);
                         getVesselDDL(
                           valueOption?.value,
                           buId,
                           setVesselDDl,
-                          setLoading
+                          setLoading,
                         );
                       }}
                       errors={errors}
@@ -221,24 +221,24 @@ export default function _Form({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vessel || ""}
+                      value={values?.vessel || ''}
                       isSearchable={true}
                       options={vesselDDl || []}
                       styles={customStyles}
                       name="vessel"
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                       placeholder={
-                        values?.vesselType?.value === "MotherVessel"
-                          ? "Mother Vessel"
-                          : "Vessel/Ligher"
+                        values?.vesselType?.value === 'MotherVessel'
+                          ? 'Mother Vessel'
+                          : 'Vessel/Ligher'
                       }
                       label={
-                        values?.vesselType?.value === "MotherVessel"
-                          ? "Mother Vessel"
-                          : "Vessel/Ligher"
+                        values?.vesselType?.value === 'MotherVessel'
+                          ? 'Mother Vessel'
+                          : 'Vessel/Ligher'
                       }
                       onChange={(valueOption) => {
-                        setFieldValue("vessel", valueOption);
+                        setFieldValue('vessel', valueOption);
                         // gridData({ ...values, certificateName: valueOption });
                       }}
                       // isDisabled={!values?.vesselName}
@@ -256,7 +256,7 @@ export default function _Form({
                       type="date"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -268,7 +268,7 @@ export default function _Form({
                       type="text"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -280,12 +280,12 @@ export default function _Form({
                       type="text"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.type || ""}
+                      value={values?.type || ''}
                       isSearchable={true}
                       options={typeDDl || []}
                       styles={customStyles}
@@ -293,34 +293,34 @@ export default function _Form({
                       placeholder="PSC, Audit, ..."
                       label="Type"
                       onChange={(valueOption) => {
-                        setFieldValue("type", valueOption);
+                        setFieldValue('type', valueOption);
 
                         // gridData({ ...values, vesselName: valueOption });
                       }}
                       errors={errors}
                       touched={touched}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                     />
                   </div>
 
                   <div className="col-lg-3">
                     <div className="d-flex justify-content-between align-items-center">
                       <label>Category</label>
-                      {viewType !== "view" && (
+                      {viewType !== 'view' && (
                         <div
                           style={{
-                            paddingTop: "2px",
-                            paddingLeft: "3px",
+                            paddingTop: '2px',
+                            paddingLeft: '3px',
                           }}
                         >
                           <OverlayTrigger
                             overlay={
-                              <Tooltip id="cs-icon">{"Add Category"}</Tooltip>
+                              <Tooltip id="cs-icon">{'Add Category'}</Tooltip>
                             }
                           >
                             <span>
                               <i
-                                style={{ color: "#3699ff" }}
+                                style={{ color: '#3699ff' }}
                                 className={`fas fa-plus-square`}
                                 onClick={() => setCreateModal(true)}
                               ></i>
@@ -330,7 +330,7 @@ export default function _Form({
                       )}
                     </div>
                     <FormikSelect
-                      value={values?.category || ""}
+                      value={values?.category || ''}
                       isSearchable={true}
                       options={categoryDDl || []}
                       styles={customStyles}
@@ -338,12 +338,12 @@ export default function _Form({
                       placeholder="UAE PSC"
                       // label="Category"
                       onChange={(valueOption) => {
-                        setFieldValue("category", valueOption);
+                        setFieldValue('category', valueOption);
                         // gridData({ ...values, certificateName: valueOption });
                       }}
                       // isDisabled={!values?.vesselName}
                       errors={errors}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                       touched={touched}
                     />
                   </div>
@@ -365,14 +365,14 @@ export default function _Form({
                     <div className="d-flex flex-column mr-1 align-items-center">
                       <label className="ml-1 mb-2">NC</label>
                       <input
-                        style={{ width: "20px", height: "20px" }}
+                        style={{ width: '20px', height: '20px' }}
                         checked={values?.nc}
                         value={values?.nc}
                         type="checkbox"
                         name="nc"
                         onChange={(e) => {
-                          setFieldValue("nc", e.target.checked);
-                          validateField("dueDate");
+                          setFieldValue('nc', e.target.checked);
+                          validateField('dueDate');
                         }}
                         className="ml-2"
                       />
@@ -391,18 +391,18 @@ export default function _Form({
 
                   <div className="col-lg-2">
                     <FormikSelect
-                      value={values?.status || ""}
+                      value={values?.status || ''}
                       isSearchable={true}
                       options={[
-                        { value: "open", label: "Open" },
-                        { value: "pending", label: "Pending" },
-                        { value: "close", label: "Close" },
+                        { value: 'open', label: 'Open' },
+                        { value: 'pending', label: 'Pending' },
+                        { value: 'close', label: 'Close' },
                       ]}
                       styles={customStyles}
                       name="status"
                       label="Status"
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                         // gridData({ ...values, certificateName: valueOption });
                       }}
                       // isDisabled={!values?.vesselName}
@@ -413,11 +413,11 @@ export default function _Form({
                   <div className="col-lg-2 mt-5">
                     <button
                       type="button"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
-                      disabled={viewType === "view" && editIndex === null}
+                      disabled={viewType === 'view' && editIndex === null}
                     >
-                      {viewType === "view" ? "Apply" : "Add"}
+                      {viewType === 'view' ? 'Apply' : 'Add'}
                     </button>
                   </div>
                 </div>
@@ -429,15 +429,15 @@ export default function _Form({
                     <tr key={index}>
                       <td className="text-center">{index + 1}</td>
                       <td className="text-center">{item?.description}</td>
-                      <td className="text-center">{item?.nc ? "Yes" : "No"}</td>
+                      <td className="text-center">{item?.nc ? 'Yes' : 'No'}</td>
                       <td className="text-center">
-                        {item?.dueDate ? _dateFormatter(item?.dueDate) : ""}
+                        {item?.dueDate ? _dateFormatter(item?.dueDate) : ''}
                       </td>
                       <td className="text-center">{item?.status?.label}</td>
                       <td className="text-center">
-                        {viewType !== "view" ? (
+                        {viewType !== 'view' ? (
                           <div
-                            className={viewType === "view" ? "d-none" : ""}
+                            className={viewType === 'view' ? 'd-none' : ''}
                             onClick={() => {
                               deleteHandler(index);
                             }}
@@ -451,20 +451,20 @@ export default function _Form({
                             onChange={() => {
                               if (editIndex === index) {
                                 setEditIndex(null);
-                                setFieldValue("nc", "");
-                                setFieldValue("status", "");
-                                setFieldValue("dueDate", "");
-                                setFieldValue("description", "");
+                                setFieldValue('nc', '');
+                                setFieldValue('status', '');
+                                setFieldValue('dueDate', '');
+                                setFieldValue('description', '');
                               } else {
                                 setEditIndex(index);
                                 setValues({
                                   ...values,
-                                  description: item?.description || "",
+                                  description: item?.description || '',
                                   nc: item?.nc || false,
                                   dueDate: item?.dueDate
                                     ? _dateFormatter(item?.dueDate)
-                                    : "",
-                                  status: item?.status || "",
+                                    : '',
+                                  status: item?.status || '',
                                 });
                               }
                             }}
@@ -484,7 +484,7 @@ export default function _Form({
                 }}
               >
                 <CategoryCreateModal
-                  title={"Create New Category"}
+                  title={'Create New Category'}
                   setter={setCategoryDDl}
                   onHide={() => setCreateModal(false)}
                 />

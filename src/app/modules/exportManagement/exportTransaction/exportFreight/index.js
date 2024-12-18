@@ -1,34 +1,32 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import { _monthLastDate } from "../../../_helper/_monthLastDate";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import ViewJournal from "./viewJournal";
-import ViewTransportItem from "./viewTransportItemModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import { _monthLastDate } from '../../../_helper/_monthLastDate';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import ViewJournal from './viewJournal';
+import ViewTransportItem from './viewTransportItemModal';
 const initData = {
-  sbu: "",
-  salesOrg: "",
-  shipPoint: "",
-  distributionChannel: "",
-  soldToParty: "",
+  sbu: '',
+  salesOrg: '',
+  shipPoint: '',
+  distributionChannel: '',
+  soldToParty: '',
   fromDate: _todayDate(),
   toDate: _monthLastDate(),
-  type: "",
+  type: '',
 };
 export default function ExportFreightInfo() {
   const saveHandler = (values, cb) => {};
-  const history = useHistory();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [journalId, setJournalId] = useState();
@@ -74,7 +72,7 @@ export default function ExportFreightInfo() {
 
   useEffect(() => {
     getSbuDDL(
-      `/domain/BusinessUnitDomain/GetBusinessAreaDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      `/domain/BusinessUnitDomain/GetBusinessAreaDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
     getSalesOrgDDL(
       `/oms/SalesOrder/GetSODDLbySBUId?AccountId=${
@@ -84,7 +82,7 @@ export default function ExportFreightInfo() {
         // filter data as per requirement
         const filterSalesOrderDDL = data?.filter((d) => d?.value === 7);
         setSalesOrgDDL(filterSalesOrderDDL);
-      }
+      },
     );
     getShipPointDDL(
       `/domain/OrganizationalUnitUserPermission/GetOrganizationalUnitUserPermissionByUnitId?UserId=${profileData?.userId}&ClientId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
@@ -96,9 +94,9 @@ export default function ExportFreightInfo() {
               label: data?.organizationUnitReffName,
               address: data?.address,
             };
-          })
+          }),
         );
-      }
+      },
     );
     getDistributionChannelDDL(
       `/oms/SalesOrder/GetDistributionChannelDDLBySBUId?AccountId=${
@@ -107,17 +105,17 @@ export default function ExportFreightInfo() {
       (data) => {
         // filtering data as per requirement
         const modifedDistributionChannel = data?.filter(
-          (data) => data?.value === 96
+          (data) => data?.value === 96,
         );
         setDistributionChannelDDL(modifedDistributionChannel);
-      }
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getTransportProviderInfo(
-      `/oms/SalesOrder/GetExportTransportProviderInfoPagination?searchTerm=${searchValue}&businessUnitId=${selectedBusinessUnit?.value}&businessPartnerId=${values?.soldToParty?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
+      `/oms/SalesOrder/GetExportTransportProviderInfoPagination?searchTerm=${searchValue}&businessUnitId=${selectedBusinessUnit?.value}&businessPartnerId=${values?.soldToParty?.value}&pageNo=${pageNo}&pageSize=${pageSize}`,
     );
   };
   const paginationSearchHandler = (searchValue, values) => {
@@ -177,18 +175,18 @@ export default function ExportFreightInfo() {
                   <NewSelect
                     name="type"
                     options={[
-                      { value: 1, label: "BusinessPartner journal info" },
-                      { value: 2, label: "Transport provider info" },
+                      { value: 1, label: 'BusinessPartner journal info' },
+                      { value: 2, label: 'Transport provider info' },
                     ]}
                     value={values?.type}
                     label="Type"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("type", valueOption);
+                        setFieldValue('type', valueOption);
                         setRowData([]);
                         setTransportProviderInfo([]);
                       } else {
-                        setFieldValue("type", "");
+                        setFieldValue('type', '');
                       }
                     }}
                   />
@@ -202,11 +200,11 @@ export default function ExportFreightInfo() {
                     label="SBU"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("sbu", valueOption);
-                        setFieldValue("distributionChannel", "");
+                        setFieldValue('sbu', valueOption);
+                        setFieldValue('distributionChannel', '');
                       } else {
-                        setFieldValue("sbu", "");
-                        setFieldValue("distributionChannel", "");
+                        setFieldValue('sbu', '');
+                        setFieldValue('distributionChannel', '');
                       }
                     }}
                   />
@@ -220,9 +218,9 @@ export default function ExportFreightInfo() {
                     label="Sales Org"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("salesOrg", valueOption);
+                        setFieldValue('salesOrg', valueOption);
                       } else {
-                        setFieldValue("salesOrg", "");
+                        setFieldValue('salesOrg', '');
                       }
                     }}
                   />
@@ -236,9 +234,9 @@ export default function ExportFreightInfo() {
                     label="ShipPoint"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                       } else {
-                        setFieldValue("shipPoint", "");
+                        setFieldValue('shipPoint', '');
                       }
                     }}
                   />
@@ -252,12 +250,12 @@ export default function ExportFreightInfo() {
                     label="Distribution Channel"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("distributionChannel", valueOption);
+                        setFieldValue('distributionChannel', valueOption);
                         getSoldToPartyDDL(
-                          `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerForSalesOrderDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&Sbuid=${values?.sbu?.value}&SalesOrg=${values?.salesOrg?.value}&ShipPoint=${values?.shipPoint?.value}&DistributionChannel=${valueOption?.value}`
+                          `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerForSalesOrderDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&Sbuid=${values?.sbu?.value}&SalesOrg=${values?.salesOrg?.value}&ShipPoint=${values?.shipPoint?.value}&DistributionChannel=${valueOption?.value}`,
                         );
                       } else {
-                        setFieldValue("distributionChannel", "");
+                        setFieldValue('distributionChannel', '');
                       }
                     }}
                   />
@@ -270,7 +268,7 @@ export default function ExportFreightInfo() {
                     value={values?.soldToParty}
                     label="Sold To Party"
                     onChange={(valueOption) => {
-                      setFieldValue("soldToParty", valueOption);
+                      setFieldValue('soldToParty', valueOption);
                     }}
                   />
                 </div>
@@ -297,13 +295,13 @@ export default function ExportFreightInfo() {
                     <div className="col-lg-3">
                       <button
                         style={{
-                          marginTop: "17px",
+                          marginTop: '17px',
                         }}
                         className="btn btn-primary"
                         type="button"
                         onClick={() => {
                           getRowData(
-                            `/oms/SalesOrder/GetSalesOrderJournalInfo?businessUnitId=${selectedBusinessUnit?.value}&distributionChannelId=${values?.distributionChannel?.value}&businessPartnerId=${values?.soldToParty?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+                            `/oms/SalesOrder/GetSalesOrderJournalInfo?businessUnitId=${selectedBusinessUnit?.value}&distributionChannelId=${values?.distributionChannel?.value}&businessPartnerId=${values?.soldToParty?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
                           );
                         }}
                         disabled={
@@ -325,12 +323,12 @@ export default function ExportFreightInfo() {
                   <div className="col-lg-3">
                     <button
                       style={{
-                        marginTop: "17px",
+                        marginTop: '17px',
                       }}
                       className="btn btn-primary"
                       type="button"
                       onClick={() => {
-                        setPositionHandler(pageNo, pageSize, values, "");
+                        setPositionHandler(pageNo, pageSize, values, '');
                       }}
                       disabled={
                         !values?.sbu ||
@@ -349,70 +347,72 @@ export default function ExportFreightInfo() {
                 {[1]?.includes(values?.type.value) && (
                   <>
                     <div className="col-lg-12">
-                    <div className="table-responsive">
-                    <table className="table table-striped table-bordered global-table sales_order_landing_table">
-                        <thead>
-                          <tr>
-                            <th style={{ width: "35px" }}>SL</th>
-                            {/* <th style={{ width: "90px" }}>Sales Order Code</th> */}
-                            <th style={{ width: "90px" }}>Journal Code</th>
-                            <th>Narration</th>
-                            <th>Ledger Name</th>
-                            <th>Business Partner Name</th>
-                            {/* <th>Amount</th> */}
-                            <th>Transaction Date</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowData?.length > 0 &&
-                            rowData?.map((td, index) => (
-                              <tr key={index}>
-                                <td className="text-center">{index + 1}</td>
-                                {/* <td>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                          <thead>
+                            <tr>
+                              <th style={{ width: '35px' }}>SL</th>
+                              {/* <th style={{ width: "90px" }}>Sales Order Code</th> */}
+                              <th style={{ width: '90px' }}>Journal Code</th>
+                              <th>Narration</th>
+                              <th>Ledger Name</th>
+                              <th>Business Partner Name</th>
+                              {/* <th>Amount</th> */}
+                              <th>Transaction Date</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rowData?.length > 0 &&
+                              rowData?.map((td, index) => (
+                                <tr key={index}>
+                                  <td className="text-center">{index + 1}</td>
+                                  {/* <td>
                               <div className="pl-2">
                                 {td?.salesOrderCode}
                               </div>
                             </td> */}
-                                <td>
-                                  <div className="pl-2">
-                                    {td?.accountingJournalCode}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="pl-2">{td?.narration}</div>
-                                </td>
-                                <td>
-                                  <div className="pl-2">
-                                    {td?.generalLedgerName}
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="pl-2">
-                                    {td?.businessPartnerName}
-                                  </div>
-                                </td>
-                                {/* <td>
+                                  <td>
+                                    <div className="pl-2">
+                                      {td?.accountingJournalCode}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="pl-2">{td?.narration}</div>
+                                  </td>
+                                  <td>
+                                    <div className="pl-2">
+                                      {td?.generalLedgerName}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="pl-2">
+                                      {td?.businessPartnerName}
+                                    </div>
+                                  </td>
+                                  {/* <td>
                               <div>{td?.freightAmount}</div>
                             </td> */}
-                                <td>{_dateFormatter(td?.transactionDate)}</td>
-                                <td>
-                                  <div>
-                                    <span className="view">
-                                      <IEdit
-                                        onClick={() => {
-                                          setJournalId(td?.accountingJournalId);
-                                          setJournalViewModal(true);
-                                        }}
-                                      />
-                                    </span>
-                                  </div>
-                                </td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
-                    </div>
+                                  <td>{_dateFormatter(td?.transactionDate)}</td>
+                                  <td>
+                                    <div>
+                                      <span className="view">
+                                        <IEdit
+                                          onClick={() => {
+                                            setJournalId(
+                                              td?.accountingJournalId,
+                                            );
+                                            setJournalViewModal(true);
+                                          }}
+                                        />
+                                      </span>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
 
                       <IViewModal
                         title="View Journal"
@@ -421,7 +421,7 @@ export default function ExportFreightInfo() {
                           setJournalViewModal(false);
                           setJournalId(null);
                           getRowData(
-                            `/oms/SalesOrder/GetSalesOrderJournalInfo?businessUnitId=${selectedBusinessUnit?.value}&distributionChannelId=${values?.distributionChannel?.value}&businessPartnerId=${values?.soldToParty?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+                            `/oms/SalesOrder/GetSalesOrderJournalInfo?businessUnitId=${selectedBusinessUnit?.value}&distributionChannelId=${values?.distributionChannel?.value}&businessPartnerId=${values?.soldToParty?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
                           );
                         }}
                       >
@@ -445,42 +445,44 @@ export default function ExportFreightInfo() {
                       </div>
                     </div>
                     <div className="col-lg-12">
-                     <div className="table-responsive">
-                     <table className="table table-striped table-bordered global-table sales_order_landing_table">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Accounting Journal Code</th>
-                            <th>Sales Order Code</th>
-                            <th>Business Partner Name</th>
-                            <th>Freight Provider Name</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {transportProviderInfo?.data?.length > 0 &&
-                            transportProviderInfo?.data?.map((item, index) => (
-                              <tr key={index}>
-                                <td>{item?.sl}</td>
-                                <td>{item?.accountingJournalCode}</td>
-                                <td>{item?.salesOrderCode}</td>
-                                <td>{item?.businesspartnerName}</td>
-                                <td>{item?.freightProviderName}</td>
-                                <td>
-                                  <span className="view">
-                                    <IEdit
-                                      onClick={() => {
-                                        setTransportItem(item);
-                                        setTransportViewModal(true);
-                                      }}
-                                    />
-                                  </span>
-                                </td>
-                              </tr>
-                            ))}
-                        </tbody>
-                      </table>
-                     </div>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Accounting Journal Code</th>
+                              <th>Sales Order Code</th>
+                              <th>Business Partner Name</th>
+                              <th>Freight Provider Name</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {transportProviderInfo?.data?.length > 0 &&
+                              transportProviderInfo?.data?.map(
+                                (item, index) => (
+                                  <tr key={index}>
+                                    <td>{item?.sl}</td>
+                                    <td>{item?.accountingJournalCode}</td>
+                                    <td>{item?.salesOrderCode}</td>
+                                    <td>{item?.businesspartnerName}</td>
+                                    <td>{item?.freightProviderName}</td>
+                                    <td>
+                                      <span className="view">
+                                        <IEdit
+                                          onClick={() => {
+                                            setTransportItem(item);
+                                            setTransportViewModal(true);
+                                          }}
+                                        />
+                                      </span>
+                                    </td>
+                                  </tr>
+                                ),
+                              )}
+                          </tbody>
+                        </table>
+                      </div>
                       {transportProviderInfo?.data?.length > 0 && (
                         <PaginationTable
                           count={transportProviderInfo?.totalCount}
@@ -504,7 +506,7 @@ export default function ExportFreightInfo() {
                 show={transportViewModal}
                 onHide={() => {
                   setTransportViewModal(false);
-                  setPositionHandler(pageNo, pageSize, values, "");
+                  setPositionHandler(pageNo, pageSize, values, '');
                 }}
               >
                 <ViewTransportItem

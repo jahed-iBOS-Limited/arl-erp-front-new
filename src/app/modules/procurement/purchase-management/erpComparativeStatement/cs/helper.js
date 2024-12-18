@@ -1,14 +1,10 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable react/react-in-jsx-scope */
-import { Table } from "antd";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { eProcurementBaseURL } from "../../../../../App";
+import { eProcurementBaseURL } from '../../../../../App';
+import IConfirmModal from '../../../../_helper/_confirmModal';
 
 export const deleteHandler = ({ item, deleteRFQById, CB }) => {
   const obj = {
-    title: "Delete CS",
-    message: "Are you sure you want to delete this?",
+    title: 'Delete CS',
+    message: 'Are you sure you want to delete this?',
     noAlertFunc: () => {},
     yesAlertFunc: () => {
       deleteRFQById(
@@ -16,7 +12,7 @@ export const deleteHandler = ({ item, deleteRFQById, CB }) => {
         null,
         () => {
           CB();
-        }
+        },
       );
     },
   };
@@ -25,22 +21,26 @@ export const deleteHandler = ({ item, deleteRFQById, CB }) => {
 
 export const getCostEntryPayload = (costEntryList, rfqDetail) => {
   let payload = [];
-  costEntryList?.map((item) => {
-    payload.push({
-      intCostComponentTransactionRowId: 0,
-      intRequestForQuotationId: rfqDetail?.requestForQuotationId,
-      intPartnerRfqid: item?.supplierName?.info?.partnerRfqId,
-      intCostComponentId: item?.costHead?.intCostComponentId,
-      strCostComponentName: item?.costHead?.strCostComponentName,
-      intCurrencyId: item?.currency?.value,
-      strCurrencyCode: item?.currency?.code,
-      numAmount: item?.amount,
-      numConversionRateInTaka: 0,
-      isActive: true,
-      dteCreateDate: new Date(),
-      intBusinessPartnerId: item?.supplierName?.info?.businessPartnerId,
+
+  if (costEntryList?.length > 0) {
+    costEntryList.forEach((item) => {
+      payload.push({
+        intCostComponentTransactionRowId: 0,
+        intRequestForQuotationId: rfqDetail?.requestForQuotationId,
+        intPartnerRfqid: item?.supplierName?.info?.partnerRfqId,
+        intCostComponentId: item?.costHead?.intCostComponentId,
+        strCostComponentName: item?.costHead?.strCostComponentName,
+        intCurrencyId: item?.currency?.value,
+        strCurrencyCode: item?.currency?.code,
+        numAmount: item?.amount,
+        numConversionRateInTaka: 0,
+        isActive: true,
+        dteCreateDate: new Date(),
+        intBusinessPartnerId: item?.supplierName?.info?.businessPartnerId,
+      });
     });
-  });
+  }
+
   return payload || [];
 };
 
@@ -50,73 +50,85 @@ export const saveHandlerPayload = (
   rfqDetail,
   suppilerStatement,
   placePartnerList,
-  rowData
+  rowData,
 ) => {
   if (values?.csType?.value === 0) {
     const getSinglePort = (portId, data) => {
-      console.log(portId, data, "portId, data");
+      console.log(portId, data, 'portId, data');
       const result = data?.find((port) => port?.portId === portId);
       if (result) {
         return {
           id: result?.id || 0,
           portId: result?.portId || 0,
-          portName: result?.portName || "",
+          portName: result?.portName || '',
           rate: result?.rate || 0,
           freightCharge: result?.freightCharge || 0,
-          portReamrks: result?.portReamrks || "",
+          portReamrks: result?.portReamrks || '',
           conversionRate: result?.conversionRate || 0,
           convertedAmount: result?.convertedAmount || 0,
         };
       }
       return {}; // Return empty object if no port is found
     };
-    rowData?.map((row) => {
-      payload.push({
-        requestForQuotationId: rfqDetail?.requestForQuotationId,
-        partnerRfqId: row?.partnerRfqId,
-        rowId: row?.itemWiseCode, // have to check if need
-        itemId: row?.itemId,
-        takenQuantity: +row?.takenQuantity || 0,
-        rate: +row?.supplierRate || 0,
-        approvalNotes: row?.note || "",
-        portList:
-          rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
-            ? getSinglePort(row?.port?.value, row?.supplierInfo?.portList)
-            : {},
+
+    if (rowData?.length > 0) {
+      rowData.forEach((row) => {
+        payload.push({
+          requestForQuotationId: rfqDetail?.requestForQuotationId,
+          partnerRfqId: row?.partnerRfqId,
+          rowId: row?.itemWiseCode, // have to check if need
+          itemId: row?.itemId,
+          takenQuantity: +row?.takenQuantity || 0,
+          rate: +row?.supplierRate || 0,
+          approvalNotes: row?.note || '',
+          portList:
+            rfqDetail?.purchaseOrganizationName === 'Foreign Procurement'
+              ? getSinglePort(row?.port?.value, row?.supplierInfo?.portList)
+              : {},
+        });
       });
-    });
+    }
+
     return payload;
   } else {
     const getcsQuantityList = (ind) => {
       let csQuantityList = [];
-      placePartnerList?.map((item) => {
-        csQuantityList.push({
-          rowId: item?.firstAndSecondPlaceList[ind]?.rowId,
-          csQuantity: +item?.csQuantity || 0,
-          rate: item?.firstAndSecondPlaceList[ind]?.supplierRate || 0,
-          portList:
-            rfqDetail?.purchaseOrganizationName === "Foreign Procurement"
-              ? getPortList(item?.firstAndSecondPlaceList[ind]?.portList)
-              : [],
+
+      if (placePartnerList?.length > 0) {
+        placePartnerList.forEach((item) => {
+          csQuantityList.push({
+            rowId: item?.firstAndSecondPlaceList[ind]?.rowId,
+            csQuantity: +item?.csQuantity || 0,
+            rate: item?.firstAndSecondPlaceList[ind]?.supplierRate || 0,
+            portList:
+              rfqDetail?.purchaseOrganizationName === 'Foreign Procurement'
+                ? getPortList(item?.firstAndSecondPlaceList[ind]?.portList)
+                : [],
+          });
         });
-      });
+      }
+
       return csQuantityList;
     };
 
     const getPortList = (portList) => {
       let portListDS = [];
-      portList?.map((port) => {
-        portListDS.push({
-          id: port?.id || 0,
-          portId: port?.portId || 0,
-          portName: port?.portName || "",
-          rate: port?.rate || 0,
-          freightCharge: port?.freightCharge || 0,
-          portReamrks: port?.portReamrks || "",
-          conversionRate: port?.conversionRate || 0,
-          convertedAmount: port?.convertedAmount || 0,
+
+      if (portList?.length > 0) {
+        portList.forEach((port) => {
+          portListDS.push({
+            id: port?.id || 0,
+            portId: port?.portId || 0,
+            portName: port?.portName || '',
+            rate: port?.rate || 0,
+            freightCharge: port?.freightCharge || 0,
+            portReamrks: port?.portReamrks || '',
+            conversionRate: port?.conversionRate || 0,
+            convertedAmount: port?.convertedAmount || 0,
+          });
         });
-      });
+      }
+
       return portListDS;
     };
     payload = [
@@ -124,7 +136,7 @@ export const saveHandlerPayload = (
         requestForQuotationId: rfqDetail?.requestForQuotationId,
         partnerRfqId: suppilerStatement?.firstSelectedItem?.partnerRfqId,
         placeNoForCs: 1,
-        approvalNotes: values?.approvalNotes || "",
+        approvalNotes: values?.approvalNotes || '',
         csQuantityList: getcsQuantityList(0),
       },
     ];
@@ -134,7 +146,7 @@ export const saveHandlerPayload = (
         requestForQuotationId: rfqDetail?.requestForQuotationId,
         partnerRfqId: suppilerStatement?.secondSelectedItem?.partnerRfqId,
         placeNoForCs: 2,
-        approvalNotes: values?.approvalNotes || "",
+        approvalNotes: values?.approvalNotes || '',
         csQuantityList: getcsQuantityList(1),
       });
     }
@@ -145,12 +157,12 @@ export const saveHandlerPayload = (
 
 export const items = [
   {
-    key: "1",
-    label: "Action 1",
+    key: '1',
+    label: 'Action 1',
   },
   {
-    key: "2",
-    label: "Action 2",
+    key: '2',
+    label: 'Action 2',
   },
 ];
 
@@ -168,40 +180,40 @@ export const dataSource = (db) => {
 };
 export const expandColumns = [
   {
-    title: "Supplier Rate",
-    dataIndex: "supplierRate",
-    key: "supplierRate",
+    title: 'Supplier Rate',
+    dataIndex: 'supplierRate',
+    key: 'supplierRate',
   },
   {
-    title: "Amount",
-    dataIndex: "totalAmount",
-    key: "totalAmount",
+    title: 'Amount',
+    dataIndex: 'totalAmount',
+    key: 'totalAmount',
   },
 ];
 export const columns = [
   {
-    title: "Item Name",
-    dataIndex: "itemName",
-    key: "itemName",
+    title: 'Item Name',
+    dataIndex: 'itemName',
+    key: 'itemName',
   },
   {
-    title: "UOM Name",
-    dataIndex: "uoMname",
-    key: "uoMname",
+    title: 'UOM Name',
+    dataIndex: 'uoMname',
+    key: 'uoMname',
   },
   {
-    title: "Item Category Name",
-    dataIndex: "itemCategoryName",
-    key: "itemCategoryName",
+    title: 'Item Category Name',
+    dataIndex: 'itemCategoryName',
+    key: 'itemCategoryName',
   },
   {
-    title: "Item Description",
-    dataIndex: "itemDescription",
-    key: "itemDescription",
+    title: 'Item Description',
+    dataIndex: 'itemDescription',
+    key: 'itemDescription',
   },
   {
-    title: "Quantity",
-    dataIndex: "quantity",
-    key: "quantity",
+    title: 'Quantity',
+    dataIndex: 'quantity',
+    key: 'quantity',
   },
 ];

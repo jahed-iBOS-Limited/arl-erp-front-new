@@ -1,34 +1,30 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { getOrderDetailsReportData } from "../helper";
-import { Formik } from "formik";
-import { Form } from "formik";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { getOrderDetailsReportData } from '../helper';
 
 // React Pivote Table module Import
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import OrderDetailsReport from "./orderDetailsReport";
-import NewSelect from "../../../../_helper/_select";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import OrderDetailsReport from './orderDetailsReport';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  reportType: { value: 1, label: "Order Details Report" },
+  reportType: { value: 1, label: 'Order Details Report' },
 };
 
 function OrderDetailsReportLanding() {
   const [landingData, setLandingData] = useState({});
   const [loading, setLoading] = useState(false);
   const [showPowerBIReport, setShowPowerBIReport] = useState(false);
-  const [ihbDDL, getIHBDDL, ihbLoading] = useAxiosGet();
+  const [ihbDDL, getIHBDDL] = useAxiosGet();
   // get user profile data from store
   const storeData = useSelector((state) => {
     return {
@@ -46,15 +42,16 @@ function OrderDetailsReportLanding() {
         selectedBusinessUnit?.value,
         values?.orderId,
         setLandingData,
-        setLoading
+        setLoading,
       );
     }
   };
 
   useEffect(() => {
     getIHBDDL(
-      `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${selectedBusinessUnit?.value}&TypeId=4&RefferencePKId=0&ShipPointId=0`
+      `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${selectedBusinessUnit?.value}&TypeId=4&RefferencePKId=0&ShipPointId=0`,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit]);
 
   return (
@@ -70,13 +67,13 @@ function OrderDetailsReportLanding() {
                     <NewSelect
                       name="reportType"
                       options={[
-                        { value: 1, label: "Order Details Report" },
-                        { value: 2, label: "IHB Program Details" },
+                        { value: 1, label: 'Order Details Report' },
+                        { value: 2, label: 'IHB Program Details' },
                       ]}
                       value={values?.reportType}
                       label="Report Type"
                       onChange={(valueOption) => {
-                        setFieldValue("reportType", valueOption);
+                        setFieldValue('reportType', valueOption);
                         setShowPowerBIReport(false);
                         setLandingData({});
                       }}
@@ -90,11 +87,11 @@ function OrderDetailsReportLanding() {
                       <div className="col-lg-3">
                         <NewSelect
                           name="ihbName"
-                          options={[{ value: 0, label: "All" }, ...ihbDDL]}
+                          options={[{ value: 0, label: 'All' }, ...ihbDDL]}
                           value={values?.ihbName}
                           label="IHB"
                           onChange={(valueOption) => {
-                            setFieldValue("ihbName", valueOption);
+                            setFieldValue('ihbName', valueOption);
                             setShowPowerBIReport(false);
                           }}
                           placeholder="IHB"
@@ -120,7 +117,7 @@ function OrderDetailsReportLanding() {
                           placeholder="From Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("fromDate", e.target.value);
+                            setFieldValue('fromDate', e.target.value);
                             setShowPowerBIReport(false);
                           }}
                         />
@@ -133,7 +130,7 @@ function OrderDetailsReportLanding() {
                           placeholder="To Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("toDate", e.target.value);
+                            setFieldValue('toDate', e.target.value);
                             setShowPowerBIReport(false);
                           }}
                         />
@@ -142,13 +139,13 @@ function OrderDetailsReportLanding() {
                         <NewSelect
                           name="viewType"
                           options={[
-                            { value: 1, label: "Product Request" },
-                            { value: 2, label: "Product Inquiry" },
+                            { value: 1, label: 'Product Request' },
+                            { value: 2, label: 'Product Inquiry' },
                           ]}
                           value={values?.viewType}
                           label="View Type"
                           onChange={(valueOption) => {
-                            setFieldValue("viewType", valueOption);
+                            setFieldValue('viewType', valueOption);
                             setShowPowerBIReport(false);
                           }}
                           placeholder="View Type"
@@ -169,7 +166,7 @@ function OrderDetailsReportLanding() {
                     </div>
                   )}
 
-                  <div style={{ marginTop: "17px" }} className="col-lg">
+                  <div style={{ marginTop: '17px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -193,37 +190,37 @@ function OrderDetailsReportLanding() {
 
                 {values?.reportType?.value === 2 && showPowerBIReport ? (
                   <PowerBIReport
-                    reportId={"cabbb7a5-db51-4dbe-8687-1bee73b8c1cb"}
-                    groupId={"e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a"}
+                    reportId={'cabbb7a5-db51-4dbe-8687-1bee73b8c1cb'}
+                    groupId={'e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a'}
                     parameterPanel={false}
                     parameterValues={[
-                      { name: "intIHBId", value: `${values?.ihbName?.value}` },
+                      { name: 'intIHBId', value: `${values?.ihbName?.value}` },
                       {
-                        name: "intUnitid",
+                        name: 'intUnitid',
                         value: `${selectedBusinessUnit?.value}`,
                       },
                       {
-                        name: "viewType",
+                        name: 'viewType',
                         value: `${values?.viewType?.value}`,
                       },
                       {
-                        name: "intRegionid",
+                        name: 'intRegionid',
                         value: `${values?.region?.value}`,
                       },
                       {
-                        name: "intArea",
+                        name: 'intArea',
                         value: `${values?.area?.value}`,
                       },
                       {
-                        name: "intTerritoryid",
+                        name: 'intTerritoryid',
                         value: `${values?.territory?.value}`,
                       },
                       {
-                        name: "dteFromdate",
+                        name: 'dteFromdate',
                         value: `${values?.fromDate}`,
                       },
                       {
-                        name: "dteTodate",
+                        name: 'dteTodate',
                         value: `${values?.toDate}`,
                       },
                     ]}

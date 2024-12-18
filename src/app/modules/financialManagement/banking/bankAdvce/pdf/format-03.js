@@ -1,7 +1,6 @@
-import React from "react";
-import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React from 'react';
+import { dateFormatWithMonthName } from '../../../../_helper/_dateFormate';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
 const FormatThree = ({
   values,
@@ -17,77 +16,77 @@ const FormatThree = ({
       <div className="d-flex flex-column justify-content-center align-items-center my-3">
         <div
           style={{
-            position: "absolute",
-            left: "75px",
-            top: "0",
+            position: 'absolute',
+            left: '75px',
+            top: '0',
           }}
         >
           <img
-            style={{ width: "65px" }}
+            style={{ width: '65px' }}
             src={`${APIUrl}/domain/Document/DownlloadFile?id=${selectedBusinessUnit?.imageId}`}
             alt=""
           />
         </div>
         <h1
           style={{
-            textDecoration: "underline",
-            fontSize: "14px",
+            textDecoration: 'underline',
+            fontSize: '14px',
           }}
         >
           {selectedBusinessUnit?.label}
         </h1>
         <h3
           style={{
-            textDecoration: "underline",
-            fontSize: "12px",
+            textDecoration: 'underline',
+            fontSize: '12px',
           }}
         >
           Akij House, 198 Bir Uttam, Gulshan Link Road, Tejgaon, Dhaka-1208.
         </h3>
       </div>
-      <div className="salaryAdvice" style={{ marginTop: "30px" }}>
+      <div className="salaryAdvice" style={{ marginTop: '30px' }}>
         <div className="d-flex flex-column">
           <div className="d-flex justify-content-between">
-            <p style={{ fontSize: "10px" }} className="font-weight-bold">
+            <p style={{ fontSize: '10px' }} className="font-weight-bold">
               To
             </p>
-            <p style={{ fontSize: "10px" }} className="font-weight-bold">
+            <p style={{ fontSize: '10px' }} className="font-weight-bold">
               Date: {dateFormatWithMonthName(values?.dateTime)}
             </p>
           </div>
-          <p style={{ fontSize: "10px" }} className="font-weight-bold">
+          <p style={{ fontSize: '10px' }} className="font-weight-bold">
             The Manager
           </p>
         </div>
-        <p style={{ fontSize: "10px" }} className="font-weight-bold">
+        <p style={{ fontSize: '10px' }} className="font-weight-bold">
           {values?.bankAccountNo?.bankName}
         </p>
-        <p style={{ fontSize: "10px" }} className="font-weight-bold">
+        <p style={{ fontSize: '10px' }} className="font-weight-bold">
           {values?.bankAccountNo?.address}
         </p>
         <p
           className="font-weight-bold"
           style={{
-            textDecoration: "underline",
-            fontSize: "10px",
+            textDecoration: 'underline',
+            fontSize: '10px',
           }}
         >
           Subject :Payment Instruction by fund transfer
         </p>
         <p
-          style={{ fontSize: "10px" }}
+          style={{ fontSize: '10px' }}
           className="dearSirSpace font-weight-bold"
         >
           Dear Sir,
         </p>
-        <p style={{ fontSize: "10px" }} className="font-weight-bold">
+        <p style={{ fontSize: '10px' }} className="font-weight-bold">
           {`We do hereby requesting you to make
   payment by transferring the amount to the
   respective Account Holder as shown below
   in detailed by debiting our CD Account No.
   ${values?.bankAccountNo?.bankAccNo}`}
         </p>
-        <p style={{ fontSize: "10px" }} className="font-weight-bold">
+        <p style={{ fontSize: '10px' }} className="font-weight-bold">
           Detailed particulars of each Account Holder:
         </p>
       </div>
@@ -99,117 +98,117 @@ const FormatThree = ({
           <tr>
             <td
               style={{
-                width: "115px",
-                border: "1px solid #000",
-                textAlign: "center",
+                width: '115px',
+                border: '1px solid #000',
+                textAlign: 'center',
               }}
             >
               Account Name
             </td>
             <td
               style={{
-                width: "53px",
-                border: "1px solid #000",
-                textAlign: "center",
+                width: '53px',
+                border: '1px solid #000',
+                textAlign: 'center',
               }}
             >
               Code No
             </td>
             <td
               style={{
-                width: "120px",
-                border: "1px solid #000",
-                textAlign: "center",
+                width: '120px',
+                border: '1px solid #000',
+                textAlign: 'center',
               }}
             >
               Bank Name
             </td>
             <td
               style={{
-                width: "70px",
-                border: "1px solid #000",
-                textAlign: "center",
+                width: '70px',
+                border: '1px solid #000',
+                textAlign: 'center',
               }}
             >
               Branch Name
             </td>
             <td
               style={{
-                width: "50px",
-                border: "1px solid #000",
-                textAlign: "center",
+                width: '50px',
+                border: '1px solid #000',
+                textAlign: 'center',
               }}
             >
               A/C Type
             </td>
             <td
               style={{
-                width: "80px",
-                border: "1px solid #000",
-                textAlign: "center",
+                width: '80px',
+                border: '1px solid #000',
+                textAlign: 'center',
               }}
             >
               Account No
             </td>
             <td
               style={{
-                width: "57px",
-                border: "1px solid #000",
-                textAlign: "center",
+                width: '57px',
+                border: '1px solid #000',
+                textAlign: 'center',
               }}
             >
-              Amount{" "}
+              Amount{' '}
             </td>
             <td
               style={{
-                width: "70px",
-                border: "1px solid #000",
-                textAlign: "center",
+                width: '70px',
+                border: '1px solid #000',
+                textAlign: 'center',
               }}
             >
               Payment Info
             </td>
             <td
               style={{
-                width: "110px",
-                border: "1px solid #000",
-                textAlign: "center",
+                width: '110px',
+                border: '1px solid #000',
+                textAlign: 'center',
               }}
             >
               Comments
             </td>
             <td
               style={{
-                width: "80px",
-                border: "1px solid #000",
-                textAlign: "center",
+                width: '80px',
+                border: '1px solid #000',
+                textAlign: 'center',
               }}
             >
               Routing No
             </td>
             <td
               style={{
-                width: "80px",
-                border: "1px solid #000",
-                textAlign: "center",
+                width: '80px',
+                border: '1px solid #000',
+                textAlign: 'center',
               }}
             >
               Instrument No
             </td>
             <td
               style={{
-                width: "35px",
-                border: "1px solid #000",
-                textAlign: "center",
+                width: '35px',
+                border: '1px solid #000',
+                textAlign: 'center',
               }}
             >
               Sl No
             </td>
             <td
               style={{
-                border: "1px solid #000",
-                textAlign: "center",
-                width: "100px",
+                border: '1px solid #000',
+                textAlign: 'center',
+                width: '100px',
               }}
             >
               Debit Account
@@ -224,7 +223,7 @@ const FormatThree = ({
               <tr key={index}>
                 <td
                   style={{
-                    border: "1px solid #000",
+                    border: '1px solid #000',
                   }}
                   className="text-left"
                 >
@@ -239,7 +238,7 @@ const FormatThree = ({
                 </td>
                 <td
                   style={{
-                    border: "1px solid #000",
+                    border: '1px solid #000',
                   }}
                 >
                   <div
@@ -252,7 +251,7 @@ const FormatThree = ({
                 </td>
                 <td
                   style={{
-                    border: "1px solid #000",
+                    border: '1px solid #000',
                   }}
                 >
                   <div
@@ -266,7 +265,7 @@ const FormatThree = ({
                 </td>
                 <td
                   style={{
-                    border: "1px solid #000",
+                    border: '1px solid #000',
                   }}
                 >
                   <div
@@ -280,7 +279,7 @@ const FormatThree = ({
                 </td>
                 <td
                   style={{
-                    border: "1px solid #000",
+                    border: '1px solid #000',
                   }}
                 >
                   <div
@@ -294,7 +293,7 @@ const FormatThree = ({
                 </td>
                 <td
                   style={{
-                    border: "1px solid #000",
+                    border: '1px solid #000',
                   }}
                 >
                   <div
@@ -303,13 +302,13 @@ const FormatThree = ({
                       ...(fontSize && { fontSize }),
                     }}
                   >
-                    <span className="d-none">{` ${"\u200C"} `}</span>
+                    <span className="d-none">{` ${'\u200C'} `}</span>
                     <span>{itm?.strBankAccountNo}</span>
                   </div>
                 </td>
                 <td
                   style={{
-                    border: "1px solid #000",
+                    border: '1px solid #000',
                   }}
                 >
                   <div
@@ -323,7 +322,7 @@ const FormatThree = ({
                 </td>
                 <td
                   style={{
-                    border: "1px solid #000",
+                    border: '1px solid #000',
                   }}
                 >
                   <div
@@ -332,12 +331,12 @@ const FormatThree = ({
                       ...(fontSize && { fontSize }),
                     }}
                   >
-                    {itm?.strPaymentReff || "N/A"}
+                    {itm?.strPaymentReff || 'N/A'}
                   </div>
                 </td>
                 <td
                   style={{
-                    border: "1px solid #000",
+                    border: '1px solid #000',
                   }}
                 >
                   <div
@@ -351,7 +350,7 @@ const FormatThree = ({
                 </td>
                 <td
                   style={{
-                    border: "1px solid #000",
+                    border: '1px solid #000',
                   }}
                 >
                   <div
@@ -360,13 +359,13 @@ const FormatThree = ({
                       ...(fontSize && { fontSize }),
                     }}
                   >
-                    <span className="d-none">{` ${"\u200C"} `}</span>
+                    <span className="d-none">{` ${'\u200C'} `}</span>
                     <span>{itm?.strRoutingNumber}</span>
                   </div>
                 </td>
                 <td
                   style={{
-                    border: "1px solid #000",
+                    border: '1px solid #000',
                   }}
                 >
                   <div
@@ -380,7 +379,7 @@ const FormatThree = ({
                 </td>
                 <td
                   style={{
-                    border: "1px solid #000",
+                    border: '1px solid #000',
                   }}
                 >
                   <div
@@ -389,15 +388,15 @@ const FormatThree = ({
                       ...(fontSize && { fontSize }),
                     }}
                   >
-                    {" "}
+                    {' '}
                     {index + 1}
                   </div>
                 </td>
 
                 <td
                   style={{
-                    border: "1px solid #000",
-                    textAlign: "center",
+                    border: '1px solid #000',
+                    textAlign: 'center',
                   }}
                 >
                   {values?.bankAccountNo?.bankAccNo}
@@ -414,8 +413,8 @@ const FormatThree = ({
             <td
               className="font-weight-bold"
               style={{
-                border: "1px solid #000",
-                fontWeight: "bold",
+                border: '1px solid #000',
+                fontWeight: 'bold',
               }}
             >
               <div className="font-weight-bold text-left pl-2 text-right">
@@ -426,8 +425,8 @@ const FormatThree = ({
               align="right"
               className="font-weight-bold"
               style={{
-                border: "1px solid #000",
-                fontWeight: "bold",
+                border: '1px solid #000',
+                fontWeight: 'bold',
               }}
             >
               <div className="font-weight-bold text-right">
@@ -440,42 +439,42 @@ const FormatThree = ({
             <td></td>
             <td></td>
             <td
-                style={{
-                  border: "1px solid #000",
-                  textAlign: "center",
-                }}
-              >
-                {/* {values?.bankAccountNo?.bankAccNo} */}
-              </td>
+              style={{
+                border: '1px solid #000',
+                textAlign: 'center',
+              }}
+            >
+              {/* {values?.bankAccountNo?.bankAccNo} */}
+            </td>
           </tr>
         </tbody>
       </table>
       <p
         className="font-weight-bold mt-5"
         style={{
-          textTransform: "capitalize",
-          fontSize: "11px",
+          textTransform: 'capitalize',
+          fontSize: '11px',
         }}
       >
         In Word: {adviceReportData.length > 0 && totalInWords} Taka Only
       </p>
-      <p className="font-weight-bold" style={{ fontSize: "11px" }}>
+      <p className="font-weight-bold" style={{ fontSize: '11px' }}>
         For {selectedBusinessUnit?.label}
       </p>
-      <div className="font-weight-bold " style={{ marginTop: "60px" }}>
+      <div className="font-weight-bold " style={{ marginTop: '60px' }}>
         <div className="d-flex">
           <h6
             style={{
-              marginRight: "50px",
-              fontSize: "11px",
+              marginRight: '50px',
+              fontSize: '11px',
             }}
           >
             Authorize Signature
           </h6>
           <h6
             style={{
-              marginRight: "50px",
-              fontSize: "11px",
+              marginRight: '50px',
+              fontSize: '11px',
             }}
           >
             Authorize Signature

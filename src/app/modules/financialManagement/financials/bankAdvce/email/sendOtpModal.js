@@ -1,24 +1,20 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Formik } from "formik";
-import React, { useMemo, useState } from "react";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { Formik } from 'formik';
+import React, { useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 export default function SendOtpToEmailModal({ objProps }) {
   const {
     profileData,
     adviceReportData,
-    setAdviceReportData,
     sendingOtpToEmailResponse,
     selectedBusinessUnit,
     values: landingValues,
-    setSCBModalShow,
   } = objProps;
-  // console.log(objProps);
 
   const [verified, setVerified] = useState(false);
   const [confirmClicked, setConfirmClicked] = useState(false);
@@ -36,19 +32,19 @@ export default function SendOtpToEmailModal({ objProps }) {
   // console.log(confirmSalaryDisbursementResponse);
 
   // formik init data
-  const initData = { otp: "" };
+  const initData = { otp: '' };
 
   // validation schema of otp
   const validationSchema = Yup.object({
     otp: Yup.string()
-      .matches(/^\S+$/, "OTP cannot contain spaces")
-      .required("OTP is required"),
+      .matches(/^\S+$/, 'OTP cannot contain spaces')
+      .required('OTP is required'),
   });
 
   // generate salary disbursement payload
   const generateSCBDisbursementPayload = (landingValues) => {
     const filterdData = adviceReportData?.filter((item) =>
-      Boolean(item?.checked)
+      Boolean(item?.checked),
     );
 
     const modifyData = filterdData.map((item) => {
@@ -72,7 +68,7 @@ export default function SendOtpToEmailModal({ objProps }) {
       return {
         dteSalaryDate: dateTime,
         intBusinessUnitId: selectedBusinessUnit?.value,
-        strReferenceId: "",
+        strReferenceId: '',
         dteDate: dateTime,
         intBankAccountId: bankAccountNo?.value,
         intBankId: bankAccountNo?.bankId,
@@ -85,7 +81,7 @@ export default function SendOtpToEmailModal({ objProps }) {
         strInstrumentType: adviceType?.label,
         numAmount: numAmount,
         isSuccess: true,
-        strResponse: "",
+        strResponse: '',
         intActionBy: profileData?.accountId,
         intSalaryGenerateHeaderId: item?.intPkReferenceId,
         intEmployeeId: intEmployeeId,
@@ -110,7 +106,7 @@ export default function SendOtpToEmailModal({ objProps }) {
     profileData,
     selectedBusinessUnit,
     adviceReportData,
-    cb
+    cb,
   ) => {
     // generate scb disbursement payload
     const payload = generateSCBDisbursementPayload(landingValues);
@@ -119,7 +115,7 @@ export default function SendOtpToEmailModal({ objProps }) {
     if (!confirmClicked) {
       // confirm disbursement
       confirmSalaryDisbursement(
-        "/fino/Disburse/SaveBankAdviceDirect",
+        '/fino/Disburse/SaveBankAdviceDirect',
         payload,
         (response) => {
           // status code
@@ -141,21 +137,21 @@ export default function SendOtpToEmailModal({ objProps }) {
           // setSCBModalShow(false);
         },
         false,
-        "Salary disbursement complement",
-        "Salary disbursement not complement"
+        'Salary disbursement complement',
+        'Salary disbursement not complement',
         // () => {
         //   setAdviceReportData([]);
         //   setSCBModalShow(false);
         // }
       );
     } else {
-      return toast.warn("Maximum limit reached!");
+      return toast.warn('Maximum limit reached!');
     }
   };
 
   const totalAmount = useMemo(
     () => adviceReportData.reduce((acc, item) => acc + +item.numAmount, 0),
-    [adviceReportData]
+    [adviceReportData],
   );
 
   // console.log(adviceReportData?.filter((item) => Boolean(item?.checked)));
@@ -172,9 +168,9 @@ export default function SendOtpToEmailModal({ objProps }) {
       },
       () => setVerified(true),
       true,
-      "OTP verified",
-      "OTP not verified",
-      () => setVerified(false)
+      'OTP verified',
+      'OTP not verified',
+      () => setVerified(false),
     );
   };
 
@@ -196,7 +192,7 @@ export default function SendOtpToEmailModal({ objProps }) {
           adviceReportData,
           () => {
             resetForm(initData);
-          }
+          },
         );
       }}
     >
@@ -237,7 +233,7 @@ export default function SendOtpToEmailModal({ objProps }) {
                         placeholder="******"
                         name="otp"
                         onChange={(e) => {
-                          setFieldValue("otp", e.target.value);
+                          setFieldValue('otp', e.target.value);
                         }}
                       />
                     </div>
@@ -265,13 +261,13 @@ export default function SendOtpToEmailModal({ objProps }) {
             <section className="mt-3">
               <div className="d-flex flex-row justify-content-between align-items-center mb-3">
                 <h6>
-                  Total{" "}
+                  Total{' '}
                   <strong className="text-primary">
                     {
                       adviceReportData?.filter((item) => Boolean(item?.checked))
                         ?.length
                     }
-                  </strong>{" "}
+                  </strong>{' '}
                   accounts are selected for salary disbursement.
                 </h6>
 
@@ -292,7 +288,7 @@ export default function SendOtpToEmailModal({ objProps }) {
                 <div className="table-responsive">
                   <table
                     className={`table table-bordered global-table mt-0 table-font-size-sm advice_table ${!verified &&
-                      "table-striped "}`}
+                      'table-striped '}`}
                   >
                     <thead className="bg-secondary">
                       <tr>
@@ -311,7 +307,7 @@ export default function SendOtpToEmailModal({ objProps }) {
                         <th>Status</th>
                       </tr>
                     </thead>
-                    <tbody className={!verified ? "bg-secondary" : ""}>
+                    <tbody className={!verified ? 'bg-secondary' : ''}>
                       {adviceReportData
                         ?.filter((item) => Boolean(item?.checked))
                         .map((item, index) => (
@@ -319,8 +315,8 @@ export default function SendOtpToEmailModal({ objProps }) {
                             key={index}
                             className={
                               item?.printCount || item?.mailCount
-                                ? "font_color_red"
-                                : ""
+                                ? 'font_color_red'
+                                : ''
                             }
                           >
                             <td>{index + 1}</td>
@@ -338,7 +334,7 @@ export default function SendOtpToEmailModal({ objProps }) {
                             <td>{item?.strPayee}</td>
                             <td>{item?.strRoutingNumber}</td>
                             <td>
-                              P-{item?.printCount}, M-{item?.mailCount}{" "}
+                              P-{item?.printCount}, M-{item?.mailCount}{' '}
                             </td>
                           </tr>
                         ))}

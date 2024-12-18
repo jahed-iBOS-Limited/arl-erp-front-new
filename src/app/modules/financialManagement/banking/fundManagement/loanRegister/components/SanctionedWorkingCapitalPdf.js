@@ -1,9 +1,8 @@
-import React from "react";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { formatDate } from "./utils";
-import { _formatMoney } from "../../../../../_helper/_formatMoney";
-import moment from "moment";
-const marginBottom = "9px";
+import moment from 'moment';
+import React from 'react';
+import { _formatMoney } from '../../../../../_helper/_formatMoney';
+import { formatDate } from './utils';
+const marginBottom = '9px';
 const SanctionedWorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
   const {
     bankShortName,
@@ -17,18 +16,17 @@ const SanctionedWorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
     numInterestRate,
     bankBranchName,
     sanctionReference,
-    loanTypeName,
     intTenureDays,
   } = singleItem || {};
   const { buShortName, label } = selectedBusinessUnit;
 
   const lacks =
-    numPrinciple > 0 ? `${Math.round(numPrinciple / 100000)}L` : "0L";
+    numPrinciple > 0 ? `${Math.round(numPrinciple / 100000)}L` : '0L';
   return (
-    <div style={{ margin: "40px 71px 0px" }}>
+    <div style={{ margin: '40px 71px 0px' }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Ref : {buShortName}/{bankShortName}/STL/{lacks}/
-        {moment(dteStartDate).format("YYYY.MM.DD")}
+        {moment(dteStartDate).format('YYYY.MM.DD')}
       </p>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Date : {formatDate(dteStartDate)}
@@ -39,8 +37,8 @@ const SanctionedWorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{ marginBottom }}>{bankBranchAddress}</p>
 
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Subject : Request for disbursement of {facilityName} of BDT{" "}
-        {_formatMoney(numPrinciple)} with {intTenureDays} days tenor against{" "}
+        Subject : Request for disbursement of {facilityName} of BDT{' '}
+        {_formatMoney(numPrinciple)} with {intTenureDays} days tenor against{' '}
         {label} A/C No: {strBankAccountNumber}.
       </p>
 
@@ -48,21 +46,21 @@ const SanctionedWorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{ marginBottom }}>Greetings from Akij Group,</p>
       <p style={{ marginBottom }}>
         We are delighted to inform you that, {label} has been availing a credit
-        facility {"("}Ref:{" "}
+        facility {'('}Ref:{' '}
         <span class="font-weight-bolder">{sanctionReference}</span>
-        {") "}
-        of{" "}
+        {') '}
+        of{' '}
         <span className="font-weight-bolder">
           BDT {_formatMoney(fundLimitAmount)}
-        </span>{" "}
+        </span>{' '}
         from your Bank.
       </p>
       <p style={{ marginBottom }}>
-        Now we are seeking disbursement of BDT{" "}
+        Now we are seeking disbursement of BDT{' '}
         <span className="font-weight-bolder">
-          {_formatMoney(numPrinciple)}{" "}
-        </span>{" "}
-        as {facilityName} with a{" "}
+          {_formatMoney(numPrinciple)}{' '}
+        </span>{' '}
+        as {facilityName} with a{' '}
         <span class="font-weight-bolder">
           {intTenureDays} days tenor @{numInterestRate}%
         </span>
@@ -70,10 +68,10 @@ const SanctionedWorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
       </p>
       <p style={{ marginBottom }}>
         We would be very much thankful if you kindly accommodate the
-        above-mentioned facilities request,{" "}
+        above-mentioned facilities request,{' '}
         <span className="font-weight-bolder">
           send the disbursed loan statement voucher,
-        </span>{" "}
+        </span>{' '}
         and help us grow with your Bank’s support.
       </p>
       <p style={{ marginBottom }}>Kind Regards,</p>
@@ -82,8 +80,8 @@ const SanctionedWorkingCapitalPdf = ({ singleItem, selectedBusinessUnit }) => {
         For, <span className="font-weight-bolder">{label}</span>
       </p>
 
-      <div className="d-flex" style={{ marginTop: "90px" }}>
-        <p style={{ marginRight: "50px" }}>Authorized Signatory</p>
+      <div className="d-flex" style={{ marginTop: '90px' }}>
+        <p style={{ marginRight: '50px' }}>Authorized Signatory</p>
         <p>Authorized Signatory</p>
       </div>
     </div>

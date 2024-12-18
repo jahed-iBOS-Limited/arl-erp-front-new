@@ -1,20 +1,20 @@
-import axios from "axios";
-import { Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import TextArea from "../../../../_helper/TextArea";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import FormikError from "../../../../_helper/_formikError";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import axios from 'axios';
+import { Formik } from 'formik';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import TextArea from '../../../../_helper/TextArea';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import FormikError from '../../../../_helper/_formikError';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   allowDelegationMenuPermission,
   attachment_action,
@@ -22,20 +22,19 @@ import {
   checkDelegationMenuPermission,
   delegateComplainApi,
   getComplainByIdWidthOutModify,
-} from "../helper";
-import { set } from "lodash";
+} from '../helper';
 export const validationSchema = Yup.object().shape({
-  delegateDate: Yup.date().required("Delegate Date is required"),
-  delegateTo: Yup.string().required("Delegate To is required"),
+  delegateDate: Yup.date().required('Delegate Date is required'),
+  delegateTo: Yup.string().required('Delegate To is required'),
 });
 const initialValues = {
   delegateDate: _todayDate(),
-  delegateTo: "",
-  remarks: "",
-  delegateTime: moment().format("HH:mm"),
-  investigationPerson: "",
-  investigationDueDate: "",
-  attachmentRow: "",
+  delegateTo: '',
+  remarks: '',
+  delegateTime: moment().format('HH:mm'),
+  investigationPerson: '',
+  investigationDueDate: '',
+  attachmentRow: '',
 };
 function DelegateForm({ clickRowData, landingCB }) {
   const [open, setOpen] = useState(false);
@@ -49,7 +48,6 @@ function DelegateForm({ clickRowData, landingCB }) {
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
-    tokenData: { token },
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const dispatch = useDispatch();
@@ -58,7 +56,7 @@ function DelegateForm({ clickRowData, landingCB }) {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
+        `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`,
       )
       .then((res) => {
         return res?.data?.map((itm) => ({
@@ -71,15 +69,15 @@ function DelegateForm({ clickRowData, landingCB }) {
 
   const saveHandler = (values, cb) => {
     let delegateDateTime = moment(
-      `${values?.delegateDate} ${values?.delegateTime}`
-    ).format("YYYY-MM-DDTHH:mm:ss");
+      `${values?.delegateDate} ${values?.delegateTime}`,
+    ).format('YYYY-MM-DDTHH:mm:ss');
 
     const payload = {
       complainId: singleData?.complainId || 0,
-      statusRemarks: values?.remarks || "",
+      statusRemarks: values?.remarks || '',
       delegateToId: values?.delegateTo?.value || 0,
       statusId: rowDto?.length === 0 ? 1 : 2,
-      status: rowDto?.length === 0 ? "Delegate" : "Investigate",
+      status: rowDto?.length === 0 ? 'Delegate' : 'Investigate',
       delegateDateTime: delegateDateTime,
       actionById: userId,
       investigationList: rowDto || [],
@@ -97,29 +95,29 @@ function DelegateForm({ clickRowData, landingCB }) {
         setSingleData(resData);
         if (formikRef.current) {
           formikRef.current.setFieldValue(
-            "remarks",
-            resData?.statusRemarks || ""
+            'remarks',
+            resData?.statusRemarks || '',
           );
           formikRef.current.setFieldValue(
-            "delegateTo",
+            'delegateTo',
             resData?.delegateToId
               ? {
                   value: resData?.delegateToId,
                   label: resData?.delegateToName,
                 }
-              : ""
+              : '',
           );
           formikRef.current.setFieldValue(
-            "delegateDate",
+            'delegateDate',
             resData?.delegateDateTime
-              ? moment(resData?.delegateDateTime).format("YYYY-MM-DD")
-              : _todayDate()
+              ? moment(resData?.delegateDateTime).format('YYYY-MM-DD')
+              : _todayDate(),
           );
           formikRef.current.setFieldValue(
-            "delegateTime",
+            'delegateTime',
             resData?.delegateDateTime
-              ? moment(resData?.delegateDateTime).format("HH:mm")
-              : moment().format("HH:mm")
+              ? moment(resData?.delegateDateTime).format('HH:mm')
+              : moment().format('HH:mm'),
           );
         }
       });
@@ -148,7 +146,7 @@ function DelegateForm({ clickRowData, landingCB }) {
           resetForm,
         }) => (
           <ICustomCard
-            title={" Delegate "}
+            title={' Delegate '}
             saveHandler={() => {
               handleSubmit();
             }}
@@ -159,9 +157,9 @@ function DelegateForm({ clickRowData, landingCB }) {
             {loading && <Loading />}
             <div
               style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "space-between",
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-between',
               }}
             >
               <div>
@@ -175,14 +173,14 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <b>Sub Issue Type:</b> {singleData?.complainSubCategoryName}
                 </p>
                 <p>
-                  <b>Occurrence Date Time: </b>{" "}
+                  <b>Occurrence Date Time: </b>{' '}
                   {singleData?.requestDateTime &&
                     moment(singleData?.requestDateTime).format(
-                      "YYYY-MM-DD"
-                    )}{" "}
+                      'YYYY-MM-DD',
+                    )}{' '}
                   {singleData?.occurrenceTime &&
-                    moment(singleData?.occurrenceTime, "HH:mm:ss").format(
-                      "hh:mm A"
+                    moment(singleData?.occurrenceTime, 'HH:mm:ss').format(
+                      'hh:mm A',
                     )}
                 </p>
 
@@ -199,7 +197,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <b>Respondent Contact:</b> {singleData?.contactNo}
                 </p>
                 <p>
-                  <b>Business Unit:</b>{" "}
+                  <b>Business Unit:</b>{' '}
                   {singleData?.respondentBusinessUnitIdName}
                 </p>
                 <p>
@@ -211,25 +209,25 @@ function DelegateForm({ clickRowData, landingCB }) {
               </div>
               <div>
                 <p>
-                  <b>Create Date: </b>{" "}
+                  <b>Create Date: </b>{' '}
                   {singleData?.lastActionDateTime &&
                     moment(singleData?.lastActionDateTime).format(
-                      "YYYY-MM-DD hh:mm A"
+                      'YYYY-MM-DD hh:mm A',
                     )}
                 </p>
                 <p>
-                  <b>Distribution Channel:</b>{" "}
+                  <b>Distribution Channel:</b>{' '}
                   {singleData?.distributionChannelName}
                 </p>
                 <p>
                   <b>Product Category:</b> {singleData?.itemCategoryName}
                 </p>
-                {singleData?.respondentTypeName === "Employee" && (
+                {singleData?.respondentTypeName === 'Employee' && (
                   <p>
                     <b> Work Place:</b> {singleData?.workPlace}
                   </p>
                 )}
-                {singleData?.respondentTypeName === "End User" && (
+                {singleData?.respondentTypeName === 'End User' && (
                   <>
                     <p>
                       <b>Territory Name:</b> {singleData?.territoryName}
@@ -251,12 +249,12 @@ function DelegateForm({ clickRowData, landingCB }) {
                 </p>
                 <span
                   className="text-primary"
-                  style={{ textDecoration: "underline", cursor: "pointer" }}
+                  style={{ textDecoration: 'underline', cursor: 'pointer' }}
                   onClick={() => {
                     allowDelegationMenuPermission(
                       values,
                       setLoading,
-                      setIsPermitted
+                      setIsPermitted,
                     );
                   }}
                 >
@@ -269,14 +267,14 @@ function DelegateForm({ clickRowData, landingCB }) {
                 <div className="col-lg-3">
                   <div
                     style={{
-                      display: "flex",
-                      gap: "0px 5px",
-                      alignItems: "end",
+                      display: 'flex',
+                      gap: '0px 5px',
+                      alignItems: 'end',
                     }}
                   >
                     <div>
                       <label>
-                        <b style={{ color: "red" }}>* </b> Delegate Date
+                        <b style={{ color: 'red' }}>* </b> Delegate Date
                       </label>
                       <InputField
                         value={values?.delegateDate}
@@ -298,10 +296,10 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <label>
                     <b
                       style={{
-                        color: "red",
+                        color: 'red',
                       }}
                     >
-                      *{" "}
+                      *{' '}
                     </b>
                     Delegate To
                   </label>
@@ -314,9 +312,9 @@ function DelegateForm({ clickRowData, landingCB }) {
                         checkDelegationMenuPermission(
                           valueOption?.value,
                           setLoading,
-                          setIsPermitted
+                          setIsPermitted,
                         );
-                        setFieldValue("delegateTo", valueOption || "");
+                        setFieldValue('delegateTo', valueOption || '');
                       } else {
                         setIsPermitted(true);
                       }
@@ -334,12 +332,12 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <label>Remarks</label>
                   <TextArea
                     name="remarks"
-                    value={values?.remarks || ""}
+                    value={values?.remarks || ''}
                     placeholder="Remarks"
                     touched={touched}
                     rows="2"
                     onChange={(e) => {
-                      setFieldValue("remarks", e.target.value);
+                      setFieldValue('remarks', e.target.value);
                     }}
                     errors={errors}
                   />
@@ -350,7 +348,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                       className="btn btn-primary mr-2 mt-2"
                       type="button"
                       onClick={() => setOpen(true)}
-                      style={{ padding: "4px 5px" }}
+                      style={{ padding: '4px 5px' }}
                     >
                       Attachment
                     </button>
@@ -363,7 +361,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.attachment)
+                            getDownlloadFileView_Action(values?.attachment),
                           );
                         }}
                       >
@@ -381,13 +379,13 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <SearchAsyncSelect
                     selectedValue={values?.investigationPerson}
                     handleChange={(valueOption) => {
-                      setFieldValue("investigationPerson", valueOption || "");
+                      setFieldValue('investigationPerson', valueOption || '');
                     }}
                     loadOptions={(v) => {
                       if (v?.length < 2) return [];
                       return axios
                         .get(
-                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
+                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`,
                         )
                         .then((res) => {
                           return res?.data?.map((itm) => ({
@@ -420,7 +418,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                       className="btn btn-primary mr-2 mt-3"
                       type="button"
                       onClick={() => setOpenRow(true)}
-                      style={{ padding: "4px 5px" }}
+                      style={{ padding: '4px 5px' }}
                     >
                       Attachment
                     </button>
@@ -433,7 +431,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.attachmentRow)
+                            getDownlloadFileView_Action(values?.attachmentRow),
                           );
                         }}
                       >
@@ -452,28 +450,28 @@ function DelegateForm({ clickRowData, landingCB }) {
                         autoId: 0,
                         investigatorId: values?.investigationPerson?.value || 0,
                         investigatorName:
-                          values?.investigationPerson?.label || "",
+                          values?.investigationPerson?.label || '',
                         investigationDueDate: moment(
-                          values?.investigationDueDate || undefined
-                        ).format("YYYY-MM-DD"),
-                        investigationDateTime: "",
-                        rootCause: "",
-                        correctiveAction: "",
-                        attachment: values?.attachmentRow || "",
+                          values?.investigationDueDate || undefined,
+                        ).format('YYYY-MM-DD'),
+                        investigationDateTime: '',
+                        rootCause: '',
+                        correctiveAction: '',
+                        attachment: values?.attachmentRow || '',
                         isActive: true,
                       };
                       // duplicate check
                       const duplicateCheck = rowDto?.some(
-                        (itm) => itm?.investigatorId === obj?.investigatorId
+                        (itm) => itm?.investigatorId === obj?.investigatorId,
                       );
                       if (duplicateCheck) {
-                        return toast.warn("Investigation Person Already Added");
+                        return toast.warn('Investigation Person Already Added');
                       }
                       setRowDto([...rowDto, obj]);
-                      setFieldValue("investigationPerson", "");
-                      setFieldValue("investigationDueDate", "");
-                      setFieldValue("attachmentRow", "");
-                      setFieldValue("delegateTo", "");
+                      setFieldValue('investigationPerson', '');
+                      setFieldValue('investigationDueDate', '');
+                      setFieldValue('attachmentRow', '');
+                      setFieldValue('delegateTo', '');
                       setIsPermitted(true);
                     }}
                     disabled={
@@ -508,8 +506,8 @@ function DelegateForm({ clickRowData, landingCB }) {
                                 onClick={() => {
                                   dispatch(
                                     getDownlloadFileView_Action(
-                                      item?.attachment
-                                    )
+                                      item?.attachment,
+                                    ),
                                   );
                                 }}
                               >
@@ -522,7 +520,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                             <span
                               onClick={() => {
                                 const newData = rowDto.filter(
-                                  (itm, idx) => idx !== index
+                                  (itm, idx) => idx !== index,
                                 );
                                 setRowDto(newData);
                               }}
@@ -543,10 +541,10 @@ function DelegateForm({ clickRowData, landingCB }) {
 
             <DropzoneDialogBase
               filesLimit={1}
-              acceptedFiles={["image/*", "application/pdf"]}
+              acceptedFiles={['image/*', 'application/pdf']}
               fileObjects={fileObjects}
-              cancelButtonText={"cancel"}
-              submitButtonText={"submit"}
+              cancelButtonText={'cancel'}
+              submitButtonText={'submit'}
               maxFileSize={1000000}
               open={open}
               onAdd={(newFileObjs) => {
@@ -554,7 +552,7 @@ function DelegateForm({ clickRowData, landingCB }) {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name
+                  (item) => item.file.name !== deleteFileObj.file.name,
                 );
                 setFileObjects(newData);
               }}
@@ -569,10 +567,10 @@ function DelegateForm({ clickRowData, landingCB }) {
 
             <DropzoneDialogBase
               filesLimit={1}
-              acceptedFiles={["image/*", "application/pdf"]}
+              acceptedFiles={['image/*', 'application/pdf']}
               fileObjects={fileObjectsRow}
-              cancelButtonText={"cancel"}
-              submitButtonText={"submit"}
+              cancelButtonText={'cancel'}
+              submitButtonText={'submit'}
               maxFileSize={1000000}
               open={openRow}
               onAdd={(newFileObjs) => {
@@ -580,7 +578,7 @@ function DelegateForm({ clickRowData, landingCB }) {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjectsRow.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name
+                  (item) => item.file.name !== deleteFileObj.file.name,
                 );
                 setFileObjectsRow(newData);
               }}

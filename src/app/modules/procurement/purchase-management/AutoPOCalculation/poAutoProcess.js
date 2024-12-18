@@ -1,64 +1,56 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import NewSelect from "../../../_helper/_select";
-import { IInput } from "../../../_helper/_input";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import Select from "react-select";
-import customStyles from "../../../selectCustomStyle";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import IForm from '../../../_helper/_form';
+import { IInput } from '../../../_helper/_input';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  businessUnit: "",
-  itemSubCategory: "",
-  itemCategory: "",
-  itemType: "",
+  businessUnit: '',
+  itemSubCategory: '',
+  itemCategory: '',
+  itemType: '',
 };
 
 const validationSchema = Yup.object().shape({
   businessUnit: Yup.object().shape({
-    label: Yup.string().required("Business Unit is required"),
-    value: Yup.string().required("Business Unit is required"),
+    label: Yup.string().required('Business Unit is required'),
+    value: Yup.string().required('Business Unit is required'),
   }),
   itemSubCategory: Yup.object().shape({
-    label: Yup.string().required("Item Sub Category is required"),
-    value: Yup.string().required("Item Sub Category is required"),
+    label: Yup.string().required('Item Sub Category is required'),
+    value: Yup.string().required('Item Sub Category is required'),
   }),
   itemCategory: Yup.object().shape({
-    label: Yup.string().required("Item Category is required"),
-    value: Yup.string().required("Item Category is required"),
+    label: Yup.string().required('Item Category is required'),
+    value: Yup.string().required('Item Category is required'),
   }),
   itemType: Yup.object().shape({
-    label: Yup.string().required("Items type is required"),
-    value: Yup.string().required("Items type is required"),
+    label: Yup.string().required('Items type is required'),
+    value: Yup.string().required('Items type is required'),
   }),
 });
 export default function POAutoProcess() {
   const saveHandler = (values, cb) => {};
   const [autoPOData, getAutoPOData, loading, setAutoPOData] = useAxiosGet();
   const [, onCreatePOHandler, loader] = useAxiosPost();
-  const [
-    itemTypeList,
-    getitemTypeList,
-    itemTypeLoading,
-    setItemTypeList,
-  ] = useAxiosGet();
+  const [itemTypeList, getitemTypeList, , setItemTypeList] = useAxiosGet();
   const [
     itemCategoryList,
     getCategoryData,
-    categoryLoading,
+    ,
     setItemCategoryList,
   ] = useAxiosGet();
   const [
     itemSubCategoryList,
     getSubCategoryData,
-    subCategoryLoading,
+    ,
     setItemSubCategoryList,
   ] = useAxiosGet();
 
@@ -71,12 +63,9 @@ export default function POAutoProcess() {
   ] = useAxiosGet();
   const [allSelect, setAllSelect] = useState(false);
   // get selected business unit from store
-  const { selectedBusinessUnit, profileData, businessUnitList } = useSelector(
-    (state) => {
-      return state.authData;
-    },
-    shallowEqual
-  );
+  const { profileData, businessUnitList } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
 
   useEffect(() => {
     getitemTypeList(`/item/ItemCategory/GetItemTypeListDDL`, (data) => {
@@ -89,6 +78,7 @@ export default function POAutoProcess() {
       });
       setItemTypeList(modData);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const categoryApiCaller = async (typeId, values) => {
@@ -103,7 +93,7 @@ export default function POAutoProcess() {
           };
         });
         setItemCategoryList(modData);
-      }
+      },
     );
   };
 
@@ -119,7 +109,7 @@ export default function POAutoProcess() {
           };
         });
         setItemSubCategoryList(modData);
-      }
+      },
     );
   };
 
@@ -136,6 +126,7 @@ export default function POAutoProcess() {
       };
     });
     setAutoPOData(poauto);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allSelect]);
 
   const payloadMapping = (data) => {
@@ -146,18 +137,18 @@ export default function POAutoProcess() {
         businessUnitId: item?.businessUnitId || 0,
         sbuId: item?.sbuId || 0,
         plantId: item?.plantId || 0,
-        plantName: item?.plantName || "",
+        plantName: item?.plantName || '',
         warehouseId: item?.warehouseId || 0,
         purchaseOrganizationId: item?.purchaseOrganizationId || 0,
         supplierId: item?.rows ? item?.rows[0]?.value : 0,
-        supplierName: item?.rows ? item?.rows[0]?.label : "",
+        supplierName: item?.rows ? item?.rows[0]?.label : '',
         purchaseRequestId: item?.purchaseRequestId || 0,
-        purchaseRequestCode: item?.purchaseRequestCode || "",
+        purchaseRequestCode: item?.purchaseRequestCode || '',
         restQuantity: item?.restQuantity || 0,
         itemId: item?.itemId || 0,
-        itemName: item?.itemName || "",
+        itemName: item?.itemName || '',
         uoMId: item?.uoMId || 0,
-        uoMName: item?.uoMName || "",
+        uoMName: item?.uoMName || '',
         itemRate: item?.itemRate || 0,
         finalPrice: item?.finalPrice || 0,
       }));
@@ -215,7 +206,7 @@ export default function POAutoProcess() {
                             () => {
                               getData(values);
                             },
-                            true
+                            true,
                           );
                         },
                         noAlertFunc: () => {},
@@ -239,15 +230,15 @@ export default function POAutoProcess() {
                       label="Business Unit"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("businessUnit", valueOption || "");
+                          setFieldValue('businessUnit', valueOption || '');
                           setAutoPOData([]);
                           getPlantDDL(
-                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}&OrgUnitTypeId=7`
+                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}&OrgUnitTypeId=7`,
                           );
                         } else {
-                          setFieldValue("businessUnit", "");
-                          setFieldValue("plant", "");
-                          setFieldValue("warehouse", "");
+                          setFieldValue('businessUnit', '');
+                          setFieldValue('plant', '');
+                          setFieldValue('warehouse', '');
                           setAutoPOData([]);
                           setPlantDDL([]);
                         }
@@ -264,14 +255,14 @@ export default function POAutoProcess() {
                       label="Plant"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("plant", valueOption || "");
+                          setFieldValue('plant', valueOption || '');
                           setAutoPOData([]);
                           getWarehouseDDL(
-                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
+                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`,
                           );
                         } else {
-                          setFieldValue("plant", "");
-                          setFieldValue("warehouse", "");
+                          setFieldValue('plant', '');
+                          setFieldValue('warehouse', '');
                           setAutoPOData([]);
                           setWarehouseDDL([]);
                         }
@@ -287,7 +278,7 @@ export default function POAutoProcess() {
                       value={values?.warehouse}
                       label="Warehouse"
                       onChange={(valueOption) => {
-                        setFieldValue("warehouse", valueOption || "");
+                        setFieldValue('warehouse', valueOption || '');
                         setAutoPOData([]);
                       }}
                       errors={errors}
@@ -314,19 +305,19 @@ export default function POAutoProcess() {
                     <NewSelect
                       name="status"
                       options={[
-                        { value: 1, label: "All" },
-                        { value: 2, label: "Process" },
-                        { value: 3, label: "Rate Agrement" },
+                        { value: 1, label: 'All' },
+                        { value: 2, label: 'Process' },
+                        { value: 3, label: 'Rate Agrement' },
                       ]}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
                         if (valueOption) {
                           setAutoPOData([]);
-                          setFieldValue("status", valueOption || "");
+                          setFieldValue('status', valueOption || '');
                         } else {
                           setAutoPOData([]);
-                          setFieldValue("status", "");
+                          setFieldValue('status', '');
                           setAutoPOData([]);
                         }
                       }}
@@ -342,8 +333,8 @@ export default function POAutoProcess() {
                       label="Select Item Type"
                       onChange={(valueOption) => {
                         categoryApiCaller(valueOption?.value, values);
-                        setFieldValue("itemCategory", "");
-                        setFieldValue("itemType", valueOption);
+                        setFieldValue('itemCategory', '');
+                        setFieldValue('itemType', valueOption);
                         setAutoPOData([]);
                       }}
                       errors={errors}
@@ -357,9 +348,9 @@ export default function POAutoProcess() {
                       value={values?.itemCategory}
                       label="Select Item Category"
                       onChange={(valueOption) => {
-                        setFieldValue("itemSubCategory", "");
+                        setFieldValue('itemSubCategory', '');
                         subcategoryApiCaller(valueOption?.value, values);
-                        setFieldValue("itemCategory", valueOption);
+                        setFieldValue('itemCategory', valueOption);
                         setAutoPOData([]);
                       }}
                       errors={errors}
@@ -373,7 +364,7 @@ export default function POAutoProcess() {
                       value={values?.itemSubCategory}
                       label="Select Item Sub-category"
                       onChange={(valueOption) => {
-                        setFieldValue("itemSubCategory", valueOption);
+                        setFieldValue('itemSubCategory', valueOption);
                         setAutoPOData([]);
                       }}
                       errors={errors}
@@ -396,7 +387,7 @@ export default function POAutoProcess() {
                           !values.itemCategory ||
                           !values.itemSubCategory
                         ) {
-                          toast.error("All fields are required");
+                          toast.error('All fields are required');
                           return;
                         }
                         getData(values);
@@ -448,7 +439,7 @@ export default function POAutoProcess() {
                                     onChange={(e) => {
                                       singleCheckBoxHandler(
                                         e.target.checked,
-                                        index
+                                        index,
                                       );
                                     }}
                                   />
@@ -456,10 +447,10 @@ export default function POAutoProcess() {
                                 <td>{index + 1}</td>
 
                                 <td className="text-left">
-                                  {item?.purchaseRequestCode || ""}
+                                  {item?.purchaseRequestCode || ''}
                                 </td>
                                 <td className="text-center">
-                                  {item?.purchaseRequestTypeName || ""}
+                                  {item?.purchaseRequestTypeName || ''}
                                 </td>
                                 <td className="text-center">
                                   {item?.itemCode}

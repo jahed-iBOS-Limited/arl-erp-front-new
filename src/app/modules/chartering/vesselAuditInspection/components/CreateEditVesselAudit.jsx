@@ -1,38 +1,35 @@
-import React, { useEffect, useState } from "react";
-import Loading from "../../../_helper/_loading";
-import { useHistory, useLocation } from "react-router-dom";
-import { useParams } from "react-router";
-import Form from "./form";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../_chartinghelper/_dateFormatter';
+import Form from './form';
 const initData = {
-  vesselType: "",
-  vessel: "",
+  vesselType: '',
+  vessel: '',
   date: _todayDate(),
-  dueDate: "",
-  vesselPosition: "",
-  status: "",
-  title: "",
-  category: "",
-  type: "",
-  description: "",
+  dueDate: '',
+  vesselPosition: '',
+  status: '',
+  title: '',
+  category: '',
+  type: '',
+  description: '',
   nc: false,
 };
 export default function CreateEditVesselAudit() {
   const { type, id } = useParams();
-
-  // eslint-disable-next-line no-unused-vars
-  const history = useHistory();
   const [loading, setLoading] = useState(false);
-  const [singleData, setSingleData] = useState({});
+  const [singleData] = useState({});
   const location = useLocation();
   const { state } = location;
   const [rowDto, setRowDto] = useState([]);
 
-  const [, getVesselAuditInspectionDetails, dettailLoader] = useAxiosGet();
-  const [res, createAndEditVesselAuditInspection, loader] = useAxiosPost();
+  const [, getVesselAuditInspectionDetails] = useAxiosGet();
+  const [, createAndEditVesselAuditInspection, loader] = useAxiosPost();
   useEffect(() => {
     if (id) {
       getVesselAuditInspectionDetails(
@@ -44,11 +41,11 @@ export default function CreateEditVesselAudit() {
               status: {
                 value: item?.strStatus,
                 label:
-                  item?.strStatus === "pending"
-                    ? "Pending"
-                    : item?.strStatus === "open"
-                    ? "Open"
-                    : "Close",
+                  item?.strStatus === 'pending'
+                    ? 'Pending'
+                    : item?.strStatus === 'open'
+                    ? 'Open'
+                    : 'Close',
               },
               dueDate: item?.dteDueDateTime,
               description: item?.strDescription,
@@ -56,9 +53,10 @@ export default function CreateEditVesselAudit() {
             };
           });
           setRowDto(modifyData);
-        }
+        },
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   /* Save Handler */
   const saveHandler = (payload) => {
@@ -68,7 +66,7 @@ export default function CreateEditVesselAudit() {
       `/hcm/VesselAuditInspection/CreateAndEditVesselAuditInspection`,
       payload,
       () => {},
-      true
+      true,
     );
   };
 
@@ -77,11 +75,11 @@ export default function CreateEditVesselAudit() {
       {(loading || loader) && <Loading />}
       <Form
         title={
-          type === "view"
-            ? "View Vessel Audit Inspection"
-            : type === "edit"
-            ? "Edit Vessel Audit Inspection"
-            : "Create Vessel Audit Inspection"
+          type === 'view'
+            ? 'View Vessel Audit Inspection'
+            : type === 'edit'
+            ? 'Edit Vessel Audit Inspection'
+            : 'Create Vessel Audit Inspection'
         }
         initData={
           id
@@ -90,9 +88,9 @@ export default function CreateEditVesselAudit() {
                 vesselType: {
                   value: state?.strVesselType,
                   label:
-                    state?.strVesselType === "LighterVessel"
-                      ? "Lighter Vessel"
-                      : "Mother Vessel",
+                    state?.strVesselType === 'LighterVessel'
+                      ? 'Lighter Vessel'
+                      : 'Mother Vessel',
                 },
                 vessel: {
                   value: state?.intVesselId,

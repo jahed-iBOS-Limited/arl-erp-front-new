@@ -1,54 +1,54 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import ICard from "../../../_helper/_card";
-import InputField from "../../../_helper/_inputField";
-import { _todayDate } from "../../../_helper/_todayDate";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import NewSelect from "../../../_helper/_select";
-import { YearDDL } from "../../../_helper/_yearDDL";
-import { getBankDDLAll } from "../../banking/fundManagement/helper";
-import * as Yup from "yup";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import ICard from '../../../_helper/_card';
+import InputField from '../../../_helper/_inputField';
+import { _todayDate } from '../../../_helper/_todayDate';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import NewSelect from '../../../_helper/_select';
+import { YearDDL } from '../../../_helper/_yearDDL';
+import { getBankDDLAll } from '../../banking/fundManagement/helper';
+import * as Yup from 'yup';
 
 const initData = {
   type: {
     value: 1,
-    label: "Cash Position",
+    label: 'Cash Position',
   },
   date: _todayDate(),
-  businessUnit: "",
-  year: "",
-  intBankId: "",
-  intLCType: "",
-  USDRate: "",
-  EURate: "",
+  businessUnit: '',
+  year: '',
+  intBankId: '',
+  intLCType: '',
+  USDRate: '',
+  EURate: '',
 };
 // Validation Schema using Yup
 const validationSchema = Yup.object().shape({
   type: Yup.object()
-    .required("Type is required")
+    .required('Type is required')
     .nullable(),
-  intBankId: Yup.string().when("type.value", {
+  intBankId: Yup.string().when('type.value', {
     is: 4,
-    then: Yup.string().required("Bank is required"),
+    then: Yup.string().required('Bank is required'),
   }),
-  businessUnit: Yup.string().when("type.value", {
+  businessUnit: Yup.string().when('type.value', {
     is: 4,
-    then: Yup.string().required("BusinessUnit is required"),
+    then: Yup.string().required('BusinessUnit is required'),
   }),
-  intLCType: Yup.string().when("type.value", {
+  intLCType: Yup.string().when('type.value', {
     is: 4,
-    then: Yup.string().required("LC Type is required"),
+    then: Yup.string().required('LC Type is required'),
   }),
-  USDRate: Yup.string().when("type.value", {
+  USDRate: Yup.string().when('type.value', {
     is: 4,
-    then: Yup.string().required("USD Rate is required"),
+    then: Yup.string().required('USD Rate is required'),
   }),
-  EURate: Yup.string().when("type.value", {
+  EURate: Yup.string().when('type.value', {
     is: 4,
-    then: Yup.string().required("EUR Rate is required"),
+    then: Yup.string().required('EUR Rate is required'),
   }),
 });
 function FundRegisterLanding() {
@@ -63,19 +63,19 @@ function FundRegisterLanding() {
   ] = useAxiosGet();
 
   const [showReport, setShowReport] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [bankDDL, setBankDDL] = useState([]);
 
-  const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
+  const groupId = '218e3d7e-f3ea-4f66-8150-bb16eb6fc606';
 
   const getReportId = (values) => {
-    let reportId = "";
+    let reportId = '';
     if ([1, 2].includes(values?.type?.value)) {
-      reportId = "1c58a47c-1783-438c-ac3c-f718a2bbb13a";
+      reportId = '1c58a47c-1783-438c-ac3c-f718a2bbb13a';
     } else if ([3].includes(values?.type?.value)) {
-      reportId = "f46ad25c-816b-447a-8e93-57e9156799c6";
+      reportId = 'f46ad25c-816b-447a-8e93-57e9156799c6';
     } else if ([4].includes(values?.type?.value)) {
-      reportId = "7bda9b36-e758-4c2b-91e0-7776d1424cd7";
+      reportId = '7bda9b36-e758-4c2b-91e0-7776d1424cd7';
     }
 
     return reportId;
@@ -85,44 +85,44 @@ function FundRegisterLanding() {
     let paramList = [];
     if ([1, 2].includes(values?.type?.value)) {
       paramList = [
-        { name: "ReportType", value: `${values?.type?.value || 0}` },
+        { name: 'ReportType', value: `${values?.type?.value || 0}` },
         {
-          name: "businessUnitId",
+          name: 'businessUnitId',
           value: `${values?.businessUnit?.value || 0}`,
         },
-        { name: "dteDate", value: `${values?.date || _todayDate()}` },
+        { name: 'dteDate', value: `${values?.date || _todayDate()}` },
       ];
     } else if ([3].includes(values?.type?.value)) {
       paramList = [
         {
-          name: "businessUnitId",
+          name: 'businessUnitId',
           value: `${values?.businessUnit?.value || 0}`,
         },
-        { name: "ExpiryDate", value: `${values?.year?.label}` },
+        { name: 'ExpiryDate', value: `${values?.year?.label}` },
       ];
     } else if ([4].includes(values?.type?.value)) {
       paramList = [
         {
-          name: "intBankId",
+          name: 'intBankId',
           value: `${values?.intBankId?.value || 0}`,
         },
         {
-          name: "businessUnitId",
+          name: 'businessUnitId',
           value: `${values?.businessUnit?.value || 0}`,
         },
         {
-          name: "intLCType",
+          name: 'intLCType',
           value: `${values?.intLCType?.value || 0}`,
         },
-        { name: "USDRate", value: `${values?.USDRate}` },
-        { name: "EURate", value: `${values?.EURate}` },
+        { name: 'USDRate', value: `${values?.USDRate}` },
+        { name: 'EURate', value: `${values?.EURate}` },
       ];
     }
     return paramList;
   };
   useEffect(() => {
     getBusinessUnitDDL(
-      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`
+      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -163,29 +163,29 @@ function FundRegisterLanding() {
                       value={values?.type}
                       onChange={(v) => {
                         if (v) {
-                          setFieldValue("type", v);
+                          setFieldValue('type', v);
                           setShowReport(false);
                         } else {
-                          setFieldValue("type", "");
+                          setFieldValue('type', '');
                           setShowReport(false);
                         }
                       }}
                       options={[
                         {
                           value: 1,
-                          label: "Cash Position",
+                          label: 'Cash Position',
                         },
                         {
                           value: 2,
-                          label: "Group  Liability Position",
+                          label: 'Group  Liability Position',
                         },
                         {
                           value: 3,
-                          label: "Group Liability For Bank",
+                          label: 'Group Liability For Bank',
                         },
                         {
                           value: 4,
-                          label: "LC Outstanding",
+                          label: 'LC Outstanding',
                         },
                       ]}
                     />
@@ -197,7 +197,7 @@ function FundRegisterLanding() {
                         options={bankDDL}
                         value={values?.bank}
                         onChange={(valueOption) => {
-                          setFieldValue("intBankId", valueOption);
+                          setFieldValue('intBankId', valueOption);
                         }}
                         label="Bank"
                         placeholder="Bank"
@@ -216,15 +216,15 @@ function FundRegisterLanding() {
                         value={values?.businessUnit}
                         onChange={(v) => {
                           if (v) {
-                            setFieldValue("businessUnit", v);
+                            setFieldValue('businessUnit', v);
                             setShowReport(false);
                           } else {
-                            setFieldValue("businessUnit", "");
+                            setFieldValue('businessUnit', '');
                             setShowReport(false);
                           }
                         }}
                         options={
-                          [{ value: 0, label: "All" }, ...businessUnitDDL] || []
+                          [{ value: 0, label: 'All' }, ...businessUnitDDL] || []
                         }
                         errors={errors}
                         touched={touched}
@@ -240,29 +240,29 @@ function FundRegisterLanding() {
                         value={values?.intLCType}
                         onChange={(v) => {
                           if (v) {
-                            setFieldValue("intLCType", v);
+                            setFieldValue('intLCType', v);
                             setShowReport(false);
                           } else {
-                            setFieldValue("intLCType", "");
+                            setFieldValue('intLCType', '');
                             setShowReport(false);
                           }
                         }}
                         options={[
                           {
                             value: 0,
-                            label: "All",
+                            label: 'All',
                           },
                           {
                             value: 1,
-                            label: "At-Sight LC",
+                            label: 'At-Sight LC',
                           },
                           {
                             value: 2,
-                            label: "UPAS LC",
+                            label: 'UPAS LC',
                           },
                           {
                             value: 3,
-                            label: "ABP",
+                            label: 'ABP',
                           },
                         ]}
                         errors={errors}
@@ -279,7 +279,7 @@ function FundRegisterLanding() {
                         type="number"
                         name="USDRate"
                         onChange={(e) => {
-                          setFieldValue("USDRate", e.target.value);
+                          setFieldValue('USDRate', e.target.value);
                           setShowReport(false);
                         }}
                         touched={touched}
@@ -295,7 +295,7 @@ function FundRegisterLanding() {
                         type="number"
                         name="EURate"
                         onChange={(e) => {
-                          setFieldValue("EURate", e.target.value);
+                          setFieldValue('EURate', e.target.value);
                           setShowReport(false);
                         }}
                         touched={touched}
@@ -310,7 +310,7 @@ function FundRegisterLanding() {
                         label="Select Year"
                         value={values?.year}
                         onChange={(v) => {
-                          setFieldValue("year", v || "");
+                          setFieldValue('year', v || '');
                           setShowReport(false);
                         }}
                         options={YearDDL()}
@@ -326,7 +326,7 @@ function FundRegisterLanding() {
                         type="date"
                         name="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                           setShowReport(false);
                         }}
                       />
@@ -336,7 +336,7 @@ function FundRegisterLanding() {
                     <button
                       type="submit"
                       style={{
-                        marginTop: "17px",
+                        marginTop: '17px',
                       }}
                       // onClick={() => {
                       // setShowReport(false);

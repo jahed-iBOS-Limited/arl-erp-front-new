@@ -1,39 +1,39 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import * as Yup from "yup";
-import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IViewModal from "../../../chartering/_chartinghelper/_viewModal";
-import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../App';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IViewModal from '../../../chartering/_chartinghelper/_viewModal';
+import EmailEditorForPublicRoutes from '../../utils/emailEditorForPublicRotes';
 
 const initData = {
-  strName: "",
-  strEmail: "",
-  strVesselNominationCode: "",
+  strName: '',
+  strEmail: '',
+  strVesselNominationCode: '',
   isVesselNominationAccept: true,
-  strRemarks: "",
+  strRemarks: '',
 };
 
 const validationSchema = Yup.object().shape({
   strVesselNominationCode: Yup.string().required(
-    "Vessel Nomination Code is required"
+    'Vessel Nomination Code is required',
   ),
-  strName: Yup.string().required("Name is required"),
+  strName: Yup.string().required('Name is required'),
   strEmail: Yup.string()
-    .email("Invalid email format")
-    .required("Email is required"),
+    .email('Invalid email format')
+    .required('Email is required'),
 });
 
 export default function VesselNominationAcceptanceCreate() {
   const { profileData } = useSelector((state) => state?.authData, shallowEqual);
 
-  const [objProps, setObjprops] = useState({});
+  const [, setObjprops] = useState({});
   const [, onSave, loader] = useAxiosPost();
   const { paramId, paramCode } = useParams();
   const [isShowModal, setIsShowModal] = useState(false);
@@ -47,7 +47,7 @@ export default function VesselNominationAcceptanceCreate() {
   useEffect(() => {
     if (paramId) {
       getVesselNominationData(
-        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`
+        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,9 +58,9 @@ export default function VesselNominationAcceptanceCreate() {
       // strName: values?.strName,
       // strEmail: values?.strEmail,
       strVesselNominationCode:
-        paramCode || values?.strVesselNominationCode || "",
+        paramCode || values?.strVesselNominationCode || '',
       isVesselNominationAccept: values?.isVesselNominationAccept,
-      strRemarks: values?.strRemarks || "",
+      strRemarks: values?.strRemarks || '',
     });
 
     const payload = {
@@ -68,9 +68,9 @@ export default function VesselNominationAcceptanceCreate() {
       strEmail: values?.strEmail,
       intVesselNominationId: +paramId || 0,
       strVesselNominationCode:
-        paramCode || values?.strVesselNominationCode || "",
+        paramCode || values?.strVesselNominationCode || '',
       isVesselNominationAccept: values?.isVesselNominationAccept,
-      strRemarks: values?.strRemarks || "",
+      strRemarks: values?.strRemarks || '',
       intActionBy: profileData?.userId,
     };
 
@@ -78,7 +78,7 @@ export default function VesselNominationAcceptanceCreate() {
       `${imarineBaseUrl}/domain/VesselNomination/CreateVesselNominationAcceptance`,
       payload,
       cb,
-      true
+      true,
     );
   };
 
@@ -87,9 +87,9 @@ export default function VesselNominationAcceptanceCreate() {
       enableReinitialize={true}
       initialValues={{
         ...initData,
-        strVesselNominationCode: paramCode || "",
-        strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
-        intVoyageNo: vesselNominationData?.intVoyageNo || "",
+        strVesselNominationCode: paramCode || '',
+        strNameOfVessel: vesselNominationData?.strNameOfVessel || '',
+        intVoyageNo: vesselNominationData?.intVoyageNo || '',
       }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -145,21 +145,21 @@ export default function VesselNominationAcceptanceCreate() {
             <div className="form-group global-form row">
               <div className="col-lg-3">
                 <InputField
-                  value={values.strName || ""}
+                  value={values.strName || ''}
                   label="Name"
                   name="strName"
                   type="text"
-                  onChange={(e) => setFieldValue("strName", e.target.value)}
+                  onChange={(e) => setFieldValue('strName', e.target.value)}
                   errors={errors}
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.strEmail || ""}
+                  value={values.strEmail || ''}
                   label="Email"
                   name="strEmail"
                   type="text"
-                  onChange={(e) => setFieldValue("strEmail", e.target.value)}
+                  onChange={(e) => setFieldValue('strEmail', e.target.value)}
                   errors={errors}
                 />
               </div>
@@ -170,7 +170,7 @@ export default function VesselNominationAcceptanceCreate() {
                   name="strNameOfVessel"
                   type="text"
                   onChange={(e) =>
-                    setFieldValue("strNameOfVessel", e.target.value)
+                    setFieldValue('strNameOfVessel', e.target.value)
                   }
                   errors={errors}
                   disabled
@@ -182,19 +182,19 @@ export default function VesselNominationAcceptanceCreate() {
                   label="Voyage No"
                   name="intVoyageNo"
                   type="text"
-                  onChange={(e) => setFieldValue("intVoyageNo", e.target.value)}
+                  onChange={(e) => setFieldValue('intVoyageNo', e.target.value)}
                   errors={errors}
                   disabled
                 />
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.strVesselNominationCode || ""}
+                  value={values.strVesselNominationCode || ''}
                   label="Vessel Nomination Code"
                   name="strVesselNominationCode"
                   type="text"
                   onChange={(e) =>
-                    setFieldValue("strVesselNominationCode", e.target.value)
+                    setFieldValue('strVesselNominationCode', e.target.value)
                   }
                   errors={errors}
                   disabled
@@ -202,11 +202,11 @@ export default function VesselNominationAcceptanceCreate() {
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values.strRemarks || ""}
+                  value={values.strRemarks || ''}
                   label="Remarks"
                   name="strRemarks"
                   type="text"
-                  onChange={(e) => setFieldValue("strRemarks", e.target.value)}
+                  onChange={(e) => setFieldValue('strRemarks', e.target.value)}
                   errors={errors}
                 />
               </div>
@@ -219,8 +219,8 @@ export default function VesselNominationAcceptanceCreate() {
                     checked={values.isVesselNominationAccept || false}
                     onChange={(e) =>
                       setFieldValue(
-                        "isVesselNominationAccept",
-                        e.target.checked
+                        'isVesselNominationAccept',
+                        e.target.checked,
                       )
                     }
                     className="form-check-input"
@@ -238,7 +238,7 @@ export default function VesselNominationAcceptanceCreate() {
               <IViewModal
                 show={isShowModal}
                 onHide={() => setIsShowModal(false)}
-                title={"Send Mail"}
+                title={'Send Mail'}
               >
                 {/* <MailSender payloadInfo={payloadInfo} /> */}
                 <EmailEditorForPublicRoutes

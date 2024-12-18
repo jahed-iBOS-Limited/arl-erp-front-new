@@ -1,19 +1,18 @@
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { ToWords } from "to-words";
-import akijShippingLogo from "../../../_chartinghelper/assets/images/logos/akijShippingText.svg";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { ToWords } from 'to-words';
 import {
   _formatMoney,
   _formatMoneyWithDoller,
-} from "../../../_chartinghelper/_formatMoney";
-import { getDifference } from "../../../_chartinghelper/_getDateDiff";
-import { getOwnerBankInfoDetailsById } from "../helper";
-import { BankInfoComponent } from "./bankInfoComponent";
-import "./style.css";
+} from '../../../_chartinghelper/_formatMoney';
+import { getDifference } from '../../../_chartinghelper/_getDateDiff';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import { getOwnerBankInfoDetailsById } from '../helper';
+import { BankInfoComponent } from './bankInfoComponent';
+import './style.css';
 
 const toWords = new ToWords({
-  localeCode: "en-US",
+  localeCode: 'en-US',
   converterOptions: {
     currency: true,
     ignoreDecimal: false,
@@ -51,7 +50,7 @@ export default function EditInvoiceForOwner({
   }, [values?.beneficiary?.value]);
 
   useEffect(() => {
-    setFieldValue("beneficiary", { ...values?.beneficiary, ...bankInfoData });
+    setFieldValue('beneficiary', { ...values?.beneficiary, ...bankInfoData });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bankInfoData]);
@@ -87,7 +86,7 @@ export default function EditInvoiceForOwner({
           {invoiceHireData?.refNo ? (
             <>
               <div className="headerKey">REF :</div>
-              <div className="headerValue">{invoiceHireData?.refNo || ""}</div>
+              <div className="headerValue">{invoiceHireData?.refNo || ''}</div>
             </>
           ) : null}
         </div>
@@ -116,7 +115,7 @@ export default function EditInvoiceForOwner({
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">DELIVERY :</div>
           <div className="headerValue">
-            {moment(invoiceHireData?.deliveryDate).format("MM-DD-YYYY HH:mm A")}
+            {moment(invoiceHireData?.deliveryDate).format('MM-DD-YYYY HH:mm A')}
           </div>
         </div>
         <div className="col-lg-6 headerWrapper">
@@ -133,26 +132,26 @@ export default function EditInvoiceForOwner({
               placeholder="Redelivery Date"
               type="datetime-local"
               onChange={(e) => {
-                setFieldValue("redeliveryDate", e.target.value);
+                setFieldValue('redeliveryDate', e.target.value);
                 const copy = [...rowData];
                 let diffDate = parseFloat(
                   getDifference(
                     moment(invoiceHireData?.deliveryDate).format(
-                      "YYYY-MM-DDTHH:mm:ss"
+                      'YYYY-MM-DDTHH:mm:ss',
                     ),
-                    e.target.value
-                  )
+                    e.target.value,
+                  ),
                 );
                 calculateDuration(diffDate);
                 const newArr = copy?.map((item) => {
-                  if (item?.key === "hdto") {
+                  if (item?.key === 'hdto') {
                     return {
                       ...item,
                       duration: duration,
                       credit: duration * invoiceHireData?.dailyHire,
                     };
                   }
-                  if (item?.key === "hac") {
+                  if (item?.key === 'hac') {
                     return {
                       ...item,
                       duration: duration,
@@ -162,7 +161,7 @@ export default function EditInvoiceForOwner({
                         (invoiceHireData?.comm / 100),
                     };
                   }
-                  if (item?.key === "cve") {
+                  if (item?.key === 'cve') {
                     return {
                       ...item,
                       duration: duration,
@@ -170,7 +169,7 @@ export default function EditInvoiceForOwner({
                       // (duration * invoiceHireData?.cveday) / 30,
                     };
                   }
-                  if (item?.key === "hbc") {
+                  if (item?.key === 'hbc') {
                     return {
                       ...item,
                       duration: duration,
@@ -186,7 +185,7 @@ export default function EditInvoiceForOwner({
                 setRowData(newArr);
               }}
               min={moment(invoiceHireData?.deliveryDate).format(
-                "YYYY-MM-DDTHH:mm:ss"
+                'YYYY-MM-DDTHH:mm:ss',
               )}
               errors={errors}
               touched={touched}
@@ -203,9 +202,9 @@ export default function EditInvoiceForOwner({
           <div className="headerValue">
             {getDifference(
               moment(invoiceHireData?.deliveryDate).format(
-                "YYYY-MM-DDTHH:mm:ss"
+                'YYYY-MM-DDTHH:mm:ss',
               ),
-              values?.redeliveryDate
+              values?.redeliveryDate,
             )}
           </div>
         </div>
@@ -254,325 +253,325 @@ export default function EditInvoiceForOwner({
 
       {/* Row And Table Section */}
       {/* <div className="table-responsive"> */}
-        <table className="table mt-3 bj-table bj-table-landing">
-          <thead>
-            <tr
-              style={{ borderTop: "1px solid #d6d6d6" }}
-              className="text-center"
-            >
-              <th>SR.</th>
-              <th>DESCRIPTION</th>
-              <th>Duration</th>
-              <th>Quantity</th>
-              <th>Debit</th>
-              <th>Credit</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rowData?.map((item, index) => {
-              if (item?.isChecked) {
-                totalCredit = totalCredit + Number(item?.credit);
-              }
-              if (item?.isChecked) {
-                totalDebit = totalDebit + Number(item?.debit);
-              }
+      <table className="table mt-3 bj-table bj-table-landing">
+        <thead>
+          <tr
+            style={{ borderTop: '1px solid #d6d6d6' }}
+            className="text-center"
+          >
+            <th>SR.</th>
+            <th>DESCRIPTION</th>
+            <th>Duration</th>
+            <th>Quantity</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rowData?.map((item, index) => {
+            if (item?.isChecked) {
+              totalCredit = totalCredit + Number(item?.credit);
+            }
+            if (item?.isChecked) {
+              totalDebit = totalDebit + Number(item?.debit);
+            }
 
-              return (
-                <tr key={index}>
-                  {/* SL */}
-                  <td
-                    className={`${
-                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                    } text-center`}
-                  >
-                    {index + 1}
-                  </td>
+            return (
+              <tr key={index}>
+                {/* SL */}
+                <td
+                  className={`${
+                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                  } text-center`}
+                >
+                  {index + 1}
+                </td>
 
-                  {/* Description */}
-                  <td
-                    className={`${
-                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                    }`}
-                  >
-                    {item?.isDescription ? (
+                {/* Description */}
+                <td
+                  className={`${
+                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                  }`}
+                >
+                  {item?.isDescription ? (
+                    <FormikInput
+                      value={item?.description}
+                      name={`${index}description${values?.transactionName?.value}`}
+                      placeholder="Description"
+                      type="text"
+                      onChange={(e) =>
+                        rowDtoHandler(
+                          index,
+                          item?.isDescription?.name,
+                          e.target.value,
+                          item,
+                          rowData,
+                        )
+                      }
+                      errors={errors}
+                      touched={touched}
+                      disabled={!item?.isChecked}
+                    />
+                  ) : (
+                    item?.description
+                  )}
+                </td>
+
+                {/* Duration */}
+                <td
+                  className={`${
+                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                  } text-center`}
+                  style={{ width: '150px' }}
+                >
+                  {item?.isDuration ? (
+                    <div className="d-flex align-items-center">
                       <FormikInput
-                        value={item?.description}
-                        name={`${index}description${values?.transactionName?.value}`}
-                        placeholder="Description"
-                        type="text"
+                        className="mr-2"
+                        value={item?.duration}
+                        name={`${index}duration${values?.transactionName?.value}`}
+                        placeholder=""
+                        type="number"
                         onChange={(e) =>
                           rowDtoHandler(
                             index,
-                            item?.isDescription?.name,
+                            item?.isDuration?.name,
                             e.target.value,
                             item,
-                            rowData
+                            rowData,
                           )
                         }
                         errors={errors}
                         touched={touched}
                         disabled={!item?.isChecked}
                       />
-                    ) : (
-                      item?.description
-                    )}
-                  </td>
+                      <span>DAYS</span>
+                    </div>
+                  ) : item?.duration > 0 ? (
+                    item.duration
+                  ) : null}
+                </td>
 
-                  {/* Duration */}
-                  <td
-                    className={`${
-                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                    } text-center`}
-                    style={{ width: "150px" }}
-                  >
-                    {item?.isDuration ? (
-                      <div className="d-flex align-items-center">
-                        <FormikInput
-                          className="mr-2"
-                          value={item?.duration}
-                          name={`${index}duration${values?.transactionName?.value}`}
-                          placeholder=""
-                          type="number"
-                          onChange={(e) =>
-                            rowDtoHandler(
-                              index,
-                              item?.isDuration?.name,
-                              e.target.value,
-                              item,
-                              rowData
-                            )
-                          }
-                          errors={errors}
-                          touched={touched}
-                          disabled={!item?.isChecked}
-                        />
-                        <span>DAYS</span>
-                      </div>
-                    ) : item?.duration > 0 ? (
-                      item.duration
-                    ) : null}
-                  </td>
-
-                  {/* Quantity */}
-                  <td
-                    className={`${
-                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                    }`}
-                    style={{ width: "150px" }}
-                  >
-                    {item?.isQty ? (
-                      <div className="d-flex align-items-center">
-                        <FormikInput
-                          className="mr-2"
-                          value={item?.quantity}
-                          name={`${index}quantity${values?.transactionName?.value}`}
-                          placeholder=""
-                          type="number"
-                          onChange={(e) =>
-                            rowDtoHandler(
-                              index,
-                              item?.isQty?.name,
-                              e.target.value,
-                              item,
-                              rowData
-                            )
-                          }
-                          errors={errors}
-                          touched={touched}
-                          disabled={!item?.isChecked}
-                        />
-                        <span>MT</span>
-                      </div>
-                    ) : null}
-                  </td>
-
-                  {/* Debit | But Debit Will be Credit for Owner */}
-                  <td
-                    className={`${
-                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                    } text-right`}
-                    style={{ width: "150px" }}
-                  >
-                    {item?.isCredit ? (
-                      <div className="d-flex align-items-center">
-                        <FormikInput
-                          className="mr-2"
-                          onChange={(e) => {
-                            rowDtoHandler(
-                              index,
-                              item?.isCredit?.name,
-                              e.target.value,
-                              item,
-                              rowData
-                            );
-                          }}
-                          value={item?.credit}
-                          name={`${index}credit${values?.transactionName?.value}`}
-                          placeholder=""
-                          type="number"
-                          errors={errors}
-                          touched={touched}
-                          disabled={!item?.isChecked}
-                        />
-                        <span>USD</span>
-                      </div>
-                    ) : (
-                      _formatMoneyWithDoller(item?.credit?.toFixed(2))
-                    )}
-                  </td>
-
-                  {/* Credit | But Credit Will be Debit For Owner */}
-                  <td
-                    className={`${
-                      item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                    } text-right`}
-                    style={{ width: "150px" }}
-                  >
-                    {item?.isDebit ? (
-                      <div className="d-flex align-items-center">
-                        <FormikInput
-                          className="mr-2"
-                          value={item?.debit}
-                          name={`${index}debit${values?.transactionName?.value}`}
-                          placeholder=""
-                          type="number"
-                          onChange={(e) =>
-                            rowDtoHandler(
-                              index,
-                              item?.isDebit?.name,
-                              e.target.value,
-                              item,
-                              rowData
-                            )
-                          }
-                          errors={errors}
-                          touched={touched}
-                          disabled={!item?.isChecked}
-                        />
-                        <span>USD</span>
-                      </div>
-                    ) : (
-                      _formatMoneyWithDoller(item?.debit?.toFixed(2))
-                    )}
-                  </td>
-
-                  {/* Actions */}
-                  <td className="text-center" style={{ width: "80px" }}>
-                    {/* Add Handler | add btn */}
-                    <span
-                      onClick={() => {
-                        addHandler(index);
-                      }}
-                    >
-                      <i
-                        style={{ fontSize: "16px" }}
-                        className="fa fa-plus-square text-primary mr-2"
+                {/* Quantity */}
+                <td
+                  className={`${
+                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                  }`}
+                  style={{ width: '150px' }}
+                >
+                  {item?.isQty ? (
+                    <div className="d-flex align-items-center">
+                      <FormikInput
+                        className="mr-2"
+                        value={item?.quantity}
+                        name={`${index}quantity${values?.transactionName?.value}`}
+                        placeholder=""
+                        type="number"
+                        onChange={(e) =>
+                          rowDtoHandler(
+                            index,
+                            item?.isQty?.name,
+                            e.target.value,
+                            item,
+                            rowData,
+                          )
+                        }
+                        errors={errors}
+                        touched={touched}
+                        disabled={!item?.isChecked}
                       />
-                    </span>
+                      <span>MT</span>
+                    </div>
+                  ) : null}
+                </td>
 
-                    {/* Check box */}
-                    <span>
-                      <input
-                        type="checkbox"
-                        checked={item?.isChecked}
-                        disabled={item?.isFixed}
+                {/* Debit | But Debit Will be Credit for Owner */}
+                <td
+                  className={`${
+                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                  } text-right`}
+                  style={{ width: '150px' }}
+                >
+                  {item?.isCredit ? (
+                    <div className="d-flex align-items-center">
+                      <FormikInput
+                        className="mr-2"
                         onChange={(e) => {
                           rowDtoHandler(
                             index,
-                            "isChecked",
-                            e.target.checked,
+                            item?.isCredit?.name,
+                            e.target.value,
                             item,
-                            rowData
+                            rowData,
                           );
                         }}
+                        value={item?.credit}
+                        name={`${index}credit${values?.transactionName?.value}`}
+                        placeholder=""
+                        type="number"
+                        errors={errors}
+                        touched={touched}
+                        disabled={!item?.isChecked}
                       />
-                    </span>
+                      <span>USD</span>
+                    </div>
+                  ) : (
+                    _formatMoneyWithDoller(item?.credit?.toFixed(2))
+                  )}
+                </td>
 
-                    {/* Delete if new row */}
-                    {item?.isDescription &&
-                    item?.isDuration &&
-                    item?.isCredit &&
-                    item?.isDebit &&
-                    item?.isQty ? (
-                      <>
-                        <span
-                          onClick={() => {
-                            deleteHandler(index);
-                          }}
-                        >
-                          <i
-                            style={{ fontSize: "14px" }}
-                            className="fa fa-trash text-danger ml-2"
-                          />
-                        </span>
-                      </>
-                    ) : null}
-                  </td>
-                </tr>
-              );
-            })}
+                {/* Credit | But Credit Will be Debit For Owner */}
+                <td
+                  className={`${
+                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                  } text-right`}
+                  style={{ width: '150px' }}
+                >
+                  {item?.isDebit ? (
+                    <div className="d-flex align-items-center">
+                      <FormikInput
+                        className="mr-2"
+                        value={item?.debit}
+                        name={`${index}debit${values?.transactionName?.value}`}
+                        placeholder=""
+                        type="number"
+                        onChange={(e) =>
+                          rowDtoHandler(
+                            index,
+                            item?.isDebit?.name,
+                            e.target.value,
+                            item,
+                            rowData,
+                          )
+                        }
+                        errors={errors}
+                        touched={touched}
+                        disabled={!item?.isChecked}
+                      />
+                      <span>USD</span>
+                    </div>
+                  ) : (
+                    _formatMoneyWithDoller(item?.debit?.toFixed(2))
+                  )}
+                </td>
 
-            {/* Total Section */}
-            <tr>
-              <td colSpan="4" className="text-right mr-3">
-                <strong>Total</strong>
-              </td>
-              {/* Credit Here For Owner */}
-              <td className="text-right">
-                <strong>
-                  {_formatMoneyWithDoller(Number(totalCredit)?.toFixed(2)) || 0}
-                </strong>
-              </td>
+                {/* Actions */}
+                <td className="text-center" style={{ width: '80px' }}>
+                  {/* Add Handler | add btn */}
+                  <span
+                    onClick={() => {
+                      addHandler(index);
+                    }}
+                  >
+                    <i
+                      style={{ fontSize: '16px' }}
+                      className="fa fa-plus-square text-primary mr-2"
+                    />
+                  </span>
 
-              {/* Debit Here For Owner */}
-              <td className="text-right">
-                <strong>
-                  {_formatMoneyWithDoller(Number(totalDebit)?.toFixed(2)) || 0}
-                </strong>
-              </td>
-              <td className="text-center"></td>
-            </tr>
+                  {/* Check box */}
+                  <span>
+                    <input
+                      type="checkbox"
+                      checked={item?.isChecked}
+                      disabled={item?.isFixed}
+                      onChange={(e) => {
+                        rowDtoHandler(
+                          index,
+                          'isChecked',
+                          e.target.checked,
+                          item,
+                          rowData,
+                        );
+                      }}
+                    />
+                  </span>
 
-            {/* Net Payable */}
-            <tr>
-              <td colSpan="4" className="text-right mr-3">
-                <strong>AMOUNT PAYABLE TO OWNERS</strong>
-              </td>
-              <td colSpan="2" className="text-right">
-                <strong>
-                  {_formatMoneyWithDoller(
-                    (
-                      Number(totalCredit)?.toFixed(2) -
-                      Number(totalDebit)?.toFixed(2)
-                    ).toFixed(2)
-                  ) || 0}
-                </strong>
-              </td>
-              <td></td>
-            </tr>
-
-            {/* In Word USD */}
-            {(
-              Number(totalCredit)?.toFixed(2) - Number(totalDebit)?.toFixed(2)
-            ).toFixed(2) ? (
-              <tr>
-                <td colSpan="7" className="text-center">
-                  <div>
-                    <strong>
-                      {`(In Word USD) ${toWords.convert(
-                        (
-                          Number(totalCredit)?.toFixed(2) -
-                          Number(totalDebit)?.toFixed(2)
-                        ).toFixed(2)
-                      )}`}
-                    </strong>
-                  </div>
+                  {/* Delete if new row */}
+                  {item?.isDescription &&
+                  item?.isDuration &&
+                  item?.isCredit &&
+                  item?.isDebit &&
+                  item?.isQty ? (
+                    <>
+                      <span
+                        onClick={() => {
+                          deleteHandler(index);
+                        }}
+                      >
+                        <i
+                          style={{ fontSize: '14px' }}
+                          className="fa fa-trash text-danger ml-2"
+                        />
+                      </span>
+                    </>
+                  ) : null}
                 </td>
               </tr>
-            ) : null}
-          </tbody>
-        </table>
+            );
+          })}
+
+          {/* Total Section */}
+          <tr>
+            <td colSpan="4" className="text-right mr-3">
+              <strong>Total</strong>
+            </td>
+            {/* Credit Here For Owner */}
+            <td className="text-right">
+              <strong>
+                {_formatMoneyWithDoller(Number(totalCredit)?.toFixed(2)) || 0}
+              </strong>
+            </td>
+
+            {/* Debit Here For Owner */}
+            <td className="text-right">
+              <strong>
+                {_formatMoneyWithDoller(Number(totalDebit)?.toFixed(2)) || 0}
+              </strong>
+            </td>
+            <td className="text-center"></td>
+          </tr>
+
+          {/* Net Payable */}
+          <tr>
+            <td colSpan="4" className="text-right mr-3">
+              <strong>AMOUNT PAYABLE TO OWNERS</strong>
+            </td>
+            <td colSpan="2" className="text-right">
+              <strong>
+                {_formatMoneyWithDoller(
+                  (
+                    Number(totalCredit)?.toFixed(2) -
+                    Number(totalDebit)?.toFixed(2)
+                  ).toFixed(2),
+                ) || 0}
+              </strong>
+            </td>
+            <td></td>
+          </tr>
+
+          {/* In Word USD */}
+          {(
+            Number(totalCredit)?.toFixed(2) - Number(totalDebit)?.toFixed(2)
+          ).toFixed(2) ? (
+            <tr>
+              <td colSpan="7" className="text-center">
+                <div>
+                  <strong>
+                    {`(In Word USD) ${toWords.convert(
+                      (
+                        Number(totalCredit)?.toFixed(2) -
+                        Number(totalDebit)?.toFixed(2)
+                      ).toFixed(2),
+                    )}`}
+                  </strong>
+                </div>
+              </td>
+            </tr>
+          ) : null}
+        </tbody>
+      </table>
       {/* </div> */}
 
       {/* Bank Info Section */}

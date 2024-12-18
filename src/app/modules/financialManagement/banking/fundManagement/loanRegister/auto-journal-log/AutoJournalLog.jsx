@@ -1,25 +1,24 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useMemo } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../_metronic/_partials/controls";
+} from '../../../../../../../_metronic/_partials/controls';
 import {
   _dateFormatter,
   _dateTimeFormatter,
-} from "../../../../../_helper/_dateFormate";
-import Loading from "../../../../../_helper/_loading";
-import NewSelect from "../../../../../_helper/_select";
-import PaginationTable from "../../../../../_helper/_tablePagination";
-import { getBusinessUnitDDL, getLoanRegisterLogs } from "../../helper";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../../../_helper/_inputField";
+} from '../../../../../_helper/_dateFormate';
+import InputField from '../../../../../_helper/_inputField';
+import Loading from '../../../../../_helper/_loading';
+import NewSelect from '../../../../../_helper/_select';
+import PaginationTable from '../../../../../_helper/_tablePagination';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import { getBusinessUnitDDL, getLoanRegisterLogs } from '../../helper';
 
 const AutoJournalLog = () => {
   const history = useHistory();
@@ -29,19 +28,14 @@ const AutoJournalLog = () => {
   const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
   // Format dates as yyyy-mm-dd to use as default values
-  const formatDate = (date) => date.toISOString().split("T")[0];
+  const formatDate = (date) => date.toISOString().split('T')[0];
   const initData = {
-    businessUnit: { value: 0, label: "All" },
+    businessUnit: { value: 0, label: 'All' },
     fromDate: formatDate(firstDayOfMonth),
     toDate: formatDate(today),
   };
 
-  const [
-    historyData,
-    getHistory,
-    loadingHistory,
-    setHistoryData,
-  ] = useAxiosGet();
+  const [, , loadingHistory, ,] = useAxiosGet();
 
   const [loading, setLoading] = useState(false);
   const [loanRegisterLogData, setLoanRegisterLogData] = useState([]);
@@ -60,6 +54,7 @@ const AutoJournalLog = () => {
 
   useEffect(() => {
     getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -70,8 +65,9 @@ const AutoJournalLog = () => {
       setLoanRegisterLogData,
       setLoading,
       initData.fromDate,
-      initData.toDate
+      initData.toDate,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -80,7 +76,7 @@ const AutoJournalLog = () => {
       pageNo,
       pageSize,
       setLoanRegisterLogData,
-      setLoading
+      setLoading,
     );
   };
 
@@ -102,12 +98,12 @@ const AutoJournalLog = () => {
           <div className="">
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Auto Journal Log"}>
+              <CardHeader title={'Auto Journal Log'}>
                 <CardHeaderToolbar>
                   <button
                     type="button"
                     onClick={backHandler}
-                    className={"btn btn-light"}
+                    className={'btn btn-light'}
                   >
                     <i className="fa fa-arrow-left"></i>
                     Back
@@ -122,18 +118,18 @@ const AutoJournalLog = () => {
                         <NewSelect
                           name="businessUnit"
                           options={
-                            [{ value: 0, label: "All" }, ...businessUnitDDL] ||
+                            [{ value: 0, label: 'All' }, ...businessUnitDDL] ||
                             []
                           }
                           value={values?.businessUnit}
                           label="BusinessUnit"
                           onChange={(valueOption) => {
                             if (valueOption) {
-                              setFieldValue("businessUnit", valueOption);
+                              setFieldValue('businessUnit', valueOption);
                               setLoanRegisterLogData([]);
                             } else {
                               setLoanRegisterLogData([]);
-                              setFieldValue("businessUnit", "");
+                              setFieldValue('businessUnit', '');
                             }
                           }}
                           placeholder="BusinessUnit"
@@ -150,7 +146,7 @@ const AutoJournalLog = () => {
                           name="fromDate"
                           placeholder="From date"
                           type="date"
-                          style={{ width: "100%" }}
+                          style={{ width: '100%' }}
                         />
                       </div>
                     </div>
@@ -162,7 +158,7 @@ const AutoJournalLog = () => {
                           name="toDate"
                           placeholder="To date"
                           type="date"
-                          style={{ width: "100%" }}
+                          style={{ width: '100%' }}
                         />
                       </div>
                     </div>
@@ -180,7 +176,7 @@ const AutoJournalLog = () => {
                             setLoanRegisterLogData,
                             setLoading,
                             values?.fromDate,
-                            values?.toDate
+                            values?.toDate,
                           );
                         }}
                       >
@@ -196,22 +192,22 @@ const AutoJournalLog = () => {
                           <thead className="bg-secondary">
                             <tr>
                               <th>SL</th>
-                              <th style={{ minWidth: "100px" }}>
+                              <th style={{ minWidth: '100px' }}>
                                 Business Unit
                               </th>
                               <th>Bank Name</th>
-                              <th style={{ minWidth: "100px" }}>
+                              <th style={{ minWidth: '100px' }}>
                                 Statement Date
                               </th>
-                              <th style={{ minWidth: "50px" }}>
+                              <th style={{ minWidth: '50px' }}>
                                 Loan AccountName
                               </th>
-                              <th style={{ minWidth: "100px" }}>
+                              <th style={{ minWidth: '100px' }}>
                                 Amount Summary
                               </th>
-                              <th style={{ minWidth: "50px" }}>Journal Code</th>
-                              <th style={{ minWidth: "50px" }}>Total Amount</th>
-                              <th style={{ minWidth: "50px" }}>Log Date</th>
+                              <th style={{ minWidth: '50px' }}>Journal Code</th>
+                              <th style={{ minWidth: '50px' }}>Total Amount</th>
+                              <th style={{ minWidth: '50px' }}>Log Date</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -224,7 +220,7 @@ const AutoJournalLog = () => {
                                   {_dateFormatter(item?.statementDate)}
                                 </td>
                                 <td className="text-">
-                                  {item?.["loan AccountName"]}
+                                  {item?.['loan AccountName']}
                                 </td>
                                 <td className="text-">{item?.amountSummary}</td>
                                 <td className="text-left">

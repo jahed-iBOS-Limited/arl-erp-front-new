@@ -1,42 +1,26 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation, useHistory } from "react-router-dom";
-import { Form, Formik } from "formik";
-import IForm from "../../../../_helper/_form";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "./../../../../_helper/_loading";
-import { PlusCircleFilled } from "@ant-design/icons";
-import {
-  AddCircleOutlineSharp,
-  CloseRounded,
-  CloseSharp,
-  Email,
-  Phone,
-} from "@material-ui/icons";
-import { Button } from "react-bootstrap";
-import IViewModal from "../../../../_helper/_viewModal";
-import PlaceModal from "./placeModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { eProcurementBaseURL } from "../../../../../App";
-import { toast } from "react-toastify";
-import Chips from "../../../../_helper/chips/Chips";
-import CardBody from "./cardBody";
-import InputField from "../../../../_helper/_inputField";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { IInput } from "../../../../_helper/_input";
-import CostEntry from "./costEntry";
-import { set } from "lodash";
-import SupplyWiseTable from "./supplyWiseTable";
-import { getCostEntryPayload, saveHandlerPayload } from "./helper";
+import { CloseSharp } from '@material-ui/icons';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { eProcurementBaseURL } from '../../../../../App';
+import IForm from '../../../../_helper/_form';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Loading from './../../../../_helper/_loading';
+import CardBody from './cardBody';
+import CostEntry from './costEntry';
+import { getCostEntryPayload, saveHandlerPayload } from './helper';
+import PlaceModal from './placeModal';
+import SupplyWiseTable from './supplyWiseTable';
 
 const initData = {
   id: undefined,
-  organizationName: "",
+  organizationName: '',
 };
 
 export default function CreateCs({
@@ -44,7 +28,7 @@ export default function CreateCs({
     params: { id },
   },
 }) {
-  const [isDisabled, setDisabled] = useState(false);
+  const [isDisabled] = useState(false);
   const [
     suppilerStatement,
     getSuppilerStatement,
@@ -76,41 +60,17 @@ export default function CreateCs({
   const history = useHistory();
 
   const { rfqDetail, isView } = location?.state;
-  console.log(rfqDetail, "rfqDetail");
+  console.log(rfqDetail, 'rfqDetail');
   const [rowData, setRowData] = useState([]);
   const [, saveData, mainDataLoading] = useAxiosPost();
   const [, saveCostEntry, costEntryLoading] = useAxiosPost();
-
-  const [rowDtos, setRowDtos] = useState([]);
-  const [expandedRow, setExpandedRow] = useState(null);
-
-  // get user profile data from store
-  const profileData = useSelector((state) => {
-    return state.authData.profileData;
-  }, shallowEqual);
-
-  // get selected business unit from store
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
-
-  // get emplist ddl from store
-  const businessUnitDDL = useSelector((state) => {
-    return state?.commonDDL?.buDDL;
-  }, shallowEqual);
-
-  // get single controlling  unit from store
-  const singleData = useSelector((state) => {
-    return state.purchaseOrg?.singleData;
-  }, shallowEqual);
-  const dispatch = useDispatch();
 
   //Dispatch Get emplist action for get emplist ddl
 
   useEffect(() => {
     if (!isView) {
       getSuppilerStatement(
-        `${eProcurementBaseURL}/ComparativeStatement/GetSupplierStatementForCS?requestForQuotationId=${rfqDetail?.requestForQuotationId}`
+        `${eProcurementBaseURL}/ComparativeStatement/GetSupplierStatementForCS?requestForQuotationId=${rfqDetail?.requestForQuotationId}`,
       );
 
       getItemDDL(
@@ -127,7 +87,7 @@ export default function CreateCs({
             });
           });
           setItemDDL(list);
-        }
+        },
       );
     }
 
@@ -150,17 +110,17 @@ export default function CreateCs({
               ? data?.supplierPlaceNoList[1]?.businessPartnerId
               : null,
           }));
-          data?.itemDataList?.map((item) => {
-            setRowData((prev) => [
-              ...prev,
-              {
-                itemWise: item?.itemName,
-                takenSupplier: item?.takenSupplier,
-                takenQuantity: item?.totalTakenSupplier,
-              },
-            ]);
-          });
-        }
+          // data?.itemDataList?.map((item) => {
+          //   setRowData((prev) => [
+          //     ...prev,
+          //     {
+          //       itemWise: item?.itemName,
+          //       takenSupplier: item?.takenSupplier,
+          //       takenQuantity: item?.totalTakenSupplier,
+          //     },
+          //   ]);
+          // });
+        },
       );
     }
 
@@ -169,10 +129,8 @@ export default function CreateCs({
 
   useEffect(() => {
     getPlacePartnerListCsWise();
-  }, [
-    suppilerStatement?.firstSelectedItem,
-    suppilerStatement?.secondSelectedItem,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [suppilerStatement]);
 
   const getPlacePartnerListCsWise = () => {
     getPlacePartnerList(
@@ -180,19 +138,19 @@ export default function CreateCs({
         rfqDetail?.requestForQuotationId
       }&firstPlacePartnerRfqId=${suppilerStatement?.firstSelectedItem
         ?.partnerRfqId || 0}&secondPlacePartnerRfqId=${suppilerStatement
-        ?.secondSelectedItem?.partnerRfqId || 0}`
+        ?.secondSelectedItem?.partnerRfqId || 0}`,
     );
   };
 
   const saveHandler = async (values, cb) => {
-    console.log(values, "values");
-    console.log("rowData", rowData);
+    console.log(values, 'values');
+    console.log('rowData', rowData);
     // Create item list array from rowData
 
-    console.log("Save hand", suppilerStatement);
+    console.log('Save hand', suppilerStatement);
 
     if (values?.csType?.value === 1 && !suppilerStatement?.firstSelectedItem) {
-      toast.warning("Please select 1st place supplier!");
+      toast.warning('Please select 1st place supplier!');
       return;
     }
     let payload = [];
@@ -202,10 +160,10 @@ export default function CreateCs({
       rfqDetail,
       suppilerStatement,
       placePartnerList,
-      rowData
+      rowData,
     );
 
-    console.log(payload, "payload");
+    console.log(payload, 'payload');
     let apiURL =
       values?.csType?.value === 0
         ? `${eProcurementBaseURL}/ComparativeStatement/CreateAndUpdateItemWiseCS
@@ -215,41 +173,41 @@ export default function CreateCs({
       apiURL,
       payload,
       (res) => {
-        if (res?.message === "Saved Successfully") {
-          if (rfqDetail?.purchaseOrganizationName === "Foreign Procurement") {
+        if (res?.message === 'Saved Successfully') {
+          if (rfqDetail?.purchaseOrganizationName === 'Foreign Procurement') {
             saveCostEntry(
               `${eProcurementBaseURL}/ComparativeStatement/CreateOrUpdateCostComponentTransaction
 `,
               getCostEntryPayload(costEntryList, rfqDetail),
               (costRes) => {
-                console.log(costRes, "costRes");
-                history.push("/mngProcurement/purchase-management/cs");
-              }
+                console.log(costRes, 'costRes');
+                history.push('/mngProcurement/purchase-management/cs');
+              },
             ); // cost entry api
           } else {
-            console.log(res, "save data found");
-            history.push("/mngProcurement/purchase-management/cs");
+            console.log(res, 'save data found');
+            history.push('/mngProcurement/purchase-management/cs');
           }
         }
       },
-      true
+      true,
     );
   };
 
   const getCsTypes = () => {
     let list = [];
-    rfqDetail?.comparativeStatementType === "Item Wise CS"
-      ? list.push({ value: 0, label: "Item Wise Create" })
-      : list.push({ value: 1, label: "Supplier Wise Create" });
+    rfqDetail?.comparativeStatementType === 'Item Wise CS'
+      ? list.push({ value: 0, label: 'Item Wise Create' })
+      : list.push({ value: 1, label: 'Supplier Wise Create' });
 
     return list;
   };
 
   const [objProps, setObjprops] = useState({});
-  console.log(suppilerStatement, "fast page suppilerStatement");
-  console.log(placePartnerList, "fast page placePartnerList");
+  console.log(suppilerStatement, 'fast page suppilerStatement');
+  console.log(placePartnerList, 'fast page placePartnerList');
 
-  console.log(costEntryList, "costEntryList");
+  console.log(costEntryList, 'costEntryList');
 
   const addNewSupplierInfos = (values) => {
     // Adjust foundData check to include port value if required
@@ -272,13 +230,13 @@ export default function CreateCs({
 
     if (totalTakenQuantity >= values?.itemWise?.rfqquantity) {
       toast.warning("Total taken quantity can't be greater than RFQ quantity", {
-        toastId: "Fae22",
+        toastId: 'Fae22',
       });
       return;
     }
 
     if (foundData?.length > 0) {
-      toast.warning("Already exist", { toastId: "Fae" });
+      toast.warning('Already exist', { toastId: 'Fae' });
     } else {
       let payload = {
         itemWise: values?.itemWise?.label,
@@ -296,7 +254,7 @@ export default function CreateCs({
 
       // Add port field if Foreign Procurement and port value exists
       if (
-        rfqDetail?.purchaseOrganizationName === "Foreign Procurement" &&
+        rfqDetail?.purchaseOrganizationName === 'Foreign Procurement' &&
         values?.port?.value
       ) {
         payload.port = {
@@ -310,12 +268,12 @@ export default function CreateCs({
   };
 
   const handleDelete = (item, supplier, portValue) => {
-    console.log(item, supplier, "item, supplier");
-    console.log(rowData, "rowData");
+    console.log(item, supplier, 'item, supplier');
+    console.log(rowData, 'rowData');
 
     const filterData = rowData.filter((items) => {
       // Check if purchaseOrganizationName is "Foreign Procurement"
-      if (rfqDetail?.purchaseOrganizationName === "Foreign Procurement") {
+      if (rfqDetail?.purchaseOrganizationName === 'Foreign Procurement') {
         // Add the portValue check when it's Foreign Procurement
         return !(
           items?.itemWiseCode === item &&
@@ -334,25 +292,25 @@ export default function CreateCs({
   };
   ///
   const rowDataHandler = (field, value, index) => {
-    console.log(field, value, index, "field, value, index");
+    console.log(field, value, index, 'field, value, index');
     const copyRowDto = [...placePartnerList];
     copyRowDto[index][field] = value;
     setPlacePartnerList(copyRowDto);
   };
 
-  console.log(placePartnerList, "placePartnerList");
+  console.log(placePartnerList, 'placePartnerList');
 
   return (
-    <IForm getProps={setObjprops} isDisabled={isView} title={"Create"}>
+    <IForm getProps={setObjprops} isDisabled={isView} title={'Create'}>
       {isDisabled && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{
           csType: isView
-            ? rfqDetail?.comparativeStatementType === "Item Wise CS"
-              ? { value: 0, label: "Item Wise Create" }
-              : { value: 1, label: "Supplier Wise Create" }
-            : "",
+            ? rfqDetail?.comparativeStatementType === 'Item Wise CS'
+              ? { value: 0, label: 'Item Wise Create' }
+              : { value: 1, label: 'Supplier Wise Create' }
+            : '',
         }}
         // validationSchema={{}}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -387,14 +345,14 @@ export default function CreateCs({
                         isView
                           ? getCsTypes()
                           : [
-                              { value: 0, label: "Item Wise Create" },
-                              { value: 1, label: "Supplier Wise Create" },
+                              { value: 0, label: 'Item Wise Create' },
+                              { value: 1, label: 'Supplier Wise Create' },
                             ]
                       }
                       value={values?.csType}
                       label="CS Type"
                       onChange={(valueOption) => {
-                        setFieldValue("csType", valueOption);
+                        setFieldValue('csType', valueOption);
                       }}
                       placeholder="CS Type"
                       errors={errors}
@@ -409,7 +367,7 @@ export default function CreateCs({
                         value={values?.approvalNotes}
                         name="approvalNotes"
                         onChange={(e) => {
-                          setFieldValue("approvalNotes", e.target.value);
+                          setFieldValue('approvalNotes', e.target.value);
                         }}
                         placeholder="Note"
                         type="text"
@@ -427,7 +385,7 @@ export default function CreateCs({
                             value={values?.note}
                             name="note"
                             onChange={(e) => {
-                              setFieldValue("note", e.target.value);
+                              setFieldValue('note', e.target.value);
                             }}
                             placeholder="Note"
                             type="text"
@@ -444,8 +402,8 @@ export default function CreateCs({
                             value={values?.itemWise}
                             label="Item Wise List"
                             onChange={(valueOption) => {
-                              setFieldValue("itemWise", valueOption);
-                              setFieldValue("supplier", []);
+                              setFieldValue('itemWise', valueOption);
+                              setFieldValue('supplier', []);
 
                               getSupplierDDL(
                                 `${eProcurementBaseURL}/ComparativeStatement/GetItemWiseStatementDetails?requestForQuotationId=${
@@ -461,7 +419,7 @@ export default function CreateCs({
                                     };
                                   });
                                   setSupplierDDL(modData);
-                                }
+                                },
                               );
                             }}
                             placeholder="Item Wise"
@@ -478,15 +436,15 @@ export default function CreateCs({
                             value={values?.supplier}
                             label="Supplier"
                             onChange={(valueOption) => {
-                              setFieldValue("supplier", valueOption);
+                              setFieldValue('supplier', valueOption);
                               setFieldValue(
-                                "supplierRate",
-                                valueOption?.supplierRate || 0
+                                'supplierRate',
+                                valueOption?.supplierRate || 0,
                               );
-                              setFieldValue("port", []);
+                              setFieldValue('port', []);
                               setFieldValue(
-                                "currencyCode",
-                                valueOption?.currencyCode
+                                'currencyCode',
+                                valueOption?.currencyCode,
                               );
                             }}
                             placeholder="Supplier"
@@ -502,7 +460,7 @@ export default function CreateCs({
                             value={values?.currencyCode}
                             name="currencyCode"
                             onChange={(e) => {
-                              setFieldValue("currencyCode", e.target.value);
+                              setFieldValue('currencyCode', e.target.value);
                             }}
                             disabled={true}
                             placeholder="currencyCode"
@@ -512,7 +470,7 @@ export default function CreateCs({
                       )}
                       {values?.csType?.value === 0 &&
                         rfqDetail?.purchaseOrganizationName ===
-                          "Foreign Procurement" && (
+                          'Foreign Procurement' && (
                           <div className="col-lg-3">
                             <NewSelect
                               name="port"
@@ -520,7 +478,7 @@ export default function CreateCs({
                                 SupplierDDL.find(
                                   (item) =>
                                     item?.businessPartnerId ===
-                                    values?.supplier?.value
+                                    values?.supplier?.value,
                                 )?.portList?.map((port) => ({
                                   value: port?.portId,
                                   label: port?.portName,
@@ -530,10 +488,10 @@ export default function CreateCs({
                               value={values?.port}
                               label="Port"
                               onChange={(valueOption) => {
-                                setFieldValue("port", valueOption);
+                                setFieldValue('port', valueOption);
                                 setFieldValue(
-                                  "supplierRate",
-                                  valueOption?.rate
+                                  'supplierRate',
+                                  valueOption?.rate,
                                 );
                               }}
                               placeholder="Port"
@@ -549,7 +507,7 @@ export default function CreateCs({
                             value={values?.takenQuantity}
                             name="takenQuantity"
                             onChange={(e) => {
-                              setFieldValue("takenQuantity", e.target.value);
+                              setFieldValue('takenQuantity', e.target.value);
                             }}
                             placeholder="takenQuantity"
                             type="number"
@@ -563,7 +521,7 @@ export default function CreateCs({
                             value={values?.supplierRate}
                             name="supplierRate"
                             onChange={(e) => {
-                              setFieldValue("supplierRate", e.target.value);
+                              setFieldValue('supplierRate', e.target.value);
                             }}
                             placeholder="supplierRate"
                             type="number"
@@ -609,7 +567,7 @@ export default function CreateCs({
                             <th>Item</th>
                             <th>Supplier</th>
                             {rfqDetail?.purchaseOrganizationName ===
-                              "Foreign Procurement" && <th>Port</th>}
+                              'Foreign Procurement' && <th>Port</th>}
                             <th>Taken Quantity</th>
                             <th>Supplier Rate</th>
                             <th>Actions</th>
@@ -623,7 +581,7 @@ export default function CreateCs({
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "15px" }}
+                                style={{ width: '15px' }}
                                 className="text-center"
                               >
                                 {index + 1}
@@ -642,7 +600,7 @@ export default function CreateCs({
                               )}
 
                               {rfqDetail?.purchaseOrganizationName ===
-                                "Foreign Procurement" &&
+                                'Foreign Procurement' &&
                                 !isView && (
                                   <td>
                                     <span className="pl-2 text-center">
@@ -673,12 +631,12 @@ export default function CreateCs({
                               {!isView && (
                                 <td>
                                   <span
-                                    style={{ cursor: "pointer" }}
+                                    style={{ cursor: 'pointer' }}
                                     onClick={() => {
                                       handleDelete(
                                         item?.itemWiseCode,
                                         item?.supplierCode,
-                                        item?.port?.value
+                                        item?.port?.value,
                                       );
                                     }}
                                   >
@@ -707,9 +665,9 @@ export default function CreateCs({
                     <div
                       className="card"
                       style={{
-                        position: "relative",
-                        backgroundColor: "#f8f9fa",
-                        borderRadius: "8px",
+                        position: 'relative',
+                        backgroundColor: '#f8f9fa',
+                        borderRadius: '8px',
                       }}
                     >
                       {suppilerStatement?.firstSelectedId &&
@@ -741,12 +699,12 @@ export default function CreateCs({
                           }}
                           className="btn btn-sm btn-outline-danger"
                           style={{
-                            position: "absolute",
-                            top: "5px",
-                            right: "5px",
-                            border: "none",
-                            padding: "0",
-                            cursor: "pointer",
+                            position: 'absolute',
+                            top: '5px',
+                            right: '5px',
+                            border: 'none',
+                            padding: '0',
+                            cursor: 'pointer',
                           }}
                         >
                           <CloseSharp />
@@ -774,9 +732,9 @@ export default function CreateCs({
                     <div
                       className="card"
                       style={{
-                        position: "relative",
-                        backgroundColor: "#f8f9fa",
-                        borderRadius: "8px",
+                        position: 'relative',
+                        backgroundColor: '#f8f9fa',
+                        borderRadius: '8px',
                       }}
                     >
                       {suppilerStatement?.secondSelectedId &&
@@ -793,12 +751,12 @@ export default function CreateCs({
                           }}
                           className="btn btn-sm btn-outline-danger"
                           style={{
-                            position: "absolute",
-                            top: "5px",
-                            right: "5px",
-                            border: "none",
-                            padding: "0",
-                            cursor: "pointer",
+                            position: 'absolute',
+                            top: '5px',
+                            right: '5px',
+                            border: 'none',
+                            padding: '0',
+                            cursor: 'pointer',
                           }}
                         >
                           <CloseSharp />
@@ -816,7 +774,7 @@ export default function CreateCs({
                             !suppilerStatement?.firstSelectedId
                           ) {
                             toast.warning(
-                              "Please select 1st place supplier first!!"
+                              'Please select 1st place supplier first!!',
                             );
                             return;
                           }
@@ -831,7 +789,7 @@ export default function CreateCs({
                     </div>
                   </div>
                   {rfqDetail?.purchaseOrganizationName ===
-                    "Foreign Procurement" && (
+                    'Foreign Procurement' && (
                     <div className="col-lg-3">
                       <button
                         className="btn btn-danger"
@@ -847,14 +805,14 @@ export default function CreateCs({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -876,8 +834,8 @@ export default function CreateCs({
           <IViewModal
             title={
               isModalShowObj?.firstPlaceModal
-                ? "Select 1st Place Supplier"
-                : "Select 2nd Place Supplier"
+                ? 'Select 1st Place Supplier'
+                : 'Select 2nd Place Supplier'
             }
             show={isModalShowObj?.isModalOpen}
             onHide={() => {
@@ -919,7 +877,7 @@ export default function CreateCs({
       {isCostEntryModal && (
         <>
           <IViewModal
-            title={isView ? "View Cost Entry" : "Create Cost Entry"}
+            title={isView ? 'View Cost Entry' : 'Create Cost Entry'}
             show={isCostEntryModal}
             onHide={() => {
               setIsCostEntryModal(false);

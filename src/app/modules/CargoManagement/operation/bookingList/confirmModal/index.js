@@ -14,29 +14,8 @@ import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import './style.css';
 const validationSchema = Yup.object().shape({
-  // bookingAmount: Yup.number().required('Booking Amount is required'),
-  // airWaybillNumber: Yup.string().required("This field is required"),
   departureDateTime: Yup.date().required('Departure Date & Time is required'),
   arrivalDateTime: Yup.date().required('Arrival Date & Time is required'),
-  // flightNumber: Yup.string().required('This field is required'),
-
-  // transitInformation: Yup.object()
-  //   .shape({
-  //     value: Yup.number(),
-  //     label: Yup.string(),
-  //   })
-  //   .nullable()
-  //   .when('transportPlanningType', {
-  //     is: 'Sea',
-  //     then: (schema) => schema.notRequired(),
-  //     otherwise: (schema) =>
-  //       schema
-  //         .shape({
-  //           value: Yup.number().required('Transit Information is required'),
-  //           label: Yup.string().required('Transit Information is required'),
-  //         })
-  //         .typeError('Transit Information is required'),
-  //   }),
   confTransportMode: Yup.object()
     .shape({
       value: Yup.number().required('Transport Mode is required'),
@@ -105,7 +84,7 @@ function ConfirmModal({ rowClickData, CB }) {
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
   const [buyerBankAddressDDL, setBuyerBankAddressDDL] = React.useState([]);
   const [
-    shipBookingRequestGetById,
+    ,
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
@@ -119,7 +98,6 @@ function ConfirmModal({ rowClickData, CB }) {
   const [deliveryAgentDDL, setDeliveryAgentDDL] = React.useState([]);
   const [notifyPartyDDL, setNotifyParty] = React.useState([]);
   const formikRef = React.useRef(null);
-  const [, createHblFcrNumber, createHblFcrNumberLoading] = useAxiosPut();
 
   const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
   const [getBankListDDL, setBankListDDL] = useAxiosGet();
@@ -412,17 +390,6 @@ function ConfirmModal({ rowClickData, CB }) {
         'true',
       );
     }
-  };
-
-  const createHblFcrNumberApiCall = () => {
-    createHblFcrNumber(
-      `${imarineBaseUrl}/domain/ShippingService/CreateHblFcrNumber?BookingId=${bookingRequestId}&typeId=1`,
-      null,
-      () => {
-        CB();
-      },
-      'true',
-    );
   };
 
   const loadEmp = (v) => {

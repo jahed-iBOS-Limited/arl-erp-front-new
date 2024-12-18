@@ -1,29 +1,15 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams, useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { getModifyData, initData, makePayload } from "../helper";
-import "../style.css";
-import BankGuarantee from "./bankGuarantee";
-import DepositRegister from "./depositRegister";
-
-const validationSchema = Yup.object().shape({
-  item: Yup.object()
-    .shape({
-      label: Yup.string().required("Item is required"),
-      value: Yup.string().required("Item is required"),
-    })
-    .typeError("Item is required"),
-
-  remarks: Yup.string().required("Remarks is required"),
-  amount: Yup.number().required("Amount is required"),
-  date: Yup.date().required("Date is required"),
-});
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { getModifyData, initData, makePayload } from '../helper';
+import '../style.css';
+import BankGuarantee from './bankGuarantee';
+import DepositRegister from './depositRegister';
 
 export default function BankGuaranteeEntry() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -32,7 +18,7 @@ export default function BankGuaranteeEntry() {
 
   const [objProps, setObjprops] = useState({});
   const { entryType, typeId } = useParams();
-  const [attachmentFile, setAttachmentFile] = useState("");
+  const [attachmentFile, setAttachmentFile] = useState('');
   const [bankDDL, getBankDDL] = useAxiosGet();
   const [bankAccDDL, getBankAccDDL, , setBankAccDDL] = useAxiosGet();
   const [sbuDDL, getSbuDDL] = useAxiosGet();
@@ -42,12 +28,12 @@ export default function BankGuaranteeEntry() {
   const history = useHistory();
 
   useEffect(() => {
-    if (location?.state?.intId && entryType !== "create") {
+    if (location?.state?.intId && entryType !== 'create') {
       setModifyData(getModifyData({ location }));
 
-      setAttachmentFile(location?.state?.strAttachment || "");
+      setAttachmentFile(location?.state?.strAttachment || '');
       getBankAccDDL(
-        `/costmgmt/BankAccount/GetBankAccountDDLByBankId?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}&BankId=${location?.state?.intBankId}`
+        `/costmgmt/BankAccount/GetBankAccountDDLByBankId?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}&BankId=${location?.state?.intBankId}`,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,7 +42,7 @@ export default function BankGuaranteeEntry() {
   useEffect(() => {
     getBankDDL(`/hcm/HCMDDL/GetBankDDL`);
     getSbuDDL(
-      `/fino/Disbursement/GetSbuDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      `/fino/Disbursement/GetSbuDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
@@ -73,20 +59,20 @@ export default function BankGuaranteeEntry() {
         userId: profileData?.userId,
         location,
       }),
-      entryType === "create"
+      entryType === 'create'
         ? () => {
             cb();
-            setAttachmentFile("");
+            setAttachmentFile('');
             history.push(`/financial-management/banking/BankGuarantee`);
           }
         : null,
-      true
+      true,
     );
   };
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={entryType === "create" ? initData : modifyData}
+      initialValues={entryType === 'create' ? initData : modifyData}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -108,10 +94,10 @@ export default function BankGuaranteeEntry() {
           <IForm
             title={`${entryType?.toUpperCase()} ${
               +typeId === 1
-                ? "BANK GUARANTEE"
+                ? 'BANK GUARANTEE'
                 : +typeId === 2
-                ? "SECURITY DEPOSIT REGISTER"
-                : ""
+                ? 'SECURITY DEPOSIT REGISTER'
+                : ''
             }`}
             getProps={setObjprops}
           >
@@ -152,14 +138,14 @@ export default function BankGuaranteeEntry() {
             <Form>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,13 +1,12 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import Axios from "axios";
-import { useSelector } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useHistory} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import BootstrapTable from 'react-bootstrap-table-next';
+import Axios from 'axios';
+import { useSelector } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 
 export function ItemCategoryTable() {
   const [products, setProducts] = useState(null);
@@ -19,17 +18,14 @@ export function ItemCategoryTable() {
 
   const history = useHistory();
 
-  const selectedBusinessUnit = useSelector(
-    (state) => state.authData.selectedBusinessUnit
-  );
   const profileData = useSelector((state) => state.authData.profileData);
 
   const dispatchProduct = async (accId, pageNo, pageSize, search) => {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
     try {
       const res = await Axios.get(
-        `/item/MasterCategory/GetItemMasterCategoryPasignation?${searchPath}AccountId=${accId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+        `/item/MasterCategory/GetItemMasterCategoryPasignation?${searchPath}AccountId=${accId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
       );
       setProducts(res?.data);
       setLoading(false);
@@ -42,21 +38,13 @@ export function ItemCategoryTable() {
   // AccountId=1&viewOrder=asc&PageNo=1&PageSize=100
 
   useEffect(() => {
-    dispatchProduct(
-      profileData.accountId,
-      pageNo,
-      pageSize
-    );
+    dispatchProduct(profileData.accountId, pageNo, pageSize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
-    dispatchProduct(
-      profileData.accountId,
-      pageNo,
-      pageSize,
-      searchValue
-    );
+    dispatchProduct(profileData.accountId, pageNo, pageSize, searchValue);
   };
 
   const paginationSearchHandler = (searchValue) => {
@@ -66,20 +54,20 @@ export function ItemCategoryTable() {
   // Table columns
   const columns = [
     {
-      dataField: "sl",
-      text: "SL",
+      dataField: 'sl',
+      text: 'SL',
     },
     {
-      dataField: "itemMasterCategoryName",
-      text: "Category Name",
+      dataField: 'itemMasterCategoryName',
+      text: 'Category Name',
     },
     {
-      dataField: "itemMasterTypeName",
-      text: "Item Type",
+      dataField: 'itemMasterTypeName',
+      text: 'Item Type',
     },
     {
-      dataField: "",
-      text: "Action",
+      dataField: '',
+      text: 'Action',
       formatter: (cellContent, row) => {
         return (
           <span className="d-flex align-items-center justify-content-center">
@@ -90,8 +78,8 @@ export function ItemCategoryTable() {
                 </Tooltip>
               }
             >
-              <span 
-                style={{ cursor: "pointer"}}
+              <span
+                style={{ cursor: 'pointer' }}
                 onClick={() => {
                   history.push({
                     pathname: `/config/material-management/item-category/itemCategoryExpend/${row.itemMasterCategoryId}`,
@@ -99,10 +87,7 @@ export function ItemCategoryTable() {
                   });
                 }}
               >
-                <i
-                  className={`fa fa-arrows-alt`}
-                  onClick={() => {}}
-                ></i>
+                <i className={`fa fa-arrows-alt`} onClick={() => {}}></i>
               </span>
             </OverlayTrigger>
           </span>
