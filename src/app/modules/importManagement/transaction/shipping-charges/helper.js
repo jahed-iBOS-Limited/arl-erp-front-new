@@ -1,6 +1,25 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+export const empAttachment_action = async (attachment, cb) => {
+  let formData = new FormData();
+  attachment.forEach((file) => {
+    formData.append('files', file?.file);
+  });
+  try {
+    let { data } = await Axios.post('/domain/Document/UploadFile', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    // toast.success(res?.data?.message || "Submitted Successfully");
+    toast.success('Upload  successfully');
+    return data;
+  } catch (error) {
+    toast.error('Document not upload');
+  }
+};
+
 // Get Landing Data for Shipping Charges
 export const GetLandingData = async (
   accId,
@@ -8,11 +27,11 @@ export const GetLandingData = async (
   pageNo,
   pageSize,
   searchValue,
-  setter
+  setter,
 ) => {
   try {
     const res = await Axios.get(
-      `/imp/ShippingCharge/GetShippingChargeLandingPasignation?shipmentId=${searchValue}&accountId=${accId}&businessUnitId=${buId}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=asc`
+      `/imp/ShippingCharge/GetShippingChargeLandingPasignation?shipmentId=${searchValue}&accountId=${accId}&businessUnitId=${buId}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=asc`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -26,7 +45,7 @@ export const GetLandingData = async (
 export const GetShippingChargeList = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/imp/ShippingCharge/GetShippingChargeList?accountId=${accId}&businessUnitId=${buId}`
+      `/imp/ShippingCharge/GetShippingChargeList?accountId=${accId}&businessUnitId=${buId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -40,7 +59,7 @@ export const GetShippingChargeList = async (accId, buId, setter) => {
 export const GetSingleData = async (id, setter) => {
   try {
     const res = await Axios.get(
-      `/imp/ShippingCharge/GetShipmentById?shippingChargeId=${id}`
+      `/imp/ShippingCharge/GetShipmentById?shippingChargeId=${id}`,
     );
     if (res.status === 200 && res?.data) {
       const data =
@@ -87,7 +106,7 @@ export const GetSingleData = async (id, setter) => {
 export const GetAgentDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/imp/ImportCommonDDL/ShippingAgentNameDDL?accountId=${accId}&businessUnitId=${buId}`
+      `/imp/ImportCommonDDL/ShippingAgentNameDDL?accountId=${accId}&businessUnitId=${buId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -101,7 +120,7 @@ export const GetAgentDDL = async (accId, buId, setter) => {
 export const GetShipmentDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/imp/ImportCommonDDL/GetShipmentDDL?accountId=${accId}&businessUnitId=${buId}`
+      `/imp/ImportCommonDDL/GetShipmentDDL?accountId=${accId}&businessUnitId=${buId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -115,7 +134,7 @@ export const GetShipmentDDL = async (accId, buId, setter) => {
 export const GetShippingLineDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/imp/ImportCommonDDL/GetShippingLineDDL?accountId=${accId}&businessUnitId=${buId}`
+      `/imp/ImportCommonDDL/GetShippingLineDDL?accountId=${accId}&businessUnitId=${buId}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -145,26 +164,25 @@ export const CreateShippingCharge = async (
   buId,
   emId,
   uploadImage,
-  GetShippingChargeList
+  GetShippingChargeList,
 ) => {
-  const data = dataSetForCreate(payload, accId, buId, emId,uploadImage);
+  const data = dataSetForCreate(payload, accId, buId, emId, uploadImage);
   try {
     const res = await Axios.post(
       `/imp/ShippingCharge/CreateShippingCharge`,
-      data
+      data,
     );
     if (res.status === 200 && res?.data) {
-      toast.success("Create successfully");
+      toast.success('Create successfully');
       GetShippingChargeList();
       cb();
-      
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
   }
 };
 
-const dataSetForCreate = (values, accId, buId, emId,uploadImage) => {
+const dataSetForCreate = (values, accId, buId, emId, uploadImage) => {
   const payload = {
     accountId: accId,
     businessUnitId: buId,
@@ -190,15 +208,19 @@ const dataSetForCreate = (values, accId, buId, emId,uploadImage) => {
 };
 
 // Save Edited Data for Shipping Charges
-export const EditShippingCharge = async (payload, cb, accId, buId, emId, pid) => {
-  const data = dataSetForEdit(payload, accId, buId, emId,pid);
+export const EditShippingCharge = async (
+  payload,
+  cb,
+  accId,
+  buId,
+  emId,
+  pid,
+) => {
+  const data = dataSetForEdit(payload, accId, buId, emId, pid);
   try {
-    const res = await Axios.put(
-      `/imp/ShippingCharge/EditShippingCharge`,
-      data
-    );
+    const res = await Axios.put(`/imp/ShippingCharge/EditShippingCharge`, data);
     if (res.status === 200 && res?.data) {
-      toast.success("Updated successfully");
+      toast.success('Updated successfully');
       // cb();
     }
   } catch (error) {
@@ -206,19 +228,19 @@ export const EditShippingCharge = async (payload, cb, accId, buId, emId, pid) =>
   }
 };
 
-const dataSetForEdit = (values, accId, buId, emId,pid) => {
+const dataSetForEdit = (values, accId, buId, emId, pid) => {
   const payload = {
     shippingChargeId: pid,
     arivalDate: values?.arivalDate,
     description: values?.description,
     deliveryDate: values?.deliveryDate,
     instrumentId: values?.instrument?.value || 0,
-    payBankId: values?.payBank?.value ,
+    payBankId: values?.payBank?.value,
     amount: values?.amountBDT,
     demurrageAmount: values?.demurrage,
     totalAmount: values?.total,
     paymentDate: values?.paymentDate,
-    shippingDocumentId: "string",
+    shippingDocumentId: 'string',
     actionBy: emId,
   };
   return payload;

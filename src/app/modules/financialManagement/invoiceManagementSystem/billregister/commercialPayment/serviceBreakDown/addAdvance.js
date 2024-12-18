@@ -1,35 +1,38 @@
 /* eslint-disable eqeqeq */
-import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import IView from "../../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../../_helper/_inputField";
-import Loading from "../../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { empAttachment_action } from "../../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
-import { createCommercialBreakdownForAdvance, getCommercialBreakdownForAdvanceAndBill } from "../helper";
+import { Form, Formik } from 'formik';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import IView from '../../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../../_helper/_inputField';
+import Loading from '../../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import {
+  createCommercialBreakdownForAdvance,
+  getCommercialBreakdownForAdvanceAndBill,
+  empAttachment_action,
+} from '../helper';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../../_metronic/_partials/controls";
+} from './../../../../../../../_metronic/_partials/controls';
 
 const initData = {
-  advanceAmount: "",
+  advanceAmount: '',
   date: _todayDate(),
-  description: "",
+  description: '',
 };
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  advanceAmount: Yup.string().required("Advance amount is required"),
+  advanceAmount: Yup.string().required('Advance amount is required'),
 });
 
 export default function AddAdvance({
@@ -46,14 +49,12 @@ export default function AddAdvance({
   state,
   referenceId,
 }) {
-
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState({});
   const [uploadImage, setUploadImage] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [isloading, setIsLoading] = useState(false);
-
 
   // const selectedBusinessUnit = useSelector((state) => {
   //   return state.authData.selectedBusinessUnit;
@@ -80,17 +81,17 @@ export default function AddAdvance({
     if (data.length > 0) {
       createCommercialBreakdownForAdvance(data, setIsLoading, cb);
     } else {
-      toast.warning("Please add at least one row");
+      toast.warning('Please add at least one row');
     }
   };
 
   useEffect(() => {
     return () => {
       setAdvanceBill([]);
-      setSupplierName("");
-      setExpanded(false)
+      setSupplierName('');
+      setExpanded(false);
     };
-  }, [setAdvanceBill, setSupplierName,setExpanded]);
+  }, [setAdvanceBill, setSupplierName, setExpanded]);
 
   let totalNumAdvanceAdjust = 0;
   let totalRemainAdvance = 0;
@@ -114,11 +115,17 @@ export default function AddAdvance({
         }) => (
           <div className="bill">
             <Card>
-            {isloading && <Loading />}
+              {isloading && <Loading />}
               {true && <ModalProgressBar />}
-              <CardHeader style={{padding: '5px'}}>
+              <CardHeader style={{ padding: '5px' }}>
                 <div className="card-title">
-                  <h3 style={{fontSize:"12px", color: "#000000"}}><span style={{fontWeight: "bold"}}>{supplierName}</span> &nbsp; &nbsp;<span style={{fontWeight: "bold"}}>Total Advance: {totalAmount}</span> </h3> 
+                  <h3 style={{ fontSize: '12px', color: '#000000' }}>
+                    <span style={{ fontWeight: 'bold' }}>{supplierName}</span>{' '}
+                    &nbsp; &nbsp;
+                    <span style={{ fontWeight: 'bold' }}>
+                      Total Advance: {totalAmount}
+                    </span>{' '}
+                  </h3>
                 </div>
                 <CardHeaderToolbar>
                   <>
@@ -131,20 +138,23 @@ export default function AddAdvance({
                             data?.supplierId,
                             setAdvanceBill,
                             setBill,
-                            setIsLoading
+                            setIsLoading,
                           );
                         });
                       }}
                       className="btn btn-primary ml-2"
                       type="submit"
-                      disabled={bill?.billAndAdvanceId || advanceBill[0]?.billAndAdvanceId}
+                      disabled={
+                        bill?.billAndAdvanceId ||
+                        advanceBill[0]?.billAndAdvanceId
+                      }
                     >
                       Save
                     </button>
                   </>
                 </CardHeaderToolbar>
               </CardHeader>
-              <CardBody style={{ padding: "3px 7px 3px 7px" }}>
+              <CardBody style={{ padding: '3px 7px 3px 7px' }}>
                 <Form className="form form-label-right">
                   <div className="row global-form global-form-custom bj-left pb-2">
                     <div className="col-lg-3">
@@ -180,7 +190,7 @@ export default function AddAdvance({
                     <div className="col-auto">
                       <button
                         className="btn btn-primary mr-2"
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         type="button"
                         onClick={() => setOpen(true)}
                       >
@@ -190,10 +200,10 @@ export default function AddAdvance({
                         <button
                           className="btn btn-primary"
                           type="button"
-                          style={{ marginTop: "18px" }}
+                          style={{ marginTop: '18px' }}
                           onClick={() => {
                             dispatch(
-                              getDownlloadFileView_Action(uploadImage[0]?.id)
+                              getDownlloadFileView_Action(uploadImage[0]?.id),
                             );
                           }}
                         >
@@ -203,10 +213,10 @@ export default function AddAdvance({
                     </div>
                     <DropzoneDialogBase
                       filesLimit={5}
-                      acceptedFiles={["image/*"]}
+                      acceptedFiles={['image/*']}
                       fileObjects={fileObjects}
-                      cancelButtonText={"cancel"}
-                      submitButtonText={"submit"}
+                      cancelButtonText={'cancel'}
+                      submitButtonText={'submit'}
                       maxFileSize={1000000}
                       open={open}
                       onAdd={(newFileObjs) => {
@@ -214,7 +224,7 @@ export default function AddAdvance({
                       }}
                       onDelete={(deleteFileObj) => {
                         const newData = fileObjects.filter(
-                          (item) => item.file.name !== deleteFileObj.file.name
+                          (item) => item.file.name !== deleteFileObj.file.name,
                         );
                         setFileObjects(newData);
                       }}
@@ -228,13 +238,13 @@ export default function AddAdvance({
                       showPreviews={true}
                       showFileNamesInPreview={true}
                     />
-                    <div className="col-lg-1" style={{ marginTop: "20px" }}>
+                    <div className="col-lg-1" style={{ marginTop: '20px' }}>
                       <button
                         type="button"
                         disabled={!values?.advanceAmount || advanceBill?.length}
                         onClick={() => {
                           if (!data?.supplierId) {
-                            return toast.warn("Plaese Select Supplier");
+                            return toast.warn('Plaese Select Supplier');
                           }
                           addHandler({
                             billAndAdvanceId: 0,
@@ -245,24 +255,24 @@ export default function AddAdvance({
                             sbuId: state?.sbu?.value,
                             plantId: state?.plant?.value,
                             warehouseId: 0,
-                            warehouseName: "",
+                            warehouseName: '',
                             shipmentId: data?.shipmentId,
                             commercialReferenceId: data?.referenceId,
                             supplierId: data?.supplierId,
                             supplierName: data?.supplierName,
                             dteTransactionDate: values?.date,
                             typeId: 1,
-                            typeName: "Advance",
+                            typeName: 'Advance',
                             numAmount: values?.advanceAmount,
                             vatAmount: 0,
                             billNo: 0,
                             description: values?.description,
-                            attachment: uploadImage[0]?.id || "",
+                            attachment: uploadImage[0]?.id || '',
                             actionBy: profileData?.userId,
                           });
-                          setFieldValue("advanceAmount", "");
-                          setFieldValue("date", _todayDate());
-                          setFieldValue("description", "");
+                          setFieldValue('advanceAmount', '');
+                          setFieldValue('date', _todayDate());
+                          setFieldValue('description', '');
                           setUploadImage([]);
                         }}
                         className="btn btn-primary"
@@ -283,19 +293,20 @@ export default function AddAdvance({
                           <th>Advance Amount</th>
                           <th>Advance Adjust</th>
                           <th>Remain Advance</th>
-                          <th style={{ width: "70px" }}>Attachment</th>
+                          <th style={{ width: '70px' }}>Attachment</th>
                         </tr>
                       </thead>
                       <tbody>
                         {advanceBill?.length > 0 &&
                           advanceBill?.map((item, index) => {
-                            totalNumAdvanceAdjust +=  +item?.numAdvanceAdjust || 0
-                            totalRemainAdvance +=  +item?.remainAdvance || 0
+                            totalNumAdvanceAdjust +=
+                              +item?.numAdvanceAdjust || 0;
+                            totalRemainAdvance += +item?.remainAdvance || 0;
                             return (
                               <>
                                 <tr key={index}>
                                   <td
-                                    style={{ width: "30px" }}
+                                    style={{ width: '30px' }}
                                     className="text-center"
                                   >
                                     {index + 1}
@@ -341,29 +352,37 @@ export default function AddAdvance({
                                         clickHandler={() => {
                                           dispatch(
                                             getDownlloadFileView_Action(
-                                              item?.attachment
-                                            )
+                                              item?.attachment,
+                                            ),
                                           );
                                         }}
                                       />
                                     ) : (
-                                      ""
+                                      ''
                                     )}
                                   </td>
                                 </tr>
-
                               </>
                             );
                           })}
-                          <tr>
-                            <td className="text-center font-weight-bold" colSpan="5">
-                              Total
-                            </td>
-                            <td className="text-right font-weight-bold">{totalAmount}</td>
-                            <td className="text-right font-weight-bold">{totalNumAdvanceAdjust}</td>
-                            <td className="text-right font-weight-bold">{totalRemainAdvance}</td>
-                            <td colSpan="2"></td>
-                          </tr>
+                        <tr>
+                          <td
+                            className="text-center font-weight-bold"
+                            colSpan="5"
+                          >
+                            Total
+                          </td>
+                          <td className="text-right font-weight-bold">
+                            {totalAmount}
+                          </td>
+                          <td className="text-right font-weight-bold">
+                            {totalNumAdvanceAdjust}
+                          </td>
+                          <td className="text-right font-weight-bold">
+                            {totalRemainAdvance}
+                          </td>
+                          <td colSpan="2"></td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>

@@ -1,23 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import React from 'react';
 import {
   Card,
   CardHeader,
   ModalProgressBar,
   CardHeaderToolbar,
   CardBody,
-} from "../../../../../../_metronic/_partials/controls";
-import { useHistory } from "react-router-dom";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import { useDispatch } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import ICustomTable from "../../../../_helper/_customTable";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import { empAttachment_action } from "../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+} from '../../../../../../_metronic/_partials/controls';
+import { useHistory } from 'react-router-dom';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import { useDispatch } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import ICustomTable from '../../../../_helper/_customTable';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import { empAttachment_action } from '../helper';
 
 export default function _Form({
   initData,
@@ -38,7 +38,7 @@ export default function _Form({
   gridData,
 }) {
   // Table Headers
-  const header = ["Bill No", "PO", "Payment Date", "Amount (BDT)"];
+  const header = ['Bill No', 'PO', 'Payment Date', 'Amount (BDT)'];
   const history = useHistory();
   const backHandler = () => {
     history.goBack();
@@ -96,7 +96,7 @@ export default function _Form({
                       onClick={resetForm}
                       // ref={resetBtnRef}
                       className="btn btn-light ml-2"
-                      disabled={viewType === "view" ? true : false}
+                      disabled={viewType === 'view' ? true : false}
                     >
                       <i className="fa fa-redo"></i>
                       Reset
@@ -105,7 +105,7 @@ export default function _Form({
                       onClick={handleSubmit}
                       className="btn btn-primary ml-2"
                       type="submit"
-                      disabled={viewType === "view" ? true : false}
+                      disabled={viewType === 'view' ? true : false}
                     >
                       Save
                     </button>
@@ -128,9 +128,9 @@ export default function _Form({
                             name="shippingLine"
                             label="Shipping Line"
                             onChange={(valueOption) => {
-                              setFieldValue("shippingLine", valueOption);
+                              setFieldValue('shippingLine', valueOption);
                             }}
-                            isDisabled={viewType === "view" ? true : false}
+                            isDisabled={viewType === 'view' ? true : false}
                           />
                         </div>
                         <div className="p-2">
@@ -140,9 +140,9 @@ export default function _Form({
                             options={agentDDL || []}
                             label="Agent/Forwarder"
                             onChange={(valueOption) => {
-                              setFieldValue("agent", valueOption);
+                              setFieldValue('agent', valueOption);
                             }}
-                            isDisabled={viewType === "view" ? true : false}
+                            isDisabled={viewType === 'view' ? true : false}
                           />
                         </div>
                         <div className="pt-2 pl-1">
@@ -151,7 +151,7 @@ export default function _Form({
                             value={values?.arivalDate}
                             name="arivalDate"
                             type="date"
-                            disabled={viewType === "view" ? true : false}
+                            disabled={viewType === 'view' ? true : false}
                           />
                         </div>
                       </div>
@@ -167,7 +167,7 @@ export default function _Form({
                                     value={values?.billNo}
                                     name="billNo"
                                     disabled={
-                                      viewType === "view" ? true : false
+                                      viewType === 'view' ? true : false
                                     }
                                   />
                                 </td>
@@ -179,7 +179,7 @@ export default function _Form({
                                     value={values?.description}
                                     name="description"
                                     disabled={
-                                      viewType === "view" ? true : false
+                                      viewType === 'view' ? true : false
                                     }
                                   />
                                 </td>
@@ -192,7 +192,7 @@ export default function _Form({
                                     name="instrument"
                                     value={values?.instrument}
                                     isDisabled={
-                                      viewType === "view" ? true : false
+                                      viewType === 'view' ? true : false
                                     }
                                   />
                                 </td>
@@ -205,10 +205,10 @@ export default function _Form({
                                     value={values?.payBank}
                                     name="payBank"
                                     onChange={(valueOption) => {
-                                      setFieldValue("payBank", valueOption);
+                                      setFieldValue('payBank', valueOption);
                                     }}
                                     isDisabled={
-                                      viewType === "view" ? true : false
+                                      viewType === 'view' ? true : false
                                     }
                                   />
                                 </td>
@@ -221,7 +221,7 @@ export default function _Form({
                                     value={values?.deliveryDate}
                                     type="date"
                                     disabled={
-                                      viewType === "view" ? true : false
+                                      viewType === 'view' ? true : false
                                     }
                                   />
                                 </td>
@@ -233,7 +233,7 @@ export default function _Form({
                                     name="amountBDT"
                                     value={values?.amountBDT}
                                     disabled={
-                                      viewType === "view" ? true : false
+                                      viewType === 'view' ? true : false
                                     }
                                   />
                                 </td>
@@ -245,7 +245,7 @@ export default function _Form({
                                     name="demurrage"
                                     value={values?.demurrage}
                                     disabled={
-                                      viewType === "view" ? true : false
+                                      viewType === 'view' ? true : false
                                     }
                                   />
                                 </td>
@@ -257,7 +257,7 @@ export default function _Form({
                                     name="total"
                                     value={values?.total}
                                     disabled={
-                                      viewType === "view" ? true : false
+                                      viewType === 'view' ? true : false
                                     }
                                   />
                                 </td>
@@ -270,7 +270,7 @@ export default function _Form({
                                     value={values?.paymentDate}
                                     type="date"
                                     disabled={
-                                      viewType === "view" ? true : false
+                                      viewType === 'view' ? true : false
                                     }
                                   />
                                 </td>
@@ -280,7 +280,7 @@ export default function _Form({
                           <div className="text-right pt-1">
                             {/* <div className="col-lg-3"> */}
 
-                            {viewType === "view" ? (
+                            {viewType === 'view' ? (
                               <div className="text-right">
                                 <button
                                   className="btn btn-primary d-flex"
@@ -288,12 +288,12 @@ export default function _Form({
                                   onClick={() => {
                                     console.log(
                                       values?.attachment,
-                                      "attachment"
+                                      'attachment',
                                     );
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        values?.attachment
-                                      )
+                                        values?.attachment,
+                                      ),
                                     );
                                   }}
                                 >
@@ -305,10 +305,10 @@ export default function _Form({
                               <div>
                                 <DropzoneDialogBase
                                   filesLimit={1}
-                                  acceptedFiles={["image/*", "application/pdf"]}
+                                  acceptedFiles={['image/*', 'application/pdf']}
                                   fileObjects={fileObjects}
-                                  cancelButtonText={"cancel"}
-                                  submitButtonText={"submit"}
+                                  cancelButtonText={'cancel'}
+                                  submitButtonText={'submit'}
                                   maxFileSize={1000000}
                                   open={open}
                                   onAdd={(newFileObjs) => {
@@ -318,7 +318,7 @@ export default function _Form({
                                     const newData = fileObjects.filter(
                                       (item) =>
                                         item.file.name !==
-                                        deleteFileObj.file.name
+                                        deleteFileObj.file.name,
                                     );
                                     setFileObjects(newData);
                                   }}
@@ -328,7 +328,7 @@ export default function _Form({
                                     empAttachment_action(fileObjects).then(
                                       (data) => {
                                         setUploadImage(data);
-                                      }
+                                      },
                                     );
                                   }}
                                   showPreviews={true}
@@ -366,10 +366,10 @@ export default function _Form({
                           value={values?.shipment}
                           label="Shipment"
                           onChange={(valueOption) => {
-                            setFieldValue("shipment", valueOption);
+                            setFieldValue('shipment', valueOption);
                           }}
                           isDisabled={
-                            viewType === "view" || viewType === "edit"
+                            viewType === 'view' || viewType === 'edit'
                           }
                         />
                       </div>
@@ -402,12 +402,12 @@ export default function _Form({
                           })}
                         <tr>
                           <td></td>
-                          <td style={{ fontWeight: "900", textAlign: "right" }}>
+                          <td style={{ fontWeight: '900', textAlign: 'right' }}>
                             Total
                           </td>
 
                           <td></td>
-                          <td style={{ fontWeight: "900", textAlign: "right" }}>
+                          <td style={{ fontWeight: '900', textAlign: 'right' }}>
                             {TotalAmount()}
                           </td>
                         </tr>
