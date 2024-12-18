@@ -8,12 +8,7 @@ import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
 
 const FreightCargoReceipt = ({ rowClickData }) => {
   const componentRef = useRef();
-  const [, createHblFcrNumber, createHblFcrNumberLoading] = useAxiosPut();
-
-  // const { selectedBusinessUnit } = useSelector(
-  //   (state) => state?.authData || {},
-  //   shallowEqual,
-  // );
+  const [, createHblFcrNumber] = useAxiosPut();
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [
     shipBookingRequestGetById,
@@ -37,14 +32,6 @@ const FreightCargoReceipt = ({ rowClickData }) => {
           }
         `,
   });
-  // const totalGrossWeightKG = shipBookingRequestGetById?.rowsData?.reduce(
-  //   (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
-  //   0,
-  // );
-  // const totalVolumetricWeight = shipBookingRequestGetById?.rowsData?.reduce(
-  //   (acc, item) => acc + (+item?.totalVolumetricWeight || 0),
-  //   0,
-  // );
 
   useEffect(() => {
     if (bookingRequestId) {

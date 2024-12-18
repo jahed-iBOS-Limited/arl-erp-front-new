@@ -1,44 +1,24 @@
-import React, { useRef } from "react";
-import "./challanStyle.css";
-// import logo from "../../../../_helper/images/MTS.png";
-import { useReactToPrint } from "react-to-print";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { shallowEqual, useSelector } from "react-redux";
-// import { ToWords } from "to-words";
+import React, { useRef } from 'react';
+import './challanStyle.css';
+import { useReactToPrint } from 'react-to-print';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const ChallanPrint = ({ challanInfo }) => {
-
-  const { selectedBusinessUnit } = useSelector(
-    (state) => state?.authData,
-    shallowEqual
-  );
-
   const printRef = useRef();
-
-  // const toWords = new ToWords({
-  //   localeCode: "en-BD",
-  //   converterOptions: {
-  //     currency: true,
-  //     ignoreDecimal: false,
-  //     ignoreZeroCurrency: false,
-  //     doNotAddOnly: false,
-  //   },
-  // });
-
   const items = challanInfo?.objectRowList
     ?.map((item) => item?.itemName)
-    ?.join(", ");
+    ?.join(', ');
 
   const printHandler = useReactToPrint({
     content: () => printRef.current,
-    documentTitle: "Challan Copy",
+    documentTitle: 'Challan Copy',
     pageStyle:
-      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+      '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}',
   });
 
   const totalWeight = challanInfo?.objectRowList?.reduce(
     (a, b) => (a += b?.quantityTon),
-    0
+    0,
   );
 
   return (
@@ -62,14 +42,16 @@ const ChallanPrint = ({ challanInfo }) => {
         <div className="text-center">
           <h1
             style={{
-              fontWeight: "500",
-              fontFamily: "impact",
-              fontSize: "60px",
+              fontWeight: '500',
+              fontFamily: 'impact',
+              fontSize: '60px',
             }}
           >
             {challanInfo?.businessUnitName}
           </h1>
-          <h2><b>A sister concern of Akij Resources</b></h2>
+          <h2>
+            <b>A sister concern of Akij Resources</b>
+          </h2>
           {/* <img
             style={{ height: "60px", margin: "5px auto 15px auto" }}
             src={logo}
@@ -100,7 +82,7 @@ const ChallanPrint = ({ challanInfo }) => {
         <br />
         <section>
           <div className="flex">
-            <div style={{ verticalAlign: "center" }}>
+            <div style={{ verticalAlign: 'center' }}>
               <p>চালান নং- {challanInfo?.salesOrderCode}</p>
             </div>
             <div>
@@ -116,7 +98,7 @@ const ChallanPrint = ({ challanInfo }) => {
         </section>
 
         <section>
-          <div style={{ borderBottom: "1.5px solid black" }}>
+          <div style={{ borderBottom: '1.5px solid black' }}>
             <div className="flex mb-5">
               <div className="width_50 pr-5">
                 <p>প্রেরকঃ {challanInfo?.businessUnitName}</p>

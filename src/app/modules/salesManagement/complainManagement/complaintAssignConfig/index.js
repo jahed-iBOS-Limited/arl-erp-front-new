@@ -1,27 +1,23 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Form, Formik, useFormik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IForm from "../../../_helper/_form";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import NewSelect from "../../../_helper/_select";
-import FormikError from "../../../_helper/_formikError";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import SwitchBtn from "./components/switchBtn";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../chartering/_chartinghelper/_dateFormatter";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IForm from '../../../_helper/_form';
+import FormikError from '../../../_helper/_formikError';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../chartering/_chartinghelper/_dateFormatter';
+import SwitchBtn from './components/switchBtn';
 const initData = {
-  businessUnit: "",
-  issueType: "",
-  employee: "",
-  process: "",
+  businessUnit: '',
+  issueType: '',
+  employee: '',
+  process: '',
 };
 export default function ComplainAssignConfigLanding() {
   const saveHandler = (values, cb) => {};
@@ -35,10 +31,10 @@ export default function ComplainAssignConfigLanding() {
     complainAssignData,
     getComplaiAssignData,
     loadComplaintAssignData,
-    setComplainAssignData,
+    ,
   ] = useAxiosGet();
 
-  const [, updateStatus, isUpdatingStatus, , updatingError] = useAxiosPost();
+  const [, updateStatus, isUpdatingStatus, ,] = useAxiosPost();
 
   const {
     profileData: { accountId: accId },
@@ -58,7 +54,7 @@ export default function ComplainAssignConfigLanding() {
       null,
       (err) => {
         handleGetLandingData(values, pageNo, pageSize);
-      }
+      },
     );
   };
 
@@ -76,14 +72,15 @@ export default function ComplainAssignConfigLanding() {
 
   useEffect(() => {
     handleGetLandingData(null, pageNo, pageSize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     getIssueTypeDDL(
-      `/oms/CustomerPoint/ComplainCategory?businessUnitId=${buId}`
+      `/oms/CustomerPoint/ComplainCategory?businessUnitId=${buId}`,
     );
     getBusinessUnitDDL(
-      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`
+      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, accId]);
@@ -122,7 +119,7 @@ export default function ComplainAssignConfigLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/sales-management/complainmanagement/complaintassignconfig/create"
+                        '/sales-management/complainmanagement/complaintassignconfig/create',
                       );
                     }}
                   >
@@ -135,7 +132,7 @@ export default function ComplainAssignConfigLanding() {
             <Form>
               <div className="form-group  global-form row">
                 <div
-                  style={{ alignItems: "center", gap: "3px" }}
+                  style={{ alignItems: 'center', gap: '3px' }}
                   className="col-lg-3 d-flex"
                 >
                   <NewSelect
@@ -144,14 +141,14 @@ export default function ComplainAssignConfigLanding() {
                     value={values?.businessUnit}
                     label="Assign Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption);
+                      setFieldValue('businessUnit', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
                 <div
-                  style={{ alignItems: "center", gap: "3px" }}
+                  style={{ alignItems: 'center', gap: '3px' }}
                   className="col-lg-3 d-flex"
                 >
                   <NewSelect
@@ -160,7 +157,7 @@ export default function ComplainAssignConfigLanding() {
                     value={values?.issueType}
                     label="Issue Type"
                     onChange={(valueOption) => {
-                      setFieldValue("issueType", valueOption);
+                      setFieldValue('issueType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -171,14 +168,14 @@ export default function ComplainAssignConfigLanding() {
                   <SearchAsyncSelect
                     selectedValue={values?.user}
                     handleChange={(valueOption) => {
-                      setFieldValue("employee", valueOption);
+                      setFieldValue('employee', valueOption);
                     }}
                     // loadOptions={(v) => loadUserList(accId, buId, v)}
                     loadOptions={(v) => {
                       if (v?.length < 2) return [];
                       return axios
                         .get(
-                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
+                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`,
                         )
                         .then((res) => {
                           return res?.data?.map((itm) => ({
@@ -194,16 +191,16 @@ export default function ComplainAssignConfigLanding() {
                 </div>
 
                 <div
-                  style={{ alignItems: "center", gap: "3px" }}
+                  style={{ alignItems: 'center', gap: '3px' }}
                   className="col-lg-3 d-flex"
                 >
                   <NewSelect
                     name="process"
-                    options={[{ value: 1, label: "Assign" }]}
+                    options={[{ value: 1, label: 'Assign' }]}
                     value={values?.process}
                     label="Process"
                     onChange={(valueOption) => {
-                      setFieldValue("process", valueOption);
+                      setFieldValue('process', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -216,7 +213,7 @@ export default function ComplainAssignConfigLanding() {
                       handleGetLandingData(values, pageNo, pageSize);
                     }}
                     className="btn btn-primary btn-sm"
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                   >
                     View
                   </button>
@@ -256,8 +253,8 @@ export default function ComplainAssignConfigLanding() {
                               {item?.isActive ? (
                                 <span
                                   style={{
-                                    color: "#249e45",
-                                    fontWeight: "bold",
+                                    color: '#249e45',
+                                    fontWeight: 'bold',
                                   }}
                                 >
                                   Active
@@ -265,8 +262,8 @@ export default function ComplainAssignConfigLanding() {
                               ) : (
                                 <span
                                   style={{
-                                    color: "#ad502b",
-                                    fontWeight: "bold",
+                                    color: '#ad502b',
+                                    fontWeight: 'bold',
                                   }}
                                 >
                                   Inactive
@@ -282,7 +279,7 @@ export default function ComplainAssignConfigLanding() {
                                     handleStatusChange(
                                       index,
                                       item?.autoId,
-                                      values
+                                      values,
                                     )
                                   }
                                 />

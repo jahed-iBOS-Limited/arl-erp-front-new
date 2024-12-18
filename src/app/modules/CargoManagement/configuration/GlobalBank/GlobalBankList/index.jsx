@@ -1,20 +1,20 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { toast } from 'react-toastify';
 import { imarineBaseUrl } from '../../../../../App';
 import ICustomCard from '../../../../_helper/_customCard';
-import { toast } from 'react-toastify';
-import BankDetailsModal from './BankDetailsModal';
-import PaginationTable from '../../../../_helper/_tablePagination';
-import PaginationSearch from '../../../../_helper/_search';
 import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
+import BankDetailsModal from './BankDetailsModal';
 
 export default function GlobalBankList() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState(null);
   const [globalBankList, GetGlobalBankList, isLoading] = useAxiosGet();
-  const [, DeleteGlobalBank, bdeleteLoading] = useAxiosPut();
+  const [, DeleteGlobalBank] = useAxiosPut();
 
   let history = useHistory();
   const [pageNo, setPageNo] = React.useState(0);

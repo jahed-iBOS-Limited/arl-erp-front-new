@@ -1,52 +1,42 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import * as Yup from "yup";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IViewModal from "../../../_helper/_viewModal";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../_helper/_helperIcons/_edit";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import IForm from '../../../_helper/_form';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  businessUnit: "",
+  businessUnit: '',
 };
 export default function MachineEmpAssign() {
-  const {
-    businessUnitList,
-    profileData: { userId },
-  } = useSelector((state) => {
+  const { businessUnitList } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(100);
-  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
-  const [singleRowItem, setSingleRowItem] = useState(null);
+  const [gridData, getGridData, loading] = useAxiosGet();
   const [showModal, setShowModal] = useState(false);
 
-  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+  const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     getGridData(
-      `/mes/ProductionPlanning/GetAssignMachineonEmployeeLanding?businessUnitId=${values?.businessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
+      `/mes/ProductionPlanning/GetAssignMachineonEmployeeLanding?businessUnitId=${values?.businessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`,
     );
   };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
 
   const validationSchema = Yup.object().shape({
-    businessUnit: Yup.object().required("Business Unit is required"),
+    businessUnit: Yup.object().required('Business Unit is required'),
   });
   const history = useHistory();
 
@@ -56,7 +46,7 @@ export default function MachineEmpAssign() {
       initialValues={initData}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        getLandingData(values, pageNo, pageSize, "");
+        getLandingData(values, pageNo, pageSize, '');
       }}
     >
       {({
@@ -83,7 +73,7 @@ export default function MachineEmpAssign() {
                     className="btn btn-primary mx-2"
                     onClick={() => {
                       history.push(
-                        `/production-management/mes/machine-employee-assign/create`
+                        `/production-management/mes/machine-employee-assign/create`,
                       );
                     }}
                   >
@@ -102,7 +92,7 @@ export default function MachineEmpAssign() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption || "");
+                      setFieldValue('businessUnit', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -112,7 +102,7 @@ export default function MachineEmpAssign() {
                 <div className="col-lg-3 mt-1">
                   <button
                     onClick={() => {
-                      getLandingData(values, pageNo, pageSize, "");
+                      getLandingData(values, pageNo, pageSize, '');
                     }}
                     type="submit"
                     className="btn  btn-primary mt-5"
@@ -150,7 +140,7 @@ export default function MachineEmpAssign() {
                             {item?.strMachineName}
                           </td>
                           <td className="text-center">
-                            {moment(`${item?.intMonthId}`, "M").format("MMMM")}-
+                            {moment(`${item?.intMonthId}`, 'M').format('MMMM')}-
                             {item?.intYearId}
                           </td>
 
@@ -191,7 +181,7 @@ export default function MachineEmpAssign() {
               )}
             </Form>
             <IViewModal
-              title={"Print Template"}
+              title={'Print Template'}
               show={showModal}
               onHide={() => {
                 setShowModal(false);
@@ -200,13 +190,13 @@ export default function MachineEmpAssign() {
               <>
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    margin: "20px;",
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    margin: '20px;',
                   }}
                 >
                   <button
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {

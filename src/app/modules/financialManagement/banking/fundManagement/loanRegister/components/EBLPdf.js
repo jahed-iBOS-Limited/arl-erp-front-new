@@ -1,9 +1,8 @@
-import React from "react";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { formatDate } from "./utils";
-import { _formatMoney } from "../../../../../_helper/_formatMoney";
-import moment from "moment";
-const marginBottom = "9px";
+import moment from 'moment';
+import React from 'react';
+import { _formatMoney } from '../../../../../_helper/_formatMoney';
+import { formatDate } from './utils';
+const marginBottom = '9px';
 const EBLPdf = ({ singleItem, selectedBusinessUnit }) => {
   const {
     bankShortName,
@@ -13,17 +12,16 @@ const EBLPdf = ({ singleItem, selectedBusinessUnit }) => {
     bankBranchAddress,
     facilityName,
     strBankAccountNumber,
-    loanTypeName,
     intTenureDays,
   } = singleItem || {};
   const { buShortName, label } = selectedBusinessUnit;
 
-  const lacks = numPrinciple > 0 ? `${numPrinciple / 100000}L` : "0L";
+  const lacks = numPrinciple > 0 ? `${numPrinciple / 100000}L` : '0L';
   return (
-    <div style={{ margin: "40px 71px 0px" }}>
+    <div style={{ margin: '40px 71px 0px' }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Ref : {buShortName}/{bankShortName}/STL/{lacks}/
-        {moment(dteStartDate).format("YYYY.MM.DD")}
+        {moment(dteStartDate).format('YYYY.MM.DD')}
       </p>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Date : {formatDate(dteStartDate)}
@@ -34,7 +32,7 @@ const EBLPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{ marginBottom }}>{bankBranchAddress}</p>
 
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Subject : Request for disbursement of {facilityName} of BDT{" "}
+        Subject : Request for disbursement of {facilityName} of BDT{' '}
         {_formatMoney(numPrinciple)} for {label} A/C No: {strBankAccountNumber}.
       </p>
 
@@ -43,22 +41,22 @@ const EBLPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{ marginBottom }}>
         In reference to the mentioned subject, Please kindly note that, due to
         exchange rate volatility we are procuring raw materials needed from the
-        local market. As a result, we require a {facilityName} of{" "}
+        local market. As a result, we require a {facilityName} of{' '}
         <span className="font-weight-bolder">
-          BDT {_formatMoney(numPrinciple)} for {intTenureDays} days{" "}
+          BDT {_formatMoney(numPrinciple)} for {intTenureDays} days{' '}
         </span>
         to make payment to our local supplier today.
       </p>
       <p style={{ marginBottom }}>
-        Considering the issue, we would request to disburse BDT{" "}
-        {_formatMoney(numPrinciple)} to our A/C No.{" "}
+        Considering the issue, we would request to disburse BDT{' '}
+        {_formatMoney(numPrinciple)} to our A/C No.{' '}
         <span className="font-weight-bolder">{strBankAccountNumber} </span>
         maintained with your bank.
       </p>
       <p style={{ marginBottom }}>
-        Please process this request and{" "}
+        Please process this request and{' '}
         <span className="font-weight-bolder">
-          send the disbursed loan statement{" "}
+          send the disbursed loan statement{' '}
         </span>
         Voucher to us at your earliest convenience.
       </p>
@@ -71,12 +69,12 @@ const EBLPdf = ({ singleItem, selectedBusinessUnit }) => {
         For, <span className="font-weight-bolder">{label}</span>
       </p>
 
-      <div className="d-flex" style={{ marginTop: "90px" }}>
-        <p style={{ marginRight: "50px" }}>Authorized Signatory</p>
+      <div className="d-flex" style={{ marginTop: '90px' }}>
+        <p style={{ marginRight: '50px' }}>Authorized Signatory</p>
         <p>Authorized Signatory</p>
       </div>
 
-      <p style={{ fontStyle: "italic" }}>
+      <p style={{ fontStyle: 'italic' }}>
         <span className="font-weight-bolder">*Encloser : </span>Payment Advice.
       </p>
     </div>

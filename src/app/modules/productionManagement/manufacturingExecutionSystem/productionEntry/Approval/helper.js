@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const IssueReturnHandler = async ({
   response,
@@ -9,22 +9,22 @@ export const IssueReturnHandler = async ({
   selectedBusinessUnit,
 }) => {
   let mainAndLastProductionItem = rowData?.filter(
-    (item) => item?.isMain && item.isLastProduction
+    (item) => item?.isMain && item.isLastProduction,
   );
 
   if (mainAndLastProductionItem?.length) {
     let resData = await axios.get(
-      `/mes/ProductionEntry/GetItemListByLastProdctionorOrderId?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&ProductionOrderId=${singleData?.productionOrder?.value}&PlantId=${singleData?.plantId}&WareHouseId=${values?.wareHouse?.value}`
+      `/mes/ProductionEntry/GetItemListByLastProdctionorOrderId?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&ProductionOrderId=${singleData?.productionOrder?.value}&PlantId=${singleData?.plantId}&WareHouseId=${values?.wareHouse?.value}`,
     );
 
-    console.log("resData", resData);
+    console.log('resData', resData);
 
     if (!resData?.data?.length) {
       return;
     }
 
     let restQtyGreaterThanZeroRowData = resData?.data?.filter(
-      (item) => item?.restQty > 0
+      (item) => item?.restQty > 0,
     );
 
     if (!restQtyGreaterThanZeroRowData?.length) {
@@ -34,11 +34,11 @@ export const IssueReturnHandler = async ({
     const payload = {
       objHeader: {
         transactionGroupId: 14,
-        transactionGroupName: "Issue Return",
+        transactionGroupName: 'Issue Return',
         transactionTypeId: 7,
-        transactionTypeName: "Receive For Issue Return",
+        transactionTypeName: 'Receive For Issue Return',
         referenceTypeId: 7,
-        referenceTypeName: "Inventory Request",
+        referenceTypeName: 'Inventory Request',
         referenceId: singleData?.productionId,
         referenceCode: singleData?.productionOrder?.label,
         accountId: profileData?.accountId,
@@ -54,18 +54,18 @@ export const IssueReturnHandler = async ({
         businessPartnerId: 0,
         parsonnelId: 0,
         costCenterId: -1,
-        costCenterCode: "",
-        costCenterName: "",
+        costCenterCode: '',
+        costCenterName: '',
         projectId: -1,
-        projectCode: "",
-        projectName: "",
-        comments: "",
+        projectCode: '',
+        projectName: '',
+        comments: '',
         actionBy: profileData?.userId,
-        documentId: "",
-        businessPartnerName: "",
+        documentId: '',
+        businessPartnerName: '',
         gateEntryNo: 0,
-        challan: "1",
-        challanDateTime: "2023-10-30",
+        challan: '1',
+        challanDateTime: '2023-10-30',
         vatChallan: 0,
         vatAmount: 0,
         grossDiscount: 0,
@@ -86,9 +86,9 @@ export const IssueReturnHandler = async ({
               inventoryLocationId: item?.inventoryLocationId,
               inventoryLocationName: item?.inventoryLocationName,
               batchId: 0,
-              batchNumber: "",
+              batchNumber: '',
               inventoryStockTypeId: 1,
-              inventoryStockTypeName: "Open Stock",
+              inventoryStockTypeName: 'Open Stock',
               strBinNo: item?.binNumber,
               vatAmount: 0,
               discount: 0,
@@ -97,9 +97,9 @@ export const IssueReturnHandler = async ({
       objtransfer: {},
     };
 
-    const res = await axios.post(
+    await axios.post(
       `/wms/InventoryTransaction/CreateInvTransectionForIssueProduction`,
-      payload
+      payload,
     );
   }
 };

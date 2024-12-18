@@ -1,70 +1,68 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
 // import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../../_helper/_inputField";
-import { shallowEqual, useSelector } from "react-redux";
-import { _threeMonthAgoDate, _todayDate } from "../../../../_helper/_todayDate";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import IView from "../../../../_helper/_helperIcons/_view";
-import LocalShippingIcon from "@material-ui/icons/LocalShipping";
-import LocalAirportOutlinedIcon from "@material-ui/icons/LocalAirportOutlined";
+import LocalAirportOutlinedIcon from '@material-ui/icons/LocalAirportOutlined';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { eProcurementBaseURL } from '../../../../../App';
 import {
   _dateFormatter,
   _dateTimeFormatter,
-} from "../../../../_helper/_dateFormate";
-import Chips from "../../../../_helper/chips/Chips";
-import { useHistory } from "react-router-dom";
-import IAdd from "../../../../_helper/_helperIcons/_add";
-import { eProcurementBaseURL } from "../../../../../App";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { deleteHandler } from "../cs/helper";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IViewModal from "../../../../_helper/_viewModal";
-import RfqModalForView from "../../requestForQuotation/viewDetailsModal/rfqModalForView";
+} from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import IAdd from '../../../../_helper/_helperIcons/_add';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import { _threeMonthAgoDate, _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import Chips from '../../../../_helper/chips/Chips';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import RfqModalForView from '../../requestForQuotation/viewDetailsModal/rfqModalForView';
+import { deleteHandler } from '../cs/helper';
 const initData = {
-  purchaseOrganization: { value: 0, label: "ALL" },
-  plant: "",
-  warehouse: "",
-  rfqType: "",
-  status: { value: 0, label: "All" },
+  purchaseOrganization: { value: 0, label: 'ALL' },
+  plant: '',
+  warehouse: '',
+  rfqType: '',
+  status: { value: 0, label: 'All' },
   fromDate: _threeMonthAgoDate(),
   toDate: _todayDate(),
 };
 let statusDDL = [
   {
-    value: "All",
-    label: "All",
+    value: 'All',
+    label: 'All',
     isActive: true,
-    nameForApi: "All",
+    nameForApi: 'All',
   },
   {
-    value: "Ready For CS",
-    label: "Ready For CS",
+    value: 'Ready For CS',
+    label: 'Ready For CS',
     isActive: false,
-    nameForApi: "Ready For CS",
+    nameForApi: 'Ready For CS',
   },
   {
-    value: "Pending",
-    label: "Pending",
+    value: 'Pending',
+    label: 'Pending',
     isActive: false,
-    nameForApi: "Pending",
+    nameForApi: 'Pending',
   },
   {
-    value: "Live",
-    label: "Live",
+    value: 'Live',
+    label: 'Live',
     isActive: false,
-    nameForApi: "Live",
+    nameForApi: 'Live',
   },
   {
-    value: "Approved",
-    label: "Approved",
+    value: 'Approved',
+    label: 'Approved',
     isActive: false,
-    nameForApi: "Approved",
+    nameForApi: 'Approved',
   },
 ];
 
@@ -83,11 +81,7 @@ export default function ErpComparativeStatementLanding() {
 
   const [, deleteRFQById, deleteRFQLoading] = useAxiosPost();
 
-  const [
-    purchangeOrgListDDL,
-    getPurchaseOrgListDDL,
-    purchaseOrgListDDLloader,
-  ] = useAxiosGet();
+  const [, getPurchaseOrgListDDL, purchaseOrgListDDLloader] = useAxiosGet();
   const [
     plantListDDL,
     getPlantListDDL,
@@ -103,53 +97,25 @@ export default function ErpComparativeStatementLanding() {
 
   useEffect(() => {
     getPurchaseOrgListDDL(
-      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
 
     getPlantListDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`,
       (data) => {
-        // let list = [];
-        // // eslint-disable-next-line array-callback-return, no-unused-expressions
-        // data?.map((item) => {
-        //   list.push({
-        //     value: item?.rowId,
-        //     label: item?.itemName,
-        //   });
-        // });
-        setPlantListDDL([{ value: 0, label: "All" }, ...data]);
-      }
+        setPlantListDDL([{ value: 0, label: 'All' }, ...data]);
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [objProps, setObjprops] = useState({});
   const saveHandler = (values, cb) => {};
-  // const history = useHistory();
 
-  const getData = (values, pageNo, pageSize, searchValue = "") => {
-    getLandingData(
-      `${eProcurementBaseURL}/RequestForQuotation/GetRequestForQuotationLanding?businessUnitId=${
-        selectedBusinessUnit?.value
-      }&plantId=${0}&warehouseId=${0}&status=${
-        values?.status?.label
-      }&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
-    );
-  };
   const [showModal, setShowModal] = useState(false);
   const [id, setId] = useState(null);
   const [rfqCode, setRfqCode] = useState(null);
   const [createdBy, setCreatedBy] = useState(null);
   const [status, setStatus] = useState(null);
-  const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
-
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    getData(values, pageNo, pageSize, searchValue);
-  };
-
-  const paginationSearchHandler = (searchValue, values) => {
-    setPositionHandler(pageNo, pageSize, values, searchValue);
-  };
 
   const rfqDetailsView = (item) => {
     setId(item?.requestForQuotationId);
@@ -256,19 +222,19 @@ export default function ErpComparativeStatementLanding() {
                     onChange={(v) => {
                       setLandingData([]);
                       if (v) {
-                        setFieldValue("plant", v);
+                        setFieldValue('plant', v);
                         getWarehouseListDDL(
                           `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${v?.value}`,
                           (data) => {
                             setWarehouseListDDL([
-                              { value: 0, label: "All" },
+                              { value: 0, label: 'All' },
                               ...data,
                             ]);
-                          }
+                          },
                         );
                       } else {
-                        setFieldValue("plant", "");
-                        setFieldValue("warehouse", "");
+                        setFieldValue('plant', '');
+                        setFieldValue('warehouse', '');
                       }
                     }}
                     placeholder="Plant"
@@ -283,7 +249,7 @@ export default function ErpComparativeStatementLanding() {
                     value={values?.warehouse}
                     label="Warehouse"
                     onChange={(v) => {
-                      setFieldValue("warehouse", v);
+                      setFieldValue('warehouse', v);
                       setLandingData([]);
                     }}
                     placeholder="Warehouse"
@@ -299,7 +265,7 @@ export default function ErpComparativeStatementLanding() {
                     value={values?.status}
                     label="Status"
                     onChange={(v) => {
-                      setFieldValue("status", v);
+                      setFieldValue('status', v);
                       setLandingData([]);
                     }}
                     placeholder="Status"
@@ -339,7 +305,7 @@ export default function ErpComparativeStatementLanding() {
                     type="button"
                     className="btn btn-primary"
                     style={{
-                      marginTop: "18px",
+                      marginTop: '18px',
                     }}
                     onClick={() => {
                       getLandingData(
@@ -350,7 +316,7 @@ export default function ErpComparativeStatementLanding() {
                         }&partnerId=${0}&status=${values?.status?.label}`,
                         (data) => {
                           setBaseLanding(data);
-                        }
+                        },
                       );
 
                       // getData(values, pageNo, pageSize)
@@ -374,13 +340,13 @@ export default function ErpComparativeStatementLanding() {
                 <PaginationSearch
                   placeholder="Search RFQ No"
                   paginationSearchHandler={(searchValue) => {
-                    console.log(landingData, "landingData");
+                    console.log(landingData, 'landingData');
                     setLandingData(
                       baseLanding?.filter((item) =>
                         item?.requestForQuotationCode
                           ?.toLowerCase()
-                          .includes(searchValue.toLowerCase())
-                      )
+                          .includes(searchValue.toLowerCase()),
+                      ),
                     );
                   }}
                   values={values}
@@ -413,23 +379,23 @@ export default function ErpComparativeStatementLanding() {
                           <td>{index + 1}</td>
                           <td>
                             {item?.purchaseOrganizationName ===
-                            "Foreign Procurement" ? (
+                            'Foreign Procurement' ? (
                               <span
                                 style={{
-                                  color: "#007bff", // Link color
-                                  cursor: "pointer",
-                                  textDecoration: "underline",
-                                  display: "flex",
-                                  alignItems: "center",
+                                  color: '#007bff', // Link color
+                                  cursor: 'pointer',
+                                  textDecoration: 'underline',
+                                  display: 'flex',
+                                  alignItems: 'center',
                                 }}
                                 onClick={() => rfqDetailsView(item)}
                               >
                                 <LocalAirportOutlinedIcon
                                   style={{
-                                    color: "#00FF00",
-                                    marginRight: "5px",
-                                    rotate: "90deg",
-                                    fontSize: "15px",
+                                    color: '#00FF00',
+                                    marginRight: '5px',
+                                    rotate: '90deg',
+                                    fontSize: '15px',
                                   }}
                                 />
                                 {item?.requestForQuotationCode}
@@ -437,19 +403,19 @@ export default function ErpComparativeStatementLanding() {
                             ) : (
                               <span
                                 style={{
-                                  color: "#007bff", // Link color
-                                  cursor: "pointer",
-                                  textDecoration: "underline",
-                                  display: "flex",
-                                  alignItems: "center",
+                                  color: '#007bff', // Link color
+                                  cursor: 'pointer',
+                                  textDecoration: 'underline',
+                                  display: 'flex',
+                                  alignItems: 'center',
                                 }}
                                 onClick={() => rfqDetailsView(item)}
                               >
                                 <LocalShippingIcon
                                   style={{
-                                    color: "#000000",
-                                    marginRight: "5px",
-                                    fontSize: "15px",
+                                    color: '#000000',
+                                    marginRight: '5px',
+                                    fontSize: '15px',
                                   }}
                                 />
 
@@ -472,28 +438,28 @@ export default function ErpComparativeStatementLanding() {
                             {_dateTimeFormatter(item?.validTillDate)}
                           </td>
                           <td className="text-center">
-                            {item?.status && item?.status === "Live" ? (
+                            {item?.status && item?.status === 'Live' ? (
                               <Chips
                                 classes="badge-primary"
                                 status={item?.status}
                               />
                             ) : item?.status &&
-                              item?.status === "Ready For CS" ? (
+                              item?.status === 'Ready For CS' ? (
                               <Chips
                                 classes="badge-success"
                                 status={item?.status}
                               />
-                            ) : item?.status && item?.status === "Pending" ? (
+                            ) : item?.status && item?.status === 'Pending' ? (
                               <Chips
                                 classes="badge-warning"
                                 status={item?.status}
                               />
-                            ) : item?.status && item?.status === "Approved" ? (
+                            ) : item?.status && item?.status === 'Approved' ? (
                               <Chips
                                 classes="badge-info"
                                 status={item?.status}
                               />
-                            ) : item?.status && item?.status === "All" ? (
+                            ) : item?.status && item?.status === 'All' ? (
                               <Chips
                                 classes="badge-primary"
                                 status={item?.status}
@@ -517,10 +483,10 @@ export default function ErpComparativeStatementLanding() {
                           <td className="text-center">
                             <div className="d-flex justify-content-center align-items-center">
                               {item?.status &&
-                              ((item?.status === "Ready For CS" &&
+                              ((item?.status === 'Ready For CS' &&
                                 !item?.comparativeStatementType) ||
-                                (item?.status === "N/A" &&
-                                  item?.comparativeStatementType === "")) ? (
+                                (item?.status === 'N/A' &&
+                                  item?.comparativeStatementType === '')) ? (
                                 <span
                                   onClick={() => {
                                     history.push({
@@ -529,7 +495,7 @@ export default function ErpComparativeStatementLanding() {
                                     });
                                   }}
                                 >
-                                  <IAdd title={"Add"} />
+                                  <IAdd title={'Add'} />
                                 </span>
                               ) : item?.comparativeStatementType ? (
                                 <span
@@ -540,11 +506,11 @@ export default function ErpComparativeStatementLanding() {
                                     });
                                   }}
                                 >
-                                  <IView title={"View"} />
+                                  <IView title={'View'} />
                                 </span>
                               ) : null}
                               {item?.status &&
-                                item?.status !== "Approved" &&
+                                item?.status !== 'Approved' &&
                                 item?.comparativeStatementType && (
                                   <span
                                     className="ml-2"
@@ -568,13 +534,13 @@ export default function ErpComparativeStatementLanding() {
                                             (data) => {
                                               setLandingData(data);
                                               setBaseLanding(data);
-                                            }
+                                            },
                                           );
                                         },
                                       });
                                     }}
                                   >
-                                    <IDelete title={"Delete"} />
+                                    <IDelete title={'Delete'} />
                                   </span>
                                 )}
                             </div>
@@ -601,14 +567,14 @@ export default function ErpComparativeStatementLanding() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

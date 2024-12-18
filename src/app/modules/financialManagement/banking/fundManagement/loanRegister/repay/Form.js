@@ -1,21 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
-import * as Yup from "yup";
-import InputField from "../../../../../_helper/_inputField";
-import NewSelect from "../../../../../_helper/_select";
-import { getBankAccountDDLByBankId } from "../../helper";
-import { toast } from "react-toastify";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import * as Yup from 'yup';
+import InputField from '../../../../../_helper/_inputField';
+import NewSelect from '../../../../../_helper/_select';
+import { getBankAccountDDLByBankId } from '../../helper';
 
 const loanRegister = Yup.object().shape({
   account: Yup.object().shape({
-    label: Yup.string().required("Bank is required"),
-    value: Yup.string().required("Bank is required"),
+    label: Yup.string().required('Bank is required'),
+    value: Yup.string().required('Bank is required'),
   }),
-  instrumentNo: Yup.string().required("Instrument No is required"),
-  // numExciseDuty: Yup.string().required("Excise Duty  is required"),
-  // principalAmount: Yup.number().required("Principal Amount is required"),
+  instrumentNo: Yup.string().required('Instrument No is required'),
 });
 
 export default function RepayForm({
@@ -39,7 +36,7 @@ export default function RepayForm({
       location?.state?.bu || selectedBusinessUnit?.value,
       location?.state?.bankId,
       setAccountDDL,
-      setLoading
+      setLoading,
     );
   }, [profileData, selectedBusinessUnit, location]);
 
@@ -55,12 +52,9 @@ export default function RepayForm({
         initialValues={initialValues}
         validationSchema={loanRegister}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          // if (values?.principalAmount <= 0) {
-          //   return toast.error("Principal Amount must be greater than 0");
-          // }
           saveHandler(values, () => {
             resetForm(initData);
-            history.push("/financial-management/banking/loan-register");
+            history.push('/financial-management/banking/loan-register');
           });
         }}
       >
@@ -76,35 +70,13 @@ export default function RepayForm({
           <>
             <Form className="form form-label-right">
               <div className="row global-form h-100">
-                {/* <div className="col-lg-4">
-                  <NewSelect
-                    name="bank"
-                    options={bankDDL}
-                    value={values?.bank}
-                    onChange={(valueOption) => {
-                      setFieldValue("bank", valueOption);
-                      getBankAccountDDLByBankId(
-                        profileData?.accountId,
-                        selectedBusinessUnit?.value,
-                        valueOption?.value,
-                        setAccountDDL,
-                        setLoading
-                      );
-                    }}
-                    errors={errors}
-                    touched={touched}
-                    isDisabled={isEdit}
-                    label="Bank"
-                    placeholder="Bank"
-                  />
-                </div> */}
                 <div className="col-lg-4">
                   <NewSelect
                     name="account"
                     options={accountDDL}
                     value={values?.account}
                     onChange={(valueOption) => {
-                      setFieldValue("account", valueOption);
+                      setFieldValue('account', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -121,7 +93,7 @@ export default function RepayForm({
                     name="instrumentNo"
                     placeholder="Instrument No"
                     onChange={(e) => {
-                      setFieldValue("instrumentNo", e.target.value);
+                      setFieldValue('instrumentNo', e.target.value);
                     }}
                     type="string"
                   />
@@ -143,16 +115,16 @@ export default function RepayForm({
                     placeholder="Principal Amount"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("principalAmount", e.target.value);
+                        setFieldValue('principalAmount', e.target.value);
                       } else {
-                        setFieldValue("principalAmount", "");
+                        setFieldValue('principalAmount', '');
                       }
                     }}
                     type="number"
                     // min={1}
                     max={
                       location?.state?.principal?.toFixed(2) ||
-                      "100000000000000000000000000000"
+                      '100000000000000000000000000000'
                     }
                     step="any"
                   />
@@ -165,9 +137,9 @@ export default function RepayForm({
                     placeholder="Interest Amount"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("interestAmount", e.target.value);
+                        setFieldValue('interestAmount', e.target.value);
                       } else {
-                        setFieldValue("interestAmount", "");
+                        setFieldValue('interestAmount', '');
                       }
                     }}
                     type="number"
@@ -183,9 +155,9 @@ export default function RepayForm({
                     placeholder="Excise Duty"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("numExciseDuty", e.target.value);
+                        setFieldValue('numExciseDuty', e.target.value);
                       } else {
-                        setFieldValue("numExciseDuty", "");
+                        setFieldValue('numExciseDuty', '');
                       }
                     }}
                     type="number"
@@ -206,14 +178,14 @@ export default function RepayForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

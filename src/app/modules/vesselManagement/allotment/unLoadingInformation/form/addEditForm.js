@@ -1,17 +1,16 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { GetDomesticPortDDL } from "../../generalInformation/helper";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { isWaitForSecondsAfterClick } from '../../../../_helper/isWaitForSecondsAfterClick';
+import { GetDomesticPortDDL } from '../../generalInformation/helper';
 import {
   // getMotherVesselDDL,
   GetShipPointDDL,
-} from "../../loadingInformation/helper";
+} from '../../loadingInformation/helper';
 import {
   editUnloadinfo,
   getInfoForUnloading,
@@ -19,25 +18,24 @@ import {
   getLightersByVesselNLighterDestination,
   getLoadingInfoByVoyageNo,
   getUnloadingInformationById,
-} from "../helper";
-import Form from "./form";
-import { isWaitForSecondsAfterClick } from "../../../../_helper/isWaitForSecondsAfterClick";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  shipPoint: "",
-  lighterDestination: "",
-  programNo: "",
-  lighterVessel: "",
-  motherVessel: "",
-  receivedAt: "",
-  unloadingPort: "",
-  unloadingStart: "",
+  shipPoint: '',
+  lighterDestination: '',
+  programNo: '',
+  lighterVessel: '',
+  motherVessel: '',
+  receivedAt: '',
+  unloadingPort: '',
+  unloadingStart: '',
   unloadingDate: _todayDate(),
-  unloadedQty: "",
-  unloadingComplete: "",
-  isComplete: "",
-  item: "",
-  port: "",
+  unloadedQty: '',
+  unloadingComplete: '',
+  isComplete: '',
+  item: '',
+  port: '',
 };
 
 export default function UnLoadingInformationForm() {
@@ -70,25 +68,25 @@ export default function UnLoadingInformationForm() {
   const pendingQuantity = (
     motherVesselId,
     lighterVesselId,
-    lighterDestinationId
+    lighterDestinationId,
   ) => {
     getPendingQty(
-      `/tms/LigterLoadUnload/GetLighterLoadUnLoadQuantity?MotherVesselId=${motherVesselId}&LighterVesselId=${lighterVesselId}&DestinationId=${lighterDestinationId}`
+      `/tms/LigterLoadUnload/GetLighterLoadUnLoadQuantity?MotherVesselId=${motherVesselId}&LighterVesselId=${lighterVesselId}&DestinationId=${lighterDestinationId}`,
     );
   };
 
   useEffect(() => {
     getOrganizationDDL(
-      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`,
     );
-    if (!type || type !== "view") {
+    if (!type || type !== 'view') {
       GetShipPointDDL(accId, buId, setShipPointDDL);
       // getMotherVesselDDL(accId, buId, setMotherVesselDDL);
       GetLighterDestinationDDL(accId, buId, setLighterDestinationDDL);
       GetDomesticPortDDL(setPortDDL);
     }
     if (id) {
-      if (type === "edit") {
+      if (type === 'edit') {
         getUnloadingInformationById(
           state?.rowId,
           id,
@@ -99,12 +97,12 @@ export default function UnLoadingInformationForm() {
             pendingQuantity(
               resData?.motherVessel?.value,
               resData?.lighterVessel?.value,
-              resData?.lighterDestination?.value
+              resData?.lighterDestination?.value,
             );
             // getPendingQty(
             //   `/tms/LigterLoadUnload/GetLighterLoadUnLoadQuantity?MotherVesselId=${}&LighterVesselId=${}&DestinationId=${}`
             // );
-          }
+          },
         );
       } else {
         getLoadingInfoByVoyageNo(
@@ -119,27 +117,28 @@ export default function UnLoadingInformationForm() {
             pendingQuantity(
               resData?.motherVessel?.value,
               resData?.lighterVessel?.value,
-              resData?.lighterDestination?.value
+              resData?.lighterDestination?.value,
             );
-          }
+          },
         );
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId, type, id]);
 
   const getVessels = (values) => {
     getMotherVesselDDL(
       `/wms/FertilizerOperation/GetMotherVesselByOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${values
-        ?.port?.value || 0}&OrganizationId=${values?.organization?.value || 0}`
+        ?.port?.value || 0}&OrganizationId=${values?.organization?.value || 0}`,
     );
   };
 
   const saveHandler = (values, cb) => {
-    if(isWaitForSecondsAfterClick()){
+    if (isWaitForSecondsAfterClick()) {
       return;
     }
 
-    if (type === "modify") {
+    if (type === 'modify') {
       // if (pendingQty?.pendingQty < values?.unloadedQty) {
       //   return toast.warn(
       //     "Sorry, you can't unload more than pending quantity!"
@@ -172,10 +171,10 @@ export default function UnLoadingInformationForm() {
                 (data, i) => ({
                   autoId: data?.autoId,
                   unloadRowId: dateWiseQuantity?.rowDataList?.[0]?.rowId,
-                  unLoadingDateDetails: data?.unloadDateDetails || "",
+                  unLoadingDateDetails: data?.unloadDateDetails || '',
                   receiveQuantity: data?.receiveQuantityDeatails || 0,
                   updateBy: userId,
-                })
+                }),
               )
             : [],
       };
@@ -190,7 +189,7 @@ export default function UnLoadingInformationForm() {
         lighterVesselName: values?.lighterVessel?.label,
         receivedDate: values?.receivedAt,
         unloadStartDate: values?.unloadingStart,
-        unloadCompleteDate: values?.isComplete ? values?.unloadingComplete : "",
+        unloadCompleteDate: values?.isComplete ? values?.unloadingComplete : '',
         actionby: userId,
         receiveQnt: values?.unloadedQty,
         unLoadingDate: values?.unloadingStart,
@@ -202,34 +201,34 @@ export default function UnLoadingInformationForm() {
         () => {
           cb();
         },
-        true
+        true,
       );
     }
   };
 
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
     switch (fieldName) {
-      case "lighterDestination":
-        setFieldValue("lighterDestination", currentValue);
-        setFieldValue("lighterVessel", "");
-        setFieldValue("motherVessel", "");
-        setFieldValue("programNo", "");
+      case 'lighterDestination':
+        setFieldValue('lighterDestination', currentValue);
+        setFieldValue('lighterVessel', '');
+        setFieldValue('motherVessel', '');
+        setFieldValue('programNo', '');
         break;
 
       // case "allotment":
       //   setFieldValue("allotment", currentValue);
       //   break;
 
-      case "motherVessel":
-        setFieldValue("motherVessel", currentValue);
-        setFieldValue("lighterVessel", "");
-        setFieldValue("programNo", {
+      case 'motherVessel':
+        setFieldValue('motherVessel', currentValue);
+        setFieldValue('lighterVessel', '');
+        setFieldValue('programNo', {
           label: currentValue?.programNo,
           value: currentValue?.programNo,
         });
 
         if (currentValue) {
-          console.log("currentValue", currentValue);
+          console.log('currentValue', currentValue);
 
           getLightersByVesselNLighterDestination(
             values?.lighterDestination?.value,
@@ -241,7 +240,7 @@ export default function UnLoadingInformationForm() {
               //   label: e?.programNo,
               //   value: e?.programNo,
               // });
-            }
+            },
           );
           // getAllotmentDDLByMotherVessel(
           //   currentValue?.value,
@@ -252,8 +251,8 @@ export default function UnLoadingInformationForm() {
         }
         break;
 
-      case "lighterVessel":
-        setFieldValue("lighterVessel", currentValue);
+      case 'lighterVessel':
+        setFieldValue('lighterVessel', currentValue);
         if (currentValue) {
           getInfoForUnloading(
             values?.lighterDestination?.value,
@@ -265,23 +264,23 @@ export default function UnLoadingInformationForm() {
               //   value: resData?.shipPointId,
               //   label: resData?.shipPointName,
               // });
-              setFieldValue("item", {
+              setFieldValue('item', {
                 value: resData?.itemId,
                 label: resData?.itemName,
               });
-              setFieldValue("unloadedQty", resData?.surveyQnt);
-            }
+              setFieldValue('unloadedQty', resData?.surveyQnt);
+            },
           );
           pendingQuantity(
             values?.motherVessel?.value,
             currentValue?.value,
-            values?.lighterDestination?.value
+            values?.lighterDestination?.value,
           );
         }
         break;
 
-      case "shipPoint":
-        setFieldValue("shipPoint", currentValue);
+      case 'shipPoint':
+        setFieldValue('shipPoint', currentValue);
         break;
 
       default:
@@ -307,7 +306,7 @@ export default function UnLoadingInformationForm() {
               ? {
                   ...singleData,
                   unloadedQty:
-                    type === "edit"
+                    type === 'edit'
                       ? pendingQty?.pendingQty
                       : singleData?.unloadedQty,
                 }

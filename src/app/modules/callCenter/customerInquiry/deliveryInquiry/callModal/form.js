@@ -1,12 +1,12 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import TextArea from "../../../../_helper/TextArea";
-import ICard from "../../../../_helper/_card";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import TextArea from '../../../../_helper/TextArea';
+import ICard from '../../../../_helper/_card';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
 
 const _Form = ({
   initData,
@@ -29,8 +29,9 @@ const _Form = ({
   const [issueDDL, getIssueDDL, issueDDLloader] = useAxiosGet();
   useEffect(() => {
     getIssueDDL(`/wms/CustomerDeliveryInquery/GetIssueTypeDDL`, (data) => {
-      console.log("data", data);
+      console.log('data', data);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
@@ -127,7 +128,7 @@ const _Form = ({
                     placeholder="Product Description"
                     touched={touched}
                     onChange={(e) => {
-                      setFieldValue("productDescription", e.target.value);
+                      setFieldValue('productDescription', e.target.value);
                     }}
                   />
                 </div>
@@ -197,12 +198,12 @@ const _Form = ({
                     name="receivedStatus"
                     value={values?.receivedStatus}
                     options={[
-                      { value: false, label: "No" },
-                      { value: true, label: "Yes" },
+                      { value: false, label: 'No' },
+                      { value: true, label: 'Yes' },
                     ]}
                     placeholder="Received Status"
                     onChange={(e) => {
-                      setFieldValue("receivedStatus", e);
+                      setFieldValue('receivedStatus', e);
                     }}
                     label="Received Status"
                     errors={errors}
@@ -217,13 +218,13 @@ const _Form = ({
                     placeholder="Challan No"
                     touched={touched}
                     onChange={(e) => {
-                      setFieldValue("challanNo", e.target.value);
+                      setFieldValue('challanNo', e.target.value);
                       setFieldValue(
-                        "challanVerify",
+                        'challanVerify',
                         challanVerificationFunc({
                           ...values,
                           challanNo: e.target.value,
-                        })
+                        }),
                       );
                     }}
                   />
@@ -236,13 +237,13 @@ const _Form = ({
                     placeholder="challanVerification"
                     touched={touched}
                     onChange={(e) => {
-                      setFieldValue("challanVerification", e.target.value);
+                      setFieldValue('challanVerification', e.target.value);
                       setFieldValue(
-                        "challanVerify",
+                        'challanVerify',
                         challanVerificationFunc({
                           ...values,
                           challanVerification: e.target.value,
-                        })
+                        }),
                       );
                     }}
                   />
@@ -278,7 +279,7 @@ const _Form = ({
                         name="isRightForm"
                         value={values?.isRightForm}
                         onChange={(e) =>
-                          setFieldValue("isRightForm", e.target.checked)
+                          setFieldValue('isRightForm', e.target.checked)
                         }
                         checked={values?.isRightForm}
                       />
@@ -293,9 +294,9 @@ const _Form = ({
                     placeholder="issueType"
                     onChange={(valuOption) => {
                       if (valuOption) {
-                        setFieldValue("issueType", valuOption);
+                        setFieldValue('issueType', valuOption);
                       } else {
-                        setFieldValue("issueType", "");
+                        setFieldValue('issueType', '');
                       }
                     }}
                     label="Issue Type"
@@ -317,31 +318,31 @@ const _Form = ({
                 Submit
               </button>
             </div>
-         <div className="table-responsive">
-         <table className="table table-striped table-bordered  global-table">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Lest Call Date</th>
-                  <th>User Name</th>
-                  <th>Problem Details</th>
-                  <th>Remarks</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rowDto.length >= 0 &&
-                  rowDto.map((item, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{_dateFormatter(item?.lastActionDateTime)}</td>
-                      <td>{item?.userName}</td>
-                      <td>{item?.problemDetails}</td>
-                      <td>{item?.remarks}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-         </div>
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered  global-table">
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Lest Call Date</th>
+                    <th>User Name</th>
+                    <th>Problem Details</th>
+                    <th>Remarks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rowDto.length >= 0 &&
+                    rowDto.map((item, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{_dateFormatter(item?.lastActionDateTime)}</td>
+                        <td>{item?.userName}</td>
+                        <td>{item?.problemDetails}</td>
+                        <td>{item?.remarks}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
           </ICard>
         )}
       </Formik>

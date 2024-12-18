@@ -1,22 +1,19 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import {
-  _getCurrentMonthYearForInput,
-  _todayDate,
-} from "../../../_helper/_todayDate";
-import "./style.css";
+} from '../../../../../_metronic/_partials/controls';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _getCurrentMonthYearForInput } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import './style.css';
 
 const initData = {
   // fromDate: _todayDate(),
@@ -31,11 +28,11 @@ function CostOfProduction() {
   }, shallowEqual);
 
   const getData = (values) => {
-    const [year, month] = values?.monthYear.split("-").map(Number);
+    const [year, month] = values?.monthYear.split('-').map(Number);
     const startDate = new Date(Date.UTC(year, month - 1, 1));
     const endDate = new Date(Date.UTC(year, month, 0));
-    const formattedStartDate = startDate.toISOString().split("T")[0];
-    const formattedEndDate = endDate.toISOString().split("T")[0];
+    const formattedStartDate = startDate.toISOString().split('T')[0];
+    const formattedEndDate = endDate.toISOString().split('T')[0];
 
     getRowDto(
       `/fino/Report/GetMachineWiseCostOfProduction?intBusinessUnitId=${selectedBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}`,
@@ -53,7 +50,7 @@ function CostOfProduction() {
           arr.push(obj);
         });
         setRowDto(arr);
-      }
+      },
     );
   };
 
@@ -74,7 +71,7 @@ function CostOfProduction() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Cost Of Production"}>
+              <CardHeader title={'Cost Of Production'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -112,13 +109,13 @@ function CostOfProduction() {
                       placeholder="From Date"
                       type="month"
                       onChange={(e) => {
-                        setFieldValue("monthYear", e?.target?.value);
+                        setFieldValue('monthYear', e?.target?.value);
                       }}
                     />
                   </div>
                   <div>
                     <button
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       type="button"
                       class="btn btn-primary"
                       // disabled={!values?.fromDate || !values?.toDate}
@@ -196,8 +193,8 @@ function CostOfProduction() {
                                 <td
                                   className={
                                     item?.isTotal
-                                      ? "text-left bold"
-                                      : "text-left"
+                                      ? 'text-left bold'
+                                      : 'text-left'
                                   }
                                 >
                                   {item?.particularsName}
@@ -206,8 +203,8 @@ function CostOfProduction() {
                                 <td
                                   className={
                                     item?.isTotal
-                                      ? "text-right bold"
-                                      : "text-right"
+                                      ? 'text-right bold'
+                                      : 'text-right'
                                   }
                                 >
                                   {_formatMoney(item?.budgetConsumption)}
@@ -215,8 +212,8 @@ function CostOfProduction() {
                                 <td
                                   className={
                                     item?.isTotal
-                                      ? "text-right bold"
-                                      : "text-right"
+                                      ? 'text-right bold'
+                                      : 'text-right'
                                   }
                                 >
                                   {_formatMoney(item?.actualConsumption)}
@@ -224,8 +221,8 @@ function CostOfProduction() {
                                 <td
                                   className={
                                     item?.isTotal
-                                      ? "text-right bold"
-                                      : "text-right"
+                                      ? 'text-right bold'
+                                      : 'text-right'
                                   }
                                 >
                                   {_formatMoney(item?.variance)}

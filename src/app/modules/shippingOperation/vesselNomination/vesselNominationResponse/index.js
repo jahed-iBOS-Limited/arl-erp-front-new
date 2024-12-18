@@ -1,25 +1,17 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-
-import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { imarineBaseUrl } from '../../../../App';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const initData = {};
 export default function VesselNominationAccept() {
-  const {
-    selectedBusinessUnit: { value: buId },
-  } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
-
   const [gridData, getGridData, loading] = useAxiosGet();
 
   useEffect(() => {
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationAcceptancesLanding`
+      `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationAcceptancesLanding`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -69,7 +61,7 @@ export default function VesselNominationAccept() {
                           </td>
                           <td className="text-center">{item?.strRemarks}</td>
                           <td className="text-center">
-                            {item?.isVesselNominationAccept ? "Yes" : "No"}
+                            {item?.isVesselNominationAccept ? 'Yes' : 'No'}
                           </td>
                         </tr>
                       ))}

@@ -1,35 +1,28 @@
-import React, { useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { withRouter } from "react-router-dom";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import ICustomTable from "../../../../_helper/_customTable";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewForm from "../attachmentView/viewForm";
-import { inventoryTransactionCancelAction } from "../helper";
-import { InventoryTransactionReportViewTableRow } from "../report/tableRow";
+import React, { useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import ICustomTable from '../../../../_helper/_customTable';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewForm from '../attachmentView/viewForm';
+import { InventoryTransactionReportViewTableRow } from '../report/tableRow';
 
 const GridData = ({ history, values, viewGridData, setLoading }) => {
   let ths = [
-    "SL",
-    "Transaction Code",
-    "Reference Type",
-    "Reference No.",
-    "Plant Name",
-    "Warehouse Name",
-    "Transaction Type",
-    "Action",
+    'SL',
+    'Transaction Code',
+    'Reference Type',
+    'Reference No.',
+    'Plant Name',
+    'Warehouse Name',
+    'Transaction Type',
+    'Action',
   ];
 
   // gridData ddl
   const { gridData } = useSelector((state) => {
     return state.invTransa;
   }, shallowEqual);
-
-  const { profileData, selectedBusinessUnit } = useSelector(
-    (state) => state?.authData,
-    shallowEqual
-  );
 
   const tableInvIndex = useSelector((state) => {
     return state.localStorage.tableInventoryIndex;
@@ -39,26 +32,7 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
   const [poData, setPOData] = useState(false);
 
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
-  const [currentRowData, setCurrentRowData] = useState("");
-
-  const cancelPopUp = (td) => {
-    let confirmObject = {
-      title: "Are you sure?",
-      message: `Code : ${td?.inventoryTransactionCode}`,
-      yesAlertFunc: () => {
-        inventoryTransactionCancelAction(
-          td?.inventoryTransactionCode,
-          selectedBusinessUnit?.value,
-          profileData?.userId,
-          viewGridData,
-          values,
-          setLoading
-        );
-      },
-      noAlertFunc: () => {},
-    };
-    IConfirmModal(confirmObject);
-  };
+  const [currentRowData, setCurrentRowData] = useState('');
 
   return (
     <>
@@ -73,7 +47,7 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
               <td> {td.plantName} </td>
               <td> {td.warehouseName} </td>
               <td> {td.transactionTypeName} </td>
-              <td style={{ width: "100px" }}>
+              <td style={{ width: '100px' }}>
                 <div className="d-flex justify-content-around">
                   <button
                     onClick={() => {
@@ -81,17 +55,17 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
                       setIsShowModalTwo(true);
                     }}
                     style={{
-                      border: "none",
-                      background: "none",
-                      cursor: "pointer",
+                      border: 'none',
+                      background: 'none',
+                      cursor: 'pointer',
                       padding: 0,
                     }}
                   >
                     <i
                       class={`fas fa-eye ${
                         tableInvIndex === td?.inventoryTransactionId
-                          ? "text-primary"
-                          : ""
+                          ? 'text-primary'
+                          : ''
                       }`}
                     ></i>
                   </button>
@@ -102,16 +76,16 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
                         setPOData(td);
                       }}
                       style={{
-                        border: "none",
-                        background: "none",
-                        cursor: "pointer",
+                        border: 'none',
+                        background: 'none',
+                        cursor: 'pointer',
                         padding: 0,
                       }}
                     >
                       <OverlayTrigger
                         overlay={
                           <Tooltip id="cs-icon">
-                            {"PO Receive Attachment"}
+                            {'PO Receive Attachment'}
                           </Tooltip>
                         }
                       >
@@ -130,8 +104,8 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
                         id={td?.inventoryTransactionId}
                         title="Cancel"
                       />
-                    </div>  
-                  )}   cancel button remove order by ziaul vai 11-01-24 */}  
+                    </div>
+                  )}   cancel button remove order by ziaul vai 11-01-24 */}
                 </div>
               </td>
             </tr>

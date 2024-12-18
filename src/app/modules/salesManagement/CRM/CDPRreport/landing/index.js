@@ -1,18 +1,17 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "./../../../../_helper/customHooks/useAxiosGet";
-import LandingTable from "./table";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import useAxiosGet from './../../../../_helper/customHooks/useAxiosGet';
+import LandingTable from './table';
 
 const initData = {
-  productName: "",
+  productName: '',
   channel: {
-    value: "B2B",
-    label: "B2B",
+    value: 'B2B',
+    label: 'B2B',
   },
 };
 
@@ -26,12 +25,6 @@ const CDPRreportLanding = () => {
   const [, EditCDPMasterData, postLoading] = useAxiosPost();
   const formikRef = React.useRef(null);
 
-  // get user data from store
-  const {
-    profileData: { accountId: accId },
-    selectedBusinessUnit: { value: buId },
-  } = useSelector((state) => state?.authData, shallowEqual);
-
   const commonGridData = () => {
     setCompetitorPriceLandingPag(
       `/partner/PManagementCommonDDL/CDPMasterData_Rev1`,
@@ -41,18 +34,18 @@ const CDPRreportLanding = () => {
         const arrylist = [...resData];
         // uqique channel list "channel"
         const unique = [
-          ...new Map(arrylist.map((item) => [item["channel"], item])).values(),
+          ...new Map(arrylist.map((item) => [item['channel'], item])).values(),
         ];
         setChannelList(
           unique?.map((item, idx) => ({
             value: item?.channel,
             label: item?.channel,
-          }))
+          })),
         );
         // uqique product list "productName"
         const uniqueProduct = [
           ...new Map(
-            arrylist.map((item) => [item["productName"], item])
+            arrylist.map((item) => [item['productName'], item]),
           ).values(),
         ];
         setProductList(
@@ -61,7 +54,7 @@ const CDPRreportLanding = () => {
               value: itm?.productName,
               label: itm?.productName,
             };
-          })
+          }),
         );
 
         const defaultProductName = uniqueProduct?.[0]?.productName
@@ -69,11 +62,11 @@ const CDPRreportLanding = () => {
               value: uniqueProduct?.[0]?.productName,
               label: uniqueProduct?.[0]?.productName,
             }
-          : "";
+          : '';
         if (formikRef.current) {
           formikRef.current.setFieldValue(
-            "productName",
-            defaultProductName || ""
+            'productName',
+            defaultProductName || '',
           );
         }
         filterGridDataHandler({
@@ -83,7 +76,7 @@ const CDPRreportLanding = () => {
           },
           withoutModfifyData: resData,
         });
-      }
+      },
     );
   };
 
@@ -106,7 +99,7 @@ const CDPRreportLanding = () => {
     const payload = gridData.map((item) => {
       return {
         intId: item?.intId,
-        enroll: item?.enroll || "",
+        enroll: item?.enroll || '',
         customerId: item?.customerId || '',
       };
     });
@@ -114,7 +107,7 @@ const CDPRreportLanding = () => {
       `/partner/PManagementCommonDDL/EditCDPMasterDataByEnrollId`,
       payload,
       () => {},
-      true
+      true,
     );
   };
 
@@ -128,7 +121,7 @@ const CDPRreportLanding = () => {
           values: { ...values },
           withoutModfifyData: resData,
         });
-      }
+      },
     );
   };
   return (
@@ -156,8 +149,8 @@ const CDPRreportLanding = () => {
                     value={values?.channel}
                     label="Channel"
                     onChange={(valueOption) => {
-                      setFieldValue("channel", valueOption || "");
-                      setFieldValue("productName", "");
+                      setFieldValue('channel', valueOption || '');
+                      setFieldValue('productName', '');
                       setGridData([]);
                     }}
                     placeholder="Select Channel"
@@ -174,7 +167,7 @@ const CDPRreportLanding = () => {
                     value={values?.productName}
                     label="Product"
                     onChange={(valueOption) => {
-                      setFieldValue("productName", valueOption || "");
+                      setFieldValue('productName', valueOption || '');
                       const modifyValues = {
                         ...values,
                         productName: valueOption,

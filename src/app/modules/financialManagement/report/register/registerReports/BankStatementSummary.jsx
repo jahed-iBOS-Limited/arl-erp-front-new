@@ -1,21 +1,21 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../../_helper/_form";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { BankStatementSummaryExcel } from "./bankStatementSummaryHelper";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import NewSelect from "../../../../_helper/_select";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { BankStatementSummaryExcel } from './bankStatementSummaryHelper';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import NewSelect from '../../../../_helper/_select';
 
 const initData = {
-  intUnitId: { value: 0, label: "All" },
-  reportType: "",
-  conversionRate: "",
-  fromDate: "",
-  toDate: "",
-  viewType: "",
+  intUnitId: { value: 0, label: 'All' },
+  reportType: '',
+  conversionRate: '',
+  fromDate: '',
+  toDate: '',
+  viewType: '',
 };
 
 export default function BankStateMentSummary() {
@@ -34,21 +34,21 @@ export default function BankStateMentSummary() {
 
   const getReportId = (values) => {
     if (values?.reportType?.value === 2) {
-      return "16996985-deeb-4bef-b8af-fdb2b9377cbf";
+      return '16996985-deeb-4bef-b8af-fdb2b9377cbf';
     }
-    return "";
+    return '';
   };
 
   const getGroupId = (values) => {
-    return "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
+    return 'e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a';
   };
   const parameterValues = (values) => {
     const commonParam = [
-      { name: "intUnit", value: values?.intUnitId?.value?.toString() },
-      { name: "ConversionRate", value: values?.conversionRate },
-      { name: "ViewType", value: `${values?.viewType?.value}` },
-      { name: "dteFromDate", value: values?.fromDate },
-      { name: "dteToDate", value: values?.toDate },
+      { name: 'intUnit', value: values?.intUnitId?.value?.toString() },
+      { name: 'ConversionRate', value: values?.conversionRate },
+      { name: 'ViewType', value: `${values?.viewType?.value}` },
+      { name: 'dteFromDate', value: values?.fromDate },
+      { name: 'dteToDate', value: values?.toDate },
     ];
     if ([2].includes(values?.reportType?.value)) {
       return commonParam;
@@ -88,32 +88,32 @@ export default function BankStateMentSummary() {
                   <NewSelect
                     name="reportType"
                     options={[
-                      { value: 1, label: "Bank Statement Summary" },
-                      { value: 2, label: "Sales Vs Collection" },
+                      { value: 1, label: 'Bank Statement Summary' },
+                      { value: 2, label: 'Sales Vs Collection' },
                     ]}
                     value={values?.reportType}
                     label="Report Type"
                     onChange={(valueOption) => {
-                      setFieldValue("reportType", valueOption || "");
+                      setFieldValue('reportType', valueOption || '');
                       setShow(false);
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                {values?.reportType?.value == 2 && (
+                {values?.reportType?.value === 2 && (
                   <>
                     <div className="col-lg-2">
                       <NewSelect
                         name="intUnitId"
                         options={[
-                          { value: 0, label: "All" },
+                          { value: 0, label: 'All' },
                           ...businessUnitList,
                         ]}
                         value={values?.intUnitId}
                         label="Business Unit List"
                         onChange={(valueOption) => {
-                          setFieldValue("intUnitId", valueOption || "");
+                          setFieldValue('intUnitId', valueOption || '');
                           setShow(false);
                         }}
                         errors={errors}
@@ -128,7 +128,7 @@ export default function BankStateMentSummary() {
                         name="conversionRate"
                         placeholder="Conversion Rate"
                         onChange={(e) => {
-                          setFieldValue("conversionRate", e.target.value);
+                          setFieldValue('conversionRate', e.target.value);
                         }}
                       />
                     </div>
@@ -141,7 +141,7 @@ export default function BankStateMentSummary() {
                     type="date"
                     name="fromDate"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                       setBankStatementData([]);
                     }}
                   />
@@ -153,24 +153,24 @@ export default function BankStateMentSummary() {
                     type="date"
                     name="toDate"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                       setBankStatementData([]);
                     }}
                   />
                 </div>
-                {values?.reportType?.value == 2 && (
+                {values?.reportType?.value === 2 && (
                   <div className="col-lg-2">
                     <NewSelect
                       name="viewType"
                       options={[
-                        { value: 1, label: "Daily" },
-                        { value: 2, label: "Monthly" },
-                        { value: 3, label: "Yearly" },
+                        { value: 1, label: 'Daily' },
+                        { value: 2, label: 'Monthly' },
+                        { value: 3, label: 'Yearly' },
                       ]}
                       value={values?.viewType}
                       label="View Type"
                       onChange={(valueOption) => {
-                        setFieldValue("viewType", valueOption || "");
+                        setFieldValue('viewType', valueOption || '');
                         setShow(false);
                       }}
                       errors={errors}
@@ -182,17 +182,17 @@ export default function BankStateMentSummary() {
                   <button
                     type="button"
                     disabled={!values?.fromDate || !values?.toDate}
-                    style={{ marginTop: "17px" }}
+                    style={{ marginTop: '17px' }}
                     className="btn btn-primary"
                     onClick={() => {
-                      if (values?.reportType?.value == 2) {
+                      if (values?.reportType?.value === 2) {
                         setShow(false);
                         setTimeout(() => {
                           setShow(true);
                         }, 500);
                       } else {
                         getBankStatementData(
-                          `/fino/BusinessTransaction/GetBankAccountStatementSummaryReport?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+                          `/fino/BusinessTransaction/GetBankAccountStatementSummaryReport?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
                         );
                       }
                     }}
@@ -202,7 +202,7 @@ export default function BankStateMentSummary() {
                   <button
                     type="button"
                     disabled={bankStatementData?.length < 1}
-                    style={{ marginTop: "17px" }}
+                    style={{ marginTop: '17px' }}
                     className="btn btn-primary ml-3"
                     onClick={() => {
                       //
@@ -215,7 +215,7 @@ export default function BankStateMentSummary() {
                 </div>
               </div>
 
-              {values?.reportType?.value == 1 && (
+              {values?.reportType?.value === 1 && (
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="table-responsive">
@@ -225,7 +225,7 @@ export default function BankStateMentSummary() {
                       >
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>Bank Account Name</th>
                             <th>Credit Amount</th>
                             <th>Debit Amount</th>
@@ -253,7 +253,7 @@ export default function BankStateMentSummary() {
                           <tr>
                             <td
                               style={{
-                                fontWeight: "bold",
+                                fontWeight: 'bold',
                               }}
                               colSpan="2"
                               className="text-right"
@@ -265,9 +265,9 @@ export default function BankStateMentSummary() {
                                 bankStatementData
                                   ?.reduce(
                                     (acc, curr) => acc + curr?.debitAmount,
-                                    0
+                                    0,
                                   )
-                                  .toFixed(2)
+                                  .toFixed(2),
                               )}
                             </td>
                             <td className="text-right">
@@ -275,9 +275,9 @@ export default function BankStateMentSummary() {
                                 bankStatementData
                                   ?.reduce(
                                     (acc, curr) => acc + curr?.creditAmount,
-                                    0
+                                    0,
                                   )
-                                  .toFixed(2)
+                                  .toFixed(2),
                               )}
                             </td>
                             <td className="text-right">
@@ -285,9 +285,9 @@ export default function BankStateMentSummary() {
                                 bankStatementData
                                   ?.reduce(
                                     (acc, curr) => acc + curr?.currentBalance,
-                                    0
+                                    0,
                                   )
-                                  .toFixed(2)
+                                  .toFixed(2),
                               )}
                             </td>
                           </tr>

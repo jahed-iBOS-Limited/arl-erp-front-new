@@ -1,26 +1,25 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IButton from "../../../../_helper/iButton";
-import ICard from "../../../../_helper/_card";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import ICard from '../../../../_helper/_card';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import IButton from '../../../../_helper/iButton';
 import {
   deleteMonthlyCollectionPlan,
   getMonthlyCollectionPlanData,
-} from "../helper";
-import EditForm from "./editForm";
-import InputField from "../../../../_helper/_inputField";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { toast } from "react-toastify";
+} from '../helper';
+import EditForm from './editForm';
 
 export function MonthlyCollectionPlanLanding() {
   const history = useHistory();
@@ -35,12 +34,7 @@ export function MonthlyCollectionPlanLanding() {
 
   // get user data from store
   const {
-    profileData: {
-      accountId: accId,
-      employeeId: empId,
-      employeeFullName: fullName,
-      userId,
-    },
+    profileData: { accountId: accId, employeeId: empId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -52,14 +46,14 @@ export function MonthlyCollectionPlanLanding() {
       buId,
       empId,
       setRowData,
-      setLoading
+      setLoading,
     );
   };
 
   const deleteHandler = (id) => {
     const obj = {
-      title: "Are you Sure?",
-      message: "Are you sure you want to delete this plan?",
+      title: 'Are you Sure?',
+      message: 'Are you sure you want to delete this plan?',
       yesAlertFunc: () => {
         deleteMonthlyCollectionPlan(id, setLoading, () => {
           getData(3);
@@ -74,27 +68,26 @@ export function MonthlyCollectionPlanLanding() {
     values,
     pageNo,
     pageSize,
-    searchValue = ""
+    searchValue = '',
   ) => {
-    const searchTearm = searchValue ? `&search=${searchValue}` : "";
     const apiUrl =
       values?.type?.value === 1
         ? `/oms/CustomerSalesTarget/GetAreaWiseDailyCollectionPlanPagination?salesManId=${empId}&businessUnitId=${buId}&yearId=${
-            values?.monthYear?.split("-")[0]
+            values?.monthYear?.split('-')[0]
           }&monthId=${
-            values?.monthYear?.split("-")[1]
+            values?.monthYear?.split('-')[1]
           }&pageNo=${pageNo}&pageSize=${pageSize}`
         : values?.type?.value === 4
         ? `/oms/CustomerSalesTarget/GetMonthlyBudgetedSalesPagination?businessUnitId=${buId}&monthId=${
-            values?.monthYear?.split("-")[1]
+            values?.monthYear?.split('-')[1]
           }&yearId=${
-            values?.monthYear?.split("-")[0]
+            values?.monthYear?.split('-')[0]
           }&pageNo=${pageNo}&pageSize=${pageSize}`
-        : "";
+        : '';
     getLandingData(apiUrl);
   };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
 
@@ -102,7 +95,7 @@ export function MonthlyCollectionPlanLanding() {
     <>
       {(loading || loader || UpdateLoader) && <Loading />}
 
-      <Formik initialValues={{ type: "", monthYear: "" }} onSubmit={() => {}}>
+      <Formik initialValues={{ type: '', monthYear: '' }} onSubmit={() => {}}>
         {({ values, setFieldValue }) => (
           <>
             <ICard
@@ -124,13 +117,13 @@ export function MonthlyCollectionPlanLanding() {
                       label="Type"
                       placeholder="Type"
                       options={[
-                        { value: 3, label: "Collection Plan" },
-                        { value: 2, label: "Collection Plan vs Collection" },
-                        { value: 1, label: "Area Base Daily Collection Plan" },
-                        { value: 4, label: "Monthly Budgeted Sales Plan" },
+                        { value: 3, label: 'Collection Plan' },
+                        { value: 2, label: 'Collection Plan vs Collection' },
+                        { value: 1, label: 'Area Base Daily Collection Plan' },
+                        { value: 4, label: 'Monthly Budgeted Sales Plan' },
                       ]}
                       onChange={(e) => {
-                        setFieldValue("type", e);
+                        setFieldValue('type', e);
                         setRowData([]);
                         setLandingData([]);
                       }}
@@ -144,7 +137,7 @@ export function MonthlyCollectionPlanLanding() {
                         label="Month & Year"
                         type="month"
                         onChange={(e) => {
-                          setFieldValue("monthYear", e?.target?.value);
+                          setFieldValue('monthYear', e?.target?.value);
                         }}
                       />
                     </div>
@@ -152,7 +145,7 @@ export function MonthlyCollectionPlanLanding() {
                   <IButton
                     onClick={() => {
                       if ([1, 4].includes(values?.type?.value)) {
-                        getLandingDataHandler(values, pageNo, pageSize, "");
+                        getLandingDataHandler(values, pageNo, pageSize, '');
                       } else {
                         getData(values?.type?.value);
                       }
@@ -171,10 +164,10 @@ export function MonthlyCollectionPlanLanding() {
                         className="btn btn-primary"
                         onClick={() => {
                           const selectedRow = landingData?.data?.filter(
-                            (item) => item?.isSelected
+                            (item) => item?.isSelected,
                           );
                           if (!selectedRow.length) {
-                            return toast.warn("Select at least one row");
+                            return toast.warn('Select at least one row');
                           }
 
                           const payload = selectedRow?.map((item) => ({
@@ -198,10 +191,10 @@ export function MonthlyCollectionPlanLanding() {
                                 values,
                                 pageNo,
                                 pageSize,
-                                ""
+                                '',
                               );
                             },
-                            true
+                            true,
                           );
                         }}
                       >
@@ -219,7 +212,7 @@ export function MonthlyCollectionPlanLanding() {
                                   checked={
                                     landingData?.data?.length > 0 &&
                                     landingData.data.every(
-                                      (item) => item.isSelected
+                                      (item) => item.isSelected,
                                     )
                                   }
                                   onChange={(e) => {
@@ -228,7 +221,7 @@ export function MonthlyCollectionPlanLanding() {
                                       (item) => ({
                                         ...item,
                                         isSelected: isChecked,
-                                      })
+                                      }),
                                     );
                                     setLandingData({
                                       ...landingData,
@@ -268,7 +261,7 @@ export function MonthlyCollectionPlanLanding() {
                                 <td className="text-center">{`${item?.dayId} ${item?.monthName} ${item?.yearId}`}</td>
                                 <td className="text-center">
                                   <InputField
-                                    value={item.totalAmount || ""}
+                                    value={item.totalAmount || ''}
                                     type="number"
                                     onChange={(e) => {
                                       const value = +e.target.value;
@@ -314,10 +307,10 @@ export function MonthlyCollectionPlanLanding() {
                         className="btn btn-primary"
                         onClick={() => {
                           const selectedRow = landingData?.data?.filter(
-                            (item) => item?.isSelected
+                            (item) => item?.isSelected,
                           );
                           if (!selectedRow.length) {
-                            return toast.warn("Select at least one row");
+                            return toast.warn('Select at least one row');
                           }
 
                           const payload = selectedRow?.map((item) => ({
@@ -340,10 +333,10 @@ export function MonthlyCollectionPlanLanding() {
                                 values,
                                 pageNo,
                                 pageSize,
-                                ""
+                                '',
                               );
                             },
-                            true
+                            true,
                           );
                         }}
                       >
@@ -361,7 +354,7 @@ export function MonthlyCollectionPlanLanding() {
                                   checked={
                                     landingData?.data?.length > 0 &&
                                     landingData.data.every(
-                                      (item) => item.isSelected
+                                      (item) => item.isSelected,
                                     )
                                   }
                                   onChange={(e) => {
@@ -370,7 +363,7 @@ export function MonthlyCollectionPlanLanding() {
                                       (item) => ({
                                         ...item,
                                         isSelected: isChecked,
-                                      })
+                                      }),
                                     );
                                     setLandingData({
                                       ...landingData,
@@ -409,7 +402,7 @@ export function MonthlyCollectionPlanLanding() {
                                 <td>{item.monthName}</td>
                                 <td className="text-center">
                                   <InputField
-                                    value={item.budgetedSalesQnt || ""}
+                                    value={item.budgetedSalesQnt || ''}
                                     type="number"
                                     onChange={(e) => {
                                       const value = +e.target.value;
@@ -427,7 +420,7 @@ export function MonthlyCollectionPlanLanding() {
                                 </td>
                                 <td className="text-center">
                                   <InputField
-                                    value={item.budgetedSalesAmount || ""}
+                                    value={item.budgetedSalesAmount || ''}
                                     type="number"
                                     onChange={(e) => {
                                       const value = +e.target.value;
@@ -471,7 +464,7 @@ export function MonthlyCollectionPlanLanding() {
                         <table
                           id="table-to-xlsx"
                           className={
-                            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                           }
                         >
                           <thead>
@@ -501,7 +494,7 @@ export function MonthlyCollectionPlanLanding() {
                               return (
                                 <tr key={index}>
                                   <td
-                                    style={{ width: "30px" }}
+                                    style={{ width: '30px' }}
                                     className="text-center"
                                   >
                                     {index + 1}
@@ -518,11 +511,11 @@ export function MonthlyCollectionPlanLanding() {
                                   </td>
                                   <td
                                     className="text-right"
-                                    style={{ width: "60px" }}
+                                    style={{ width: '60px' }}
                                   >
                                     {_fixedPoint(
                                       item?.numOverDuePercentage || 0,
-                                      true
+                                      true,
                                     )}
                                   </td>
                                   <td className="text-right">
@@ -543,21 +536,21 @@ export function MonthlyCollectionPlanLanding() {
                                         item?.numWeek1 +
                                         item?.numWeek2 +
                                         item?.numWeek3,
-                                      true
+                                      true,
                                     )}
                                   </td>
                                   <td
                                     className="text-right"
-                                    style={{ width: "60px" }}
+                                    style={{ width: '60px' }}
                                   >
                                     {_fixedPoint(
                                       item?.numCollectionPercentage,
-                                      true
+                                      true,
                                     )}
                                   </td>
                                   <td
                                     className="text-center"
-                                    style={{ width: "50px" }}
+                                    style={{ width: '50px' }}
                                   >
                                     <div className="d-flex justify-content-around">
                                       {/* <IEdit
@@ -583,7 +576,7 @@ export function MonthlyCollectionPlanLanding() {
                         <table
                           id="table-to-xlsx"
                           className={
-                            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                           }
                         >
                           <thead>
@@ -625,7 +618,7 @@ export function MonthlyCollectionPlanLanding() {
                               return (
                                 <tr key={index}>
                                   <td
-                                    style={{ width: "30px" }}
+                                    style={{ width: '30px' }}
                                     className="text-center"
                                   >
                                     {index + 1}
@@ -642,11 +635,11 @@ export function MonthlyCollectionPlanLanding() {
                                   </td>
                                   <td
                                     className="text-right"
-                                    style={{ width: "60px" }}
+                                    style={{ width: '60px' }}
                                   >
                                     {_fixedPoint(
                                       item?.numOverDuePercentage || 0,
-                                      true
+                                      true,
                                     )}
                                   </td>
                                   <td className="text-right">
@@ -679,7 +672,7 @@ export function MonthlyCollectionPlanLanding() {
                                         item?.numWeek1CP +
                                         item?.numWeek2CP +
                                         item?.numWeek3CP,
-                                      true
+                                      true,
                                     )}
                                   </td>
                                   <td className="text-right">
@@ -688,16 +681,16 @@ export function MonthlyCollectionPlanLanding() {
                                         item?.numWeek1C +
                                         item?.numWeek2C +
                                         item?.numWeek3C,
-                                      true
+                                      true,
                                     )}
                                   </td>
                                   <td
                                     className="text-right"
-                                    style={{ width: "60px" }}
+                                    style={{ width: '60px' }}
                                   >
                                     {_fixedPoint(
                                       item?.numCollectionPercentage,
-                                      true
+                                      true,
                                     )}
                                   </td>
                                 </tr>

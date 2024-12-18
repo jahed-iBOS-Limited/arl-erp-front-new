@@ -1,40 +1,36 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import NewSelect from "../../../_helper/_select";
-import { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import IView from "../../../_helper/_helperIcons/_view";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import { _threeMonthAgoDate, _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import LocalAirportOutlinedIcon from '@material-ui/icons/LocalAirportOutlined';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { eProcurementBaseURL } from '../../../../App';
 import {
   _dateFormatter,
   _dateTimeFormatter,
-} from "../../../_helper/_dateFormate";
-import Chips from "../../../_helper/chips/Chips";
-import { createQuotationPrepare, rfqReportExcel } from "./helper";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import LocalShippingIcon from "@material-ui/icons/LocalShipping";
-import LocalAirportOutlinedIcon from "@material-ui/icons/LocalAirportOutlined";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import PaginationSearch from "../../../_helper/_search";
-import RfqModalForView from "./viewDetailsModal/rfqModalForView";
-import { eProcurementBaseURL } from "../../../../App";
-import { toast } from "react-toastify";
+} from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IView from '../../../_helper/_helperIcons/_view';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _threeMonthAgoDate, _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import Chips from '../../../_helper/chips/Chips';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { createQuotationPrepare } from './helper';
+import RfqModalForView from './viewDetailsModal/rfqModalForView';
 const initData = {
-  purchaseOrganization: { value: 0, label: "ALL" },
-  rfqType: { value: 1, label: "Standard RFQ" },
-  sbu: "",
-  plant: "",
-  warehouse: "",
-  status: { value: 0, label: "All" },
+  purchaseOrganization: { value: 0, label: 'ALL' },
+  rfqType: { value: 1, label: 'Standard RFQ' },
+  sbu: '',
+  plant: '',
+  warehouse: '',
+  status: { value: 0, label: 'All' },
   fromDate: _threeMonthAgoDate(),
   toDate: _todayDate(),
 };
@@ -51,26 +47,17 @@ export default function RequestForQuotationLanding() {
   }, shallowEqual);
   const saveHandler = (values, cb) => {};
   const history = useHistory();
-  const [
-    purchangeOrgListDDL,
-    getPurchaseOrgListDDL,
-    purchaseOrgListDDLloader,
-  ] = useAxiosGet();
+  const [, getPurchaseOrgListDDL, purchaseOrgListDDLloader] = useAxiosGet();
   const [
     landingData,
     getLandingData,
     landingDataLoader,
     setLandingData,
   ] = useAxiosGet();
-  const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
-  const [
-    warehouseListDDL,
-    getWarehouseListDDL,
-    warehouseListDDLloader,
-  ] = useAxiosGet();
-  const [sbuListDDL, getSbuListDDL, sbuListDDLloader] = useAxiosGet();
-  const [, getExcelData, excelDataLoader] = useAxiosGet();
-  const [, sendToSupplier, sendToSupplierLoader] = useAxiosPost();
+  const [, getPlantListDDL, plantListDDLloader] = useAxiosGet();
+  const [, getWarehouseListDDL, warehouseListDDLloader] = useAxiosGet();
+  const [, getSbuListDDL, sbuListDDLloader] = useAxiosGet();
+  const [, , excelDataLoader] = useAxiosGet();
 
   useEffect(() => {
     getSbuListDDL(
@@ -79,69 +66,30 @@ export default function RequestForQuotationLanding() {
         if (data && data[0]) {
           initData.sbu = data[0];
           getWarehouseListDDL(
-            `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${data[0]?.value}`
+            `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${data[0]?.value}`,
           );
         }
-      }
+      },
     );
     getPlantListDDL(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`,
     );
     getPurchaseOrgListDDL(
-      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // businessUnitId: sbu?.businessUnitId,
-  //       plantId: 0,
-  //       warehouseId: 0,
-  //       status: topBarActiveitem?.nameForApi,
-  //       pageNo: currentPage,
-  //       pageSize: 30,
-  //       search: searchQuery,
-
-  const getData = (values, pageNo, pageSize, searchValue = "") => {
+  const getData = (values, pageNo, pageSize, searchValue = '') => {
     getLandingData(
       `${eProcurementBaseURL}/RequestForQuotation/GetRequestForQuotationLanding?businessUnitId=${
         selectedBusinessUnit?.value
       }&plantId=${0}&warehouseId=${0}&status=${
         values?.status?.label
-      }&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
+      }&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`,
     );
   };
-
-  const sendNotificationToSupplier = (requestForQuotationId, cb) => {
-    const payload = {
-      requestForQuotationId: requestForQuotationId,
-      businessUnitId: selectedBusinessUnit?.value,
-    };
-    sendToSupplier(
-      `/procurement/RequestForQuotation/SendRequestForQuotationToSupplier`,
-      payload,
-      cb,
-      true
-    );
-  };
-
-  const notifySupplierHanlder = (
-    requestForQuotationId,
-    requestForQuotationCode,
-    cb
-  ) => {
-    let confirmObject = {
-      title: "Are you sure?",
-      message: `Do you want to send mail for ${requestForQuotationCode}`,
-      closeOnClickOutside: false,
-      yesAlertFunc: () => {
-        sendNotificationToSupplier(requestForQuotationId, cb);
-      },
-      noAlertFunc: () => {},
-    };
-    IConfirmModal(confirmObject);
-  };
-
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getData(values, pageNo, pageSize, searchValue);
   };
 
@@ -152,10 +100,10 @@ export default function RequestForQuotationLanding() {
   const handleREQReadyForPrepared = async (values, rfqId) => {
     const data = await createQuotationPrepare(profileData?.userId, rfqId);
     if (data && data?.statusCode === 200) {
-      toast.success("RFQ Ready for Prepared");
+      toast.success('RFQ Ready for Prepared');
       getData(values, pageNo, pageSize);
     } else {
-      toast.warn("Failed to Prepared RFQ");
+      toast.warn('Failed to Prepared RFQ');
     }
   };
   return (
@@ -183,8 +131,7 @@ export default function RequestForQuotationLanding() {
             plantListDDLloader ||
             warehouseListDDLloader ||
             sbuListDDLloader ||
-            excelDataLoader ||
-            sendToSupplierLoader) && <Loading />}
+            excelDataLoader) && <Loading />}
           <IForm
             title="Request for Quotation"
             isHiddenReset
@@ -199,7 +146,7 @@ export default function RequestForQuotationLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/mngProcurement/purchase-management/rfq/create"
+                        '/mngProcurement/purchase-management/rfq/create',
                       );
                     }}
                   >
@@ -309,17 +256,17 @@ export default function RequestForQuotationLanding() {
                   <NewSelect
                     name="status"
                     options={[
-                      { value: 0, label: "All" },
-                      { value: 1, label: "Live" },
-                      { value: 2, label: "Prepared" },
-                      { value: 3, label: "Upcoming" },
-                      { value: 4, label: "Closed" },
-                      { value: 5, label: "Approved" },
+                      { value: 0, label: 'All' },
+                      { value: 1, label: 'Live' },
+                      { value: 2, label: 'Prepared' },
+                      { value: 3, label: 'Upcoming' },
+                      { value: 4, label: 'Closed' },
+                      { value: 5, label: 'Approved' },
                     ]}
                     value={values?.status}
                     label="Status"
                     onChange={(v) => {
-                      setFieldValue("status", v);
+                      setFieldValue('status', v);
                       setLandingData([]);
                     }}
                     placeholder="Status"
@@ -359,7 +306,7 @@ export default function RequestForQuotationLanding() {
                     type="button"
                     className="btn btn-primary"
                     style={{
-                      marginTop: "18px",
+                      marginTop: '18px',
                     }}
                     onClick={() => {
                       getData(values, pageNo, pageSize);
@@ -418,14 +365,14 @@ export default function RequestForQuotationLanding() {
                             <td>{index + 1}</td>
                             <td>
                               {item?.purchaseOrganizationName ===
-                              "Foreign Procurement" ? (
+                              'Foreign Procurement' ? (
                                 <span>
                                   <LocalAirportOutlinedIcon
                                     style={{
-                                      color: "#00FF00",
-                                      marginRight: "5px",
-                                      rotate: "90deg",
-                                      fontSize: "15px",
+                                      color: '#00FF00',
+                                      marginRight: '5px',
+                                      rotate: '90deg',
+                                      fontSize: '15px',
                                     }}
                                   />
                                   {item?.requestForQuotationCode}
@@ -434,9 +381,9 @@ export default function RequestForQuotationLanding() {
                                 <span>
                                   <LocalShippingIcon
                                     style={{
-                                      color: "#000000",
-                                      marginRight: "5px",
-                                      fontSize: "15px",
+                                      color: '#000000',
+                                      marginRight: '5px',
+                                      fontSize: '15px',
                                     }}
                                   />
 
@@ -445,7 +392,7 @@ export default function RequestForQuotationLanding() {
                               )}
                             </td>
                             <td className="text-left">
-                              {item?.rfqTitle || ""}
+                              {item?.rfqTitle || ''}
                             </td>
                             <td className="text-center">
                               {_dateFormatter(item?.rfqDate)}
@@ -458,57 +405,57 @@ export default function RequestForQuotationLanding() {
                               {_dateTimeFormatter(item?.validTillDate)}
                             </td>
                             <td className="text-center">
-                              {item?.status && item?.status === "Live" ? (
+                              {item?.status && item?.status === 'Live' ? (
                                 <Chips
                                   classes="badge-danger"
                                   status={item?.status}
                                   style={{
-                                    backgroundColor: "#A52A2A",
-                                    color: "#ffffff",
-                                    height: "17px",
-                                    width: "50px",
+                                    backgroundColor: '#A52A2A',
+                                    color: '#ffffff',
+                                    height: '17px',
+                                    width: '50px',
                                   }}
                                 />
-                              ) : item?.status === "Closed" ? (
+                              ) : item?.status === 'Closed' ? (
                                 <Chips
                                   classes="badge-dark"
                                   status={item?.status}
                                   style={{
-                                    height: "17px",
-                                    width: "50px",
+                                    height: '17px',
+                                    width: '50px',
                                   }}
                                 />
-                              ) : item?.status === "Prepared" ? (
+                              ) : item?.status === 'Prepared' ? (
                                 <Chips
                                   classes="badge-warning"
                                   status={item?.status}
                                   style={{
-                                    height: "17px",
-                                    width: "50px",
+                                    height: '17px',
+                                    width: '50px',
                                   }}
                                 />
-                              ) : item?.status === "Upcoming" ? (
+                              ) : item?.status === 'Upcoming' ? (
                                 <Chips
                                   classes="badge-info"
                                   status={item?.status}
                                   style={{
-                                    height: "17px",
-                                    width: "50px",
-                                    backgroundColor: "#2ecc71",
+                                    height: '17px',
+                                    width: '50px',
+                                    backgroundColor: '#2ecc71',
                                   }}
                                 />
-                              ) : item?.status === "Approved" ? (
+                              ) : item?.status === 'Approved' ? (
                                 <Chips
                                   classes="badge-success"
                                   status={item?.status}
                                   style={{
-                                    height: "17px",
-                                    width: "50px",
-                                    backgroundColor: "#2ecc71",
+                                    height: '17px',
+                                    width: '50px',
+                                    backgroundColor: '#2ecc71',
                                   }}
                                 />
                               ) : (
-                                item?.status || ""
+                                item?.status || ''
                               )}
                             </td>
                             <td>
@@ -528,16 +475,16 @@ export default function RequestForQuotationLanding() {
                                 <IEdit
                                   onClick={(e) => {
                                     history.push(
-                                      `/mngProcurement/purchase-management/rfq/edit/${item?.requestForQuotationId}`
+                                      `/mngProcurement/purchase-management/rfq/edit/${item?.requestForQuotationId}`,
                                     );
                                   }}
                                 />
                               </span>
-                              {item?.status?.trim() === "Upcoming" && (
+                              {item?.status?.trim() === 'Upcoming' && (
                                 <OverlayTrigger
                                   overlay={
                                     <Tooltip id="cs-icon">
-                                      {"Send To Prepared"}
+                                      {'Send To Prepared'}
                                     </Tooltip>
                                   }
                                 >
@@ -546,7 +493,7 @@ export default function RequestForQuotationLanding() {
                                     onClick={() => {
                                       handleREQReadyForPrepared(
                                         values,
-                                        item?.requestForQuotationId
+                                        item?.requestForQuotationId,
                                       );
                                     }}
                                   >

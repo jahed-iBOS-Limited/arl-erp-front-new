@@ -1,53 +1,50 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
-
-import * as Yup from "yup";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-// import "./style.css";
-import { yearDDL } from "../../../humanCapitalManagement/report/employeeExpense/form/addEditForm";
-import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import * as Yup from 'yup';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import AttachmentUploaderNew from '../../../_helper/attachmentUploaderNew';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  businessUnit: "",
-  territory: "",
-  thana: "",
-  deedNo: "",
-  deedAmount: "",
-  deedType: "",
-  registrationDate: "",
-  landQuantity: "",
-  seller: "",
-  buyer: "",
-  csKhatian: "",
-  csPlot: "",
-  saKhatian: "",
-  cityJaripKhatian: "",
-  saPlot: "",
-  rsPlot: "",
-  rsKhatian: "",
-  rsLandQuantity: "",
-  mouza: "",
-  cityJaripPlot: "",
-  cityJaripPlotLand: "",
-  subRegister: "",
-  registrationCost: "",
-  brokerAmount: "",
+  businessUnit: '',
+  territory: '',
+  thana: '',
+  deedNo: '',
+  deedAmount: '',
+  deedType: '',
+  registrationDate: '',
+  landQuantity: '',
+  seller: '',
+  buyer: '',
+  csKhatian: '',
+  csPlot: '',
+  saKhatian: '',
+  cityJaripKhatian: '',
+  saPlot: '',
+  rsPlot: '',
+  rsKhatian: '',
+  rsLandQuantity: '',
+  mouza: '',
+  cityJaripPlot: '',
+  cityJaripPlotLand: '',
+  subRegister: '',
+  registrationCost: '',
+  brokerAmount: '',
   // ploatNo: "",
   // dagNo: "",
-  remarks: "",
-  otherCost: "",
-  deedYear: "",
-  strRegistrationAttachment: "",
-  biakhatian: "",
+  remarks: '',
+  otherCost: '',
+  deedYear: '',
+  strRegistrationAttachment: '',
+  biakhatian: '',
 };
 export default function CreateLandRegister() {
   const {
@@ -63,17 +60,15 @@ export default function CreateLandRegister() {
   const [thanaDDL, getThanaDDL] = useAxiosGet();
   const [subRegisterDDL, getSubRegisterDDL] = useAxiosGet();
   const [deedTypeDDL, getDeedTypeDDL] = useAxiosGet();
-  const [districtDDL, getDistrictDDL, loadDistrictDDL] = useAxiosGet();
-  const [attachment, setAttachment] = useState("");
-
+  const [districtDDL, getDistrictDDL] = useAxiosGet();
   const [, onSave, loader] = useAxiosPost();
 
   useEffect(() => {
     getDistrictDDL(
-      "/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=0"
+      '/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=0',
     );
-    getDeedTypeDDL("/asset/AGLandMange/DeedTypeDDL");
-    getSubRegisterDDL("/asset/AGLandMange/GetSubRegisterOfficeDDL");
+    getDeedTypeDDL('/asset/AGLandMange/DeedTypeDDL');
+    getSubRegisterDDL('/asset/AGLandMange/GetSubRegisterOfficeDDL');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -87,38 +82,38 @@ export default function CreateLandRegister() {
       intSubOfficeId: values?.subRegister?.value || 0,
       strSubOfficeName: values?.subRegister?.label || 0,
       intDeedTypeId: values?.deedType?.value || 0,
-      strDeedNo: values?.deedNo || "",
-      dteDeedDate: values?.registrationDate || "",
-      strSellerName: values?.seller || "",
+      strDeedNo: values?.deedNo || '',
+      dteDeedDate: values?.registrationDate || '',
+      strSellerName: values?.seller || '',
       numTotalLandPurchaseQty: parseFloat(values?.landQuantity) || 0,
       monDeedValue: parseFloat(values?.deedAmount) || 0,
-      strCskhatian: values?.csKhatian || "",
-      strCsplotNo: values?.csPlot || "",
-      strSakhatianNo: values?.saKhatian || "",
-      strSaplotNo: values?.saPlot || "",
-      strRskhatianNo: values?.rsKhatian || "",
-      strRsplotNo: values?.rsPlot || "",
+      strCskhatian: values?.csKhatian || '',
+      strCsplotNo: values?.csPlot || '',
+      strSakhatianNo: values?.saKhatian || '',
+      strSaplotNo: values?.saPlot || '',
+      strRskhatianNo: values?.rsKhatian || '',
+      strRsplotNo: values?.rsPlot || '',
       numRsplotLandBaseQty: parseFloat(values?.rsLandQuantity) || 0,
-      strCityJoripKhatianNo: values?.cityJaripKhatian || "",
-      strCityJoripPlot: values?.cityJaripPlot || "",
+      strCityJoripKhatianNo: values?.cityJaripKhatian || '',
+      strCityJoripPlot: values?.cityJaripPlot || '',
       numCityJoripLandQty: parseFloat(values?.cityJaripPlotLand) || 0,
       monBroker: parseFloat(values?.brokerAmount) || 0,
       monRegistrationCost: parseFloat(values?.registrationCost) || 0,
       monAit: 0,
       monOtherCost: parseFloat(values?.otherCost) || 0,
-      strRemarkForOtherCost: "",
+      strRemarkForOtherCost: '',
       intThanaId: values?.thana?.value || 0,
-      strThanakName: values?.thana?.label || "",
-      strMouzaName: values?.mouza || "",
-      strPloatNo: values?.ploatNo || "",
-      strDagNo: values?.dagNo || "",
+      strThanakName: values?.thana?.label || '',
+      strMouzaName: values?.mouza || '',
+      strPloatNo: values?.ploatNo || '',
+      strDagNo: values?.dagNo || '',
       ysnComplete: true,
       ysnActive: true,
       calcDeadYear: values?.registrationDate
-        ? moment(values?.registrationDate)?.format("YYYY")
-        : "",
+        ? moment(values?.registrationDate)?.format('YYYY')
+        : '',
       dteInsertDate: _todayDate(),
-      strBiaMutationKhotian: values?.biakhatian || "",
+      strBiaMutationKhotian: values?.biakhatian || '',
       intInsertBy: userId,
       strRemark: values?.remarks,
       strBuyer: values?.buyer,
@@ -132,36 +127,36 @@ export default function CreateLandRegister() {
 
   const mapStateToInitialValues = (state) => ({
     businessUnit: { value: buId, label: label },
-    territory: state?.strTerritoryName || "",
+    territory: state?.strTerritoryName || '',
     district: { value: state?.intDistrictId, label: state?.strDistrictName },
-    thana: { value: state?.intThanaId, label: state?.strThanakName } || "",
-    deedNo: state?.strDeedNo || "",
-    deedAmount: state?.monDeedValue || "",
+    thana: { value: state?.intThanaId, label: state?.strThanakName } || '',
+    deedNo: state?.strDeedNo || '',
+    deedAmount: state?.monDeedValue || '',
     deedType:
-      deedTypeDDL.find((type) => type.value === state?.intDeedTypeId) || "",
+      deedTypeDDL.find((type) => type.value === state?.intDeedTypeId) || '',
     registrationDate: state?.dteDeedDate
-      ? moment(state?.dteDeedDate).format("YYYY-MM-DD")
-      : "",
-    landQuantity: state?.numTotalLandPurchaseQty || "",
-    seller: state?.strSellerName || "",
-    buyer: state?.strBuyer || "",
-    remarks: state?.strRemark || "",
-    csKhatian: state?.strCskhatian || "",
-    csPlot: state?.strCsplotNo || "",
-    saKhatian: state?.strSakhatianNo || "",
-    cityJaripKhatian: state?.strCityJoripKhatianNo || "",
-    saPlot: state?.strSaplotNo || "",
-    rsPlot: state?.strRsplotNo || "",
-    rsKhatian: state?.strRskhatianNo || "",
-    rsLandQuantity: state?.numRsplotLandBaseQty || "",
-    mouza: state?.strMouzaName || "",
-    cityJaripPlot: state?.strCityJoripPlot || "",
-    cityJaripPlotLand: +state?.numCityJoripLandQty || "",
-    registrationCost: state?.monRegistrationCost || "",
-    brokerAmount: state?.monBroker || "",
+      ? moment(state?.dteDeedDate).format('YYYY-MM-DD')
+      : '',
+    landQuantity: state?.numTotalLandPurchaseQty || '',
+    seller: state?.strSellerName || '',
+    buyer: state?.strBuyer || '',
+    remarks: state?.strRemark || '',
+    csKhatian: state?.strCskhatian || '',
+    csPlot: state?.strCsplotNo || '',
+    saKhatian: state?.strSakhatianNo || '',
+    cityJaripKhatian: state?.strCityJoripKhatianNo || '',
+    saPlot: state?.strSaplotNo || '',
+    rsPlot: state?.strRsplotNo || '',
+    rsKhatian: state?.strRskhatianNo || '',
+    rsLandQuantity: state?.numRsplotLandBaseQty || '',
+    mouza: state?.strMouzaName || '',
+    cityJaripPlot: state?.strCityJoripPlot || '',
+    cityJaripPlotLand: +state?.numCityJoripLandQty || '',
+    registrationCost: state?.monRegistrationCost || '',
+    brokerAmount: state?.monBroker || '',
     deedYear: { value: state?.calcDeadYear, label: state?.calcDeadYear },
     otherCost: state?.monOtherCost,
-    biakhatian: state?.strBiaMutationKhotian || "",
+    biakhatian: state?.strBiaMutationKhotian || '',
     // dagNo: state?.strDagNo,
     // ploatNo: state?.strPloatNo,
     subRegister: {
@@ -171,17 +166,17 @@ export default function CreateLandRegister() {
   });
 
   const validationSchema = Yup.object().shape({
-    businessUnit: Yup.object().required("Business Unit is required"),
-    deedType: Yup.object().required("Deed Type  is required"),
+    businessUnit: Yup.object().required('Business Unit is required'),
+    deedType: Yup.object().required('Deed Type  is required'),
     // deedYear: Yup.object().required("Deed Year  is required"),
-    territory: Yup.string().required("Territory is required"),
-    seller: Yup.string().required("Seller Name is required"),
-    buyer: Yup.string().required("Buyer Name is required"),
-    deedNo: Yup.string().required("Deed No is required"),
-    mouza: Yup.string().required("Mouza is required"),
-    deedAmount: Yup.number().required("Deed Value is required"),
-    landQuantity: Yup.number().required("Land Quantity is required"),
-    registrationDate: Yup.date().required("Registration Date is required"),
+    territory: Yup.string().required('Territory is required'),
+    seller: Yup.string().required('Seller Name is required'),
+    buyer: Yup.string().required('Buyer Name is required'),
+    deedNo: Yup.string().required('Deed No is required'),
+    mouza: Yup.string().required('Mouza is required'),
+    deedAmount: Yup.number().required('Deed Value is required'),
+    landQuantity: Yup.number().required('Land Quantity is required'),
+    registrationDate: Yup.date().required('Registration Date is required'),
   });
 
   return (
@@ -247,7 +242,7 @@ export default function CreateLandRegister() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption || "");
+                      setFieldValue('businessUnit', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -260,7 +255,7 @@ export default function CreateLandRegister() {
                     label="Buyer Name"
                     name="buyer"
                     type="text"
-                    onChange={(e) => setFieldValue("buyer", e.target.value)}
+                    onChange={(e) => setFieldValue('buyer', e.target.value)}
                   />
                 </div>
                 {/* territory */}
@@ -270,7 +265,7 @@ export default function CreateLandRegister() {
                     label="Territory"
                     name="territory"
                     type="text"
-                    onChange={(e) => setFieldValue("territory", e.target.value)}
+                    onChange={(e) => setFieldValue('territory', e.target.value)}
                   />
                 </div>
 
@@ -278,15 +273,15 @@ export default function CreateLandRegister() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="district"
-                    options={[{ label: "All", value: 0 }, ...districtDDL]}
+                    options={[{ label: 'All', value: 0 }, ...districtDDL]}
                     value={values?.district}
                     label="District"
                     onChange={(valueOption) => {
-                      setFieldValue("thana", "");
-                      setFieldValue("district", valueOption);
+                      setFieldValue('thana', '');
+                      setFieldValue('district', valueOption);
                       if (!valueOption) return;
                       getThanaDDL(
-                        `/oms/TerritoryInfo/GetThanaDDL?countryId=18&divisionId=0&districtId=${valueOption?.value}`
+                        `/oms/TerritoryInfo/GetThanaDDL?countryId=18&divisionId=0&districtId=${valueOption?.value}`,
                       );
                     }}
                   />
@@ -300,7 +295,7 @@ export default function CreateLandRegister() {
                     value={values?.thana}
                     label="Thana"
                     onChange={(valueOption) => {
-                      setFieldValue("thana", valueOption || "");
+                      setFieldValue('thana', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -313,7 +308,7 @@ export default function CreateLandRegister() {
                     label="Mouza Name"
                     name="mouza"
                     type="text"
-                    onChange={(e) => setFieldValue("mouza", e.target.value)}
+                    onChange={(e) => setFieldValue('mouza', e.target.value)}
                   />
                 </div>
                 {/* Sub Registrar Office */}
@@ -324,7 +319,7 @@ export default function CreateLandRegister() {
                     value={values?.subRegister}
                     label="Sub Registrar Office"
                     onChange={(valueOption) => {
-                      setFieldValue("subRegister", valueOption || "");
+                      setFieldValue('subRegister', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -348,7 +343,7 @@ export default function CreateLandRegister() {
                     value={values?.deedType}
                     label="Deed Type"
                     onChange={(valueOption) => {
-                      setFieldValue("deedType", valueOption || "");
+                      setFieldValue('deedType', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -361,7 +356,7 @@ export default function CreateLandRegister() {
                     label="Deed No"
                     name="deedNo"
                     type="text"
-                    onChange={(e) => setFieldValue("deedNo", e.target.value)}
+                    onChange={(e) => setFieldValue('deedNo', e.target.value)}
                   />
                 </div>
                 {/* register date */}
@@ -372,7 +367,7 @@ export default function CreateLandRegister() {
                     name="registrationDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("registrationDate", e.target.value);
+                      setFieldValue('registrationDate', e.target.value);
                     }}
                   />
                 </div>
@@ -399,7 +394,7 @@ export default function CreateLandRegister() {
                     name="landQuantity"
                     type="number"
                     onChange={(e) =>
-                      setFieldValue("landQuantity", e.target.value)
+                      setFieldValue('landQuantity', e.target.value)
                     }
                   />
                 </div>
@@ -412,7 +407,7 @@ export default function CreateLandRegister() {
                     min={0}
                     type="number"
                     onChange={(e) =>
-                      setFieldValue("deedAmount", e.target.value)
+                      setFieldValue('deedAmount', e.target.value)
                     }
                   />
                 </div>
@@ -424,7 +419,7 @@ export default function CreateLandRegister() {
                     label="Seller Name"
                     name="seller"
                     type="text"
-                    onChange={(e) => setFieldValue("seller", e.target.value)}
+                    onChange={(e) => setFieldValue('seller', e.target.value)}
                   />
                 </div>
 
@@ -435,7 +430,7 @@ export default function CreateLandRegister() {
                     label="CS Khatian"
                     name="csKhatian"
                     type="text"
-                    onChange={(e) => setFieldValue("csKhatian", e.target.value)}
+                    onChange={(e) => setFieldValue('csKhatian', e.target.value)}
                   />
                 </div>
                 {/* CS Plot  */}
@@ -445,7 +440,7 @@ export default function CreateLandRegister() {
                     label="CS Plot"
                     name="csPlot"
                     type="text"
-                    onChange={(e) => setFieldValue("csPlot", e.target.value)}
+                    onChange={(e) => setFieldValue('csPlot', e.target.value)}
                   />
                 </div>
                 {/* SA Khatian  */}
@@ -455,7 +450,7 @@ export default function CreateLandRegister() {
                     label="SA Khatian"
                     name="saKhatian"
                     type="text"
-                    onChange={(e) => setFieldValue("saKhatian", e.target.value)}
+                    onChange={(e) => setFieldValue('saKhatian', e.target.value)}
                   />
                 </div>
                 {/* SA Plot  */}
@@ -465,7 +460,7 @@ export default function CreateLandRegister() {
                     label="SA Plot"
                     name="saPlot"
                     type="text"
-                    onChange={(e) => setFieldValue("saPlot", e.target.value)}
+                    onChange={(e) => setFieldValue('saPlot', e.target.value)}
                   />
                 </div>
                 {/* RS Khatian  */}
@@ -475,7 +470,7 @@ export default function CreateLandRegister() {
                     label="RS Khatian"
                     name="rsKhatian"
                     type="text"
-                    onChange={(e) => setFieldValue("rsKhatian", e.target.value)}
+                    onChange={(e) => setFieldValue('rsKhatian', e.target.value)}
                   />
                 </div>
                 {/* RS Plot  */}
@@ -485,7 +480,7 @@ export default function CreateLandRegister() {
                     label="RS Plot"
                     name="rsPlot"
                     type="text"
-                    onChange={(e) => setFieldValue("rsPlot", e.target.value)}
+                    onChange={(e) => setFieldValue('rsPlot', e.target.value)}
                   />
                 </div>
                 {/* RS Plot-Based Land Quantity */}
@@ -497,7 +492,7 @@ export default function CreateLandRegister() {
                     min={0}
                     type="number"
                     onChange={(e) =>
-                      setFieldValue("rsLandQuantity", e.target.value)
+                      setFieldValue('rsLandQuantity', e.target.value)
                     }
                   />
                 </div>
@@ -509,7 +504,7 @@ export default function CreateLandRegister() {
                     name="cityJaripKhatian"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("cityJaripKhatian", e.target.value)
+                      setFieldValue('cityJaripKhatian', e.target.value)
                     }
                   />
                 </div>
@@ -522,7 +517,7 @@ export default function CreateLandRegister() {
                     name="cityJaripPlot"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("cityJaripPlot", e.target.value)
+                      setFieldValue('cityJaripPlot', e.target.value)
                     }
                   />
                 </div>
@@ -534,7 +529,7 @@ export default function CreateLandRegister() {
                     name="cityJaripPlotLand"
                     type="number"
                     onChange={(e) =>
-                      setFieldValue("cityJaripPlotLand", e.target.value)
+                      setFieldValue('cityJaripPlotLand', e.target.value)
                     }
                   />
                 </div>
@@ -546,7 +541,7 @@ export default function CreateLandRegister() {
                     name="biakhatian"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("biakhatian", e.target.value)
+                      setFieldValue('biakhatian', e.target.value)
                     }
                   />
                 </div>
@@ -558,7 +553,7 @@ export default function CreateLandRegister() {
                     name="registrationCost"
                     type="number"
                     onChange={(e) =>
-                      setFieldValue("registrationCost", e.target.value)
+                      setFieldValue('registrationCost', e.target.value)
                     }
                   />
                 </div>
@@ -570,7 +565,7 @@ export default function CreateLandRegister() {
                     name="brokerAmount"
                     type="number"
                     onChange={(e) =>
-                      setFieldValue("brokerAmount", e.target.value)
+                      setFieldValue('brokerAmount', e.target.value)
                     }
                   />
                 </div>
@@ -581,7 +576,7 @@ export default function CreateLandRegister() {
                     label="Other Cost"
                     name="otherCost"
                     type="number"
-                    onChange={(e) => setFieldValue("otherCost", e.target.value)}
+                    onChange={(e) => setFieldValue('otherCost', e.target.value)}
                   />
                 </div>
                 {/* remarks  */}
@@ -591,7 +586,7 @@ export default function CreateLandRegister() {
                     label="Remarks"
                     name="remarks"
                     type="text"
-                    onChange={(e) => setFieldValue("remarks", e.target.value)}
+                    onChange={(e) => setFieldValue('remarks', e.target.value)}
                   />
                 </div>
 
@@ -609,17 +604,16 @@ export default function CreateLandRegister() {
                   <div className="">
                     <AttachmentUploaderNew
                       style={{
-                        backgroundColor: "transparent",
-                        color: "black",
+                        backgroundColor: 'transparent',
+                        color: 'black',
                       }}
                       CBAttachmentRes={(attachmentData) => {
                         if (Array.isArray(attachmentData)) {
                           console.log(attachmentData);
                           console.log({ attachment: attachmentData });
-                          setAttachment(attachmentData?.[0]?.id);
                           setFieldValue(
-                            "strRegistrationAttachment",
-                            attachmentData?.[0]?.id
+                            'strRegistrationAttachment',
+                            attachmentData?.[0]?.id,
                           );
                         }
                       }}

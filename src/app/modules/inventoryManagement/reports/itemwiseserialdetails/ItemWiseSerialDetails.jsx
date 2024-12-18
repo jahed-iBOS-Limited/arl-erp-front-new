@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import HeaderPortion from "./HeaderPortion";
-import TablePortion from "./TablePortion";
-import { Form, Formik } from "formik";
-import { initData } from "./constants";
-import ICustomCard from "../../../_helper/_customCard";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICustomCard from '../../../_helper/_customCard';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { initData } from './constants';
+import HeaderPortion from './HeaderPortion';
+import TablePortion from './TablePortion';
 
 const ItemWiseSerialDetails = () => {
   const storeData = useSelector((state) => {
@@ -17,13 +17,18 @@ const ItemWiseSerialDetails = () => {
   }, shallowEqual);
 
   const { profileData, selectedBusinessUnit } = storeData;
-  const [itemWiseSerialDetailsReport, getItemWiseSerialDetailsReport, itemWiseSerialDetailsLoading] = useAxiosGet([]);
+  const [
+    itemWiseSerialDetailsReport,
+    getItemWiseSerialDetailsReport,
+    itemWiseSerialDetailsLoading,
+  ] = useAxiosGet([]);
 
   const getReportData = (values) => {
     getItemWiseSerialDetailsReport(
-      `/wms/Delivery/ItemSerialWiseSalesReport?ItemId=${values?.item?.value || 0}&UsingStatus=${values?.usingStatus
-        ?.value || 0}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&SearchableText=${values?.serialNumber ||
-        ""}`
+      `/wms/Delivery/ItemSerialWiseSalesReport?ItemId=${values?.item?.value ||
+        0}&UsingStatus=${values?.usingStatus?.value || 0}&FromDate=${
+        values?.fromDate
+      }&ToDate=${values?.toDate}&SearchableText=${values?.serialNumber || ''}`,
     );
   };
 

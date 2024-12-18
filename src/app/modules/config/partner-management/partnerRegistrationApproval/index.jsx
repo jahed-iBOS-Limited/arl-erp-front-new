@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { Form, Formik } from "formik";
-import IForm from "../../../_helper/_form";
-import CommonTable from "../../../_helper/commonTable";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import Loading from "../../../_helper/_loading";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import NewSelect from "../../../_helper/_select";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import CommonTable from '../../../_helper/commonTable';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  partner: "customer",
-  approveStatus: { value: 1, label: "Approved" },
+  partner: 'customer',
+  approveStatus: { value: 1, label: 'Approved' },
 };
 export default function PartnerRegApproval() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual
+    shallowEqual,
   );
   let supplierPermission = null;
   let customerPermissions = null;
@@ -36,7 +34,6 @@ export default function PartnerRegApproval() {
   const saveHandler = (values, cb) => {};
   const history = useHistory();
   const {
-    profileData: { userTypeName },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
@@ -44,54 +41,54 @@ export default function PartnerRegApproval() {
   const [gridData, getGridData, loadGridData] = useAxiosGet();
 
   const sendheadersData = [
-    "Serial",
-    "Partner Name",
-    "Partner Type",
-    "Company",
-    "Business Nature",
-    "Business Type",
+    'Serial',
+    'Partner Name',
+    'Partner Type',
+    'Company',
+    'Business Nature',
+    'Business Type',
 
-    "Score",
+    'Score',
 
-    "Existing Partner",
-    "Bank",
-    "Bank Branch",
-    "Routing No",
-    "Reference Employee",
+    'Existing Partner',
+    'Bank',
+    'Bank Branch',
+    'Routing No',
+    'Reference Employee',
 
-    "Email",
-    "Mobile",
-    "Office Address",
-    "Warehouse",
-    "Action",
+    'Email',
+    'Mobile',
+    'Office Address',
+    'Warehouse',
+    'Action',
   ];
 
   const handleGetRowData = (values, pageNo, pageSize, searchValue) => {
     // const searchParam = searchValue ? `&search=${searchValue}` : "";
 
-    if (values?.partner === "customer") {
+    if (values?.partner === 'customer') {
       getGridData(
         `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=LandingForApproval&pageNo=${pageNo}&pageSize=${pageSize}&businessUnitId=${buId}&isApproved=${
-          values?.approveStatus?.label === "Approved" ? true : false
-        }&partnerType=customer&autoId=0`
+          values?.approveStatus?.label === 'Approved' ? true : false
+        }&partnerType=customer&autoId=0`,
       );
     } else {
       getGridData(
         `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=LandingForApproval&pageNo=${pageNo}&pageSize=${pageSize}&businessUnitId=${buId}&isApproved=${
-          values?.approveStatus?.label === "Approved" ? true : false
+          values?.approveStatus?.label === 'Approved' ? true : false
         }&partnerType=supplier&autoId=0
-      `
+      `,
       );
     }
   };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     handleGetRowData(values?.requisition, pageNo, pageSize, searchValue);
   };
 
   useEffect(() => {
     if (supplierPermission?.isView) {
-      handleGetRowData({ ...initData, partner: "supplier" }, pageNo, pageSize);
+      handleGetRowData({ ...initData, partner: 'supplier' }, pageNo, pageSize);
     } else {
       handleGetRowData(initData, pageNo, pageSize);
     }
@@ -107,7 +104,7 @@ export default function PartnerRegApproval() {
       enableReinitialize={true}
       initialValues={{
         ...initData,
-        partner: supplierPermission?.isView ? "supplier" : "customer",
+        partner: supplierPermission?.isView ? 'supplier' : 'customer',
       }}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -142,17 +139,17 @@ export default function PartnerRegApproval() {
                   <NewSelect
                     name="approveStatus"
                     options={[
-                      { value: 1, label: "Approved" },
-                      { value: 0, label: "Unapproved" },
+                      { value: 1, label: 'Approved' },
+                      { value: 0, label: 'Unapproved' },
                     ]}
                     value={values?.approveStatus}
                     label="Status"
                     onChange={(valueOption) => {
-                      setFieldValue("approveStatus", valueOption);
+                      setFieldValue('approveStatus', valueOption);
                       handleGetRowData(
                         { ...values, approveStatus: valueOption },
                         pageNo,
-                        pageSize
+                        pageSize,
                       );
                     }}
                     placeholder="Status"
@@ -162,12 +159,12 @@ export default function PartnerRegApproval() {
                   />
                 </div>
                 <div
-                  style={{ alignItems: "center", gap: "15px" }}
+                  style={{ alignItems: 'center', gap: '15px' }}
                   className="col-lg-4  d-flex mt-md-5"
                 >
                   {customerPermissions?.isView && (
                     <label
-                      style={{ alignItems: "center", gap: "5px" }}
+                      style={{ alignItems: 'center', gap: '5px' }}
                       className="d-flex"
                       htmlFor="customer"
                     >
@@ -175,13 +172,13 @@ export default function PartnerRegApproval() {
                         id="customer"
                         type="radio"
                         name="partner"
-                        checked={values?.partner === "customer"}
+                        checked={values?.partner === 'customer'}
                         onChange={(e) => {
-                          setFieldValue("partner", "customer");
+                          setFieldValue('partner', 'customer');
                           handleGetRowData(
-                            { ...values, partner: "customer" },
+                            { ...values, partner: 'customer' },
                             pageNo,
-                            pageSize
+                            pageSize,
                           );
                         }}
                       />
@@ -190,7 +187,7 @@ export default function PartnerRegApproval() {
                   )}
                   {supplierPermission?.isView && (
                     <label
-                      style={{ alignItems: "center", gap: "5px" }}
+                      style={{ alignItems: 'center', gap: '5px' }}
                       className="mr-3 d-flex"
                       htmlFor="supplier"
                     >
@@ -198,13 +195,13 @@ export default function PartnerRegApproval() {
                         id="supplier"
                         type="radio"
                         name="partner"
-                        checked={values?.partner === "supplier"}
+                        checked={values?.partner === 'supplier'}
                         onChange={(e) => {
-                          setFieldValue("partner", "supplier");
+                          setFieldValue('partner', 'supplier');
                           handleGetRowData(
-                            { ...values, partner: "supplier" },
+                            { ...values, partner: 'supplier' },
                             pageNo,
-                            pageSize
+                            pageSize,
                           );
                         }}
                       />
@@ -220,7 +217,7 @@ export default function PartnerRegApproval() {
               values={values}
               /> */}
               </div>
-              <div style={{ marginTop: "7px", gap: "5px" }}>
+              <div style={{ marginTop: '7px', gap: '5px' }}>
                 <CommonTable headersData={sendheadersData}>
                   <tbody>
                     {gridData?.map((item, index) => (
@@ -239,7 +236,7 @@ export default function PartnerRegApproval() {
                         </td>
                         <td className="text-center">{item.numScore}</td>
                         <td className="text-center">
-                          {item.isExistingPartner ? "Yes" : "No"}
+                          {item.isExistingPartner ? 'Yes' : 'No'}
                         </td>
                         <td className="text-center">{item?.strBankName}</td>
                         <td className="text-center">
@@ -252,7 +249,7 @@ export default function PartnerRegApproval() {
                           {item?.strReferenceEmployeeName}-
                           {item?.intReferenceEmployeeId
                             ? item?.intReferenceEmployeeId
-                            : ""}
+                            : ''}
                         </td>
                         <td className="text-center">{item?.strEmailAddress}</td>
                         <td className="text-center">{item?.strMobileNumber}</td>
@@ -268,7 +265,7 @@ export default function PartnerRegApproval() {
                             supplierPermission?.isCreate) &&
                             !item?.isApproved && (
                               <span
-                                style={{ cursor: "pointer" }}
+                                style={{ cursor: 'pointer' }}
                                 onClick={() =>
                                   history.push({
                                     pathname: `/config/partner-management/partner-registration-approval/create/${item?.intRegistrationId}`,
@@ -286,7 +283,7 @@ export default function PartnerRegApproval() {
                                         item?.intPartnerTypeId,
                                       buIdCustomer: item?.intBusinessUnitId,
                                       isSupplier:
-                                        item?.strPartnerTypeName === "Supplier"
+                                        item?.strPartnerTypeName === 'Supplier'
                                           ? true
                                           : false,
                                     },
@@ -295,13 +292,13 @@ export default function PartnerRegApproval() {
                               >
                                 <OverlayTrigger
                                   overlay={
-                                    <Tooltip id="cs-icon">{"Approval"}</Tooltip>
+                                    <Tooltip id="cs-icon">{'Approval'}</Tooltip>
                                   }
                                 >
                                   <span>
                                     <i
                                       class="far fa-check-circle pointer approval"
-                                      style={{ fontSize: "14px" }}
+                                      style={{ fontSize: '14px' }}
                                     ></i>
                                   </span>
                                 </OverlayTrigger>

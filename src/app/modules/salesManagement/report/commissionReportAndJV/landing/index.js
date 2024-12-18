@@ -1,20 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getSBUDDL } from "../../../../transportManagement/report/productWiseShipmentReport/helper";
+} from '../../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getSBUDDL } from '../../../../transportManagement/report/productWiseShipmentReport/helper';
 import {
   createJV,
   createTradeCommissionJV,
@@ -23,27 +22,27 @@ import {
   getCommissionReport,
   getCommissionStatus,
   getTradeCommissionData,
-} from "../helper";
-import CommissionReportAndJVForm from "./form";
-import CommissionReportAndJVTable from "./table";
-import CommissionReportAndJVTableTwo from "./tableTwo";
-import DamangeReportAndJVTable from "./damageJV";
+} from '../helper';
+import CommissionReportAndJVForm from './form';
+import CommissionReportAndJVTable from './table';
+import CommissionReportAndJVTableTwo from './tableTwo';
+import DamangeReportAndJVTable from './damageJV';
 
 const initData = {
-  reportType: { value: 1, label: "Pending" },
-  type: "",
-  month: "",
-  year: "",
-  commissionRate: "",
+  reportType: { value: 1, label: 'Pending' },
+  type: '',
+  month: '',
+  year: '',
+  commissionRate: '',
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
-  sbu: "",
-  channel: "",
-  region: "",
-  area: "",
-  transactionHead: "",
-  narration: "",
-  status: { value: true, label: "Non-Reversed" },
+  sbu: '',
+  channel: '',
+  region: '',
+  area: '',
+  transactionHead: '',
+  narration: '',
+  status: { value: true, label: 'Non-Reversed' },
 };
 
 // Government subsidy ids for six business units - (bongo, batayon, arl traders, direct trading, daily trading, eureshia)
@@ -70,11 +69,12 @@ const CommissionReportAndJV = () => {
   useEffect(() => {
     getSBUDDL(accId, buId, setSbuDDL);
     getReportTypes(
-      `/wms/WmsReport/GetCommissionTypeDDL?businessUnitId=${buId}`
+      `/wms/WmsReport/GetCommissionTypeDDL?businessUnitId=${buId}`,
     );
     getTransactionHeads(
-      `/wms/WmsReport/GetBusinessTransactionDDL?businessUnitId=${buId}`
+      `/wms/WmsReport/GetBusinessTransactionDDL?businessUnitId=${buId}`,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
   const getData = (values) => {
@@ -88,7 +88,7 @@ const CommissionReportAndJV = () => {
             ? `/oms/SalesReturnAndCancelProcess/GetDamageReturnForJv?SalesReturnType=2&accId=${accId}&status=${values?.status?.value}&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&CustomerId=${values?.customer?.value}&ChannelId=${values?.channel?.value}`
             : values?.reportType?.value === 3
             ? `/oms/SalesReturnAndCancelProcess/GetJVCompletedDamageReturn?SalesReturnType=2&accId=${accId}&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&CustomerId=${values?.customer?.value}&ChannelId=${values?.channel?.value}`
-            : "";
+            : '';
 
         getDamageData(apiUrl, (data) => {
           setRowData(data);
@@ -110,7 +110,7 @@ const CommissionReportAndJV = () => {
           userId,
           values?.commissionRate || 0,
           setRowData,
-          setLoading
+          setLoading,
         );
       } else {
         getCommissionReport(
@@ -121,7 +121,7 @@ const CommissionReportAndJV = () => {
           values?.type?.value,
           userId,
           setRowData,
-          setLoading
+          setLoading,
         );
       }
     } else if (values?.reportType?.value === 2) {
@@ -132,7 +132,7 @@ const CommissionReportAndJV = () => {
         typeId,
         values?.status?.value,
         setRowData,
-        setLoading
+        setLoading,
       );
     }
   };
@@ -171,7 +171,7 @@ const CommissionReportAndJV = () => {
       const selectedItems = rowData?.filter((item) => item?.isSelected);
       const totalAmountForDamange = selectedItems?.reduce(
         (a, b) => a + +b?.totalReturnAmount,
-        0
+        0,
       );
       const ids = [8, 9, 10, 11, 12, 13];
       const commissionTypeId = ids.includes(values?.type?.value)
@@ -210,11 +210,13 @@ const CommissionReportAndJV = () => {
       };
 
       createTradeDamageJV(payload, setLoading);
-    } else if ([5, 7, ...allIds, 35,36,37,38,39].includes(values?.type?.value)) {
+    } else if (
+      [5, 7, ...allIds, 35, 36, 37, 38, 39].includes(values?.type?.value)
+    ) {
       const selectedItems = rowData?.filter((item) => item?.isSelected);
       const totalAmount = selectedItems?.reduce(
         (a, b) => a + +b?.commissiontaka,
-        0
+        0,
       );
 
       const ids = [8, 9, 10, 11, 12, 13];
@@ -270,29 +272,31 @@ const CommissionReportAndJV = () => {
         values?.type?.value === 1 ? 2 : 4,
         userId,
         setLoading,
-        () => {}
+        () => {},
       );
     }
   };
 
   const editCommission = (index, item, type) => {
-    if (type === "cancel") {
-      rowDataHandler(index, "isEdit", false);
-      rowDataHandler(index, "commissiontaka", item?.tempCom);
+    if (type === 'cancel') {
+      rowDataHandler(index, 'isEdit', false);
+      rowDataHandler(index, 'commissiontaka', item?.tempCom);
     } else {
-      rowDataHandler(index, "isEdit", false);
-      rowDataHandler(index, "tempCom", item?.commissiontaka);
+      rowDataHandler(index, 'isEdit', false);
+      rowDataHandler(index, 'tempCom', item?.commissiontaka);
     }
   };
 
   const dateSetter = (values, setFieldValue) => {
     setFieldValue(
-      "fromDate",
-      _dateFormatter(new Date(values?.year?.value, values?.month?.value - 1, 1))
+      'fromDate',
+      _dateFormatter(
+        new Date(values?.year?.value, values?.month?.value - 1, 1),
+      ),
     );
     setFieldValue(
-      "toDate",
-      _dateFormatter(new Date(values?.year?.value, values?.month?.value, 0))
+      'toDate',
+      _dateFormatter(new Date(values?.year?.value, values?.month?.value, 0)),
     );
   };
 
@@ -388,7 +392,7 @@ const CommissionReportAndJV = () => {
                     }}
                   />
                 )}
-                {values?.type?.value == 24 &&
+                {values?.type?.value === 24 &&
                   [1, 3].includes(values?.reportType?.value) && (
                     <DamangeReportAndJVTable
                       obj={{

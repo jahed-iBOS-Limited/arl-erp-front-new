@@ -1,36 +1,36 @@
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { ISelect } from "../../../../_helper/_inputDropDown";
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { ISelect } from '../../../../_helper/_inputDropDown';
 import {
   getSalesContactGridData,
   getSalesContactIncompleteGridData,
   saveShipmentId_action,
   setGridEmptyAction,
-} from "../_redux/Actions";
+} from '../_redux/Actions';
 
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import IView from "../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { setShipmentlandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import CancelTransferShippingForm from "../vehicleWeigth/cancelForm";
+} from '../../../../../../_metronic/_partials/controls';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { setShipmentlandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import CancelTransferShippingForm from '../vehicleWeigth/cancelForm';
 // import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export function TableRow({
@@ -64,15 +64,15 @@ export function TableRow({
 
   const reportsTypes = permitted
     ? [
-        { value: 1, label: "Shipment Created" },
-        { value: 2, label: "Shipment Unscheduled" },
-        { value: 3, label: "Shipment Completed" },
-        { value: 4, label: "Canceled Transfer Shipping" },
+        { value: 1, label: 'Shipment Created' },
+        { value: 2, label: 'Shipment Unscheduled' },
+        { value: 3, label: 'Shipment Completed' },
+        { value: 4, label: 'Canceled Transfer Shipping' },
       ]
     : [
-        { value: 1, label: "Shipment Created" },
-        { value: 2, label: "Shipment Unscheduled" },
-        { value: 3, label: "Shipment Completed" },
+        { value: 1, label: 'Shipment Created' },
+        { value: 2, label: 'Shipment Unscheduled' },
+        { value: 3, label: 'Shipment Completed' },
       ];
 
   // get gridData from store
@@ -94,7 +94,7 @@ export function TableRow({
     }));
     setIncompleteRowDto(modifyGridData);
     getPermission(
-      `/wms/FertilizerOperation/GetAllModificationPermission?UserEnroll=${userId}&BusinessUnitId=${buId}&Type=YsnChalanInfo`
+      `/wms/FertilizerOperation/GetAllModificationPermission?UserEnroll=${userId}&BusinessUnitId=${buId}&Type=YsnChalanInfo`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [incompleteGridData]);
@@ -150,8 +150,8 @@ export function TableRow({
           values?.toDate,
           setLoading,
           pageNo,
-          pageSize
-        )
+          pageSize,
+        ),
       );
     } else if (values?.reportType?.value === 2) {
       dispatch(
@@ -162,15 +162,15 @@ export function TableRow({
           values?.tillDate,
           setLoading,
           pageNo,
-          pageSize
-        )
+          pageSize,
+        ),
       );
     } else if (values?.reportType?.value === 4) {
       getCanceledData(
         `/oms/Shipment/GetCanceledTransferShippingReport?AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${values?.pgiShippoint?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}`,
         (resData) => {
           setCanceledRows(resData);
-        }
+        },
       );
     }
   };
@@ -190,7 +190,7 @@ export function TableRow({
       }
 
       let confirmObject = {
-        title: "Are you sure?",
+        title: 'Are you sure?',
         message: `Do you want to post the selected Complete Shipment`,
         yesAlertFunc: () => {
           dispatch(
@@ -200,15 +200,15 @@ export function TableRow({
               viewBtnClickHandler,
               values,
               pageNo,
-              pageSize
-            )
+              pageSize,
+            ),
           );
         },
         noAlertFunc: () => {},
       };
       IConfirmModal(confirmObject);
     } else {
-      toast.warn("Please Select Incomplete Data", {
+      toast.warn('Please Select Incomplete Data', {
         toastId: 456,
       });
     }
@@ -241,10 +241,10 @@ export function TableRow({
           ...shipmentlanding,
           pgiShippoint: shipmentlanding?.pgiShippoint?.value
             ? shipmentlanding?.pgiShippoint
-            : ShippointDDL[0] || "",
+            : ShippointDDL[0] || '',
           reportType: shipmentlanding?.reportType?.value
             ? shipmentlanding?.reportType
-            : { value: 2, label: "Shipment Unscheduled" },
+            : { value: 2, label: 'Shipment Unscheduled' },
           tillDate: shipmentlanding?.tillDate
             ? shipmentlanding?.tillDate
             : _todayDate(),
@@ -273,7 +273,7 @@ export function TableRow({
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Transfer Shipping"}>
+              <CardHeader title={'Transfer Shipping'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -322,7 +322,7 @@ export function TableRow({
                               value={values?.reportType}
                               name="reportType"
                               onChange={(optionValue) => {
-                                setFieldValue("reportType", optionValue);
+                                setFieldValue('reportType', optionValue);
                                 setIncompleteRowDto([]);
                                 setRowDto([]);
                                 setCanceledRows([]);
@@ -336,7 +336,7 @@ export function TableRow({
                               obj={{
                                 values,
                                 setFieldValue,
-                                colSize: "col-lg-2",
+                                colSize: 'col-lg-2',
                               }}
                             />
                           )}
@@ -385,7 +385,7 @@ export function TableRow({
 
                   <button
                     type="submit"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={btnRef}
                     onSubmit={() => {
                       handleSubmit();
@@ -394,7 +394,7 @@ export function TableRow({
 
                   <button
                     type="reset"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={resetBtnRef}
                     onSubmit={() => resetForm(initialData)}
                   ></button>
@@ -422,15 +422,15 @@ export function TableRow({
                                   </th>
                                 )}
 
-                                <th style={{ width: "30px" }}>SL</th>
+                                <th style={{ width: '30px' }}>SL</th>
                                 <th>Shipment No</th>
-                                <th style={{ width: "90px" }}>Contact Date</th>
+                                <th style={{ width: '90px' }}>Contact Date</th>
                                 <th>Route Name</th>
                                 <th>Transport Mode</th>
                                 <th>Shipping Type Name</th>
                                 <th>Vehicle Name</th>
                                 <th>Total Qty</th>
-                                <th style={{ width: "90px" }}>Actions</th>
+                                <th style={{ width: '90px' }}>Actions</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -440,10 +440,10 @@ export function TableRow({
                                   style={{
                                     backgroundColor:
                                       td?.loadingConfirmDate == null ||
-                                      td?.tlm == 0 ||
+                                      td?.tlm === 0 ||
                                       null
-                                        ? "#ff7061"
-                                        : "",
+                                        ? '#ff7061'
+                                        : '',
                                   }}
                                 >
                                   {values?.reportType?.value === 1 && (
@@ -466,7 +466,7 @@ export function TableRow({
                                                 //setFieldValue("itemCheck", e.target.checked);
                                                 itemSlectedRowHandler(
                                                   e.target.checked,
-                                                  index
+                                                  index,
                                                 );
                                               }}
                                             />
@@ -493,15 +493,15 @@ export function TableRow({
                                     <div>{td?.transportModeName}</div>
                                   </td>
                                   <td>
-                                    <div>{td.shippingTypeName}</div>{" "}
+                                    <div>{td.shippingTypeName}</div>{' '}
                                   </td>
                                   <td>
-                                    <div>{td.vehicleName}</div>{" "}
+                                    <div>{td.vehicleName}</div>{' '}
                                   </td>
                                   <td>
                                     <div className="text-right">
                                       {td.itemTotalQty}
-                                    </div>{" "}
+                                    </div>{' '}
                                   </td>
                                   <td>
                                     <div className="d-flex justify-content-around">
@@ -526,7 +526,7 @@ export function TableRow({
                                           />
                                         </span>
                                       ) : (
-                                        ""
+                                        ''
                                       )}
 
                                       {/* Created Report Type Edit */}
@@ -651,22 +651,22 @@ export function TableRow({
                                     <div>{td?.strSoldToPartnerName}</div>
                                   </td>
                                   <td>
-                                    <div>{td?.strTransportZoneName}</div>{" "}
+                                    <div>{td?.strTransportZoneName}</div>{' '}
                                   </td>
                                   <td>
                                     <div className="text-right">
                                       {td?.numTotalVolume}
-                                    </div>{" "}
+                                    </div>{' '}
                                   </td>
                                   <td>
                                     <div className="text-right">
                                       {td?.numTotalWeight}
-                                    </div>{" "}
+                                    </div>{' '}
                                   </td>
                                   <td>
                                     <div className="text-right">
                                       {td?.itemTotalQty}
-                                    </div>{" "}
+                                    </div>{' '}
                                   </td>
                                   <td>
                                     <div className="d-flex justify-content-around">
@@ -674,7 +674,7 @@ export function TableRow({
                                         <IView
                                           clickHandler={() => {
                                             history.push(
-                                              `/transport-management/shipmentmanagement/transfershipping/incompleteView/${td?.intDeliveryId}`
+                                              `/transport-management/shipmentmanagement/transfershipping/incompleteView/${td?.intDeliveryId}`,
                                             );
                                           }}
                                         />
@@ -690,7 +690,7 @@ export function TableRow({
                                           />
                                         </span>
                                       ) : (
-                                        ""
+                                        ''
                                       )}
                                       {/* {values?.reportType?.value === 1 && (
                                       <span

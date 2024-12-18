@@ -1,11 +1,10 @@
-import axios from "axios";
-import { _lastDateOfMonth } from "../../../_helper/_todayDate";
+import axios from 'axios';
 
 export const getProfitCenterDDL = async (buId, setter) => {
   try {
     const res = await axios.get(`/fino/CostSheet/ProfitCenterDDL?BUId=${buId}`);
     if (res.status === 200 && res?.data) {
-      const DDLData = [{ value: 0, label: "All" }, ...res?.data];
+      const DDLData = [{ value: 0, label: 'All' }, ...res?.data];
       setter(DDLData);
     }
   } catch (error) {}
@@ -21,8 +20,8 @@ export const getIncomeStatement_api = async (
   setter,
   profitCenter,
   setLoading = () => {},
-  partName = "",
-  edLabel = "",
+  partName = '',
+  edLabel = '',
   conversionRate,
   subDivision,
   reportType,
@@ -30,14 +29,14 @@ export const getIncomeStatement_api = async (
   viewType,
   typeRef,
   forecastType = true,
-  subDivisionLabel
+  subDivisionLabel,
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
       `/fino/IncomeStatement/GetIncomeStatementProjected?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${0}&intProfitCenId=${profitCenId ||
         0}&fsComponentId=0&GLId=0&SUBGLId=0&ConvertionRate=${conversionRate}&SubGroup=${subDivisionLabel ||
-        "all"}&reportTypeId=${reportType}&ViewType=${viewType}&ViewTypeReff=${typeRef}&isForecast=${forecastType}`
+        'all'}&reportTypeId=${reportType}&ViewType=${viewType}&ViewTypeReff=${typeRef}&isForecast=${forecastType}`,
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -67,28 +66,28 @@ export const manageBalanceData = (arr) => {
     currentLiabilityTotalPlanBalance = 0;
 
   arr.forEach((data) => {
-    if (data.strAcClassName === "Current Asset") {
+    if (data.strAcClassName === 'Current Asset') {
       currentassetsTotalBalance = currentassetsTotalBalance + data.numBalance;
       currentassetsTotalPlanBalance =
         currentassetsTotalPlanBalance + data.numPlanBalance;
       currentassets.push(data);
-    } else if (data.strAcClassName === "Non Current Asset") {
+    } else if (data.strAcClassName === 'Non Current Asset') {
       nonCurrentAssetsTotalBalance =
         nonCurrentAssetsTotalBalance + data.numBalance;
       nonCurrentAssetsTotalPlanBalance =
         nonCurrentAssetsTotalPlanBalance + data.numPlanBalance;
       nonCurrentAssets.push(data);
-    } else if (data.strAcClassName === "Equity") {
+    } else if (data.strAcClassName === 'Equity') {
       equityTotalBalance = equityTotalBalance + data.numBalance;
       equityTotalPlanBalance = equityTotalPlanBalance + data.numPlanBalance;
       equity.push(data);
-    } else if (data.strAcClassName === "Non Current Liabilities") {
+    } else if (data.strAcClassName === 'Non Current Liabilities') {
       nonCurrentLiabilityTotalBalance =
         nonCurrentLiabilityTotalBalance + data.numBalance;
       nonCurrentLiabilityTotalPlanBalance =
         nonCurrentLiabilityTotalPlanBalance + data.numPlanBalance;
       nonCurrentLiability.push(data);
-    } else if (data.strAcClassName === "Current Liabilities") {
+    } else if (data.strAcClassName === 'Current Liabilities') {
       currentLiabilityTotalBalance =
         currentLiabilityTotalBalance + data.numBalance;
       currentLiabilityTotalPlanBalance =
@@ -143,16 +142,16 @@ export const projectedFinancialRatios = async ({
     const toDate = values?.toDate ? new Date(values.toDate) : new Date();
     fromDate.setFullYear(fromDate.getFullYear() - 1);
     toDate.setFullYear(toDate.getFullYear() - 1);
-    const fromDateStr = fromDate.toISOString().split("T")[0];
-    const toDateStr = toDate.toISOString().split("T")[0];
+    const fromDateStr = fromDate.toISOString().split('T')[0];
+    const toDateStr = toDate.toISOString().split('T')[0];
 
     const financialRatioApi = await axios.get(
-      `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=2`
+      `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=2`,
     );
     const financialRatioTableResponse = financialRatioApi.data;
 
     const financialRatioComponentApi = await axios.get(
-      `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=1`
+      `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=1`,
     );
     const financialRatioTableForLastPeriodResponse =
       financialRatioComponentApi.data;
@@ -165,7 +164,7 @@ export const projectedFinancialRatios = async ({
     for (const item of financialRatioTableResponse) {
       const lastPeriodValue = ratioMap.get(item.strRarioName);
       item.lastPeriod =
-        typeof lastPeriodValue === "number" ? lastPeriodValue : 0;
+        typeof lastPeriodValue === 'number' ? lastPeriodValue : 0;
     }
 
     setFinancialRatioTable(financialRatioTableResponse);
@@ -179,7 +178,7 @@ export const projectedFinancialRatios = async ({
           Todate: values?.toDate,
           Type: 1,
         },
-      }
+      },
     );
     const financialRatioComponentTableResponse = componentResponse.data;
 
@@ -192,7 +191,7 @@ export const projectedFinancialRatios = async ({
           Todate: toDateStr,
           Type: 1,
         },
-      }
+      },
     );
     const financialRatioComponentTableForLastPeriodResponse =
       componentLastPeriodResponse.data;
@@ -205,45 +204,45 @@ export const projectedFinancialRatios = async ({
     for (const item of financialRatioComponentTableResponse) {
       const lastPeriodValue = componentMap.get(item.strComName);
       item.numLastPeriod =
-        typeof lastPeriodValue === "number" ? lastPeriodValue : item.numAmount;
+        typeof lastPeriodValue === 'number' ? lastPeriodValue : item.numAmount;
     }
 
     setFinancialRatioComponentTable(financialRatioComponentTableResponse);
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error('Error fetching data:', error);
   }
 };
 
-export const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
+export const groupId = 'e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a';
 
 export const parameterValues = (values) => {
   const reportParameter = [
-    { name: "strPartName", value: "IncomeStatement" },
-    { name: "intUnit", value: values?.businessUnit?.value?.toString() || "" },
-    { name: "intSBUId", value: "0" },
-    { name: "intProfitCenId", value: "0" },
-    { name: "dteFromDate", value: values?.fromDate || "" },
-    { name: "dteToDate", value: values?.toDate || "" },
-    { name: "dteFromDateL", value: values?.fromDate || "" },
-    { name: "dteToDateL", value: values?.toDate || "" },
-    { name: "intFSComponent", value: "0" },
-    { name: "glId", value: "0" },
-    { name: "subGlId", value: "0" },
+    { name: 'strPartName', value: 'IncomeStatement' },
+    { name: 'intUnit', value: values?.businessUnit?.value?.toString() || '' },
+    { name: 'intSBUId', value: '0' },
+    { name: 'intProfitCenId', value: '0' },
+    { name: 'dteFromDate', value: values?.fromDate || '' },
+    { name: 'dteToDate', value: values?.toDate || '' },
+    { name: 'dteFromDateL', value: values?.fromDate || '' },
+    { name: 'dteToDateL', value: values?.toDate || '' },
+    { name: 'intFSComponent', value: '0' },
+    { name: 'glId', value: '0' },
+    { name: 'subGlId', value: '0' },
     {
-      name: "BusinessUnitGroup",
-      value: values?.enterpriseDivision?.value?.toString() || "",
+      name: 'BusinessUnitGroup',
+      value: values?.enterpriseDivision?.value?.toString() || '',
     },
-    { name: "ConvertionRate", value: values?.conversionRate?.toString() || "" },
+    { name: 'ConvertionRate', value: values?.conversionRate?.toString() || '' },
     {
-      name: "SubGroup",
-      value: values?.subDivision?.label?.toString() || "all",
+      name: 'SubGroup',
+      value: values?.subDivision?.label?.toString() || 'all',
     },
-    { name: "ReportTypeId", value: "2" },
-    { name: "ViewTypeReff", value: "" },
-    { name: "isForecast", value: `${values?.isForecast?.value}` },
+    { name: 'ReportTypeId', value: '2' },
+    { name: 'ViewTypeReff', value: '' },
+    { name: 'isForecast', value: `${values?.isForecast?.value}` },
   ];
   if (values?.viewType?.value) {
-    reportParameter.push({ name: "ViewType", value: values.viewType.value });
+    reportParameter.push({ name: 'ViewType', value: values.viewType.value });
   }
 
   return reportParameter;
