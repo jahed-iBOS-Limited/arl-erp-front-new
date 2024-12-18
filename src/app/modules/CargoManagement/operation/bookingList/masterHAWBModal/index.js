@@ -153,12 +153,12 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
           consignee: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
 
           gsaName: "missing",
-          agentIatacode: firstIndex?.transportPlanning?.iatanumber || "",
+          agentIatacode: `${firstIndex?.transportPlanning?.iatanumber || ""}`,
           referenceNumber: "missing",
           optionalShippingInformation: "missing",
-          noOfPiecesRcp: totalNumberOfPackages,
-          prepaidNatureAndQuantityOfGoods: prepaidNatureAndQuantityOfGoods,
-          grossWeight: subtotalGrossWeight, //"missing",
+          noOfPiecesRcp: `${totalNumberOfPackages || ""}`,
+          prepaidNatureAndQuantityOfGoods: `${prepaidNatureAndQuantityOfGoods || ""}`,
+          grossWeight: `${subtotalGrossWeight || ""}`, //"missing",
           grossWeightKgLb: "grossWeightKgLb",
           to: "missing",
           to1: "to1",
@@ -166,12 +166,10 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
             "byFirstCarrierRoutingAndDestination",
           to2: "to2",
           by2: "by2",
-          currency: firstIndex?.currency || "",
+          currency: `${firstIndex?.currency || ""}`,
           cghscode: "cGHSCode",
           declaredValueForCarriage: "",
-          declaredValueForCustoms: firstIndex?.invoiceValue
-            ? firstIndex?.invoiceValue
-            : "AS PER INV",
+          declaredValueForCustoms: `${firstIndex?.invoiceValue ? firstIndex?.invoiceValue : "AS PER INVOICE"}`,
           airportOfDestination: ` ${firstIndex?.transportPlanning?.airTransportRow?.[
             firstIndex?.transportPlanning?.airTransportRow?.length - 1
           ]?.toPort
@@ -179,7 +177,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
           amountOfInsurance: "amountOfInsurance",
           handlingInformation: "handlingInformation",
           accountNumber: "accountNumber",
-          airportOfDepartureAndRouting: `${firstIndex?.transportPlanning?.airLineOrShippingLine}\n ${airportOfDepartureAndRouting}`,
+          airportOfDepartureAndRouting: `${firstIndex?.transportPlanning?.airLineOrShippingLine} \n ${airportOfDepartureAndRouting} `,
           rateClassCommodityItemNo: "rateClassCommodityItemNo",
           chargeableWeight: "chargeableWeight",
           rateOrCharge: "rateOrCharge",
@@ -328,7 +326,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                               </div>
                               <div className="borderLeft borderBottom p-2">
                                 <p className="textTitle">Delivery Agent:</p>
-                                {isPrintView ? (
+                                {isPrintViewMode ? (
                                   <p>
                                     {values?.consignee
                                       ? values?.consignee
@@ -1438,7 +1436,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                   <p>
                                     {values?.noOfPiecesRcp
                                       ? values?.noOfPiecesRcp
-                                        ?.split("\n")
+                                        ?.split('\n')
                                         .map((item, index) => {
                                           return (
                                             <>
@@ -1447,7 +1445,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView }) => {
                                             </>
                                           );
                                         })
-                                      : ""}
+                                      : ''}
                                   </p>
                                 </>
                               ) : (
