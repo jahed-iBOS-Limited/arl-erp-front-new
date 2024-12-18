@@ -1403,7 +1403,22 @@ function BookingList() {
                       });
                     }}
                   >
-                    <MasterHBAWModal selectedRow={selectedRow} />
+                    <MasterHBAWModal
+                      selectedRow={selectedRow}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isMasterHBL: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
                   </IViewModal>
                 </>
               )}
