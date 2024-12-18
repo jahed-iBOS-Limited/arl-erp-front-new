@@ -6,27 +6,104 @@ import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../../App";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import "./HAWBFormat.css";
 import logisticsLogo from "./logisticsLogo.png";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Loading from "../../../../_helper/_loading";
 const validationSchema = Yup.object().shape({});
 
 const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
-  const [hbawListData, getHBAWList] = useAxiosPost();
+  const [hbawListData, getHBAWList, ishbawLodaing] = useAxiosPost();
   const [
     getShipMasteBlById,
     GetShipMasterBlById,
     shipMasterBlByIdLoaidng,
   ] = useAxiosGet();
+  const [, SaveShipMasterHAWB, SaveShipMasterHAWBLoading] = useAxiosPost();
 
   const [isPrintViewMode, setIsPrintViewMode] = useState(isPrintView || false);
   const formikRef = React.useRef();
 
   const saveHandler = (values, cb) => {
-    console.log(values);
+    const bookingRequestList = selectedRow?.map((item) => {
+      return {
+        bookingReqestId: item?.bookingRequestId,
+      };
+    });
+    const payload = {
+      airMasterBlId: 0,
+      masterBlNo: "",
+      shipperNameAndAddress: "",
+      consigneeNameAndAddress: "",
+      issuingCarrierAgentNameAndCity: "",
+      agentIatacode: values?.agentIatacode || "",
+      accountNumber: values?.accountNumber || "",
+      airportOfDepartureAndRouting: values?.airportOfDepartureAndRouting || "",
+      to1: values?.to1 || "",
+      byFirstCarrierRoutingAndDestination: values?.byFirstCarrierRoutingAndDestination || "",
+      to2: values?.to2 || "",
+      by2: values?.by2 || "",
+      currency: values?.currency || "",
+      cghscode: values?.cghscode || "",
+      declaredValueForCarriage: values?.declaredValueForCarriage || "",
+      declaredValueForCustoms: values?.declaredValueForCustoms || "",
+      airportOfDestination: values?.airportOfDestination || "",
+      requestedFlightDate: values?.requestedFlightDate || "",
+      amountOfInsurance: values?.amountOfInsurance || "",
+      handlingInformation: values?.handlingInformation || "",
+      noOfPiecesRcp: values?.noOfPiecesRcp || "",
+      rateClassCommodityItemNo: values?.rateClassCommodityItemNo || "",
+      chargeableWeight: values?.chargeableWeight || "",
+      rateOrCharge: values?.rateOrCharge || "",
+      prepaidTotalAmount: "",
+      grossWeightKgLb: values?.grossWeightKgLb || "",
+      prepaidNatureAndQuantityOfGoods: values?.prepaidNatureAndQuantityOfGoods || "",
+      prepaidPrepaidAmount: values?.prepaidPrepaidAmount || "",
+      prepaidWeightCharge: "",
+      prepaidValuationCharge: values?.prepaidValuationCharge || "",
+      prepaidTaxAmount: values?.prepaidTaxAmount || "",
+      prepaidTotalOtherChargesDueAgent: "",
+      prepaidTotalOtherChargesDueCarrier1: "",
+      prepaidTotalOtherChargesDueCarrier2: "",
+      totalPrepaid: values?.totalPrepaid || "",
+      totalCollect: values?.totalCollect || "",
+      currencyConversionRates: values?.currencyConversionRates || "",
+      ccchargesInDestCurrency: values?.ccchargesInDestCurrency || "",
+      forCarrierUseOnlyAtDestination: "",
+      chargesAtDestination: values?.chargesAtDestination || "",
+      totalCollectCharges: "",
+      signatureOfShipperOrAgent: "",
+      executedOnDate: "",
+      atPlace: "",
+      signatureOfIssuingCarrierOrAgent: "",
+      isActive: true,
+      createdBy: 0,
+      createdAt: new Date(),
+      serverTime: new Date(),
+      collectTotalAmount: "",
+      collectNatureAndQuantityOfGoods: "",
+      collectPrepaidAmount: values?.collectPrepaidAmount || "",
+      collectWeightCharge: "",
+      collectValuationCharge: "",
+      collectTaxAmount: "",
+      collectTotalOtherChargesDueAgent: "",
+      collectTotalOtherChargesDueCarrier1: values?.collectTotalOtherChargesDueCarrier1 || "",
+      collectTotalOtherChargesDueCarrier2: values?.collectTotalOtherChargesDueCarrier2 || "",
+      bookingReqest: bookingRequestList,
+      hblNos: [],
+    };
+    SaveShipMasterHAWB(
+      `${imarineBaseUrl}/domain/ShippingService/SaveAirMasterBl`,
+      payload,
+      (data) => {
+        if (data) {
+          CB();
+        }
+      },
+    );
   };
-  const GetShipMasterBlByIdApi = () => {
+  const GetShipMasterHAWBByIdApi = () => {
     ///domain/ShippingService/GetShipMasterBlById?BlId=3
     GetShipMasterBlById(
       `${imarineBaseUrl}/domain/ShippingService/GetShipMasterBlById?BlId=${sipMasterBlid}`,
@@ -38,12 +115,15 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
             masterBlNo: data?.masterBlNo || "",
             shipperNameAndAddress: data?.shipperNameAndAddress || "",
             consigneeNameAndAddress: data?.consigneeNameAndAddress || "",
-            issuingCarrierAgentNameAndCity: data?.issuingCarrierAgentNameAndCity || "",
+            issuingCarrierAgentNameAndCity:
+              data?.issuingCarrierAgentNameAndCity || "",
             agentIatacode: data?.agentIatacode || "",
             accountNumber: data?.accountNumber || "",
-            airportOfDepartureAndRouting: data?.airportOfDepartureAndRouting || "",
+            airportOfDepartureAndRouting:
+              data?.airportOfDepartureAndRouting || "",
             to1: data?.to1 || "",
-            byFirstCarrierRoutingAndDestination: data?.byFirstCarrierRoutingAndDestination || "",
+            byFirstCarrierRoutingAndDestination:
+              data?.byFirstCarrierRoutingAndDestination || "",
             to2: data?.to2 || "",
             by2: data?.by2 || "",
             currency: data?.currency || "",
@@ -60,37 +140,47 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
             chargeableWeight: data?.chargeableWeight || "",
             rateOrCharge: data?.rateOrCharge || "",
             prepaidTotalAmount: data?.prepaidTotalAmount || "",
-            prepaidNatureAndQuantityOfGoods: data?.prepaidNatureAndQuantityOfGoods || "",
+            prepaidNatureAndQuantityOfGoods:
+              data?.prepaidNatureAndQuantityOfGoods || "",
             prepaidPrepaidAmount: data?.prepaidPrepaidAmount || "",
             prepaidWeightCharge: data?.prepaidWeightCharge || "",
             prepaidValuationCharge: data?.prepaidValuationCharge || "",
             prepaidTaxAmount: data?.prepaidTaxAmount || "",
-            prepaidTotalOtherChargesDueAgent: data?.prepaidTotalOtherChargesDueAgent || "",
-            prepaidTotalOtherChargesDueCarrier1: data?.prepaidTotalOtherChargesDueCarrier1 || "",
-            prepaidTotalOtherChargesDueCarrier2: data?.prepaidTotalOtherChargesDueCarrier2 || "",
+            prepaidTotalOtherChargesDueAgent:
+              data?.prepaidTotalOtherChargesDueAgent || "",
+            prepaidTotalOtherChargesDueCarrier1:
+              data?.prepaidTotalOtherChargesDueCarrier1 || "",
+            prepaidTotalOtherChargesDueCarrier2:
+              data?.prepaidTotalOtherChargesDueCarrier2 || "",
             totalPrepaid: data?.totalPrepaid || "",
             totalCollect: data?.totalCollect || "",
             currencyConversionRates: data?.currencyConversionRates || "",
             ccchargesInDestCurrency: data?.ccchargesInDestCurrency || "",
-            forCarrierUseOnlyAtDestination: data?.forCarrierUseOnlyAtDestination || "",
+            forCarrierUseOnlyAtDestination:
+              data?.forCarrierUseOnlyAtDestination || "",
             chargesAtDestination: data?.chargesAtDestination || "",
             totalCollectCharges: data?.totalCollectCharges || "",
             signatureOfShipperOrAgent: data?.signatureOfShipperOrAgent || "",
             executedOnDate: data?.executedOnDate || "",
             atPlace: data?.atPlace || "",
-            signatureOfIssuingCarrierOrAgent: data?.signatureOfIssuingCarrierOrAgent || "",
+            signatureOfIssuingCarrierOrAgent:
+              data?.signatureOfIssuingCarrierOrAgent || "",
             createdBy: data?.createdBy || "",
             createdAt: data?.createdAt || "",
             serverTime: data?.serverTime || "",
             collectTotalAmount: data?.collectTotalAmount || "",
-            collectNatureAndQuantityOfGoods: data?.collectNatureAndQuantityOfGoods || "",
+            collectNatureAndQuantityOfGoods:
+              data?.collectNatureAndQuantityOfGoods || "",
             collectPrepaidAmount: data?.collectPrepaidAmount || "",
             collectWeightCharge: data?.collectWeightCharge || "",
             collectValuationCharge: data?.collectValuationCharge || "",
             collectTaxAmount: data?.collectTaxAmount || "",
-            collectTotalOtherChargesDueAgent: data?.collectTotalOtherChargesDueAgent || "",
-            collectTotalOtherChargesDueCarrier1: data?.collectTotalOtherChargesDueCarrier1 || "",
-            collectTotalOtherChargesDueCarrier2: data?.collectTotalOtherChargesDueCarrier2 || "",
+            collectTotalOtherChargesDueAgent:
+              data?.collectTotalOtherChargesDueAgent || "",
+            collectTotalOtherChargesDueCarrier1:
+              data?.collectTotalOtherChargesDueCarrier1 || "",
+            collectTotalOtherChargesDueCarrier2:
+              data?.collectTotalOtherChargesDueCarrier2 || "",
             bookingReqest: data?.bookingReqest || [],
             hblNos: data?.hblNos || [],
           };
@@ -121,7 +211,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
 
   React.useEffect(() => {
     if (isPrintViewMode) {
-      GetShipMasterBlByIdApi();
+      GetShipMasterHAWBByIdApi();
     } else {
       const payload = selectedRow?.map((item) => {
         return {
@@ -183,14 +273,17 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
           //   };
           // });
           const firstIndex = hbawRestData[0];
-          const totalNumberOfPackages = hbawRestData?.reduce((subtotal, item) => {
-            const rows = item?.rowsData || [];
-            const packageSubtotal = rows?.reduce(
-              (sum, row) => sum + (row?.totalNumberOfPackages || 0),
-              0
-            );
-            return subtotal + packageSubtotal;
-          }, 0);
+          const totalNumberOfPackages = hbawRestData?.reduce(
+            (subtotal, item) => {
+              const rows = item?.rowsData || [];
+              const packageSubtotal = rows?.reduce(
+                (sum, row) => sum + (row?.totalNumberOfPackages || 0),
+                0
+              );
+              return subtotal + packageSubtotal;
+            },
+            0
+          );
           const prepaidNatureAndQuantityOfGoods = hbawRestData
             ?.map((item) =>
               item?.rowsData
@@ -308,14 +401,12 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
             prepaidTotalOtherChargesDueAgent: "string",
             prepaidTotalOtherChargesDueCarrier1: "string",
             prepaidTotalOtherChargesDueCarrier2: "string",
-
             forCarrierUseOnlyAtDestination: "string",
             totalCollectCharges: "string",
             signatureOfShipperOrAgent: "string",
             executedOnDate: "2024-12-17T12:11:17.873Z",
             atPlace: "string",
             signatureOfIssuingCarrierOrAgent: "string",
-
             collectTotalAmount: "string",
             collectNatureAndQuantityOfGoods: "string",
             collectWeightCharge: "string",
@@ -353,6 +444,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
+            {(SaveShipMasterHAWBLoading ||
+              shipMasterBlByIdLoaidng ||
+              ishbawLodaing) && <Loading />}
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
@@ -1349,24 +1443,14 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
                                     <>
                                       <p>
                                         {values?.requestedFlightDate
-                                          ? values?.requestedFlightDate
-                                            ?.split("\n")
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
-                                          : ""}
+                                        }
                                       </p>
                                     </>
                                   ) : (
                                     <>
                                       {" "}
                                       <div className="col-lg-12">
-                                        <textarea
+                                        <input
                                           name="requestedFlightDate"
                                           value={values?.requestedFlightDate}
                                           type="date"
@@ -1386,25 +1470,14 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, sipMasterBlid }) => {
                                   {isPrintViewMode ? (
                                     <>
                                       <p>
-                                        {values?.requestedFlightDate
-                                          ? values?.requestedFlightDate
-                                            ?.split("\n")
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
-                                          : ""}
+                                        {values?.requestedFlightDate}
                                       </p>
                                     </>
                                   ) : (
                                     <>
                                       {" "}
                                       <div className="col-lg-12">
-                                        <textarea
+                                        <input
                                           name="requestedFlightDate"
                                           value={values?.requestedFlightDate}
                                           type="date"
