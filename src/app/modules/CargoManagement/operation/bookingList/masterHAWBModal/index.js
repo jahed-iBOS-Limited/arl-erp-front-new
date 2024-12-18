@@ -31,11 +31,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
         bookingReqestId: item?.bookingRequestId,
       };
     });
+    const hblnumberList = selectedRow?.map((item) => {
+      return {
+        hblnumber: item?.hblnumber,
+      };
+    });
     const payload = {
       airMasterBlId: 0,
       masterBlNo: "",
-      shipperNameAndAddress: "",
-      consigneeNameAndAddress: "",
+      shipperNameAndAddress: values?.shipperNameAndAddress || "",
+      consigneeNameAndAddress: values?.consigneeNameAndAddress || "",
       issuingCarrierAgentNameAndCity: "",
       agentIatacode: values?.agentIatacode || "",
       accountNumber: values?.accountNumber || "",
@@ -56,7 +61,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       rateClassCommodityItemNo: values?.rateClassCommodityItemNo || "",
       chargeableWeight: values?.chargeableWeight || "",
       rateOrCharge: values?.rateOrCharge || "",
-      prepaidTotalAmount: "",
+      prepaidTotalAmount: values?.prepaidTotalAmount || "",
       grossWeightKgLb: values?.grossWeightKgLb || "",
       prepaidNatureAndQuantityOfGoods: values?.prepaidNatureAndQuantityOfGoods || "",
       prepaidPrepaidAmount: values?.prepaidPrepaidAmount || "",
@@ -70,28 +75,28 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       totalCollect: values?.totalCollect || "",
       currencyConversionRates: values?.currencyConversionRates || "",
       ccchargesInDestCurrency: values?.ccchargesInDestCurrency || "",
-      forCarrierUseOnlyAtDestination: "",
+      forCarrierUseOnlyAtDestination: values?.forCarrierUseOnlyAtDestination || "",
       chargesAtDestination: values?.chargesAtDestination || "",
-      totalCollectCharges: "",
-      signatureOfShipperOrAgent: "",
-      executedOnDate: "",
-      atPlace: "",
-      signatureOfIssuingCarrierOrAgent: "",
+      totalCollectCharges: values?.totalCollectCharges || "",
+      signatureOfShipperOrAgent: values?.signatureOfShipperOrAgent || "",
+      executedOnDate: values?.executedOnDate || "",
+      atPlace: values?.atPlace || "",
+      signatureOfIssuingCarrierOrAgent: values?.signatureOfIssuingCarrierOrAgent || "",
       isActive: true,
       createdBy: 0,
       createdAt: new Date(),
       serverTime: new Date(),
-      collectTotalAmount: "",
-      collectNatureAndQuantityOfGoods: "",
+      collectTotalAmount: values?.collectTotalAmount || "",
+      collectNatureAndQuantityOfGoods: values?.collectNatureAndQuantityOfGoods || "",
       collectPrepaidAmount: values?.collectPrepaidAmount || "",
-      collectWeightCharge: "",
-      collectValuationCharge: "",
-      collectTaxAmount: "",
-      collectTotalOtherChargesDueAgent: "",
+      collectWeightCharge: values?.collectWeightCharge || "",
+      collectValuationCharge: values?.collectValuationCharge || "",
+      collectTaxAmount: values?.collectTaxAmount || "",
+      collectTotalOtherChargesDueAgent: values?.collectTotalOtherChargesDueAgent || "",
       collectTotalOtherChargesDueCarrier1: values?.collectTotalOtherChargesDueCarrier1 || "",
       collectTotalOtherChargesDueCarrier2: values?.collectTotalOtherChargesDueCarrier2 || "",
       bookingReqest: bookingRequestList,
-      hblNos: [],
+      hblNos: hblnumberList,
     };
     SaveShipMasterHAWB(
       `${imarineBaseUrl}/domain/ShippingService/SaveAirMasterBl`,
@@ -126,6 +131,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               data?.byFirstCarrierRoutingAndDestination || "",
             to2: data?.to2 || "",
             by2: data?.by2 || "",
+            by1: data?.by1 || "",
             currency: data?.currency || "",
             cghscode: data?.cghscode || "",
             declaredValueForCarriage: data?.declaredValueForCarriage || "",
@@ -337,7 +343,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             optionalShippingInformation: "missing",
             to: "missing",
             grossWeight: `${subtotalGrossWeight || ""}`, //"missing",
-
+            by1: 'missing',
             // bind from data
             consigneeNameAndAddress: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
             shipperNameAndAddress: `Akij Logistics Limited \nBir Uttam Mir Shawkat Sarak, Dhaka 1208`,
@@ -359,7 +365,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               "DD-MM-YYYY"
             )}`,
             grossWeightKgLb: "",
-            to1: "to1",
+            to1: "",
             byFirstCarrierRoutingAndDestination: "",
             to2: "",
             by2: "",
@@ -386,37 +392,26 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             totalCollect: "", // can't get initial value
             currencyConversionRates: "", // can't get initial value
             ccchargesInDestCurrency: "", // can't get initial value
-            chargesAtDestination: "",// can't get initial value
+            forCarrierUseOnlyAtDestination: "", // can't get initial value
+            chargesAtDestination: "string",
 
             // can't bind 
-            airMasterBlId: 0,
-            isActive: true,
-            createdBy: 0,
-            masterBlNo: "string",
             issuingCarrierAgentNameAndCity: "string",
-
             prepaidTotalAmount: "string",
             prepaidWeightCharge: "string",
 
             prepaidTotalOtherChargesDueCarrier1: "string",
             prepaidTotalOtherChargesDueCarrier2: "string",
-            forCarrierUseOnlyAtDestination: "string",
             totalCollectCharges: "string",
             signatureOfShipperOrAgent: "string",
-            atPlace: "string",
+            atPlace: "", // no need
             collectTotalAmount: "string",
             collectNatureAndQuantityOfGoods: "string",
             collectWeightCharge: "string",
             collectValuationCharge: "string",
             collectTaxAmount: "string",
             collectTotalOtherChargesDueAgent: "string",
-            createdAt: "2024-12-17T12:11:17.873Z",
-            serverTime: "2024-12-17T12:11:17.873Z",
-            hblNos: [
-              {
-                hblnumber: "string",
-              },
-            ],
+
           };
           Object.keys(obj).forEach((key) => {
             formikRef.current.setFieldValue(key, obj[key]);
@@ -1034,8 +1029,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 {isPrintViewMode ? (
                                   <>
                                     <p>
-                                      {values?.strBy1
-                                        ? values?.strBy1
+                                      {values?.by1
+                                        ? values?.by1
                                           ?.split("\n")
                                           .map((item, index) => {
                                             return (
@@ -1052,10 +1047,10 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   <>
                                     {" "}
                                     <textarea
-                                      name="strBy1"
-                                      value={values?.strBy1}
+                                      name="by1"
+                                      value={values?.by1}
                                       onChange={(e) => {
-                                        setFieldValue("strBy1", e.target.value);
+                                        setFieldValue("by1", e.target.value);
                                       }}
                                       style={{
                                         minWidth: "40px",
@@ -2148,94 +2143,90 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 </span>
                               </div>
                               <div className="collectChartLeft borderRight">
-                                <p className="collectChartValue">
-                                  {["cif", "cpt", "cfr"].includes(
-                                    hbawListData?.[0]?.incoterms
-                                  ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.prepaidTaxAmount
-                                                ? values?.prepaidTaxAmount
-                                                  ?.split("\n")
-                                                  .map((item, index) => {
-                                                    return (
-                                                      <>
-                                                        {item}
-                                                        <br />
-                                                      </>
-                                                    );
-                                                  })
-                                                : ""}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {" "}
-                                            <div className="col-lg-12">
-                                              <textarea
-                                                name="prepaidTaxAmount"
-                                                value={values?.prepaidTaxAmount}
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    "prepaidTaxAmount",
-                                                    e.target.value
+                                {["cif", "cpt", "cfr"].includes(
+                                  hbawListData?.[0]?.incoterms
+                                ) && (
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.prepaidTaxAmount
+                                              ? values?.prepaidTaxAmount
+                                                ?.split("\n")
+                                                .map((item, index) => {
+                                                  return (
+                                                    <>
+                                                      {item}
+                                                      <br />
+                                                    </>
                                                   );
-                                                }}
-                                                cols={1}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
-                                </p>
+                                                })
+                                              : ""}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {" "}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="prepaidTaxAmount"
+                                              value={values?.prepaidTaxAmount}
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  "prepaidTaxAmount",
+                                                  e.target.value
+                                                );
+                                              }}
+                                              cols={1}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                               </div>
                               <div className="collectChartRight">
-                                <p className="collectChartValue">
-                                  {!["cif", "cpt", "cfr"].includes(
-                                    hbawListData?.[0]?.incoterms
-                                  ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.prepaidTaxAmount
-                                                ? values?.prepaidTaxAmount
-                                                  ?.split("\n")
-                                                  .map((item, index) => {
-                                                    return (
-                                                      <>
-                                                        {item}
-                                                        <br />
-                                                      </>
-                                                    );
-                                                  })
-                                                : ""}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {" "}
-                                            <div className="col-lg-12">
-                                              <textarea
-                                                name="prepaidTaxAmount"
-                                                value={values?.prepaidTaxAmount}
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    "prepaidTaxAmount",
-                                                    e.target.value
+                                {!["cif", "cpt", "cfr"].includes(
+                                  hbawListData?.[0]?.incoterms
+                                ) && (
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.prepaidTaxAmount
+                                              ? values?.prepaidTaxAmount
+                                                ?.split("\n")
+                                                .map((item, index) => {
+                                                  return (
+                                                    <>
+                                                      {item}
+                                                      <br />
+                                                    </>
                                                   );
-                                                }}
-                                                cols={1}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
-                                </p>
+                                                })
+                                              : ""}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {" "}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="prepaidTaxAmount"
+                                              value={values?.prepaidTaxAmount}
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  "prepaidTaxAmount",
+                                                  e.target.value
+                                                );
+                                              }}
+                                              cols={1}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                               </div>
                             </div>
                           </div>
@@ -2578,92 +2569,89 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     </span>
                                   </div>
                                   <div className="collectChartLeft borderRight">
-                                    <p className="collectChartValue">
-                                      {["cif", "cpt", "cfr"].includes(
-                                        hbawListData?.[0]?.incoterms
-                                      ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.totalPrepaid
-                                                    ? values?.totalPrepaid
-                                                      ?.split("\n")
-                                                      .map((item, index) => {
-                                                        return (
-                                                          <>
-                                                            {item}
-                                                            <br />
-                                                          </>
-                                                        );
-                                                      })
-                                                    : ""}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {" "}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="totalPrepaid"
-                                                    value={values?.totalPrepaid}
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        "totalPrepaid",
-                                                        e.target.value
+                                    {["cif", "cpt", "cfr"].includes(
+                                      hbawListData?.[0]?.incoterms
+                                    ) && (
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.totalPrepaid
+                                                  ? values?.totalPrepaid
+                                                    ?.split("\n")
+                                                    .map((item, index) => {
+                                                      return (
+                                                        <>
+                                                          {item}
+                                                          <br />
+                                                        </>
                                                       );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
-                                    </p>
+                                                    })
+                                                  : ""}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {" "}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="totalPrepaid"
+                                                  value={values?.totalPrepaid}
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      "totalPrepaid",
+                                                      e.target.value
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                   </div>
                                   <div className="collectChartRight">
-                                    <p className="collectChartValue">
-                                      {!["cif", "cpt", "cfr"].includes(
-                                        hbawListData?.[0]?.incoterms
-                                      ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.totalCollect
-                                                    ? values?.totalCollect
-                                                      ?.split("\n")
-                                                      .map((item, index) => {
-                                                        return (
-                                                          <>
-                                                            {item}
-                                                            <br />
-                                                          </>
-                                                        );
-                                                      })
-                                                    : ""}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {" "}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="totalCollect"
-                                                    value={values?.totalCollect}
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        "totalCollect",
-                                                        e.target.value
+                                    {!["cif", "cpt", "cfr"].includes(
+                                      hbawListData?.[0]?.incoterms
+                                    ) && (
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.totalCollect
+                                                  ? values?.totalCollect
+                                                    ?.split("\n")
+                                                    .map((item, index) => {
+                                                      return (
+                                                        <>
+                                                          {item}
+                                                          <br />
+                                                        </>
                                                       );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
-                                    </p>
+                                                    })
+                                                  : ""}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {" "}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="totalCollect"
+                                                  value={values?.totalCollect}
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      "totalCollect",
+                                                      e.target.value
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
+
                                   </div>
                                 </div>
                                 <div
@@ -2870,8 +2858,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     {isPrintViewMode ? (
                                       <>
                                         <p>
-                                          {values?.chargesAtDestination
-                                            ? values?.chargesAtDestination
+                                          {values?.forCarrierUseOnlyAtDestination
+                                            ? values?.forCarrierUseOnlyAtDestination
                                               ?.split("\n")
                                               .map((item, index) => {
                                                 return (
@@ -2889,11 +2877,11 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                         {" "}
                                         <div className="col-lg-12">
                                           <textarea
-                                            name="chargesAtDestination"
-                                            value={values?.chargesAtDestination}
+                                            name="forCarrierUseOnlyAtDestination"
+                                            value={values?.forCarrierUseOnlyAtDestination}
                                             onChange={(e) => {
                                               setFieldValue(
-                                                "chargesAtDestination",
+                                                "forCarrierUseOnlyAtDestination",
                                                 e.target.value
                                               );
                                             }}
