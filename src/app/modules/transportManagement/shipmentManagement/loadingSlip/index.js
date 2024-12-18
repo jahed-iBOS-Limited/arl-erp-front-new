@@ -1,18 +1,18 @@
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import ICustomCard from "../../../_helper/_customCard";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import ShippingPrint from "../shipping/shippingUnitView/shippingPrint";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import ICustomCard from '../../../_helper/_customCard';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import ShippingPrint from '../shipping/shippingUnitView/shippingPrint';
+import QRCodeScanner from '../../../_helper/qrCodeScanner';
 const validationSchema = Yup.object().shape({});
 function LoadingSlip() {
   const { selectedBusinessUnit } = useSelector((state) => {
@@ -20,28 +20,27 @@ function LoadingSlip() {
   }, shallowEqual);
   // eslint-disable-next-line no-unused-vars
   const [regDDL, getRegDDL, regDDLloader] = useAxiosGet();
-  const [, getRegData, regDataLoader] = useAxiosGet();
   const [shipmentDDL, getShipmentDDL, shipmentDDLLoader] = useAxiosGet();
   const [showModal, setShowModal] = useState(false);
   const [clickRowData, setClickRowData] = useState({});
   const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
 
   const qurScanHandler = ({ setFieldValue, values }) => {
-    setFieldValue("entryCode", "");
-    setFieldValue("shipment", "");
-    document.getElementById("cardNoInput").disabled = true;
+    setFieldValue('entryCode', '');
+    setFieldValue('shipment', '');
+    document.getElementById('cardNoInput').disabled = true;
     getRegDDL(
       `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNumber}`,
       (data) => {
         if (data?.length > 0) {
           if (data.length > 0) {
-            const entryCodeObj = data?.[0] || "";
-            setFieldValue("entryCode", entryCodeObj);
+            const entryCodeObj = data?.[0] || '';
+            setFieldValue('entryCode', entryCodeObj);
             getShipmentDDL(
               `/mes/MSIL/GetAllMSIL?PartName=ShipmentByGetVehicleEntry&AutoId=${entryCodeObj?.value}`,
               (resData) => {
                 if (resData?.length === 1) {
-                  setFieldValue("shipment", resData?.[0] || "");
+                  setFieldValue('shipment', resData?.[0] || '');
                   const firstShipment = resData?.[0] || {};
                   setShowModal(true);
                   setClickRowData({
@@ -50,18 +49,18 @@ function LoadingSlip() {
                     shipmentCode: firstShipment?.label,
                   });
                 }
-              }
+              },
             );
           }
         } else {
-          toast.warn("কার্ড নাম্বার সঠিক নয়");
-          setFieldValue("strCardNumber", "");
-          setFieldValue("entryCode", "");
-          setFieldValue("shipment", "");
-          document.getElementById("cardNoInput").disabled = false;
-          document.getElementById("cardNoInput").focus();
+          toast.warn('কার্ড নাম্বার সঠিক নয়');
+          setFieldValue('strCardNumber', '');
+          setFieldValue('entryCode', '');
+          setFieldValue('shipment', '');
+          document.getElementById('cardNoInput').disabled = false;
+          document.getElementById('cardNoInput').focus();
         }
-      }
+      },
     );
   };
   return (
@@ -70,33 +69,31 @@ function LoadingSlip() {
         <Formik
           enableReinitialize={true}
           initialValues={{
-            strCardNumber: "",
-            shipment: "",
-            entryCode: "",
+            strCardNumber: '',
+            shipment: '',
+            entryCode: '',
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
-              {(regDDLloader || regDataLoader || shipmentDDLLoader) && (
-                <Loading />
-              )}
+              {(regDDLloader || shipmentDDLLoader) && <Loading />}
               <div className="row global-form">
                 <div
                   className="col-lg-3 d-flex"
                   style={{
-                    position: "relative",
+                    position: 'relative',
                   }}
                 >
                   <div
                     style={{
-                      position: "absolute",
+                      position: 'absolute',
                       right: 0,
                       top: 0,
-                      cursor: "pointer",
-                      color: "blue",
-                      zIndex: "1",
+                      cursor: 'pointer',
+                      color: 'blue',
+                      zIndex: '1',
                     }}
                     onClick={() => {
                       setQRCodeScannerModal(true);
@@ -104,7 +101,7 @@ function LoadingSlip() {
                   >
                     QR Code <i class="fa fa-qrcode" aria-hidden="true"></i>
                   </div>
-                  <div style={{ width: "inherit" }}>
+                  <div style={{ width: 'inherit' }}>
                     <InputField
                       id="cardNoInput"
                       autoFocus
@@ -113,26 +110,26 @@ function LoadingSlip() {
                       name="strCardNumber"
                       type="text"
                       onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          setFieldValue("entryCode", "");
-                          setFieldValue("shipment", "");
+                        if (e.key === 'Enter') {
+                          setFieldValue('entryCode', '');
+                          setFieldValue('shipment', '');
                           document.getElementById(
-                            "cardNoInput"
+                            'cardNoInput',
                           ).disabled = true;
                           getRegDDL(
                             `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNumber}`,
                             (data) => {
                               if (data?.length > 0) {
                                 if (data.length > 0) {
-                                  const entryCodeObj = data?.[0] || "";
-                                  setFieldValue("entryCode", entryCodeObj);
+                                  const entryCodeObj = data?.[0] || '';
+                                  setFieldValue('entryCode', entryCodeObj);
                                   getShipmentDDL(
                                     `/mes/MSIL/GetAllMSIL?PartName=ShipmentByGetVehicleEntry&AutoId=${entryCodeObj?.value}`,
                                     (resData) => {
                                       if (resData?.length === 1) {
                                         setFieldValue(
-                                          "shipment",
-                                          resData?.[0] || ""
+                                          'shipment',
+                                          resData?.[0] || '',
                                         );
                                         const firstShipment =
                                           resData?.[0] || {};
@@ -143,49 +140,49 @@ function LoadingSlip() {
                                           shipmentCode: firstShipment?.label,
                                         });
                                       }
-                                    }
+                                    },
                                   );
                                 }
                               } else {
-                                toast.warn("কার্ড নাম্বার সঠিক নয়");
-                                setFieldValue("strCardNumber", "");
-                                setFieldValue("entryCode", "");
-                                setFieldValue("shipment", "");
+                                toast.warn('কার্ড নাম্বার সঠিক নয়');
+                                setFieldValue('strCardNumber', '');
+                                setFieldValue('entryCode', '');
+                                setFieldValue('shipment', '');
                                 document.getElementById(
-                                  "cardNoInput"
+                                  'cardNoInput',
                                 ).disabled = false;
-                                document.getElementById("cardNoInput").focus();
+                                document.getElementById('cardNoInput').focus();
                               }
-                            }
+                            },
                           );
                         }
                       }}
                       onChange={(e) => {
-                        setFieldValue("strCardNumber", e.target.value);
+                        setFieldValue('strCardNumber', e.target.value);
                       }}
                     />
                   </div>
                   <span
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginLeft: "5px",
-                      cursor: "pointer",
-                      marginTop: "20px",
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginLeft: '5px',
+                      cursor: 'pointer',
+                      marginTop: '20px',
                     }}
                     onClick={() => {
-                      setFieldValue("strCardNumber", "");
-                      setFieldValue("entryCode", "");
-                      setFieldValue("shipment", "");
-                      document.getElementById("cardNoInput").disabled = false;
-                      document.getElementById("cardNoInput").focus();
+                      setFieldValue('strCardNumber', '');
+                      setFieldValue('entryCode', '');
+                      setFieldValue('shipment', '');
+                      document.getElementById('cardNoInput').disabled = false;
+                      document.getElementById('cardNoInput').focus();
                       resetForm();
                     }}
                   >
                     <i
                       style={{
-                        color: "blue",
+                        color: 'blue',
                       }}
                       className="fa fa-refresh"
                       aria-hidden="true"
@@ -199,13 +196,13 @@ function LoadingSlip() {
                     selectedValue={values?.entryCode}
                     handleChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("entryCode", valueOption);
-                        setFieldValue("shipment", "");
+                        setFieldValue('entryCode', valueOption);
+                        setFieldValue('shipment', '');
                         getShipmentDDL(
                           `/mes/MSIL/GetAllMSIL?PartName=ShipmentByGetVehicleEntry&AutoId=${valueOption?.value}`,
                           (resData) => {
                             if (resData?.length === 1) {
-                              setFieldValue("shipment", resData?.[0] || "");
+                              setFieldValue('shipment', resData?.[0] || '');
                               const firstShipment = resData?.[0] || {};
                               setShowModal(true);
                               setClickRowData({
@@ -214,17 +211,17 @@ function LoadingSlip() {
                                 shipmentCode: firstShipment?.label,
                               });
                             }
-                          }
+                          },
                         );
                       } else {
-                        setFieldValue("entryCode", "");
+                        setFieldValue('entryCode', '');
                       }
                     }}
                     loadOptions={(v) => {
                       if (v?.length < 3) return [];
                       return axios
                         .get(
-                          `/mes/MSIL/GetAllMSIL?PartName=SecondWeightEntryCodeDDL&BusinessUnitId=${selectedBusinessUnit?.value}&search=${v}`
+                          `/mes/MSIL/GetAllMSIL?PartName=SecondWeightEntryCodeDDL&BusinessUnitId=${selectedBusinessUnit?.value}&search=${v}`,
                         )
                         .then((res) => {
                           return res?.data;
@@ -240,7 +237,7 @@ function LoadingSlip() {
                     value={values?.shipment}
                     label="শিপমেন্ট নং"
                     onChange={(valueOption) => {
-                      setFieldValue("shipment", valueOption);
+                      setFieldValue('shipment', valueOption);
                       setShowModal(true);
                       setClickRowData({
                         ...valueOption,
@@ -261,7 +258,7 @@ function LoadingSlip() {
                   >
                     <QRCodeScanner
                       QrCodeScannerCB={(result) => {
-                        setFieldValue("strCardNumber", result);
+                        setFieldValue('strCardNumber', result);
                         setQRCodeScannerModal(false);
                         qurScanHandler({
                           setFieldValue,

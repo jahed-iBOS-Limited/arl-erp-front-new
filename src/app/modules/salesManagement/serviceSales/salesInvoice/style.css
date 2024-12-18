@@ -1,9 +1,3 @@
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-} */
-
 .print-invoice-wrapper-sales-invoice ul,
 .print-invoice-wrapper-sales-invoice ol {
   list-style: none;
@@ -124,9 +118,9 @@
 .print-invoice-wrapper-sales-invoice .signature {
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: flex-end;
   margin-bottom: -5px;
-  padding:0 50px
+  padding: 0 50px
 }
 
 .print-invoice-wrapper-sales-invoice .signature p {
@@ -156,7 +150,8 @@
   .print-invoice-wrapper-sales-invoice .signature {
     margin-bottom: 120px;
   }
-  .sales-invoice-preview table .sales-invoice-hide{
+
+  .sales-invoice-preview table .sales-invoice-hide {
     display: block;
     background-color: white;
   }

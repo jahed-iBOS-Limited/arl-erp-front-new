@@ -1,13 +1,13 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { shallowEqual, useSelector } from "react-redux";
-import IView from "../../../_helper/_helperIcons/_view";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import PaginationSearch from '../../../_helper/_search';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { shallowEqual, useSelector } from 'react-redux';
+import IView from '../../../_helper/_helperIcons/_view';
 
 const initData = {};
 export default function OEEMachineAndChecklistLanding() {
@@ -24,9 +24,9 @@ export default function OEEMachineAndChecklistLanding() {
   }, shallowEqual);
 
   //setPositionHandler
-  const setPositionHandler = (pageNo, pageSize, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, searchValue = '') => {
     getTableData(
-      `/asset/AssetMaintanance/GetAssetHealthCheckLanding?businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}&pageNo=${pageNo}&pageSize=${pageSize}`
+      `/asset/AssetMaintanance/GetAssetHealthCheckLanding?businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}&pageNo=${pageNo}&pageSize=${pageSize}`,
     );
   };
 
@@ -36,8 +36,9 @@ export default function OEEMachineAndChecklistLanding() {
 
   useEffect(() => {
     getTableData(
-      `/asset/AssetMaintanance/GetAssetHealthCheckLanding?businessUnitId=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
+      `/asset/AssetMaintanance/GetAssetHealthCheckLanding?businessUnitId=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -124,7 +125,7 @@ export default function OEEMachineAndChecklistLanding() {
                                       clickHandler={(e) => {
                                         history.push(
                                           `/production-management/configuration/OEEMachineNChecklist/view/${item?.intAssetHealthCheckId}`,
-                                          { landingData: item }
+                                          { landingData: item },
                                         );
                                       }}
                                     />

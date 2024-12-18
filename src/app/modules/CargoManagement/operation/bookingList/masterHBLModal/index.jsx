@@ -22,24 +22,16 @@ export default function MasterHBLModal({
     (state) => state?.authData || {},
     shallowEqual,
   );
-  const [isPrintViewMode, setIsPrintViewMode] = useState(isPrintView || false);
+  const [isPrintViewMode] = useState(isPrintView || false);
   // /domain/ShippingService/GetHBLList
-  const [hblListData, getHBLList, isLoadingGetHBLList] = useAxiosPost();
+  const [, getHBLList, isLoadingGetHBLList] = useAxiosPost();
   const [, SaveShipMasterBl, SaveShipMasterBlLoading] = useAxiosPost();
-  const [msterBLDDL, getMasterBLDDL, isLoadingGetMasterBLDDL] = useAxiosGet();
+  const [msterBLDDL, getMasterBLDDL] = useAxiosGet();
   const [
     getShipMasteBlById,
     GetShipMasterBlById,
     shipMasterBlByIdLoaidng,
   ] = useAxiosGet();
-  // const [pickupPlaceDDL, setPickupPlaceDDL] = useState([]);
-  // const [portOfLoadingDDL, setPortOfLoadingDDL] = useState([]);
-  // const [finalDestinationAddressDDL, setFinalDestinationAddressDDL] = useState(
-  //   [],
-  // );
-  // const [portOfDischargeDDL, setPortOfDischargeDDL] = useState([]);
-  // // const [vesselNameDDL, setVesselNameDDL] = useState([]);
-  // const [voyagaNoDDL, setVoyagaNoDDL] = useState([]);
 
   const formikRef = React.useRef();
 
@@ -100,57 +92,6 @@ export default function MasterHBLModal({
         payload,
         (hblRestData) => {
           const firstIndex = hblRestData[0];
-          // // pickupPlaceDDL
-          // const pickupPlace = data?.map((item, index) => {
-          //   return {
-          //     value: index + 1,
-          //     label: item?.pickupPlace,
-          //   };
-          // });
-          // setPickupPlaceDDL(pickupPlace);
-          // // portOfLoadingDDL
-          // const portOfLoading = data?.map((item, index) => {
-          //   return {
-          //     value: index + 1,
-          //     label: item?.portOfLoading,
-          //   };
-          // });
-          // setPortOfLoadingDDL(portOfLoading);
-
-          // // finalDestinationAddressDDL
-          // const finalDestinationAddress = data?.map((item, index) => {
-          //   return {
-          //     value: index + 1,
-          //     label: item?.finalDestinationAddress,
-          //   };
-          // });
-          // setFinalDestinationAddressDDL(finalDestinationAddress);
-
-          // // portOfDischargeDDL
-          // const portOfDischarge = data?.map((item, index) => {
-          //   return {
-          //     value: index + 1,
-          //     label: item?.portOfDischarge,
-          //   };
-          // });
-          // setPortOfDischargeDDL(portOfDischarge);
-          // // vesselNameDDL
-          // const vesselName = data?.map((item, index) => {
-          //   return {
-          //     value: index + 1,
-          //     label: item?.transportPlanning?.vesselName || '',
-          //   };
-          // });
-          // setVesselNameDDL(vesselName);
-
-          // // voyagaNoDDL
-          // const voyagaNo = data?.map((item, index) => {
-          //   return {
-          //     value: index + 1,
-          //     label: item?.transportPlanning?.voyagaNo || '',
-          //   };
-          // });
-
           const subtotalGrossWeight = hblRestData?.reduce((subtotal, item) => {
             const rows = item?.rowsData || [];
             const weightSubtotal = rows?.reduce(

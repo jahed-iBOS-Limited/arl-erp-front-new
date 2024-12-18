@@ -1,65 +1,64 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
-import Loading from "./../../../../_helper/_loading";
-import RowTable from "./rowTable";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
+import Loading from './../../../../_helper/_loading';
+import RowTable from './rowTable';
 
 import {
   filterAndMapOptions,
-  getUniqueGroups,
   onFilterHandler,
   onResetFilterHandler,
-} from "./helper";
+} from './helper';
 const initData = {
   date: _todayDate(),
-  businessUnit: "",
-  channel: "",
-  district: "",
-  policeStation: "",
-  territory: "",
-  group: "",
-  subCategory: "",
-  skuName: "",
-  brandName: "",
+  businessUnit: '',
+  channel: '',
+  district: '',
+  policeStation: '',
+  territory: '',
+  group: '',
+  subCategory: '',
+  skuName: '',
+  brandName: '',
 };
 export const validationSchema = Yup.object().shape({
   businessUnit: Yup.object().shape({
-    label: Yup.string().required("Business Unit is required"),
-    value: Yup.string().required("Business Unit is required"),
+    label: Yup.string().required('Business Unit is required'),
+    value: Yup.string().required('Business Unit is required'),
   }),
   channel: Yup.object().shape({
-    label: Yup.string().required("Channel is required"),
-    value: Yup.string().required("Channel is required"),
+    label: Yup.string().required('Channel is required'),
+    value: Yup.string().required('Channel is required'),
   }),
   district: Yup.object().shape({
-    label: Yup.string().required("District is required"),
-    value: Yup.string().required("District is required"),
+    label: Yup.string().required('District is required'),
+    value: Yup.string().required('District is required'),
   }),
-  date: Yup.date().required("Date is required"),
+  date: Yup.date().required('Date is required'),
 });
 const transactionTypeDDL = [
   {
     value: 1,
-    label: "Cash",
+    label: 'Cash',
   },
   {
     value: 2,
-    label: "Credit",
+    label: 'Credit',
   },
   {
-    label: "Both",
+    label: 'Both',
     value: 3,
   },
 ];
@@ -82,22 +81,17 @@ function Form() {
   const [, postCreateCompetitorPrice, postLoading] = useAxiosPost();
   const [, putCompetitorPrice, putLoading] = useAxiosPut();
   const formikRef = React.useRef(null);
-  const [filterType, setFilterType] = useState({
-    groupList: [],
-    subCategoryList: [],
-    skuList: [],
-    brandList: [],
-  });
+
   const [allData, setAllData] = useState([]);
 
   useEffect(() => {
     if (buId && accId) {
       setDistrictDDL(
-        `/oms/TerritoryInfo/GetDistrictDDL?countryId=${18}&divisionId=${0}`
+        `/oms/TerritoryInfo/GetDistrictDDL?countryId=${18}&divisionId=${0}`,
       );
       setDDLChannelList(`/oms/CompetitorChannel/GetDDLCompetitorChannelList`);
       setBusinessUnitDDL(
-        `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=0`
+        `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=0`,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -116,58 +110,58 @@ function Form() {
                     value: resData?.objHeader?.intBusinessUnitId,
                     label: resData?.objHeader?.strBusinessUnitName,
                   }
-                : "",
+                : '',
               channel: resData?.objHeader?.intCompetitorChannelId
                 ? {
                     value: resData?.objHeader?.intCompetitorChannelId,
                     label: resData?.objHeader?.strChannelName,
                   }
-                : "",
+                : '',
               district: resData?.objHeader?.intDistrictId
                 ? {
                     value: resData?.objHeader?.intDistrictId,
                     label: resData?.objHeader?.strDistrictName,
                   }
-                : "",
+                : '',
               policeStation: resData?.objHeader?.intThanaId
                 ? {
                     value: resData?.objHeader?.intThanaId,
                     label: resData?.objHeader?.strThanaName,
                   }
-                : "",
+                : '',
               territory: resData?.objHeader?.intTerritoryId
                 ? {
                     value: resData?.objHeader?.intTerritoryId,
                     label: resData?.objHeader?.strTerritoryName,
                   }
-                : "",
+                : '',
             });
           }
 
           setRowDto(
             resData?.objRowList?.map((itm) => {
               const transactionType = transactionTypeDDL.find(
-                (item) => item.label === itm?.strTransactionType
+                (item) => item.label === itm?.strTransactionType,
               );
               return {
                 ...itm,
-                strTransactionType: transactionType?.label || "",
-                numTransactionTypeId: transactionType?.value || "",
+                strTransactionType: transactionType?.label || '',
+                numTransactionTypeId: transactionType?.value || '',
                 strDisplayName:
-                  itm?.strDisplayName || itm?.strProductDisplayName || "",
+                  itm?.strDisplayName || itm?.strProductDisplayName || '',
               };
-            })
+            }),
           );
 
           setPoliceStationDDL(
             `/oms/TerritoryInfo/GetThanaDDL?countryId=${18}&divisionId=${0}&districtId=${
               resData?.objHeader?.intDistrictId
-            }`
+            }`,
           );
           setTerritoryDDL(
-            `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${resData?.objHeader?.intBusinessUnitId}`
+            `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${resData?.objHeader?.intBusinessUnitId}`,
           );
-        }
+        },
       );
     } else {
       formikRef.current.setValues({
@@ -177,10 +171,10 @@ function Form() {
               value: buId,
               label: buName,
             }
-          : "",
+          : '',
       });
       setTerritoryDDL(
-        `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${buId}`
+        `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${buId}`,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -191,11 +185,11 @@ function Form() {
     // rowDto mikrate > 0 check
 
     if (rowDto?.length === 0)
-      return toast.warn("Please add at least one product");
+      return toast.warn('Please add at least one product');
 
     const check = rowDto?.every((itm) => +itm?.numMillRate > 0);
     if (!check && values?.channel?.value !== 3)
-      return toast.warn("Mill Rate must be greater than 0");
+      return toast.warn('Mill Rate must be greater than 0');
 
     const payload = {
       objheader: {
@@ -206,7 +200,7 @@ function Form() {
         intDistrictId: values?.district?.value || 0,
         intThanaId: values?.policeStation?.value || 0,
         intTerritoryId: values?.territory?.value || 0,
-        strSalOrMkt: "Market",
+        strSalOrMkt: 'Market',
         isActive: true,
         intCreatedBy: userId,
         dteServerDateTime: new Date(),
@@ -230,32 +224,32 @@ function Form() {
           numEdp: +itm?.numEdp || 0,
           numEtp: +itm?.numEtp || 0,
           numMktRate: +itm?.numMktRate || 0,
-          strMarketName: itm?.strMarketName || "",
-          strDeliveryPoint: itm?.strDeliveryPoint || "",
-          strTransactionType: itm?.strTransactionType || "",
+          strMarketName: itm?.strMarketName || '',
+          strDeliveryPoint: itm?.strDeliveryPoint || '',
+          strTransactionType: itm?.strTransactionType || '',
           isActive: true,
           intCreatedBy: userId,
           dteServerDateTime: new Date(),
           intLastActionBy: userId,
           dteLastActionDateTime: new Date(),
-          strRemarks: itm?.strRemarks || "",
+          strRemarks: itm?.strRemarks || '',
         };
       }),
     };
 
     if (id) {
       putCompetitorPrice(
-        "/oms/CompetitorPrice/EditCompetitorPrice",
+        '/oms/CompetitorPrice/EditCompetitorPrice',
         payload,
         () => {},
-        true
+        true,
       );
     } else {
       postCreateCompetitorPrice(
-        "/oms/CompetitorPrice/CreateCompetitorPrice",
+        '/oms/CompetitorPrice/CreateCompetitorPrice',
         payload,
         cb,
-        true
+        true,
       );
     }
   };
@@ -268,14 +262,7 @@ function Form() {
       (resData) => {
         setRowDto(resData);
         setAllData(resData);
-        const generatedFilterType = {
-          groupList: getUniqueGroups("strGroup", resData),
-          subCategoryList: getUniqueGroups("strProductCategory", resData),
-          skuList: getUniqueGroups("strProductSku", resData),
-          brandList: getUniqueGroups("strProductBrand", resData),
-        };
-        setFilterType(generatedFilterType);
-      }
+      },
     );
   };
   return (
@@ -301,7 +288,7 @@ function Form() {
           resetForm,
         }) => (
           <ICustomCard
-            title={`${id ? "Edit" : "Create"} Market Competitor Price`}
+            title={`${id ? 'Edit' : 'Create'} Market Competitor Price`}
             backHandler={() => {
               history.goBack();
             }}
@@ -321,11 +308,11 @@ function Form() {
                   <label>
                     <b
                       style={{
-                        color: "red",
+                        color: 'red',
                       }}
                     >
                       *
-                    </b>{" "}
+                    </b>{' '}
                     Date
                   </label>
                   <InputField
@@ -344,10 +331,10 @@ function Form() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption || "");
-                      setFieldValue("territory", "");
+                      setFieldValue('businessUnit', valueOption || '');
+                      setFieldValue('territory', '');
                       setTerritoryDDL(
-                        `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${valueOption?.value}`
+                        `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${valueOption?.value}`,
                       );
                       viewHandler({
                         ...values,
@@ -368,7 +355,7 @@ function Form() {
                     value={values?.channel}
                     label="Channel"
                     onChange={(valueOption) => {
-                      setFieldValue("channel", valueOption || "");
+                      setFieldValue('channel', valueOption || '');
                       viewHandler({
                         ...values,
                         channel: valueOption,
@@ -389,12 +376,12 @@ function Form() {
                     value={values?.district}
                     label="District"
                     onChange={(valueOption) => {
-                      setFieldValue("district", valueOption || "");
-                      setFieldValue("policeStation", "");
+                      setFieldValue('district', valueOption || '');
+                      setFieldValue('policeStation', '');
                       setPoliceStationDDL(
                         `/oms/TerritoryInfo/GetThanaDDL?countryId=${18}&divisionId=${0}&districtId=${
                           valueOption?.value
-                        }`
+                        }`,
                       );
                     }}
                     placeholder="Select District"
@@ -409,7 +396,7 @@ function Form() {
                     value={values?.policeStation}
                     label="Police Station"
                     onChange={(valueOption) => {
-                      setFieldValue("policeStation", valueOption);
+                      setFieldValue('policeStation', valueOption);
                     }}
                     placeholder="Select Police Station"
                     errors={errors}
@@ -423,7 +410,7 @@ function Form() {
                     value={values?.territory}
                     label="Territory"
                     onChange={(valueOption) => {
-                      setFieldValue("territory", valueOption);
+                      setFieldValue('territory', valueOption);
                     }}
                     placeholder="Select Territory"
                     errors={errors}
@@ -451,18 +438,18 @@ function Form() {
                 <div className="col-lg-2">
                   <NewSelect
                     name="group"
-                    options={filterAndMapOptions(allData, values, "strGroup")}
+                    options={filterAndMapOptions(allData, values, 'strGroup')}
                     value={values?.group}
                     label="Group"
                     onChange={(valueOption) => {
-                      setFieldValue("group", valueOption || "");
-                      setFieldValue("subCategory", "");
-                      setFieldValue("skuName", "");
-                      setFieldValue("brandName", "");
+                      setFieldValue('group', valueOption || '');
+                      setFieldValue('subCategory', '');
+                      setFieldValue('skuName', '');
+                      setFieldValue('brandName', '');
                       onFilterHandler(
                         allData,
                         { ...values, group: { ...valueOption } },
-                        setRowDto
+                        setRowDto,
                       );
                     }}
                     placeholder="Select Group"
@@ -476,18 +463,18 @@ function Form() {
                     options={filterAndMapOptions(
                       allData,
                       values,
-                      "strProductCategory"
+                      'strProductCategory',
                     )}
                     value={values?.subCategory}
                     label="Sub Category"
                     onChange={(valueOption) => {
-                      setFieldValue("subCategory", valueOption || "");
-                      setFieldValue("skuName", "");
-                      setFieldValue("brandName", "");
+                      setFieldValue('subCategory', valueOption || '');
+                      setFieldValue('skuName', '');
+                      setFieldValue('brandName', '');
                       onFilterHandler(
                         allData,
                         { ...values, subCategory: { ...valueOption } },
-                        setRowDto
+                        setRowDto,
                       );
                     }}
                     placeholder="Sub Category"
@@ -501,17 +488,17 @@ function Form() {
                     options={filterAndMapOptions(
                       allData,
                       values,
-                      "strProductSku"
+                      'strProductSku',
                     )}
                     value={values?.skuName}
                     label="SKU Name"
                     onChange={(valueOption) => {
-                      setFieldValue("skuName", valueOption || "");
-                      setFieldValue("brandName", "");
+                      setFieldValue('skuName', valueOption || '');
+                      setFieldValue('brandName', '');
                       onFilterHandler(
                         allData,
                         { ...values, skuName: { ...valueOption } },
-                        setRowDto
+                        setRowDto,
                       );
                     }}
                     placeholder="SKU Name"
@@ -525,16 +512,16 @@ function Form() {
                     options={filterAndMapOptions(
                       allData,
                       values,
-                      "strProductBrand"
+                      'strProductBrand',
                     )}
                     value={values?.brandName}
                     label="Brand Name"
                     onChange={(valueOption) => {
-                      setFieldValue("brandName", valueOption || "");
+                      setFieldValue('brandName', valueOption || '');
                       onFilterHandler(
                         allData,
                         { ...values, brandName: { ...valueOption } },
-                        setRowDto
+                        setRowDto,
                       );
                     }}
                     placeholder="Brand Name"

@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../_helper/_loading";
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 export default function ApprovalView({
   singleData,
@@ -20,7 +19,7 @@ export default function ApprovalView({
 
   useEffect(() => {
     getViewData(
-      `/wms/InventoryTransaction/GetPendingAdjustmentRowViewByTransId?intBusinessUnitId=${selectedBusinessUnit?.value}&intInventoryTransactionId=${singleData?.intInventoryTransactionId}`
+      `/wms/InventoryTransaction/GetPendingAdjustmentRowViewByTransId?intBusinessUnitId=${selectedBusinessUnit?.value}&intInventoryTransactionId=${singleData?.intInventoryTransactionId}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleData]);
@@ -44,9 +43,9 @@ export default function ApprovalView({
                     () => {
                       setIsShowModal(false);
                       getRowData(
-                        `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`
+                        `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`,
                       );
-                    }
+                    },
                   );
                 },
                 noAlertFunc: () => {},
@@ -69,9 +68,9 @@ export default function ApprovalView({
                     () => {
                       setIsShowModal(false);
                       getRowData(
-                        `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`
+                        `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`,
                       );
-                    }
+                    },
                   );
                 },
                 noAlertFunc: () => {},

@@ -1,21 +1,20 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import moment from "moment";
+import moment from 'moment';
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 function Table({ gridData }) {
   const bgStyleFunc = (item) => {
     if (item?.strBillRegisterCode) {
-      return { backgroundColor: "#42d342bd" };
+      return { backgroundColor: '#42d342bd' };
     }
     if (item?.numApprvBySuppervisor === 0 || item?.numApprvByHR === 0) {
-      return { backgroundColor: "#fbfb0054" };
+      return { backgroundColor: '#fbfb0054' };
     } else if (
       item?.numApprvBySuppervisor > item?.numApplicantAmount ||
       item?.numApprvByHR > item?.numApplicantAmount ||
       item?.numNetPayable > item?.numApplicantAmount
     ) {
-      return { backgroundColor: "#ff000052" };
+      return { backgroundColor: '#ff000052' };
     } else {
       return;
     }
@@ -30,7 +29,7 @@ function Table({ gridData }) {
     <>
       <div className="loan-scrollable-table">
         <div
-          style={{ maxHeight: "400px" }}
+          style={{ maxHeight: '400px' }}
           className="scroll-table _table scroll-table-auto react-bootstrap-table table-responsive"
         >
           <table
@@ -39,26 +38,26 @@ function Table({ gridData }) {
           >
             <thead>
               <tr>
-                <th style={{ minWidth: "30px" }}>SL</th>
-                <th style={{ minWidth: "70px" }}>Enroll</th>
-                <th style={{ minWidth: "100px" }}>Employee Name</th>
-                <th style={{ minWidth: "100px" }}>Designation</th>
-                <th style={{ minWidth: "100px" }}>Routing</th>
-                <th style={{ minWidth: "100px" }}>Account Number</th>
-                <th style={{ minWidth: "100px" }}>Bank Name</th>
-                <th style={{ minWidth: "100px" }}>Branch</th>
-                <th style={{ minWidth: "100px" }}>Contact Number</th>
-                <th style={{ minWidth: "100px" }}>Supervisor</th>
-                <th style={{ minWidth: "100px" }}>Workplace Name</th>
-                <th style={{ minWidth: "100px" }}>Advance Amount</th>
-                <th style={{ minWidth: "100px" }}>Expense Code</th>
-                <th style={{ minWidth: "100px" }}>Applicant Amount</th>
-                <th style={{ minWidth: "100px" }}>Approve By HR</th>
-                <th style={{ minWidth: "100px" }}>Approve By Supervisor</th>
-                <th style={{ minWidth: "80px" }}>Supervisor Approve Date</th>
-                <th style={{ minWidth: "80px" }}>Line Manager Approve Date</th>
-                <th style={{ minWidth: "100px" }}>Net Payable</th>
-                <th style={{ minWidth: "100px" }}>Bill Register Code</th>
+                <th style={{ minWidth: '30px' }}>SL</th>
+                <th style={{ minWidth: '70px' }}>Enroll</th>
+                <th style={{ minWidth: '100px' }}>Employee Name</th>
+                <th style={{ minWidth: '100px' }}>Designation</th>
+                <th style={{ minWidth: '100px' }}>Routing</th>
+                <th style={{ minWidth: '100px' }}>Account Number</th>
+                <th style={{ minWidth: '100px' }}>Bank Name</th>
+                <th style={{ minWidth: '100px' }}>Branch</th>
+                <th style={{ minWidth: '100px' }}>Contact Number</th>
+                <th style={{ minWidth: '100px' }}>Supervisor</th>
+                <th style={{ minWidth: '100px' }}>Workplace Name</th>
+                <th style={{ minWidth: '100px' }}>Advance Amount</th>
+                <th style={{ minWidth: '100px' }}>Expense Code</th>
+                <th style={{ minWidth: '100px' }}>Applicant Amount</th>
+                <th style={{ minWidth: '100px' }}>Approve By HR</th>
+                <th style={{ minWidth: '100px' }}>Approve By Supervisor</th>
+                <th style={{ minWidth: '80px' }}>Supervisor Approve Date</th>
+                <th style={{ minWidth: '80px' }}>Line Manager Approve Date</th>
+                <th style={{ minWidth: '100px' }}>Net Payable</th>
+                <th style={{ minWidth: '100px' }}>Bill Register Code</th>
               </tr>
             </thead>
             <tbody>
@@ -97,13 +96,13 @@ function Table({ gridData }) {
                     <td>
                       {item?.dteSupervisorAprvdate &&
                         moment(item?.dteSupervisorAprvdate).format(
-                          "YYYY-MM-DD, LT"
+                          'YYYY-MM-DD, LT',
                         )}
                     </td>
                     <td>
                       {item?.dteLineManagerAprvdate &&
                         moment(item?.dteLineManagerAprvdate).format(
-                          "YYYY-MM-DD, LT"
+                          'YYYY-MM-DD, LT',
                         )}
                     </td>
                     <td className="text-right">

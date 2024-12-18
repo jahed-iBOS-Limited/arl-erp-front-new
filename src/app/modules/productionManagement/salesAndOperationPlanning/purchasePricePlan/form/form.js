@@ -1,31 +1,13 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { ExcelRenderer } from "react-excel-renderer";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getHorizonDDL } from "../helper";
-import { exportToCSV } from "./utils";
-import { toast } from "react-toastify";
-
-// Validation schema
-const validationSchema = Yup.object().shape({
-  plant: Yup.object().shape({
-    value: Yup.string().required("Plant Name is required"),
-    label: Yup.string().required("Plant Name is required"),
-  }),
-  fiscalYearDDL: Yup.object().shape({
-    value: Yup.string().required("Year is required"),
-    label: Yup.string().required("Year is required"),
-  }),
-  horizon: Yup.object().shape({
-    value: Yup.string().required("Planning Horizon is required"),
-    label: Yup.string().required("Planning Horizon is required"),
-  }),
-});
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { ExcelRenderer } from 'react-excel-renderer';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { getHorizonDDL } from '../helper';
+import { exportToCSV } from './utils';
 
 export default function _Form({
   initData,
@@ -48,14 +30,8 @@ export default function _Form({
   removeItem,
   fiscalYearDDL,
 }) {
-  const [fileObject, setFileObject] = useState("");
-  const [, modifyHandler] = useAxiosGet();
+  const [fileObject, setFileObject] = useState('');
   const hiddenFileInput = React.useRef(null);
-  // const [pageNo, setPageNo] = React.useState(0);
-  // const [pageSize, setPageSize] = React.useState(50);
-  // const [plant, setPlant] = React.useState({});
-  // const [, getMrpPlanningInfo, mrpPlanningInfoLoader] = useAxiosGet();
-  // const [, getHeaderRowInfo, headerRowInfoLoader] = useAxiosGet();
   useEffect(() => {
     if (fileObject) {
       ExcelRenderer(fileObject, (err, resp) => {
@@ -213,7 +189,7 @@ export default function _Form({
                 values?.horizon?.monthId > 6
                   ? values?.fiscalYear?.value
                   : values?.fiscalYear?.value + 1
-              }&monthId=${values?.horizon?.monthId}`
+              }&monthId=${values?.horizon?.monthId}`,
             );
           });
         }}
@@ -241,8 +217,8 @@ export default function _Form({
                       onChange={(valueOption) => {
                         setRowDto([]);
                         if (valueOption) {
-                          setFileObject("");
-                          setFieldValue("plant", valueOption);
+                          setFileObject('');
+                          setFieldValue('plant', valueOption);
                           // setPlant(valueOption);
                           // getItemListSalesPlanDDL(
                           //   profileData?.accountId,
@@ -264,7 +240,7 @@ export default function _Form({
                               selectedBusinessUnit?.value,
                               valueOption?.value,
                               valueOption?.value,
-                              setHorizonDDL
+                              setHorizonDDL,
                             );
                           }
                         } else {
@@ -315,15 +291,15 @@ export default function _Form({
                       onChange={(valueOption) => {
                         setRowDto([]);
                         if (valueOption) {
-                          setFieldValue("fiscalYear", valueOption);
-                          setFileObject("");
-                          setFieldValue("horizon", "");
+                          setFieldValue('fiscalYear', valueOption);
+                          setFileObject('');
+                          setFieldValue('horizon', '');
                           getHorizonDDL(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             values?.plant?.value,
                             valueOption?.value,
-                            setHorizonDDL
+                            setHorizonDDL,
                           );
                         } else {
                           setHorizonDDL([]);
@@ -351,16 +327,16 @@ export default function _Form({
                             valueOption?.monthId > 6
                               ? values?.fiscalYear?.value
                               : values?.fiscalYear?.value + 1
-                          }&monthId=${valueOption?.monthId}`
+                          }&monthId=${valueOption?.monthId}`,
                         );
-                        setFieldValue("horizon", valueOption);
+                        setFieldValue('horizon', valueOption);
                         setFieldValue(
-                          "startDate",
-                          _dateFormatter(valueOption?.startdatetime)
+                          'startDate',
+                          _dateFormatter(valueOption?.startdatetime),
                         );
                         setFieldValue(
-                          "endDate",
-                          _dateFormatter(valueOption?.enddatetime)
+                          'endDate',
+                          _dateFormatter(valueOption?.enddatetime),
                         );
                       }}
                       errors={errors}
@@ -391,7 +367,7 @@ export default function _Form({
                 </div>
               </div>
 
-              {console.log("errors", errors)}
+              {console.log('errors', errors)}
 
               <div className="global-form mt-4 d-flex">
                 <div className="form-group row text-right">
@@ -400,8 +376,8 @@ export default function _Form({
                     onClick={handleClick}
                     type="button"
                     style={{
-                      marginLeft: "10px",
-                      height: "30px",
+                      marginLeft: '10px',
+                      height: '30px',
                     }}
                   >
                     Import Excel
@@ -410,10 +386,10 @@ export default function _Form({
                     type="file"
                     onChange={(e) => {
                       setFileObject(e.target.files[0]);
-                      e.target.value = "";
+                      e.target.value = '';
                     }}
                     ref={hiddenFileInput}
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                   />
                 </div>
                 <button
@@ -423,8 +399,8 @@ export default function _Form({
                   }}
                   type="button"
                   style={{
-                    marginLeft: "20px",
-                    height: "30px",
+                    marginLeft: '20px',
+                    height: '30px',
                   }}
                 >
                   Export Excel
@@ -455,23 +431,23 @@ export default function _Form({
                           <td className="text-center">{item?.strUomName}</td>
                           <td className="text-center">{item?.numMRPQty}</td>
                           <td
-                            style={{ width: "150px" }}
+                            style={{ width: '150px' }}
                             className="text-center"
                           >
                             <input
                               type="number"
                               name="purchaseQty"
-                              value={+item?.purchaseQty || ""}
+                              value={+item?.purchaseQty || ''}
                               onChange={(e) => {
                                 if (+e.target.value < 0) {
                                   return toast.warn(
-                                    'Purchase quantity can"t be negative'
+                                    'Purchase quantity can"t be negative',
                                   );
                                 } else {
                                   dataHandler(
-                                    "purchaseQty",
+                                    'purchaseQty',
                                     index,
-                                    +e.target.value
+                                    +e.target.value,
                                   );
                                 }
                               }}
@@ -480,18 +456,18 @@ export default function _Form({
                             />
                           </td>
                           <td
-                            style={{ width: "150px" }}
+                            style={{ width: '150px' }}
                             className="text-center"
                           >
                             <input
                               type="number"
                               name="numRate"
-                              value={+item?.numRate || ""}
+                              value={+item?.numRate || ''}
                               onChange={(e) => {
                                 if (+e.target.value < 0) {
                                   return toast.warn("Rate can't be negative");
                                 }
-                                dataHandler("numRate", index, +e.target.value);
+                                dataHandler('numRate', index, +e.target.value);
                               }}
                               className="quantity-field form-control"
                               // disabled={item?.numMRPQty < 0}
@@ -520,14 +496,14 @@ export default function _Form({
               )} */}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

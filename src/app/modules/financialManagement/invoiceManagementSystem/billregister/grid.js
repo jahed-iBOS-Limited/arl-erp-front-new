@@ -1,44 +1,41 @@
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import React, { useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { toast } from "react-toastify";
-import IView from "../../../_helper/_helperIcons/_view";
-import Loading from "../../../_helper/_loading";
-import { compressfile } from "../../../_helper/compressfile";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import AdvForInternalView from "../approvebillregister/advForInternal";
-import ExpenseView from "../approvebillregister/expenseView";
-import FairPriceShopInvoiceView from "../approvebillregister/fairPriceShopInvoiceView";
-import SupplerInvoiceView from "../approvebillregister/supplerInvoiceView";
-import SupplierAdvanceView from "../approvebillregister/supplierAdvanceView";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../_helper/_fixedPoint";
-import IViewModal from "./../../../_helper/_viewModal";
-import AttachmentListTable from "./attachmentListTable";
-import ViewCNFBill from "./cnfBill/view/table";
-import CustomerViewModal from "./customerRefund/customerViewModal";
-import ViewDamDeliveryBill from "./damDelivery/view/table";
-import ViewFuelBill from "./fuelBill/view/viewBillRegister";
-import ViewG2GGodownUnloadBill from "./g2gGodownUnloadBill/view/viewBillRegister";
-import ViewG2GLighterBill from "./g2gLighterBill/view/viewBillRegister";
-import ViewG2GTruckBill from "./g2gTruckBill/view/viewBillRegister";
-import ViewGhatLoadUnloadBill from "./ghatLoadUnloadBill/view/viewBillRegister";
-import ViewHatchLaborBill from "./hatchLaborBill/view/table";
-import { uploadAttachment } from "./helper";
-import ViewInternalTransportBill from "./internalTransportBill/view/viewBillRegister";
-import ViewLabourBill from "./labourBill/view/viewBillRegister";
-import ViewMotherVesselBill from "./motherVesselBill/view/viewBillRegister";
-import OthersBillView from "./othersBillNew/view/othersBillView";
-import ViewPumpFoodingBill from "./pumpFoodingBill/view/viewPumpFoodingBill";
-import PumpFoodingBillDetails from "./pumpFoodingBillDetails";
-import RejectModel from "./rejectModel/form";
-import ViewSalesCommission from "./salesCommission/view/viewSalesCommission";
-import ViewStevedoreBill from "./stevedoreBill/view/table";
-import ViewSurveyorBill from "./surveyorBill/view/table";
-import ViewTransportBill from "./transportBill/view/viewBillRegister";
-import ICon from "../../../chartering/_chartinghelper/icons/_icon";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import React, { useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import IView from '../../../_helper/_helperIcons/_view';
+import Loading from '../../../_helper/_loading';
+import { compressfile } from '../../../_helper/compressfile';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import AdvForInternalView from '../approvebillregister/advForInternal';
+import ExpenseView from '../approvebillregister/expenseView';
+import FairPriceShopInvoiceView from '../approvebillregister/fairPriceShopInvoiceView';
+import SupplerInvoiceView from '../approvebillregister/supplerInvoiceView';
+import SupplierAdvanceView from '../approvebillregister/supplierAdvanceView';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
+import { _fixedPoint } from './../../../_helper/_fixedPoint';
+import IViewModal from './../../../_helper/_viewModal';
+import AttachmentListTable from './attachmentListTable';
+import ViewCNFBill from './cnfBill/view/table';
+import CustomerViewModal from './customerRefund/customerViewModal';
+import ViewDamDeliveryBill from './damDelivery/view/table';
+import ViewFuelBill from './fuelBill/view/viewBillRegister';
+import ViewG2GGodownUnloadBill from './g2gGodownUnloadBill/view/viewBillRegister';
+import ViewG2GLighterBill from './g2gLighterBill/view/viewBillRegister';
+import ViewG2GTruckBill from './g2gTruckBill/view/viewBillRegister';
+import ViewGhatLoadUnloadBill from './ghatLoadUnloadBill/view/viewBillRegister';
+import ViewHatchLaborBill from './hatchLaborBill/view/table';
+import { uploadAttachment } from './helper';
+import ViewInternalTransportBill from './internalTransportBill/view/viewBillRegister';
+import ViewLabourBill from './labourBill/view/viewBillRegister';
+import ViewMotherVesselBill from './motherVesselBill/view/viewBillRegister';
+import OthersBillView from './othersBillNew/view/othersBillView';
+import ViewPumpFoodingBill from './pumpFoodingBill/view/viewPumpFoodingBill';
+import PumpFoodingBillDetails from './pumpFoodingBillDetails';
+import RejectModel from './rejectModel/form';
+import ViewSalesCommission from './salesCommission/view/viewSalesCommission';
+import ViewStevedoreBill from './stevedoreBill/view/table';
+import ViewSurveyorBill from './surveyorBill/view/table';
+import ViewTransportBill from './transportBill/view/viewBillRegister';
 const GridData = ({
   rowDto,
   values,
@@ -49,7 +46,7 @@ const GridData = ({
 }) => {
   // const billType = values?.billType?.value;
   const [mdalShow, setModalShow] = useState(false);
-  const [gridItem, setGridItem] = useState("");
+  const [gridItem, setGridItem] = useState('');
   const [isReject, setIsReject] = useState(false);
   // attachment states
   const [billId, setBillId] = useState(null);
@@ -58,7 +55,7 @@ const GridData = ({
 
   // Attachment Save actions
   const [, createBillAttachment, createBillAttachmentLoading] = useAxiosPost(
-    []
+    [],
   );
 
   const [attachmentListModal, setAttachmentListModal] = useState(false);
@@ -66,23 +63,22 @@ const GridData = ({
 
   const [pumpFoodingDetailsView, setPumpFoodingDetailsView] = useState(false);
   const [selectedItemForPumpFooding, setSelectedItemForPumpFooding] = useState(
-    null
+    null,
   );
-  const dispatch = useDispatch();
 
   // attachment save actions
   const saveHandler = async () => {
     if (!fileObjects.length) return null;
     const compressedFile = await compressfile(fileObjects?.map((f) => f.file));
     uploadAttachment(compressedFile, setDisabled).then((res) => {
-      const attachment = res?.[0] || "";
+      const attachment = res?.[0] || '';
       const payload = [
         {
           intAccountId: profileData?.accountId,
           intBusinessUnitId: selectedBusinessUnit?.value,
           intBillid: +billId,
-          strTitle: attachment?.fileName || "",
-          strAttatchment: attachment?.id || "",
+          strTitle: attachment?.fileName || '',
+          strAttatchment: attachment?.id || '',
         },
       ];
       if (attachment?.id) {
@@ -93,10 +89,10 @@ const GridData = ({
             setFileObjects([]);
             ViewOnChangeHandler(values);
           },
-          true
+          true,
         );
       } else {
-        toast.warning("Upload Failed");
+        toast.warning('Upload Failed');
       }
     });
   };
@@ -104,125 +100,128 @@ const GridData = ({
     <>
       <div className="row ">
         <div className="col-lg-12">
-        <div className="table-responsive">
-          <table className="table table-striped table-bordered global-table table-font-size-sm">
-            <thead>
-              <tr>
-                <th style={{ width: "20px" }}>SL</th>
-                <th style={{ width: "80px" }}>Register Code</th>
-                <th style={{ width: "80px" }}>Register Date</th>
-                <th style={{ width: "100px" }}>Partner</th>
-                <th style={{ width: "100px" }}>Type Name</th>
-                <th style={{ width: "80px" }}>Adj. Amount</th>
-                <th style={{ width: "80px" }}>Total Amount</th>
-                <th style={{ width: "80px" }}>Bill Status</th>
-                <th style={{ width: "80px" }}>Progress</th>
-                <th style={{ width: "150px" }}>Remarks</th>
-                <th style={{ width: "50px" }}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(createBillAttachmentLoading || disabled) && <Loading />}
-              {rowDto?.data?.map((tableData, index) => (
-                <tr key={index}>
-                  <td> {tableData?.sl} </td>
-                  <td> {tableData?.billRegisterCode} </td>
-                  <td className="text-center">
-                    {" "}
-                    {_dateFormatter(tableData?.billRegisterDate)}{" "}
-                  </td>
-                  <td> {tableData?.partnerName} </td>
-                  <td> {tableData?.billTypeName} </td>
-                  <td
-                    className="text-right"
-                    style={
-                      tableData?.adjustmentAmount > 0 ? { color: "red" } : {}
-                    }
-                  >
-                    {" "}
-                    {_fixedPoint(tableData?.adjustmentAmount || 0)}{" "}
-                  </td>
-                  <td className="text-right"> {tableData?.monTotalAmount} </td>
-                  <td> {tableData?.billStatus} </td>
-                  <td className="text-center"> {tableData?.progress} </td>
-                  <td> {tableData?.remarks} </td>
-                  <td className="text-center">
-                    {/* <span > */}
-                    <div className="d-flex justify-content-around align-items-center">
-                      {tableData?.billType === 18 ? (
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip id="quick-user-tooltip">
-                              {" "}
-                              Details View
-                            </Tooltip>
-                          }
-                        >
-                          <span className="ml-2 cursor: pointer">
-                            <i
-                              class="fa fa-info-circle"
-                              aria-hidden="true"
-                              onClick={() => {
-                                setPumpFoodingDetailsView(true);
-                                setSelectedItemForPumpFooding(tableData);
-                              }}
-                            ></i>
-                          </span>
-                        </OverlayTrigger>
-                      ) : null}
-
-                      {tableData?.billType !== 5 && (
-                        <IView
-                          clickHandler={() => {
-                            setModalShow(true);
-                            setGridItem({
-                              ...tableData,
-                              billStatus: "Approved",
-                            });
-                          }}
-                        />
-                      )}
-                      {tableData?.billType === 5 &&
-                      tableData?.attatchment?.length ? (
-                        <IView
-                          title="View Attachment"
-                          clickHandler={() => {
-                            setAttachmentItemList(tableData?.attatchment);
-                            setAttachmentListModal(true);
-                          }}
-                        />
-                      ) : null}
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setBillId(tableData?.billRegisterId);
-                        }}
-                        style={{
-                          border: "none",
-                          background: "none",
-                          cursor: "pointer",
-                          padding: 0,
-                        }}
-                      >
-                        <OverlayTrigger
-                          overlay={
-                            <Tooltip id="cs-icon">
-                              {"Upload Attachment"}
-                            </Tooltip>
-                          }
-                        >
-                          <i class="far fa-file-image"></i>
-                        </OverlayTrigger>
-                      </button>
-                    </div>
-                    {/* </span> */}
-                  </td>
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered global-table table-font-size-sm">
+              <thead>
+                <tr>
+                  <th style={{ width: '20px' }}>SL</th>
+                  <th style={{ width: '80px' }}>Register Code</th>
+                  <th style={{ width: '80px' }}>Register Date</th>
+                  <th style={{ width: '100px' }}>Partner</th>
+                  <th style={{ width: '100px' }}>Type Name</th>
+                  <th style={{ width: '80px' }}>Adj. Amount</th>
+                  <th style={{ width: '80px' }}>Total Amount</th>
+                  <th style={{ width: '80px' }}>Bill Status</th>
+                  <th style={{ width: '80px' }}>Progress</th>
+                  <th style={{ width: '150px' }}>Remarks</th>
+                  <th style={{ width: '50px' }}>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {(createBillAttachmentLoading || disabled) && <Loading />}
+                {rowDto?.data?.map((tableData, index) => (
+                  <tr key={index}>
+                    <td> {tableData?.sl} </td>
+                    <td> {tableData?.billRegisterCode} </td>
+                    <td className="text-center">
+                      {' '}
+                      {_dateFormatter(tableData?.billRegisterDate)}{' '}
+                    </td>
+                    <td> {tableData?.partnerName} </td>
+                    <td> {tableData?.billTypeName} </td>
+                    <td
+                      className="text-right"
+                      style={
+                        tableData?.adjustmentAmount > 0 ? { color: 'red' } : {}
+                      }
+                    >
+                      {' '}
+                      {_fixedPoint(tableData?.adjustmentAmount || 0)}{' '}
+                    </td>
+                    <td className="text-right">
+                      {' '}
+                      {tableData?.monTotalAmount}{' '}
+                    </td>
+                    <td> {tableData?.billStatus} </td>
+                    <td className="text-center"> {tableData?.progress} </td>
+                    <td> {tableData?.remarks} </td>
+                    <td className="text-center">
+                      {/* <span > */}
+                      <div className="d-flex justify-content-around align-items-center">
+                        {tableData?.billType === 18 ? (
+                          <OverlayTrigger
+                            placement="top"
+                            overlay={
+                              <Tooltip id="quick-user-tooltip">
+                                {' '}
+                                Details View
+                              </Tooltip>
+                            }
+                          >
+                            <span className="ml-2 cursor: pointer">
+                              <i
+                                class="fa fa-info-circle"
+                                aria-hidden="true"
+                                onClick={() => {
+                                  setPumpFoodingDetailsView(true);
+                                  setSelectedItemForPumpFooding(tableData);
+                                }}
+                              ></i>
+                            </span>
+                          </OverlayTrigger>
+                        ) : null}
+
+                        {tableData?.billType !== 5 && (
+                          <IView
+                            clickHandler={() => {
+                              setModalShow(true);
+                              setGridItem({
+                                ...tableData,
+                                billStatus: 'Approved',
+                              });
+                            }}
+                          />
+                        )}
+                        {tableData?.billType === 5 &&
+                        tableData?.attatchment?.length ? (
+                          <IView
+                            title="View Attachment"
+                            clickHandler={() => {
+                              setAttachmentItemList(tableData?.attatchment);
+                              setAttachmentListModal(true);
+                            }}
+                          />
+                        ) : null}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setBillId(tableData?.billRegisterId);
+                          }}
+                          style={{
+                            border: 'none',
+                            background: 'none',
+                            cursor: 'pointer',
+                            padding: 0,
+                          }}
+                        >
+                          <OverlayTrigger
+                            overlay={
+                              <Tooltip id="cs-icon">
+                                {'Upload Attachment'}
+                              </Tooltip>
+                            }
+                          >
+                            <i class="far fa-file-image"></i>
+                          </OverlayTrigger>
+                        </button>
+                      </div>
+                      {/* </span> */}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
         <>
@@ -250,8 +249,8 @@ const GridData = ({
                 laingValues={{
                   ...values,
                   status: {
-                    value: gridItem?.billStatus === "Approved" ? 2 : 1,
-                    label: "",
+                    value: gridItem?.billStatus === 'Approved' ? 2 : 1,
+                    label: '',
                   },
                 }}
                 //girdDataFunc={girdDataFunc}
@@ -264,8 +263,8 @@ const GridData = ({
                 laingValues={{
                   ...values,
                   status: {
-                    value: gridItem?.billStatus === "Approved" ? 2 : 1,
-                    label: "",
+                    value: gridItem?.billStatus === 'Approved' ? 2 : 1,
+                    label: '',
                   },
                 }}
                 //  girdDataFunc={girdDataFunc}
@@ -358,7 +357,7 @@ const GridData = ({
             show={isReject}
             onHide={() => {
               setIsReject(false);
-              setGridItem("");
+              setGridItem('');
             }}
           >
             <RejectModel
@@ -395,10 +394,10 @@ const GridData = ({
 
           <DropzoneDialogBase
             filesLimit={4}
-            acceptedFiles={["image/*", "application/pdf"]}
+            acceptedFiles={['image/*', 'application/pdf']}
             fileObjects={fileObjects}
-            cancelButtonText={"cancel"}
-            submitButtonText={"submit"}
+            cancelButtonText={'cancel'}
+            submitButtonText={'submit'}
             maxFileSize={1000000}
             open={billId}
             onAdd={(newFileObjs) => {
@@ -406,7 +405,7 @@ const GridData = ({
             }}
             onDelete={(deleteFileObj) => {
               const newData = fileObjects.filter(
-                (item) => item.file.name !== deleteFileObj.file.name
+                (item) => item.file.name !== deleteFileObj.file.name,
               );
               setFileObjects(newData);
             }}

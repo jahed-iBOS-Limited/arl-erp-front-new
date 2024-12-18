@@ -1,33 +1,27 @@
-import React, { useState } from "react";
-import IForm from "../../../../_helper/_form";
-import * as Yup from "yup";
-import { Formik, Form } from "formik";
-import { useLocation, useHistory } from "react-router-dom";
-import { values } from "lodash";
-import { toast } from "react-toastify";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import axios from "axios";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import IForm from '../../../../_helper/_form';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 
 const initData = {
-  productName: "",
-  finishedGood: "",
+  productName: '',
+  finishedGood: '',
 };
 
-const validationSchema = Yup.object().shape({
-  //   productName: Yup.string().required("Product Name is required"),
-  //   finishedGood: Yup.string().required("Finished Good is required"),
-});
+const validationSchema = Yup.object().shape({});
 const ProductToFG = () => {
   const [, saveData, tagFGloading] = useAxiosPost();
-  const [productInfo, getProductInfo, productInfoLoading] = useAxiosGet();
+  const [, getProductInfo, productInfoLoading] = useAxiosGet();
 
   const [objProps, setObjprops] = useState({});
   const [rowData, setRowData] = useState([]);
@@ -37,15 +31,16 @@ const ProductToFG = () => {
   const { item } = location?.state;
   const { selectedBusinessUnit, profileData } = useSelector(
     (state) => state.authData,
-    shallowEqual
+    shallowEqual,
   );
   useEffect(() => {
     getProductInfo(
       `costmgmt/Precosting/ProductGetById?productId=${item?.productId}`,
       (data) => {
         setRowData(data?.finishGoodMappings || []);
-      }
+      },
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit?.value, item?.productId]);
 
   const saveHandler = (values) => {
@@ -66,7 +61,7 @@ const ProductToFG = () => {
           uomName: item?.uomName,
         });
       } else {
-        console.error("Invalid data in rowData: ", data);
+        console.error('Invalid data in rowData: ', data);
       }
     });
 
@@ -77,7 +72,7 @@ const ProductToFG = () => {
       uomId: item?.uomId,
       uomName: item?.uomName,
       actionBy: profileData?.userId,
-      mappingType: "finishGoodMappings",
+      mappingType: 'finishGoodMappings',
       finishGoodMappings: [...finishGoodMappings],
       materialMappings: [],
       commonCostElement: [],
@@ -87,18 +82,18 @@ const ProductToFG = () => {
       payload,
       (res) => {
         if (res.statuscode === 200) {
-          history.push("/internal-control/costing/costingconfiguration");
+          history.push('/internal-control/costing/costingconfiguration');
         }
-      }
+      },
     );
   };
 
   const addNewFeatureHandler = (values) => {
     let foundData = rowData?.filter(
-      (item) => item?.fgItemId === values?.finishedGood?.value
+      (item) => item?.fgItemId === values?.finishedGood?.value,
     );
     if (foundData?.length > 0) {
-      toast.warning("Finished Good already exist", { toastId: "Fae" });
+      toast.warning('Finished Good already exist', { toastId: 'Fae' });
     } else {
       let payload = {
         fgItemId: values?.finishedGood?.value,
@@ -115,7 +110,7 @@ const ProductToFG = () => {
   };
   return (
     <>
-      <IForm title={"Product to FG Configuration"} getProps={setObjprops}>
+      <IForm title={'Product to FG Configuration'} getProps={setObjprops}>
         <Formik
           enableReinitialize={true}
           initialValues={initData}
@@ -155,7 +150,7 @@ const ProductToFG = () => {
                     <SearchAsyncSelect
                       selectedValue={values?.finishedGood}
                       handleChange={(valueOption) => {
-                        setFieldValue("finishedGood", valueOption);
+                        setFieldValue('finishedGood', valueOption);
                       }}
                       // isDisabled={!values?.channel}
                       placeholder="Search Finished Good"
@@ -164,7 +159,7 @@ const ProductToFG = () => {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `/costmgmt/Precosting/GetPrecostingItemDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=4&search=${searchValue}`
+                            `/costmgmt/Precosting/GetPrecostingItemDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=4&search=${searchValue}`,
                           )
                           .then((res) => res?.data);
                       }}
@@ -177,9 +172,9 @@ const ProductToFG = () => {
                       name="conversion"
                       onChange={(e) => {
                         if (+e.target.value > 0 || +e.target.value === 0) {
-                          setFieldValue("conversion", e.target.value);
+                          setFieldValue('conversion', e.target.value);
                         } else {
-                          setFieldValue("conversion", "");
+                          setFieldValue('conversion', '');
                         }
                       }}
                       placeholder="Convertion Rate"
@@ -202,14 +197,14 @@ const ProductToFG = () => {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>
@@ -232,7 +227,7 @@ const ProductToFG = () => {
                         return (
                           <tr key={index}>
                             <td
-                              style={{ width: "15px" }}
+                              style={{ width: '15px' }}
                               className="text-center"
                             >
                               {index + 1}
@@ -249,7 +244,7 @@ const ProductToFG = () => {
                             </td>
                             <td>
                               <span
-                                style={{ cursor: "pointer" }}
+                                style={{ cursor: 'pointer' }}
                                 onClick={() => {
                                   handleDelete(item?.fgItemId);
                                 }}

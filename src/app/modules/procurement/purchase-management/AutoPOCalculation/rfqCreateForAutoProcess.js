@@ -1,162 +1,131 @@
-import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { eProcurementBaseURL } from '../../../../App';
+import IForm from '../../../_helper/_form';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
 import {
   _oneMonthLater,
   _todayDate,
   _todayDateTime12HFormet,
-} from "../../../_helper/_todayDate";
-import { eProcurementBaseURL } from "../../../../App";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import TextArea from "../../../_helper/TextArea";
-import { useLocation } from "react-router";
+} from '../../../_helper/_todayDate';
+import AttachmentUploaderNew from '../../../_helper/attachmentUploaderNew';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import TextArea from '../../../_helper/TextArea';
 
 const initData = {
-  sbu: "",
-  plant: "",
-  warehouse: "",
+  sbu: '',
+  plant: '',
+  warehouse: '',
   purchaseOrganization: {
     value: 11,
-    label: "Local Procurement",
+    label: 'Local Procurement',
   },
-  rfqType: { value: 1, label: "Standard RFQ" },
-  rfqTitle: "",
+  rfqType: { value: 1, label: 'Standard RFQ' },
+  rfqTitle: '',
   currency: {
     value: 141,
-    label: "Taka",
-    code: "BDT",
+    label: 'Taka',
+    code: 'BDT',
   },
-  paymentTerms: { value: "Bank", label: "Bank" },
-  transportCost: { value: 1, label: "Including" },
-  quotationEntryStart: "",
-  validTillDate: "",
-  deliveryAddress: "",
-  vatOrAit: { value: 1, label: "Including" },
-  tds: { value: 1, label: "Including" },
-  vds: { value: 1, label: "Including" },
-  deliveryDate: "",
-  referenceNo: "",
+  paymentTerms: { value: 'Bank', label: 'Bank' },
+  transportCost: { value: 1, label: 'Including' },
+  quotationEntryStart: '',
+  validTillDate: '',
+  deliveryAddress: '',
+  vatOrAit: { value: 1, label: 'Including' },
+  tds: { value: 1, label: 'Including' },
+  vds: { value: 1, label: 'Including' },
+  deliveryDate: '',
+  referenceNo: '',
   isRankVisible: {
     value: false,
-    label: "Hidden",
+    label: 'Hidden',
   },
   // item infos
-  item: "",
-  itemDescription: "",
-  quantity: "",
+  item: '',
+  itemDescription: '',
+  quantity: '',
   isAllItem: false,
   // supplier infos
-  supplier: "",
-  supplierContactNo: "",
-  supplierEmail: "",
+  supplier: '',
+  supplierContactNo: '',
+  supplierEmail: '',
   isAllSupplier: false,
-  termsAndConditions: "",
+  termsAndConditions: '',
 
   isSentToSupplier: null,
 };
 
 export default function RFQCreateForAutoProcess() {
-  const [showAddSupplierModal, setShowAddSupplierModal] = useState(false);
   const { id } = useParams();
   const [isRfqQty, setIsRfqQty] = useState(false);
   const [objProps, setObjprops] = useState({});
   const [, saveData, saveDataLoader] = useAxiosPost();
   const [itemList, setItemList] = useState([]);
   const [supplierList, setSupplierList] = useState([]);
-  const [sbuListDDL, getSbuListDDL, sbuListDDLloader] = useAxiosGet();
-  const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
-  const [
-    warehouseListDDL,
-    getWarehouseListDDL,
-    warehouseListDDLloader,
-  ] = useAxiosGet();
-  const [
-    purchangeOrgListDDL,
-    getPurchaseOrgListDDL,
-    purchaseOrgListDDLloader,
-  ] = useAxiosGet();
+  const [, getSbuListDDL] = useAxiosGet();
+  const [, getPlantListDDL] = useAxiosGet();
   const [currencyDDL, getCurrencyDDL, currencyDDLloader] = useAxiosGet();
-  const [
-    paymentTermsDDL,
-    getPaymentTermsDDL,
-    paymentTermsLoader,
-  ] = useAxiosGet();
-  const [
-    referenceNoDDL,
-    getReferenceNoDDL,
-    referenceNoDDLloader,
-    setReferenceNoDDL,
-  ] = useAxiosGet();
-  const [
-    itemListDDL,
-    getItemListDDL,
-    itemListDDLloader,
-    setItemListDDL,
-  ] = useAxiosGet();
+  const [paymentTermsDDL, getPaymentTermsDDL, ,] = useAxiosGet();
   const [
     supplierListDDL,
     getSupplierListDDL,
     supplierListDDLloader,
-    setSupplierListDDL,
+    ,
   ] = useAxiosGet();
-  const [modifiedData, setModifiedData] = useState({});
-  const [singleData, getSingleData, singleDataLoader] = useAxiosGet();
-  const { profileData, selectedBusinessUnit, sbu } = useSelector((state) => {
+  const [modifiedData] = useState({});
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
   // const [attachmentData, setAttchmentData] = useState([]);
   // const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
-  const [, uploadFile] = useAxiosPost();
 
   const location = useLocation();
   const prData = location?.state || {};
-  console.log("prData", prData);
+  console.log('prData', prData);
   const saveHandler = (values, cb) => {
-    if (!values?.rfqTitle) return toast.warn("Please enter RFQ Title");
-    if (!values?.currency) return toast.warn("Please select Currency");
-    if (!values?.paymentTerms) return toast.warn("Please select Payment Terms");
+    if (!values?.rfqTitle) return toast.warn('Please enter RFQ Title');
+    if (!values?.currency) return toast.warn('Please select Currency');
+    if (!values?.paymentTerms) return toast.warn('Please select Payment Terms');
     if (!values?.transportCost)
-      return toast.warn("Please select Transport Cost");
+      return toast.warn('Please select Transport Cost');
     if (!values?.quotationEntryStart)
-      return toast.warn("Please select Quotation Start Date-Time");
+      return toast.warn('Please select Quotation Start Date-Time');
     if (!values?.validTillDate)
-      return toast.warn("Please select Quotation End Date-Time");
-    if (!values?.deliveryDate) return toast.warn("Please select Delivery Date");
+      return toast.warn('Please select Quotation End Date-Time');
+    if (!values?.deliveryDate) return toast.warn('Please select Delivery Date');
     if (!values?.deliveryAddress)
-      return toast.warn("Please enter Delivery Address");
-    if (!values?.isRankVisible) return toast.warn("Please select Bidding Rank");
-    if (!itemList?.length) return toast.warn("Please add item");
+      return toast.warn('Please enter Delivery Address');
+    if (!values?.isRankVisible) return toast.warn('Please select Bidding Rank');
+    if (!itemList?.length) return toast.warn('Please add item');
     if (supplierList?.length < 3)
-      return toast.warn("Please add at least 3 supplier");
+      return toast.warn('Please add at least 3 supplier');
 
     const rfqDetailsFunction = (lanData) => {
       if (lanData?.purchaseRequestTypeId === 2) {
-        return { rfqTypeId: 1, rfqTypeName: "Standard RFQ" };
+        return { rfqTypeId: 1, rfqTypeName: 'Standard RFQ' };
       } else if (lanData?.purchaseRequestTypeId === 8) {
-        return { rfqTypeId: 2, rfqTypeName: "Service RFQ" };
+        return { rfqTypeId: 2, rfqTypeName: 'Service RFQ' };
       } else if (lanData?.purchaseRequestTypeId === 9) {
-        return { rfqTypeId: 3, rfqTypeName: "Asset RFQ" };
+        return { rfqTypeId: 3, rfqTypeName: 'Asset RFQ' };
       } else {
-        return { rfqTypeId: 0, rfqTypeName: "" };
+        return { rfqTypeId: 0, rfqTypeName: '' };
       }
     };
 
     const totalRowQuantity = itemList?.reduce(
       (acc, itm) => acc + +itm?.rfqquantity,
-      0
+      0,
     );
 
     const fileList = fileObjects?.map((itm) => {
@@ -170,7 +139,7 @@ export default function RFQCreateForAutoProcess() {
         rowId: 0,
         partnerRfqid: item?.partnerRfqid || 0,
         requestForQuotationId: item?.requestForQuotationId || 0,
-        requestForQuotationCode: "",
+        requestForQuotationCode: '',
         referenceId: item?.purchaseRequestId,
         prreferenceCode: item?.purchaseRequestCode,
         itemId: item?.itemId,
@@ -181,7 +150,7 @@ export default function RFQCreateForAutoProcess() {
         //@ts-ignore
         rfqquantity: item?.rfqquantity,
         referenceQuantity: item?.approvedQuantity,
-        description: item?.description || "",
+        description: item?.description || '',
         chatList: [], // chat list
       };
     });
@@ -190,18 +159,18 @@ export default function RFQCreateForAutoProcess() {
       return {
         partnerRfqid: item?.partnerRfqid || 0,
         requestForQuotationId: item?.requestForQuotationId || 0,
-        requestForQuotationCode: item?.requestForQuotationCode || "",
+        requestForQuotationCode: item?.requestForQuotationCode || '',
         accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
         businessPartnerId: item?.businessPartnerId,
         businessPartnerName: item?.businessPartnerName,
         businessPartnerCode: item?.businessPartnerCode,
         businessPartnerAddress: item?.businessPartnerAddress,
-        supplierRefNo: item?.supplierRefNo || "",
+        supplierRefNo: item?.supplierRefNo || '',
         email: item?.email,
         contactNumber: item?.contactNumber,
         issueDate: _todayDate(),
-        docAttachmentLink: "",
+        docAttachmentLink: '',
         isQuotationReceived: true,
         isEmailSend: true,
         lastActionBy: profileData?.userId,
@@ -211,11 +180,11 @@ export default function RFQCreateForAutoProcess() {
 
     const payload = {
       requestForQuotationId: 0,
-      requestForQuotationCode: "",
+      requestForQuotationCode: '',
       rfqDate: _todayDate(),
       rfqtitle: values?.rfqTitle,
       currencyId: values?.currency?.value || 0,
-      currencyCode: values?.currency?.code || "",
+      currencyCode: values?.currency?.code || '',
       quotationEntryStart: values?.quotationEntryStart,
       validTillDate: values?.validTillDate,
       paymentTerms: values?.paymentTerms?.label,
@@ -249,11 +218,11 @@ export default function RFQCreateForAutoProcess() {
       businessUnitId: prData?.businessUnitId,
       businessUnitName: prData?.businessUnitName,
       sbuId: prData?.sbuid || 0,
-      sbuName: prData?.sbuname || "",
+      sbuName: prData?.sbuname || '',
       termsAndConditions: values?.termsAndConditions,
       totalItems: itemList?.length || 0,
       totalQuantity: totalRowQuantity || 0,
-      status: "",
+      status: '',
       rank: 0,
       amount: 0,
       isRankVisible: values?.isRankVisible?.value,
@@ -265,14 +234,14 @@ export default function RFQCreateForAutoProcess() {
       warehouseName: prData?.warehouseName,
       requestTypeId: rfqDetailsFunction(prData)?.rfqTypeId || 0,
       // 2 = standardPr,8 = servicePr, 9 = assetPr
-      requestTypeName: rfqDetailsFunction(prData)?.rfqTypeName || "", //
-      referenceTypeName: "",
+      requestTypeName: rfqDetailsFunction(prData)?.rfqTypeName || '', //
+      referenceTypeName: '',
       attachmentList: fileList?.length > 0 ? fileList : [],
       actionBy: profileData?.userId,
       rowList: rowListWithReferance,
       partnerList: partnerList,
       incotermsId: 0,
-      transportCostProvider: values?.transportCostProvider?.label || "",
+      transportCostProvider: values?.transportCostProvider?.label || '',
       transportCost: +values?.transportAmount || 0,
     };
     saveData(
@@ -281,7 +250,7 @@ export default function RFQCreateForAutoProcess() {
         : `${eProcurementBaseURL}/RequestForQuotation/CreateRequestForQuotation`,
       payload,
       cb,
-      true
+      true,
     );
   };
   // console.log("itemList", JSON.stringify(itemList, null, 2));
@@ -385,40 +354,40 @@ export default function RFQCreateForAutoProcess() {
       //   `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
       // );
       getPlantListDDL(
-        `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`
+        `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`,
       );
       getSbuListDDL(
-        `/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`
+        `/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`,
       );
       getCurrencyDDL(
-        `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`
+        `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`,
       );
       getSupplierListDDL(
         `${eProcurementBaseURL}/EProcurement/GetSupplierListDDL?businessUnitId=${
           selectedBusinessUnit?.value
-        }&search=${""}`
+        }&search=${''}`,
       );
       getPaymentTermsDDL(
-        `${eProcurementBaseURL}/EProcurement/GetPaymentTermsListDDL`
+        `${eProcurementBaseURL}/EProcurement/GetPaymentTermsListDDL`,
       );
-      getPurchaseOrgListDDL(
-        `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`
-      );
+      // getPurchaseOrgListDDL(
+      //   `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`
+      // );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleAddSupplier = (values, setFieldValue) => {
     if (!values?.supplier) {
-      return toast.warn("Please Select Supplier");
+      return toast.warn('Please Select Supplier');
     }
     if (!values?.supplierContactNo) {
-      return toast.warn("Please Enter Supplier Contact No");
+      return toast.warn('Please Enter Supplier Contact No');
     }
     if (!values?.supplierEmail) {
-      return toast.warn("Please Enter Supplier Email");
+      return toast.warn('Please Enter Supplier Email');
     }
     const isDuplicate = supplierList.some(
-      (supplier) => supplier?.businessPartnerName === values?.supplier?.label
+      (supplier) => supplier?.businessPartnerName === values?.supplier?.label,
     );
     if (isDuplicate) {
       toast.warn(`${values?.supplier?.label} already added`);
@@ -431,20 +400,20 @@ export default function RFQCreateForAutoProcess() {
         businessPartnerCode: values?.supplier?.code,
         businessPartnerAddress: values?.supplier?.supplierAddress,
         email:
-          values?.supplierEmail === ""
+          values?.supplierEmail === ''
             ? values?.supplier?.supplierEmail
             : values?.supplierEmail,
         contactNumber:
-          values?.supplierContactNo === ""
+          values?.supplierContactNo === ''
             ? values?.supplier?.supplierContact
             : values?.supplierContactNo,
         isEmailSend: false,
       };
       setSupplierList([...supplierList, newSupplier]);
     }
-    setFieldValue("supplier", "");
-    setFieldValue("supplierContactNo", "");
-    setFieldValue("supplierEmail", "");
+    setFieldValue('supplier', '');
+    setFieldValue('supplierContactNo', '');
+    setFieldValue('supplierEmail', '');
   };
 
   const handleDescriptionChange = (e, index) => {
@@ -455,7 +424,7 @@ export default function RFQCreateForAutoProcess() {
 
   const handleQuantityChange = (e, index) => {
     if (e.target.value < 0) {
-      return toast?.warn("Quantity cant be negative");
+      return toast?.warn('Quantity cant be negative');
     } else {
       const temp = [...itemList];
       temp[index].rfqquantity = +e.target.value;
@@ -492,7 +461,7 @@ export default function RFQCreateForAutoProcess() {
           )}
           <IForm
             title={
-              id ? "Edit Request For Quotation" : "Create Request For Quotation"
+              id ? 'Edit Request For Quotation' : 'Create Request For Quotation'
             }
             getProps={setObjprops}
           >
@@ -506,7 +475,7 @@ export default function RFQCreateForAutoProcess() {
                     type="text"
                     placeholder="RFQ Title"
                     onChange={(e) => {
-                      setFieldValue("rfqTitle", e.target.value);
+                      setFieldValue('rfqTitle', e.target.value);
                     }}
                     disabled={id && values?.isSentToSupplier}
                   />
@@ -518,7 +487,7 @@ export default function RFQCreateForAutoProcess() {
                     value={values?.currency}
                     label="Currency"
                     onChange={(v) => {
-                      setFieldValue("currency", v);
+                      setFieldValue('currency', v);
                     }}
                     placeholder="Currency"
                     errors={errors}
@@ -536,7 +505,7 @@ export default function RFQCreateForAutoProcess() {
                     value={values?.paymentTerms}
                     label="Payment Terms"
                     onChange={(v) => {
-                      setFieldValue("paymentTerms", v);
+                      setFieldValue('paymentTerms', v);
                     }}
                     placeholder="Payment Terms"
                     errors={errors}
@@ -552,13 +521,13 @@ export default function RFQCreateForAutoProcess() {
                     type="datetime-local"
                     onChange={(e) => {
                       if (e.target.value) {
-                        setFieldValue("quotationEntryStart", e.target.value);
-                        setFieldValue("validTillDate", "");
-                        setFieldValue("deliveryDate", "");
+                        setFieldValue('quotationEntryStart', e.target.value);
+                        setFieldValue('validTillDate', '');
+                        setFieldValue('deliveryDate', '');
                       } else {
-                        setFieldValue("quotationEntryStart", "");
-                        setFieldValue("validTillDate", "");
-                        setFieldValue("deliveryDate", "");
+                        setFieldValue('quotationEntryStart', '');
+                        setFieldValue('validTillDate', '');
+                        setFieldValue('deliveryDate', '');
                       }
                     }}
                     disabled={id && values?.isSentToSupplier}
@@ -573,14 +542,14 @@ export default function RFQCreateForAutoProcess() {
                     type="datetime-local"
                     onChange={(e) => {
                       if (e.target.value) {
-                        setFieldValue("validTillDate", e.target.value);
+                        setFieldValue('validTillDate', e.target.value);
                         setFieldValue(
-                          "deliveryDate",
-                          _oneMonthLater(e.target.value.split("T")[0])
+                          'deliveryDate',
+                          _oneMonthLater(e.target.value.split('T')[0]),
                         );
                       } else {
-                        setFieldValue("validTillDate", "");
-                        setFieldValue("deliveryDate", "");
+                        setFieldValue('validTillDate', '');
+                        setFieldValue('deliveryDate', '');
                       }
                     }}
                     min={values?.quotationEntryStart}
@@ -593,9 +562,9 @@ export default function RFQCreateForAutoProcess() {
                     name="deliveryDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("deliveryDate", e.target.value);
+                      setFieldValue('deliveryDate', e.target.value);
                     }}
-                    min={values?.validTillDate?.split("T")[0]}
+                    min={values?.validTillDate?.split('T')[0]}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -606,7 +575,7 @@ export default function RFQCreateForAutoProcess() {
                     type="text"
                     placeholder="Delivery Address"
                     onChange={(e) => {
-                      setFieldValue("deliveryAddress", e.target.value);
+                      setFieldValue('deliveryAddress', e.target.value);
                     }}
                     disabled={id && values?.isSentToSupplier}
                   />
@@ -617,16 +586,16 @@ export default function RFQCreateForAutoProcess() {
                       <NewSelect
                         name="transportCost"
                         options={[
-                          { value: 1, label: "Including" },
-                          { value: 2, label: "Excluding" },
+                          { value: 1, label: 'Including' },
+                          { value: 2, label: 'Excluding' },
                         ]}
                         value={values?.transportCost}
                         label="Transport Cost"
                         onChange={(v) => {
                           if (v) {
-                            setFieldValue("transportCost", v);
+                            setFieldValue('transportCost', v);
                           } else {
-                            setFieldValue("transportCost", "");
+                            setFieldValue('transportCost', '');
                           }
                         }}
                         placeholder="Transport Cost"
@@ -640,16 +609,16 @@ export default function RFQCreateForAutoProcess() {
                         <NewSelect
                           name="transportCostProvider"
                           options={[
-                            { value: 1, label: "Company" },
-                            { value: 0, label: "Supplier" },
+                            { value: 1, label: 'Company' },
+                            { value: 0, label: 'Supplier' },
                           ]}
                           value={values?.transportCostProvider}
                           label="Transport Provider"
                           onChange={(v) => {
                             if (v) {
-                              setFieldValue("transportCostProvider", v);
+                              setFieldValue('transportCostProvider', v);
                             } else {
-                              setFieldValue("transportCostProvider", "");
+                              setFieldValue('transportCostProvider', '');
                             }
                           }}
                           placeholder="Transport Provider"
@@ -668,7 +637,7 @@ export default function RFQCreateForAutoProcess() {
                           type="number"
                           placeholder="Transport Amount"
                           onChange={(e) => {
-                            setFieldValue("transportAmount", e.target.value);
+                            setFieldValue('transportAmount', e.target.value);
                           }}
                           disabled={id && values?.isSentToSupplier}
                         />
@@ -678,16 +647,16 @@ export default function RFQCreateForAutoProcess() {
                       <NewSelect
                         name="vatOrAit"
                         options={[
-                          { value: 1, label: "Including" },
-                          { value: 2, label: "Excluding" },
+                          { value: 1, label: 'Including' },
+                          { value: 2, label: 'Excluding' },
                         ]}
                         value={values?.vatOrAit}
                         label="VAT/AIT"
                         onChange={(v) => {
                           if (v) {
-                            setFieldValue("vatOrAit", v);
+                            setFieldValue('vatOrAit', v);
                           } else {
-                            setFieldValue("vatOrAit", "");
+                            setFieldValue('vatOrAit', '');
                           }
                         }}
                         placeholder="VAT/AIT"
@@ -700,16 +669,16 @@ export default function RFQCreateForAutoProcess() {
                       <NewSelect
                         name="tds"
                         options={[
-                          { value: 1, label: "Including" },
-                          { value: 2, label: "Excluding" },
+                          { value: 1, label: 'Including' },
+                          { value: 2, label: 'Excluding' },
                         ]}
                         value={values?.tds}
                         label="TDS"
                         onChange={(v) => {
                           if (v) {
-                            setFieldValue("tds", v);
+                            setFieldValue('tds', v);
                           } else {
-                            setFieldValue("tds", "");
+                            setFieldValue('tds', '');
                           }
                         }}
                         placeholder="TDS"
@@ -722,16 +691,16 @@ export default function RFQCreateForAutoProcess() {
                       <NewSelect
                         name="vds"
                         options={[
-                          { value: 1, label: "Including" },
-                          { value: 2, label: "Excluding" },
+                          { value: 1, label: 'Including' },
+                          { value: 2, label: 'Excluding' },
                         ]}
                         value={values?.vds}
                         label="VDS"
                         onChange={(v) => {
                           if (v) {
-                            setFieldValue("vds", v);
+                            setFieldValue('vds', v);
                           } else {
-                            setFieldValue("vds", "");
+                            setFieldValue('vds', '');
                           }
                         }}
                         placeholder="VDS"
@@ -748,20 +717,20 @@ export default function RFQCreateForAutoProcess() {
                     options={[
                       {
                         value: true,
-                        label: "Show",
+                        label: 'Show',
                       },
                       {
                         value: false,
-                        label: "Hidden",
+                        label: 'Hidden',
                       },
                     ]}
                     value={values?.isRankVisible}
                     label="Bidding Rank"
                     onChange={(v) => {
                       if (v) {
-                        setFieldValue("isRankVisible", v);
+                        setFieldValue('isRankVisible', v);
                       } else {
-                        setFieldValue("isRankVisible", "");
+                        setFieldValue('isRankVisible', '');
                       }
                     }}
                     placeholder="Bidding Rank"
@@ -781,7 +750,7 @@ export default function RFQCreateForAutoProcess() {
                     isForPeopleDeskApi={true}
                     showIcon
                     style={{
-                      color: "black",
+                      color: 'black',
                     }}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
@@ -811,29 +780,29 @@ export default function RFQCreateForAutoProcess() {
                             overlay={
                               <Tooltip>
                                 {isRfqQty
-                                  ? "Click to add quantity manually"
-                                  : "Click to fill by PR quantity"}
+                                  ? 'Click to add quantity manually'
+                                  : 'Click to fill by PR quantity'}
                               </Tooltip>
                             }
                           >
                             <input
                               style={{
-                                transform: "translateY(3px)",
-                                marginRight: "5px",
+                                transform: 'translateY(3px)',
+                                marginRight: '5px',
                               }}
                               type="checkbox"
                               defaultChecked={isRfqQty}
                               onChange={(e) => {
                                 if (e.target.checked) {
                                   setIsRfqQty(true);
-                                  setFieldValue("isAllItem", false);
+                                  setFieldValue('isAllItem', false);
                                   itemList.forEach((item) => {
                                     item.rfqquantity = item?.numRestQuantity;
                                   });
                                   setItemList([...itemList]);
                                 } else {
                                   setIsRfqQty(false);
-                                  setFieldValue("isAllItem", false);
+                                  setFieldValue('isAllItem', false);
                                   itemList.forEach((item) => {
                                     item.rfqquantity = 0;
                                   });
@@ -874,10 +843,10 @@ export default function RFQCreateForAutoProcess() {
                               />
                             </td>
                             <td className="text-center">
-                              {item?.approvedQuantity || ""}
+                              {item?.approvedQuantity || ''}
                             </td>
                             <td className="text-center">
-                              {item?.numRestQuantity || ""}
+                              {item?.numRestQuantity || ''}
                             </td>
                             <td>
                               <InputField
@@ -924,13 +893,13 @@ export default function RFQCreateForAutoProcess() {
                     label="Supplier"
                     onChange={(v) => {
                       if (v) {
-                        setFieldValue("supplier", v);
-                        setFieldValue("supplierContactNo", v?.supplierContact);
-                        setFieldValue("supplierEmail", v?.supplierEmail);
+                        setFieldValue('supplier', v);
+                        setFieldValue('supplierContactNo', v?.supplierContact);
+                        setFieldValue('supplierEmail', v?.supplierEmail);
                       } else {
-                        setFieldValue("supplier", "");
-                        setFieldValue("supplierContactNo", "");
-                        setFieldValue("supplierEmail", "");
+                        setFieldValue('supplier', '');
+                        setFieldValue('supplierContactNo', '');
+                        setFieldValue('supplierEmail', '');
                       }
                     }}
                     placeholder="Supplier"
@@ -947,7 +916,7 @@ export default function RFQCreateForAutoProcess() {
                     type="text"
                     placeholder="Contact No"
                     onChange={(e) => {
-                      setFieldValue("supplierContactNo", e.target.value);
+                      setFieldValue('supplierContactNo', e.target.value);
                     }}
                     disabled={id && values?.isSentToSupplier}
                   />
@@ -960,7 +929,7 @@ export default function RFQCreateForAutoProcess() {
                     type="text"
                     placeholder="Email"
                     onChange={(e) => {
-                      setFieldValue("supplierEmail", e.target.value);
+                      setFieldValue('supplierEmail', e.target.value);
                     }}
                     disabled={id && values?.isSentToSupplier}
                   />
@@ -970,8 +939,8 @@ export default function RFQCreateForAutoProcess() {
                     type="button"
                     className="btn btn-primary"
                     style={{
-                      marginTop: "18px",
-                      marginLeft: "5px",
+                      marginTop: '18px',
+                      marginLeft: '5px',
                     }}
                     onClick={() => {
                       handleAddSupplier(values, setFieldValue);
@@ -1010,7 +979,7 @@ export default function RFQCreateForAutoProcess() {
                                 onClick={() => {
                                   if (id && values?.isSentToSupplier) {
                                     return toast.warn(
-                                      "You can't delete supplier after sending RFQ"
+                                      "You can't delete supplier after sending RFQ",
                                     );
                                   }
                                   const temp = [...supplierList];
@@ -1032,13 +1001,13 @@ export default function RFQCreateForAutoProcess() {
                   <label>Terms & Conditions</label>
                   <TextArea
                     style={{
-                      height: "100px",
+                      height: '100px',
                     }}
                     value={values?.termsAndConditions}
                     name="termsAndConditions"
                     placeholder="Terms & Conditions"
                     onChange={(e) =>
-                      setFieldValue("termsAndConditions", e.target.value)
+                      setFieldValue('termsAndConditions', e.target.value)
                     }
                     errors={errors}
                     touched={touched}
@@ -1047,13 +1016,13 @@ export default function RFQCreateForAutoProcess() {
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

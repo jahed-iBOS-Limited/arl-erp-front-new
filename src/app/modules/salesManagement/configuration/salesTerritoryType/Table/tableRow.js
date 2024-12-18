@@ -1,19 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useMemo } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { TableAction } from "../../../../_helper/columnFormatter";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { useUIContext } from "../../../../_helper/uiContextHelper";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+import { Form, Formik } from 'formik';
+import React, { useMemo } from 'react';
+import BootstrapTable from 'react-bootstrap-table-next';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { TableAction } from '../../../../_helper/columnFormatter';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { useUIContext } from '../../../../_helper/uiContextHelper';
+import PaginationTable from './../../../../_helper/_tablePagination';
 const initData = {
-  ddlType: "",
+  ddlType: '',
 };
 export function TableRow() {
-  const dispatch = useDispatch();
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -23,11 +22,6 @@ export function TableRow() {
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
-
-  // get controlling unit list  from store
-  // const gridData = useSelector((state) => {
-  //   return state.salesTerritoryType?.gridData;
-  // }, shallowEqual);
 
   // const [loading, setLoading] = useState(false);
   const [gridData, getGridData, gridDataLoading] = useAxiosGet();
@@ -39,20 +33,6 @@ export function TableRow() {
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
-  // useEffect(() => {
-  //   if (selectedBusinessUnit && profileData) {
-  //     dispatch(
-  //       getSalesTerritoryTypeGridData(
-  //         profileData.accountId,
-  //         selectedBusinessUnit.value,
-  //         setLoading,
-  //         pageNo,
-  //         pageSize
-  //       )
-  //     );
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [selectedBusinessUnit, profileData]);
 
   // UI Context
   const uIContext = useUIContext();
@@ -69,61 +49,50 @@ export function TableRow() {
   // Table columns
   const columns = [
     {
-      dataField: "sl",
-      text: "SL",
+      dataField: 'sl',
+      text: 'SL',
     },
     {
-      dataField: "territoryTypeName",
-      text: "Type Name",
+      dataField: 'territoryTypeName',
+      text: 'Type Name',
     },
     {
-      dataField: "levelPosition",
-      text: "Level Position",
+      dataField: 'levelPosition',
+      text: 'Level Position',
     },
     {
-      dataField: "levelCode",
-      text: "Level Code",
+      dataField: 'levelCode',
+      text: 'Level Code',
     },
 
     {
-      dataField: "territoryTypeId",
-      text: "Actions",
+      dataField: 'territoryTypeId',
+      text: 'Actions',
       formatter: TableAction,
       formatExtraData: {
         openEditPage: uIProps.openEditPage,
-        key: "territoryTypeId",
+        key: 'territoryTypeId',
         isView: 0,
         isEdit: true,
       },
-      classes: "text-right pr-0",
-      headerClasses: "text-right pr-3",
+      classes: 'text-right pr-0',
+      headerClasses: 'text-right pr-3',
       style: {
-        with: "100px",
+        with: '100px',
       },
     },
   ];
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
     getGridData(
-      `/oms/TerritoryTypeInfo/GetTerritoryTypeLandingPagination?AccountId=${profileData.accountId}&BUnitId=${selectedBusinessUnit.value}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`
+      `/oms/TerritoryTypeInfo/GetTerritoryTypeLandingPagination?AccountId=${profileData.accountId}&BUnitId=${selectedBusinessUnit.value}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`,
     );
-    // getSalesTerritoryTypeGridData(
-    //   profileData.accountId,
-    //   selectedBusinessUnit.value,
-    //   setLoading,
-    //   pageNo,
-    //   pageSize
-    // )
   };
   return (
     <Formik
       enableReinitialize={true}
       initialValues={initData}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
-        // saveHandler(values, () => {
-        //   resetForm(initData);
-        // });
-      }}
+      onSubmit={(values, { setSubmitting, resetForm }) => {}}
     >
       {({ setFieldValue, values }) => (
         <>
@@ -134,21 +103,21 @@ export function TableRow() {
                 <NewSelect
                   name="ddlType"
                   options={[
-                    { value: 1, label: "Seals Territory Type" },
-                    { value: 2, label: "Setup First Level Entry" },
+                    { value: 1, label: 'Seals Territory Type' },
+                    { value: 2, label: 'Setup First Level Entry' },
                   ]}
                   label="Type DDL"
                   onChange={(valueOption) => {
-                    setFieldValue("ddlType", valueOption);
+                    setFieldValue('ddlType', valueOption);
                     if (valueOption?.value === 1) {
                       getGridData(
-                        `/oms/TerritoryTypeInfo/GetTerritoryTypeLandingPagination?AccountId=${profileData.accountId}&BUnitId=${selectedBusinessUnit.value}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`
+                        `/oms/TerritoryTypeInfo/GetTerritoryTypeLandingPagination?AccountId=${profileData.accountId}&BUnitId=${selectedBusinessUnit.value}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`,
                       );
                     }
                     if (valueOption?.value === 2) {
                       getFirstLevelEntryData(
                         // levelId 1 will be hardcoded ensure by Monirul Islam vai
-                        `/oms/CustomerProfile/GetTeritory?businessUnitId=${selectedBusinessUnit.value}&levelId=1` 
+                        `/oms/CustomerProfile/GetTeritory?businessUnitId=${selectedBusinessUnit.value}&levelId=1`,
                       );
                     }
                   }}
@@ -158,7 +127,7 @@ export function TableRow() {
             {[1]?.includes(values.ddlType?.value) && (
               <>
                 <div
-                  style={{ lineHeight: "1rem" }}
+                  style={{ lineHeight: '1rem' }}
                   className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table"
                 >
                   <BootstrapTable
@@ -184,10 +153,9 @@ export function TableRow() {
                 )}
               </>
             )}
-            {
-              [2]?.includes(values?.ddlType?.value) && (
-                <>
-                 <div className="react-bootstrap-table table-responsive">
+            {[2]?.includes(values?.ddlType?.value) && (
+              <>
+                <div className="react-bootstrap-table table-responsive">
                   <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
@@ -200,16 +168,23 @@ export function TableRow() {
                     <tbody>
                       <tr>
                         <td className="text-center">1</td>
-                        <td className="text-center">{firstLevelEntryData?.level1}</td>
-                        <td className="text-center">{firstLevelEntryData?.insertBy}</td>
-                        <td className="text-center">{_dateFormatter(firstLevelEntryData?.lastActionDateTime)}</td>
+                        <td className="text-center">
+                          {firstLevelEntryData?.level1}
+                        </td>
+                        <td className="text-center">
+                          {firstLevelEntryData?.insertBy}
+                        </td>
+                        <td className="text-center">
+                          {_dateFormatter(
+                            firstLevelEntryData?.lastActionDateTime,
+                          )}
+                        </td>
                       </tr>
                     </tbody>
                   </table>
-                 </div>
-                </>
-              )
-            }
+                </div>
+              </>
+            )}
           </Form>
         </>
       )}

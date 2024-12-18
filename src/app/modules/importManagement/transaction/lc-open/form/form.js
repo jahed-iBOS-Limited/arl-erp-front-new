@@ -1,11 +1,10 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 import {
   currencyTypeDDLAction,
   empAttachment_action,
@@ -18,12 +17,12 @@ import {
   originTypeDDLAction,
   PortDDLAction,
   validationSchema,
-} from "../helper";
-import { getDownlloadFileView_Action } from "./../../../../_helper/_redux/Actions";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import CalculationForm from "./calculationForm";
-import { toast } from "react-toastify";
+} from '../helper';
+import { getDownlloadFileView_Action } from './../../../../_helper/_redux/Actions';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import CalculationForm from './calculationForm';
+import { toast } from 'react-toastify';
 
 export default function _Form({
   initData,
@@ -53,9 +52,9 @@ export default function _Form({
   const [portDDL, setPortDDL] = useState([]);
   const [open, setOpen] = useState(false);
   const [bankDDL, setBankDDL] = useState([]);
-  const [marginTypeDDL, setMarginTypeDDL] = useState(marginTypeDDLArr)
+  const [marginTypeDDL] = useState(marginTypeDDLArr);
   const [isShowModal, setIsShowModal] = useState(false);
-  const [calculationFormData, setCalculationFormData] = useState("");
+  const [calculationFormData, setCalculationFormData] = useState('');
 
   useEffect(() => {
     LCTypeDDLAction(setDisabled, setLCTypeDDL);
@@ -66,18 +65,20 @@ export default function _Form({
       profileData?.accountId,
       selectedBusinessUnit?.value,
       setDisabled,
-      setPortDDL
+      setPortDDL,
     );
     GetBankDDL(setBankDDL, profileData?.accountId, selectedBusinessUnit?.value);
     currencyTypeDDLAction(setCurrencyDDL);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (location?.state?.bankId) {
       getAccountDDL(
-        `/imp/ImportCommonDDL/GetBankAccountIdNameDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BankId=${location?.state?.bankId}`
+        `/imp/ImportCommonDDL/GetBankAccountIdNameDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BankId=${location?.state?.bankId}`,
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location?.state?.bankId]);
 
   return (
@@ -105,7 +106,7 @@ export default function _Form({
               <div className="global-form">
                 <div className="row">
                   <div className="col-lg-3 col-md-3">
-                    <label>{`PO No${viewType ? "" : "/ LC No"}`}</label>
+                    <label>{`PO No${viewType ? '' : '/ LC No'}`}</label>
                     <InputField
                       value={values?.poNo}
                       name="poNo"
@@ -121,7 +122,7 @@ export default function _Form({
                       name="lcNo"
                       placeholder="LC No"
                       type="text"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -131,7 +132,7 @@ export default function _Form({
                       name="lcDate"
                       placeholder="LC Date"
                       type="date"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -141,7 +142,7 @@ export default function _Form({
                       name="lastShipmentDate"
                       placeholder="Last Shipment Date"
                       type="date"
-                      disabled={viewType === "view" || forDisable?.lastShipDate}
+                      disabled={viewType === 'view' || forDisable?.lastShipDate}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -151,7 +152,7 @@ export default function _Form({
                       name="lcExpiredDate"
                       placeholder="LC Expired Date"
                       type="date"
-                      disabled={viewType === "view" || forDisable?.expireDate}
+                      disabled={viewType === 'view' || forDisable?.expireDate}
                       min={_todayDate()}
                     />
                   </div>
@@ -162,12 +163,12 @@ export default function _Form({
                       value={values?.encoTerms}
                       label="Inco-Terms"
                       onChange={(valueOption) => {
-                        setFieldValue("encoTerms", valueOption);
+                        setFieldValue('encoTerms', valueOption);
                       }}
                       placeholder="Select Inco-Terms"
                       errors={errors}
                       touched={touched}
-                      isDisabled={viewType === "view" || forDisable?.incotermId}
+                      isDisabled={viewType === 'view' || forDisable?.incotermId}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -177,13 +178,13 @@ export default function _Form({
                       value={values?.materialType}
                       label="Material Type"
                       onChange={(valueOption) => {
-                        setFieldValue("materialType", valueOption);
+                        setFieldValue('materialType', valueOption);
                       }}
                       placeholder="Select Material Type"
                       errors={errors}
                       touched={touched}
                       isDisabled={
-                        viewType === "view" || forDisable?.metarialTypeId
+                        viewType === 'view' || forDisable?.metarialTypeId
                       }
                     />
                   </div>
@@ -194,12 +195,12 @@ export default function _Form({
                       value={values?.lcType}
                       label="LC Type"
                       onChange={(valueOption) => {
-                        setFieldValue("lcType", valueOption);
+                        setFieldValue('lcType', valueOption);
                       }}
                       placeholder="Select LC Type"
                       errors={errors}
                       touched={touched}
-                      isDisabled={viewType === "view" || forDisable?.lctypeId}
+                      isDisabled={viewType === 'view' || forDisable?.lctypeId}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -211,20 +212,20 @@ export default function _Form({
                       placeholder="Bank name"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("bankName", valueOption);
+                          setFieldValue('bankName', valueOption);
                           getAccountDDL(
-                            `/imp/ImportCommonDDL/GetBankAccountIdNameDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BankId=${valueOption?.value}`
+                            `/imp/ImportCommonDDL/GetBankAccountIdNameDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BankId=${valueOption?.value}`,
                           );
                         } else {
-                          setFieldValue("bankName", "");
-                          setFieldValue("bankAccount", "");
+                          setFieldValue('bankName', '');
+                          setFieldValue('bankAccount', '');
                           setAccountDDL([]);
                         }
                       }}
                       errors={errors}
                       touched={touched}
                       // isDisabled={viewType === "view" || forDisable?.bankId}
-                      isDisabled={viewType === "view" || viewType === "edit"}
+                      isDisabled={viewType === 'view' || viewType === 'edit'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -235,11 +236,11 @@ export default function _Form({
                       label="Bank Account"
                       placeholder="Bank Account"
                       onChange={(valueOption) => {
-                        setFieldValue("bankAccount", valueOption);
+                        setFieldValue('bankAccount', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                     />
                   </div>
 
@@ -250,13 +251,13 @@ export default function _Form({
                       value={values?.origin}
                       label="Country Origin"
                       onChange={(valueOption) => {
-                        setFieldValue("origin", valueOption);
+                        setFieldValue('origin', valueOption);
                       }}
                       placeholder="Select Country Origin"
                       errors={errors}
                       touched={touched}
                       isDisabled={
-                        viewType === "view" || forDisable?.countryOfOriginId
+                        viewType === 'view' || forDisable?.countryOfOriginId
                       }
                     />
                   </div>
@@ -268,7 +269,7 @@ export default function _Form({
                       placeholder="Loading Port"
                       type="text"
                       // disabled
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -278,13 +279,13 @@ export default function _Form({
                       value={values?.finalDestination}
                       label="Final Destination"
                       onChange={(valueOption) => {
-                        setFieldValue("finalDestination", valueOption);
+                        setFieldValue('finalDestination', valueOption);
                       }}
                       placeholder="Select Final Destination"
                       errors={errors}
                       touched={touched}
                       isDisabled={
-                        viewType === "view" || forDisable?.destinationPortId
+                        viewType === 'view' || forDisable?.destinationPortId
                       }
                     />
                   </div>
@@ -298,12 +299,12 @@ export default function _Form({
                       type="number"
                       onChange={(e) => {
                         if (e?.target?.value < 0) {
-                          return toast.warn("Tolarance Must Be Positive");
+                          return toast.warn('Tolarance Must Be Positive');
                         } else {
-                          setFieldValue("tolarance", e?.target?.value);
+                          setFieldValue('tolarance', e?.target?.value);
                         }
                       }}
-                      disabled={viewType === "view" || forDisable?.tolerance}
+                      disabled={viewType === 'view' || forDisable?.tolerance}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -313,19 +314,19 @@ export default function _Form({
                       value={values?.currency}
                       label="Currency"
                       onChange={(valueOption) => {
-                        setFieldValue("currency", valueOption);
+                        setFieldValue('currency', valueOption);
                         setFieldValue(
-                          "exchangeRate",
-                          valueOption?.label === "Taka" ? 1 : ""
+                          'exchangeRate',
+                          valueOption?.label === 'Taka' ? 1 : '',
                         );
-                        setFieldValue("PIAmountFC", "");
-                        setFieldValue("PIAmountBDT", "");
+                        setFieldValue('PIAmountFC', '');
+                        setFieldValue('PIAmountBDT', '');
                       }}
                       placeholder="Select Currency"
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
-                    // isDisabled={viewType === "view" || forDisable?.currencyId}
+                      // isDisabled={viewType === "view" || forDisable?.currencyId}
                     />
                     {/* <label>Currency</label>
                     <InputField
@@ -345,18 +346,18 @@ export default function _Form({
                       placeholder="PI Amount (FC)"
                       type="text"
                       onChange={(valueOption) => {
-                        setFieldValue("PIAmountFC", valueOption.target.value);
+                        setFieldValue('PIAmountFC', valueOption.target.value);
                         setFieldValue(
-                          "PIAmountBDT",
+                          'PIAmountBDT',
                           values?.PIAmountFC
                             ? (+valueOption.target.value ||
-                              +initData?.PIAmountFC) * +values?.exchangeRate
-                            : ""
+                                +initData?.PIAmountFC) * +values?.exchangeRate
+                            : '',
                         );
                       }}
                       disabled={
-                        viewType === "view" ||
-                        viewType === "edit" ||
+                        viewType === 'view' ||
+                        viewType === 'edit' ||
                         forDisable?.piAmountFC
                       }
                     />
@@ -370,16 +371,16 @@ export default function _Form({
                       type="number"
                       onChange={(e) => {
                         setFieldValue(
-                          "exchangeRate",
-                          e?.target.value ? Number(e.target.value) : ""
+                          'exchangeRate',
+                          e?.target.value ? Number(e.target.value) : '',
                         );
                         setFieldValue(
-                          "PIAmountBDT",
+                          'PIAmountBDT',
                           e?.target.value
                             ? values?.PIAmountFC *
-                            (Number(e?.target?.value) ||
-                              initData?.exchangeRate)
-                            : ""
+                                (Number(e?.target?.value) ||
+                                  initData?.exchangeRate)
+                            : '',
                         );
                         // setFieldValue(
                         //   "PIAmountBDTNumber",
@@ -387,9 +388,9 @@ export default function _Form({
                         // );
                       }}
                       disabled={
-                        viewType === "view" ||
-                        viewType === "edit" ||
-                        values?.currency?.label === "Taka"
+                        viewType === 'view' ||
+                        viewType === 'edit' ||
+                        values?.currency?.label === 'Taka'
                       }
                     />
                   </div>
@@ -402,13 +403,13 @@ export default function _Form({
                       placeholder="PI Amount (BDT)"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("PIAmountBDT", e.target.value);
+                        setFieldValue('PIAmountBDT', e.target.value);
                         // setFieldValue("lcMarginPercent", "");
-                        setFieldValue("lcMarginValue", "");
+                        setFieldValue('lcMarginValue', '');
                       }}
                       disabled={
-                        viewType === "view" ||
-                        viewType === "edit" ||
+                        viewType === 'view' ||
+                        viewType === 'edit' ||
                         forDisable?.piAmountFC
                       }
                     />
@@ -420,7 +421,7 @@ export default function _Form({
                       name="lcTenor"
                       placeholder="LC Tenor"
                       type="number"
-                      disabled={viewType === "view" || viewType === "edit"}
+                      disabled={viewType === 'view' || viewType === 'edit'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -430,7 +431,7 @@ export default function _Form({
                       name="pgAmount"
                       placeholder="PG Amount"
                       type="number"
-                      disabled={viewType === "view" || viewType === "edit"}
+                      disabled={viewType === 'view' || viewType === 'edit'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -440,7 +441,7 @@ export default function _Form({
                       name="pgDueDate"
                       placeholder="PG Due Date"
                       type="date"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -450,7 +451,7 @@ export default function _Form({
                       name="totalBankCharge"
                       placeholder="Total Bank Charge"
                       type="number"
-                      disabled={viewType === "view" || viewType === "edit"}
+                      disabled={viewType === 'view' || viewType === 'edit'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -460,7 +461,7 @@ export default function _Form({
                       name="vatOnCharge"
                       placeholder="VAT on Bank Charge"
                       type="number"
-                      disabled={viewType === "view" || viewType === "edit"}
+                      disabled={viewType === 'view' || viewType === 'edit'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -470,7 +471,7 @@ export default function _Form({
                       name="dueDate"
                       placeholder="Due Date"
                       type="date"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   {/* <div
@@ -554,7 +555,7 @@ export default function _Form({
                       value={values?.marginType}
                       label="Margin Type"
                       onChange={(valueOption) => {
-                        setFieldValue("marginType", valueOption);
+                        setFieldValue('marginType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -566,7 +567,7 @@ export default function _Form({
                       value={values?.lcMarginValue}
                       name="lcMarginValue"
                       type="number"
-                    // disabled
+                      // disabled
                     />
                   </div>
                   <div className="col-lg-3">
@@ -575,7 +576,7 @@ export default function _Form({
                       value={values?.lcMarginDueDate}
                       name="lcMarginDueDate"
                       type="date"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -593,13 +594,13 @@ export default function _Form({
                       name="description"
                       placeholder="Description"
                       type="text"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div
                     className="col-auto"
-                    style={{ marginTop: "26px" }}
-                  // marginLeft: "20px"
+                    style={{ marginTop: '26px' }}
+                    // marginLeft: "20px"
                   >
                     <button
                       className="btn btn-primary"
@@ -610,7 +611,7 @@ export default function _Form({
                           selectedBusinessUnit?.value,
                           values,
                           setCalculationFormData,
-                          setLoading
+                          setLoading,
                         );
                       }}
                       disabled={
@@ -622,9 +623,9 @@ export default function _Form({
                       Calculation
                     </button>
                   </div>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <div className="col-lg-auto d-flex align-items-end">
-                      <div style={{ marginTop: "14px", marginRight: "5px" }}>
+                      <div style={{ marginTop: '14px', marginRight: '5px' }}>
                         <ButtonStyleOne
                           className="btn btn-primary"
                           type="button"
@@ -637,15 +638,15 @@ export default function _Form({
                   {values?.attachment ? (
                     <div
                       className="col-lg-2"
-                      style={{ marginTop: "26px" }}
-                    // marginLeft: "20px"
+                      style={{ marginTop: '26px' }}
+                      // marginLeft: "20px"
                     >
                       <button
                         className="btn btn-primary d-flex"
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.attachment)
+                            getDownlloadFileView_Action(values?.attachment),
                           );
                         }}
                       >
@@ -654,7 +655,7 @@ export default function _Form({
                       </button>
                     </div>
                   ) : (
-                    viewType === "view" && <div className="col-lg-3"></div>
+                    viewType === 'view' && <div className="col-lg-3"></div>
                   )}
                 </div>
                 {/* last div */}
@@ -662,24 +663,24 @@ export default function _Form({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
 
               <DropzoneDialogBase
                 filesLimit={1}
-                acceptedFiles={["image/*", "application/pdf"]}
+                acceptedFiles={['image/*', 'application/pdf']}
                 fileObjects={fileObjects}
-                cancelButtonText={"cancel"}
-                submitButtonText={"submit"}
+                cancelButtonText={'cancel'}
+                submitButtonText={'submit'}
                 maxFileSize={1000000}
                 open={open}
                 onAdd={(newFileObjs) => {
@@ -687,7 +688,7 @@ export default function _Form({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name
+                    (item) => item.file.name !== deleteFileObj.file.name,
                   );
                   setFileObjects(newData);
                 }}

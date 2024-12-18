@@ -1,21 +1,14 @@
-import React from "react";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import signature_one from "./signature_1.png";
-import signature_two from "./signature_2.png";
+import React from 'react';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import signature_one from './signature_1.png';
+import signature_two from './signature_2.png';
 function RequestForOriginalDocuments({ obj }) {
   const { values, buName, singleData } = obj;
-  const {
-    // date,
-    item,
-    pi_no,
-    quantity,
-    reference_id,
-    total_amount,
-  } = {
+  const { reference_id, total_amount } = {
     total_amount: singleData?.objHeader?.piAmount || 0,
-    item: singleData?.objRow?.[0]?.itemName || "",
+    item: singleData?.objRow?.[0]?.itemName || '',
     quantity: singleData?.objRow?.[0]?.quantity || 0,
-    pi_no: singleData?.objHeader?.pinumber || "",
+    pi_no: singleData?.objHeader?.pinumber || '',
     reference_id:
       singleData?.purchaseRequestrNo || singleData?.purchaseContractNo,
   };
@@ -43,7 +36,7 @@ function RequestForOriginalDocuments({ obj }) {
       <section>
         <b>
           <p>
-            Sub: Request for original documents endorsement under LC Ref no:{" "}
+            Sub: Request for original documents endorsement under LC Ref no:{' '}
             {reference_id} Valuing: USD. {total_amount}
           </p>
         </b>

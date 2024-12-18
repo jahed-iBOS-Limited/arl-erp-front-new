@@ -1,38 +1,36 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 
-import { useParams } from "react-router-dom";
-import * as Yup from "yup";
-import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { generateFileUrl } from "../../utils/helper";
-import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
+import { useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../App';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import AttachmentUploaderNew from '../../../_helper/attachmentUploaderNew';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import EmailEditorForPublicRoutes from '../../utils/emailEditorForPublicRotes';
+import { generateFileUrl } from '../../utils/helper';
 
 const initData = {
-  strName: "",
-  strEmail: "",
-  strEmailAddress: "",
-  strAttachmentForPort: "",
-  strAttachmentForPortDisbursment: "",
-  strVesselNominationCode: "",
+  strName: '',
+  strEmail: '',
+  strEmailAddress: '',
+  strAttachmentForPort: '',
+  strAttachmentForPortDisbursment: '',
+  strVesselNominationCode: '',
   numGrandTotalAmount: 0,
 };
 export default function EDPADischargePortCreate() {
   const {
     profileData: { userId, accountId },
-    selectedBusinessUnit: { value: buId, label },
   } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  const [attachment, setAttachment] = useState("");
   const { paramId, paramCode } = useParams();
   const [isShowModal, setIsShowModal] = useState(false);
   const [payloadInfo, setPayloadInfo] = useState(null);
@@ -47,7 +45,7 @@ export default function EDPADischargePortCreate() {
   useEffect(() => {
     if (paramId) {
       getVesselNominationData(
-        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`
+        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,11 +57,11 @@ export default function EDPADischargePortCreate() {
       // strEmail: values?.strEmail,
       strAttachmentForPort: generateFileUrl(values?.strAttachmentForPort),
       strAttachmentForPortDisbursment: generateFileUrl(
-        values?.strAttachmentForPortDisbursment
+        values?.strAttachmentForPortDisbursment,
       ),
       // intVesselNominationId: +paramId || 0,
       strVesselNominationCode:
-        paramCode || values?.strVesselNominationCode || "",
+        paramCode || values?.strVesselNominationCode || '',
       numGrandTotalAmount: values?.numGrandTotalAmount,
     });
 
@@ -73,13 +71,13 @@ export default function EDPADischargePortCreate() {
       intEpdaAndPortInfoId: 0,
       intAccountId: accountId,
       intBusinessUnitId: 0,
-      strBusinessUnitName: "",
-      strEmailAddress: "",
+      strBusinessUnitName: '',
+      strEmailAddress: '',
       strAttachmentForPort: values?.strAttachmentForPort,
       strAttachmentForPortDisbursment: values?.strAttachmentForPortDisbursment,
       intVesselNominationId: +paramId || 0,
       strVesselNominationCode:
-        paramCode || values?.strVesselNominationCode || "",
+        paramCode || values?.strVesselNominationCode || '',
       numGrandTotalAmount: values?.numGrandTotalAmount,
       isActive: true,
       dteCreateDate: _todayDate(),
@@ -90,16 +88,16 @@ export default function EDPADischargePortCreate() {
       `${imarineBaseUrl}/domain/VesselNomination/CreateFromEpdaAndDischargePortInfo`,
       payload,
       cb,
-      true
+      true,
     );
   };
 
   const validationSchema = Yup.object().shape({
-    strVesselNominationCode: Yup.string().required("Code is required"),
-    strName: Yup.string().required("Name is required"),
+    strVesselNominationCode: Yup.string().required('Code is required'),
+    strName: Yup.string().required('Name is required'),
     strEmail: Yup.string()
-      .email("Invalid email format")
-      .required("Email is required"),
+      .email('Invalid email format')
+      .required('Email is required'),
   });
 
   return (
@@ -107,9 +105,9 @@ export default function EDPADischargePortCreate() {
       enableReinitialize={true}
       initialValues={{
         ...initData,
-        strVesselNominationCode: paramCode || "",
-        strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
-        intVoyageNo: vesselNominationData?.intVoyageNo || "",
+        strVesselNominationCode: paramCode || '',
+        strNameOfVessel: vesselNominationData?.strNameOfVessel || '',
+        intVoyageNo: vesselNominationData?.intVoyageNo || '',
       }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -165,21 +163,21 @@ export default function EDPADischargePortCreate() {
               <div className="form-group  global-form row">
                 <div className="col-lg-2">
                   <InputField
-                    value={values.strName || ""}
+                    value={values.strName || ''}
                     label="Name"
                     name="strName"
                     type="text"
-                    onChange={(e) => setFieldValue("strName", e.target.value)}
+                    onChange={(e) => setFieldValue('strName', e.target.value)}
                     errors={errors}
                   />
                 </div>
                 <div className="col-lg-2">
                   <InputField
-                    value={values.strEmail || ""}
+                    value={values.strEmail || ''}
                     label="Email"
                     name="strEmail"
                     type="text"
-                    onChange={(e) => setFieldValue("strEmail", e.target.value)}
+                    onChange={(e) => setFieldValue('strEmail', e.target.value)}
                     errors={errors}
                   />
                 </div>
@@ -190,7 +188,7 @@ export default function EDPADischargePortCreate() {
                     name="strNameOfVessel"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("strNameOfVessel", e.target.value)
+                      setFieldValue('strNameOfVessel', e.target.value)
                     }
                     errors={errors}
                     disabled
@@ -203,7 +201,7 @@ export default function EDPADischargePortCreate() {
                     name="intVoyageNo"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("intVoyageNo", e.target.value)
+                      setFieldValue('intVoyageNo', e.target.value)
                     }
                     errors={errors}
                     disabled
@@ -216,7 +214,7 @@ export default function EDPADischargePortCreate() {
                     name="strVesselNominationCode"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue("strVesselNominationCode", e.target.value)
+                      setFieldValue('strVesselNominationCode', e.target.value)
                     }
                     disabled
                   />
@@ -230,7 +228,7 @@ export default function EDPADischargePortCreate() {
                     name="numGrandTotalAmount"
                     type="number"
                     onChange={(e) =>
-                      setFieldValue("numGrandTotalAmount", e.target.value)
+                      setFieldValue('numGrandTotalAmount', e.target.value)
                     }
                   />
                 </div>
@@ -240,40 +238,38 @@ export default function EDPADischargePortCreate() {
                     <AttachmentUploaderNew
                       isForPublicRoute={true}
                       style={{
-                        backgroundColor: "transparent",
-                        color: "black",
+                        backgroundColor: 'transparent',
+                        color: 'black',
                       }}
                       isExistAttachment={values?.strAttachmentForPort}
                       CBAttachmentRes={(attachmentData) => {
                         if (Array.isArray(attachmentData)) {
-                          setAttachment(attachmentData?.[0]?.id);
                           setFieldValue(
-                            "strAttachmentForPort",
-                            attachmentData?.[0]?.id
+                            'strAttachmentForPort',
+                            attachmentData?.[0]?.id,
                           );
                         }
                       }}
                     />
                   </div>
                 </div>
-                <div className="col-lg-2 " style={{ marginLeft: "-20px" }}>
+                <div className="col-lg-2 " style={{ marginLeft: '-20px' }}>
                   <label htmlFor="">Attachment For Port Disbursment</label>
                   <div className="">
                     <AttachmentUploaderNew
                       isForPublicRoute={true}
                       style={{
-                        backgroundColor: "transparent",
-                        color: "black",
+                        backgroundColor: 'transparent',
+                        color: 'black',
                       }}
                       isExistAttachment={
                         values?.strAttachmentForPortDisbursment
                       }
                       CBAttachmentRes={(attachmentData) => {
                         if (Array.isArray(attachmentData)) {
-                          setAttachment(attachmentData?.[0]?.id);
                           setFieldValue(
-                            "strAttachmentForPortDisbursment",
-                            attachmentData?.[0]?.id
+                            'strAttachmentForPortDisbursment',
+                            attachmentData?.[0]?.id,
                           );
                         }
                       }}
@@ -285,7 +281,7 @@ export default function EDPADischargePortCreate() {
                 <IViewModal
                   show={isShowModal}
                   onHide={() => setIsShowModal(false)}
-                  title={"Send Mail"}
+                  title={'Send Mail'}
                 >
                   {/* <MailSender payloadInfo={payloadInfo} /> */}
                   <EmailEditorForPublicRoutes

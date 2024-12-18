@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import NewIcon from "../../../../_helper/_helperIcons/newIcon";
-import Loading from "../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import NewIcon from '../../../../_helper/_helperIcons/newIcon';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 export default function AttachmentViewModal({ singleData }) {
   const [
@@ -14,13 +14,14 @@ export default function AttachmentViewModal({ singleData }) {
   const dispatch = useDispatch();
   useEffect(() => {
     getAttachmentData(
-      `/mes/VehicleLog/GetStuffTripExpenseAttachmentList?tripId=${singleData?.intTripId}`
+      `/mes/VehicleLog/GetStuffTripExpenseAttachmentList?tripId=${singleData?.intTripId}`,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
       {loadingAttachmentData && <Loading />}
-      <div style={{ marginTop: "20px" }} className="table-responsive">
+      <div style={{ marginTop: '20px' }} className="table-responsive">
         <table className="table table-striped table-bordered global-table">
           <thead>
             <tr>
@@ -39,14 +40,14 @@ export default function AttachmentViewModal({ singleData }) {
                         onClick={(e) => {
                           e.stopPropagation();
                           dispatch(
-                            getDownlloadFileView_Action(item?.attachment)
+                            getDownlloadFileView_Action(item?.attachment),
                           );
                         }}
                       >
                         <NewIcon title="Show Attachment" />
                       </span>
                     ) : (
-                      ""
+                      ''
                     )}
                   </td>
                 </tr>

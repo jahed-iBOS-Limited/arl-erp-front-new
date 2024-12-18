@@ -1,21 +1,14 @@
-import React from "react";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import signature_one from "./signature_1.png";
-import signature_two from "./signature_2.png";
+import React from 'react';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import signature_one from './signature_1.png';
+import signature_two from './signature_2.png';
 function RequestForIssuance({ obj }) {
   const { values, buName, singleData } = obj;
-  const {
-    // date,
-    item,
-    pi_no,
-    quantity,
-    reference_id,
-    total_amount,
-  } = {
+  const { reference_id, total_amount } = {
     total_amount: singleData?.objHeader?.piAmount || 0,
-    item: singleData?.objRow?.[0]?.itemName || "",
+    item: singleData?.objRow?.[0]?.itemName || '',
     quantity: singleData?.objRow?.[0]?.quantity || 0,
-    pi_no: singleData?.objHeader?.pinumber || "",
+    pi_no: singleData?.objHeader?.pinumber || '',
     reference_id:
       singleData?.purchaseRequestrNo || singleData?.purchaseContractNo,
   };
@@ -23,8 +16,12 @@ function RequestForIssuance({ obj }) {
     <>
       <section>
         <div>
-          <p id="ref"><b>DTCL/IMPORT/22/10172</b></p>
-          <p id="date"><b>DATE: {_todayDate()}</b></p>
+          <p id="ref">
+            <b>DTCL/IMPORT/22/10172</b>
+          </p>
+          <p id="date">
+            <b>DATE: {_todayDate()}</b>
+          </p>
         </div>
       </section>
       <br />
@@ -55,13 +52,13 @@ function RequestForIssuance({ obj }) {
           Dear sir,
           <br /> <br />
           With reference to the captioned subject, we have the pleasure to
-          request you to kindly issue us a Shipping Guarantee and endorse the{" "}
+          request you to kindly issue us a Shipping Guarantee and endorse the{' '}
           <b>Non-negotiable</b> Copies of the relevant Documents, which are
           enclosed herewith.
         </p>
         <br />
         <p>
-          Therefore, we are requesting you to kindly endorse the{" "}
+          Therefore, we are requesting you to kindly endorse the{' '}
           <b>Non-negotiable</b> documents for getting clearance of the
           consignment on the time and hand over the same to us
         </p>

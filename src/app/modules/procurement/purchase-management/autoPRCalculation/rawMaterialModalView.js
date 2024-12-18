@@ -1,21 +1,19 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useReducer, useState } from "react";
-import Loading from "../../../_helper/_loading";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../purchaseOrder/customHooks/useAxiosGet";
-import BreakDownModal from "./breakdownModal";
-import CommonItemDetailsModal from "./rawMaterialModals/commonItemDetailsModal";
+import React, { useEffect, useReducer, useState } from 'react';
+import Loading from '../../../_helper/_loading';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../purchaseOrder/customHooks/useAxiosGet';
+import BreakDownModal from './breakdownModal';
+import CommonItemDetailsModal from './rawMaterialModals/commonItemDetailsModal';
 import {
   commonItemInitialState,
   commonItemReducer,
-} from "./rawMaterialModals/helper";
-import WarehouseStockModal from "./rawMaterialModals/warehouseStockModal";
+} from './rawMaterialModals/helper';
+import WarehouseStockModal from './rawMaterialModals/warehouseStockModal';
 
-;
-
-export default function RawMaterialAutoPRNewModalView({ singleRowDataFromParent, values }) {
-
-
+export default function RawMaterialAutoPRNewModalView({
+  singleRowDataFromParent,
+  values,
+}) {
   // state
   const [singleRowData, setSingleRowData] = useState();
   const [showBreakdownModal, setShowBreakdownModal] = useState(false);
@@ -24,20 +22,21 @@ export default function RawMaterialAutoPRNewModalView({ singleRowDataFromParent,
   // reducer
   const [commonItemDetailsState, commonItemDetailsDispatch] = useReducer(
     commonItemReducer,
-    commonItemInitialState
+    commonItemInitialState,
   );
 
-  const [autoRawMaterialData, getAutoRawMaterialData, loader] = useAxiosGet()
+  const [autoRawMaterialData, getAutoRawMaterialData, loader] = useAxiosGet();
 
   const getData = () => {
-    getAutoRawMaterialData(`/procurement/MRPFromProduction/MrpfromProductionScheduleRowLanding?MrpfromProductionScheduleHeaderId=${singleRowDataFromParent?.mrpfromProductionHeaderId}`)
-  }
+    getAutoRawMaterialData(
+      `/procurement/MRPFromProduction/MrpfromProductionScheduleRowLanding?MrpfromProductionScheduleHeaderId=${singleRowDataFromParent?.mrpfromProductionHeaderId}`,
+    );
+  };
 
-  useEffect(
-    () => {
-      getData()
-    }, []
-  )
+  useEffect(() => {
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -67,33 +66,12 @@ export default function RawMaterialAutoPRNewModalView({ singleRowDataFromParent,
               <tbody>
                 {autoRawMaterialData?.length > 0 &&
                   autoRawMaterialData?.map((item, index) => {
-                    let totalBudgetQty = 0;
-                    let availableStock = 0;
-
-                    availableStock =
-                      (
-                        (item?.stockQty ?? 0) +
-                        (item?.numOpenPOQty ?? 0) +
-                        (item?.inTransit ?? 0) +
-                        (item?.openPRQty ?? 0) -
-                        (item?.deadStockQuantity ?? 0)
-                      )?.toFixed(2) || 0;
-
-                    totalBudgetQty +=
-                      (+item?.firstMonthQty || 0) +
-                      (+item?.secondMonthQty || 0) +
-                      (+item?.thirdMonthQty || 0);
-
                     return (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td className="text-center">
-                          {item?.itemCode}
-                        </td>
+                        <td className="text-center">{item?.itemCode}</td>
                         <td>{item?.itemName}</td>
-                        <td className="text-center">
-                          {item?.uomName}
-                        </td>
+                        <td className="text-center">{item?.uomName}</td>
                         <td className="text-right">
                           {item?.totalBudgetQty || 0}
                         </td>
@@ -106,22 +84,8 @@ export default function RawMaterialAutoPRNewModalView({ singleRowDataFromParent,
                           }}
                         >
                           {item?.stockQty?.toFixed(2) || 0}
-                          {/* <InfoCircle
-                          clickHandler={() => {
-                            setWarehouseStockModalShow(true);
-                            setSingleRowData(item);
-                          }}
-                        /> */}
                         </td>
-                        <td
-                          // onClick={() =>
-                          //   commonItemDetailsDispatch({
-                          //     type: "FloatingStock",
-                          //     payload: { singleRowData: item },
-                          //   })
-                          // }
-                          className="text-right text-primary cursor-pointer"
-                        >
+                        <td className="text-right text-primary cursor-pointer">
                           0
                         </td>
 
@@ -130,9 +94,9 @@ export default function RawMaterialAutoPRNewModalView({ singleRowDataFromParent,
                           onClick={() => {
                             if (!item?.inTransit) return;
                             commonItemDetailsDispatch({
-                              type: "OpenPo",
+                              type: 'OpenPo',
                               payload: { singleRowData: item },
-                            })
+                            });
                           }}
                         >
                           {item?.inTransit?.toFixed(2) || 0}
@@ -143,43 +107,31 @@ export default function RawMaterialAutoPRNewModalView({ singleRowDataFromParent,
                           onClick={() => {
                             if (!item?.openPrqty) return;
                             commonItemDetailsDispatch({
-                              type: "OpenPR",
+                              type: 'OpenPR',
                               payload: { singleRowData: item },
-                            })
+                            });
                           }}
                         >
                           {item?.openPrqty?.toFixed(2) || 0}
-                          {/* <InfoCircle
-                          clickHandler={() =>
-                            commonItemDetailsDispatch({
-                              type: "OpenPR",
-                              payload: { singleRowData: item },
-                            })
-                          }
-                        /> */}
                         </td>
+                        <td className="text-right">{item?.deadStock || 0}</td>
+                        <td className="text-right">{item?.avaiableBlance}</td>
                         <td className="text-right">
-                          {item?.deadStock || 0}
-                        </td>
-                        <td className="text-right">
-                          {item?.avaiableBlance}
-                        </td>
-                        <td className="text-right">
-                          {item?.closingBlance ||  0}
+                          {item?.closingBlance || 0}
                         </td>
                         <td className="text-center">
                           {item?.totalScheduleQty?.toFixed(2) || 0}
                         </td>
                         <td className="text-center">
                           <span
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: 'pointer' }}
                             onClick={() => {
                               setSingleRowData(item);
                               setShowBreakdownModal(true);
                             }}
                           >
                             <i
-                              style={{ fontSize: "16px" }}
+                              style={{ fontSize: '16px' }}
                               className="fa fa-plus-square text-primary mr-2"
                             />
                           </span>
@@ -204,7 +156,7 @@ export default function RawMaterialAutoPRNewModalView({ singleRowDataFromParent,
           setShowBreakdownModal={setShowBreakdownModal}
           setSingleRowData={setSingleRowData}
           callBack={() => {
-            getData()
+            getData();
           }}
         />
       </IViewModal>
@@ -230,7 +182,7 @@ export default function RawMaterialAutoPRNewModalView({ singleRowDataFromParent,
       <IViewModal
         show={commonItemDetailsState?.modalShow}
         onHide={() => {
-          commonItemDetailsDispatch({ type: "Close" });
+          commonItemDetailsDispatch({ type: 'Close' });
         }}
       >
         <CommonItemDetailsModal

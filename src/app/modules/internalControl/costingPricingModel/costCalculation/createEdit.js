@@ -1,41 +1,41 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../_helper/_form";
-import { IInput } from "../../../_helper/_input";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import CommonTable from "../../../_helper/commonTable";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
+import { IInput } from '../../../_helper/_input';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import CommonTable from '../../../_helper/commonTable';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import {
   rowCalculationFunc,
   tblCostComponentHeaders,
   tblMaterialCostHeaders,
-} from "./helper";
-import { getBusinessPartnerDDL } from "../../../config/partner-management/partnerProductAllocation/helper";
-import { _todayDate } from "../../../_helper/_todayDate";
+} from './helper';
+import { getBusinessPartnerDDL } from '../../../config/partner-management/partnerProductAllocation/helper';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
-  product: "",
-  uomName: "",
-  finishGood: "",
-  conversion: "",
-  percentigeInput: "",
-  yield: "",
-  requiredQty: "",
-  currentQty: "",
-  currentInvPrice: "",
-  newQty: "",
-  newPrice: "",
-  currentCost: "",
-  newCost: "",
-  averageCost: "",
-  packingMaterial: "",
-  manufacturingOverhead: "",
-  totalManufacturingCost: "",
-  markupOrProfit: "",
+  product: '',
+  uomName: '',
+  finishGood: '',
+  conversion: '',
+  percentigeInput: '',
+  yield: '',
+  requiredQty: '',
+  currentQty: '',
+  currentInvPrice: '',
+  newQty: '',
+  newPrice: '',
+  currentCost: '',
+  newCost: '',
+  averageCost: '',
+  packingMaterial: '',
+  manufacturingOverhead: '',
+  totalManufacturingCost: '',
+  markupOrProfit: '',
 };
 export default function CostConfigurationCreateEdit() {
   const [objProps, setObjprops] = useState({});
@@ -68,37 +68,37 @@ export default function CostConfigurationCreateEdit() {
 
   useEffect(() => {
     getProductDDL(
-      `/costmgmt/Precosting/ProductDDL?businessUnitId=${selectedBusinessUnit?.value}`
+      `/costmgmt/Precosting/ProductDDL?businessUnitId=${selectedBusinessUnit?.value}`,
     );
 
     getBusinessPartnerDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setCustomerDDL
+      setCustomerDDL,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveHandler = async (values, cb) => {
     if (!values?.product) {
-      toast.warn("Product is required");
+      toast.warn('Product is required');
       return;
     }
     if (!values?.finishGood) {
-      toast.warn("Finish Good is required");
+      toast.warn('Finish Good is required');
       return;
     }
 
     if (productPreCostingData?.precostingMaterial?.length === 0) {
-      toast.warn("Please add material");
+      toast.warn('Please add material');
       return;
     }
     if (productPreCostingData?.precostingOverhead?.length === 0) {
-      toast.warn("Please add cost component");
+      toast.warn('Please add cost component');
       return;
     }
     if (!values?.customer) {
-      toast.warn("Customer is required");
+      toast.warn('Customer is required');
       return;
     }
 
@@ -137,7 +137,7 @@ export default function CostConfigurationCreateEdit() {
           rate: +itm?.averageCost,
           amount: +itm?.conversion * itm?.averageCost,
         };
-      }
+      },
     );
     const precostingOverhead = productPreCostingData?.precostingOverhead?.map(
       (itm) => {
@@ -147,14 +147,14 @@ export default function CostConfigurationCreateEdit() {
           costElementId: itm?.costElementId,
           amount: +itm?.costElementAmount || 0,
         };
-      }
+      },
     );
     const payload = {
       costingId: 0,
       businessUnitId: selectedBusinessUnit?.value || 0,
       productId: values?.product?.value || 0,
       fgItemId: values?.finishGood?.value || 0,
-      costingDate: _todayDate() || "",
+      costingDate: _todayDate() || '',
       partnerId: values?.customer?.value || 0,
       materialTotal: totalNewCost * values?.finishGood?.conversion || 0,
       overheadTotal:
@@ -177,63 +177,9 @@ export default function CostConfigurationCreateEdit() {
       `/costmgmt/Precosting/SaveProductPrecosting`,
       payload,
       cb && cb(),
-      true
+      true,
     );
   };
-
-  // const rowDtoHandler = (index, key, value) => {
-  //   const modifyData = [...productPreCostingData?.precostingMaterial];
-  //   modifyData[index][key] = value;
-  //   setProductPreCostingData({
-  //     ...productPreCostingData,
-  //     precostingMaterial: modifyData,
-  //   });
-  // };
-  // const rowDtoHandler = (index, key, value) => {
-  //   const modifyData = [...productPreCostingData?.precostingMaterial];
-
-  //   // Update the specific key-value pair for the current item
-  //   modifyData[index][key] = value;
-
-  //   // Destructure item for easier access to fields
-  //   const item = modifyData[index];
-
-  //   // Perform your calculations
-  //   const requiredQty = +item?.percentigeInput / +item?.yield;
-  //   const currentCost = +item?.percentigeInput * +item?.currentInvRate;
-  //   const newCost = item?.requiredQty * +item?.newPrice;
-
-  //   // Assign the calculated values to the item
-  //   modifyData[index].requiredQty = requiredQty;
-  //   modifyData[index].currentCost = currentCost;
-  //   modifyData[index].newCost = newCost;
-
-  //   // const averageCost =
-  //   //   (+item?.currentInvQty * (+item?.percentigeInput * +item?.currentInvRate) +
-  //   //     +item?.newQty *
-  //   //       ((+item?.percentigeInput / +item?.yield) * +item?.newPrice)) /
-  //   //   ((+item?.currentInvQty + +item?.newQty) *
-  //   //     (+item?.percentigeInput / +item?.yield));
-  //   console.log("item?.currentInvQty", item?.currentInvQty);
-  //   console.log("item?.currentCost", item?.currentCost);
-  //   console.log("item?.newQty", item?.newQty);
-  //   console.log("item?.newCost", item?.newCost);
-  //   console.log("item?.requiredQty", item?.requiredQty);
-  //   const averageCost =
-  //     ((item?.currentInvQty * item?.currentCost +
-  //       item?.newQty * item?.newCost) /
-  //       (item?.currentInvQty + item?.newQty)) *
-  //     item?.requiredQty;
-
-  //   modifyData[index].averageCost = averageCost;
-
-  //   // Update the state with the modified data
-  //   setProductPreCostingData({
-  //     ...productPreCostingData,
-  //     precostingMaterial: modifyData,
-  //   });
-  // };
-
   const costElementAmountHandler = (index, key, value) => {
     const modifyData = [...productPreCostingData?.precostingOverhead];
     modifyData[index][key] = value;
@@ -255,14 +201,14 @@ export default function CostConfigurationCreateEdit() {
       (acc, item) => {
         return acc + (+item?.newCost || 0);
       },
-      0
+      0,
     );
     setTotalNewCost(totalNewCostRow);
     const totalCurrentCostRow = productPreCostingData?.precostingMaterial?.reduce(
       (acc, item) => {
         return acc + (+item?.currentCost || 0);
       },
-      0
+      0,
     );
     setTotalCurrentCost(totalCurrentCostRow);
 
@@ -270,14 +216,11 @@ export default function CostConfigurationCreateEdit() {
       (acc, item) => {
         return acc + (+item?.costElementAmount || 0);
       },
-      0
+      0,
     );
     setTotalPeriodCost(totalPeriodCostRow);
-  }, [
-    productPreCostingData?.precostingMaterial,
-    productPreCostingData?.precostingOverhead,
-  ]);
-  console.log("productPreCostingData", productPreCostingData);
+  }, [productPreCostingData]);
+  console.log('productPreCostingData', productPreCostingData);
   return (
     <IForm title="Create Cost Calculation" getProps={setObjprops}>
       {(productLoader || finishGoodLoader || productPreCostingLoader) && (
@@ -316,17 +259,17 @@ export default function CostConfigurationCreateEdit() {
                         name="product"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("product", valueOption);
-                            setFieldValue("uomName", {
+                            setFieldValue('product', valueOption);
+                            setFieldValue('uomName', {
                               value: valueOption?.uomId,
                               label: valueOption?.uomName,
                             });
                             getFinishGoodDDL(
-                              `/costmgmt/Precosting/FgItemByProductDDL?businessUnitId=${selectedBusinessUnit?.value}&productId=${valueOption?.value}`
+                              `/costmgmt/Precosting/FgItemByProductDDL?businessUnitId=${selectedBusinessUnit?.value}&productId=${valueOption?.value}`,
                             );
                           } else {
-                            setFieldValue("product", "");
-                            setFieldValue("uomName", "");
+                            setFieldValue('product', '');
+                            setFieldValue('uomName', '');
                             setFinishGoodDDL([]);
                           }
                         }}
@@ -341,7 +284,7 @@ export default function CostConfigurationCreateEdit() {
                         value={values?.uomName}
                         name="uomName"
                         onChange={(valueOption) => {
-                          setFieldValue("uomName", valueOption);
+                          setFieldValue('uomName', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -356,14 +299,14 @@ export default function CostConfigurationCreateEdit() {
                         name="finishGood"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("finishGood", valueOption);
-                            setFieldValue("fgUomName", {
+                            setFieldValue('finishGood', valueOption);
+                            setFieldValue('fgUomName', {
                               value: valueOption?.uomId,
                               label: valueOption?.uomName,
                             });
                             setFieldValue(
-                              "fgConversionRate",
-                              valueOption?.conversion || ""
+                              'fgConversionRate',
+                              valueOption?.conversion || '',
                             );
                             getProductPreCostingData(
                               `/costmgmt/Precosting/ViewProductPrecosting?businessUnit=${selectedBusinessUnit?.value}&productId=${values?.product?.value}&fgItemId=${valueOption?.value}`,
@@ -375,21 +318,21 @@ export default function CostConfigurationCreateEdit() {
                                       costElementMultiplier:
                                         item?.costElementMultiplier ?? 1,
                                       costElementMultiplicand:
-                                        item?.costElementMultiplicand ?? "0",
-                                      costElementAmount: "0",
+                                        item?.costElementMultiplicand ?? '0',
+                                      costElementAmount: '0',
                                     };
                                   }) || [];
                                 setProductPreCostingData({
                                   ...data,
                                   precostingOverhead: modData,
                                 });
-                              }
+                              },
                             );
                           } else {
-                            setFieldValue("finishGood", "");
+                            setFieldValue('finishGood', '');
                             setProductPreCostingData([]);
-                            setFieldValue("fgUomName", "");
-                            setFieldValue("fgConversionRate", "");
+                            setFieldValue('fgUomName', '');
+                            setFieldValue('fgConversionRate', '');
                           }
                         }}
                         errors={errors}
@@ -398,7 +341,7 @@ export default function CostConfigurationCreateEdit() {
                     </div>
                     <div className="col-lg-2">
                       <IInput
-                        value={values?.fgConversionRate || ""}
+                        value={values?.fgConversionRate || ''}
                         name="fgConversionRate"
                         label="FG Conversion Rate"
                         type="number"
@@ -422,7 +365,7 @@ export default function CostConfigurationCreateEdit() {
                         value={values?.customer}
                         name="customer"
                         onChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
+                          setFieldValue('customer', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -445,10 +388,10 @@ export default function CostConfigurationCreateEdit() {
                             <IInput
                               value={
                                 productPreCostingData?.precostingMaterial[index]
-                                  ?.conversion || ""
+                                  ?.conversion || ''
                               }
                               name="conversion"
-                              style={{ fontSize: "10px" }}
+                              style={{ fontSize: '10px' }}
                               onChange={(e) => {
                                 const itemModify = {
                                   ...item,
@@ -467,10 +410,10 @@ export default function CostConfigurationCreateEdit() {
                             <IInput
                               value={
                                 productPreCostingData?.precostingMaterial[index]
-                                  ?.percentigeInput || ""
+                                  ?.percentigeInput || ''
                               }
                               name="percentigeInput"
-                              style={{ fontSize: "10px" }}
+                              style={{ fontSize: '10px' }}
                               onChange={(e) => {
                                 const itemModify = {
                                   ...item,
@@ -489,10 +432,10 @@ export default function CostConfigurationCreateEdit() {
                             <IInput
                               value={
                                 productPreCostingData?.precostingMaterial[index]
-                                  ?.yield || ""
+                                  ?.yield || ''
                               }
                               name="yield"
-                              style={{ fontSize: "10px" }}
+                              style={{ fontSize: '10px' }}
                               placeholder=""
                               onChange={(e) => {
                                 const itemModify = {
@@ -511,22 +454,22 @@ export default function CostConfigurationCreateEdit() {
                           <td className="text-center">
                             {item?.requiredQty
                               ? item?.requiredQty?.toFixed(4)
-                              : ""}
+                              : ''}
                           </td>
                           <td className="text-center">
-                            {item?.currentInvQty || ""}
+                            {item?.currentInvQty || ''}
                           </td>
                           <td className="text-center">
-                            {item?.currentInvRate || ""}
+                            {item?.currentInvRate || ''}
                           </td>
                           <td className="disabled-feedback disable-border">
                             <IInput
                               value={
                                 productPreCostingData?.precostingMaterial[index]
-                                  ?.newQty || ""
+                                  ?.newQty || ''
                               }
                               name="newQty"
-                              style={{ fontSize: "10px" }}
+                              style={{ fontSize: '10px' }}
                               onChange={(e) => {
                                 const itemModify = {
                                   ...item,
@@ -545,10 +488,10 @@ export default function CostConfigurationCreateEdit() {
                             <IInput
                               value={
                                 productPreCostingData?.precostingMaterial[index]
-                                  ?.newPrice || ""
+                                  ?.newPrice || ''
                               }
                               name="newPrice"
-                              style={{ fontSize: "10px" }}
+                              style={{ fontSize: '10px' }}
                               onChange={(e) => {
                                 const itemModify = {
                                   ...item,
@@ -566,33 +509,33 @@ export default function CostConfigurationCreateEdit() {
                           <td className="text-center">
                             {item?.currentCost
                               ? item?.currentCost?.toFixed(2)
-                              : ""}
+                              : ''}
                           </td>
                           <td className="text-center">
-                            {item?.newCost ? item?.newCost?.toFixed(2) : ""}
+                            {item?.newCost ? item?.newCost?.toFixed(2) : ''}
                           </td>
                           <td className="text-center">
                             {item?.averageCost
                               ? item?.averageCost?.toFixed(2)
-                              : ""}
+                              : ''}
                           </td>
                         </tr>
-                      )
+                      ),
                     )}
                     <tr>
                       <td colSpan={11}>
-                        {" "}
+                        {' '}
                         <strong>Total RM Price</strong>
                       </td>
                       <td>
-                        {totalCurrentCost ? totalCurrentCost?.toFixed(2) : ""}
+                        {totalCurrentCost ? totalCurrentCost?.toFixed(2) : ''}
                       </td>
-                      <td>{totalNewCost ? totalNewCost?.toFixed(2) : ""}</td>
+                      <td>{totalNewCost ? totalNewCost?.toFixed(2) : ''}</td>
                       <td></td>
                     </tr>
                     <tr>
                       <td colSpan={12}>
-                        {" "}
+                        {' '}
                         <strong>Total Material Cost by SKU</strong>
                       </td>
                       <td>
@@ -600,7 +543,7 @@ export default function CostConfigurationCreateEdit() {
                           ? (
                               totalNewCost * values?.finishGood?.conversion
                             ).toFixed(2)
-                          : ""}
+                          : ''}
                       </td>
                       <td></td>
                     </tr>
@@ -611,25 +554,25 @@ export default function CostConfigurationCreateEdit() {
                   <div className="row">
                     <div className="col-lg-3">
                       <IInput
-                        value={values?.packingMaterial || ""}
+                        value={values?.packingMaterial || ''}
                         name="packingMaterial"
                         label="Packing Material"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("packingMaterial", e.target.value);
+                          setFieldValue('packingMaterial', e.target.value);
                         }}
                       />
                     </div>
                     <div className="col-lg-3">
                       <IInput
-                        value={values?.manufacturingOverhead || ""}
+                        value={values?.manufacturingOverhead || ''}
                         name="manufacturingOverhead"
                         label="Manufaturing Overhead"
                         type="number"
                         onChange={(e) => {
                           setFieldValue(
-                            "manufacturingOverhead",
-                            e.target.value
+                            'manufacturingOverhead',
+                            e.target.value,
                           );
                         }}
                       />
@@ -648,14 +591,14 @@ export default function CostConfigurationCreateEdit() {
                         }}
                       /> */}
                       <h5 className="mt-6">
-                        Total Manufacturing Cost:{" "}
+                        Total Manufacturing Cost:{' '}
                         {totalNewCost
                           ? (
                               totalNewCost * values?.finishGood?.conversion +
                                 (+values?.packingMaterial ||
                                   0 + +values?.manufacturingOverhead) || 0
                             ).toFixed(2)
-                          : ""}
+                          : ''}
                       </h5>
                     </div>
                   </div>
@@ -670,28 +613,28 @@ export default function CostConfigurationCreateEdit() {
                           <td className="text-left">{item?.costElementName}</td>
                           <td className="text-left">
                             <IInput
-                              value={item?.costElementMultiplier || ""}
+                              value={item?.costElementMultiplier || ''}
                               name="costElementMultiplier"
-                              style={{ fontSize: "10px" }}
+                              style={{ fontSize: '10px' }}
                               onChange={(e) => {
                                 costElementAmountHandler(
                                   index,
-                                  "costElementMultiplier",
-                                  e.target.value
+                                  'costElementMultiplier',
+                                  e.target.value,
                                 );
                               }}
                             />
                           </td>
                           <td className="text-left">
                             <IInput
-                              value={item?.costElementMultiplicand || ""}
+                              value={item?.costElementMultiplicand || ''}
                               name="costElementMultiplicand"
-                              style={{ fontSize: "10px" }}
+                              style={{ fontSize: '10px' }}
                               onChange={(e) => {
                                 costElementAmountHandler(
                                   index,
-                                  "costElementMultiplicand",
-                                  e.target.value
+                                  'costElementMultiplicand',
+                                  e.target.value,
                                 );
                               }}
                             />
@@ -700,10 +643,10 @@ export default function CostConfigurationCreateEdit() {
                             <IInput
                               value={
                                 productPreCostingData?.precostingOverhead[index]
-                                  ?.costElementAmount || ""
+                                  ?.costElementAmount || ''
                               }
                               name="costElementAmount"
-                              style={{ fontSize: "10px" }}
+                              style={{ fontSize: '10px' }}
                               // onChange={(e) => {
                               //   costElementAmountHandler(
                               //     index,
@@ -715,21 +658,21 @@ export default function CostConfigurationCreateEdit() {
                             />
                           </td>
                         </tr>
-                      )
+                      ),
                     )}
 
                     <tr>
                       <td colSpan={4}>
-                        {" "}
+                        {' '}
                         <strong>Total Period Cost</strong>
                       </td>
                       <td>
-                        {totalPeriodCost ? totalPeriodCost?.toFixed(2) : ""}
+                        {totalPeriodCost ? totalPeriodCost?.toFixed(2) : ''}
                       </td>
                     </tr>
                     <tr>
                       <td colSpan={4}>
-                        {" "}
+                        {' '}
                         <strong>Total Overhead</strong>
                       </td>
                       <td>
@@ -739,13 +682,13 @@ export default function CostConfigurationCreateEdit() {
                             +values?.packingMaterial +
                             +values?.manufacturingOverhead
                           ).toFixed(2);
-                          return isNaN(totalOverhead) ? "0" : totalOverhead;
+                          return isNaN(totalOverhead) ? '0' : totalOverhead;
                         })()}
                       </td>
                     </tr>
                     <tr>
                       <td colSpan={4}>
-                        {" "}
+                        {' '}
                         <strong>Total Cost</strong>
                       </td>
                       <td>
@@ -757,23 +700,23 @@ export default function CostConfigurationCreateEdit() {
                             totalPeriodCost
                           ).toFixed(2);
 
-                          return isNaN(totalCost) ? "0" : totalCost;
+                          return isNaN(totalCost) ? '0' : totalCost;
                         })()}
                       </td>
                     </tr>
                     <tr>
                       <td colSpan={4}>
-                        {" "}
+                        {' '}
                         <strong>Mark-Up / Profit</strong>
                       </td>
                       <td>
                         <div className="d-flex">
                           <IInput
-                            value={values?.markupOrProfit || ""}
+                            value={values?.markupOrProfit || ''}
                             name="markupOrProfit"
-                            style={{ fontSize: "10px" }}
+                            style={{ fontSize: '10px' }}
                             onChange={(e) => {
-                              setFieldValue("markupOrProfit", e.target.value);
+                              setFieldValue('markupOrProfit', e.target.value);
                             }}
                           />
                           <p>
@@ -827,7 +770,7 @@ export default function CostConfigurationCreateEdit() {
                             markupValue;
 
                           const result = totallll + markupProfit;
-                          return (result || 0)?.toFixed(2) || ""; // Return the result formatted to two decimal places
+                          return (result || 0)?.toFixed(2) || ''; // Return the result formatted to two decimal places
                         })()}
                       </td>
                     </tr>
@@ -836,14 +779,14 @@ export default function CostConfigurationCreateEdit() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

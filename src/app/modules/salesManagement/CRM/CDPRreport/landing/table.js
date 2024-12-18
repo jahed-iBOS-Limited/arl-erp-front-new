@@ -1,21 +1,12 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import InputField from "../../../../_helper/_inputField";
-import IViewModal from "../../../../_helper/_viewModal";
-import EditModal from "./editmodal";
+import React from 'react';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import InputField from '../../../../_helper/_inputField';
+import IViewModal from '../../../../_helper/_viewModal';
+import EditModal from './editmodal';
 const LandingTable = ({ obj }) => {
-  const {
-    profileData: { employeeId },
-    tokenData: { token },
-  } = useSelector((state) => state?.authData, shallowEqual);
-  const { gridData, setLoading, setGridData, landingCB } = obj;
+  const { gridData, setGridData, landingCB } = obj;
   const [isShowModal, setIsShowModal] = React.useState(false);
   const [clickedRow, setClickedRow] = React.useState({});
-  const {
-    profileData: { userId },
-  } = useSelector((state) => state?.authData, shallowEqual);
-
   return (
     <>
       <div className="table-responsive">
@@ -25,147 +16,147 @@ const LandingTable = ({ obj }) => {
               <th>SL</th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Product Name
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Company Name
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Contact Person's Name
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Contact Number
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Active/ Inactive
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Account Manager
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Job Title
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Age Range
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Gender
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Industry
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Location (District)
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Employee Number
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Income Level
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Pain Points
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Goals
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Why They Choose Us
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Buying Behavior
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Preferred Communication Channels
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Competitors Brand Usages
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Enroll
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: '100px',
                 }}
               >
                 Customer Id
@@ -180,7 +171,7 @@ const LandingTable = ({ obj }) => {
 
               <th
                 style={{
-                  width: "70px",
+                  width: '70px',
                 }}
               >
                 Action
@@ -214,7 +205,7 @@ const LandingTable = ({ obj }) => {
                   <td>
                     {
                       <InputField
-                        value={item?.enroll || ""}
+                        value={item?.enroll || ''}
                         name="enroll"
                         placeholder="Enroll"
                         type="number"
@@ -229,7 +220,7 @@ const LandingTable = ({ obj }) => {
                   <td>
                     {
                       <InputField
-                        value={item?.customerId || ""}
+                        value={item?.customerId || ''}
                         name="customerId"
                         placeholder="customerId"
                         type="number"
@@ -245,7 +236,7 @@ const LandingTable = ({ obj }) => {
                     <div
                       className="d-flex justify-content-around"
                       style={{
-                        gap: "8px",
+                        gap: '8px',
                       }}
                     >
                       <span
@@ -254,7 +245,7 @@ const LandingTable = ({ obj }) => {
                           setClickedRow(item);
                         }}
                       >
-                        {" "}
+                        {' '}
                         <IEdit />
                       </span>
                     </div>

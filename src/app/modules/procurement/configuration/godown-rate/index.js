@@ -1,26 +1,26 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IView from "../../../_helper/_helperIcons/_view";
-import NewIcon from "../../../_helper/_helperIcons/newIcon";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import GodownRateModal from "./godownRateModal";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IView from '../../../_helper/_helperIcons/_view';
+import NewIcon from '../../../_helper/_helperIcons/newIcon';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import GodownRateModal from './godownRateModal';
 const initData = {
-  plant: "",
-  warehouse: "",
-  supplier: "",
+  plant: '',
+  warehouse: '',
+  supplier: '',
 };
 export default function GodownRateConfigLanding() {
   const {
@@ -34,30 +34,30 @@ export default function GodownRateConfigLanding() {
   const [wareHouseDDL, getWareHouseDDL] = useAxiosGet();
   const [sbuDDL, getSbuDDL] = useAxiosGet();
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
-  const [singleData, setSingleData] = useState(null);
+
   const [isShowModal, setShowModal] = useState();
   const dispatch = useDispatch();
 
   useEffect(() => {
     getPlantDDL(
-      `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+      `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
   const saveHandler = (values, cb) => {};
   const history = useHistory();
 
-  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+  const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     getGridData(
       `/procurement/PurchaseOrder/GodownRateConfigurationLanding?businessUnitId=${buId}&plantId=${
         values?.plant?.value
       }&warehouseId=${values?.warehouse?.value || 0}&supplierId=${values
         ?.supplier?.value ||
-        0}&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
+        0}&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`,
     );
   };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
 
@@ -99,7 +99,7 @@ export default function GodownRateConfigLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/mngProcurement/purchase-configuration/godown-rate-configuration/create"
+                        '/mngProcurement/purchase-configuration/godown-rate-configuration/create',
                       );
                     }}
                   >
@@ -115,15 +115,15 @@ export default function GodownRateConfigLanding() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="plant"
-                      options={[{ value: 0, label: "All" }, ...plantDDL]}
+                      options={[{ value: 0, label: 'All' }, ...plantDDL]}
                       value={values?.plant}
                       label="Plant"
                       onChange={(valueOption) => {
-                        setFieldValue("Warehouse", "");
-                        setFieldValue("plant", valueOption);
+                        setFieldValue('Warehouse', '');
+                        setFieldValue('plant', valueOption);
                         setGridData([]);
                         getWareHouseDDL(
-                          `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=${valueOption?.value}`
+                          `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=${valueOption?.value}`,
                         );
                       }}
                       errors={errors}
@@ -133,14 +133,14 @@ export default function GodownRateConfigLanding() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="warehouse"
-                      options={[{ value: 0, label: "All" }, ...wareHouseDDL]}
+                      options={[{ value: 0, label: 'All' }, ...wareHouseDDL]}
                       value={values?.warehouse}
                       label="Warehouse"
                       onChange={(valueOption) => {
-                        setFieldValue("supplier", "");
-                        setFieldValue("warehouse", valueOption);
+                        setFieldValue('supplier', '');
+                        setFieldValue('warehouse', valueOption);
                         getSbuDDL(
-                          `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
+                          `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`,
                         );
                         getLandingData(values, pageNo, pageSize);
                       }}
@@ -153,7 +153,7 @@ export default function GodownRateConfigLanding() {
                     <SearchAsyncSelect
                       selectedValue={values?.supplier}
                       handleChange={(valueOption) => {
-                        setFieldValue("supplier", valueOption);
+                        setFieldValue('supplier', valueOption);
                       }}
                       isDisabled={!values?.warehouse}
                       placeholder="Search Supplier"
@@ -162,7 +162,7 @@ export default function GodownRateConfigLanding() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${sbuDDL[0]?.value}`
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${sbuDDL[0]?.value}`,
                           )
                           .then((res) => res?.data);
                       }}
@@ -172,9 +172,9 @@ export default function GodownRateConfigLanding() {
                     <button
                       type="button"
                       className="btn btn-primary mr-2"
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       onClick={() => {
-                        getLandingData(values, pageNo, pageSize, "");
+                        getLandingData(values, pageNo, pageSize, '');
                       }}
                     >
                       View
@@ -231,29 +231,52 @@ export default function GodownRateConfigLanding() {
                             <td className="text-center">
                               {_dateFormatter(item?.contractEndtDate)}
                             </td>
-                            <td className="text-center" >
-                              {item?.attachmentId && <span style={{color:"blue",textDecoration:"underline",cursor:"pointer"}} onClick={(e)=>{
-                                 e.stopPropagation();
-                                dispatch(
-                                  getDownlloadFileView_Action(
-                                    item?.attachmentId
-                                    // setLoading
-                                  ))
-                              }}>
-                                <NewIcon customStyles={{fontSize:"15px",color:"blue"}} iconName="fa fa-file-image-o"/>
-                              </span>
-                              }
+                            <td className="text-center">
+                              {item?.attachmentId && (
+                                <span
+                                  style={{
+                                    color: 'blue',
+                                    textDecoration: 'underline',
+                                    cursor: 'pointer',
+                                  }}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    dispatch(
+                                      getDownlloadFileView_Action(
+                                        item?.attachmentId,
+                                        // setLoading
+                                      ),
+                                    );
+                                  }}
+                                >
+                                  <NewIcon
+                                    customStyles={{
+                                      fontSize: '15px',
+                                      color: 'blue',
+                                    }}
+                                    iconName="fa fa-file-image-o"
+                                  />
+                                </span>
+                              )}
                             </td>
                             <td>{item?.status}</td>
                             <td className="text-center">
-                              <div style={{display:"flex",alignItems:"center",gap:"3px",justifyContent:"center"}} className="">
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '3px',
+                                  justifyContent: 'center',
+                                }}
+                                className=""
+                              >
                                 <span
                                   className=""
                                   onClick={() => {
                                     history.push({
-                                      pathname:`/mngProcurement/purchase-configuration/godown-rate-configuration/edit/${item?.godownRateConfigId}`,
-                                      state:{...item}
-                                    })                              
+                                      pathname: `/mngProcurement/purchase-configuration/godown-rate-configuration/edit/${item?.godownRateConfigId}`,
+                                      state: { ...item },
+                                    });
                                   }}
                                 >
                                   <IEdit />
@@ -262,10 +285,9 @@ export default function GodownRateConfigLanding() {
                                   className=""
                                   onClick={() => {
                                     setShowModal(true);
-                                    setSingleData(item);
                                   }}
                                 >
-                                 <IView/>
+                                  <IView />
                                 </span>
                               </div>
                             </td>
@@ -294,13 +316,10 @@ export default function GodownRateConfigLanding() {
                     show={isShowModal}
                     onHide={() => {
                       setShowModal(false);
-                      setSingleData(null);
                     }}
                     title="Godown Rate"
                   >
-                    <GodownRateModal
-                     
-                    />
+                    <GodownRateModal />
                   </IViewModal>
                 )}
               </>

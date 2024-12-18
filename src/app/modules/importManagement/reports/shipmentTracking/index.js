@@ -1,26 +1,26 @@
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useRef, useState } from "react";
-import { Form } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useRef } from 'react';
+import { Form } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
 
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import ICustomCard from "../../../_helper/_customCard";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import Loading from "../../../_helper/_loading";
-import InputField from "../../../_helper/_inputField";
-import { _todayDate } from "../../../_helper/_todayDate";
+import ICustomCard from '../../../_helper/_customCard';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
 const initData = {
-  lcnumber: "",
-  po: "",
+  lcnumber: '',
+  po: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 export default function ShipmentTracking() {
   const {
-    profileData: { userTypeName, accountId },
+    profileData: { accountId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
@@ -28,83 +28,83 @@ export default function ShipmentTracking() {
 
   const header = [
     {
-      name: "Sl",
+      name: 'Sl',
       style: {
-        minWidth: "30px",
+        minWidth: '30px',
       },
     },
     {
-      name: "Origin",
+      name: 'Origin',
       style: {
-        minWidth: "113px",
-      },
-    },
-
-    {
-      name: "Supplier Details",
-      style: {
-        minWidth: "82px",
-      },
-    },
-    {
-      name: "PI No",
-      style: {
-        minWidth: "100px",
-      },
-    },
-    {
-      name: "PI Date",
-      style: {
-        minWidth: "65px",
-      },
-    },
-    {
-      name: "PO NO",
-      style: {
-        minWidth: "120px",
-      },
-    },
-    {
-      name: "LC Quantity",
-      style: {
-        minWidth: "70px",
-      },
-    },
-    {
-      name: "LC to be open M.T",
-      style: {
-        minWidth: "240px",
-      },
-    },
-    {
-      name: "LC NUMBER",
-      style: {
-        minWidth: "140px",
-      },
-    },
-    {
-      name: "Incoterm Name",
-      style: {
-        minWidth: "140px",
-      },
-    },
-    {
-      name: "LC ISSUE DATE",
-      style: {
-        minWidth: "140px",
-      },
-    },
-    {
-      name: "ISSUE BANK",
-      style: {
-        minWidth: "100px",
+        minWidth: '113px',
       },
     },
 
     {
-      name: "LATEST DATE",
+      name: 'Supplier Details',
       style: {
-        minWidth: "100px",
+        minWidth: '82px',
+      },
+    },
+    {
+      name: 'PI No',
+      style: {
+        minWidth: '100px',
+      },
+    },
+    {
+      name: 'PI Date',
+      style: {
+        minWidth: '65px',
+      },
+    },
+    {
+      name: 'PO NO',
+      style: {
+        minWidth: '120px',
+      },
+    },
+    {
+      name: 'LC Quantity',
+      style: {
+        minWidth: '70px',
+      },
+    },
+    {
+      name: 'LC to be open M.T',
+      style: {
+        minWidth: '240px',
+      },
+    },
+    {
+      name: 'LC NUMBER',
+      style: {
+        minWidth: '140px',
+      },
+    },
+    {
+      name: 'Incoterm Name',
+      style: {
+        minWidth: '140px',
+      },
+    },
+    {
+      name: 'LC ISSUE DATE',
+      style: {
+        minWidth: '140px',
+      },
+    },
+    {
+      name: 'ISSUE BANK',
+      style: {
+        minWidth: '100px',
+      },
+    },
+
+    {
+      name: 'LATEST DATE',
+      style: {
+        minWidth: '100px',
       },
     },
     // {
@@ -114,35 +114,35 @@ export default function ShipmentTracking() {
     //   },
     // },
     {
-      name: "Total Price",
+      name: 'Total Price',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "SHIPMENT NUMBER",
+      name: 'SHIPMENT NUMBER',
       style: {
-        minWidth: "105px",
+        minWidth: '105px',
       },
     },
     {
-      name: "B/L",
+      name: 'B/L',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
 
     //
     {
-      name: "invoice",
+      name: 'invoice',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Shipped Qty (M.T)",
+      name: 'Shipped Qty (M.T)',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     // {
@@ -152,52 +152,52 @@ export default function ShipmentTracking() {
     //   },
     // },
     {
-      name: "ETA (Aprx)",
+      name: 'ETA (Aprx)',
       style: {
-        minWidth: "70px",
+        minWidth: '70px',
       },
     },
     {
-      name: "INV VALUE",
+      name: 'INV VALUE',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
 
     {
-      name: "Copy Documents Rcv Date ",
+      name: 'Copy Documents Rcv Date ',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Original Documents Rcv Date ",
+      name: 'Original Documents Rcv Date ',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "CNF",
+      name: 'CNF',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Container",
+      name: 'Container',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Status",
+      name: 'Status',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "REMARKS",
+      name: 'REMARKS',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
   ];
@@ -208,7 +208,7 @@ export default function ShipmentTracking() {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/imp/ImportCommonDDL/GetLCDDL?accountId=${accountId}&businessUnitId=${buId}&searchByLc=${v}`
+        `/imp/ImportCommonDDL/GetLCDDL?accountId=${accountId}&businessUnitId=${buId}&searchByLc=${v}`,
       )
       .then((res) => res?.data);
   };
@@ -221,7 +221,7 @@ export default function ShipmentTracking() {
   //     .then((res) => res?.data);
   // };
   const style = {
-    minWidth: "50px",
+    minWidth: '50px',
   };
 
   return (
@@ -278,7 +278,7 @@ export default function ShipmentTracking() {
                       name="lcnumber"
                       loadOptions={loadLCList}
                       handleChange={(valueOption) => {
-                        setFieldValue("lcnumber", valueOption);
+                        setFieldValue('lcnumber', valueOption);
                         console.log({ valueOption });
                       }}
                     />
@@ -291,7 +291,7 @@ export default function ShipmentTracking() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -303,7 +303,7 @@ export default function ShipmentTracking() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
@@ -330,7 +330,7 @@ export default function ShipmentTracking() {
                           `/imp/Shipment/GetImportShipmentTracking?businessUnitId=${buId}&lcId=${values
                             ?.lcnumber?.value || 0}&fromDate=${
                             values?.fromDate
-                          }&toDate=${values?.toDate}`
+                          }&toDate=${values?.toDate}`,
                         );
                       }}
                       className="btn btn-primary"
@@ -343,9 +343,9 @@ export default function ShipmentTracking() {
                 <div
                   ref={printRef}
                   style={{
-                    width: "100%",
-                    maxHeight: "80vh",
-                    overflow: "auto",
+                    width: '100%',
+                    maxHeight: '80vh',
+                    overflow: 'auto',
                   }}
                 >
                   <div className="react-bootstrap-table table-responsive">
@@ -357,7 +357,7 @@ export default function ShipmentTracking() {
                               <th
                                 style={{
                                   ...item?.style,
-                                  position: "sticky",
+                                  position: 'sticky',
                                   top: 0,
                                 }}
                                 key={index}
@@ -378,7 +378,7 @@ export default function ShipmentTracking() {
                               </td>
                               <td className="text-center">
                                 {data?.strBusinessPartnerName}
-                              </td>{" "}
+                              </td>{' '}
                               <td className="text-center">
                                 {data?.strPINumber}
                               </td>
@@ -386,44 +386,54 @@ export default function ShipmentTracking() {
                               <td className="text-center">{data?.poNumber}</td>
                               <td>{data?.lCqty}</td>
                               <td className="text-center"></td>
-                              <td className="text-center">{data?.lcNumber}</td>{" "}
-                              <td className="text-center">{data?.incotermName}</td>{" "}
                               <td className="text-center">
-                                {_dateFormatter(data?.dteLCDate)}{" "}
-                              </td>
-                              <td className="text-center">{data?.issueBank}</td>{" "}
+                                {data?.lcNumber}
+                              </td>{' '}
                               <td className="text-center">
-                                {_dateFormatter(data?.dteetadate)}{" "}
+                                {data?.incotermName}
+                              </td>{' '}
+                              <td className="text-center">
+                                {_dateFormatter(data?.dteLCDate)}{' '}
+                              </td>
+                              <td className="text-center">{data?.issueBank}</td>{' '}
+                              <td className="text-center">
+                                {_dateFormatter(data?.dteetadate)}{' '}
                               </td>
                               <td className="text-center">
-                                {_formatMoney(data?.numTotalPIAmountBDT)}{" "}
+                                {_formatMoney(data?.numTotalPIAmountBDT)}{' '}
                               </td>
-                              <td className="text-center">{data?.shipmentCode}</td>
+                              <td className="text-center">
+                                {data?.shipmentCode}
+                              </td>
                               <td className="text-center">{data?.strblno}</td>
-                              <td className="text-center">{data?.invoiceNumber}</td>{" "}
                               <td className="text-center">
-                                {data?.numShipmentQuantity}{" "}
-                              </td>{" "}
+                                {data?.invoiceNumber}
+                              </td>{' '}
+                              <td className="text-center">
+                                {data?.numShipmentQuantity}{' '}
+                              </td>{' '}
                               <td className="text-center">
                                 {_dateFormatter(data?.dteetadate)}
-                              </td>{" "}
+                              </td>{' '}
                               <td className="text-center">
                                 {data?.invoiceAmount}
-                              </td>{" "}
+                              </td>{' '}
                               <td className="text-center">
-                               {_dateFormatter(data?.copyDocReceiveDate)}
-                              </td>{" "}
+                                {_dateFormatter(data?.copyDocReceiveDate)}
+                              </td>{' '}
                               <td className="text-center">
                                 {_dateFormatter(data?.docReceiveDate)}
                               </td>
-                              <td className="text-center">{data?.cnFPartnerName}</td>{" "}
                               <td className="text-center">
-                                {data?.numNumberOfContainer}{" "}
-                              </td>{" "}
+                                {data?.cnFPartnerName}
+                              </td>{' '}
+                              <td className="text-center">
+                                {data?.numNumberOfContainer}{' '}
+                              </td>{' '}
                               <td className="text-center">
                                 {data?.deliverystatus}
                               </td>
-                              <td>{data?.remark}</td>{" "}
+                              <td>{data?.remark}</td>{' '}
                             </tr>
                           ))}
                       </tbody>

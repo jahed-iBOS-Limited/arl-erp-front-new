@@ -1,39 +1,39 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import ICustomTable from "../../../_helper/_customTable";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import QRCodeScanner from '../../../_helper/qrCodeScanner';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import ICustomTable from '../../../_helper/_customTable';
 
 const initData = {
-  shipmentId: "",
-  shipmentCode: "",
-  shippingPoint: "",
-  vehicleNumber: "",
-  driver: "",
-  deliveryDate: "",
+  shipmentId: '',
+  shipmentCode: '',
+  shippingPoint: '',
+  vehicleNumber: '',
+  driver: '',
+  deliveryDate: '',
   //   packerName: "",
 };
 
 const validationSchema = Yup.object().shape({
   item: Yup.object()
     .shape({
-      label: Yup.string().required("Item is required"),
-      value: Yup.string().required("Item is required"),
+      label: Yup.string().required('Item is required'),
+      value: Yup.string().required('Item is required'),
     })
-    .typeError("Item is required"),
+    .typeError('Item is required'),
 
-  remarks: Yup.string().required("Remarks is required"),
-  amount: Yup.number().required("Amount is required"),
-  date: Yup.date().required("Date is required"),
+  remarks: Yup.string().required('Remarks is required'),
+  amount: Yup.number().required('Amount is required'),
+  date: Yup.date().required('Date is required'),
 });
 
 export default function FuelRequisitionByShipment() {
@@ -47,14 +47,10 @@ export default function FuelRequisitionByShipment() {
   const [, onComplete, loader] = useAxiosPost();
   const [shipmentId, setShipmentId] = useState(null);
   const [isQrCodeShow, setIsQRCodeSHow] = useState(false);
-  const [actionType, setActionType] = useState("Manual");
-
-  const selectedBusinessUnit = useSelector((state) => {
-    return state.authData.selectedBusinessUnit;
-  }, shallowEqual);
+  const [actionType, setActionType] = useState('Manual');
 
   const saveHandler = (values, cb) => {
-    alert("Working...");
+    alert('Working...');
   };
 
   return (
@@ -93,45 +89,46 @@ export default function FuelRequisitionByShipment() {
                     }
                     onClick={() => {
                       if (reportData?.objHeader?.isLoaded) {
-                        return toast.warn("Already Completed");
+                        return toast.warn('Already Completed');
                       }
                       const header = {
                         transactionGroupId: 2,
-                        transactionGroupName: "Issue Inventory",
+                        transactionGroupName: 'Issue Inventory',
                         transactionTypeId: 9,
-                        transactionTypeName: "Issue For Cost Center",
+                        transactionTypeName: 'Issue For Cost Center',
                         referenceTypeId: 7,
-                        referenceTypeName: "Inventory Request",
+                        referenceTypeName: 'Inventory Request',
                         referenceId: reportData?.objHeader?.shipmentId,
                         referenceCode: reportData?.objHeader?.strShipmentCode,
                         accountId: 1,
-                        accountName: "Akij Resource Limited",
+                        accountName: 'Akij Resource Limited',
                         businessUnitId: 4,
-                        businessUnitName: "Akij Cement Company Ltd.",
+                        businessUnitName: 'Akij Cement Company Ltd.',
                         sbuId: 58,
-                        sbuName: "Akij Cement Company Ltd.",
+                        sbuName: 'Akij Cement Company Ltd.',
                         plantId: 79,
-                        plantName: "ACCL Narayanganj",
+                        plantName: 'ACCL Narayanganj',
                         warehouseId: 142,
-                        warehouseName: "ACCL Factory",
+                        warehouseName: 'ACCL Factory',
                         businessPartnerId: 0,
                         parsonnelId: userId,
                         costElementName: 2705,
                         costCenterId: 78,
-                        costCenterCode: "LD",
-                        costCenterName: "Logistic & Distribution,LD,Akij Cement Company Ltd",
+                        costCenterCode: 'LD',
+                        costCenterName:
+                          'Logistic & Distribution,LD,Akij Cement Company Ltd',
                         profitCenterId: 54,
-                        profitCenterName: "Akij Cement Company Ltd.",
+                        profitCenterName: 'Akij Cement Company Ltd.',
                         projectId: -1,
-                        projectCode: "",
-                        projectName: "",
-                        comments: "",
+                        projectCode: '',
+                        projectName: '',
+                        comments: '',
                         actionBy: userId,
-                        documentId: "",
-                        gateEntryNo: "",
+                        documentId: '',
+                        gateEntryNo: '',
                         businessTransactionId: 0,
                         generalLedgerId: 0,
-                        intCostElementId:270
+                        intCostElementId: 270,
                       };
                       const row = {
                         itemId: reportData?.objHeader?.itemId,
@@ -139,7 +136,7 @@ export default function FuelRequisitionByShipment() {
                         uoMid: reportData?.objHeader?.uoMid,
                         uoMname: reportData?.objHeader?.uoMname,
                         numTransactionQuantity: Math.ceil(
-                          reportData?.objHeader?.totalFuelCostLtr
+                          reportData?.objHeader?.totalFuelCostLtr,
                         ),
                         monTransactionValue:
                           reportData?.objHeader?.fuelRate *
@@ -149,7 +146,7 @@ export default function FuelRequisitionByShipment() {
                         inventoryLocationName:
                           reportData?.objHeader?.inventoryLocationName,
                         batchId: 0,
-                        batchNumber: "",
+                        batchNumber: '',
                         inventoryStockTypeId:
                           reportData?.objHeader?.inventoryStockTypeId,
                         inventoryStockTypeName:
@@ -167,7 +164,7 @@ export default function FuelRequisitionByShipment() {
                           setReportData({});
                           setShipmentId(null);
                         },
-                        true
+                        true,
                       );
                     }}
                   >
@@ -184,11 +181,11 @@ export default function FuelRequisitionByShipment() {
                     <input
                       type="radio"
                       name="actionType"
-                      checked={actionType === "Manual"}
+                      checked={actionType === 'Manual'}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(e) => {
-                        setActionType("Manual");
+                        setActionType('Manual');
                         resetForm(initData);
                         setShipmentId(null);
                         setReportData({});
@@ -200,11 +197,11 @@ export default function FuelRequisitionByShipment() {
                     <input
                       type="radio"
                       name="actionType"
-                      checked={actionType === "Auto"}
+                      checked={actionType === 'Auto'}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(e) => {
-                        setActionType("Auto");
+                        setActionType('Auto');
                         resetForm(initData);
                         setShipmentId(null);
                         setReportData({});
@@ -216,9 +213,9 @@ export default function FuelRequisitionByShipment() {
                 {reportData?.objHeader?.isLoaded && (
                   <p
                     style={{
-                      textAlign: "center",
-                      fontSize: "16px",
-                      fontWeight: "bold",
+                      textAlign: 'center',
+                      fontSize: '16px',
+                      fontWeight: 'bold',
                     }}
                     className="text-danger"
                   >
@@ -226,9 +223,9 @@ export default function FuelRequisitionByShipment() {
                   </p>
                 )}
                 <div className="form-group  global-form row">
-                  {["Auto"].includes(actionType) ? (
+                  {['Auto'].includes(actionType) ? (
                     <div className="col-lg-3">
-                      <div style={{ display: "inline-block", width: "95%" }}>
+                      <div style={{ display: 'inline-block', width: '95%' }}>
                         <InputField
                           value={shipmentId}
                           label="Card Id"
@@ -239,14 +236,14 @@ export default function FuelRequisitionByShipment() {
                       </div>
                       <span
                         className="pl-1"
-                        style={{ display: "inline-block" }}
+                        style={{ display: 'inline-block' }}
                       >
                         <i
                           onClick={(e) => {
                             e.stopPropagation();
                             setIsQRCodeSHow(true);
                           }}
-                          style={{ color: "blue", cursor: "pointer" }}
+                          style={{ color: 'blue', cursor: 'pointer' }}
                           class="fa fa-qrcode"
                           aria-hidden="true"
                         ></i>
@@ -260,39 +257,39 @@ export default function FuelRequisitionByShipment() {
                         name="shipmentCode"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("shipmentCode", e.target.value);
+                          setFieldValue('shipmentCode', e.target.value);
                         }}
                         onKeyDown={(e) => {
                           if (e.keyCode === 13) {
-                            setFieldValue("shipmentCode", e.target.value);
+                            setFieldValue('shipmentCode', e.target.value);
                             getReportData(
                               // `/wms/Delivery/GetDeliveryPrintInfoManual?businessUnitId=${selectedBusinessUnit?.value}&shipmentCode=${e.target.value}`,
                               `/wms/Delivery/GetDeliveryFuelInfoByVehicleCardNumber?strCardNumber=${e.target.value}`,
                               (res) => {
                                 setShipmentId(res?.objHeader?.shipmentCostId);
                                 setFieldValue(
-                                  "shippingPoint",
-                                  res?.objHeader?.shipPointName || ""
+                                  'shippingPoint',
+                                  res?.objHeader?.shipPointName || '',
                                 );
                                 setFieldValue(
-                                  "vehicleNumber",
-                                  res?.objHeader?.vehicleName || ""
+                                  'vehicleNumber',
+                                  res?.objHeader?.vehicleName || '',
                                 );
                                 setFieldValue(
-                                  "driver",
-                                  res?.objHeader?.driverName || ""
+                                  'driver',
+                                  res?.objHeader?.driverName || '',
                                 );
                                 // setFieldValue(
                                 //   "packerName",
                                 //   res?.objHeader?.packerName || ""
                                 // );
                                 setFieldValue(
-                                  "deliveryDate",
+                                  'deliveryDate',
                                   _dateFormatter(
-                                    res?.objHeader?.shipmentDate
-                                  ) || ""
+                                    res?.objHeader?.shipmentDate,
+                                  ) || '',
                                 );
-                              }
+                              },
                             );
                           }
                         }}
@@ -307,7 +304,7 @@ export default function FuelRequisitionByShipment() {
                       name="shippingPoint"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("shippingPoint", e.target.value);
+                        setFieldValue('shippingPoint', e.target.value);
                       }}
                     />
                   </div>
@@ -318,7 +315,7 @@ export default function FuelRequisitionByShipment() {
                       name="vehicleNumber"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("vehicleNumber", e.target.value);
+                        setFieldValue('vehicleNumber', e.target.value);
                       }}
                     />
                   </div>
@@ -329,7 +326,7 @@ export default function FuelRequisitionByShipment() {
                       name="driver"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("driver", e.target.value);
+                        setFieldValue('driver', e.target.value);
                       }}
                     />
                   </div>
@@ -351,7 +348,7 @@ export default function FuelRequisitionByShipment() {
                       name="deliveryDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("deliveryDate", e.target.value);
+                        setFieldValue('deliveryDate', e.target.value);
                       }}
                     />
                   </div>
@@ -360,14 +357,14 @@ export default function FuelRequisitionByShipment() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -384,26 +381,26 @@ export default function FuelRequisitionByShipment() {
                       `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${result}`,
                       (res) => {
                         setFieldValue(
-                          "shippingPoint",
-                          res?.objHeader?.shipPointName || ""
+                          'shippingPoint',
+                          res?.objHeader?.shipPointName || '',
                         );
                         setFieldValue(
-                          "vehicleNumber",
-                          res?.objHeader?.strVehicleName || ""
+                          'vehicleNumber',
+                          res?.objHeader?.strVehicleName || '',
                         );
                         setFieldValue(
-                          "driver",
-                          res?.objHeader?.driverName || ""
+                          'driver',
+                          res?.objHeader?.driverName || '',
                         );
                         setFieldValue(
-                          "packerName",
-                          res?.objHeader?.packerName || ""
+                          'packerName',
+                          res?.objHeader?.packerName || '',
                         );
                         setFieldValue(
-                          "deliveryDate",
-                          _dateFormatter(res?.objHeader?.pricingDate) || ""
+                          'deliveryDate',
+                          _dateFormatter(res?.objHeader?.pricingDate) || '',
                         );
-                      }
+                      },
                     );
                   }}
                 />
@@ -414,10 +411,10 @@ export default function FuelRequisitionByShipment() {
                     {/* {Object?.keys(reportData?.objHeader)?.length > 0 && ( */}
                     <ICustomTable
                       ths={[
-                        "SL",
-                        "Shipment Code",
-                        "Rate",
-                        "Total Fuel Cost/Ltr",
+                        'SL',
+                        'Shipment Code',
+                        'Rate',
+                        'Total Fuel Cost/Ltr',
                       ]}
                     >
                       {/* {reportData?.objRow?.map((item, index) => { */}
@@ -432,7 +429,7 @@ export default function FuelRequisitionByShipment() {
                       </tr>
                       {/* ); */}
                       {/* })} */}
-                      <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                      <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                         <td colSpan={3} className="text-right">
                           Total
                         </td>

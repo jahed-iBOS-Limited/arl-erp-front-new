@@ -1,44 +1,42 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _firstDateOfCurrentFiscalYear } from "../../../_helper/_firstDateOfCurrentFiscalYear";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _monthLastDate } from "../../../_helper/_monthLastDate";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _firstDateOfCurrentFiscalYear } from '../../../_helper/_firstDateOfCurrentFiscalYear';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _monthLastDate } from '../../../_helper/_monthLastDate';
+import NewSelect from '../../../_helper/_select';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { getBusinessDDLByED } from '../incomeStatement/helper';
+import DivisionSubDivisionAndBusinessUnit from './commonDivSubDivToBuN';
 import {
   getIncomeStatement_api,
   getProfitCenterDDL,
-  getReportId,
   groupId,
   parameterValues,
-} from "./helper";
-import ProjectedIncomeStatement from "./projectedIncomeStatement";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import { getBusinessDDLByED } from "../incomeStatement/helper";
-import DivisionSubDivisionAndBusinessUnit from "./commonDivSubDivToBuN";
-import { _lastDateOfMonth } from "../../../_helper/_todayDate";
+} from './helper';
+import ProjectedIncomeStatement from './projectedIncomeStatement';
 
 const initData = {
-  reportType: "",
-  enterpriseDivision: "",
-  subDivision: "",
-  businessUnit: "",
-  profitCenter: "",
+  reportType: '',
+  enterpriseDivision: '',
+  subDivision: '',
+  businessUnit: '',
+  profitCenter: '',
   fromDate: _firstDateOfCurrentFiscalYear(),
   toDate: _monthLastDate(),
   conversionRate: 1,
   date: _monthLastDate(),
-  viewType: "",
-  productDivision: "",
-  tradeType: "",
-  reportTypeCashFlowIndirect: { value: 0, label: "All" },
-  isForecast: "",
+  viewType: '',
+  productDivision: '',
+  tradeType: '',
+  reportTypeCashFlowIndirect: { value: 0, label: 'All' },
+  isForecast: '',
 };
 export default function IncomestatementNew() {
-  const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
+  const [, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
   const saveHandler = (values, cb) => {};
   const [show, setShow] = useState(false);
 
@@ -49,7 +47,7 @@ export default function IncomestatementNew() {
   const [enterpriseDivisionDDL, getEnterpriseDivisionDDL] = useAxiosGet();
   const [incomeStatement, setIncomeStatement] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [buddl, getbuddl, buddlLoader, setbuddl] = useAxiosGet();
+  const [buddl, , buddlLoader, setbuddl] = useAxiosGet();
   const [
     subDivisionDDL,
     getSubDivisionDDL,
@@ -59,16 +57,11 @@ export default function IncomestatementNew() {
 
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
 
-  const [
-    tradeAndDivisionDDL,
-    getTradeAndDivisionDDL,
-    ,
-    setTradeAndDivisionDDL,
-  ] = useAxiosGet();
+  const [tradeAndDivisionDDL, getTradeAndDivisionDDL, , ,] = useAxiosGet();
 
   useEffect(() => {
     getEnterpriseDivisionDDL(
-      `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`
+      `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);
@@ -84,7 +77,7 @@ export default function IncomestatementNew() {
           };
         });
         setBuDDL(newData);
-      }
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -139,36 +132,36 @@ export default function IncomestatementNew() {
                     <NewSelect
                       name="viewType"
                       options={[
-                        { value: "profitCenter", label: "Profit Center" },
+                        { value: 'profitCenter', label: 'Profit Center' },
                         {
-                          value: "unitColumn",
-                          label: "Unit Column",
+                          value: 'unitColumn',
+                          label: 'Unit Column',
                         },
-                        { value: "monthColumn", label: "Month Column" },
+                        { value: 'monthColumn', label: 'Month Column' },
                       ]}
                       value={values?.viewType}
                       label="View Type"
                       onChange={(valueOption) => {
-                        setFieldValue("viewType", valueOption);
+                        setFieldValue('viewType', valueOption);
                         setShow(false);
-                        if (valueOption?.value === "profitCenter") {
+                        if (valueOption?.value === 'profitCenter') {
                           getProfitCenterDDL(
                             values?.businessUnit?.value,
                             (profitCenterDDLData) => {
                               setProfitCenterDDL(profitCenterDDLData);
                               setFieldValue(
-                                "profitCenter",
-                                profitCenterDDLData?.[0] || ""
+                                'profitCenter',
+                                profitCenterDDLData?.[0] || '',
                               );
-                            }
+                            },
                           );
                         }
                         if (
                           valueOption?.value &&
-                          valueOption?.value !== "profitCenter"
+                          valueOption?.value !== 'profitCenter'
                         ) {
                           getTradeAndDivisionDDL(
-                            `/fino/CostSheet/ProfitCenterDivisionChannelDDL?BUId=${values?.businessUnit?.value}&Type=${valueOption?.value}`
+                            `/fino/CostSheet/ProfitCenterDivisionChannelDDL?BUId=${values?.businessUnit?.value}&Type=${valueOption?.value}`,
                           );
                         }
 
@@ -177,7 +170,7 @@ export default function IncomestatementNew() {
                       placeholder="View Type"
                     />
                   </div>
-                  {values?.viewType?.value === "profitCenter" && (
+                  {values?.viewType?.value === 'profitCenter' && (
                     <div className="col-md-3">
                       <NewSelect
                         name="profitCenter"
@@ -185,14 +178,14 @@ export default function IncomestatementNew() {
                         value={values?.profitCenter}
                         label="Profit Center"
                         onChange={(valueOption) => {
-                          setFieldValue("profitCenter", valueOption);
+                          setFieldValue('profitCenter', valueOption);
                           setIncomeStatement([]);
                         }}
                         placeholder="Profit Center"
                       />
                     </div>
                   )}
-                  {values?.viewType?.value === "Product Division" && (
+                  {values?.viewType?.value === 'Product Division' && (
                     <div className="col-md-3">
                       <NewSelect
                         name="productDivision"
@@ -200,14 +193,14 @@ export default function IncomestatementNew() {
                         value={values?.productDivision}
                         label="Product Division"
                         onChange={(valueOption) => {
-                          setFieldValue("productDivision", valueOption);
+                          setFieldValue('productDivision', valueOption);
                           setIncomeStatement([]);
                         }}
                         placeholder="Product Division"
                       />
                     </div>
                   )}
-                  {values?.viewType?.value === "Trade Type" && (
+                  {values?.viewType?.value === 'Trade Type' && (
                     <div className="col-md-3">
                       <NewSelect
                         isDisabled={!values?.viewType}
@@ -216,7 +209,7 @@ export default function IncomestatementNew() {
                         value={values?.tradeType}
                         label="Trade Type"
                         onChange={(valueOption) => {
-                          setFieldValue("tradeType", valueOption);
+                          setFieldValue('tradeType', valueOption);
                           setIncomeStatement([]);
                         }}
                         placeholder="Product Division"
@@ -231,7 +224,7 @@ export default function IncomestatementNew() {
                       placeholder="Conversion Rate"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("conversionRate", e.target.value);
+                        setFieldValue('conversionRate', e.target.value);
                       }}
                       min={0}
                     />
@@ -242,17 +235,17 @@ export default function IncomestatementNew() {
                       options={[
                         {
                           value: false,
-                          label: "Budget",
+                          label: 'Budget',
                         },
                         {
                           value: true,
-                          label: "Forecast",
+                          label: 'Forecast',
                         },
                       ]}
                       value={values?.isForecast}
                       label="Budget/Forecast"
                       onChange={(valueOption) => {
-                        setFieldValue("isForecast", valueOption);
+                        setFieldValue('isForecast', valueOption);
                       }}
                       placeholder="Budget/Forecast"
                     />
@@ -264,7 +257,7 @@ export default function IncomestatementNew() {
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -276,17 +269,17 @@ export default function IncomestatementNew() {
                       name="toDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
                 </>
 
-                <div style={{ marginTop: "17px" }}>
+                <div style={{ marginTop: '17px' }}>
                   <button
                     type="button"
                     onClick={() => {
-                      if (values?.viewType?.value === "profitCenter") {
+                      if (values?.viewType?.value === 'profitCenter') {
                         getIncomeStatement_api(
                           values?.fromDate,
                           values?.toDate,
@@ -295,9 +288,9 @@ export default function IncomestatementNew() {
                           values?.businessUnit?.value,
                           0,
                           setIncomeStatement,
-                          "all",
+                          'all',
                           setLoading,
-                          "IncomeStatement",
+                          'IncomeStatement',
                           values?.enterpriseDivision?.value,
                           values?.conversionRate,
                           values?.subDivision,
@@ -310,7 +303,7 @@ export default function IncomestatementNew() {
                             ? values?.profitCenter?.label
                             : values?.tradeType?.value,
                           values?.isForecast?.value,
-                          values?.subDivision?.label
+                          values?.subDivision?.label,
                         );
                       } else {
                         setShow(false);
@@ -327,7 +320,7 @@ export default function IncomestatementNew() {
               </div>
               {/* {console.log("parameterValues(values)", parameterValues(values))} */}
               <div>
-                {values?.viewType?.value === "profitCenter" ? (
+                {values?.viewType?.value === 'profitCenter' ? (
                   <ProjectedIncomeStatement
                     incomeStatement={incomeStatement}
                     values={values}

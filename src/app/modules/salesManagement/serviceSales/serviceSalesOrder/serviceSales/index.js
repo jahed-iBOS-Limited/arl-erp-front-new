@@ -1,22 +1,22 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IViewModal from "../../../../_helper/_viewModal";
-import ServiceSalesCreateRecurring from "./createRecurring";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import ServiceSalesCreate from "./create";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IViewModal from '../../../../_helper/_viewModal';
+import ServiceSalesCreateRecurring from './createRecurring';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import ServiceSalesCreate from './create';
 
 const initData = {
-  customer: "",
+  customer: '',
 };
 export default function ServiceSalesLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -26,7 +26,7 @@ export default function ServiceSalesLanding() {
   const [customerList, getCustomerList] = useAxiosGet();
   const [, getItemDDL] = useAxiosGet();
   const [scheduleList, getScheduleList, loader] = useAxiosGet();
-  const [salesOrder, getSalesOrder, load] = useAxiosGet();
+  const [, getSalesOrder] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [showModal, setShowModal] = useState(false);
@@ -36,10 +36,10 @@ export default function ServiceSalesLanding() {
 
   useEffect(() => {
     getCustomerList(
-      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
     );
     getItemDDL(
-      `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+      `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
@@ -58,7 +58,7 @@ export default function ServiceSalesLanding() {
         profileData?.accountId
       }&businessUnitId=${selectedBusinessUnit?.value}&customerId=${values
         ?.customer?.value || 0}&itemId=${values?.item?.value ||
-        0}&pageNo=${pageNo}&pageSize=${pageSize}`
+        0}&pageNo=${pageNo}&pageSize=${pageSize}`,
     );
   };
 
@@ -101,7 +101,7 @@ export default function ServiceSalesLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/sales-management/servicesales/servsalesorder/create"
+                        '/sales-management/servicesales/servsalesorder/create',
                       );
                     }}
                   >
@@ -121,7 +121,7 @@ export default function ServiceSalesLanding() {
                       value={values?.customer}
                       label="Customer"
                       onChange={(valueOption) => {
-                        setFieldValue("customer", valueOption);
+                        setFieldValue('customer', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -131,7 +131,7 @@ export default function ServiceSalesLanding() {
                     <button
                       className="btn btn-primary"
                       type="button"
-                      style={{ marginTop: "17px" }}
+                      style={{ marginTop: '17px' }}
                       onClick={() => {
                         getData(values);
                       }}
@@ -145,7 +145,7 @@ export default function ServiceSalesLanding() {
                     <table className="table table-striped table-bordered bj-table bj-table-landing global-table">
                       <thead>
                         <tr>
-                          <th style={{ maxWidth: "20px" }}>SL</th>
+                          <th style={{ maxWidth: '20px' }}>SL</th>
                           <th>Order Code</th>
                           <th>Customer</th>
                           <th>Item Name</th>
@@ -174,21 +174,21 @@ export default function ServiceSalesLanding() {
                                 const itemStrings = item?.items?.map(
                                   (singleItem) => {
                                     const itemName =
-                                      singleItem.strItemName || "N/A";
+                                      singleItem.strItemName || 'N/A';
                                     const qty =
-                                      typeof singleItem.numSalesQty === "number"
+                                      typeof singleItem.numSalesQty === 'number'
                                         ? singleItem.numSalesQty
-                                        : "N/A";
+                                        : 'N/A';
                                     const rate =
-                                      typeof singleItem.numRate === "number"
+                                      typeof singleItem.numRate === 'number'
                                         ? singleItem.numRate
-                                        : "N/A";
+                                        : 'N/A';
 
                                     return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
-                                  }
+                                  },
                                 );
 
-                                return itemStrings?.join(" / ");
+                                return itemStrings?.join(' / ');
                               })()}
                             </td>
                             <td>{item?.strSalesTypeName}</td>
@@ -215,12 +215,12 @@ export default function ServiceSalesLanding() {
                             <td>{item?.strAccountManagerName}</td>
                             <td>{item?.strStatus}</td>
                             <td>
-                              {" "}
+                              {' '}
                               <div className="d-flex">
-                                {!["Re-Curring"].includes(
-                                  item?.strPaymentType
+                                {!['Re-Curring'].includes(
+                                  item?.strPaymentType,
                                 ) &&
-                                  ["Running"]?.includes(item?.strStatus) && (
+                                  ['Running']?.includes(item?.strStatus) && (
                                     <span
                                       onClick={() => {
                                         setSingleData(item);
@@ -239,15 +239,15 @@ export default function ServiceSalesLanding() {
                                         }
                                       >
                                         <i
-                                          style={{ fontSize: "16px" }}
+                                          style={{ fontSize: '16px' }}
                                           class="fa fa-plus-square"
                                           aria-hidden="true"
                                         ></i>
                                       </OverlayTrigger>
                                     </span>
                                   )}
-                                {!["Closed", "Discontinued"]?.includes(
-                                  item?.strStatus
+                                {!['Closed', 'Discontinued']?.includes(
+                                  item?.strStatus,
                                 ) && (
                                   <span
                                     className="mx-2"
@@ -257,7 +257,7 @@ export default function ServiceSalesLanding() {
                                         (data) => {
                                           setSingleData(data);
                                           setEdit(true);
-                                        }
+                                        },
                                       );
                                     }}
                                   >
@@ -272,7 +272,7 @@ export default function ServiceSalesLanding() {
                                         (data) => {
                                           setSingleData(data);
                                           setView(true);
-                                        }
+                                        },
                                       );
                                     }}
                                   />
@@ -316,7 +316,7 @@ export default function ServiceSalesLanding() {
                         setView(false);
                       }}
                     >
-                      {["Re-Curring"].includes(singleData?.strPaymentType) ? (
+                      {['Re-Curring'].includes(singleData?.strPaymentType) ? (
                         <ServiceSalesCreateRecurring
                           isView={true}
                           singleData={singleData}
@@ -336,7 +336,7 @@ export default function ServiceSalesLanding() {
                         setEdit(false);
                       }}
                     >
-                      {["Re-Curring"].includes(singleData?.strPaymentType) ? (
+                      {['Re-Curring'].includes(singleData?.strPaymentType) ? (
                         <ServiceSalesCreateRecurring
                           isEdit={true}
                           singleData={singleData}

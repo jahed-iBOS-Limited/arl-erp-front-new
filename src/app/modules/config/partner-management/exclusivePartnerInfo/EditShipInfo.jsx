@@ -1,34 +1,29 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-
-import * as Yup from "yup";
-
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import { getBankDDLAll } from "../../../financialManagement/banking/fundManagement/helper";
-import {
-  _dateFormatter,
-  _dateTimeFormatter,
-} from "../../../_helper/_dateFormate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { getBankDDLAll } from '../../../financialManagement/banking/fundManagement/helper';
 
 const initData = {
-  managerNumber: "",
-  account: "",
-  accountName: "",
-  bank: "",
-  branch: "",
-  routing: "",
-  nid: "",
-  bday: "",
-  marriageDate: "",
-  blood: "",
-  shirtSize: "",
-  jacketSize: "",
-  panjabiSize: "",
-  fb: "",
+  managerNumber: '',
+  account: '',
+  accountName: '',
+  bank: '',
+  branch: '',
+  routing: '',
+  nid: '',
+  bday: '',
+  marriageDate: '',
+  blood: '',
+  shirtSize: '',
+  jacketSize: '',
+  panjabiSize: '',
+  fb: '',
 };
 export default function EditShipInfo({
   config,
@@ -43,7 +38,6 @@ export default function EditShipInfo({
     return state.authData;
   }, shallowEqual);
   const [, onSave, loader] = useAxiosPost();
-  const dispatch = useDispatch();
   const [bankDDL, setBankDDL] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -56,7 +50,7 @@ export default function EditShipInfo({
       setSingleData(null);
       setIsShowUpdateModal(false);
       getGridData(
-        `/partner/BusinessPartnerShippingAddress/GetShipToPartnerAndBankInfoById?shipToPartnerId=${config?.shop?.value}&businessPartnerId=${config?.customer?.value}`
+        `/partner/BusinessPartnerShippingAddress/GetShipToPartnerAndBankInfoById?shipToPartnerId=${config?.shop?.value}&businessPartnerId=${config?.customer?.value}`,
       );
     };
     const payload = {
@@ -88,19 +82,10 @@ export default function EditShipInfo({
       `/partner/BusinessPartnerShippingAddress/UpdateExclusiveShipToPartner`,
       payload,
       cb,
-      true
+      true,
     );
   };
-  const validationSchema = Yup.object().shape({
-    // strHoldingNo: Yup.string()
-    //   .required("Holding No is required")
-    //   .typeError("Holding No is required"),
-    // strMutitaionKhotianNo: Yup.string()
-    //   .required("Mutitaion Khotian is required")
-    //   .typeError("Mutation Khatian is required"),
-    // monMutationFees: Yup.number().required("Mutation Fees is required"),
-    // monVat: Yup.number().required("Vat is required"),
-  });
+  const validationSchema = Yup.object().shape({});
   return (
     <Formik
       enableReinitialize={true}
@@ -148,7 +133,7 @@ export default function EditShipInfo({
                   name="managerNumber"
                   type="number"
                   onChange={(e) =>
-                    setFieldValue("managerNumber", e.target.value)
+                    setFieldValue('managerNumber', e.target.value)
                   }
                 />
               </div>
@@ -159,7 +144,7 @@ export default function EditShipInfo({
                   label="Account"
                   name="account"
                   type="number"
-                  onChange={(e) => setFieldValue("account", e.target.value)}
+                  onChange={(e) => setFieldValue('account', e.target.value)}
                 />
               </div>
 
@@ -169,7 +154,7 @@ export default function EditShipInfo({
                   label="Account Name"
                   name="accountName"
                   type="text"
-                  onChange={(e) => setFieldValue("accountName", e.target.value)}
+                  onChange={(e) => setFieldValue('accountName', e.target.value)}
                 />
               </div>
               <div className="col-lg-3">
@@ -179,7 +164,7 @@ export default function EditShipInfo({
                   value={values?.bank}
                   label="Bank"
                   onChange={(valueOption) => {
-                    setFieldValue("bank", valueOption || "");
+                    setFieldValue('bank', valueOption || '');
                   }}
                   errors={errors}
                   touched={touched}
@@ -192,7 +177,7 @@ export default function EditShipInfo({
                   label="Branch"
                   name="branch"
                   type="text"
-                  onChange={(e) => setFieldValue("branch", e.target.value)}
+                  onChange={(e) => setFieldValue('branch', e.target.value)}
                 />
               </div>
 
@@ -202,7 +187,7 @@ export default function EditShipInfo({
                   label="Routing"
                   name="routing"
                   type="text"
-                  onChange={(e) => setFieldValue("routing", e.target.value)}
+                  onChange={(e) => setFieldValue('routing', e.target.value)}
                 />
               </div>
               <div className="col-lg-3">
@@ -211,7 +196,7 @@ export default function EditShipInfo({
                   label="National Id"
                   name="nid"
                   type="Number"
-                  onChange={(e) => setFieldValue("nid", e.target.value)}
+                  onChange={(e) => setFieldValue('nid', e.target.value)}
                 />
               </div>
               <div className="col-lg-3">
@@ -221,7 +206,7 @@ export default function EditShipInfo({
                   name="bday"
                   type="date"
                   onChange={(e) => {
-                    setFieldValue("bday", e.target.value);
+                    setFieldValue('bday', e.target.value);
                   }}
                 />
               </div>
@@ -232,7 +217,7 @@ export default function EditShipInfo({
                   name="marriageDate"
                   type="date"
                   onChange={(e) => {
-                    setFieldValue("marriageDate", e.target.value);
+                    setFieldValue('marriageDate', e.target.value);
                   }}
                 />
               </div>
@@ -242,7 +227,7 @@ export default function EditShipInfo({
                   label="Blood Group"
                   name="blood"
                   type="text"
-                  onChange={(e) => setFieldValue("blood", e.target.value)}
+                  onChange={(e) => setFieldValue('blood', e.target.value)}
                 />
               </div>
               <div className="col-lg-3">
@@ -251,7 +236,7 @@ export default function EditShipInfo({
                   label="Facebook Link"
                   name="fb"
                   type="text"
-                  onChange={(e) => setFieldValue("fb", e.target.value)}
+                  onChange={(e) => setFieldValue('fb', e.target.value)}
                 />
               </div>
               <div className="col-lg-3">
@@ -260,7 +245,7 @@ export default function EditShipInfo({
                   label="Shirt Size"
                   name="shirtSize"
                   type="Number"
-                  onChange={(e) => setFieldValue("shirtSize", e.target.value)}
+                  onChange={(e) => setFieldValue('shirtSize', e.target.value)}
                 />
               </div>
               <div className="col-lg-3">
@@ -269,7 +254,7 @@ export default function EditShipInfo({
                   label="Jacket Size"
                   name="jacketSize"
                   type="Number"
-                  onChange={(e) => setFieldValue("jacketSize", e.target.value)}
+                  onChange={(e) => setFieldValue('jacketSize', e.target.value)}
                 />
               </div>
               <div className="col-lg-3">
@@ -278,7 +263,7 @@ export default function EditShipInfo({
                   label="Panjabi Size"
                   name="panjabiSize"
                   type="Number"
-                  onChange={(e) => setFieldValue("panjabiSize", e.target.value)}
+                  onChange={(e) => setFieldValue('panjabiSize', e.target.value)}
                 />
               </div>
 

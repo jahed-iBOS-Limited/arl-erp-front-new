@@ -1,13 +1,12 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IView from "../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import ApprovalView from "./approvalView";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IView from '../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import ApprovalView from './approvalView';
 const initData = {};
 export default function InventoryAdjustApprove() {
   const { selectedBusinessUnit } = useSelector((state) => {
@@ -20,13 +19,12 @@ export default function InventoryAdjustApprove() {
 
   useEffect(() => {
     getRowData(
-      `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`
+      `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {};
-  const history = useHistory();
   return (
     <Formik
       enableReinitialize={true}

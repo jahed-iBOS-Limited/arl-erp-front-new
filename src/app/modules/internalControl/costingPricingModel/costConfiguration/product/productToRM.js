@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import IForm from "../../../../_helper/_form";
-import * as Yup from "yup";
-import { Formik, Form } from "formik";
-import { useLocation, useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import InputField from "../../../../_helper/_inputField";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { shallowEqual, useSelector } from "react-redux";
-import axios from "axios";
-import Loading from "../../../../_helper/_loading";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import React, { useState, useEffect } from 'react';
+import IForm from '../../../../_helper/_form';
+import * as Yup from 'yup';
+import { Formik, Form } from 'formik';
+import { useLocation, useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import InputField from '../../../../_helper/_inputField';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { shallowEqual, useSelector } from 'react-redux';
+import axios from 'axios';
+import Loading from '../../../../_helper/_loading';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 
 const initData = {
-  productName: "",
-  rawMaterial: "",
+  productName: '',
+  rawMaterial: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -25,11 +25,11 @@ const validationSchema = Yup.object().shape({
 const ProductToRM = () => {
   const [objProps, setObjprops] = useState({});
   const [rowData, setRowData] = useState([]);
-  const [productInfo, getProductInfo, productInfoLoading] = useAxiosGet();
+  const [, getProductInfo, productInfoLoading] = useAxiosGet();
   const [, saveData, tagRMloading] = useAxiosPost();
   const { selectedBusinessUnit, profileData } = useSelector(
     (state) => state.authData,
-    shallowEqual
+    shallowEqual,
   );
   const location = useLocation();
   const history = useHistory();
@@ -41,8 +41,9 @@ const ProductToRM = () => {
       `costmgmt/Precosting/ProductGetById?productId=${item?.productId}`,
       (data) => {
         setRowData(data?.materialMappings || []);
-      }
+      },
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit?.value, item?.productId]);
 
   const saveHandler = (values) => {
@@ -62,7 +63,7 @@ const ProductToRM = () => {
           uomName: data?.uomName,
         });
       } else {
-        console.error("Invalid data in rowData: ", data);
+        console.error('Invalid data in rowData: ', data);
       }
     });
 
@@ -73,7 +74,7 @@ const ProductToRM = () => {
       uomId: item?.uomId,
       uomName: item?.uomName,
       actionBy: profileData?.userId,
-      mappingType: "materialMappings",
+      mappingType: 'materialMappings',
       finishGoodMappings: [],
       materialMappings: [...materialMappings],
       commonCostElement: [],
@@ -84,18 +85,18 @@ const ProductToRM = () => {
       payload,
       (res) => {
         if (res.statuscode === 200) {
-          history.push("/internal-control/costing/costingconfiguration");
+          history.push('/internal-control/costing/costingconfiguration');
         }
-      }
+      },
     );
   };
 
   const addNewRawMaterialHandler = (values) => {
     let foundData = rowData?.filter(
-      (item) => item?.materialItemId === values?.rawMaterial?.value
+      (item) => item?.materialItemId === values?.rawMaterial?.value,
     );
     if (foundData?.length > 0) {
-      toast.warning("Raw Material already exists", { toastId: "RMe" });
+      toast.warning('Raw Material already exists', { toastId: 'RMe' });
     } else {
       let payload = {
         materialItemId: values?.rawMaterial?.value,
@@ -110,14 +111,14 @@ const ProductToRM = () => {
 
   const handleDelete = (rmValue) => {
     const filterData = rowData.filter(
-      (item) => item.materialItemId !== rmValue
+      (item) => item.materialItemId !== rmValue,
     );
     setRowData(filterData);
   };
 
   return (
     <>
-      <IForm title={"Product to RM Configuration"} getProps={setObjprops}>
+      <IForm title={'Product to RM Configuration'} getProps={setObjprops}>
         <Formik
           enableReinitialize={true}
           initialValues={initData}
@@ -148,7 +149,7 @@ const ProductToRM = () => {
                     <SearchAsyncSelect
                       selectedValue={values?.rawMaterial}
                       handleChange={(valueOption) => {
-                        setFieldValue("rawMaterial", valueOption);
+                        setFieldValue('rawMaterial', valueOption);
                       }}
                       placeholder="Minimum 3 characters to search"
                       loadOptions={(v) => {
@@ -156,7 +157,7 @@ const ProductToRM = () => {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `/costmgmt/Precosting/GetPrecostingItemDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=1&search=${searchValue}`
+                            `/costmgmt/Precosting/GetPrecostingItemDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=1&search=${searchValue}`,
                           )
                           .then((res) => res?.data);
                       }}
@@ -169,9 +170,9 @@ const ProductToRM = () => {
                       name="conversion"
                       onChange={(e) => {
                         if (+e.target.value > 0 || +e.target.value === 0) {
-                          setFieldValue("conversion", e.target.value);
+                          setFieldValue('conversion', e.target.value);
                         } else {
-                          setFieldValue("conversion", "");
+                          setFieldValue('conversion', '');
                         }
                       }}
                       placeholder="Convertion Rate"
@@ -194,14 +195,14 @@ const ProductToRM = () => {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>
@@ -224,7 +225,7 @@ const ProductToRM = () => {
                     {rowData?.length > 0 &&
                       rowData?.map((item, index) => (
                         <tr key={index}>
-                          <td style={{ width: "15px" }} className="text-center">
+                          <td style={{ width: '15px' }} className="text-center">
                             {index + 1}
                           </td>
                           <td>
@@ -234,17 +235,17 @@ const ProductToRM = () => {
                           </td>
                           <td>
                             <span className="pl-2 text-center">
-                              {item?.uomName || ""}
+                              {item?.uomName || ''}
                             </span>
                           </td>
                           <td>
                             <span className="pl-2 text-center">
-                              {item?.conversion || ""}
+                              {item?.conversion || ''}
                             </span>
                           </td>
                           <td>
                             <span
-                              style={{ cursor: "pointer" }}
+                              style={{ cursor: 'pointer' }}
                               onClick={() => handleDelete(item?.materialItemId)}
                             >
                               <IDelete />

@@ -1,38 +1,24 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import IForm from "./../../../_helper/_form";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "./../../../_helper/_select";
-import { useParams, useLocation } from "react-router-dom";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { shallowEqual, useSelector } from "react-redux";
-import { formatDateForMonthPicker } from "./helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from './../../../_helper/_form';
+import InputField from './../../../_helper/_inputField';
+import Loading from './../../../_helper/_loading';
+import NewSelect from './../../../_helper/_select';
+import { formatDateForMonthPicker } from './helper';
 
 const initData = {
-  toinvestmentPartner: "",
-  fromBankAccount: "",
-  toBankAccount: "",
+  toinvestmentPartner: '',
+  fromBankAccount: '',
+  toBankAccount: '',
   fromMonth: new Date().toISOString().slice(0, 7),
   toMonth: new Date().toISOString().slice(0, 7),
-  principleAmount: "",
-  inRate: "",
+  principleAmount: '',
+  inRate: '',
 };
-
-// const validationSchema = Yup.object().shape({
-//   item: Yup.object()
-//     .shape({
-//       label: Yup.string().required("Item is required"),
-//       value: Yup.string().required("Item is required"),
-//     })
-//     .typeError("Item is required"),
-
-//   remarks: Yup.string().required("Remarks is required"),
-//   amount: Yup.number().required("Amount is required"),
-//   date: Yup.date().required("Date is required"),
-// });
 
 export default function InterCompanyLoanCreate() {
   const [objProps, setObjprops] = useState({});
@@ -74,15 +60,17 @@ export default function InterCompanyLoanCreate() {
         inRate: location?.state?.interestRate,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     getBusinessPartnerDDL(
-      `/fino/FinanceCommonDDL/InterCompanyInvestmentPartnerDDL?BusinessUnitId=${selectedBusinessUnit?.value}`
+      `/fino/FinanceCommonDDL/InterCompanyInvestmentPartnerDDL?BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
     getFromBankAccountDDL(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { id } = useParams();
@@ -136,12 +124,12 @@ export default function InterCompanyLoanCreate() {
                     value={values?.toinvestmentPartner}
                     label="To Unit Investment Partner"
                     onChange={(valueOption) => {
-                      setFieldValue("toinvestmentPartner", valueOption);
-                      setFieldValue("toBankAccount", "");
+                      setFieldValue('toinvestmentPartner', valueOption);
+                      setFieldValue('toBankAccount', '');
                       setToBankAccountDDL([]);
                       if (valueOption) {
                         getToBankAccountDDL(
-                          `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${valueOption?.intId}`
+                          `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${valueOption?.intId}`,
                         );
                       }
                     }}
@@ -156,7 +144,7 @@ export default function InterCompanyLoanCreate() {
                     value={values?.fromBankAccount}
                     label="From Bank Account"
                     onChange={(valueOption) => {
-                      setFieldValue("fromBankAccount", valueOption);
+                      setFieldValue('fromBankAccount', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -169,7 +157,7 @@ export default function InterCompanyLoanCreate() {
                     value={values?.toBankAccount}
                     label="To Bank Account"
                     onChange={(valueOption) => {
-                      setFieldValue("toBankAccount", valueOption);
+                      setFieldValue('toBankAccount', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -182,7 +170,7 @@ export default function InterCompanyLoanCreate() {
                     name="fromMonth"
                     type="month"
                     onChange={(e) => {
-                      setFieldValue("fromMonth", e.target.value);
+                      setFieldValue('fromMonth', e.target.value);
                     }}
                   />
                 </div>
@@ -193,7 +181,7 @@ export default function InterCompanyLoanCreate() {
                     name="toMonth"
                     type="month"
                     onChange={(e) => {
-                      setFieldValue("toMonth", e.target.value);
+                      setFieldValue('toMonth', e.target.value);
                     }}
                   />
                 </div>
@@ -204,11 +192,11 @@ export default function InterCompanyLoanCreate() {
                     name="principleAmount"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("principleAmount", e.target.value);
+                      setFieldValue('principleAmount', e.target.value);
                     }}
                   />
                 </div>
-                {console.log("values", values)}
+                {console.log('values', values)}
                 <div className="col-lg-3">
                   <InputField
                     value={values?.inRate}
@@ -216,7 +204,7 @@ export default function InterCompanyLoanCreate() {
                     name="inRate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("inRate", e.target.value);
+                      setFieldValue('inRate', e.target.value);
                     }}
                   />
                 </div>
@@ -224,14 +212,14 @@ export default function InterCompanyLoanCreate() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
