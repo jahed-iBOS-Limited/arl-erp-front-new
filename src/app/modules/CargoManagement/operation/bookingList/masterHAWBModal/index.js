@@ -46,7 +46,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       accountNumber: values?.accountNumber || "",
       airportOfDepartureAndRouting: values?.airportOfDepartureAndRouting || "",
       to1: values?.to1 || "",
-      byFirstCarrierRoutingAndDestination: values?.byFirstCarrierRoutingAndDestination || "",
+      byFirstCarrierRoutingAndDestination:
+        values?.byFirstCarrierRoutingAndDestination || "",
       to2: values?.to2 || "",
       by2: values?.by2 || "",
       currency: values?.currency || "",
@@ -63,7 +64,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       rateOrCharge: values?.rateOrCharge || "",
       prepaidTotalAmount: values?.prepaidTotalAmount || "",
       grossWeightKgLb: values?.grossWeightKgLb || "",
-      prepaidNatureAndQuantityOfGoods: values?.prepaidNatureAndQuantityOfGoods || "",
+      prepaidNatureAndQuantityOfGoods:
+        values?.prepaidNatureAndQuantityOfGoods || "",
       prepaidPrepaidAmount: values?.prepaidPrepaidAmount || "",
       prepaidWeightCharge: "",
       prepaidValuationCharge: values?.prepaidValuationCharge || "",
@@ -75,26 +77,32 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       totalCollect: values?.totalCollect || "",
       currencyConversionRates: values?.currencyConversionRates || "",
       ccchargesInDestCurrency: values?.ccchargesInDestCurrency || "",
-      forCarrierUseOnlyAtDestination: values?.forCarrierUseOnlyAtDestination || "",
+      forCarrierUseOnlyAtDestination:
+        values?.forCarrierUseOnlyAtDestination || "",
       chargesAtDestination: values?.chargesAtDestination || "",
       totalCollectCharges: values?.totalCollectCharges || "",
       signatureOfShipperOrAgent: values?.signatureOfShipperOrAgent || "",
       executedOnDate: values?.executedOnDate || "",
       atPlace: values?.atPlace || "",
-      signatureOfIssuingCarrierOrAgent: values?.signatureOfIssuingCarrierOrAgent || "",
+      signatureOfIssuingCarrierOrAgent:
+        values?.signatureOfIssuingCarrierOrAgent || "",
       isActive: true,
       createdBy: 0,
       createdAt: new Date(),
       serverTime: new Date(),
       collectTotalAmount: values?.collectTotalAmount || "",
-      collectNatureAndQuantityOfGoods: values?.collectNatureAndQuantityOfGoods || "",
+      collectNatureAndQuantityOfGoods:
+        values?.collectNatureAndQuantityOfGoods || "",
       collectPrepaidAmount: values?.collectPrepaidAmount || "",
       collectWeightCharge: values?.collectWeightCharge || "",
       collectValuationCharge: values?.collectValuationCharge || "",
       collectTaxAmount: values?.collectTaxAmount || "",
-      collectTotalOtherChargesDueAgent: values?.collectTotalOtherChargesDueAgent || "",
-      collectTotalOtherChargesDueCarrier1: values?.collectTotalOtherChargesDueCarrier1 || "",
-      collectTotalOtherChargesDueCarrier2: values?.collectTotalOtherChargesDueCarrier2 || "",
+      collectTotalOtherChargesDueAgent:
+        values?.collectTotalOtherChargesDueAgent || "",
+      collectTotalOtherChargesDueCarrier1:
+        values?.collectTotalOtherChargesDueCarrier1 || "",
+      collectTotalOtherChargesDueCarrier2:
+        values?.collectTotalOtherChargesDueCarrier2 || "",
       bookingReqest: bookingRequestList,
       hblNos: hblnumberList,
     };
@@ -105,7 +113,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
         if (data) {
           CB();
         }
-      },
+      }
     );
   };
   const GetShipMasterHAWBByIdApi = () => {
@@ -343,7 +351,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             optionalShippingInformation: "missing",
             to: "missing",
             grossWeight: `${subtotalGrossWeight || ""}`, //"missing",
-            by1: 'missing',
+            by1: "missing",
             // bind from data
             consigneeNameAndAddress: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
             shipperNameAndAddress: `Akij Logistics Limited \nBir Uttam Mir Shawkat Sarak, Dhaka 1208`,
@@ -353,12 +361,12 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               ""}`,
             currency: `${firstIndex?.currency || ""}`,
             declaredValueForCustoms: `${firstIndex?.invoiceValue
-              ? firstIndex?.invoiceValue
-              : "AS PER INVOICE"
+                ? firstIndex?.invoiceValue
+                : "AS PER INVOICE"
               }`,
             airportOfDestination: ` ${firstIndex?.transportPlanning?.airTransportRow?.[
-              firstIndex?.transportPlanning?.airTransportRow?.length - 1
-            ]?.toPort
+                firstIndex?.transportPlanning?.airTransportRow?.length - 1
+              ]?.toPort
               }`,
             airportOfDepartureAndRouting: `${firstIndex?.transportPlanning?.airLineOrShippingLine} \n ${airportOfDepartureAndRouting} `,
             requestedFlightDate: `${moment(requestedFlightDate).format(
@@ -381,7 +389,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             chargeableWeight: "", // can't get initial value
             rateOrCharge: "", // can't get initial value
             prepaidPrepaidAmount: "", // can't get initial value
-            collectPrepaidAmount: "",  // can't get initial value
+            collectPrepaidAmount: "", // can't get initial value
             prepaidValuationCharge: "", // can't get initial value
             collectValuationCharge: "", // can't get initial value
             prepaidTaxAmount: "", // can't get initial value
@@ -397,7 +405,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             forCarrierUseOnlyAtDestination: "", // can't get initial value
             chargesAtDestination: "string",
 
-            // can't bind 
+            // can't bind
             issuingCarrierAgentNameAndCity: "string",
             prepaidTotalAmount: "", // no need
             prepaidWeightCharge: "", // no ned
@@ -410,7 +418,6 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             collectTotalAmount: "", // no need
             collectNatureAndQuantityOfGoods: "", // no need
             collectWeightCharge: "string",
-
           };
           Object.keys(obj).forEach((key) => {
             formikRef.current.setFieldValue(key, obj[key]);
@@ -1460,8 +1467,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   {isPrintViewMode ? (
                                     <>
                                       <p>
-                                        {values?.requestedFlightDate
-                                        }
+                                        {moment(
+                                          values?.requestedFlightDate
+                                        ).format("DD-MM-YYYY")}
                                       </p>
                                     </>
                                   ) : (
@@ -1488,7 +1496,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   {isPrintViewMode ? (
                                     <>
                                       <p>
-                                        {values?.requestedFlightDate}
+                                        {moment(
+                                          values?.requestedFlightDate
+                                        ).format("DD-MM-YYYY")}
                                       </p>
                                     </>
                                   ) : (
@@ -2485,46 +2495,44 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 air according to the applicable Dangerous Goods
                                 Regulations.
                               </p>
-                              {
-                                isPrintViewMode ? (
-                                  <h1
-                                    className="collectChartValue"
-                                    style={{
-                                      textAlign: "center",
-                                      marginTop: 5,
-                                      textTransform: "uppercase",
-                                    }}
-                                  >
-                                    {values?.signatureOfIssuingCarrierOrAgent
-                                      ? values?.signatureOfIssuingCarrierOrAgent
-                                        ?.split("\n")
-                                        .map((item, index) => {
-                                          return (
-                                            <>
-                                              {item}
-                                              <br />
-                                            </>
-                                          );
-                                        })
-                                      : ""}
-                                  </h1>
-                                ) : (
-                                  <div className="col-lg-12">
-                                    <textarea
-                                      name="signatureOfIssuingCarrierOrAgent"
-                                      value={
-                                        values?.signatureOfIssuingCarrierOrAgent
-                                      }
-                                      onChange={(e) => {
-                                        setFieldValue(
-                                          "signatureOfIssuingCarrierOrAgent",
-                                          e.target.value
+                              {isPrintViewMode ? (
+                                <h1
+                                  className="collectChartValue"
+                                  style={{
+                                    textAlign: "center",
+                                    marginTop: 5,
+                                    textTransform: "uppercase",
+                                  }}
+                                >
+                                  {values?.signatureOfIssuingCarrierOrAgent
+                                    ? values?.signatureOfIssuingCarrierOrAgent
+                                      ?.split("\n")
+                                      .map((item, index) => {
+                                        return (
+                                          <>
+                                            {item}
+                                            <br />
+                                          </>
                                         );
-                                      }}
-                                    />
-                                  </div>
-                                )
-                              }
+                                      })
+                                    : ""}
+                                </h1>
+                              ) : (
+                                <div className="col-lg-12">
+                                  <textarea
+                                    name="signatureOfIssuingCarrierOrAgent"
+                                    value={
+                                      values?.signatureOfIssuingCarrierOrAgent
+                                    }
+                                    onChange={(e) => {
+                                      setFieldValue(
+                                        "signatureOfIssuingCarrierOrAgent",
+                                        e.target.value
+                                      );
+                                    }}
+                                  />
+                                </div>
+                              )}
                               <hr
                                 style={{
                                   borderTop: "1px dotted",
@@ -2650,7 +2658,6 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                           )}
                                         </>
                                       )}
-
                                   </div>
                                 </div>
                                 <div
@@ -2771,29 +2778,27 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                               }}
                             >
                               <>
-                                {
-                                  isPrintViewMode ? (
-                                    <b>
-                                      {
-                                        moment(values?.executedOnDat).format("DD-MM-YYYY")
-                                      }
-                                    </b>
-                                  ) : (
-                                    <div className="col-lg-3">
-                                      <input
-                                        name="executedOnDate"
-                                        value={values?.executedOnDate}
-                                        type="date"
-                                        onChange={(e) => {
-                                          setFieldValue(
-                                            "executedOnDate",
-                                            e.target.value
-                                          );
-                                        }}
-                                      />
-                                    </div>
-                                  )
-                                }
+                                {isPrintViewMode ? (
+                                  <b>
+                                    {moment(values?.executedOnDat).format(
+                                      "DD-MM-YYYY"
+                                    )}
+                                  </b>
+                                ) : (
+                                  <div className="col-lg-3">
+                                    <input
+                                      name="executedOnDate"
+                                      value={values?.executedOnDate}
+                                      type="date"
+                                      onChange={(e) => {
+                                        setFieldValue(
+                                          "executedOnDate",
+                                          e.target.value
+                                        );
+                                      }}
+                                    />
+                                  </div>
+                                )}
                                 Dhaka
                                 <p>
                                   <b>Akij Logistics Limited</b>
@@ -2877,7 +2882,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                         <div className="col-lg-12">
                                           <textarea
                                             name="forCarrierUseOnlyAtDestination"
-                                            value={values?.forCarrierUseOnlyAtDestination}
+                                            value={
+                                              values?.forCarrierUseOnlyAtDestination
+                                            }
                                             onChange={(e) => {
                                               setFieldValue(
                                                 "forCarrierUseOnlyAtDestination",
