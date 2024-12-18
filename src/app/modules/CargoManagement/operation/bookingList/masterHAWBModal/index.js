@@ -383,10 +383,12 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             prepaidPrepaidAmount: "", // can't get initial value
             collectPrepaidAmount: "",  // can't get initial value
             prepaidValuationCharge: "", // can't get initial value
+            collectValuationCharge: "", // can't get initial value
             prepaidTaxAmount: "", // can't get initial value
+            collectTaxAmount: "", // can't get initial value
             prepaidTotalOtherChargesDueAgent: "", // can't get initial value
+            collectTotalOtherChargesDueAgent: "", // can't get initial value
             collectTotalOtherChargesDueCarrier1: "", // can't get initial value
-
             collectTotalOtherChargesDueCarrier2: "", // can't get initial value
             totalPrepaid: "", // can't get initial value
             totalCollect: "", // can't get initial value
@@ -397,20 +399,17 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
 
             // can't bind 
             issuingCarrierAgentNameAndCity: "string",
-            prepaidTotalAmount: "string",
-            prepaidWeightCharge: "string",
+            prepaidTotalAmount: "", // no need
+            prepaidWeightCharge: "", // no ned
 
             prepaidTotalOtherChargesDueCarrier1: "string",
             prepaidTotalOtherChargesDueCarrier2: "string",
-            totalCollectCharges: "string",
+            totalCollectCharges: "", // no need
             signatureOfShipperOrAgent: "string",
             atPlace: "", // no need
-            collectTotalAmount: "string",
-            collectNatureAndQuantityOfGoods: "string",
+            collectTotalAmount: "", // no need
+            collectNatureAndQuantityOfGoods: "", // no need
             collectWeightCharge: "string",
-            collectValuationCharge: "string",
-            collectTaxAmount: "string",
-            collectTotalOtherChargesDueAgent: "string",
 
           };
           Object.keys(obj).forEach((key) => {
@@ -2085,8 +2084,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       {isPrintViewMode ? (
                                         <>
                                           <p>
-                                            {values?.prepaidValuationCharge
-                                              ? values?.prepaidValuationCharge
+                                            {values?.collectValuationCharge
+                                              ? values?.collectValuationCharge
                                                 ?.split("\n")
                                                 .map((item, index) => {
                                                   return (
@@ -2104,13 +2103,13 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                           {" "}
                                           <div className="col-lg-12">
                                             <textarea
-                                              name="prepaidValuationCharge"
+                                              name="collectValuationCharge"
                                               value={
-                                                values?.prepaidValuationCharge
+                                                values?.collectValuationCharge
                                               }
                                               onChange={(e) => {
                                                 setFieldValue(
-                                                  "prepaidValuationCharge",
+                                                  "collectValuationCharge",
                                                   e.target.value
                                                 );
                                               }}
@@ -2193,8 +2192,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       {isPrintViewMode ? (
                                         <>
                                           <p>
-                                            {values?.prepaidTaxAmount
-                                              ? values?.prepaidTaxAmount
+                                            {values?.collectTaxAmount
+                                              ? values?.collectTaxAmount
                                                 ?.split("\n")
                                                 .map((item, index) => {
                                                   return (
@@ -2212,11 +2211,11 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                           {" "}
                                           <div className="col-lg-12">
                                             <textarea
-                                              name="prepaidTaxAmount"
-                                              value={values?.prepaidTaxAmount}
+                                              name="collectTaxAmount"
+                                              value={values?.collectTaxAmount}
                                               onChange={(e) => {
                                                 setFieldValue(
-                                                  "prepaidTaxAmount",
+                                                  "collectTaxAmount",
                                                   e.target.value
                                                 );
                                               }}
@@ -2313,8 +2312,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                           {isPrintViewMode ? (
                                             <>
                                               <p>
-                                                {values?.prepaidTotalOtherChargesDueAgent
-                                                  ? values?.prepaidTotalOtherChargesDueAgent
+                                                {values?.collectTotalOtherChargesDueAgent
+                                                  ? values?.collectTotalOtherChargesDueAgent
                                                     ?.split("\n")
                                                     .map((item, index) => {
                                                       return (
@@ -2332,13 +2331,13 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                               {" "}
                                               <div className="col-lg-12">
                                                 <textarea
-                                                  name="prepaidTotalOtherChargesDueAgent"
+                                                  name="collectTotalOtherChargesDueAgent"
                                                   value={
-                                                    values?.prepaidTotalOtherChargesDueAgent
+                                                    values?.collectTotalOtherChargesDueAgent
                                                   }
                                                   onChange={(e) => {
                                                     setFieldValue(
-                                                      "prepaidTotalOtherChargesDueAgent",
+                                                      "collectTotalOtherChargesDueAgent",
                                                       e.target.value
                                                     );
                                                   }}
