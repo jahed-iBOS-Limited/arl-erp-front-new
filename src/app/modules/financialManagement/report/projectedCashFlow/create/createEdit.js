@@ -5,9 +5,12 @@ import IForm from "../../../../_helper/_form";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
+import IViewModal from "../../../../_helper/_viewModal";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import IButton from "../../../../_helper/iButton";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import CustomerReceivedModal from "./customerReceivedModal";
 import {
   fetchBankAccountDDL,
   fetchBankNameDDL,
@@ -15,6 +18,7 @@ import {
   fetchPOLCAndSetFormField,
   fetchPOLCNumber,
   fetchTransactionList,
+  generateCustomerReceivedRowData,
   generateSavePayloadAndURL,
   generateSaveURL,
   importPaymentType,
@@ -32,7 +36,15 @@ export default function ProjectedCashFlowCreateEdit() {
 
   // state
   const [objProps, setObjprops] = useState({});
+  const [
+    isCustomerReceivedModalOpen,
+    setIsCustomerReceivedModalOpen,
+  ] = useState(false);
+  const [isCustomerReceivedType, setIsCustomerReceivedType] = useState(false);
+  const [customerReceivedRowData, setCustomerReceivedRowData] = useState([]);
   const landingFormikRef = useRef(null);
+  const crSaveButtonRef = useRef(null);
+  // const createFormikRef = useRef(null);
 
   // api action
   const [, getPOLCNumberData, getPOLCNumberDataLoading] = useAxiosGet();
@@ -114,6 +126,9 @@ export default function ProjectedCashFlowCreateEdit() {
     resetForm(initData);
     setPCFLandingData([]);
     setFieldValue("viewType", value);
+    if (value === "customer received") {
+      setIsCustomerReceivedType((prevState) => !prevState);
+    }
   };
 
   // ! View Type Radio Field
@@ -555,9 +570,32 @@ export default function ProjectedCashFlowCreateEdit() {
     return (
       <>
         <SBUFormField obj={{ values, setFieldValue, errors, touched }} />
-        <AmountPaymentDateRemarksFormField
-          obj={{ values, setFieldValue, errors, touched }}
-        />
+        <div className="col-lg-3">
+          <label>Month</label>
+          <InputField
+            value={values?.month}
+            name="month"
+            placeholder="From Date"
+            type="month"
+            onChange={(e) => {
+              setFieldValue("month", e?.target?.value);
+            }}
+          />
+        </div>
+        <div class="col-lg-2">
+          <IButton
+            onClick={() => {
+              setIsCustomerReceivedModalOpen(true);
+              generateCustomerReceivedRowData({
+                setCustomerReceivedRowData,
+                values,
+                profileData,
+              });
+            }}
+            disabled={!values?.sbu}
+            title="Generate Received"
+          ></IButton>
+        </div>
       </>
     );
   };
@@ -589,7 +627,11 @@ export default function ProjectedCashFlowCreateEdit() {
   };
 
   return (
-    <IForm title="Create Projected Cash Flow" getProps={setObjprops}>
+    <IForm
+      title="Create Projected Cash Flow"
+      getProps={setObjprops}
+      isHiddenSave={!isCustomerReceivedType}
+    >
       {isLoading && <Loading />}
       <>
         <Formik
@@ -606,7 +648,7 @@ export default function ProjectedCashFlowCreateEdit() {
               });
             });
           }}
-          // innerRef={formikRef}
+          // innerRef={createFormikRef}
         >
           {({
             handleSubmit,
@@ -683,6 +725,40 @@ export default function ProjectedCashFlowCreateEdit() {
                     }}
                   />
                 </div>
+
+                <IViewModal
+                  title="Customer Received"
+                  show={isCustomerReceivedModalOpen}
+                  onHide={() => {
+                    setIsCustomerReceivedModalOpen(false);
+                    setCustomerReceivedRowData([]);
+                  }}
+                >
+                  <CustomerReceivedModal
+                    objProps={{
+                      setCustomerReceivedRowData,
+                      customerReceivedRowData,
+                      crSaveButtonRef,
+                    }}
+                  />
+                </IViewModal>
+
+                <button
+                  type="button"
+                  ref={crSaveButtonRef}
+                  style={{ display: "none" }}
+                  onClick={() => {
+                    saveHandler(values, () => {
+                      resetForm(initData);
+                      setFieldValue("viewType", values?.viewType);
+                      fetchPCFLandingData({
+                        createPageValues: values,
+                        landingPageValues: landingFormikRef?.current?.values,
+                        getPCFLandingData,
+                      });
+                    });
+                  }}
+                ></button>
 
                 <button
                   type="submit"

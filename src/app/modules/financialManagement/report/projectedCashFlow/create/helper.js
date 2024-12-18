@@ -10,9 +10,9 @@ export const initData = {
   // global
   viewType: "import",
 
-  // common (import, income, payment, customer received)
+  // common (import, income, payment)
   poLC: "",
-  sbu: "",
+  sbu: "", // customer received
   bankName: "",
   bankAccount: "",
   paymentType: { value: "Duty", label: "Duty" },
@@ -38,8 +38,11 @@ export const initData = {
   transaction: "",
   dueDate: "",
 
-  // others
+  // others (not exit on field)
   businessPartner: "",
+
+  // customer received
+  month: "",
 };
 
 export const generateSaveURL = (viewType) => {
@@ -501,4 +504,48 @@ export const landingInitData = {
   paymentType: { value: "Duty", label: "Duty" },
   fromDate: _monthFirstDate(),
   toDate: _monthLastDate(),
+};
+
+// customer received
+
+// get total days of month
+export const totalDaysOfMonth = (monthYear) => {
+  // Extract the year and month from the input
+  const [year, month] = getMonthAndYear(monthYear);
+  return new Date(year, month, 0).getDate();
+};
+
+// get month & year of selected month
+export const getMonthAndYear = (monthYear) => {
+  return monthYear.split("-").map(Number);
+};
+
+// handle customer received row data generate
+export const generateCustomerReceivedRowData = (obj) => {
+  // destructure
+  const { setCustomerReceivedRowData, values, profileData } = obj;
+
+  // get toatal days of month
+  const getRowDataNo = totalDaysOfMonth(values?.month);
+
+  // get month & year
+  const [year, month] = getMonthAndYear(values?.month);
+
+  if (getRowDataNo > 0) {
+    const newCustomerReceivedData = Array.from(
+      { length: getRowDataNo },
+      (_, index) => ({
+        businessUnitName: values?.sbu?.label,
+        businessUnitId: values?.sbu?.value,
+        receivedAmount: 0,
+        actionBy: profileData?.userId,
+        paymentDate: new Date(year, month - 1, index + 1).toLocaleDateString(),
+        remarks: "",
+      })
+    );
+
+    setCustomerReceivedRowData((prevState) => {
+      return [...prevState, ...newCustomerReceivedData];
+    });
+  }
 };
