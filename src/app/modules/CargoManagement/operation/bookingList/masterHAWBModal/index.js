@@ -354,7 +354,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             grossWeight: `${subtotalGrossWeight || ""}`, //"missing",
             by1: "missing",
             // bind from data
-            consigneeNameAndAddress: `${firstIndex?.freightAgentReference}\n${firstIndex?.deliveryAgentDtl?.zipCode}, ${firstIndex?.deliveryAgentDtl?.state}, ${firstIndex?.deliveryAgentDtl?.city}, ${firstIndex?.deliveryAgentDtl?.country}, ${firstIndex?.deliveryAgentDtl?.address}`,
+            consigneeNameAndAddress: `${firstIndex?.freightAgentReference ?? ""}\n${firstIndex?.deliveryAgentDtl?.zipCode ?? ""}, ${firstIndex?.deliveryAgentDtl?.state ?? ""}, ${firstIndex?.deliveryAgentDtl?.city ?? ""}, ${firstIndex?.deliveryAgentDtl?.country ?? ""}, ${firstIndex?.deliveryAgentDtl?.address ?? ""}`,
             shipperNameAndAddress: `Akij Logistics Limited \nBir Uttam Mir Shawkat Sarak, Dhaka 1208`,
             agentIatacode: `${firstIndex?.transportPlanning?.iatanumber || ""}`,
             noOfPiecesRcp: `${totalNumberOfPackages || ""}`,
@@ -367,11 +367,11 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               }`,
             airportOfDestination: ` ${firstIndex?.transportPlanning?.airTransportRow?.[
               firstIndex?.transportPlanning?.airTransportRow?.length - 1
-            ]?.toPort
+            ]?.toPort ?? ""
               }`,
             airportOfDepartureAndRouting: `${firstIndex?.transportPlanning?.airLineOrShippingLine} \n ${airportOfDepartureAndRouting} `,
             requestedFlightDate: `${moment(requestedFlightDate).format(
-              "DD-MM-YYYY"
+              "YYYY-DD-MM"
             )}`,
             grossWeightKgLb: "",
             to1: "",
@@ -531,7 +531,19 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 </div>
                                 <div className="borderLeft borderBottom p-2">
                                   <p className="textTitle">Company Info:</p>
-                                  {isPrintViewMode ? (
+                                  {values?.shipperNameAndAddress
+                                    ? values?.shipperNameAndAddress
+                                      ?.split("\n")
+                                      .map((item, index) => {
+                                        return (
+                                          <p>
+                                            {item}
+                                            <br />
+                                          </p>
+                                        );
+                                      })
+                                    : ""}
+                                  {/* {isPrintViewMode ? (
                                     <p>
                                       {values?.shipperNameAndAddress
                                         ? values?.shipperNameAndAddress
@@ -559,7 +571,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                         );
                                       }}
                                     />
-                                  )}
+                                  )} */}
                                 </div>
                               </div>
                             </div>
@@ -1750,7 +1762,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       <textarea
                                         value={values?.grossWeight}
                                         name="grossWeight"
-                                        rows={3}
+                                        rows={20}
                                         cols={40}
                                         onChange={(e) => {
                                           setFieldValue(
@@ -1783,20 +1795,17 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   </>
                                 ) : (
                                   <>
-                                    {" "}
-                                    <div className="col-lg-12">
-                                      <textarea
-                                        name="grossWeightKgLb"
-                                        value={values?.grossWeightKgLb}
-                                        onChange={(e) => {
-                                          setFieldValue(
-                                            "grossWeightKgLb",
-                                            e.target.value
-                                          );
-                                        }}
-                                        rows={20}
-                                      />
-                                    </div>
+                                    <textarea
+                                      name="grossWeightKgLb"
+                                      value={values?.grossWeightKgLb}
+                                      onChange={(e) => {
+                                        setFieldValue(
+                                          "grossWeightKgLb",
+                                          e.target.value
+                                        );
+                                      }}
+                                      rows={20}
+                                    />
                                   </>
                                 )}
                               </div>
