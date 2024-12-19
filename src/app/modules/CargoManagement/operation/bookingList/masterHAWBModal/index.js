@@ -16,13 +16,13 @@ const validationSchema = Yup.object().shape({});
 const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
   const [hbawListData, getHBAWList, ishbawLodaing] = useAxiosPost();
   const [
-    getShipMasteBlById,
+    ,
     GetShipMasterBlById,
     shipMasterBlByIdLoaidng,
   ] = useAxiosGet();
   const [, SaveShipMasterHAWB, SaveShipMasterHAWBLoading] = useAxiosPost();
 
-  const [isPrintViewMode, setIsPrintViewMode] = useState(isPrintView || false);
+  const [isPrintViewMode,] = useState(isPrintView || false);
   const formikRef = React.useRef();
 
   const saveHandler = (values, cb) => {
@@ -326,14 +326,14 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             );
             return subtotal + weightSubtotal;
           }, 0);
-          const totalVolumeCBM = hbawRestData?.reduce((subtotal, item) => {
-            const rows = item?.rowsData || [];
-            const volumeSubtotal = rows?.reduce(
-              (sum, row) => sum + (row?.totalVolumeCBM || 0),
-              0
-            );
-            return subtotal + volumeSubtotal;
-          }, 0);
+          // const totalVolumeCBM = hbawRestData?.reduce((subtotal, item) => {
+          //   const rows = item?.rowsData || [];
+          //   const volumeSubtotal = rows?.reduce(
+          //     (sum, row) => sum + (row?.totalVolumeCBM || 0),
+          //     0
+          //   );
+          //   return subtotal + volumeSubtotal;
+          // }, 0);
           const airportOfDepartureAndRouting = firstIndex?.transportPlanning?.airTransportRow?.map(
             (item) => {
               return `(${item?.fromPort} - ${item?.toPort}) `;
@@ -361,12 +361,12 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               ""}`,
             currency: `${firstIndex?.currency || ""}`,
             declaredValueForCustoms: `${firstIndex?.invoiceValue
-                ? firstIndex?.invoiceValue
-                : "AS PER INVOICE"
+              ? firstIndex?.invoiceValue
+              : "AS PER INVOICE"
               }`,
             airportOfDestination: ` ${firstIndex?.transportPlanning?.airTransportRow?.[
-                firstIndex?.transportPlanning?.airTransportRow?.length - 1
-              ]?.toPort
+              firstIndex?.transportPlanning?.airTransportRow?.length - 1
+            ]?.toPort
               }`,
             airportOfDepartureAndRouting: `${firstIndex?.transportPlanning?.airLineOrShippingLine} \n ${airportOfDepartureAndRouting} `,
             requestedFlightDate: `${moment(requestedFlightDate).format(
