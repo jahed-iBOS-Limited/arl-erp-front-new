@@ -424,20 +424,22 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             ccchargesInDestCurrency: "", // can't get initial value
             forCarrierUseOnlyAtDestination: "", // can't get initial value
             chargesAtDestination: "string",
+            totalCollectCharges: "", // can't get initial value
+
 
             // can't bind
             issuingCarrierAgentNameAndCity: "string",
             prepaidTotalAmount: "", // no need
             prepaidWeightCharge: "", // no ned
+            collectWeightCharge: "", // no need
 
             prepaidTotalOtherChargesDueCarrier1: "string",
             prepaidTotalOtherChargesDueCarrier2: "string",
-            totalCollectCharges: "", // no need
+
             signatureOfShipperOrAgent: "string",
             atPlace: "", // no need
             collectTotalAmount: "", // no need
             collectNatureAndQuantityOfGoods: "", // no need
-            collectWeightCharge: "string",
           };
           Object.keys(obj).forEach((key) => {
             formikRef.current.setFieldValue(key, obj[key]);
@@ -2970,10 +2972,56 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                               className="collectItemRight"
                               style={{ width: "100%" }}
                             >
-                              <div className="collectChartBox">
-                                <span className=" collectChartBoxItem collectChartBoxChargesAtDestination textTitle">
-                                  Charges at Destination
-                                </span>
+                              <div
+                                className="collectChartBox"
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  justifyContent: "center",
+                                  // width: "100%",
+                                  gap: "2px"
+                                }}
+                              >
+
+                                <div className="col-lg-12">
+                                  <span className=" collectChartBoxItem collectChartBoxChargesAtDestination textTitle">
+                                    Total Collect Charge
+                                  </span>
+                                </div>
+                                {
+                                  isPrintViewMode ? (
+                                    <>
+                                      <p>
+                                        {values?.totalCollectCharges
+                                          ? values?.totalCollectCharges
+                                            ?.split("\n")
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                          : ""}
+                                      </p>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <textarea
+                                        name="totalCollectCharges"
+                                        value={values?.totalCollectCharges}
+                                        onChange={(e) => {
+                                          setFieldValue(
+                                            "totalCollectCharges",
+                                            e.target.value
+                                          );
+                                        }}
+                                      />
+                                    </>
+                                  )
+                                }
+
                               </div>
                             </div>
                           </div>
