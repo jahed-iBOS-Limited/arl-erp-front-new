@@ -278,7 +278,7 @@ function ConfirmModal({ rowClickData, CB }) {
       `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
     );
     getConsigneeName(
-      `${imarineBaseUrl}/domain/ShippingService/GetParticipantDDL?typeId=1`,
+      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?businessPartnerType=1&cargoType=2`,
       (redData) => {
         setConsigneeName(redData);
       },
