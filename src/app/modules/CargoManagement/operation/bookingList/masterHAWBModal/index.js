@@ -77,7 +77,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       prepaidValuationCharge: values?.prepaidValuationCharge || "",
       prepaidTaxAmount: values?.prepaidTaxAmount || "",
       prepaidTotalOtherChargesDueAgent: "",
-      prepaidTotalOtherChargesDueCarrier1: "",
+      prepaidTotalOtherChargesDueCarrier1: values?.prepaidTotalOtherChargesDueCarrier1 || "",
       prepaidTotalOtherChargesDueCarrier2: "",
       totalPrepaid: values?.totalPrepaid || "",
       totalCollect: values?.totalCollect || "",
@@ -425,6 +425,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             forCarrierUseOnlyAtDestination: "", // can't get initial value
             chargesAtDestination: "string",
             totalCollectCharges: "", // can't get initial value
+            prepaidTotalOtherChargesDueCarrier1: "", // note: this feild is used for Other Charge
 
 
             // can't bind
@@ -433,7 +434,6 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             prepaidWeightCharge: "", // no ned
             collectWeightCharge: "", // no need
 
-            prepaidTotalOtherChargesDueCarrier1: "string",
             prepaidTotalOtherChargesDueCarrier2: "string",
 
             signatureOfShipperOrAgent: "string",
@@ -2091,7 +2091,15 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 </div>
                               </div>
                             </div>
-                            <div className="collectItemRight"></div>
+                            <div className="collectItemRight"
+                              style={{
+                                display: "flex",
+                                alignItems: "flex-end",
+                              }}
+                            >
+                              <p className='textTitle'>Other Charge</p>
+
+                            </div>
                           </div>
                           {/* row item (2) */}
                           <div className="collectItemRow collectItemRowTwo ">
@@ -2200,7 +2208,42 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 </div>
                               </div>
                             </div>
-                            <div className="collectItemRight"></div>
+                            <div className="collectItemRight"
+                              style={{
+                                width: "100%"
+                              }}
+                            >
+                              {
+                                isPrintViewMode ? (
+                                  <p>
+                                    {values?.prepaidTotalOtherChargesDueCarrier1
+                                      ? values?.prepaidTotalOtherChargesDueCarrier1
+                                        ?.split("\n")
+                                        .map((item, index) => {
+                                          return (
+                                            <>
+                                              {item}
+                                              <br />
+                                            </>
+                                          );
+                                        })
+                                      : ""}
+                                  </p>
+                                ) : (
+                                  <textarea
+                                    name="prepaidTotalOtherChargesDueCarrier1"
+                                    value={values?.prepaidTotalOtherChargesDueCarrier1}
+                                    onChange={(e) => {
+                                      setFieldValue(
+                                        "prepaidTotalOtherChargesDueCarrier1",
+                                        e.target.value
+                                      );
+                                    }}
+                                    rows={5}
+                                  />
+                                )
+                              }
+                            </div>
                           </div>
                           {/* row item (3) */}
                           <div className="collectItemRow collectItemRowThree borderBottom">
