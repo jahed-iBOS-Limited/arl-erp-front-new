@@ -16,6 +16,7 @@ const validationSchema = Yup.object().shape({});
 const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
   const [hbawListData, getHBAWList, ishbawLodaing] = useAxiosPost();
   const [msterBLDDL, getMasterBLDDL] = useAxiosGet();
+  const [iatacodeDDL, setIatacodeDDL] = React.useState([]);
   const [
     getShipMasteBlById,
     GetShipMasterBlById,
@@ -288,6 +289,20 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
           //   };
           // });
           const firstIndex = hbawRestData[0];
+          //
+          const iatacode = []
+
+          // eslint-disable-next-line no-unused-expressions
+          hbawRestData?.map((item, index) => {
+            if (item?.transportPlanning?.iatanumber) {
+              iatacode.push({
+                value: index + 1,
+                label: item?.transportPlanning?.iatanumber,
+              })
+            }
+          });
+          setIatacodeDDL(iatacode);
+          //
           const totalNumberOfPackages = hbawRestData?.reduce(
             (subtotal, item) => {
               const rows = item?.rowsData || [];
@@ -682,7 +697,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                         <div className="col-lg-12">
                                           <NewSelect
                                             name="agentIatacode"
-                                            options={[]}
+                                            options={iatacodeDDL || []}
                                             value={
                                               values?.agentIatacode
                                                 ? {
