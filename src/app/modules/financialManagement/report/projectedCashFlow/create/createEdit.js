@@ -12,6 +12,7 @@ import IButton from "../../../../_helper/iButton";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import CustomerReceivedModal from "./customerReceivedModal";
 import {
+  allObjSBU,
   fetchBankAccountDDL,
   fetchBankNameDDL,
   fetchPCFLandingData,
@@ -81,9 +82,9 @@ export default function ProjectedCashFlowCreateEdit() {
     getSBUDDL(
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`,
       (res) => {
-        // set default value with formik ref to landing formik (filter to akij cement)
-        const akijCement = res?.filter((item) => item?.value === 4)[0];
-        landingFormikRef.current.setFieldValue("sbu", akijCement || "");
+        // set default value with formik ref to landing formik (filter to all)
+        // const akijCement = res?.filter((item) => item?.value === 4)[0];
+        landingFormikRef.current.setFieldValue("sbu", allObjSBU);
 
         // load landing data
         if (res?.length > 0) {
@@ -91,7 +92,7 @@ export default function ProjectedCashFlowCreateEdit() {
             createPageValues: initData,
             landingPageValues: {
               ...landingInitData,
-              sbu: akijCement,
+              sbu: allObjSBU,
             },
             getPCFLandingData,
           });
@@ -105,7 +106,11 @@ export default function ProjectedCashFlowCreateEdit() {
   // create edit save handler
   const saveHandler = (values, cb) => {
     const URL = `${generateSaveURL(values?.viewType)}&autoId=0`;
-    const payload = generateSavePayloadAndURL({ values, profileData });
+    const payload = generateSavePayloadAndURL({
+      values,
+      profileData,
+      customerReceivedRowData,
+    });
     savePCFData(URL, payload, cb, true);
   };
 
@@ -127,7 +132,9 @@ export default function ProjectedCashFlowCreateEdit() {
     setPCFLandingData([]);
     setFieldValue("viewType", value);
     if (value === "customer received") {
-      setIsCustomerReceivedType((prevState) => !prevState);
+      setIsCustomerReceivedType(true);
+    } else {
+      setIsCustomerReceivedType(false);
     }
   };
 
@@ -630,7 +637,7 @@ export default function ProjectedCashFlowCreateEdit() {
     <IForm
       title="Create Projected Cash Flow"
       getProps={setObjprops}
-      isHiddenSave={!isCustomerReceivedType}
+      isHiddenSave={isCustomerReceivedType}
     >
       {isLoading && <Loading />}
       <>
@@ -751,6 +758,7 @@ export default function ProjectedCashFlowCreateEdit() {
                     saveHandler(values, () => {
                       resetForm(initData);
                       setFieldValue("viewType", values?.viewType);
+                      setIsCustomerReceivedModalOpen(false);
                       fetchPCFLandingData({
                         createPageValues: values,
                         landingPageValues: landingFormikRef?.current?.values,

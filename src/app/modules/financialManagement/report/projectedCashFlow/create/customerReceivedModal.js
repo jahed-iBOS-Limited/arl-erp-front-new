@@ -20,7 +20,7 @@ const CustomerReceivedModal = ({ objProps }) => {
       // get index's item
       newData[index] = {
         ...newData[index], // keep all index's item property
-        [name]: value, // update input filed name with value
+        [name]: name === "receivedAmount" ? +value : value, // update input filed name with value
       };
 
       return newData;

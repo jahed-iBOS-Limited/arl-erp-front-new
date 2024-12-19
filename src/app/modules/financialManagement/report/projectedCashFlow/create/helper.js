@@ -1,9 +1,8 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import { _monthLastDate } from "../../../../_helper/_monthLastDate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { _todayDate } from "../../../../_helper/_todayDate";
 // create page
 // init data
 export const initData = {
@@ -133,7 +132,7 @@ export const fetchPOLCAndSetFormField = (obj) => {
 // generate save payload
 export const generateSavePayloadAndURL = (obj) => {
   // destrcuture
-  const { values, profileData } = obj;
+  const { values, profileData, customerReceivedRowData } = obj;
   // values
   const {
     viewType,
@@ -161,13 +160,7 @@ export const generateSavePayloadAndURL = (obj) => {
 
   // customer received payload
   if (viewType === "customer received") {
-    payload = {
-      businessUnitId: sbu?.value,
-      sbu: sbu?.value,
-      receivedAmount: amount || 0,
-      actionBy: profileData?.userId,
-      paymentDate: paymentDate,
-    };
+    return customerReceivedRowData;
   } else if (viewType === "income" || viewType === "payment") {
     payload =
       // income, payment payload
@@ -502,8 +495,10 @@ export const chooseTableColumns = (viewType) => {
 export const landingInitData = {
   sbu: "",
   paymentType: { value: "Duty", label: "Duty" },
-  fromDate: _monthFirstDate(),
-  toDate: _monthLastDate(),
+  // fromDate: _monthFirstDate(),
+  // toDate: _monthLastDate(),
+  fromDate: _todayDate(), // temporary untill pagination
+  toDate: _todayDate(), // temporary untill pagination
 };
 
 // customer received
@@ -549,3 +544,6 @@ export const generateCustomerReceivedRowData = (obj) => {
     });
   }
 };
+
+// all object for landing sbu
+export const allObjSBU = { value: 0, label: "All" };
