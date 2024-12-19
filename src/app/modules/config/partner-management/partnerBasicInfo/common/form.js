@@ -1,71 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import NewSelect from "../../../../_helper/_select";
-import { getdivisionDDL, getdistrictDDL, getpoliceStationDDL } from "../helper";
-import InputField from "../../../../_helper/_inputField";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import Axios from 'axios';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import NewSelect from '../../../../_helper/_select';
+import { getdivisionDDL, getdistrictDDL, getpoliceStationDDL } from '../helper';
+import InputField from '../../../../_helper/_inputField';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { imarineBaseUrl } from '../../../../../App';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
-  email: Yup.string().email("Valid Email is required"),
+  email: Yup.string().email('Valid Email is required'),
   businessPartnerName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Partner Name is required"),
-  // billingName: Yup.string()
-  //   .min(2, "Minimum 2 symbols")
-  //   .max(100, "Maximum 100 symbols")
-  //   .required("Billing Name is required"),
-  // billingAddress: Yup.string()
-  //   .min(2, "Minimum 2 symbols")
-  //   .max(100, "Maximum 100 symbols")
-  //   .required("Billing Address is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Partner Name is required'),
   businessPartnerType: Yup.object()
     .shape({
-      label: Yup.string().required("Partner Type is required"),
-      value: Yup.string().required("Partner Type is required"),
+      label: Yup.string().required('Partner Type is required'),
+      value: Yup.string().required('Partner Type is required'),
     })
-    .typeError("Partner Type is required"),
-  // businessPartnerCode: Yup.string()
-  //   .min(2, "Minimum 2 symbols")
-  //   .max(50, "Maximum 50 symbols")
-  //   .required("Code is required"),
+    .typeError('Partner Type is required'),
   businessPartnerAddress: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Partner Address is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Partner Address is required'),
   contactNumber: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("Contact Number is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(50, 'Maximum 50 symbols')
+    .required('Contact Number is required'),
   licenseNo: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("License No is required"),
-  proprietor: Yup.string().required("Proprietor Name is required"),
-
-  /* Last Added */
-  // district: Yup.object().when(
-  //   "isDistrictUpzillaStatus",
-  //   (isDistrictUpzillaStatus, Schema) => {
-  //     if (isDistrictUpzillaStatus) {
-  //       return Schema.required("District is required");
-  //     }
-  //   }
-  // ),
-  // policeStation: Yup.object().when(
-  //   "isDistrictUpzillaStatus",
-  //   (isDistrictUpzillaStatus, Schema) => {
-  //     if (isDistrictUpzillaStatus) {
-  //       return Schema.required("Police Station is required");
-  //     }
-  //   }
-  // ),
+    .min(2, 'Minimum 2 symbols')
+    .max(50, 'Maximum 50 symbols')
+    .required('License No is required'),
+  proprietor: Yup.string().required('Proprietor Name is required'),
 });
 
 export default function _Form({
@@ -77,7 +49,11 @@ export default function _Form({
   fileObjects,
   id,
 }) {
-  const [itemTypeList, setItemTypeList] = useState("");
+  const selectedBusinessUnit = useSelector(
+    (state) => state.authData.selectedBusinessUnit,
+  );
+  const [shipingCargoTypeDDL, getShipingCargoTypeDDL] = useAxiosGet();
+  const [itemTypeList, setItemTypeList] = useState('');
   const [itemTypeOption, setItemTypeOption] = useState([]);
   const [open, setOpen] = React.useState(false);
   const dispatch = useDispatch();
@@ -89,13 +65,17 @@ export default function _Form({
   useEffect(() => {
     getInfoData();
     getdivisionDDL(18, setdivisionDDL);
+
+    getShipingCargoTypeDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getInfoData = async () => {
     try {
       const res = await Axios.get(
-        "/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList"
+        '/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList',
       );
       setItemTypeList(res.data);
     } catch (error) {
@@ -117,7 +97,8 @@ export default function _Form({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemTypeList]);
 
-console.log({product})
+  const isAkijLogisticsBUI = [225].includes(selectedBusinessUnit?.value);
+
   return (
     <>
       <Formik
@@ -142,29 +123,41 @@ console.log({product})
           isValid,
         }) => (
           <>
-          {console.log({editableValues: values})}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
+                {isAkijLogisticsBUI && (
+                  <>
+                    {' '}
+                    <div className="col-lg-4">
+                      <NewSelect
+                        name="cargoType"
+                        options={
+                          shipingCargoTypeDDL?.filter((i) => i?.value !== 1) ||
+                          []
+                        }
+                        value={values?.cargoType}
+                        label="Cargo Type"
+                        onChange={(valueOption) => {
+                          setFieldValue('cargoType', valueOption);
+                        }}
+                        placeholder="Select Cargo Type"
+                        isSearchable={true}
+                        errors={errors}
+                        touched={touched}
+                      />
+                    </div>
+                  </>
+                )}
+
                 <div className="col-lg-4">
                   <Field
-                    value={values.businessPartnerName || ""}
+                    value={values.businessPartnerName || ''}
                     name="businessPartnerName"
                     component={Input}
                     placeholder="Business Partner Name"
                     label="Business Partner Name"
                   />
                 </div>
-                {/* <div className="col-lg-4">
-                  <Field
-                    value={values.businessPartnerCode || ""}
-                    name="businessPartnerCode"
-                    component={Input}
-                    placeholder="Business Partner Code"
-                    label="Business Partner Code"
-                    // errors={errors}
-                    disabled={businessPartnerCode}
-                  />
-                </div> */}
                 <div className="col-lg-4">
                   <NewSelect
                     name="businessPartnerType"
@@ -172,7 +165,7 @@ console.log({product})
                     value={values?.businessPartnerType}
                     label="Partner Type"
                     onChange={(valueOption) => {
-                      setFieldValue("businessPartnerType", valueOption);
+                      setFieldValue('businessPartnerType', valueOption);
                     }}
                     placeholder="Select Partner Type"
                     isSearchable={true}
@@ -182,7 +175,7 @@ console.log({product})
                 </div>
                 <div className="col-lg-4">
                   <Field
-                    value={values.businessPartnerAddress || ""}
+                    value={values.businessPartnerAddress || ''}
                     name="businessPartnerAddress"
                     component={Input}
                     placeholder="Business Partner Address"
@@ -218,7 +211,7 @@ console.log({product})
                 </div> */}
                 <div className="col-lg-4">
                   <InputField
-                    value={values.proprietor || ""}
+                    value={values.proprietor || ''}
                     name="proprietor"
                     placeholder="Proprietor Name"
                     type="text"
@@ -227,7 +220,7 @@ console.log({product})
                 </div>
                 <div className="col-lg-4">
                   <Field
-                    value={values.contactNumber || ""}
+                    value={values.contactNumber || ''}
                     name="contactNumber"
                     component={Input}
                     placeholder="Contact Number (Proprietor)"
@@ -236,7 +229,7 @@ console.log({product})
                 </div>
                 <div className="col-lg-4">
                   <InputField
-                    value={values.contactPerson || ""}
+                    value={values.contactPerson || ''}
                     name="contactPerson"
                     placeholder="Contact Person"
                     type="text"
@@ -245,7 +238,7 @@ console.log({product})
                 </div>
                 <div className="col-lg-4">
                   <InputField
-                    value={values.contactNumber2 || ""}
+                    value={values.contactNumber2 || ''}
                     name="contactNumber2"
                     placeholder="Contact Number (Contact Person)"
                     type="text"
@@ -254,7 +247,7 @@ console.log({product})
                 </div>
                 <div className="col-lg-4">
                   <InputField
-                    value={values.contactNumber3 || ""}
+                    value={values.contactNumber3 || ''}
                     name="contactNumber3"
                     placeholder="Contact Number (Other)"
                     type="text"
@@ -263,7 +256,7 @@ console.log({product})
                 </div>
                 <div className="col-lg-4">
                   <Field
-                    value={values.email || ""}
+                    value={values.email || ''}
                     name="email"
                     component={Input}
                     placeholder="Email"
@@ -272,7 +265,7 @@ console.log({product})
                 </div>
                 <div className="col-lg-4">
                   <Field
-                    value={values.bin || ""}
+                    value={values.bin || ''}
                     name="bin"
                     component={Input}
                     placeholder="BIN"
@@ -281,7 +274,7 @@ console.log({product})
                 </div>
                 <div className="col-lg-4">
                   <Field
-                    value={values.licenseNo || ""}
+                    value={values.licenseNo || ''}
                     name="licenseNo"
                     component={Input}
                     placeholder="Licence Number"
@@ -296,9 +289,9 @@ console.log({product})
                     value={values?.division}
                     label="State/Division (Optional)"
                     onChange={(valueOption) => {
-                      setFieldValue("division", valueOption);
-                      setFieldValue("district", "");
-                      setFieldValue("policeStation", "");
+                      setFieldValue('division', valueOption);
+                      setFieldValue('district', '');
+                      setFieldValue('policeStation', '');
                       getdistrictDDL(18, valueOption?.value, setdistrictDDL);
                     }}
                     placeholder="Select State/Division"
@@ -313,13 +306,13 @@ console.log({product})
                     value={values?.district}
                     label="City/District (Optional)"
                     onChange={(valueOption) => {
-                      setFieldValue("district", valueOption);
-                      setFieldValue("policeStation", "");
+                      setFieldValue('district', valueOption);
+                      setFieldValue('policeStation', '');
                       getpoliceStationDDL(
                         18,
                         values?.division?.value,
                         valueOption?.value,
-                        setpoliceStationDDL
+                        setpoliceStationDDL,
                       );
                     }}
                     placeholder="Select City/District"
@@ -334,7 +327,7 @@ console.log({product})
                     value={values?.policeStation}
                     label="PoliceStation (Optional)"
                     onChange={(valueOption) => {
-                      setFieldValue("policeStation", valueOption);
+                      setFieldValue('policeStation', valueOption);
                     }}
                     placeholder="Select PoliceStation"
                     errors={errors}
@@ -342,58 +335,65 @@ console.log({product})
                   />
                 </div>
 
-                {!product?.createNewUser ? 
-                <>
-                  <div className="col-lg-2 d-flex align-items-center justify-content-center mt-2">
-                  <Field
-                    name="createNewUser"
-                    component={() => (
-                      <input
-                        id="createNewUser"
-                        type="checkbox"
-                        className="mr-2 pointer"
-                        value={values.createNewUser}
-                        checked={values.createNewUser}
+                {!product?.createNewUser ? (
+                  <>
+                    <div className="col-lg-2 d-flex align-items-center justify-content-center mt-2">
+                      <Field
                         name="createNewUser"
-                        onChange={(e) => {
-                          setFieldValue("createNewUser", e.target.checked);
-                        }}
-                        // disabled={product?.createNewUser}
+                        component={() => (
+                          <input
+                            id="createNewUser"
+                            type="checkbox"
+                            className="mr-2 pointer"
+                            value={values.createNewUser}
+                            checked={values.createNewUser}
+                            name="createNewUser"
+                            onChange={(e) => {
+                              setFieldValue('createNewUser', e.target.checked);
+                            }}
+                            // disabled={product?.createNewUser}
+                          />
+                        )}
+                        label="Is slab program"
                       />
-                    )}
-                    label="Is slab program"
-                  />
-                  <label className="d-block pointer" for="createNewUser">
-                    Create New User
-                  </label>
-                </div>
-                </> : 
-                <>
-                <div className="col-lg-2 d-flex align-items-center justify-content-center mt-2">
-                  <Field
-                    name="updateUserLoginId"
-                    component={() => (
-                      <input
-                        id="updateUserLoginId"
-                        type="checkbox"
-                        className="mr-2 pointer"
-                        value={values.updateUserLoginId}
-                        checked={values.updateUserLoginId}
+                      <label className="d-block pointer" for="createNewUser">
+                        Create New User
+                      </label>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="col-lg-2 d-flex align-items-center justify-content-center mt-2">
+                      <Field
                         name="updateUserLoginId"
-                        onChange={(e) => {
-                          setFieldValue("updateUserLoginId", e.target.checked);
-                        }}
-                        // disabled={product?.updateUserLoginId}
+                        component={() => (
+                          <input
+                            id="updateUserLoginId"
+                            type="checkbox"
+                            className="mr-2 pointer"
+                            value={values.updateUserLoginId}
+                            checked={values.updateUserLoginId}
+                            name="updateUserLoginId"
+                            onChange={(e) => {
+                              setFieldValue(
+                                'updateUserLoginId',
+                                e.target.checked,
+                              );
+                            }}
+                            // disabled={product?.updateUserLoginId}
+                          />
+                        )}
+                        label="Is slab program"
                       />
-                    )}
-                    label="Is slab program"
-                  />
-                  <label className="d-block pointer" for="updateUserLoginId">                   
-                    Update User LogIn Information
-                  </label>
-                </div>
-                </>  
-              }
+                      <label
+                        className="d-block pointer"
+                        for="updateUserLoginId"
+                      >
+                        Update User LogIn Information
+                      </label>
+                    </div>
+                  </>
+                )}
 
                 <div className="col-lg-4">
                   <button
@@ -409,7 +409,7 @@ console.log({product})
                       type="button"
                       onClick={() => {
                         dispatch(
-                          getDownlloadFileView_Action(values?.attachmentLink)
+                          getDownlloadFileView_Action(values?.attachmentLink),
                         );
                       }}
                     >
@@ -421,14 +421,14 @@ console.log({product})
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(product)}
               ></button>
@@ -436,10 +436,10 @@ console.log({product})
 
             <DropzoneDialogBase
               filesLimit={1}
-              acceptedFiles={["image/*", "application/pdf"]}
+              acceptedFiles={['image/*', 'application/pdf']}
               fileObjects={fileObjects}
-              cancelButtonText={"cancel"}
-              submitButtonText={"submit"}
+              cancelButtonText={'cancel'}
+              submitButtonText={'submit'}
               maxFileSize={1000000}
               open={open}
               onAdd={(newFileObjs) => {
@@ -447,7 +447,7 @@ console.log({product})
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name
+                  (item) => item.file.name !== deleteFileObj.file.name,
                 );
                 setFileObjects(newData);
               }}
