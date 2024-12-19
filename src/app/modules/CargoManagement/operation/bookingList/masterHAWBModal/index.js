@@ -11,6 +11,7 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import "./HAWBFormat.css";
 import logisticsLogo from "./logisticsLogo.png";
 import Loading from "../../../../_helper/_loading";
+import { shallowEqual, useSelector } from "react-redux";
 const validationSchema = Yup.object().shape({});
 
 const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
@@ -23,7 +24,10 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
     shipMasterBlByIdLoaidng,
   ] = useAxiosGet();
   const [, SaveShipMasterHAWB, SaveShipMasterHAWBLoading] = useAxiosPost();
-
+  const { profileData } = useSelector(
+    (state) => state?.authData || {},
+    shallowEqual
+  );
   const [isPrintViewMode, setIsPrintViewMode] = useState(isPrintView || false);
   const formikRef = React.useRef();
 
@@ -89,7 +93,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       signatureOfIssuingCarrierOrAgent:
         values?.signatureOfIssuingCarrierOrAgent || "",
       isActive: true,
-      createdBy: 0,
+      createdBy: profileData?.userId,
       createdAt: new Date(),
       serverTime: new Date(),
       collectTotalAmount: values?.collectTotalAmount || "",
