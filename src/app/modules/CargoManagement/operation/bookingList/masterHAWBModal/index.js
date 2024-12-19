@@ -346,14 +346,14 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             );
             return subtotal + weightSubtotal;
           }, 0);
-          const totalVolumeCBM = hbawRestData?.reduce((subtotal, item) => {
-            const rows = item?.rowsData || [];
-            const volumeSubtotal = rows?.reduce(
-              (sum, row) => sum + (row?.totalVolumeCBM || 0),
-              0
-            );
-            return subtotal + volumeSubtotal;
-          }, 0);
+          // const totalVolumeCBM = hbawRestData?.reduce((subtotal, item) => {
+          //   const rows = item?.rowsData || [];
+          //   const volumeSubtotal = rows?.reduce(
+          //     (sum, row) => sum + (row?.totalVolumeCBM || 0),
+          //     0
+          //   );
+          //   return subtotal + volumeSubtotal;
+          // }, 0);
           const airportOfDepartureAndRouting = firstIndex?.transportPlanning?.airTransportRow?.map(
             (item) => {
               return `(${item?.fromPort} - ${item?.toPort}) `;
