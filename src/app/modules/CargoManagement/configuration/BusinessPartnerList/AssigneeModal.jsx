@@ -10,6 +10,7 @@ import IViewModal from '../../../_helper/_viewModal';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import { toast } from 'react-toastify';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../_helper/_loading';
 
 const initialValues = {
   shipper: '',
@@ -24,7 +25,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
     return state?.authData;
   }, shallowEqual);
   const [consigneeListDDL, getConsigneeListDDL] = useAxiosGet();
-  const [, getParticipantsWithConsigneeDtl] = useAxiosGet();
+  const [, getParticipantsWithConsigneeDtl, participantLoading] = useAxiosGet();
   const [
     participantDDL,
     getParticipantDDL,
@@ -39,7 +40,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
     ,
     setParticipantTypeList,
   ] = useAxiosGet();
-  const [, saveParticipntMapping] = useAxiosPost();
+  const [, saveParticipntMapping, participntMappingLoading] = useAxiosPost();
 
   const saveHandler = (values, cb) => {
     // addItem minimum 1 item check
@@ -67,31 +68,29 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
 
   React.useEffect(() => {
     GetParticipantTypeListDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GettblParticipantType`,
+      `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
       (redData) => {
-        const updatedData = redData?.filter((item) => item.value !== 1);
+        const updatedData = redData?.filter((item) =>
+          [1, 3, 4].includes(item?.value),
+        );
         setParticipantTypeList(updatedData);
       },
     );
-    commonGeParticipantDDL(getConsigneeListDDL, 1);
+    // 1= supplier, 2= consignee
+    commonGeParticipantDDL(getConsigneeListDDL, 1, 2);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const commonGeParticipantDDL = (actionName, type) => {
+  const commonGeParticipantDDL = (actionName, partnerType, cargoType) => {
     actionName(
-      `${imarineBaseUrl}/domain/ShippingService/GetParticipantDDL?typeId=${type}`,
+      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?businessPartnerType=${partnerType}&cargoType=${cargoType}`,
     );
   };
 
   const onChangeParticipantType = (type) => {
     setParticipantDDL([]);
-    if (type === 4) {
-      getParticipantDDL(
-        `${imarineBaseUrl}/domain/ShippingService/GetShippingUserDDL`,
-      );
-    } else {
-      commonGeParticipantDDL(getParticipantDDL, type);
-    }
+    // 1= supplier
+    commonGeParticipantDDL(getParticipantDDL, 1, type);
   };
 
   const addButtonHandler = (values) => {
@@ -182,6 +181,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
             formikRef.current.resetForm();
           }}
         >
+          {(participntMappingLoading || participantLoading) && <Loading />}
           <Formik
             enableReinitialize={true}
             initialValues={initialValues}
@@ -195,79 +195,77 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
               values,
               resetForm,
             }) => (
-              <>
-                <Form className="form form-label-right">
-                  <div className="form-group row global-form">
-                    {/* Consignee */}
-                    <div className="col-lg-3">
-                      <NewSelect
-                        label="Select Consignee"
-                        options={consigneeListDDL || []}
-                        value={values?.consignee}
-                        name="consignee"
-                        onChange={(valueOption) => {
-                          setFieldValue('consignee', valueOption);
-                          consigneeOnChangeHandler(valueOption);
-                        }}
-                        errors={errors}
-                        touched={touched}
-                        disabled={addedItem?.length > 0}
-                      />
-                    </div>
-                    <div className="col-lg-3">
-                      <NewSelect
-                        label="Type"
-                        options={participantTypeListDDL || []}
-                        value={values?.type}
-                        name="type"
-                        onChange={(valueOption) => {
-                          setFieldValue('type', valueOption);
-                          setFieldValue('participant', '');
-                          onChangeParticipantType(valueOption?.value);
-                        }}
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                    {values?.type && (
-                      <>
-                        {' '}
-                        <div className="col-lg-3">
-                          <NewSelect
-                            label={`Select ${values?.type?.label}`}
-                            options={participantDDL || []}
-                            value={values?.participant}
-                            name="participant"
-                            onChange={(valueOption) => {
-                              setFieldValue('participant', valueOption || ``);
-                            }}
-                            errors={errors}
-                            touched={touched}
-                          />
-                        </div>
-                      </>
-                    )}
-                    <div className="col-lg-3">
-                      <div className="d-flex my-1">
-                        <button
-                          type="button"
-                          className="btn btn-primary mt-5"
-                          onClick={() => {
-                            addButtonHandler(values);
+              <Form className="form form-label-right">
+                <div className="form-group row global-form">
+                  {/* Consignee */}
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label="Select Consignee"
+                      options={consigneeListDDL || []}
+                      value={values?.consignee}
+                      name="consignee"
+                      onChange={(valueOption) => {
+                        setFieldValue('consignee', valueOption);
+                        consigneeOnChangeHandler(valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={addedItem?.length > 0}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label="Type"
+                      options={participantTypeListDDL || []}
+                      value={values?.type}
+                      name="type"
+                      onChange={(valueOption) => {
+                        setFieldValue('type', valueOption);
+                        setFieldValue('participant', '');
+                        onChangeParticipantType(valueOption?.value);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  {values?.type && (
+                    <>
+                      {' '}
+                      <div className="col-lg-3">
+                        <NewSelect
+                          label={`Select ${values?.type?.label}`}
+                          options={participantDDL || []}
+                          value={values?.participant}
+                          name="participant"
+                          onChange={(valueOption) => {
+                            setFieldValue('participant', valueOption || ``);
                           }}
-                          disabled={
-                            !values?.consignee ||
-                            !values?.type ||
-                            !values?.participant
-                          }
-                        >
-                          Add
-                        </button>
+                          errors={errors}
+                          touched={touched}
+                        />
                       </div>
+                    </>
+                  )}
+                  <div className="col-lg-3">
+                    <div className="d-flex my-1">
+                      <button
+                        type="button"
+                        className="btn btn-primary mt-5"
+                        onClick={() => {
+                          addButtonHandler(values);
+                        }}
+                        disabled={
+                          !values?.consignee ||
+                          !values?.type ||
+                          !values?.participant
+                        }
+                      >
+                        Add
+                      </button>
                     </div>
                   </div>
-                </Form>
-              </>
+                </div>
+              </Form>
             )}
           </Formik>
           {addedItem?.length > 0 && (
