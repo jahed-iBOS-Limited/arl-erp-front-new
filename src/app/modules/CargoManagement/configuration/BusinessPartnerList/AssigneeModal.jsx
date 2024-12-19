@@ -89,8 +89,10 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
 
   const onChangeParticipantType = (type) => {
     setParticipantDDL([]);
-    // 1= supplier
-    commonGeParticipantDDL(getParticipantDDL, 1, type);
+
+    const supplierTypeId = type === 1 ? 2 : 1;
+    // 1= supplier 2= customer
+    commonGeParticipantDDL(getParticipantDDL, supplierTypeId, type);
   };
 
   const addButtonHandler = (values) => {
