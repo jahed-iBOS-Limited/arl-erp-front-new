@@ -62,7 +62,7 @@ const ProjectedCashFlowLanding = ({ obj }) => {
               <NewSelect
                 name="sbu"
                 label="SBU"
-                options={[...allObjSBU, ...sbuDDL] || []}
+                options={[allObjSBU, ...sbuDDL] || []}
                 value={values?.sbu}
                 onChange={(valueOption) => {
                   setFieldValue("sbu", valueOption);
