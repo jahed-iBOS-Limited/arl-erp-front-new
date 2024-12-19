@@ -11,28 +11,7 @@ import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import './style.css';
 import NewSelect from '../../../../_helper/_select';
 import IDelete from '../../../../_helper/_helperIcons/_delete';
-const paymentPartyDDL = [
-  {
-    value: 1,
-    label: 'Shipper',
-  },
-  {
-    value: 2,
-    label: 'Consignee',
-  },
-  {
-    value: 3,
-    label: 'Delivery Agent',
-  },
-  {
-    value: 4,
-    label: 'Notify Party(1)',
-  },
-  {
-    value: 5,
-    label: 'Notify Party(2)',
-  },
-];
+
 const validationSchema = Yup.object().shape({
   // exchangeRate: Yup.number().required('Exchange Rate is required'),
   currency: Yup.object().shape({
@@ -48,6 +27,7 @@ function ChargesModal({ rowClickData, CB }) {
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, getSaveBookedRequestBilling, bookedRequestBilling] = useAxiosPost();
+  const [shipingCargoTypeDDL, getShipingCargoTypeDDL] = useAxiosGet();
   const [
     ,
     getBookedRequestBillingData,
@@ -130,6 +110,9 @@ function ChargesModal({ rowClickData, CB }) {
         setCurrencyList(modifyData);
       },
     );
+    getShipingCargoTypeDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -156,10 +139,14 @@ function ChargesModal({ rowClickData, CB }) {
           updatedAt: profileData?.userId || 0,
           collectionActualAmount: item?.collectionActualAmount || 0,
           collectionDummyAmount: item?.collectionDummyAmount || 0,
+          collectionPartyType: item?.collectionPartyType || '',
+          collectionPartyTypeId: item?.collectionPartyTypeId || 0,
           collectionParty: item?.collectionParty || '',
           collectionPartyId: item?.collectionPartyId || 0,
           paymentActualAmount: item?.paymentActualAmount || 0,
           paymentDummyAmount: item?.paymentDummyAmount || 0,
+          paymentPartyType: item?.paymentPartyType || '',
+          paymentPartyTypeId: item?.paymentPartyTypeId || 0,
           paymentParty: item?.paymentParty || '',
           paymentPartyId: item?.paymentPartyId || 0,
         };
@@ -267,10 +254,14 @@ function ChargesModal({ rowClickData, CB }) {
                             checked: true,
                             collectionActualAmount: '',
                             collectionDummyAmount: '',
+                            collectionPartyType: '',
+                            collectionPartyTypeId: 0,
                             collectionParty: '',
                             collectionPartyId: 0,
                             paymentActualAmount: '',
                             paymentDummyAmount: '',
+                            paymentPartyType: '',
+                            paymentPartyTypeId: 0,
                             paymentParty: '',
                             paymentPartyId: 0,
                           },
@@ -310,6 +301,13 @@ function ChargesModal({ rowClickData, CB }) {
                                   collectionDummyAmount: e?.target?.checked
                                     ? item?.collectionDummyAmount
                                     : '',
+                                  collectionPartyType: e?.target?.checked
+                                    ? item?.collectionPartyType
+                                    : '',
+                                  collectionPartyTypeId: e?.target?.checked
+                                    ? item?.collectionPartyTypeId
+                                    : 0,
+
                                   collectionParty: e?.target?.checked
                                     ? item?.collectionParty
                                     : '',
@@ -322,6 +320,12 @@ function ChargesModal({ rowClickData, CB }) {
                                   paymentDummyAmount: e?.target?.checked
                                     ? item?.paymentDummyAmount
                                     : '',
+                                  paymentPartyType: e?.target?.checked
+                                    ? item?.paymentPartyType
+                                    : '',
+                                  paymentPartyTypeId: e?.target?.checked
+                                    ? item?.paymentPartyTypeId
+                                    : 0,
                                   paymentParty: e?.target?.checked
                                     ? item?.paymentParty
                                     : '',
@@ -336,10 +340,10 @@ function ChargesModal({ rowClickData, CB }) {
                       </th>
                       <th rowspan="2">SL</th>
                       <th rowspan="2">Attribute</th>
-                      <th colspan="3" class="group-header">
+                      <th colspan="4" class="group-header">
                         Collection <span>(Amounts & Party)</span>
                       </th>
-                      <th colspan="3" class="group-header">
+                      <th colspan="4" class="group-header">
                         Payment <span>(Amounts & Party)</span>
                       </th>
                       <th rowspan="2">Action</th>
@@ -359,7 +363,20 @@ function ChargesModal({ rowClickData, CB }) {
                       >
                         Dummy Amount
                       </th>
-                      <th>Party</th>
+                      <th
+                        style={{
+                          width: '150px',
+                        }}
+                      >
+                        Party
+                      </th>
+                      <th
+                        style={{
+                          width: '150px',
+                        }}
+                      >
+                        Party Name
+                      </th>
                       <th
                         style={{
                           width: '60px',
@@ -374,7 +391,20 @@ function ChargesModal({ rowClickData, CB }) {
                       >
                         Dummy Amount
                       </th>
-                      <th>Party</th>
+                      <th
+                        style={{
+                          width: '150px',
+                        }}
+                      >
+                        Party
+                      </th>
+                      <th
+                        style={{
+                          width: '150px',
+                        }}
+                      >
+                        Party Name
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -401,6 +431,14 @@ function ChargesModal({ rowClickData, CB }) {
                                             ?.checked
                                             ? item?.collectionDummyAmount
                                             : '',
+                                          collectionPartyType: e?.target
+                                            ?.checked
+                                            ? item?.collectionPartyType
+                                            : '',
+                                          collectionPartyTypeId: e?.target
+                                            ?.checked
+                                            ? item?.collectionPartyTypeId
+                                            : 0,
                                           collectionParty: e?.target?.checked
                                             ? item?.collectionParty
                                             : '',
@@ -414,6 +452,12 @@ function ChargesModal({ rowClickData, CB }) {
                                           paymentDummyAmount: e?.target?.checked
                                             ? item?.paymentDummyAmount
                                             : '',
+                                          paymentPartyType: e?.target?.checked
+                                            ? item?.paymentPartyType
+                                            : '',
+                                          paymentPartyTypeId: e?.target?.checked
+                                            ? item?.paymentPartyTypeId
+                                            : 0,
                                           paymentParty: e?.target?.checked
                                             ? item?.paymentParty
                                             : '',
@@ -465,12 +509,32 @@ function ChargesModal({ rowClickData, CB }) {
                             <td>
                               <NewSelect
                                 isDisabled={!item?.checked}
-                                options={
-                                  paymentPartyDDL?.filter(
-                                    (item) =>
-                                      item?.value !== item?.paymentParty?.value,
-                                  ) || []
+                                options={shipingCargoTypeDDL || []}
+                                value={
+                                  item?.collectionPartyType
+                                    ? {
+                                        label: item?.collectionPartyType,
+                                        value: item?.collectionPartyTypeId,
+                                      }
+                                    : ''
                                 }
+                                name="collectionPartyType"
+                                onChange={(valueOption) => {
+                                  const copyPrv = [...shippingHeadOfCharges];
+                                  copyPrv[index].collectionPartyType =
+                                    valueOption?.label;
+                                  copyPrv[index].collectionPartyTypeId =
+                                    valueOption?.value;
+                                  setShippingHeadOfCharges(copyPrv);
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <NewSelect
+                                isDisabled={
+                                  !item?.checked || !item?.collectionPartyType
+                                }
+                                options={[]}
                                 value={
                                   item?.collectionParty
                                     ? {
@@ -524,28 +588,48 @@ function ChargesModal({ rowClickData, CB }) {
                             <td>
                               <NewSelect
                                 isDisabled={!item?.checked}
-                                options={
-                                  paymentPartyDDL?.filter(
-                                    (item) =>
-                                      item?.value !== item?.paymentParty?.value,
-                                  ) || []
-                                }
+                                options={shipingCargoTypeDDL || []}
                                 value={
-                                  item?.paymentParty
+                                  item?.paymentPartyType
                                     ? {
-                                        label: item?.paymentParty,
-                                        value: item?.paymentPartyId,
+                                        label: item?.paymentPartyType,
+                                        value: item?.paymentPartyTypeId,
                                       }
                                     : ''
                                 }
-                                name="paymentParty"
+                                name="paymentPartyType"
                                 onChange={(valueOption) => {
                                   const copyPrv = [...shippingHeadOfCharges];
-                                  copyPrv[index].paymentParty =
+                                  copyPrv[index].paymentPartyType =
                                     valueOption?.label;
-                                  copyPrv[index].paymentPartyId =
+                                  copyPrv[index].paymentPartyTypeId =
                                     valueOption?.value;
 
+                                  setShippingHeadOfCharges(copyPrv);
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <NewSelect
+                                isDisabled={
+                                  !item?.checked || !item?.paymentPartyType
+                                }
+                                options={[]}
+                                value={
+                                  item?.collectionParty
+                                    ? {
+                                        label: item?.collectionParty,
+                                        value: item?.collectionPartyId,
+                                      }
+                                    : ''
+                                }
+                                name="collectionParty"
+                                onChange={(valueOption) => {
+                                  const copyPrv = [...shippingHeadOfCharges];
+                                  copyPrv[index].collectionParty =
+                                    valueOption?.label;
+                                  copyPrv[index].collectionPartyId =
+                                    valueOption?.value;
                                   setShippingHeadOfCharges(copyPrv);
                                 }}
                               />
