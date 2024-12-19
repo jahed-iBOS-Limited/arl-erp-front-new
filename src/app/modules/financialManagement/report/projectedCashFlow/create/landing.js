@@ -111,15 +111,14 @@ const ProjectedCashFlowLanding = ({ obj }) => {
             </div>
           </div>
           {/* Landing Table */}
-          <div className="loan-scrollable-table mt-3">
-            <div className="scroll-table _table">
-              {pcfLandingData?.length > 0 && (
-                <GenericTable
-                  data={pcfLandingData}
-                  columns={chooseTableColumns(createPageValues?.viewType)}
-                />
-              )}
-            </div>
+
+          <div className="table-responsive mt-3">
+            {pcfLandingData?.length > 0 && (
+              <GenericTable
+                data={pcfLandingData}
+                columns={chooseTableColumns(createPageValues?.viewType)}
+              />
+            )}
           </div>
         </Form>
       )}
@@ -131,7 +130,7 @@ export default ProjectedCashFlowLanding;
 
 const GenericTable = ({ data, columns, keyField = "index" }) => {
   return (
-    <table className="table table-bordered bj-table bj-table-landing">
+    <table className="table table-striped table-bordered global-table mt-0">
       <thead>
         <tr>
           {columns?.map((col, idx) => (

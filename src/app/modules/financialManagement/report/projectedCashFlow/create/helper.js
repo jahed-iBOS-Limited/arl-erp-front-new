@@ -460,15 +460,20 @@ export const paymentAndIncomeLanding = [
 export const customerReceivedLanding = [
   { header: "SL", render: (_i, index) => index + 1 },
   {
-    header: "Amount",
-    key: "receivedAmount",
-    className: "text-right",
-    render: (item) => _formatMoney(item.receivedAmount),
+    header: "Business Unit",
+    key: "businessUnitName",
   },
   {
     header: "Payment Date",
     key: "paymentDate",
+    className: "text-center",
     render: (item) => _dateFormatter(item.paymentDate),
+  },
+  {
+    header: "Amount",
+    key: "receivedAmount",
+    className: "text-right",
+    render: (item) => _formatMoney(item.receivedAmount),
   },
   {
     header: "Action By",
