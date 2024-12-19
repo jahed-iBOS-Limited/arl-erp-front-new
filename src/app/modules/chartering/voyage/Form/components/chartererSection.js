@@ -1,9 +1,7 @@
-import React from "react";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-// import { DropzoneDialogBase } from "material-ui-dropzone";
-// import { empAttachment_action } from "../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
+import React from 'react';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
 
 export default function ChartererSection({
   values,
@@ -36,9 +34,9 @@ export default function ChartererSection({
               placeholder="Charterer Name"
               label="Charterer Name"
               onChange={(valueOption) => {
-                setFieldValue("charterName", valueOption);
+                setFieldValue('charterName', valueOption);
               }}
-              isDisabled={viewType === "view" || componentType}
+              isDisabled={viewType === 'view' || componentType}
               errors={errors}
               touched={touched}
             />
@@ -52,13 +50,13 @@ export default function ChartererSection({
               type="date"
               errors={errors}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
             />
           </div>
           {values?.voyageType?.value !== 1 && (
             <div className="col-lg-3">
               <FormikSelect
-                value={values?.brokerName || ""}
+                value={values?.brokerName || ''}
                 isSearchable={true}
                 options={brokerDDL || []}
                 styles={customStyles}
@@ -66,9 +64,9 @@ export default function ChartererSection({
                 placeholder="Broker Name"
                 label="Broker Name"
                 onChange={(valueOption) => {
-                  setFieldValue("brokerName", valueOption);
+                  setFieldValue('brokerName', valueOption);
                 }}
-                isDisabled={viewType === "view"}
+                isDisabled={viewType === 'view'}
                 errors={errors}
                 touched={touched}
               />
@@ -84,9 +82,9 @@ export default function ChartererSection({
               type="number"
               errors={errors}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
               onChange={(e) => {
-                setFieldValue("brokerCommission", e?.target?.value);
+                setFieldValue('brokerCommission', e?.target?.value);
 
                 if (!componentType) {
                   /* Func For Total Amount Value Handler */
@@ -95,7 +93,7 @@ export default function ChartererSection({
                       ...values,
                       brokerCommission: e?.target?.value,
                     },
-                    setFieldValue
+                    setFieldValue,
                   );
                 }
               }}
@@ -110,9 +108,9 @@ export default function ChartererSection({
               type="number"
               errors={errors}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
               onChange={(e) => {
-                setFieldValue("addressCommission", e?.target?.value);
+                setFieldValue('addressCommission', e?.target?.value);
 
                 if (!componentType) {
                   /* Func For Total Amount Value Handler */
@@ -121,7 +119,7 @@ export default function ChartererSection({
                       ...values,
                       addressCommission: e?.target?.value,
                     },
-                    setFieldValue
+                    setFieldValue,
                   );
                 }
               }}
@@ -137,7 +135,7 @@ export default function ChartererSection({
                 type="number"
                 errors={errors}
                 touched={touched}
-                disabled={viewType === "view"}
+                disabled={viewType === 'view'}
               />
             </div>
           )}
@@ -152,7 +150,7 @@ export default function ChartererSection({
                 type="datetime-local"
                 errors={errors}
                 touched={touched}
-                disabled={viewType === "view"}
+                disabled={viewType === 'view'}
               />
             </div>
           )}
@@ -166,23 +164,23 @@ export default function ChartererSection({
                 styles={customStyles}
                 name="startPort"
                 placeholder={
-                  "Delivery Place"
+                  'Delivery Place'
                   // values?.voyageType?.value === 1
                   //   ? // ? "Delivery Position"
                   // "Delivery Place"
                   // : "Load Port"
                 }
                 label={
-                  "Delivery Place"
+                  'Delivery Place'
                   // values?.voyageType?.value === 1
                   //   ? // ? "Delivery Position"
                   // "Delivery Place"
                   // : "Load Port"
                 }
                 onChange={(valueOption) => {
-                  setFieldValue("startPort", valueOption);
+                  setFieldValue('startPort', valueOption);
                 }}
-                isDisabled={viewType === "view"}
+                isDisabled={viewType === 'view'}
                 errors={errors}
                 touched={touched}
               />
@@ -199,7 +197,7 @@ export default function ChartererSection({
                 type="datetime-local"
                 errors={errors}
                 touched={touched}
-                disabled={viewType === "view"}
+                disabled={viewType === 'view'}
               />
             </div>
           )}
@@ -213,23 +211,23 @@ export default function ChartererSection({
                 styles={customStyles}
                 name="endPort"
                 onChange={(valueOption) => {
-                  setFieldValue("endPort", valueOption);
+                  setFieldValue('endPort', valueOption);
                 }}
                 placeholder={
-                  "Redelivery Place"
+                  'Redelivery Place'
                   // values?.voyageType?.value === 1
                   //   ? "Redelivery Place"
                   //   : // ? "Redelivery Position"
                   //     "Discharge Port"
                 }
                 label={
-                  "Redelivery Place"
+                  'Redelivery Place'
                   // values?.voyageType?.value === 1
                   //   ? "Redelivery Place"
                   //   : // ? "Redelivery Position"
                   //     "Discharge Port"
                 }
-                isDisabled={viewType === "view"}
+                isDisabled={viewType === 'view'}
                 errors={errors}
                 touched={touched}
               />
@@ -247,7 +245,7 @@ export default function ChartererSection({
                   type="date"
                   errors={errors}
                   touched={touched}
-                  disabled={viewType === "view"}
+                  disabled={viewType === 'view'}
                 />
               </div>
               <div className="col-lg-3">
@@ -259,7 +257,7 @@ export default function ChartererSection({
                   type="date"
                   errors={errors}
                   touched={touched}
-                  disabled={viewType === "view"}
+                  disabled={viewType === 'view'}
                 />
               </div>
             </>

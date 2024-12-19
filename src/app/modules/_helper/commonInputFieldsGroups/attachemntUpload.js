@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import { empAttachment_action } from "../../humanCapitalManagement/humanResource/employeeInformation/helper";
+import React, { useState } from 'react';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import { empAttachment_action } from '../../selfService/humanResource/employeeInformation/helper';
 
 const AttachFile = ({ obj }) => {
   const {
@@ -19,11 +19,11 @@ const AttachFile = ({ obj }) => {
       <DropzoneDialogBase
         filesLimit={filesLimit ? filesLimit : 1}
         acceptedFiles={
-          acceptedFiles ? acceptedFiles : ["image/*", "application/pdf"]
+          acceptedFiles ? acceptedFiles : ['image/*', 'application/pdf']
         }
         fileObjects={fileObjects}
-        cancelButtonText={"cancel"}
-        submitButtonText={"submit"}
+        cancelButtonText={'cancel'}
+        submitButtonText={'submit'}
         maxFileSize={maxFileSize ? maxFileSize : 1000000}
         open={open}
         onAdd={(newFileObjs) => {
@@ -31,7 +31,7 @@ const AttachFile = ({ obj }) => {
         }}
         onDelete={(deleteFileObj) => {
           const newData = fileObjects.filter(
-            (item) => item.file.name !== deleteFileObj.file.name
+            (item) => item.file.name !== deleteFileObj.file.name,
           );
           setFileObjects(newData);
         }}

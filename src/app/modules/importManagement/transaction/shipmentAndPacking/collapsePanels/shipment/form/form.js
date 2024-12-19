@@ -1,23 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
+import { Form, Formik } from 'formik';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import IDelete from "../../../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../../../_helper/_inputField";
-import numberWithCommas from "../../../../../../_helper/_numberWithCommas";
-import { getDownlloadFileView_Action } from "../../../../../../_helper/_redux/Actions";
-import NewSelect from "../../../../../../_helper/_select";
-import ButtonStyleOne from "../../../../../../_helper/button/ButtonStyleOne";
-import { empAttachment_action } from "../../../../../../humanCapitalManagement/humanResource/employeeInformation/helper";
-import { validationSchema } from "../helper";
+} from '../../../../../../../../_metronic/_partials/controls';
+import IDelete from '../../../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../../../_helper/_inputField';
+import numberWithCommas from '../../../../../../_helper/_numberWithCommas';
+import { getDownlloadFileView_Action } from '../../../../../../_helper/_redux/Actions';
+import NewSelect from '../../../../../../_helper/_select';
+import ButtonStyleOne from '../../../../../../_helper/button/ButtonStyleOne';
+import { validationSchema, empAttachment_action } from '../helper';
 
 export default function _Form({
   initData,
@@ -53,18 +52,18 @@ export default function _Form({
   const [isPartial, setIsPartial] = useState(false);
   useEffect(() => {
     if (checkTollerence()) {
-      toast.warn("You exceeded the Tolerance amount");
+      toast.warn('You exceeded the Tolerance amount');
     }
   }, [rowDto]);
 
   // console.log('shipmentId: ', shipmentId);
 
   const checkTollerence = (data, key) => {
-    const po = getTotalAmount(rowDto, "poquantity");
+    const po = getTotalAmount(rowDto, 'poquantity');
     const sum = po + po * (tollerence / 100);
     const newAddedAmountg =
-      getTotalAmount(rowDto, "addedQuantity") +
-      getTotalAmount(rowDto, "shippedQuantity");
+      getTotalAmount(rowDto, 'addedQuantity') +
+      getTotalAmount(rowDto, 'shippedQuantity');
     return sum < newAddedAmountg;
   };
 
@@ -73,17 +72,17 @@ export default function _Form({
 
   const addQuantityHandler = (rowDto, e, index, values, setFieldValue) => {
     const data = [...rowDto];
-    data[index]["shippedQuantity"] = e.target.value;
+    data[index]['shippedQuantity'] = e.target.value;
     // ? parseInt(e.target.value)
     // : "";
-    data[index]["totalQuantity"] =
-      parseInt(data[index]["shippedQuantity"]) +
-      parseInt(data[index]["addedQuantity"]);
+    data[index]['totalQuantity'] =
+      parseInt(data[index]['shippedQuantity']) +
+      parseInt(data[index]['addedQuantity']);
     setFieldValue(
-      "invoiceAmount",
-      getTotalAmount(data, "shippedQuantity") +
+      'invoiceAmount',
+      getTotalAmount(data, 'shippedQuantity') +
         Number(values?.freightCharge) +
-        Number(values?.packingCharge)
+        Number(values?.packingCharge),
     );
     setRowDto([...data]);
   };
@@ -96,7 +95,7 @@ export default function _Form({
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           if (checkTollerence()) {
-            toast.warn("You exceeded the Tolerance amount");
+            toast.warn('You exceeded the Tolerance amount');
             return;
           }
           saveHandler(values, () => {
@@ -115,20 +114,18 @@ export default function _Form({
           isValid,
         }) => (
           <>
-          {
-            console.log(errors, "errors")
-          }
+            {console.log(errors, 'errors')}
             {/*  */}
             <Card>
               {/* {disableHandler(!isValid)} */}
               {true && <ModalProgressBar />}
               <CardHeader
                 title={
-                  type === "view"
-                    ? "View Shipment"
-                    : type === "edit"
-                    ? "Edit Shipment"
-                    : "Create Shipment"
+                  type === 'view'
+                    ? 'View Shipment'
+                    : type === 'edit'
+                    ? 'Edit Shipment'
+                    : 'Create Shipment'
                 }
               >
                 <CardHeaderToolbar>
@@ -144,7 +141,7 @@ export default function _Form({
                       <i className="fas fa-times pointer"></i>
                       Close
                     </button> */}
-                    {type === "view" ? (
+                    {type === 'view' ? (
                       false
                     ) : (
                       <button
@@ -163,19 +160,19 @@ export default function _Form({
                 <div className="row">
                   <div className="col-lg-12 d-flex justify-content-center">
                     <span>
-                      <span style={{ fontWeight: "900", marginLeft: "30px" }}>
+                      <span style={{ fontWeight: '900', marginLeft: '30px' }}>
                         PO Number:
                       </span>
-                      <span style={{ fontWeight: "900" }}>{poNumber}</span>
+                      <span style={{ fontWeight: '900' }}>{poNumber}</span>
                     </span>
                     <span>
                       <span
                         className="ml-5"
-                        style={{ fontWeight: "900", marginLeft: "30px" }}
+                        style={{ fontWeight: '900', marginLeft: '30px' }}
                       >
                         LC Number:
                       </span>
-                      <span style={{ fontWeight: "900" }}>{lcNumber}</span>
+                      <span style={{ fontWeight: '900' }}>{lcNumber}</span>
                     </span>
                   </div>
                   <div className="col-lg-12">
@@ -188,7 +185,7 @@ export default function _Form({
                             name="shipByName"
                             placeholder="Ship By"
                             type="text"
-                            disabled={type === "view"}
+                            disabled={type === 'view'}
                           />
                         </div>
                         <div className="col-lg-3">
@@ -198,7 +195,7 @@ export default function _Form({
                             name="vasselName"
                             placeholder="Vassel Name"
                             type="text"
-                            disabled={type === "view"}
+                            disabled={type === 'view'}
                           />
                         </div>
                         <div className="col-lg-3">
@@ -208,7 +205,7 @@ export default function _Form({
                             name="blAwbTrNo"
                             placeholder="BL/AWB/TR No"
                             type="text"
-                            disabled={type === "view"}
+                            disabled={type === 'view'}
                           />
                         </div>
                         <div className="col-lg-3">
@@ -218,7 +215,7 @@ export default function _Form({
                             name="blAwbTrDate"
                             placeholder="BL/AWB/TR Date"
                             type="date"
-                            disabled={type === "view"}
+                            disabled={type === 'view'}
                           />
                         </div>
                         <div className="col-lg-3">
@@ -242,7 +239,7 @@ export default function _Form({
                             name="invoiceNumber"
                             placeholder="Invoice Number"
                             type="text"
-                            disabled={type === "view"}
+                            disabled={type === 'view'}
                           />
                         </div>
                         <div className="col-lg-3">
@@ -252,7 +249,7 @@ export default function _Form({
                             name="invoiceDate"
                             placeholder="Invoice Date"
                             type="date"
-                            disabled={type === "view"}
+                            disabled={type === 'view'}
                           />
                         </div>
                         <div className="col-lg-3">
@@ -262,7 +259,7 @@ export default function _Form({
                             name="docReceiveByBank"
                             placeholder="Doc. Receive By Bank"
                             type="date"
-                            disabled={type === "view"}
+                            disabled={type === 'view'}
                           />
                         </div>
                         <div className="col-lg-3">
@@ -273,17 +270,17 @@ export default function _Form({
                             name="packingCharge"
                             placeholder="Packing Charge"
                             type="number"
-                            disabled={type === "view" || type === "edit"}
+                            disabled={type === 'view' || type === 'edit'}
                             onChange={(e) => {
                               setFieldValue(
-                                "packingCharge",
-                                e.target.value ? Number(e.target.value) : ""
+                                'packingCharge',
+                                e.target.value ? Number(e.target.value) : '',
                               );
                               setFieldValue(
-                                "invoiceAmount",
-                                getTotalAmount(rowDto, "shippedQuantity") +
+                                'invoiceAmount',
+                                getTotalAmount(rowDto, 'shippedQuantity') +
                                   Number(values?.freightCharge) +
-                                  Number(e.target.value)
+                                  Number(e.target.value),
                               );
                             }}
                           />
@@ -292,20 +289,20 @@ export default function _Form({
                           <label>Freight Charge</label>
                           <InputField
                             value={values?.freightCharge}
-                            disabled={type === "view" || type === "edit"}
+                            disabled={type === 'view' || type === 'edit'}
                             name="freightCharge"
                             placeholder="Freight Charge"
                             type="number"
                             onChange={(e) => {
                               setFieldValue(
-                                "freightCharge",
-                                e.target.value ? Number(e.target.value) : ""
+                                'freightCharge',
+                                e.target.value ? Number(e.target.value) : '',
                               );
                               setFieldValue(
-                                "invoiceAmount",
-                                getTotalAmount(rowDto, "shippedQuantity") +
+                                'invoiceAmount',
+                                getTotalAmount(rowDto, 'shippedQuantity') +
                                   Number(e.target.value) +
-                                  Number(values?.packingCharge)
+                                  Number(values?.packingCharge),
                               );
                             }}
                             min="0"
@@ -328,9 +325,9 @@ export default function _Form({
                             name="dueDate"
                             placeholder="Due Date"
                             type="date"
-                            disabled={type === "view"}
+                            disabled={type === 'view'}
                             onChange={(e) => {
-                              setFieldValue("dueDate", e.target.value);
+                              setFieldValue('dueDate', e.target.value);
                             }}
                           />
                         </div>
@@ -341,12 +338,12 @@ export default function _Form({
                             value={values?.cnfProvider}
                             label="CnF Provider"
                             onChange={(valueOption) => {
-                              setFieldValue("cnfProvider", valueOption);
+                              setFieldValue('cnfProvider', valueOption);
                             }}
                             placeholder="Select CnF Provider"
                             errors={errors}
                             touched={touched}
-                            isDisabled={type === "view"}
+                            isDisabled={type === 'view'}
                           />
                         </div>
                         <div className="col-lg-3">
@@ -355,12 +352,11 @@ export default function _Form({
                             value={values?.etaDate}
                             name="etaDate"
                             placeholder="Date"
-                            disabled={type=== "edit"}
+                            disabled={type === 'edit'}
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("etaDate", e.target.value);
+                              setFieldValue('etaDate', e.target.value);
                             }}
-                          
                           />
                         </div>
                         <div className="col-lg-3">
@@ -371,9 +367,9 @@ export default function _Form({
                             placeholder="ATA Date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("ataDate", e.target.value);
+                              setFieldValue('ataDate', e.target.value);
                             }}
-                            disabled={type === "view"}
+                            disabled={type === 'view'}
                           />
                         </div>
                         <div className="col-lg-3">
@@ -384,14 +380,17 @@ export default function _Form({
                             placeholder="Number Of Container"
                             type="number"
                             onChange={(e) => {
-                              setFieldValue("numberOfContainer", e.target.value);
+                              setFieldValue(
+                                'numberOfContainer',
+                                e.target.value,
+                              );
                             }}
-                            disabled={type === "view"}
+                            disabled={type === 'view'}
                           />
                         </div>
-                        {type !== "view" && (
+                        {type !== 'view' && (
                           <div className="col-lg-2">
-                            <div style={{ marginTop: "14px" }}>
+                            <div style={{ marginTop: '14px' }}>
                               <ButtonStyleOne
                                 className="btn btn-primary mr-2"
                                 type="button"
@@ -402,10 +401,10 @@ export default function _Form({
 
                             <DropzoneDialogBase
                               filesLimit={1}
-                              acceptedFiles={["image/*", "application/pdf"]}
+                              acceptedFiles={['image/*', 'application/pdf']}
                               fileObjects={fileObjects}
-                              cancelButtonText={"cancel"}
-                              submitButtonText={"submit"}
+                              cancelButtonText={'cancel'}
+                              submitButtonText={'submit'}
                               maxFileSize={1000000}
                               open={open}
                               onAdd={(newFileObjs) => {
@@ -414,7 +413,7 @@ export default function _Form({
                               onDelete={(deleteFileObj) => {
                                 const newData = fileObjects.filter(
                                   (item) =>
-                                    item.file.name !== deleteFileObj.file.name
+                                    item.file.name !== deleteFileObj.file.name,
                                 );
                                 setFileObjects(newData);
                               }}
@@ -424,7 +423,7 @@ export default function _Form({
                                 empAttachment_action(fileObjects).then(
                                   (data) => {
                                     setUploadImage(data);
-                                  }
+                                  },
                                 );
                               }}
                               showPreviews={true}
@@ -435,7 +434,7 @@ export default function _Form({
                         {values?.shipmentDocumentId && (
                           <div
                             className="col-lg-3 "
-                            style={{ marginTop: "14px" }}
+                            style={{ marginTop: '14px' }}
                           >
                             <ButtonStyleOne
                               className="btn btn-primary mr-2"
@@ -443,8 +442,8 @@ export default function _Form({
                               onClick={() => {
                                 dispatch(
                                   getDownlloadFileView_Action(
-                                    values?.shipmentDocumentId
-                                  )
+                                    values?.shipmentDocumentId,
+                                  ),
                                 );
                               }}
                               label="View"
@@ -454,9 +453,9 @@ export default function _Form({
                         <div className="">
                           <input
                             style={{
-                              width: "15px",
-                              display: "inline-block",
-                              marginTop: "20px",
+                              width: '15px',
+                              display: 'inline-block',
+                              marginTop: '20px',
                             }}
                             checked={isPartial}
                             className="mr-2"
@@ -471,7 +470,7 @@ export default function _Form({
                                 setRowDto(data);
                               }
                             }}
-                            disabled={type === "view"}
+                            disabled={type === 'view'}
                           />
                           <label>Is Partial</label>
                         </div>
@@ -486,21 +485,21 @@ export default function _Form({
                       <table className="global-table table">
                         <thead>
                           <tr>
-                            <th style={{ minWidth: "30px" }}>SL</th>
-                            <th style={{ minWidth: "70px" }}>Item Code</th>
+                            <th style={{ minWidth: '30px' }}>SL</th>
+                            <th style={{ minWidth: '70px' }}>Item Code</th>
                             <th>Item Name</th>
-                            <th style={{ minWidth: "30px" }}>UoM</th>
-                            <th style={{ minWidth: "80px" }}>HS Code</th>
-                            <th style={{ minWidth: "70px" }}>PO Qty</th>
-                            <th style={{ minWidth: "70px" }}>Added Qty</th>
-                            {type !== "view" && (
-                              <th style={{ width: "120px" }}>
+                            <th style={{ minWidth: '30px' }}>UoM</th>
+                            <th style={{ minWidth: '80px' }}>HS Code</th>
+                            <th style={{ minWidth: '70px' }}>PO Qty</th>
+                            <th style={{ minWidth: '70px' }}>Added Qty</th>
+                            {type !== 'view' && (
+                              <th style={{ width: '120px' }}>
                                 Shipment Quantity
                               </th>
                             )}
                             {/* <th style={{minWidth: "80px"}}>Total Qty</th> */}
-                            {type !== "view" && type !== "edit" && (
-                              <th style={{ minWidth: "60px" }}>Action</th>
+                            {type !== 'view' && type !== 'edit' && (
+                              <th style={{ minWidth: '60px' }}>Action</th>
                             )}
                           </tr>
                         </thead>
@@ -508,7 +507,7 @@ export default function _Form({
                           {rowDto?.length &&
                             rowDto?.map((item, index) => (
                               <tr key={index}>
-                                <td style={{ minWidth: "30px" }}>
+                                <td style={{ minWidth: '30px' }}>
                                   {index + 1}
                                 </td>
                                 <td className="text-center">
@@ -523,10 +522,10 @@ export default function _Form({
                                 {/* <td className="text-center">
                               {item?.addedQuantity}
                             </td> */}
-                                {type !== "view" && (
+                                {type !== 'view' && (
                                   <td className="text-center">
                                     <InputField
-                                      style={{ height: "20px" }}
+                                      style={{ height: '20px' }}
                                       placeholder="Shipped Qty"
                                       type="number"
                                       min="0"
@@ -536,7 +535,7 @@ export default function _Form({
                                       name="shippedQuantity"
                                       // defaultValue={parseInt(item.poquantity) - parseInt(item?.addedQuantity)}
                                       disabled={
-                                        type === "view" || type === "edit"
+                                        type === 'view' || type === 'edit'
                                       }
                                       value={item?.shippedQuantity}
                                       onChange={(e) => {
@@ -545,7 +544,7 @@ export default function _Form({
                                           e,
                                           index,
                                           values,
-                                          setFieldValue
+                                          setFieldValue,
                                         );
                                       }}
                                     />
@@ -554,7 +553,7 @@ export default function _Form({
                                 <td className="text-center">
                                   {item?.addedQuantity}
                                 </td>
-                                {type !== "view" && type !== "edit" && (
+                                {type !== 'view' && type !== 'edit' && (
                                   <td className="text-center align-middle">
                                     <span
                                       onClick={() => {
@@ -597,90 +596,90 @@ export default function _Form({
                     <div className="row global-form">
                       <div
                         className="col-lg-6 text-right p-2"
-                        style={{ fontWeight: "bold" }}
+                        style={{ fontWeight: 'bold' }}
                       >
                         Total PO Amount :
                       </div>
                       <div
                         className="col-lg-6 text-left p-2"
-                        style={{ fontWeight: "bold" }}
+                        style={{ fontWeight: 'bold' }}
                       >
-                        {numberWithCommas(getTotalAmount(rowDto, "poquantity"))}
+                        {numberWithCommas(getTotalAmount(rowDto, 'poquantity'))}
                       </div>
                       <div
                         className="col-lg-6 text-right p-2"
-                        style={{ fontWeight: "bold" }}
+                        style={{ fontWeight: 'bold' }}
                       >
                         Tolerance Percentage :
                       </div>
                       <div
                         className="col-lg-6 text-left p-2"
-                        style={{ fontWeight: "bold" }}
+                        style={{ fontWeight: 'bold' }}
                       >
                         {Number(tollerence)}%
                       </div>
                       {/* <div className="col-lg-6 text-right p-2" style={{ fontWeight: "bold" }}>Total PO with tollerence :</div>
                       <div className="col-lg-6 text-left p-2" style={{ fontWeight: "bold" }}>{getTotalAmount(rowDto, "poquantity") * (Number(tollerence) / 100)}</div> */}
-                      {type !== "view" && (
+                      {type !== 'view' && (
                         <>
-                          {" "}
+                          {' '}
                           <div
                             className="col-lg-6 text-right p-2"
-                            style={{ fontWeight: "bold" }}
+                            style={{ fontWeight: 'bold' }}
                           >
                             Total Added Amount :
                           </div>
                           <div
                             className="col-lg-6 text-left p-2"
-                            style={{ fontWeight: "bold" }}
+                            style={{ fontWeight: 'bold' }}
                           >
                             {numberWithCommas(
-                              getTotalAmount(rowDto, "addedQuantity")
+                              getTotalAmount(rowDto, 'addedQuantity'),
                             )}
-                          </div>{" "}
+                          </div>{' '}
                         </>
                       )}
-                      {type === "view" && (
+                      {type === 'view' && (
                         <>
                           <div
                             className="col-lg-6 text-right p-2"
-                            style={{ fontWeight: "bold" }}
+                            style={{ fontWeight: 'bold' }}
                           >
                             Total Added Amount :
                           </div>
                           <div
                             className="col-lg-6 text-left p-2"
-                            style={{ fontWeight: "bold" }}
+                            style={{ fontWeight: 'bold' }}
                           >
                             {numberWithCommas(
                               getTotalShippedAmount(
                                 rowDto,
                                 values,
-                                "addedQuantity"
-                              )
+                                'addedQuantity',
+                              ),
                             )}
                           </div>
                         </>
                       )}
-                      {type !== "view" && (
+                      {type !== 'view' && (
                         <div
                           className="col-lg-6 text-right p-2"
-                          style={{ fontWeight: "bold" }}
+                          style={{ fontWeight: 'bold' }}
                         >
                           Total Shipped Amount :
                         </div>
                       )}
-                      {type !== "view" && (
+                      {type !== 'view' && (
                         <div
                           className="col-lg-6 text-left p-2"
-                          style={{ fontWeight: "bold" }}
+                          style={{ fontWeight: 'bold' }}
                         >
                           {numberWithCommas(
                             getTotalShippedAmount(
                               rowDto,
                               values,
-                              "shippedQuantity"
-                            )
+                              'shippedQuantity',
+                            ),
                           )}
                         </div>
                       )}
@@ -689,13 +688,13 @@ export default function _Form({
                 </div>
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={resetBtnRef}
                   // onSubmit={() => resetForm(initData)}
                 ></button>
