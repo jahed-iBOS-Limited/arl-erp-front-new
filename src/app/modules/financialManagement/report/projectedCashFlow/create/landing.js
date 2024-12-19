@@ -2,6 +2,7 @@ import React from "react";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import {
+  allObjSBU,
   chooseTableColumns,
   fetchPCFLandingData,
   importPaymentType,
@@ -61,7 +62,7 @@ const ProjectedCashFlowLanding = ({ obj }) => {
               <NewSelect
                 name="sbu"
                 label="SBU"
-                options={[{ value: 0, label: "All" }, ...sbuDDL] || []}
+                options={[...allObjSBU, ...sbuDDL] || []}
                 value={values?.sbu}
                 onChange={(valueOption) => {
                   setFieldValue("sbu", valueOption);
