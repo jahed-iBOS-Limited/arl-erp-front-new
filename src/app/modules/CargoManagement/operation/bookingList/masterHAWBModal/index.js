@@ -372,7 +372,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             airportOfDepartureAndRouting: `${firstIndex?.transportPlanning?.airLineOrShippingLine} \n ${airportOfDepartureAndRouting} `,
             requestedFlightDate: `${moment(requestedFlightDate).format(
               "YYYY-DD-MM"
-            )}`,
+            )} `,
             grossWeightKgLb: "",
             to1: "",
             byFirstCarrierRoutingAndDestination: "",
@@ -381,7 +381,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             cghscode: "",
             declaredValueForCarriage: "",
             signatureOfIssuingCarrierOrAgent: `${firstIndex?.shipperName}`,
-            executedOnDate: firstIndex?.confirmDate,
+            executedOnDate: moment(firstIndex?.confirmDate).format("YYYY-DD-MM"),
 
             amountOfInsurance: "", // can't get initial value
             handlingInformation: "", // can't get initial value
@@ -1534,6 +1534,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                 e.target.value
                                               );
                                             }}
+                                            required
                                           />
                                         </div>
                                       </>
@@ -1563,6 +1564,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                 e.target.value
                                               );
                                             }}
+                                            required
                                           />
                                         </div>
                                       </>
