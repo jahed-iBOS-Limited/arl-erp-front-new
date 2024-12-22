@@ -36,6 +36,8 @@ import ReconciliationJournal from "./reconciliationJournal/table/tableHeader";
 import TransferJournalToTax from "./transferJournalToTax";
 import BankJournalCreateFormCollection from "./bankJournal/collectionCreate/addForm";
 import CashJournaFormForCollection from "./cashJournal/collectionCreate/addEditForm";
+import FundTransfer from "./fundTransfer";
+import FundTransferRequestCreate from "./fundTransfer/fundTransferRequest/create";
 // import DepreciationJournal from "./depreciationJournal/table/tableHeader"
 
 export function FinalcialPages() {
@@ -166,6 +168,14 @@ export function FinalcialPages() {
       <ContentRoute
         path="/financial-management/financials/bankadvice"
         component={BankAdvice}
+      />
+      <ContentRoute
+        path="/financial-management/financials/fundTransfer/fundTransferRequest/create"
+        component={FundTransferRequestCreate}
+      />
+      <ContentRoute
+        path="/financial-management/financials/fundTransfer"
+        component={FundTransfer}
       />
       {/* Back Statement Correction */}
       <ContentRoute
