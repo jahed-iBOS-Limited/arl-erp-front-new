@@ -28,6 +28,7 @@ import {
 } from "./../../../../../../_metronic/_partials/controls";
 import { setCashJournalLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import findIndex from "../../../../_helper/_findIndex";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -92,6 +93,16 @@ export default function HeaderForm({
     },
     { shallowEqual }
   );
+
+  let { userRole } = useSelector(
+    (state) => state?.authData,
+    { shallowEqual }
+  );
+
+  const userPermission = userRole[findIndex(userRole, "Cash Journal")];
+
+  const canCreate = userPermission?.isCreate;
+
   let { profileData, selectedBusinessUnit } = cashJournal;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -167,7 +178,7 @@ export default function HeaderForm({
                       }}
                       className="btn btn-primary"
                       disabled={
-                        !values?.sbu || !values?.accountingJournalTypeId
+                        !canCreate || !values?.sbu || !values?.accountingJournalTypeId
                       }
                     >
                       Create
