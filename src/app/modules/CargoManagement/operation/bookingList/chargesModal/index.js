@@ -1,16 +1,18 @@
+import axios from 'axios';
 import { Form, Formik } from 'formik';
 import React, { useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { imarineBaseUrl } from '../../../../../App';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import './style.css';
-import NewSelect from '../../../../_helper/_select';
-import IDelete from '../../../../_helper/_helperIcons/_delete';
 
 const validationSchema = Yup.object().shape({
   // exchangeRate: Yup.number().required('Exchange Rate is required'),
@@ -83,9 +85,9 @@ function ChargesModal({ rowClickData, CB }) {
                 'currency',
                 resSveData?.[0]
                   ? {
-                      label: resSveData?.[0]?.currency,
-                      value: resSveData?.[0]?.currencyId,
-                    }
+                    label: resSveData?.[0]?.currency,
+                    value: resSveData?.[0]?.currencyId,
+                  }
                   : '',
               );
               formikRef.current.setFieldValue(
@@ -160,6 +162,18 @@ function ChargesModal({ rowClickData, CB }) {
       CB,
     );
   };
+  const loadCollectionPartyList = (v, paymentPartyType) => {
+    if (v?.length < 3) return [];
+    // paymentPartyType
+    // const paymentPartyType = formikRef.watch('paymentPartyType');
+    console.log(paymentPartyType);
+    return axios
+      .get(
+        `domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=1&cargoType=${paymentPartyType}`
+      )
+      .then((res) => res?.data);
+  };
+
   return (
     <div className="chargesModal">
       {(bookedRequestBilling ||
@@ -285,8 +299,8 @@ function ChargesModal({ rowClickData, CB }) {
                           checked={
                             shippingHeadOfCharges?.length > 0
                               ? shippingHeadOfCharges?.every(
-                                  (item) => item?.checked,
-                                )
+                                (item) => item?.checked,
+                              )
                               : false
                           }
                           onChange={(e) => {
@@ -513,9 +527,9 @@ function ChargesModal({ rowClickData, CB }) {
                                 value={
                                   item?.collectionPartyType
                                     ? {
-                                        label: item?.collectionPartyType,
-                                        value: item?.collectionPartyTypeId,
-                                      }
+                                      label: item?.collectionPartyType,
+                                      value: item?.collectionPartyTypeId,
+                                    }
                                     : ''
                                 }
                                 name="collectionPartyType"
@@ -530,7 +544,7 @@ function ChargesModal({ rowClickData, CB }) {
                               />
                             </td>
                             <td>
-                              <NewSelect
+                              {/* <NewSelect
                                 isDisabled={
                                   !item?.checked || !item?.collectionPartyType
                                 }
@@ -538,9 +552,9 @@ function ChargesModal({ rowClickData, CB }) {
                                 value={
                                   item?.collectionParty
                                     ? {
-                                        label: item?.collectionParty,
-                                        value: item?.collectionPartyId,
-                                      }
+                                      label: item?.collectionParty,
+                                      value: item?.collectionPartyId,
+                                    }
                                     : ''
                                 }
                                 name="collectionParty"
@@ -551,6 +565,30 @@ function ChargesModal({ rowClickData, CB }) {
                                   copyPrv[index].collectionPartyId =
                                     valueOption?.value;
                                   setShippingHeadOfCharges(copyPrv);
+                                }}
+                              /> */}
+                              <SearchAsyncSelect
+                                isDisabled={
+                                  !item?.checked || !item?.collectionPartyType
+                                }
+                                selectedValue={
+                                  item?.collectionParty
+                                    ? {
+                                      label: item?.collectionParty,
+                                      value: item?.collectionPartyId,
+                                    }
+                                    : ''
+                                }
+                                handleChange={(valueOption) => {
+                                  const copyPrv = [...shippingHeadOfCharges];
+                                  copyPrv[index].collectionParty =
+                                    valueOption?.label;
+                                  copyPrv[index].collectionPartyId =
+                                    valueOption?.value;
+                                  setShippingHeadOfCharges(copyPrv);
+                                }}
+                                loadOptions={(v) => {
+                                  loadCollectionPartyList(v, item?.collectionPartyTypeId)
                                 }}
                               />
                             </td>
@@ -592,9 +630,9 @@ function ChargesModal({ rowClickData, CB }) {
                                 value={
                                   item?.paymentPartyType
                                     ? {
-                                        label: item?.paymentPartyType,
-                                        value: item?.paymentPartyTypeId,
-                                      }
+                                      label: item?.paymentPartyType,
+                                      value: item?.paymentPartyTypeId,
+                                    }
                                     : ''
                                 }
                                 name="paymentPartyType"
@@ -608,9 +646,10 @@ function ChargesModal({ rowClickData, CB }) {
                                   setShippingHeadOfCharges(copyPrv);
                                 }}
                               />
+
                             </td>
                             <td>
-                              <NewSelect
+                              {/* <NewSelect
                                 isDisabled={
                                   !item?.checked || !item?.paymentPartyType
                                 }
@@ -618,9 +657,9 @@ function ChargesModal({ rowClickData, CB }) {
                                 value={
                                   item?.collectionParty
                                     ? {
-                                        label: item?.collectionParty,
-                                        value: item?.collectionPartyId,
-                                      }
+                                      label: item?.collectionParty,
+                                      value: item?.collectionPartyId,
+                                    }
                                     : ''
                                 }
                                 name="collectionParty"
@@ -631,6 +670,35 @@ function ChargesModal({ rowClickData, CB }) {
                                   copyPrv[index].collectionPartyId =
                                     valueOption?.value;
                                   setShippingHeadOfCharges(copyPrv);
+                                }}
+                              /> */}
+                              <SearchAsyncSelect
+                                isDisabled={
+                                  !item?.checked || !item?.paymentPartyType
+                                }
+                                selectedValue={
+                                  item?.collectionParty
+                                    ? {
+                                      label: item?.collectionParty,
+                                      value: item?.collectionPartyId,
+                                    }
+                                    : ''
+                                }
+                                handleChange={(valueOption) => {
+                                  // if (valueOption) {
+                                  //   setFieldValue("collectionParty", valueOption);
+                                  // } else {
+                                  //   setFieldValue("collectionParty", "");
+                                  // }
+                                  const copyPrv = [...shippingHeadOfCharges];
+                                  copyPrv[index].collectionParty =
+                                    valueOption?.label;
+                                  copyPrv[index].collectionPartyId =
+                                    valueOption?.value;
+                                  setShippingHeadOfCharges(copyPrv);
+                                }}
+                                loadOptions={(v) => {
+                                  loadCollectionPartyList(v, item?.paymentPartyTypeId)
                                 }}
                               />
                             </td>
