@@ -1354,11 +1354,11 @@ function TransportModal({ rowClickData, CB }) {
                                             onClick={() => {
                                               const containerDesc =
                                                 formikRef.current?.values?.rows[
-                                                  index
+                                                  0
                                                 ]?.containerDesc || [];
                                               containerDesc.splice(index, 1);
                                               setFieldValue(
-                                                `rows[${index}].containerDesc`,
+                                                `rows[${0}].containerDesc`,
                                                 containerDesc,
                                               );
                                             }}
@@ -1582,11 +1582,11 @@ function TransportModal({ rowClickData, CB }) {
                                             onClick={() => {
                                               const containerDesc =
                                                 formikRef.current?.values?.rows[
-                                                  index
+                                                  0
                                                 ]?.airTransportRow || [];
-                                              containerDesc.splice(index, 1);
+                                              containerDesc.splice(0, 1);
                                               setFieldValue(
-                                                `rows[${index}].airTransportRow`,
+                                                `rows[${0}].airTransportRow`,
                                                 containerDesc,
                                               );
                                             }}
