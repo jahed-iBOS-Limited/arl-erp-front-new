@@ -317,7 +317,6 @@ function BookingDetailsInfo({ bookingData, billingData }) {
           <p>
             <strong>S.B No:</strong>{' '}
             {bookingData?.transportPlanning?.strSbNo}
-            {bookingData?.transportPlanning?.dteSbDate}
           </p>
           <p>
             <strong>S.B Date:</strong>{' '}
