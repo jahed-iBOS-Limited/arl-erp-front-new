@@ -284,7 +284,12 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                 </thead>
                 <tbody>
                   {addedItem?.map((item, index) => (
-                    <tr key={index}>
+                    <tr
+                      key={index}
+                      style={{
+                        display: item?.isActive ? "table-row" : "none",
+                      }}
+                    >
                       <td>{index + 1}</td>
 
                       <td>{item?.consigneeName}</td>
@@ -294,8 +299,21 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                         <div className="d-flex justify-content-center">
                           <Button
                             onClick={() => {
+                              // setAddedItem((prev) =>
+                              //   prev.filter((itm, i) => i !== index)
+                              // );
+                              // set is active false
                               setAddedItem((prev) =>
-                                prev.filter((itm, i) => i !== index)
+                                prev.map((itm, i) => {
+                                  if (i === index) {
+                                    return {
+                                      ...itm,
+                                      isActive: false,
+                                    };
+                                  } else {
+                                    return itm;
+                                  }
+                                })
                               );
                             }}
                             color="error"
