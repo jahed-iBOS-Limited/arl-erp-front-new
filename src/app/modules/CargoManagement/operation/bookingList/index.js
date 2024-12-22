@@ -30,6 +30,7 @@ import MasterHBAWModal from './masterHAWBModal';
 import MasterHBLModal from './masterHBLModal';
 import ReceiveModal from './receiveModal';
 import TransportModal from './transportModal';
+import CommonInvoice from './commonInvoice';
 const validationSchema = Yup.object().shape({});
 function BookingList() {
   const { profileData } = useSelector(
@@ -433,7 +434,7 @@ function BookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: '371px',
+                            minWidth: '197px',
                           }}
                         >
                           Action
@@ -919,7 +920,6 @@ function BookingList() {
                                     Delivery Note
                                   </button>
                                 </span>
-
                                 <span>
                                   <button
                                     className="btn btn-sm btn-primary"
@@ -927,25 +927,11 @@ function BookingList() {
                                       setRowClickData(item);
                                       setIsModalShowObj({
                                         ...isModalShowObj,
-                                        isFreightInvoice: true,
+                                        isCommonInvoice: true,
                                       });
                                     }}
                                   >
-                                    Shipper invoice
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isConsigneeInvoice: true,
-                                      });
-                                    }}
-                                  >
-                                    Consignee Invoice
+                                    Invoice
                                   </button>
                                 </span>
                               </div>
@@ -1198,7 +1184,7 @@ function BookingList() {
               {/* HBL Formate */}
 
               {/* Shipper Invoice */}
-              {isModalShowObj?.isFreightInvoice && (
+              {/* {isModalShowObj?.isFreightInvoice && (
                 <>
                   <IViewModal
                     title="Shipper Invoice"
@@ -1213,9 +1199,9 @@ function BookingList() {
                     <FreightInvoice rowClickData={rowClickData} />
                   </IViewModal>
                 </>
-              )}
+              )} */}
               {/* Consignee Invoice  */}
-              {isModalShowObj?.isConsigneeInvoice && (
+              {/* {isModalShowObj?.isConsigneeInvoice && (
                 <>
                   <IViewModal
                     title="Consignee Invoice"
@@ -1228,6 +1214,22 @@ function BookingList() {
                     }}
                   >
                     <ConsigneeInvoice rowClickData={rowClickData} />
+                  </IViewModal>
+                </>
+              )} */}
+              {isModalShowObj?.isCommonInvoice && (
+                <>
+                  <IViewModal
+                    title="Invoice"
+                    show={isModalShowObj?.isCommonInvoice}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isCommonInvoice: false,
+                      });
+                    }}
+                  >
+                    <CommonInvoice rowClickData={rowClickData} />
                   </IViewModal>
                 </>
               )}

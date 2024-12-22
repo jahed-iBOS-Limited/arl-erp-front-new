@@ -10,12 +10,48 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
 import logisticsLogo from "./logisticsLogo.png";
 import "./style.css";
-
-const ConsigneeInvoice = ({ rowClickData }) => {
+import NewSelect from "../../../../_helper/_select";
+const invoiceTypeDDL = [
+  {
+    value: 1,
+    label: "Freight",
+    email: null,
+    ownerId: 0,
+    ownerName: null,
+    isOwner: false,
+    code: null,
+    isDollarConvesionRequire: null,
+  },
+  {
+    value: 2,
+    label: "Consignee",
+    email: null,
+    ownerId: 0,
+    ownerName: null,
+    isOwner: false,
+    code: null,
+    isDollarConvesionRequire: null,
+  },
+  //   {
+  //     value: 3,
+  //     label: "Dummy",
+  //     email: null,
+  //     ownerId: 0,
+  //     ownerName: null,
+  //     isOwner: false,
+  //     code: null,
+  //     isDollarConvesionRequire: null,
+  //   },
+];
+const CommonInvoice = ({ rowClickData }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual
   );
+  const [invoiceType, setInvoiceType] = React.useState({
+    value: 1,
+    label: "Freight",
+  });
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [
     ,
@@ -28,15 +64,22 @@ const ConsigneeInvoice = ({ rowClickData }) => {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
+  const [
+    billingData,
+    setGetBookedRequestBillingData,
+    getBookedRequestBillingDataLoading,
+  ] = useAxiosGet();
+
   useEffect(() => {
     commonGetByIdHandler();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingRequestId]);
   const bookingData = {
     ...shipBookingRequestGetById,
     billingData:
       shipBookingRequestGetById?.billingData?.filter((item) => {
-        return item?.consigneeCharge;
+        return item?.chargeAmount;
       }) || [],
   };
 
@@ -63,6 +106,9 @@ const ConsigneeInvoice = ({ rowClickData }) => {
       setShipBookingRequestGetById(
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
       );
+      setGetBookedRequestBillingData(
+        `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}`
+      );
     }
   };
 
@@ -83,7 +129,7 @@ const ConsigneeInvoice = ({ rowClickData }) => {
           numrate: 0,
           numconverstionrate: 0,
           strUom: "",
-          numamount: item?.consigneeCharge || 0,
+          numamount: item?.chargeAmount || 0,
           numvatAmount: 0,
         };
       }),
@@ -97,40 +143,96 @@ const ConsigneeInvoice = ({ rowClickData }) => {
       true
     );
   };
+  const getActualAmount = (row) => {
+    if (invoiceType?.label === "Freight") {
+      return row?.collectionActualAmount;
+    }
+    if (invoiceType?.label === "Consignee") {
+      return row?.paymentActualAmount;
+    }
+  };
+  const getDummyAmount = (row) => {
+    if (invoiceType?.label === "Freight") {
+      return row?.collectionDummyAmount;
+    }
+    if (invoiceType?.label === "Consignee") {
+      return row?.paymentDummyAmount;
+    }
+  };
+  const getCalculatedActualAmount = () => {
+    if (invoiceType?.label === "Freight") {
+      return billingData?.reduce((acc, cur) => {
+        return acc + (+cur?.collectionActualAmount || 0);
+      }, 0);
+    }
+    if (invoiceType?.label === "Consignee") {
+      return billingData?.reduce((acc, cur) => {
+        return acc + (+cur?.paymentActualAmount || 0);
+      }, 0);
+    }
+  };
+  const getCalculatedDummyAmount = () => {
+    if (invoiceType?.label === "Freight") {
+      return billingData?.reduce((acc, cur) => {
+        return acc + (+cur?.collectionDummyAmount || 0);
+      }, 0);
+    }
+    if (invoiceType?.label === "Consignee") {
+      return billingData?.reduce((acc, cur) => {
+        return acc + (+cur?.paymentDummyAmount || 0);
+      }, 0);
+    }
+  };
 
   return (
     <>
-      <div className="">
+      <div>
         {/* Save button add */}
+        <div className="d-flex justify-content-between align-items-center  py-2">
+          <div className="col-lg-3 p-0">
+            <NewSelect
+              name="invoiceType"
+              options={invoiceTypeDDL || []}
+              value={invoiceType}
+              label="Invoice Type"
+              onChange={(valueOption) => {
+                setInvoiceType(valueOption);
+              }}
+              placeholder="Select Invoice Type"
+            />
+          </div>
+          <div className="d-flex justify-content-end">
+            {!bookingData?.invoiceNo && (
+              <>
+                {" "}
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => {
+                    saveHandler();
+                  }}
+                >
+                  Generate
+                </button>
+              </>
+            )}
 
-        <div className="d-flex justify-content-end">
-          {!bookingData?.invoiceNo && (
-            <>
-              {" "}
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => {
-                  saveHandler();
-                }}
-              >
-                Generate
-              </button>
-            </>
-          )}
-
-          {bookingData?.invoiceNo && (
-            <>
-              <button
-                onClick={handlePrint}
-                type="button"
-                className="btn btn-primary px-3 py-2"
-              >
-                <i className="mr-1 fa fa-print pointer" aria-hidden="true"></i>
-                Print
-              </button>
-            </>
-          )}
+            {bookingData?.invoiceNo && (
+              <>
+                <button
+                  onClick={handlePrint}
+                  type="button"
+                  className="btn btn-primary px-3 py-2"
+                >
+                  <i
+                    className="mr-1 fa fa-print pointer"
+                    aria-hidden="true"
+                  ></i>
+                  Print
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
       {(shipBookingRequestLoading || cargoBookingInvoiceLoading) && <Loading />}
@@ -532,19 +634,22 @@ const ConsigneeInvoice = ({ rowClickData }) => {
             <tr style={{ backgroundColor: "#DDE3E8" }}>
               <th>SL</th>
               <th>Attribute</th>
-              <th>Amount</th>
+              <th>Dummy Amount</th>
+              <th>Actual Amount</th>
             </tr>
           </thead>
           <tbody>
-            {bookingData?.billingData?.map((row, index) => (
-              <tr key={index}>
-                <td style={{ textAlign: "right" }}> {index + 1} </td>
-                <td className="align-middle">
-                  <label>{row?.headOfCharges}</label>
-                </td>
-                <td style={{ textAlign: "right" }}>{row?.consigneeCharge}</td>
-              </tr>
-            ))}
+            {invoiceType &&
+              billingData?.map((row, index) => (
+                <tr key={index}>
+                  <td style={{ textAlign: "right" }}> {index + 1} </td>
+                  <td className="align-middle">
+                    <label>{row?.headOfCharges}</label>
+                  </td>
+                  <td style={{ textAlign: "right" }}>{getDummyAmount(row)}</td>
+                  <td style={{ textAlign: "right" }}>{getActualAmount(row)}</td>
+                </tr>
+              ))}
             <tr
               style={{
                 fontSize: 14,
@@ -554,12 +659,8 @@ const ConsigneeInvoice = ({ rowClickData }) => {
               }}
             >
               <td colSpan="2"> Total Amount</td>
-              <td>
-                {" "}
-                {bookingData?.billingData?.reduce((acc, cur) => {
-                  return acc + (+cur?.consigneeCharge || 0);
-                }, 0)}
-              </td>
+              <td> {getCalculatedDummyAmount()}</td>
+              <td> {getCalculatedActualAmount()}</td>
             </tr>
             <tr>
               <td
@@ -575,7 +676,7 @@ const ConsigneeInvoice = ({ rowClickData }) => {
                 Amount in Words:
                 {amountToWords(
                   bookingData?.billingData?.reduce((acc, cur) => {
-                    return acc + (+cur?.consigneeCharge || 0);
+                    return acc + (+cur?.chargeAmount || 0);
                   }, 0) || 0
                 )}
               </td>
@@ -677,4 +778,4 @@ const ConsigneeInvoice = ({ rowClickData }) => {
   );
 };
 
-export default ConsigneeInvoice;
+export default CommonInvoice;
