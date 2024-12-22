@@ -34,6 +34,7 @@ import PaginationTable from './../../../../_helper/_tablePagination';
 import { saveBOMApproval_api } from './../helper';
 import './approval.css';
 import BillOfMaterialTable from './billOfMaterialTable';
+// import CommonJournalApprovalGrid from '../accountAndFinance/commonJournal/index.js';
 
 export function TableRow(props) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
@@ -253,7 +254,7 @@ export function TableRow(props) {
         }
         setBillSubmitBtn(true);
       },
-      noAlertFunc: () => {},
+      noAlertFunc: () => { },
     };
     IConfirmModal(confirmObject);
   };
@@ -381,17 +382,17 @@ export function TableRow(props) {
           </div>
 
           {activityName?.label === 'Inventory Adjustment' ||
-          activityName?.label === 'Loan Approval' ||
-          activityName?.label === 'Movement Approval' ||
-          activityName?.label === 'Leave Approval' ||
-          activityName?.label === 'Purchase Order' ||
-          activityName?.label === 'Purchase Request' ||
-          activityName?.label === 'Item Request' ||
-          activityName?.label === 'Purchase Return' ||
-          activityName?.label === 'Cash Journal' ||
-          activityName?.label === 'Bank Journal' ||
-          activityName?.label === 'Adjustment Journal' ||
-          activityName?.label === 'Gate Pass' ? null : (
+            activityName?.label === 'Loan Approval' ||
+            activityName?.label === 'Movement Approval' ||
+            activityName?.label === 'Leave Approval' ||
+            activityName?.label === 'Purchase Order' ||
+            activityName?.label === 'Purchase Request' ||
+            activityName?.label === 'Item Request' ||
+            activityName?.label === 'Purchase Return' ||
+            activityName?.label === 'Cash Journal' ||
+            activityName?.label === 'Bank Journal' ||
+            activityName?.label === 'Adjustment Journal' ||
+            activityName?.label === 'Gate Pass' ? null : (
             <div className="col-lg-3 mt-4 offset-3 d-flex justify-content-end">
               <button
                 type="button"
@@ -406,7 +407,7 @@ export function TableRow(props) {
         </div>
 
         {['Commercial Management'].includes(selectedModule?.label) &&
-        ['LC Cost Sheet']?.includes(activityName?.label) ? (
+          ['LC Cost Sheet']?.includes(activityName?.label) ? (
           <div className="mt-5">
             <ImportedTableRow formCommonApproval={true} />
           </div>
@@ -414,14 +415,14 @@ export function TableRow(props) {
 
         {/* All Grid */}
         {activityName?.label === 'Loan Approval' ||
-        activityName?.label === 'Movement Approval' ||
-        activityName?.label === 'Leave Approval' ||
-        activityName?.label === 'Purchase Order' ||
-        activityName?.label === 'Purchase Request' ||
-        activityName?.label === 'Request For Quotation' ||
-        activityName?.label === 'Item Request' ||
-        activityName?.label === 'Purchase Return' ||
-        activityName?.label === 'Gate Pass' ? (
+          activityName?.label === 'Movement Approval' ||
+          activityName?.label === 'Leave Approval' ||
+          activityName?.label === 'Purchase Order' ||
+          activityName?.label === 'Purchase Request' ||
+          activityName?.label === 'Request For Quotation' ||
+          activityName?.label === 'Item Request' ||
+          activityName?.label === 'Purchase Return' ||
+          activityName?.label === 'Gate Pass' ? (
           <>
             {activityName?.label === 'Leave Approval' && <LeaveApprovalGrid />}
             {activityName?.label === 'Movement Approval' && (
@@ -436,7 +437,7 @@ export function TableRow(props) {
                 selectedPlant={selectedPlant}
               />
             )}
-            {}
+            { }
             {activityName?.label === 'Purchase Request' && (
               <PurchaseRequestApprovalGrid
                 onChangeForActivity={onChangeForActivity}
