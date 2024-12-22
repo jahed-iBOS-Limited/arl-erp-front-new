@@ -1,20 +1,20 @@
-import React, { useEffect, useRef } from 'react';
-import { imarineBaseUrl } from '../../../../../App';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import logisticsLogo from './logisticsLogo.png';
-import './style.css';
+import React, { useEffect, useRef } from "react";
+import { imarineBaseUrl } from "../../../../../App";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import logisticsLogo from "./logisticsLogo.png";
+import "./style.css";
 
-import moment from 'moment';
-import { shallowEqual, useSelector } from 'react-redux';
-import { useReactToPrint } from 'react-to-print';
-import Loading from '../../../../_helper/_loading';
+import moment from "moment";
+import { shallowEqual, useSelector } from "react-redux";
+import { useReactToPrint } from "react-to-print";
+import Loading from "../../../../_helper/_loading";
 
 export default function DeliveryNoteModal({ rowClickData }) {
   const bookingRequestId = rowClickData?.bookingRequestId;
   const componentRef = useRef();
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
 
   const [
@@ -25,7 +25,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
       );
     }
 
@@ -33,10 +33,9 @@ export default function DeliveryNoteModal({ rowClickData }) {
   }, [bookingRequestId]);
 
   const bookingData = shipBookingRequestGetById || {};
-  console.log(bookingData);
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: 'Customs-RTGS',
+    documentTitle: "Customs-RTGS",
     pageStyle: `
           @media print {
             body {
@@ -60,9 +59,9 @@ export default function DeliveryNoteModal({ rowClickData }) {
     <div>
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          marginBottom: '20px',
+          display: "flex",
+          justifyContent: "flex-end",
+          marginBottom: "20px",
         }}
       >
         <button
@@ -78,15 +77,15 @@ export default function DeliveryNoteModal({ rowClickData }) {
       <div
         style={{
           fontSize: 11,
-          display: 'grid',
+          display: "grid",
           gap: 10,
-          position: 'relative',
+          position: "relative",
         }}
         ref={componentRef}
       >
         <div
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 0,
             left: 0,
           }}
@@ -97,14 +96,14 @@ export default function DeliveryNoteModal({ rowClickData }) {
             style={{
               height: 25,
               width: 150,
-              objectFit: 'cover',
+              objectFit: "cover",
             }}
           />
         </div>
 
         <div
           style={{
-            textAlign: 'center',
+            textAlign: "center",
           }}
         >
           <span style={{ fontSize: 14, fontWeight: 600 }}>DELIVERY NOTE</span>
@@ -114,11 +113,11 @@ export default function DeliveryNoteModal({ rowClickData }) {
           <span> {selectedBusinessUnit?.address}</span> <br />
         </div>
 
-        <div style={{ backgroundColor: '#D6DADD', height: '1px' }} />
+        <div style={{ backgroundColor: "#D6DADD", height: "1px" }} />
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr ',
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr ",
             // border: "1px solid #000000",
           }}
         >
@@ -126,12 +125,12 @@ export default function DeliveryNoteModal({ rowClickData }) {
           <div>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                display: "grid",
+                gridTemplateColumns: "1fr 3fr ",
               }}
             >
               <span style={{ padding: 2, fontWeight: 600 }}>
-                Booking Request Code{' '}
+                Booking Request Code{" "}
               </span>
               <span style={{ padding: 2 }}>
                 : {bookingData?.bookingRequestCode}
@@ -139,8 +138,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
             </div>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                display: "grid",
+                gridTemplateColumns: "1fr 3fr ",
               }}
             >
               <span style={{ padding: 2, fontWeight: 600 }}>Consignee</span>
@@ -148,8 +147,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
             </div>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                display: "grid",
+                gridTemplateColumns: "1fr 3fr ",
               }}
             >
               <span style={{ padding: 2, fontWeight: 600 }}>Address</span>
@@ -159,8 +158,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
             </div>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                display: "grid",
+                gridTemplateColumns: "1fr 3fr ",
               }}
             >
               <span style={{ padding: 2, fontWeight: 600 }}>
@@ -172,8 +171,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
             </div>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                display: "grid",
+                gridTemplateColumns: "1fr 3fr ",
               }}
             >
               <span style={{ padding: 2, fontWeight: 600 }}>Contact No</span>
@@ -183,8 +182,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
             </div>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                display: "grid",
+                gridTemplateColumns: "1fr 3fr ",
               }}
             >
               <span style={{ padding: 2, fontWeight: 600 }}>Email</span>
@@ -197,8 +196,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
           <div>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                display: "grid",
+                gridTemplateColumns: "1fr 3fr ",
               }}
             >
               <span style={{ padding: 2, fontWeight: 600 }}>Shipper </span>
@@ -206,8 +205,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
             </div>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                display: "grid",
+                gridTemplateColumns: "1fr 3fr ",
               }}
             >
               <span style={{ padding: 2, fontWeight: 600 }}>Address</span>
@@ -217,12 +216,12 @@ export default function DeliveryNoteModal({ rowClickData }) {
             </div>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                display: "grid",
+                gridTemplateColumns: "1fr 3fr ",
               }}
             >
               <span style={{ padding: 2, fontWeight: 600 }}>
-                contactPerson{' '}
+                contactPerson{" "}
               </span>
               <span style={{ padding: 2 }}>
                 : {bookingData?.shipperContactPerson}
@@ -230,8 +229,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
             </div>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                display: "grid",
+                gridTemplateColumns: "1fr 3fr ",
               }}
             >
               <span style={{ padding: 2, fontWeight: 600 }}>Contact </span>
@@ -241,8 +240,8 @@ export default function DeliveryNoteModal({ rowClickData }) {
             </div>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                display: "grid",
+                gridTemplateColumns: "1fr 3fr ",
               }}
             >
               <span style={{ padding: 2, fontWeight: 600 }}>Email </span>
@@ -250,22 +249,22 @@ export default function DeliveryNoteModal({ rowClickData }) {
             </div>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                display: "grid",
+                gridTemplateColumns: "1fr 3fr ",
               }}
             >
               <span style={{ padding: 2, fontWeight: 600 }}>Delivery At</span>
               <span style={{ padding: 2 }}>
-                :{' '}
+                :{" "}
                 {moment(bookingData?.requestDeliveryDate).format(
-                  'YYYY-MM-DD HH:mm:ss',
+                  "YYYY-MM-DD HH:mm:ss"
                 )}
               </span>
             </div>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                display: "grid",
+                gridTemplateColumns: "1fr 3fr ",
               }}
             >
               <span style={{ padding: 2, fontWeight: 600 }}>Vehicle</span>
@@ -286,10 +285,10 @@ export default function DeliveryNoteModal({ rowClickData }) {
             border="1"
             cellPadding="5"
             cellSpacing="0"
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
           >
             <thead>
-              <tr style={{ backgroundColor: '#D6DADD' }}>
+              <tr style={{ backgroundColor: "#D6DADD" }}>
                 <th>SL</th>
                 <th>Attribute</th>
                 <th>Amount</th>
@@ -298,14 +297,14 @@ export default function DeliveryNoteModal({ rowClickData }) {
             <tbody>
               {bookingData?.billingData?.map((row, index) => (
                 <tr key={index}>
-                  <td style={{ textAlign: 'center' }}>{index + 1}</td>
+                  <td style={{ textAlign: "center" }}>{index + 1}</td>
                   <td>{row?.headOfCharges}</td>
-                  <td style={{ textAlign: 'right' }}>{row.chargeAmount}</td>
+                  <td style={{ textAlign: "right" }}>{row.chargeAmount}</td>
                 </tr>
               ))}
-              <tr style={{ fontSize: 14, fontWeight: 600, textAlign: 'right' }}>
-                <td colSpan="2" style={{ textAlign: 'right' }}>
-                  {' '}
+              <tr style={{ fontSize: 14, fontWeight: 600, textAlign: "right" }}>
+                <td colSpan="2" style={{ textAlign: "right" }}>
+                  {" "}
                   Total
                 </td>
                 <td>
@@ -321,34 +320,34 @@ export default function DeliveryNoteModal({ rowClickData }) {
         {/* signature  */}
         <div
           style={{
-            paddingTop: '5rem',
+            paddingTop: "5rem",
           }}
         >
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr 1fr',
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr 1fr",
             }}
           >
             <div>
-              {' '}
-              <span style={{ borderTop: '1px solid #000000', paddingTop: 2 }}>
+              {" "}
+              <span style={{ borderTop: "1px solid #000000", paddingTop: 2 }}>
                 Officer
               </span>
             </div>
             <div>
-              {' '}
-              <span style={{ borderTop: '1px solid #000000', paddingTop: 2 }}>
+              {" "}
+              <span style={{ borderTop: "1px solid #000000", paddingTop: 2 }}>
                 Driver's Signature
               </span>
             </div>
             <div
               style={{
-                textAlign: 'right',
+                textAlign: "right",
               }}
             >
-              {' '}
-              <span style={{ borderTop: '1px solid #000000', paddingTop: 2 }}>
+              {" "}
+              <span style={{ borderTop: "1px solid #000000", paddingTop: 2 }}>
                 Receiver's Signature With Seal & Date
               </span>
             </div>
