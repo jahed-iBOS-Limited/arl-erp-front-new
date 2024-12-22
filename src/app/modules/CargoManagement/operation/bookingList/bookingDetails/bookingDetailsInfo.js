@@ -203,8 +203,208 @@ function BookingDetailsInfo({ bookingData }) {
               {moment(bookingData?.requestDeliveryDate).format('DD MMM YYYY')}
             </p>
           </div>
-        </div>
+          {/* Confirmation Information */}
+          <div className="box">
+            <h5>Confirmation Information</h5>
+            <p>
+              <strong>Departure Date & Time:</strong>{' '}
+              {moment(bookingData?.departureDateTime).isValid() && moment(bookingData?.departureDateTime).format('DD MMM YYYY')}
+            </p>
+            <p>
+              <strong>Arrival Date & Time:</strong>{' '}
+              {moment(bookingData?.arrivalDateTime).isValid() && moment(bookingData?.arrivalDateTime).format('DD MMM YYYY')}
+            </p>
+            <p>
+              <strong>Freight Forwarder Representative:</strong>{' '}
+              {bookingData?.primaryContactPerson}
+            </p>
+            <p>
+              <strong>Concern Sales Person:</strong>{' '}
+              {bookingData?.concernSalesPerson}
+            </p>
+            <p>
+              <strong>Transport Mode:</strong>{' '}
+              {bookingData?.confTransportMode}
+            </p>
+            <p>
+              <strong>Warehouse:</strong>{' '}
+              {bookingData?.warehouseName}
+            </p>
+          </div>
 
+        </div>
+        {/* Shipment planning */}
+        <div className="mt-4">
+          <h5>Shipment planning</h5>
+          <p>
+            <strong>Pickup Location:</strong>{' '}
+            {bookingData?.transportPlanning?.pickupLocation}
+          </p>
+          <p>
+            <strong>
+              {
+                bookingData?.modeOfTransport === 'Sea' ? 'No of Container:' : 'No of Pallet:'
+              }
+
+            </strong>{' '}
+            {
+              bookingData?.modeOfTransport === 'Sea' ? bookingData?.transportPlanning?.noOfContainer :
+                bookingData?.transportPlanning?.noOfPallets}
+          </p>
+
+          <p>
+            <strong>
+              {
+                bookingData?.modeOfTransport === 'Sea' ? 'Shipping Line:' : 'Air Line:'
+              }
+            </strong>{' '}
+            {bookingData?.transportPlanning?.airLineOrShippingLine}
+          </p>
+          <p>
+            <strong>GSA:</strong>{' '}
+            {bookingData?.transportPlanning?.gsaName}
+          </p>
+          {
+            bookingData?.modeOfTransport === 'Sea' ? (
+              <>
+                <p>
+                  <strong>Vessel Name:</strong>{' '}
+                  {bookingData?.transportPlanning?.vesselName}
+                </p>
+                <p>
+                  <strong>Voyage Number:</strong>{' '}
+                  {bookingData?.transportPlanning?.voyagaNo}
+                </p>
+                <p>
+                  <strong>Estimated Arrival Date & Time:</strong>{' '}
+                  {moment(bookingData?.transportPlanning?.arrivalDateTime).isValid() && moment(bookingData?.transportPlanning?.arrivalDateTime).format('DD MMM YYYY')}
+
+                </p>
+                <p>
+                  <strong>Estimated Berth Date:</strong>{' '}
+                  {moment(bookingData?.transportPlanning?.berthDate).isValid() && moment(bookingData?.transportPlanning?.berthDate).format('DD MMM YYYY')}
+
+                </p>
+                <p>
+                  <strong>Estimated Cut Off Date:</strong>{' '}
+                  {moment(bookingData?.transportPlanning?.cutOffDate).isValid() && moment(bookingData?.transportPlanning?.cutOffDate).format('DD MMM YYYY')}
+
+                </p>
+                <p>
+                  <strong>Estimated Time Of Depart</strong>{' '}
+                  {moment(bookingData?.transportPlanning?.estimatedTimeOfDepart).isValid() && moment(bookingData?.transportPlanning?.estimatedTimeOfDepart).format('DD MMM YYYY')}
+
+                </p>
+
+              </>
+            ) : (
+              <>
+                <p>
+                  <strong>IATA Number:</strong>{' '}
+                  {bookingData?.transportPlanning?.iatanumber}
+
+                </p>
+                <p>
+                  <strong>Carton:</strong>{' '}
+                  {bookingData?.transportPlanning?.carton}
+                </p>
+                <p>
+                  <strong>Estimated Time Of Depart:</strong>{' '}
+                  {moment(bookingData?.transportPlanning?.estimatedTimeOfDepart).isValid() && moment(bookingData?.transportPlanning?.estimatedTimeOfDepart).format('DD MMM YYYY')}
+                </p>
+              </>
+            )
+          }
+          <p>
+            <strong>S.B No:</strong>{' '}
+            {bookingData?.transportPlanning?.strSbNo}
+            {bookingData?.transportPlanning?.dteSbDate}
+          </p>
+          <p>
+            <strong>S.B Date:</strong>{' '}
+            {moment(bookingData?.transportPlanning?.dteSbDate).isValid() && moment(bookingData?.transportPlanning?.dteSbDate).format('DD MMM YYYY')}
+          </p>
+          {
+            bookingData?.modeOfTransport === 'Sea' && (
+              <>
+                <div className="table-responsive">
+                  <table className="table global-table mt-0">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>PO Number</th>
+                        <th>Style</th>
+                        <th>Color</th>
+                        <th>Container No</th>
+                        <th>Seal No</th>
+                        <th>Container Size</th>
+                        <th>Rate</th>
+                        <th>Cartoon Quantity</th>
+                        <th>CBM</th>
+                        <th>KGS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        bookingData?.transportPlanning?.containerDesc?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item?.poNumber}</td>
+                            <td>{item?.style}</td>
+                            <td>{item?.color}</td>
+                            <td>{item?.containerNumber}</td>
+                            <td>{item?.sealNumber}</td>
+                            <td>{item?.size}</td>
+                            <td>{item?.rate}</td>
+                            <td>{item?.quantity}</td>
+                            <td>{item?.cbm}</td>
+                            <td>{item?.kgs}</td>
+                          </tr>
+                        ))
+                      }
+                    </tbody>
+                  </table>
+                </div>
+
+              </>
+            )
+          }
+          {/* Shipping Schedule  table*/}
+          <div className="mt-4">
+            <div className="table-responsive">
+              <table className="table global-table mt-0">
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>From </th>
+                    <th>To</th>
+                    <th>
+                      {
+                        bookingData?.modeOfTransport === 'Sea' ? 'Vessel Name' : 'Flight Number'
+                      }
+                    </th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    bookingData?.transportPlanning?.airTransportRow?.map((item, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{item?.fromPort}</td>
+                        <td>{item?.toPort}</td>
+                        <td>{item?.flightNumber}</td>
+                        <td>{moment(item?.flightDate).isValid() && moment(item?.flightDate).format('DD MMM YYYY')}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+        </div>
         {/* Cargo Details */}
         <div className="mt-4">
           <h5>Cargo Information</h5>
