@@ -1,29 +1,31 @@
-import { Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import * as Yup from 'yup';
-import { imarineBaseUrl } from '../../../../../App';
-import InputField from '../../../../_helper/_inputField';
-import Loading from '../../../../_helper/_loading';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-import './style.css';
-import NewSelect from '../../../../_helper/_select';
-import IDelete from '../../../../_helper/_helperIcons/_delete';
+import axios from "axios";
+import { Form, Formik } from "formik";
+import React, { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../../App";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import "./style.css";
 
 const validationSchema = Yup.object().shape({
   // exchangeRate: Yup.number().required('Exchange Rate is required'),
   currency: Yup.object().shape({
-    label: Yup.string().required('Currency is required'),
-    value: Yup.string().required('Currency is required'),
+    label: Yup.string().required("Currency is required"),
+    value: Yup.string().required("Currency is required"),
   }),
 });
 function ChargesModal({ rowClickData, CB }) {
   const formikRef = React.useRef(null);
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, getSaveBookedRequestBilling, bookedRequestBilling] = useAxiosPost();
@@ -50,17 +52,28 @@ function ChargesModal({ rowClickData, CB }) {
           (resSveData) => {
             const modifyData = resShippingHeadOfCharges?.map((item) => {
               const findData = resSveData?.find(
-                (findItem) => findItem?.headOfChargeId === item?.value,
+                (findItem) => findItem?.headOfChargeId === item?.value
               );
               return {
                 ...item,
                 billingId: findData?.billingId || 0,
                 checked: findData ? true : false,
-                amount: findData?.chargeAmount || '',
-                actualExpense: findData?.actualExpense || '',
-                consigneeCharge: findData?.consigneeCharge || '',
-                headOfCharges: item?.label || '',
+                amount: findData?.chargeAmount || "",
+                actualExpense: findData?.actualExpense || "",
+                headOfCharges: item?.label || "",
                 headOfChargeId: item?.value || 0,
+                collectionPartyType: findData?.collectionPartyType || "",
+                collectionActualAmount: findData?.collectionActualAmount || 0,
+                collectionDummyAmount: findData?.collectionDummyAmount || 0,
+                paymentActualAmount: findData?.paymentActualAmount || 0,
+                paymentDummyAmount: findData?.paymentDummyAmount || 0,
+                paymentPartyType: findData?.paymentPartyType || 0,
+                paymentPartyTypeId: findData?.paymentPartyTypeId || 0,
+                paymentParty: findData?.paymentParty || 0,
+                collectionPartyTypeId: findData?.collectionPartyTypeId || 0,
+                collectionPartyId: findData?.collectionPartyId || 0,
+                collectionParty: findData?.collectionParty || "",
+                billingDate: item?.billingDate || new Date(),
               };
             });
             const filterNewData = resSveData
@@ -74,29 +87,41 @@ function ChargesModal({ rowClickData, CB }) {
                   amount: item?.chargeAmount,
                   billingId: item?.billingId || 0,
                   actualExpense: item?.actualExpense || 0,
-                  consigneeCharge: item?.consigneeCharge || '',
+                  collectionPartyType: item?.collectionPartyType || 0,
+                  collectionActualAmount: item?.collectionActualAmount || 0,
+                  collectionDummyAmount: item?.collectionDummyAmount || 0,
+                  paymentActualAmount: item?.paymentActualAmount || 0,
+                  paymentDummyAmount: item?.paymentDummyAmount || 0,
+                  paymentPartyType: item?.paymentPartyType || 0,
+                  paymentPartyTypeId: item?.paymentPartyTypeId || 0,
+                  paymentParty: item?.paymentParty || 0,
+                  collectionPartyTypeId: item?.collectionPartyTypeId || 0,
+                  collectionPartyId: item?.collectionPartyId || 0,
+                  collectionParty: item?.collectionParty || "",
+                  billingDate: item?.billingDate || new Date(),
+
                 };
               });
 
             if (formikRef.current) {
               formikRef.current.setFieldValue(
-                'currency',
+                "currency",
                 resSveData?.[0]
                   ? {
-                      label: resSveData?.[0]?.currency,
-                      value: resSveData?.[0]?.currencyId,
-                    }
-                  : '',
+                    label: resSveData?.[0]?.currency,
+                    value: resSveData?.[0]?.currencyId,
+                  }
+                  : ""
               );
               formikRef.current.setFieldValue(
-                'exchangeRate',
-                resSveData?.[0] ? resSveData?.[0]?.exchangeRate : '',
+                "exchangeRate",
+                resSveData?.[0] ? resSveData?.[0]?.exchangeRate : ""
               );
             }
             setShippingHeadOfCharges([...modifyData, ...filterNewData]);
-          },
+          }
         );
-      },
+      }
     );
     GetBaseCurrencyList(
       `${imarineBaseUrl}/domain/Purchase/GetBaseCurrencyList`,
@@ -108,10 +133,10 @@ function ChargesModal({ rowClickData, CB }) {
           };
         });
         setCurrencyList(modifyData);
-      },
+      }
     );
     getShipingCargoTypeDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
+      `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -123,13 +148,12 @@ function ChargesModal({ rowClickData, CB }) {
         return {
           exchangeRate: +values?.exchangeRate || 0,
           currencyId: values?.currency?.value || 0,
-          currency: values?.currency?.label || '',
+          currency: values?.currency?.label || "",
           billingId: item?.billingId || 0,
           bookingRequestId: bookingRequestId || 0,
           headOfChargeId: item?.headOfChargeId || 0,
-          headOfCharges: item?.headOfCharges || '',
+          headOfCharges: item?.headOfCharges || "",
           chargeAmount: item?.amount || 0,
-          consigneeCharge: item?.consigneeCharge || 0,
           actualExpense: item?.actualExpense || 0,
           isActive: true,
           billingDate: new Date(),
@@ -139,27 +163,39 @@ function ChargesModal({ rowClickData, CB }) {
           updatedAt: profileData?.userId || 0,
           collectionActualAmount: item?.collectionActualAmount || 0,
           collectionDummyAmount: item?.collectionDummyAmount || 0,
-          collectionPartyType: item?.collectionPartyType || '',
+          collectionPartyType: item?.collectionPartyType || "",
           collectionPartyTypeId: item?.collectionPartyTypeId || 0,
-          collectionParty: item?.collectionParty || '',
+          collectionParty: item?.collectionParty || "",
           collectionPartyId: item?.collectionPartyId || 0,
           paymentActualAmount: item?.paymentActualAmount || 0,
           paymentDummyAmount: item?.paymentDummyAmount || 0,
-          paymentPartyType: item?.paymentPartyType || '',
+          paymentPartyType: item?.paymentPartyType || "",
           paymentPartyTypeId: item?.paymentPartyTypeId || 0,
-          paymentParty: item?.paymentParty || '',
+          paymentParty: item?.paymentParty || "",
           paymentPartyId: item?.paymentPartyId || 0,
         };
       });
     if (payload.length === 0) {
-      return toast.warn('Please select at least one charge');
+      return toast.warn("Please select at least one charge");
     }
     getSaveBookedRequestBilling(
       `${imarineBaseUrl}/domain/ShippingService/SaveBookedRequestBilling`,
       payload,
-      CB,
+      CB
     );
   };
+  const loadCollectionPartyList = (v, paymentPartyType) => {
+    if (v?.length < 3) return [];
+    // paymentPartyType
+    // const paymentPartyType = formikRef.watch('paymentPartyType');
+    console.log(paymentPartyType);
+    return axios
+      .get(
+        `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=1&cargoType=${paymentPartyType}`
+      )
+      .then((res) => res?.data);
+  };
+
   return (
     <div className="chargesModal">
       {(bookedRequestBilling ||
@@ -168,12 +204,11 @@ function ChargesModal({ rowClickData, CB }) {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          amount: '',
-          attribute: '',
-          actualExpense: '',
-          consigneeCharge: '',
-          exchangeRate: '',
-          currency: '',
+          amount: "",
+          attribute: "",
+          actualExpense: "",
+          exchangeRate: "",
+          currency: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -200,12 +235,12 @@ function ChargesModal({ rowClickData, CB }) {
                 <div className="row global-form">
                   <div className="col-lg-3">
                     <NewSelect
-                      label={'Currency'}
+                      label={"Currency"}
                       options={currencyList}
                       value={values?.currency}
                       name="currency"
                       onChange={(valueOption) => {
-                        setFieldValue('currency', valueOption || '');
+                        setFieldValue("currency", valueOption || "");
                       }}
                       errors={errors}
                       touched={touched}
@@ -218,7 +253,7 @@ function ChargesModal({ rowClickData, CB }) {
                       name="exchangeRate"
                       type="text"
                       onChange={(e) =>
-                        setFieldValue('exchangeRate', e.target.value)
+                        setFieldValue("exchangeRate", e.target.value)
                       }
                       errors={errors}
                       touched={touched}
@@ -233,7 +268,7 @@ function ChargesModal({ rowClickData, CB }) {
                     label="Attribute"
                     name="attribute"
                     type="text"
-                    onChange={(e) => setFieldValue('attribute', e.target.value)}
+                    onChange={(e) => setFieldValue("attribute", e.target.value)}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -244,7 +279,7 @@ function ChargesModal({ rowClickData, CB }) {
                       className="btn btn-primary"
                       onClick={() => {
                         if (!values?.attribute) {
-                          return toast.warn('Attribute is required');
+                          return toast.warn("Attribute is required");
                         }
                         setShippingHeadOfCharges([
                           ...shippingHeadOfCharges,
@@ -252,29 +287,29 @@ function ChargesModal({ rowClickData, CB }) {
                             headOfCharges: values?.attribute,
                             headOfChargeId: 0,
                             checked: true,
-                            collectionActualAmount: '',
-                            collectionDummyAmount: '',
-                            collectionPartyType: '',
+                            collectionActualAmount: "",
+                            collectionDummyAmount: "",
+                            collectionPartyType: "",
                             collectionPartyTypeId: 0,
-                            collectionParty: '',
+                            collectionParty: "",
                             collectionPartyId: 0,
-                            paymentActualAmount: '',
-                            paymentDummyAmount: '',
-                            paymentPartyType: '',
+                            paymentActualAmount: "",
+                            paymentDummyAmount: "",
+                            paymentPartyType: "",
                             paymentPartyTypeId: 0,
-                            paymentParty: '',
+                            paymentParty: "",
                             paymentPartyId: 0,
                           },
                         ]);
                         // resetForm();
-                        setFieldValue('attribute', '');
+                        setFieldValue("attribute", "");
                       }}
                     >
                       Add
                     </button>
                   </div>
                 </div>
-              </div>{' '}
+              </div>{" "}
               <div className="table-responsive">
                 <table className="table global-table">
                   <thead>
@@ -285,8 +320,8 @@ function ChargesModal({ rowClickData, CB }) {
                           checked={
                             shippingHeadOfCharges?.length > 0
                               ? shippingHeadOfCharges?.every(
-                                  (item) => item?.checked,
-                                )
+                                (item) => item?.checked
+                              )
                               : false
                           }
                           onChange={(e) => {
@@ -297,43 +332,43 @@ function ChargesModal({ rowClickData, CB }) {
                                   checked: e?.target?.checked,
                                   collectionActualAmount: e?.target?.checked
                                     ? item?.collectionActualAmount
-                                    : '',
+                                    : "",
                                   collectionDummyAmount: e?.target?.checked
                                     ? item?.collectionDummyAmount
-                                    : '',
+                                    : "",
                                   collectionPartyType: e?.target?.checked
                                     ? item?.collectionPartyType
-                                    : '',
+                                    : "",
                                   collectionPartyTypeId: e?.target?.checked
                                     ? item?.collectionPartyTypeId
                                     : 0,
 
                                   collectionParty: e?.target?.checked
                                     ? item?.collectionParty
-                                    : '',
+                                    : "",
                                   collectionPartyId: e?.target?.checked
                                     ? item?.collectionPartyId
                                     : 0,
                                   paymentActualAmount: e?.target?.checked
                                     ? item?.paymentActualAmount
-                                    : '',
+                                    : "",
                                   paymentDummyAmount: e?.target?.checked
                                     ? item?.paymentDummyAmount
-                                    : '',
+                                    : "",
                                   paymentPartyType: e?.target?.checked
                                     ? item?.paymentPartyType
-                                    : '',
+                                    : "",
                                   paymentPartyTypeId: e?.target?.checked
                                     ? item?.paymentPartyTypeId
                                     : 0,
                                   paymentParty: e?.target?.checked
                                     ? item?.paymentParty
-                                    : '',
+                                    : "",
                                   paymentPartyId: e?.target?.checked
                                     ? item?.paymentPartyId
                                     : 0,
                                 };
-                              }),
+                              })
                             );
                           }}
                         />
@@ -351,56 +386,56 @@ function ChargesModal({ rowClickData, CB }) {
                     <tr>
                       <th
                         style={{
-                          width: '60px',
+                          width: "60px",
                         }}
                       >
                         Actual Amount
                       </th>
                       <th
                         style={{
-                          width: '60px',
+                          width: "60px",
                         }}
                       >
                         Dummy Amount
                       </th>
                       <th
                         style={{
-                          width: '150px',
+                          width: "150px",
                         }}
                       >
                         Party
                       </th>
                       <th
                         style={{
-                          width: '150px',
+                          width: "150px",
                         }}
                       >
                         Party Name
                       </th>
                       <th
                         style={{
-                          width: '60px',
+                          width: "60px",
                         }}
                       >
                         Actual Amount
                       </th>
                       <th
                         style={{
-                          width: '60px',
+                          width: "60px",
                         }}
                       >
                         Dummy Amount
                       </th>
                       <th
                         style={{
-                          width: '150px',
+                          width: "150px",
                         }}
                       >
                         Party
                       </th>
                       <th
                         style={{
-                          width: '150px',
+                          width: "150px",
                         }}
                       >
                         Party Name
@@ -426,48 +461,48 @@ function ChargesModal({ rowClickData, CB }) {
                                           collectionActualAmount: e?.target
                                             ?.checked
                                             ? item?.collectionActualAmount
-                                            : '',
+                                            : "",
                                           collectionDummyAmount: e?.target
                                             ?.checked
                                             ? item?.collectionDummyAmount
-                                            : '',
+                                            : "",
                                           collectionPartyType: e?.target
                                             ?.checked
                                             ? item?.collectionPartyType
-                                            : '',
+                                            : "",
                                           collectionPartyTypeId: e?.target
                                             ?.checked
                                             ? item?.collectionPartyTypeId
                                             : 0,
                                           collectionParty: e?.target?.checked
                                             ? item?.collectionParty
-                                            : '',
+                                            : "",
                                           collectionPartyId: e?.target?.checked
                                             ? item?.collectionPartyId
                                             : 0,
                                           paymentActualAmount: e?.target
                                             ?.checked
                                             ? item?.paymentActualAmount
-                                            : '',
+                                            : "",
                                           paymentDummyAmount: e?.target?.checked
                                             ? item?.paymentDummyAmount
-                                            : '',
+                                            : "",
                                           paymentPartyType: e?.target?.checked
                                             ? item?.paymentPartyType
-                                            : '',
+                                            : "",
                                           paymentPartyTypeId: e?.target?.checked
                                             ? item?.paymentPartyTypeId
                                             : 0,
                                           paymentParty: e?.target?.checked
                                             ? item?.paymentParty
-                                            : '',
+                                            : "",
                                           paymentPartyId: e?.target?.checked
                                             ? item?.paymentPartyId
                                             : 0,
                                         };
                                       }
                                       return data;
-                                    }),
+                                    })
                                   );
                                 }}
                               />
@@ -513,10 +548,10 @@ function ChargesModal({ rowClickData, CB }) {
                                 value={
                                   item?.collectionPartyType
                                     ? {
-                                        label: item?.collectionPartyType,
-                                        value: item?.collectionPartyTypeId,
-                                      }
-                                    : ''
+                                      label: item?.collectionPartyType,
+                                      value: item?.collectionPartyTypeId,
+                                    }
+                                    : ""
                                 }
                                 name="collectionPartyType"
                                 onChange={(valueOption) => {
@@ -530,7 +565,7 @@ function ChargesModal({ rowClickData, CB }) {
                               />
                             </td>
                             <td>
-                              <NewSelect
+                              {/* <NewSelect
                                 isDisabled={
                                   !item?.checked || !item?.collectionPartyType
                                 }
@@ -538,9 +573,9 @@ function ChargesModal({ rowClickData, CB }) {
                                 value={
                                   item?.collectionParty
                                     ? {
-                                        label: item?.collectionParty,
-                                        value: item?.collectionPartyId,
-                                      }
+                                      label: item?.collectionParty,
+                                      value: item?.collectionPartyId,
+                                    }
                                     : ''
                                 }
                                 name="collectionParty"
@@ -551,6 +586,37 @@ function ChargesModal({ rowClickData, CB }) {
                                   copyPrv[index].collectionPartyId =
                                     valueOption?.value;
                                   setShippingHeadOfCharges(copyPrv);
+                                }}
+                              /> */}
+                              <SearchAsyncSelect
+                                isDisabled={
+                                  !item?.checked || !item?.collectionPartyType
+                                }
+                                selectedValue={
+                                  item?.collectionParty
+                                    ? {
+                                      label: item?.collectionParty,
+                                      value: item?.collectionPartyId,
+                                    }
+                                    : ""
+                                }
+                                handleChange={(valueOption) => {
+                                  const copyPrv = [...shippingHeadOfCharges];
+                                  copyPrv[index].collectionParty =
+                                    valueOption?.label;
+                                  copyPrv[index].collectionPartyId =
+                                    valueOption?.value;
+                                  setShippingHeadOfCharges(copyPrv);
+                                }}
+                                loadOptions={(v) => {
+                                  if (v?.length < 3) return [];
+                                  // paymentPartyType
+                                  // const paymentPartyType = formikRef.watch('paymentPartyType');
+                                  return axios
+                                    .get(
+                                      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=1&cargoType=${item?.collectionPartyTypeId}`
+                                    )
+                                    .then((res) => res?.data);
                                 }}
                               />
                             </td>
@@ -592,10 +658,10 @@ function ChargesModal({ rowClickData, CB }) {
                                 value={
                                   item?.paymentPartyType
                                     ? {
-                                        label: item?.paymentPartyType,
-                                        value: item?.paymentPartyTypeId,
-                                      }
-                                    : ''
+                                      label: item?.paymentPartyType,
+                                      value: item?.paymentPartyTypeId,
+                                    }
+                                    : ""
                                 }
                                 name="paymentPartyType"
                                 onChange={(valueOption) => {
@@ -610,7 +676,7 @@ function ChargesModal({ rowClickData, CB }) {
                               />
                             </td>
                             <td>
-                              <NewSelect
+                              {/* <NewSelect
                                 isDisabled={
                                   !item?.checked || !item?.paymentPartyType
                                 }
@@ -618,9 +684,9 @@ function ChargesModal({ rowClickData, CB }) {
                                 value={
                                   item?.collectionParty
                                     ? {
-                                        label: item?.collectionParty,
-                                        value: item?.collectionPartyId,
-                                      }
+                                      label: item?.collectionParty,
+                                      value: item?.collectionPartyId,
+                                    }
                                     : ''
                                 }
                                 name="collectionParty"
@@ -632,6 +698,42 @@ function ChargesModal({ rowClickData, CB }) {
                                     valueOption?.value;
                                   setShippingHeadOfCharges(copyPrv);
                                 }}
+                              /> */}
+                              <SearchAsyncSelect
+                                isDisabled={
+                                  !item?.checked || !item?.paymentPartyType
+                                }
+                                selectedValue={
+                                  item?.paymentParty
+                                    ? {
+                                      label: item?.paymentParty,
+                                      value: item?.paymentPartyId,
+                                    }
+                                    : ""
+                                }
+                                handleChange={(valueOption) => {
+                                  // if (valueOption) {
+                                  //   setFieldValue("collectionParty", valueOption);
+                                  // } else {
+                                  //   setFieldValue("collectionParty", "");
+                                  // }
+                                  const copyPrv = [...shippingHeadOfCharges];
+                                  copyPrv[index].paymentParty =
+                                    valueOption?.label;
+                                  copyPrv[index].paymentPartyId =
+                                    valueOption?.value;
+                                  setShippingHeadOfCharges(copyPrv);
+                                }}
+                                loadOptions={(v) => {
+                                  if (v?.length < 3) return [];
+                                  // paymentPartyType
+                                  // const paymentPartyType = formikRef.watch('paymentPartyType');
+                                  return axios
+                                    .get(
+                                      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=1&cargoType=${item?.paymentPartyTypeId}`
+                                    )
+                                    .then((res) => res?.data);
+                                }}
                               />
                             </td>
                             {/* above  row copy button*/}
@@ -639,7 +741,7 @@ function ChargesModal({ rowClickData, CB }) {
                               <div
                                 className="d-flex justify-content-center"
                                 style={{
-                                  gap: '5px',
+                                  gap: "5px",
                                 }}
                               >
                                 <button
@@ -652,21 +754,21 @@ function ChargesModal({ rowClickData, CB }) {
                                       shippingHeadOfCharges?.[index];
                                     if (!aboveRow) {
                                       return toast.warn(
-                                        'Please select above row',
+                                        "Please select above row"
                                       );
                                     }
                                     // insert new row below the above row
                                     setShippingHeadOfCharges([
                                       ...shippingHeadOfCharges?.slice(
                                         0,
-                                        index + 1,
+                                        index + 1
                                       ),
                                       {
                                         ...aboveRow,
                                         billingId: aboveRow?.billingId || 0,
                                       },
                                       ...shippingHeadOfCharges?.slice(
-                                        index + 1,
+                                        index + 1
                                       ),
                                     ]);
                                   }}
@@ -680,8 +782,8 @@ function ChargesModal({ rowClickData, CB }) {
                                   onClick={() => {
                                     setShippingHeadOfCharges(
                                       shippingHeadOfCharges?.filter(
-                                        (data, i) => i !== index,
-                                      ),
+                                        (data, i) => i !== index
+                                      )
                                     );
                                   }}
                                 >

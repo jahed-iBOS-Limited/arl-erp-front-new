@@ -1414,7 +1414,7 @@ function BookingList() {
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
-                          isMasterHBL: false,
+                          isMasterHBAW: false,
                         });
                         setRowClickData({});
                       }}
