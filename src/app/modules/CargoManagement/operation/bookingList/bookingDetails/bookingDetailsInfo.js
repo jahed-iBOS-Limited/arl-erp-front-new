@@ -491,149 +491,127 @@ function BookingDetailsInfo({ bookingData, billingData }) {
           </div>
         </div>
         {/* Services & Charges  */}
-        {/* <div className="row">
+        <div className="row">
           <div className="col-lg-12">
             {' '}
             <h5>Services & Charges</h5>
             <div className="table-responsive">
-              <table className="table global-table mt-0">
+              <table className="table global-table">
                 <thead>
                   <tr>
-                    <th className="p-0">SL</th>
-                    <th className="p-0">Attribute</th>
-                    <th className="p-0">Collection (Amounts & Party)</th>
-                    <th className="p-0">Payment (Amounts & Party)</th>
+                    <th rowspan="2">SL</th>
+                    <th rowspan="2">Attribute</th>
+                    <th colspan="4" class="group-header">
+                      Collection <span>(Amounts & Party)</span>
+                    </th>
+                    <th colspan="4" class="group-header">
+                      Payment <span>(Amounts & Party)</span>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th
+                      style={{
+                        width: "60px",
+                      }}
+                    >
+                      Actual Amount
+                    </th>
+                    <th
+                      style={{
+                        width: "60px",
+                      }}
+                    >
+                      Dummy Amount
+                    </th>
+                    <th
+                      style={{
+                        width: "150px",
+                      }}
+                    >
+                      Party
+                    </th>
+                    <th
+                      style={{
+                        width: "150px",
+                      }}
+                    >
+                      Party Name
+                    </th>
+                    <th
+                      style={{
+                        width: "60px",
+                      }}
+                    >
+                      Actual Amount
+                    </th>
+                    <th
+                      style={{
+                        width: "60px",
+                      }}
+                    >
+                      Dummy Amount
+                    </th>
+                    <th
+                      style={{
+                        width: "150px",
+                      }}
+                    >
+                      Party
+                    </th>
+                    <th
+                      style={{
+                        width: "150px",
+                      }}
+                    >
+                      Party Name
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {billingData?.map((item, index) => (
-                    <tr key={index}>
-                      <td> {index + 1} </td>
-                      <td className="align-middle">
-                        <label>{item?.headOfCharges}</label>
-                      </td>
-                      <td>{item?.chargeAmount}</td>
-                    </tr>
-                  ))}
+                  {billingData?.map((item, index) => {
+                    return (
+                      <>
+                        <tr>
+
+                          <td>{index + 1}</td>
+                          <td>{item?.headOfCharges}</td>
+
+                          <td>
+                            {item?.collectionActualAmount}
+                          </td>
+                          <td>
+                            {item?.collectionDummyAmount}
+                          </td>
+                          <td>
+                            {item?.collectionPartyType}
+                          </td>
+                          <td>
+                            {item?.collectionParty}
+                          </td>
+                          <td>
+                            {item?.paymentActualAmount}
+                          </td>
+                          <td>
+                            {item?.paymentDummyAmount}
+                          </td>
+                          <td>
+                            {item?.paymentPartyType}
+                          </td>
+                          <td>
+                            {item?.paymentParty}
+                          </td>
+
+
+                        </tr>
+                      </>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
           </div>
-        </div> */}
-        <div className="table-responsive">
-          <table className="table global-table">
-            <thead>
-              <tr>
-                <th rowspan="2">SL</th>
-                <th rowspan="2">Attribute</th>
-                <th colspan="4" class="group-header">
-                  Collection <span>(Amounts & Party)</span>
-                </th>
-                <th colspan="4" class="group-header">
-                  Payment <span>(Amounts & Party)</span>
-                </th>
-              </tr>
-              <tr>
-                <th
-                  style={{
-                    width: "60px",
-                  }}
-                >
-                  Actual Amount
-                </th>
-                <th
-                  style={{
-                    width: "60px",
-                  }}
-                >
-                  Dummy Amount
-                </th>
-                <th
-                  style={{
-                    width: "150px",
-                  }}
-                >
-                  Party
-                </th>
-                <th
-                  style={{
-                    width: "150px",
-                  }}
-                >
-                  Party Name
-                </th>
-                <th
-                  style={{
-                    width: "60px",
-                  }}
-                >
-                  Actual Amount
-                </th>
-                <th
-                  style={{
-                    width: "60px",
-                  }}
-                >
-                  Dummy Amount
-                </th>
-                <th
-                  style={{
-                    width: "150px",
-                  }}
-                >
-                  Party
-                </th>
-                <th
-                  style={{
-                    width: "150px",
-                  }}
-                >
-                  Party Name
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {billingData?.map((item, index) => {
-                return (
-                  <>
-                    <tr>
-
-                      <td>{index + 1}</td>
-                      <td>{item?.headOfCharges}</td>
-
-                      <td>
-                        {item?.collectionActualAmount}
-                      </td>
-                      <td>
-                        {item?.collectionDummyAmount}
-                      </td>
-                      <td>
-                        {item?.collectionPartyType}
-                      </td>
-                      <td>
-                        {item?.collectionParty}
-                      </td>
-                      <td>
-                        {item?.paymentActualAmount}
-                      </td>
-                      <td>
-                        {item?.paymentDummyAmount}
-                      </td>
-                      <td>
-                        {item?.paymentPartyType}
-                      </td>
-                      <td>
-                        {item?.paymentParty}
-                      </td>
-
-
-                    </tr>
-                  </>
-                );
-              })}
-            </tbody>
-          </table>
         </div>
+
       </div>
     </div>
   );
