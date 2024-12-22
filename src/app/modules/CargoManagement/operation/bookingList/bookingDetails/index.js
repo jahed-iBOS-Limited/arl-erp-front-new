@@ -11,10 +11,15 @@ function Details({ rowClickData }) {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
+  // GetBookedRequestBillingData?bookingId=20
+  const [billingData, setGetBookedRequestBillingData, getBookedRequestBillingDataLoading] = useAxiosGet();
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
+      );
+      setGetBookedRequestBillingData(
+        `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}`
       );
     }
 
@@ -25,8 +30,8 @@ function Details({ rowClickData }) {
 
   return (
     <div className="bookingDetails">
-      {shipBookingRequestLoading && <Loading />}
-      <BookingDetailsInfo bookingData={bookingData} />
+      {(shipBookingRequestLoading || getBookedRequestBillingDataLoading) && <Loading />}
+      <BookingDetailsInfo bookingData={bookingData} billingData={billingData} />
     </div>
   );
 }
