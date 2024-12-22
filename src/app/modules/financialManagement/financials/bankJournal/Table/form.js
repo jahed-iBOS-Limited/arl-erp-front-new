@@ -28,6 +28,7 @@ import {
 } from "./../../../../../../_metronic/_partials/controls";
 import { setBankJournalLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import findIndex from "../../../../_helper/_findIndex";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -92,6 +93,15 @@ export default function HeaderForm({
     { shallowEqual }
   );
 
+  let { userRole } = useSelector(
+    (state) => state?.authData,
+    { shallowEqual }
+  );
+
+  const userPermission = userRole[findIndex(userRole, "Bank Journal")];
+
+  const canCreate = userPermission?.isCreate;
+
   let { profileData, selectedBusinessUnit } = cashJournal;
 
   const history = useHistory();
@@ -151,6 +161,7 @@ export default function HeaderForm({
                 <CardHeader title={"Bank Journal"}>
                   <CardHeaderToolbar>
                     <button
+                    disabled={!canCreate}
                       onClick={() => {
                         dispatch(
                           setBankJournalLandingAction({ ...values, code: "" })
