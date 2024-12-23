@@ -28,6 +28,7 @@ import NewSelect from "./../../../../_helper/_select";
 import { getLoadingPointDDLAction } from "./../_redux/Actions";
 import ChallanItemsPreview from "./itemsPreview";
 import QRCodeScanner from "../../../../_helper/qrCodeScanner";
+import EditDeliveryForm from "./EditDelivery/editDeliveryForm";
 // import InputField from "../../../../_helper/_inputField";
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -144,6 +145,7 @@ export default function _Form({
   const [loadingTwo, setLoadingTwo] = useState(false);
   const [controls, setControls] = useState([]);
   const [open, setOpen] = useState(false);
+  const [editDelivery, setEditDelivery] = useState({ open: false, data: null });
   const [show, setShow] = useState(false);
   const [previewItems, setPreviewItems] = useState([]);
   const [transportStatus, setTransportStatus] = useState([]);
@@ -215,7 +217,7 @@ export default function _Form({
         value: initData.Vehicle,
         isDisabled: isEdit ? false : rowDto?.length,
         dependencyFunc: (currentValue, values, setter, label, valueOption) => {
-          vehicleSingeDataView(label, accId, buId, setter);
+          vehicleSingeDataView(valueOption?.veichleId, setter);
           setter("supplierName", "");
           setter("laborSupplierName", "");
 
@@ -292,9 +294,7 @@ export default function _Form({
               vehicle?.value ? vehicle : ""
             );
             vehicleSingeDataView(
-              vehicle?.label,
-              accId,
-              buId,
+              vehicle?.veichleId,
               formikRef.current.setFieldValue
             );
             // if isGateMaintain true and  buidId (175) than veichleEntry data found
@@ -364,7 +364,7 @@ export default function _Form({
               );
               if (find) {
                 setFieldValue("laborSupplierName", "");
-                vehicleSingeDataView(find?.label, accId, buId, setFieldValue);
+                vehicleSingeDataView(find?.veichleId, setFieldValue);
                 setFieldValue("Vehicle", find || "");
                 setFieldValue("supplierName", "");
                 setFieldValue("laborSupplierName", "");
@@ -473,9 +473,7 @@ export default function _Form({
                                       if (find) {
                                         setFieldValue("laborSupplierName", "");
                                         vehicleSingeDataView(
-                                          find?.label,
-                                          accId,
-                                          buId,
+                                          find?.veichleId,
                                           setFieldValue
                                         );
                                         setFieldValue("Vehicle", find || "");
@@ -586,9 +584,7 @@ export default function _Form({
                                                             ""
                                                           );
                                                           vehicleSingeDataView(
-                                                            find?.label,
-                                                            accId,
-                                                            buId,
+                                                            find?.veichleId,
                                                             setFieldValue
                                                           );
                                                           setFieldValue(
@@ -1157,7 +1153,7 @@ export default function _Form({
                               <th>Quantity</th>
                               <th>Net (KG)</th>
                               <th>Vol (CFT)</th>
-                              {!isEdit && <th>Action</th>}
+                              <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -1217,13 +1213,25 @@ export default function _Form({
                                     {itm?.itemTotalVolume}
                                   </div>
                                 </td>
-                                {!isEdit && (
+                                {!isEdit ? (
                                   <td className="text-center">
                                     <i
                                       className="fa fa-trash"
                                       onClick={() =>
                                         remover(--index, setFieldValue)
                                       }
+                                    ></i>
+                                  </td>
+                                ) : (
+                                  <td className="text-center">
+                                    <i
+                                      className="fa fa-edit"
+                                      onClick={() => {
+                                        setEditDelivery({
+                                          open: true,
+                                          data: itm,
+                                        });
+                                      }}
                                     ></i>
                                   </td>
                                 )}
@@ -1235,6 +1243,14 @@ export default function _Form({
                     )}
                   </div>
                 </div>
+                <IViewModal
+                  modelSize="xl"
+                  title="Edit Delivery"
+                  show={editDelivery.open}
+                  onHide={() => setEditDelivery({ open: false, data: null })}
+                >
+                  <EditDeliveryForm delivery={editDelivery.data} />
+                </IViewModal>
                 <IViewModal
                   modelSize="md"
                   title="Challan Items Preview"

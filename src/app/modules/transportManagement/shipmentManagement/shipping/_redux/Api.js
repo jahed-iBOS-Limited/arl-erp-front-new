@@ -156,6 +156,9 @@ export function getVehicleInfoByVehicleIdAPI(id, accId, buId) {
     `/tms/Vehicle/GetVehicleInfobyNo?vehicleNo=${id}&AccountId=${accId}&BusinessUnitId=${buId}`
   );
 }
+export function getVehicleInformationByVehicleIdAPI(id) {
+  return axios.get(`/tms/Vehicle/GetVehicleInformationbyId?vehicleId=${id}`);
+}
 export function GetItemWeightInfo(ShipmentCode, buId) {
   return axios.get(
     `/wms/ShipmentRequest/GetItemWeightInfo?ShipmentCode=${ShipmentCode}&BusinessUnitId=${buId}`

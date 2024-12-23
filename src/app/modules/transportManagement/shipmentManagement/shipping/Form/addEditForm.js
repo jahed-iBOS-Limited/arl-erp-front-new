@@ -18,7 +18,8 @@ import {
   getPaymentTermsDDLAction,
   getSalesContactById,
   getSoldToPPIdAction,
-  getVehicleSingleDatabyVehicleIdAction,
+  // getVehicleSingleDatabyVehicleIdAction,
+  getVehicleSingleInfobyVehicleIdAction,
   saveShipment,
   setSalesContactSingleEmpty,
 } from "../_redux/Actions";
@@ -157,8 +158,8 @@ export default function ShipmentForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, accId]);
 
-  const vehicleSingeDataView = (id, accId, buId, setter) => {
-    dispatch(getVehicleSingleDatabyVehicleIdAction(id, accId, buId, setter));
+  const vehicleSingeDataView = (id, setter) => {
+    dispatch(getVehicleSingleInfobyVehicleIdAction(id, setter));
   };
 
   const deliveryItemVolume = (id) => {
@@ -464,13 +465,8 @@ export default function ShipmentForm({
           costlaborRateStatus: singleData?.shipmentHeader?.isLaborImpart?.value,
         }))
       );
-      if (singleData?.shipmentHeader?.Vehicle?.label)
-        vehicleSingeDataView(
-          singleData?.shipmentHeader?.Vehicle?.label,
-          accId,
-          buId,
-          null
-        );
+      if (singleData?.shipmentHeader?.Vehicle?.value)
+        vehicleSingeDataView(singleData?.shipmentHeader?.Vehicle?.value, null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleData?.shipmentRowList]);
