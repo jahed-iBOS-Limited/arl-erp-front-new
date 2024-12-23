@@ -89,11 +89,8 @@ export default function HeaderForm({
     { shallowEqual }
   );
 
-    let { userRole } = useSelector(
-      (state) => state?.authData,
-      { shallowEqual }
-    );
-    
+  let { userRole } = useSelector((state) => state?.authData, { shallowEqual });
+
   const userPermission = userRole[findIndex(userRole, "Adjustment Journal")];
 
   const canCreate = userPermission?.isCreate;
@@ -154,7 +151,7 @@ export default function HeaderForm({
                 <CardHeader title={"Adjustment Journal"}>
                   <CardHeaderToolbar>
                     <button
-                    disabled={!canCreate}
+                      disabled={!canCreate}
                       onClick={() => {
                         dispatch(
                           setAdjustmentJournalLandingAction({
