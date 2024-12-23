@@ -75,6 +75,7 @@ const GridData = ({
   const userPermission = userRole[findIndex(userRole, "Bank Journal")];
 
   const canCreate = userPermission?.isCreate;
+  const canEdit = userPermission?.isEdit
 
   const [isShowModal, setIsShowModal] = useState(false);
   const [currentRowData, setCurrentRowData] = useState("");
@@ -213,7 +214,7 @@ const GridData = ({
                       </span>
                       {type === "notComplated" ? (
                         <>
-                          {canCreate && (
+                          {canEdit && (
                             <span
                             className="edit ml-3"
                             onClick={() =>

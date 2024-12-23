@@ -66,6 +66,7 @@ const GridData = ({
   const userPermission = userRole[findIndex(userRole, "Adjustment Journal")];
 
   const canCreate = userPermission?.isCreate;
+  const canEdit =userPermission?.isEdit
 
   return (
     <>
@@ -169,7 +170,7 @@ const GridData = ({
                       </span>
                       {type === "notComplated" ? (
                         <>
-                          {canCreate && (<span
+                          {canEdit && (<span
                             className="edit ml-2"
                             onClick={() => {
                               history.push(
