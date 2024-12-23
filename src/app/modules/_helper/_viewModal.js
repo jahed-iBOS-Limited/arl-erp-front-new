@@ -15,7 +15,8 @@ export default function IViewModal({
   modelSize,
   isModalFooterActive = true,
   dialogClassName,
-  backdrop
+  backdrop,
+  saveBtn,
 }) {
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
@@ -58,6 +59,7 @@ export default function IViewModal({
                   >
                     {btnText ? btnText : "Close"}
                   </button>
+                  {saveBtn && saveBtn}
                   <> </>
                 </div>
               </Modal.Footer>

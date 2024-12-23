@@ -18,7 +18,8 @@ import {
   getPaymentTermsDDLAction,
   getSalesContactById,
   getSoldToPPIdAction,
-  getVehicleSingleDatabyVehicleIdAction,
+  // getVehicleSingleDatabyVehicleIdAction,
+  getVehicleSingleInfobyVehicleIdAction,
   saveShipment,
   setSalesContactSingleEmpty,
 } from "../_redux/Actions";
@@ -120,6 +121,10 @@ export default function ShipmentForm({
     return state?.salesContact;
   }, shallowEqual);
 
+  const [refetch, setRefetch] = useState(false);
+  const refetchData = () => {
+    setRefetch(!refetch);
+  };
   //Dispatch single data action and empty single data for create
   useEffect(() => {
     if (id) {
@@ -128,7 +133,7 @@ export default function ShipmentForm({
       dispatch(setSalesContactSingleEmpty());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accId, buId, id]);
+  }, [accId, buId, id, refetch]);
 
   //Dispatch Get emplist action for get emplist ddl
   useEffect(() => {
@@ -157,8 +162,8 @@ export default function ShipmentForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, accId]);
 
-  const vehicleSingeDataView = (id, accId, buId, setter) => {
-    dispatch(getVehicleSingleDatabyVehicleIdAction(id, accId, buId, setter));
+  const vehicleSingeDataView = (id, setter) => {
+    dispatch(getVehicleSingleInfobyVehicleIdAction(id, setter));
   };
 
   const deliveryItemVolume = (id) => {
@@ -464,13 +469,8 @@ export default function ShipmentForm({
           costlaborRateStatus: singleData?.shipmentHeader?.isLaborImpart?.value,
         }))
       );
-      if (singleData?.shipmentHeader?.Vehicle?.label)
-        vehicleSingeDataView(
-          singleData?.shipmentHeader?.Vehicle?.label,
-          accId,
-          buId,
-          null
-        );
+      if (singleData?.shipmentHeader?.Vehicle?.value)
+        vehicleSingeDataView(singleData?.shipmentHeader?.Vehicle?.value, null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleData?.shipmentRowList]);
@@ -515,6 +515,7 @@ export default function ShipmentForm({
               : "",
           }
         }
+        refetchData={refetchData}
         saveHandler={saveHandler}
         accId={accId}
         buId={buId}
