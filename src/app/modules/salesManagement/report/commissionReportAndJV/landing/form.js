@@ -148,7 +148,7 @@ export default function CommissionReportAndJVForm({ obj }) {
                   />
                 )}
 
-                {[5, 3, 6, 7, ...allIds, 35, 36, 37, 38, 39].includes(
+                {[5, 3, 6, 7, ...allIds, 35, 36, 37, 38, 39, 41].includes(
                   values?.type?.value
                 ) && (
                   <>
