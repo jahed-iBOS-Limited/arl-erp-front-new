@@ -1,19 +1,19 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _firstDateOfCurrentFiscalYear } from "../../_helper/_firstDateOfCurrentFiscalYear";
-import IForm from "../../_helper/_form";
-import InputField from "../../_helper/_inputField";
-import Loading from "../../_helper/_loading";
-import { _monthLastDate } from "../../_helper/_monthLastDate";
-import NewSelect from "../../_helper/_select";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import ProjectedBalanceReport from "./ProjectedBalanceReport";
-import ProjectedCashFlow from "./ProjectedCashFlow";
-import ProjectedFinancialRations from "./ProjectedFinancialRations";
-import ProjectedPlannedAssetSchedule from "./ProjectedPlannedAssetSchedule";
-import ProjectedPlannedFundRequirement from "./ProjectedPlannedFundRequirement";
-import ProjectedTrailBalanceMultiColumn from "./ProjectedTrailBalanceMultiColumn";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _firstDateOfCurrentFiscalYear } from '../../_helper/_firstDateOfCurrentFiscalYear';
+import IForm from '../../_helper/_form';
+import InputField from '../../_helper/_inputField';
+import Loading from '../../_helper/_loading';
+import { _monthLastDate } from '../../_helper/_monthLastDate';
+import NewSelect from '../../_helper/_select';
+import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
+import ProjectedBalanceReport from './ProjectedBalanceReport';
+import ProjectedCashFlow from './ProjectedCashFlow';
+import ProjectedFinancialRations from './ProjectedFinancialRations';
+import ProjectedPlannedAssetSchedule from './ProjectedPlannedAssetSchedule';
+import ProjectedPlannedFundRequirement from './ProjectedPlannedFundRequirement';
+import ProjectedTrailBalanceMultiColumn from './ProjectedTrailBalanceMultiColumn';
 import {
   getIncomeStatement_api,
   getProfitCenterDDL,
@@ -21,29 +21,29 @@ import {
   groupId,
   manageBalanceData,
   parameterValues,
-} from "./helper";
-import ProjectedIncomeStatement from "./projectedIncomeStatement";
-import TrailBalanceProjected from "./trailBalanceProjected";
-import ProjectedCashflowStatementIndirect from "./ProjectedCashflowStatementIndirect";
-import { getBusinessDDLByED } from "../budgetVarianceReports/incomeStatement/helper";
-import DivisionSubDivisionAndBusinessUnit from "./commonDivSubDivToBuN";
-import PowerBIReport from "../../_helper/commonInputFieldsGroups/PowerBIReport";
-import { _lastDateOfMonthPreviousYear } from "../../_helper/_todayDate";
+} from './helper';
+import ProjectedIncomeStatement from './projectedIncomeStatement';
+import TrailBalanceProjected from './trailBalanceProjected';
+import ProjectedCashflowStatementIndirect from './ProjectedCashflowStatementIndirect';
+import { getBusinessDDLByED } from '../budgetVarianceReports/incomeStatement/helper';
+import DivisionSubDivisionAndBusinessUnit from './commonDivSubDivToBuN';
+import PowerBIReport from '../../_helper/commonInputFieldsGroups/PowerBIReport';
+import { _lastDateOfMonthPreviousYear } from '../../_helper/_todayDate';
 
 const initData = {
-  reportType: "",
-  enterpriseDivision: "",
-  subDivision: "",
-  businessUnit: "",
-  profitCenter: "",
+  reportType: '',
+  enterpriseDivision: '',
+  subDivision: '',
+  businessUnit: '',
+  profitCenter: '',
   fromDate: _firstDateOfCurrentFiscalYear(),
   toDate: _monthLastDate(),
   conversionRate: 1,
   date: _monthLastDate(),
-  viewType: "",
-  productDivision: "",
-  tradeType: "",
-  reportTypeCashFlowIndirect: { value: 0, label: "All" },
+  viewType: '',
+  productDivision: '',
+  tradeType: '',
+  reportTypeCashFlowIndirect: { value: 0, label: 'All' },
 };
 export default function ProjectedFinancialStatement() {
   const [buDDL, getBuDDL, buDDLloader, setBuDDL] = useAxiosGet();
@@ -108,16 +108,11 @@ export default function ProjectedFinancialStatement() {
     financialRatioComponentTableForLastPeriodLoader,
   ] = useAxiosGet();
 
-  const [
-    tradeAndDivisionDDL,
-    getTradeAndDivisionDDL,
-    ,
-    setTradeAndDivisionDDL,
-  ] = useAxiosGet();
+  const [tradeAndDivisionDDL, getTradeAndDivisionDDL, , ,] = useAxiosGet();
 
   useEffect(() => {
     getEnterpriseDivisionDDL(
-      `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`
+      `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);
@@ -133,7 +128,7 @@ export default function ProjectedFinancialStatement() {
           };
         });
         setBuDDL(newData);
-      }
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -182,18 +177,18 @@ export default function ProjectedFinancialStatement() {
                   <NewSelect
                     name="reportType"
                     options={[
-                      { value: 1, label: "Projected Trial Balance" },
+                      { value: 1, label: 'Projected Trial Balance' },
                       {
                         value: 5,
-                        label: "Projected Trial Balance Multi-Column",
+                        label: 'Projected Trial Balance Multi-Column',
                       },
-                      { value: 2, label: "Projected Income Statement" },
-                      { value: 3, label: "Projected Balance Sheet" },
-                      { value: 4, label: "Projected Cash Flow Statement" },
-                      { value: 9, label: "Projected Cash Flow Indirect" },
-                      { value: 6, label: "Projected Financial Ratios" },
-                      { value: 7, label: "Projected Planned Asset Schedule" },
-                      { value: 8, label: "Projected Planned Fund Requirement" },
+                      { value: 2, label: 'Projected Income Statement' },
+                      { value: 3, label: 'Projected Balance Sheet' },
+                      { value: 4, label: 'Projected Cash Flow Statement' },
+                      { value: 9, label: 'Projected Cash Flow Indirect' },
+                      { value: 6, label: 'Projected Financial Ratios' },
+                      { value: 7, label: 'Projected Planned Asset Schedule' },
+                      { value: 8, label: 'Projected Planned Fund Requirement' },
                     ]}
                     value={values?.reportType}
                     label="Report Type"
@@ -201,7 +196,7 @@ export default function ProjectedFinancialStatement() {
                       setRowData([]);
                       setIncomeStatement([]);
                       setShow(false);
-                      setFieldValue("reportType", valueOption);
+                      setFieldValue('reportType', valueOption);
                       setValues({
                         ...initData,
                         reportType: valueOption,
@@ -265,7 +260,7 @@ export default function ProjectedFinancialStatement() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                         }}
                       />
                     </div>
@@ -277,7 +272,7 @@ export default function ProjectedFinancialStatement() {
                         placeholder="Conversion Rate"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("conversionRate", e.target.value);
+                          setFieldValue('conversionRate', e.target.value);
                         }}
                         min={0}
                       />
@@ -362,37 +357,37 @@ export default function ProjectedFinancialStatement() {
                         // }
                         name="viewType"
                         options={[
-                          { value: "profitCenter", label: "Profit Center" },
+                          { value: 'profitCenter', label: 'Profit Center' },
                           {
-                            value: "unitColumn",
-                            label: "Unit Column",
+                            value: 'unitColumn',
+                            label: 'Unit Column',
                           },
-                          { value: "monthColumn", label: "Month Column" },
+                          { value: 'monthColumn', label: 'Month Column' },
                         ]}
                         value={values?.viewType}
                         label="View Type"
                         onChange={(valueOption) => {
-                          setFieldValue("viewType", valueOption);
+                          setFieldValue('viewType', valueOption);
                           setShow(false);
-                          if (valueOption?.value === "profitCenter") {
+                          if (valueOption?.value === 'profitCenter') {
                             getProfitCenterDDL(
                               values?.businessUnit?.value,
                               (profitCenterDDLData) => {
                                 setProfitCenterDDL(profitCenterDDLData);
                                 // setFieldValue("businessUnit", valueOption);
                                 setFieldValue(
-                                  "profitCenter",
-                                  profitCenterDDLData?.[0] || ""
+                                  'profitCenter',
+                                  profitCenterDDLData?.[0] || '',
                                 );
-                              }
+                              },
                             );
                           }
                           if (
                             valueOption?.value &&
-                            valueOption?.value !== "profitCenter"
+                            valueOption?.value !== 'profitCenter'
                           ) {
                             getTradeAndDivisionDDL(
-                              `/fino/CostSheet/ProfitCenterDivisionChannelDDL?BUId=${values?.businessUnit?.value}&Type=${valueOption?.value}`
+                              `/fino/CostSheet/ProfitCenterDivisionChannelDDL?BUId=${values?.businessUnit?.value}&Type=${valueOption?.value}`,
                             );
                           }
 
@@ -401,7 +396,7 @@ export default function ProjectedFinancialStatement() {
                         placeholder="View Type"
                       />
                     </div>
-                    {values?.viewType?.value === "profitCenter" && (
+                    {values?.viewType?.value === 'profitCenter' && (
                       <div className="col-md-3">
                         <NewSelect
                           // isDisabled={
@@ -415,14 +410,14 @@ export default function ProjectedFinancialStatement() {
                           value={values?.profitCenter}
                           label="Profit Center"
                           onChange={(valueOption) => {
-                            setFieldValue("profitCenter", valueOption);
+                            setFieldValue('profitCenter', valueOption);
                             setIncomeStatement([]);
                           }}
                           placeholder="Profit Center"
                         />
                       </div>
                     )}
-                    {values?.viewType?.value === "Product Division" && (
+                    {values?.viewType?.value === 'Product Division' && (
                       <div className="col-md-3">
                         <NewSelect
                           // isDisabled={
@@ -436,14 +431,14 @@ export default function ProjectedFinancialStatement() {
                           value={values?.productDivision}
                           label="Product Division"
                           onChange={(valueOption) => {
-                            setFieldValue("productDivision", valueOption);
+                            setFieldValue('productDivision', valueOption);
                             setIncomeStatement([]);
                           }}
                           placeholder="Product Division"
                         />
                       </div>
                     )}
-                    {values?.viewType?.value === "Trade Type" && (
+                    {values?.viewType?.value === 'Trade Type' && (
                       <div className="col-md-3">
                         <NewSelect
                           isDisabled={!values?.viewType}
@@ -452,7 +447,7 @@ export default function ProjectedFinancialStatement() {
                           value={values?.tradeType}
                           label="Trade Type"
                           onChange={(valueOption) => {
-                            setFieldValue("tradeType", valueOption);
+                            setFieldValue('tradeType', valueOption);
                             setIncomeStatement([]);
                           }}
                           placeholder="Product Division"
@@ -467,7 +462,7 @@ export default function ProjectedFinancialStatement() {
                         placeholder="Conversion Rate"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("conversionRate", e.target.value);
+                          setFieldValue('conversionRate', e.target.value);
                         }}
                         min={0}
                       />
@@ -479,7 +474,7 @@ export default function ProjectedFinancialStatement() {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                           setRowData([]);
                         }}
                       />
@@ -492,7 +487,7 @@ export default function ProjectedFinancialStatement() {
                         name="toDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                           setRowData([]);
                         }}
                       />
@@ -509,17 +504,17 @@ export default function ProjectedFinancialStatement() {
                         value={values?.enterpriseDivision}
                         label="Enterprise Division"
                         onChange={(valueOption) => {
-                          setFieldValue("enterpriseDivision", valueOption);
+                          setFieldValue('enterpriseDivision', valueOption);
                           getbuddl(
                             `/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${valueOption?.label}`,
                             (resData) => {
                               const filteredData = resData.filter(
                                 (item) =>
-                                  !(item.label === "All" && item.value === 0)
+                                  !(item.label === 'All' && item.value === 0),
                               );
                               setbuddl(filteredData);
-                              console.log("filteredData", filteredData);
-                            }
+                              console.log('filteredData', filteredData);
+                            },
                           );
                         }}
                       />
@@ -532,7 +527,7 @@ export default function ProjectedFinancialStatement() {
                         value={values?.businessUnit}
                         label="Business Unit"
                         onChange={(valueOption) => {
-                          setFieldValue("businessUnit", valueOption);
+                          setFieldValue('businessUnit', valueOption);
                         }}
                         placeholder="Business Unit"
                       />
@@ -545,7 +540,7 @@ export default function ProjectedFinancialStatement() {
                         placeholder="Conversion Rate"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("conversionRate", e.target.value);
+                          setFieldValue('conversionRate', e.target.value);
                         }}
                         min={0}
                       />
@@ -557,7 +552,7 @@ export default function ProjectedFinancialStatement() {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                           setRowData([]);
                         }}
                       />
@@ -570,7 +565,7 @@ export default function ProjectedFinancialStatement() {
                         name="toDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                           setRowData([]);
                         }}
                       />
@@ -586,23 +581,23 @@ export default function ProjectedFinancialStatement() {
                         options={[
                           {
                             value: 0,
-                            label: "All",
+                            label: 'All',
                           },
                           {
                             value: 1,
-                            label: "Group by Unit",
+                            label: 'Group by Unit',
                           },
                           {
                             value: 2,
-                            label: "Group by Month",
+                            label: 'Group by Month',
                           },
                         ]}
                         value={values?.reportTypeCashFlowIndirect}
                         label="View Type"
                         onChange={(valueOption) => {
                           setFieldValue(
-                            "reportTypeCashFlowIndirect",
-                            valueOption
+                            'reportTypeCashFlowIndirect',
+                            valueOption,
                           );
                         }}
                         placeholder="View Type"
@@ -629,7 +624,7 @@ export default function ProjectedFinancialStatement() {
                         placeholder="Conversion Rate"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("conversionRate", e.target.value);
+                          setFieldValue('conversionRate', e.target.value);
                         }}
                         min={0}
                       />
@@ -641,7 +636,7 @@ export default function ProjectedFinancialStatement() {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                           setRowData([]);
                         }}
                       />
@@ -654,7 +649,7 @@ export default function ProjectedFinancialStatement() {
                         name="toDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                           setRowData([]);
                         }}
                       />
@@ -674,11 +669,11 @@ export default function ProjectedFinancialStatement() {
                           if (valueOption) {
                             setRatioTableState([]);
                             setComponentTableState([]);
-                            setFieldValue("businessUnit", valueOption);
+                            setFieldValue('businessUnit', valueOption);
                           } else {
                             setRatioTableState([]);
                             setComponentTableState([]);
-                            setFieldValue("businessUnit", "");
+                            setFieldValue('businessUnit', '');
                           }
                         }}
                         errors={errors}
@@ -692,7 +687,7 @@ export default function ProjectedFinancialStatement() {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                           setRowData([]);
                         }}
                       />
@@ -705,7 +700,7 @@ export default function ProjectedFinancialStatement() {
                         name="toDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                           setRowData([]);
                         }}
                       />
@@ -723,16 +718,16 @@ export default function ProjectedFinancialStatement() {
                         label="Enterprise Division"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("enterpriseDivision", valueOption);
-                            setFieldValue("subDivision", "");
-                            setFieldValue("subDivisionBusinessUnit", "");
+                            setFieldValue('enterpriseDivision', valueOption);
+                            setFieldValue('subDivision', '');
+                            setFieldValue('subDivisionBusinessUnit', '');
                             getSubDivisionDDL(
-                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=1&BusinessUnitGroup=${valueOption?.label}`
+                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=1&BusinessUnitGroup=${valueOption?.label}`,
                             );
                           } else {
-                            setFieldValue("enterpriseDivision", "");
-                            setFieldValue("subDivision", "");
-                            setFieldValue("subDivisionBusinessUnit", "");
+                            setFieldValue('enterpriseDivision', '');
+                            setFieldValue('subDivision', '');
+                            setFieldValue('subDivisionBusinessUnit', '');
                           }
                         }}
                       />
@@ -745,12 +740,12 @@ export default function ProjectedFinancialStatement() {
                         label="Sub Division"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("subDivision", valueOption);
+                            setFieldValue('subDivision', valueOption);
                             getBusinessUnitBySubDivisionDDL(`/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&SubGroup=${valueOption?.value}
                           `);
                           } else {
-                            setFieldValue("subDivision", "");
-                            setFieldValue("subDivisionBusinessUnit", "");
+                            setFieldValue('subDivision', '');
+                            setFieldValue('subDivisionBusinessUnit', '');
                           }
                         }}
                       />
@@ -762,7 +757,7 @@ export default function ProjectedFinancialStatement() {
                         value={values?.subDivisionBusinessUnit}
                         label="Business Unit"
                         onChange={(valueOption) => {
-                          setFieldValue("subDivisionBusinessUnit", valueOption);
+                          setFieldValue('subDivisionBusinessUnit', valueOption);
                         }}
                       />
                     </div>
@@ -773,7 +768,7 @@ export default function ProjectedFinancialStatement() {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                           setRowData([]);
                         }}
                       />
@@ -786,7 +781,7 @@ export default function ProjectedFinancialStatement() {
                         name="toDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                           setRowData([]);
                         }}
                       />
@@ -805,18 +800,18 @@ export default function ProjectedFinancialStatement() {
                         onChange={(valueOption) => {
                           if (valueOption) {
                             setRowData([]);
-                            setFieldValue("enterpriseDivision", valueOption);
-                            setFieldValue("subDivision", "");
-                            setFieldValue("subDivisionBusinessUnit", "");
+                            setFieldValue('enterpriseDivision', valueOption);
+                            setFieldValue('subDivision', '');
+                            setFieldValue('subDivisionBusinessUnit', '');
                             getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
                             getSubDivisionDDL(
-                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=1&BusinessUnitGroup=${valueOption?.label}`
+                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=1&BusinessUnitGroup=${valueOption?.label}`,
                             );
                           } else {
                             setRowData([]);
-                            setFieldValue("enterpriseDivision", "");
-                            setFieldValue("subDivision", "");
-                            setFieldValue("subDivisionBusinessUnit", "");
+                            setFieldValue('enterpriseDivision', '');
+                            setFieldValue('subDivision', '');
+                            setFieldValue('subDivisionBusinessUnit', '');
                           }
                         }}
                       />
@@ -830,14 +825,14 @@ export default function ProjectedFinancialStatement() {
                         onChange={(valueOption) => {
                           if (valueOption) {
                             setRowData([]);
-                            setFieldValue("subDivision", valueOption);
-                            setFieldValue("subDivisionBusinessUnit", "");
+                            setFieldValue('subDivision', valueOption);
+                            setFieldValue('subDivisionBusinessUnit', '');
                             getBusinessUnitBySubDivisionDDL(`/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${profileData?.accountId}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&SubGroup=${valueOption?.value}
                           `);
                           } else {
                             setRowData([]);
-                            setFieldValue("subDivision", "");
-                            setFieldValue("subDivisionBusinessUnit", "");
+                            setFieldValue('subDivision', '');
+                            setFieldValue('subDivisionBusinessUnit', '');
                           }
                         }}
                       />
@@ -851,12 +846,12 @@ export default function ProjectedFinancialStatement() {
                         onChange={(valueOption) => {
                           if (valueOption) {
                             setFieldValue(
-                              "subDivisionBusinessUnit",
-                              valueOption
+                              'subDivisionBusinessUnit',
+                              valueOption,
                             );
                             setRowData([]);
                           } else {
-                            setFieldValue("subDivisionBusinessUnit", "");
+                            setFieldValue('subDivisionBusinessUnit', '');
                             setRowData([]);
                           }
                         }}
@@ -869,7 +864,7 @@ export default function ProjectedFinancialStatement() {
                         value={values?.year}
                         label="Year"
                         onChange={(valueOption) => {
-                          setFieldValue("year", valueOption);
+                          setFieldValue('year', valueOption);
                         }}
                       />
                     </div>
@@ -883,34 +878,34 @@ export default function ProjectedFinancialStatement() {
                         options={[
                           {
                             value: 0,
-                            label: "Budget",
+                            label: 'Budget',
                           },
                           {
                             value: 1,
-                            label: "Forecast",
+                            label: 'Forecast',
                           },
                         ]}
                         value={values?.isForecast}
                         label="Budget/Forecast"
                         onChange={(valueOption) => {
-                          setFieldValue("isForecast", valueOption);
+                          setFieldValue('isForecast', valueOption);
                         }}
                         placeholder="Budget/Forecast"
                       />
                     </div>
                   </>
                 ) : null}
-                <div style={{ marginTop: "17px" }}>
+                <div style={{ marginTop: '17px' }}>
                   <button
                     type="button"
                     onClick={() => {
                       if ([1]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/Report/GetTrailBalanceProjected?businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+                          `/fino/Report/GetTrailBalanceProjected?businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
                         );
                       }
                       if ([2]?.includes(values?.reportType?.value)) {
-                        if (values?.viewType?.value === "profitCenter") {
+                        if (values?.viewType?.value === 'profitCenter') {
                           getIncomeStatement_api(
                             values?.isForecast?.value,
                             values?.fromDate,
@@ -920,9 +915,9 @@ export default function ProjectedFinancialStatement() {
                             values?.businessUnit?.value,
                             0,
                             setIncomeStatement,
-                            "all",
+                            'all',
                             setLoading,
-                            "IncomeStatement",
+                            'IncomeStatement',
                             values?.enterpriseDivision?.value,
                             values?.conversionRate,
                             values?.subDivision,
@@ -934,7 +929,7 @@ export default function ProjectedFinancialStatement() {
                               : values?.profitCenter?.value
                               ? values?.profitCenter?.label
                               : values?.tradeType?.value,
-                            values?.subDivision?.label
+                            values?.subDivision?.label,
                           );
                         } else {
                           setShow(true);
@@ -949,22 +944,22 @@ export default function ProjectedFinancialStatement() {
                           }&BusinessUnitId=${
                             values?.businessUnit?.value
                           }&SubGroup=${values?.subDivision?.label ||
-                            ""}&AsOnDate=${values?.date}&ConvertionRate=${
+                            ''}&AsOnDate=${values?.date}&ConvertionRate=${
                             values?.conversionRate
                           }&isForecast=${values?.isForecast?.value}`,
                           (data) => {
                             setRowData(manageBalanceData(data));
-                          }
+                          },
                         );
                       }
                       if ([4]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/Report/GetCashFlowStatementProjected?BusinessUnitGroup=${values?.enterpriseDivision?.value}&businessUnitId=${values?.businessUnit?.value}&sbuId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}&ConvertionRate=${values?.conversionRate}`
+                          `/fino/Report/GetCashFlowStatementProjected?BusinessUnitGroup=${values?.enterpriseDivision?.value}&businessUnitId=${values?.businessUnit?.value}&sbuId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}&ConvertionRate=${values?.conversionRate}`,
                         );
                       }
                       if ([5]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/Report/GetTrailBalanceProjectedMultiColumn?businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
+                          `/fino/Report/GetTrailBalanceProjectedMultiColumn?businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
                         );
                       }
                       if ([6]?.includes(values?.reportType?.value)) {
@@ -978,8 +973,8 @@ export default function ProjectedFinancialStatement() {
                         toDate.setFullYear(toDate.getFullYear() - 1);
                         const fromDateStr = fromDate
                           .toISOString()
-                          .split("T")[0];
-                        const toDateStr = toDate.toISOString().split("T")[0];
+                          .split('T')[0];
+                        const toDateStr = toDate.toISOString().split('T')[0];
 
                         getFinancialRatioTable(
                           `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=2&isForecast=${values?.isForecast?.value}`,
@@ -991,15 +986,15 @@ export default function ProjectedFinancialStatement() {
                                 for (const item of financialRatioTableForLastPeriodResponse) {
                                   lastPeriodMap.set(
                                     item.strRarioName,
-                                    item.numRatio
+                                    item.numRatio,
                                   );
                                 }
                                 for (const item of financialRatioTableResponse) {
                                   const lastPeriodValue = lastPeriodMap.get(
-                                    item.strRarioName
+                                    item.strRarioName,
                                   );
                                   item.lastPeriod =
-                                    typeof lastPeriodValue === "number"
+                                    typeof lastPeriodValue === 'number'
                                       ? lastPeriodValue
                                       : 0;
                                 }
@@ -1009,9 +1004,9 @@ export default function ProjectedFinancialStatement() {
                                 setRatioTableState([
                                   ...financialRatioTableResponse,
                                 ]);
-                              }
+                              },
                             );
-                          }
+                          },
                         );
                         getFinancialRatioComponentTable(
                           `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=1&isForecast=${values?.isForecast?.value}`,
@@ -1019,21 +1014,21 @@ export default function ProjectedFinancialStatement() {
                             getFinancialRatioComponentTableForLastPeriod(
                               `/fino/CostSheet/GetFinancialRatio?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${fromDateStr}&Todate=${toDateStr}&Type=1&isForecast=${values?.isForecast?.value}`,
                               (
-                                financialRatioComponentTableForLastPeriodResponse
+                                financialRatioComponentTableForLastPeriodResponse,
                               ) => {
                                 const lastPeriodMap = new Map();
                                 for (const item of financialRatioComponentTableForLastPeriodResponse) {
                                   lastPeriodMap.set(
                                     item.strComName,
-                                    item.numAmount
+                                    item.numAmount,
                                   );
                                 }
                                 for (const item of finanCialRatioComponentResponse) {
                                   const lastPeriodValue = lastPeriodMap.get(
-                                    item.strComName
+                                    item.strComName,
                                   );
                                   item.numLastPeriod =
-                                    typeof lastPeriodValue === "number"
+                                    typeof lastPeriodValue === 'number'
                                       ? lastPeriodValue
                                       : item.numAmount;
                                 }
@@ -1045,19 +1040,19 @@ export default function ProjectedFinancialStatement() {
                                 setComponentTableState([
                                   ...finanCialRatioComponentResponse,
                                 ]);
-                              }
+                              },
                             );
-                          }
+                          },
                         );
                       }
                       if ([7]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/Report/GetAssetSchedulePlanned?accountId=${profileData?.accountId}&businessUnitId=${values?.subDivisionBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`
+                          `/fino/Report/GetAssetSchedulePlanned?accountId=${profileData?.accountId}&businessUnitId=${values?.subDivisionBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`,
                         );
                       }
                       if ([8]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/Report/GetPlannedFundRequirement?businessUnitId=${values?.subDivisionBusinessUnit?.value}&strYear=${values?.year?.label}&businessUnitGroup=${values?.enterpriseDivision?.value}&subGroup=${values?.subDivision?.value}`
+                          `/fino/Report/GetPlannedFundRequirement?businessUnitId=${values?.subDivisionBusinessUnit?.value}&strYear=${values?.year?.label}&businessUnitGroup=${values?.enterpriseDivision?.value}&subGroup=${values?.subDivision?.value}`,
                         );
                       }
                       // if ([9]?.includes(values?.reportType?.value)) {
@@ -1099,7 +1094,7 @@ export default function ProjectedFinancialStatement() {
                   />
                 ) : null}
                 {[2]?.includes(values?.reportType?.value) &&
-                values?.viewType?.value === "profitCenter" ? (
+                values?.viewType?.value === 'profitCenter' ? (
                   <ProjectedIncomeStatement
                     incomeStatement={incomeStatement}
                     values={values}

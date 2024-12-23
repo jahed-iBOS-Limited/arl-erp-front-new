@@ -1,23 +1,20 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useEffect, useState } from "react";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
-import { FullscreenControl } from "react-leaflet-fullscreen";
-// import "react-leaflet-fullscreen/styles.css";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import PolylineDecorator from "./polylineDecorator";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _timeFormatter } from "../../../../_helper/_timeFormatter";
+import React, { useEffect, useState } from 'react';
+import { MapContainer, Marker, TileLayer } from 'react-leaflet';
+import { FullscreenControl } from 'react-leaflet-fullscreen';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import PolylineDecorator from './polylineDecorator';
 
 export default function MapView({ singleData }) {
-  const [mapData, setMapData] = useState({ latitude: "", longitude: "" });
+  const [mapData, setMapData] = useState({ latitude: '', longitude: '' });
   const [allSheetData, getAllSheetData] = useAxiosGet();
   const [loading, setLoading] = useState(false);
   const [polylineData, setPolylineData] = useState([]);
 
   useEffect(() => {
     getAllSheetData(
-      `mes/VehicleLog/GetTripAndDriverCheckPointInfo?tripId=${singleData?.intTripId}`
+      `mes/VehicleLog/GetTripAndDriverCheckPointInfo?tripId=${singleData?.intTripId}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleData]);
@@ -42,10 +39,10 @@ export default function MapView({ singleData }) {
             enableHighAccuracy: true,
             maximumAge: 100,
             timeout: 60000,
-          }
+          },
         );
       } else {
-        console.log("else");
+        console.log('else');
       }
     }, 2000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,10 +67,10 @@ export default function MapView({ singleData }) {
         {loading && <Loading />}
         <div
           style={{
-            width: "96%",
-            height: "500px",
-            overflow: "hidden",
-            margin: "5px auto",
+            width: '96%',
+            height: '500px',
+            overflow: 'hidden',
+            margin: '5px auto',
           }}
         >
           {mapData?.latitude && (
@@ -103,15 +100,15 @@ export default function MapView({ singleData }) {
         <div className="d-flex justify-content-between">
           <div>
             <p>
-              <strong>Vehicle User Name:</strong>{" "}
+              <strong>Vehicle User Name:</strong>{' '}
               {allSheetData[0]?.vehicleUserName}
             </p>
             <p>
-              <strong>Vehicle User Enroll:</strong>{" "}
+              <strong>Vehicle User Enroll:</strong>{' '}
               {allSheetData[0]?.vehicleUserEnroll}
             </p>
             <p>
-              <strong>Designation:</strong>{" "}
+              <strong>Designation:</strong>{' '}
               {allSheetData[0]?.employeeDesignation}
             </p>
           </div>
@@ -144,7 +141,7 @@ export default function MapView({ singleData }) {
                 allSheetData?.map((item, index) => (
                   <tr key={index}>
                     <td className="text-center">
-                      {_dateFormatter(item?.tripDateTime?.split("T")[0])}
+                      {_dateFormatter(item?.tripDateTime?.split('T')[0])}
                     </td>
                     <td className="text-center">{item?.tripTime}</td>
                     <td className="">{item?.tripLocation}</td>
@@ -169,10 +166,10 @@ const Markers = ({ markersData }) => {
           //     element?.photo3,
           //   ];
 
-          console.log(element, "element");
+          console.log(element, 'element');
           return (
             <Marker
-              className={"markerPopup"}
+              className={'markerPopup'}
               key={index}
               marker_index={index}
               position={[element?.latitude || 0, element?.longitude || 0]}

@@ -1,103 +1,97 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import * as Yup from "yup";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import * as Yup from 'yup';
 
 // import "./style.css";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { _dateFormatter } from "../../_helper/_dateFormate";
-import IForm from "../../_helper/_form";
-import { _todayDate } from "../../_helper/_todayDate";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import Loading from "../../_helper/_loading";
-import NewSelect from "../../_helper/_select";
-import InputField from "../../_helper/_inputField";
-import PaginationTable from "../../_helper/_tablePagination";
-import { getLetterHead } from "../../financialManagement/report/bankLetter/helper";
-import CommonTable from "../../_helper/commonTable";
-import { amountToWords } from "../../_helper/_ConvertnumberToWord";
+import { amountToWords } from '../../_helper/_ConvertnumberToWord';
+import { _dateFormatter } from '../../_helper/_dateFormate';
+import IForm from '../../_helper/_form';
+import InputField from '../../_helper/_inputField';
+import Loading from '../../_helper/_loading';
+import NewSelect from '../../_helper/_select';
+import { _todayDate } from '../../_helper/_todayDate';
+import CommonTable from '../../_helper/commonTable';
+import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  businessUnit: "",
-  fuelRequisition: "",
+  businessUnit: '',
+  fuelRequisition: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 export default function FuelStationReport() {
-  const {
-    businessUnitList,
-    profileData: { userId },
-  } = useSelector((state) => {
+  const { businessUnitList } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   const printRef = useRef();
-  const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
+  const [pageNo] = useState(0);
+  const [pageSize] = useState(15);
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const carWiseheadersData = [
-    "SL No",
-    "Car No",
-    "Octane (Ltr)",
-    "Octane Rate(Per Ltr)",
+    'SL No',
+    'Car No',
+    'Octane (Ltr)',
+    'Octane Rate(Per Ltr)',
 
-    "Diesel(Ltr)",
-    "Diesel Rate(Per Ltr)",
+    'Diesel(Ltr)',
+    'Diesel Rate(Per Ltr)',
 
-    "CNG",
-    "CNG Rate",
+    'CNG',
+    'CNG Rate',
 
-    "Amount (Taka)",
-    "CNG Amount (Taka)",
+    'Amount (Taka)',
+    'CNG Amount (Taka)',
 
-    "Remarks",
+    'Remarks',
   ];
   const dailyeadersData = [
-    "SL No",
-    "Date",
-    "Copon No",
-    "Car No",
+    'SL No',
+    'Date',
+    'Copon No',
+    'Car No',
 
-    "Octane (Ltr)",
-    "Octane Rate(Per Ltr)",
+    'Octane (Ltr)',
+    'Octane Rate(Per Ltr)',
 
-    "Diesel(Ltr)",
-    "Diesel Rate(Per Ltr)",
+    'Diesel(Ltr)',
+    'Diesel Rate(Per Ltr)',
 
-    "CNG",
-    "CNG Rate",
+    'CNG',
+    'CNG Rate',
 
-    "Amount (Taka)",
-    "CNG Amount (Taka)",
-    "Remarks",
+    'Amount (Taka)',
+    'CNG Amount (Taka)',
+    'Remarks',
   ];
 
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
     pageStyle:
-      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+      '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}',
   });
 
-  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+  const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     console.log(values);
     if (values?.fuelRequisition?.value === 1) {
       getGridData(
-        `/tms/FuelRequsition/GetFuelRequsitionReportCarWise?BusinessUnitId=${values?.businessUnit?.value}&Fromdate=${values?.fromDate}&ToDate=${values?.toDate}`
+        `/tms/FuelRequsition/GetFuelRequsitionReportCarWise?BusinessUnitId=${values?.businessUnit?.value}&Fromdate=${values?.fromDate}&ToDate=${values?.toDate}`,
       );
     } else {
       getGridData(
-        `/tms/FuelRequsition/GetFuelRequsitionReportDayWise?BusinessUnitId=${values?.businessUnit?.value}&Fromdate=${values?.fromDate}&ToDate=${values?.toDate}`
+        `/tms/FuelRequsition/GetFuelRequsitionReportDayWise?BusinessUnitId=${values?.businessUnit?.value}&Fromdate=${values?.fromDate}&ToDate=${values?.toDate}`,
       );
     }
   };
 
   const validationSchema = Yup.object().shape({
-    businessUnit: Yup.object().required("Business Unit is required"),
-    fuelRequisition: Yup.object().required("Fuel Requisition Type is required"),
-    toDate: Yup.date().required("To Date is required"),
-    fromDate: Yup.date().required("from Date is required"),
+    businessUnit: Yup.object().required('Business Unit is required'),
+    fuelRequisition: Yup.object().required('Fuel Requisition Type is required'),
+    toDate: Yup.date().required('To Date is required'),
+    fromDate: Yup.date().required('from Date is required'),
   });
 
   return (
@@ -152,7 +146,7 @@ export default function FuelStationReport() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption || "");
+                      setFieldValue('businessUnit', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -162,14 +156,14 @@ export default function FuelStationReport() {
                   <NewSelect
                     name="fuelRequisition"
                     options={[
-                      { value: 1, label: "Car Wise Fuel Requisition" },
-                      { value: 2, label: "Day Wise Fuel Requisition" },
+                      { value: 1, label: 'Car Wise Fuel Requisition' },
+                      { value: 2, label: 'Day Wise Fuel Requisition' },
                     ]}
                     value={values?.fuelRequisition}
                     label="Requisition Type"
                     onChange={(valueOption) => {
                       setGridData([]);
-                      setFieldValue("fuelRequisition", valueOption || "");
+                      setFieldValue('fuelRequisition', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -183,7 +177,7 @@ export default function FuelStationReport() {
                     name="fromDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                     }}
                   />
                 </div>
@@ -195,7 +189,7 @@ export default function FuelStationReport() {
                     name="toDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                     }}
                   />
                 </div>
@@ -203,7 +197,7 @@ export default function FuelStationReport() {
                 <div className="col-lg-3">
                   <button
                     onClick={() => {
-                      getLandingData(values, pageNo, pageSize, "");
+                      getLandingData(values, pageNo, pageSize, '');
                     }}
                     type="submit"
                     className="btn  btn-primary mt-5"
@@ -227,7 +221,7 @@ export default function FuelStationReport() {
                       <p className="text-center">Phone:47122799</p>
                       <p
                         className="text-center"
-                        style={{ margin: "-10px 0 0 0" }}
+                        style={{ margin: '-10px 0 0 0' }}
                       >
                         Mobile:01711-174628
                       </p>
@@ -244,16 +238,16 @@ export default function FuelStationReport() {
                           </strong>
                         </p>
                       </div>
-                      <p style={{ marginTop: "-5px" }}>
+                      <p style={{ marginTop: '-5px' }}>
                         <strong>
-                          {" "}
-                          Billing Period:{" "}
-                          {moment(values?.fromDate).format("LL")} to{" "}
-                          {moment(values?.toDate).format("LL")}
+                          {' '}
+                          Billing Period:{' '}
+                          {moment(values?.fromDate).format('LL')} to{' '}
+                          {moment(values?.toDate).format('LL')}
                         </strong>
                       </p>
                       <div className="table-responsive ">
-                        <div style={{ marginTop: "-7px" }}>
+                        <div style={{ marginTop: '-7px' }}>
                           <CommonTable
                             headersData={
                               values?.fuelRequisition?.value === 1
@@ -302,41 +296,41 @@ export default function FuelStationReport() {
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.octane,
-                                        0
+                                        0,
                                       )
                                       .toFixed(2)}
                                   </td>
                                   <td></td>
                                   <td className="text-right">
-                                    {" "}
+                                    {' '}
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.disel,
-                                        0
+                                        0,
                                       )
                                       .toFixed(2)}
                                   </td>
                                   <td></td>
 
                                   <td className="text-right">
-                                    {" "}
+                                    {' '}
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.cng,
-                                        0
+                                        0,
                                       )
                                       .toFixed(2)}
                                   </td>
                                   <td></td>
                                   <td className="text-right">
-                                    {" "}
+                                    {' '}
                                     {gridData
                                       ?.reduce(
                                         (acc, item) =>
                                           acc +
                                           item?.octaneAmount +
                                           item?.diselAmount,
-                                        0
+                                        0,
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -344,7 +338,7 @@ export default function FuelStationReport() {
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.cngAmount,
-                                        0
+                                        0,
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -398,42 +392,42 @@ export default function FuelStationReport() {
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.octane,
-                                        0
+                                        0,
                                       )
                                       .toFixed(2)}
                                   </td>
                                   <td></td>
                                   <td className="text-right">
-                                    {" "}
+                                    {' '}
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.disel,
-                                        0
+                                        0,
                                       )
                                       .toFixed(2)}
                                   </td>
                                   <td></td>
 
                                   <td className="text-right">
-                                    {" "}
+                                    {' '}
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.cng,
-                                        0
+                                        0,
                                       )
                                       .toFixed(2)}
                                   </td>
                                   <td></td>
 
                                   <td className="text-right">
-                                    {" "}
+                                    {' '}
                                     {gridData
                                       ?.reduce(
                                         (acc, item) =>
                                           acc +
                                           item?.octaneAmount +
                                           item?.diselAmount,
-                                        0
+                                        0,
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -441,7 +435,7 @@ export default function FuelStationReport() {
                                     {gridData
                                       ?.reduce(
                                         (acc, item) => acc + item?.cngAmount,
-                                        0
+                                        0,
                                       )
                                       .toFixed(2)}
                                   </td>
@@ -453,19 +447,19 @@ export default function FuelStationReport() {
                         </div>
                       </div>
                       <p className="mt-5">
-                        {" "}
+                        {' '}
                         <strong>
-                          Taka:{" "}
+                          Taka:{' '}
                           {amountToWords(
                             gridData
                               ?.reduce(
                                 (acc, item) =>
                                   acc + item?.octaneAmount + item?.diselAmount,
-                                0
+                                0,
                               )
-                              .toFixed(2)
+                              .toFixed(2),
                           )}
-                          {" taka only"}
+                          {' taka only'}
                         </strong>
                       </p>
                     </div>

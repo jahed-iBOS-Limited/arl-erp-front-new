@@ -1,19 +1,18 @@
-import Axios from "axios";
-import QRCode from "qrcode.react";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import ICard from "../../../_helper/_card";
-import ICustomTable from "../../../_helper/_customTable";
-import { _dateFormatterTwo } from "../../../_helper/_dateFormate";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import Axios from 'axios';
+import QRCode from 'qrcode.react';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../_helper/_card';
+import ICustomTable from '../../../_helper/_customTable';
+import { _dateFormatterTwo } from '../../../_helper/_dateFormate';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 export default function ShippingInfoDetails({ obj }) {
   const { id, shipmentCode, setOpen, getData, values, isActionable } = obj;
   const [loading, setLoading] = useState(false);
-  const [shippingPrint, setSingleShippingPrintInfo] = useState("");
+  const [shippingPrint, setSingleShippingPrintInfo] = useState('');
   const [transportStatus, getTransportStatus] = useAxiosGet();
   const [, onComplete, loader] = useAxiosPost();
 
@@ -28,7 +27,7 @@ export default function ShippingInfoDetails({ obj }) {
     if (id) {
       getDeliveryShippingPrintInfoById(id);
       getTransportStatus(
-        `/oms/SalesInformation/sprTransportStatusByDeliveryId?intParid=${2}&intBusinessUnitId=${buId}&PKID=${id}`
+        `/oms/SalesInformation/sprTransportStatusByDeliveryId?intParid=${2}&intBusinessUnitId=${buId}&PKID=${id}`,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,7 +37,7 @@ export default function ShippingInfoDetails({ obj }) {
     try {
       setLoading(true);
       const res = await Axios.get(
-        `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${id}`
+        `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${id}`,
       );
       if (res && res.data) {
         setSingleShippingPrintInfo(res.data);
@@ -54,23 +53,23 @@ export default function ShippingInfoDetails({ obj }) {
   let totalAmount = 0;
 
   const ths = [
-    "Ship To Party",
-    "Address",
-    "Challan No",
-    "Sales Order No",
-    "Item Code",
-    "Product Name",
-    "UoM Name",
-    "Qty",
-    [144].includes(buId) && "Rate",
-    [144].includes(buId) && "Amount",
+    'Ship To Party',
+    'Address',
+    'Challan No',
+    'Sales Order No',
+    'Item Code',
+    'Product Name',
+    'UoM Name',
+    'Qty',
+    [144].includes(buId) && 'Rate',
+    [144].includes(buId) && 'Amount',
   ];
   return (
     <>
       <ICard
         title="Shipment Details"
         isCreteBtn={isActionable}
-        createBtnText={"Done"}
+        createBtnText={'Done'}
         createHandler={
           isActionable
             ? () => {
@@ -81,36 +80,36 @@ export default function ShippingInfoDetails({ obj }) {
                     getData(values);
                     setOpen(false);
                   },
-                  true
+                  true,
                 );
               }
-            : ""
+            : ''
         }
       >
         <div>
           <div
             className="mx-auto print_wrapper-shipping"
-            style={{ color: "#000" }}
+            style={{ color: '#000' }}
           >
             {(loading || loader) && <Loading />}
             <div>
-              <div style={{ display: "flex" }}>
-                <div style={{ width: "15%" }}></div>
-                <div style={{ width: "70%" }}>
+              <div style={{ display: 'flex' }}>
+                <div style={{ width: '15%' }}></div>
+                <div style={{ width: '70%' }}>
                   <div className="text-center my-2">
                     <h3> Shipping Note </h3>
                     <h4 className="display-5"> {buName} </h4>
                     <h6 className="display-5">
-                      {" "}
-                      {shippingPrint?.objHeader?.shipPointAddress}{" "}
+                      {' '}
+                      {shippingPrint?.objHeader?.shipPointAddress}{' '}
                     </h6>
                   </div>
                 </div>
-                <div style={{ width: "15%", paddingTop: "20px" }}>
+                <div style={{ width: '15%', paddingTop: '20px' }}>
                   {buId === 4 && (
                     <QRCode
-                      data-qr={"Shipment Code"}
-                      value={id || ""}
+                      data-qr={'Shipment Code'}
+                      value={id || ''}
                       size={120}
                     />
                   )}
@@ -120,8 +119,8 @@ export default function ShippingInfoDetails({ obj }) {
               <div className="d-flex justify-content-between my-5">
                 <div>
                   <b>
-                    Delivery From:{" "}
-                    {`${shippingPrint?.objHeader?.shipPointName || ""}`}
+                    Delivery From:{' '}
+                    {`${shippingPrint?.objHeader?.shipPointName || ''}`}
                   </b>
 
                   <br />
@@ -134,7 +133,7 @@ export default function ShippingInfoDetails({ obj }) {
 
                   <br />
                   <b>
-                    Driver Contact:{" "}
+                    Driver Contact:{' '}
                     {`${shippingPrint?.objHeader?.driverContact}`}
                   </b>
 
@@ -143,22 +142,22 @@ export default function ShippingInfoDetails({ obj }) {
                     Item Volume: {`${shippingPrint?.objHeader?.totalVolume}`}
                   </b> */}
                   <b>
-                    Product Gross Weight:{" "}
+                    Product Gross Weight:{' '}
                     {`${shippingPrint?.objHeader?.totalGrossWeight}`}
                   </b>
 
                   <br />
                   <b>
-                    Partner Reference:{" "}
-                    {`${shippingPrint?.objHeader?.soReferenceNo || ""}`}
+                    Partner Reference:{' '}
+                    {`${shippingPrint?.objHeader?.soReferenceNo || ''}`}
                   </b>
 
                   <br />
                   <b>
-                    Pricing Date:{" "}
+                    Pricing Date:{' '}
                     {`${_dateFormatterTwo(
-                      shippingPrint?.objHeader?.pricingDate
-                    ) || ""}`}
+                      shippingPrint?.objHeader?.pricingDate,
+                    ) || ''}`}
                   </b>
 
                   <br />
@@ -166,30 +165,30 @@ export default function ShippingInfoDetails({ obj }) {
 
                   <br />
                   {(buId === 171 || buId === 224) && (
-                    <b>Narration: {`${transportStatus[0]?.label || ""}`}</b>
+                    <b>Narration: {`${transportStatus[0]?.label || ''}`}</b>
                   )}
                 </div>
                 <div>
                   <b>
-                    Delivery Date:{" "}
-                    {_dateFormatterTwo(shippingPrint?.objHeader?.shipmentDate)}{" "}
-                  </b>{" "}
+                    Delivery Date:{' '}
+                    {_dateFormatterTwo(shippingPrint?.objHeader?.shipmentDate)}{' '}
+                  </b>{' '}
                   <br />
                   <b>
                     Vehicle Name: {shippingPrint?.objHeader?.strVehicleName}
                   </b>
                   <br />
                   <b>
-                    Vehicle Owner Name:{" "}
+                    Vehicle Owner Name:{' '}
                     {shippingPrint?.objHeader?.ownerTypeName}
-                  </b>{" "}
+                  </b>{' '}
                   {/* <b>
                     Vehicle Volume:{" "}
                     {shippingPrint?.objHeader?.unloadVehicleVolume}
                   </b> */}
                   <br />
                   <b>
-                    Vehicle Weight (Kg):{" "}
+                    Vehicle Weight (Kg):{' '}
                     {shippingPrint?.objHeader?.vehicleEntryId
                       ? shippingPrint?.objHeader?.netWeight
                       : shippingPrint?.objHeader?.unloadVehicleWeight}
@@ -200,16 +199,16 @@ export default function ShippingInfoDetails({ obj }) {
                   </b> */}
                   <br />
                   <b>
-                    Contact Info:{" "}
+                    Contact Info:{' '}
                     {`${shippingPrint?.objHeader?.shipToPartnerContactNo ||
-                      ""}`}
+                      ''}`}
                   </b>
                   {(buId === 171 || buId === 224) && (
                     <>
                       <br />
                       <b>
-                        Product Type:{" "}
-                        {`${shippingPrint?.objHeader?.productType || ""}`}
+                        Product Type:{' '}
+                        {`${shippingPrint?.objHeader?.productType || ''}`}
                       </b>
                     </>
                   )}
@@ -217,14 +216,14 @@ export default function ShippingInfoDetails({ obj }) {
                     <>
                       <br />
                       <b>
-                        Sold To Party Name:{" "}
-                        {`${shippingPrint?.objHeader?.soldToPartnerName || ""}`}
+                        Sold To Party Name:{' '}
+                        {`${shippingPrint?.objHeader?.soldToPartnerName || ''}`}
                       </b>
                     </>
                   ) : null}
                   <br />
                   <b>
-                    Complete Date:{" "}
+                    Complete Date:{' '}
                     {_dateFormatterTwo(shippingPrint?.objHeader?.completeDate)}
                   </b>
                   <br />
@@ -232,8 +231,8 @@ export default function ShippingInfoDetails({ obj }) {
                   <br />
                   {(buId === 171 || buId === 224) && (
                     <b>
-                      Unload by Company:{" "}
-                      {transportStatus[0]?.labourstatus ? "Yes" : "No"}
+                      Unload by Company:{' '}
+                      {transportStatus[0]?.labourstatus ? 'Yes' : 'No'}
                     </b>
                   )}
                 </div>
@@ -288,7 +287,7 @@ export default function ShippingInfoDetails({ obj }) {
                     {/* Akij Essential Limited === 144 */}
                     {[144].includes(buId) && (
                       <>
-                        {" "}
+                        {' '}
                         <td className="text-center">
                           <b>{totalItemPrice}</b>
                         </td>

@@ -15,9 +15,10 @@ import HistoryModalAdvanceJournal from "../../../../../financialManagement/finan
 import { AdjustmentJournalViewTableRow } from "../../../../../financialManagement/financials/adjustmentJournal/report/tableRow";
 import HistoryModalBankJournal from "../../../../../financialManagement/financials/bankJournal/bankJournalHistory";
 import { BankJournalViewTableRow } from "../../../../../financialManagement/financials/bankJournal/report/tableRow";
-import { approvalApi, getItemGridData } from "./helper";
 import HistoryModal from "../../../../../financialManagement/financials/cashJournal/cashJournalHistory";
 import { InvTransViewTableRow } from "../../../../../financialManagement/financials/cashJournal/report/tableRow";
+import { approvalApi, getItemGridData } from "./helper";
+import IEdit from "../../../../../_helper/_helperIcons/_edit";
 
 let initData = {
 
@@ -32,7 +33,6 @@ const CommonJournalApprovalGrid = ({ onChangeForActivity, activityName, activity
     const [pageSize, setPageSize] = React.useState(15);
     const [rowDto, setRowDto] = useState([]);
     const [billSubmitBtn, setBillSubmitBtn] = useState(true);
-    const [itemRequestViewModalState, setItemRequestViewModalState] = useState(false)
     const [currentItem, setCurrentItem] = useState("");
     const [historyItem, setHistoryItem] = useState("");
     const [isHistoryModal, setIsHistoryModal] = useState(false);
@@ -276,12 +276,12 @@ const CommonJournalApprovalGrid = ({ onChangeForActivity, activityName, activity
                                                 </td>
                                                 <td className="text-center">{item?.sl}</td>
                                                 <td>
-                                                    <span className="pl-2">{item?.strBankJournalCode||item?.strCode}</span>
+                                                    <span className="pl-2">{item?.strBankJournalCode || item?.strCode}</span>
                                                 </td>
                                                 <td className="text-center">
-                                                    {_dateFormatter(item?.dteVoucherDate||item?.transectionDate)}
+                                                    {_dateFormatter(item?.dteVoucherDate || item?.transectionDate)}
                                                 </td>
-                                                <td className="text-right">{item?.numAmount||item?.amount}</td>
+                                                <td className="text-right">{item?.numAmount || item?.amount}</td>
                                                 <td className="text-center">{item?.strNarration}</td>
                                                 <td className="text-center">
                                                     <div className="d-flex justify-content-center">
@@ -302,6 +302,31 @@ const CommonJournalApprovalGrid = ({ onChangeForActivity, activityName, activity
                                                                 }}
                                                             />
                                                         </span>
+                                                        <span className="view ml-2">
+                                                            <IEdit
+                                                                onClick={() => {
+                                                                    // Dynamically get the current base URL (hostname + port)
+                                                                    const baseUrl = `${window.location?.protocol}//${window.location?.hostname}${window.location?.port ? `:${window.location?.port}` : ""
+                                                                        }`;
+
+                                                                    // Define the mapping of activity names to their respective relative URLs
+                                                                    const urlMap = {
+                                                                        "Bank Journal": "/financial-management/financials/bank",
+                                                                        "Adjustment Journal": "/financial-management/financials/adjustment",
+                                                                        "Cash Journal": "/financial-management/financials/cash",
+                                                                    };
+
+                                                                    // Redirect based on the activity name
+                                                                    if (activityName?.label && urlMap[activityName.label]) {
+                                                                        const fullUrl = `${baseUrl}${urlMap[activityName.label]}`;
+                                                                        window.location.href = fullUrl; // Redirect to the constructed URL
+                                                                    } else {
+                                                                        console.error("Invalid activity name or URL not defined");
+                                                                    }
+                                                                }}
+                                                            />
+                                                        </span>
+
                                                     </div>
                                                 </td>
                                             </tr>
@@ -335,12 +360,12 @@ const CommonJournalApprovalGrid = ({ onChangeForActivity, activityName, activity
 
                             {activityName?.label === "Bank Journal" && (<>
                                 <IViewModal show={isHistoryModal} onHide={() => setIsHistoryModal(false)}>
-                                    <HistoryModalBankJournal journalId={historyItem?.intBankJournalId} journalTypeId={historyItem?.intAccountingJournalTypeId} />
+                                    <HistoryModalBankJournal journalId={historyItem?.transectionId} journalTypeId={historyItem?.intAccountingJournalTypeId} />
                                 </IViewModal>
 
                                 <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
                                     <BankJournalViewTableRow
-                                        id={currentRowData?.intBankJournalId}
+                                        id={currentRowData?.transectionId}
                                         headerData={currentRowData}
                                     />
                                 </IViewModal>
@@ -351,14 +376,14 @@ const CommonJournalApprovalGrid = ({ onChangeForActivity, activityName, activity
                             {activityName?.label === "Cash Journal" && (<>
                                 <IViewModal show={isHistoryModal} onHide={() => setIsHistoryModal(false)}>
                                     <HistoryModal
-                                        journalId={historyItem?.journalId}
+                                        journalId={historyItem?.transectionId}
                                         journalTypeValue={historyItem?.journalTypeValue}
                                     />
                                 </IViewModal>
 
                                 <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
                                     <InvTransViewTableRow
-                                        id={currentRowData?.journalId}
+                                        id={currentRowData?.transectionId}
                                         headerData={{ ...currentRowData, accountingJournalTypeId: currentRowData?.accountingJournalTypeId }}
                                     />
                                 </IViewModal>
@@ -374,3 +399,4 @@ const CommonJournalApprovalGrid = ({ onChangeForActivity, activityName, activity
 };
 
 export default CommonJournalApprovalGrid;
+

@@ -1,17 +1,17 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import IView from "../../../_helper/_helperIcons/_view";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
-import DetailsDistributionView from "./detailsView";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import NewSelect from "../../../_helper/_select";
-import DistributionPlantEditModal from "./distributionPlantEditModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import IView from '../../../_helper/_helperIcons/_view';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import DetailsDistributionView from './detailsView';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import NewSelect from '../../../_helper/_select';
+import DistributionPlantEditModal from './distributionPlantEditModal';
 
 const initData = {};
 
@@ -37,7 +37,7 @@ export default function DistributionPlanLanding() {
     setTerritoryDDL,
   ] = useAxiosGet();
   const [plantDDL, getPlantDDL, plantDDLloader] = useAxiosGet();
-  const [warehouseDDL, getWarehouseDDL, warehouseDDLloader] = useAxiosGet();
+  const [, getWarehouseDDL, warehouseDDLloader] = useAxiosGet();
   const [yearDDL, getYearDDL, yearDDLloader] = useAxiosGet();
   const [horizonDDL, getHorizonDDL, horizonDDLloader] = useAxiosGet();
 
@@ -58,18 +58,18 @@ export default function DistributionPlanLanding() {
       }&warehosueId=${values?.warehouse?.value || 0}&channelId=${values?.channel
         ?.value || 0}&regionId=${values?.region?.value || 0}&areaId=${values
         ?.area?.value || 0}&territoryId=${values?.territory?.value ||
-        0}&pageNo=${pageNo}&pageSize=${pageSize}`
+        0}&pageNo=${pageNo}&pageSize=${pageSize}`,
     );
   };
 
   // get landing data on mount
   useEffect(() => {
     getPlantDDL(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`,
     );
 
     getChannelDDL(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accountId}&BUnitId=${buId}`
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accountId}&BUnitId=${buId}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId]);
@@ -85,7 +85,7 @@ export default function DistributionPlanLanding() {
             label: item?.regionName,
           }));
           setRegionDDL(newDDL);
-        }
+        },
       );
     }
   };
@@ -102,7 +102,7 @@ export default function DistributionPlanLanding() {
             label: item?.areaName,
           }));
           setAreaDDl(newDDL);
-        }
+        },
       );
     }
   };
@@ -119,7 +119,7 @@ export default function DistributionPlanLanding() {
             label: item?.territoryName,
           }));
           setTerritoryDDL(newDDL);
-        }
+        },
       );
     }
   };
@@ -128,7 +128,7 @@ export default function DistributionPlanLanding() {
   const getWarehouseDDLHandler = (plantId) => {
     if (plantId) {
       getWarehouseDDL(
-        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`,
       );
     }
   };
@@ -137,7 +137,7 @@ export default function DistributionPlanLanding() {
   const getYearDDLHandler = (plantId) => {
     if (plantId) {
       getYearDDL(
-        `/mes/MesDDL/GetYearDDL?AccountId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}`
+        `/mes/MesDDL/GetYearDDL?AccountId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}`,
       );
     }
   };
@@ -145,7 +145,7 @@ export default function DistributionPlanLanding() {
   const getHorizonDDLHandler = (plantId, yearId) => {
     if (plantId && yearId) {
       getHorizonDDL(
-        `/mes/MesDDL/GetPlanningHorizonDDL?AccountId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}&YearId=${yearId}`
+        `/mes/MesDDL/GetPlanningHorizonDDL?AccountId=${accountId}&BusinessUnitId=${buId}&PlantId=${plantId}&YearId=${yearId}`,
       );
     }
   };
@@ -196,7 +196,7 @@ export default function DistributionPlanLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/internal-control/budget/DistributionPlanning/create"
+                        '/internal-control/budget/DistributionPlanning/create',
                       );
                     }}
                   >
@@ -216,10 +216,10 @@ export default function DistributionPlanLanding() {
                       value={values?.channel}
                       label="Distribution Channel"
                       onChange={(valueOption) => {
-                        setFieldValue("channel", valueOption);
-                        setFieldValue("region", "");
-                        setFieldValue("area", "");
-                        setFieldValue("territory", "");
+                        setFieldValue('channel', valueOption);
+                        setFieldValue('region', '');
+                        setFieldValue('area', '');
+                        setFieldValue('territory', '');
                         getRegionDDLHandler(valueOption);
                       }}
                       placeholder="Select Distribution Channel"
@@ -235,9 +235,9 @@ export default function DistributionPlanLanding() {
                       value={values?.region}
                       label="Region"
                       onChange={(valueOption) => {
-                        setFieldValue("region", valueOption);
-                        setFieldValue("area", "");
-                        setFieldValue("territory", "");
+                        setFieldValue('region', valueOption);
+                        setFieldValue('area', '');
+                        setFieldValue('territory', '');
                         getAreaDDLHandler(values, valueOption);
                       }}
                       placeholder="Select Region"
@@ -253,8 +253,8 @@ export default function DistributionPlanLanding() {
                       value={values?.area}
                       label="Area"
                       onChange={(valueOption) => {
-                        setFieldValue("area", valueOption);
-                        setFieldValue("territory", "");
+                        setFieldValue('area', valueOption);
+                        setFieldValue('territory', '');
                         getTerritoryDDLHandler(values, valueOption);
                       }}
                       placeholder="Select Area"
@@ -270,7 +270,7 @@ export default function DistributionPlanLanding() {
                       value={values?.territory}
                       label="Territory"
                       onChange={(valueOption) => {
-                        setFieldValue("territory", valueOption);
+                        setFieldValue('territory', valueOption);
                       }}
                       placeholder="Select Territory"
                       errors={errors}
@@ -286,10 +286,10 @@ export default function DistributionPlanLanding() {
                       label="Plant"
                       onChange={(valueOption) => {
                         setRowDto([]);
-                        setFieldValue("plant", valueOption);
-                        setFieldValue("warehouse", "");
-                        setFieldValue("year", "");
-                        setFieldValue("horizon", "");
+                        setFieldValue('plant', valueOption);
+                        setFieldValue('warehouse', '');
+                        setFieldValue('year', '');
+                        setFieldValue('horizon', '');
                         getWarehouseDDLHandler(valueOption?.value);
                         getYearDDLHandler(valueOption?.value);
                       }}
@@ -322,11 +322,11 @@ export default function DistributionPlanLanding() {
                       label="Year"
                       onChange={(valueOption) => {
                         setRowDto({});
-                        setFieldValue("year", valueOption);
-                        setFieldValue("horizon", "");
+                        setFieldValue('year', valueOption);
+                        setFieldValue('horizon', '');
                         getHorizonDDLHandler(
                           values.plant?.value,
-                          valueOption?.value
+                          valueOption?.value,
                         );
                       }}
                       placeholder="Select year"
@@ -343,12 +343,12 @@ export default function DistributionPlanLanding() {
                       label="Planning Horizon"
                       onChange={(valueOption) => {
                         setRowDto({});
-                        setFieldValue("horizon", valueOption);
+                        setFieldValue('horizon', valueOption);
                         setFieldValue(
-                          "fromDate",
-                          valueOption?.startdatetime || ""
+                          'fromDate',
+                          valueOption?.startdatetime || '',
                         );
-                        setFieldValue("toDate", valueOption?.enddatetime || "");
+                        setFieldValue('toDate', valueOption?.enddatetime || '');
                       }}
                       placeholder="Select horizon"
                       errors={errors}
@@ -361,7 +361,7 @@ export default function DistributionPlanLanding() {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       disabled={
                         !values?.plant || !values?.year || !values?.horizon
                       }
@@ -377,7 +377,7 @@ export default function DistributionPlanLanding() {
                             0}&regionId=${values?.region?.value ||
                             0}&areaId=${values?.area?.value ||
                             0}&territoryId=${values?.territory?.value ||
-                            0}&pageNo=${pageNo}&pageSize=${pageSize}`
+                            0}&pageNo=${pageNo}&pageSize=${pageSize}`,
                         );
                       }}
                     >
@@ -424,13 +424,13 @@ export default function DistributionPlanLanding() {
                               <td className="text-center">
                                 <div
                                   style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "space-around",
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-around',
                                   }}
                                 >
                                   <IView
-                                    styles={{ fontSize: "16px" }}
+                                    styles={{ fontSize: '16px' }}
                                     clickHandler={(e) => {
                                       setDetailsView(item);
                                       setIsShowModel(true);

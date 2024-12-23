@@ -1,36 +1,22 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import IView from "../../../_helper/_helperIcons/_view";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "./../../../_helper/_form";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "./../../../_helper/_select";
-import AkijEssentialLandingDataTable from "./AkijEssentialsSpecific/AkijEssentialLandingDataTable";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IView from '../../../_helper/_helperIcons/_view';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from './../../../_helper/_form';
+import InputField from './../../../_helper/_inputField';
+import Loading from './../../../_helper/_loading';
+import NewSelect from './../../../_helper/_select';
+import AkijEssentialLandingDataTable from './AkijEssentialsSpecific/AkijEssentialLandingDataTable';
 
 const initData = {
-  channel: "",
-  fromDate: "",
-  toDate: "",
-  salesOrganization: "",
+  channel: '',
+  fromDate: '',
+  toDate: '',
+  salesOrganization: '',
 };
-
-const validationSchema = Yup.object().shape({
-  item: Yup.object()
-    .shape({
-      label: Yup.string().required("Item is required"),
-      value: Yup.string().required("Item is required"),
-    })
-    .typeError("Item is required"),
-
-  remarks: Yup.string().required("Remarks is required"),
-  amount: Yup.number().required("Amount is required"),
-  date: Yup.date().required("Date is required"),
-});
 
 export default function SalesIncentiveForm() {
   const [objProps, setObjprops] = useState({});
@@ -48,8 +34,6 @@ export default function SalesIncentiveForm() {
     setIncentiveData,
   ] = useAxiosGet();
   const [, incentiveSave, loadIncentiveSave] = useAxiosPost();
-  // DDL
-  const [boninessUnitDDL, getBusinessUnitDDL] = useAxiosGet();
   const [salesOrganizationList, getSalesOrganizationList] = useAxiosGet();
 
   console.log({ channelDDL });
@@ -57,7 +41,7 @@ export default function SalesIncentiveForm() {
   const saveHandler = (values, cb) => {
     const newData = incentiveData?.filter((item) => item?.isSelected);
     if (!newData?.length) {
-      return toast.warn("Select at least one row");
+      return toast.warn('Select at least one row');
     }
 
     const payload = newData?.map((item) => ({
@@ -67,8 +51,8 @@ export default function SalesIncentiveForm() {
       territory: item?.strTeritory,
       employeeId: item?.intEmployeeId,
       employeeName: item?.strEmployeeName,
-      monthId: +values?.toDate?.split("-")[1],
-      yearId: +values?.toDate?.split("-")[0],
+      monthId: +values?.toDate?.split('-')[1],
+      yearId: +values?.toDate?.split('-')[0],
       salesAmount: item?.numSalesAmount,
       targetAmount: item?.numTargetAmount || 0,
       achievement: item?.numAchievement,
@@ -85,16 +69,11 @@ export default function SalesIncentiveForm() {
       `/oms/IncentiveConfig/SaveIncentiveConfig?intActionBy=${actionBy}`,
       payload,
       () => {},
-      true
+      true,
     );
   };
 
   useEffect(() => {
-    getBusinessUnitDDL(
-      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-
     getChannelDDL(
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`,
       (res) => {
@@ -105,12 +84,13 @@ export default function SalesIncentiveForm() {
           };
         });
         setChannelDDL(ddl);
-      }
+      },
     );
 
     getSalesOrganizationList(
-      `/oms/BusinessUnitSalesOrganization/GetPartnerGroupFromSalesOrgDDL?AccountId=${accId}&BUnitId=${buId}`
+      `/oms/BusinessUnitSalesOrganization/GetPartnerGroupFromSalesOrgDDL?AccountId=${accId}&BUnitId=${buId}`,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
   return (
     <Formik
@@ -158,7 +138,7 @@ export default function SalesIncentiveForm() {
                       value={values?.salesOrganization}
                       label="Sales Organization"
                       onChange={(valueOption) => {
-                        setFieldValue("salesOrganization", valueOption);
+                        setFieldValue('salesOrganization', valueOption);
                         setIncentiveData([]);
                       }}
                       errors={errors}
@@ -173,7 +153,7 @@ export default function SalesIncentiveForm() {
                     value={values?.channel}
                     label="Channel"
                     onChange={(valueOption) => {
-                      setFieldValue("channel", valueOption);
+                      setFieldValue('channel', valueOption);
                       setIncentiveData([]);
                     }}
                     errors={errors}
@@ -187,7 +167,7 @@ export default function SalesIncentiveForm() {
                     label="From Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                       setIncentiveData([]);
                     }}
                   />
@@ -201,7 +181,7 @@ export default function SalesIncentiveForm() {
                     type="date"
                     min={values?.fromDate}
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                       setIncentiveData([]);
                     }}
                   />
@@ -214,7 +194,7 @@ export default function SalesIncentiveForm() {
                       !values?.toDate
                     }
                     onClick={() => {
-                      console.log("clicked", buId);
+                      console.log('clicked', buId);
                       // const api = `/oms/IncentiveConfig/GetIncenttiveView?businessUnitId=${buId}&certainDate=${values?.toDate}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
                       const api = `/oms/IncentiveConfig/GetIncenttiveViewByDesignation?intunitid=4&fromdate=${values?.fromDate}&todate=${values?.toDate}&intSalesOrganizationId=${values?.salesOrganization?.value}&intChannelId=${values?.channel?.value}&intRATId=0&intLevelid=0`;
 
@@ -225,17 +205,17 @@ export default function SalesIncentiveForm() {
                       }&ToDate=${values.toDate}`;
 
                       if (buId === 144) {
-                        console.log("scope");
+                        console.log('scope');
                         getEssentialLandingData(essentialRowDataApi, (data) =>
-                          console.log({ dataaa: data })
+                          console.log({ dataaa: data }),
                         );
                       } else {
                         getIncentiveData(api, (data) =>
-                          console.log({ api: data })
+                          console.log({ api: data }),
                         );
                       }
                     }}
-                    style={{ marginTop: "17px" }}
+                    style={{ marginTop: '17px' }}
                     className="btn btn-primary"
                     type="button"
                   >
@@ -295,7 +275,7 @@ export default function SalesIncentiveForm() {
                                   checked={item?.isSelected}
                                   onChange={(e) => {
                                     const data = [...incentiveData];
-                                    data[index]["isSelected"] =
+                                    data[index]['isSelected'] =
                                       e.target.checked;
                                     setIncentiveData(data);
                                   }}
@@ -330,22 +310,23 @@ export default function SalesIncentiveForm() {
                               </td>
                               <td className="text-center">
                                 <InputField
-                                  value={item?.numIncentiveAmount || ""}
+                                  value={item?.numIncentiveAmount || ''}
                                   type="number"
                                   onChange={(e) => {
-                                    if(+e.target.value < 0) return;
-                                    const data = [...incentiveData]
-                                    data[index]["numIncentiveAmount"] = +e.target.value;
+                                    if (+e.target.value < 0) return;
+                                    const data = [...incentiveData];
+                                    data[index]['numIncentiveAmount'] = +e
+                                      .target.value;
                                     setIncentiveData(data);
                                   }}
-                              />
+                                />
                                 {/* {item?.numIncentiveAmount} */}
                               </td>
                               <td className="text-center">
-                                {" "}
+                                {' '}
                                 <IView
                                   title="View"
-                                  clickHandler={() => alert("hello")}
+                                  clickHandler={() => alert('hello')}
                                 />
                               </td>
                             </tr>
@@ -358,20 +339,20 @@ export default function SalesIncentiveForm() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => {
                   if (incentiveData?.length > 0) {
                     handleSubmit();
                   } else {
-                    toast.warn("No Data found");
+                    toast.warn('No Data found');
                   }
                 }}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

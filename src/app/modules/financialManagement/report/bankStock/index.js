@@ -1,22 +1,19 @@
-import { Form, Formik } from "formik";
-import React, { useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { getLetterHead } from "../bankLetter/helper";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import { getLastDateOfMonth } from "./helper";
-import PrintView from "./printView";
-import "./style.scss";
+import { Form, Formik } from 'formik';
+import React, { useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { getLetterHead } from '../bankLetter/helper';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import { getLastDateOfMonth } from './helper';
+import PrintView from './printView';
+import './style.scss';
 const initData = {};
 export default function BankStock() {
-  const {
-    businessUnitList,
-    profileData: { userId },
-  } = useSelector((state) => {
+  const { businessUnitList } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
@@ -29,7 +26,7 @@ export default function BankStock() {
   const handleInvoicePrint = useReactToPrint({
     content: () => printRef.current,
     pageStyle:
-      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+      '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}',
   });
 
   return (
@@ -65,7 +62,7 @@ export default function BankStock() {
                       value={values?.businessUnit}
                       label="Business Unit"
                       onChange={(valueOption) => {
-                        setFieldValue("businessUnit", valueOption || "");
+                        setFieldValue('businessUnit', valueOption || '');
                         setReportData([]);
                       }}
                       errors={errors}
@@ -80,7 +77,7 @@ export default function BankStock() {
                       placeholder="From Date"
                       type="month"
                       onChange={(e) => {
-                        setFieldValue("monthYear", e?.target?.value);
+                        setFieldValue('monthYear', e?.target?.value);
                         setReportData([]);
                       }}
                     />
@@ -92,15 +89,15 @@ export default function BankStock() {
                           `/fino/BankLetter/GetBankStockReport?businessUnitId=${
                             values?.businessUnit?.value
                           }&dteDate=${getLastDateOfMonth(
-                            values?.monthYear?.split("-")[1]
-                          )}`
+                            values?.monthYear?.split('-')[1],
+                          )}`,
                         );
                         getTotalAmount(
                           `/fino/BankLetter/GetReceableAmount?businessUnitId=${
                             values?.businessUnit?.value
                           }&dteDate=${getLastDateOfMonth(
-                            values?.monthYear?.split("-")[1]
-                          )}`
+                            values?.monthYear?.split('-')[1],
+                          )}`,
                         );
                       }}
                       type="button"
@@ -123,20 +120,20 @@ export default function BankStock() {
                   </div>
                 )}
                 <div ref={printRef} id="bank-stock-print-wrapper">
-                  <div style={{ margin: "-13px 50px 51px 50px" }}>
+                  <div style={{ margin: '-13px 50px 51px 50px' }}>
                     <div
                       className="invoice-header"
                       style={{
                         backgroundImage: `url(${getLetterHead({
                           buId: values?.businessUnit?.value,
                         })})`,
-                        backgroundRepeat: "no-repeat",
-                        height: "150px",
-                        backgroundPosition: "left 10px",
-                        backgroundSize: "cover",
-                        position: "fixed",
-                        width: "100%",
-                        top: "-50px",
+                        backgroundRepeat: 'no-repeat',
+                        height: '150px',
+                        backgroundPosition: 'left 10px',
+                        backgroundSize: 'cover',
+                        position: 'fixed',
+                        width: '100%',
+                        top: '-50px',
                       }}
                     ></div>
                     <div
@@ -145,13 +142,13 @@ export default function BankStock() {
                         backgroundImage: `url(${getLetterHead({
                           buId: values?.businessUnit?.value,
                         })})`,
-                        backgroundRepeat: "no-repeat",
-                        height: "100px",
-                        backgroundPosition: "left bottom",
-                        backgroundSize: "cover",
-                        bottom: "-0px",
-                        position: "fixed",
-                        width: "100%",
+                        backgroundRepeat: 'no-repeat',
+                        height: '100px',
+                        backgroundPosition: 'left bottom',
+                        backgroundSize: 'cover',
+                        bottom: '-0px',
+                        position: 'fixed',
+                        width: '100%',
                       }}
                     ></div>
                     <table>
@@ -159,7 +156,7 @@ export default function BankStock() {
                         <tr>
                           <td
                             style={{
-                              border: "none",
+                              border: 'none',
                             }}
                           >
                             {/* place holder for the fixed-position header */}
@@ -174,7 +171,7 @@ export default function BankStock() {
                       </thead>
                       {/* CONTENT GOES HERE */}
                       <tbody>
-                        <div style={{ marginTop: "40px" }}>
+                        <div style={{ marginTop: '40px' }}>
                           {reportData?.length > 0 && (
                             <PrintView
                               reportData={reportData}
@@ -188,7 +185,7 @@ export default function BankStock() {
                         <tr>
                           <td
                             style={{
-                              border: "none",
+                              border: 'none',
                             }}
                           >
                             {/* place holder for the fixed-position footer */}

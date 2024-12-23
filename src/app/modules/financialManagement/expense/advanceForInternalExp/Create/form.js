@@ -1,60 +1,47 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import Select from "react-select";
-import * as Yup from "yup";
-import FormikError from "../../../../_helper/_formikError";
-import { IInput } from "../../../../_helper/_input";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import customStyles from "../../../../selectCustomStyle";
-import { getPaymentType, getRequestedEmp, getSBU } from "../helper";
-import NewSelect from "./../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getCostCenter } from "../../expenseRegister/helper";
-import Loading from "../../../../_helper/_loading";
-import { CostElementDDLApi } from "../../../../inventoryManagement/warehouseManagement/invTransaction/Form/issueInvantory/helper";
-import { toast } from "react-toastify";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
+import * as Yup from 'yup';
+import FormikError from '../../../../_helper/_formikError';
+import { IInput } from '../../../../_helper/_input';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import customStyles from '../../../../selectCustomStyle';
+import { getRequestedEmp, getSBU } from '../helper';
+import NewSelect from './../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getCostCenter } from '../../expenseRegister/helper';
+import Loading from '../../../../_helper/_loading';
+import { CostElementDDLApi } from '../../../../inventoryManagement/warehouseManagement/invTransaction/Form/issueInvantory/helper';
+import { toast } from 'react-toastify';
 
 // Validation schema for Advance for Internal Expense
 const validationSchema = Yup.object().shape({
   requestedEmp: Yup.object().shape({
-    label: Yup.string().required("Requested Employee is required"),
-    value: Yup.string().required("Requested Employee is required"),
+    label: Yup.string().required('Requested Employee is required'),
+    value: Yup.string().required('Requested Employee is required'),
   }),
   SBU: Yup.object().shape({
-    label: Yup.string().required("Requested SBU is required"),
-    value: Yup.string().required("Requested SBU is required"),
+    label: Yup.string().required('Requested SBU is required'),
+    value: Yup.string().required('Requested SBU is required'),
   }),
   costCenter: Yup.object().shape({
-    label: Yup.string().required("Cost Center is required"),
-    value: Yup.string().required("Cost Center is required"),
+    label: Yup.string().required('Cost Center is required'),
+    value: Yup.string().required('Cost Center is required'),
   }),
   costElement: Yup.object().shape({
-    label: Yup.string().required("Cost Element is required"),
-    value: Yup.string().required("Cost Element is required"),
+    label: Yup.string().required('Cost Element is required'),
+    value: Yup.string().required('Cost Element is required'),
   }),
   expenseGroup: Yup.object().shape({
-    label: Yup.string().required("Expense Group is required"),
-    value: Yup.string().required("Expense Group is required"),
+    label: Yup.string().required('Expense Group is required'),
+    value: Yup.string().required('Expense Group is required'),
   }),
   numRequestedAmount: Yup.number()
-    .min(1, "Minimum 1 symbols")
-    .max(10000000000000, "Maximum 10000000000000 symbols")
-    .required("Requested Amount is required"),
+    .min(1, 'Minimum 1 symbols')
+    .max(10000000000000, 'Maximum 10000000000000 symbols')
+    .required('Requested Amount is required'),
 
-  dueDate: Yup.string().required("Due date is required"),
-  // paymentType: Yup.object().shape({
-  //   label: Yup.string().required("Payment Type is required"),
-  //   value: Yup.string().required("Payment Type is required"),
-  // }),
-  // disbursementCenterName: Yup.object().shape({
-  //   label: Yup.string().required("Disbursment Center is required"),
-  //   value: Yup.string().required("Disbursment Center is required"),
-  // }),
-  // expenseHead: Yup.object().shape({
-  //   label: Yup.string().required("Expense Head is required"),
-  //   value: Yup.string().required("Expense Head is required"),
-  // }),
+  dueDate: Yup.string().required('Due date is required'),
   comments: Yup.string(),
 });
 
@@ -77,19 +64,23 @@ export default function _Form({
   const [costCenterDDl, setCostCenter] = useState([]);
   const [costElementDDL, setCostElementDDL] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [bugetHeadWiseBalance, getBugetHeadWiseBalance, budgetWiseLoader, setBugetHeadWiseBalance] = useAxiosGet();
-  const [availableBudgetAdvanceBalance, getAvailableBudgetAdvanceBalance, availableBudgetAdvanceBalanceLoader, setAvailableBudgetAdvanceBalance] = useAxiosGet();
-
-
-
-  // const [paymentType, setPaymentType] = useState([]);
-  // const [disbursementCenterName, setDisbursementCenterName] = useState([]); // this ddl will be off order by miraz vai
+  const [
+    bugetHeadWiseBalance,
+    getBugetHeadWiseBalance,
+    budgetWiseLoader,
+    setBugetHeadWiseBalance,
+  ] = useAxiosGet();
+  const [
+    availableBudgetAdvanceBalance,
+    getAvailableBudgetAdvanceBalance,
+    availableBudgetAdvanceBalanceLoader,
+    setAvailableBudgetAdvanceBalance,
+  ] = useAxiosGet();
   const [selectedSbu, setSelectedSbu] = useState([]);
-  // const [expenseHeadDDL, setExpenseHeadDDL] = useState([]); // this ddl will be off order by miraz vai
   const [
     profitcenterDDL,
     getProfitcenterDDL,
-    loadingOnGetProfitCenter,
+    ,
     setProfitcenterDDL,
   ] = useAxiosGet();
   useEffect(() => {
@@ -99,19 +90,6 @@ export default function _Form({
       (state?.selectedSbu?.value || state?.item?.sbuid)
     ) {
       getSBU(profileData.accountId, selectedBusinessUnit.value, setSelectedSbu);
-      // GetBusTransDDLForExp_api(
-      //   profileData.accountId,
-      //   selectedBusinessUnit.value,
-      //   setExpenseHeadDDL
-      // );
-      // getPaymentType(setPaymentType);
-
-      // getDisbursementCenterName(
-      //   profileData.accountId,
-      //   selectedBusinessUnit?.value,
-      //   state?.selectedSbu?.value || state?.item?.sbuid,
-      //   setDisbursementCenterName
-      // );
     }
   }, [profileData, selectedBusinessUnit, state]);
 
@@ -120,9 +98,10 @@ export default function _Form({
       getRequestedEmp(
         profileData.accountId,
         selectedBusinessUnit?.value,
-        setRequestedEmp
+        setRequestedEmp,
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
   useEffect(() => {
     if ([184].includes(selectedBusinessUnit?.value)) {
@@ -133,14 +112,14 @@ export default function _Form({
           [184].includes(selectedBusinessUnit?.value)
             ? profileData?.employeeId
             : 0
-        }`
+        }`,
       );
     }
     getCostCenter(
       profileData.accountId,
       selectedBusinessUnit.value,
       state?.selectedSbu?.value || state?.item?.sbuid,
-      setCostCenter
+      setCostCenter,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -167,19 +146,20 @@ export default function _Form({
         // initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          if(bugetHeadWiseBalance?.length > 0 && !values?.accountHead?.label){
-            return toast.warn("Account Head is Required !")
+          if (bugetHeadWiseBalance?.length > 0 && !values?.accountHead?.label) {
+            return toast.warn('Account Head is Required !');
           }
           if (
             bugetHeadWiseBalance?.length > 0 &&
             availableBudgetAdvanceBalance[0]?.numRemainAmount > 0 &&
-            availableBudgetAdvanceBalance[0]?.numRemainAmount < values?.expenseAmount
+            availableBudgetAdvanceBalance[0]?.numRemainAmount <
+              values?.expenseAmount
           ) {
-            return toast.warn("Budget Advance Amount is Exceed");
+            return toast.warn('Budget Advance Amount is Exceed');
           }
           saveHandler(values, () => {
             resetForm(initData);
-            setBugetHeadWiseBalance([])
+            setBugetHeadWiseBalance([]);
             setAvailableBudgetAdvanceBalance(null);
           });
         }}
@@ -194,7 +174,9 @@ export default function _Form({
           isValid,
         }) => (
           <>
-            {(loading || budgetWiseLoader || availableBudgetAdvanceBalanceLoader) && <Loading />}
+            {(loading ||
+              budgetWiseLoader ||
+              availableBudgetAdvanceBalanceLoader) && <Loading />}
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-12">
@@ -205,7 +187,7 @@ export default function _Form({
                       <label>Request For (Employee)</label>
                       <Select
                         onChange={(valueOption) => {
-                          setFieldValue("requestedEmp", valueOption);
+                          setFieldValue('requestedEmp', valueOption);
                         }}
                         options={requestedEmp || []}
                         value={values?.requestedEmp}
@@ -226,13 +208,13 @@ export default function _Form({
                       <label>Select SBU</label>
                       <Select
                         onChange={(valueOption) => {
-                          setFieldValue("SBU", valueOption);
-                          setFieldValue("disbursementCenterName", "");
+                          setFieldValue('SBU', valueOption);
+                          setFieldValue('disbursementCenterName', '');
                           getCostCenter(
                             profileData.accountId,
                             selectedBusinessUnit.value,
                             valueOption?.value,
-                            setCostCenter
+                            setCostCenter,
                           );
                           // getDisbursementCenterName(
                           //   profileData.accountId,
@@ -282,19 +264,19 @@ export default function _Form({
                       <label>Cost Center </label>
                       <Select
                         onChange={(valueOption) => {
-                          setFieldValue("costCenter", valueOption);
-                          setFieldValue("costElement", "");
-                          setFieldValue("accountHead", "");
+                          setFieldValue('costCenter', valueOption);
+                          setFieldValue('costElement', '');
+                          setFieldValue('accountHead', '');
                           if (valueOption) {
                             setLoading(true);
                             CostElementDDLApi(
                               profileData.accountId,
                               selectedBusinessUnit?.value,
                               valueOption?.value,
-                              setCostElementDDL
+                              setCostElementDDL,
                             );
                             if (![184].includes(selectedBusinessUnit?.value)) {
-                              setFieldValue("profitCenter", "");
+                              setFieldValue('profitCenter', '');
                               setProfitcenterDDL([]);
                               getProfitcenterDDL(
                                 `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${
@@ -308,9 +290,9 @@ export default function _Form({
                                 }`,
                                 (data) => {
                                   if (data?.length === 1) {
-                                    setFieldValue("profitCenter", data[0]);
+                                    setFieldValue('profitCenter', data[0]);
                                   }
-                                }
+                                },
                               );
                             }
                             setLoading(false);
@@ -333,15 +315,26 @@ export default function _Form({
                       <label>Cost Element</label>
                       <Select
                         onChange={(valueOption) => {
-                          setFieldValue("costElement", valueOption);
-                          setFieldValue("accountHead", "");
-                          setBugetHeadWiseBalance([])
-                          if(valueOption){
-                            getBugetHeadWiseBalance(`/fino/BudgetaryManage/GetBugetHeadWiseBalance?businessUnitId=${selectedBusinessUnit?.value}&generalLedgerId=${valueOption?.glId}&subGlId=${valueOption?.subGlId}&accountHeadId=0&dteJournalDate=${_todayDate()}`, (res)=>{
-                              const modiFyData = res?.map((item)=>({...item, value: item?.intAccountHeadId , label: item?.strAccountHeadName}))
+                          setFieldValue('costElement', valueOption);
+                          setFieldValue('accountHead', '');
+                          setBugetHeadWiseBalance([]);
+                          if (valueOption) {
+                            getBugetHeadWiseBalance(
+                              `/fino/BudgetaryManage/GetBugetHeadWiseBalance?businessUnitId=${
+                                selectedBusinessUnit?.value
+                              }&generalLedgerId=${valueOption?.glId}&subGlId=${
+                                valueOption?.subGlId
+                              }&accountHeadId=0&dteJournalDate=${_todayDate()}`,
+                              (res) => {
+                                const modiFyData = res?.map((item) => ({
+                                  ...item,
+                                  value: item?.intAccountHeadId,
+                                  label: item?.strAccountHeadName,
+                                }));
 
-                              setBugetHeadWiseBalance(modiFyData)
-                            })
+                                setBugetHeadWiseBalance(modiFyData);
+                              },
+                            );
                           }
                         }}
                         options={costElementDDL || []}
@@ -357,31 +350,39 @@ export default function _Form({
                         touched={touched}
                       />
                     </div>
-                    {(bugetHeadWiseBalance?.length > 0) && (
-                          <>
-                          <div className="col-lg-6 pl pr-1 mb-2">
+                    {bugetHeadWiseBalance?.length > 0 && (
+                      <>
+                        <div className="col-lg-6 pl pr-1 mb-2">
                           <NewSelect
                             name="accountHead"
                             options={bugetHeadWiseBalance || []}
                             value={values?.accountHead}
                             label="Account Head"
                             onChange={(valueOption) => {
-                              setFieldValue("accountHead", valueOption || "");
-                              if(valueOption){
-                                getAvailableBudgetAdvanceBalance(`/fino/BudgetaryManage/GetAvailableBudgetAdvanceBalance?businessUnitId=${selectedBusinessUnit?.value}&subGlId=${values?.costElement?.subGlId}&accountHeadId=${valueOption?.value}&dteJournalDate=${_todayDate()}`)
+                              setFieldValue('accountHead', valueOption || '');
+                              if (valueOption) {
+                                getAvailableBudgetAdvanceBalance(
+                                  `/fino/BudgetaryManage/GetAvailableBudgetAdvanceBalance?businessUnitId=${
+                                    selectedBusinessUnit?.value
+                                  }&subGlId=${
+                                    values?.costElement?.subGlId
+                                  }&accountHeadId=${
+                                    valueOption?.value
+                                  }&dteJournalDate=${_todayDate()}`,
+                                );
                               }
                             }}
                             errors={errors}
                             touched={touched}
                           />
                         </div>
-                        </>
-                        )}
+                      </>
+                    )}
                     <div className="col-lg-6 pl pr-1 mb-2">
                       <label>Profit Center</label>
                       <Select
                         onChange={(valueOption) => {
-                          setFieldValue("profitCenter", valueOption);
+                          setFieldValue('profitCenter', valueOption);
                         }}
                         options={profitcenterDDL || []}
                         value={values?.profitCenter}
@@ -463,18 +464,18 @@ export default function _Form({
                         name="expenseGroup"
                         options={[
                           {
-                            value: "TaDa",
-                            label: "Ta/Da",
+                            value: 'TaDa',
+                            label: 'Ta/Da',
                           },
                           {
-                            value: "Other",
-                            label: "Other",
+                            value: 'Other',
+                            label: 'Other',
                           },
                         ]}
                         value={values?.expenseGroup}
                         label="Expense Group"
                         onChange={(valueOption) => {
-                          setFieldValue("expenseGroup", valueOption);
+                          setFieldValue('expenseGroup', valueOption);
                         }}
                         placeholder="Expense Group"
                         errors={errors}
@@ -500,14 +501,14 @@ export default function _Form({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

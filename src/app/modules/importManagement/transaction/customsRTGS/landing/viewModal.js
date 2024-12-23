@@ -1,20 +1,20 @@
-import React, { useEffect, useState, useRef } from "react";
-import Loading from "../../../../_helper/_loading";
-import { getCustomRTGSById } from "../helper";
-import { moneyInWord } from "../../../../_helper/_convertMoneyToWord";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import "./viewModal.scss";
-import moment from "moment";
+import React, { useEffect, useState, useRef } from 'react';
+import Loading from '../../../../_helper/_loading';
+import { getCustomRTGSById } from '../helper';
+import { moneyInWord } from '../../../../_helper/_convertMoneyToWord';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import './viewModal.scss';
+import moment from 'moment';
 
 function ViewModal({ clickViewData }) {
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const { selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
   const [singleData, setSingleData] = useState({});
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
-  const [totalInWords, setTotalInWords] = useState("");
+  const [totalInWords, setTotalInWords] = useState('');
 
   useEffect(() => {
     if (clickViewData?.customRtgsId) {
@@ -27,7 +27,7 @@ function ViewModal({ clickViewData }) {
   useEffect(() => {
     const rtgsAmount = singleData?.objRow?.reduce(
       (acc, curr) => acc + (+curr.rtgsAmount || 0),
-      0
+      0,
     );
     setTotal(rtgsAmount);
   }, [singleData]);
@@ -41,13 +41,13 @@ function ViewModal({ clickViewData }) {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: "Customs-RTGS",
+    documentTitle: 'Customs-RTGS',
     pageStyle: `
     @media print {
       body {
         -webkit-print-color-adjust: exact;
-        border: 1px solid black !important; // Add this 
-     
+        border: 1px solid black !important; // Add this
+
       }
       @page {
         size: portrait !important;
@@ -62,7 +62,7 @@ function ViewModal({ clickViewData }) {
       {loading && <Loading />}
       <div
         style={{
-          textAlign: "right",
+          textAlign: 'right',
         }}
       >
         <button
@@ -77,20 +77,20 @@ function ViewModal({ clickViewData }) {
       <div className="customsRTGSprintView" ref={componentRef}>
         <div
           style={{
-            marginBottom: "15px",
-            textAlign: "center",
+            marginBottom: '15px',
+            textAlign: 'center',
           }}
         >
           <h2>{selectedBusinessUnit?.label}</h2>
           <p>
-          Akij House, 198 Bir Uttam Mir Shawkat Sarak,Tejgaon, Dhaka-1208.
+            Akij House, 198 Bir Uttam Mir Shawkat Sarak,Tejgaon, Dhaka-1208.
           </p>
         </div>
 
         <div
           style={{
-            textAlign: "center",
-            marginTop: "70px",
+            textAlign: 'center',
+            marginTop: '70px',
           }}
         >
           <p>
@@ -102,19 +102,19 @@ function ViewModal({ clickViewData }) {
         <div>
           <h6
             style={{
-              textAlign: "center",
-              background: "#ecf0f3",
-              padding: "5px",
+              textAlign: 'center',
+              background: '#ecf0f3',
+              padding: '5px',
             }}
           >
             Application Form for RTGS Customs Duty Payment
           </h6>
           <p
             style={{
-              textAlign: "right",
+              textAlign: 'right',
             }}
           >
-            <span>Date: {moment().format("LL")}</span>
+            <span>Date: {moment().format('LL')}</span>
           </p>
         </div>
 
@@ -122,7 +122,8 @@ function ViewModal({ clickViewData }) {
           <p>Muhtaram</p>
           <p>Assalamu Alaikum</p>
           <p>
-          Please remit the amount as per following particulars by debiting our account mentioned below
+            Please remit the amount as per following particulars by debiting our
+            account mentioned below
           </p>
         </div>
 
@@ -181,7 +182,7 @@ function ViewModal({ clickViewData }) {
         <div
           className="customInfo"
           style={{
-            marginTop: "20px",
+            marginTop: '20px',
           }}
         >
           <div className="react-bootstrap-table table-responsive">
@@ -203,42 +204,42 @@ function ViewModal({ clickViewData }) {
                     <td> {index + 1}</td>
                     <td
                       style={{
-                        textAlign: "center",
+                        textAlign: 'center',
                       }}
                     >
                       {item?.customOfficeCode}
                     </td>
                     <td
                       style={{
-                        textAlign: "center",
+                        textAlign: 'center',
                       }}
                     >
                       {item?.registrationYear}
                     </td>
                     <td
                       style={{
-                        textAlign: "center",
+                        textAlign: 'center',
                       }}
                     >
                       {item?.registrationNo}
                     </td>
                     <td
                       style={{
-                        textAlign: "center",
+                        textAlign: 'center',
                       }}
                     >
                       {item?.declarantCode}
                     </td>
                     <td
                       style={{
-                        textAlign: "center",
+                        textAlign: 'center',
                       }}
                     >
                       {item?.mobileNo}
                     </td>
                     <td
                       style={{
-                        textAlign: "right",
+                        textAlign: 'right',
                       }}
                     >
                       BDT: {item?.rtgsAmount}
@@ -253,7 +254,7 @@ function ViewModal({ clickViewData }) {
                   </td>
                   <td
                     style={{
-                      textAlign: "right",
+                      textAlign: 'right',
                     }}
                   >
                     BDT {total}
@@ -261,7 +262,7 @@ function ViewModal({ clickViewData }) {
                 </tr>
                 <tr
                   style={{
-                    height: "25px",
+                    height: '25px',
                   }}
                 >
                   <td colSpan="5" className="borderTopNone"></td>
@@ -288,7 +289,7 @@ function ViewModal({ clickViewData }) {
                   <td
                     colSpan="2"
                     style={{
-                      textAlign: "right",
+                      textAlign: 'right',
                     }}
                   >
                     <b>{total}</b>
@@ -302,7 +303,7 @@ function ViewModal({ clickViewData }) {
                   <td
                     colSpan="2"
                     style={{
-                      textAlign: "center",
+                      textAlign: 'center',
                     }}
                   >
                     <b>Amount in word</b>
@@ -318,8 +319,8 @@ function ViewModal({ clickViewData }) {
 
         <div
           style={{
-            marginBottom: "90px",
-            marginTop: "50px",
+            marginBottom: '90px',
+            marginTop: '50px',
           }}
         >
           <p>Yours Faithfully</p>
@@ -328,9 +329,9 @@ function ViewModal({ clickViewData }) {
 
         <div
           style={{
-            display: "flex",
-            gap: "30px",
-            marginBottom: "20px",
+            display: 'flex',
+            gap: '30px',
+            marginBottom: '20px',
           }}
         >
           <p>

@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from "react";
-import objectPath from "object-path";
-import { useHtmlClassService } from "../../_core/MetronicLayout";
-import { Topbar } from "./Topbar";
-import { HeaderMenuWrapper } from "./header-menu/HeaderMenuWrapper";
-import { AnimateLoading } from "../../../_partials/controls";
-import { shallowEqual, useSelector } from "react-redux";
+import objectPath from 'object-path';
+import React, { useMemo } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { AnimateLoading } from '../../../_partials/controls';
+import { useHtmlClassService } from '../../_core/MetronicLayout';
+import { Topbar } from './Topbar';
+import { HeaderMenuWrapper } from './header-menu/HeaderMenuWrapper';
 
 export function Header() {
   const uiService = useHtmlClassService();
@@ -18,18 +18,18 @@ export function Header() {
 
   const manualClickHandler = () => {
     window.open(
-      "https://docs.google.com/document/d/1h8N-fjk3yXEkk1_orlHhBna9VqQT4NqlQER9PEfBzVc/view"
+      'https://docs.google.com/document/d/1h8N-fjk3yXEkk1_orlHhBna9VqQT4NqlQER9PEfBzVc/view',
     );
   };
 
   const layoutProps = useMemo(() => {
     return {
-      headerClasses: uiService.getClasses("header", true),
-      headerAttributes: uiService.getAttributes("header"),
-      headerContainerClasses: uiService.getClasses("header_container", true),
+      headerClasses: uiService.getClasses('header', true),
+      headerAttributes: uiService.getAttributes('header'),
+      headerContainerClasses: uiService.getClasses('header_container', true),
       menuHeaderDisplay: objectPath.get(
         uiService.config,
-        "header.menu.self.display"
+        'header.menu.self.display',
       ),
     };
   }, [uiService]);
@@ -43,19 +43,22 @@ export function Header() {
         {...layoutProps.headerAttributes}
       >
         {/*begin::Container*/}
-        {window?.location?.origin !== "https://erp.ibos.io" && (
-          <b  style={{ marginLeft: "23px" }} className="mt-3 danger development-env">
+        {window?.location?.origin !== 'https://erp.ibos.io' && (
+          <b
+            style={{ marginLeft: '23px' }}
+            className="mt-3 danger development-env"
+          >
             Development
           </b>
         )}
 
         <div
           style={{
-            display: "flex",
-            gap: "15px",
+            display: 'flex',
+            gap: '15px',
             width: '100%',
-            alignItems: "center",
-            marginLeft: "10px",
+            alignItems: 'center',
+            marginLeft: '10px',
           }}
           className="user-basic-info"
         >

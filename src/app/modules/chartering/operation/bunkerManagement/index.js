@@ -1,67 +1,64 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
-import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import ICustomTable from "../../_chartinghelper/_customTable";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import { shallowEqual, useSelector } from "react-redux";
-import { getVesselDDL, getVoyageDDLNew } from "../../helper";
-import FormikSelect from "../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../selectCustomStyle";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { imarineBaseUrl } from '../../../../App';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import customStyles from '../../../selectCustomStyle';
+import ICustomTable from '../../_chartinghelper/_customTable';
+import FormikSelect from '../../_chartinghelper/common/formikSelect';
+import { getVesselDDL, getVoyageDDLNew } from '../../helper';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
 
 const initData = {
-  voyageFlagLicenseAtt: "",
+  voyageFlagLicenseAtt: '',
 };
 
 const headers = [
-  { name: "SL" },
-  { name: "Code" },
-  { name: "Vessel Name" },
-  { name: "Current Position" },
-  { name: "Load Port" },
-  { name: "Ballast Eco Max" },
-  { name: "Ballast Distance" },
-  { name: "Ballast Speed" },
-  { name: "Ballast VLSFO Consumption (Mt)" },
-  { name: "Ballast LSMGO Consumption (Mt)" },
-  { name: "Ballast Passage VLSFO Consumption (Mt)" },
-  { name: "Ballast Passage LSMGO Consumption (Mt)" },
-  { name: "Discharge Port" },
-  { name: "Laden Eco Max" },
-  { name: "Laden Distance" },
-  { name: "Laden Speed" },
-  { name: "Laden VLSFO Consumption (Mt)" },
-  { name: "Laden LSMGO Consumption (Mt)" },
-  { name: "Laden Passage VLSFO Consumption (Mt)" },
-  { name: "Laden Passage LSMGO Consumption (Mt)" },
-  { name: "Load Rate" },
-  { name: "Cargo Quantity (Mt)" },
-  { name: "Load Port Stay" },
-  { name: "Discharge Rate" },
-  { name: "Discharge Port Stay" },
-  { name: "Load Port Stay VLSFO Consumption (Mt)" },
-  { name: "Load Port Stay LSMGO Consumption (Mt)" },
-  { name: "Discharge Port Stay VLSFO Consumption (Mt)" },
-  { name: "Discharge Port Stay LSMGO Consumption (Mt)" },
-  { name: "Total VLSFO Consumption (Mt)" },
-  { name: "Total LSMGO Consumption (Mt)" },
-  { name: "Tolerance VLSFO Percentage" },
-  { name: "Net Total Consumable VLSFO (Mt)" },
-  { name: "Bunker Port ID" },
-  { name: "Bunker Port" },
-  { name: "Bunker Trader" },
-  { name: "Bunker Type" },
-  { name: "Depature Draft Forward" },
-  { name: "Depature Draft Aft" },
+  { name: 'SL' },
+  { name: 'Code' },
+  { name: 'Vessel Name' },
+  { name: 'Current Position' },
+  { name: 'Load Port' },
+  { name: 'Ballast Eco Max' },
+  { name: 'Ballast Distance' },
+  { name: 'Ballast Speed' },
+  { name: 'Ballast VLSFO Consumption (Mt)' },
+  { name: 'Ballast LSMGO Consumption (Mt)' },
+  { name: 'Ballast Passage VLSFO Consumption (Mt)' },
+  { name: 'Ballast Passage LSMGO Consumption (Mt)' },
+  { name: 'Discharge Port' },
+  { name: 'Laden Eco Max' },
+  { name: 'Laden Distance' },
+  { name: 'Laden Speed' },
+  { name: 'Laden VLSFO Consumption (Mt)' },
+  { name: 'Laden LSMGO Consumption (Mt)' },
+  { name: 'Laden Passage VLSFO Consumption (Mt)' },
+  { name: 'Laden Passage LSMGO Consumption (Mt)' },
+  { name: 'Load Rate' },
+  { name: 'Cargo Quantity (Mt)' },
+  { name: 'Load Port Stay' },
+  { name: 'Discharge Rate' },
+  { name: 'Discharge Port Stay' },
+  { name: 'Load Port Stay VLSFO Consumption (Mt)' },
+  { name: 'Load Port Stay LSMGO Consumption (Mt)' },
+  { name: 'Discharge Port Stay VLSFO Consumption (Mt)' },
+  { name: 'Discharge Port Stay LSMGO Consumption (Mt)' },
+  { name: 'Total VLSFO Consumption (Mt)' },
+  { name: 'Total LSMGO Consumption (Mt)' },
+  { name: 'Tolerance VLSFO Percentage' },
+  { name: 'Net Total Consumable VLSFO (Mt)' },
+  { name: 'Bunker Port ID' },
+  { name: 'Bunker Port' },
+  { name: 'Bunker Trader' },
+  { name: 'Bunker Type' },
+  { name: 'Depature Draft Forward' },
+  { name: 'Depature Draft Aft' },
   // { name: "Action" },
 ];
 
 export default function BunkerCalculatorLanding() {
   const saveHandler = (values, cb) => {};
-  const [show, setShow] = useState(false);
-  const onHide = () => setShow(false);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -71,29 +68,27 @@ export default function BunkerCalculatorLanding() {
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [loading2, setLoading] = useState(false);
 
-  const [singleRowData, setSingleRowData] = useState({});
-  const history = useHistory();
-
   const getGridData = (values) => {
     const shipTypeSTR = values?.shipType
       ? `shipType=${values?.shipType?.label}`
-      : "";
+      : '';
     const voyageTypeSTR = values?.voyageType
       ? `&voyageType=${values?.voyageType?.label}`
-      : "";
+      : '';
     const vesselNameSTR = values?.vesselName
       ? `&vesselName=${values?.vesselName?.label}`
-      : "";
+      : '';
     const voyageNoSTR = values?.voyageNo
       ? `&voyageNo=${values?.voyageNo?.label}`
-      : "";
+      : '';
     getLandingData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetBunkerCalculatorLanding?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
+      `${imarineBaseUrl}/domain/VesselNomination/GetBunkerCalculatorLanding?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`,
     );
   };
 
   useEffect(() => {
     getGridData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getVoyageDDL = (values) => {
@@ -130,7 +125,7 @@ export default function BunkerCalculatorLanding() {
         touched,
       }) => (
         <>
-          {loading && <Loading />}
+          {(loading || loading2) && <Loading />}
           <IForm
             title="Bunker Calculator"
             isHiddenReset
@@ -144,28 +139,28 @@ export default function BunkerCalculatorLanding() {
                     value={values?.shipType}
                     isSearchable={true}
                     options={[
-                      { value: 1, label: "Own Ship" },
-                      { value: 2, label: "Charterer Ship" },
+                      { value: 1, label: 'Own Ship' },
+                      { value: 2, label: 'Charterer Ship' },
                     ]}
                     styles={customStyles}
                     name="shipType"
                     placeholder="Ship Type"
                     label="Ship Type"
                     onChange={(valueOption) => {
-                      setFieldValue("shipType", valueOption);
-                      setFieldValue("vesselName", "");
-                      setFieldValue("voyageType", "");
-                      setFieldValue("voyageNo", "");
+                      setFieldValue('shipType', valueOption);
+                      setFieldValue('vesselName', '');
+                      setFieldValue('voyageType', '');
+                      setFieldValue('voyageNo', '');
                       setVesselDDL([]);
                       if (valueOption) {
                         getVesselDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
                           setVesselDDL,
-                          valueOption?.value === 2 ? 2 : ""
+                          valueOption?.value === 2 ? 2 : '',
                         );
-                      }else{
-                        getGridData()
+                      } else {
+                        getGridData();
                       }
                     }}
                   />
@@ -176,17 +171,17 @@ export default function BunkerCalculatorLanding() {
                     value={values?.voyageType}
                     isSearchable={true}
                     options={[
-                      { value: 1, label: "Time Charter" },
-                      { value: 2, label: "Voyage Charter" },
+                      { value: 1, label: 'Time Charter' },
+                      { value: 2, label: 'Voyage Charter' },
                     ]}
                     styles={customStyles}
                     name="voyageType"
                     placeholder="Voyage Type"
                     label="Voyage Type"
                     onChange={(valueOption) => {
-                      setFieldValue("vesselName", "");
-                      setFieldValue("voyageNo", "");
-                      setFieldValue("voyageType", valueOption);
+                      setFieldValue('vesselName', '');
+                      setFieldValue('voyageNo', '');
+                      setFieldValue('voyageType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -203,8 +198,8 @@ export default function BunkerCalculatorLanding() {
                     placeholder="Vessel Name"
                     label="Vessel Name"
                     onChange={(valueOption) => {
-                      setFieldValue("vesselName", valueOption);
-                      setFieldValue("voyageNo", "");
+                      setFieldValue('vesselName', valueOption);
+                      setFieldValue('voyageNo', '');
                       if (valueOption) {
                         getVoyageDDL({ ...values, vesselName: valueOption });
                       }
@@ -213,7 +208,7 @@ export default function BunkerCalculatorLanding() {
                 </div>
                 <div className="col-lg-2">
                   <FormikSelect
-                    value={values?.voyageNo || ""}
+                    value={values?.voyageNo || ''}
                     isSearchable={true}
                     options={voyageNoDDL || []}
                     styles={customStyles}
@@ -221,7 +216,7 @@ export default function BunkerCalculatorLanding() {
                     placeholder="Voyage No"
                     label="Voyage No"
                     onChange={(valueOption) => {
-                      setFieldValue("voyageNo", valueOption);
+                      setFieldValue('voyageNo', valueOption);
                     }}
                     isDisabled={!values?.vesselName}
                   />
@@ -233,7 +228,7 @@ export default function BunkerCalculatorLanding() {
                     onClick={() => {
                       getGridData(values);
                     }}
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     className="btn btn-primary"
                   >
                     Show
@@ -244,13 +239,13 @@ export default function BunkerCalculatorLanding() {
                 {landingData?.length > 0 && (
                   <ICustomTable
                     ths={headers}
-                    style={{ minWidth: "100px!important" }}
+                    style={{ minWidth: '100px!important' }}
                     scrollable={true}
                   >
                     {landingData?.map((item, index) => {
                       return (
                         <tr key={index}>
-                          <td style={{ minWidth: "100px" }}>{index + 1}</td>
+                          <td style={{ minWidth: '100px' }}>{index + 1}</td>
                           <td>{item?.strCode}</td>
                           <td>{item?.strNameOfVessel}</td>
                           <td>{item?.strCurrentPosition}</td>

@@ -1,13 +1,13 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router";
-import { toast } from "react-toastify";
-import TextArea from "../../../../_helper/TextArea";
-import { getVoyageDDLNew } from "../../../helper";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router';
+import { toast } from 'react-toastify';
+import TextArea from '../../../../_helper/TextArea';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import { getVoyageDDLNew } from '../../../helper';
 import {
   createJournalForTimeCharter,
   createTimeCharterBR,
@@ -15,12 +15,10 @@ import {
   GetTransactionDetails,
   timeCharterReceiveAmountUpdate,
   validationSchema,
-} from "../helper";
-import EditInvoiceForOwner from "../invoice/editInvoiceForOwner";
-import InvoiceForCharterer from "../invoice/invoiceForCharterer";
-import InvoiceForChartererView from "../invoice/invoiceForChartererView";
-import InvoiceForOwner from "../invoice/invoiceForOwner";
-import InvoiceForOwnerView from "../invoice/invoiceForOwnerView";
+} from '../helper';
+import EditInvoiceForOwner from '../invoice/editInvoiceForOwner';
+import InvoiceForOwner from '../invoice/invoiceForOwner';
+import InvoiceForOwnerView from '../invoice/invoiceForOwnerView';
 
 export default function _Form({
   title,
@@ -54,7 +52,7 @@ export default function _Form({
   } = useSelector((state) => state?.authData, shallowEqual);
 
   useEffect(() => {
-    if (type === "create" && preData?.vesselName?.value) {
+    if (type === 'create' && preData?.vesselName?.value) {
       getVoyageDDLNew({
         accId,
         buId,
@@ -70,44 +68,44 @@ export default function _Form({
   }, [preData]);
 
   useEffect(() => {
-    if (singleData?.objRows?.length > 0 && viewType !== "edit") {
+    if (singleData?.objRows?.length > 0 && viewType !== 'edit') {
       setRowData([...singleData?.objRows]);
-    } else if (viewType === "edit") {
+    } else if (viewType === 'edit') {
       setRowData(dataForEdit?.objRows);
     }
   }, [singleData, viewType, dataForEdit]);
 
   /* All Calculation Here!! */
   const rowDtoHandler = (index, name, value, item) => {
-    if (viewType === "edit") {
+    if (viewType === 'edit') {
       const {
         objHeader: { comm, cveday, dailyHire, lsfoprice, lsmgoprice },
       } = dataForEdit;
 
       const copy = [...rowData];
 
-      if (name === "isChecked" || name === "credit" || name === "debit") {
+      if (name === 'isChecked' || name === 'credit' || name === 'debit') {
         copy[index][name] = +value;
       }
 
-      if (item?.isDescription && name === "description") {
+      if (item?.isDescription && name === 'description') {
         copy[index].description = value;
       }
 
-      if (name === "duration") {
+      if (name === 'duration') {
         copy[index][name] = +value;
 
         switch (item?.description) {
-          case "HIRE DUE TO OWNR":
+          case 'HIRE DUE TO OWNR':
             copy[index].credit = +value * dailyHire;
             break;
-          case "HIRE ADD COMM":
+          case 'HIRE ADD COMM':
             copy[index].debit = +value * dailyHire * (comm / 100);
             break;
-          case "HIRE BROK COM":
+          case 'HIRE BROK COM':
             copy[index].debit = +value * dailyHire * (comm / 100);
             break;
-          case "C/V/E":
+          case 'C/V/E':
             copy[index].credit = (+value * cveday) / 30;
             break;
           default:
@@ -115,19 +113,19 @@ export default function _Form({
         }
       }
 
-      if (name === "quantity") {
+      if (name === 'quantity') {
         copy[index][name] = +value;
         switch (item?.description) {
-          case "BOD-LSFO":
+          case 'BOD-LSFO':
             copy[index].credit = +value * lsfoprice;
             break;
-          case "BOD-LSMGO":
+          case 'BOD-LSMGO':
             copy[index].credit = +value * lsmgoprice;
             break;
-          case "BOR-LSFO":
+          case 'BOR-LSFO':
             copy[index].debit = +value * lsfoprice;
             break;
-          case "BOR-LSMGO":
+          case 'BOR-LSMGO':
             copy[index].debit = +value * lsmgoprice;
             break;
           default:
@@ -139,34 +137,34 @@ export default function _Form({
     } else {
       const copy = [...rowData];
 
-      if (name === "isChecked" || name === "credit" || name === "debit") {
+      if (name === 'isChecked' || name === 'credit' || name === 'debit') {
         copy[index][name] = +value;
       }
 
-      if (item?.isDescription && name === "description") {
+      if (item?.isDescription && name === 'description') {
         copy[index].description = value;
       }
 
-      if (name === "duration") {
+      if (name === 'duration') {
         copy[index][name] = +value;
 
         switch (item?.description) {
-          case "HIRE DUE TO OWNR":
+          case 'HIRE DUE TO OWNR':
             copy[index].credit = +value * invoiceHireData?.dailyHire;
             break;
-          case "HIRE ADD COMM":
+          case 'HIRE ADD COMM':
             copy[index].debit =
               +value *
               invoiceHireData?.dailyHire *
               (invoiceHireData.comm / 100);
             break;
-          case "HIRE BROK COM":
+          case 'HIRE BROK COM':
             copy[index].debit =
               +value *
               invoiceHireData?.dailyHire *
               (invoiceHireData.comm / 100);
             break;
-          case "C/V/E":
+          case 'C/V/E':
             copy[index].credit = (+value * invoiceHireData.cveday) / 30;
             break;
           default:
@@ -174,19 +172,19 @@ export default function _Form({
         }
       }
 
-      if (name === "quantity") {
+      if (name === 'quantity') {
         copy[index][name] = +value;
         switch (item?.description) {
-          case "BOD-LSFO":
+          case 'BOD-LSFO':
             copy[index].credit = +value * invoiceHireData?.lsfoprice;
             break;
-          case "BOD-LSMGO":
+          case 'BOD-LSMGO':
             copy[index].credit = +value * invoiceHireData?.lsmgoprice;
             break;
-          case "BOR-LSFO":
+          case 'BOR-LSFO':
             copy[index].debit = +value * invoiceHireData?.lsfoprice;
             break;
-          case "BOR-LSMGO":
+          case 'BOR-LSMGO':
             copy[index].debit = +value * invoiceHireData?.lsmgoprice;
             break;
           default:
@@ -201,21 +199,21 @@ export default function _Form({
   const addHandler = (index) => {
     const copy = [...rowData];
     copy.splice(index + 1, 0, {
-      description: "",
+      description: '',
 
       tctransactionId: 0,
-      duration: "",
-      quantity: "",
-      debit: "",
-      credit: "",
+      duration: '',
+      quantity: '',
+      debit: '',
+      credit: '',
       active: true,
-      notes: "",
+      notes: '',
 
-      isDescription: { name: "description" },
-      isDuration: { name: "duration" },
-      isCredit: { name: "credit" },
-      isDebit: { name: "debit" },
-      isQty: { name: "quantity" },
+      isDescription: { name: 'description' },
+      isDuration: { name: 'duration' },
+      isCredit: { name: 'credit' },
+      isDebit: { name: 'debit' },
+      isQty: { name: 'quantity' },
       isChecked: true,
     });
     setRowData(copy);
@@ -245,7 +243,7 @@ export default function _Form({
               resetForm(initData);
               setInvoiceHireData([]);
               setRowData([]);
-            }
+            },
           );
         }}
       >
@@ -270,33 +268,33 @@ export default function _Form({
                     type="button"
                     onClick={() => {
                       if (
-                        type === "create" ? false : preData?.vesselName?.label
+                        type === 'create' ? false : preData?.vesselName?.label
                       ) {
-                        history.push("/");
+                        history.push('/');
                       } else {
                         history.goBack();
                       }
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info px-3 py-2 reset-btn ml-2"}
+                      className={'btn btn-info px-3 py-2 reset-btn ml-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" &&
+                  {viewType !== 'view' &&
                   (invoiceHireData?.vesselId ||
                     dataForEdit?.objHeader?.vesselId) ? (
                     <button
                       type="submit"
-                      className={"btn btn-primary px-3 py-2 ml-2"}
+                      className={'btn btn-primary px-3 py-2 ml-2'}
                       onClick={handleSubmit}
                       // disabled if previous hire is not received
                       disabled={invoiceHireData?.returnMSG ? true : false}
@@ -310,7 +308,7 @@ export default function _Form({
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -320,14 +318,14 @@ export default function _Form({
                       onChange={(valueOption) => {
                         setInvoiceHireData([]);
                         setRowData([]);
-                        setFieldValue("voyageNo", "");
-                        setFieldValue("transactionName", "");
-                        setFieldValue("hireTypeName", "");
-                        setFieldValue("beneficiary", {
+                        setFieldValue('voyageNo', '');
+                        setFieldValue('transactionName', '');
+                        setFieldValue('hireTypeName', '');
+                        setFieldValue('beneficiary', {
                           value: valueOption?.ownerId,
                           label: valueOption?.ownerName,
                         });
-                        setFieldValue("vesselName", valueOption);
+                        setFieldValue('vesselName', valueOption);
                         if (valueOption) {
                           // getVoyageDDLFilter({
                           //   id: valueOption?.value,
@@ -349,7 +347,7 @@ export default function _Form({
                         }
                       }}
                       isDisabled={
-                        type === "create"
+                        type === 'create'
                           ? false
                           : viewType || preData?.vesselName
                       }
@@ -359,7 +357,7 @@ export default function _Form({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -369,15 +367,15 @@ export default function _Form({
                       onChange={(valueOption) => {
                         setInvoiceHireData([]);
                         setRowData([]);
-                        setFieldValue("transactionName", "");
-                        setFieldValue("hireTypeName", {
+                        setFieldValue('transactionName', '');
+                        setFieldValue('hireTypeName', {
                           value: valueOption?.hireTypeId,
                           label: valueOption?.hireTypeName,
                         });
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                       }}
                       isDisabled={
-                        type === "create"
+                        type === 'create'
                           ? false
                           : viewType || !values?.vesselName || preData?.voyageNo
                       }
@@ -388,7 +386,7 @@ export default function _Form({
                   {values?.hireTypeName?.value ? (
                     <div className="col-lg-3">
                       <FormikSelect
-                        value={values?.hireTypeName || ""}
+                        value={values?.hireTypeName || ''}
                         isSearchable={true}
                         options={[]}
                         styles={customStyles}
@@ -396,7 +394,7 @@ export default function _Form({
                         placeholder="Ship Type"
                         label="Ship Type"
                         onChange={(valueOption) => {
-                          setFieldValue("statement", valueOption);
+                          setFieldValue('statement', valueOption);
                         }}
                         isDisabled={true}
                         errors={errors}
@@ -406,7 +404,7 @@ export default function _Form({
                   ) : null}
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.transactionName || ""}
+                      value={values?.transactionName || ''}
                       isSearchable={true}
                       options={transactionNameDDL || []}
                       styles={customStyles}
@@ -416,8 +414,8 @@ export default function _Form({
                       onChange={async (valueOption) => {
                         setInvoiceHireData([]);
                         setRowData([]);
-                        setFieldValue("redeliveryDate", "");
-                        setFieldValue("transactionName", valueOption);
+                        setFieldValue('redeliveryDate', '');
+                        setFieldValue('transactionName', valueOption);
 
                         GetTransactionDetails(
                           accId,
@@ -438,7 +436,7 @@ export default function _Form({
                             });
                           },
                           type,
-                          values?.hireTypeName?.value
+                          values?.hireTypeName?.value,
                         );
                       }}
                       isDisabled={viewType}
@@ -456,7 +454,7 @@ export default function _Form({
                       type="date"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
 
@@ -465,7 +463,7 @@ export default function _Form({
                   invoiceHireData?.tctransactionId === 0 ? (
                     <div className="col-lg-3">
                       <FormikSelect
-                        value={values?.beneficiary || ""}
+                        value={values?.beneficiary || ''}
                         isSearchable={true}
                         options={beneficiaryDDL}
                         styles={customStyles}
@@ -473,7 +471,7 @@ export default function _Form({
                         placeholder="Beneficiary Name"
                         label="Beneficiary Name"
                         onChange={(valueOption) => {
-                          setFieldValue("beneficiary", valueOption);
+                          setFieldValue('beneficiary', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -515,7 +513,7 @@ export default function _Form({
                         <>
                           <div className="col-lg-3">
                             <FormikSelect
-                              value={values?.bankAccNo || ""}
+                              value={values?.bankAccNo || ''}
                               isSearchable={true}
                               options={accNoDDL || []}
                               styles={customStyles}
@@ -523,7 +521,7 @@ export default function _Form({
                               placeholder="Bank Account No"
                               label="Bank Account No"
                               onChange={(valueOption) => {
-                                setFieldValue("bankAccNo", valueOption);
+                                setFieldValue('bankAccNo', valueOption);
                               }}
                               errors={errors}
                               touched={touched}
@@ -539,7 +537,7 @@ export default function _Form({
                               type="date"
                               errors={errors}
                               touched={touched}
-                              disabled={viewType === "view"}
+                              disabled={viewType === 'view'}
                             />
                           </div>
                           <div className="col-lg-3 mt-5">
@@ -570,17 +568,17 @@ export default function _Form({
                                           resetForm(initData);
                                           setInvoiceHireData([]);
                                           setRowData([]);
-                                        }
+                                        },
                                       );
-                                    }
+                                    },
                                   );
                                 } else {
-                                  toast.warning("Amount Already Received", {
+                                  toast.warning('Amount Already Received', {
                                     toastId: 13124,
                                   });
                                 }
                               }}
-                              type={"button"}
+                              type={'button'}
                               className="btn btn-primary px-3 py-2"
                               disabled={
                                 values?.receiveAmount < 1 ||
@@ -599,15 +597,15 @@ export default function _Form({
                   {/* Show JV Code for Journal created invoices */}
                   {invoiceHireData?.objHeader?.journalVoucherCode && (
                     <div className="col-lg-4 mt-5">
-                      <b>JV Code:</b>{" "}
+                      <b>JV Code:</b>{' '}
                       {invoiceHireData?.objHeader?.journalVoucherCode}
                     </div>
                   )}
 
                   {/* Show a warning message for previous not received hire */}
                   {invoiceHireData?.returnMSG ? (
-                    <div style={{ color: "tomato" }} className="col-lg-4 mt-3">
-                      {invoiceHireData?.returnMSG || ""}
+                    <div style={{ color: 'tomato' }} className="col-lg-4 mt-3">
+                      {invoiceHireData?.returnMSG || ''}
                     </div>
                   ) : (
                     <div className="col-12"></div>
@@ -624,7 +622,7 @@ export default function _Form({
                       </div>
                       <div className="col-lg-3">
                         <FormikSelect
-                          value={values?.sbu || ""}
+                          value={values?.sbu || ''}
                           isSearchable={true}
                           options={sbuList || []}
                           styles={customStyles}
@@ -632,15 +630,15 @@ export default function _Form({
                           placeholder="SBU"
                           label="SBU"
                           onChange={(valueOption) => {
-                            setFieldValue("sbu", valueOption);
-                            setFieldValue("salesOrg", "");
+                            setFieldValue('sbu', valueOption);
+                            setFieldValue('salesOrg', '');
                             if (valueOption) {
                               getSalesOrgList(
                                 accId,
                                 buId,
                                 valueOption?.value,
                                 setSalesOrgList,
-                                setLoading
+                                setLoading,
                               );
                             }
                           }}
@@ -651,7 +649,7 @@ export default function _Form({
                       </div>
                       <div className="col-lg-3">
                         <FormikSelect
-                          value={values?.salesOrg || ""}
+                          value={values?.salesOrg || ''}
                           isSearchable={true}
                           options={salesOrgList || []}
                           styles={customStyles}
@@ -659,7 +657,7 @@ export default function _Form({
                           placeholder="Sales Organization"
                           label="Sales Organization"
                           onChange={(valueOption) => {
-                            setFieldValue("salesOrg", valueOption);
+                            setFieldValue('salesOrg', valueOption);
                           }}
                           isDisabled={!values?.sbu}
                           errors={errors}
@@ -675,7 +673,7 @@ export default function _Form({
                           type="date"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3 text-right">
@@ -697,16 +695,16 @@ export default function _Form({
                               });
                               window.setTimeout(() => {
                                 setErrors({
-                                  sbu: !values?.sbu && "SBU is required",
+                                  sbu: !values?.sbu && 'SBU is required',
                                   salesOrg:
                                     !values?.salesOrg &&
-                                    "Sales Organization is required",
+                                    'Sales Organization is required',
                                   narration:
                                     !values?.narration &&
-                                    "Narration is required",
+                                    'Narration is required',
                                   journalDate:
                                     !values?.journalDate &&
-                                    "Journal Date is required",
+                                    'Journal Date is required',
                                 });
                               }, 50);
                             } else {
@@ -719,10 +717,10 @@ export default function _Form({
                                 rowData,
                                 setLoading,
                                 () => {
-                                  setFieldValue("sbu", "");
-                                  setFieldValue("salesOrg", "");
-                                  setFieldValue("narration", "");
-                                }
+                                  setFieldValue('sbu', '');
+                                  setFieldValue('salesOrg', '');
+                                  setFieldValue('narration', '');
+                                },
                               );
                             }
                           }}
@@ -739,7 +737,7 @@ export default function _Form({
                           placeholder="Narration"
                           rows="3"
                           onChange={(e) =>
-                            setFieldValue("narration", e.target.value)
+                            setFieldValue('narration', e.target.value)
                           }
                           max={1000}
                           errors={errors}
@@ -779,7 +777,7 @@ export default function _Form({
                 {/* Invoice For Owner View */}
                 {invoiceHireData?.objRows?.length > 0 ||
                 (id &&
-                  viewType !== "edit" &&
+                  viewType !== 'edit' &&
                   singleData?.objRows?.length > 0) ? (
                   <>
                     <InvoiceForOwnerView
@@ -800,7 +798,7 @@ export default function _Form({
                       buId={buId}
                     />
                   </>
-                ) : viewType === "edit" ? (
+                ) : viewType === 'edit' ? (
                   <EditInvoiceForOwner
                     invoiceHireData={dataForEdit?.objHeader}
                     formikprops={{

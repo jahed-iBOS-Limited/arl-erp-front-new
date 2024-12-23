@@ -1,21 +1,20 @@
-import React, { useEffect } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import Loading from "../../../../_helper/_loading";
-import CommonTable from "../../../../_helper/commonTable";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _numbering } from "../helper";
+import React, { useEffect } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import Loading from '../../../../_helper/_loading';
+import CommonTable from '../../../../_helper/commonTable';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { _numbering } from '../helper';
 
 export default function QualityCheckViewModal({ singleData }) {
   const [modalData, getModalData, loadModalData] = useAxiosGet();
   let standardValue = 0,
-    manualDeduction = 0,
     totalActualQty = 0,
     totalDeductQty = 0,
     totalUnloadDeduct = 0;
   useEffect(() => {
     getModalData(
-      `/mes/QCTest/GetItemQualityCheckDataById?qualityCheckId=${singleData?.qualityCheckId}`
+      `/mes/QCTest/GetItemQualityCheckDataById?qualityCheckId=${singleData?.qualityCheckId}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleData]);
@@ -24,10 +23,10 @@ export default function QualityCheckViewModal({ singleData }) {
       {loadModalData && <Loading />}
       <div
         style={{
-          margin: "30px 0px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          margin: '30px 0px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
         <div>
@@ -65,65 +64,68 @@ export default function QualityCheckViewModal({ singleData }) {
       </div>
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          gap:"5px"
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '5px',
         }}
       >
         <p style={{ margin: 0 }}>
-          <strong style={{ margin: 0 }}>Challan Qty: {modalData?.challanQuantity}</strong>{" "}
+          <strong style={{ margin: 0 }}>
+            Challan Qty: {modalData?.challanQuantity}
+          </strong>{' '}
         </p>
         <p style={{ margin: 0 }}>
-            <strong> Net Weight (Scale) :{modalData?.netScaleWeight} </strong>
-          </p>
-          <p style={{ margin: 0 }}>
-            <strong> Extra Deduction :{modalData?.extraNetQuantity} </strong>
-          </p>
+          <strong> Net Weight (Scale) :{modalData?.netScaleWeight} </strong>
+        </p>
+        <p style={{ margin: 0 }}>
+          <strong> Extra Deduction :{modalData?.extraNetQuantity} </strong>
+        </p>
         <p style={{ margin: 0 }}>
           <strong style={{ margin: 0 }}>
             Net Weight: {modalData?.netWeight}
-          </strong>{" "}
+          </strong>{' '}
         </p>
         <p style={{ margin: 0 }}>
           <strong style={{ margin: 0 }}>
             Per Bag Qty: {_fixedPoint(modalData?.kgPerBag || 0)}
-          </strong>{" "}
+          </strong>{' '}
         </p>
         <p style={{ margin: 0 }}>
           <strong style={{ margin: 0 }}>
-             Deduct For Bag: {_fixedPoint(modalData?.bagWeightDeductQuantity || 0)}
-          </strong>{" "}
+            Deduct For Bag:{' '}
+            {_fixedPoint(modalData?.bagWeightDeductQuantity || 0)}
+          </strong>{' '}
         </p>
         <p style={{ margin: 0 }}>
           <strong style={{ margin: 0 }}>
             Deduct Qty: {modalData?.deductionQuantity}
-          </strong>{" "}
+          </strong>{' '}
         </p>
         <p style={{ margin: 0 }}>
           <strong style={{ margin: 0 }}>
             Unload Deduct: {modalData?.unloadedDeductionQuantity}
-          </strong>{" "}
+          </strong>{' '}
         </p>
         <p style={{ margin: 0 }}>
           <strong style={{ margin: 0 }}>
             Total Actual Qty: {modalData?.actualQuantity}
-          </strong>{" "}
+          </strong>{' '}
         </p>
       </div>
       {modalData?.headerDetailsList?.map((parentItem, parentIndex) => (
         <CommonTable
           headersData={[
-            "Sl",
-            "Item Name",
-            "UOM",
-            "QC Qty(Bag)",
-            "QC Qty",
-            "Deduct %",
-            "Deduct Qty",
-            "Unload Deduct",
-            "Actual Qty",
-            "Remarks",
+            'Sl',
+            'Item Name',
+            'UOM',
+            'QC Qty(Bag)',
+            'QC Qty',
+            'Deduct %',
+            'Deduct Qty',
+            'Unload Deduct',
+            'Actual Qty',
+            'Remarks',
           ]}
         >
           <tbody key={parentIndex}>
@@ -142,16 +144,16 @@ export default function QualityCheckViewModal({ singleData }) {
               <td className="text-center">{parentItem?.remarks}</td>
             </tr>
             {parentItem?.rowList?.length > 0 && (
-              <tr style={{ margin: "10px" }}>
+              <tr style={{ margin: '10px' }}>
                 <td colSpan={10}>
                   <CommonTable
                     headersData={[
-                      "Parameter",
-                      "Standard Value",
-                      "Actual Value",
-                      "System Deduction",
-                      "Manual Deduction",
-                      "Remarks",
+                      'Parameter',
+                      'Standard Value',
+                      'Actual Value',
+                      'System Deduction',
+                      'Manual Deduction',
+                      'Remarks',
                     ]}
                   >
                     <tbody>

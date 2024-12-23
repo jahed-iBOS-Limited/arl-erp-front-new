@@ -1,28 +1,27 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import { NegetiveCheck } from "../../../_helper/_negitiveCheck";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import DailyAllowanceTable from "./components/componentTable/dailyAllowanceTable";
-import MilageAllowanceTable from "./components/componentTable/milageAllowanceTable";
-import CarryingAllowanceTable from "./components/componentTable/carryingAllowanceTable";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { NegetiveCheck } from '../../../_helper/_negitiveCheck';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import CarryingAllowanceTable from './components/componentTable/carryingAllowanceTable';
+import DailyAllowanceTable from './components/componentTable/dailyAllowanceTable';
+import MilageAllowanceTable from './components/componentTable/milageAllowanceTable';
 
 const initData = {
-  vahicleCapacity: "",
-  daamount: "",
-  daComponent: "",
-  downTripAllowance: "",
-  allowance: "",
-  localMillageRate: "",
-  outerMillageRate: "",
-  carrierAllowanceRate: "",
+  vahicleCapacity: '',
+  daamount: '',
+  daComponent: '',
+  downTripAllowance: '',
+  allowance: '',
+  localMillageRate: '',
+  outerMillageRate: '',
+  carrierAllowanceRate: '',
 };
 
 export default function KeyRegisterLanding() {
@@ -37,7 +36,7 @@ export default function KeyRegisterLanding() {
     setComponentDDL,
   ] = useAxiosGet();
   const [
-    downTripAllowanceDDL,
+    ,
     getDownTripAllowanceDDL,
     downTripAllowanceDDLLoading,
   ] = useAxiosGet();
@@ -50,7 +49,7 @@ export default function KeyRegisterLanding() {
   const handlegetDownTripAllowanceDDL = async (componentId) => {
     await getDownTripAllowanceDDL(
       `/tms/AllowenceSetup/AllowanceSetupLanding?AccountId=${accId}&BusinessUnitId=${buId.value}&Componentid=${componentId}`,
-      (data) => setGridData(data)
+      (data) => setGridData(data),
     );
   };
 
@@ -66,10 +65,10 @@ export default function KeyRegisterLanding() {
         (data) => {
           //this filteration is based on the requirement from backend(dev:Monir bhai)
           const filterByDA_costComponentId = data.filter(
-            (item) => item.value === 50 || item.value === 51
+            (item) => item.value === 50 || item.value === 51,
           );
           setComponentDDL(filterByDA_costComponentId);
-        }
+        },
       );
     };
     Promise.all([
@@ -80,32 +79,14 @@ export default function KeyRegisterLanding() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
-  const isButtonDisabled = (values) => {
-    const {
-      daComponent,
-      vahicleCapacity,
-      localMillageRate,
-      outerMillageRate,
-      carrierAllowanceRate,
-    } = values || {};
-
-    if (daComponent?.value === 50) {
-      return !vahicleCapacity || !localMillageRate || !outerMillageRate;
-    } else if (daComponent?.value === 51) {
-      return !vahicleCapacity || !carrierAllowanceRate;
-    } else {
-      return true;
-    }
-  };
-
   //add new allowance
   const AddAllowance = (newRowData, gridData, setGridData) => {
     let updatedGridData;
     const duplicate = gridData?.filter(
-      (item) => item?.vehicleCapacityId === newRowData?.vehicleCapacityId
+      (item) => item?.vehicleCapacityId === newRowData?.vehicleCapacityId,
     );
     if (duplicate?.length > 0) {
-      return toast.warning("You cannot add duplicate item.");
+      return toast.warning('You cannot add duplicate item.');
     } else {
       updatedGridData = [newRowData, ...gridData];
       setGridData(updatedGridData);
@@ -158,13 +139,13 @@ export default function KeyRegisterLanding() {
                     value={values?.daComponent}
                     label="DA Component"
                     onChange={(valueOption) => {
-                      setFieldValue("daamount", "");
-                      setFieldValue("downTripAllowance", "");
-                      setFieldValue("localMillageRate", "");
-                      setFieldValue("outerMillageRate", "");
-                      setFieldValue("carrierAllowanceRate", "");
+                      setFieldValue('daamount', '');
+                      setFieldValue('downTripAllowance', '');
+                      setFieldValue('localMillageRate', '');
+                      setFieldValue('outerMillageRate', '');
+                      setFieldValue('carrierAllowanceRate', '');
                       if (valueOption) {
-                        setFieldValue("daComponent", valueOption);
+                        setFieldValue('daComponent', valueOption);
                         handlegetDownTripAllowanceDDL(valueOption?.value);
                       }
                     }}
@@ -179,7 +160,7 @@ export default function KeyRegisterLanding() {
                     value={values?.vehicleCapacity}
                     label="Vahicle Capacity"
                     onChange={(valueOption) => {
-                      setFieldValue("vahicleCapacity", valueOption);
+                      setFieldValue('vahicleCapacity', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -192,14 +173,14 @@ export default function KeyRegisterLanding() {
                     <div className="col-lg-3 pl pr-1 mb-1 disable-border disabled-feedback border-gray">
                       <label>DA Amount</label>
                       <InputField
-                        value={values?.daamount || ""}
+                        value={values?.daamount || ''}
                         name="daamount"
                         placeholder="DA Amount"
                         onChange={(e) => {
                           NegetiveCheck(
                             e.target.value,
                             setFieldValue,
-                            "daamount"
+                            'daamount',
                           );
                         }}
                         type="number"
@@ -209,7 +190,7 @@ export default function KeyRegisterLanding() {
                     <div className="col-lg-3 pl pr-1 mb-1 disable-border disabled-feedback border-gray">
                       <label>Down Trip Allowance Amount</label>
                       <InputField
-                        value={values?.downTripAllowance || ""}
+                        value={values?.downTripAllowance || ''}
                         name="downTripAllowance"
                         placeholder="Amount"
                         type="number"
@@ -217,7 +198,7 @@ export default function KeyRegisterLanding() {
                           NegetiveCheck(
                             e.target.value,
                             setFieldValue,
-                            "downTripAllowance"
+                            'downTripAllowance',
                           );
                         }}
                         // disabled={isEdit}
@@ -230,7 +211,7 @@ export default function KeyRegisterLanding() {
                         value={values?.downTripAllowance}
                         label="Down Trip Allowance Component"
                         onChange={(valueOption) => {
-                          setFieldValue("downTripAllowance", valueOption);
+                          setFieldValue('downTripAllowance', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -244,7 +225,7 @@ export default function KeyRegisterLanding() {
                     <div className="col-lg-3 pl pr-1 mb-1 disable-border disabled-feedback border-gray">
                       <label>Local Millage Rate</label>
                       <InputField
-                        value={values?.localMillageRate || ""}
+                        value={values?.localMillageRate || ''}
                         name="localMillageRate"
                         placeholder="Amount"
                         type="number"
@@ -252,7 +233,7 @@ export default function KeyRegisterLanding() {
                           NegetiveCheck(
                             e.target.value,
                             setFieldValue,
-                            "localMillageRate"
+                            'localMillageRate',
                           );
                         }}
                         // disabled={isEdit}
@@ -261,7 +242,7 @@ export default function KeyRegisterLanding() {
                     <div className="col-lg-3 pl pr-1 mb-1 disable-border disabled-feedback border-gray">
                       <label>Outer Millage Rate </label>
                       <InputField
-                        value={values?.outerMillageRate || ""}
+                        value={values?.outerMillageRate || ''}
                         name="outerMillageRate"
                         placeholder="Amount"
                         type="number"
@@ -269,7 +250,7 @@ export default function KeyRegisterLanding() {
                           NegetiveCheck(
                             e.target.value,
                             setFieldValue,
-                            "outerMillageRate"
+                            'outerMillageRate',
                           );
                         }}
                         // disabled={isEdit}
@@ -282,7 +263,7 @@ export default function KeyRegisterLanding() {
                     <div className="col-lg-3 pl pr-1 mb-1 disable-border disabled-feedback border-gray">
                       <label>Carring Allowance Rate </label>
                       <InputField
-                        value={values?.carrierAllowanceRate || ""}
+                        value={values?.carrierAllowanceRate || ''}
                         name="carrierAllowanceRate"
                         placeholder="Amount"
                         type="number"
@@ -290,7 +271,7 @@ export default function KeyRegisterLanding() {
                           NegetiveCheck(
                             e.target.value,
                             setFieldValue,
-                            "carrierAllowanceRate"
+                            'carrierAllowanceRate',
                           );
                         }}
                         // disabled={isEdit}
@@ -301,7 +282,7 @@ export default function KeyRegisterLanding() {
 
                 <div className="col-lg-1 pl-4 mt-2 bank-journal">
                   <button
-                    style={{ marginTop: "10px" }}
+                    style={{ marginTop: '10px' }}
                     type="button"
                     // disabled={isButtonDisabled(values)}
                     className="btn btn-primary"
@@ -310,13 +291,13 @@ export default function KeyRegisterLanding() {
                         configId: 0,
                         vehicleCapacityId: values?.vahicleCapacity?.value || 0,
                         vehicleCapacityName:
-                          values?.vahicleCapacity?.label || "",
+                          values?.vahicleCapacity?.label || '',
                         daamount: +values?.daamount,
                         dacostComponentId: values?.daComponent?.value || 0,
-                        dacostComponentName: values?.daComponent?.label || "",
+                        dacostComponentName: values?.daComponent?.label || '',
                         downTripAllowance: +values?.downTripAllowance || 0,
                         downTripAllowanceId: values?.allowance?.value || 0,
-                        downTripAllowanceName: values?.allowance?.label || "",
+                        downTripAllowanceName: values?.allowance?.label || '',
                         localMillageRate: +values?.localMillageRate || 0,
                         outerMillageRate: +values?.outerMillageRate || 0,
                         carrierAllowanceRate:
@@ -325,12 +306,12 @@ export default function KeyRegisterLanding() {
                       };
                       console.log({ rowData });
                       AddAllowance(rowData, gridData, setGridData);
-                      setFieldValue("daamount", "");
-                      setFieldValue("downTripAllowance", "");
-                      setFieldValue("localMillageRate", "");
-                      setFieldValue("outerMillageRate", "");
-                      setFieldValue("outerMillageRate", "");
-                      setFieldValue("carrierAllowanceRate", "");
+                      setFieldValue('daamount', '');
+                      setFieldValue('downTripAllowance', '');
+                      setFieldValue('localMillageRate', '');
+                      setFieldValue('outerMillageRate', '');
+                      setFieldValue('outerMillageRate', '');
+                      setFieldValue('carrierAllowanceRate', '');
                     }}
                   >
                     Add
@@ -366,14 +347,14 @@ export default function KeyRegisterLanding() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

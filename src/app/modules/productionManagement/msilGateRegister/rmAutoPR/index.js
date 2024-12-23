@@ -1,42 +1,37 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
-import QcViewModal from "../firstWeight/qcViewModal";
-import { PurchaseOrderViewTableRow } from "../../../procurement/purchase-management/purchaseOrder/report/tableRow";
-import { InventoryTransactionReportViewTableRow } from "../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow";
+} from '../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { InventoryTransactionReportViewTableRow } from '../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow';
+import { PurchaseOrderViewTableRow } from '../../../procurement/purchase-management/purchaseOrder/report/tableRow';
+import QcViewModal from '../firstWeight/qcViewModal';
 // import AttachmentView from "./POview";
 
 function RowMaterialAutoPR() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
+  const [rowData, getRowData, lodar] = useAxiosGet();
   const [isShowModal, setIsShowModal] = useState(false);
   const [weightmentId, setWeightmentId] = useState(null);
   const [singleData, setSingleData] = useState(null);
   const [showAttachmentModal, setShowAttachmentModal] = useState(false);
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
-  const [POorderType, setPOorderType] = useState(false);
   const [GRN, setGRN] = useState({});
-
-  const [itemRequest, setItemRequest] = useState(true);
-  const history = useHistory();
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
@@ -46,50 +41,19 @@ function RowMaterialAutoPR() {
     getRowData(
       `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${
         selectedBusinessUnit?.value
-      }&Status=${0}`
+      }&Status=${0}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const headerCheckBoxHandler = (name, value) => {
-    const newData = rowData?.qcList?.map((item) => ({
-      ...item,
-      [name]: value,
-    }));
-    setRowData({ ...rowData, qcList: newData });
-    const approval = newData?.some(
-      (itm) => itm.isPRCompleted === true && !itm?.intPurchaseRequestId
-    );
-    if (approval) {
-      setItemRequest(false);
-    } else {
-      setItemRequest(true);
-    }
-  };
-
-  const singleCheckBoxHandler = (name, value, index) => {
-    let data = [...rowData?.qcList];
-    data[index][name] = value;
-    setRowData({ ...rowData, qcList: data });
-
-    const approval = data?.some(
-      (itm) => itm.isPRCompleted === true && !itm?.intPurchaseRequestId
-    );
-    if (approval) {
-      setItemRequest(false);
-    } else {
-      setItemRequest(true);
-    }
-  };
-
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    let fromDate = values?.fromDate ? `&FromDate=${values?.fromDate}` : "";
-    let toDate = values?.toDate ? `&ToDate=${values?.toDate}` : "";
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
+    let fromDate = values?.fromDate ? `&FromDate=${values?.fromDate}` : '';
+    let toDate = values?.toDate ? `&ToDate=${values?.toDate}` : '';
     getRowData(
       `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${
         selectedBusinessUnit?.value
       }${fromDate}${toDate}&Status=${values?.status?.value ||
-        0}&Search=${searchValue}`
+        0}&Search=${searchValue}`,
     );
   };
 
@@ -107,11 +71,11 @@ function RowMaterialAutoPR() {
     return items.map((item, index) => (
       <span
         className="text-center text-primary text-decoration-underline"
-        style={{ cursor: "pointer" }}
+        style={{ cursor: 'pointer' }}
         key={index}
         onClick={() => handleItemClick(product, i, item, index)}
       >
-        {item} {index < items?.length - 1 ? ", " : ""}
+        {item} {index < items?.length - 1 ? ', ' : ''}
       </span>
     ));
   };
@@ -120,7 +84,7 @@ function RowMaterialAutoPR() {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          status: { value: 0, label: "All" },
+          status: { value: 0, label: 'All' },
           // fromDate: _todayDate(),
           // toDate: _todayDate()
         }}
@@ -130,7 +94,7 @@ function RowMaterialAutoPR() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Raw Materials Auto PO"}>
+              <CardHeader title={'Raw Materials Auto PO'}>
                 <CardHeaderToolbar>
                   {/* <button
                     onClick={() => {
@@ -154,14 +118,14 @@ function RowMaterialAutoPR() {
                       <NewSelect
                         name="status"
                         options={[
-                          { value: 0, label: "All" },
-                          { value: 1, label: "PO Completed" },
-                          { value: 2, label: "Pending" },
+                          { value: 0, label: 'All' },
+                          { value: 1, label: 'PO Completed' },
+                          { value: 2, label: 'Pending' },
                         ]}
                         value={values?.status}
                         label="Status"
                         onChange={(valueOption) => {
-                          setFieldValue("status", valueOption);
+                          setFieldValue('status', valueOption);
                         }}
                         isDisabled={false}
                       />
@@ -173,7 +137,7 @@ function RowMaterialAutoPR() {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                           //setDate(e.target.value);
                         }}
                       />
@@ -185,25 +149,25 @@ function RowMaterialAutoPR() {
                         name="toDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                           //setDate(e.target.value);
                         }}
                       />
                     </div>
                     <div className="col-lg-1">
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary ml-2"
                         disabled={false}
                         onClick={() => {
                           let fromDate = values?.fromDate
                             ? `&FromDate=${values?.fromDate}`
-                            : "";
+                            : '';
                           let toDate = values?.toDate
                             ? `&ToDate=${values?.toDate}`
-                            : "";
+                            : '';
                           getRowData(
-                            `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit?.value}${fromDate}${toDate}&Status=${values?.status?.value}`
+                            `/mes/WeightBridge/GetAllQCListForPRLanding?PageNo=${pageNo}&PageSize=${pageSize}&BusinessUnitId=${selectedBusinessUnit?.value}${fromDate}${toDate}&Status=${values?.status?.value}`,
                           );
                         }}
                       >
@@ -253,7 +217,7 @@ function RowMaterialAutoPR() {
                                 }}
                               />
                             </th> */}
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>তারিখ</th>
                             <th>গাড়ীর নাম্বার</th>
                             <th>রেজি. নং</th>
@@ -272,24 +236,6 @@ function RowMaterialAutoPR() {
                           {rowData?.qcList?.length > 0 &&
                             rowData?.qcList?.map((item, index) => (
                               <tr key={index}>
-                                {/* <td>
-                                  <input
-                                    id="isPRCompleted"
-                                    type="checkbox"
-                                    className=""
-                                    value={item.isPRCompleted}
-                                    checked={item.isPRCompleted}
-                                    name={item.isPRCompleted}
-                                    onChange={(e) => {
-                                      singleCheckBoxHandler(
-                                        "isPRCompleted",
-                                        e.target.checked,
-                                        index
-                                      );
-                                    }}
-                                    disabled={item?.intPurchaseRequestId}
-                                  />
-                                </td> */}
                                 <td>{index + 1}</td>
                                 <td className="text-center">
                                   {_dateFormatter(item?.dteDate)}
@@ -305,12 +251,11 @@ function RowMaterialAutoPR() {
                                 </td>
                                 <td
                                   className="text-center text-primary text-decoration-underline"
-                                  style={{ cursor: "pointer" }}
+                                  style={{ cursor: 'pointer' }}
                                   onClick={() => {
                                     setShowAttachmentModal(
-                                      !showAttachmentModal
+                                      !showAttachmentModal,
                                     );
-                                    setPOorderType(item?.strPurchaseOrderNo);
                                     setSingleData(item);
                                   }}
                                 >
@@ -321,9 +266,9 @@ function RowMaterialAutoPR() {
                                     ? renderCommaSeparatedItems(
                                         item?.strInventoryTransactionCode,
                                         index,
-                                        item
+                                        item,
                                       )
-                                    : ""}
+                                    : ''}
                                 </td>
 
                                 <td>{item?.numFirstWeight}</td>
@@ -336,7 +281,7 @@ function RowMaterialAutoPR() {
                                       setIsShowModal(true);
                                     }}
                                   >
-                                    <IView styles={{ fontSize: "17px" }} />
+                                    <IView styles={{ fontSize: '17px' }} />
                                   </span>
                                 </td>
                               </tr>

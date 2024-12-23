@@ -1,13 +1,12 @@
-import { findIndex } from "lodash";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ICustomCard from "../../../../_helper/_customCard";
-import ReactToPrint from "react-to-print";
-import { Formik, Form as FormikForm } from "formik";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { getAdjustmentJournalView } from "./helper";
+import { Formik, Form as FormikForm } from 'formik';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import Loading from '../../../../_helper/_loading';
+import { getAdjustmentJournalView } from './helper';
 
 const AdjustmentJournalModal = ({ id, typeId }) => {
   const [loading, setLoading] = useState(false);
@@ -23,7 +22,7 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
       typeId,
       selectedBusinessUnit?.value,
       setAdjustmentReport,
-      setLoading
+      setLoading,
     );
   }, [id, typeId, selectedBusinessUnit]);
 
@@ -31,16 +30,12 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
 
   const renderHeadOfAcc = (data) => {
     if (data?.generalLedgerName && data?.businessPartnerName) {
-      return data?.generalLedgerName + "(" + data?.businessPartnerName + ")";
+      return data?.generalLedgerName + '(' + data?.businessPartnerName + ')';
     } else {
       return data?.generalLedgerName;
     }
   };
 
-  const userRole = useSelector(
-    (state) => state?.authData?.userRole,
-    shallowEqual
-  );
   const dispatch = useDispatch();
   // Total Debit Credit calculation
   const totalDebitCreditAmount = useMemo(() => {
@@ -114,7 +109,7 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
                       </div>
                       <div className="my-3 d-flex justify-content-between">
                         <div>
-                          <span className="font-weight-bold mr-2"></span>{" "}
+                          <span className="font-weight-bold mr-2"></span>{' '}
                         </div>
                         <div>
                           <div>
@@ -130,7 +125,7 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
                             Voucher Date :
                             <sapn className="font-weight-bold ml-1">
                               {_dateFormatter(
-                                adjustmentReport?.objHeader?.journalDate
+                                adjustmentReport?.objHeader?.journalDate,
                               )}
                             </sapn>
                           </div>
@@ -158,10 +153,10 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
                                 <td className="text-left">{data?.subGLName}</td>
                                 <td>
                                   {data?.costRevenueName +
-                                    " " +
+                                    ' ' +
                                     data?.elementName}
                                 </td>
-                                {data?.debitCredit === "Debit" ? (
+                                {data?.debitCredit === 'Debit' ? (
                                   <td>
                                     <div className="text-right pr-2">
                                       {selectedBusinessUnit?.value === 102
@@ -171,9 +166,9 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
                                     </div>
                                   </td>
                                 ) : (
-                                  <td>{""}</td>
+                                  <td>{''}</td>
                                 )}
-                                {data?.debitCredit === "Credit" ? (
+                                {data?.debitCredit === 'Credit' ? (
                                   <td>
                                     <div className="text-right pr-2">
                                       {selectedBusinessUnit?.value === 102
@@ -183,7 +178,7 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
                                     </div>
                                   </td>
                                 ) : (
-                                  <td>{""}</td>
+                                  <td>{''}</td>
                                 )}
                               </tr>
                             ))}
@@ -196,12 +191,12 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
                               <td className="text-center"></td>
                               <td className="text-right pr-2">
                                 {_formatMoney(
-                                  totalDebitCreditAmount?.totalDebit
+                                  totalDebitCreditAmount?.totalDebit,
                                 )}
                               </td>
                               <td className="text-right pr-2">
                                 {_formatMoney(
-                                  totalDebitCreditAmount?.totalCredit
+                                  totalDebitCreditAmount?.totalCredit,
                                 )}
                               </td>
                             </tr>
@@ -212,7 +207,7 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
                       <div className="mt-5">
                         <div className="d-flex">
                           <p className="font-weight-bold mr-2">
-                            Sum Of Taka :{" "}
+                            Sum Of Taka :{' '}
                           </p>
                           <p>{adjustmentReport?.objHeader?.amount}</p>
                         </div>
@@ -222,7 +217,7 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
                         </div>
                         <div className="d-flex">
                           <p className="font-weight-bold mr-2">
-                            Description :{" "}
+                            Description :{' '}
                           </p>
                           <p>{adjustmentReport?.objHeader?.narration}</p>
                         </div>

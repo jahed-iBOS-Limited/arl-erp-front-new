@@ -1,75 +1,72 @@
-import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import TextArea from "../../../_helper/TextArea";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { eProcurementBaseURL } from '../../../../App';
+import TextArea from '../../../_helper/TextArea';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
 import {
   _oneMonthLater,
   _todayDate,
   _todayDateTime12HFormet,
-} from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import NewSupplierModal from "./newSupplierModal";
-import { eProcurementBaseURL } from "../../../../App";
-import { uploadAttachment } from "../../../inventoryManagement/warehouseManagement/invTransaction/helper";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
+} from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import AttachmentUploaderNew from '../../../_helper/attachmentUploaderNew';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import NewSupplierModal from './newSupplierModal';
 
 const initData = {
-  sbu: "",
-  plant: "",
-  warehouse: "",
+  sbu: '',
+  plant: '',
+  warehouse: '',
   purchaseOrganization: {
     value: 11,
-    label: "Local Procurement",
+    label: 'Local Procurement',
   },
-  rfqType: { value: 1, label: "Standard RFQ" },
-  rfqTitle: "",
+  rfqType: { value: 1, label: 'Standard RFQ' },
+  rfqTitle: '',
   currency: {
     value: 141,
-    label: "Taka",
-    code: "BDT",
+    label: 'Taka',
+    code: 'BDT',
   },
-  paymentTerms: { value: "Bank", label: "Bank" },
-  transportCost: { value: 1, label: "Including" },
-  quotationEntryStart: "",
-  validTillDate: "",
-  deliveryAddress: "",
-  vatOrAit: { value: 1, label: "Including" },
-  tds: { value: 1, label: "Including" },
-  vds: { value: 1, label: "Including" },
+  paymentTerms: { value: 'Bank', label: 'Bank' },
+  transportCost: { value: 1, label: 'Including' },
+  quotationEntryStart: '',
+  validTillDate: '',
+  deliveryAddress: '',
+  vatOrAit: { value: 1, label: 'Including' },
+  tds: { value: 1, label: 'Including' },
+  vds: { value: 1, label: 'Including' },
   referenceType: {
-    value: "with reference",
-    label: "With reference",
+    value: 'with reference',
+    label: 'With reference',
   },
-  deliveryDate: "",
-  referenceNo: "",
+  deliveryDate: '',
+  referenceNo: '',
   isRankVisible: {
     value: false,
-    label: "Hidden",
+    label: 'Hidden',
   },
   // item infos
-  item: "",
-  itemDescription: "",
-  quantity: "",
+  item: '',
+  itemDescription: '',
+  quantity: '',
   isAllItem: false,
   // supplier infos
-  supplier: "",
-  supplierContactNo: "",
-  supplierEmail: "",
+  supplier: '',
+  supplierContactNo: '',
+  supplierEmail: '',
   isAllSupplier: false,
-  termsAndConditions: "",
+  termsAndConditions: '',
 
   isSentToSupplier: null,
 };
@@ -95,11 +92,7 @@ export default function RFQCreateEdit() {
     purchaseOrgListDDLloader,
   ] = useAxiosGet();
   const [currencyDDL, getCurrencyDDL, currencyDDLloader] = useAxiosGet();
-  const [
-    paymentTermsDDL,
-    getPaymentTermsDDL,
-    paymentTermsLoader,
-  ] = useAxiosGet();
+  const [paymentTermsDDL, getPaymentTermsDDL, ,] = useAxiosGet();
   const [
     referenceNoDDL,
     getReferenceNoDDL,
@@ -120,46 +113,45 @@ export default function RFQCreateEdit() {
   ] = useAxiosGet();
   const [modifiedData, setModifiedData] = useState({});
   const [singleData, getSingleData, singleDataLoader] = useAxiosGet();
-  const { profileData, selectedBusinessUnit, sbu } = useSelector((state) => {
+  const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
   // const [attachmentData, setAttchmentData] = useState([]);
   // const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
-  const [, uploadFile] = useAxiosPost();
 
   const saveHandler = (values, cb) => {
-    if (!values?.sbu) return toast.warn("Please select SBU");
-    if (!values?.plant) return toast.warn("Please select Plant");
-    if (!values?.warehouse) return toast.warn("Please select Warehouse");
+    if (!values?.sbu) return toast.warn('Please select SBU');
+    if (!values?.plant) return toast.warn('Please select Plant');
+    if (!values?.warehouse) return toast.warn('Please select Warehouse');
     if (!values?.purchaseOrganization)
-      return toast.warn("Please select Purchase Organization");
-    if (!values?.rfqType) return toast.warn("Please select RFQ Type");
-    if (!values?.rfqTitle) return toast.warn("Please enter RFQ Title");
-    if (!values?.currency) return toast.warn("Please select Currency");
-    if (!values?.paymentTerms) return toast.warn("Please select Payment Terms");
+      return toast.warn('Please select Purchase Organization');
+    if (!values?.rfqType) return toast.warn('Please select RFQ Type');
+    if (!values?.rfqTitle) return toast.warn('Please enter RFQ Title');
+    if (!values?.currency) return toast.warn('Please select Currency');
+    if (!values?.paymentTerms) return toast.warn('Please select Payment Terms');
     if (!values?.transportCost)
-      return toast.warn("Please select Transport Cost");
+      return toast.warn('Please select Transport Cost');
     if (!values?.quotationEntryStart)
-      return toast.warn("Please select Quotation Start Date-Time");
+      return toast.warn('Please select Quotation Start Date-Time');
     if (!values?.validTillDate)
-      return toast.warn("Please select Quotation End Date-Time");
-    if (!values?.deliveryDate) return toast.warn("Please select Delivery Date");
+      return toast.warn('Please select Quotation End Date-Time');
+    if (!values?.deliveryDate) return toast.warn('Please select Delivery Date');
     if (!values?.deliveryAddress)
-      return toast.warn("Please enter Delivery Address");
-    if (!values?.vatOrAit) return toast.warn("Please select VAT/AIT");
-    if (!values?.tds) return toast.warn("Please select TDS");
-    if (!values?.vds) return toast.warn("Please select VDS");
-    if (!values?.isRankVisible) return toast.warn("Please select Bidding Rank");
+      return toast.warn('Please enter Delivery Address');
+    if (!values?.vatOrAit) return toast.warn('Please select VAT/AIT');
+    if (!values?.tds) return toast.warn('Please select TDS');
+    if (!values?.vds) return toast.warn('Please select VDS');
+    if (!values?.isRankVisible) return toast.warn('Please select Bidding Rank');
     if (!values?.referenceType)
-      return toast.warn("Please select Reference Type");
-    if (!itemList?.length) return toast.warn("Please add item");
+      return toast.warn('Please select Reference Type');
+    if (!itemList?.length) return toast.warn('Please add item');
     if (supplierList?.length < 3)
-      return toast.warn("Please add at least 3 supplier");
+      return toast.warn('Please add at least 3 supplier');
 
     const totalRowQuantity = itemList?.reduce(
       (acc, itm) => acc + +itm?.rfqquantity,
-      0
+      0,
     );
 
     const fileList = fileObjects?.map((itm) => {
@@ -173,7 +165,7 @@ export default function RFQCreateEdit() {
         rowId: item?.rowId,
         partnerRfqid: item?.partnerRfqid || 0,
         requestForQuotationId: item?.requestForQuotationId || 0,
-        requestForQuotationCode: "",
+        requestForQuotationCode: '',
         referenceId: item?.referenceId,
         prreferenceCode: item?.referenceCode,
         itemId: item?.itemId,
@@ -193,18 +185,18 @@ export default function RFQCreateEdit() {
       return {
         partnerRfqid: item?.partnerRfqid || 0,
         requestForQuotationId: item?.requestForQuotationId || 0,
-        requestForQuotationCode: item?.requestForQuotationCode || "",
+        requestForQuotationCode: item?.requestForQuotationCode || '',
         accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
         businessPartnerId: item?.businessPartnerId,
         businessPartnerName: item?.businessPartnerName,
         businessPartnerCode: item?.businessPartnerCode,
         businessPartnerAddress: item?.businessPartnerAddress,
-        supplierRefNo: item?.supplierRefNo || "",
+        supplierRefNo: item?.supplierRefNo || '',
         email: item?.email,
         contactNumber: item?.contactNumber,
         issueDate: _todayDate(),
-        docAttachmentLink: "",
+        docAttachmentLink: '',
         isQuotationReceived: true,
         isEmailSend: true,
         lastActionBy: profileData?.userId,
@@ -213,65 +205,13 @@ export default function RFQCreateEdit() {
     });
 
     const payload = {
-      // data: {
-      //   requestForQuotationId: id ? +id : 0,
-      //   rfqdate: _todayDate(),
-      //   accountId: profileData?.accountId,
-      //   businessUnitId: selectedBusinessUnit?.value,
-      //   businessUnitName: selectedBusinessUnit?.label,
-      //   sbuname: values?.sbu?.label || "",
-      //   sbuid: values?.sbu?.value || 0,
-      //   purchaseOrganizationId: values?.purchaseOrganization?.value,
-      //   purchaseOrganizationName: values?.purchaseOrganization?.label,
-      //   plantId: values?.plant?.value || 0,
-      //   plantName: values?.plant?.label || "",
-      //   warehouseId: values?.warehouse?.value || 0,
-      //   warehouseName: values?.warehouse?.label || "",
-      //   requestTypeId: values?.rfqType?.value || 0,
-      //   requestTypeName: values?.rfqType?.label || "",
-      //   referenceTypeName: values?.referenceType?.value || "",
-      //   currencyId: values?.currency?.value || 0,
-      //   validTillDate: values?.validTillDate,
-      //   actionBy: profileData?.userId,
-      //   paymentTerms: values?.paymentTerms?.value || "",
-      //   isTransportCostInclude:
-      //     values?.purchaseOrganization?.value === 11
-      //       ? values?.transportCost?.value === 1
-      //         ? true
-      //         : false
-      //       : false,
-      //   isVatAitInclude:
-      //     values?.purchaseOrganization?.value === 11
-      //       ? values?.vatOrAit?.value === 1
-      //         ? true
-      //         : false
-      //       : false,
-      //   isTdsInclude:
-      //     values?.purchaseOrganization?.value === 11
-      //       ? values?.tds?.value === 1
-      //         ? true
-      //         : false
-      //       : false,
-      //   isVdsInclude:
-      //     values?.purchaseOrganization?.value === 11
-      //       ? values?.vds?.value === 1
-      //         ? true
-      //         : false
-      //       : false,
-      //   deliveryAddress: values?.deliveryAddress,
-      //   deliveryDate: values?.deliveryDate,
-      //   quotationEntryStart: values?.quotationEntryStart,
-      //   rfqtitle: values?.rfqTitle,
-      //   isRankVisible: values?.isRankVisible?.value,
-      //   termsAndConditions: values?.termsAndConditions,
-      // },
       requestForQuotationId: +id ? +id : 0,
       requestForQuotationCode:
-        singleData?.objHeader?.requestForQuotationCode || "",
+        singleData?.objHeader?.requestForQuotationCode || '',
       rfqDate: singleData?.objHeader?.rfqDate || _todayDate(),
       rfqtitle: values?.rfqTitle,
       currencyId: values?.currency?.value || 0,
-      currencyCode: values?.currency?.code || "",
+      currencyCode: values?.currency?.code || '',
       quotationEntryStart: values?.quotationEntryStart,
       validTillDate: values?.validTillDate,
       paymentTerms: values?.paymentTerms?.label,
@@ -305,11 +245,11 @@ export default function RFQCreateEdit() {
       businessUnitId: selectedBusinessUnit?.value,
       businessUnitName: selectedBusinessUnit?.label,
       sbuId: values?.sbu?.value || 0,
-      sbuName: values?.sbu?.label || "",
+      sbuName: values?.sbu?.label || '',
       termsAndConditions: values?.termsAndConditions,
       totalItems: itemList?.length || 0,
       totalQuantity: totalRowQuantity || 0,
-      status: "",
+      status: '',
       rank: 0,
       amount: 0,
       isRankVisible: values?.isRankVisible?.value,
@@ -321,13 +261,13 @@ export default function RFQCreateEdit() {
       warehouseName: values?.warehouse?.label,
       requestTypeId: values?.rfqType?.value,
       requestTypeName: values?.rfqType?.label,
-      referenceTypeName: "",
+      referenceTypeName: '',
       attachmentList: fileList?.length > 0 ? fileList : [],
       actionBy: profileData?.userId,
       rowList: rowListWithReferance,
       partnerList: partnerList,
       incotermsId: 0,
-      transportCostProvider: values?.transportCostProvider?.label || "",
+      transportCostProvider: values?.transportCostProvider?.label || '',
       transportCost: +values?.transportAmount || 0,
     };
     saveData(
@@ -336,7 +276,7 @@ export default function RFQCreateEdit() {
         : `${eProcurementBaseURL}/RequestForQuotation/CreateRequestForQuotation`,
       payload,
       cb,
-      true
+      true,
     );
   };
   // console.log("itemList", JSON.stringify(itemList, null, 2));
@@ -347,7 +287,7 @@ export default function RFQCreateEdit() {
       getSingleData(
         `${eProcurementBaseURL}/RequestForQuotation/GetRequestForQuotationDetails?requestForQuotationId=${id}`,
         (data) => {
-          console.log("data", data);
+          console.log('data', data);
           const { rowList, partnerList } = data;
           setItemList(rowList);
           setSupplierList(partnerList);
@@ -383,7 +323,7 @@ export default function RFQCreateEdit() {
             },
             transportCost: {
               value: data?.isTransportCostInclude ? 1 : 2,
-              label: data?.isTransportCostInclude ? "Including" : "Excluding",
+              label: data?.isTransportCostInclude ? 'Including' : 'Excluding',
             },
             quotationEntryStart: data?.quotationEntryStart,
             validTillDate: data?.validTillDate,
@@ -391,15 +331,15 @@ export default function RFQCreateEdit() {
             deliveryAddress: data?.deliveryAddress,
             vatOrAit: {
               value: data?.isVatAitInclude ? 1 : 2,
-              label: data?.isVatAitInclude ? "Including" : "Excluding",
+              label: data?.isVatAitInclude ? 'Including' : 'Excluding',
             },
             tds: {
               value: data?.isTdsInclude ? 1 : 2,
-              label: data?.isTdsInclude ? "Including" : "Excluding",
+              label: data?.isTdsInclude ? 'Including' : 'Excluding',
             },
             vds: {
               value: data?.isVdsInclude ? 1 : 2,
-              label: data?.isVdsInclude ? "Including" : "Excluding",
+              label: data?.isVdsInclude ? 'Including' : 'Excluding',
             },
             referenceType: {
               value: data?.referenceTypeName,
@@ -407,9 +347,9 @@ export default function RFQCreateEdit() {
             },
             isRankVisible: {
               value: data?.isRankVisible,
-              label: data?.isRankVisible ? "Show" : "Hidden",
+              label: data?.isRankVisible ? 'Show' : 'Hidden',
             },
-            referenceNo: "",
+            referenceNo: '',
             termsAndConditions: data?.termsAndConditions,
             isSentToSupplier: true,
           };
@@ -425,17 +365,17 @@ export default function RFQCreateEdit() {
               data?.plantId
             }&warehouseId=${data?.warehouseId}&transactiontType=${
               data?.rfqType
-            }&search=${""}`
+            }&search=${''}`,
           );
           // getReferenceNoDDL(
           //   `/procurement/RequestForQuotation/GetPRReferrenceNoDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${data?.sbuid}&PurchaseOrganizationId=${data?.purchaseOrganizationId}&PlantId=${data?.plantId}&WearHouseId=${data?.warehouseId}`
           // );
           // }
           getPlantListDDL(
-            `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`
+            `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`,
           );
           getWarehouseListDDL(
-            `${eProcurementBaseURL}/EProcurement/GetPermissionWiseWarehouseDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${data?.plantId}&orgUnitTypeId=8`
+            `${eProcurementBaseURL}/EProcurement/GetPermissionWiseWarehouseDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${data?.plantId}&orgUnitTypeId=8`,
           );
           // getWarehouseListDDL(
           //   `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${data?.plantId}`
@@ -446,13 +386,13 @@ export default function RFQCreateEdit() {
           getSupplierListDDL(
             `${eProcurementBaseURL}/EProcurement/GetSupplierListDDL?businessUnitId=${
               selectedBusinessUnit?.value
-            }&search=${""}`
+            }&search=${''}`,
           );
           getPurchaseOrgListDDL(
-            `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`
+            `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`,
           );
           setModifiedData(viewData);
-        }
+        },
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -463,40 +403,40 @@ export default function RFQCreateEdit() {
       //   `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
       // );
       getPlantListDDL(
-        `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`
+        `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`,
       );
       getSbuListDDL(
-        `/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`
+        `/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`,
       );
       getCurrencyDDL(
-        `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`
+        `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`,
       );
       getSupplierListDDL(
         `${eProcurementBaseURL}/EProcurement/GetSupplierListDDL?businessUnitId=${
           selectedBusinessUnit?.value
-        }&search=${""}`
+        }&search=${''}`,
       );
       getPaymentTermsDDL(
-        `${eProcurementBaseURL}/EProcurement/GetPaymentTermsListDDL`
+        `${eProcurementBaseURL}/EProcurement/GetPaymentTermsListDDL`,
       );
       getPurchaseOrgListDDL(
-        `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`
+        `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleAddSupplier = (values, setFieldValue) => {
     if (!values?.supplier) {
-      return toast.warn("Please Select Supplier");
+      return toast.warn('Please Select Supplier');
     }
     if (!values?.supplierContactNo) {
-      return toast.warn("Please Enter Supplier Contact No");
+      return toast.warn('Please Enter Supplier Contact No');
     }
     if (!values?.supplierEmail) {
-      return toast.warn("Please Enter Supplier Email");
+      return toast.warn('Please Enter Supplier Email');
     }
     const isDuplicate = supplierList.some(
-      (supplier) => supplier?.businessPartnerName === values?.supplier?.label
+      (supplier) => supplier?.businessPartnerName === values?.supplier?.label,
     );
     if (isDuplicate) {
       toast.warn(`${values?.supplier?.label} already added`);
@@ -509,20 +449,20 @@ export default function RFQCreateEdit() {
         businessPartnerCode: values?.supplier?.code,
         businessPartnerAddress: values?.supplier?.supplierAddress,
         email:
-          values?.supplierEmail === ""
+          values?.supplierEmail === ''
             ? values?.supplier?.supplierEmail
             : values?.supplierEmail,
         contactNumber:
-          values?.supplierContactNo === ""
+          values?.supplierContactNo === ''
             ? values?.supplier?.supplierContact
             : values?.supplierContactNo,
         isEmailSend: false,
       };
       setSupplierList([...supplierList, newSupplier]);
     }
-    setFieldValue("supplier", "");
-    setFieldValue("supplierContactNo", "");
-    setFieldValue("supplierEmail", "");
+    setFieldValue('supplier', '');
+    setFieldValue('supplierContactNo', '');
+    setFieldValue('supplierEmail', '');
   };
 
   const handleAddItem = (values, setFieldValue) => {
@@ -571,23 +511,23 @@ export default function RFQCreateEdit() {
           const isDuplicate = itemList?.some(
             (itemList) =>
               itemList?.itemId === item?.value &&
-              itemList?.referenceCode === values?.referenceNo?.label
+              itemList?.referenceCode === values?.referenceNo?.label,
           );
           if (!isDuplicate) {
             rowList.push({
               rowId: 0,
               itemId: item?.value || 0,
-              itemCode: item?.itemCode || "",
-              itemName: item?.label || "",
-              itemtypeId: item?.itemTypeId || "",
-              itemtypeName: item?.itemTypeName || "",
+              itemCode: item?.itemCode || '',
+              itemName: item?.label || '',
+              itemtypeId: item?.itemTypeId || '',
+              itemtypeName: item?.itemTypeName || '',
               uoMid: item?.baseUomId || 0,
-              uoMname: item?.baseUomName || "",
+              uoMname: item?.baseUomName || '',
               rfqquantity: item?.rfqquantity || 0,
               referenceId: values?.referenceNo?.value || 0,
-              referenceCode: values?.referenceNo?.label || "",
+              referenceCode: values?.referenceNo?.label || '',
               referenceQuantity: item?.referenceQuantity || 0,
-              description: item?.itemPurpose || "",
+              description: item?.itemPurpose || '',
             });
           }
         });
@@ -595,19 +535,19 @@ export default function RFQCreateEdit() {
       setItemList([...itemList, ...rowList]);
     } else {
       if (!values?.item) {
-        return toast.warn("Please Select Item");
+        return toast.warn('Please Select Item');
       }
       if (!values?.quantity) {
-        return toast.warn("Please Enter Quantity");
+        return toast.warn('Please Enter Quantity');
       }
       const isDuplicate = itemList.some(
         (item) =>
           item?.itemId === values?.item?.value &&
-          item?.referenceCode === values?.referenceNo?.label
+          item?.referenceCode === values?.referenceNo?.label,
       );
       if (isDuplicate) {
         toast.warn(
-          `${values?.item?.label} already added for ${values?.referenceNo?.label}`
+          `${values?.item?.label} already added for ${values?.referenceNo?.label}`,
         );
       } else {
         setItemList([
@@ -615,25 +555,25 @@ export default function RFQCreateEdit() {
           {
             rowId: 0,
             itemId: values?.item?.value || 0,
-            itemCode: values?.item?.itemCode || "",
-            itemName: values?.item?.label || "",
-            itemtypeId: values?.item?.itemTypeId || "",
-            itemtypeName: values?.item?.itemTypeName || "",
+            itemCode: values?.item?.itemCode || '',
+            itemName: values?.item?.label || '',
+            itemtypeId: values?.item?.itemTypeId || '',
+            itemtypeName: values?.item?.itemTypeName || '',
             uoMid: values?.item?.baseUomId || 0,
-            uoMname: values?.item?.baseUomName || "",
+            uoMname: values?.item?.baseUomName || '',
             rfqquantity: +values?.quantity || 0,
             referenceId: values?.referenceNo?.value || 0,
-            referenceCode: values?.referenceNo?.label || "",
+            referenceCode: values?.referenceNo?.label || '',
             referenceQuantity: +values?.item?.referenceQuantity || 0,
             description:
-              values?.itemDescription === ""
+              values?.itemDescription === ''
                 ? values?.item?.description
                 : values?.itemDescription,
           },
         ]);
-        setFieldValue("item", "");
-        setFieldValue("itemDescription", "");
-        setFieldValue("quantity", "");
+        setFieldValue('item', '');
+        setFieldValue('itemDescription', '');
+        setFieldValue('quantity', '');
       }
     }
     // }
@@ -647,7 +587,7 @@ export default function RFQCreateEdit() {
 
   const handleQuantityChange = (e, index) => {
     if (e.target.value < 0) {
-      return toast?.warn("Quantity cant be negative");
+      return toast?.warn('Quantity cant be negative');
     } else {
       const temp = [...itemList];
       temp[index].rfqquantity = +e.target.value;
@@ -725,7 +665,7 @@ export default function RFQCreateEdit() {
             singleDataLoader) && <Loading />}
           <IForm
             title={
-              id ? "Edit Request For Quotation" : "Create Request For Quotation"
+              id ? 'Edit Request For Quotation' : 'Create Request For Quotation'
             }
             getProps={setObjprops}
           >
@@ -739,25 +679,25 @@ export default function RFQCreateEdit() {
                     label="SBU"
                     onChange={(v) => {
                       if (v) {
-                        setFieldValue("referenceNo", "");
+                        setFieldValue('referenceNo', '');
                         setIsRfqQty(false);
                         setItemList([]);
                         setItemListDDL([]);
-                        setFieldValue("sbu", v);
-                        setFieldValue("plant", "");
-                        setFieldValue("warehouse", "");
+                        setFieldValue('sbu', v);
+                        setFieldValue('plant', '');
+                        setFieldValue('warehouse', '');
                       } else {
-                        setFieldValue("referenceNo", "");
+                        setFieldValue('referenceNo', '');
                         setIsRfqQty(false);
                         setItemList([]);
                         setItemListDDL([]);
                         setSupplierListDDL([]);
-                        setFieldValue("sbu", "");
-                        setFieldValue("plant", "");
-                        setFieldValue("warehouse", "");
-                        setFieldValue("supplier", "");
-                        setFieldValue("supplierContactNo", "");
-                        setFieldValue("supplierEmail", "");
+                        setFieldValue('sbu', '');
+                        setFieldValue('plant', '');
+                        setFieldValue('warehouse', '');
+                        setFieldValue('supplier', '');
+                        setFieldValue('supplierContactNo', '');
+                        setFieldValue('supplierEmail', '');
                       }
                     }}
                     placeholder="SBU"
@@ -774,26 +714,26 @@ export default function RFQCreateEdit() {
                     label="Plant"
                     onChange={(v) => {
                       if (v) {
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("isAllItem", false);
+                        setFieldValue('referenceNo', '');
+                        setFieldValue('isAllItem', false);
                         setIsRfqQty(false);
                         setItemList([]);
                         setItemListDDL([]);
-                        setFieldValue("plant", v);
-                        setFieldValue("warehouse", "");
-                        setFieldValue("referenceType", "");
+                        setFieldValue('plant', v);
+                        setFieldValue('warehouse', '');
+                        setFieldValue('referenceType', '');
                         getWarehouseListDDL(
-                          `${eProcurementBaseURL}/EProcurement/GetPermissionWiseWarehouseDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${v?.value}&orgUnitTypeId=8`
+                          `${eProcurementBaseURL}/EProcurement/GetPermissionWiseWarehouseDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${v?.value}&orgUnitTypeId=8`,
                         );
                       } else {
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("isAllItem", false);
+                        setFieldValue('referenceNo', '');
+                        setFieldValue('isAllItem', false);
                         setIsRfqQty(false);
                         setItemList([]);
                         setItemListDDL([]);
-                        setFieldValue("plant", "");
-                        setFieldValue("warehouse", "");
-                        setFieldValue("referenceType", "");
+                        setFieldValue('plant', '');
+                        setFieldValue('warehouse', '');
+                        setFieldValue('referenceType', '');
                       }
                     }}
                     placeholder="Plant"
@@ -809,13 +749,13 @@ export default function RFQCreateEdit() {
                     value={values?.warehouse}
                     label="Warehouse"
                     onChange={(v) => {
-                      setFieldValue("referenceNo", "");
+                      setFieldValue('referenceNo', '');
                       setIsRfqQty(false);
-                      setFieldValue("isAllItem", false);
+                      setFieldValue('isAllItem', false);
                       setItemList([]);
                       setItemListDDL([]);
-                      setFieldValue("warehouse", v);
-                      setFieldValue("referenceType", "");
+                      setFieldValue('warehouse', v);
+                      setFieldValue('referenceType', '');
                     }}
                     placeholder="Warehouse"
                     errors={errors}
@@ -831,23 +771,23 @@ export default function RFQCreateEdit() {
                     options={[
                       {
                         value: 1,
-                        label: "Standard RFQ",
+                        label: 'Standard RFQ',
                       },
                       {
                         value: 2,
-                        label: "Service RFQ",
+                        label: 'Service RFQ',
                       },
                       {
                         value: 3,
-                        label: "Asset RFQ",
+                        label: 'Asset RFQ',
                       },
                     ]}
                     value={values?.rfqType}
                     label="RFQ Type"
                     onChange={(v) => {
                       if (v) {
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("rfqType", v);
+                        setFieldValue('referenceNo', '');
+                        setFieldValue('rfqType', v);
                         getReferenceNoDDL(
                           `${eProcurementBaseURL}/EProcurement/GetPRReferrenceDDL?businessUnitId=${
                             selectedBusinessUnit?.value
@@ -857,27 +797,27 @@ export default function RFQCreateEdit() {
                             values?.warehouse?.value
                           }&transactiontType=${
                             values?.rfqType?.label
-                          }&search=${""}`
+                          }&search=${''}`,
                         );
                         setReferenceNoDDL([]);
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
+                        setFieldValue('referenceNo', '');
+                        setFieldValue('item', '');
+                        setFieldValue('itemDescription', '');
                         setItemListDDL([]);
                         setItemList([]);
                         setItemListDDL([]);
-                        setFieldValue("isAllItem", false);
+                        setFieldValue('isAllItem', false);
                       } else {
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("rfqType", "");
+                        setFieldValue('referenceNo', '');
+                        setFieldValue('rfqType', '');
                         setReferenceNoDDL([]);
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
+                        setFieldValue('referenceNo', '');
+                        setFieldValue('item', '');
+                        setFieldValue('itemDescription', '');
                         setItemListDDL([]);
                         setItemList([]);
                         setItemListDDL([]);
-                        setFieldValue("isAllItem", false);
+                        setFieldValue('isAllItem', false);
                       }
                     }}
                     placeholder="RFQ Type"
@@ -897,35 +837,35 @@ export default function RFQCreateEdit() {
                         setItemList([]);
                         setItemListDDL([]);
                         setIsRfqQty(false);
-                        setFieldValue("isAllItem", false);
+                        setFieldValue('isAllItem', false);
                         setReferenceNoDDL([]);
-                        setFieldValue("referenceType", "");
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("currency", "");
-                        setFieldValue("purchaseOrganization", v);
+                        setFieldValue('referenceType', '');
+                        setFieldValue('referenceNo', '');
+                        setFieldValue('currency', '');
+                        setFieldValue('purchaseOrganization', v);
                         if (v?.value === 11) {
-                          setFieldValue("currency", {
+                          setFieldValue('currency', {
                             value: 141,
-                            label: "Taka",
-                            code: "BDT",
+                            label: 'Taka',
+                            code: 'BDT',
                           });
                         } else {
-                          setFieldValue("currency", {
+                          setFieldValue('currency', {
                             value: 155,
-                            label: "US Dollar",
-                            code: "USD",
+                            label: 'US Dollar',
+                            code: 'USD',
                           });
                         }
                       } else {
                         setItemList([]);
                         setItemListDDL([]);
                         setIsRfqQty(false);
-                        setFieldValue("isAllItem", false);
+                        setFieldValue('isAllItem', false);
                         setReferenceNoDDL([]);
-                        setFieldValue("currency", "");
-                        setFieldValue("purchaseOrganization", "");
-                        setFieldValue("referenceType", "");
-                        setFieldValue("referenceNo", "");
+                        setFieldValue('currency', '');
+                        setFieldValue('purchaseOrganization', '');
+                        setFieldValue('referenceType', '');
+                        setFieldValue('referenceNo', '');
                       }
                     }}
                     placeholder="Purchase Organization"
@@ -942,7 +882,7 @@ export default function RFQCreateEdit() {
                     type="text"
                     placeholder="RFQ Title"
                     onChange={(e) => {
-                      setFieldValue("rfqTitle", e.target.value);
+                      setFieldValue('rfqTitle', e.target.value);
                     }}
                     disabled={id && values?.isSentToSupplier}
                   />
@@ -954,7 +894,7 @@ export default function RFQCreateEdit() {
                     value={values?.currency}
                     label="Currency"
                     onChange={(v) => {
-                      setFieldValue("currency", v);
+                      setFieldValue('currency', v);
                     }}
                     placeholder="Currency"
                     errors={errors}
@@ -972,7 +912,7 @@ export default function RFQCreateEdit() {
                     value={values?.paymentTerms}
                     label="Payment Terms"
                     onChange={(v) => {
-                      setFieldValue("paymentTerms", v);
+                      setFieldValue('paymentTerms', v);
                     }}
                     placeholder="Payment Terms"
                     errors={errors}
@@ -988,13 +928,13 @@ export default function RFQCreateEdit() {
                     type="datetime-local"
                     onChange={(e) => {
                       if (e.target.value) {
-                        setFieldValue("quotationEntryStart", e.target.value);
-                        setFieldValue("validTillDate", "");
-                        setFieldValue("deliveryDate", "");
+                        setFieldValue('quotationEntryStart', e.target.value);
+                        setFieldValue('validTillDate', '');
+                        setFieldValue('deliveryDate', '');
                       } else {
-                        setFieldValue("quotationEntryStart", "");
-                        setFieldValue("validTillDate", "");
-                        setFieldValue("deliveryDate", "");
+                        setFieldValue('quotationEntryStart', '');
+                        setFieldValue('validTillDate', '');
+                        setFieldValue('deliveryDate', '');
                       }
                     }}
                     disabled={id && values?.isSentToSupplier}
@@ -1009,14 +949,14 @@ export default function RFQCreateEdit() {
                     type="datetime-local"
                     onChange={(e) => {
                       if (e.target.value) {
-                        setFieldValue("validTillDate", e.target.value);
+                        setFieldValue('validTillDate', e.target.value);
                         setFieldValue(
-                          "deliveryDate",
-                          _oneMonthLater(e.target.value.split("T")[0])
+                          'deliveryDate',
+                          _oneMonthLater(e.target.value.split('T')[0]),
                         );
                       } else {
-                        setFieldValue("validTillDate", "");
-                        setFieldValue("deliveryDate", "");
+                        setFieldValue('validTillDate', '');
+                        setFieldValue('deliveryDate', '');
                       }
                     }}
                     min={values?.quotationEntryStart}
@@ -1029,9 +969,9 @@ export default function RFQCreateEdit() {
                     name="deliveryDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("deliveryDate", e.target.value);
+                      setFieldValue('deliveryDate', e.target.value);
                     }}
-                    min={values?.validTillDate?.split("T")[0]}
+                    min={values?.validTillDate?.split('T')[0]}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -1042,7 +982,7 @@ export default function RFQCreateEdit() {
                     type="text"
                     placeholder="Delivery Address"
                     onChange={(e) => {
-                      setFieldValue("deliveryAddress", e.target.value);
+                      setFieldValue('deliveryAddress', e.target.value);
                     }}
                     disabled={id && values?.isSentToSupplier}
                   />
@@ -1053,16 +993,16 @@ export default function RFQCreateEdit() {
                       <NewSelect
                         name="transportCost"
                         options={[
-                          { value: 1, label: "Including" },
-                          { value: 2, label: "Excluding" },
+                          { value: 1, label: 'Including' },
+                          { value: 2, label: 'Excluding' },
                         ]}
                         value={values?.transportCost}
                         label="Transport Cost"
                         onChange={(v) => {
                           if (v) {
-                            setFieldValue("transportCost", v);
+                            setFieldValue('transportCost', v);
                           } else {
-                            setFieldValue("transportCost", "");
+                            setFieldValue('transportCost', '');
                           }
                         }}
                         placeholder="Transport Cost"
@@ -1076,16 +1016,16 @@ export default function RFQCreateEdit() {
                         <NewSelect
                           name="transportCostProvider"
                           options={[
-                            { value: 1, label: "Company" },
-                            { value: 0, label: "Supplier" },
+                            { value: 1, label: 'Company' },
+                            { value: 0, label: 'Supplier' },
                           ]}
                           value={values?.transportCostProvider}
                           label="Transport Provider"
                           onChange={(v) => {
                             if (v) {
-                              setFieldValue("transportCostProvider", v);
+                              setFieldValue('transportCostProvider', v);
                             } else {
-                              setFieldValue("transportCostProvider", "");
+                              setFieldValue('transportCostProvider', '');
                             }
                           }}
                           placeholder="Transport Provider"
@@ -1104,7 +1044,7 @@ export default function RFQCreateEdit() {
                           type="number"
                           placeholder="Transport Amount"
                           onChange={(e) => {
-                            setFieldValue("transportAmount", e.target.value);
+                            setFieldValue('transportAmount', e.target.value);
                           }}
                           disabled={id && values?.isSentToSupplier}
                         />
@@ -1114,16 +1054,16 @@ export default function RFQCreateEdit() {
                       <NewSelect
                         name="vatOrAit"
                         options={[
-                          { value: 1, label: "Including" },
-                          { value: 2, label: "Excluding" },
+                          { value: 1, label: 'Including' },
+                          { value: 2, label: 'Excluding' },
                         ]}
                         value={values?.vatOrAit}
                         label="VAT/AIT"
                         onChange={(v) => {
                           if (v) {
-                            setFieldValue("vatOrAit", v);
+                            setFieldValue('vatOrAit', v);
                           } else {
-                            setFieldValue("vatOrAit", "");
+                            setFieldValue('vatOrAit', '');
                           }
                         }}
                         placeholder="VAT/AIT"
@@ -1136,16 +1076,16 @@ export default function RFQCreateEdit() {
                       <NewSelect
                         name="tds"
                         options={[
-                          { value: 1, label: "Including" },
-                          { value: 2, label: "Excluding" },
+                          { value: 1, label: 'Including' },
+                          { value: 2, label: 'Excluding' },
                         ]}
                         value={values?.tds}
                         label="TDS"
                         onChange={(v) => {
                           if (v) {
-                            setFieldValue("tds", v);
+                            setFieldValue('tds', v);
                           } else {
-                            setFieldValue("tds", "");
+                            setFieldValue('tds', '');
                           }
                         }}
                         placeholder="TDS"
@@ -1158,16 +1098,16 @@ export default function RFQCreateEdit() {
                       <NewSelect
                         name="vds"
                         options={[
-                          { value: 1, label: "Including" },
-                          { value: 2, label: "Excluding" },
+                          { value: 1, label: 'Including' },
+                          { value: 2, label: 'Excluding' },
                         ]}
                         value={values?.vds}
                         label="VDS"
                         onChange={(v) => {
                           if (v) {
-                            setFieldValue("vds", v);
+                            setFieldValue('vds', v);
                           } else {
-                            setFieldValue("vds", "");
+                            setFieldValue('vds', '');
                           }
                         }}
                         placeholder="VDS"
@@ -1183,33 +1123,33 @@ export default function RFQCreateEdit() {
                     name="referenceType"
                     options={[
                       {
-                        value: "with reference",
-                        label: "With reference",
+                        value: 'with reference',
+                        label: 'With reference',
                       },
                     ]}
                     value={values?.referenceType}
                     label="Reference Type"
                     onChange={(v) => {
                       if (v) {
-                        setFieldValue("referenceType", v);
+                        setFieldValue('referenceType', v);
                         setReferenceNoDDL([]);
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
+                        setFieldValue('referenceNo', '');
+                        setFieldValue('item', '');
+                        setFieldValue('itemDescription', '');
                         setItemListDDL([]);
                         setItemList([]);
                         setItemListDDL([]);
-                        setFieldValue("isAllItem", false);
+                        setFieldValue('isAllItem', false);
                       } else {
                         setReferenceNoDDL([]);
-                        setFieldValue("referenceType", "");
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
+                        setFieldValue('referenceType', '');
+                        setFieldValue('referenceNo', '');
+                        setFieldValue('item', '');
+                        setFieldValue('itemDescription', '');
                         setItemListDDL([]);
                         setItemList([]);
                         setItemListDDL([]);
-                        setFieldValue("isAllItem", false);
+                        setFieldValue('isAllItem', false);
                       }
                     }}
                     placeholder="Reference Type"
@@ -1230,20 +1170,20 @@ export default function RFQCreateEdit() {
                     options={[
                       {
                         value: true,
-                        label: "Show",
+                        label: 'Show',
                       },
                       {
                         value: false,
-                        label: "Hidden",
+                        label: 'Hidden',
                       },
                     ]}
                     value={values?.isRankVisible}
                     label="Bidding Rank"
                     onChange={(v) => {
                       if (v) {
-                        setFieldValue("isRankVisible", v);
+                        setFieldValue('isRankVisible', v);
                       } else {
-                        setFieldValue("isRankVisible", "");
+                        setFieldValue('isRankVisible', '');
                       }
                     }}
                     placeholder="Bidding Rank"
@@ -1263,7 +1203,7 @@ export default function RFQCreateEdit() {
                     isForPeopleDeskApi={true}
                     showIcon
                     style={{
-                      color: "black",
+                      color: 'black',
                     }}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
@@ -1284,24 +1224,24 @@ export default function RFQCreateEdit() {
                     label="Reference No"
                     onChange={(v) => {
                       if (v) {
-                        setFieldValue("isAllItem", false);
-                        setFieldValue("referenceNo", v);
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
-                        setFieldValue("quantity", "");
+                        setFieldValue('isAllItem', false);
+                        setFieldValue('referenceNo', v);
+                        setFieldValue('item', '');
+                        setFieldValue('itemDescription', '');
+                        setFieldValue('quantity', '');
                         setItemListDDL([]);
                         setItemList([]);
                         getItemListDDL(
-                          `${eProcurementBaseURL}/EProcurement/GetItemsForPRReference?businessUnitId=${selectedBusinessUnit?.value}&purchaseOrganizationId=${values?.purchaseOrganization?.value}&plantId=${values?.plant?.value}&wearHouseId=${values?.warehouse?.value}&purchaseRequestId=${v?.value}&transactiontType=${values?.rfqType?.label}`
+                          `${eProcurementBaseURL}/EProcurement/GetItemsForPRReference?businessUnitId=${selectedBusinessUnit?.value}&purchaseOrganizationId=${values?.purchaseOrganization?.value}&plantId=${values?.plant?.value}&wearHouseId=${values?.warehouse?.value}&purchaseRequestId=${v?.value}&transactiontType=${values?.rfqType?.label}`,
                         );
                         // getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}&PurchaseRequestId=${v?.value}
                         //                     `);
                       } else {
-                        setFieldValue("isAllItem", false);
-                        setFieldValue("referenceNo", "");
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
-                        setFieldValue("quantity", "");
+                        setFieldValue('isAllItem', false);
+                        setFieldValue('referenceNo', '');
+                        setFieldValue('item', '');
+                        setFieldValue('itemDescription', '');
+                        setFieldValue('quantity', '');
                         setItemListDDL([]);
                         setItemList([]);
                       }
@@ -1312,7 +1252,7 @@ export default function RFQCreateEdit() {
                     isDisabled={
                       !values?.plant ||
                       !values?.warehouse ||
-                      values?.referenceType?.value === "without reference" ||
+                      values?.referenceType?.value === 'without reference' ||
                       (id && values?.isSentToSupplier)
                     }
                   />
@@ -1326,13 +1266,13 @@ export default function RFQCreateEdit() {
                     label="Item"
                     onChange={(v) => {
                       if (v) {
-                        setFieldValue("item", v);
-                        setFieldValue("itemDescription", v?.itemPurpose);
-                        setFieldValue("quantity", v?.referenceQuantity);
+                        setFieldValue('item', v);
+                        setFieldValue('itemDescription', v?.itemPurpose);
+                        setFieldValue('quantity', v?.referenceQuantity);
                       } else {
-                        setFieldValue("item", "");
-                        setFieldValue("itemDescription", "");
-                        setFieldValue("quantity", "");
+                        setFieldValue('item', '');
+                        setFieldValue('itemDescription', '');
+                        setFieldValue('quantity', '');
                       }
                     }}
                     placeholder="Item"
@@ -1349,7 +1289,7 @@ export default function RFQCreateEdit() {
                     type="text"
                     placeholder="Item Description"
                     onChange={(e) => {
-                      setFieldValue("itemDescription", e.target.value);
+                      setFieldValue('itemDescription', e.target.value);
                     }}
                     disabled={id || values?.isAllItem}
                   />
@@ -1362,13 +1302,13 @@ export default function RFQCreateEdit() {
                     type="number"
                     placeholder="Quantity"
                     onChange={(e) => {
-                      setFieldValue("quantity", e.target.value);
+                      setFieldValue('quantity', e.target.value);
                     }}
                     disabled={id || values?.isAllItem}
                   />
                 </div>
                 <div className="col-lg-2">
-                  <label style={{ position: "absolute", top: "24px" }}>
+                  <label style={{ position: 'absolute', top: '24px' }}>
                     All Item
                   </label>
                   <Field
@@ -1376,9 +1316,9 @@ export default function RFQCreateEdit() {
                     component={() => (
                       <input
                         style={{
-                          position: "absolute",
-                          top: "28px",
-                          left: "65px",
+                          position: 'absolute',
+                          top: '28px',
+                          left: '65px',
                         }}
                         id="rfqIsAllItem"
                         type="checkbox"
@@ -1386,18 +1326,18 @@ export default function RFQCreateEdit() {
                         disabled={
                           !values?.referenceType ||
                           values?.referenceType?.value ===
-                            "without reference" ||
+                            'without reference' ||
                           id ||
                           !itemListDDL?.length > 0
                         }
-                        value={values.isAllItem || ""}
+                        value={values.isAllItem || ''}
                         checked={values.isAllItem}
                         name="isAllItem"
                         onChange={(e) => {
-                          setFieldValue("isAllItem", e.target.checked);
-                          setFieldValue("item", "");
-                          setFieldValue("itemDescription", "");
-                          setFieldValue("quantity", "");
+                          setFieldValue('isAllItem', e.target.checked);
+                          setFieldValue('item', '');
+                          setFieldValue('itemDescription', '');
+                          setFieldValue('quantity', '');
                         }}
                       />
                     )}
@@ -1409,15 +1349,15 @@ export default function RFQCreateEdit() {
                     type="button"
                     className="btn btn-primary"
                     style={{
-                      marginTop: "18px",
+                      marginTop: '18px',
                     }}
                     onClick={() => {
                       handleAddItem(values, setFieldValue);
-                      setFieldValue("isAllItem", false);
+                      setFieldValue('isAllItem', false);
                       setIsRfqQty(false);
-                      setFieldValue("isAllItem", false);
-                      setFieldValue("itemDescription", "");
-                      setFieldValue("quantity", "");
+                      setFieldValue('isAllItem', false);
+                      setFieldValue('itemDescription', '');
+                      setFieldValue('quantity', '');
                     }}
                     disabled={id && values?.isSentToSupplier}
                   >
@@ -1431,13 +1371,13 @@ export default function RFQCreateEdit() {
                     <thead>
                       <tr>
                         <th>Sl</th>
-                        {values?.referenceType?.value === "with reference" && (
+                        {values?.referenceType?.value === 'with reference' && (
                           <th>Reference No</th>
                         )}
                         <th>Item Name</th>
                         <th>Uom</th>
                         <th>Description</th>
-                        {values?.referenceType?.value === "with reference" && (
+                        {values?.referenceType?.value === 'with reference' && (
                           <th>PR Quantity</th>
                         )}
                         <th>
@@ -1446,29 +1386,29 @@ export default function RFQCreateEdit() {
                             overlay={
                               <Tooltip>
                                 {isRfqQty
-                                  ? "Click to add quantity manually"
-                                  : "Click to fill by PR quantity"}
+                                  ? 'Click to add quantity manually'
+                                  : 'Click to fill by PR quantity'}
                               </Tooltip>
                             }
                           >
                             <input
                               style={{
-                                transform: "translateY(3px)",
-                                marginRight: "5px",
+                                transform: 'translateY(3px)',
+                                marginRight: '5px',
                               }}
                               type="checkbox"
                               defaultChecked={isRfqQty}
                               onChange={(e) => {
                                 if (e.target.checked) {
                                   setIsRfqQty(true);
-                                  setFieldValue("isAllItem", false);
+                                  setFieldValue('isAllItem', false);
                                   itemList.forEach((item) => {
                                     item.rfqquantity = item.referenceQuantity;
                                   });
                                   setItemList([...itemList]);
                                 } else {
                                   setIsRfqQty(false);
-                                  setFieldValue("isAllItem", false);
+                                  setFieldValue('isAllItem', false);
                                   itemList.forEach((item) => {
                                     item.rfqquantity = 0;
                                   });
@@ -1479,7 +1419,7 @@ export default function RFQCreateEdit() {
                                 itemList?.length === 0 ||
                                 (id && values?.isSentToSupplier) ||
                                 values?.referenceType?.value ===
-                                  "without reference"
+                                  'without reference'
                               }
                             />
                           </OverlayTrigger>
@@ -1494,7 +1434,7 @@ export default function RFQCreateEdit() {
                           <tr key={index}>
                             <td>{index + 1}</td>
                             {values?.referenceType?.value ===
-                              "with reference" && (
+                              'with reference' && (
                               <td className="text-center">
                                 {item?.referenceCode}
                               </td>
@@ -1514,7 +1454,7 @@ export default function RFQCreateEdit() {
                               />
                             </td>
                             {values?.referenceType?.value ===
-                              "with reference" && (
+                              'with reference' && (
                               <td className="text-center">
                                 {item?.referenceQuantity}
                               </td>
@@ -1536,7 +1476,7 @@ export default function RFQCreateEdit() {
                                 onClick={() => {
                                   if (id && values?.isSentToSupplier) {
                                     return toast.warn(
-                                      "You can't delete item after sending RFQ"
+                                      "You can't delete item after sending RFQ",
                                     );
                                   }
                                   const temp = [...itemList];
@@ -1564,13 +1504,13 @@ export default function RFQCreateEdit() {
                     label="Supplier"
                     onChange={(v) => {
                       if (v) {
-                        setFieldValue("supplier", v);
-                        setFieldValue("supplierContactNo", v?.supplierContact);
-                        setFieldValue("supplierEmail", v?.supplierEmail);
+                        setFieldValue('supplier', v);
+                        setFieldValue('supplierContactNo', v?.supplierContact);
+                        setFieldValue('supplierEmail', v?.supplierEmail);
                       } else {
-                        setFieldValue("supplier", "");
-                        setFieldValue("supplierContactNo", "");
-                        setFieldValue("supplierEmail", "");
+                        setFieldValue('supplier', '');
+                        setFieldValue('supplierContactNo', '');
+                        setFieldValue('supplierEmail', '');
                       }
                     }}
                     placeholder="Supplier"
@@ -1607,7 +1547,7 @@ export default function RFQCreateEdit() {
                     type="text"
                     placeholder="Contact No"
                     onChange={(e) => {
-                      setFieldValue("supplierContactNo", e.target.value);
+                      setFieldValue('supplierContactNo', e.target.value);
                     }}
                     disabled={id && values?.isSentToSupplier}
                   />
@@ -1620,7 +1560,7 @@ export default function RFQCreateEdit() {
                     type="text"
                     placeholder="Email"
                     onChange={(e) => {
-                      setFieldValue("supplierEmail", e.target.value);
+                      setFieldValue('supplierEmail', e.target.value);
                     }}
                     disabled={id && values?.isSentToSupplier}
                   />
@@ -1630,8 +1570,8 @@ export default function RFQCreateEdit() {
                     type="button"
                     className="btn btn-primary"
                     style={{
-                      marginTop: "18px",
-                      marginLeft: "5px",
+                      marginTop: '18px',
+                      marginLeft: '5px',
                     }}
                     onClick={() => {
                       handleAddSupplier(values, setFieldValue);
@@ -1670,7 +1610,7 @@ export default function RFQCreateEdit() {
                                 onClick={() => {
                                   if (id && values?.isSentToSupplier) {
                                     return toast.warn(
-                                      "You can't delete supplier after sending RFQ"
+                                      "You can't delete supplier after sending RFQ",
                                     );
                                   }
                                   const temp = [...supplierList];
@@ -1692,13 +1632,13 @@ export default function RFQCreateEdit() {
                   <label>Terms & Conditions</label>
                   <TextArea
                     style={{
-                      height: "100px",
+                      height: '100px',
                     }}
                     value={values?.termsAndConditions}
                     name="termsAndConditions"
                     placeholder="Terms & Conditions"
                     onChange={(e) =>
-                      setFieldValue("termsAndConditions", e.target.value)
+                      setFieldValue('termsAndConditions', e.target.value)
                     }
                     errors={errors}
                     touched={touched}
@@ -1732,13 +1672,13 @@ export default function RFQCreateEdit() {
               /> */}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,36 +1,34 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "../common/form";
-import Axios from "axios";
-import shortid from "shortid";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
-import { getPurchaseOrgList } from "../../../../procurement/purchase-management/purchaseRequestNew/helper";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from '../common/form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
+import { getPurchaseOrgList } from '../../../../procurement/purchase-management/purchaseRequestNew/helper';
 
 const data = {
   id: undefined,
-  itemName: "",
-  itemCode: "",
-  drawingCode: "",
-  partNo: "",
-  itemType: "",
-  itemTypeId: "",
-  itemCategoryName: "",
-  itemCategoryId: "",
-  itemSubCategoryName: "",
-  itemSubCategoryId: "",
-  itemSubCategory: "",
-  itemCategory: "",
-  purchaseOrg: "",
+  itemName: '',
+  itemCode: '',
+  drawingCode: '',
+  partNo: '',
+  itemType: '',
+  itemTypeId: '',
+  itemCategoryName: '',
+  itemCategoryId: '',
+  itemSubCategoryName: '',
+  itemSubCategoryId: '',
+  itemSubCategory: '',
+  itemCategory: '',
+  purchaseOrg: '',
 };
 
 export default function AddForm({
@@ -56,6 +54,7 @@ export default function AddForm({
 
   useEffect(() => {
     getPurchaseOrgList(profileData?.accountId, 4, setPurchaseOrg);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveData = async (values, cb) => {
@@ -66,29 +65,7 @@ export default function AddForm({
       profileData?.accountId &&
       selectedBusinessUnit?.value
     ) {
-      const { accountId, userId: actionBy } = profileData;
-      // const itemBasicData = {
-      //   itemCode:
-      //     selectedBusinessUnit?.value === 102
-      //       ? values?.itemCode
-      //         ? values?.itemCode
-      //         : ""
-      //       : "",
-      //   drawingCode: values?.drawingCode || "",
-      //   partNo: values?.partNo || "",
-      //   itemName: values.itemName,
-      //   itemTypeId: values.itemType.value,
-      //   itemTypeName: values.itemType.label,
-      //   itemCategoryId: values.itemCategory.value,
-      //   itemCategoryName: values.itemCategory.label,
-      //   itemSubCategoryId: values.itemSubCategory.value,
-      //   itemSubCategoryName: values.itemSubCategory.label,
-      //   businessUnitId: selectedBusinessUnit?.value,
-      //   actionBy,
-      //   isActive: true,
-      //   accountId,
-      //   isSerialMaintain: !!values?.isMaintainSerial
-      // };
+      const { userId: actionBy } = profileData;
 
       const itemBasicData = {
         itemMasterId: 0,
@@ -96,8 +73,8 @@ export default function AddForm({
           selectedBusinessUnit?.value === 102
             ? values?.itemCode
               ? values?.itemCode
-              : ""
-            : "",
+              : ''
+            : '',
         itemMasterName: values.itemName,
         itemMasterTypeId: values.itemType.value,
         itemMasterTypeName: values.itemType.label,
@@ -106,8 +83,8 @@ export default function AddForm({
         itemMasterSubCategoryId: values.itemSubCategory.value,
         itemMasterSubCategoryName: values.itemSubCategory.label,
         actionBy: actionBy,
-        drawingCode: values?.drawingCode || "",
-        partNo: values?.partNo || "",
+        drawingCode: values?.drawingCode || '',
+        partNo: values?.partNo || '',
         purchaseOrganizationId: values?.purchaseOrg?.value,
         purchaseOrganizationName: values?.purchaseOrg?.label,
       };
@@ -116,8 +93,8 @@ export default function AddForm({
         try {
           setDisabled(true);
           const res = await Axios.post(
-            "/item/ItemMaster/CreateItemMaster",
-            itemBasicData
+            '/item/ItemMaster/CreateItemMaster',
+            itemBasicData,
           );
           // const res = await Axios.post(
           //   "/item/ItemBasic/CreateItemBasic",
@@ -125,7 +102,7 @@ export default function AddForm({
           // );
           cb(data);
           setDisabled(false);
-          toast.success(res.data?.message || "Submitted successfully", {
+          toast.success(res.data?.message || 'Submitted successfully', {
             toastId: shortid(),
           });
           history.push({
@@ -139,8 +116,8 @@ export default function AddForm({
         try {
           setDisabled(true);
           const res = await Axios.post(
-            "/item/ItemMaster/CreateItemMaster",
-            itemBasicData
+            '/item/ItemMaster/CreateItemMaster',
+            itemBasicData,
           );
           // const res = await Axios.post(
           //   "/item/ItemBasic/CreateItemBasic",

@@ -122,12 +122,8 @@ function HBLCodeGNModal({ CB, rowClickData, isEPBInvoice }) {
           const obj = {
             marks: resData?.saveWaybillData?.marks || initObj.marks || '',
           };
-          setIntialHtmlContent({
-            obj,
-          });
-          setHtmlContent({
-            obj,
-          });
+          setIntialHtmlContent(obj);
+          setHtmlContent(obj);
         }
 
         if (rowClickData?.modeOfTransport === 'Air') {

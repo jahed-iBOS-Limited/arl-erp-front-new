@@ -1,42 +1,40 @@
-import Axios from "axios";
-import React from "react";
-import "react-confirm-alert/src/react-confirm-alert.css";
-import "react-quill/dist/quill.snow.css";
-import { Provider, useDispatch } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { PersistGate } from "redux-persist/integration/react";
-import { I18nProvider } from "../_metronic/i18n";
-import { LayoutSplashScreen, MaterialThemeProvider } from "../_metronic/layout";
-import { Routes } from "../app/Routes";
-import { makeDecryption, makeEncryption } from "./modules/_helper/encryption";
-import { withEncryptedAPI } from "./modules/_helper/withEncryptedAPI";
-import { setIsExpiredTokenActions } from "./modules/Auth/_redux/Auth_Actions";
-
+import Axios from 'axios';
+import React from 'react';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import 'react-quill/dist/quill.snow.css';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { PersistGate } from 'redux-persist/integration/react';
+import { LayoutSplashScreen, MaterialThemeProvider } from '../_metronic/layout';
+import { Routes } from '../app/Routes';
+import { makeDecryption, makeEncryption } from './modules/_helper/encryption';
+import { withEncryptedAPI } from './modules/_helper/withEncryptedAPI';
+import { setIsExpiredTokenActions } from './modules/Auth/_redux/Auth_Actions';
 const origin = window.location.origin;
 export const imarineBaseUrl =
-  process.env.NODE_ENV === "development" ||
-  window.location?.hostname === "deverp.ibos.io"
-    ? "https://devimarine.ibos.io"
-    : "https://imarine.ibos.io";
+  process.env.NODE_ENV === 'development' ||
+  window.location?.hostname === 'deverp.ibos.io'
+    ? 'https://devimarine.ibos.io'
+    : 'https://imarine.ibos.io';
 
 export const marineBaseUrlPythonAPI =
-  process.env.NODE_ENV === "development" ||
-  window.location?.hostname === "deverp.ibos.io"
-    ? "https://devmarine.ibos.io"
-    : "https://marine.ibos.io";
+  process.env.NODE_ENV === 'development' ||
+  window.location?.hostname === 'deverp.ibos.io'
+    ? 'https://devmarine.ibos.io'
+    : 'https://marine.ibos.io';
 
 export const eProcurementBaseURL =
-  process.env.NODE_ENV === "development" ||
-  window.location?.hostname === "deverp.ibos.io"
-    ? "https://devarl.peopledesk.io/api"
-    : "https://arl.peopledesk.io/api";
+  process.env.NODE_ENV === 'development' ||
+  window.location?.hostname === 'deverp.ibos.io'
+    ? 'https://devarl.peopledesk.io/api'
+    : 'https://arl.peopledesk.io/api';
 
 // live-url: https://erp.peopledesk.io
 
 export const APIUrl =
-  process.env.NODE_ENV === "development" ? "https://deverp.ibos.io" : origin;
+  process.env.NODE_ENV === 'development' ? 'https://deverp.ibos.io' : origin;
 Axios.defaults.baseURL = APIUrl;
 
 const App = ({ store, persistor, basename }) => {
@@ -50,9 +48,9 @@ const App = ({ store, persistor, basename }) => {
         let newConfig = { ...config };
 
         // Encrypt query parameters if present in the URL
-        const apiPrefixes = url?.includes("?");
+        const apiPrefixes = url?.includes('?');
         if (apiPrefixes) {
-          let splitUrl = url?.split("?");
+          let splitUrl = url?.split('?');
           const encryptedData = await makeEncryption(splitUrl?.[1]);
           url = `${splitUrl?.[0]}?${encryptedData}`;
 
@@ -67,7 +65,7 @@ const App = ({ store, persistor, basename }) => {
         newConfig = {
           ...newConfig,
           data: payload,
-          headers: { ...newConfig.headers, "Content-Type": "application/json" },
+          headers: { ...newConfig.headers, 'Content-Type': 'application/json' },
         };
 
         return newConfig;
@@ -77,7 +75,7 @@ const App = ({ store, persistor, basename }) => {
       return config;
     },
     async (error) => {
-      console.log("Request Error:", error);
+      console.log('Request Error:', error);
       const url = error?.config?.url;
       if (withEncryptedAPI?.some((element) => url?.includes(element))) {
         let decryptedData = await makeDecryption(error?.response?.data);
@@ -90,7 +88,7 @@ const App = ({ store, persistor, basename }) => {
           newError?.response?.data?.Message;
         if (
           resMessage ===
-          "No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions)."
+          'No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).'
         ) {
           store.dispatch(setIsExpiredTokenActions(true));
           return Promise.reject(error);
@@ -104,14 +102,14 @@ const App = ({ store, persistor, basename }) => {
           error?.response?.data?.Message;
         if (
           resMessage ===
-          "No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions)."
+          'No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).'
         ) {
           store.dispatch(setIsExpiredTokenActions(true));
           return Promise.reject(error);
         }
         return Promise.reject(error);
       }
-    }
+    },
   );
 
   // Response Interceptor
@@ -132,7 +130,7 @@ const App = ({ store, persistor, basename }) => {
       return response;
     },
     async (error) => {
-      console.log("error response", JSON.stringify(error, null, 2));
+      console.log('error response', JSON.stringify(error, null, 2));
       const url = error?.config?.url;
       if (withEncryptedAPI?.some((element) => url?.includes(element))) {
         let decryptedData = await makeDecryption(error?.response?.data);
@@ -145,7 +143,7 @@ const App = ({ store, persistor, basename }) => {
           newError?.response?.data?.Message;
         if (
           resMessage ===
-          "No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions)."
+          'No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).'
         ) {
           store.dispatch(setIsExpiredTokenActions(true));
           return Promise.reject(error);
@@ -159,14 +157,14 @@ const App = ({ store, persistor, basename }) => {
           error?.response?.data?.Message;
         if (
           resMessage ===
-          "No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions)."
+          'No authenticationScheme was specified, and there was no DefaultChallengeScheme found. The default schemes can be set using either AddAuthentication(string defaultScheme) or AddAuthentication(Action<AuthenticationOptions> configureOptions).'
         ) {
           store.dispatch(setIsExpiredTokenActions(true));
           return Promise.reject(error);
         }
         return Promise.reject(error);
       }
-    }
+    },
   );
   return (
     /* Provide Redux store */
@@ -180,11 +178,10 @@ const App = ({ store, persistor, basename }) => {
             {/*This library only returns the location that has been active before the recent location change in the current window lifetime.*/}
             <MaterialThemeProvider>
               {/* Provide `react-intl` context synchronized with Redux state.  */}
-              <I18nProvider>
-                {/* Render routes with provided `Layout`. */}
-                <ToastContainer position="bottom-right" />
-                <Routes />
-              </I18nProvider>
+
+              {/* Render routes with provided `Layout`. */}
+              <ToastContainer position="bottom-right" />
+              <Routes />
             </MaterialThemeProvider>
           </BrowserRouter>
         </React.Suspense>

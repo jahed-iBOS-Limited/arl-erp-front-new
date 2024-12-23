@@ -1,18 +1,17 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import { _monthLastDate } from "../../../../_helper/_monthLastDate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { _todayDate } from "../../../../_helper/_todayDate";
 // create page
 // init data
 export const initData = {
   // global
   viewType: "import",
 
-  // common (import, income, payment, customer received)
+  // common (import, income, payment)
   poLC: "",
-  sbu: "",
+  sbu: "", // customer received
   bankName: "",
   bankAccount: "",
   paymentType: { value: "Duty", label: "Duty" },
@@ -38,12 +37,11 @@ export const initData = {
   transaction: "",
   dueDate: "",
 
-  // others
+  // others (not exit on field)
   businessPartner: "",
 
-  // landing
-  fromDate: _monthFirstDate(),
-  toDate: _monthLastDate(),
+  // customer received
+  month: "",
 };
 
 export const generateSaveURL = (viewType) => {
@@ -134,7 +132,7 @@ export const fetchPOLCAndSetFormField = (obj) => {
 // generate save payload
 export const generateSavePayloadAndURL = (obj) => {
   // destrcuture
-  const { values, profileData } = obj;
+  const { values, profileData, customerReceivedRowData } = obj;
   // values
   const {
     viewType,
@@ -162,13 +160,7 @@ export const generateSavePayloadAndURL = (obj) => {
 
   // customer received payload
   if (viewType === "customer received") {
-    payload = {
-      businessUnitId: sbu?.value,
-      sbu: sbu?.value,
-      receivedAmount: amount || 0,
-      actionBy: profileData?.userId,
-      paymentDate: paymentDate,
-    };
+    return customerReceivedRowData;
   } else if (viewType === "income" || viewType === "payment") {
     payload =
       // income, payment payload
@@ -288,13 +280,9 @@ export const fetchTransactionList = (obj) => {
 
 // fetch bank name ddl
 export const fetchBankNameDDL = (obj) => {
-  const { getBankNameDDL, profileData, buUnId } = obj;
+  const { getBankNameDDL } = obj;
 
-  getBankNameDDL(
-    `/imp/ImportCommonDDL/GetBankListDDL?accountId=${
-      profileData?.accountId
-    }&businessUnitId=${buUnId || 0}`
-  );
+  getBankNameDDL(`/hcm/HCMDDL/GetBankDDL`);
 };
 
 // fetch bank account ddl
@@ -311,9 +299,13 @@ export const fetchBankAccountDDL = (obj) => {
 
 // landing page
 // generateGetPCFLandingDataURL
-export const generateGetPCFLandingDataURL = (values) => {
+export const generateGetPCFLandingDataURL = ({
+  landingPageValues,
+  createPageValues,
+}) => {
   // destructure
-  const { fromDate, toDate, sbu, viewType, paymentType } = values;
+  const { fromDate, toDate, sbu, paymentType } = landingPageValues;
+  const { viewType } = createPageValues;
 
   // payment, income & import base url
   let paymentIncomeImportBaseURL = `/fino/FundManagement/GetProjectedCashFlow`;
@@ -339,9 +331,6 @@ export const generateGetPCFLandingDataURL = (values) => {
     case "income":
       paymentIncomeImportParams += `&cashFlowType=Income`;
       break;
-    case "customer received":
-      customerReceivedParams += `&cashFlowType=Income`;
-      break;
     default:
       break;
   }
@@ -358,13 +347,19 @@ export const generateGetPCFLandingDataURL = (values) => {
 };
 
 // landing show btn validation
-export const landingShowBtnValidation = (values) => {
-  if (!values?.sbu?.value) {
+export const landingShowBtnValidation = ({
+  landingPageValues,
+  createPageValues,
+}) => {
+  if (!landingPageValues?.sbu) {
     toast.warn("Please select sbu");
     return false;
   }
 
-  if (values?.viewType === "import" && !values?.paymentType?.value) {
+  if (
+    createPageValues?.viewType === "import" &&
+    !landingPageValues?.paymentType
+  ) {
     toast.warn("Please select payment type");
     return false;
   }
@@ -375,16 +370,19 @@ export const landingShowBtnValidation = (values) => {
 // fetch PCF Landing Data
 export const fetchPCFLandingData = (obj) => {
   // destructure
-  const { getPCFLandingData, values } = obj;
+  const { getPCFLandingData, landingPageValues, createPageValues } = obj;
 
   // validation of form when show btn click
-  if (!landingShowBtnValidation(values)) {
+  if (!landingShowBtnValidation({ landingPageValues, createPageValues })) {
     return false; // Stop further execution if validation fails
   }
 
   try {
     // generate url
-    const URL = generateGetPCFLandingDataURL(values);
+    const URL = generateGetPCFLandingDataURL({
+      landingPageValues,
+      createPageValues,
+    });
     // api call
     getPCFLandingData(URL);
 
@@ -462,15 +460,20 @@ export const paymentAndIncomeLanding = [
 export const customerReceivedLanding = [
   { header: "SL", render: (_i, index) => index + 1 },
   {
-    header: "Amount",
-    key: "receivedAmount",
-    className: "text-right",
-    render: (item) => _formatMoney(item.receivedAmount),
+    header: "Business Unit",
+    key: "businessUnitName",
   },
   {
     header: "Payment Date",
     key: "paymentDate",
+    className: "text-center",
     render: (item) => _dateFormatter(item.paymentDate),
+  },
+  {
+    header: "Amount",
+    key: "receivedAmount",
+    className: "text-right",
+    render: (item) => _formatMoney(item.receivedAmount),
   },
   {
     header: "Action By",
@@ -492,3 +495,60 @@ export const chooseTableColumns = (viewType) => {
       return columnsForImportLanding;
   }
 };
+
+// landing table init data
+export const landingInitData = {
+  sbu: "",
+  paymentType: { value: "Duty", label: "Duty" },
+  // fromDate: _monthFirstDate(),
+  // toDate: _monthLastDate(),
+  fromDate: _todayDate(), // temporary untill pagination
+  toDate: _todayDate(), // temporary untill pagination
+};
+
+// customer received
+
+// get total days of month
+export const totalDaysOfMonth = (monthYear) => {
+  // Extract the year and month from the input
+  const [year, month] = getMonthAndYear(monthYear);
+  return new Date(year, month, 0).getDate();
+};
+
+// get month & year of selected month
+export const getMonthAndYear = (monthYear) => {
+  return monthYear.split("-").map(Number);
+};
+
+// handle customer received row data generate
+export const generateCustomerReceivedRowData = (obj) => {
+  // destructure
+  const { setCustomerReceivedRowData, values, profileData } = obj;
+
+  // get toatal days of month
+  const getRowDataNo = totalDaysOfMonth(values?.month);
+
+  // get month & year
+  const [year, month] = getMonthAndYear(values?.month);
+
+  if (getRowDataNo > 0) {
+    const newCustomerReceivedData = Array.from(
+      { length: getRowDataNo },
+      (_, index) => ({
+        businessUnitName: values?.sbu?.label,
+        businessUnitId: values?.sbu?.value,
+        receivedAmount: 0,
+        actionBy: profileData?.userId,
+        paymentDate: new Date(year, month - 1, index + 1).toLocaleDateString(),
+        remarks: "",
+      })
+    );
+
+    setCustomerReceivedRowData((prevState) => {
+      return [...prevState, ...newCustomerReceivedData];
+    });
+  }
+};
+
+// all object for landing sbu
+export const allObjSBU = { value: 0, label: "All" };

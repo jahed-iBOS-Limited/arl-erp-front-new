@@ -1,30 +1,29 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { useLocation } from "react-router";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
   castingDate: _todayDate(),
-  shipPoint: "",
-  shift: { value: 1, label: "Day" },
+  shipPoint: '',
+  shift: { value: 1, label: 'Day' },
   avlTransitMixture: 0,
-  transitMixtureExplain: "",
+  transitMixtureExplain: '',
   avlConcretePump: 0,
-  concretePumpExplain: "",
+  concretePumpExplain: '',
   avlPickUp: 0,
-  pickUpExplain: "",
+  pickUpExplain: '',
   avlPipeLine: 0,
-  pipeLineExplain: "",
+  pipeLineExplain: '',
 
   totalTransitMixture: 0,
   totalConcretePump: 0,
@@ -45,7 +44,7 @@ export default function LogisticEquipmentEntry() {
 
   useEffect(() => {
     getShipPointList(
-      `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+      `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
     );
     if (location?.state?.item) {
       setFormList([{ ...location?.state?.item }]);
@@ -55,13 +54,13 @@ export default function LogisticEquipmentEntry() {
 
   const saveHandler = async (values, cb) => {
     if (!formList?.length) {
-      return toast.warn("Add at least One row!");
+      return toast.warn('Add at least One row!');
     }
     onSaveHandler(
       `/oms/CastingSchedule/CreateAndUpdateCastingScheduleToolsInfo`,
       formList,
       cb,
-      true
+      true,
     );
   };
 
@@ -104,7 +103,7 @@ export default function LogisticEquipmentEntry() {
                       name="castingDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("castingDate", e.target.value);
+                        setFieldValue('castingDate', e.target.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -117,7 +116,7 @@ export default function LogisticEquipmentEntry() {
                       value={values?.shipPoint}
                       label="Select Ship Point"
                       onChange={(valueOption) => {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -127,13 +126,13 @@ export default function LogisticEquipmentEntry() {
                     <NewSelect
                       name="shift"
                       options={[
-                        { value: 1, label: "Day" },
-                        { value: 2, label: "Night" },
+                        { value: 1, label: 'Day' },
+                        { value: 2, label: 'Night' },
                       ]}
                       value={values?.shift}
                       label="Select Shift"
                       onChange={(valueOption) => {
-                        setFieldValue("shift", valueOption);
+                        setFieldValue('shift', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -150,7 +149,7 @@ export default function LogisticEquipmentEntry() {
                         name="totalTransitMixture"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("totalTransitMixture", e.target.value);
+                          setFieldValue('totalTransitMixture', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -163,7 +162,7 @@ export default function LogisticEquipmentEntry() {
                         name="avlTransitMixture"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("avlTransitMixture", e.target.value);
+                          setFieldValue('avlTransitMixture', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -177,8 +176,8 @@ export default function LogisticEquipmentEntry() {
                         type="text"
                         onChange={(e) => {
                           setFieldValue(
-                            "transitMixtureExplain",
-                            e.target.value
+                            'transitMixtureExplain',
+                            e.target.value,
                           );
                         }}
                         errors={errors}
@@ -194,7 +193,7 @@ export default function LogisticEquipmentEntry() {
                         name="totalConcretePump"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("totalConcretePump", e.target.value);
+                          setFieldValue('totalConcretePump', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -207,7 +206,7 @@ export default function LogisticEquipmentEntry() {
                         name="avlConcretePump"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("avlConcretePump", e.target.value);
+                          setFieldValue('avlConcretePump', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -220,7 +219,7 @@ export default function LogisticEquipmentEntry() {
                         name="concretePumpExplain"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("concretePumpExplain", e.target.value);
+                          setFieldValue('concretePumpExplain', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -235,7 +234,7 @@ export default function LogisticEquipmentEntry() {
                         name="totalPickUp"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("totalPickUp", e.target.value);
+                          setFieldValue('totalPickUp', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -248,7 +247,7 @@ export default function LogisticEquipmentEntry() {
                         name="avlPickUp"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("avlPickUp", e.target.value);
+                          setFieldValue('avlPickUp', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -261,7 +260,7 @@ export default function LogisticEquipmentEntry() {
                         name="pickUpExplain"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("pickUpExplain", e.target.value);
+                          setFieldValue('pickUpExplain', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -276,7 +275,7 @@ export default function LogisticEquipmentEntry() {
                         name="totalPipeLine"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("totalPipeLine", e.target.value);
+                          setFieldValue('totalPipeLine', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -289,7 +288,7 @@ export default function LogisticEquipmentEntry() {
                         name="avlPipeLine"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("avlPipeLine", e.target.value);
+                          setFieldValue('avlPipeLine', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -302,7 +301,7 @@ export default function LogisticEquipmentEntry() {
                         name="pipeLineExplain"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("pipeLineExplain", e.target.value);
+                          setFieldValue('pipeLineExplain', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -324,9 +323,9 @@ export default function LogisticEquipmentEntry() {
                           ...values,
                           autoId: 0,
                           castingDate: values?.castingDate,
-                          dayId: +values?.castingDate?.split("-")[2],
-                          monthId: +values?.castingDate?.split("-")[1],
-                          yearId: +values?.castingDate?.split("-")[0],
+                          dayId: +values?.castingDate?.split('-')[2],
+                          monthId: +values?.castingDate?.split('-')[1],
+                          yearId: +values?.castingDate?.split('-')[0],
                           accountId: profileData?.accountId,
                           unitId: values?.selectedBusinessUnit?.value,
                           shipPointId: values?.shipPoint?.value,
@@ -344,7 +343,7 @@ export default function LogisticEquipmentEntry() {
                   <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
-                      <th>Total Transit Mixture</th>
+                        <th>Total Transit Mixture</th>
                         <th>Available TM</th>
                         <th>Explanations</th>
                         <th>Total Concrete Pump</th>
@@ -362,13 +361,13 @@ export default function LogisticEquipmentEntry() {
                     <tbody>
                       {formList.map((item, index) => (
                         <tr key={index}>
-                           <td>
+                          <td>
                             <InputField
                               value={item?.totalTransitMixture}
                               type="number"
                               onChange={(e) => {
                                 const data = [...formList];
-                                data[index]["totalTransitMixture"] =
+                                data[index]['totalTransitMixture'] =
                                   e.target.value;
                                 setFormList(data);
                               }}
@@ -380,7 +379,7 @@ export default function LogisticEquipmentEntry() {
                               type="number"
                               onChange={(e) => {
                                 const data = [...formList];
-                                data[index]["avlTransitMixture"] =
+                                data[index]['avlTransitMixture'] =
                                   e.target.value;
                                 setFormList(data);
                               }}
@@ -392,7 +391,7 @@ export default function LogisticEquipmentEntry() {
                               type="text"
                               onChange={(e) => {
                                 const data = [...formList];
-                                data[index]["transitMixtureExplain"] =
+                                data[index]['transitMixtureExplain'] =
                                   e.target.value;
                                 setFormList(data);
                               }}
@@ -404,7 +403,7 @@ export default function LogisticEquipmentEntry() {
                               type="number"
                               onChange={(e) => {
                                 const data = [...formList];
-                                data[index]["totalConcretePump"] =
+                                data[index]['totalConcretePump'] =
                                   e.target.value;
                                 setFormList(data);
                               }}
@@ -416,7 +415,7 @@ export default function LogisticEquipmentEntry() {
                               type="number"
                               onChange={(e) => {
                                 const data = [...formList];
-                                data[index]["avlConcretePump"] = e.target.value;
+                                data[index]['avlConcretePump'] = e.target.value;
                                 setFormList(data);
                               }}
                             />
@@ -427,7 +426,7 @@ export default function LogisticEquipmentEntry() {
                               type="text"
                               onChange={(e) => {
                                 const data = [...formList];
-                                data[index]["concretePumpExplain"] =
+                                data[index]['concretePumpExplain'] =
                                   e.target.value;
                                 setFormList(data);
                               }}
@@ -439,7 +438,7 @@ export default function LogisticEquipmentEntry() {
                               type="number"
                               onChange={(e) => {
                                 const data = [...formList];
-                                data[index]["totalPickUp"] = e.target.value;
+                                data[index]['totalPickUp'] = e.target.value;
                                 setFormList(data);
                               }}
                             />
@@ -450,7 +449,7 @@ export default function LogisticEquipmentEntry() {
                               type="number"
                               onChange={(e) => {
                                 const data = [...formList];
-                                data[index]["avlPickUp"] = e.target.value;
+                                data[index]['avlPickUp'] = e.target.value;
                                 setFormList(data);
                               }}
                             />
@@ -461,7 +460,7 @@ export default function LogisticEquipmentEntry() {
                               type="text"
                               onChange={(e) => {
                                 const data = [...formList];
-                                data[index]["pickUpExplain"] = e.target.value;
+                                data[index]['pickUpExplain'] = e.target.value;
                                 setFormList(data);
                               }}
                             />
@@ -472,7 +471,7 @@ export default function LogisticEquipmentEntry() {
                               type="number"
                               onChange={(e) => {
                                 const data = [...formList];
-                                data[index]["totalPipeLine"] = e.target.value;
+                                data[index]['totalPipeLine'] = e.target.value;
                                 setFormList(data);
                               }}
                             />
@@ -483,7 +482,7 @@ export default function LogisticEquipmentEntry() {
                               type="number"
                               onChange={(e) => {
                                 const data = [...formList];
-                                data[index]["avlPipeLine"] = e.target.value;
+                                data[index]['avlPipeLine'] = e.target.value;
                                 setFormList(data);
                               }}
                             />
@@ -494,17 +493,17 @@ export default function LogisticEquipmentEntry() {
                               type="text"
                               onChange={(e) => {
                                 const data = [...formList];
-                                data[index]["pipeLineExplain"] = e.target.value;
+                                data[index]['pipeLineExplain'] = e.target.value;
                                 setFormList(data);
                               }}
                             />
                           </td>
-                         
+
                           <td className="text-center">
                             <span
                               onClick={() => {
                                 const data = formList?.filter(
-                                  (itm, i) => i !== index
+                                  (itm, i) => i !== index,
                                 );
                                 setFormList(data);
                               }}
@@ -520,14 +519,14 @@ export default function LogisticEquipmentEntry() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

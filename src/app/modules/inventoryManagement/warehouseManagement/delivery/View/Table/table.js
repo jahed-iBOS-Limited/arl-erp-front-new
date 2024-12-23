@@ -95,6 +95,23 @@ export default function DeliveryReportTable({ id }) {
     (acc, cur) => (acc += (+cur?.itemPrice || 0) * (+cur?.quantity || 0)),
     0
   );
+  let totalDiscountRate = deliveryOrderReportData?.rows?.reduce(
+    (acc, cur) => (acc += +cur?.itemSackDiscountRate || 0),
+    0
+  );
+  let totalDiscountAmount = deliveryOrderReportData?.rows?.reduce(
+    (acc, cur) => (acc += +cur?.itemSackDiscountAmount || 0),
+    0
+  );
+
+  let grandTotal = deliveryOrderReportData?.rows?.reduce(
+    (acc, td) => (
+      acc +=
+        (+td?.itemPrice || 0) * (+td?.quantity || 0) -
+        (+td?.itemSackDiscountAmount || 0)
+    ),
+    0
+  );
 
   if (loading) {
     return loading && <ISpinner isShow={loading} />;
@@ -197,7 +214,8 @@ export default function DeliveryReportTable({ id }) {
                     <tr>
                       <td>Sold To Partner</td>
                       <td>:</td>
-                      <td>{soldToPartner}</td>
+                      {/* <td>{soldToPartner}</td> */}
+                      <td>{isCodeShowInChallan ? businessPartnerCode : `${soldToPartner} [${businessPartnerCode}]`}</td>{" "}
                       <td style={{ width: "120px" }}>ShipPoint</td>
                       <td>:</td>
                       <td>{shippointName}</td>
@@ -205,7 +223,8 @@ export default function DeliveryReportTable({ id }) {
                     <tr>
                       <td>Ship To Partner</td>
                       <td>:</td>
-                      <td>{isCodeShowInChallan ? businessPartnerCode : `${shipToPartner} [${businessPartnerCode}]`}</td>{" "}
+                      {/* <td>{isCodeShowInChallan ? businessPartnerCode : `${shipToPartner} [${businessPartnerCode}]`}</td>{" "} */}
+                      <td>{shipToPartner}</td>{" "}
                       <td style={{ width: "120px" }}>Delivery Order</td>
                       <td>:</td>
                       <td>{deliveryOrder}</td>
@@ -289,6 +308,9 @@ export default function DeliveryReportTable({ id }) {
                   totalRate={totalRate}
                   totalAmount={totalAmount}
                   isWorkable={isWorkable}
+                  totalDiscountRate={totalDiscountRate}
+                  totalDiscountAmount={totalDiscountAmount}
+                  grandTotal={grandTotal}
                 />
               )}
 

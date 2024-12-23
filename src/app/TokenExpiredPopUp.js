@@ -1,42 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import {
   getMenu_action,
   getUserRoleAction,
   Login,
-  setBuList,
   Logout,
   passwordExpiredUpdateAction,
-} from "./modules/Auth/_redux/Auth_Actions";
+  setBuList,
+} from './modules/Auth/_redux/Auth_Actions';
 
-import BlackLogo from "./logo/logoBlack.png";
-import Loading from "./modules/_helper/_loading";
-import { clearLocalStorageAction } from "./modules/_helper/reduxForLocalStorage/Actions";
-import axios from "axios";
-import { setPeopledeskCookie } from "./modules/_helper/_cookie";
+import axios from 'axios';
+import BlackLogo from './logo/logoBlack.png';
+import Loading from './modules/_helper/_loading';
+import { clearLocalStorageAction } from './modules/_helper/reduxForLocalStorage/Actions';
 
 const TokenExpiredPopUp = ({ isCancel }) => {
-  const [password, setPassword] = useState("");
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const profileData = useSelector(
     (state) => state?.authData?.profileData,
-    shallowEqual
+    shallowEqual,
   );
 
   const { isExpiredPassword, email } = useSelector(
     (state) => state?.authData,
-    shallowEqual
+    shallowEqual,
   );
   // let isExpiredPassword = true;
 
   const errorColor = useSelector(
     (state) => state?.authData?.msg?.color,
-    shallowEqual
+    shallowEqual,
   );
 
   const updatePassword = async () => {
@@ -48,7 +47,7 @@ const TokenExpiredPopUp = ({ isCancel }) => {
       });
       dispatch(passwordExpiredUpdateAction(false));
     } catch (error) {
-      alert("Failed, please try again");
+      alert('Failed, please try again');
     }
   };
 
@@ -62,17 +61,16 @@ const TokenExpiredPopUp = ({ isCancel }) => {
     e.preventDefault();
     if (isExpiredPassword) {
       if (!oldPassword || !newPassword || !confirmPassword)
-        return alert("All fields are required");
+        return alert('All fields are required');
 
       if (newPassword?.length < 6)
-        return alert("Password should be atleast six character");
+        return alert('Password should be atleast six character');
 
       if (confirmPassword !== newPassword)
-        return alert("Confirm password does not match");
+        return alert('Confirm password does not match');
       updatePassword();
     } else {
       dispatch(Login(profileData?.emailAddress, password, setLoading, cb));
-
     }
   };
   useEffect(() => {
@@ -80,7 +78,7 @@ const TokenExpiredPopUp = ({ isCancel }) => {
       if (document.querySelector("div[tabindex='-1']")) {
         document
           .querySelector("div[tabindex='-1']")
-          .removeAttribute("tabindex");
+          .removeAttribute('tabindex');
       }
     }, 5000);
   }, []);
@@ -93,7 +91,7 @@ const TokenExpiredPopUp = ({ isCancel }) => {
         <form className="expired-form" onSubmit={(e) => submitHandler(e)}>
           {!isExpiredPassword && (
             <>
-              {errorColor === "error" && (
+              {errorColor === 'error' && (
                 <p className="text-danger">Login Failed</p>
               )}
             </>
@@ -136,7 +134,7 @@ const TokenExpiredPopUp = ({ isCancel }) => {
               />
               <div className="d-flex">
                 <button
-                  style={{ maxWidth: "50%" }}
+                  style={{ maxWidth: '50%' }}
                   className="mr-1 btn btn-primary w-100 d-block"
                   type="submit"
                 >
@@ -144,7 +142,7 @@ const TokenExpiredPopUp = ({ isCancel }) => {
                 </button>
                 {isCancel ? (
                   <button
-                    style={{ maxWidth: "50%" }}
+                    style={{ maxWidth: '50%' }}
                     className="btn btn-primary w-100 d-block"
                     type="button"
                     onClick={() => {
@@ -155,7 +153,7 @@ const TokenExpiredPopUp = ({ isCancel }) => {
                   </button>
                 ) : (
                   <button
-                    style={{ maxWidth: "50%" }}
+                    style={{ maxWidth: '50%' }}
                     className="btn btn-primary w-100 d-block"
                     type="button"
                     onClick={() => {
@@ -178,14 +176,14 @@ const TokenExpiredPopUp = ({ isCancel }) => {
               />
               <div className="d-flex">
                 <button
-                  style={{ maxWidth: "50%" }}
+                  style={{ maxWidth: '50%' }}
                   className="mr-1 btn btn-primary w-100 d-block"
                   type="submit"
                 >
                   Confirm password
                 </button>
                 <button
-                  style={{ maxWidth: "50%" }}
+                  style={{ maxWidth: '50%' }}
                   className="btn btn-primary w-100 d-block"
                   type="button"
                   onClick={() => {
@@ -196,7 +194,7 @@ const TokenExpiredPopUp = ({ isCancel }) => {
                   Logout
                 </button>
               </div>
-              <p style={{ fontSize: "12px" }} className="mt-3">
+              <p style={{ fontSize: '12px' }} className="mt-3">
                 Tip: This password confirmation is for your security. We won’t
                 ask for your password again for one hour
               </p>

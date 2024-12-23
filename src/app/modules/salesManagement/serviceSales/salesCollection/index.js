@@ -1,26 +1,25 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import IForm from "../../../_helper/_form";
-import FormikError from "../../../_helper/_formikError";
-import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { setSalesCollectionInitDataAction } from "../../../_helper/reduxForLocalStorage/Actions";
-import CollectionModal from "./collection";
-import { getSBU } from "./helper";
-import PrintInvoiceModal from "./printInvoice";
-import { toast } from "react-toastify";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import IForm from '../../../_helper/_form';
+import FormikError from '../../../_helper/_formikError';
+import { formatMonthYear } from '../../../_helper/_getMonthYearFormat';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { setSalesCollectionInitDataAction } from '../../../_helper/reduxForLocalStorage/Actions';
+import CollectionModal from './collection';
+import { getSBU } from './helper';
+import PrintInvoiceModal from './printInvoice';
 
 export default function SalesCollectionLanding() {
   const initData = useSelector((state) => {
@@ -50,46 +49,6 @@ export default function SalesCollectionLanding() {
   useEffect(() => {
     getSBU(profileData?.accountId, selectedBusinessUnit.value, setSbuDDl);
   }, [profileData, selectedBusinessUnit]);
-
-  // useEffect(() => {
-  //   const data = [...rowData];
-  //   let Ramount = +receivableAmount;
-
-  //   const modifyData = data.map((item) => {
-  //     const updatedInvoiceRow = item.invocieRow.map((invRow) => {
-  //       // const needCollectionAmount =
-  //       //   (invRow.numScheduleAmount || 0) + (invRow.numScheduleVatAmount || 0);
-  //       const needCollectionAmount = invRow?.needCollectionAmount2;
-
-  //       let CollectionAmount;
-  //       let PendingAmount;
-
-  //       if (Ramount >= needCollectionAmount) {
-  //         CollectionAmount = needCollectionAmount;
-  //         PendingAmount = 0;
-  //         Ramount -= needCollectionAmount;
-  //       } else {
-  //         CollectionAmount = Ramount;
-  //         PendingAmount = needCollectionAmount - Ramount;
-  //         Ramount = 0;
-  //       }
-
-  //       return {
-  //         ...invRow,
-  //         numCollectionAmount: CollectionAmount,
-  //         numPendingAmount: PendingAmount,
-  //       };
-  //     });
-
-  //     return {
-  //       ...item,
-  //       invocieRow: updatedInvoiceRow,
-  //     };
-  //   });
-
-  //   setRowData(modifyData);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [receivableAmount]);
 
   useEffect(() => {
     if (actionType === 1) {
@@ -136,7 +95,7 @@ export default function SalesCollectionLanding() {
 
   const onCheckHandler = () => {
     // Manual mode logic (only for selected rows)
-    console.log("1");
+    console.log('1');
     const data = [...rowData];
     let Ramount = +receivableAmount || 0;
 
@@ -190,7 +149,7 @@ export default function SalesCollectionLanding() {
     const strFromAndToDate =
       values?.fromDate && values?.toDate
         ? `&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
-        : "";
+        : '';
     let apiUrl = [2]?.includes(typeId)
       ? `/oms/ServiceSales/GetServiceSalesInvocieList?accountId=${
           profileData?.accountId
@@ -235,7 +194,7 @@ export default function SalesCollectionLanding() {
           profileData?.accountId
         }&BusinessUnitId=${
           selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${2}`
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${2}`,
       )
       .then((res) => {
         return res?.data;
@@ -244,7 +203,7 @@ export default function SalesCollectionLanding() {
   };
 
   const collectionRow = rowData?.filter(
-    (item) => item?.invocieRow?.[0]?.numCollectionAmount
+    (item) => item?.invocieRow?.[0]?.numCollectionAmount,
   );
 
   return (
@@ -256,8 +215,8 @@ export default function SalesCollectionLanding() {
         isVDS: false,
         accountingJournalTypeId:
           paymentType === 2
-            ? { value: 4, label: "Bank Receipts " }
-            : { value: 1, label: "Cash Receipts" },
+            ? { value: 4, label: 'Bank Receipts ' }
+            : { value: 1, label: 'Cash Receipts' },
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         console.log(values);
@@ -287,17 +246,17 @@ export default function SalesCollectionLanding() {
                     <NewSelect
                       name="type"
                       options={[
-                        { value: 2, label: "Pending for Collection" },
-                        { value: 1, label: "Collected" },
+                        { value: 2, label: 'Pending for Collection' },
+                        { value: 1, label: 'Collected' },
                       ]}
                       value={values?.type}
                       label="Type"
                       onChange={(valueOption) => {
-                        setFieldValue("type", valueOption);
-                        setFieldValue("fromDate", "");
-                        setFieldValue("toDate", "");
-                        setFieldValue("customer", "");
-                        setFieldValue("paymentType", "");
+                        setFieldValue('type', valueOption);
+                        setFieldValue('fromDate', '');
+                        setFieldValue('toDate', '');
+                        setFieldValue('customer', '');
+                        setFieldValue('paymentType', '');
                         setRowData([]);
                       }}
                       errors={errors}
@@ -310,7 +269,7 @@ export default function SalesCollectionLanding() {
                       selectedValue={values?.customer}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
-                        setFieldValue("customer", valueOption);
+                        setFieldValue('customer', valueOption);
                       }}
                       loadOptions={loadTransactionList}
                     />
@@ -324,13 +283,13 @@ export default function SalesCollectionLanding() {
                     <NewSelect
                       name="billType"
                       options={[
-                        { value: 1, label: "Re-Curring" },
-                        { value: 2, label: "One Time" },
+                        { value: 1, label: 'Re-Curring' },
+                        { value: 2, label: 'One Time' },
                       ]}
                       value={values?.billType}
                       label="Bill Type"
                       onChange={(valueOption) => {
-                        setFieldValue("billType", valueOption);
+                        setFieldValue('billType', valueOption);
                         setRowData([]);
                       }}
                       errors={errors}
@@ -346,7 +305,7 @@ export default function SalesCollectionLanding() {
                           name="fromDate"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("fromDate", e.target.value);
+                            setFieldValue('fromDate', e.target.value);
                           }}
                         />
                       </div>
@@ -357,7 +316,7 @@ export default function SalesCollectionLanding() {
                           name="toDate"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("toDate", e.target.value);
+                            setFieldValue('toDate', e.target.value);
                           }}
                         />
                       </div>
@@ -370,13 +329,13 @@ export default function SalesCollectionLanding() {
                       }
                       className="btn btn-primary"
                       type="button"
-                      style={{ marginTop: "17px" }}
+                      style={{ marginTop: '17px' }}
                       onClick={() => {
                         dispatch(
                           setSalesCollectionInitDataAction({
                             ...values,
                             paymentType,
-                          })
+                          }),
                         );
                         setReceivableAmount(0);
                         setVdsAmount(0);
@@ -397,7 +356,7 @@ export default function SalesCollectionLanding() {
                             name="paymentType"
                             checked={paymentType === 2}
                             className="mr-1 pointer"
-                            style={{ position: "relative", top: "2px" }}
+                            style={{ position: 'relative', top: '2px' }}
                             onChange={(e) => {
                               setPaymentType(2);
                             }}
@@ -410,7 +369,7 @@ export default function SalesCollectionLanding() {
                             name="paymentType"
                             checked={paymentType === 1}
                             className="mr-1 pointer"
-                            style={{ position: "relative", top: "2px" }}
+                            style={{ position: 'relative', top: '2px' }}
                             onChange={(valueOption) => {
                               setPaymentType(1);
                             }}
@@ -430,7 +389,7 @@ export default function SalesCollectionLanding() {
                                 value={values?.sbu}
                                 label="SBU"
                                 onChange={(valueOption) => {
-                                  setFieldValue("sbu", valueOption);
+                                  setFieldValue('sbu', valueOption);
                                 }}
                                 isDisabled
                                 errors={errors}
@@ -442,15 +401,15 @@ export default function SalesCollectionLanding() {
                                 name="accountingJournalTypeId"
                                 options={
                                   paymentType === 2
-                                    ? [{ value: 4, label: "Bank Receipts " }]
-                                    : [{ value: 1, label: "Cash Receipts" }]
+                                    ? [{ value: 4, label: 'Bank Receipts ' }]
+                                    : [{ value: 1, label: 'Cash Receipts' }]
                                 }
                                 value={values?.accountingJournalTypeId}
                                 label="Select Journal Type"
                                 onChange={(valueOption) => {
                                   setFieldValue(
-                                    "accountingJournalTypeId",
-                                    valueOption
+                                    'accountingJournalTypeId',
+                                    valueOption,
                                   );
                                 }}
                                 isDisabled
@@ -461,7 +420,7 @@ export default function SalesCollectionLanding() {
                             {!values?.isVDS && (
                               <div className="col-lg-3">
                                 <InputField
-                                  value={receivableAmount || ""}
+                                  value={receivableAmount || ''}
                                   type="number"
                                   placeholder="Receivable Amount"
                                   label="Receivable Amount"
@@ -485,7 +444,7 @@ export default function SalesCollectionLanding() {
                                 value={values?.isVDS}
                                 checked={values?.isVDS}
                                 onChange={(e) => {
-                                  setFieldValue("isVDS", e.target.checked);
+                                  setFieldValue('isVDS', e.target.checked);
                                   setVdsAmount(0);
                                   setReceivableAmount(0);
                                   if (e.target.checked) {
@@ -500,7 +459,7 @@ export default function SalesCollectionLanding() {
                             {values?.isVDS && (
                               <div className="col-lg-2">
                                 <InputField
-                                  value={vdsAmount || ""}
+                                  value={vdsAmount || ''}
                                   type="number"
                                   placeholder="VDS Amount"
                                   label="VDS Amount"
@@ -524,7 +483,7 @@ export default function SalesCollectionLanding() {
                                       setSalesCollectionInitDataAction({
                                         ...values,
                                         paymentType,
-                                      })
+                                      }),
                                     );
                                     history.push(
                                       paymentType === 2
@@ -541,7 +500,7 @@ export default function SalesCollectionLanding() {
                                               collectionRow: rowData?.filter(
                                                 (item) =>
                                                   item?.invocieRow?.[0]
-                                                    ?.numCollectionAmount
+                                                    ?.numCollectionAmount,
                                               ),
                                             },
                                           }
@@ -557,7 +516,7 @@ export default function SalesCollectionLanding() {
                                               numVDSAmount: 0,
                                               collectionRow: collectionRow,
                                             },
-                                          }
+                                          },
                                     );
                                   }}
                                 >
@@ -593,7 +552,7 @@ export default function SalesCollectionLanding() {
                                               values,
                                             });
                                           },
-                                          true
+                                          true,
                                         );
                                       },
                                       noAlertFunc: () => {},
@@ -620,7 +579,7 @@ export default function SalesCollectionLanding() {
                           checked={actionType === 1}
                           disabled={values?.isVDS}
                           className="mr-1 pointer"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
                             setActionType(1);
                             setReceivableAmount(0);
@@ -640,7 +599,7 @@ export default function SalesCollectionLanding() {
                           checked={actionType === 2}
                           disabled={values?.isVDS}
                           className="mr-1 pointer"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(valueOption) => {
                             setActionType(2);
                             setReceivableAmount(0);
@@ -662,11 +621,11 @@ export default function SalesCollectionLanding() {
                       <thead>
                         <tr>
                           {actionType === 2 && <th></th>}
-                          <th style={{ maxWidth: "20px" }}>SL</th>
+                          <th style={{ maxWidth: '20px' }}>SL</th>
                           <th>Customer</th>
                           <th>Item Name</th>
                           <th>Address</th>
-                          <th style={{ minWidth: "70px" }}>Month-Year</th>
+                          <th style={{ minWidth: '70px' }}>Month-Year</th>
                           <th>Schedule Type</th>
                           <th>Sales Type</th>
                           <th>Sales Order Code</th>
@@ -689,13 +648,13 @@ export default function SalesCollectionLanding() {
                                   checked={item?.isSelected || false}
                                   onChange={(e) => {
                                     const modifyData = [...rowData];
-                                    modifyData[index]["isSelected"] =
+                                    modifyData[index]['isSelected'] =
                                       e.target.checked;
-                                    modifyData[index]["invocieRow"][0][
-                                      "numCollectionAmount"
+                                    modifyData[index]['invocieRow'][0][
+                                      'numCollectionAmount'
                                     ] = 0;
-                                    modifyData[index]["invocieRow"][0][
-                                      "numPendingAmount"
+                                    modifyData[index]['invocieRow'][0][
+                                      'numPendingAmount'
                                     ] = 0;
                                     setRowData(modifyData);
                                     onCheckHandler();
@@ -710,59 +669,59 @@ export default function SalesCollectionLanding() {
                                 const itemStrings = item?.items?.map(
                                   (singleItem) => {
                                     const itemName =
-                                      singleItem.strItemName || "N/A";
+                                      singleItem.strItemName || 'N/A';
                                     const qty =
-                                      typeof singleItem.numSalesQty === "number"
+                                      typeof singleItem.numSalesQty === 'number'
                                         ? singleItem.numSalesQty
-                                        : "N/A";
+                                        : 'N/A';
                                     const rate =
-                                      typeof singleItem.numRate === "number"
+                                      typeof singleItem.numRate === 'number'
                                         ? singleItem.numRate
-                                        : "N/A";
+                                        : 'N/A';
 
                                     return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
-                                  }
+                                  },
                                 );
 
-                                return itemStrings?.join(" / ");
+                                return itemStrings?.join(' / ');
                               })()}
                             </td>
                             <td>{item?.invocieHeader?.strCustomerAddress}</td>
                             <td className="text-center">
                               {formatMonthYear(
-                                item?.invocieRow?.[0]?.dteDueDateTime
+                                item?.invocieRow?.[0]?.dteDueDateTime,
                               )}
                             </td>
                             <td>{item?.invocieHeader?.strScheduleTypeName}</td>
                             <td>{item?.invocieHeader?.strSalesTypeName}</td>
                             <td>{item?.strServiceSalesOrderCode}</td>
                             <td>
-                              {item?.invocieRow?.[0]?.numScheduleAmount || ""}
+                              {item?.invocieRow?.[0]?.numScheduleAmount || ''}
                             </td>
                             <td className="text-right">
                               {item?.invocieRow?.[0]?.numScheduleVatAmount ||
-                                ""}
+                                ''}
                             </td>
                             <td className="text-right">
-                              {item?.invocieRow?.[0]?.numCollectionAmount || ""}
+                              {item?.invocieRow?.[0]?.numCollectionAmount || ''}
                             </td>
                             <td className="text-right">
                               {item?.invocieRow?.[0]?.alreadyCollectedAmount ||
-                                ""}
+                                ''}
                             </td>
                             <td className="text-right">
-                              {item?.invocieRow?.[0]?.numPendingAmount || ""}
+                              {item?.invocieRow?.[0]?.numPendingAmount || ''}
                             </td>
                             <td className="text-right">
                               {item?.invocieRow?.[0]?.numAdjustPreviousAmount ||
-                                ""}
+                                ''}
                             </td>
                             <td>
                               <div className="d-flex justify-content-between">
                                 <OverlayTrigger
                                   overlay={
                                     <Tooltip id="cs-icon">
-                                      {"Print Invoice"}
+                                      {'Print Invoice'}
                                     </Tooltip>
                                   }
                                 >
@@ -773,8 +732,8 @@ export default function SalesCollectionLanding() {
                                         setShowModal(true);
                                       }}
                                       style={{
-                                        fontSize: "16px",
-                                        cursor: "pointer",
+                                        fontSize: '16px',
+                                        cursor: 'pointer',
                                       }}
                                       class="fa fa-print"
                                       aria-hidden="true"

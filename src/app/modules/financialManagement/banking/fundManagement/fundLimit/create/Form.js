@@ -1,32 +1,32 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import InputField from "../../../../../_helper/_inputField";
-import Loading from "../../../../../_helper/_loading";
-import NewSelect from "../../../../../_helper/_select";
-import { getBankDDL, getFacilityDLL, getFundLimitById } from "../../helper";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import InputField from '../../../../../_helper/_inputField';
+import Loading from '../../../../../_helper/_loading';
+import NewSelect from '../../../../../_helper/_select';
+import { getBankDDL, getFacilityDLL, getFundLimitById } from '../../helper';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { shallowEqual, useSelector } from 'react-redux';
 
 const fundLimit = Yup.object().shape({
-  limit: Yup.string().required("Limit is required"),
+  limit: Yup.string().required('Limit is required'),
   bank: Yup.object()
     .shape({
-      label: Yup.string().required("Bank is required"),
-      value: Yup.string().required("Bank is required"),
+      label: Yup.string().required('Bank is required'),
+      value: Yup.string().required('Bank is required'),
     })
     .nullable(),
   facility: Yup.object()
     .shape({
-      label: Yup.string().required("Facility is required"),
-      value: Yup.string().required("Facility is required"),
+      label: Yup.string().required('Facility is required'),
+      value: Yup.string().required('Facility is required'),
     })
     .nullable(),
   rateReview: Yup.number()
-    .typeError("Must be an integer")
-    .integer("Must be an integer")
-    .required("Required"),
+    .typeError('Must be an integer')
+    .integer('Must be an integer')
+    .required('Required'),
 });
 
 export default function LimitForm({
@@ -48,6 +48,7 @@ export default function LimitForm({
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
     getFacilityDLL(selectedBusinessUnit?.value, 0, setFacilityDDL, setLoading);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (isEdit) {
@@ -64,10 +65,10 @@ export default function LimitForm({
           isEdit
             ? {
                 ...singleData,
-                tenorDays: landingRowData?.tenureDays || "",
-                sanctionReference: landingRowData?.sanctionReference || "",
+                tenorDays: landingRowData?.tenureDays || '',
+                sanctionReference: landingRowData?.sanctionReference || '',
                 limitExpiryDate:
-                  _dateFormatter(landingRowData?.limitExpiryDate) || "",
+                  _dateFormatter(landingRowData?.limitExpiryDate) || '',
                 rate:
                   +landingRowData?.interestRate || +singleData?.interestRate,
                 rateReview:
@@ -80,7 +81,7 @@ export default function LimitForm({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            history.push("/financial-management/banking/fund-limit");
+            history.push('/financial-management/banking/fund-limit');
           });
         }}
       >
@@ -103,7 +104,7 @@ export default function LimitForm({
                     options={bankDDL}
                     value={values?.bank}
                     onChange={(valueOption) => {
-                      setFieldValue("bank", valueOption);
+                      setFieldValue('bank', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -118,7 +119,7 @@ export default function LimitForm({
                     options={facilityDDL}
                     value={values?.facility}
                     onChange={(valueOption) => {
-                      setFieldValue("facility", valueOption);
+                      setFieldValue('facility', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -136,15 +137,15 @@ export default function LimitForm({
                     onChange={(e) => {
                       if (isEdit) {
                         if (e?.target?.value >= 0) {
-                          setFieldValue("limit", e?.target?.value);
+                          setFieldValue('limit', e?.target?.value);
                         } else {
-                          setFieldValue("limit", "");
+                          setFieldValue('limit', '');
                         }
                       } else {
                         if (e.target.value > 0) {
-                          setFieldValue("limit", e.target.value);
+                          setFieldValue('limit', e.target.value);
                         } else {
-                          setFieldValue("limit", "");
+                          setFieldValue('limit', '');
                         }
                       }
                     }}
@@ -170,9 +171,9 @@ export default function LimitForm({
                     placeholder="Tenor Days"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("tenorDays", e.target.value);
+                        setFieldValue('tenorDays', e.target.value);
                       } else {
-                        setFieldValue("tenorDays", "");
+                        setFieldValue('tenorDays', '');
                       }
                     }}
                     type="number"
@@ -188,7 +189,7 @@ export default function LimitForm({
                     name="sanctionReference"
                     placeholder="Sanction Reference"
                     onChange={(e) => {
-                      setFieldValue("sanctionReference", e.target.value);
+                      setFieldValue('sanctionReference', e.target.value);
                     }}
                     type="string"
                     step="any"
@@ -213,7 +214,7 @@ export default function LimitForm({
                     name="rate"
                     placeholder="Interest Rate"
                     onChange={(e) => {
-                      setFieldValue("rate", e?.target?.value);
+                      setFieldValue('rate', e?.target?.value);
                     }}
                     type="number"
                     min="0"
@@ -229,9 +230,9 @@ export default function LimitForm({
                     placeholder="Rate Review"
                     onChange={(e) => {
                       if (/^\d*$/.test(e?.target?.value)) {
-                        setFieldValue("rateReview", e?.target?.value);
+                        setFieldValue('rateReview', e?.target?.value);
                       } else {
-                        setFieldValue("rateReview", e?.target?.value);
+                        setFieldValue('rateReview', e?.target?.value);
                       }
                     }}
                     type="number"
@@ -246,7 +247,7 @@ export default function LimitForm({
                     name="remarks"
                     placeholder="Remarks"
                     onChange={(e) => {
-                      setFieldValue("remarks", e?.target?.value);
+                      setFieldValue('remarks', e?.target?.value);
                     }}
                     type="text"
                   />
@@ -255,14 +256,14 @@ export default function LimitForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

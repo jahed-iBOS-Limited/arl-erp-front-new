@@ -1,30 +1,30 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useEffect, useState, useRef } from "react";
-import Form from "../../../common/form";
-import Axios from "axios";
-import shortid from "shortid";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import React, { useEffect, useState, useRef } from 'react';
+import Form from '../../../common/form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import { useParams } from "react-router-dom";
-import Loading from "./../../../../../../_helper/_loading";
-import { editPartnerBasic_api } from "../../../helper";
-import { partnerBasicAttachment_action } from "./../../../helper";
+} from '../../../../../../../../_metronic/_partials/controls';
+import { useParams } from 'react-router-dom';
+import Loading from './../../../../../../_helper/_loading';
+import { editPartnerBasic_api } from '../../../helper';
+import { partnerBasicAttachment_action } from './../../../helper';
 
 export default function PartnerBasic() {
   const { id } = useParams();
   const [isDisabled, setDisabled] = useState(false);
-  const [warehouseData, setData] = useState("");
+  const [warehouseData, setData] = useState('');
   //fileObjects
   const [fileObjects, setFileObjects] = useState([]);
   const selectedBusinessUnit = useSelector(
-    (state) => state.authData.selectedBusinessUnit
+    (state) => state.authData.selectedBusinessUnit,
   );
   const profileData = useSelector((state) => state.authData.profileData);
 
@@ -34,10 +34,10 @@ export default function PartnerBasic() {
 
   const getBusinessUnitById = async (accid, buid, id) => {
     const res = await Axios.get(
-      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerByID?accountId=${accid}&businessUnitId=${buid}&partnerID=${id}`
+      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerByID?accountId=${accid}&businessUnitId=${buid}&partnerID=${id}`,
     );
     const { data, status } = res;
-    console.log({resData: data})
+    console.log({ resData: data });
     if (status === 200 && data) {
       data.forEach((r) => {
         const singleObject = {
@@ -54,8 +54,8 @@ export default function PartnerBasic() {
             value: r.businessPartnerTypeId,
             label: r.businessPartnerTypeName,
           },
-          businessPartnerCode: "abc",
-          attachmentLink: r?.attachmentLink || "",
+          businessPartnerCode: 'abc',
+          attachmentLink: r?.attachmentLink || '',
           createNewUser: r?.isUser || false,
           isUser: r?.isUser,
           userId: r?.userId || null,
@@ -66,27 +66,32 @@ export default function PartnerBasic() {
                 value: r?.divisionId,
                 label: r?.divisionName,
               }
-            : "",
+            : '',
           district: r?.districtId
             ? {
                 value: r?.districtId,
                 label: r?.districtName,
               }
-            : "",
+            : '',
           policeStation: r?.upazilaId
             ? {
                 value: r?.upazilaId,
                 label: r?.upazilaName,
               }
-            : "",
-            proprietor:  r?.propitor || "",
-            contactPerson:  r?.contactPerson || "",
-            contactNumber2:  r?.contactNumber2 || "",
-            contactNumber3:  r?.contactNumber3 || "",
+            : '',
+          proprietor: r?.propitor || '',
+          contactPerson: r?.contactPerson || '',
+          contactNumber2: r?.contactNumber2 || '',
+          contactNumber3: r?.contactNumber3 || '',
+          cargoType: r?.cargoTypeId
+            ? {
+                value: r?.cargoTypeId,
+                label: r?.cargoType,
+              }
+            : '',
         };
         setData(singleObject);
       });
-  
     }
   };
   // save business unit data to DB
@@ -122,6 +127,8 @@ export default function PartnerBasic() {
       contactPerson: values?.contactPerson,
       contactNumber2: values?.contactNumber2,
       contactNumber3: values?.contactNumber3,
+      cargoTypeId: values?.cargoType?.value || 0,
+      cargoType: values?.cargoType?.label || '',
     };
 
     try {
@@ -141,13 +148,13 @@ export default function PartnerBasic() {
         partnerBasicAttachment_action(fileObjects).then((data) => {
           const modifyPlyload = {
             ...warehouseData,
-            attachmentLink: data[0]?.id || "",
+            attachmentLink: data[0]?.id || '',
           };
           editPartnerBasic_api(modifyPlyload, cb, setDisabled).then((data) => {
             getBusinessUnitById(
               profileData.accountId,
               selectedBusinessUnit.value,
-              id
+              id,
             );
           });
         });
@@ -157,7 +164,7 @@ export default function PartnerBasic() {
           getBusinessUnitById(
             profileData.accountId,
             selectedBusinessUnit.value,
-            id
+            id,
           );
         });
       }

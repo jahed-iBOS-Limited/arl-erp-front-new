@@ -1,14 +1,14 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import InputField from "../../../_helper/_inputField";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import FormikSelect from "../../_chartinghelper/common/formikSelect";
-import customStyles from "../../_chartinghelper/common/selectCustomStyle";
-import Loading from "../../_chartinghelper/loading/_loading";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import InputField from '../../../_helper/_inputField';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import FormikSelect from '../../_chartinghelper/common/formikSelect';
+import customStyles from '../../_chartinghelper/common/selectCustomStyle';
+import Loading from '../../_chartinghelper/loading/_loading';
 
 const initData = {
-  fromPort: "",
-  toPort: "",
+  fromPort: '',
+  toPort: '',
 };
 
 const PortDistanceReport = () => {
@@ -19,6 +19,7 @@ const PortDistanceReport = () => {
   useEffect(() => {
     getFromPortDDL(`/imp/ImportReport/GetFormPortDDL`);
     getToPortDDL(`/imp/ImportReport/GetToPortDDL`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -48,14 +49,14 @@ const PortDistanceReport = () => {
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.fromPort || ""}
+                      value={values?.fromPort || ''}
                       options={fromPortDDL || []}
                       styles={customStyles}
                       name="fromPort"
                       placeholder="From Port"
                       label="From Port"
                       onChange={(valueOption) => {
-                        setFieldValue("fromPort", valueOption || "");
+                        setFieldValue('fromPort', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -63,36 +64,36 @@ const PortDistanceReport = () => {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.toPort || ""}
+                      value={values?.toPort || ''}
                       options={toPortDDL || []}
                       styles={customStyles}
                       name="toPort"
                       placeholder="To Port"
                       label="To Port"
                       onChange={(valueOption) => {
-                        setFieldValue("toPort", valueOption || "");
+                        setFieldValue('toPort', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
                   <div className="col-lg-3">
-                      <InputField
-                       name="inputDays"
-                       value={values?.inputDays||""}
-                       min={0}
-                       label="Speed"
-                       type="number"
-                       onChange={(e)=>{
-                        setFieldValue("inputDays",+e.target?.value)
-                       }}
-                      />
+                    <InputField
+                      name="inputDays"
+                      value={values?.inputDays || ''}
+                      min={0}
+                      label="Speed"
+                      type="number"
+                      onChange={(e) => {
+                        setFieldValue('inputDays', +e.target?.value);
+                      }}
+                    />
                   </div>
                   <div>
                     <button
                       onClick={() => {
                         getRowDto(
-                          `/imp/ImportReport/GetMasterPort?formPort=${values?.fromPort?.label}&toPort=${values?.toPort?.label}&InputDAYS=${values?.inputDays}`
+                          `/imp/ImportReport/GetMasterPort?formPort=${values?.fromPort?.label}&toPort=${values?.toPort?.label}&InputDAYS=${values?.inputDays}`,
                         );
                       }}
                       type="button"
@@ -132,8 +133,10 @@ const PortDistanceReport = () => {
                             <td className="text-center">{item?.toLong}</td>
                             <td className="text-center">{item?.distnace}</td>
                             <td className="text-center">
-                            {item.numDays ? parseFloat(item?.numDays)?.toFixed(4) : ""}
-                          </td>
+                              {item.numDays
+                                ? parseFloat(item?.numDays)?.toFixed(4)
+                                : ''}
+                            </td>
                           </tr>
                         ))}
                     </tbody>

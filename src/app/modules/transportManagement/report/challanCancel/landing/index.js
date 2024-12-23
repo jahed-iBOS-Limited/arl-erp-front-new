@@ -1,29 +1,27 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { getChallanInfo, getDistributionChannelDDL_api } from "../helper";
-import TextArea from "../../../../_helper/TextArea";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import TextArea from '../../../../_helper/TextArea';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { getChallanInfo, getDistributionChannelDDL_api } from '../helper';
 
 const initData = {
-  distributionChannel: "",
-  customer: "",
-  challan: "",
-  strNarration: "",
+  distributionChannel: '',
+  customer: '',
+  challan: '',
+  strNarration: '',
 };
 
 function ChallanCancel() {
@@ -52,7 +50,7 @@ function ChallanCancel() {
       values?.strNarration,
       partId,
       setGridData,
-      setLoading
+      setLoading,
     );
   };
 
@@ -68,7 +66,7 @@ function ChallanCancel() {
             <Form>
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Challan Cancel"}>
+                <CardHeader title={'Challan Cancel'}>
                   <CardHeaderToolbar>
                     <button
                       className="btn btn-primary ml-2"
@@ -92,8 +90,8 @@ function ChallanCancel() {
                         value={values?.distributionChannel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("distributionChannel", valueOption);
-                          setFieldValue("customer", "");
+                          setFieldValue('distributionChannel', valueOption);
+                          setFieldValue('customer', '');
                           setGridData([]);
                         }}
                         placeholder="Distribution Channel"
@@ -106,7 +104,7 @@ function ChallanCancel() {
                       <SearchAsyncSelect
                         selectedValue={values?.customer}
                         handleChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
+                          setFieldValue('customer', valueOption);
                           setGridData([]);
                         }}
                         isDisabled={!values?.distributionChannel}
@@ -116,7 +114,7 @@ function ChallanCancel() {
                           // if (searchValue?.length < 3) return [];
                           return axios
                             .get(
-                              `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.distributionChannel?.value}`
+                              `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.distributionChannel?.value}`,
                             )
                             .then((res) => res?.data);
                         }}
@@ -130,7 +128,7 @@ function ChallanCancel() {
                         placeholder="Challan No"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("challan", e.target.value);
+                          setFieldValue('challan', e.target.value);
                           setGridData([]);
                         }}
                       />
@@ -192,46 +190,46 @@ function ChallanCancel() {
                         {gridData?.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{item?.strchallan || "N/A"}</td>
-                            <td>{item?.strunint || "N/A"}</td>
-                            <td>{item?.intsalesjvid || "N/A"}</td>
+                            <td>{item?.strchallan || 'N/A'}</td>
+                            <td>{item?.strunint || 'N/A'}</td>
+                            <td>{item?.intsalesjvid || 'N/A'}</td>
                             <td>
                               <span
                                 style={{
-                                  display: "inline-block",
-                                  padding: "0.15em 0.5em",
-                                  borderRadius: "1em",
+                                  display: 'inline-block',
+                                  padding: '0.15em 0.5em',
+                                  borderRadius: '1em',
                                   color:
-                                    item?.strChallanStatus === "Active"
-                                      ? "white"
-                                      : "#3a3a3a",
+                                    item?.strChallanStatus === 'Active'
+                                      ? 'white'
+                                      : '#3a3a3a',
                                   backgroundColor:
-                                    item?.strChallanStatus === "Active"
-                                      ? "green"
-                                      : "#ffbf00",
-                                  fontWeight: "bold",
+                                    item?.strChallanStatus === 'Active'
+                                      ? 'green'
+                                      : '#ffbf00',
+                                  fontWeight: 'bold',
                                 }}
                               >
-                                {item?.strChallanStatus || "N/A"}
+                                {item?.strChallanStatus || 'N/A'}
                               </span>
                             </td>
-                            <td>{item?.stroder || "N/A"}</td>
-                            <td>{item?.ordercomplete ? "Yes" : "No"}</td>
-                            <td>{item?.orderqnt || "N/A"}</td>
-                            <td>{item?.orderDeliverdqnt || "N/A"}</td>
-                            <td>{item?.orderundeliverqnt || "N/A"}</td>
-                            <td>{item?.intSOID || "N/A"}</td>
-                            <td>{item?.strItemName || "N/A"}</td>
-                            <td>{item?.intItemID || "N/A"}</td>
-                            <td>{item?.numDeliveryQnt || "N/A"}</td>
-                            <td>{item?.numProductPrice || "N/A"}</td>
-                            <td>{item?.numDeliveryAmount || "N/A"}</td>
-                            <td>{item?.numDamageQnt || "N/A"}</td>
-                            <td>{item?.intDeliveryID || "N/A"}</td>
+                            <td>{item?.stroder || 'N/A'}</td>
+                            <td>{item?.ordercomplete ? 'Yes' : 'No'}</td>
+                            <td>{item?.orderqnt || 'N/A'}</td>
+                            <td>{item?.orderDeliverdqnt || 'N/A'}</td>
+                            <td>{item?.orderundeliverqnt || 'N/A'}</td>
+                            <td>{item?.intSOID || 'N/A'}</td>
+                            <td>{item?.strItemName || 'N/A'}</td>
+                            <td>{item?.intItemID || 'N/A'}</td>
+                            <td>{item?.numDeliveryQnt || 'N/A'}</td>
+                            <td>{item?.numProductPrice || 'N/A'}</td>
+                            <td>{item?.numDeliveryAmount || 'N/A'}</td>
+                            <td>{item?.numDamageQnt || 'N/A'}</td>
+                            <td>{item?.intDeliveryID || 'N/A'}</td>
                             <td>
-                              {_dateFormatter(item?.dteChallanDate) || "N/A"}
+                              {_dateFormatter(item?.dteChallanDate) || 'N/A'}
                             </td>
-                            <td>{item?.strMsg || "N/A"}</td>
+                            <td>{item?.strMsg || 'N/A'}</td>
                           </tr>
                         ))}
                       </tbody>

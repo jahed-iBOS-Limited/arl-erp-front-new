@@ -1,18 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import { toast } from "react-toastify";
-import NewSelect from "../../../_helper/_select";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../_helper/_inputField';
+import { toast } from 'react-toastify';
+import NewSelect from '../../../_helper/_select';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
-  businessUnit: "",
-  fiscalYear: "",
+  businessUnit: '',
+  fiscalYear: '',
 };
 
 export default function AssetLiabilityPlanCreateEdit() {
@@ -36,7 +36,7 @@ export default function AssetLiabilityPlanCreateEdit() {
 
   const [objProps, setObjprops] = useState({});
   const saveHandler = (values, cb) => {
-    if (tableData?.length && tableData[0].msg !== "already exists") {
+    if (tableData?.length && tableData[0].msg !== 'already exists') {
       const payload = tableData.map((item) => {
         return {
           ...item,
@@ -54,7 +54,7 @@ export default function AssetLiabilityPlanCreateEdit() {
           junAmount: +item?.junAmount || 0,
           yearId: values?.fiscalYear?.value,
           yearName: values?.fiscalYear?.label,
-          partName: "Create",
+          partName: 'Create',
           actionBy: profileData?.userId,
           businessUnitId: values?.businessUnit?.value,
         };
@@ -66,10 +66,10 @@ export default function AssetLiabilityPlanCreateEdit() {
           // setTableData([]);
           onViewButtonClick(formikRef?.current?.values);
         },
-        true
+        true,
       );
     } else {
-      return toast.warn("No data to save");
+      return toast.warn('No data to save');
     }
   };
 
@@ -84,7 +84,7 @@ export default function AssetLiabilityPlanCreateEdit() {
           };
         });
         setBuDDL(newData);
-      }
+      },
     );
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -94,18 +94,18 @@ export default function AssetLiabilityPlanCreateEdit() {
     const updatedData = [...tableData];
     let updatedValue = initialAmount;
     const monthsToUpdate = [
-      "julAmount",
-      "augAmount",
-      "sepAmount",
-      "octAmount",
-      "novAmount",
-      "decAmount",
-      "janAmount",
-      "febAmount",
-      "marAmount",
-      "aprAmount",
-      "mayAmount",
-      "junAmount",
+      'julAmount',
+      'augAmount',
+      'sepAmount',
+      'octAmount',
+      'novAmount',
+      'decAmount',
+      'janAmount',
+      'febAmount',
+      'marAmount',
+      'aprAmount',
+      'mayAmount',
+      'junAmount',
     ];
     for (const month of monthsToUpdate) {
       updatedValue += updatedValue * (PercentageValue / 100);
@@ -113,39 +113,6 @@ export default function AssetLiabilityPlanCreateEdit() {
       updatedData[index][month] = updatedValue;
     }
     setTableData(updatedData);
-  };
-
-  const calculatePercentageValues = (item) => {
-    if (item.entryType === "Percentage") {
-      const updatedValue = item.initialAmount;
-      let currentValue = updatedValue;
-      const monthsToUpdate = [
-        "julAmount",
-        "augAmount",
-        "sepAmount",
-        "octAmount",
-        "novAmount",
-        "decAmount",
-        "janAmount",
-        "febAmount",
-        "marAmount",
-        "aprAmount",
-        "mayAmount",
-        "junAmount",
-      ];
-      for (const month of monthsToUpdate) {
-        if (item?.initialAmount > 0) {
-          currentValue = item[month];
-          currentValue = parseFloat(currentValue.toFixed(2));
-          item[month] = currentValue;
-        } else {
-          currentValue += currentValue * (item.entryTypeValue / 100);
-          currentValue = parseFloat(currentValue.toFixed(2));
-          item[month] = currentValue;
-        }
-      }
-    }
-    return item; // Return the modified item
   };
 
   const onViewButtonClick = (values) => {
@@ -163,7 +130,7 @@ export default function AssetLiabilityPlanCreateEdit() {
           (invData) => {
             const updatedDataWithInventory = updatedData?.map((item) => {
               const invDataItem = invData?.find(
-                (invItem) => invItem?.intGeneralLedgerId === item?.glId
+                (invItem) => invItem?.intGeneralLedgerId === item?.glId,
               );
               if (invDataItem) {
                 return {
@@ -187,9 +154,9 @@ export default function AssetLiabilityPlanCreateEdit() {
               }
             });
             setTableData(updatedDataWithInventory);
-          }
+          },
         );
-      }
+      },
     );
   };
 
@@ -239,7 +206,7 @@ export default function AssetLiabilityPlanCreateEdit() {
             inventoryDataLoader ||
             buDDLloader) && <Loading />}
           <IForm
-            title={"Asset Liability Plan Create"}
+            title={'Asset Liability Plan Create'}
             getProps={setObjprops}
             isHiddenReset={true}
           >
@@ -252,7 +219,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption);
+                      setFieldValue('businessUnit', valueOption);
                       setTableData([]);
                     }}
                     errors={errors}
@@ -266,7 +233,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                     value={values?.fiscalYear}
                     label="Year"
                     onChange={(valueOption) => {
-                      setFieldValue("fiscalYear", valueOption);
+                      setFieldValue('fiscalYear', valueOption);
                       setTableData([]);
                     }}
                     errors={errors}
@@ -277,7 +244,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                 <div className="col-lg-3 mt-5">
                   <button
                     style={{
-                      marginTop: "3px",
+                      marginTop: '3px',
                     }}
                     className="btn btn-primary"
                     type="button"
@@ -291,37 +258,37 @@ export default function AssetLiabilityPlanCreateEdit() {
 
               {values?.fiscalYear?.value &&
               tableData.length &&
-              tableData[0].msg === "already exists" ? (
+              tableData[0].msg === 'already exists' ? (
                 <div className="text-center mt-5">
                   <p>{tableData[0].msg}</p>
                 </div>
               ) : (
                 <div className="common-scrollable-table two-column-sticky mt-2">
                   <div
-                    style={{ maxHeight: "500px" }}
+                    style={{ maxHeight: '500px' }}
                     className="scroll-table _table"
                   >
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ minWidth: "60px" }}>SL</th>
-                          <th style={{ minWidth: "200px" }}>GL Name</th>
-                          <th style={{ minWidth: "100px" }}>GL Class</th>
-                          <th style={{ minWidth: "80px" }}>GL Type</th>
-                          <th style={{ minWidth: "100px" }}>Opening</th>
-                          <th style={{ minWidth: "140px" }}>Value</th>
-                          <th style={{ minWidth: "140px" }}>July</th>
-                          <th style={{ minWidth: "140px" }}>August</th>
-                          <th style={{ minWidth: "140px" }}>September</th>
-                          <th style={{ minWidth: "140px" }}>October</th>
-                          <th style={{ minWidth: "140px" }}>November</th>
-                          <th style={{ minWidth: "140px" }}>December</th>
-                          <th style={{ minWidth: "140px" }}>January</th>
-                          <th style={{ minWidth: "140px" }}>February</th>
-                          <th style={{ minWidth: "140px" }}>March</th>
-                          <th style={{ minWidth: "140px" }}>April</th>
-                          <th style={{ minWidth: "140px" }}>May</th>
-                          <th style={{ minWidth: "140px" }}>June</th>
+                          <th style={{ minWidth: '60px' }}>SL</th>
+                          <th style={{ minWidth: '200px' }}>GL Name</th>
+                          <th style={{ minWidth: '100px' }}>GL Class</th>
+                          <th style={{ minWidth: '80px' }}>GL Type</th>
+                          <th style={{ minWidth: '100px' }}>Opening</th>
+                          <th style={{ minWidth: '140px' }}>Value</th>
+                          <th style={{ minWidth: '140px' }}>July</th>
+                          <th style={{ minWidth: '140px' }}>August</th>
+                          <th style={{ minWidth: '140px' }}>September</th>
+                          <th style={{ minWidth: '140px' }}>October</th>
+                          <th style={{ minWidth: '140px' }}>November</th>
+                          <th style={{ minWidth: '140px' }}>December</th>
+                          <th style={{ minWidth: '140px' }}>January</th>
+                          <th style={{ minWidth: '140px' }}>February</th>
+                          <th style={{ minWidth: '140px' }}>March</th>
+                          <th style={{ minWidth: '140px' }}>April</th>
+                          <th style={{ minWidth: '140px' }}>May</th>
+                          <th style={{ minWidth: '140px' }}>June</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -334,7 +301,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                               <td>{item?.entryType}</td>
                               <td>{item?.initialAmount}</td>
                               <td>
-                                {item?.entryType === "Percentage" ? (
+                                {item?.entryType === 'Percentage' ? (
                                   <InputField
                                     value={item?.entryTypeValue}
                                     type="text"
@@ -348,19 +315,19 @@ export default function AssetLiabilityPlanCreateEdit() {
                                         fillPersentageValueInRow(
                                           +e.target.value,
                                           index,
-                                          item?.initialAmount
+                                          item?.initialAmount,
                                         );
                                       } else {
                                         const updatedData = [...tableData];
                                         updatedData[index].entryTypeValue = 0;
                                         setTableData(updatedData);
                                         return toast.warn(
-                                          "Value must be greater than 0"
+                                          'Value must be greater than 0',
                                         );
                                       }
                                     }}
                                   />
-                                ) : item?.entryType === "Inventory" ? (
+                                ) : item?.entryType === 'Inventory' ? (
                                   <span className="text-center pointer"></span>
                                 ) : (
                                   <InputField
@@ -374,9 +341,9 @@ export default function AssetLiabilityPlanCreateEdit() {
                                           idx === index
                                             ? getUpdatedRowObjectForManual(
                                                 data,
-                                                newValue
+                                                newValue,
                                               )
-                                            : data
+                                            : data,
                                       );
                                       setTableData(updatedData);
                                     }}
@@ -384,7 +351,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {item?.entryType === "Manual" ? (
+                                {item?.entryType === 'Manual' ? (
                                   <InputField
                                     value={item?.julAmount}
                                     type="number"
@@ -396,7 +363,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       setTableData(updatedData);
                                     }}
                                   />
-                                ) : item?.entryType === "Percentage" ? (
+                                ) : item?.entryType === 'Percentage' ? (
                                   <InputField
                                     value={item?.julAmount}
                                     type="number"
@@ -423,7 +390,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {item?.entryType === "Manual" ? (
+                                {item?.entryType === 'Manual' ? (
                                   <InputField
                                     value={item?.augAmount}
                                     type="number"
@@ -435,7 +402,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       setTableData(updatedData);
                                     }}
                                   />
-                                ) : item?.entryType === "Percentage" ? (
+                                ) : item?.entryType === 'Percentage' ? (
                                   <InputField
                                     value={item?.augAmount}
                                     type="number"
@@ -463,7 +430,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                               </td>
                               <td>
                                 {/* {item?.sepAmount} */}
-                                {item?.entryType === "Manual" ? (
+                                {item?.entryType === 'Manual' ? (
                                   <InputField
                                     value={item?.sepAmount}
                                     type="number"
@@ -475,7 +442,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       setTableData(updatedData);
                                     }}
                                   />
-                                ) : item?.entryType === "Percentage" ? (
+                                ) : item?.entryType === 'Percentage' ? (
                                   <InputField
                                     value={item?.sepAmount}
                                     type="number"
@@ -489,20 +456,20 @@ export default function AssetLiabilityPlanCreateEdit() {
                                   />
                                 ) : (
                                   <InputField
-                                  value={item?.sepAmount}
-                                  type="number"
-                                  name="entryTypeValue"
-                                  onChange={(e) => {
-                                    const updatedData = [...tableData];
-                                    updatedData[index].sepAmount =
-                                      e.target.value;
-                                    setTableData(updatedData);
-                                  }}
-                                />
+                                    value={item?.sepAmount}
+                                    type="number"
+                                    name="entryTypeValue"
+                                    onChange={(e) => {
+                                      const updatedData = [...tableData];
+                                      updatedData[index].sepAmount =
+                                        e.target.value;
+                                      setTableData(updatedData);
+                                    }}
+                                  />
                                 )}
                               </td>
                               <td>
-                                {item?.entryType === "Manual" ? (
+                                {item?.entryType === 'Manual' ? (
                                   <InputField
                                     value={item?.octAmount}
                                     type="number"
@@ -514,7 +481,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       setTableData(updatedData);
                                     }}
                                   />
-                                ) : item?.entryType === "Percentage" ? (
+                                ) : item?.entryType === 'Percentage' ? (
                                   <InputField
                                     value={item?.octAmount}
                                     type="number"
@@ -541,7 +508,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {item?.entryType === "Manual" ? (
+                                {item?.entryType === 'Manual' ? (
                                   <InputField
                                     value={item?.novAmount}
                                     type="number"
@@ -553,7 +520,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       setTableData(updatedData);
                                     }}
                                   />
-                                ) : item?.entryType === "Percentage" ? (
+                                ) : item?.entryType === 'Percentage' ? (
                                   <InputField
                                     value={item?.novAmount}
                                     type="number"
@@ -581,7 +548,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                               </td>
                               <td>
                                 {/* {item?.decAmount} */}
-                                {item?.entryType === "Manual" ? (
+                                {item?.entryType === 'Manual' ? (
                                   <InputField
                                     value={item?.decAmount}
                                     type="number"
@@ -593,7 +560,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       setTableData(updatedData);
                                     }}
                                   />
-                                ) : item?.entryType === "Percentage" ? (
+                                ) : item?.entryType === 'Percentage' ? (
                                   <InputField
                                     value={item?.decAmount}
                                     type="number"
@@ -620,7 +587,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {item?.entryType === "Manual" ? (
+                                {item?.entryType === 'Manual' ? (
                                   <InputField
                                     value={item?.janAmount}
                                     type="number"
@@ -632,7 +599,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       setTableData(updatedData);
                                     }}
                                   />
-                                ) : item?.entryType === "Percentage" ? (
+                                ) : item?.entryType === 'Percentage' ? (
                                   <InputField
                                     value={item?.janAmount}
                                     type="number"
@@ -659,7 +626,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {item?.entryType === "Manual" ? (
+                                {item?.entryType === 'Manual' ? (
                                   <InputField
                                     value={item?.febAmount}
                                     type="number"
@@ -671,7 +638,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       setTableData(updatedData);
                                     }}
                                   />
-                                ) : item?.entryType === "Percentage" ? (
+                                ) : item?.entryType === 'Percentage' ? (
                                   <InputField
                                     value={item?.febAmount}
                                     type="number"
@@ -698,7 +665,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {item?.entryType === "Manual" ? (
+                                {item?.entryType === 'Manual' ? (
                                   <InputField
                                     value={item?.marAmount}
                                     type="number"
@@ -710,7 +677,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       setTableData(updatedData);
                                     }}
                                   />
-                                ) : item?.entryType === "Percentage" ? (
+                                ) : item?.entryType === 'Percentage' ? (
                                   <InputField
                                     value={item?.marAmount}
                                     type="number"
@@ -737,7 +704,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {item?.entryType === "Manual" ? (
+                                {item?.entryType === 'Manual' ? (
                                   <InputField
                                     value={item?.aprAmount}
                                     type="number"
@@ -749,7 +716,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       setTableData(updatedData);
                                     }}
                                   />
-                                ) : item?.entryType === "Percentage" ? (
+                                ) : item?.entryType === 'Percentage' ? (
                                   <InputField
                                     value={item?.aprAmount}
                                     type="number"
@@ -776,7 +743,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {item?.entryType === "Manual" ? (
+                                {item?.entryType === 'Manual' ? (
                                   <InputField
                                     value={item?.mayAmount}
                                     type="number"
@@ -788,7 +755,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       setTableData(updatedData);
                                     }}
                                   />
-                                ) : item?.entryType === "Percentage" ? (
+                                ) : item?.entryType === 'Percentage' ? (
                                   <InputField
                                     value={item?.mayAmount}
                                     type="number"
@@ -815,7 +782,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                 )}
                               </td>
                               <td>
-                                {item?.entryType === "Manual" ? (
+                                {item?.entryType === 'Manual' ? (
                                   <InputField
                                     value={item?.junAmount}
                                     type="number"
@@ -827,7 +794,7 @@ export default function AssetLiabilityPlanCreateEdit() {
                                       setTableData(updatedData);
                                     }}
                                   />
-                                ) : item?.entryType === "Percentage" ? (
+                                ) : item?.entryType === 'Percentage' ? (
                                   <InputField
                                     value={item?.junAmount}
                                     type="number"
@@ -863,14 +830,14 @@ export default function AssetLiabilityPlanCreateEdit() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

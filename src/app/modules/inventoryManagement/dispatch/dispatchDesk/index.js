@@ -1,24 +1,23 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-// import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IApproval from "../../../_helper/_helperIcons/_approval";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
-import CommonTable from "../../../_helper/commonTable";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import ReceiveModal from "./receiveModal";
-import SendModal from "./sendModal";
-import PaginationSearch from "../../../_helper/_search";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import OwnerSendModal from "./ownerSendModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IApproval from '../../../_helper/_helperIcons/_approval';
+import Loading from '../../../_helper/_loading';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import CommonTable from '../../../_helper/commonTable';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import ReceiveModal from './receiveModal';
+import SendModal from './sendModal';
+import PaginationSearch from '../../../_helper/_search';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import OwnerSendModal from './ownerSendModal';
 const initData = {
-  requisition: "send",
+  requisition: 'send',
 };
 export default function DispatchDeskLanding() {
   const saveHandler = (values, cb) => {};
@@ -26,10 +25,10 @@ export default function DispatchDeskLanding() {
   const [isShowSendModal, setShowSendModal] = useState(false);
   const [isShowReceiveModal, setShowReceiveModal] = useState(false);
   const [singleItem, setSingleItem] = useState({});
-  const [fromPlantDDL, getFromPlantDDL, , setFromPlant] = useAxiosGet();
+  const [, getFromPlantDDL, , setFromPlant] = useAxiosGet();
   //   const history = useHistory();
   const {
-    profileData: { accountId: accId, userId, employeeId },
+    profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
@@ -38,25 +37,25 @@ export default function DispatchDeskLanding() {
   const [, receiveHandler, receiveLoader] = useAxiosPost();
 
   const handleGetRowData = (status, pageNo, pageSize, searchValue) => {
-    const searchParam = searchValue ? `&search=${searchValue}` : "";
-    if (status === "send") {
+    const searchParam = searchValue ? `&search=${searchValue}` : '';
+    if (status === 'send') {
       getGridData(
         `/tms/DocumentDispatch/GetDispatchsSendPasignation?AccountId=${accId}&businessUnitId=${buId}&dispatchDeskSenderId=${0}&SenderId=${0}&ReceiverId=0&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchParam}`,
         (rowData) => {
           const result = rowData?.data?.sort((a, b) =>
-            a.isSend === b.isSend ? 0 : a.isSend ? 1 : -1
+            a.isSend === b.isSend ? 0 : a.isSend ? 1 : -1,
           );
           setGridData({ ...rowData, data: result });
-        }
+        },
       );
     } else {
       getGridData(
         `/tms/DocumentDispatch/GetDispatchsReceivePasignation?AccountId=${accId}&businessUnitId=${buId}&SenderId=0&ReceiverId=${0}&dispatchDeskReceiverId=${0}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchParam}
-      `
+      `,
       );
     }
   };
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     handleGetRowData(values?.requisition, pageNo, pageSize, searchValue);
   };
 
@@ -65,9 +64,9 @@ export default function DispatchDeskLanding() {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`,
       (data) => {
         const fromPlantPayload = data?.map((item) => item?.value);
-        handleGetRowData("send", pageNo, pageSize);
+        handleGetRowData('send', pageNo, pageSize);
         setFromPlant(fromPlantPayload);
-      }
+      },
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -78,37 +77,37 @@ export default function DispatchDeskLanding() {
   };
 
   const sendHeadersData = [
-    "Document No",
-    "Sender Name",
-    "Sender Location",
-    "Dispatch Type",
-    "Document Type",
-    "Requisition Date",
-    "Receiver Name",
-    "Receiver Business Unit",
-    "Receiver Location",
-    "Remarks",
-    "Send By",
-    "Status",
-    "Action",
-  ]
+    'Document No',
+    'Sender Name',
+    'Sender Location',
+    'Dispatch Type',
+    'Document Type',
+    'Requisition Date',
+    'Receiver Name',
+    'Receiver Business Unit',
+    'Receiver Location',
+    'Remarks',
+    'Send By',
+    'Status',
+    'Action',
+  ];
 
   const receiveHeadersData = [
-    "Document No",
-    "Sender Name",
-    "Sender Location",
-    "Dispatch Type",
-    "Document Type",
-    "Received Date",
-    "Receiver Name",
-    "Receiver Business Unit",
-    "Receiver Location",
-    "Remarks",
-    "Send By",
-    "Send Date",
-    "Status",
-    "Action",
-  ]
+    'Document No',
+    'Sender Name',
+    'Sender Location',
+    'Dispatch Type',
+    'Document Type',
+    'Received Date',
+    'Receiver Name',
+    'Receiver Business Unit',
+    'Receiver Location',
+    'Remarks',
+    'Send By',
+    'Send Date',
+    'Status',
+    'Action',
+  ];
 
   return (
     <Formik
@@ -156,11 +155,11 @@ export default function DispatchDeskLanding() {
             <Form>
               <div className="row global-form">
                 <div
-                  style={{ alignItems: "center", gap: "15px" }}
+                  style={{ alignItems: 'center', gap: '15px' }}
                   className="col-lg-4  d-flex"
                 >
                   <label
-                    style={{ alignItems: "center", gap: "5px" }}
+                    style={{ alignItems: 'center', gap: '5px' }}
                     className="d-flex"
                     htmlFor="send"
                   >
@@ -168,18 +167,18 @@ export default function DispatchDeskLanding() {
                       id="send"
                       type="radio"
                       name="requisition"
-                      checked={values?.requisition === "send"}
+                      checked={values?.requisition === 'send'}
                       onChange={(e) => {
-                        setFieldValue("requisition", "send");
+                        setFieldValue('requisition', 'send');
                         setPageNo(0);
                         setPageSize(15);
-                        handleGetRowData("send", 0, 15);
+                        handleGetRowData('send', 0, 15);
                       }}
                     />
                     Send
                   </label>
                   <label
-                    style={{ alignItems: "center", gap: "5px" }}
+                    style={{ alignItems: 'center', gap: '5px' }}
                     className="mr-3 d-flex"
                     htmlFor="receive"
                   >
@@ -187,12 +186,12 @@ export default function DispatchDeskLanding() {
                       id="receive"
                       type="radio"
                       name="requisition"
-                      checked={values?.requisition === "received"}
+                      checked={values?.requisition === 'received'}
                       onChange={(e) => {
-                        setFieldValue("requisition", "received");
+                        setFieldValue('requisition', 'received');
                         setPageNo(0);
                         setPageSize(15);
-                        handleGetRowData("received", 0, 15);
+                        handleGetRowData('received', 0, 15);
                       }}
                     />
                     Receive
@@ -206,9 +205,13 @@ export default function DispatchDeskLanding() {
                   values={values}
                 />
               </div>
-              <div style={{ marginTop: "7px", gap: "5px" }}>
+              <div style={{ marginTop: '7px', gap: '5px' }}>
                 <CommonTable
-                  headersData={values?.requisition === "send" ? sendHeadersData : receiveHeadersData}
+                  headersData={
+                    values?.requisition === 'send'
+                      ? sendHeadersData
+                      : receiveHeadersData
+                  }
                 >
                   <tbody>
                     {gridData?.data?.map((item, index) => (
@@ -223,7 +226,7 @@ export default function DispatchDeskLanding() {
                           {item?.dispatchDescription}
                         </td>
                         <td className="text-center">
-                          {values?.requisition === "received"
+                          {values?.requisition === 'received'
                             ? _dateFormatter(item.dispatchReceiveDate)
                             : _dateFormatter(item.requisitionDate)}
                         </td>
@@ -235,20 +238,28 @@ export default function DispatchDeskLanding() {
                         </td>
                         <td className="text-center">{item?.toLocation}</td>
                         <td className="text-center">{item?.dispatchNote}</td>
-                        <td className="text-center">{values?.requisition === "send" ? item?.sendByName : item?.sendToReceiverBy}</td>
-                        {values?.requisition === "received" && <td className="text-center">{_dateFormatter(item?.ownerDeskSendDate)}</td>}
                         <td className="text-center">
-                          <span style={{ color: "green", fontWeight: "bold" }}>
+                          {values?.requisition === 'send'
+                            ? item?.sendByName
+                            : item?.sendToReceiverBy}
+                        </td>
+                        {values?.requisition === 'received' && (
+                          <td className="text-center">
+                            {_dateFormatter(item?.ownerDeskSendDate)}
+                          </td>
+                        )}
+                        <td className="text-center">
+                          <span style={{ color: 'green', fontWeight: 'bold' }}>
                             {item?.sendReceive}
                           </span>
                         </td>
                         <td className="text-center">
-                          {values?.requisition === "send" &&
+                          {values?.requisition === 'send' &&
                             !item?.isSend &&
                             item?.isRequisitionDesk && (
                               <span
-                                style={{ cursor: "pointer" }}
-                                onClick={() => console.log("click icon")}
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => console.log('click icon')}
                               >
                                 <IApproval
                                   title="Send"
@@ -259,10 +270,10 @@ export default function DispatchDeskLanding() {
                                 />
                               </span>
                             )}
-                          {values?.requisition === "send" &&
+                          {values?.requisition === 'send' &&
                             !item?.isRequisitionDesk && (
                               <span
-                                style={{ cursor: "pointer" }}
+                                style={{ cursor: 'pointer' }}
                                 onClick={() => {
                                   IConfirmModal({
                                     message: `Are you sure to receive ?`,
@@ -274,9 +285,9 @@ export default function DispatchDeskLanding() {
                                           handleGetRowData(
                                             values?.requisition,
                                             pageNo,
-                                            pageSize
+                                            pageSize,
                                           );
-                                        }
+                                        },
                                       );
                                     },
                                     noAlertFunc: () => {},
@@ -291,7 +302,7 @@ export default function DispatchDeskLanding() {
                                 >
                                   <span>
                                     <i
-                                      style={{ fontSize: "16px" }}
+                                      style={{ fontSize: '16px' }}
                                       class="fa fa-download"
                                       aria-hidden="true"
                                     ></i>
@@ -299,11 +310,13 @@ export default function DispatchDeskLanding() {
                                 </OverlayTrigger>
                               </span>
                             )}
-                          {values?.requisition === "received" &&
-                            item?.isReceive && !item?.isOwnerDeskSend && !item?.isOwnerReceive && (
+                          {values?.requisition === 'received' &&
+                            item?.isReceive &&
+                            !item?.isOwnerDeskSend &&
+                            !item?.isOwnerReceive && (
                               <span
-                                style={{ cursor: "pointer" }}
-                                onClick={() => console.log("click icon")}
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => console.log('click icon')}
                               >
                                 <IApproval
                                   title="Send To Owner"
@@ -358,8 +371,8 @@ export default function DispatchDeskLanding() {
                     show={isShowReceiveModal}
                     onHide={() => {
                       setShowReceiveModal(false);
-                      setFieldValue("requisition", "received");
-                      handleGetRowData("received", pageNo, pageSize);
+                      setFieldValue('requisition', 'received');
+                      handleGetRowData('received', pageNo, pageSize);
                     }}
                   >
                     <ReceiveModal />
@@ -372,13 +385,18 @@ export default function DispatchDeskLanding() {
                     show={isShowSendModal}
                     onHide={() => {
                       setShowSendModal(false);
-                      setFieldValue("requisition", "received");
-                      handleGetRowData("received", pageNo, pageSize);
+                      setFieldValue('requisition', 'received');
+                      handleGetRowData('received', pageNo, pageSize);
                     }}
                   >
                     <OwnerSendModal
                       handleGetRowData={handleGetRowData}
-                      propsObj={{ status: "received", pageNo, pageSize, singleItem }}
+                      propsObj={{
+                        status: 'received',
+                        pageNo,
+                        pageSize,
+                        singleItem,
+                      }}
                     />
                   </IViewModal>
                 </>

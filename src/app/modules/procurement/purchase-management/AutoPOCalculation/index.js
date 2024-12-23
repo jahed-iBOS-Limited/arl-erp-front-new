@@ -1,16 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { Tab, Tabs } from "react-bootstrap";
-import IForm from "../../../_helper/_form";
-import RFQAutoProcess from "./rfqAutoProcess";
-import POAutoProcess from "./poAutoProcess";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { Tab, Tabs } from 'react-bootstrap';
+import IForm from '../../../_helper/_form';
+import RFQAutoProcess from './rfqAutoProcess';
+import POAutoProcess from './poAutoProcess';
 
 const initData = {
-  purchaseOrganization: "",
+  purchaseOrganization: '',
 };
 export default function AutoPOCalculation() {
-  const [objProps, setObjprops] = useState({});
+  const [, setObjprops] = useState({});
 
   const saveHandler = (values, cb) => {};
   return (

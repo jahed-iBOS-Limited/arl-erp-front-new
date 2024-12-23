@@ -1,54 +1,52 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import TextArea from "../../../../_helper/TextArea";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { getSBUListDDL } from "../../../../performanceManagement/stategyYearsPlan/helper";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { _todayDate } from "../../../_chartinghelper/_todayDate";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { getSalesOrgList } from "../../../transaction/timeCharter/helper";
-import { getMonthlyVoyageStatement, months } from "../helper";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import { imarineBaseUrl } from "../../../../../App";
-import moment from "moment";
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import TextArea from '../../../../_helper/TextArea';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { getSBUListDDL } from '../../../../performanceManagement/stategyYearsPlan/helper';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import { _todayDate } from '../../../_chartinghelper/_todayDate';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { getSalesOrgList } from '../../../transaction/timeCharter/helper';
+import { getMonthlyVoyageStatement, months } from '../helper';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import { imarineBaseUrl } from '../../../../../App';
+import moment from 'moment';
 
 const headers = [
-  { name: "SL" },
-  { name: "Lighter Vessel Name" },
-  { name: "Voyage No (lighter vessel)" },
-  { name: "SR Number" },
-  { name: "Receive Date & Time" },
-  { name: "Discharging Start" },
-  { name: "Discharging Complete" },
-  { name: "Duration (DAYS)" },
-  { name: "Mother Vessel" },
-  { name: "Voyage No (mother vessel)" },
-  { name: "Cargo" },
-  { name: "Est. Quantity" },
-  { name: "Final Quantity" },
-  { name: "Rate" },
-  { name: "Est. Freight" },
-  { name: "Freight" },
-  { name: "Unloading Jetty" },
-  { name: "Action" },
+  { name: 'SL' },
+  { name: 'Lighter Vessel Name' },
+  { name: 'Voyage No (lighter vessel)' },
+  { name: 'SR Number' },
+  { name: 'Receive Date & Time' },
+  { name: 'Discharging Start' },
+  { name: 'Discharging Complete' },
+  { name: 'Duration (DAYS)' },
+  { name: 'Mother Vessel' },
+  { name: 'Voyage No (mother vessel)' },
+  { name: 'Cargo' },
+  { name: 'Est. Quantity' },
+  { name: 'Final Quantity' },
+  { name: 'Rate' },
+  { name: 'Est. Freight' },
+  { name: 'Freight' },
+  { name: 'Unloading Jetty' },
+  { name: 'Action' },
 ];
 
 const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
-  salesOrg: "",
-  sbu: "",
+  salesOrg: '',
+  sbu: '',
   journalDate: _todayDate(),
-  narration: "",
+  narration: '',
 };
 
 export default function MonthlyVoyageStatement() {
@@ -70,13 +68,14 @@ export default function MonthlyVoyageStatement() {
       values?.fromDate,
       values?.toDate,
       setGridData,
-      setLoading
+      setLoading,
     );
   };
 
   useEffect(() => {
     getRowData(initData);
     getSBUListDDL(accId, buId, setSBUList);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
   const JournalPost = (values, item, index, journalType) => {
@@ -94,23 +93,11 @@ export default function MonthlyVoyageStatement() {
       (+item?.cargoQtyAct || 0) * (+item?.cargoFreightRate || 0);
 
     const amount =
-      journalType === "jv"
+      journalType === 'jv'
         ? estFreightAmount
-        : journalType === "aj"
+        : journalType === 'aj'
         ? estFreightAmount - netFreight
         : 0;
-
-    const narration = `Amount ${
-      journalType === "jv" ? "debited" : "credited"
-    } to ${item?.consigneePartyName} & ${
-      journalType === "jv" ? "credited" : "debited"
-    } to Freight Income as provision of freight income of ${
-      item?.lighterVesselName
-    }, Trip-${item?.tripNumber} For the month of ${months[
-      new Date(values?.fromDate).getMonth()
-    ] +
-      "-" +
-      new Date(values?.fromDate)?.getFullYear()}`;
 
     const payload = {
       accountId: accId,
@@ -128,21 +115,25 @@ export default function MonthlyVoyageStatement() {
     };
 
     const apiName =
-      journalType === "jv"
+      journalType === 'jv'
         ? `LighterVesselIncomeSatetementJournal`
-        : journalType === "aj"
+        : journalType === 'aj'
         ? `LighterVesselIncomeSatetementAdjustmentJournal`
-        : "";
+        : '';
 
-   const determineTypeId = () => {
-     const estFreightRounded = _fixedPoint(estFreightAmount, true, 0);
-     const netFreightRounded = _fixedPoint(netFreight, true, 0);
-     return estFreightRounded < netFreightRounded ? 1 : estFreightRounded > netFreightRounded ? 2 : 0;
-   };
+    const determineTypeId = () => {
+      const estFreightRounded = _fixedPoint(estFreightAmount, true, 0);
+      const netFreightRounded = _fixedPoint(netFreight, true, 0);
+      return estFreightRounded < netFreightRounded
+        ? 1
+        : estFreightRounded > netFreightRounded
+        ? 2
+        : 0;
+    };
 
     createJournal(
       `${imarineBaseUrl}/domain/LighterVesselStatement/${apiName}`,
-      journalType === "aj"
+      journalType === 'aj'
         ? {
             ...payload,
             typeId: determineTypeId(),
@@ -150,16 +141,16 @@ export default function MonthlyVoyageStatement() {
         : payload,
       () => {
         const field =
-          journalType === "jv"
-            ? "jvDisable"
-            : journalType === "aj"
-            ? "ajDisable"
-            : "";
+          journalType === 'jv'
+            ? 'jvDisable'
+            : journalType === 'aj'
+            ? 'ajDisable'
+            : '';
         let _data = [...gridData];
         _data[index][field] = true;
         setGridData(_data);
       },
-      true
+      true,
     );
   };
 
@@ -209,7 +200,7 @@ export default function MonthlyVoyageStatement() {
                     />
                     <ReactToPrint
                       pageStyle={
-                        "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                        '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                       }
                       trigger={() => (
                         <button
@@ -230,21 +221,21 @@ export default function MonthlyVoyageStatement() {
                     <>
                       <div className="col-lg-2">
                         <NewSelect
-                          value={values?.sbu || ""}
+                          value={values?.sbu || ''}
                           options={sbuList || []}
                           name="sbu"
                           placeholder="SBU"
                           label="SBU"
                           onChange={(valueOption) => {
-                            setFieldValue("sbu", valueOption);
-                            setFieldValue("salesOrg", "");
+                            setFieldValue('sbu', valueOption);
+                            setFieldValue('salesOrg', '');
                             if (valueOption) {
                               getSalesOrgList(
                                 accId,
                                 buId,
                                 valueOption?.value,
                                 setSalesOrgList,
-                                setLoading
+                                setLoading,
                               );
                             }
                           }}
@@ -252,13 +243,13 @@ export default function MonthlyVoyageStatement() {
                       </div>
                       <div className="col-lg-2">
                         <NewSelect
-                          value={values?.salesOrg || ""}
+                          value={values?.salesOrg || ''}
                           options={salesOrgList || []}
                           name="salesOrg"
                           placeholder="Sales Organization"
                           label="Sales Organization"
                           onChange={(valueOption) => {
-                            setFieldValue("salesOrg", valueOption);
+                            setFieldValue('salesOrg', valueOption);
                           }}
                           isDisabled={!values?.sbu}
                         />
@@ -271,7 +262,7 @@ export default function MonthlyVoyageStatement() {
                           placeholder="Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("journalDate", e.target.value);
+                            setFieldValue('journalDate', e.target.value);
                           }}
                         />
                       </div>
@@ -290,26 +281,26 @@ export default function MonthlyVoyageStatement() {
                 </div>
               </div>
               <div ref={printRef}>
-                <div className="text-center" style={{ margin: "15px 0" }}>
+                <div className="text-center" style={{ margin: '15px 0' }}>
                   <h3>Akij Shipping Lines Ltd</h3>
                   <h4>
                     Monthly Voyage Statement Of Big Lighter
                     <br />
-                    For the month of{" "}
+                    For the month of{' '}
                     {months[new Date(values?.fromDate).getMonth()] +
-                      "-" +
+                      '-' +
                       new Date(values?.fromDate)?.getFullYear()}
                   </h4>
                 </div>
                 <ICustomTable id="table-to-xlsx" ths={headers}>
-                  <div className="d-none" style={{ textAlign: "center" }}>
+                  <div className="d-none" style={{ textAlign: 'center' }}>
                     <h3>Akij Shipping Lines Ltd</h3>
                     <h4>
                       Monthly Voyage Statement Of Big Lighter
                       <br />
-                      For the month of{" "}
+                      For the month of{' '}
                       {months[new Date(values?.fromDate).getMonth()] +
-                        "-" +
+                        '-' +
                         new Date(values?.fromDate)?.getFullYear()}
                     </h4>
                   </div>
@@ -321,7 +312,7 @@ export default function MonthlyVoyageStatement() {
 
                     return (
                       <tr key={index}>
-                        <td className="text-center" style={{ width: "40px" }}>
+                        <td className="text-center" style={{ width: '40px' }}>
                           {index + 1}
                         </td>
                         <td>{item?.lighterVesselName}</td>
@@ -330,23 +321,23 @@ export default function MonthlyVoyageStatement() {
                         <td>
                           {item?.receiveDate
                             ? moment(item?.receiveDate).format(
-                                "YYYY-MM-DD HH:mm:ss"
+                                'YYYY-MM-DD HH:mm:ss',
                               )
-                            : ""}
+                            : ''}
                         </td>
                         <td>
                           {item?.dischargeStartDate
                             ? moment(item?.dischargeStartDate).format(
-                                "YYYY-MM-DD HH:mm:ss"
+                                'YYYY-MM-DD HH:mm:ss',
                               )
-                            : ""}
+                            : ''}
                         </td>
                         <td>
                           {item?.dischargeCompleteDate
                             ? moment(item?.dischargeCompleteDate).format(
-                                "YYYY-MM-DD HH:mm:ss"
+                                'YYYY-MM-DD HH:mm:ss',
                               )
-                            : ""}
+                            : ''}
                         </td>
                         <td className="text-right">{item?.duration} DAYS</td>
                         <td>{item?.motherVesselName}</td>
@@ -366,7 +357,7 @@ export default function MonthlyVoyageStatement() {
                             (+item?.cargoQtyEst || 0) *
                               (+item?.cargoFreightRate || 0),
                             true,
-                            0
+                            0,
                           )}
                         </td>
                         <td className="text-right">
@@ -374,7 +365,7 @@ export default function MonthlyVoyageStatement() {
                             (+item?.cargoQtyAct || 0) *
                               (+item?.cargoFreightRate || 0),
                             true,
-                            0
+                            0,
                           )}
                         </td>
                         <td>{item?.dischargePortName}</td>
@@ -384,7 +375,7 @@ export default function MonthlyVoyageStatement() {
                               className="btn btn-sm btn-info mr-1"
                               type="button"
                               onClick={() => {
-                                JournalPost(values, item, index, "jv");
+                                JournalPost(values, item, index, 'jv');
                               }}
                               disabled={
                                 item?.jvDisable || journalBtnDisable(values)
@@ -396,7 +387,7 @@ export default function MonthlyVoyageStatement() {
                               className="btn btn-sm btn-info ml-1"
                               type="button"
                               onClick={() => {
-                                JournalPost(values, item, index, "aj");
+                                JournalPost(values, item, index, 'aj');
                               }}
                               disabled={
                                 item?.ajDisable || journalBtnDisable(values)
@@ -418,10 +409,10 @@ export default function MonthlyVoyageStatement() {
                         {_fixedPoint(
                           gridData?.reduce(
                             (a, b) => a + (+b?.cargoQtyEst || 0),
-                            0
+                            0,
                           ),
                           true,
-                          0
+                          0,
                         )}
                       </b>
                     </td>
@@ -430,10 +421,10 @@ export default function MonthlyVoyageStatement() {
                         {_fixedPoint(
                           gridData?.reduce(
                             (a, b) => a + (+b?.cargoQtyAct || 0),
-                            0
+                            0,
                           ),
                           true,
-                          0
+                          0,
                         )}
                       </b>
                     </td>
@@ -446,10 +437,10 @@ export default function MonthlyVoyageStatement() {
                               a +
                               (+b?.cargoQtyEst || 0) *
                                 (+b?.cargoFreightRate || 0),
-                            0
+                            0,
                           ),
                           true,
-                          0
+                          0,
                         )}
                       </b>
                     </td>
@@ -461,10 +452,10 @@ export default function MonthlyVoyageStatement() {
                               a +
                               (+b?.cargoQtyAct || 0) *
                                 (+b?.cargoFreightRate || 0),
-                            0
+                            0,
                           ),
                           true,
-                          0
+                          0,
                         )}
                       </b>
                     </td>

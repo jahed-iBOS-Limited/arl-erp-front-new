@@ -1,31 +1,28 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import Axios from "axios";
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import Select from "react-select";
-import * as Yup from "yup";
-import { Input } from "../../../../../../../../_metronic/_partials/controls";
-import { IInput } from "../../../../../../_helper/_input";
-import InputField from "../../../../../../_helper/_inputField";
-import NewSelect from "../../../../../../_helper/_select";
-import customStyles from "../../../../../../selectCustomStyle";
+import Axios from 'axios';
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../../../_metronic/_partials/controls';
+import { IInput } from '../../../../../../_helper/_input';
+import InputField from '../../../../../../_helper/_inputField';
+import NewSelect from '../../../../../../_helper/_select';
+import customStyles from '../../../../../../selectCustomStyle';
 
 const DataValiadtionSchema = Yup.object().shape({
   numGrossWeight: Yup.number()
-    .required("Gross Weight (Kg) required")
-    .min(0, "Minimum 0"),
+    .required('Gross Weight (Kg) required')
+    .min(0, 'Minimum 0'),
   numNetWeight: Yup.number()
-    .required("Net Weight (Kg) required")
-    .min(0, "Minimum 0"),
-  // ahsan kabir said this should be minimum 0
-  // conversionBaseUom:Yup.number().min(2,"Minimum Value Conversion Base Uom"),
+    .required('Net Weight (Kg) required')
+    .min(0, 'Minimum 0'),
   plant: Yup.object().shape({
-    label: Yup.string().required("Plant is required"),
-    value: Yup.string().required("Plant is required"),
+    label: Yup.string().required('Plant is required'),
+    value: Yup.string().required('Plant is required'),
   }),
   baseUom: Yup.object().shape({
-    label: Yup.string().required("Base Uom is required"),
-    value: Yup.string().required("Base Uom is required"),
+    label: Yup.string().required('Base Uom is required'),
+    value: Yup.string().required('Base Uom is required'),
   }),
 });
 
@@ -36,35 +33,31 @@ export default function _Form({
   saveData,
   resetBtnRef,
   disableHandler,
-  setter,
   defaultSetter,
   rowDto,
   defaultRowDto,
   setDefaultRowDto,
-  remover,
-  defaultRemover,
   baseSetter,
   accountId,
   selectedBusinessUnit,
   userId,
-  isEdit,
   existUOMData,
 }) {
   const [plantList, setPlantList] = useState([]);
   const [whList, setWhList] = useState([]);
   const [inventoryLocationList, setInventoryLocationList] = useState([]);
   const [baseUomList, setBaseUomList] = useState([]);
-  const [altUomOption, setAltUomOption] = useState([]);
 
   useEffect(() => {
     if (accountId && selectedBusinessUnit) {
       getPlantItemPlantWareHouseDDL(
         userId,
         accountId,
-        selectedBusinessUnit?.value
+        selectedBusinessUnit?.value,
       );
       getItemUOMDDL(accountId, selectedBusinessUnit?.value);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, accountId]);
 
   useEffect(() => {
@@ -72,7 +65,7 @@ export default function _Form({
       whApiCaller(
         accountId,
         selectedBusinessUnit?.value,
-        productData?.plant?.value
+        productData?.plant?.value,
       );
     }
   }, [selectedBusinessUnit, accountId, productData]);
@@ -83,40 +76,17 @@ export default function _Form({
     }
   }, [selectedBusinessUnit, accountId, plantList]);
 
-  // useEffect(() => {
-  //   if (
-  //     accountId &&
-  //     selectedBusinessUnit?.value &&
-  //     productData?.plant?.value &&
-  //     productData?.warehouse?.value
-  //   ) {
-  //     inventoryLocationAPiCaller(
-  //       productData?.warehouse?.value,
-  //       productData?.plant?.value
-  //     );
-  //   }
-  // }, [selectedBusinessUnit, accountId, productData]);
-
   const getPlantItemPlantWareHouseDDL = async (
     userId,
     accId,
-    businessUnitId
+    businessUnitId,
   ) => {
     try {
       const res = await Axios.get(
-        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${businessUnitId}&OrgUnitTypeId=7`
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${businessUnitId}&OrgUnitTypeId=7`,
       );
       const { status, data } = res;
       if (status === 200 && data.length) {
-        // const plants = [];
-        // data &&
-        //   data.forEach((item) => {
-        //     let items = {
-        //       value: item?.plantId,
-        //       label: item?.plantName,
-        //     };
-        //     plants.push(items);
-        //   });
         setPlantList(data);
       }
     } catch (error) {}
@@ -124,7 +94,7 @@ export default function _Form({
   const getItemUOMDDL = async (accountId, businessUnitId) => {
     try {
       const res = await Axios.get(
-        `/item/ItemUOM/GetItemUOMByAccountIdBusinessUnitId?AccountId=${accountId}&BusinessUnitId=${businessUnitId}`
+        `/item/ItemUOM/GetItemUOMByAccountIdBusinessUnitId?AccountId=${accountId}&BusinessUnitId=${businessUnitId}`,
       );
       const { status, data } = res;
       if (status === 200 && data.length) {
@@ -145,7 +115,7 @@ export default function _Form({
   const whApiCaller = async (accountId, businessUnitId, v) => {
     try {
       const res = await Axios.get(
-        `/wms/ConfigPlantWearHouse/GetWareHouseDDL?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&PlantId=${v}`
+        `/wms/ConfigPlantWearHouse/GetWareHouseDDL?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&PlantId=${v}`,
       );
 
       const newData = res?.data?.map((item) => ({
@@ -162,7 +132,7 @@ export default function _Form({
   // Get inventory location by warehouseid and plantid
   const inventoryLocationAPiCaller = async (whid, plantId) => {
     const res = await Axios.get(
-      `/wms/InventoryLocation/GetInventoryLocationDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit.value}&plantId=${plantId}&WhId=${whid}`
+      `/wms/InventoryLocation/GetInventoryLocationDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit.value}&plantId=${plantId}&WhId=${whid}`,
     );
     const { status, data } = res;
     if (status && data?.length) {
@@ -182,21 +152,6 @@ export default function _Form({
     }
   };
 
-  const altUomSetting = (v) => {
-    let altUoms = [];
-    baseUomList &&
-      baseUomList.forEach((item) => {
-        let items = {
-          value: item.value,
-          label: item.label,
-          isDisabled: item.value === v,
-        };
-        altUoms.push(items);
-      });
-    setAltUomOption(altUoms);
-    altUoms = null;
-  };
-
   const rowDtoHandler = (name, index, value) => {
     const data = [...defaultRowDto];
     data[index][name] = value;
@@ -204,7 +159,6 @@ export default function _Form({
   };
 
   useEffect(() => {
-    altUomSetting(productData.baseUomid);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseUomList, productData]);
 
@@ -215,12 +169,12 @@ export default function _Form({
         initialValues={{
           ...productData,
           plant: {
-            value: plantList ? plantList[0]?.value : "",
-            label: plantList ? plantList[0]?.label : "",
+            value: plantList ? plantList[0]?.value : '',
+            label: plantList ? plantList[0]?.label : '',
           },
           baseUom: {
-            value: existUOMData?.baseUom ? existUOMData?.baseUom : "",
-            label: existUOMData ? existUOMData?.baseUomName : "",
+            value: existUOMData?.baseUom ? existUOMData?.baseUom : '',
+            label: existUOMData ? existUOMData?.baseUomName : '',
           },
           isMultipleUom: rowDto?.length > 1 ? true : false,
           numNetWeight: existUOMData?.numNetWeight || 0,
@@ -256,14 +210,14 @@ export default function _Form({
                       value={values?.plant}
                       label="Select Plant"
                       onChange={(valueOption) => {
-                        setFieldValue("warehouse", "");
-                        setFieldValue("inventoryLocation", "");
+                        setFieldValue('warehouse', '');
+                        setFieldValue('inventoryLocation', '');
                         whApiCaller(
                           accountId,
                           selectedBusinessUnit?.value,
-                          valueOption?.value
+                          valueOption?.value,
                         );
-                        setFieldValue("plant", valueOption);
+                        setFieldValue('plant', valueOption);
                       }}
                       placeholder="Select Plant"
                       errors={errors}
@@ -279,11 +233,11 @@ export default function _Form({
                           placeholder="Select Warehouse"
                           value={values?.warehouse}
                           onChange={(valueOption) => {
-                            setFieldValue("inventoryLocation", "");
-                            setFieldValue("warehouse", valueOption);
+                            setFieldValue('inventoryLocation', '');
+                            setFieldValue('warehouse', valueOption);
                             inventoryLocationAPiCaller(
                               valueOption?.value,
-                              values?.plant?.value
+                              values?.plant?.value,
                             );
                           }}
                           isSearchable={true}
@@ -294,10 +248,10 @@ export default function _Form({
                     />
                     <p
                       style={{
-                        fontSize: "0.9rem",
+                        fontSize: '0.9rem',
                         fontWeight: 400,
-                        width: "100%",
-                        marginTop: "0.25rem",
+                        width: '100%',
+                        marginTop: '0.25rem',
                       }}
                       className="text-danger"
                     >
@@ -306,7 +260,7 @@ export default function _Form({
                       touched &&
                       touched.warehouse
                         ? errors.warehouse.value
-                        : ""}
+                        : ''}
                     </p>
                   </div>
                   <div className="col-lg-3">
@@ -319,7 +273,7 @@ export default function _Form({
                           placeholder="Select Inventory Location"
                           value={values.inventoryLocation}
                           onChange={(valueOption) => {
-                            setFieldValue("inventoryLocation", valueOption);
+                            setFieldValue('inventoryLocation', valueOption);
                           }}
                           isSearchable={true}
                           styles={customStyles}
@@ -330,10 +284,10 @@ export default function _Form({
                     />
                     <p
                       style={{
-                        fontSize: "0.9rem",
+                        fontSize: '0.9rem',
                         fontWeight: 400,
-                        width: "100%",
-                        marginTop: "0.25rem",
+                        width: '100%',
+                        marginTop: '0.25rem',
                       }}
                       className="text-danger"
                     >
@@ -342,7 +296,7 @@ export default function _Form({
                       touched &&
                       touched.inventoryLocation
                         ? errors.inventoryLocation.value
-                        : ""}
+                        : ''}
                     </p>
                   </div>
                   <div className="col-lg-3">
@@ -482,7 +436,7 @@ export default function _Form({
                         };
                         defaultSetter(obj);
                       }}
-                      style={{ marginTop: "23px" }}
+                      style={{ marginTop: '23px' }}
                       className="btn btn-primary"
                     >
                       Add
@@ -499,27 +453,27 @@ export default function _Form({
                         <th>Plant</th>
                         <th>Warehouse</th>
                         <th>Location</th>
-                        <th style={{ width: "200px" }}>Bin Number</th>
-                        <th style={{ width: "200px" }}>
+                        <th style={{ width: '200px' }}>Bin Number</th>
+                        <th style={{ width: '200px' }}>
                           Minimum Stock Quantity
                         </th>
-                        <th style={{ width: "200px" }}>
-                          {" "}
+                        <th style={{ width: '200px' }}>
+                          {' '}
                           Safety Stock Quantity
                         </th>
-                        <th style={{ width: "200px" }}> Maximum Qty</th>
-                        <th style={{ width: "200px" }}> Reorder Level</th>
-                        <th style={{ width: "200px" }}>Reorder Qty</th>
-                        <th style={{ width: "200px" }}>
+                        <th style={{ width: '200px' }}> Maximum Qty</th>
+                        <th style={{ width: '200px' }}> Reorder Level</th>
+                        <th style={{ width: '200px' }}>Reorder Qty</th>
+                        <th style={{ width: '200px' }}>
                           Avg Daily Consumption
                         </th>
-                        <th style={{ width: "200px" }}>Max Lead Days</th>
-                        <th style={{ width: "200px" }}>Min Lead Days</th>
-                        <th style={{ width: "200px" }}>ABC</th>
-                        <th style={{ width: "200px" }}>VED</th>
-                        <th style={{ width: "200px" }}>FNS</th>
+                        <th style={{ width: '200px' }}>Max Lead Days</th>
+                        <th style={{ width: '200px' }}>Min Lead Days</th>
+                        <th style={{ width: '200px' }}>ABC</th>
+                        <th style={{ width: '200px' }}>VED</th>
+                        <th style={{ width: '200px' }}>FNS</th>
                         {selectedBusinessUnit?.value === 102 && (
-                          <th style={{ width: "200px" }}>Item Sub Head</th>
+                          <th style={{ width: '200px' }}>Item Sub Head</th>
                         )}
 
                         {/* <th>UoM</th> */}
@@ -532,8 +486,8 @@ export default function _Form({
                           <tr
                             key={i}
                             style={{
-                              marginBottom: "15px",
-                              textAlign: "center",
+                              marginBottom: '15px',
+                              textAlign: 'center',
                             }}
                           >
                             <td>{i + 1}</td>
@@ -543,205 +497,205 @@ export default function _Form({
 
                             <td
                               className="disabled-feedback disable-border"
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                             >
                               <IInput
-                                value={itm?.binNumber || ""}
+                                value={itm?.binNumber || ''}
                                 name="binNumber"
                                 type="text"
                                 onChange={(e) => {
-                                  rowDtoHandler("binNumber", i, e.target.value);
+                                  rowDtoHandler('binNumber', i, e.target.value);
                                 }}
                               />
                             </td>
                             <td
                               className="disabled-feedback disable-border"
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                             >
                               <IInput
-                                value={itm?.minimumStockQuantity || ""}
+                                value={itm?.minimumStockQuantity || ''}
                                 name="minimumStockQuantity"
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "minimumStockQuantity",
+                                    'minimumStockQuantity',
                                     i,
-                                    +e.target.value
+                                    +e.target.value,
                                   );
                                 }}
                               />
                             </td>
                             <td
                               className="disabled-feedback disable-border"
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                             >
                               <IInput
-                                value={itm?.safetyStockQuantity || ""}
+                                value={itm?.safetyStockQuantity || ''}
                                 name="safetyStockQuantity"
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "safetyStockQuantity",
+                                    'safetyStockQuantity',
                                     i,
-                                    +e.target.value
+                                    +e.target.value,
                                   );
                                 }}
                               />
                             </td>
                             <td
                               className="disabled-feedback disable-border"
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                             >
                               <IInput
-                                value={itm?.maximumQuantity || ""}
+                                value={itm?.maximumQuantity || ''}
                                 name="maximumQuantity"
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "maximumQuantity",
+                                    'maximumQuantity',
                                     i,
-                                    +e.target.value
+                                    +e.target.value,
                                   );
                                 }}
                               />
                             </td>
                             <td
                               className="disabled-feedback disable-border"
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                             >
                               <IInput
-                                value={itm?.reorderLevel || ""}
+                                value={itm?.reorderLevel || ''}
                                 name="reorderLevel"
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "reorderLevel",
+                                    'reorderLevel',
                                     i,
-                                    +e.target.value
+                                    +e.target.value,
                                   );
                                 }}
                               />
                             </td>
                             <td
                               className="disabled-feedback disable-border"
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                             >
                               <IInput
-                                value={itm?.reorderQuantity || ""}
+                                value={itm?.reorderQuantity || ''}
                                 name="reorderQuantity"
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "reorderQuantity",
+                                    'reorderQuantity',
                                     i,
-                                    +e.target.value
+                                    +e.target.value,
                                   );
                                 }}
                               />
                             </td>
                             <td
                               className="disabled-feedback disable-border"
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                             >
                               <IInput
-                                value={itm?.averageDailyConsumption || ""}
+                                value={itm?.averageDailyConsumption || ''}
                                 name="averageDailyConsumption"
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "averageDailyConsumption",
+                                    'averageDailyConsumption',
                                     i,
-                                    +e.target.value
+                                    +e.target.value,
                                   );
                                 }}
                               />
                             </td>
                             <td
                               className="disabled-feedback disable-border"
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                             >
                               <IInput
-                                value={itm?.maxLeadDays || ""}
+                                value={itm?.maxLeadDays || ''}
                                 name="maxLeadDays"
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "maxLeadDays",
+                                    'maxLeadDays',
                                     i,
-                                    +e.target.value
+                                    +e.target.value,
                                   );
                                 }}
                               />
                             </td>
                             <td
                               className="disabled-feedback disable-border"
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                             >
                               <IInput
-                                value={itm?.minLeadDays || ""}
+                                value={itm?.minLeadDays || ''}
                                 name="minLeadDays"
                                 type="number"
                                 onChange={(e) => {
                                   rowDtoHandler(
-                                    "minLeadDays",
+                                    'minLeadDays',
                                     i,
-                                    +e.target.value
+                                    +e.target.value,
                                   );
                                 }}
                               />
                             </td>
                             <td
                               className="disabled-feedback disable-border"
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                             >
                               <IInput
-                                value={itm?.abc || ""}
+                                value={itm?.abc || ''}
                                 name="abc"
                                 type="number"
                                 onChange={(e) => {
-                                  rowDtoHandler("abc", i, +e.target.value);
+                                  rowDtoHandler('abc', i, +e.target.value);
                                 }}
                               />
                             </td>
                             <td
                               className="disabled-feedback disable-border"
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                             >
                               <IInput
-                                value={itm?.ved || ""}
+                                value={itm?.ved || ''}
                                 name="ved"
                                 type="number"
                                 onChange={(e) => {
-                                  rowDtoHandler("ved", i, +e.target.value);
+                                  rowDtoHandler('ved', i, +e.target.value);
                                 }}
                               />
                             </td>
                             <td
                               className="disabled-feedback disable-border"
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                             >
                               <IInput
-                                value={itm?.fns || ""}
+                                value={itm?.fns || ''}
                                 name="fns"
                                 type="number"
                                 onChange={(e) => {
-                                  rowDtoHandler("fns", i, +e.target.value);
+                                  rowDtoHandler('fns', i, +e.target.value);
                                 }}
                               />
                             </td>
                             {selectedBusinessUnit?.value === 102 && (
                               <td
                                 className="disabled-feedback disable-border"
-                                style={{ width: "100px" }}
+                                style={{ width: '100px' }}
                               >
                                 <IInput
-                                  value={itm?.shippingItemSubHead || ""}
+                                  value={itm?.shippingItemSubHead || ''}
                                   name="shippingItemSubHead"
                                   onChange={(e) => {
                                     rowDtoHandler(
-                                      "shippingItemSubHead",
+                                      'shippingItemSubHead',
                                       i,
-                                      e.target.value
+                                      e.target.value,
                                     );
                                   }}
                                 />
@@ -799,8 +753,7 @@ export default function _Form({
                                   values?.conversionBaseUom || 1,
                               };
                               baseSetter(obj);
-                              setFieldValue("baseUom", valueOption);
-                              altUomSetting(valueOption?.value);
+                              setFieldValue('baseUom', valueOption);
                             }}
                             isSearchable={true}
                             styles={customStyles}
@@ -813,38 +766,25 @@ export default function _Form({
                       />
                       <p
                         style={{
-                          fontSize: "0.9rem",
+                          fontSize: '0.9rem',
                           fontWeight: 400,
-                          width: "100%",
-                          marginTop: "0.25rem",
+                          width: '100%',
+                          marginTop: '0.25rem',
                         }}
                         className="text-danger"
                       >
                         {errors && errors.baseUom && touched && touched.baseUom
                           ? errors.baseUom.value
-                          : ""}
+                          : ''}
                       </p>
                     </div>
                     <div className="col-lg-3">
-                      {/* <Field
-                        value={values.numGrossWeight}
-                        name="numGrossWeight"
-                        component={Input}
-                        placeholder="Gross Weight (Kg)"
-                        label="Gross Weight (Kg)"
-                        type="number"
-                        // disabled={rowDto?.length > 1 || isEdit}
-                        min="0"
-                      /> */}
                       <InputField
                         value={values.numGrossWeight}
                         name="numGrossWeight"
-                        // component={Input}
                         placeholder="Gross Weight (Kg)"
                         label="Gross Weight (Kg)"
                         type="number"
-                        // disabled={rowDto?.length > 1 || isEdit}
-                        // min="0"
                       />
                     </div>
                     <div className="col-lg-3">
@@ -855,38 +795,8 @@ export default function _Form({
                         placeholder="Net Weight (Kg)"
                         label="Net Weight (Kg)"
                         type="number"
-                        // disabled={rowDto?.length > 1 || isEdit}
-                        // min="0"
                       />
                     </div>
-                    {/* <div className="col-lg-3" style={{ margin: "20px 0" }}>
-                      <Field
-                        name="isMultipleUom"
-                        component={() => (
-                          <input
-                            style={{
-                              position: "absolute",
-                              top: "8px",
-                            }}
-                            id="isMultipleUom"
-                            type="checkbox"
-                            className="ml-2"
-                            value={values.isMultipleUom}
-                            checked={values.isMultipleUom}
-                            name="isMultipleUom"
-                            onChange={(e) => {
-                              setFieldValue("isMultipleUom", e.target.checked);
-                            }}
-                          />
-                        )}
-                      />
-                      <label
-                        htmlFor="isMultipleUom"
-                        style={{ paddingLeft: "22px" }}
-                      >
-                        Multiple UoM ?
-                      </label>
-                    </div> */}
                   </>
                 )}
               </div>
@@ -908,8 +818,8 @@ export default function _Form({
                         <tr
                           key={itm?.sl}
                           style={{
-                            marginBottom: "15px",
-                            textAlign: "center",
+                            marginBottom: '15px',
+                            textAlign: 'center',
                           }}
                         >
                           <td>{idx + 1}</td>
@@ -920,21 +830,21 @@ export default function _Form({
                         </tr>
                       ))}
                   </tbody>
-                </table>{" "}
+                </table>{' '}
               </div>
 
               {/* </div> */}
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={saveBtnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(productData)}
               ></button>

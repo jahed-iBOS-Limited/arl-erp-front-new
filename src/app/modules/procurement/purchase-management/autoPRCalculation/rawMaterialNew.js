@@ -1,42 +1,39 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Form, Formik } from "formik";
-import React, { useReducer, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import RawMaterialAutoPRNewModalView from "./rawMaterialModalView";
-import BreakDownModal from "./breakdownModal";
-import CommonItemDetailsModal from "./rawMaterialModals/commonItemDetailsModal";
+import { Form, Formik } from 'formik';
+import React, { useReducer, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import AutoPRCreateModal from './autoPRCreateModal';
+import BreakDownModal from './breakdownModal';
+import CommonItemDetailsModal from './rawMaterialModals/commonItemDetailsModal';
 import {
   commonItemInitialState,
   commonItemReducer,
-} from "./rawMaterialModals/helper";
-import WarehouseStockModal from "./rawMaterialModals/warehouseStockModal";
-import AutoPRCreateModal from "./autoPRCreateModal";
+} from './rawMaterialModals/helper';
+import WarehouseStockModal from './rawMaterialModals/warehouseStockModal';
+import RawMaterialAutoPRNewModalView from './rawMaterialModalView';
 
 const initData = {
-  businessUnit: "",
+  businessUnit: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
 export default function RawMaterialAutoPRNew() {
-
-  const { profileData, selectedBusinessUnit, businessUnitList } = useSelector((state) => {
+  const { selectedBusinessUnit, businessUnitList } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   const [singleRowData, setSingleRowData] = useState();
-  const [, onCreateMRPFromProduction, saveLoader] = useAxiosPost()
+  const [, , saveLoader] = useAxiosPost();
   const [showModal, setShowModal] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
 
@@ -46,9 +43,8 @@ export default function RawMaterialAutoPRNew() {
   // reducer
   const [commonItemDetailsState, commonItemDetailsDispatch] = useReducer(
     commonItemReducer,
-    commonItemInitialState
+    commonItemInitialState,
   );
-
 
   const [
     mrpfromProductionScheduleLanding,
@@ -57,28 +53,24 @@ export default function RawMaterialAutoPRNew() {
     setMrpfromProductionScheduleLanding,
   ] = useAxiosGet();
 
-
-
-  const saveHandler = (values, cb) => {
-
-
-
-  };
+  const saveHandler = (values, cb) => {};
 
   const getData = (values) => {
-    setMrpfromProductionScheduleLanding([])
-    getMrpfromProductionScheduleLanding(`/procurement/MRPFromProduction/MrpfromProductionScheduleLanding?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`)
+    setMrpfromProductionScheduleLanding([]);
+    getMrpfromProductionScheduleLanding(
+      `/procurement/MRPFromProduction/MrpfromProductionScheduleLanding?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`,
+    );
   };
-
-
-
 
   return (
     <Formik
       enableReinitialize={true}
       initialValues={{
         ...initData,
-        businessUnit: { value: selectedBusinessUnit?.value, label: selectedBusinessUnit?.label }
+        businessUnit: {
+          value: selectedBusinessUnit?.value,
+          label: selectedBusinessUnit?.label,
+        },
       }}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -111,7 +103,7 @@ export default function RawMaterialAutoPRNew() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      setShowSaveModal(true)
+                      setShowSaveModal(true);
                     }}
                   >
                     Create
@@ -130,13 +122,12 @@ export default function RawMaterialAutoPRNew() {
                       value={values?.businessUnit}
                       label="Business Unit"
                       onChange={(valueOption) => {
-                        setFieldValue("businessUnit", valueOption || "");
+                        setFieldValue('businessUnit', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-
 
                   <div className="col-lg-3">
                     <InputField
@@ -145,7 +136,7 @@ export default function RawMaterialAutoPRNew() {
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -156,7 +147,7 @@ export default function RawMaterialAutoPRNew() {
                       name="toDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                       min={values?.fromDate}
                     />
@@ -174,63 +165,71 @@ export default function RawMaterialAutoPRNew() {
                     </button>
                   </div>
                 </div>
-                {mrpfromProductionScheduleLanding?.length > 0 && <div>
-                  <div className="table-responsive">
-                    <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Schedule Code</th>
-                          <th>From Date</th>
-                          <th>To Date</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {mrpfromProductionScheduleLanding?.length > 0 &&
-                          mrpfromProductionScheduleLanding?.map((item, index) => {
-                            return (
-                              <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td className="text-center">
-                                  {item?.mrpproductionScheduleCode}
-                                </td>
-                                <td className="text-center">
-                                  {_dateFormatter(item?.fromDate)}
-                                </td>
-                                <td className="text-center">
-                                  {_dateFormatter(item?.toDate)}
-                                </td>
-                                <td className="text-center">
-                                  <span onClick={() => {
-                                    setShowModal(true)
-                                    setSingleRowData(item)
-                                  }}>
-                                    <IView />
-                                  </span>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                      </tbody>
-                    </table>
+                {mrpfromProductionScheduleLanding?.length > 0 && (
+                  <div>
+                    <div className="table-responsive">
+                      <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Schedule Code</th>
+                            <th>From Date</th>
+                            <th>To Date</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {mrpfromProductionScheduleLanding?.length > 0 &&
+                            mrpfromProductionScheduleLanding?.map(
+                              (item, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td className="text-center">
+                                      {item?.mrpproductionScheduleCode}
+                                    </td>
+                                    <td className="text-center">
+                                      {_dateFormatter(item?.fromDate)}
+                                    </td>
+                                    <td className="text-center">
+                                      {_dateFormatter(item?.toDate)}
+                                    </td>
+                                    <td className="text-center">
+                                      <span
+                                        onClick={() => {
+                                          setShowModal(true);
+                                          setSingleRowData(item);
+                                        }}
+                                      >
+                                        <IView />
+                                      </span>
+                                    </td>
+                                  </tr>
+                                );
+                              },
+                            )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>}
-
+                )}
               </>
             </Form>
-
 
             <IViewModal
               show={showSaveModal}
               onHide={() => {
-                setShowSaveModal(false)
+                setShowSaveModal(false);
               }}
             >
-              <AutoPRCreateModal parentValues={values} callBack={(childValues) => {
-                setValues({ ...childValues })
-                getData(childValues)
-              }} setShowSaveModal={setShowSaveModal} />
+              <AutoPRCreateModal
+                parentValues={values}
+                callBack={(childValues) => {
+                  setValues({ ...childValues });
+                  getData(childValues);
+                }}
+                setShowSaveModal={setShowSaveModal}
+              />
             </IViewModal>
 
             <IViewModal
@@ -268,7 +267,7 @@ export default function RawMaterialAutoPRNew() {
             <IViewModal
               show={commonItemDetailsState?.modalShow}
               onHide={() => {
-                commonItemDetailsDispatch({ type: "Close" });
+                commonItemDetailsDispatch({ type: 'Close' });
               }}
             >
               <CommonItemDetailsModal
@@ -282,13 +281,16 @@ export default function RawMaterialAutoPRNew() {
 
             <IViewModal
               show={showModal}
-              title={"MRP Calculation"}
+              title={'MRP Calculation'}
               onHide={() => {
                 setShowModal(false);
-                setSingleRowData(null)
+                setSingleRowData(null);
               }}
             >
-              <RawMaterialAutoPRNewModalView singleRowDataFromParent={singleRowData} values={values} />
+              <RawMaterialAutoPRNewModalView
+                singleRowDataFromParent={singleRowData}
+                values={values}
+              />
             </IViewModal>
           </IForm>
         </>

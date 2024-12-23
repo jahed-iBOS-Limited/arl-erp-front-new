@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import ICustomCard from "../../../_helper/_customCard";
-import ReactToPrint from "react-to-print";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IViewModal from "../../../_helper/_viewModal";
-import AdjustmentJournalModal from "./adjustmentJournalModal";
-import BankJournalModal from "./bankJournalModal";
+import React, { useEffect, useRef, useState } from 'react';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import ICustomCard from '../../../_helper/_customCard';
+import ReactToPrint from 'react-to-print';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IViewModal from '../../../_helper/_viewModal';
+import AdjustmentJournalModal from './adjustmentJournalModal';
+import BankJournalModal from './bankJournalModal';
 
 const VoucherModal = ({
   values,
@@ -31,14 +31,15 @@ const VoucherModal = ({
           subGeneralLedgerRow?.glId
         }&SUBGLId=${subGeneralLedgerRow?.intsubglid}&ConvertionRate=${
           values?.conversionRate
-        }&SubGroup=${values?.subDivision?.value || "All"}`,
+        }&SubGroup=${values?.subDivision?.value || 'All'}`,
         (data) => {
           setTotalAmount(
-            data?.reduce((value, row) => (value += row?.numAmount), 0) || 0
+            data?.reduce((value, row) => (value += row?.numAmount), 0) || 0,
           );
-        }
+        },
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subGeneralLedgerRow?.intsubglid]);
 
   const [voucherRow, setVoucherRow] = useState(null);
@@ -67,8 +68,8 @@ const VoucherModal = ({
                 <div className="d-flex flex-column justify-content-center align-items-center my-2">
                   <span
                     style={{
-                      fontSize: "22px",
-                      fontWeight: "bold",
+                      fontSize: '22px',
+                      fontWeight: 'bold',
                     }}
                   >
                     {values?.businessUnit?.value > 0
@@ -88,14 +89,14 @@ const VoucherModal = ({
                     <></>
                   )}
                   <span>
-                    Particulars :{" "}
+                    Particulars :{' '}
                     <b>{subGeneralLedgerRow?.strFSComponentName}</b>
                   </span>
                   <span>
                     Ledger : <b>{subGeneralLedgerRow?.strGeneralLedgerName}</b>
                   </span>
                   <span>
-                    Ledger Code :{" "}
+                    Ledger Code :{' '}
                     <b>{subGeneralLedgerRow?.strGeneralLedgerCode}</b>
                   </span>
                   <span>
@@ -109,7 +110,7 @@ const VoucherModal = ({
               <div className="loan-scrollable-table">
                 <div
                   className="scroll-table _table"
-                  style={{ maxHeight: "540px" }}
+                  style={{ maxHeight: '540px' }}
                 >
                   <table
                     className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-2"
@@ -117,14 +118,14 @@ const VoucherModal = ({
                   >
                     <thead>
                       <tr>
-                        <th style={{ minWidth: "60px" }}>SL</th>
+                        <th style={{ minWidth: '60px' }}>SL</th>
                         <th>Voucher Code</th>
-                        <th style={{ textAlign: "center" }}>
+                        <th style={{ textAlign: 'center' }}>
                           Transaction Date
                         </th>
                         <th>
                           <div
-                            style={{ textAlign: "right", marginRight: "5px" }}
+                            style={{ textAlign: 'right', marginRight: '5px' }}
                           >
                             Amount
                           </div>
@@ -139,12 +140,12 @@ const VoucherModal = ({
                               <td>{index + 1}</td>
 
                               <td className="text-center">
-                                {item?.strAccountingJournalCode || "N/A"}
+                                {item?.strAccountingJournalCode || 'N/A'}
                               </td>
-                              <td style={{ textAlign: "center" }}>
+                              <td style={{ textAlign: 'center' }}>
                                 {item?.dteTransactionDate
                                   ? _dateFormatter(item?.dteTransactionDate)
-                                  : "N/A"}
+                                  : 'N/A'}
                               </td>
                               <td
                                 onClick={() => {
@@ -152,11 +153,11 @@ const VoucherModal = ({
                                   setShowDebitCreditModal(true);
                                 }}
                                 style={{
-                                  textDecoration: "underline",
-                                  color: "blue",
-                                  cursor: "pointer",
-                                  textAlign: "right",
-                                  marginRight: "5px",
+                                  textDecoration: 'underline',
+                                  color: 'blue',
+                                  cursor: 'pointer',
+                                  textAlign: 'right',
+                                  marginRight: '5px',
                                 }}
                               >
                                 {item?.numAmount}
@@ -172,14 +173,14 @@ const VoucherModal = ({
                         <td
                           colspan="3"
                           className="text-center ml-1"
-                          style={{ fontWeight: "bold" }}
+                          style={{ fontWeight: 'bold' }}
                         >
                           Total
                         </td>
 
                         <td
                           className="text-right pr-2"
-                          style={{ fontWeight: "bold" }}
+                          style={{ fontWeight: 'bold' }}
                         >
                           {totalAmount || 0}
                         </td>
@@ -218,7 +219,7 @@ const VoucherModal = ({
               ...voucherRow,
               businessUnit,
               accountingJournalTypeId: voucherRow?.intaccountingjournaltypeid,
-              fromWhere: "incomeStatement",
+              fromWhere: 'incomeStatement',
             }}
           />
           // <BankJournalViewTableRow

@@ -1,48 +1,45 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
-import { useReactToPrint } from "react-to-print";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import "./styles.css";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IViewModal from "../../../_helper/_viewModal";
-import UpdateMutation from "./UpdateMutation";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import Loading from '../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import './styles.css';
+import UpdateMutation from './UpdateMutation';
 
 const initData = {
-  businessUnit: "",
-  territory: "",
-  thana: "",
-  deedNo: "",
-  deedAmount: "",
-  deedType: "",
-  registrationDate: "",
-  landQuantity: "",
-  seller: "",
-  csKhatian: "",
-  csPlot: "",
-  saKhatian: "",
-  cityJaripKhatian: "",
-  saPlot: "",
-  rsPlot: "",
-  rsKhatian: "",
-  rsLandQuantity: "",
-  mouza: "",
-  cityJaripPlot: "",
-  cityJaripPlotLand: "",
-  subRegister: "",
-  registrationCost: "",
-  brokerAmount: "",
+  businessUnit: '',
+  territory: '',
+  thana: '',
+  deedNo: '',
+  deedAmount: '',
+  deedType: '',
+  registrationDate: '',
+  landQuantity: '',
+  seller: '',
+  csKhatian: '',
+  csPlot: '',
+  saKhatian: '',
+  cityJaripKhatian: '',
+  saPlot: '',
+  rsPlot: '',
+  rsKhatian: '',
+  rsLandQuantity: '',
+  mouza: '',
+  cityJaripPlot: '',
+  cityJaripPlotLand: '',
+  subRegister: '',
+  registrationCost: '',
+  brokerAmount: '',
 };
 export default function LandRegister() {
   const {
@@ -53,24 +50,25 @@ export default function LandRegister() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isShowUpdateModal, setIsShowUpdateModal] = useState(false);
-  const [, onSave, loader] = useAxiosPost();
+  const [, , loader] = useAxiosPost();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
+  const [gridData, getGridData, ,] = useAxiosGet();
   const [singleData, setSingleData] = useState(null);
 
-  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+  const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     getGridData(
       `/asset/AGLandMange/GetTrxGeneralLandingPagination?BusinessUnit=${buId}&PageNo=${pageNo ||
-        1}&PageSize=${pageSize || 20}&viewOrder=desc`
+        1}&PageSize=${pageSize || 20}&viewOrder=desc`,
     );
   };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
   useEffect(() => {
     getLandingData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId]);
 
   return (
@@ -104,7 +102,7 @@ export default function LandRegister() {
                     className="btn btn-primary mx-2"
                     onClick={() => {
                       history.push(
-                        `/mngAsset/registration/LandRegister/create`
+                        `/mngAsset/registration/LandRegister/create`,
                       );
                     }}
                   >
@@ -251,14 +249,14 @@ export default function LandRegister() {
                                       e.stopPropagation();
                                       dispatch(
                                         getDownlloadFileView_Action(
-                                          item?.strRegistrationAttachment
-                                        )
+                                          item?.strRegistrationAttachment,
+                                        ),
                                       );
                                     }}
                                     className="mt-2 ml-2"
                                   >
                                     <i
-                                      style={{ fontSize: "16px" }}
+                                      style={{ fontSize: '16px' }}
                                       className={`fa pointer fa-eye`}
                                       aria-hidden="true"
                                     ></i>
@@ -302,19 +300,19 @@ export default function LandRegister() {
               )}
               <div>
                 <div className="bank-letter-print-wrapper">
-                  <div style={{ margin: "-13px 50px 51px 50px" }}>
+                  <div style={{ margin: '-13px 50px 51px 50px' }}>
                     <table>
                       <thead>
                         <tr>
                           <td
                             style={{
-                              border: "none",
+                              border: 'none',
                             }}
                           >
                             {/* place holder for the fixed-position header */}
                             <div
                               style={{
-                                height: "110px",
+                                height: '110px',
                               }}
                             ></div>
                           </td>
@@ -326,13 +324,13 @@ export default function LandRegister() {
                         <tr>
                           <td
                             style={{
-                              border: "none",
+                              border: 'none',
                             }}
                           >
                             {/* place holder for the fixed-position footer */}
                             <div
                               style={{
-                                height: "150px",
+                                height: '150px',
                               }}
                             ></div>
                           </td>

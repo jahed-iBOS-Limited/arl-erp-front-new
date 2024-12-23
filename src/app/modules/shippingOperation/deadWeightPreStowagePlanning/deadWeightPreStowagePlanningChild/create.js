@@ -1,48 +1,48 @@
-import { Form, Formik } from "formik";
-import html2pdf from "html2pdf.js";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { useReactToPrint } from "react-to-print";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../App";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import EmailEditorForPublicRoutes from "../../utils/emailEditorForPublicRotes";
-import { generateFileUrl } from "../../utils/helper";
-import { uploadPDF } from "./helper";
-import VesselLayoutPDF from "./vesselLayoutPDF";
+import { Form, Formik } from 'formik';
+import html2pdf from 'html2pdf.js';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useReactToPrint } from 'react-to-print';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../App';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import EmailEditorForPublicRoutes from '../../utils/emailEditorForPublicRotes';
+import { generateFileUrl } from '../../utils/helper';
+import { uploadPDF } from './helper';
 import './styles.css';
+import VesselLayoutPDF from './vesselLayoutPDF';
 
 const initData = {
-  strName: "",
-  strEmail: "",
-  strVesselNominationCode: "",
-  strDraftType: "",
-  intDisplacementDraftMts: "",
-  intDockWaterDensity: "",
-  intLightShipMts: "",
-  intFoFuelOilMts: "",
-  intFoDoDiselOilMts: "",
-  intFwFreshWaterMts: "",
-  intConstantMts: "",
-  intUnpumpAbleBallastMts: "",
-  intCargoLoadMts: "",
-  intFinalCargoToloadMts: "",
-  strRemarks: "",
+  strName: '',
+  strEmail: '',
+  strVesselNominationCode: '',
+  strDraftType: '',
+  intDisplacementDraftMts: '',
+  intDockWaterDensity: '',
+  intLightShipMts: '',
+  intFoFuelOilMts: '',
+  intFoDoDiselOilMts: '',
+  intFwFreshWaterMts: '',
+  intConstantMts: '',
+  intUnpumpAbleBallastMts: '',
+  intCargoLoadMts: '',
+  intFinalCargoToloadMts: '',
+  strRemarks: '',
 
   // ====
-  numHold: "",
-  holdPort: "",
-  holdCargo: "",
-  holdCargoQTY: ""
+  numHold: '',
+  holdPort: '',
+  holdCargo: '',
+  holdCargoQTY: '',
 };
 
 export const exportToPDF = (elementId, fileName) => {
@@ -51,7 +51,7 @@ export const exportToPDF = (elementId, fileName) => {
     const options = {
       margin: 0,
       filename: `${fileName}.pdf`,
-      image: { type: "jpeg", quality: 1.0 }, // Max quality for image
+      image: { type: 'jpeg', quality: 1.0 }, // Max quality for image
       html2canvas: {
         scale: 4, // Increased scale for better resolution
         useCORS: true, // Handle cross-origin issues for images
@@ -59,9 +59,9 @@ export const exportToPDF = (elementId, fileName) => {
         letterRendering: true,
       },
       jsPDF: {
-        unit: "px",
+        unit: 'px',
         format: [element.scrollWidth, element.scrollHeight], // Dynamic page size based on content
-        orientation: "l" // Landscape orientation
+        orientation: 'l', // Landscape orientation
       },
     };
 
@@ -70,7 +70,7 @@ export const exportToPDF = (elementId, fileName) => {
       .set(options)
       .from(element)
       .toPdf()
-      .output("blob")
+      .output('blob')
       .then((pdfBlob) => {
         resolve(pdfBlob); // Return PDF blob for upload or save
       })
@@ -83,7 +83,6 @@ export const exportToPDF = (elementId, fileName) => {
 export default function DeadWeightCreate() {
   const {
     profileData: { userId, accountId },
-    selectedBusinessUnit: { value: buId, label },
   } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -105,20 +104,20 @@ export default function DeadWeightCreate() {
   const [cargoDDL, getCargoDDL] = useAxiosGet();
   const [rows, setRows] = useState([]);
 
-  console.log("rows", rows)
-
-
+  console.log('rows', rows);
 
   useEffect(() => {
     getPortDDL(`${imarineBaseUrl}/domain/Stakeholder/GetPortDDL`);
     getCargoDDL(`${imarineBaseUrl}/domain/HireOwner/GetCargoDDL`);
 
-
     if (vesselData?.intHoldNumber) {
-      const array = Array.from({ length: vesselData.intHoldNumber }, (_, index) => ({
-        value: index + 1,
-        label: `Hold ${index + 1}`,
-      }));
+      const array = Array.from(
+        { length: vesselData.intHoldNumber },
+        (_, index) => ({
+          value: index + 1,
+          label: `Hold ${index + 1}`,
+        }),
+      );
       setHoldsArray(array);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -132,12 +131,11 @@ export default function DeadWeightCreate() {
           getVesselData(
             `${imarineBaseUrl}/domain/VesselNomination/GetVesselMasterData?vesselId=${nominationData?.intVesselId}`,
           );
-        }
+        },
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramId]);
-
 
   const handleAdd = (values, setFieldValue) => {
     // Creating a new row object from the form values
@@ -147,23 +145,22 @@ export default function DeadWeightCreate() {
       intVesselNominationId: +paramId || 0,
       numHoldId: +values.numHold?.value || 0,
       intPortId: +values.holdPort?.value || 0,
-      strPortName: values.holdPort?.label || "",
-      strCargoName: values.holdCargo?.label || "",
+      strPortName: values.holdPort?.label || '',
+      strCargoName: values.holdCargo?.label || '',
       numCargoQuantity: +values.holdCargoQTY || 0,
     };
 
     setRows((prevRows) => [...prevRows, newRow]);
 
-    setFieldValue("numHold", "");
-    setFieldValue("holdPort", "");
-    setFieldValue("holdCargo", "");
-    setFieldValue("holdCargoQTY", "");
+    setFieldValue('numHold', '');
+    setFieldValue('holdPort', '');
+    setFieldValue('holdCargo', '');
+    setFieldValue('holdCargoQTY', '');
   };
-
 
   const saveHandler = async (values, cb) => {
     if (!rows?.length) {
-      return toast.warn("Please Add Hold Info for Pre-Stowage")
+      return toast.warn('Please Add Hold Info for Pre-Stowage');
     }
 
     let numHoldTotal = 0;
@@ -177,17 +174,17 @@ export default function DeadWeightCreate() {
     }
 
     // Generate PDF and upload it
-    const pdfBlob = await exportToPDF("vesselLayoutPDF", "vessel_nomination");
+    const pdfBlob = await exportToPDF('vesselLayoutPDF', 'vessel_nomination');
     const uploadResponse = await uploadPDF(pdfBlob, setLoading);
 
     // Assuming the response contains the uploaded file ID
-    const pdfURL = uploadResponse?.[0]?.id || "";
+    const pdfURL = uploadResponse?.[0]?.id || '';
 
     const commonPayload = {
-      strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
-      intVoyageNo: vesselNominationData?.intVoyageNo || "",
+      strNameOfVessel: vesselNominationData?.strNameOfVessel || '',
+      intVoyageNo: vesselNominationData?.intVoyageNo || '',
       strVesselNominationCode:
-        paramCode || values?.strVesselNominationCode || "",
+        paramCode || values?.strVesselNominationCode || '',
       strDraftType: values?.strDraftType?.value,
       intDisplacementDraftMts: +values?.intDisplacementDraftMts || 0,
       intDockWaterDensity: +values?.intDockWaterDensity || 0,
@@ -222,68 +219,68 @@ export default function DeadWeightCreate() {
         intDeadWeightId: 0,
         intAccountId: accountId,
         intBusinessUnitId: 0,
-        strBusinessUnitName: "",
-        strEmailAddress: "",
+        strBusinessUnitName: '',
+        strEmailAddress: '',
         intVesselNominationId: +paramId || 0,
         isActive: true,
         dteCreateDate: _todayDate(),
         intCreateBy: userId,
-        strPrestowagePlanDoc: pdfURL || "",
+        strPrestowagePlanDoc: pdfURL || '',
       },
-      rows: rows
+      rows: rows,
     };
 
     onSave(
       `${imarineBaseUrl}/domain/VesselNomination/CreateDeadWeight`,
       payload,
       cb,
-      true
+      true,
     );
   };
 
   const validationSchema = Yup.object().shape({
-    strVesselNominationCode: Yup.string().required("Code is required"),
+    strVesselNominationCode: Yup.string().required('Code is required'),
     intDisplacementDraftMts: Yup.number()
-      .required("Displacement Draft Mts is required")
-      .positive("Displacement Draft Mts must be a positive number"),
+      .required('Displacement Draft Mts is required')
+      .positive('Displacement Draft Mts must be a positive number'),
     intDockWaterDensity: Yup.number()
-      .required("Water Density is required")
-      .positive("Water Density must be a positive number"),
+      .required('Water Density is required')
+      .positive('Water Density must be a positive number'),
     intLightShipMts: Yup.number()
-      .required("Light Ship Mts is required")
-      .positive("Light Ship Mts must be a positive number"),
+      .required('Light Ship Mts is required')
+      .positive('Light Ship Mts must be a positive number'),
     intFoFuelOilMts: Yup.number()
-      .required("Fuel Oil Mts is required")
-      .positive("Fuel Oil Mts must be a positive number"),
+      .required('Fuel Oil Mts is required')
+      .positive('Fuel Oil Mts must be a positive number'),
     intFoDoDiselOilMts: Yup.number()
-      .required("Diesel Oil Mts is required")
-      .positive("Diesel Oil Mts must be a positive number"),
+      .required('Diesel Oil Mts is required')
+      .positive('Diesel Oil Mts must be a positive number'),
     intFwFreshWaterMts: Yup.number()
-      .required("Fresh Water Mts is required")
-      .positive("Fresh Water Mts must be a positive number"),
+      .required('Fresh Water Mts is required')
+      .positive('Fresh Water Mts must be a positive number'),
     intConstantMts: Yup.number()
-      .required("Constant Mts is required")
-      .positive("Constant Mts must be a positive number"),
+      .required('Constant Mts is required')
+      .positive('Constant Mts must be a positive number'),
     intUnpumpAbleBallastMts: Yup.number()
-      .required("Unpumpable Ballast Mts is required")
-      .positive("Unpumpable Ballast Mts must be a positive number"),
+      .required('Unpumpable Ballast Mts is required')
+      .positive('Unpumpable Ballast Mts must be a positive number'),
     // intCargoLoadMts: Yup.number()
     //   .required("Cargo Load Mts is required")
     //   .positive("Cargo Load Mts must be a positive number"),
     intFinalCargoToloadMts: Yup.number()
-      .required("Final Cargo to Load Mts is required")
-      .positive("Final Cargo to Load Mts must be a positive number"),
+      .required('Final Cargo to Load Mts is required')
+      .positive('Final Cargo to Load Mts must be a positive number'),
     strRemarks: Yup.string().optional(),
-    strName: Yup.string().required("Name is required"),
+    strName: Yup.string().required('Name is required'),
     strDraftType: Yup.object()
       .shape({
-        value: Yup.string().required("Draft Type is required"),
-        label: Yup.string().required("Draft Type is required"),
+        value: Yup.string().required('Draft Type is required'),
+        label: Yup.string().required('Draft Type is required'),
       })
-      .typeError("Draft Type is required"),
+      .typeError('Draft Type is required'),
     strEmail: Yup.string()
-      .email("Invalid email format")
-      .required("Email is required"),
+      .email('Invalid email format')
+      .required('Email is required'),
   });
 
   const calculateFinalCargoToload = (values, setFieldValue) => {
@@ -308,7 +305,10 @@ export default function DeadWeightCreate() {
 
     // Calculate the final cargo to load metric
     const finalCargoToloadMts =
-      (((intDisplacementDraftMts - intLightShipMts) - totalCargoToloadMts) + intCargoLoadMts);
+      intDisplacementDraftMts -
+      intLightShipMts -
+      totalCargoToloadMts +
+      intCargoLoadMts;
 
     // Ensure the final cargo value is valid and not NaN
     const validFinalCargoToloadMts = isNaN(finalCargoToloadMts)
@@ -317,20 +317,19 @@ export default function DeadWeightCreate() {
 
     // Update the final value in the form state, ensuring it's rounded to 2 decimals
     setFieldValue(
-      "intFinalCargoToloadMts",
-      validFinalCargoToloadMts.toFixed(2)
+      'intFinalCargoToloadMts',
+      validFinalCargoToloadMts.toFixed(2),
     );
   };
 
   const handlePDF = useReactToPrint({
     onPrintError: (error) => console.log(error),
     content: () => componentRef?.current,
-
   });
   return (
     <div
       style={{
-        background: "#fff",
+        background: '#fff',
       }}
       className="dead_weight_pre_stowage_planning"
     >
@@ -338,9 +337,9 @@ export default function DeadWeightCreate() {
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          strVesselNominationCode: paramCode || "",
-          strNameOfVessel: vesselNominationData?.strNameOfVessel || "",
-          intVoyageNo: vesselNominationData?.intVoyageNo || "",
+          strVesselNominationCode: paramCode || '',
+          strNameOfVessel: vesselNominationData?.strNameOfVessel || '',
+          intVoyageNo: vesselNominationData?.intVoyageNo || '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -409,22 +408,22 @@ export default function DeadWeightCreate() {
                   </div>
                   <div className="col-lg-2">
                     <InputField
-                      value={values.strName || ""}
+                      value={values.strName || ''}
                       label="Name"
                       name="strName"
                       type="text"
-                      onChange={(e) => setFieldValue("strName", e.target.value)}
+                      onChange={(e) => setFieldValue('strName', e.target.value)}
                       errors={errors}
                     />
                   </div>
                   <div className="col-lg-2">
                     <InputField
-                      value={values.strEmail || ""}
+                      value={values.strEmail || ''}
                       label="Email"
                       name="strEmail"
                       type="text"
                       onChange={(e) =>
-                        setFieldValue("strEmail", e.target.value)
+                        setFieldValue('strEmail', e.target.value)
                       }
                       errors={errors}
                     />
@@ -436,7 +435,7 @@ export default function DeadWeightCreate() {
                       name="strVesselNominationCode"
                       type="text"
                       onChange={(e) =>
-                        setFieldValue("strVesselNominationCode", e.target.value)
+                        setFieldValue('strVesselNominationCode', e.target.value)
                       }
                       errors={errors}
                       disabled
@@ -449,7 +448,7 @@ export default function DeadWeightCreate() {
                       name="strNameOfVessel"
                       type="text"
                       onChange={(e) =>
-                        setFieldValue("strNameOfVessel", e.target.value)
+                        setFieldValue('strNameOfVessel', e.target.value)
                       }
                       errors={errors}
                       disabled
@@ -462,7 +461,7 @@ export default function DeadWeightCreate() {
                       name="intVoyageNo"
                       type="text"
                       onChange={(e) =>
-                        setFieldValue("intVoyageNo", e.target.value)
+                        setFieldValue('intVoyageNo', e.target.value)
                       }
                       errors={errors}
                       disabled
@@ -472,33 +471,33 @@ export default function DeadWeightCreate() {
                     <NewSelect
                       name="strDraftType"
                       options={[
-                        { value: "Winter", label: "Winter" },
-                        { value: "Tropical", label: "Tropical" },
-                        { value: "Summer", label: "Summer" },
+                        { value: 'Winter', label: 'Winter' },
+                        { value: 'Tropical', label: 'Tropical' },
+                        { value: 'Summer', label: 'Summer' },
                       ]}
                       value={values?.strDraftType}
                       label="Draft Type"
                       onChange={(valueOption) => {
                         setValues({
                           ...values,
-                          strDraftType: valueOption || "",
+                          strDraftType: valueOption || '',
                           intDisplacementDraftMts:
-                            valueOption?.value === "Winter"
+                            valueOption?.value === 'Winter'
                               ? vesselData?.numWinterDisplacementDraftMts
-                              : valueOption?.value === "Tropical"
-                                ? vesselData?.numTropicalDisplacementDraftMts
-                                : valueOption?.value === "Summer"
-                                  ? vesselData?.numSummerDisplacementDraftMts
-                                  : 0,
+                              : valueOption?.value === 'Tropical'
+                              ? vesselData?.numTropicalDisplacementDraftMts
+                              : valueOption?.value === 'Summer'
+                              ? vesselData?.numSummerDisplacementDraftMts
+                              : 0,
                           // intDockWaterDensity: "",
                           intLightShipMts:
-                            valueOption?.value === "Winter"
+                            valueOption?.value === 'Winter'
                               ? vesselData?.numWinterLightShipMts
-                              : valueOption?.value === "Tropical"
-                                ? vesselData?.numTropicalLightShipMts
-                                : valueOption?.value === "Summer"
-                                  ? vesselData?.numSummerLightShipMts
-                                  : 0,
+                              : valueOption?.value === 'Tropical'
+                              ? vesselData?.numTropicalLightShipMts
+                              : valueOption?.value === 'Summer'
+                              ? vesselData?.numSummerLightShipMts
+                              : 0,
                           // intFoFuelOilMts: "",
                           // intFoDoDiselOilMts: "",
                           // intFwFreshWaterMts: "",
@@ -511,23 +510,23 @@ export default function DeadWeightCreate() {
                           {
                             ...values,
                             intDisplacementDraftMts:
-                              valueOption?.value === "Winter"
+                              valueOption?.value === 'Winter'
                                 ? +vesselData?.numWinterDisplacementDraftMts
-                                : valueOption?.value === "Tropical"
-                                  ? +vesselData?.numTropicalDisplacementDraftMts
-                                  : valueOption?.value === "Summer"
-                                    ? +vesselData?.numSummerDisplacementDraftMts
-                                    : 0,
+                                : valueOption?.value === 'Tropical'
+                                ? +vesselData?.numTropicalDisplacementDraftMts
+                                : valueOption?.value === 'Summer'
+                                ? +vesselData?.numSummerDisplacementDraftMts
+                                : 0,
                             intLightShipMts:
-                              valueOption?.value === "Winter"
+                              valueOption?.value === 'Winter'
                                 ? +vesselData?.numWinterLightShipMts
-                                : valueOption?.value === "Tropical"
-                                  ? +vesselData?.numTropicalLightShipMts
-                                  : valueOption?.value === "Summer"
-                                    ? +vesselData?.numSummerLightShipMts
-                                    : 0,
+                                : valueOption?.value === 'Tropical'
+                                ? +vesselData?.numTropicalLightShipMts
+                                : valueOption?.value === 'Summer'
+                                ? +vesselData?.numSummerLightShipMts
+                                : 0,
                           },
-                          setFieldValue
+                          setFieldValue,
                         );
                       }}
                       errors={errors}
@@ -537,21 +536,21 @@ export default function DeadWeightCreate() {
 
                   <div className="col-lg-2">
                     <InputField
-                      value={values.intDisplacementDraftMts || ""}
+                      value={values.intDisplacementDraftMts || ''}
                       label="Displacement Draft Mts"
                       name="intDisplacementDraftMts"
                       type="number"
                       onChange={(e) => {
                         setFieldValue(
-                          "intDisplacementDraftMts",
-                          e.target.value
+                          'intDisplacementDraftMts',
+                          e.target.value,
                         );
                         calculateFinalCargoToload(
                           {
                             ...values,
                             intDisplacementDraftMts: +e.target.value || 0,
                           },
-                          setFieldValue
+                          setFieldValue,
                         );
                       }}
                       errors={errors}
@@ -561,18 +560,18 @@ export default function DeadWeightCreate() {
 
                   <div className="col-lg-2">
                     <InputField
-                      value={values.intLightShipMts || ""}
+                      value={values.intLightShipMts || ''}
                       label="Light Ship Mts"
                       name="intLightShipMts"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("intLightShipMts", e.target.value);
+                        setFieldValue('intLightShipMts', e.target.value);
                         calculateFinalCargoToload(
                           {
                             ...values,
                             intLightShipMts: +e.target.value || 0,
                           },
-                          setFieldValue
+                          setFieldValue,
                         );
                       }}
                       errors={errors}
@@ -586,13 +585,13 @@ export default function DeadWeightCreate() {
                       name="intFoFuelOilMts"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("intFoFuelOilMts", e.target.value);
+                        setFieldValue('intFoFuelOilMts', e.target.value);
                         calculateFinalCargoToload(
                           {
                             ...values,
                             intFoFuelOilMts: +e.target.value || 0,
                           },
-                          setFieldValue
+                          setFieldValue,
                         );
                       }}
                       errors={errors}
@@ -606,13 +605,13 @@ export default function DeadWeightCreate() {
                       name="intFoDoDiselOilMts"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("intFoDoDiselOilMts", e.target.value);
+                        setFieldValue('intFoDoDiselOilMts', e.target.value);
                         calculateFinalCargoToload(
                           {
                             ...values,
                             intFoDoDiselOilMts: +e.target.value || 0,
                           },
-                          setFieldValue
+                          setFieldValue,
                         );
                       }}
                       errors={errors}
@@ -626,13 +625,13 @@ export default function DeadWeightCreate() {
                       name="intFwFreshWaterMts"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("intFwFreshWaterMts", e.target.value);
+                        setFieldValue('intFwFreshWaterMts', e.target.value);
                         calculateFinalCargoToload(
                           {
                             ...values,
                             intFwFreshWaterMts: +e.target.value || 0,
                           },
-                          setFieldValue
+                          setFieldValue,
                         );
                       }}
                       errors={errors}
@@ -647,13 +646,13 @@ export default function DeadWeightCreate() {
                       name="intDockWaterDensity"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("intDockWaterDensity", e.target.value);
+                        setFieldValue('intDockWaterDensity', e.target.value);
                         calculateFinalCargoToload(
                           {
                             ...values,
                             intDockWaterDensity: +e.target.value || 0,
                           },
-                          setFieldValue
+                          setFieldValue,
                         );
                       }}
                       errors={errors}
@@ -668,13 +667,13 @@ export default function DeadWeightCreate() {
                       name="intConstantMts"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("intConstantMts", e.target.value);
+                        setFieldValue('intConstantMts', e.target.value);
                         calculateFinalCargoToload(
                           {
                             ...values,
                             intConstantMts: +e.target.value || 0,
                           },
-                          setFieldValue
+                          setFieldValue,
                         );
                       }}
                       errors={errors}
@@ -689,15 +688,15 @@ export default function DeadWeightCreate() {
                       type="number"
                       onChange={(e) => {
                         setFieldValue(
-                          "intUnpumpAbleBallastMts",
-                          e.target.value
+                          'intUnpumpAbleBallastMts',
+                          e.target.value,
                         );
                         calculateFinalCargoToload(
                           {
                             ...values,
                             intUnpumpAbleBallastMts: +e.target.value || 0,
                           },
-                          setFieldValue
+                          setFieldValue,
                         );
                       }}
                       errors={errors}
@@ -711,13 +710,13 @@ export default function DeadWeightCreate() {
                       name="intCargoLoadMts"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("intCargoLoadMts", e.target.value);
+                        setFieldValue('intCargoLoadMts', e.target.value);
                         calculateFinalCargoToload(
                           {
                             ...values,
                             intCargoLoadMts: +e.target.value || 0,
                           },
-                          setFieldValue
+                          setFieldValue,
                         );
                       }}
                       errors={errors}
@@ -731,7 +730,7 @@ export default function DeadWeightCreate() {
                       name="intFinalCargoToloadMts"
                       type="number"
                       onChange={(e) =>
-                        setFieldValue("intFinalCargoToloadMts", e.target.value)
+                        setFieldValue('intFinalCargoToloadMts', e.target.value)
                       }
                       errors={errors}
                       disabled={true}
@@ -745,7 +744,7 @@ export default function DeadWeightCreate() {
                       name="strRemarks"
                       type="text"
                       onChange={(e) =>
-                        setFieldValue("strRemarks", e.target.value)
+                        setFieldValue('strRemarks', e.target.value)
                       }
                       errors={errors}
                     />
@@ -759,41 +758,33 @@ export default function DeadWeightCreate() {
                   <div className="col-lg-2">
                     <NewSelect
                       name="numHold"
-                      options={
-                        holdsArray || []
-                      }
+                      options={holdsArray || []}
                       value={values?.numHold}
                       label="Select Hold"
                       onChange={(valueOption) => {
-                        setFieldValue("numHold", valueOption || "")
+                        setFieldValue('numHold', valueOption || '');
                       }}
-
                     />
                   </div>
                   <div className="col-lg-2">
                     <NewSelect
                       name="holdPort"
-                      options={
-                        portDDL || []
-                      }
+                      options={portDDL || []}
                       value={values?.holdPort}
                       label="Select Load Port"
                       onChange={(valueOption) => {
-                        setFieldValue("holdPort", valueOption || "")
+                        setFieldValue('holdPort', valueOption || '');
                       }}
-
                     />
                   </div>
                   <div className="col-lg-2">
                     <NewSelect
                       name="holdCargo"
-                      options={
-                        cargoDDL || []
-                      }
+                      options={cargoDDL || []}
                       value={values?.holdCargo}
                       label="Select Cargo"
                       onChange={(valueOption) => {
-                        setFieldValue("holdCargo", valueOption || "")
+                        setFieldValue('holdCargo', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -807,12 +798,27 @@ export default function DeadWeightCreate() {
                       type="number"
                       onChange={(e) => {
                         if (+e.target.validationSchema < 0) return;
-                        setFieldValue("holdCargoQTY", e.target.value)
-                      }
-                      }
+                        setFieldValue('holdCargoQTY', e.target.value);
+                      }}
                     />
                   </div>
-                  <div><button disabled={!values?.numHold || !values?.holdPort || !values?.holdCargo || !values?.holdCargoQTY} type="button" onClick={() => { handleAdd(values, setFieldValue) }} className="btn btn-primary mt-5">Add</button></div>
+                  <div>
+                    <button
+                      disabled={
+                        !values?.numHold ||
+                        !values?.holdPort ||
+                        !values?.holdCargo ||
+                        !values?.holdCargoQTY
+                      }
+                      type="button"
+                      onClick={() => {
+                        handleAdd(values, setFieldValue);
+                      }}
+                      className="btn btn-primary mt-5"
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
                 {/* <div className="row mt-5 mb-5">
                   <div className="col-12">
@@ -843,7 +849,7 @@ export default function DeadWeightCreate() {
                       }
                     }
                   `}
-                  {/* //  zoom: ${vesselData?.intHoldNumber < 7 ? "80%" : vesselData?.intHoldNumber === 7 ? "70%" : "60%"}; 
+                  {/* //  zoom: ${vesselData?.intHoldNumber < 7 ? "80%" : vesselData?.intHoldNumber === 7 ? "70%" : "60%"};
                   // } */}
                 </style>
 
@@ -853,18 +859,23 @@ export default function DeadWeightCreate() {
                   id="vesselLayoutPDF"
                 >
                   <div className="col-12 content_wrapper">
-                    <VesselLayoutPDF vesselData={vesselData} values={values} vesselNominationData={vesselNominationData} holdRows={rows} />
+                    <VesselLayoutPDF
+                      vesselData={vesselData}
+                      values={values}
+                      vesselNominationData={vesselNominationData}
+                      holdRows={rows}
+                    />
                   </div>
                 </div>
                 <div>
                   <IViewModal
                     show={isShowModal}
                     onHide={() => setIsShowModal(false)}
-                    title={"Send Mail"}
+                    title={'Send Mail'}
                   >
                     {/* <MailSender payloadInfo={payloadInfo} /> */}
                     <EmailEditorForPublicRoutes
-                      featureName={"Dead Weight & Pre-Stowage"}
+                      featureName={'Dead Weight & Pre-Stowage'}
                       vesselData={vesselData}
                       payloadInfo={payloadInfo}
                       cb={() => {

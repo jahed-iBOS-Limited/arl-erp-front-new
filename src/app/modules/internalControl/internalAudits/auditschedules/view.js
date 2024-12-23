@@ -1,19 +1,18 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import ReactToPrint from "react-to-print";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { getSingleScheduleDataHandler } from "./helper";
-import "./style.css";
-import ViewForm from "./viewForm";
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import ReactToPrint from 'react-to-print';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { getSingleScheduleDataHandler } from './helper';
+import './style.css';
+import ViewForm from './viewForm';
 
 export default function AuditSchedulesView() {
-  const [objProps, setObjprops] = useState({});
-  const [activeTab, setActiveTab] = useState("create"); // Managing tabs
+  const [, setObjprops] = useState({});
+  const [activeTab, setActiveTab] = useState('create'); // Managing tabs
   const { state: viewData } = useLocation();
   const [, onSaveAction, saveLoading] = useAxiosPost();
 
@@ -29,7 +28,7 @@ export default function AuditSchedulesView() {
     if (viewData?.intAuditScheduleId)
       getSingleScheduleDataHandler(
         viewData?.intAuditScheduleId,
-        getSingleScheduleData
+        getSingleScheduleData,
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -49,10 +48,10 @@ export default function AuditSchedulesView() {
             type="radio"
             name="viewToggle"
             value="create"
-            checked={activeTab === "create"}
-            onChange={() => setActiveTab("create")}
+            checked={activeTab === 'create'}
+            onChange={() => setActiveTab('create')}
             className="mr-1 pointer"
-            style={{ position: "relative", top: "2px" }}
+            style={{ position: 'relative', top: '2px' }}
           />
           Create View
         </label>
@@ -61,17 +60,17 @@ export default function AuditSchedulesView() {
             type="radio"
             name="viewToggle"
             value="print"
-            checked={activeTab === "print"}
-            onChange={() => setActiveTab("print")}
+            checked={activeTab === 'print'}
+            onChange={() => setActiveTab('print')}
             className="mr-1 pointer"
-            style={{ position: "relative", top: "2px" }}
+            style={{ position: 'relative', top: '2px' }}
           />
           Print View
         </label>
       </div>
 
       <div className="text-right mt-3">
-        {activeTab === "create" && (
+        {activeTab === 'create' && (
           <button
             onClick={() => {
               const entryApiUrl = `/fino/Audit/SaveAuditEngagementSchedules`;
@@ -80,9 +79,12 @@ export default function AuditSchedulesView() {
                 entryApiUrl,
                 [scheduleData],
                 () => {
-                  getSingleScheduleDataHandler(viewData?.intAuditScheduleId,getSingleScheduleData);
+                  getSingleScheduleDataHandler(
+                    viewData?.intAuditScheduleId,
+                    getSingleScheduleData,
+                  );
                 },
-                true
+                true,
               );
             }}
             type="button"
@@ -92,7 +94,7 @@ export default function AuditSchedulesView() {
             Save
           </button>
         )}
-        {activeTab === "print" && (
+        {activeTab === 'print' && (
           <ReactToPrint
             trigger={() => (
               <button className="btn btn-primary ml-3">Print</button>
@@ -103,7 +105,7 @@ export default function AuditSchedulesView() {
       </div>
 
       {/* Conditionally rendering the content based on the active tab */}
-      {activeTab === "create" ? (
+      {activeTab === 'create' ? (
         <ViewForm
           scheduleData={scheduleData}
           setSingleScheduleData={setSingleScheduleData}
@@ -112,7 +114,7 @@ export default function AuditSchedulesView() {
         <div id="audit_schedule-print" ref={printRef} className="p-4">
           {/* Print View Content */}
           <div className="mb-3"></div>
-          <div className="text-center" style={{ mergin: "0 auto" }}>
+          <div className="text-center" style={{ mergin: '0 auto' }}>
             {/* <h4>Audit Plan Template</h4> */}
             <p>
               <strong>
@@ -144,7 +146,7 @@ export default function AuditSchedulesView() {
             </p>
             <p>
               <strong>
-                Fieldwork completion date:{" "}
+                Fieldwork completion date:{' '}
                 {_dateFormatter(scheduleData?.dteEndDate)}
               </strong>
             </p>
@@ -155,7 +157,7 @@ export default function AuditSchedulesView() {
               <div
                 className="text-editor-view"
                 dangerouslySetInnerHTML={{
-                  __html: scheduleData?.strAuditObjective || "",
+                  __html: scheduleData?.strAuditObjective || '',
                 }}
               ></div>
               <hr />
@@ -165,7 +167,7 @@ export default function AuditSchedulesView() {
               <div
                 className="text-editor-view"
                 dangerouslySetInnerHTML={{
-                  __html: scheduleData?.strScopeOfAudit || "",
+                  __html: scheduleData?.strScopeOfAudit || '',
                 }}
               ></div>
               <hr />
@@ -175,7 +177,7 @@ export default function AuditSchedulesView() {
               <div
                 className="text-editor-view"
                 dangerouslySetInnerHTML={{
-                  __html: scheduleData?.strGeneralScopeOfWork || "",
+                  __html: scheduleData?.strGeneralScopeOfWork || '',
                 }}
               ></div>
               <hr />
@@ -185,7 +187,7 @@ export default function AuditSchedulesView() {
               <div
                 className="text-editor-view"
                 dangerouslySetInnerHTML={{
-                  __html: scheduleData?.strActionPlan || "",
+                  __html: scheduleData?.strActionPlan || '',
                 }}
               ></div>
             </div>

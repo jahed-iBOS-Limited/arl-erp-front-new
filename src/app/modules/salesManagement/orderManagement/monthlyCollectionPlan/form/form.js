@@ -1,19 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-// import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
-import IButton from "../../../../_helper/iButton";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import YearMonthForm from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
+import IButton from '../../../../_helper/iButton';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 import {
   getEmployeeRAT,
   getMonthlyCollectionPlanData,
   weekList,
-} from "../helper";
-import { generateDataset, getMonthList } from "./helper";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { YearDDL } from "../../../../_helper/_yearDDL";
+} from '../helper';
+import { generateDataset, getMonthList } from './helper';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { YearDDL } from '../../../../_helper/_yearDDL';
 
 export default function _Form({
   type,
@@ -44,7 +43,7 @@ export default function _Form({
   useEffect(() => {
     const total = dailyCollectionData.reduce(
       (total, item) => (item.isSelected ? total + item.targetAmount : total),
-      0
+      0,
     );
     setTotal(total || 0);
   }, [dailyCollectionData]);
@@ -60,8 +59,9 @@ export default function _Form({
         }));
 
         setRegionList(data);
-      }
+      },
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -111,8 +111,8 @@ export default function _Form({
                             value={values?.region}
                             label="Region"
                             onChange={(valueOption) => {
-                              setFieldValue("region", valueOption || "");
-                              setFieldValue("area", "");
+                              setFieldValue('region', valueOption || '');
+                              setFieldValue('area', '');
                               setAreaList([]);
                               if (valueOption) {
                                 getAreaList(
@@ -125,7 +125,7 @@ export default function _Form({
                                     }));
 
                                     setAreaList(data);
-                                  }
+                                  },
                                 );
                               }
                             }}
@@ -140,7 +140,7 @@ export default function _Form({
                             value={values?.area}
                             label="Area"
                             onChange={(valueOption) => {
-                              setFieldValue("area", valueOption || "");
+                              setFieldValue('area', valueOption || '');
                             }}
                             errors={errors}
                             touched={touched}
@@ -153,7 +153,7 @@ export default function _Form({
                             label="Month & Year"
                             type="month"
                             onChange={(e) => {
-                              setFieldValue("monthYear", e?.target?.value);
+                              setFieldValue('monthYear', e?.target?.value);
                             }}
                           />
                         </div>
@@ -169,7 +169,7 @@ export default function _Form({
                             type="number"
                             onChange={(e) => {
                               if (+e.target.value < 0) return;
-                              setFieldValue("totalPlanTaka", e?.target?.value);
+                              setFieldValue('totalPlanTaka', e?.target?.value);
                             }}
                           />
                         </div>
@@ -189,11 +189,11 @@ export default function _Form({
                                 values?.totalPlanTaka?.value < +e.target.value
                               )
                                 return;
-                              setFieldValue("workingDays", e?.target?.value);
+                              setFieldValue('workingDays', e?.target?.value);
                               setPerDayCollect(
                                 values?.totalPlanTaka > 0 && +e.target.value > 0
                                   ? +values?.totalPlanTaka / +e.target.value
-                                  : 0
+                                  : 0,
                               );
                             }}
                           />
@@ -212,9 +212,9 @@ export default function _Form({
                           onClick={() => {
                             if (!values?.monthYear) return;
                             const data = generateDataset(
-                              values?.monthYear?.split("-")[1],
-                              values?.monthYear?.split("-")[0],
-                              ["Friday", "Saturday"]
+                              values?.monthYear?.split('-')[1],
+                              values?.monthYear?.split('-')[0],
+                              ['Friday', 'Saturday'],
                             );
                             setDailyCollectionData(data);
                           }}
@@ -239,7 +239,7 @@ export default function _Form({
                                   checked={
                                     dailyCollectionData?.length > 0
                                       ? dailyCollectionData?.every(
-                                          (item) => item?.isSelected
+                                          (item) => item?.isSelected,
                                         )
                                       : false
                                   }
@@ -250,7 +250,7 @@ export default function _Form({
                                           ...item,
                                           isSelected: e?.target?.checked,
                                         };
-                                      })
+                                      }),
                                     );
                                   }}
                                 />
@@ -269,7 +269,7 @@ export default function _Form({
                                     type="checkbox"
                                     checked={item?.isSelected}
                                     onChange={(e) => {
-                                      item["isSelected"] = e.target.checked;
+                                      item['isSelected'] = e.target.checked;
                                       setDailyCollectionData([
                                         ...dailyCollectionData,
                                       ]);
@@ -280,7 +280,7 @@ export default function _Form({
                                 <td className="text-center">{item?.date}</td>
                                 <td
                                   className={
-                                    item?.isHoliday ? "bg-dark text-danger" : ""
+                                    item?.isHoliday ? 'bg-dark text-danger' : ''
                                   }
                                 >
                                   {item?.dayName}
@@ -288,12 +288,12 @@ export default function _Form({
                                 <td className="text-center">
                                   <InputField
                                     disabled={item?.isHoliday}
-                                    value={item?.targetAmount || ""}
+                                    value={item?.targetAmount || ''}
                                     type="number"
                                     onChange={(e) => {
                                       if (+e.target.value < 0) return;
                                       const data = [...dailyCollectionData];
-                                      data[index]["targetAmount"] = +e.target
+                                      data[index]['targetAmount'] = +e.target
                                         .value;
                                       setDailyCollectionData(data);
                                     }}
@@ -317,7 +317,7 @@ export default function _Form({
                             value={values?.year}
                             label="Year"
                             onChange={(valueOption) => {
-                              setFieldValue("year", valueOption || "");
+                              setFieldValue('year', valueOption || '');
                             }}
                             errors={errors}
                             touched={touched}
@@ -349,7 +349,7 @@ export default function _Form({
                                   checked={
                                     monthlyCollectionData?.length > 0
                                       ? monthlyCollectionData?.every(
-                                          (item) => item?.isSelected
+                                          (item) => item?.isSelected,
                                         )
                                       : false
                                   }
@@ -360,7 +360,7 @@ export default function _Form({
                                           ...item,
                                           isSelected: e?.target?.checked,
                                         };
-                                      })
+                                      }),
                                     );
                                   }}
                                 />
@@ -379,7 +379,7 @@ export default function _Form({
                                     type="checkbox"
                                     checked={item?.isSelected}
                                     onChange={(e) => {
-                                      item["isSelected"] = e.target.checked;
+                                      item['isSelected'] = e.target.checked;
                                       setDailyCollectionData([
                                         ...monthlyCollectionData,
                                       ]);
@@ -392,12 +392,12 @@ export default function _Form({
                                 </td>
                                 <td className="text-center">
                                   <InputField
-                                    value={item?.budgetedSalesQnt || ""}
+                                    value={item?.budgetedSalesQnt || ''}
                                     type="number"
                                     onChange={(e) => {
                                       if (+e.target.value < 0) return;
                                       const data = [...monthlyCollectionData];
-                                      data[index]["budgetedSalesQnt"] = +e
+                                      data[index]['budgetedSalesQnt'] = +e
                                         .target.value;
                                       setDailyCollectionData(data);
                                     }}
@@ -405,12 +405,12 @@ export default function _Form({
                                 </td>
                                 <td className="text-center">
                                   <InputField
-                                    value={item?.budgetedSalesAmount || ""}
+                                    value={item?.budgetedSalesAmount || ''}
                                     type="number"
                                     onChange={(e) => {
                                       if (+e.target.value < 0) return;
                                       const data = [...monthlyCollectionData];
-                                      data[index]["budgetedSalesAmount"] = +e
+                                      data[index]['budgetedSalesAmount'] = +e
                                         .target.value;
                                       setDailyCollectionData(data);
                                     }}
@@ -486,17 +486,17 @@ export default function _Form({
                               values?.salesman?.value,
                               setRowData,
                               setLoading,
-                              RAT
+                              RAT,
                             );
-                            setFieldValue("area", {
+                            setFieldValue('area', {
                               value: RAT?.areaId,
                               label: RAT?.areaName,
                             });
-                            setFieldValue("territory", {
+                            setFieldValue('territory', {
                               value: RAT?.territoryId,
                               label: RAT?.territoryName,
                             });
-                          }
+                          },
                         );
                       }}
                       disabled={!values?.month}
@@ -507,18 +507,18 @@ export default function _Form({
 
               {rowData?.length > 0 && (
                 <div className="table-responsive">
-                  {" "}
+                  {' '}
                   <table
                     id="table-to-xlsx"
                     className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                     }
                   >
                     <thead>
                       <tr className="cursor-pointer">
                         <th
                           onClick={() => allSelect(!selectedAll())}
-                          style={{ width: "30px" }}
+                          style={{ width: '30px' }}
                           rowSpan={2}
                         >
                           <input
@@ -542,7 +542,7 @@ export default function _Form({
                         {values?.month &&
                           weekList(values?.month?.value)?.map((item, i) => {
                             return (
-                              <th style={{ width: "120px" }} key={i}>
+                              <th style={{ width: '120px' }} key={i}>
                                 {item}
                               </th>
                             );
@@ -558,19 +558,19 @@ export default function _Form({
                             <td
                               onClick={() => {
                                 rowDataHandler(
-                                  "isSelected",
+                                  'isSelected',
                                   index,
-                                  !item.isSelected
+                                  !item.isSelected,
                                 );
                               }}
                               className="text-center"
                               style={
                                 item?.isSelected
                                   ? {
-                                      backgroundColor: "#aacae3",
-                                      width: "30px",
+                                      backgroundColor: '#aacae3',
+                                      width: '30px',
                                     }
-                                  : { width: "30px" }
+                                  : { width: '30px' }
                               }
                             >
                               <input
@@ -582,7 +582,7 @@ export default function _Form({
                             </td>
 
                             <td
-                              style={{ width: "30px" }}
+                              style={{ width: '30px' }}
                               className="text-center"
                             >
                               {index + 1}
@@ -595,7 +595,7 @@ export default function _Form({
                             <td className="text-right">{item?.overDue}</td>
                             <td
                               className="text-right"
-                              style={{ width: "60px" }}
+                              style={{ width: '60px' }}
                             >
                               {item?.od || 0}
                             </td>
@@ -606,9 +606,9 @@ export default function _Form({
                                 type="number"
                                 onChange={(e) => {
                                   rowDataHandler(
-                                    "week1",
+                                    'week1',
                                     index,
-                                    e?.target?.value
+                                    e?.target?.value,
                                   );
                                 }}
                               />
@@ -620,9 +620,9 @@ export default function _Form({
                                 type="number"
                                 onChange={(e) => {
                                   rowDataHandler(
-                                    "week2",
+                                    'week2',
                                     index,
-                                    e?.target?.value
+                                    e?.target?.value,
                                   );
                                 }}
                               />
@@ -634,9 +634,9 @@ export default function _Form({
                                 type="number"
                                 onChange={(e) => {
                                   rowDataHandler(
-                                    "week3",
+                                    'week3',
                                     index,
-                                    e?.target?.value
+                                    e?.target?.value,
                                   );
                                 }}
                               />
@@ -648,22 +648,22 @@ export default function _Form({
                                 type="number"
                                 onChange={(e) => {
                                   rowDataHandler(
-                                    "week4",
+                                    'week4',
                                     index,
-                                    e?.target?.value
+                                    e?.target?.value,
                                   );
                                 }}
                               />
                             </td>
                             <td
                               className="text-right"
-                              style={{ width: "90px" }}
+                              style={{ width: '90px' }}
                             >
                               {item?.total}
                             </td>
                             <td
                               className="text-right"
-                              style={{ width: "60px" }}
+                              style={{ width: '60px' }}
                             >
                               {item?.percent}
                             </td>

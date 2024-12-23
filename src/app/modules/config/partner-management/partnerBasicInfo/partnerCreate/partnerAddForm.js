@@ -1,41 +1,42 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import { useSelector } from "react-redux";
-import Loading from "./../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import { useSelector } from 'react-redux';
+import Loading from './../../../../_helper/_loading';
 import {
   partnerBasicAttachment_action,
   createPartnerBasic_api,
   getDistrictUpzillaStatus,
-} from "../helper";
+} from '../helper';
 const initProduct = {
+  cargoType: '',
   id: undefined,
-  businessPartnerName: "",
-  businessPartnerAddress: "",
-  contactNumber: "",
-  bin: "",
-  licenseNo: "",
-  email: "",
-  businessPartnerType: "",
+  businessPartnerName: '',
+  businessPartnerAddress: '',
+  contactNumber: '',
+  bin: '',
+  licenseNo: '',
+  email: '',
+  businessPartnerType: '',
   createNewUser: false,
 
   /* Last Added */
-  division: "",
-  district: "",
-  policeStation: "",
+  division: '',
+  district: '',
+  policeStation: '',
 
-  proprietor: "",
-  contactPerson: "",
-  contactNumber2: "",
-  contactNumber3: "",
+  proprietor: '',
+  contactPerson: '',
+  contactNumber2: '',
+  contactNumber3: '',
 };
 
 export default function PartnerAddForm({
@@ -45,7 +46,7 @@ export default function PartnerAddForm({
   },
 }) {
   const selectedBusinessUnit = useSelector(
-    (state) => state.authData.selectedBusinessUnit
+    (state) => state.authData.selectedBusinessUnit,
   );
   const profileData = useSelector((state) => state.authData.profileData);
   const [isDisabled, setDisabled] = useState(false);
@@ -58,7 +59,7 @@ export default function PartnerAddForm({
     getDistrictUpzillaStatus(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setIsDistrictUpzillaStatus
+      setIsDistrictUpzillaStatus,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
@@ -71,7 +72,7 @@ export default function PartnerAddForm({
       const warehouseData = {
         accountId: accountId,
         businessUnitId: businessunitid,
-        businessPartnerCode: "abc",
+        businessPartnerCode: 'abc',
         businessPartnerName: values.businessPartnerName,
         businessPartnerAddress: values.businessPartnerAddress,
         contactNumber: values.contactNumber,
@@ -81,18 +82,19 @@ export default function PartnerAddForm({
         businessPartnerTypeId: values.businessPartnerType.value,
         partnerSalesType: values.businessPartnerType.label,
         actionBy: actionBy,
-        attachmentLink: "",
+        attachmentLink: '',
         isCreateUser: values?.createNewUser,
 
         districtId: values?.district?.value,
         districtName: values?.district?.label,
         upazilaId: values?.policeStation?.value,
         upazilaName: values?.policeStation?.label,
-
         propitor: values?.proprietor,
         contactPerson: values?.contactPerson,
         contactNumber2: values?.contactNumber2,
         contactNumber3: values?.contactNumber3,
+        cargoTypeId: values?.cargoType?.value || 0,
+        cargoType: values?.cargoType?.label || '',
       };
 
       try {
@@ -102,7 +104,7 @@ export default function PartnerAddForm({
             // upload image link
             const modifyPlyload = {
               ...warehouseData,
-              attachmentLink: data[0]?.id || "",
+              attachmentLink: data[0]?.id || '',
             };
             createPartnerBasic_api(modifyPlyload, cb, setDisabled);
           });

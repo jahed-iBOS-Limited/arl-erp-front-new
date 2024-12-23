@@ -1,21 +1,21 @@
-import TextArea from "antd/lib/input/TextArea";
-import axios from "axios";
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import Select from "react-select";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import customStyles from "../../../../selectCustomStyle";
-import { attachmentUpload } from "../../../../_helper/attachmentUpload";
-import placeholderImg from "../../../../_helper/images/placeholderImg.png";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
-import { IInput } from "../../../../_helper/_input";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import TextArea from 'antd/lib/input/TextArea';
+import axios from 'axios';
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import customStyles from '../../../../selectCustomStyle';
+import { attachmentUpload } from '../../../../_helper/attachmentUpload';
+import placeholderImg from '../../../../_helper/images/placeholderImg.png';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../../_helper/_formikError';
+import { IInput } from '../../../../_helper/_input';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   generateAdviceNo,
   getBankAc,
@@ -28,68 +28,68 @@ import {
   getRevenueCenterListDDL,
   getRevenueElementListDDL,
   getSendToGLBank,
-} from "../helper";
-import DebitCredit from "./DebitCredit";
-import ReceiveAndPaymentsTable from "./ReceiveAndPaymentsTable";
-import TransferTable from "./TransferTable";
-import { setBankJournalCreateAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { confirmAlert } from "react-confirm-alert";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../helper';
+import DebitCredit from './DebitCredit';
+import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
+import TransferTable from './TransferTable';
+import { setBankJournalCreateAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { confirmAlert } from 'react-confirm-alert';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema for bank receive
 const ReceivevalidationSchema = Yup.object().shape({
   bankAcc: Yup.object().shape({
-    label: Yup.string().required("Bank Account is required"),
-    value: Yup.string().required("Bank Account is required"),
+    label: Yup.string().required('Bank Account is required'),
+    value: Yup.string().required('Bank Account is required'),
   }),
-  receiveFrom: Yup.string().required("Receive from is required"),
+  receiveFrom: Yup.string().required('Receive from is required'),
   instrumentType: Yup.object().shape({
-    label: Yup.string().required("Instrument type is required"),
-    value: Yup.string().required("Instrument type is required"),
+    label: Yup.string().required('Instrument type is required'),
+    value: Yup.string().required('Instrument type is required'),
   }),
-  instrumentNo: Yup.string().required("Instrument no is required"),
-  instrumentDate: Yup.string().required("Instrument date is required"),
-  headerNarration: Yup.string().required("Narration is required"),
-  placingDate: Yup.string().required("Placing date is required"),
+  instrumentNo: Yup.string().required('Instrument no is required'),
+  instrumentDate: Yup.string().required('Instrument date is required'),
+  headerNarration: Yup.string().required('Narration is required'),
+  placingDate: Yup.string().required('Placing date is required'),
 });
 
 // Validation schema for bank payment
 const PaymentvalidationSchema = Yup.object().shape({
   bankAcc: Yup.object().shape({
-    label: Yup.string().required("Bank Account is required"),
-    value: Yup.string().required("Bank Account is required"),
+    label: Yup.string().required('Bank Account is required'),
+    value: Yup.string().required('Bank Account is required'),
   }),
   instrumentType: Yup.object().shape({
-    label: Yup.string().required("Instrument type is required"),
-    value: Yup.string().required("Instrument type is required"),
+    label: Yup.string().required('Instrument type is required'),
+    value: Yup.string().required('Instrument type is required'),
   }),
-  paidTo: Yup.string().required("Paid to is required"),
-  instrumentNo: Yup.string().required("Instrument no is required"),
-  instrumentDate: Yup.string().required("Instrument date is required"),
-  headerNarration: Yup.string().required("Header narration is required"),
+  paidTo: Yup.string().required('Paid to is required'),
+  instrumentNo: Yup.string().required('Instrument no is required'),
+  instrumentDate: Yup.string().required('Instrument date is required'),
+  headerNarration: Yup.string().required('Header narration is required'),
 });
 // Validation schema for bank transfer
 const TransfervalidationSchema = Yup.object().shape({
   bankAcc: Yup.object().shape({
-    label: Yup.string().required("Bank Account is required"),
-    value: Yup.string().required("Bank Account is required"),
+    label: Yup.string().required('Bank Account is required'),
+    value: Yup.string().required('Bank Account is required'),
   }),
   transferTo: Yup.object().shape({
-    label: Yup.string().required("Transfer to is required"),
-    value: Yup.string().required("Transfer to is required"),
+    label: Yup.string().required('Transfer to is required'),
+    value: Yup.string().required('Transfer to is required'),
   }),
   sendToGLBank: Yup.object().shape({
-    label: Yup.string().required("GL/BL is required"),
-    value: Yup.string().required("GL/BL is required"),
+    label: Yup.string().required('GL/BL is required'),
+    value: Yup.string().required('GL/BL is required'),
   }),
   instrumentType: Yup.object().shape({
-    label: Yup.string().required("Instrument type is required"),
-    value: Yup.string().required("Instrument type is required"),
+    label: Yup.string().required('Instrument type is required'),
+    value: Yup.string().required('Instrument type is required'),
   }),
-  transferAmount: Yup.string().required("Amount is required"),
-  instrumentNo: Yup.string().required("Instrument no is required"),
-  instrumentDate: Yup.date().required("Instrument date is required"),
-  headerNarration: Yup.string().required("Header narration is required"),
+  transferAmount: Yup.string().required('Amount is required'),
+  instrumentNo: Yup.string().required('Instrument no is required'),
+  instrumentDate: Yup.date().required('Instrument date is required'),
+  headerNarration: Yup.string().required('Header narration is required'),
 });
 
 export default function _Form({
@@ -123,12 +123,7 @@ export default function _Form({
   const inputAttachFile = useRef(null);
   const dispatch = useDispatch();
 
-  const [
-    partnerBank,
-    getPartnerBank,
-    partnerBankLoading,
-    setPartnerBank,
-  ] = useAxiosGet();
+  const [partnerBank, getPartnerBank, , setPartnerBank] = useAxiosGet();
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -138,7 +133,7 @@ export default function _Form({
         profileData.accountId,
         selectedBusinessUnit.value,
         3,
-        setSendToGLBank
+        setSendToGLBank,
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -151,14 +146,14 @@ export default function _Form({
     getCostCenterDDL(
       selectedBusinessUnit.value,
       profileData.accountId,
-      setCostCenterDDL
+      setCostCenterDDL,
     );
     getPartnerTypeDDL(setPartnerTypeDDL);
     getRevenueElementListDDL(selectedBusinessUnit.value, setRevenueElementDDL);
     getRevenueCenterListDDL(selectedBusinessUnit.value, setRevenueCenterDDL);
   }, [profileData, selectedBusinessUnit]);
 
-  const [partnerType, setPartnerType] = useState(initData?.partnerType || "");
+  const [partnerType, setPartnerType] = useState(initData?.partnerType || '');
 
   const loadTransactionList = (v) => {
     if (v?.length < 3) return [];
@@ -168,9 +163,9 @@ export default function _Form({
           profileData?.accountId
         }&BusinessUnitId=${
           selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
           partnerType?.reffPrtTypeId
-        }`
+        }`,
       )
       .then((res) => {
         return res?.data;
@@ -196,11 +191,11 @@ export default function _Form({
                 }))
               : [];
           setPartnerBank(newBankAcc);
-        }
+        },
       );
     }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initData]);
 
   return (
@@ -209,23 +204,25 @@ export default function _Form({
         initialValues={{
           ...initData,
           partnerType: {
-            "value": 2,
-            "label": "Customer",
-            "reffPrtTypeId": 2
+            value: 2,
+            label: 'Customer',
+            reffPrtTypeId: 2,
           },
-          customerSupplierStatus: "customer",
-          narration: initData?.headerNarration || "",
+          customerSupplierStatus: 'customer',
+          narration: initData?.headerNarration || '',
           instrumentDate: _todayDate(),
           placingDate: _todayDate(),
           transactionDate: _todayDate(),
-          instrumentNo: "",
-          profitCenter: "",
-          partnerBankAccount: "",
-          gl:initData?.transaction?.glData?.length === 1 ? initData?.transaction?.glData[0] : "",
-          receiveFrom: jorunalType === 4 ? initData?.transaction?.label : "",
-          paidTo : jorunalType === 5 ? initData?.transaction?.label : "",
-          transaction : initData?.transaction,
-     
+          instrumentNo: '',
+          profitCenter: '',
+          partnerBankAccount: '',
+          gl:
+            initData?.transaction?.glData?.length === 1
+              ? initData?.transaction?.glData[0]
+              : '',
+          receiveFrom: jorunalType === 4 ? initData?.transaction?.label : '',
+          paidTo: jorunalType === 5 ? initData?.transaction?.label : '',
+          transaction: initData?.transaction,
         }}
         validationSchema={
           jorunalType === 4
@@ -236,30 +233,30 @@ export default function _Form({
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
           return confirmAlert({
-            title: "Are you sure?",
-            message: "",
+            title: 'Are you sure?',
+            message: '',
             buttons: [
               {
-                label: "Yes",
+                label: 'Yes',
                 onClick: () => {
                   saveHandler(values, () => {
                     // wont be reset as per requirement
                     // resetForm(initData);
                     if (jorunalType === 6) {
-                      setFieldValue("transferAmount", "");
+                      setFieldValue('transferAmount', '');
                       dispatch(
                         setBankJournalCreateAction({
                           ...values,
-                          transferAmount: "",
-                        })
+                          transferAmount: '',
+                        }),
                       );
                     }
                   });
                 },
               },
               {
-                label: "No",
-                onClick: () => "",
+                label: 'No',
+                onClick: () => '',
               },
             ],
           });
@@ -279,7 +276,7 @@ export default function _Form({
               <div className="row bank-journal-wrapper">
                 <div className="col-lg-4">
                   <div
-                    style={{ paddingTop: "1px" }}
+                    style={{ paddingTop: '1px' }}
                     className="row bank-journal bank-journal-custom bj-left"
                   >
                     <div className="col-lg-6 pl pr-1 mb-2">
@@ -289,7 +286,7 @@ export default function _Form({
                         value={values?.transactionDate}
                         name="transactionDate"
                         onChange={(e) =>
-                          setFieldValue("transactionDate", e.target.value)
+                          setFieldValue('transactionDate', e.target.value)
                         }
                         type="date"
                       />
@@ -307,13 +304,13 @@ export default function _Form({
                                 valueOption?.bankBranch_Id,
                                 valueOption?.value,
                                 setFieldValue,
-                                "instrumentNo"
+                                'instrumentNo',
                               );
                             }
                           }
-                          setFieldValue("instrumentNo", "");
-                          setFieldValue("instrumentType", "");
-                          setFieldValue("bankAcc", valueOption);
+                          setFieldValue('instrumentNo', '');
+                          setFieldValue('instrumentType', '');
+                          setFieldValue('bankAcc', valueOption);
                         }}
                         options={bankAcc || []}
                         value={values?.bankAcc}
@@ -334,12 +331,12 @@ export default function _Form({
                         <label>Select Transfer To</label>
                         <Select
                           onChange={(valueOption) => {
-                            setFieldValue("transferTo", valueOption);
-                            setFieldValue("sendToGLBank", "");
+                            setFieldValue('transferTo', valueOption);
+                            setFieldValue('sendToGLBank', '');
                           }}
                           options={[
                             // { value: 1, label: "Cash" },
-                            { value: 2, label: "Bank" },
+                            { value: 2, label: 'Bank' },
                           ]}
                           value={values?.transferTo}
                           isSearchable={true}
@@ -358,12 +355,12 @@ export default function _Form({
                           <label>Partner Type</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("gl", "");
-                              setFieldValue("partnerType", valueOption);
+                              setFieldValue('gl', '');
+                              setFieldValue('partnerType', valueOption);
                               setPartnerType(valueOption);
-                              setFieldValue("transaction", "");
-                              setFieldValue("receiveFrom", "");
-                              setFieldValue("partnerBankAccount", "");
+                              setFieldValue('transaction', '');
+                              setFieldValue('receiveFrom', '');
+                              setFieldValue('partnerBankAccount', '');
                             }}
                             options={partnerTypeDDL}
                             value={values?.partnerType}
@@ -380,33 +377,33 @@ export default function _Form({
                         </div>
 
                         <div
-                          style={{ marginBottom: "12px" }}
+                          style={{ marginBottom: '12px' }}
                           className="col-lg-12 pl pr"
                         >
                           <label>
-                            {(values?.partnerType?.label === "Others"
-                              ? "Transaction"
-                              : values?.partnerType?.label) || "Transaction"}
+                            {(values?.partnerType?.label === 'Others'
+                              ? 'Transaction'
+                              : values?.partnerType?.label) || 'Transaction'}
                           </label>
                           <SearchAsyncSelect
                             selectedValue={values?.transaction}
                             isSearchIcon={true}
                             handleChange={(valueOption) => {
-                              setFieldValue("gl", "");
+                              setFieldValue('gl', '');
                               if (valueOption?.glData?.length === 1) {
-                                setFieldValue("gl", valueOption?.glData[0]);
+                                setFieldValue('gl', valueOption?.glData[0]);
                               }
                               if (jorunalType === 4) {
                                 setFieldValue(
-                                  "receiveFrom",
-                                  valueOption?.label
+                                  'receiveFrom',
+                                  valueOption?.label,
                                 );
                               } else if (jorunalType === 5) {
-                                setFieldValue("paidTo", valueOption?.label);
+                                setFieldValue('paidTo', valueOption?.label);
                               }
 
-                              setFieldValue("transaction", valueOption);
-                              setFieldValue("partnerBankAccount", "");
+                              setFieldValue('transaction', valueOption);
+                              setFieldValue('partnerBankAccount', '');
 
                               getPartnerBank(
                                 `/partner/BusinessPartnerBankInfo/GetBusinessPartnerBankInfoByAccountIdBusinessUnitId?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&BusinessPartnerId=${valueOption?.value}&Status=true`,
@@ -420,7 +417,7 @@ export default function _Form({
                                         }))
                                       : [];
                                   setPartnerBank(newBankAcc);
-                                }
+                                },
                               );
                             }}
                             loadOptions={loadTransactionList}
@@ -434,19 +431,19 @@ export default function _Form({
                         </div>
                         {/* ["Supplier", "Customer", "Investment Partner"] */}
                         {jorunalType === 5 &&
-                          ["Investment Partner"]?.includes(
-                            values?.partnerType?.label
+                          ['Investment Partner']?.includes(
+                            values?.partnerType?.label,
                           ) && (
                             <div
-                              style={{ marginBottom: "12px" }}
+                              style={{ marginBottom: '12px' }}
                               className="col-lg-12 pl pr"
                             >
                               <label>Partner Bank Account</label>
                               <Select
                                 onChange={(valueOption) => {
                                   setFieldValue(
-                                    "partnerBankAccount",
-                                    valueOption
+                                    'partnerBankAccount',
+                                    valueOption,
                                   );
                                 }}
                                 // isDisabled={!values?.transaction}
@@ -463,7 +460,7 @@ export default function _Form({
                           <label>General Ledger</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("gl", valueOption);
+                              setFieldValue('gl', valueOption);
                             }}
                             options={values?.transaction?.glData || []}
                             value={values?.gl}
@@ -504,8 +501,8 @@ export default function _Form({
                           <label>Select Send to GL/Bank</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("paidTo", valueOption?.label);
-                              setFieldValue("sendToGLBank", valueOption);
+                              setFieldValue('paidTo', valueOption?.label);
+                              setFieldValue('sendToGLBank', valueOption);
                             }}
                             isDisabled={!values?.transferTo}
                             value={values?.sendToGLBank}
@@ -557,8 +554,8 @@ export default function _Form({
                             placeholder="Narration"
                             rows="3"
                             onChange={(e) => {
-                              setFieldValue("narration", e.target.value);
-                              setFieldValue("headerNarration", e.target.value);
+                              setFieldValue('narration', e.target.value);
+                              setFieldValue('headerNarration', e.target.value);
                             }}
                             max={1000}
                             errors={errors}
@@ -589,8 +586,8 @@ export default function _Form({
                             placeholder="Narration"
                             rows="3"
                             onChange={(e) => {
-                              setFieldValue("narration", e.target.value);
-                              setFieldValue("headerNarration", e.target.value);
+                              setFieldValue('narration', e.target.value);
+                              setFieldValue('headerNarration', e.target.value);
                             }}
                             max={1000}
                             errors={errors}
@@ -603,7 +600,7 @@ export default function _Form({
                       <label>Profit Center</label>
                       <Select
                         onChange={(valueOption) => {
-                          setFieldValue("profitCenter", valueOption);
+                          setFieldValue('profitCenter', valueOption);
                         }}
                         isClearable={true}
                         options={profitCenterDDL}
@@ -625,7 +622,7 @@ export default function _Form({
                           <label>Revenue Center</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("revenueCenter", valueOption);
+                              setFieldValue('revenueCenter', valueOption);
                             }}
                             value={values?.revenueCenter}
                             options={revenueCenterDDL || []}
@@ -644,7 +641,7 @@ export default function _Form({
                           <label>Revenue Element</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("revenueElement", valueOption);
+                              setFieldValue('revenueElement', valueOption);
                             }}
                             value={values?.revenueElement}
                             options={revenueElementDDL || []}
@@ -667,18 +664,18 @@ export default function _Form({
                           <Select
                             onChange={(valueOption) => {
                               if (valueOption) {
-                                setFieldValue("costCenter", valueOption);
+                                setFieldValue('costCenter', valueOption);
                                 getCostElementByCostCenterDDL(
                                   selectedBusinessUnit.value,
                                   profileData.accountId,
                                   valueOption?.value,
-                                  setCostElementDDL
+                                  setCostElementDDL,
                                 );
-                                setFieldValue("costElement", "");
+                                setFieldValue('costElement', '');
                               } else {
                                 setCostElementDDL([]);
-                                setFieldValue("costCenter", "");
-                                setFieldValue("costElement", "");
+                                setFieldValue('costCenter', '');
+                                setFieldValue('costElement', '');
                               }
                             }}
                             value={values?.costCenter}
@@ -698,7 +695,7 @@ export default function _Form({
                           <label>Cost Element</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("costElement", valueOption);
+                              setFieldValue('costElement', valueOption);
                             }}
                             value={values?.costElement}
                             options={costElementDDL || []}
@@ -720,10 +717,10 @@ export default function _Form({
                     <div
                       className={
                         jorunalType === 5 || jorunalType === 6
-                          ? "d-none"
-                          : "col-lg-6 pl pr-1 mb-2 align-items-center"
+                          ? 'd-none'
+                          : 'col-lg-6 pl pr-1 mb-2 align-items-center'
                       }
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                     >
                       <div className="d-flex align-items-center">
                         <span className="mr-2">Placed in Bank</span>
@@ -732,7 +729,7 @@ export default function _Form({
                           name="placedInBank"
                           checked={values.placedInBank}
                           onChange={(e) => {
-                            setFieldValue("placedInBank", e.target.checked);
+                            setFieldValue('placedInBank', e.target.checked);
                           }}
                         />
                       </div>
@@ -741,8 +738,8 @@ export default function _Form({
                     <div
                       className={
                         jorunalType === 5 || jorunalType === 6
-                          ? "d-none"
-                          : "col-lg-6 pl-date pr pl-1 mb-2 bank-journal-date border-gray"
+                          ? 'd-none'
+                          : 'col-lg-6 pl-date pr pl-1 mb-2 bank-journal-date border-gray'
                       }
                     >
                       <IInput
@@ -759,14 +756,14 @@ export default function _Form({
                         <div
                           className={
                             attachmentFile
-                              ? "image-upload-box with-img"
-                              : "image-upload-box"
+                              ? 'image-upload-box with-img'
+                              : 'image-upload-box'
                           }
                           onClick={onButtonAttachmentClick}
                           style={{
-                            cursor: "pointer",
-                            position: "relative",
-                            height: "35px",
+                            cursor: 'pointer',
+                            position: 'relative',
+                            height: '35px',
                           }}
                         >
                           <input
@@ -777,19 +774,19 @@ export default function _Form({
                                     setAttachmentFile(data?.[0]?.id);
                                   })
                                   .catch((error) => {
-                                    setAttachmentFile("");
+                                    setAttachmentFile('');
                                   });
                               }
                             }}
                             type="file"
                             ref={inputAttachFile}
                             id="file"
-                            style={{ display: "none" }}
+                            style={{ display: 'none' }}
                           />
                           <div>
                             {!attachmentFile && (
                               <img
-                                style={{ maxWidth: "50px" }}
+                                style={{ maxWidth: '50px' }}
                                 src={placeholderImg}
                                 className="img-fluid"
                                 alt="Upload or drag documents"
@@ -800,11 +797,11 @@ export default function _Form({
                             <div className="d-flex align-items-center">
                               <p
                                 style={{
-                                  fontSize: "12px",
-                                  fontWeight: "500",
-                                  color: "#0072E5",
-                                  cursor: "pointer",
-                                  margin: "0px",
+                                  fontSize: '12px',
+                                  fontWeight: '500',
+                                  color: '#0072E5',
+                                  cursor: 'pointer',
+                                  margin: '0px',
                                 }}
                               >
                                 {attachmentFile}
@@ -821,14 +818,14 @@ export default function _Form({
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        attachmentFile
-                                      )
+                                        attachmentFile,
+                                      ),
                                     );
                                   }}
                                   className="ml-2"
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     className={`fa pointer fa-eye`}
                                     aria-hidden="true"
                                   ></i>
@@ -843,9 +840,9 @@ export default function _Form({
                       <div className="col-lg-12 text-right pl-0 bank-journal">
                         <button
                           style={{
-                            padding: "5px 20px",
-                            marginTop: "10px",
-                            marginBottom: "10px",
+                            padding: '5px 20px',
+                            marginTop: '10px',
+                            marginBottom: '10px',
                           }}
                           type="button"
                           disabled={
@@ -856,20 +853,20 @@ export default function _Form({
                           className="btn btn-primary"
                           onClick={() => {
                             if (!values?.transaction)
-                              return toast.warn("Select transaction");
+                              return toast.warn('Select transaction');
                             if (!values?.gl)
-                              return toast.warn("Select General Ledger");
+                              return toast.warn('Select General Ledger');
                             if (!values?.bankAcc)
-                              return toast.warn("Select Bank Account");
+                              return toast.warn('Select Bank Account');
                             if (!values?.headerNarration)
-                              return toast.warn("Please add header narration");
+                              return toast.warn('Please add header narration');
                             // if values?.gl?.accountGroupId === 3 or 4 then profit center is required
                             if (
                               values?.gl?.accountGroupId === 3 ||
                               values?.gl?.accountGroupId === 4
                             ) {
                               if (!values?.profitCenter)
-                                return toast.warn("Select profit center");
+                                return toast.warn('Select profit center');
                             }
                             // setFieldValue("transaction", "");
                             // setFieldValue("amount", "");
@@ -884,14 +881,14 @@ export default function _Form({
                 </div>
                 <div className="col-lg-8 pr-0">
                   <div
-                    style={{ paddingBottom: "6px", paddingTop: "1px" }}
+                    style={{ paddingBottom: '6px', paddingTop: '1px' }}
                     className="row bank-journal bank-journal-custom bj-left"
                   >
                     <div className="col-lg-3 pl pr-1">
                       <label>Instrument Type</label>
                       <Select
                         onChange={(valueOption) => {
-                          setFieldValue("instrumentType", valueOption);
+                          setFieldValue('instrumentType', valueOption);
                           if ([5, 6].includes(jorunalType)) {
                             if (valueOption?.value === 2) {
                               if (values?.bankAcc) {
@@ -902,13 +899,13 @@ export default function _Form({
                                   values?.bankAcc?.bankBranch_Id,
                                   values?.bankAcc?.value,
                                   setFieldValue,
-                                  "instrumentNo"
+                                  'instrumentNo',
                                 );
                               }
                             } else {
                               generateAdviceNo(
                                 selectedBusinessUnit?.value,
-                                setFieldValue
+                                setFieldValue,
                               );
                             }
                           }
@@ -940,7 +937,7 @@ export default function _Form({
                         type="date"
                       />
                     </div>
-                    <div style={{ paddingTop: "16px" }} className="col-lg-3">
+                    <div style={{ paddingTop: '16px' }} className="col-lg-3">
                       <DebitCredit
                         type={jorunalType}
                         amount={values?.transferAmount}
@@ -950,7 +947,7 @@ export default function _Form({
                   </div>
                   <div className="row">
                     <div
-                      style={{ paddingLeft: "8px" }}
+                      style={{ paddingLeft: '8px' }}
                       className="col-lg-12 p-0 pl-1 m-0"
                     >
                       <ReceiveAndPaymentsTable
@@ -974,14 +971,14 @@ export default function _Form({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

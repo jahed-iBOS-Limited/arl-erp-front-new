@@ -1,152 +1,14 @@
-// import React, { useEffect, useState } from "react";
-// import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-// import Loading from "../../../_helper/_loading";
-// import InputField from "../../../_helper/_inputField";
-// export default function JVModalView({ values, buId }) {
-//   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
-//   const [calFields, setCalFields] = useState({
-//     grandTotalValue: 0,
-//     damageChange: 0,
-//     meterRent: 100,
-//   });
-//   useEffect(() => {
-//     let grandTotalValue =
-//       gridData.reduce((accumulator, currentValue) => {
-//         return accumulator + currentValue.totalValue;
-//       }, 0) || 0;
-
-//     setCalFields({ ...calFields, grandTotalValue: grandTotalValue });
-//   }, [gridData]);
-
-//   useEffect(() => {
-//     getGridData(
-//       `mes/MSIL/GetRebconsumptionMonthEnding?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`
-//     );
-//   }, []);
-//   return (
-//     <>
-//       {loading && <Loading />}
-//       <div>
-//         <div className="table-responsive">
-//           <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
-//             <thead>
-//               <tr>
-//                 <th>Particulars</th>
-//                 <th>Consumption Type</th>
-//                 <th>Qty (Unit)</th>
-//                 <th>Rate</th>
-//                 <th>Value</th>
-//               </tr>
-//               {gridData?.length > 0 &&
-//                 gridData?.map((item, i) => (
-//                   <>
-//                     <tr key={i}>
-//                       {i === 0 && (
-//                         <td rowSpan={gridData.length}>
-//                           {item?.rebconsumptionTypeName}
-//                         </td>
-//                       )}
-//                       <td>{item?.rebconsumptionType}</td>
-//                       <td className="text-center">
-//                         {item?.totalFuelconsumedUnit}
-//                       </td>
-//                       <td className="text-center">
-//                         {" "}
-//                         <InputField
-//                           value={item?.intREBConsmRate || ""}
-//                           type="number"
-//                           onChange={(e) => {
-//                             const modifyData = [...gridData];
-//                             modifyData[i]["intREBConsmRate"] = +e.target.value;
-//                             modifyData[i]["totalValue"] =
-//                               +e.target.value * item?.totalFuelconsumedUnit || 0;
-//                             setGridData(modifyData);
-//                           }}
-//                         />
-//                       </td>
-//                       <td className="text-center">{item?.totalValue || ""}</td>
-//                     </tr>
-//                   </>
-//                 ))}
-//               <tr>
-//                 <td colSpan={2}>Total</td>
-//                 <td className="text-center">
-//                   {gridData.reduce((accumulator, currentValue) => {
-//                     return accumulator + currentValue.totalFuelconsumedUnit;
-//                   }, 0)}
-//                 </td>
-//                 <td></td>
-//                 <td className="text-center">
-//                   {calFields?.grandTotalValue || ""}
-//                 </td>
-//               </tr>
-//               <tr>
-//                 <td colSpan={4}>Demand Chage</td>
-//                 <td className="text-center">
-//                   <InputField
-//                     value={calFields?.damageChange || ""}
-//                     type="number"
-//                     onChange={(e) => {
-//                       setCalFields({
-//                         ...calFields,
-//                         damageChange: +e.target.value,
-//                       });
-//                     }}
-//                   />
-//                 </td>
-//               </tr>
-//               <tr>
-//                 <td className="text-center" colSpan={4}>
-//                   Total
-//                 </td>
-//                 <td className="text-center">
-//                   {calFields?.grandTotalValue + calFields?.damageChange}
-//                 </td>
-//               </tr>
-//               <tr>
-//                 <td colSpan={4}>Vat (5%)</td>
-//                 <td className="text-center">
-//                   {((calFields?.grandTotalValue + calFields?.damageChange) *
-//                     5) /
-//                     100}
-//                 </td>
-//               </tr>
-//               <tr>
-//                 <td colSpan={4}>Meter Rent</td>
-//                 <td className="text-center">{calFields?.meterRent}</td>
-//               </tr>
-//               <tr>
-//                 <td className="text-center text-bold" colSpan={4}>
-//                   Total Bill Amount
-//                 </td>
-//                 <td className="text-center text-bold">
-//                   {" "}
-//                   {((calFields?.grandTotalValue + calFields?.damageChange) *
-//                     5) /
-//                     100 +
-//                     calFields?.meterRent}{" "}
-//                 </td>
-//               </tr>
-//             </thead>
-//             <tbody></tbody>
-//           </table>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
-
-import React, { useEffect, useState, useMemo } from "react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
-import InputField from "../../../_helper/_inputField";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
-import moment from "moment";
+import React, { useEffect, useState, useMemo } from 'react';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../_helper/_loading';
+import InputField from '../../../_helper/_inputField';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosPut from '../../../_helper/customHooks/useAxiosPut';
+import moment from 'moment';
 
 export default function JVModalView({ values, buId, setShowJVModal }) {
   const [gridData, getGridData, loading, setGridData] = useAxiosGet();
-  const [, saveGridData, load] = useAxiosPut();
+  const [, saveGridData] = useAxiosPut();
   const [damageChange, setDamageChange] = useState(0);
   const rmscivsrent = 5220;
   const { profileData } = useSelector((state) => {
@@ -156,9 +18,9 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
   useEffect(() => {
     getGridData(
       `/mes/MSIL/GetFuelConsumptionMonthEnd?MonthId=${moment(
-        values?.fromDate
-      )?.format("M")}&YearId=${moment(values?.toDate).format(
-        "YYYY"
+        values?.fromDate,
+      )?.format('M')}&YearId=${moment(values?.toDate).format(
+        'YYYY',
       )}&BusinessUnitId=${buId}`,
       (data) => {
         const modifyData = [
@@ -166,12 +28,12 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
             totalFuelQuantity: data,
             rate: 0,
             totalValue: 0,
-            particulars: "Fuel Consumption",
-            fuelType: "Gas",
+            particulars: 'Fuel Consumption',
+            fuelType: 'Gas',
           },
         ];
         setGridData(modifyData);
-      }
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -185,7 +47,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
     if (gridData?.length > 0) {
       return gridData?.reduce(
         (accumulator, item) => accumulator + (item?.totalValue || 0),
-        0
+        0,
       );
     }
   }, [gridData]);
@@ -194,7 +56,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
     if (gridData?.length > 0) {
       return gridData?.reduce(
         (accumulator, item) => accumulator + (item?.totalFuelQuantity || 0),
-        0
+        0,
       );
     }
   }, [gridData]);
@@ -218,10 +80,10 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
     const payload = gridData?.map((item) => ({
       consumptionId: 0,
       costTypeId: 2,
-      strCostTypeName: "Fuel Consumption",
+      strCostTypeName: 'Fuel Consumption',
       particularsId: 16,
-      particularsName: "Fuel Consumption",
-      consumptionType: "Gas",
+      particularsName: 'Fuel Consumption',
+      consumptionType: 'Gas',
       totalValue: item?.totalValue,
       demandChage: damageChange,
       meterRent: 0,
@@ -242,7 +104,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
       () => {
         setShowJVModal(false);
       },
-      true
+      true,
     );
   };
 
@@ -287,7 +149,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
                       />
                     </td>
                     <td className="text-center">
-                      {item?.totalValue?.toFixed(2) || ""}
+                      {item?.totalValue?.toFixed(2) || ''}
                     </td>
                   </tr>
                 ))}
@@ -303,7 +165,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
                 <td colSpan={4}>Demand Change</td>
                 <td className="text-center">
                   <InputField
-                    value={damageChange || ""}
+                    value={damageChange || ''}
                     type="number"
                     onChange={(e) => setDamageChange(+e.target.value)}
                   />

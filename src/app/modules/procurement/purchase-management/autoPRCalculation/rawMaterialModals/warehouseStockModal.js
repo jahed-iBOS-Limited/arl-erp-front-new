@@ -1,16 +1,16 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../purchaseOrder/customHooks/useAxiosGet";
-import { fetchWarehouseStockDetailsData } from "./helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../purchaseOrder/customHooks/useAxiosGet';
+import { fetchWarehouseStockDetailsData } from './helper';
 
 const WarehouseStockModal = ({ objProp }) => {
   // obj props
   const { singleRowData, setSingleRowData, values } = objProp;
 
   // state
-  const [objProps, setObjprops] = useState({});
+  const [, setObjprops] = useState({});
 
   const [
     warestockData,
@@ -30,7 +30,7 @@ const WarehouseStockModal = ({ objProp }) => {
 
   const isLoading = warehouseStockDataLoading;
   return (
-    <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => { }}>
+    <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => {}}>
       {({
         handleSubmit,
         resetForm,
@@ -79,8 +79,12 @@ const WarehouseStockModal = ({ objProp }) => {
                           </td>
                           <td className="text-right">{item?.numInQty || 0}</td>
                           <td className="text-right">{item?.numOutQty || 0}</td>
-                          <td className="text-right">{item?.numCloseQty || 0}</td>
-                          <td className="text-right">{item?.numClosingValue || 0}</td>
+                          <td className="text-right">
+                            {item?.numCloseQty || 0}
+                          </td>
+                          <td className="text-right">
+                            {item?.numClosingValue || 0}
+                          </td>
                           <td className="text-right">{item?.numRate || 0}</td>
                         </tr>
                       ))}

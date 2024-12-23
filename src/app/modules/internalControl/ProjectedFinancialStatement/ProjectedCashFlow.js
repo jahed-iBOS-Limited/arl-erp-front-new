@@ -1,11 +1,10 @@
-import React from "react";
-import { _dateFormatter } from "../../_helper/_dateFormate";
-import { _formatMoney } from "../../_helper/_formatMoney";
-import { isLastDayOfMonth } from "./helper";
-import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
-import Loading from "../../_helper/_loading";
-import { shallowEqual, useSelector } from "react-redux";
-import numberWithCommas from "../../_helper/_numberWithCommas";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../_helper/_dateFormate';
+import Loading from '../../_helper/_loading';
+import numberWithCommas from '../../_helper/_numberWithCommas';
+import useAxiosPost from '../../_helper/customHooks/useAxiosPost';
+import { isLastDayOfMonth } from './helper';
 
 const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
   const { profileData } = useSelector((state) => {
@@ -18,39 +17,39 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
       {rowDto?.length > 0 && (
         <div className="d-flex flex-column align-items-center">
           <div className="text-center">
-            <h2 className="mb-0" style={{ fontWeight: "bold" }}>
+            <h2 className="mb-0" style={{ fontWeight: 'bold' }}>
               {values?.businessUnit?.value > 0
                 ? values?.businessUnit?.label
                 : accountName}
             </h2>
             <h4 className="text-primary">Projected Cash Flow Statement</h4>
-            <p className="mt-4" style={{ fontWeight: "bold" }}>
+            <p className="mt-4" style={{ fontWeight: 'bold' }}>
               {`For the period from: ${_dateFormatter(
-                values?.fromDate
-              )}  to  ${_dateFormatter(values?.toDate)}`}{" "}
+                values?.fromDate,
+              )}  to  ${_dateFormatter(values?.toDate)}`}{' '}
             </p>
           </div>
           <div className="table-responsive">
-            <table style={{ width: "75%" }} className="cashFlowStatement">
+            <table style={{ width: '75%' }} className="cashFlowStatement">
               <tr>
                 <td className="pr-5 text-right">
                   Opening Cash & Cash Equivalent
                 </td>
                 <td
                   style={{
-                    border: "1px solid black",
-                    textAlign: "center",
+                    border: '1px solid black',
+                    textAlign: 'center',
                   }}
                 >
-                  {numberWithCommas(Math.round(rowDto[0]["numPlannedOpening"]))}
+                  {numberWithCommas(Math.round(rowDto[0]['numPlannedOpening']))}
                 </td>
                 <td
                   style={{
-                    border: "1px solid black",
-                    textAlign: "center",
+                    border: '1px solid black',
+                    textAlign: 'center',
                   }}
                 >
-                  {numberWithCommas(Math.round(rowDto[0]["numOpening"]))}
+                  {numberWithCommas(Math.round(rowDto[0]['numOpening']))}
                 </td>
                 {/* <td
                 style={{
@@ -64,11 +63,11 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
               </td> */}
               </tr>
               <tr>
-                <td style={{ height: "15px" }}></td>
-                <td className="text-center" style={{ height: "15px" }}>
+                <td style={{ height: '15px' }}></td>
+                <td className="text-center" style={{ height: '15px' }}>
                   last Period
                 </td>
-                <td className="text-center" style={{ height: "15px" }}>
+                <td className="text-center" style={{ height: '15px' }}>
                   Current Period
                 </td>
                 {/* <td className="text-center" style={{ height: "15px" }}>
@@ -79,21 +78,21 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                 switch (item.intFSId) {
                   case 9999:
                     return (
-                      <tr style={{ background: "#e6ecff" }}>
+                      <tr style={{ background: '#e6ecff' }}>
                         <td colSpan="4">{item?.strName}</td>
                       </tr>
                     );
                   case 0:
-                    if (item.strName.startsWith("Net")) {
+                    if (item.strName.startsWith('Net')) {
                       return (
-                        <tr style={{ background: "#f0f0f5" }}>
+                        <tr style={{ background: '#f0f0f5' }}>
                           <td>{item?.strName}</td>
-                          <td className="text-right" style={{ width: "120px" }}>
+                          <td className="text-right" style={{ width: '120px' }}>
                             {numberWithCommas(
-                              Math.round(item?.numPlannedAmount)
+                              Math.round(item?.numPlannedAmount),
                             )}
                           </td>
-                          <td className="text-right" style={{ width: "120px" }}>
+                          <td className="text-right" style={{ width: '120px' }}>
                             {numberWithCommas(Math.round(item?.numAmount))}
                           </td>
                           {/* <td className="text-right" style={{ width: "120px" }}>
@@ -105,14 +104,14 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                       );
                     } else if (index === rowDto.length - 1) {
                       return (
-                        <tr style={{ background: "#e6ecff" }}>
+                        <tr style={{ background: '#e6ecff' }}>
                           <td>{item?.strName}</td>
-                          <td className="text-right" style={{ width: "120px" }}>
+                          <td className="text-right" style={{ width: '120px' }}>
                             {numberWithCommas(
-                              Math.round(item?.numPlannedAmount)
+                              Math.round(item?.numPlannedAmount),
                             )}
                           </td>
-                          <td className="text-right" style={{ width: "120px" }}>
+                          <td className="text-right" style={{ width: '120px' }}>
                             <div className="d-flex justify-content-around align-items-center">
                               <div className="mr-5">
                                 <button
@@ -129,18 +128,18 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                                       [
                                         {
                                           partName:
-                                            "UpdateFromProjectedCashflowStatement",
+                                            'UpdateFromProjectedCashflowStatement',
                                           businessUnitId:
                                             values?.businessUnit?.value,
                                           dteDate: values?.toDate,
                                           conversionRate: +values?.conversionRate,
-                                          yearName: "yyyy-yyyy",
+                                          yearName: 'yyyy-yyyy',
                                           initialAmount: +item?.numAmount,
                                           actionBy: profileData?.userId,
                                         },
                                       ],
                                       null,
-                                      true
+                                      true,
                                     );
                                   }}
                                 >
@@ -168,7 +167,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                   case null:
                     return (
                       <tr>
-                        <td colSpan="4" style={{ height: "15px" }}></td>
+                        <td colSpan="4" style={{ height: '15px' }}></td>
                       </tr>
                     );
 
@@ -177,8 +176,8 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                       <tr>
                         <td
                           style={{
-                            padding: "0 0 0 5px",
-                            fontWeight: "normal",
+                            padding: '0 0 0 5px',
+                            fontWeight: 'normal',
                           }}
                         >
                           {item?.strName}
@@ -186,11 +185,11 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                         <td
                           className="pr-1"
                           style={{
-                            border: "1px solid black",
-                            textAlign: "right",
-                            width: "120px",
-                            padding: "0",
-                            fontWeight: "normal",
+                            border: '1px solid black',
+                            textAlign: 'right',
+                            width: '120px',
+                            padding: '0',
+                            fontWeight: 'normal',
                           }}
                         >
                           {numberWithCommas(Math.round(item?.numPlannedAmount))}
@@ -198,11 +197,11 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                         <td
                           className="pr-1"
                           style={{
-                            border: "1px solid black",
-                            textAlign: "right",
-                            width: "120px",
-                            padding: "0",
-                            fontWeight: "normal",
+                            border: '1px solid black',
+                            textAlign: 'right',
+                            width: '120px',
+                            padding: '0',
+                            fontWeight: 'normal',
                           }}
                         >
                           {numberWithCommas(Math.round(item?.numAmount))}

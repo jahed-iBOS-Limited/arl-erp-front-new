@@ -1,24 +1,23 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IForm from "./../../../_helper/_form";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { useLocation } from "react-router";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
 
 const initData = {
   transactionDate: _todayDate(),
-  amount: "",
+  amount: '',
 };
 
 export default function RepayViewModal() {
   const [objProps, setObjprops] = useState({});
 
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
   const [rowData, getRowData, loader] = useAxiosGet();
@@ -35,7 +34,7 @@ export default function RepayViewModal() {
 
   const getData = () => {
     getRowData(
-      `/fino/CommonFino/InterCompanyLoanGetById?loanId=${location.state?.loanId}&type=repay&viewByBusinessUnitId=${location?.state?.viewByBusinessUnitId}`
+      `/fino/CommonFino/InterCompanyLoanGetById?loanId=${location.state?.loanId}&type=repay&viewByBusinessUnitId=${location?.state?.viewByBusinessUnitId}`,
     );
   };
 
@@ -108,7 +107,7 @@ export default function RepayViewModal() {
                                       () => {
                                         getData();
                                       },
-                                      true
+                                      true,
                                     );
                                   }}
                                 >
@@ -126,14 +125,14 @@ export default function RepayViewModal() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

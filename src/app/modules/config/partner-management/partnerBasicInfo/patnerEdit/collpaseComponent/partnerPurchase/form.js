@@ -1,38 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Axios from "axios";
-import NewSelect from "./../../../../../../_helper/_select";
-import InputField from "../../../../../../_helper/_inputField";
-import useAxiosGet from "../../../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Axios from 'axios';
+import NewSelect from './../../../../../../_helper/_select';
+import InputField from '../../../../../../_helper/_inputField';
+import useAxiosGet from '../../../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../../../_helper/_loading';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   sbu: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
+    label: Yup.string().required('SBU is required'),
+    value: Yup.string().required('SBU is required'),
   }),
   generalLedgerName: Yup.object().shape({
-    label: Yup.string().required("General ledger is required"),
-    value: Yup.string().required("General ledger is required"),
+    label: Yup.string().required('General ledger is required'),
+    value: Yup.string().required('General ledger is required'),
   }),
   accuredGeneralLedgerName: Yup.object().shape({
-    label: Yup.string().required("Accured General ledger is required"),
-    value: Yup.string().required("Accured General ledger is required"),
+    label: Yup.string().required('Accured General ledger is required'),
+    value: Yup.string().required('Accured General ledger is required'),
   }),
   advancedGeneralLedgerName: Yup.object().shape({
-    label: Yup.string().required("Advanced General ledger is required"),
-    value: Yup.string().required("Advanced General ledger is required"),
+    label: Yup.string().required('Advanced General ledger is required'),
+    value: Yup.string().required('Advanced General ledger is required'),
   }),
   purchaseOrganization: Yup.object().shape({
-    label: Yup.string().required("Purchase organization is required"),
-    value: Yup.string().required("Purchase organization is required"),
+    label: Yup.string().required('Purchase organization is required'),
+    value: Yup.string().required('Purchase organization is required'),
   }),
-  // priceStructure: Yup.object().shape({
-  //   label: Yup.string().required("Price structure is required"),
-  //   value: Yup.string().required("Price structure is required"),
-  // }),
 });
 
 export default function _Form({
@@ -53,14 +49,17 @@ export default function _Form({
   id,
   rowDtoHandler,
 }) {
-  const [priceDDL, setPriceDDL] = useState([]);
   const [purchaseOrgList, setPurchaseOrgList] = useState([]);
   const [gneralLedgerList, setgneralLedgerList] = useState([]);
   // const [accuredGeneralLedgerList, setAccuredGeneralLedgerList] = useState([]);
   const [advancedGeneralLedgerList, setAdvancedGeneralLedgerList] = useState(
-    []
+    [],
   );
-  const [tdsSupplierType, getTdsSupplierType, tdsSupplierLoading] = useAxiosGet();
+  const [
+    tdsSupplierType,
+    getTdsSupplierType,
+    tdsSupplierLoading,
+  ] = useAxiosGet();
   const [natureofBusinessDDL, getNatureofBusinessDDL] = useAxiosGet();
 
   const [gneralLedgerListOption, setgneralLedgerOption] = useState([]);
@@ -75,9 +74,11 @@ export default function _Form({
   const [sbuDDL, setSbuDDL] = useState([]);
 
   useEffect(() => {
-    PriceDDL(accountId, selectedBusinessUnit.value);
-    getNatureofBusinessDDL(`/partner/BusinessPartnerPurchaseInfo/GetVdssupplierTypesDDL`)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // PriceDDL(accountId, selectedBusinessUnit.value);
+    getNatureofBusinessDDL(
+      `/partner/BusinessPartnerPurchaseInfo/GetVdssupplierTypesDDL`,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit, accountId]);
 
   useEffect(() => {
@@ -89,11 +90,13 @@ export default function _Form({
       getAccountPayableGL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setgneralLedgerList
+        setgneralLedgerList,
       );
-      getTdsSupplierType(`/partner/BusinessPartnerPurchaseInfo/GetTdssupplierTypesDDL`)
+      getTdsSupplierType(
+        `/partner/BusinessPartnerPurchaseInfo/GetTdssupplierTypesDDL`,
+      );
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   // useEffect(() => {
@@ -114,25 +117,25 @@ export default function _Form({
         getAdvancePayableGL(
           profileData?.accountId,
           selectedBusinessUnit?.value,
-          setAdvancedGeneralLedgerList
+          setAdvancedGeneralLedgerList,
         );
       }, 1000);
     }
   }, [profileData, selectedBusinessUnit]);
 
-  const PriceDDL = async (accId, buId) => {
-    try {
-      const res = await Axios.get(
-        `/item/PriceStructure/GetPriceStructureDDLByPriceStructureType?accountId=${accId}&businessUnitId=${buId}`
-      );
-      setPriceDDL(res.data);
-    } catch (error) {}
-  };
+  // const PriceDDL = async (accId, buId) => {
+  //   try {
+  //     const res = await Axios.get(
+  //       `/item/PriceStructure/GetPriceStructureDDLByPriceStructureType?accountId=${accId}&businessUnitId=${buId}`
+  //     );
+  //     setPriceDDL(res.data);
+  //   } catch (error) {}
+  // };
 
   const getPurchaseOrganizationData = async (accountId, buId) => {
     try {
       const res = await Axios.get(
-        `/item/ItemPurchaseInfo/GetPurchaseOrganizationDDL?AccountId=${accountId}&BusinessUnitId=${buId}`
+        `/item/ItemPurchaseInfo/GetPurchaseOrganizationDDL?AccountId=${accountId}&BusinessUnitId=${buId}`,
       );
       setPurchaseOrgList(res.data);
     } catch (error) {}
@@ -141,7 +144,7 @@ export default function _Form({
   const getAccountPayableGL = async (accountId, buId, setter) => {
     try {
       const res = await Axios.get(
-        `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${buId}&AccountGroupId=7`
+        `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${buId}&AccountGroupId=7`,
       );
       setter(res?.data);
     } catch (error) {}
@@ -159,7 +162,7 @@ export default function _Form({
   const getAdvancePayableGL = async (accountId, buId, setter) => {
     try {
       const res = await Axios.get(
-        `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${buId}&AccountGroupId=5`
+        `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${buId}&AccountGroupId=5`,
       );
       setter(res?.data);
     } catch (error) {}
@@ -168,7 +171,7 @@ export default function _Form({
   const getSbuDDL = async (accId, buId) => {
     try {
       const res = await Axios.get(
-        `/domain/BusinessUnitDomain/GetBusinessAreaDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+        `/domain/BusinessUnitDomain/GetBusinessAreaDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
       );
       setSbuDDL(res?.data);
     } catch (error) {}
@@ -244,7 +247,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
-          {tdsSupplierLoading && <Loading />}
+            {tdsSupplierLoading && <Loading />}
             <Form className="form form-label-right">
               <div className="form-group global-form row">
                 <div className="col-lg-3">
@@ -256,7 +259,7 @@ export default function _Form({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
+                      setFieldValue('sbu', valueOption);
                     }}
                   />
                 </div>
@@ -269,7 +272,7 @@ export default function _Form({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("purchaseOrganization", valueOption);
+                      setFieldValue('purchaseOrganization', valueOption);
                     }}
                   />
                 </div>
@@ -295,7 +298,7 @@ export default function _Form({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("generalLedgerName", valueOption);
+                      setFieldValue('generalLedgerName', valueOption);
                     }}
                   />
                 </div>
@@ -308,7 +311,7 @@ export default function _Form({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("accuredGeneralLedgerName", valueOption);
+                      setFieldValue('accuredGeneralLedgerName', valueOption);
                     }}
                   />
                 </div>
@@ -321,7 +324,7 @@ export default function _Form({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("advancedGeneralLedgerName", valueOption);
+                      setFieldValue('advancedGeneralLedgerName', valueOption);
                     }}
                   />
                 </div>
@@ -334,10 +337,10 @@ export default function _Form({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      if(valueOption){
-                        setFieldValue("tdsSupplierType", valueOption);
-                      }else{
-                        setFieldValue("tdsSupplierType", "");
+                      if (valueOption) {
+                        setFieldValue('tdsSupplierType', valueOption);
+                      } else {
+                        setFieldValue('tdsSupplierType', '');
                       }
                     }}
                   />
@@ -351,7 +354,7 @@ export default function _Form({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("natureofBusiness", valueOption);
+                      setFieldValue('natureofBusiness', valueOption);
                     }}
                   />
                 </div>
@@ -455,7 +458,7 @@ export default function _Form({
               </div> */}
 
               {/* shipPointRowDto */}
-              <h3 style={{ fontSize: "1.275rem" }}>Supplier Shippoint</h3>
+              <h3 style={{ fontSize: '1.275rem' }}>Supplier Shippoint</h3>
               <div className="row global-form">
                 <div className="col-lg-4 mb-2">
                   <InputField
@@ -476,7 +479,7 @@ export default function _Form({
                       };
                       shipPointSetter(obj);
                     }}
-                    style={{ marginTop: "15px" }}
+                    style={{ marginTop: '15px' }}
                     className="btn btn-primary ml-2"
                     disabled={!values?.shipPointName}
                     type="button"
@@ -487,60 +490,60 @@ export default function _Form({
               </div>
               <div>
                 {shipPointRowDto.length ? (
-                 <div className="table-responsive">
-                   <table className="table table-striped table-bordered">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Shippoint Name</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {shipPointRowDto
-                        .filter((data) => data.isActive === true)
-                        .map((itm, idx) => (
-                          <tr key={idx}>
-                            <td>{idx + 1}</td>
-                            <td>
-                              <div className="pl-2">{itm.shipPointName}</div>
-                            </td>
-                            <td className="text-center">
-                              <button
-                                type="button"
-                                //disabled={itm?.id === 0 ? false : true}
-                                onClick={() => {
-                                  rowDtoHandler("isActive", false, idx);
-                                  shipPointRemover(itm, idx);
-                                }}
-                                style={{
-                                  border: "0",
-                                  background: "transparent",
-                                }}
-                              >
-                                <i className="fa fa-trash deleteBtn"></i>
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-                 </div>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Shippoint Name</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {shipPointRowDto
+                          .filter((data) => data.isActive === true)
+                          .map((itm, idx) => (
+                            <tr key={idx}>
+                              <td>{idx + 1}</td>
+                              <td>
+                                <div className="pl-2">{itm.shipPointName}</div>
+                              </td>
+                              <td className="text-center">
+                                <button
+                                  type="button"
+                                  //disabled={itm?.id === 0 ? false : true}
+                                  onClick={() => {
+                                    rowDtoHandler('isActive', false, idx);
+                                    shipPointRemover(itm, idx);
+                                  }}
+                                  style={{
+                                    border: '0',
+                                    background: 'transparent',
+                                  }}
+                                >
+                                  <i className="fa fa-trash deleteBtn"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(product)}
               ></button>

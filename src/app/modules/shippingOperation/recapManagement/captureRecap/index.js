@@ -1,16 +1,16 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import customStyles from "../../../selectCustomStyle";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import FormikSelect from "../../../chartering/_chartinghelper/common/formikSelect";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { getVesselDDL, getVoyageDDLNew } from "../../helper";
-import { imarineBaseUrl } from "../../../../App";
-import IView from "../../../_helper/_helperIcons/_view";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import customStyles from '../../../selectCustomStyle';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import FormikSelect from '../../../chartering/_chartinghelper/common/formikSelect';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { getVesselDDL, getVoyageDDLNew } from '../../helper';
+import { imarineBaseUrl } from '../../../../App';
+import IView from '../../../_helper/_helperIcons/_view';
 
 const initData = {};
 export default function CaptureRecapCreate() {
@@ -28,18 +28,18 @@ export default function CaptureRecapCreate() {
   const getData = (values) => {
     const shipTypeSTR = values?.shipType
       ? `shipType=${values?.shipType?.label}`
-      : "";
+      : '';
     const voyageTypeSTR = values?.voyageType
       ? `&voyageType=${values?.voyageType?.label}`
-      : "";
+      : '';
     const vesselNameSTR = values?.vesselName
       ? `&vesselName=${values?.vesselName?.label}`
-      : "";
+      : '';
     const voyageNoSTR = values?.voyageNo
       ? `&voyageNo=${values?.voyageNo?.label}`
-      : "";
+      : '';
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationRecapeData?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
+      `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationRecapeData?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`,
     );
   };
 
@@ -61,7 +61,7 @@ export default function CaptureRecapCreate() {
     });
   };
 
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   return (
     <Formik
       enableReinitialize={true}
@@ -83,7 +83,7 @@ export default function CaptureRecapCreate() {
         touched,
       }) => (
         <>
-          {loading && <Loading />}
+          {(loading || loading2) && <Loading />}
           <IForm
             title="Capture Recap"
             isHiddenReset
@@ -96,7 +96,9 @@ export default function CaptureRecapCreate() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      history.push("/shippingOperation/recap-management/capture-recap/create");
+                      history.push(
+                        '/shippingOperation/recap-management/capture-recap/create',
+                      );
                     }}
                   >
                     Capture
@@ -112,18 +114,18 @@ export default function CaptureRecapCreate() {
                     value={values?.shipType}
                     isSearchable={true}
                     options={[
-                      { value: 1, label: "Own Ship" },
-                      { value: 2, label: "Charterer Ship" },
+                      { value: 1, label: 'Own Ship' },
+                      { value: 2, label: 'Charterer Ship' },
                     ]}
                     styles={customStyles}
                     name="shipType"
                     placeholder="Ship Type"
                     label="Ship Type"
                     onChange={(valueOption) => {
-                      setFieldValue("shipType", valueOption);
-                      setFieldValue("voyageType", "");
-                      setFieldValue("vesselName", "");
-                      setFieldValue("voyageNo", "");
+                      setFieldValue('shipType', valueOption);
+                      setFieldValue('voyageType', '');
+                      setFieldValue('vesselName', '');
+                      setFieldValue('voyageNo', '');
 
                       setVesselDDL([]);
                       if (valueOption) {
@@ -131,7 +133,7 @@ export default function CaptureRecapCreate() {
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
                           setVesselDDL,
-                          valueOption?.value === 2 ? 2 : ""
+                          valueOption?.value === 2 ? 2 : '',
                         );
                       } else {
                         getData();
@@ -145,17 +147,17 @@ export default function CaptureRecapCreate() {
                     value={values?.voyageType}
                     isSearchable={true}
                     options={[
-                      { value: 1, label: "Time Charter" },
-                      { value: 2, label: "Voyage Charter" },
+                      { value: 1, label: 'Time Charter' },
+                      { value: 2, label: 'Voyage Charter' },
                     ]}
                     styles={customStyles}
                     name="voyageType"
                     placeholder="Voyage Type"
                     label="Voyage Type"
                     onChange={(valueOption) => {
-                      setFieldValue("vesselName", "");
-                      setFieldValue("voyageNo", "");
-                      setFieldValue("voyageType", valueOption);
+                      setFieldValue('vesselName', '');
+                      setFieldValue('voyageNo', '');
+                      setFieldValue('voyageType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -172,8 +174,8 @@ export default function CaptureRecapCreate() {
                     placeholder="Vessel Name"
                     label="Vessel Name"
                     onChange={(valueOption) => {
-                      setFieldValue("vesselName", valueOption);
-                      setFieldValue("voyageNo", "");
+                      setFieldValue('vesselName', valueOption);
+                      setFieldValue('voyageNo', '');
                       if (valueOption) {
                         getVoyageDDL({ ...values, vesselName: valueOption });
                       }
@@ -182,7 +184,7 @@ export default function CaptureRecapCreate() {
                 </div>
                 <div className="col-lg-2">
                   <FormikSelect
-                    value={values?.voyageNo || ""}
+                    value={values?.voyageNo || ''}
                     isSearchable={true}
                     options={voyageNoDDL || []}
                     styles={customStyles}
@@ -190,7 +192,7 @@ export default function CaptureRecapCreate() {
                     placeholder="Voyage No"
                     label="Voyage No"
                     onChange={(valueOption) => {
-                      setFieldValue("voyageNo", valueOption);
+                      setFieldValue('voyageNo', valueOption);
                     }}
                     isDisabled={!values?.vesselName}
                   />
@@ -202,7 +204,7 @@ export default function CaptureRecapCreate() {
                     onClick={() => {
                       getData(values);
                     }}
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     className="btn btn-primary"
                   >
                     Show
@@ -212,65 +214,65 @@ export default function CaptureRecapCreate() {
               <div className="loan-scrollable-table">
                 <div
                   className="scroll-table _table"
-                  style={{ maxHeight: "540px" }}
+                  style={{ maxHeight: '540px' }}
                 >
                   <table className="table table-striped mt-2 table-bordered">
                     <thead>
                       <tr>
-                        <th style={{ minWidth: "120px" }}>Code</th>
-                        <th style={{ minWidth: "120px" }}>Schedule To Send</th>
-                        <th style={{ minWidth: "120px" }}>Voyage Type</th>
-                        <th style={{ minWidth: "120px" }}>Voyage No</th>
-                        <th style={{ minWidth: "120px" }}>Voyage Commenced</th>
-                        <th style={{ minWidth: "120px" }}>Voyage Completion</th>
-                        <th style={{ minWidth: "120px" }}>
+                        <th style={{ minWidth: '120px' }}>Code</th>
+                        <th style={{ minWidth: '120px' }}>Schedule To Send</th>
+                        <th style={{ minWidth: '120px' }}>Voyage Type</th>
+                        <th style={{ minWidth: '120px' }}>Voyage No</th>
+                        <th style={{ minWidth: '120px' }}>Voyage Commenced</th>
+                        <th style={{ minWidth: '120px' }}>Voyage Completion</th>
+                        <th style={{ minWidth: '120px' }}>
                           Voyage Duration (Days)
                         </th>
-                        <th style={{ minWidth: "120px" }}>Charterer Name</th>
-                        <th style={{ minWidth: "120px" }}>Broker Name</th>
-                        <th style={{ minWidth: "120px" }}>Broker Email</th>
-                        <th style={{ minWidth: "120px" }}>CP Date</th>
-                        <th style={{ minWidth: "120px" }}>Account Name</th>
-                        <th style={{ minWidth: "120px" }}>Cargo</th>
-                        <th style={{ minWidth: "120px" }}>
+                        <th style={{ minWidth: '120px' }}>Charterer Name</th>
+                        <th style={{ minWidth: '120px' }}>Broker Name</th>
+                        <th style={{ minWidth: '120px' }}>Broker Email</th>
+                        <th style={{ minWidth: '120px' }}>CP Date</th>
+                        <th style={{ minWidth: '120px' }}>Account Name</th>
+                        <th style={{ minWidth: '120px' }}>Cargo</th>
+                        <th style={{ minWidth: '120px' }}>
                           Cargo Quantity (Mts)
                         </th>
-                        <th style={{ minWidth: "120px" }}>Freight per Mt</th>
-                        <th style={{ minWidth: "120px" }}>Load Port</th>
-                        <th style={{ minWidth: "120px" }}>Laycan</th>
-                        <th style={{ minWidth: "120px" }}>Load Rate</th>
-                        <th style={{ minWidth: "120px" }}>
+                        <th style={{ minWidth: '120px' }}>Freight per Mt</th>
+                        <th style={{ minWidth: '120px' }}>Load Port</th>
+                        <th style={{ minWidth: '120px' }}>Laycan</th>
+                        <th style={{ minWidth: '120px' }}>Load Rate</th>
+                        <th style={{ minWidth: '120px' }}>
                           Demurrage/Dispatch
                         </th>
-                        <th style={{ minWidth: "120px" }}>ETA Load Port</th>
-                        <th style={{ minWidth: "120px" }}>Discharge Port</th>
-                        <th style={{ minWidth: "120px" }}>Discharge Rate</th>
-                        <th style={{ minWidth: "120px" }}>Freight</th>
-                        <th style={{ minWidth: "120px" }}>Load Port DA</th>
-                        <th style={{ minWidth: "120px" }}>Discharge Port DA</th>
-                        <th style={{ minWidth: "120px" }}>Ballast</th>
-                        <th style={{ minWidth: "120px" }}>Steaming</th>
-                        <th style={{ minWidth: "120px" }}>
+                        <th style={{ minWidth: '120px' }}>ETA Load Port</th>
+                        <th style={{ minWidth: '120px' }}>Discharge Port</th>
+                        <th style={{ minWidth: '120px' }}>Discharge Rate</th>
+                        <th style={{ minWidth: '120px' }}>Freight</th>
+                        <th style={{ minWidth: '120px' }}>Load Port DA</th>
+                        <th style={{ minWidth: '120px' }}>Discharge Port DA</th>
+                        <th style={{ minWidth: '120px' }}>Ballast</th>
+                        <th style={{ minWidth: '120px' }}>Steaming</th>
+                        <th style={{ minWidth: '120px' }}>
                           Additional Distance
                         </th>
-                        <th style={{ minWidth: "120px" }}>Ballast Speed</th>
-                        <th style={{ minWidth: "120px" }}>Laden Speed</th>
-                        <th style={{ minWidth: "120px" }}>Extra Days</th>
-                        <th style={{ minWidth: "120px" }}>
+                        <th style={{ minWidth: '120px' }}>Ballast Speed</th>
+                        <th style={{ minWidth: '120px' }}>Laden Speed</th>
+                        <th style={{ minWidth: '120px' }}>Extra Days</th>
+                        <th style={{ minWidth: '120px' }}>
                           Shipper Email for Vessel Nomination
                         </th>
-                        <th style={{ minWidth: "120px" }}>Bunker Agent</th>
-                        <th style={{ minWidth: "120px" }}>
+                        <th style={{ minWidth: '120px' }}>Bunker Agent</th>
+                        <th style={{ minWidth: '120px' }}>
                           Expenditures for PI Survey
                         </th>
-                        <th style={{ minWidth: "120px" }}>Place of Delivery</th>
-                        <th style={{ minWidth: "120px" }}>
+                        <th style={{ minWidth: '120px' }}>Place of Delivery</th>
+                        <th style={{ minWidth: '120px' }}>
                           Discharge Port Agent Email
                         </th>
-                        <th style={{ minWidth: "120px" }}>
+                        <th style={{ minWidth: '120px' }}>
                           PI Survey Email Sent
                         </th>
-                        <th style={{ minWidth: "120px" }}>
+                        <th style={{ minWidth: '120px' }}>
                           Vessel Nomination Email Sent
                         </th>
                         <th>Action</th>
@@ -358,19 +360,23 @@ export default function CaptureRecapCreate() {
                             {item.strDischargePortAgentEmail}
                           </td>
                           <td className="text-center">
-                            {item.isPisurveyEmailSent ? "Yes" : "No"}
+                            {item.isPisurveyEmailSent ? 'Yes' : 'No'}
                           </td>
                           <td className="text-center">
-                            {item.isVesselNominationEmailSent ? "Yes" : "No"}
+                            {item.isVesselNominationEmailSent ? 'Yes' : 'No'}
                           </td>
                           <td className="text-center">
-                            <span onClick={()=>{
-                              if(!item?.chartererList?.length){
-                                return
-                              }
-                              history.push(`/shippingOperation/recap-management/capture-recap/view/${item?.intId}`)
-                            }}>
-                            <IView/>
+                            <span
+                              onClick={() => {
+                                if (!item?.chartererList?.length) {
+                                  return;
+                                }
+                                history.push(
+                                  `/shippingOperation/recap-management/capture-recap/view/${item?.intId}`,
+                                );
+                              }}
+                            >
+                              <IView />
                             </span>
                           </td>
                         </tr>

@@ -1,16 +1,16 @@
-import React, { useRef, useState } from "react";
-import Loading from "../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
-import { downloadFile } from "../../../../_helper/downloadFile";
+import React, { useRef, useState } from 'react';
+import Loading from '../../../../_helper/_loading';
+import IForm from '../../../../_helper/_form';
+import { downloadFile } from '../../../../_helper/downloadFile';
 import {
   itemListExcelGenerator,
   mapApiResponseToFrontend,
   readAndPrintExcelData,
-} from "./helper";
-import Styles from "./bulkUpdate.module.css";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { shallowEqual, useSelector } from "react-redux";
+} from './helper';
+import Styles from './bulkUpdate.module.css';
+import { toast } from 'react-toastify';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { shallowEqual, useSelector } from 'react-redux';
 
 export default function BulkUpload() {
   const [objProps, setObjprops] = useState({});
@@ -25,10 +25,6 @@ export default function BulkUpload() {
     return state?.authData?.profileData;
   }, shallowEqual);
 
-  const { value: buId } = useSelector((state) => {
-    return state?.authData?.selectedBusinessUnit;
-  }, shallowEqual);
-
   // file change handler
   const handleFileChange = (e) => {
     setIsValidationError(false);
@@ -39,7 +35,7 @@ export default function BulkUpload() {
       setIsValidationError,
       setRowData,
       cb: () => {
-        ref.current.value = "";
+        ref.current.value = '';
       },
     });
   };
@@ -48,40 +44,40 @@ export default function BulkUpload() {
   const handleExportExcelFormat = () => {
     downloadFile(
       `/domain/Document/DownlloadFile?id=638681076616563402_Item List Format.xlsx`,
-      "Item List Format",
-      "xlsx",
-      setLoading
+      'Item List Format',
+      'xlsx',
+      setLoading,
     );
   };
 
   // submit handler
   const saveHandler = () => {
     if (isValidationError) {
-      return toast.warn("Invalid data set! please update and try again");
+      return toast.warn('Invalid data set! please update and try again');
     }
     if (!rowData?.length > 0) {
-      return toast.warn("No item found!");
+      return toast.warn('No item found!');
     }
     const newItemList = rowData?.map((item) => {
       const newItem = {
         businessUnitId: item?.businessUnitId,
         accountId: accountId,
         actionBy: userId,
-        itemMasterName: item?.itemMasterName || "",
+        itemMasterName: item?.itemMasterName || '',
         itemMasterTypeId: +item?.itemMasterTypeId || 0,
         itemMasterCategoryId: +item?.itemMasterCategoryId || 0,
         itemMasterSubCategoryId: +item?.itemMasterSubCategoryId || 0,
-        drawingCode: item?.drawingCode || "",
-        partNo: item?.partNo || "",
+        drawingCode: item?.drawingCode || '',
+        partNo: item?.partNo || '',
         isSerialMaintain: item?.isSerialMaintain || false,
         purchaseOrganizationId: item?.purchaseOrganizationId || 0,
-        purchaseOrganizationName: item?.purchaseOrganizationName || "",
+        purchaseOrganizationName: item?.purchaseOrganizationName || '',
         maxLeadDays: item?.maxLeadDays || 0,
         warehouseId: item?.warehouseId || 0,
         plantId: item?.plantId || 0,
         inventoryLocationId: item?.inventoryLocationId || 0,
-        binNumber: item?.binNumber || "",
-        uomName: item?.uomName || "",
+        binNumber: item?.binNumber || '',
+        uomName: item?.uomName || '',
       };
       return newItem;
     });
@@ -94,7 +90,7 @@ export default function BulkUpload() {
       `/item/ItemMaster/ItemBulkUpload`,
       newItemList,
       callback,
-      true
+      true,
     );
   };
   return (
@@ -120,7 +116,7 @@ export default function BulkUpload() {
         }}
       >
         <div
-          className={`form-group row global-form ${Styles["item-bulk-upload-wrapper"]}`}
+          className={`form-group row global-form ${Styles['item-bulk-upload-wrapper']}`}
         >
           <button
             type="button"
@@ -139,7 +135,7 @@ export default function BulkUpload() {
           />
           <label
             htmlFor="excel-upload"
-            className={`btn btn-primary ml-10 ${Styles["import-excel-btn"]}`}
+            className={`btn btn-primary ml-10 ${Styles['import-excel-btn']}`}
           >
             Import Excel
           </label>
@@ -162,7 +158,7 @@ export default function BulkUpload() {
                   <tr>
                     <th>SL</th>
                     <th>Item Code</th>
-                    <th style={{ minWidth: "280px" }}>Item Name</th>
+                    <th style={{ minWidth: '280px' }}>Item Name</th>
                     <th>Item Type Id</th>
                     <th>Item Category Id</th>
                     <th>Item Sub Category Id</th>
@@ -184,49 +180,49 @@ export default function BulkUpload() {
                     <tr key={index}>
                       <td className="text-center">{index + 1}</td>
                       <td className="text-center">
-                        {item?.itemMasterCode || ""}
+                        {item?.itemMasterCode || ''}
                       </td>
                       <td
                         className={
-                          !item?.itemMasterName ? Styles["red-bg"] : ""
+                          !item?.itemMasterName ? Styles['red-bg'] : ''
                         }
                       >
-                        {item?.itemMasterName || ""}
+                        {item?.itemMasterName || ''}
                       </td>
                       <td
                         className={`text-center ${
-                          !+item?.itemMasterTypeId ? Styles["red-bg"] : ""
+                          !+item?.itemMasterTypeId ? Styles['red-bg'] : ''
                         }`}
                       >
-                        {item?.itemMasterTypeId || ""}
+                        {item?.itemMasterTypeId || ''}
                       </td>
                       <td
                         className={`text-center ${
-                          !+item?.itemMasterCategoryId ? Styles["red-bg"] : ""
+                          !+item?.itemMasterCategoryId ? Styles['red-bg'] : ''
                         }`}
                       >
-                        {item?.itemMasterCategoryId || ""}
+                        {item?.itemMasterCategoryId || ''}
                       </td>
                       <td
                         className={`text-center ${
                           !+item?.itemMasterSubCategoryId
-                            ? Styles["red-bg"]
-                            : ""
+                            ? Styles['red-bg']
+                            : ''
                         }`}
                       >
-                        {item?.itemMasterSubCategoryId || ""}
+                        {item?.itemMasterSubCategoryId || ''}
                       </td>
                       <td
                         className={`text-center ${
-                          !+item?.purchaseOrganizationId ? Styles["red-bg"] : ""
+                          !+item?.purchaseOrganizationId ? Styles['red-bg'] : ''
                         }`}
                       >
-                        {item?.purchaseOrganizationId || ""}
+                        {item?.purchaseOrganizationId || ''}
                       </td>
-                      <td className="text-center">{item?.drawingCode || ""}</td>
-                      <td className="text-center">{item?.partNo || ""}</td>
+                      <td className="text-center">{item?.drawingCode || ''}</td>
+                      <td className="text-center">{item?.partNo || ''}</td>
                       <td className="text-center">
-                        {item?.isSerialMaintain ? "Yes" : "No"}
+                        {item?.isSerialMaintain ? 'Yes' : 'No'}
                       </td>
                       <td>{item?.maxLeadDays}</td>
                       <td>{item?.warehouseId}</td>
@@ -246,14 +242,14 @@ export default function BulkUpload() {
         {/* hidded buttons */}
         <button
           type="button"
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
           ref={objProps?.btnRef}
           onClick={saveHandler}
         ></button>
 
         <button
           type="button"
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
           ref={objProps?.resetBtnRef}
           onClick={() => {
             setRowData([]);

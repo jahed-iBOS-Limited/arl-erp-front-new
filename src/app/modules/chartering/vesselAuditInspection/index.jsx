@@ -1,48 +1,46 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { _firstDateofMonth } from "../../_helper/_firstDateOfCurrentMonth";
-import { _todayDate } from "../../_helper/_todayDate";
-import Loading from "../../_helper/_loading";
-import { useHistory } from "react-router-dom";
-import FormikSelect from "../_chartinghelper/common/formikSelect";
-import customStyles from "../../selectCustomStyle";
-import FormikInput from "../_chartinghelper/common/formikInput";
-import { _dateFormatter } from "../../_helper/_dateFormate";
-import { OverlayTrigger } from "react-bootstrap";
-import ICustomTable from "../_chartinghelper/_customTable";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import PaginationTable from "../../_helper/_tablePagination";
-import * as Yup from "yup";
-import { getVesselDDL } from "./helper";
-import IViewModal from "../../_helper/_viewModal";
-import NCView from "./components/modalView";
-import IView from "../../_helper/_helperIcons/_view";
-import IEdit from "../../_helper/_helperIcons/_edit";
-import IHistory from "../../_helper/_helperIcons/_history";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../_helper/_dateFormate';
+import { _firstDateofMonth } from '../../_helper/_firstDateOfCurrentMonth';
+import IEdit from '../../_helper/_helperIcons/_edit';
+import IHistory from '../../_helper/_helperIcons/_history';
+import IView from '../../_helper/_helperIcons/_view';
+import Loading from '../../_helper/_loading';
+import PaginationTable from '../../_helper/_tablePagination';
+import { _todayDate } from '../../_helper/_todayDate';
+import IViewModal from '../../_helper/_viewModal';
+import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
+import customStyles from '../../selectCustomStyle';
+import ICustomTable from '../_chartinghelper/_customTable';
+import FormikInput from '../_chartinghelper/common/formikInput';
+import FormikSelect from '../_chartinghelper/common/formikSelect';
+import NCView from './components/modalView';
+import { getVesselDDL } from './helper';
 
 const initData = {
-  vesselType: "",
-  vessel: "",
+  vesselType: '',
+  vessel: '',
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
 };
 const headers = [
-  { name: "SL" },
-  { name: "Vessel Type" },
-  { name: "Vessel/Lighter" },
-  { name: "Date", style: { minWidth: "65px" } },
-  { name: "Type", style: { minWidth: "65px" } },
-  { name: "Category" },
-  { name: "Title" },
-  { name: "Total No. of NC/Non-NC", style: { minWidth: "65px" } },
+  { name: 'SL' },
+  { name: 'Vessel Type' },
+  { name: 'Vessel/Lighter' },
+  { name: 'Date', style: { minWidth: '65px' } },
+  { name: 'Type', style: { minWidth: '65px' } },
+  { name: 'Category' },
+  { name: 'Title' },
+  { name: 'Total No. of NC/Non-NC', style: { minWidth: '65px' } },
 
-  { name: "Action", style: { minWidth: "40px" } },
+  { name: 'Action', style: { minWidth: '40px' } },
 ];
 
 export default function VesselAuditLanding() {
   const {
-    profileData: { userId },
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => {
     return state?.authData;
@@ -52,29 +50,24 @@ export default function VesselAuditLanding() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(100);
   const [ViewType, setViewType] = useState(0);
-  const [gridData, getGridData, gridDataLoading, setGridData] = useAxiosGet();
+  const [gridData, getGridData, gridDataLoading] = useAxiosGet();
   const [isShowHistoryModal, setIsShowHistoryModal] = useState(false);
 
-  const [
-    data,
-    getVesselAuditInspectionDetails,
-    dettailLoader,
-    setData,
-  ] = useAxiosGet();
+  const [data, getVesselAuditInspectionDetails, , setData] = useAxiosGet();
   const [vesselDDl, setVesselDDl] = useState([]);
 
-  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+  const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     const vesselType = values?.vesselType?.value
       ? `&vesselType=${values?.vesselType?.value}`
-      : "";
+      : '';
     const vesselId = values?.vesselType?.value
       ? `&vesselId=${values?.vessel?.value}`
-      : "";
+      : '';
     getGridData(
-      `/hcm/VesselAuditInspection/GetVesselAuditInspectionLanding?businessUnitId=${buId}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}${vesselType}${vesselId}`
+      `/hcm/VesselAuditInspection/GetVesselAuditInspectionLanding?businessUnitId=${buId}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}${vesselType}${vesselId}`,
     );
   };
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
   const validationSchema = Yup.object().shape({
@@ -82,8 +75,8 @@ export default function VesselAuditLanding() {
     // vessel: Yup.object()
     //   .required("Vessel is required")
     //   .typeError("Vessel is required"),
-    fromDate: Yup.date().required("Date is required"),
-    toDate: Yup.date().required("Date is required"),
+    fromDate: Yup.date().required('Date is required'),
+    toDate: Yup.date().required('Date is required'),
   });
   return (
     <>
@@ -112,10 +105,10 @@ export default function VesselAuditLanding() {
                 <div>
                   <button
                     type="button"
-                    className={"btn btn-primary px-3 py-2"}
+                    className={'btn btn-primary px-3 py-2'}
                     onClick={() =>
                       history.push(
-                        "/chartering/certificateManagement/vesselAuditInspection/create"
+                        '/chartering/certificateManagement/vesselAuditInspection/create',
                       )
                     }
                   >
@@ -128,23 +121,23 @@ export default function VesselAuditLanding() {
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselType || ""}
+                      value={values?.vesselType || ''}
                       isSearchable={true}
                       options={[
-                        { value: "MotherVessel", label: "Mother Vessel" },
-                        { value: "LighterVessel", label: "Lighter Vessel" },
+                        { value: 'MotherVessel', label: 'Mother Vessel' },
+                        { value: 'LighterVessel', label: 'Lighter Vessel' },
                       ]}
                       styles={customStyles}
                       name="vesselType"
                       placeholder="Mother, Lighter"
                       label="Vessel Type"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselType", valueOption);
+                        setFieldValue('vesselType', valueOption);
                         getVesselDDL(
                           valueOption?.value,
                           buId,
                           setVesselDDl,
-                          setLoading
+                          setLoading,
                         );
                       }}
                       errors={errors}
@@ -153,23 +146,23 @@ export default function VesselAuditLanding() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vessel || ""}
+                      value={values?.vessel || ''}
                       isSearchable={true}
                       options={vesselDDl || []}
                       styles={customStyles}
                       name="vessel"
                       placeholder={
-                        values?.vesselType?.value === "MotherVessel"
-                          ? "Mother Vessel"
-                          : "Vessel/Ligher"
+                        values?.vesselType?.value === 'MotherVessel'
+                          ? 'Mother Vessel'
+                          : 'Vessel/Ligher'
                       }
                       label={
-                        values?.vesselType?.value === "MotherVessel"
-                          ? "Mother Vessel"
-                          : "Vessel/Ligher"
+                        values?.vesselType?.value === 'MotherVessel'
+                          ? 'Mother Vessel'
+                          : 'Vessel/Ligher'
                       }
                       onChange={(valueOption) => {
-                        setFieldValue("vessel", valueOption);
+                        setFieldValue('vessel', valueOption);
                         // gridData({ ...values, certificateName: valueOption });
                       }}
                       // isDisabled={!values?.vesselName}
@@ -185,7 +178,7 @@ export default function VesselAuditLanding() {
                       type="date"
                       onChange={(e) => {
                         // gridData({ ...values, fromDate: e.target.value });
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -201,7 +194,7 @@ export default function VesselAuditLanding() {
                       min={values?.fromDate}
                       onChange={(e) => {
                         // gridData({ ...values, toDate: e.target.value });
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -211,7 +204,7 @@ export default function VesselAuditLanding() {
                   <div className="col-lg-2">
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 mt-5 px-3 py-2"}
+                      className={'btn btn-primary ml-2 mt-5 px-3 py-2'}
                       onClick={handleSubmit}
                       //disabled={!rowData?.length}
                     >
@@ -242,26 +235,26 @@ export default function VesselAuditLanding() {
                       <span
                         className="text-primary"
                         style={{
-                          textDecoration: "underline",
-                          cursor: "pointer",
+                          textDecoration: 'underline',
+                          cursor: 'pointer',
                         }}
                         onClick={() => {
                           setViewType(1);
                           setIsShowHistoryModal(true);
                           getVesselAuditInspectionDetails(
                             `/hcm/VesselAuditInspection/GetVesselAuditInspectionDetails?auditInspectionId=${item?.intAuditInspectionId}&typeId=1
-`
+`,
                           );
                         }}
                       >
-                        {item?.intTotalNc}{" "}
+                        {item?.intTotalNc}{' '}
                       </span>
                       /
                       <span
                         className="text-primary"
                         style={{
-                          textDecoration: "underline",
-                          cursor: "pointer",
+                          textDecoration: 'underline',
+                          cursor: 'pointer',
                         }}
                         onClick={() => {
                           setViewType(2);
@@ -269,16 +262,16 @@ export default function VesselAuditLanding() {
 
                           getVesselAuditInspectionDetails(
                             `/hcm/VesselAuditInspection/GetVesselAuditInspectionDetails?auditInspectionId=${item?.intAuditInspectionId}&typeId=2
-`
+`,
                           );
                         }}
                       >
-                        {" "}
+                        {' '}
                         {item?.intTotalNonNc}
                       </span>
                     </td>
                     <td>
-                      {" "}
+                      {' '}
                       <div className="d-flex justify-content-center">
                         <span
                           onClick={() => {
@@ -286,7 +279,7 @@ export default function VesselAuditLanding() {
                             setIsShowHistoryModal(true);
                             getVesselAuditInspectionDetails(
                               `/hcm/VesselAuditInspection/GetVesselAuditInspectionDetails?auditInspectionId=${item?.intAuditInspectionId}&typeId=0
-`
+`,
                             );
                           }}
                           className="ml-2 mr-3"
@@ -339,10 +332,10 @@ export default function VesselAuditLanding() {
                   }}
                   title={
                     ViewType === 1
-                      ? "NC Details"
+                      ? 'NC Details'
                       : ViewType === 2
-                      ? "Non-NC Details"
-                      : "View Details"
+                      ? 'Non-NC Details'
+                      : 'View Details'
                   }
                 >
                   <NCView

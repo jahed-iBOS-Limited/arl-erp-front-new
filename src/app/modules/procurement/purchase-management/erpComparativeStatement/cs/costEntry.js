@@ -1,63 +1,36 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable array-callback-return */
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { CardHeaderToolbar } from "../../../../../../_metronic/_partials/controls";
-import { eProcurementBaseURL } from "../../../../../App";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { CardHeaderToolbar } from '../../../../../../_metronic/_partials/controls';
+import { eProcurementBaseURL } from '../../../../../App';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  productName: "",
-  finishedGood: "",
+  productName: '',
+  finishedGood: '',
 };
 
-const validationSchema = Yup.object().shape({
-  //   productName: Yup.string().required("Product Name is required"),
-  //   finishedGood: Yup.string().required("Finished Good is required"),
-});
+const validationSchema = Yup.object().shape({});
 const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
-  console.log(dataList, "2nd dataList");
-  const [, saveData, tagFGloading] = useAxiosPost();
-  const [productInfo, getProductInfo, productInfoLoading] = useAxiosGet();
-  const [
-    costEntryListFromAPI,
-    getCostEntryList,
-    costEntryListLoading,
-  ] = useAxiosGet();
+  console.log(dataList, '2nd dataList');
+  const [, , tagFGloading] = useAxiosPost();
+  const [, getCostEntryList, costEntryListLoading] = useAxiosGet();
 
-  const [objProps, setObjprops] = useState({});
-  const [
-    costHeadDDL,
-    getCostHeadDDL,
-    costHeadDDLLoading,
-    setCostHeadDDL,
-  ] = useAxiosGet();
-  const [
-    currencyDDL,
-    getCurrencyDDL,
-    currencyDDLLoading,
-    setCurrencyDDL,
-  ] = useAxiosGet();
+  const [objProps] = useState({});
+  const [costHeadDDL, getCostHeadDDL, , setCostHeadDDL] = useAxiosGet();
+  const [currencyDDL, getCurrencyDDL, , ,] = useAxiosGet();
   const [rowData, setRowData] = useState(costEntryList || []);
-  const location = useLocation();
 
-  const history = useHistory();
-
-  const [pageNo, setPageNo] = useState(0);
-  const [pageSize, setPageSize] = useState(15);
-
-  const { selectedBusinessUnit, profileData } = useSelector(
+  const { selectedBusinessUnit } = useSelector(
     (state) => state.authData,
-    shallowEqual
+    shallowEqual,
   );
   useEffect(() => {
     if (isView) {
@@ -66,27 +39,29 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
         `${eProcurementBaseURL}/ComparativeStatement/GetByCostComponentPartner?RequestForQuotationId=${rfqId}`,
         (data) => {
           let modDataList = [];
-          data?.map((item) => {
-            console.log(item, "item");
-            modDataList.push({
-              supplierName: {
-                value: item?.intBusinessPartnerId,
-                label: item?.strBusinessPartnerName,
-                info: { ...item },
-              },
-              costHead: {
-                value: item?.intCostComponentId,
-                label: item?.strCostComponentName,
-              },
-              currency: {
-                value: item?.intCurrencyId,
-                label: item?.strCurrencyCode,
-              },
-              amount: item?.numAmount,
+          if (data?.length > 0) {
+            data.forEach((item) => {
+              console.log(item, 'item');
+              modDataList.push({
+                supplierName: {
+                  value: item?.intBusinessPartnerId,
+                  label: item?.strBusinessPartnerName,
+                  info: { ...item },
+                },
+                costHead: {
+                  value: item?.intCostComponentId,
+                  label: item?.strCostComponentName,
+                },
+                currency: {
+                  value: item?.intCurrencyId,
+                  label: item?.strCurrencyCode,
+                },
+                amount: item?.numAmount,
+              });
             });
-          });
-          setRowData([...modDataList]);
-        }
+            setRowData([...modDataList]);
+          }
+        },
       );
     } else {
       getCostHeadDDL(
@@ -100,13 +75,14 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
             };
           });
           setCostHeadDDL(modData);
-        }
+        },
       );
 
       getCurrencyDDL(
-        `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`
+        `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`,
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveHandler = (values) => {
@@ -115,20 +91,20 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
 
   const addNewFeatureHandler = (values) => {
     // Check if the combination of supplier and cost head already exists
-    console.log("values", values);
-    console.log("rowData", rowData);
+    console.log('values', values);
+    console.log('rowData', rowData);
     let foundData = rowData?.filter(
       (item) =>
         item?.supplierName?.value === values?.supplierName?.value &&
-        item?.costHead?.value === values?.costHead?.value
+        item?.costHead?.value === values?.costHead?.value,
     );
 
     if (foundData?.length > 0) {
       toast.warning(
-        "Cost element with this supplier and cost head already exists",
+        'Cost element with this supplier and cost head already exists',
         {
-          toastId: "duplicateEntry",
-        }
+          toastId: 'duplicateEntry',
+        },
       );
     } else {
       // Create payload with all form fields
@@ -152,7 +128,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
         !(
           item.supplierName?.value === rowItem.supplierName?.value &&
           item.costHead?.value === rowItem.costHead?.value
-        )
+        ),
     );
 
     setRowData(filterData);
@@ -199,9 +175,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
           isValid,
         }) => (
           <>
-            {(tagFGloading || productInfoLoading || costEntryListLoading) && (
-              <Loading />
-            )}
+            {(tagFGloading || costEntryListLoading) && <Loading />}
             {!isView && (
               <>
                 <Form className="global-form form form-label-right">
@@ -225,7 +199,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
                         value={values?.supplierName}
                         label="Supplier"
                         onChange={(valueOption) => {
-                          setFieldValue("supplierName", valueOption);
+                          setFieldValue('supplierName', valueOption);
                         }}
                         placeholder="supplierName"
                         errors={errors}
@@ -239,7 +213,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
                         value={values?.costHead}
                         label="Cost Head"
                         onChange={(valueOption) => {
-                          setFieldValue("costHead", valueOption);
+                          setFieldValue('costHead', valueOption);
                         }}
                         placeholder="Cost Head"
                         errors={errors}
@@ -253,7 +227,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
                         value={values?.currency}
                         label="Currency"
                         onChange={(valueOption) => {
-                          setFieldValue("currency", valueOption);
+                          setFieldValue('currency', valueOption);
                         }}
                         placeholder="Currency"
                         errors={errors}
@@ -267,7 +241,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
                         name="amount"
                         type="number"
                         onChange={(e) =>
-                          setFieldValue("amount", e.target.value)
+                          setFieldValue('amount', e.target.value)
                         }
                       />
                     </div>
@@ -293,14 +267,14 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
 
                   <button
                     type="submit"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={objProps.btnRef}
                     onSubmit={() => handleSubmit()}
                   ></button>
 
                   <button
                     type="reset"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={objProps.resetBtnRef}
                     onSubmit={() => resetForm(initData)}
                   ></button>
@@ -336,7 +310,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
                     rowData?.map((item, index) => {
                       return (
                         <tr key={index}>
-                          <td style={{ width: "15px" }} className="text-center">
+                          <td style={{ width: '15px' }} className="text-center">
                             {index + 1}
                           </td>
                           <td>
@@ -362,7 +336,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
                           {!isView && (
                             <td>
                               <span
-                                style={{ cursor: "pointer" }}
+                                style={{ cursor: 'pointer' }}
                                 onClick={() => {
                                   handleDelete(item);
                                 }}

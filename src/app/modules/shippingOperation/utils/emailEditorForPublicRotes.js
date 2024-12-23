@@ -1,35 +1,39 @@
-import React, { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import Loading from "../../_helper/_loading";
-import AttachmentUploaderNew from "../../_helper/attachmentUploaderNew";
-import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
-import { marineBaseUrlPythonAPI } from "../../../App";
-import { shallowEqual, useSelector } from "react-redux";
-import { generateFileUrl } from "./helper";
+import React, { useEffect, useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import Loading from '../../_helper/_loading';
+import AttachmentUploaderNew from '../../_helper/attachmentUploaderNew';
+import useAxiosPost from '../../_helper/customHooks/useAxiosPost';
+import { marineBaseUrlPythonAPI } from '../../../App';
+import { shallowEqual, useSelector } from 'react-redux';
+import { generateFileUrl } from './helper';
 
-const EmailEditorForPublicRoutes = ({ featureName, vesselData, payloadInfo, cb }) => {
-
+const EmailEditorForPublicRoutes = ({
+  featureName,
+  vesselData,
+  payloadInfo,
+  cb,
+}) => {
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   const [emailData, setEmailData] = useState({
-    toEmail: "",
-    ccEmail: "",
-    subject: "",
-    emailBody: "",
-    attachment: "",
+    toEmail: '',
+    ccEmail: '',
+    subject: '',
+    emailBody: '',
+    attachment: '',
   });
 
-  console.log("emailData", emailData);
-  console.log("payloadInfo", payloadInfo);
+  console.log('emailData', emailData);
+  console.log('payloadInfo', payloadInfo);
 
   const [errors, setErrors] = useState({
-    to: "",
-    cc: "",
-    subject: "",
-    body: "",
+    to: '',
+    cc: '',
+    subject: '',
+    body: '',
   });
 
   const [, onSendEmail, loader] = useAxiosPost();
@@ -53,27 +57,27 @@ const EmailEditorForPublicRoutes = ({ featureName, vesselData, payloadInfo, cb }
 
   // Function to remove prefixes and convert camelCase to space-separated words
   const cleanKey = (key) => {
-    const keyWithoutPrefix = key.replace(/^(str|int|num)/, ""); // Remove prefixes
-    return keyWithoutPrefix.replace(/([a-z])([A-Z])/g, "$1 $2"); // Convert camelCase to spaced words
+    const keyWithoutPrefix = key.replace(/^(str|int|num)/, ''); // Remove prefixes
+    return keyWithoutPrefix.replace(/([a-z])([A-Z])/g, '$1 $2'); // Convert camelCase to spaced words
   };
 
   // Convert payloadInfo to HTML for ReactQuill
   const convertPayloadToHtml = () => {
-    let htmlContent = "";
+    let htmlContent = '';
 
     Object.entries(payloadInfo).forEach(([key, value]) => {
       const cleanedKey = cleanKey(key); // Apply cleaning to the key
 
-      if (typeof value === "string" && value.startsWith("http")) {
+      if (typeof value === 'string' && value.startsWith('http')) {
         // If the value is a URL and contains 'id=', create a clickable link
-        if (value.includes("id=") && value.split("id=")[1]) {
+        if (value.includes('id=') && value.split('id=')[1]) {
           htmlContent += `<p><strong>${cleanedKey}:</strong> <a href="${value}" target="_blank">View Document</a></p>`;
         } else {
           htmlContent += `<p><strong>${cleanedKey}:</strong> </p>`;
         }
       } else {
         // Otherwise, just insert the text content
-        htmlContent += `<p><strong>${cleanedKey}:</strong> ${value || ""}</p>`;
+        htmlContent += `<p><strong>${cleanedKey}:</strong> ${value || ''}</p>`;
       }
     });
 
@@ -84,8 +88,14 @@ const EmailEditorForPublicRoutes = ({ featureName, vesselData, payloadInfo, cb }
     // Initialize the email body with payloadInfo content
     setEmailData((prevState) => ({
       ...prevState,
-      toEmail: featureName === "Dead Weight & Pre-Stowage" ? "operation.asll@akijshipping.com" : "",
-      subject: featureName === "Dead Weight & Pre-Stowage" ? `#VDS01020241058 Dead Weight Calculation & Pre-stowage Plan of ${payloadInfo?.strNameOfVessel} // voyage no: ${payloadInfo?.intVoyageNo}` : "",
+      toEmail:
+        featureName === 'Dead Weight & Pre-Stowage'
+          ? 'operation.asll@akijshipping.com'
+          : '',
+      subject:
+        featureName === 'Dead Weight & Pre-Stowage'
+          ? `#VDS01020241058 Dead Weight Calculation & Pre-stowage Plan of ${payloadInfo?.strNameOfVessel} // voyage no: ${payloadInfo?.intVoyageNo}`
+          : '',
       emailBody: convertPayloadToHtml(),
     }));
 
@@ -95,20 +105,14 @@ const EmailEditorForPublicRoutes = ({ featureName, vesselData, payloadInfo, cb }
   // Regular expression to validate a single email address
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // Function to validate multiple email addresses separated by commas
-  const validateEmails = (emailString) => {
-    const emails = emailString.split(",").map((email) => email.trim());
-    return emails.every((email) => emailRegex.test(email));
-  };
-
   // Handle input changes for To, Cc, and Subject fields
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEmailData((prevState) => ({ ...prevState, [name]: value }));
 
     // Validation logic for individual fields
-    if (name === "toEmail" && emailRegex.test(value)) {
-      setErrors((prevErrors) => ({ ...prevErrors, to: "" }));
+    if (name === 'toEmail' && emailRegex.test(value)) {
+      setErrors((prevErrors) => ({ ...prevErrors, to: '' }));
     }
     // if (
     //   name === "ccEmail" &&
@@ -116,8 +120,8 @@ const EmailEditorForPublicRoutes = ({ featureName, vesselData, payloadInfo, cb }
     // ) {
     //   setErrors((prevErrors) => ({ ...prevErrors, cc: "" }));
     // }
-    if (name === "subject" && value.trim()) {
-      setErrors((prevErrors) => ({ ...prevErrors, subject: "" }));
+    if (name === 'subject' && value.trim()) {
+      setErrors((prevErrors) => ({ ...prevErrors, subject: '' }));
     }
   };
 
@@ -127,17 +131,17 @@ const EmailEditorForPublicRoutes = ({ featureName, vesselData, payloadInfo, cb }
 
     // Remove error if the email body is not empty
     if (value.trim()) {
-      setErrors((prevErrors) => ({ ...prevErrors, body: "" }));
+      setErrors((prevErrors) => ({ ...prevErrors, body: '' }));
     }
   };
 
   const handleSend = () => {
     let isValid = true;
-    const newErrors = { to: "", cc: "", subject: "", body: "" };
+    const newErrors = { to: '', cc: '', subject: '', body: '' };
 
     // Check "To" field (single email)
     if (!emailData.toEmail || !emailRegex.test(emailData.toEmail)) {
-      newErrors.to = "Please enter a valid single email address.";
+      newErrors.to = 'Please enter a valid single email address.';
       isValid = false;
     }
 
@@ -154,13 +158,13 @@ const EmailEditorForPublicRoutes = ({ featureName, vesselData, payloadInfo, cb }
 
     // Check "Subject" field
     if (!emailData.subject.trim()) {
-      newErrors.subject = "Subject is required.";
+      newErrors.subject = 'Subject is required.';
       isValid = false;
     }
 
     // Check email body
     if (!emailData.emailBody.trim()) {
-      newErrors.body = "Email body cannot be empty.";
+      newErrors.body = 'Email body cannot be empty.';
       isValid = false;
     }
 
@@ -173,83 +177,91 @@ const EmailEditorForPublicRoutes = ({ featureName, vesselData, payloadInfo, cb }
         subject: emailData.subject,
         intVesselId: vesselData?.intVesselId || 0,
         body: emailData.emailBody,
-        attachment: generateFileUrl(emailData?.attachment || "") || "",
-        intUserEnrollId: profileData?.employeeId || 0
+        attachment: generateFileUrl(emailData?.attachment || '') || '',
+        intUserEnrollId: profileData?.employeeId || 0,
       };
 
-      if (featureName === "Dead Weight & Pre-Stowage") {
-        onSendEmail(`${marineBaseUrlPythonAPI}/automation/pre_stowage_mail_sent_for_master`, payload, cb, true);
-
+      if (featureName === 'Dead Weight & Pre-Stowage') {
+        onSendEmail(
+          `${marineBaseUrlPythonAPI}/automation/pre_stowage_mail_sent_for_master`,
+          payload,
+          cb,
+          true,
+        );
       } else {
-        onSendEmail(`${marineBaseUrlPythonAPI}/automation/common_mail_sender`, payload, cb, true);
+        onSendEmail(
+          `${marineBaseUrlPythonAPI}/automation/common_mail_sender`,
+          payload,
+          cb,
+          true,
+        );
       }
-
     }
   };
 
   const styles = {
     container: {
-      width: "100%",
-      margin: "auto",
-      padding: "20px",
-      fontFamily: "Arial, sans-serif",
+      width: '100%',
+      margin: 'auto',
+      padding: '20px',
+      fontFamily: 'Arial, sans-serif',
     },
     header: {
-      marginBottom: "20px",
+      marginBottom: '20px',
     },
     field: {
-      display: "flex",
-      alignItems: "center",
-      marginBottom: "10px",
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: '10px',
     },
     label: {
-      width: "70px",
-      fontSize: "14px",
-      color: "#333",
+      width: '70px',
+      fontSize: '14px',
+      color: '#333',
     },
     input: {
       flexGrow: 1,
-      padding: "10px",
-      fontSize: "14px",
-      borderRadius: "5px",
-      border: "1px solid #ccc",
-      outline: "none",
-      transition: "border-color 0.2s ease",
+      padding: '10px',
+      fontSize: '14px',
+      borderRadius: '5px',
+      border: '1px solid #ccc',
+      outline: 'none',
+      transition: 'border-color 0.2s ease',
     },
     error: {
-      color: "red",
-      fontSize: "12px",
-      marginLeft: "70px",
-      marginBottom: "10px",
+      color: 'red',
+      fontSize: '12px',
+      marginLeft: '70px',
+      marginBottom: '10px',
     },
     bodyError: {
-      color: "red",
-      fontSize: "12px",
+      color: 'red',
+      fontSize: '12px',
     },
     quillContainer: {
-      marginBottom: "60px",
+      marginBottom: '60px',
     },
     quill: {
-      height: "300px",
-      borderRadius: "5px",
+      height: '300px',
+      borderRadius: '5px',
     },
     footer: {
-      display: "flex",
-      justifyContent: "flex-end",
-      marginTop: "20px",
+      display: 'flex',
+      justifyContent: 'flex-end',
+      marginTop: '20px',
     },
     button: {
-      backgroundColor: "#007bff",
-      color: "#fff",
-      padding: "10px 20px",
-      fontSize: "14px",
-      border: "none",
-      borderRadius: "5px",
-      cursor: "pointer",
-      transition: "background-color 0.3s ease",
+      backgroundColor: '#007bff',
+      color: '#fff',
+      padding: '10px 20px',
+      fontSize: '14px',
+      border: 'none',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      transition: 'background-color 0.3s ease',
     },
     buttonHover: {
-      backgroundColor: "#0056b3",
+      backgroundColor: '#0056b3',
     },
   };
 
@@ -306,7 +318,7 @@ const EmailEditorForPublicRoutes = ({ featureName, vesselData, payloadInfo, cb }
               if (Array.isArray(attachmentData)) {
                 setEmailData((prevState) => ({
                   ...prevState,
-                  attachment: attachmentData[0]?.id || "",
+                  attachment: attachmentData[0]?.id || '',
                 }));
               }
             }}
@@ -328,8 +340,8 @@ const EmailEditorForPublicRoutes = ({ featureName, vesselData, payloadInfo, cb }
             className="btn btn-primary"
             onClick={handleSend}
             onMouseOver={(e) =>
-            (e.target.style.backgroundColor =
-              styles.buttonHover.backgroundColor)
+              (e.target.style.backgroundColor =
+                styles.buttonHover.backgroundColor)
             }
             onMouseOut={(e) =>
               (e.target.style.backgroundColor = styles.button.backgroundColor)

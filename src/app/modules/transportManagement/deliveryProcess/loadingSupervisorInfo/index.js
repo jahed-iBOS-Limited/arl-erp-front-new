@@ -1,28 +1,28 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Route, useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import ICustomTable from "../../../_helper/_customTable";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IApproval from "../../../_helper/_helperIcons/_approval";
-import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
-import IView from "../../../_helper/_helperIcons/_view";
-import { ISelect } from "../../../_helper/_inputDropDown";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import IViewModal from "../../../_helper/_viewModal";
-import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IButton from "../../../_helper/iButton";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
-import ICon from "../../../chartering/_chartinghelper/icons/_icon";
-import { ViewModal } from "../../shipmentManagement/shipping/shippingUnitView/ViewModal";
-import ShippingInfoDetails from "../storeInformationList/shippingNote";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Route, useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import ICustomTable from '../../../_helper/_customTable';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IApproval from '../../../_helper/_helperIcons/_approval';
+import InfoCircle from '../../../_helper/_helperIcons/_infoCircle';
+import IView from '../../../_helper/_helperIcons/_view';
+import { ISelect } from '../../../_helper/_inputDropDown';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import IViewModal from '../../../_helper/_viewModal';
+import FromDateToDateForm from '../../../_helper/commonInputFieldsGroups/dateForm';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IButton from '../../../_helper/iButton';
+import QRCodeScanner from '../../../_helper/qrCodeScanner';
+import ICon from '../../../chartering/_chartinghelper/icons/_icon';
+import { ViewModal } from '../../shipmentManagement/shipping/shippingUnitView/ViewModal';
+import ShippingInfoDetails from '../storeInformationList/shippingNote';
 import {
   chooseReportTableHeader,
   confirmDeliveryShippingInfoById,
@@ -35,9 +35,9 @@ import {
   parameterValues,
   reportId,
   reportTypeDDL,
-} from "./helper";
-import ShipmentReportModal from "./shipmentReportModal";
-import styles from "./style.module.css";
+} from './helper';
+import ShipmentReportModal from './shipmentReportModal';
+import styles from './style.module.css';
 
 export default function LoadingSupervisorInfo() {
   // redux
@@ -56,7 +56,7 @@ export default function LoadingSupervisorInfo() {
   const [objProps, setObjprops] = useState({});
   const [shipmentId, setShipmentId] = useState(null);
   const [isQrCodeShow, setIsQRCodeSHow] = useState(false);
-  const [actionType, setActionType] = useState("Manual");
+  const [actionType, setActionType] = useState('Manual');
   const [shipmentModalOpen, setShipmentModalOpen] = useState(false);
   const [singleItem, setSingleItem] = useState({});
   const [showReport, setShowReport] = useState(false);
@@ -65,7 +65,6 @@ export default function LoadingSupervisorInfo() {
     shipPointIdForCementTlmLoadFromPacker,
     setShipPointIdForCementTlmLoadFromPacker,
   ] = useState(null);
-  const [type, setType] = useState("");
 
   // axios get
   const [reportData, getReportData, loading, setReportData] = useAxiosGet();
@@ -116,11 +115,11 @@ export default function LoadingSupervisorInfo() {
               <td className="text-right">{item?.itemPrice}</td>
               <td className="text-center">
                 <InfoCircle
-                  title={"Shipment Details"}
+                  title={'Shipment Details'}
                   clickHandler={() => {
                     getShipmentDetails(
                       `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${reportData?.objHeader?.shipmentId}`,
-                      () => setShipmentModalOpen(true)
+                      () => setShipmentModalOpen(true),
                     );
                   }}
                 />
@@ -138,13 +137,13 @@ export default function LoadingSupervisorInfo() {
         <tr
           style={{
             backgroundColor: `${
-              item?.bagType === "Pasting"
-                ? "#57d557c2"
-                : item?.bagType === "Sewing"
-                ? "#6cbbe7de"
-                : item?.bagType === "MES PCC"
-                ? "#bb8ef2f0"
-                : ""
+              item?.bagType === 'Pasting'
+                ? '#57d557c2'
+                : item?.bagType === 'Sewing'
+                ? '#6cbbe7de'
+                : item?.bagType === 'MES PCC'
+                ? '#bb8ef2f0'
+                : ''
             }`,
           }}
         >
@@ -161,14 +160,14 @@ export default function LoadingSupervisorInfo() {
               ? item?.itemTransferTotalQty
               : item?.itemTotalQty}
           </td>
-          <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
+          <td>{item?.shippingTypeId === 9 ? 'Ton' : ''}</td>
           <td>{item?.routeName}</td>
           <td>{item?.transportModeName}</td>
           <td>{item?.strOwnerType}</td>
           <td>{item?.shippingTypeName}</td>
           <td>{item?.tlm}</td>
           <td>{item?.brustingQuantity}</td>
-          <td className="text-center" style={{ backgroundColor: "#e0ffff" }}>
+          <td className="text-center" style={{ backgroundColor: '#e0ffff' }}>
             <div className="d-flex justify-content-around">
               {/* {values?.type?.value === 1 && (
                 <button
@@ -189,7 +188,7 @@ export default function LoadingSupervisorInfo() {
                 </button>
               )} */}
               <InfoCircle
-                title={"Shipment Details"}
+                title={'Shipment Details'}
                 clickHandler={() => {
                   setSingleItem(item);
                   setOpen(true);
@@ -203,7 +202,7 @@ export default function LoadingSupervisorInfo() {
 
   // scan qr code in/out, delivery complete table footer
   const scanQRCodeInOutDeliveryCompleteTableFooter = (values) => (
-    <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+    <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
       <td
         colSpan={[1, 2].includes(values?.type?.value) ? 9 : 4}
         className="text-right"
@@ -215,7 +214,7 @@ export default function LoadingSupervisorInfo() {
           <td>
             {rowData?.data?.reduce(
               (total, curr) => (total += curr?.itemTotalQty),
-              0
+              0,
             )}
           </td>
           <td colSpan={2}></td>
@@ -225,7 +224,7 @@ export default function LoadingSupervisorInfo() {
           <td>
             {reportData?.objRow?.reduce(
               (total, curr) => (total += curr?.quantity),
-              0
+              0,
             )}
           </td>
 
@@ -235,7 +234,7 @@ export default function LoadingSupervisorInfo() {
               <td className="text-right">
                 {reportData?.objRow?.reduce(
                   (total, curr) => total + curr?.itemPrice,
-                  0
+                  0,
                 )}
               </td>
               <td></td>
@@ -274,19 +273,19 @@ export default function LoadingSupervisorInfo() {
             <div>{item?.strOwnerType}</div>
           </td>
           <td>
-            <div>{item?.shippingTypeName}</div>{" "}
+            <div>{item?.shippingTypeName}</div>{' '}
           </td>
           <td>
-            <div>{item?.vehicleName}</div>{" "}
+            <div>{item?.vehicleName}</div>{' '}
           </td>
           <td className="text-center">
-            <div>{_dateFormatter(item?.loadingConfirmDate)}</div>{" "}
+            <div>{_dateFormatter(item?.loadingConfirmDate)}</div>{' '}
           </td>
           <td>
-            <div>{item?.pumpModelName}</div>{" "}
+            <div>{item?.pumpModelName}</div>{' '}
           </td>
           <td>
-            <div className="text-right">{item?.itemTotalQty}</div>{" "}
+            <div className="text-right">{item?.itemTotalQty}</div>{' '}
           </td>
           <td className="d-flex justify-content-around">
             <span className="view">
@@ -309,12 +308,12 @@ export default function LoadingSupervisorInfo() {
                     item,
                     profileData,
                     confirmShipmentInfo,
-                    values
+                    values,
                     // setOpen
                   );
                 }}
               >
-                <IApproval title={"Confirm"} />
+                <IApproval title={'Confirm'} />
               </span>
             )}
           </td>
@@ -344,11 +343,11 @@ export default function LoadingSupervisorInfo() {
       <div className="col-lg-3">
         <NewSelect
           name="shipPoint"
-          options={[{ value: 0, label: "All" }, ...shipPointDDL]}
+          options={[{ value: 0, label: 'All' }, ...shipPointDDL]}
           value={values?.shipPoint}
           label="ShipPoint"
           onChange={(valueOption) => {
-            setFieldValue("shipPoint", valueOption);
+            setFieldValue('shipPoint', valueOption);
           }}
           placeholder="ShipPoint"
         />
@@ -360,7 +359,7 @@ export default function LoadingSupervisorInfo() {
           label="Report Type"
           value={values?.reportType}
           onChange={(optionValue) => {
-            setFieldValue("reportType", optionValue);
+            setFieldValue('reportType', optionValue);
           }}
         />
       </div>
@@ -373,8 +372,8 @@ export default function LoadingSupervisorInfo() {
           options={packerList || []}
           value={values?.packerName}
           onChange={(valueOption) => {
-            setFieldValue("packerName", valueOption);
-            setFieldValue("tlm", "");
+            setFieldValue('packerName', valueOption);
+            setFieldValue('tlm', '');
 
             // get tlm ddl
             getTLMDDL(
@@ -382,7 +381,7 @@ export default function LoadingSupervisorInfo() {
                 selectedBusinessUnit?.value
               }&TypeId=1&RefferencePKId=${
                 valueOption?.value
-              }&ShipPointId=${values?.shipPoint?.value || 0}`
+              }&ShipPointId=${values?.shipPoint?.value || 0}`,
             );
           }}
         />
@@ -394,7 +393,7 @@ export default function LoadingSupervisorInfo() {
           value={values?.tlm}
           label="TLM"
           onChange={(valueOption) => {
-            setFieldValue("tlm", valueOption);
+            setFieldValue('tlm', valueOption);
           }}
           placeholder="TLM"
         />
@@ -403,7 +402,6 @@ export default function LoadingSupervisorInfo() {
       <FromDateToDateForm obj={{ setFieldValue, values }} />
     </>
   );
-
 
   return (
     <Formik
@@ -439,7 +437,7 @@ export default function LoadingSupervisorInfo() {
                         }
                         onClick={() => {
                           if (reportData?.objHeader?.isLoaded) {
-                            return toast.warn("Already Completed");
+                            return toast.warn('Already Completed');
                           }
                           onComplete(
                             `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${profileData?.userId}&typeId=1&tlm=${values?.tlm?.value}&packerId=${values?.packerName?.value}`,
@@ -452,7 +450,7 @@ export default function LoadingSupervisorInfo() {
                               resetForm(initData);
                               setShipmentId(null);
                             },
-                            true
+                            true,
                           );
                         }}
                       >
@@ -482,7 +480,7 @@ export default function LoadingSupervisorInfo() {
                             setShipmentId(null);
                             setRowData([]);
                           },
-                          true
+                          true,
                         );
                       }}
                     >
@@ -503,7 +501,7 @@ export default function LoadingSupervisorInfo() {
                     value={values?.type}
                     label="Type"
                     onChange={(valueOption) => {
-                      setFieldValue("type", valueOption);
+                      setFieldValue('type', valueOption);
                       setRowData([]);
                       setReportData({});
                       setShowReport(false);
@@ -521,14 +519,14 @@ export default function LoadingSupervisorInfo() {
                                 ...item,
                                 value: item?.workCenterId,
                                 label: item?.workCenterName,
-                              }))
+                              })),
                             );
-                          }
+                          },
                         );
 
                         // get permited to confirm packer forcely complete
                         getPermitedToConfirmPackerForce(
-                          `/oms/SalesInformation/GetAllowForModification?Partid=22&UserId=${profileData?.userId}&UnitId=${selectedBusinessUnit?.value}`
+                          `/oms/SalesInformation/GetAllowForModification?Partid=22&UserId=${profileData?.userId}&UnitId=${selectedBusinessUnit?.value}`,
                         );
                       }
                     }}
@@ -545,13 +543,13 @@ export default function LoadingSupervisorInfo() {
                         <NewSelect
                           name="shipPoint"
                           options={[
-                            { value: 0, label: "All" },
+                            { value: 0, label: 'All' },
                             ...shipPointDDL,
                           ]}
                           value={values?.shipPoint}
                           label="ShipPoint"
                           onChange={(valueOption) => {
-                            setFieldValue("shipPoint", valueOption);
+                            setFieldValue('shipPoint', valueOption);
                           }}
                           placeholder="ShipPoint"
                         />
@@ -563,13 +561,13 @@ export default function LoadingSupervisorInfo() {
                         <NewSelect
                           name="viewType"
                           options={[
-                            { value: 1, label: "Top Sheet" },
-                            { value: 2, label: "Details" },
+                            { value: 1, label: 'Top Sheet' },
+                            { value: 2, label: 'Details' },
                           ]}
                           value={values?.viewType}
                           label="View Type"
                           onChange={(valueOption) => {
-                            setFieldValue("viewType", valueOption);
+                            setFieldValue('viewType', valueOption);
                             setShowReport(false);
                           }}
                           placeholder="View Type"
@@ -582,7 +580,7 @@ export default function LoadingSupervisorInfo() {
                         obj={{
                           values,
                           setFieldValue,
-                          type: "datetime-local",
+                          type: 'datetime-local',
                           step: [4].includes(values?.type?.value) ? 1 : false,
                           onChange: () => {
                             setShowReport(false);
@@ -616,7 +614,7 @@ export default function LoadingSupervisorInfo() {
                             profileData,
                             selectedBusinessUnit,
                             values,
-                            getRowData
+                            getRowData,
                           );
                         }
                       }}
@@ -632,11 +630,11 @@ export default function LoadingSupervisorInfo() {
                         <input
                           type="radio"
                           name="actionType"
-                          checked={actionType === "Manual"}
+                          checked={actionType === 'Manual'}
                           className="mr-1 pointer"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
-                            setActionType("Manual");
+                            setActionType('Manual');
                             setValues({ ...initData, type: values?.type });
 
                             setShipmentId(null);
@@ -649,11 +647,11 @@ export default function LoadingSupervisorInfo() {
                         <input
                           type="radio"
                           name="actionType"
-                          checked={actionType === "Auto"}
+                          checked={actionType === 'Auto'}
                           className="mr-1 pointer"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
-                            setActionType("Auto");
+                            setActionType('Auto');
                             setValues({ ...initData, type: values?.type });
                             setShipmentId(null);
                             setReportData({});
@@ -665,9 +663,9 @@ export default function LoadingSupervisorInfo() {
                     {reportData?.objHeader?.isLoaded && (
                       <p
                         style={{
-                          textAlign: "center",
-                          fontSize: "16px",
-                          fontWeight: "bold",
+                          textAlign: 'center',
+                          fontSize: '16px',
+                          fontWeight: 'bold',
                         }}
                         className="text-danger"
                       >
@@ -680,16 +678,16 @@ export default function LoadingSupervisorInfo() {
                           reportData?.objHeader?.isOutdByLoadingSupervisor) ||
                           values?.type?.value === 3) && (
                           <>
-                            {" "}
+                            {' '}
                             <h4
                               className="mb-0 font-weight-bold"
-                              style={{ color: "#b22222" }}
+                              style={{ color: '#b22222' }}
                             >
                               Packer: {values?.packerName?.label}
                             </h4>
                             <h4
                               className="mb-0 font-weight-bold"
-                              style={{ color: "#1c5d99" }}
+                              style={{ color: '#1c5d99' }}
                             >
                               TLM: {values?.tlm?.label}
                             </h4>
@@ -698,9 +696,9 @@ export default function LoadingSupervisorInfo() {
                       </div>
                     )}
                     <div className="col-lg-12"></div>
-                    {["Auto"].includes(actionType) ? (
+                    {['Auto'].includes(actionType) ? (
                       <div className="col-lg-3">
-                        <div style={{ display: "inline-block", width: "95%" }}>
+                        <div style={{ display: 'inline-block', width: '95%' }}>
                           <InputField
                             value={shipmentId}
                             label="Card Id"
@@ -711,14 +709,14 @@ export default function LoadingSupervisorInfo() {
                         </div>
                         <span
                           className="pl-1"
-                          style={{ display: "inline-block" }}
+                          style={{ display: 'inline-block' }}
                         >
                           <i
                             onClick={(e) => {
                               e.stopPropagation();
                               setIsQRCodeSHow(true);
                             }}
-                            style={{ color: "blue", cursor: "pointer" }}
+                            style={{ color: 'blue', cursor: 'pointer' }}
                             class="fa fa-qrcode"
                             aria-hidden="true"
                           ></i>
@@ -733,10 +731,10 @@ export default function LoadingSupervisorInfo() {
                           style={{ flexGrow: 1 }}
                           type="text"
                           onChange={(e) => {
-                            setFieldValue("shipmentCode", e.target.value);
+                            setFieldValue('shipmentCode', e.target.value);
                           }}
                           onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === 13) {
+                            if (e.key === 'Enter' || e.key === 13) {
                               handleCardNumberChange({
                                 e,
                                 setFieldValue,
@@ -788,7 +786,7 @@ export default function LoadingSupervisorInfo() {
                         name="shippingPoint"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("shippingPoint", e.target.value);
+                          setFieldValue('shippingPoint', e.target.value);
                         }}
                       />
                     </div>
@@ -799,7 +797,7 @@ export default function LoadingSupervisorInfo() {
                         name="vehicleNumber"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("vehicleNumber", e.target.value);
+                          setFieldValue('vehicleNumber', e.target.value);
                         }}
                       />
                     </div>
@@ -810,7 +808,7 @@ export default function LoadingSupervisorInfo() {
                         name="driver"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("driver", e.target.value);
+                          setFieldValue('driver', e.target.value);
                         }}
                       />
                     </div>
@@ -835,8 +833,8 @@ export default function LoadingSupervisorInfo() {
                         options={packerList || []}
                         value={values?.packerName}
                         onChange={(valueOption) => {
-                          setFieldValue("packerName", valueOption);
-                          setFieldValue("tlm", "");
+                          setFieldValue('packerName', valueOption);
+                          setFieldValue('tlm', '');
 
                           // if business unit in cement than load tlm ddl
                           if (selectedBusinessUnit?.value === 4) {
@@ -847,7 +845,7 @@ export default function LoadingSupervisorInfo() {
                               }&TypeId=1&RefferencePKId=${
                                 valueOption?.value
                               }&ShipPointId=${shipPointIdForCementTlmLoadFromPacker ||
-                                0}`
+                                0}`,
                             );
                           }
                         }}
@@ -860,7 +858,7 @@ export default function LoadingSupervisorInfo() {
                         name="deliveryDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("deliveryDate", e.target.value);
+                          setFieldValue('deliveryDate', e.target.value);
                         }}
                       />
                     </div>
@@ -880,7 +878,7 @@ export default function LoadingSupervisorInfo() {
                         value={values?.tlm}
                         label="TLM"
                         onChange={(valueOption) => {
-                          setFieldValue("tlm", valueOption);
+                          setFieldValue('tlm', valueOption);
                         }}
                         placeholder="TLM"
                       />
@@ -891,14 +889,14 @@ export default function LoadingSupervisorInfo() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -941,7 +939,7 @@ export default function LoadingSupervisorInfo() {
                     history={history}
                     onHide={() => {
                       history.push(
-                        "/transport-management/deliveryprocess/LoadingSupervisorInfo"
+                        '/transport-management/deliveryprocess/LoadingSupervisorInfo',
                       );
                     }}
                   />
@@ -968,10 +966,10 @@ export default function LoadingSupervisorInfo() {
                             selectedBusinessUnit?.value === 4
                               ? res?.objHeader?.packerId
                               : 1
-                          }&ShipPointId=${res?.objHeader?.shipPointId || 0}`
+                          }&ShipPointId=${res?.objHeader?.shipPointId || 0}`,
                         );
                         setShipPointIdForCementTlmLoadFromPacker(
-                          res?.objHeader?.shipPointId
+                          res?.objHeader?.shipPointId,
                         );
 
                         getPackerList(
@@ -984,32 +982,32 @@ export default function LoadingSupervisorInfo() {
                                 ...item,
                                 value: item?.workCenterId,
                                 label: item?.workCenterName,
-                              }))
+                              })),
                             );
-                          }
+                          },
                         );
 
                         setFieldValue(
-                          "shippingPoint",
-                          res?.objHeader?.shipPointName || ""
+                          'shippingPoint',
+                          res?.objHeader?.shipPointName || '',
                         );
                         setFieldValue(
-                          "vehicleNumber",
-                          res?.objHeader?.strVehicleName || ""
+                          'vehicleNumber',
+                          res?.objHeader?.strVehicleName || '',
                         );
                         setFieldValue(
-                          "driver",
-                          res?.objHeader?.driverName || ""
+                          'driver',
+                          res?.objHeader?.driverName || '',
                         );
                         setFieldValue(
-                          "packerName",
-                          res?.objHeader?.packerName || ""
+                          'packerName',
+                          res?.objHeader?.packerName || '',
                         );
                         setFieldValue(
-                          "deliveryDate",
-                          _dateFormatter(res?.objHeader?.pricingDate) || ""
+                          'deliveryDate',
+                          _dateFormatter(res?.objHeader?.pricingDate) || '',
                         );
-                      }
+                      },
                     );
                   }}
                 />

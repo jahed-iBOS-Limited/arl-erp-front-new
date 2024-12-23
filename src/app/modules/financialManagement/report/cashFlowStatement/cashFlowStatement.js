@@ -1,42 +1,39 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import { SetFinancialManagementReportCashFlowStatementAction } from "../../../_helper/reduxForLocalStorage/Actions";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _firstDateofMonth } from "../../../_helper/_firstDateOfCurrentMonth";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { getCashFlowStatement } from "./helper";
+} from '../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import { fromDateFromApiNew } from '../../../_helper/_formDateFromApi';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import { SetFinancialManagementReportCashFlowStatementAction } from '../../../_helper/reduxForLocalStorage/Actions';
 import {
   getBusinessDDLByED,
   getEnterpriseDivisionDDL,
-} from "../incomestatement/helper";
-import NewSelect from "../../../_helper/_select";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import { fromDateFromApiNew } from "../../../_helper/_formDateFromApi";
+} from '../incomestatement/helper';
+import { getCashFlowStatement } from './helper';
 
 const initDataFuction = (financialManagementReportCashFlowStatement) => {
   const initData = {
     enterpriseDivision:
-      financialManagementReportCashFlowStatement?.enterpriseDivision || "",
+      financialManagementReportCashFlowStatement?.enterpriseDivision || '',
     businessUnit:
-      financialManagementReportCashFlowStatement?.businessUnit || "",
+      financialManagementReportCashFlowStatement?.businessUnit || '',
     convertionRate:
       financialManagementReportCashFlowStatement?.convertionRate || 1,
-    fromDate: "",
+    fromDate: '',
     toDate: _todayDate(),
   };
 
@@ -64,9 +61,9 @@ export function CashFlowStatement() {
   useEffect(() => {
     fromDateFromApiNew(selectedBusinessUnit?.value, (date) => {
       if (formikRef.current) {
-        const apiFormDate = date ? _dateFormatter(date) : "";
+        const apiFormDate = date ? _dateFormatter(date) : '';
         const modifyInitData = initDataFuction(
-          financialManagementReportCashFlowStatement
+          financialManagementReportCashFlowStatement,
         );
         formikRef.current.setValues({
           ...modifyInitData,
@@ -78,7 +75,7 @@ export function CashFlowStatement() {
     getEnterpriseDivisionDDL(accountId, (enterpriseDivisionData) => {
       setEnterpriseDivisionDDL(enterpriseDivisionData);
       let initData = initDataFuction(
-        financialManagementReportCashFlowStatement
+        financialManagementReportCashFlowStatement,
       );
       let initialEntepriceDivision = initData?.enterpriseDivision;
       if (!initData?.enterpriseDivision) {
@@ -86,9 +83,9 @@ export function CashFlowStatement() {
         dispatch(
           SetFinancialManagementReportCashFlowStatementAction({
             ...initData,
-            enterpriseDivision: enterpriseDivisionData?.[0] || "",
-            businessUnit: "",
-          })
+            enterpriseDivision: enterpriseDivisionData?.[0] || '',
+            businessUnit: '',
+          }),
         );
       }
       if (initialEntepriceDivision) {
@@ -101,26 +98,27 @@ export function CashFlowStatement() {
               dispatch(
                 SetFinancialManagementReportCashFlowStatementAction({
                   ...initData,
-                  businessUnit: businessUnitDDLData?.[0] || "",
-                })
+                  businessUnit: businessUnitDDLData?.[0] || '',
+                }),
               );
             }
-          }
+          },
         );
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountId]);
 
   const printRef = useRef();
 
   const [showRDLC, setShowRDLC] = useState(false);
-  const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
-  const reportId = "ed848d77-22ce-4690-be11-cb39ce5f332f";
+  const groupId = '218e3d7e-f3ea-4f66-8150-bb16eb6fc606';
+  const reportId = 'ed848d77-22ce-4690-be11-cb39ce5f332f';
   const parameterValues = (values) => {
     const agingParameters = [
-      { name: "ConvertionRate", value: `${values?.convertionRate}` },
-      { name: "fdate", value: `${values?.fromDate}` },
-      { name: "tdate", value: `${values?.toDate}` },
+      { name: 'ConvertionRate', value: `${values?.convertionRate}` },
+      { name: 'fdate', value: `${values?.fromDate}` },
+      { name: 'tdate', value: `${values?.toDate}` },
     ];
     return agingParameters;
   };
@@ -147,13 +145,13 @@ export function CashFlowStatement() {
                         onChange={(valueOption) => {
                           setShowRDLC(false);
                           setRowDto([]);
-                          setFieldValue("enterpriseDivision", valueOption);
-                          setFieldValue("businessUnit", "");
+                          setFieldValue('enterpriseDivision', valueOption);
+                          setFieldValue('businessUnit', '');
                           if (valueOption?.value) {
                             getBusinessDDLByED(
                               accountId,
                               valueOption?.value,
-                              setBusinessUnitDDL
+                              setBusinessUnitDDL,
                             );
                           }
                         }}
@@ -169,7 +167,7 @@ export function CashFlowStatement() {
                         onChange={(valueOption) => {
                           setShowRDLC(false);
                           setRowDto([]);
-                          setFieldValue("businessUnit", valueOption);
+                          setFieldValue('businessUnit', valueOption);
                         }}
                         placeholder="Business Unit"
                         isDisabled={!values?.enterpriseDivision}
@@ -184,7 +182,7 @@ export function CashFlowStatement() {
                         type="number"
                         onChange={(e) => {
                           setShowRDLC(false);
-                          setFieldValue("convertionRate", e.target.value);
+                          setFieldValue('convertionRate', e.target.value);
                         }}
                       />
                     </div>
@@ -197,7 +195,7 @@ export function CashFlowStatement() {
                         type="date"
                         onChange={(e) => {
                           setShowRDLC(false);
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                         }}
                       />
                     </div>
@@ -210,7 +208,7 @@ export function CashFlowStatement() {
                         type="date"
                         onChange={(e) => {
                           setShowRDLC(false);
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                         }}
                       />
                     </div>
@@ -229,8 +227,8 @@ export function CashFlowStatement() {
                             SetFinancialManagementReportCashFlowStatementAction(
                               {
                                 ...values,
-                              }
-                            )
+                              },
+                            ),
                           );
                           setShowRDLC(false);
                           getCashFlowStatement(
@@ -241,10 +239,10 @@ export function CashFlowStatement() {
                             setRowDto,
                             setLoading,
                             values?.enterpriseDivision,
-                            values?.convertionRate
+                            values?.convertionRate,
                           );
                         }}
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                       />
                     </div>
                     <div className="col-lg-1">
@@ -260,14 +258,14 @@ export function CashFlowStatement() {
                         onClick={() => {
                           setShowRDLC(true);
                         }}
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                       />
                     </div>
                     <div className="col-auto">
                       {rowDto?.length > 0 && (
                         <ReactToPrint
                           pageStyle={
-                            "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                            '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                           }
                           trigger={() => (
                             <button
@@ -299,7 +297,7 @@ export function CashFlowStatement() {
                           ref={printRef}
                         >
                           <div className="text-center">
-                            <h2 className="mb-0" style={{ fontWeight: "bold" }}>
+                            <h2 className="mb-0" style={{ fontWeight: 'bold' }}>
                               {values?.businessUnit?.value > 0
                                 ? values?.businessUnit?.label
                                 : accountName}
@@ -307,15 +305,15 @@ export function CashFlowStatement() {
                             <h4 className="text-primary">
                               Cash Flow Statement
                             </h4>
-                            <p className="mt-4" style={{ fontWeight: "bold" }}>
+                            <p className="mt-4" style={{ fontWeight: 'bold' }}>
                               {`For the period of: ${_dateFormatter(
-                                values?.fromDate
-                              )}  to  ${_dateFormatter(values?.toDate)}`}{" "}
+                                values?.fromDate,
+                              )}  to  ${_dateFormatter(values?.toDate)}`}{' '}
                             </p>
                           </div>
 
                           <table
-                            style={{ width: "75%" }}
+                            style={{ width: '75%' }}
                             className="cashFlowStatement"
                           >
                             <tr>
@@ -324,49 +322,49 @@ export function CashFlowStatement() {
                               </td>
                               <td
                                 style={{
-                                  border: "1px solid black",
-                                  textAlign: "center",
+                                  border: '1px solid black',
+                                  textAlign: 'center',
                                 }}
                               >
-                                {_formatMoney(rowDto[0]["numPlannedOpening"])}
+                                {_formatMoney(rowDto[0]['numPlannedOpening'])}
                               </td>
                               <td
                                 style={{
-                                  border: "1px solid black",
-                                  textAlign: "center",
+                                  border: '1px solid black',
+                                  textAlign: 'center',
                                 }}
                               >
-                                {_formatMoney(rowDto[0]["numOpening"])}
+                                {_formatMoney(rowDto[0]['numOpening'])}
                               </td>
                               <td
                                 style={{
-                                  border: "1px solid black",
-                                  textAlign: "center",
+                                  border: '1px solid black',
+                                  textAlign: 'center',
                                 }}
                               >
                                 {_formatMoney(
-                                  rowDto[0]["numPlannedOpening"] -
-                                    rowDto[0]["numOpening"]
+                                  rowDto[0]['numPlannedOpening'] -
+                                    rowDto[0]['numOpening'],
                                 )}
                               </td>
                             </tr>
                             <tr>
-                              <td style={{ height: "15px" }}></td>
+                              <td style={{ height: '15px' }}></td>
                               <td
                                 className="text-center"
-                                style={{ height: "15px" }}
+                                style={{ height: '15px' }}
                               >
                                 Budget
                               </td>
                               <td
                                 className="text-center"
-                                style={{ height: "15px" }}
+                                style={{ height: '15px' }}
                               >
                                 Actual
                               </td>
                               <td
                                 className="text-center"
-                                style={{ height: "15px" }}
+                                style={{ height: '15px' }}
                               >
                                 Variance
                               </td>
@@ -375,61 +373,61 @@ export function CashFlowStatement() {
                               switch (item.intFSId) {
                                 case 9999:
                                   return (
-                                    <tr style={{ background: "#e6ecff" }}>
+                                    <tr style={{ background: '#e6ecff' }}>
                                       <td colSpan="4">{item?.strName}</td>
                                     </tr>
                                   );
                                 case 0:
-                                  if (item.strName.startsWith("Net")) {
+                                  if (item.strName.startsWith('Net')) {
                                     return (
-                                      <tr style={{ background: "#f0f0f5" }}>
+                                      <tr style={{ background: '#f0f0f5' }}>
                                         <td>{item?.strName}</td>
                                         <td
                                           className="text-right"
-                                          style={{ width: "120px" }}
+                                          style={{ width: '120px' }}
                                         >
                                           {_formatMoney(item?.numPlannedAmount)}
                                         </td>
                                         <td
                                           className="text-right"
-                                          style={{ width: "120px" }}
+                                          style={{ width: '120px' }}
                                         >
                                           {_formatMoney(item?.numAmount)}
                                         </td>
                                         <td
                                           className="text-right"
-                                          style={{ width: "120px" }}
+                                          style={{ width: '120px' }}
                                         >
                                           {_formatMoney(
                                             item?.numPlannedAmount -
-                                              item?.numAmount
+                                              item?.numAmount,
                                           )}
                                         </td>
                                       </tr>
                                     );
                                   } else if (index === rowDto.length - 1) {
                                     return (
-                                      <tr style={{ background: "#e6ecff" }}>
+                                      <tr style={{ background: '#e6ecff' }}>
                                         <td>{item?.strName}</td>
                                         <td
                                           className="text-right"
-                                          style={{ width: "120px" }}
+                                          style={{ width: '120px' }}
                                         >
                                           {_formatMoney(item?.numPlannedAmount)}
                                         </td>
                                         <td
                                           className="text-right"
-                                          style={{ width: "120px" }}
+                                          style={{ width: '120px' }}
                                         >
                                           {_formatMoney(item?.numAmount)}
                                         </td>
                                         <td
                                           className="text-right"
-                                          style={{ width: "120px" }}
+                                          style={{ width: '120px' }}
                                         >
                                           {_formatMoney(
                                             item?.numPlannedAmount -
-                                              item?.numAmount
+                                              item?.numAmount,
                                           )}
                                         </td>
                                       </tr>
@@ -445,7 +443,7 @@ export function CashFlowStatement() {
                                     <tr>
                                       <td
                                         colSpan="4"
-                                        style={{ height: "15px" }}
+                                        style={{ height: '15px' }}
                                       ></td>
                                     </tr>
                                   );
@@ -455,8 +453,8 @@ export function CashFlowStatement() {
                                     <tr>
                                       <td
                                         style={{
-                                          padding: "0 0 0 5px",
-                                          fontWeight: "normal",
+                                          padding: '0 0 0 5px',
+                                          fontWeight: 'normal',
                                         }}
                                       >
                                         {item?.strName}
@@ -464,11 +462,11 @@ export function CashFlowStatement() {
                                       <td
                                         className="pr-1"
                                         style={{
-                                          border: "1px solid black",
-                                          textAlign: "right",
-                                          width: "120px",
-                                          padding: "0",
-                                          fontWeight: "normal",
+                                          border: '1px solid black',
+                                          textAlign: 'right',
+                                          width: '120px',
+                                          padding: '0',
+                                          fontWeight: 'normal',
                                         }}
                                       >
                                         {_formatMoney(item?.numPlannedAmount)}
@@ -476,11 +474,11 @@ export function CashFlowStatement() {
                                       <td
                                         className="pr-1"
                                         style={{
-                                          border: "1px solid black",
-                                          textAlign: "right",
-                                          width: "120px",
-                                          padding: "0",
-                                          fontWeight: "normal",
+                                          border: '1px solid black',
+                                          textAlign: 'right',
+                                          width: '120px',
+                                          padding: '0',
+                                          fontWeight: 'normal',
                                         }}
                                       >
                                         {_formatMoney(item?.numAmount)}
@@ -488,16 +486,16 @@ export function CashFlowStatement() {
                                       <td
                                         className="pr-1"
                                         style={{
-                                          border: "1px solid black",
-                                          textAlign: "right",
-                                          width: "120px",
-                                          padding: "0",
-                                          fontWeight: "normal",
+                                          border: '1px solid black',
+                                          textAlign: 'right',
+                                          width: '120px',
+                                          padding: '0',
+                                          fontWeight: 'normal',
                                         }}
                                       >
                                         {_formatMoney(
                                           item?.numPlannedAmount -
-                                            item?.numAmount
+                                            item?.numAmount,
                                         )}
                                       </td>
                                     </tr>

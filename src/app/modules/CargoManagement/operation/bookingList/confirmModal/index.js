@@ -14,29 +14,8 @@ import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import './style.css';
 const validationSchema = Yup.object().shape({
-  // bookingAmount: Yup.number().required('Booking Amount is required'),
-  // airWaybillNumber: Yup.string().required("This field is required"),
   departureDateTime: Yup.date().required('Departure Date & Time is required'),
   arrivalDateTime: Yup.date().required('Arrival Date & Time is required'),
-  // flightNumber: Yup.string().required('This field is required'),
-
-  transitInformation: Yup.object()
-    .shape({
-      value: Yup.number(),
-      label: Yup.string(),
-    })
-    .nullable()
-    .when('transportPlanningType', {
-      is: 'Sea',
-      then: (schema) => schema.notRequired(),
-      otherwise: (schema) =>
-        schema
-          .shape({
-            value: Yup.number().required('Transit Information is required'),
-            label: Yup.string().required('Transit Information is required'),
-          })
-          .typeError('Transit Information is required'),
-    }),
   confTransportMode: Yup.object()
     .shape({
       value: Yup.number().required('Transport Mode is required'),
@@ -105,7 +84,7 @@ function ConfirmModal({ rowClickData, CB }) {
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
   const [buyerBankAddressDDL, setBuyerBankAddressDDL] = React.useState([]);
   const [
-    shipBookingRequestGetById,
+    ,
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
@@ -119,7 +98,6 @@ function ConfirmModal({ rowClickData, CB }) {
   const [deliveryAgentDDL, setDeliveryAgentDDL] = React.useState([]);
   const [notifyPartyDDL, setNotifyParty] = React.useState([]);
   const formikRef = React.useRef(null);
-  const [, createHblFcrNumber, createHblFcrNumberLoading] = useAxiosPut();
 
   const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
   const [getBankListDDL, setBankListDDL] = useAxiosGet();
@@ -262,10 +240,10 @@ function ConfirmModal({ rowClickData, CB }) {
                   }
                 : '',
             );
-            //shippingMarks
+            //shippingMark
             formikRef.current.setFieldValue(
-              'shippingMarks',
-              data?.shippingMarks || '',
+              'shippingMark',
+              data?.shippingMark || data?.shippingMark || '',
             );
             formikRef.current.setFieldValue(
               'consignCity',
@@ -300,7 +278,7 @@ function ConfirmModal({ rowClickData, CB }) {
       `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
     );
     getConsigneeName(
-      `${imarineBaseUrl}/domain/ShippingService/GetParticipantDDL?typeId=1`,
+      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?businessPartnerType=1&cargoType=2`,
       (redData) => {
         setConsigneeName(redData);
       },
@@ -372,7 +350,7 @@ function ConfirmModal({ rowClickData, CB }) {
       warehouseId: values?.wareHouse?.value || 0,
       // Consignee Information
       freightAgentReference: values?.freightAgentReference?.label || '',
-      shippingMarks: values?.shippingMarks || '',
+      shippingMark: values?.shippingMark || '',
       consigneeId: values?.consigneeName?.value || 0,
       consigneeName: values?.consigneeName?.label || '',
       consigneeAddress: values?.consigneeAddress || '',
@@ -406,23 +384,12 @@ function ConfirmModal({ rowClickData, CB }) {
         `${imarineBaseUrl}/domain/ShippingService/SaveBookingConfirm`,
         payload,
         () => {
-          createHblFcrNumberApiCall();
+          // createHblFcrNumberApiCall();
           CB();
         },
         'true',
       );
     }
-  };
-
-  const createHblFcrNumberApiCall = () => {
-    createHblFcrNumber(
-      `${imarineBaseUrl}/domain/ShippingService/CreateHblFcrNumber?BookingId=${bookingRequestId}&typeId=1`,
-      null,
-      () => {
-        CB();
-      },
-      'true',
-    );
   };
 
   const loadEmp = (v) => {
@@ -469,7 +436,7 @@ function ConfirmModal({ rowClickData, CB }) {
           notifyParty2: '',
           negotiationParty: '',
           freightAgentReference: '',
-          shippingMarks: '',
+          shippingMark: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -546,7 +513,7 @@ function ConfirmModal({ rowClickData, CB }) {
                   />
                 </div> */}
                 {/* Transit Information */}
-                {values?.transportPlanningType !== 'Sea' && (
+                {/* {values?.transportPlanningType !== 'Sea' && (
                   <>
                     {' '}
                     <div className="col-lg-3">
@@ -573,7 +540,7 @@ function ConfirmModal({ rowClickData, CB }) {
                       />
                     </div>
                   </>
-                )}
+                )} */}
                 {/* freight forwarder representative */}
                 <div className="col-lg-3">
                   <label>Freight Forwarder Representative</label>
@@ -923,12 +890,12 @@ function ConfirmModal({ rowClickData, CB }) {
                 {/* shipping Marks input */}
                 <div className="col-lg-3">
                   <InputField
-                    value={values?.shippingMarks}
+                    value={values?.shippingMark}
                     label="Shipping Marks"
-                    name="shippingMarks"
+                    name="shippingMark"
                     type="text"
                     onChange={(e) =>
-                      setFieldValue('shippingMarks', e.target.value)
+                      setFieldValue('shippingMark', e.target.value)
                     }
                   />
                 </div>

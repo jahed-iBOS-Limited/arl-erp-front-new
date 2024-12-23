@@ -2,9 +2,10 @@ import React from 'react';
 import { Redirect, Switch } from 'react-router-dom';
 import { ContentRoute } from '../../../../_metronic/layout';
 import BusinessPartnerList from './BusinessPartnerList';
-import CreateBusinessPartner from './CreateBusinessPartner';
 import CreateGlobalBank from './GlobalBank/GlobalBankCreate';
 import GlobalBankList from './GlobalBank/GlobalBankList';
+import CreateMasterBL from './MasterBLConfig/CreateMasterBL';
+import MasterBlList from './MasterBLConfig/MasterBlList';
 
 export function ConfigurationPages() {
   return (
@@ -15,17 +16,23 @@ export function ConfigurationPages() {
         to="/cargoManagement/configuration"
       />
       <ContentRoute
-        path="/cargoManagement/configuration/assign/create"
-        component={CreateBusinessPartner}
-      />
-      <ContentRoute
-        path="/cargoManagement/configuration/assign/edit/:id"
-        component={CreateBusinessPartner}
-      />
-      <ContentRoute
         path="/cargoManagement/configuration/assign"
         component={BusinessPartnerList}
       />
+      {/* // */}
+      <ContentRoute
+        path="/cargoManagement/configuration/masterbl/edit/:id"
+        component={CreateMasterBL}
+      />
+      <ContentRoute
+        path="/cargoManagement/configuration/masterbl/create"
+        component={CreateMasterBL}
+      />
+      <ContentRoute
+        path="/cargoManagement/configuration/masterbl"
+        component={MasterBlList}
+      />
+      {/* // */}
       <ContentRoute
         path="/cargoManagement/configuration/globalBank/create"
         component={CreateGlobalBank}

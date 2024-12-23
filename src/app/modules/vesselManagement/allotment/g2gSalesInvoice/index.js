@@ -1,51 +1,51 @@
-import { Form, Formik } from "formik";
+import { Form, Formik } from 'formik';
 
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import * as Yup from "yup";
-import ICustomCard from "../../../_helper/_customCard";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { batayonTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/batayounTraders";
-import { bluePillLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/bluePill";
-import { bongoTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/bongoTraders";
-import { buildingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/building";
-import { cementLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/cement";
-import { commoditiesLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/commodities";
-import { dailyTradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/dailyTrading";
-import { directTradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/directTrading";
-import { essentialLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/essential";
-import { eurasiaTradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/eurasiaTrading";
-import { exoticaTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/exoticaTraders";
-import { ispatLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/ispat";
-import { lineAsiaTradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/lineAsiaTrading";
-import { magnumLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/magnum";
-import { MTSLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/mts";
-import { nobayonTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/nobayonTraders";
-import { oneTradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/oneTrading";
-import { optimaTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/optimaTraders";
-import { polyFibreLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/polyFibre";
-import { readymixLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/readymix";
-import { resourceTradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/resourceTraders";
-import { tradersLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/traders";
-import { tradingLetterhead } from "../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/trading";
-import { PortAndMotherVessel } from "../../common/components";
-import GodownsWiseDeliveryReport from "./GodownWiseDeliveryReport";
-import GhatWiseDeliveryReport from "./ghatWiseDeliveryReport";
-import GodownsEntryReport from "./godownsEntryReport";
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import * as Yup from 'yup';
+import ICustomCard from '../../../_helper/_customCard';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { batayonTradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/batayounTraders';
+import { bluePillLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/bluePill';
+import { bongoTradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/bongoTraders';
+import { buildingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/building';
+import { cementLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/cement';
+import { commoditiesLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/commodities';
+import { dailyTradingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/dailyTrading';
+import { directTradingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/directTrading';
+import { essentialLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/essential';
+import { eurasiaTradingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/eurasiaTrading';
+import { exoticaTradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/exoticaTraders';
+import { ispatLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/ispat';
+import { lineAsiaTradingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/lineAsiaTrading';
+import { magnumLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/magnum';
+import { MTSLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/mts';
+import { nobayonTradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/nobayonTraders';
+import { oneTradingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/oneTrading';
+import { optimaTradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/optimaTraders';
+import { polyFibreLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/polyFibre';
+import { readymixLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/readymix';
+import { resourceTradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/resourceTraders';
+import { tradersLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/traders';
+import { tradingLetterhead } from '../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/trading';
+import { PortAndMotherVessel } from '../../common/components';
+import GodownsWiseDeliveryReport from './GodownWiseDeliveryReport';
+import GhatWiseDeliveryReport from './ghatWiseDeliveryReport';
+import GodownsEntryReport from './godownsEntryReport';
 
-import "./style.scss";
-import useAxiosPut from "../../../_helper/customHooks/useAxiosPut";
-import BillPreparationReport from "./BillPreparation";
+import './style.scss';
+import useAxiosPut from '../../../_helper/customHooks/useAxiosPut';
+import BillPreparationReport from './BillPreparation';
 const validationSchema = Yup.object().shape({});
 function G2GSalesInvoice() {
   const formikRef = React.useRef(null);
   const {
-    profileData: { userId, accountId },
+    profileData: { accountId },
     selectedBusinessUnit: { value: buUnId, label: buUnName },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [userPrintBtnClick, setUserPrintBtnClick] = useState(false);
@@ -71,39 +71,39 @@ function G2GSalesInvoice() {
 
   useEffect(() => {
     getShipPoint(
-      `/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`
+      `/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`,
     );
     getOrganizationDDL(
-      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buUnId}&AccountId=${accountId}`
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buUnId}&AccountId=${accountId}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accountId]);
 
   const getDestinationList = (partnerId, portId, motherVesselId) => {
     getDestinationDDL(
-      `/tms/LigterLoadUnload/GetShipToPartnerAllotmentDDL?businessUnitId=${buUnId}&businessPartnerId=${partnerId}&portId=${portId}&motherVesselId=${motherVesselId}`
+      `/tms/LigterLoadUnload/GetShipToPartnerAllotmentDDL?businessUnitId=${buUnId}&businessPartnerId=${partnerId}&portId=${portId}&motherVesselId=${motherVesselId}`,
     );
   };
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
     switch (fieldName) {
-      case "shipPoint":
-        setFieldValue("shipPoint", currentValue);
-        setFieldValue("motherVessel", "");
+      case 'shipPoint':
+        setFieldValue('shipPoint', currentValue);
+        setFieldValue('motherVessel', '');
         break;
-      case "port":
+      case 'port':
         if (currentValue) {
-          setFieldValue("port", currentValue);
-          setFieldValue("motherVessel", "");
+          setFieldValue('port', currentValue);
+          setFieldValue('motherVessel', '');
         } else {
-          setFieldValue("port", "");
-          setFieldValue("motherVessel", "");
+          setFieldValue('port', '');
+          setFieldValue('motherVessel', '');
         }
         break;
-      case "motherVessel":
-        setFieldValue("motherVessel", currentValue);
+      case 'motherVessel':
+        setFieldValue('motherVessel', currentValue);
         if (currentValue) {
-          setFieldValue("programNo", currentValue?.programNo);
-          setFieldValue("item", {
+          setFieldValue('programNo', currentValue?.programNo);
+          setFieldValue('item', {
             value: currentValue?.itemId,
             label: currentValue?.itemName,
           });
@@ -111,11 +111,11 @@ function G2GSalesInvoice() {
           getDestinationList(
             organizationId,
             values?.port?.value,
-            currentValue?.value
+            currentValue?.value,
           );
         } else {
-          setFieldValue("programNo", "");
-          setFieldValue("item", "");
+          setFieldValue('programNo', '');
+          setFieldValue('item', '');
         }
         break;
       default:
@@ -135,11 +135,11 @@ function G2GSalesInvoice() {
             setGridData(resData);
             if (formikRef?.current) {
               formikRef.current.setFieldValue(
-                "godownsEntryAttachment",
-                resData?.[0]?.invoicefromGovernment || ""
+                'godownsEntryAttachment',
+                resData?.[0]?.invoicefromGovernment || '',
               );
             }
-          }
+          },
         );
         break;
       case 2:
@@ -148,7 +148,7 @@ function G2GSalesInvoice() {
           `/tms/LigterLoadUnload/GetGhatWiseDeliveryReport?accountId=${accountId}&businessUnitId=${buUnId}&motherVesslelId=${values?.motherVessel?.value}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
           (resData) => {
             setGridData(resData);
-          }
+          },
         );
         break;
       case 3:
@@ -159,11 +159,11 @@ function G2GSalesInvoice() {
             setGridData(resData);
             if (formikRef?.current) {
               formikRef.current.setFieldValue(
-                "godownsEntryAttachment",
-                resData?.[0]?.invoicefromGovernment || ""
+                'godownsEntryAttachment',
+                resData?.[0]?.invoicefromGovernment || '',
               );
             }
-          }
+          },
         );
         break;
       case 4:
@@ -172,7 +172,7 @@ function G2GSalesInvoice() {
           `/tms/LigterLoadUnload/GetGodownsWiseBillPreparation?accountId=${accountId}&businessUnitId=${buUnId}&motherVesslelId=${values?.motherVessel?.value}&portId=${values?.port?.value}&soldToPartnerId=${values?.organization?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
           (resData) => {
             setGridData(resData);
-          }
+          },
         );
 
         break;
@@ -238,7 +238,7 @@ function G2GSalesInvoice() {
       ? optimaTradersLetterhead
       : buUnId === 210
       ? resourceTradersLetterhead
-      : "";
+      : '';
   const isDisableFunction = (values) => {
     const commonConditions =
       !values?.fromDate || !values?.toDate || !values?.motherVessel;
@@ -258,7 +258,7 @@ function G2GSalesInvoice() {
       () => {
         showHandelar(values);
       },
-      true
+      true,
     );
   };
 
@@ -269,7 +269,7 @@ function G2GSalesInvoice() {
       soldToPartnerId: values?.organization?.value,
       portId: values?.port?.value,
       businessUnitId: buUnId,
-      attachentInvoice: values?.godownsEntryAttachment || "",
+      attachentInvoice: values?.godownsEntryAttachment || '',
       invoiceId: values?.invoiceId || 0,
       invoiceDate: values?.godownWiseDeliveryDate || _todayDate(),
     };
@@ -279,7 +279,7 @@ function G2GSalesInvoice() {
       () => {
         showHandelar(values);
       },
-      true
+      true,
     );
   };
   return (
@@ -292,22 +292,22 @@ function G2GSalesInvoice() {
           initialValues={{
             reportType: {
               value: 1,
-              label: "Challan Submission To Jd Office",
+              label: 'Challan Submission To Jd Office',
             },
-            shipPoint: "",
-            port: "",
-            motherVessel: "",
+            shipPoint: '',
+            port: '',
+            motherVessel: '',
             fromDate: _todayDate(),
             toDate: _todayDate(),
             godownsEntryTopDate: _todayDate(),
             godownsEntryBottomDate: _todayDate(),
             godownWiseDeliveryDate: _todayDate(),
-            organization: "",
-            godown: "",
-            programNo: "",
-            item: "",
-            godownsEntryAttachment: "",
-            invoiceId: "",
+            organization: '',
+            godown: '',
+            programNo: '',
+            item: '',
+            godownsEntryAttachment: '',
+            invoiceId: '',
           }}
           onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
@@ -362,32 +362,32 @@ function G2GSalesInvoice() {
                         options={[
                           {
                             value: 1,
-                            label: "Challan Submission To Jd Office",
+                            label: 'Challan Submission To Jd Office',
                           },
                           {
                             value: 2,
-                            label: "Ghat Wise Delivery Report",
+                            label: 'Ghat Wise Delivery Report',
                           },
                           {
                             value: 3,
-                            label: "Invoice Submission To Godown",
+                            label: 'Invoice Submission To Godown',
                           },
                           {
                             value: 4,
-                            label: "Bill Preparation",
+                            label: 'Bill Preparation',
                           },
                         ]}
                         value={values?.reportType}
                         onChange={(valueOption) => {
                           setGridData([]);
-                          setFieldValue("reportType", valueOption);
-                          setFieldValue("godownsEntryAttachment", "");
+                          setFieldValue('reportType', valueOption);
+                          setFieldValue('godownsEntryAttachment', '');
                         }}
                       />
                     </div>
                     {[2].includes(values?.reportType?.value) && (
                       <>
-                        {" "}
+                        {' '}
                         <div className="col-lg-3">
                           <NewSelect
                             name="shipPoint"
@@ -396,7 +396,7 @@ function G2GSalesInvoice() {
                             label="ShipPoint"
                             onChange={(valueOption) => {
                               setGridData([]);
-                              setFieldValue("shipPoint", valueOption);
+                              setFieldValue('shipPoint', valueOption);
                             }}
                             placeholder="ShipPoint"
                             errors={errors}
@@ -413,11 +413,11 @@ function G2GSalesInvoice() {
                           value={values?.organization}
                           label="Organization"
                           onChange={(valueOption) => {
-                            setFieldValue("organization", valueOption);
-                            setFieldValue("shipPoint", "");
-                            setFieldValue("port", "");
-                            setFieldValue("motherVessel", "");
-                            setFieldValue("godown", "");
+                            setFieldValue('organization', valueOption);
+                            setFieldValue('shipPoint', '');
+                            setFieldValue('port', '');
+                            setFieldValue('motherVessel', '');
+                            setFieldValue('godown', '');
                           }}
                           placeholder="Organization"
                           errors={errors}
@@ -428,7 +428,7 @@ function G2GSalesInvoice() {
 
                     {[1, 2, 3, 4].includes(values?.reportType?.value) && (
                       <>
-                        {" "}
+                        {' '}
                         <PortAndMotherVessel
                           obj={{
                             values,
@@ -436,12 +436,12 @@ function G2GSalesInvoice() {
                             allElement: false,
                             onChange: (fieldName, allValues) => {
                               setGridData([]);
-                              setFieldValue("godownsEntryAttachment", "");
+                              setFieldValue('godownsEntryAttachment', '');
                               onChangeHandler(
                                 fieldName,
                                 values,
                                 allValues?.[fieldName],
-                                setFieldValue
+                                setFieldValue,
                               );
                             },
                           }}
@@ -461,7 +461,7 @@ function G2GSalesInvoice() {
                           touched={touched}
                           onChange={(valueOption) => {
                             setGridData([]);
-                            setFieldValue("godown", valueOption);
+                            setFieldValue('godown', valueOption);
                           }}
                         />
                       </div>
@@ -475,7 +475,7 @@ function G2GSalesInvoice() {
                         type="date"
                         onChange={(e) => {
                           setGridData([]);
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                         }}
                       />
                     </div>
@@ -487,7 +487,7 @@ function G2GSalesInvoice() {
                         type="date"
                         onChange={(e) => {
                           setGridData([]);
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                         }}
                       />
                     </div>
@@ -497,7 +497,7 @@ function G2GSalesInvoice() {
                         className="btn btn-primary mt-3"
                         onClick={() => {
                           setGridData([]);
-                          setFieldValue("godownsEntryAttachment", "");
+                          setFieldValue('godownsEntryAttachment', '');
                           showHandelar(values);
                         }}
                         disabled={isDisableFunction(values)}

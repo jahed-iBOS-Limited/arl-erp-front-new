@@ -1,16 +1,15 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { getVesselDDL, getVoyageDDLNew } from "../../helper";
-import FormikSelect from "../../../chartering/_chartinghelper/common/formikSelect";
-import customStyles from "../../../chartering/_chartinghelper/common/selectCustomStyle";
-
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { imarineBaseUrl } from '../../../../App';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import FormikSelect from '../../../chartering/_chartinghelper/common/formikSelect';
+import customStyles from '../../../chartering/_chartinghelper/common/selectCustomStyle';
+import { getVesselDDL, getVoyageDDLNew } from '../../helper';
 
 const initialValues = {};
 
@@ -29,23 +28,24 @@ export default function LoadPort() {
   const getLandingData = (values, pageNo, pageSize) => {
     const shipTypeSTR = values?.shipType
       ? `shipType=${values?.shipType?.label}`
-      : "";
+      : '';
     const voyageTypeSTR = values?.voyageType
       ? `&voyageType=${values?.voyageType?.label}`
-      : "";
+      : '';
     const vesselNameSTR = values?.vesselName
       ? `&vesselName=${values?.vesselName?.label}`
-      : "";
+      : '';
     const voyageNoSTR = values?.voyageNo
       ? `&voyageNo=${values?.voyageNo?.label}`
-      : "";
+      : '';
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/DepartureDocumentsLoadPortLanding?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
+      `${imarineBaseUrl}/domain/VesselNomination/DepartureDocumentsLoadPortLanding?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`,
     );
   };
 
   useEffect(() => {
     getLandingData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getVoyageDDL = (values) => {
@@ -79,7 +79,7 @@ export default function LoadPort() {
         touched,
       }) => (
         <>
-          {loading && <Loading />}
+          {(loading || loading2) && <Loading />}
           <IForm
             title="Load Port"
             isHiddenReset
@@ -96,24 +96,24 @@ export default function LoadPort() {
                     value={values?.shipType}
                     isSearchable={true}
                     options={[
-                      { value: 1, label: "Own Ship" },
-                      { value: 2, label: "Charterer Ship" },
+                      { value: 1, label: 'Own Ship' },
+                      { value: 2, label: 'Charterer Ship' },
                     ]}
                     styles={customStyles}
                     name="shipType"
                     placeholder="Ship Type"
                     label="Ship Type"
                     onChange={(valueOption) => {
-                      setFieldValue("shipType", valueOption);
-                      setFieldValue("vesselName", "");
-                      setFieldValue("voyageNo", "");
+                      setFieldValue('shipType', valueOption);
+                      setFieldValue('vesselName', '');
+                      setFieldValue('voyageNo', '');
                       setVesselDDL([]);
                       if (valueOption) {
                         getVesselDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
                           setVesselDDL,
-                          valueOption?.value === 2 ? 2 : ""
+                          valueOption?.value === 2 ? 2 : '',
                         );
                       } else {
                         getLandingData();
@@ -127,17 +127,17 @@ export default function LoadPort() {
                     value={values?.voyageType}
                     isSearchable={true}
                     options={[
-                      { value: 1, label: "Time Charter" },
-                      { value: 2, label: "Voyage Charter" },
+                      { value: 1, label: 'Time Charter' },
+                      { value: 2, label: 'Voyage Charter' },
                     ]}
                     styles={customStyles}
                     name="voyageType"
                     placeholder="Voyage Type"
                     label="Voyage Type"
                     onChange={(valueOption) => {
-                      setFieldValue("vesselName", "");
-                      setFieldValue("voyageNo", "");
-                      setFieldValue("voyageType", valueOption);
+                      setFieldValue('vesselName', '');
+                      setFieldValue('voyageNo', '');
+                      setFieldValue('voyageType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -154,8 +154,8 @@ export default function LoadPort() {
                     placeholder="Vessel Name"
                     label="Vessel Name"
                     onChange={(valueOption) => {
-                      setFieldValue("vesselName", valueOption);
-                      setFieldValue("voyageNo", "");
+                      setFieldValue('vesselName', valueOption);
+                      setFieldValue('voyageNo', '');
                       if (valueOption) {
                         getVoyageDDL({ ...values, vesselName: valueOption });
                       }
@@ -164,7 +164,7 @@ export default function LoadPort() {
                 </div>
                 <div className="col-lg-2">
                   <FormikSelect
-                    value={values?.voyageNo || ""}
+                    value={values?.voyageNo || ''}
                     isSearchable={true}
                     options={voyageNoDDL || []}
                     styles={customStyles}
@@ -172,7 +172,7 @@ export default function LoadPort() {
                     placeholder="Voyage No"
                     label="Voyage No"
                     onChange={(valueOption) => {
-                      setFieldValue("voyageNo", valueOption);
+                      setFieldValue('voyageNo', valueOption);
                     }}
                     isDisabled={!values?.vesselName}
                   />
@@ -184,7 +184,7 @@ export default function LoadPort() {
                     onClick={() => {
                       getLandingData(values);
                     }}
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     className="btn btn-primary"
                   >
                     Show
@@ -232,14 +232,14 @@ export default function LoadPort() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item.strSoffile
-                                      )
+                                        item.strSoffile,
+                                      ),
                                     );
                                   }}
                                   className="mt-2 ml-2"
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     className="fa pointer fa-eye"
                                     aria-hidden="true"
                                   ></i>
@@ -259,14 +259,14 @@ export default function LoadPort() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item.strNorfile
-                                      )
+                                        item.strNorfile,
+                                      ),
                                     );
                                   }}
                                   className="mt-2 ml-2"
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     className="fa pointer fa-eye"
                                     aria-hidden="true"
                                   ></i>
@@ -288,14 +288,14 @@ export default function LoadPort() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item.strFinalDraftSurveyReportFile
-                                      )
+                                        item.strFinalDraftSurveyReportFile,
+                                      ),
                                     );
                                   }}
                                   className="mt-2 ml-2"
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     className="fa pointer fa-eye"
                                     aria-hidden="true"
                                   ></i>
@@ -317,14 +317,14 @@ export default function LoadPort() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item.strFinalStowagePlanFile
-                                      )
+                                        item.strFinalStowagePlanFile,
+                                      ),
                                     );
                                   }}
                                   className="mt-2 ml-2"
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     className="fa pointer fa-eye"
                                     aria-hidden="true"
                                   ></i>
@@ -346,14 +346,14 @@ export default function LoadPort() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item.strMatesReceiptFile
-                                      )
+                                        item.strMatesReceiptFile,
+                                      ),
                                     );
                                   }}
                                   className="mt-2 ml-2"
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     className="fa pointer fa-eye"
                                     aria-hidden="true"
                                   ></i>
@@ -375,14 +375,14 @@ export default function LoadPort() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item.strCargoManifestFile
-                                      )
+                                        item.strCargoManifestFile,
+                                      ),
                                     );
                                   }}
                                   className="mt-2 ml-2"
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     className="fa pointer fa-eye"
                                     aria-hidden="true"
                                   ></i>
@@ -404,14 +404,14 @@ export default function LoadPort() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item.strMasterReceiptOfSampleFile
-                                      )
+                                        item.strMasterReceiptOfSampleFile,
+                                      ),
                                     );
                                   }}
                                   className="mt-2 ml-2"
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     className="fa pointer fa-eye"
                                     aria-hidden="true"
                                   ></i>
@@ -433,14 +433,14 @@ export default function LoadPort() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item.strAuthorizationLetterFile
-                                      )
+                                        item.strAuthorizationLetterFile,
+                                      ),
                                     );
                                   }}
                                   className="mt-2 ml-2"
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     className="fa pointer fa-eye"
                                     aria-hidden="true"
                                   ></i>
@@ -462,14 +462,14 @@ export default function LoadPort() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item.strSealingReportFile
-                                      )
+                                        item.strSealingReportFile,
+                                      ),
                                     );
                                   }}
                                   className="mt-2 ml-2"
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     className="fa pointer fa-eye"
                                     aria-hidden="true"
                                   ></i>
@@ -491,14 +491,14 @@ export default function LoadPort() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item.strHoldInspectionReportFile
-                                      )
+                                        item.strHoldInspectionReportFile,
+                                      ),
                                     );
                                   }}
                                   className="mt-2 ml-2"
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     className="fa pointer fa-eye"
                                     aria-hidden="true"
                                   ></i>

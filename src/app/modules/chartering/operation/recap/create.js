@@ -1,101 +1,101 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { imarineBaseUrl, marineBaseUrlPythonAPI } from "../../../../App";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { imarineBaseUrl, marineBaseUrlPythonAPI } from '../../../../App';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
 
 const initData = {
-  voyageType: "",
-  shipType: "",
-  vesselName: "",
-  accountName: "",
-  cargoName: "",
-  cargoQuantity: "",
-  deliveryPort: "",
-  loadPort: "",
-  laycanFrom: "",
-  laycanTo: "",
-  loadRate: "",
-  demurrageDispatch: "",
-  numDispatch:"",
-  etaLoadPort: "",
-  dischargePort: "",
-  dischargeRate: "",
-  freight: "",
-  loadPortDA: "",
-  dischargePortDA: "",
-  shipperEmail: "",
-  chartererName: "",
-  brokerName: "",
-  brokerEmail: "",
-  nominationSchedule: "",
-  dteVoyageCompletion: "",
-  dteVoyageCommenced: "",
+  voyageType: '',
+  shipType: '',
+  vesselName: '',
+  accountName: '',
+  cargoName: '',
+  cargoQuantity: '',
+  deliveryPort: '',
+  loadPort: '',
+  laycanFrom: '',
+  laycanTo: '',
+  loadRate: '',
+  demurrageDispatch: '',
+  numDispatch: '',
+  etaLoadPort: '',
+  dischargePort: '',
+  dischargeRate: '',
+  freight: '',
+  loadPortDA: '',
+  dischargePortDA: '',
+  shipperEmail: '',
+  chartererName: '',
+  brokerName: '',
+  brokerEmail: '',
+  nominationSchedule: '',
+  dteVoyageCompletion: '',
+  dteVoyageCommenced: '',
 };
 
 const validationSchema = Yup.object().shape({
   voyageType: Yup.object()
     .shape({
-      value: Yup.string().required("Voyage Type is required"),
-      label: Yup.string().required("Voyage Type is required"),
+      value: Yup.string().required('Voyage Type is required'),
+      label: Yup.string().required('Voyage Type is required'),
     })
-    .typeError("Voyage Type is required"),
+    .typeError('Voyage Type is required'),
 
   shipType: Yup.object()
     .shape({
-      value: Yup.string().required("Ship Type is required"),
-      label: Yup.string().required("Ship Type is required"),
+      value: Yup.string().required('Ship Type is required'),
+      label: Yup.string().required('Ship Type is required'),
     })
-    .typeError("Ship Type is required"),
+    .typeError('Ship Type is required'),
   vesselName: Yup.object()
     .shape({
-      value: Yup.string().required("Vessel is required"),
-      label: Yup.string().required("Vessel is required"),
+      value: Yup.string().required('Vessel is required'),
+      label: Yup.string().required('Vessel is required'),
     })
-    .typeError("Vessel is required"),
-  accountName: Yup.string().required("Account Name is required"),
+    .typeError('Vessel is required'),
+  accountName: Yup.string().required('Account Name is required'),
   cargoName: Yup.object()
     .shape({
-      value: Yup.string().required("Cargo is required"),
-      label: Yup.string().required("Cargo is required"),
+      value: Yup.string().required('Cargo is required'),
+      label: Yup.string().required('Cargo is required'),
     })
-    .typeError("Cargo is required"),
-  cargoQuantity: Yup.string().required("Cargo Quantity is required"),
+    .typeError('Cargo is required'),
+  cargoQuantity: Yup.string().required('Cargo Quantity is required'),
   deliveryPort: Yup.object()
     .shape({
-      value: Yup.string().required("Delivery Port is required"),
-      label: Yup.string().required("Delivery Port is required"),
+      value: Yup.string().required('Delivery Port is required'),
+      label: Yup.string().required('Delivery Port is required'),
     })
-    .typeError("Delivery Port is required"),
+    .typeError('Delivery Port is required'),
   loadPort: Yup.object()
     .shape({
-      value: Yup.string().required("Load Port Name is required"),
-      label: Yup.string().required("Load Port Name is required"),
+      value: Yup.string().required('Load Port Name is required'),
+      label: Yup.string().required('Load Port Name is required'),
     })
-    .typeError("Load Port Name is required"),
-  laycanFrom: Yup.date().required("Laycan From Date is required"),
-  laycanTo: Yup.date().required("Laycan To Date is required"),
+    .typeError('Load Port Name is required'),
+  laycanFrom: Yup.date().required('Laycan From Date is required'),
+  laycanTo: Yup.date().required('Laycan To Date is required'),
   // dteVoyageCompletion: Yup.date().required(
   //   "Voyage Completion Date is required"
   // ),
-  dteVoyageCommenced: Yup.date().required("Voyage Commenced Date is required"),
-  loadRate: Yup.string().required("Load Rate is required"),
-  demurrageDispatch: Yup.string().required("Demurrage is required"),
-  numDispatch: Yup.string().required("Dispatch is required"),
-  etaLoadPort: Yup.date().required("ETA Load Port Date is required"),
-  dischargePort: Yup.string().required("Discharge Port Name is required"),
-  dischargeRate: Yup.string().required("Discharge Rate is required"),
+  dteVoyageCommenced: Yup.date().required('Voyage Commenced Date is required'),
+  loadRate: Yup.string().required('Load Rate is required'),
+  demurrageDispatch: Yup.string().required('Demurrage is required'),
+  numDispatch: Yup.string().required('Dispatch is required'),
+  etaLoadPort: Yup.date().required('ETA Load Port Date is required'),
+  dischargePort: Yup.string().required('Discharge Port Name is required'),
+  dischargeRate: Yup.string().required('Discharge Rate is required'),
   shipperEmail: Yup.string()
-    .required("Shipper Email is required")
-    .test("is-valid-email-list", "Invalid email format", function(value) {
+    .required('Shipper Email is required')
+    .test('is-valid-email-list', 'Invalid email format', function(value) {
       if (!value) return true; // If no email is provided, Yup.required will handle the error.
-      const emails = value.split(",").map((email) => email.trim());
+      const emails = value.split(',').map((email) => email.trim());
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       for (let email of emails) {
         if (!emailRegex.test(email)) {
@@ -109,10 +109,10 @@ const validationSchema = Yup.object().shape({
 export default function RecapCreate() {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual
+    shallowEqual,
   );
 
-  const [objProps, setObjprops] = useState({});
+  const [, setObjprops] = useState({});
   const [, onSave, loader] = useAxiosPost();
   const [vesselDDL, getVesselDDL] = useAxiosGet();
   const [portDDL, getPortDDL] = useAxiosGet();
@@ -126,8 +126,9 @@ export default function RecapCreate() {
     getCargoDDL(`${imarineBaseUrl}/domain/HireOwner/GetCargoDDL
 `);
     getChartererDDL(
-      `${imarineBaseUrl}/domain/PortPDA/GetCharterParty?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
+      `${imarineBaseUrl}/domain/PortPDA/GetCharterParty?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const saveHandler = async (values, cb) => {
     const payload = {
@@ -138,34 +139,34 @@ export default function RecapCreate() {
       intAccountId: profileData?.accountId,
       intLoadPortId: values?.loadPort?.value,
       intDischargePortId: values?.dischargePort?.value,
-      strVoyageType: values.voyageType?.label || "",
+      strVoyageType: values.voyageType?.label || '',
       intShipTyeId: values?.shipType?.value || 0,
-      strShipType: values?.shipType?.label || "",
-      strNameOfVessel: values.vesselName?.label || "",
-      strAccountName: values.accountName || "",
-      strCargo: values.cargoName?.label || "",
+      strShipType: values?.shipType?.label || '',
+      strNameOfVessel: values.vesselName?.label || '',
+      strAccountName: values.accountName || '',
+      strCargo: values.cargoName?.label || '',
       intCargoQuantityMTS: +values.cargoQuantity || 0,
-      strNameOfLoadPort: values.loadPort?.label || "",
-      strPlaceOfDelivery: values?.deliveryPort?.label || "",
-      strLaycan: values.laycanFrom || "",
+      strNameOfLoadPort: values.loadPort?.label || '',
+      strPlaceOfDelivery: values?.deliveryPort?.label || '',
+      strLaycan: values.laycanFrom || '',
       dteVoyageCompletion: values?.dteVoyageCompletion,
       dteVoyageCommenced: values?.dteVoyageCommenced,
-      dteLaycanFrom: values?.laycanFrom || "",
+      dteLaycanFrom: values?.laycanFrom || '',
       dteLaycanTo: values?.laycanTo,
       intLoadRate: +values.loadRate || 0,
       numDemurrageDispatch: +values.demurrageDispatch || 0,
       numDispatch: +values.numDispatch || 0,
-      dteETALoadPort: values.etaLoadPort || "",
-      strDischargePort: values.dischargePort?.label || "",
+      dteETALoadPort: values.etaLoadPort || '',
+      strDischargePort: values.dischargePort?.label || '',
       intDischargeRate: +values.dischargeRate || 0,
       numFreight: +values.freight || 0,
       numLoadPortDA: +values.loadPortDA || 0,
       numDischargePortDA: +values.dischargePortDA || 0,
-      strShipperEmailForVesselNomination: values.shipperEmail || "",
-      strChartererName: values.chartererName?.label || "",
-      strBrokerName: values.brokerName || "",
-      strBrokerEmail: values.brokerEmail || "",
-      intUserEnrollId: profileData?.employeeId || 0
+      strShipperEmailForVesselNomination: values.shipperEmail || '',
+      strChartererName: values.chartererName?.label || '',
+      strBrokerName: values.brokerName || '',
+      strBrokerEmail: values.brokerEmail || '',
+      intUserEnrollId: profileData?.employeeId || 0,
     };
 
     onSave(`${marineBaseUrlPythonAPI}/automation/recap`, payload, cb, true);
@@ -220,13 +221,13 @@ export default function RecapCreate() {
                 <NewSelect
                   name="voyageType"
                   options={[
-                    { value: 1, label: "Time Charter" },
-                    { value: 2, label: "Voyage Charter" },
+                    { value: 1, label: 'Time Charter' },
+                    { value: 2, label: 'Voyage Charter' },
                   ]}
                   value={values.voyageType}
                   label="Voyage Type"
                   onChange={(valueOption) =>
-                    setFieldValue("voyageType", valueOption)
+                    setFieldValue('voyageType', valueOption)
                   }
                   errors={errors}
                   touched={touched}
@@ -236,13 +237,13 @@ export default function RecapCreate() {
                 <NewSelect
                   name="shipType"
                   options={[
-                    { value: 1, label: "Own Ship" },
-                    { value: 2, label: "Charterer Ship" },
+                    { value: 1, label: 'Own Ship' },
+                    { value: 2, label: 'Charterer Ship' },
                   ]}
                   value={values.shipType}
                   label="Ship Type"
                   onChange={(valueOption) =>
-                    setFieldValue("shipType", valueOption)
+                    setFieldValue('shipType', valueOption)
                   }
                   errors={errors}
                   touched={touched}
@@ -255,7 +256,7 @@ export default function RecapCreate() {
                   value={values.vesselName}
                   label="Vessel Name"
                   onChange={(valueOption) =>
-                    setFieldValue("vesselName", valueOption)
+                    setFieldValue('vesselName', valueOption)
                   }
                   errors={errors}
                   touched={touched}
@@ -267,7 +268,7 @@ export default function RecapCreate() {
                   label="Account Name"
                   name="accountName"
                   type="text"
-                  onChange={(e) => setFieldValue("accountName", e.target.value)}
+                  onChange={(e) => setFieldValue('accountName', e.target.value)}
                   errors={errors}
                 />
               </div>
@@ -278,7 +279,7 @@ export default function RecapCreate() {
                   value={values.cargoName}
                   label="Cargo Name"
                   onChange={(valueOption) =>
-                    setFieldValue("cargoName", valueOption)
+                    setFieldValue('cargoName', valueOption)
                   }
                   errors={errors}
                   touched={touched}
@@ -291,7 +292,7 @@ export default function RecapCreate() {
                   name="cargoQuantity"
                   type="number"
                   onChange={(e) =>
-                    setFieldValue("cargoQuantity", e.target.value)
+                    setFieldValue('cargoQuantity', e.target.value)
                   }
                   errors={errors}
                 />
@@ -303,7 +304,7 @@ export default function RecapCreate() {
                   value={values.deliveryPort}
                   label="Delivery Port"
                   onChange={(valueOption) =>
-                    setFieldValue("deliveryPort", valueOption)
+                    setFieldValue('deliveryPort', valueOption)
                   }
                   errors={errors}
                   touched={touched}
@@ -316,7 +317,7 @@ export default function RecapCreate() {
                   value={values.loadPort}
                   label="Load Port"
                   onChange={(valueOption) =>
-                    setFieldValue("loadPort", valueOption)
+                    setFieldValue('loadPort', valueOption)
                   }
                   errors={errors}
                   touched={touched}
@@ -329,7 +330,7 @@ export default function RecapCreate() {
                   label="Laycan From Date"
                   name="laycanFrom"
                   type="date"
-                  onChange={(e) => setFieldValue("laycanFrom", e.target.value)}
+                  onChange={(e) => setFieldValue('laycanFrom', e.target.value)}
                   errors={errors}
                 />
               </div>
@@ -339,7 +340,7 @@ export default function RecapCreate() {
                   label="Laycan To Date"
                   name="laycanTo"
                   type="date"
-                  onChange={(e) => setFieldValue("laycanTo", e.target.value)}
+                  onChange={(e) => setFieldValue('laycanTo', e.target.value)}
                   errors={errors}
                 />
               </div>
@@ -350,7 +351,7 @@ export default function RecapCreate() {
                   name="dteVoyageCommenced"
                   type="date"
                   onChange={(e) =>
-                    setFieldValue("dteVoyageCommenced", e.target.value)
+                    setFieldValue('dteVoyageCommenced', e.target.value)
                   }
                   errors={errors}
                 />
@@ -362,7 +363,7 @@ export default function RecapCreate() {
                   name="dteVoyageCompletion"
                   type="date"
                   onChange={(e) =>
-                    setFieldValue("dteVoyageCompletion", e.target.value)
+                    setFieldValue('dteVoyageCompletion', e.target.value)
                   }
                   errors={errors}
                 />
@@ -374,7 +375,7 @@ export default function RecapCreate() {
 "
                   name="loadRate"
                   type="number"
-                  onChange={(e) => setFieldValue("loadRate", e.target.value)}
+                  onChange={(e) => setFieldValue('loadRate', e.target.value)}
                   errors={errors}
                 />
               </div>
@@ -384,11 +385,10 @@ export default function RecapCreate() {
                   label="Demurrage"
                   name="demurrageDispatch"
                   type="number"
-                  onChange={(e) =>{
-                    setFieldValue("demurrageDispatch", e.target.value)
-                    setFieldValue("numDispatch", +e.target.value / 2)
-                  }
-                  }
+                  onChange={(e) => {
+                    setFieldValue('demurrageDispatch', e.target.value);
+                    setFieldValue('numDispatch', +e.target.value / 2);
+                  }}
                   errors={errors}
                 />
               </div>
@@ -398,9 +398,7 @@ export default function RecapCreate() {
                   label="Dispatch"
                   name="numDispatch"
                   type="number"
-                  onChange={(e) =>
-                    setFieldValue("numDispatch", e.target.value)
-                  }
+                  onChange={(e) => setFieldValue('numDispatch', e.target.value)}
                   errors={errors}
                 />
               </div>
@@ -410,7 +408,7 @@ export default function RecapCreate() {
                   label="ETA Load Port Date"
                   name="etaLoadPort"
                   type="date"
-                  onChange={(e) => setFieldValue("etaLoadPort", e.target.value)}
+                  onChange={(e) => setFieldValue('etaLoadPort', e.target.value)}
                   errors={errors}
                 />
               </div>
@@ -421,7 +419,7 @@ export default function RecapCreate() {
                   value={values.dischargePort}
                   label="Discharge Port"
                   onChange={(valueOption) =>
-                    setFieldValue("dischargePort", valueOption)
+                    setFieldValue('dischargePort', valueOption)
                   }
                   errors={errors}
                   touched={touched}
@@ -434,7 +432,7 @@ export default function RecapCreate() {
                   name="dischargeRate"
                   type="number"
                   onChange={(e) =>
-                    setFieldValue("dischargeRate", e.target.value)
+                    setFieldValue('dischargeRate', e.target.value)
                   }
                   errors={errors}
                 />
@@ -445,7 +443,7 @@ export default function RecapCreate() {
                   label="Freight"
                   name="freight"
                   type="number"
-                  onChange={(e) => setFieldValue("freight", e.target.value)}
+                  onChange={(e) => setFieldValue('freight', e.target.value)}
                   errors={errors}
                 />
               </div>
@@ -455,7 +453,7 @@ export default function RecapCreate() {
                   label="Load Port D/A"
                   name="loadPortDA"
                   type="number"
-                  onChange={(e) => setFieldValue("loadPortDA", e.target.value)}
+                  onChange={(e) => setFieldValue('loadPortDA', e.target.value)}
                   errors={errors}
                 />
               </div>
@@ -466,7 +464,7 @@ export default function RecapCreate() {
                   name="dischargePortDA"
                   type="number"
                   onChange={(e) =>
-                    setFieldValue("dischargePortDA", e.target.value)
+                    setFieldValue('dischargePortDA', e.target.value)
                   }
                   errors={errors}
                 />
@@ -478,7 +476,7 @@ export default function RecapCreate() {
                   name="shipperEmail"
                   type="email"
                   onChange={(e) =>
-                    setFieldValue("shipperEmail", e.target.value)
+                    setFieldValue('shipperEmail', e.target.value)
                   }
                   errors={errors}
                 />
@@ -490,7 +488,7 @@ export default function RecapCreate() {
                   value={values.chartererName}
                   label="Charterer Name"
                   onChange={(valueOption) =>
-                    setFieldValue("chartererName", valueOption)
+                    setFieldValue('chartererName', valueOption)
                   }
                   errors={errors}
                   touched={touched}
@@ -502,7 +500,7 @@ export default function RecapCreate() {
                   label="Broker Name"
                   name="brokerName"
                   type="text"
-                  onChange={(e) => setFieldValue("brokerName", e.target.value)}
+                  onChange={(e) => setFieldValue('brokerName', e.target.value)}
                   errors={errors}
                 />
               </div>
@@ -512,7 +510,7 @@ export default function RecapCreate() {
                   label="Broker Email (if multiple email use comma)"
                   name="brokerEmail"
                   type="email"
-                  onChange={(e) => setFieldValue("brokerEmail", e.target.value)}
+                  onChange={(e) => setFieldValue('brokerEmail', e.target.value)}
                   errors={errors}
                 />
               </div>

@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useParams, useLocation } from "react-router-dom";
-import CommonTable from "../../../_helper/commonTable";
-import IForm from "../../../_helper/_form";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { Field, Form, Formik } from "formik";
-import Select from "react-select";
-import customStyles from "../../../selectCustomStyle";
-import { toast } from "react-toastify";
-import axios from "axios";
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import CommonTable from '../../../_helper/commonTable';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import customStyles from '../../../selectCustomStyle';
 
 export default function CreateApprovePartner() {
-  // const [partnerInfo,setPartnerInfo] = useState()
-
   const [annualData, getAnnualTurn, loadAnnualData] = useAxiosGet();
   const [, createPartner, loadCreatePartner] = useAxiosPost();
   const [, createApproval, loadCreateApproval] = useAxiosGet();
@@ -30,16 +27,16 @@ export default function CreateApprovePartner() {
   ] = useAxiosGet();
   const [ownershipData, getOwnershipData, loadOwnershipData] = useAxiosGet();
 
-  const annualheadersData = ["SL", "Year", "Amount"];
-  const mainheadersData = ["SL", "Name"];
+  const annualheadersData = ['SL', 'Year', 'Amount'];
+  const mainheadersData = ['SL', 'Name'];
   const majorheadersData = [
-    "SL",
-    "Name",
-    "Contact-Person",
-    "Mobile",
-    "Customer Type",
+    'SL',
+    'Name',
+    'Contact-Person',
+    'Mobile',
+    'Customer Type',
   ];
-  const ownerheadersData = ["SL", "Name", "Mobile", "Address"];
+  const ownerheadersData = ['SL', 'Name', 'Mobile', 'Address'];
   const history = useHistory();
   const location = useLocation();
   const { state } = location;
@@ -47,7 +44,6 @@ export default function CreateApprovePartner() {
     history.push(`/config/partner-management/partner-registration-approval`);
   };
   const { id } = useParams();
-  const [loading, setLoading] = useState(false);
 
   const storeData = useSelector((state) => {
     return {
@@ -61,16 +57,16 @@ export default function CreateApprovePartner() {
   useEffect(() => {
     if (+id) {
       getAnnualTurn(
-        `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=GetAnnualTurnOverById&autoId=${+id}`
+        `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=GetAnnualTurnOverById&autoId=${+id}`,
       );
       getMainBusinessData(
-        `partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=GetMainBusinessAreaById&autoId=${+id}`
+        `partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=GetMainBusinessAreaById&autoId=${+id}`,
       );
       getMajorCustomerData(
-        `partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=GetMajorCustomerById&autoId=${+id}`
+        `partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=GetMajorCustomerById&autoId=${+id}`,
       );
       getOwnershipData(
-        `partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=GetOwnershipById&autoId=${+id}`
+        `partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=GetOwnershipById&autoId=${+id}`,
       );
     }
 
@@ -120,7 +116,7 @@ export default function CreateApprovePartner() {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{ sbu: "",supplyOrg:"" }}
+      initialValues={{ sbu: '', supplyOrg: '' }}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {}}
     >
@@ -153,8 +149,8 @@ export default function CreateApprovePartner() {
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
-                      console.log({values});
-                      
+                      console.log({ values });
+
                       if (values?.sbu?.length < 1) {
                         createPartner(
                           `/partner/BusinessPartnerBasicInfo/CreateBusinessPartnerMultipleUnit`,
@@ -166,7 +162,7 @@ export default function CreateApprovePartner() {
                                 ? selectedBusinessUnit?.value
                                 : state?.buIdCustomer,
                             ],
-                            businessPartnerCode: "",
+                            businessPartnerCode: '',
                             businessPartnerName: state?.businessPartnerName,
                             businessPartnerAddress:
                               state?.businessPartnerAddress,
@@ -177,13 +173,13 @@ export default function CreateApprovePartner() {
                             businessPartnerTypeId: state?.businessPartnerTypeId,
                             partnerSalesType: state?.partnerSalesType,
                             actionBy: profileData?.userId,
-                            attachmentLink: "",
-                            PurchaseOrganizationId:values?.supplyOrg?.value,
+                            attachmentLink: '',
+                            PurchaseOrganizationId: values?.supplyOrg?.value,
                             // isCreateUser: false,
                             propitor: profileData?.employeeFullName,
-                            contactPerson: "",
-                            contactNumber2: "",
-                            contactNumber3: "",
+                            contactPerson: '',
+                            contactNumber2: '',
+                            contactNumber3: '',
                           },
                           (res) => {
                             if (res?.statuscode === 200) {
@@ -193,13 +189,13 @@ export default function CreateApprovePartner() {
                                 }&actionByErpUserId=${profileData?.userId}`,
                                 (data) => {
                                   toast.success(
-                                    data[0]?.returnMessage || "Success"
+                                    data[0]?.returnMessage || 'Success',
                                   );
-                                }
+                                },
                               );
                             }
                           },
-                          true
+                          true,
                         );
                       } else {
                         createPartner(
@@ -208,9 +204,9 @@ export default function CreateApprovePartner() {
                             accountId: profileData?.accountId,
                             businessUnitId: 2,
                             businessUnitIdList: values?.sbu?.map(
-                              (item) => item?.value
+                              (item) => item?.value,
                             ),
-                            businessPartnerCode: "",
+                            businessPartnerCode: '',
                             businessPartnerName: state?.businessPartnerName,
                             businessPartnerAddress:
                               state?.businessPartnerAddress,
@@ -221,14 +217,14 @@ export default function CreateApprovePartner() {
                             businessPartnerTypeId: state?.businessPartnerTypeId,
                             partnerSalesType: state?.partnerSalesType,
                             actionBy: profileData?.userId,
-                            attachmentLink: "",
-                            PurchaseOrganizationId:values?.supplyOrg?.value,
+                            attachmentLink: '',
+                            PurchaseOrganizationId: values?.supplyOrg?.value,
 
                             // isCreateUser: false,
                             propitor: profileData?.employeeFullName,
-                            contactPerson: "",
-                            contactNumber2: "",
-                            contactNumber3: "",
+                            contactPerson: '',
+                            contactNumber2: '',
+                            contactNumber3: '',
                           },
                           (res) => {
                             if (res?.statuscode === 200) {
@@ -238,13 +234,13 @@ export default function CreateApprovePartner() {
                                 }&actionByErpUserId=${profileData?.userId}`,
                                 (data) => {
                                   toast.success(
-                                    data[0]?.returnMessage || "Success"
+                                    data[0]?.returnMessage || 'Success',
                                   );
-                                }
+                                },
                               );
                             }
                           },
-                          true
+                          true,
                         );
                       }
                     }}
@@ -261,7 +257,6 @@ export default function CreateApprovePartner() {
                 loadMainBusinessData ||
                 loadAnnualData ||
                 loadCreatePartner ||
-                loading ||
                 loadCreateApproval) && <Loading />}
               <>
                 {state?.isSupplier && (
@@ -277,20 +272,20 @@ export default function CreateApprovePartner() {
                             placeholder="Select Business Unit"
                             value={values?.sbu}
                             onChange={(valueOption) => {
-                              setFieldValue("sbu", valueOption);
+                              setFieldValue('sbu', valueOption);
                             }}
                             // isSearchable={true}
                             styles={{
                               ...customStyles,
                               control: (provided, state) => ({
                                 ...provided,
-                                minHeight: "30px",
-                                height: "auto",
+                                minHeight: '30px',
+                                height: 'auto',
                               }),
                               valueContainer: (provided, state) => ({
                                 ...provided,
-                                height: "auto",
-                                padding: "0 6px",
+                                height: 'auto',
+                                padding: '0 6px',
                               }),
                             }}
                             isMulti
@@ -311,7 +306,7 @@ export default function CreateApprovePartner() {
                         touched &&
                         touched.businessTransaction
                           ? errors.businessTransaction.value
-                          : ""}
+                          : ''}
                       </p>
                     </div>
                     <div className="col-lg-3">
@@ -324,30 +319,30 @@ export default function CreateApprovePartner() {
                             options={[
                               {
                                 value: 12,
-                                label: "Foreign Procurement"
+                                label: 'Foreign Procurement',
                               },
                               {
                                 value: 11,
-                                label: "Local Procurement"
+                                label: 'Local Procurement',
                               },
                             ]}
                             placeholder="Select Supplier Organization"
                             value={values?.supplyOrg}
                             onChange={(valueOption) => {
-                              setFieldValue("supplyOrg", valueOption);
+                              setFieldValue('supplyOrg', valueOption);
                             }}
                             // isSearchable={true}
                             styles={{
                               ...customStyles,
                               control: (provided, state) => ({
                                 ...provided,
-                                minHeight: "30px",
-                                height: "auto",
+                                minHeight: '30px',
+                                height: 'auto',
                               }),
                               valueContainer: (provided, state) => ({
                                 ...provided,
-                                height: "auto",
-                                padding: "0 6px",
+                                height: 'auto',
+                                padding: '0 6px',
                               }),
                             }}
                             // isMulti
@@ -368,14 +363,14 @@ export default function CreateApprovePartner() {
                         touched &&
                         touched.businessTransaction
                           ? errors.businessTransaction.value
-                          : ""}
+                          : ''}
                       </p>
                     </div>
                   </div>
                 )}
 
                 {mainBusinessData?.length > 0 ? (
-                  <div style={{ marginTop: "7px", gap: "5px" }}>
+                  <div style={{ marginTop: '7px', gap: '5px' }}>
                     <>
                       <h5> Main Business Area</h5>
                       <CommonTable headersData={mainheadersData}>
@@ -392,7 +387,7 @@ export default function CreateApprovePartner() {
                   </div>
                 ) : null}
                 {majorCustomerData?.length > 0 ? (
-                  <div style={{ marginTop: "7px", gap: "5px" }}>
+                  <div style={{ marginTop: '7px', gap: '5px' }}>
                     <>
                       <h5> Major Customers </h5>
 
@@ -421,7 +416,7 @@ export default function CreateApprovePartner() {
                   </div>
                 ) : null}
                 {ownershipData?.length > 0 ? (
-                  <div style={{ marginTop: "7px", gap: "5px" }}>
+                  <div style={{ marginTop: '7px', gap: '5px' }}>
                     <>
                       <h5> Ownership Information </h5>
 
@@ -445,7 +440,7 @@ export default function CreateApprovePartner() {
                   </div>
                 ) : null}
                 {annualData?.length > 0 ? (
-                  <div style={{ marginTop: "7px", gap: "5px" }}>
+                  <div style={{ marginTop: '7px', gap: '5px' }}>
                     <>
                       <h5>Annual Turn Over</h5>
                       <CommonTable headersData={annualheadersData}>

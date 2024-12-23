@@ -1,54 +1,52 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { getLetterHead } from "./helper";
-import AccountOpenOne from "./printDocuments/templates/AccountsOpen/one";
-import AccountOpenTwo from "./printDocuments/templates/AccountsOpen/two";
-import FdrThree from "./printDocuments/templates/Fdr/FdrThree";
-import FdrONE from "./printDocuments/templates/Fdr/fdrOne";
-import FdrTwo from "./printDocuments/templates/Fdr/fdrTwo";
-import "./style.css";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import AccountCloseOne from "./printDocuments/templates/AccountClose/one";
-import AccountCloseTwo from "./printDocuments/templates/AccountClose/two";
-import AccountCloseThree from "./printDocuments/templates/AccountClose/three";
-import AccountCloseFour from "./printDocuments/templates/AccountClose/four";
-import AuthorizationOne from "./printDocuments/templates/Authorization/one";
-import SignatoryChangeOne from "./printDocuments/templates/SignatoryChange/one";
-import SignatoryChangeTwo from "./printDocuments/templates/SignatoryChange/two";
-import BankCertificateOne from "./printDocuments/templates/BankCertificate/one";
-import IViewModal from "../../../_helper/_viewModal";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { getLetterHead } from './helper';
+import AccountCloseFour from './printDocuments/templates/AccountClose/four';
+import AccountCloseOne from './printDocuments/templates/AccountClose/one';
+import AccountCloseThree from './printDocuments/templates/AccountClose/three';
+import AccountCloseTwo from './printDocuments/templates/AccountClose/two';
+import AccountOpenOne from './printDocuments/templates/AccountsOpen/one';
+import AccountOpenTwo from './printDocuments/templates/AccountsOpen/two';
+import AuthorizationOne from './printDocuments/templates/Authorization/one';
+import BankCertificateOne from './printDocuments/templates/BankCertificate/one';
+import FdrONE from './printDocuments/templates/Fdr/fdrOne';
+import FdrTwo from './printDocuments/templates/Fdr/fdrTwo';
+import SignatoryChangeOne from './printDocuments/templates/SignatoryChange/one';
+import SignatoryChangeTwo from './printDocuments/templates/SignatoryChange/two';
+import './style.css';
 
 const initData = {
-  businessUnit: "",
-  bank: "",
-  bankBranch: "",
+  businessUnit: '',
+  bank: '',
+  bankBranch: '',
   date: _todayDate(),
-  brDate: "",
-  templateType: "",
-  templateName: "",
-  accountType: "",
-  bankAccount: "",
-  amount: "",
-  marginType: "",
-  numOfMonth: "",
-  profitRate: "",
-  documentName: "",
-  massengerName: "",
-  messengerDesignation: "",
-  fiscalYear: "",
+  brDate: '',
+  templateType: '',
+  templateName: '',
+  accountType: '',
+  bankAccount: '',
+  amount: '',
+  marginType: '',
+  numOfMonth: '',
+  profitRate: '',
+  documentName: '',
+  massengerName: '',
+  messengerDesignation: '',
+  fiscalYear: '',
 };
 export default function BankLetter() {
   const {
@@ -71,9 +69,8 @@ export default function BankLetter() {
   const [, onSave, loader] = useAxiosPost();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(100);
-  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
+  const [gridData, getGridData, loading] = useAxiosGet();
   const [singleRowItem, setSingleRowItem] = useState(null);
-  const [isPrint, setIsPrint] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [
     bankAccountInfo,
@@ -115,42 +112,42 @@ export default function BankLetter() {
     const payload = {
       intBankLetterTemplatePrintId: 0,
       intBusinessUnitId: values?.businessUnit?.value || 0,
-      strBusinessUnitName: values?.businessUnit?.label || "",
-      strBusinessUnitShortName: values?.businessUnit?.buShortName || "",
+      strBusinessUnitName: values?.businessUnit?.label || '',
+      strBusinessUnitShortName: values?.businessUnit?.buShortName || '',
       strRefDate: values?.date
-        ? moment(values?.date).format("MMMM D, YYYY")
-        : "",
-      strDate: values?.date || "",
+        ? moment(values?.date).format('MMMM D, YYYY')
+        : '',
+      strDate: values?.date || '',
       intBankId: values?.bank?.value || 0,
-      strBankName: values?.bank?.label || "",
-      strBankShortName: values?.bank?.bankShortName || "",
+      strBankName: values?.bank?.label || '',
+      strBankShortName: values?.bank?.bankShortName || '',
       strBranchId: values?.bankBranch?.value || 0,
       strBranchName:
         values.templateType?.value === 1
           ? values?.bankBranch?.label
           : values?.bankAccount?.strBankBranchName,
-      strBranchAddress: values?.bankAccount?.strBankBranchAddress || "",
+      strBranchAddress: values?.bankAccount?.strBankBranchAddress || '',
       intBankLetterTemplateId: values?.templateName?.value || 0,
-      strBankLetterTemplateName: values?.templateName?.label || "",
+      strBankLetterTemplateName: values?.templateName?.label || '',
       intTemplateTypeId: values?.templateType?.value || 0,
-      strTemplateTypeName: values?.templateType?.label || "",
+      strTemplateTypeName: values?.templateType?.label || '',
       isActivce: true,
       dteCreateDate: _todayDate(),
       intCreateBy: userId,
       dteUpdateDate: _todayDate(),
       dteUpdateBy: userId,
-      strBrdate: values?.brDate || "",
-      strAccountType: values?.accountType || "",
-      strAccountName: values?.bankAccount?.strBankAccountName || "",
-      strAccountNo: values?.bankAccount?.strBankAccountNo || "",
+      strBrdate: values?.brDate || '',
+      strAccountType: values?.accountType || '',
+      strAccountName: values?.bankAccount?.strBankAccountName || '',
+      strAccountNo: values?.bankAccount?.strBankAccountNo || '',
       numAmount: values?.amount || 0,
-      strMarginType: values?.marginType || "",
+      strMarginType: values?.marginType || '',
       intNumOfMonth: values?.numOfMonth || 0,
       numProfitRate: values?.profitRate || 0,
-      strDocumentName: values?.documentName || "",
-      strMassengerName: values?.massengerName || "",
-      strMessengerDesignation: values?.messengerDesignation || "",
-      strFiscalYear: values?.fiscalYear || "",
+      strDocumentName: values?.documentName || '',
+      strMassengerName: values?.massengerName || '',
+      strMessengerDesignation: values?.messengerDesignation || '',
+      strFiscalYear: values?.fiscalYear || '',
     };
 
     onSave(`/fino/BankLetter/SaveBankLetterTemplatePrint`, payload, null, true);
@@ -159,33 +156,22 @@ export default function BankLetter() {
   const handleInvoicePrint = useReactToPrint({
     content: () => printRef.current,
     pageStyle:
-      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+      '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}',
   });
   const handlePrint = useReactToPrint({
     content: () => accountOpenRef.current,
     pageStyle:
-      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+      '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}',
   });
-  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+  const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     getGridData(
-      `/fino/BankLetter/GetFilteredBankLetters?businessUnitId=${values?.businessUnit?.value}&pageNumber=${pageNo}&pageSize=${pageSize}`
+      `/fino/BankLetter/GetFilteredBankLetters?businessUnitId=${values?.businessUnit?.value}&pageNumber=${pageNo}&pageSize=${pageSize}`,
     );
   };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
-
-  const validationSchema = Yup.object().shape({
-    businessUnit: Yup.object().required("Business Unit is required"),
-    bank: Yup.object().required("Bank is required"),
-    bankBranch: Yup.object().required("Bank Branch is required"),
-    date: Yup.date().required("Date is required"),
-    brDate: Yup.date().required("BR Date is required"),
-    templateType: Yup.object().required("Template Type is required"),
-    templateName: Yup.object().required("Template Name is required"),
-    accountType: Yup.string().required("Account Type is required"),
-  });
 
   return (
     <Formik
@@ -239,9 +225,9 @@ export default function BankLetter() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption || "");
-                      setFieldValue("bankBranch", "");
-                      setFieldValue("bankAccount", "");
+                      setFieldValue('businessUnit', valueOption || '');
+                      setFieldValue('bankBranch', '');
+                      setFieldValue('bankAccount', '');
                       setBankBranchList([]);
                       setBankAccountInfo([]);
                     }}
@@ -255,33 +241,33 @@ export default function BankLetter() {
                     options={[
                       {
                         value: 1,
-                        label: "Account Opening",
+                        label: 'Account Opening',
                       },
                       {
                         value: 2,
-                        label: "Account Close",
+                        label: 'Account Close',
                       },
                       {
                         value: 3,
-                        label: "FDR",
+                        label: 'FDR',
                       },
                       {
                         value: 4,
-                        label: "Authorization Letter",
+                        label: 'Authorization Letter',
                       },
                       {
                         value: 5,
-                        label: "Signatory change",
+                        label: 'Signatory change',
                       },
                       {
                         value: 6,
-                        label: "Bank Certificate",
+                        label: 'Bank Certificate',
                       },
                     ]}
                     value={values?.templateType}
                     label="Template Type"
                     onChange={(valueOption) => {
-                      setFieldValue("templateType", valueOption || "");
+                      setFieldValue('templateType', valueOption || '');
                       if (valueOption) {
                         getTemplateList(
                           `/fino/BankLetter/GetBankLetterTempaleteListById?TemplateTypeId=${valueOption?.value}`,
@@ -291,13 +277,13 @@ export default function BankLetter() {
                               value: item?.intBankLetterTemplateId,
                               label: item?.strBankLetterTemplateName,
                             }));
-                            setFieldValue("templateName", "");
+                            setFieldValue('templateName', '');
 
                             setTemplateList(data);
                             if (data?.length === 1) {
-                              setFieldValue("templateName", data[0]);
+                              setFieldValue('templateName', data[0]);
                             }
-                          }
+                          },
                         );
                       }
                     }}
@@ -314,7 +300,7 @@ export default function BankLetter() {
                     value={values?.templateName}
                     label="Template Name"
                     onChange={(valueOption) => {
-                      setFieldValue("templateName", valueOption || "");
+                      setFieldValue('templateName', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -329,14 +315,14 @@ export default function BankLetter() {
                       value={values?.bank}
                       label="Bank"
                       onChange={(valueOption) => {
-                        setFieldValue("bank", valueOption || "");
-                        setFieldValue("bankBranch", "");
-                        setFieldValue("bankAccount", "");
+                        setFieldValue('bank', valueOption || '');
+                        setFieldValue('bankBranch', '');
+                        setFieldValue('bankAccount', '');
                         setBankBranchList([]);
                         setBankAccountInfo([]);
                         if (valueOption) {
                           getBankBranchList(
-                            `/hcm/HCMDDL/GetBankBranchDDL?BankId=${valueOption?.value}`
+                            `/hcm/HCMDDL/GetBankBranchDDL?BankId=${valueOption?.value}`,
                           );
                           getBankAccountInfo(
                             `/fino/BankLetter/GetBankAccountList?intBusinessUnitId=${values?.businessUnit?.value}&intBankId=${valueOption?.value}`,
@@ -347,7 +333,7 @@ export default function BankLetter() {
                                 label: `${item?.strBankAccountNo}-${item?.strBankBranchName}`,
                               }));
                               setBankAccountInfo(modifyData);
-                            }
+                            },
                           );
                         }
                       }}
@@ -364,7 +350,7 @@ export default function BankLetter() {
                       value={values?.bankBranch}
                       label="Bank Branch"
                       onChange={(valueOption) => {
-                        setFieldValue("bankBranch", valueOption || "");
+                        setFieldValue('bankBranch', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -379,7 +365,7 @@ export default function BankLetter() {
                       value={values?.bankAccount}
                       label="Bank Account"
                       onChange={(valueOption) => {
-                        setFieldValue("bankAccount", valueOption || "");
+                        setFieldValue('bankAccount', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -394,7 +380,7 @@ export default function BankLetter() {
                     name="accountType"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("accountType", e.target.value);
+                      setFieldValue('accountType', e.target.value);
                     }}
                   />
                 </div>
@@ -406,7 +392,7 @@ export default function BankLetter() {
                       label="Amount"
                       name="amount"
                       type="number"
-                      onChange={(e) => setFieldValue("amount", e.target.value)}
+                      onChange={(e) => setFieldValue('amount', e.target.value)}
                     />
                   </div>
                 )}
@@ -419,7 +405,7 @@ export default function BankLetter() {
                       placeholder="1999-2000"
                       type="text"
                       onChange={(e) =>
-                        setFieldValue("fiscalYear", e.target.value)
+                        setFieldValue('fiscalYear', e.target.value)
                       }
                     />
                   </div>
@@ -432,7 +418,7 @@ export default function BankLetter() {
                       name="marginType"
                       type="text"
                       onChange={(e) =>
-                        setFieldValue("marginType", e.target.value)
+                        setFieldValue('marginType', e.target.value)
                       }
                     />
                   </div>
@@ -445,7 +431,7 @@ export default function BankLetter() {
                       name="numOfMonth"
                       type="text"
                       onChange={(e) =>
-                        setFieldValue("numOfMonth", e.target.value)
+                        setFieldValue('numOfMonth', e.target.value)
                       }
                     />
                   </div>
@@ -458,7 +444,7 @@ export default function BankLetter() {
                       name="profitRate"
                       type="text"
                       onChange={(e) =>
-                        setFieldValue("profitRate", e.target.value)
+                        setFieldValue('profitRate', e.target.value)
                       }
                     />
                   </div>
@@ -471,7 +457,7 @@ export default function BankLetter() {
                       name="documentName"
                       type="text"
                       onChange={(e) =>
-                        setFieldValue("documentName", e.target.value)
+                        setFieldValue('documentName', e.target.value)
                       }
                     />
                   </div>
@@ -484,7 +470,7 @@ export default function BankLetter() {
                       name="massengerName"
                       type="text"
                       onChange={(e) =>
-                        setFieldValue("massengerName", e.target.value)
+                        setFieldValue('massengerName', e.target.value)
                       }
                     />
                   </div>
@@ -497,7 +483,7 @@ export default function BankLetter() {
                       name="messengerDesignation"
                       type="text"
                       onChange={(e) =>
-                        setFieldValue("messengerDesignation", e.target.value)
+                        setFieldValue('messengerDesignation', e.target.value)
                       }
                     />
                   </div>
@@ -510,7 +496,7 @@ export default function BankLetter() {
                     name="date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("date", e.target.value);
+                      setFieldValue('date', e.target.value);
                     }}
                   />
                 </div>
@@ -523,7 +509,7 @@ export default function BankLetter() {
                       name="brDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("brDate", e.target.value);
+                        setFieldValue('brDate', e.target.value);
                       }}
                     />
                   </div>
@@ -531,7 +517,7 @@ export default function BankLetter() {
                 <div className="col-lg-3">
                   <button
                     onClick={() => {
-                      getLandingData(values, pageNo, pageSize, "");
+                      getLandingData(values, pageNo, pageSize, '');
                     }}
                     type="button"
                     className="btn  btn-primary mt-5"
@@ -587,7 +573,7 @@ export default function BankLetter() {
                                   }
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     class="fa fa-print cursor-pointer"
                                     aria-hidden="true"
                                   ></i>
@@ -617,20 +603,20 @@ export default function BankLetter() {
               )}
               <div>
                 <div ref={printRef} className="bank-letter-print-wrapper">
-                  <div style={{ margin: "-13px 50px 51px 50px" }}>
+                  <div style={{ margin: '-13px 50px 51px 50px' }}>
                     <div
                       className="invoice-header"
                       style={{
                         backgroundImage: `url(${getLetterHead({
                           buId: singleRowItem?.intBusinessUnitId,
                         })})`,
-                        backgroundRepeat: "no-repeat",
-                        height: "150px",
-                        backgroundPosition: "left 10px",
-                        backgroundSize: "cover",
-                        position: "fixed",
-                        width: "100%",
-                        top: "-50px",
+                        backgroundRepeat: 'no-repeat',
+                        height: '150px',
+                        backgroundPosition: 'left 10px',
+                        backgroundSize: 'cover',
+                        position: 'fixed',
+                        width: '100%',
+                        top: '-50px',
                       }}
                     ></div>
                     <div
@@ -639,13 +625,13 @@ export default function BankLetter() {
                         backgroundImage: `url(${getLetterHead({
                           buId: singleRowItem?.intBusinessUnitId,
                         })})`,
-                        backgroundRepeat: "no-repeat",
-                        height: "100px",
-                        backgroundPosition: "left bottom",
-                        backgroundSize: "cover",
-                        bottom: "-0px",
-                        position: "fixed",
-                        width: "100%",
+                        backgroundRepeat: 'no-repeat',
+                        height: '100px',
+                        backgroundPosition: 'left bottom',
+                        backgroundSize: 'cover',
+                        bottom: '-0px',
+                        position: 'fixed',
+                        width: '100%',
                       }}
                     ></div>
                     <table>
@@ -653,13 +639,13 @@ export default function BankLetter() {
                         <tr>
                           <td
                             style={{
-                              border: "none",
+                              border: 'none',
                             }}
                           >
                             {/* place holder for the fixed-position header */}
                             <div
                               style={{
-                                height: "110px",
+                                height: '110px',
                               }}
                             ></div>
                           </td>
@@ -667,7 +653,7 @@ export default function BankLetter() {
                       </thead>
                       {/* CONTENT GOES HERE */}
                       <tbody>
-                        <div style={{ marginTop: "40px" }}>
+                        <div style={{ marginTop: '40px' }}>
                           {/* {[1].includes(
                             singleRowItem?.intBankLetterTemplateId
                           ) && <AccountOpenOne singleRowItem={singleRowItem} />}
@@ -729,13 +715,13 @@ export default function BankLetter() {
                         <tr>
                           <td
                             style={{
-                              border: "none",
+                              border: 'none',
                             }}
                           >
                             {/* place holder for the fixed-position footer */}
                             <div
                               style={{
-                                height: "150px",
+                                height: '150px',
                               }}
                             ></div>
                           </td>
@@ -747,7 +733,7 @@ export default function BankLetter() {
               </div>
             </Form>
             <IViewModal
-              title={"Print Template"}
+              title={'Print Template'}
               show={showModal}
               onHide={() => {
                 setShowModal(false);
@@ -756,13 +742,13 @@ export default function BankLetter() {
               <>
                 <div
                   style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    margin: "20px;",
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    margin: '20px;',
                   }}
                 >
                   <button
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
@@ -776,7 +762,7 @@ export default function BankLetter() {
 
                 <div>
                   <div ref={accountOpenRef}>
-                    <div style={{ margin: "-13px 0 51px 0" }}>
+                    <div style={{ margin: '-13px 0 51px 0' }}>
                       <table>
                         <thead>
                           <div
@@ -785,78 +771,78 @@ export default function BankLetter() {
                               backgroundImage: `url(${getLetterHead({
                                 buId: singleRowItem?.intBusinessUnitId,
                               })})`,
-                              backgroundRepeat: "no-repeat",
-                              height: "150px",
-                              backgroundPosition: "left 10px",
-                              backgroundSize: "cover",
+                              backgroundRepeat: 'no-repeat',
+                              height: '150px',
+                              backgroundPosition: 'left 10px',
+                              backgroundSize: 'cover',
                               // position: "fixed",
-                              width: "100%",
-                              top: "-50px",
+                              width: '100%',
+                              top: '-50px',
                             }}
                           ></div>
                         </thead>
                         {/* CONTENT GOES HERE */}
                         <tbody>
-                          <div style={{ margin: "40px 50px 0 50px" }}>
+                          <div style={{ margin: '40px 50px 0 50px' }}>
                             {[1].includes(
-                              singleRowItem?.intBankLetterTemplateId
+                              singleRowItem?.intBankLetterTemplateId,
                             ) && (
                               <AccountOpenOne singleRowItem={singleRowItem} />
                             )}
                             {[2].includes(
-                              singleRowItem?.intBankLetterTemplateId
+                              singleRowItem?.intBankLetterTemplateId,
                             ) && (
                               <AccountOpenTwo singleRowItem={singleRowItem} />
                             )}
                             {[7].includes(
-                              singleRowItem?.intBankLetterTemplateId
+                              singleRowItem?.intBankLetterTemplateId,
                             ) && <FdrONE singleRowItem={singleRowItem} />}
                             {[8].includes(
-                              singleRowItem?.intBankLetterTemplateId
+                              singleRowItem?.intBankLetterTemplateId,
                             ) && <FdrTwo singleRowItem={singleRowItem} />}
                             {[3].includes(
-                              singleRowItem?.intBankLetterTemplateId
+                              singleRowItem?.intBankLetterTemplateId,
                             ) && (
                               <AccountCloseOne singleRowItem={singleRowItem} />
                             )}
                             {[4].includes(
-                              singleRowItem?.intBankLetterTemplateId
+                              singleRowItem?.intBankLetterTemplateId,
                             ) && (
                               <AccountCloseTwo singleRowItem={singleRowItem} />
                             )}
                             {[5].includes(
-                              singleRowItem?.intBankLetterTemplateId
+                              singleRowItem?.intBankLetterTemplateId,
                             ) && (
                               <AccountCloseThree
                                 singleRowItem={singleRowItem}
                               />
                             )}
                             {[6].includes(
-                              singleRowItem?.intBankLetterTemplateId
+                              singleRowItem?.intBankLetterTemplateId,
                             ) && (
                               <AccountCloseFour singleRowItem={singleRowItem} />
                             )}
                             {[10].includes(
-                              singleRowItem?.intBankLetterTemplateId
+                              singleRowItem?.intBankLetterTemplateId,
                             ) && (
                               <AuthorizationOne singleRowItem={singleRowItem} />
                             )}
                             {[11].includes(
-                              singleRowItem?.intBankLetterTemplateId
+                              singleRowItem?.intBankLetterTemplateId,
                             ) && (
                               <SignatoryChangeOne
                                 singleRowItem={singleRowItem}
                               />
                             )}
                             {[12].includes(
-                              singleRowItem?.intBankLetterTemplateId
+                              singleRowItem?.intBankLetterTemplateId,
                             ) && (
                               <SignatoryChangeTwo
                                 singleRowItem={singleRowItem}
                               />
                             )}
                             {[13].includes(
-                              singleRowItem?.intBankLetterTemplateId
+                              singleRowItem?.intBankLetterTemplateId,
                             ) && (
                               <BankCertificateOne
                                 singleRowItem={singleRowItem}
@@ -871,13 +857,13 @@ export default function BankLetter() {
                               backgroundImage: `url(${getLetterHead({
                                 buId: singleRowItem?.intBusinessUnitId,
                               })})`,
-                              backgroundRepeat: "no-repeat",
-                              height: "100px",
-                              backgroundPosition: "left bottom",
-                              backgroundSize: "cover",
-                              bottom: "-0px",
+                              backgroundRepeat: 'no-repeat',
+                              height: '100px',
+                              backgroundPosition: 'left bottom',
+                              backgroundSize: 'cover',
+                              bottom: '-0px',
                               // position: "fixed",
-                              width: "100%",
+                              width: '100%',
                             }}
                           ></div>
                         </tfoot>

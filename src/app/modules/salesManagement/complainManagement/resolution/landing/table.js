@@ -1,27 +1,22 @@
-import moment from "moment";
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IViewModal from "../../../../_helper/_viewModal";
-// import feedbackIcon from "../../../../_helper/images/feedback.png";
-import DelegateForm from "./delegate";
-import FeedbackModal from "./feedbackModal";
-import InvestigateForm from "./investigate";
-import { saveColseComplainApi } from "../helper";
-import InvoiceView from "../../complain/landing/invoiceView";
-import IView from "../../../../_helper/_helperIcons/_view";
+import moment from 'moment';
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IViewModal from '../../../../_helper/_viewModal';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InvoiceView from '../../complain/landing/invoiceView';
+import { saveColseComplainApi } from '../helper';
+import DelegateForm from './delegate';
+import FeedbackModal from './feedbackModal';
+import InvestigateForm from './investigate';
 
 const LandingTable = ({ obj }) => {
   const {
-    profileData: { accountId: accId, employeeId, userId },
-    selectedBusinessUnit: { value: buId },
-    tokenData: { token },
+    profileData: { employeeId, userId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const [isShowModal, setIsShowModal] = React.useState(false);
   const { gridData, commonGridDataCB, setLoading, title } = obj;
-  const history = useHistory();
   const [delegatModalShow, setDelegatModalShow] = React.useState(false);
   const [investigateModalShow, setInvestigateModalShow] = React.useState(false);
   const [isFeedbackModalShow, setIsFeedbackModalShow] = React.useState(false);
@@ -30,7 +25,7 @@ const LandingTable = ({ obj }) => {
   // const isMyComplaint =
   //   window.location.pathname === "/self-service/my-complaint";
 
-  const isDelegatePage = title === "Delegate";
+  const isDelegatePage = title === 'Delegate';
   return (
     <>
       <div className="table-responsive">
@@ -58,7 +53,7 @@ const LandingTable = ({ obj }) => {
           <tbody>
             {gridData?.data?.map((item, index) => {
               const matchEmployeeId = item?.investigatorAssignByName?.find(
-                (itm) => itm?.investigatorId === employeeId
+                (itm) => itm?.investigatorId === employeeId,
               );
 
               const investigateItem = matchEmployeeId
@@ -81,7 +76,7 @@ const LandingTable = ({ obj }) => {
                   <td>
                     {item?.delegateDateTime &&
                       moment(item?.delegateDateTime).format(
-                        "YYYY-MM-DD, HH:mm A"
+                        'YYYY-MM-DD, HH:mm A',
                       )}
                   </td>
                   <td>{item?.delegateToName}</td>
@@ -93,8 +88,8 @@ const LandingTable = ({ obj }) => {
                             {item?.investigatorAssignByName?.map((itm, idx) => (
                               <div
                                 style={{
-                                  display: "flex",
-                                  gap: "2px 8px",
+                                  display: 'flex',
+                                  gap: '2px 8px',
                                 }}
                               >
                                 <p>
@@ -104,7 +99,7 @@ const LandingTable = ({ obj }) => {
                                     <>
                                       , Due:
                                       {moment(itm?.investigationDueDate).format(
-                                        "YYYY-MM-DD"
+                                        'YYYY-MM-DD',
                                       )}
                                     </>
                                   )}
@@ -112,8 +107,8 @@ const LandingTable = ({ obj }) => {
                                     <>
                                       , Actual:
                                       {moment(
-                                        itm?.investigationDateTime
-                                      ).format("YYYY-MM-DD, HH:mm A")}
+                                        itm?.investigationDateTime,
+                                      ).format('YYYY-MM-DD, HH:mm A')}
                                     </>
                                   )}
                                 </p>
@@ -125,9 +120,9 @@ const LandingTable = ({ obj }) => {
                     >
                       <div
                         style={{
-                          cursor: "pointer",
-                          color: "blue",
-                          textDecoration: "underline",
+                          cursor: 'pointer',
+                          color: 'blue',
+                          textDecoration: 'underline',
                         }}
                       >
                         {investigateItem?.investigatorName &&
@@ -143,8 +138,8 @@ const LandingTable = ({ obj }) => {
                             {item?.investigatorAssignByName?.map((itm, idx) => (
                               <div
                                 style={{
-                                  display: "flex",
-                                  gap: "2px 8px",
+                                  display: 'flex',
+                                  gap: '2px 8px',
                                 }}
                               >
                                 <p>
@@ -154,7 +149,7 @@ const LandingTable = ({ obj }) => {
                                     <>
                                       , Due:
                                       {moment(itm?.investigationDueDate).format(
-                                        "YYYY-MM-DD"
+                                        'YYYY-MM-DD',
                                       )}
                                     </>
                                   )}
@@ -162,8 +157,8 @@ const LandingTable = ({ obj }) => {
                                     <>
                                       , Actual:
                                       {moment(
-                                        itm?.investigationDateTime
-                                      ).format("YYYY-MM-DD, HH:mm A")}
+                                        itm?.investigationDateTime,
+                                      ).format('YYYY-MM-DD, HH:mm A')}
                                     </>
                                   )}
                                 </p>
@@ -175,14 +170,14 @@ const LandingTable = ({ obj }) => {
                     >
                       <div
                         style={{
-                          cursor: "pointer",
-                          color: "blue",
-                          textDecoration: "underline",
+                          cursor: 'pointer',
+                          color: 'blue',
+                          textDecoration: 'underline',
                         }}
                       >
                         {investigateItem?.investigationDateTime &&
                           moment(investigateItem?.investigationDateTime).format(
-                            "YYYY-MM-DD, HH:mm A"
+                            'YYYY-MM-DD, HH:mm A',
                           )}
                       </div>
                     </OverlayTrigger>
@@ -191,13 +186,13 @@ const LandingTable = ({ obj }) => {
                     <span
                       style={{
                         color:
-                          item?.status === "Open"
-                            ? "red"
-                            : item?.status === "Delegate"
-                            ? "blue"
-                            : item?.status === "Investigate"
-                            ? "orange"
-                            : "green",
+                          item?.status === 'Open'
+                            ? 'red'
+                            : item?.status === 'Delegate'
+                            ? 'blue'
+                            : item?.status === 'Investigate'
+                            ? 'orange'
+                            : 'green',
                       }}
                     >
                       {item?.status}
@@ -207,7 +202,7 @@ const LandingTable = ({ obj }) => {
                     <div
                       className="d-flex justify-content-around"
                       style={{
-                        gap: "8px",
+                        gap: '8px',
                       }}
                     >
                       {/* {item?.status === "Open" && !isMyComplaint && (
@@ -222,8 +217,8 @@ const LandingTable = ({ obj }) => {
                       </span>
                     )} */}
 
-                      {(item?.status === "Open" ||
-                        item?.status === "Delegate") && (
+                      {(item?.status === 'Open' ||
+                        item?.status === 'Delegate') && (
                         <>
                           <span>
                             <OverlayTrigger
@@ -245,15 +240,15 @@ const LandingTable = ({ obj }) => {
                         </>
                       )}
 
-                      {item?.status === "Investigate" && matchEmployeeId && (
+                      {item?.status === 'Investigate' && matchEmployeeId && (
                         <>
                           <span>
                             <OverlayTrigger
                               overlay={
                                 <Tooltip id="cs-icon">
-                                  {item?.status === "Investigate"
-                                    ? "Update Investigate"
-                                    : "Investigate"}
+                                  {item?.status === 'Investigate'
+                                    ? 'Update Investigate'
+                                    : 'Investigate'}
                                 </Tooltip>
                               }
                             >
@@ -263,7 +258,7 @@ const LandingTable = ({ obj }) => {
                                   setClickRowData(item);
                                 }}
                               >
-                                {item?.status === "Investigate" ? (
+                                {item?.status === 'Investigate' ? (
                                   <i
                                     class="fa fa-users pointer"
                                     aria-hidden="true"
@@ -295,7 +290,7 @@ const LandingTable = ({ obj }) => {
                           </span> */}
                         </>
                       )}
-                      {item?.status === "Investigate" && matchEmployeeId && (
+                      {item?.status === 'Investigate' && matchEmployeeId && (
                         <span>
                           <OverlayTrigger
                             overlay={
@@ -307,7 +302,7 @@ const LandingTable = ({ obj }) => {
                                 setIsFeedbackModalShow(true);
                                 setClickRowData({
                                   ...item,
-                                  status: "Close",
+                                  status: 'Close',
                                   statusId: 4,
                                 });
                               }}
@@ -356,7 +351,7 @@ const LandingTable = ({ obj }) => {
             />
           </IViewModal>
         </>
-      )}{" "}
+      )}{' '}
       {investigateModalShow && (
         <>
           <IViewModal
@@ -385,16 +380,16 @@ const LandingTable = ({ obj }) => {
               setIsFeedbackModalShow(false);
               setClickRowData({});
             }}
-            modelSize={"sm"}
+            modelSize={'sm'}
           >
             <FeedbackModal
               clickRowData={clickRowData}
               landingCB={() => {
-                if (clickRowData?.status === "Close") {
+                if (clickRowData?.status === 'Close') {
                   const payload = {
                     complainId: clickRowData?.complainId || 0,
                     statusId: 4,
-                    status: "Close",
+                    status: 'Close',
                     actionById: userId,
                   };
                   saveColseComplainApi(payload, setLoading, () => {

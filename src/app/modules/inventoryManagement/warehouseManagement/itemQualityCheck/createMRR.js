@@ -1,39 +1,37 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import { DropzoneDialogBase } from "material-ui-dropzone";
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import { getImageuploadStatus } from "../../../_helper/_commonApi";
-import IForm from "../../../_helper/_form";
-import FormikError from "../../../_helper/_formikError";
-import { ISelect } from "../../../_helper/_inputDropDown";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { compressfile } from "../../../_helper/compressfile";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import RowDtoTable from "../invTransaction/Form/receiveInventory/rowDtoTable";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import { getImageuploadStatus } from '../../../_helper/_commonApi';
+import IForm from '../../../_helper/_form';
+import FormikError from '../../../_helper/_formikError';
+import { ISelect } from '../../../_helper/_inputDropDown';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { compressfile } from '../../../_helper/compressfile';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import RowDtoTable from '../invTransaction/Form/receiveInventory/rowDtoTable';
 import {
-  getItemforReceiveInvAction,
   getItemforReceiveInvForeignPOAction,
   getStockDDLAction,
   getpersonnelDDLAction,
-  getreferenceNoReceiveInvDDLAction,
   saveInventoryTransactionOrder,
-} from "../invTransaction/_redux/Actions";
-import { invTransactionSlice } from "../invTransaction/_redux/Slice";
+} from '../invTransaction/_redux/Actions';
+import { invTransactionSlice } from '../invTransaction/_redux/Slice';
 import {
   getForeignPurchaseDDL,
   getSupplierDDL,
   initData,
   uploadAttachment,
   validationSchemaForMRR,
-} from "./helper";
+} from './helper';
 const { actions: slice } = invTransactionSlice;
 export default function CreateMRR() {
   // eslint-disable-next-line no-unused-vars
@@ -44,11 +42,11 @@ export default function CreateMRR() {
   const [fileObjects, setFileObjects] = useState([]);
   const [open, setOpen] = useState(false);
   const [supplierDDL, setSupplierDDL] = useState(false);
-  const [foreignPurchaseDDL, setForeginPurchase] = useState([]);
+  const [, setForeginPurchase] = useState([]);
   const { state } = useLocation();
   const [qcInformationForMRR, getQcInformationForMRR] = useAxiosGet();
   const [modifiedIntiData, setModifiedInitData] = useState();
-  const [itemsDDL, setItemsDDL] = useState([]);
+  const [itemsDDL] = useState([]);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
@@ -57,7 +55,7 @@ export default function CreateMRR() {
   const [transactionTypeDDL, getTransactionTypeDDL] = useAxiosGet();
   // redux store data
   const { stockDDL, locationTypeDDL } = useSelector(
-    (state) => state?.invTransa
+    (state) => state?.invTransa,
   );
 
   let vatAmount = rowDto?.reduce((sum, data) => sum + data?.vatValue, 0);
@@ -65,8 +63,7 @@ export default function CreateMRR() {
   let totalValue = rowDto?.reduce((sum, data) => sum + data?.totalValue, 0);
   let netValue = rowDto?.reduce((sum, data) => sum + data?.netValue, 0);
 
-  console.log("rowDto", rowDto);
-  
+  console.log('rowDto', rowDto);
 
   //dispatch action creators
   useEffect(() => {
@@ -76,10 +73,10 @@ export default function CreateMRR() {
       profileData.accountId,
       selectedBusinessUnit.value,
       qcInformationForMRR?.businessUnitId,
-      setSupplierDDL
+      setSupplierDDL,
     );
     dispatch(
-      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
+      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value),
     );
     dispatch(getStockDDLAction());
     return () => {
@@ -96,32 +93,32 @@ export default function CreateMRR() {
       `/mes/QCTest/GetQcInformationForMrr?transactionRefTypeId=${state?.transactionGroupId}&businessUnitId=${selectedBusinessUnit?.value}&purchaseOrderId=${state?.purchaseOrderId}&gateItemEntryListId=${state?.gateEntryListId}`,
       (data) => {
         const makeInitData = {
-          refType: "",
+          refType: '',
           refNo: {
             value: data?.poData?.purchaseOrderId,
             label: data?.poData?.purchaseOrderCode,
           },
-          transType: "",
+          transType: '',
           busiPartner: {
             value: data?.poData?.supplierId,
             label: data?.poData?.supplierName,
           },
-          personnel: "",
-          remarks: "",
-          item: "",
-          costCenter: "",
-          projName: "",
+          personnel: '',
+          remarks: '',
+          item: '',
+          costCenter: '',
+          projName: '',
           isAllItem: false,
           getEntry: data?.poData?.gateEntryCode,
-          file: "",
-          challanNO: "",
-          challanDate: "",
-          vatChallan: "",
-          vatAmmount: "",
+          file: '',
+          challanNO: '',
+          challanDate: '',
+          vatChallan: '',
+          vatAmmount: '',
           freight: data?.poData?.freight,
           grossDiscount: data?.poData?.grossDiscount,
           commission: data?.poData?.commission,
-          foreignPurchase: "",
+          foreignPurchase: '',
           othersCharge: data?.poData?.othersCharge,
           productCost: data?.poData?.productCost,
         };
@@ -135,13 +132,13 @@ export default function CreateMRR() {
                   ...prev,
                   transType: { ...data[0] },
                 }));
-              }
+              },
             );
             setModifiedInitData((prev) => ({
               ...prev,
               refType: { ...data[0] },
             }));
-          }
+          },
         );
 
         const updatedItems = data?.itemData?.map((item) => ({
@@ -150,7 +147,7 @@ export default function CreateMRR() {
           itemName: item?.itemName,
           itemCode: item?.itemCode,
           uoMid: item?.uoMId || 0,
-          uoMname: item?.uoMName || "",
+          uoMname: item?.uoMName || '',
           refQty: item?.refQty || 0, //n/a
           restQty: item?.restQty || 0,
           vatValue: item?.vatAmount || 0,
@@ -158,7 +155,7 @@ export default function CreateMRR() {
           issueQuantity: item?.issueQty || 0,
           baseValue: item.basePrice,
           location: item?.locationDDL[0],
-          stockType: { value: 1, label: "Open Stock" },
+          stockType: { value: 1, label: 'Open Stock' },
           quantity: item?.qcActualQuantity,
           locationddl: item.locationDDL,
           discount: item?.discount || 0,
@@ -167,63 +164,27 @@ export default function CreateMRR() {
           salesRate: item?.salesRate || 0,
           mrpRate: item?.mrpRate || 0,
           expiredDate: _todayDate(),
-          tatalVat:(item.vatAmount / item?.refQty) * item.qcActualQuantity|0,
+          tatalVat:
+            ((item.vatAmount / item?.refQty) * item.qcActualQuantity) | 0,
           totalValue: item.basePrice.toFixed(2) * item.qcActualQuantity || 0,
-          netValue: (item.vatAmount / item?.refQty) * item?.qcActualQuantity +
-          item?.basePrice.toFixed(2) *item?.qcActualQuantity || 0
+          netValue:
+            (item.vatAmount / item?.refQty) * item?.qcActualQuantity +
+              item?.basePrice.toFixed(2) * item?.qcActualQuantity || 0,
         }));
-        console.log("updatedItems",updatedItems);
+        console.log('updatedItems', updatedItems);
         setModifiedInitData(makeInitData);
         setRowDto(updatedItems);
-      }
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
-
-  const onChaneForRefType = (refTyp, setFieldValue) => {
-    if (refTyp?.label === "PO (Purchase Order)") {
-      dispatch(
-        getreferenceNoReceiveInvDDLAction(
-          refTyp?.value,
-          refTyp?.label,
-          profileData?.accountId,
-          selectedBusinessUnit?.value,
-          qcInformationForMRR?.poData?.businessUnitId,
-          qcInformationForMRR?.poData?.plantId,
-          qcInformationForMRR?.poData?.warehouseId,
-          setFieldValue
-        )
-      );
-    }
-
-    // if (refTyp.label === 'NA (Without Reference)') {
-    //   dispatch(
-    //     getItemDDLForWithoutRefAction(
-    //       profileData.accountId,
-    //       selectedBusinessUnit.value,
-    //       landingData?.plant?.value,
-    //       landingData?.warehouse?.value
-    //     )
-    //   )
-    // }
-  };
-
-  const onChangeForRefNo = (refNo, values) => {
-    dispatch(
-      getItemforReceiveInvAction(
-        values?.refType?.value,
-        values?.refType?.label,
-        refNo?.value
-      )
-    );
-  };
 
   //add row Dto Data
   const addRowDtoData = (values) => {
     if (values.isAllItem === false) {
       let data = rowDto?.filter((data) => data?.itemId === values?.item?.value);
       if (data?.length > 0) {
-        toast.warning("Item Already added", { toastId: "receiveInventory" });
+        toast.warning('Item Already added', { toastId: 'receiveInventory' });
       } else {
         setRowDto([
           ...rowDto,
@@ -233,19 +194,19 @@ export default function CreateMRR() {
             itemName: values?.item?.itemName,
             itemCode: values?.item?.itemCode,
             uoMid: values?.item?.uoMId || 0,
-            uoMname: values?.item?.uoMName || "",
+            uoMname: values?.item?.uoMName || '',
             refQty: values?.item?.refQty || 0,
             restQty: values?.item?.restQty || 0,
             vatValue: values?.item?.vatValue || 0,
             returnQuntity: values?.item?.returnQty || 0,
             issueQuantity: values?.item?.issueQty || 0,
             baseValue:
-              values.refType.label === "NA (Without Reference)"
+              values.refType.label === 'NA (Without Reference)'
                 ? 0
                 : values.item.basePrice,
             location: values?.item?.locationDDL[0],
-            stockType: { value: 1, label: "Open Stock" }, //values?.transType?.label === "Receive For PO To Blocked Stock" ? { value: 2, label: "Block Stock" } : { value: 1, label: "Open Stock" },
-            quantity: "",
+            stockType: { value: 1, label: 'Open Stock' }, //values?.transType?.label === "Receive For PO To Blocked Stock" ? { value: 2, label: "Block Stock" } : { value: 1, label: "Open Stock" },
+            quantity: '',
             locationddl: values.item.locationDDL,
             discount: values?.item?.discount || 0,
             tatalVat: 0,
@@ -275,8 +236,8 @@ export default function CreateMRR() {
           issueQuantity: data.issueQty,
           baseValue: data.baseValue || 0,
           location: data.locationDDL[0],
-          stockType: { value: 1, label: "Open Stock" }, //values?.transType?.label === "Receive For PO To Blocked Stock" ? { value: 2, label: "Block Stock" } : { value: 1, label: "Open Stock" },
-          quantity: "",
+          stockType: { value: 1, label: 'Open Stock' }, //values?.transType?.label === "Receive For PO To Blocked Stock" ? { value: 2, label: "Block Stock" } : { value: 1, label: "Open Stock" },
+          quantity: '',
           locationddl: data.locationDDL,
           discount: data.discount || 0,
           tatalVat: 0,
@@ -303,14 +264,14 @@ export default function CreateMRR() {
   const rowDtoHandler = (name, value, sl) => {
     let data = [...rowDto];
     let _sl = data[sl];
-    if (name === "quantity") {
+    if (name === 'quantity') {
       _sl[name] = +value;
-      _sl["tatalVat"] = (_sl?.vatValue / _sl?.refQty) * +value || 0;
-      _sl["totalValue"] = _sl?.baseValue.toFixed(2) * +value;
-      _sl["netValue"] =
+      _sl['tatalVat'] = (_sl?.vatValue / _sl?.refQty) * +value || 0;
+      _sl['totalValue'] = _sl?.baseValue.toFixed(2) * +value;
+      _sl['netValue'] =
         (_sl?.vatValue / _sl?.refQty) * +value +
           _sl?.baseValue.toFixed(2) * +value || 0;
-    } else if (name === "baseValue") {
+    } else if (name === 'baseValue') {
       _sl[name] = value ? +value : value;
     } else {
       _sl[name] = value;
@@ -325,7 +286,7 @@ export default function CreateMRR() {
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
@@ -334,20 +295,20 @@ export default function CreateMRR() {
 
   const saveHandler = async (values, cb) => {
     if (totalVat.toFixed(4) > 0 && values?.vatAmmount < 1)
-      return toast.warn("Vat amount should be greater than zero");
+      return toast.warn('Vat amount should be greater than zero');
 
-    if (totalVat == 0 && values?.vatAmmount > 0)
-      return toast.warn("Vat amount should be zero, because total amount zero");
+    if (totalVat === 0 && values?.vatAmmount > 0)
+      return toast.warn('Vat amount should be zero, because total amount zero');
 
     if (
       values?.refType?.value === 1 &&
       (!values?.challanNO || !values?.challanDate)
     )
-      return toast.warn("Challan and Challan Date is required");
+      return toast.warn('Challan and Challan Date is required');
 
-    if (isDisabled) return "";
+    if (isDisabled) return '';
     if (rowDto.length === 0) {
-      toast.warning("Please Add Item", { toastId: "receiveInventory" });
+      toast.warning('Please Add Item', { toastId: 'receiveInventory' });
     } else {
       if (values && profileData?.accountId && selectedBusinessUnit?.value) {
         let rowDataformet = rowDto
@@ -364,10 +325,10 @@ export default function CreateMRR() {
               inventoryLocationId: data?.location?.value,
               inventoryLocationName: data?.location?.label,
               batchId: 0,
-              batchNumber: "",
+              batchNumber: '',
               inventoryStockTypeId: data.stockType.value,
               inventoryStockTypeName: data.stockType.label,
-              strBinNo: data?.location?.binNumber || "",
+              strBinNo: data?.location?.binNumber || '',
               vatAmount: data?.vatValue || 0,
               discount: data?.discount || 0,
               purchaseRate: data?.purchaseRate || 0,
@@ -379,7 +340,7 @@ export default function CreateMRR() {
           .filter((data) => data.numTransactionQuantity > 0);
 
         if (rowDataformet.length === 0) {
-          toast.warning("Item Quantity Can not be zero");
+          toast.warning('Item Quantity Can not be zero');
         } else {
           const payload = {
             objHeader: {
@@ -390,7 +351,7 @@ export default function CreateMRR() {
               referenceTypeId: values.refType.value,
               referenceTypeName: values.refType.label,
               referenceId: values.refNo.value || 0,
-              referenceCode: values.refNo.label || "NA",
+              referenceCode: values.refNo.label || 'NA',
               accountId: profileData?.accountId,
               accountName: profileData?.accountName,
               businessUnitId: selectedBusinessUnit?.value,
@@ -404,14 +365,14 @@ export default function CreateMRR() {
               businessPartnerId: values?.busiPartner.value,
               parsonnelId: values?.personnel?.value || 0,
               costCenterId: values?.costCenter?.value || -1,
-              costCenterCode: values?.costCenter?.code || "",
-              costCenterName: values?.costCenter?.label || "",
+              costCenterCode: values?.costCenter?.code || '',
+              costCenterName: values?.costCenter?.label || '',
               projectId: values?.projName?.value || -1,
-              projectCode: values?.projName?.code || "",
-              projectName: values?.projName?.label || "",
-              comments: values?.remarks || "",
+              projectCode: values?.projName?.code || '',
+              projectName: values?.projName?.label || '',
+              comments: values?.remarks || '',
               actionBy: profileData.userId,
-              documentId: "",
+              documentId: '',
               businessPartnerName: values?.busiPartner?.label,
               gateEntryNo: values?.getEntry,
               challan: values?.challanNO,
@@ -435,21 +396,16 @@ export default function CreateMRR() {
             const modifyPlyload = {
               objHeader: {
                 ...payload?.objHeader,
-                documentId: "",
+                documentId: '',
               },
               images: [],
               objRow: payload.objRow,
               objtransfer: {},
             };
-            //   modifyPlyload.objHeader["isPOS"] =
-            //     landingData?.warehouse?.isPOS &&
-            //     modifyPlyload?.objHeader?.referenceTypeId === 1
-            //       ? true
-            //       : false;
             let compressedFile = [];
             if (fileObjects?.length > 0) {
               compressedFile = await compressfile(
-                fileObjects?.map((f) => f?.file)
+                fileObjects?.map((f) => f?.file),
               );
             }
 
@@ -458,21 +414,21 @@ export default function CreateMRR() {
               r = await getImageuploadStatus(profileData?.accountId);
             } catch (error) {
               setDisabled(false);
-              return toast.error("Failed to check attachment upload status");
+              return toast.error('Failed to check attachment upload status');
             }
 
             if (r?.data) {
               if (compressedFile.length < 1) {
                 setDisabled(false);
-                return toast.warn("Attachment required");
+                return toast.warn('Attachment required');
               } else {
                 uploadAttachment(
-                  compressedFile?.map((item) => ({ file: item }))
+                  compressedFile?.map((item) => ({ file: item })),
                 )
                   .then((res) => {
                     if (res?.data?.length) {
-                      modifyPlyload["documentId"] = res?.data?.[0]?.id || "";
-                      modifyPlyload["images"] = res?.data?.map((data) => {
+                      modifyPlyload['documentId'] = res?.data?.[0]?.id || '';
+                      modifyPlyload['images'] = res?.data?.map((data) => {
                         return {
                           imageId: data?.id,
                         };
@@ -483,8 +439,8 @@ export default function CreateMRR() {
                           setRowDto,
                           setDisabled,
                           setFileObjects,
-                          IConfirmModal
-                        )
+                          IConfirmModal,
+                        ),
                       );
                     }
                   })
@@ -495,12 +451,12 @@ export default function CreateMRR() {
             } else {
               if (compressedFile.length > 0) {
                 uploadAttachment(
-                  compressedFile?.map((item) => ({ file: item }))
+                  compressedFile?.map((item) => ({ file: item })),
                 )
                   .then((res) => {
                     if (res?.data?.length) {
-                      modifyPlyload["documentId"] = res?.data[0]?.id || "";
-                      modifyPlyload["images"] = res?.data?.map((data) => {
+                      modifyPlyload['documentId'] = res?.data[0]?.id || '';
+                      modifyPlyload['images'] = res?.data?.map((data) => {
                         return {
                           imageId: data?.id,
                         };
@@ -511,8 +467,8 @@ export default function CreateMRR() {
                           setRowDto,
                           setDisabled,
                           setFileObjects,
-                          IConfirmModal
-                        )
+                          IConfirmModal,
+                        ),
                       );
                     }
                   })
@@ -526,14 +482,14 @@ export default function CreateMRR() {
                     setRowDto,
                     setDisabled,
                     setFileObjects,
-                    IConfirmModal
-                  )
+                    IConfirmModal,
+                  ),
                 );
               }
             }
           } catch (error) {
             setDisabled(false);
-            toast.error("File upload error");
+            toast.error('File upload error');
           }
         }
       } else {
@@ -576,7 +532,7 @@ export default function CreateMRR() {
                     placeholder="Reference Type"
                     onChange={(value) => {
                       if (value?.label) {
-                        setFieldValue("refType", value);
+                        setFieldValue('refType', value);
                       }
                     }}
                     isDisabled={true}
@@ -590,18 +546,18 @@ export default function CreateMRR() {
                     selectedValue={values?.refNo}
                     isDisabled={state}
                     handleChange={(data) => {
-                      setFieldValue("refNo", data);
-                      setFieldValue("item", "");
-                      setFieldValue("othersCharge", data?.othersCharge || 0);
-                      setFieldValue("foreignPurchase", "");
+                      setFieldValue('refNo', data);
+                      setFieldValue('item', '');
+                      setFieldValue('othersCharge', data?.othersCharge || 0);
+                      setFieldValue('foreignPurchase', '');
                       if (
-                        data?.purchaseOrganizationName === "Foreign Procurement"
+                        data?.purchaseOrganizationName === 'Foreign Procurement'
                       ) {
                         dispatch(slice.setItemDDL([]));
                         getForeignPurchaseDDL(
                           data?.value,
                           qcInformationForMRR?.plantId,
-                          setForeginPurchase
+                          setForeginPurchase,
                         );
                       } else {
                         dispatch(
@@ -609,8 +565,8 @@ export default function CreateMRR() {
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             data?.value,
-                            0
-                          )
+                            0,
+                          ),
                         );
                       }
 
@@ -624,18 +580,18 @@ export default function CreateMRR() {
                       //   })
                       // } else {
                       setFieldValue(
-                        "busiPartner",
+                        'busiPartner',
                         data?.supplierId
                           ? {
                               value: data?.supplierId || 0,
-                              label: data?.supplierName || "",
+                              label: data?.supplierName || '',
                             }
-                          : ""
+                          : '',
                       );
-                      setFieldValue("freight", data?.freight);
-                      setFieldValue("grossDiscount", data?.grossDiscount);
-                      setFieldValue("commission", data?.commission);
-                      setFieldValue("productCost", data?.productCost);
+                      setFieldValue('freight', data?.freight);
+                      setFieldValue('grossDiscount', data?.grossDiscount);
+                      setFieldValue('commission', data?.commission);
+                      setFieldValue('productCost', data?.productCost);
                       // }
                       setRowDto([]);
                     }}
@@ -643,7 +599,7 @@ export default function CreateMRR() {
                       if (v?.length < 3) return [];
                       return axios
                         .get(
-                          `/wms/InventoryTransaction/GetPoNoForInventory?PoTypeId=1&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${qcInformationForMRR?.businessUnitId}&PlantId=${qcInformationForMRR?.plantId}&WearhouseId=${qcInformationForMRR?.warehouseId}&Search=${v}`
+                          `/wms/InventoryTransaction/GetPoNoForInventory?PoTypeId=1&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${qcInformationForMRR?.businessUnitId}&PlantId=${qcInformationForMRR?.plantId}&WearhouseId=${qcInformationForMRR?.warehouseId}&Search=${v}`,
                         )
                         .then((res) => {
                           // const updateList = res?.data.map((item) => ({
@@ -664,7 +620,7 @@ export default function CreateMRR() {
                     placeholder="Transaction Type"
                     name="transType"
                     onChange={(value) => {
-                      setFieldValue("transType", value);
+                      setFieldValue('transType', value);
                     }}
                     //setFieldValue={setFieldValue}
                     isDisabled={true}
@@ -680,7 +636,7 @@ export default function CreateMRR() {
                     placeholder="Receive From"
                     name="busiPartner"
                     onChange={(valueOption) => {
-                      setFieldValue("busiPartner", valueOption);
+                      setFieldValue('busiPartner', valueOption);
                       // dispatch(getItemDDLForWithoutRefReceiveInvAction(profileData.accountId,
                       //   selectedBusinessUnit.value,
                       //   landingData?.plant?.value,
@@ -815,7 +771,7 @@ export default function CreateMRR() {
 
                 {values.refType.value === 1 && (
                   <>
-                    {" "}
+                    {' '}
                     <div className="col-lg-2">
                       <label>Total Vat</label>
                       <InputField
@@ -835,7 +791,7 @@ export default function CreateMRR() {
                         disabled={true}
                         autoComplete="off"
                       />
-                    </div>{" "}
+                    </div>{' '}
                   </>
                 )}
 
@@ -858,9 +814,7 @@ export default function CreateMRR() {
                     value={values.item}
                     name="item"
                     setFieldValue={setFieldValue}
-                    isDisabled={
-                      true
-                    }
+                    isDisabled={true}
                     isOptionSelected={(option, selectValue) =>
                       selectValue.some((i) => i === option)
                     }
@@ -874,9 +828,9 @@ export default function CreateMRR() {
                       component={() => ( */}
                   <input
                     style={{
-                      position: "absolute",
-                      top: "30px",
-                      left: "65px",
+                      position: 'absolute',
+                      top: '30px',
+                      left: '65px',
                     }}
                     disabled={true}
                     id="isAllItem"
@@ -886,15 +840,15 @@ export default function CreateMRR() {
                     checked={values.isAllItem}
                     name="isAllItem"
                     onChange={(e) => {
-                      setFieldValue("isAllItem", e.target.checked);
-                      setFieldValue("item", "");
+                      setFieldValue('isAllItem', e.target.checked);
+                      setFieldValue('item', '');
                     }}
                   />
 
                   <label
                     style={{
-                      position: "absolute",
-                      top: "21px",
+                      position: 'absolute',
+                      top: '21px',
                     }}
                   >
                     All Item
@@ -902,13 +856,13 @@ export default function CreateMRR() {
 
                   <button
                     type="submit"
-                    style={{ marginTop: "23px", transform: "translateX(95px)" }}
+                    style={{ marginTop: '23px', transform: 'translateX(95px)' }}
                     className="btn btn-primary ml-2"
-                    disabled={values.item === "" && values.isAllItem === false}
+                    disabled={values.item === '' && values.isAllItem === false}
                     onClick={() => {
                       addRowDtoData(values);
-                      setFieldValue("item", "");
-                      setFieldValue("isAllItem", false);
+                      setFieldValue('item', '');
+                      setFieldValue('isAllItem', false);
                     }}
                   >
                     Add
@@ -946,10 +900,10 @@ export default function CreateMRR() {
 
               <DropzoneDialogBase
                 filesLimit={3}
-                acceptedFiles={["image/*", "application/pdf"]}
+                acceptedFiles={['image/*', 'application/pdf']}
                 fileObjects={fileObjects}
-                cancelButtonText={"cancel"}
-                submitButtonText={"submit"}
+                cancelButtonText={'cancel'}
+                submitButtonText={'submit'}
                 maxFileSize={1000000}
                 open={open}
                 onAdd={(newFileObjs) => {
@@ -958,7 +912,7 @@ export default function CreateMRR() {
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name
+                    (item) => item.file.name !== deleteFileObj.file.name,
                   );
                   setFileObjects(newData);
                 }}
@@ -997,14 +951,14 @@ export default function CreateMRR() {
 
               <button
                 type="button"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps.btnRef}
                 onClick={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
                 onClick={() => {

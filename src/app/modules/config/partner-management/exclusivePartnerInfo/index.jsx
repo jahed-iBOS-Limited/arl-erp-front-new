@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IViewModal from "../../../_helper/_viewModal";
-import EditShipInfo from "./EditShipInfo";
-import NewSelect from "../../../_helper/_select";
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IViewModal from '../../../_helper/_viewModal';
+import EditShipInfo from './EditShipInfo';
+import NewSelect from '../../../_helper/_select';
 
 const initData = {
-  channel: "",
-  sale: "",
-  customer: "",
-  shop: "",
+  channel: '',
+  sale: '',
+  customer: '',
+  shop: '',
 };
 export default function ExclusivePartnerInfo() {
   const {
@@ -35,11 +35,12 @@ export default function ExclusivePartnerInfo() {
 
   useEffect(() => {
     getChannel(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accountId}&BUnitId=${buId}`
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accountId}&BUnitId=${buId}`,
     );
     getSales(
-      `/oms/SalesOrganization/GetSalesOrganizationDDL?AccountId=${accountId}&BusinessUnitId=${buId}`
+      `/oms/SalesOrganization/GetSalesOrganizationDDL?AccountId=${accountId}&BusinessUnitId=${buId}`,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buId, accountId]);
 
   return (
@@ -49,7 +50,7 @@ export default function ExclusivePartnerInfo() {
       // validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         getGridData(
-          `/partner/BusinessPartnerShippingAddress/GetShipToPartnerAndBankInfoById?shipToPartnerId=${values?.shop?.value}&businessPartnerId=${values?.customer?.value}`
+          `/partner/BusinessPartnerShippingAddress/GetShipToPartnerAndBankInfoById?shipToPartnerId=${values?.shop?.value}&businessPartnerId=${values?.customer?.value}`,
         );
       }}
     >
@@ -81,9 +82,9 @@ export default function ExclusivePartnerInfo() {
                     value={values?.channel}
                     onChange={(valueOption) => {
                       getCustomer(
-                        `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accountId}&BusinessUnitId=${buId}&SalesOrganization=${values?.sale?.value}&DistribuitionChannelId=${valueOption?.value}`
+                        `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accountId}&BusinessUnitId=${buId}&SalesOrganization=${values?.sale?.value}&DistribuitionChannelId=${valueOption?.value}`,
                       );
-                      setFieldValue("channel", valueOption);
+                      setFieldValue('channel', valueOption);
                     }}
                   />
                 </div>
@@ -96,9 +97,9 @@ export default function ExclusivePartnerInfo() {
                     value={values?.sale}
                     onChange={(valueOption) => {
                       getCustomer(
-                        `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accountId}&BusinessUnitId=${buId}&SalesOrganization=${valueOption?.value}&DistribuitionChannelId=${values?.channel?.value}`
+                        `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accountId}&BusinessUnitId=${buId}&SalesOrganization=${valueOption?.value}&DistribuitionChannelId=${values?.channel?.value}`,
                       );
-                      setFieldValue("sale", valueOption);
+                      setFieldValue('sale', valueOption);
                     }}
                   />
                 </div>
@@ -111,9 +112,9 @@ export default function ExclusivePartnerInfo() {
                     value={values?.customer}
                     onChange={(valueOption) => {
                       getShop(
-                        `/partner/PManagementCommonDDL/GetBusinessPartnerSalesShippingAddress?AccountId=${accountId}&BusinessUnitId=${buId}&BusinessPartnerId=${valueOption?.value}`
+                        `/partner/PManagementCommonDDL/GetBusinessPartnerSalesShippingAddress?AccountId=${accountId}&BusinessUnitId=${buId}&BusinessPartnerId=${valueOption?.value}`,
                       );
-                      setFieldValue("customer", valueOption);
+                      setFieldValue('customer', valueOption);
                     }}
                   />
                 </div>
@@ -125,7 +126,7 @@ export default function ExclusivePartnerInfo() {
                     options={shopDDL}
                     value={values?.shop}
                     onChange={(valueOption) => {
-                      setFieldValue("shop", valueOption);
+                      setFieldValue('shop', valueOption);
                     }}
                   />
                 </div>

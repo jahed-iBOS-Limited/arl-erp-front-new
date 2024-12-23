@@ -1,13 +1,12 @@
-import React, { useContext } from "react";
-// import CommonTable from "../../../_helper/commonTable";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import { headerRowTableHeaders } from "./helper";
-import { QcManagementContext } from "./qcManagementContext";
+import React, { useContext } from 'react';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import { headerRowTableHeaders } from './helper';
+import { QcManagementContext } from './qcManagementContext';
 
 export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
   const {
     actualValueHandler,
-    handleManualDeduction,
+
     handleRemarks,
     handleRowItemDelete,
   } = useContext(QcManagementContext);
@@ -22,7 +21,6 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
   );
 
   let totalActualValue = 0;
-  let totalManualDeduction = 0;
   return (
     <div>
       <div className="table-responsive">
@@ -31,9 +29,7 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
           <tbody>
             {itemRows &&
               itemRows?.map((item, childIndex) => {
-                // totalSystemDeduction += item?.systemDeduction || 0;
                 totalActualValue += item?.actualValue || 0;
-                totalManualDeduction += item?.manualDeduction || 0;
                 return (
                   <tr key={childIndex}>
                     <td>{childIndex + 1}</td>
@@ -41,7 +37,7 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
                     <td>{item?.standardValue}</td>
                     <td>
                       <input
-                        value={item?.actualValue || ""}
+                        value={item?.actualValue || ''}
                         name="actualValue"
                         type="number"
                         onChange={(e) =>
@@ -49,7 +45,7 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
                             e,
                             grandParentIndex,
                             parentIndex,
-                            childIndex
+                            childIndex,
                           )
                         }
                       />
@@ -73,7 +69,7 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
                     <td>{item?.differenceLimit}</td>
                     <td>
                       <input
-                        value={item?.remarks || ""}
+                        value={item?.remarks || ''}
                         name="remarks"
                         type="text"
                         onChange={(e) =>
@@ -81,7 +77,7 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
                             e,
                             grandParentIndex,
                             parentIndex,
-                            childIndex
+                            childIndex,
                           )
                         }
                       />
@@ -92,7 +88,7 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
                           handleRowItemDelete(
                             grandParentIndex,
                             parentIndex,
-                            childIndex
+                            childIndex,
                           )
                         }
                       >
@@ -105,7 +101,7 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
             <tr>
               <td colSpan={3}>Total</td>
               <td>{totalActualValue}</td>
-              <td>{""}</td>
+              <td>{''}</td>
               {/* <td>{totalManualDeduction}</td> */}
               <td></td>
               <td></td>

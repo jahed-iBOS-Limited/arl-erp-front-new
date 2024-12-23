@@ -1,18 +1,17 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-
-import { imarineBaseUrl } from "../../../../App";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../_helper/iButton";
-import customStyles from "../../../selectCustomStyle";
-import FormikSelect from "../../_chartinghelper/common/formikSelect";
-import { getVesselDDL, getVoyageDDLNew } from "../../helper";
-import { _previousDate, _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { imarineBaseUrl } from '../../../../App';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationTable from '../../../_helper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../_helper/iButton';
+import customStyles from '../../../selectCustomStyle';
+import FormikSelect from '../../_chartinghelper/common/formikSelect';
+import { getVesselDDL, getVoyageDDLNew } from '../../helper';
+import { _previousDate, _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {};
 export default function DeadWeight() {
@@ -21,38 +20,38 @@ export default function DeadWeight() {
   }, shallowEqual);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
+  const [gridData, getGridData, loading] = useAxiosGet();
   const [vesselDDL, setVesselDDL] = useState([]);
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [loading2, setLoading] = useState(false);
 
-  useEffect(()=>{
-    getLandingData({}, pageNo, pageSize, "");
-  },[])
+  useEffect(() => {
+    getLandingData({}, pageNo, pageSize, '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+  const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     const shipTypeSTR = values?.shipType
       ? `&shipType=${values?.shipType?.label}`
-      : "";
+      : '';
     const voyageTypeSTR = values?.voyageType
       ? `&voyageType=${values?.voyageType?.label}`
-      : "";
+      : '';
     const vesselNameSTR = values?.vesselName
       ? `&vesselName=${values?.vesselName?.label}`
-      : "";
+      : '';
     const voyageNoSTR = values?.voyageNo
       ? `&voyageNo=${values?.voyageNo?.label}`
-      : "";
+      : '';
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetDeadWeightCostLanding?BusinessUnitId=${0}&FromDate=${
-        values?.fromDate || _previousDate()
-      }&ToDate=${values?.toDate || _todayDate()}&pageNumber=${pageNo ||
-        1}&pageSize=${pageSize ||
-        600}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
+      `${imarineBaseUrl}/domain/VesselNomination/GetDeadWeightCostLanding?BusinessUnitId=${0}&FromDate=${values?.fromDate ||
+        _previousDate()}&ToDate=${values?.toDate ||
+        _todayDate()}&pageNumber=${pageNo || 1}&pageSize=${pageSize ||
+        600}${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`,
     );
   };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
   useEffect(() => {
@@ -92,7 +91,7 @@ export default function DeadWeight() {
         touched,
       }) => (
         <>
-          {loading && <Loading />}
+          {(loading || loading2) && <Loading />}
           <IForm
             title="Dead Weight"
             isHiddenReset
@@ -109,27 +108,27 @@ export default function DeadWeight() {
                     value={values?.shipType}
                     isSearchable={true}
                     options={[
-                      { value: 1, label: "Own Ship" },
-                      { value: 2, label: "Charterer Ship" },
+                      { value: 1, label: 'Own Ship' },
+                      { value: 2, label: 'Charterer Ship' },
                     ]}
                     styles={customStyles}
                     name="shipType"
                     placeholder="Ship Type"
                     label="Ship Type"
                     onChange={(valueOption) => {
-                      setFieldValue("shipType", valueOption);
-                      setFieldValue("vesselName", "");
-                      setFieldValue("voyageNo", "");
+                      setFieldValue('shipType', valueOption);
+                      setFieldValue('vesselName', '');
+                      setFieldValue('voyageNo', '');
                       setVesselDDL([]);
                       if (valueOption) {
                         getVesselDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
                           setVesselDDL,
-                          valueOption?.value === 2 ? 2 : ""
+                          valueOption?.value === 2 ? 2 : '',
                         );
-                      }else{
-                        getLandingData({}, pageNo, pageSize, "");
+                      } else {
+                        getLandingData({}, pageNo, pageSize, '');
                       }
                     }}
                   />
@@ -140,17 +139,17 @@ export default function DeadWeight() {
                     value={values?.voyageType}
                     isSearchable={true}
                     options={[
-                      { value: 1, label: "Time Charter" },
-                      { value: 2, label: "Voyage Charter" },
+                      { value: 1, label: 'Time Charter' },
+                      { value: 2, label: 'Voyage Charter' },
                     ]}
                     styles={customStyles}
                     name="voyageType"
                     placeholder="Voyage Type"
                     label="Voyage Type"
                     onChange={(valueOption) => {
-                      setFieldValue("vesselName", "");
-                      setFieldValue("voyageNo", "");
-                      setFieldValue("voyageType", valueOption);
+                      setFieldValue('vesselName', '');
+                      setFieldValue('voyageNo', '');
+                      setFieldValue('voyageType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -167,8 +166,8 @@ export default function DeadWeight() {
                     placeholder="Vessel Name"
                     label="Vessel Name"
                     onChange={(valueOption) => {
-                      setFieldValue("vesselName", valueOption);
-                      setFieldValue("voyageNo", "");
+                      setFieldValue('vesselName', valueOption);
+                      setFieldValue('voyageNo', '');
                       if (valueOption) {
                         getVoyageDDL({ ...values, vesselName: valueOption });
                       }
@@ -177,7 +176,7 @@ export default function DeadWeight() {
                 </div>
                 <div className="col-lg-2">
                   <FormikSelect
-                    value={values?.voyageNo || ""}
+                    value={values?.voyageNo || ''}
                     isSearchable={true}
                     options={voyageNoDDL || []}
                     styles={customStyles}
@@ -185,7 +184,7 @@ export default function DeadWeight() {
                     placeholder="Voyage No"
                     label="Voyage No"
                     onChange={(valueOption) => {
-                      setFieldValue("voyageNo", valueOption);
+                      setFieldValue('voyageNo', valueOption);
                     }}
                     isDisabled={!values?.vesselName}
                   />
@@ -197,7 +196,7 @@ export default function DeadWeight() {
                     name="fromDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                     }}
                   />
                 </div>
@@ -208,7 +207,7 @@ export default function DeadWeight() {
                     name="toDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                     }}
                   />
                 </div>

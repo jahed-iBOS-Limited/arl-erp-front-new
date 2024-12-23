@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IViewModal from "../../../../_helper/_viewModal";
-import CreateCostModal from "./createModal";
-import { shallowEqual, useSelector } from "react-redux";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import { imarineBaseUrl } from "../../../../../App";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import Loading from "../../../../_helper/_loading";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import CreateCostModal from './createModal';
 
 const validationSchema = Yup.object().shape({});
 
@@ -30,7 +29,7 @@ const ProductMainIndex = ({
 
   const { selectedBusinessUnit, profileData } = useSelector(
     (state) => state.authData,
-    shallowEqual
+    shallowEqual,
   );
 
   useEffect(() => {
@@ -40,13 +39,14 @@ const ProductMainIndex = ({
 
   useEffect(() => {
     getUomDDL(
-      `/item/ItemUOM/GetItemUOMDDL?AccountId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit.value}`
+      `/item/ItemUOM/GetItemUOMDDL?AccountId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit.value}`,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const commonLandingApi = (PageNo = pageNo, PageSize = pageSize) => {
     getProductLanding(
-      `/costmgmt/Precosting/ProductLanding?businessUnitId=${selectedBusinessUnit.value}&pageNo=${PageNo}&pageSize=${PageSize}`
+      `/costmgmt/Precosting/ProductLanding?businessUnitId=${selectedBusinessUnit.value}&pageNo=${PageNo}&pageSize=${PageSize}`,
     );
   };
 
@@ -69,14 +69,14 @@ const ProductMainIndex = ({
                       <th>SL</th>
                       <th
                         style={{
-                          minWidth: "400px",
+                          minWidth: '400px',
                         }}
                       >
                         Product Name
                       </th>
                       <th
                         style={{
-                          minWidth: "200px",
+                          minWidth: '200px',
                         }}
                       >
                         Action
@@ -90,12 +90,12 @@ const ProductMainIndex = ({
                           <td className="text-center">{i + 1}</td>
                           <td className="text-left">{item?.productName}</td>
                           <td>
-                            <div className="pl-2" style={{ display: "flex" }}>
+                            <div className="pl-2" style={{ display: 'flex' }}>
                               <div class="order-md-1 p-1">
                                 <OverlayTrigger
                                   overlay={
                                     <Tooltip id="cs-icon">
-                                      {"Product to FG Configuration"}
+                                      {'Product to FG Configuration'}
                                     </Tooltip>
                                   }
                                 >
@@ -107,7 +107,7 @@ const ProductMainIndex = ({
                                     onClick={() =>
                                       history.push({
                                         pathname: `/internal-control/costing/costingconfiguration/product-to-fg`,
-                                        state: { item, checkBox: "itemStatus" },
+                                        state: { item, checkBox: 'itemStatus' },
                                       })
                                     }
                                   />
@@ -121,7 +121,7 @@ const ProductMainIndex = ({
                                 <OverlayTrigger
                                   overlay={
                                     <Tooltip id="cs-icon">
-                                      {"Product to RM Configuration"}
+                                      {'Product to RM Configuration'}
                                     </Tooltip>
                                   }
                                 >
@@ -133,7 +133,7 @@ const ProductMainIndex = ({
                                     onClick={() =>
                                       history.push({
                                         pathname: `/internal-control/costing/costingconfiguration/product-to-rm`,
-                                        state: { item, checkBox: "itemStatus" },
+                                        state: { item, checkBox: 'itemStatus' },
                                       })
                                     }
                                   />

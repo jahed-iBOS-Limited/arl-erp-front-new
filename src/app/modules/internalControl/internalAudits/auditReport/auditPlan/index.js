@@ -1,13 +1,12 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import ReactToPrint from "react-to-print";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getSingleScheduleDataHandler } from "../../auditschedules/helper";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import "../../auditschedules/style.css";
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import ReactToPrint from 'react-to-print';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getSingleScheduleDataHandler } from '../../auditschedules/helper';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import '../../auditschedules/style.css';
 
 const AuditPlanViewAndPrint = () => {
   // use hook
@@ -31,7 +30,7 @@ const AuditPlanViewAndPrint = () => {
     if (auditReportData?.intAuditScheduleId)
       getSingleScheduleDataHandler(
         auditReportData?.intAuditScheduleId,
-        getAuditReportDataById
+        getAuditReportDataById,
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -73,7 +72,7 @@ const AuditPlanViewAndPrint = () => {
           <div id="audit_schedule-print" ref={printRef} className="p-4">
             {/* Print View Content */}
             <div className="mb-3"></div>
-            <div className="text-center" style={{ mergin: "0 auto" }}>
+            <div className="text-center" style={{ mergin: '0 auto' }}>
               {/* <h4>Audit Plan Template</h4> */}
               <p>
                 <strong>Name of assignment: {strAuditEngagementName}</strong>
@@ -109,7 +108,7 @@ const AuditPlanViewAndPrint = () => {
                 <div
                   className="text-editor-view"
                   dangerouslySetInnerHTML={{
-                    __html: strAuditObjective || "",
+                    __html: strAuditObjective || '',
                   }}
                 ></div>
                 <hr />
@@ -119,7 +118,7 @@ const AuditPlanViewAndPrint = () => {
                 <div
                   className="text-editor-view"
                   dangerouslySetInnerHTML={{
-                    __html: strScopeOfAudit || "",
+                    __html: strScopeOfAudit || '',
                   }}
                 ></div>
                 <hr />
@@ -129,7 +128,7 @@ const AuditPlanViewAndPrint = () => {
                 <div
                   className="text-editor-view"
                   dangerouslySetInnerHTML={{
-                    __html: strGeneralScopeOfWork || "",
+                    __html: strGeneralScopeOfWork || '',
                   }}
                 ></div>
                 <hr />
@@ -139,7 +138,7 @@ const AuditPlanViewAndPrint = () => {
                 <div
                   className="text-editor-view"
                   dangerouslySetInnerHTML={{
-                    __html: strActionPlan || "",
+                    __html: strActionPlan || '',
                   }}
                 ></div>
               </div>

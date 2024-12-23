@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 //landing api;
 
 export const getLandingData = async (
@@ -11,7 +11,7 @@ export const getLandingData = async (
   setter,
   setLoading,
   pageNo,
-  pageSize
+  pageSize,
 ) => {
   try {
     let query = `/imp/ProformaInvoice/ProformaInvoiceLandingPasignation?accId=${accountId}&buId=${businessUnitId}`;
@@ -35,7 +35,7 @@ export const getSingleData = async (id, setter, setRowDto, setDisabled) => {
   setDisabled(true);
   try {
     const res = await Axios.get(
-      `/imp/ProformaInvoice/GetProformaInvoiceById?proformaInvoiceId=${id}`
+      `/imp/ProformaInvoice/GetProformaInvoiceById?proformaInvoiceId=${id}`,
     );
     setDisabled(false);
     const { objHeader, objRow } = res?.data;
@@ -89,7 +89,7 @@ export const getSingleData = async (id, setter, setRowDto, setDisabled) => {
       //   value: objHeader?.purchaseRequestNo,
       //   label: objHeader?.purchaseRequestNo,
       // },
-      purchaseRequestNo: "",
+      purchaseRequestNo: '',
       // referenceType: {
       //   label: objHeader?.purchaseContractId
       //     ? "Purchase Contract"
@@ -99,10 +99,10 @@ export const getSingleData = async (id, setter, setRowDto, setDisabled) => {
       referenceType: {
         label:
           objHeader?.referenceTypeId === 1
-            ? "Purchase Contract"
+            ? 'Purchase Contract'
             : objHeader?.purchaseRequestId === 2
-            ? "Purchase Request"
-            : "",
+            ? 'Purchase Request'
+            : '',
         value:
           objHeader?.referenceTypeId === 1
             ? 1
@@ -142,23 +142,23 @@ export const createPI = async (
   selectedBusinessUnit,
   values,
   rowDto,
-  cb
+  cb,
 ) => {
   const obj = createPayloadChange(
     profileData,
     selectedBusinessUnit,
     values,
-    rowDto
+    rowDto,
   );
 
   try {
     setDisabled(true);
     const res = await Axios.post(
       `/imp/ProformaInvoice/CreateProformaInvoice`,
-      obj
+      obj,
     );
     setDisabled(false);
-    toast.success(res?.message || "Create successfully");
+    toast.success(res?.message || 'Create successfully');
     cb();
   } catch (error) {
     setDisabled(false);
@@ -170,7 +170,7 @@ const createPayloadChange = (
   profileData,
   selectedBusinessUnit,
   values,
-  rowDto
+  rowDto,
 ) => {
   let modifyArray = rowDto?.map((item) => ({
     referenceType: item?.referenceType,
@@ -184,7 +184,7 @@ const createPayloadChange = (
     totalAmount: item?.totalAmount,
     itemId: item?.itemId,
     itemName: item?.itemName,
-    currency: "string",
+    currency: 'string',
   }));
   const payload = {
     objHeader: {
@@ -213,7 +213,7 @@ const createPayloadChange = (
       usance: values?.usance ? values?.usance : 0,
       presentation: values?.presentation ? values?.presentation : 0,
       tolerance: values?.tolerance || 0,
-      otherTerms: values?.otherTerms ? values?.otherTerms : "",
+      otherTerms: values?.otherTerms ? values?.otherTerms : '',
       metarialTypeId: values?.materialTypeDDL?.value,
       metarialTypeName: values?.materialTypeDDL?.label,
       sbuId: values?.sbu?.value,
@@ -223,10 +223,10 @@ const createPayloadChange = (
       // purchaseRequestId: values?.purchaseRequestNo?.value || 0,
       // purchaseContractId: values?.purchaseContractNo?.value || 0,
       // purchaseContractNo: values?.purchaseContractNo?.label || "",
-      purchaseRequestNo: "",
+      purchaseRequestNo: '',
       purchaseRequestId: 0,
       purchaseContractId: 0,
-      purchaseContractNo: "",
+      purchaseContractNo: '',
       dteEta: values?.etaDate,
       dteEstimatedLaycanDate: values?.dteEstimatedLaycanDate,
     },
@@ -239,7 +239,7 @@ const createPayloadChange = (
 export const updatePi = async (
   setDisabled,
   values,
-  rowDto
+  rowDto,
   // cb
 ) => {
   const obj = updatePayloadChange(values, rowDto);
@@ -247,7 +247,7 @@ export const updatePi = async (
     setDisabled(true);
     let res = await Axios.put(`/imp/ProformaInvoice/EditProformaInvoice`, obj);
     setDisabled(false);
-    toast.success(res?.message || "Update successfully");
+    toast.success(res?.message || 'Update successfully');
     // cb();
   } catch (error) {
     setDisabled(false);
@@ -311,7 +311,7 @@ const updatePayloadChange = (values, rowDto) => {
 export const getPurchaseOrganizationDDL = async (
   accountId,
   businessUnitId,
-  setter
+  setter,
 ) => {
   try {
     let query = `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accountId}&BusinessUnitId=${businessUnitId}`;
@@ -326,7 +326,7 @@ export const getPlantDDL = async (
   businessUnitId,
   userId,
   OrgUnitTypeId,
-  setter
+  setter,
 ) => {
   try {
     let query = `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accountId}&BusinessUnitId=${businessUnitId}&OrgUnitTypeId=${OrgUnitTypeId}`;
@@ -441,7 +441,7 @@ export const getUoMDDL = async (accountId, businessUnitId, setter) => {
           label: item?.uomName,
           value: item?.uomid,
         };
-      })
+      }),
     );
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -465,34 +465,34 @@ export function addDaysToDate(date, days) {
 
 export const validationSchema = Yup.object().shape({
   sbu: Yup.object().shape({
-    value: Yup.string().required("SBU is required"),
+    value: Yup.string().required('SBU is required'),
   }),
   plantDDL: Yup.object().shape({
-    value: Yup.string().required("Plant is required"),
+    value: Yup.string().required('Plant is required'),
   }),
   beneficiaryNameDDL: Yup.object().shape({
-    value: Yup.string().required("Beneficiary is required"),
+    value: Yup.string().required('Beneficiary is required'),
   }),
   lcTypeDDL: Yup.object().shape({
-    value: Yup.string().required("LC Type is required"),
+    value: Yup.string().required('LC Type is required'),
   }),
   incoTermsDDL: Yup.object().shape({
-    value: Yup.string().required("Inco terms is required"),
+    value: Yup.string().required('Inco terms is required'),
   }),
   materialTypeDDL: Yup.object().shape({
-    value: Yup.string().required("Material Type is required"),
+    value: Yup.string().required('Material Type is required'),
   }),
   countryOriginDDL: Yup.object().shape({
-    value: Yup.string().required("Country Origin is required"),
+    value: Yup.string().required('Country Origin is required'),
   }),
   finalDestinationDDL: Yup.object().shape({
-    value: Yup.string().required("Final Destination is required"),
+    value: Yup.string().required('Final Destination is required'),
   }),
   currencyDDL: Yup.object().shape({
-    value: Yup.string().required("Currency is required"),
+    value: Yup.string().required('Currency is required'),
   }),
-  pinumber: Yup.string().required("PI No is required"),
-  loadingPort: Yup.string().required("Loading Port is required"),
+  pinumber: Yup.string().required('PI No is required'),
+  loadingPort: Yup.string().required('Loading Port is required'),
 });
 
 export const checkPurchaseRequestNo = (
@@ -500,7 +500,7 @@ export const checkPurchaseRequestNo = (
   setPurchaseRequestValidity,
   accountId,
   businessUnitId,
-  setFieldValue
+  setFieldValue,
 ) => {
   if (poNumber) {
     ValidatePoNo(
@@ -508,7 +508,7 @@ export const checkPurchaseRequestNo = (
       businessUnitId,
       poNumber,
       setPurchaseRequestValidity,
-      setFieldValue
+      setFieldValue,
     );
   }
 };
@@ -518,18 +518,18 @@ export const ValidatePoNo = async (
   buId,
   purchaseOrderNo,
   setter,
-  setFieldValue
+  setFieldValue,
 ) => {
   try {
     const res = await Axios.get(
-      `/imp/PurchaseOrder/GetCheckPurchaseRequestNo?accountId=${accId}&businessUnitId=${buId}&purchaseRequestNo=${purchaseOrderNo}`
+      `/imp/PurchaseOrder/GetCheckPurchaseRequestNo?accountId=${accId}&businessUnitId=${buId}&purchaseRequestNo=${purchaseOrderNo}`,
     );
 
-    setFieldValue("sbuDDL", {
+    setFieldValue('sbuDDL', {
       value: res?.data?.sbuId,
       label: res?.data?.sbuName,
     });
-    setFieldValue("plantDDL", {
+    setFieldValue('plantDDL', {
       value: res?.data?.plantId,
       label: res?.data?.plantName,
     });
@@ -545,22 +545,22 @@ export const checkItemFromPurchaseRequest = async (
   buId,
   purchaseOrderNo,
   itemId,
-  cb
+  cb,
 ) => {
   try {
     const res = await Axios.get(
-      `/imp/ImportCommonDDL/GetItemInPIRespectToPRDDL?accountId=${accId}&businessUnitId=${buId}&purchaseRequstCode=${purchaseOrderNo}&itemId=${itemId}`
+      `/imp/ImportCommonDDL/GetItemInPIRespectToPRDDL?accountId=${accId}&businessUnitId=${buId}&purchaseRequstCode=${purchaseOrderNo}&itemId=${itemId}`,
     );
     if (res?.data) {
       cb();
     } else {
       toast.error(
-        `This item is not included in this purchase request : ${purchaseOrderNo}`
+        `This item is not included in this purchase request : ${purchaseOrderNo}`,
       );
     }
   } catch (error) {
     toast.error(
-      `This item is not included in this purchase request : ${purchaseOrderNo}`
+      `This item is not included in this purchase request : ${purchaseOrderNo}`,
     );
   }
 };
@@ -572,13 +572,13 @@ export const getItemDDL = async (
   refType,
   setter,
   values,
-  rowDto
+  rowDto,
 ) => {
   try {
     const res = await Axios.get(
       `/imp/ImportCommonDDL/GetItemListForPI?code=${purchaseRequestOrContractId}&referenceType=${
-        refType === 1 ? "PurchaseContract" : "PurchaseRequest"
-      }`
+        refType === 1 ? 'PurchaseContract' : 'PurchaseRequest'
+      }`,
     );
     // const newData = [...rowDto, ...res?.data];
     const newData = [...res?.data];
@@ -593,7 +593,7 @@ export const getItemDDL = async (
         label: data.label,
         itemName: data.label,
         refQty: data?.quantity,
-        quantity: "",
+        quantity: '',
         referenceId:
           values?.referenceType?.value === 1
             ? values?.purchaseContractNo?.value
@@ -614,7 +614,7 @@ export const getItemDDL = async (
 export const downloadDocumentaryCredit = async (
   bankId,
   pdfText,
-  setLoading
+  setLoading,
 ) => {
   const url = `https://automation.ibos.io/bank_lc/create`;
 
@@ -624,48 +624,48 @@ export const downloadDocumentaryCredit = async (
   };
 
   fetch(url, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(payload), // Convert payload to JSON string
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   })
     .then((response) => {
       // Check if the request was successful (status code 200)
       if (response.ok) {
         // If the response contains a PDF file
-        if (response.headers.get("content-type") === "application/pdf") {
+        if (response.headers.get('content-type') === 'application/pdf') {
           // Extract the filename from the response headers
-          const filename = "LC Application Form";
+          const filename = 'LC Application Form';
           // Return a promise with the response blob
           return response.blob().then((blob) => {
             // Create a temporary URL for the blob
             const url = window.URL.createObjectURL(blob);
             // Create a link element to trigger the download
-            const link = document.createElement("a");
+            const link = document.createElement('a');
             link.href = url;
-            link.setAttribute("download", filename);
+            link.setAttribute('download', filename);
             // Append the link to the body and trigger the download
             document.body.appendChild(link);
             link.click();
             // Clean up by revoking the object URL
             window.URL.revokeObjectURL(url);
-            toast.success("File downloaded successfully as:", filename);
+            toast.success('File downloaded successfully as:', filename);
 
             setLoading(false);
           });
         } else {
-          toast.warn("Request Failed");
+          toast.warn('Request Failed');
           setLoading(false);
         }
       } else {
-        toast.error("Request failed");
+        toast.error('Request failed');
 
         setLoading(false);
       }
     })
     .catch((error) => {
-      toast.error("Something went wrong");
+      toast.error('Something went wrong');
       setLoading(false);
     });
 };
@@ -674,7 +674,7 @@ export const GetProformaInvoiceById = async (id, setter, setDisabled) => {
   setDisabled(true);
   try {
     const res = await Axios.get(
-      `/imp/ProformaInvoice/GetProformaInvoiceById?proformaInvoiceId=${id}`
+      `/imp/ProformaInvoice/GetProformaInvoiceById?proformaInvoiceId=${id}`,
     );
     setDisabled(false);
     setter(res?.data);
@@ -688,7 +688,7 @@ export const GetProformaInvoiceById = async (id, setter, setDisabled) => {
 export const UpdateLcApi = async (setDisabled, payload) => {
   try {
     setDisabled(true);
-    const res = await Axios.post(`/imp/LetterOfCredit/UpdateLc`, payload);
+    await Axios.post(`/imp/LetterOfCredit/UpdateLc`, payload);
     setDisabled(false);
   } catch (error) {
     setDisabled(false);

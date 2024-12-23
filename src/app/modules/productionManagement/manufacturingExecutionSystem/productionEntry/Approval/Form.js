@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 // import CreateTableRow from "../Table/CreateTableRow";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 export default function _Form({
   initData,
@@ -25,7 +24,7 @@ export default function _Form({
   const [wareHouseDDL, getwareHouseDDL] = useAxiosGet();
   const profileData = useSelector(
     (state) => state?.authData?.profileData,
-    shallowEqual
+    shallowEqual,
   );
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
@@ -34,16 +33,11 @@ export default function _Form({
   useEffect(() => {
     if (initData?.plantName?.value) {
       getwareHouseDDL(
-        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${initData?.plantName?.value}&OrgUnitTypeId=8`
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${initData?.plantName?.value}&OrgUnitTypeId=8`,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initData, profileData, selectedBusinessUnit]);
-
-  const deleteHandler = (id) => {
-    const deleteData = rowData.filter((data, index) => id !== index);
-    setRowData(deleteData);
-  };
 
   return (
     <>
@@ -73,9 +67,9 @@ export default function _Form({
                   <NewSelect
                     name="plantName"
                     options={plantNameDDL}
-                    value={values?.plantName ? values?.plantName : ""}
+                    value={values?.plantName ? values?.plantName : ''}
                     onChange={(valueOption) => {
-                      setFieldValue("plantName", valueOption);
+                      setFieldValue('plantName', valueOption);
                     }}
                     placeholder="Plant Name"
                     errors={errors}
@@ -89,10 +83,10 @@ export default function _Form({
                     name="productionOrder"
                     options={productionOrderDDL}
                     value={
-                      values?.productionOrder ? values?.productionOrder : ""
+                      values?.productionOrder ? values?.productionOrder : ''
                     }
                     onChange={(valueOption) => {
-                      setFieldValue("productionOrder", valueOption);
+                      setFieldValue('productionOrder', valueOption);
                     }}
                     placeholder="Production Order"
                     errors={errors}
@@ -108,7 +102,7 @@ export default function _Form({
                     value={
                       values?.dteProductionDate
                         ? _dateFormatter(values?.dteProductionDate)
-                        : ""
+                        : ''
                     }
                     label="Receive Date"
                     placeholder=""
@@ -121,9 +115,9 @@ export default function _Form({
                   <NewSelect
                     name="Shift"
                     options={shiftDDL}
-                    value={values?.shift ? values.shift : ""}
+                    value={values?.shift ? values.shift : ''}
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                     }}
                     placeholder="Shift"
                     errors={errors}
@@ -150,7 +144,7 @@ export default function _Form({
                     options={sbuDDL}
                     value={values?.sbu}
                     onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
+                      setFieldValue('sbu', valueOption);
                     }}
                     label="Select SBU"
                     placeholder="Select SBU"
@@ -166,7 +160,7 @@ export default function _Form({
                       options={wareHouseDDL || []}
                       value={values?.wareHouse}
                       onChange={(valueOption) => {
-                        setFieldValue("wareHouse", valueOption);
+                        setFieldValue('wareHouse', valueOption);
                       }}
                       label="Select Warehouse"
                       placeholder="Select Warehouse"
@@ -181,29 +175,29 @@ export default function _Form({
               <div className="row">
                 <div className="col-lg-12 pr-3 mt-3">
                   <div className="table-responsive">
-                    <table className={"table mt-1 bj-table"}>
+                    <table className={'table mt-1 bj-table'}>
                       <thead
                       // className={rowDto?.length < 1 && "d-none"}
                       >
                         <tr>
                           {/* <th style={{ width: "20px" }}>SL</th> */}
-                          <th style={{ width: "50px" }}>Item Code</th>
-                          <th style={{ width: "120px" }}>Output Item</th>
-                          <th style={{ width: "50px" }}>UoM</th>
-                          <th style={{ width: "100px" }}>Output Quantity</th>
-                          <th style={{ width: "50px" }}>QC Quantity</th>
-                          <th style={{ width: "50px" }}>Action</th>
+                          <th style={{ width: '50px' }}>Item Code</th>
+                          <th style={{ width: '120px' }}>Output Item</th>
+                          <th style={{ width: '50px' }}>UoM</th>
+                          <th style={{ width: '100px' }}>Output Quantity</th>
+                          <th style={{ width: '50px' }}>QC Quantity</th>
+                          <th style={{ width: '50px' }}>Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         {rowData?.map((item, index) => (
                           <tr key={index}>
-                            <td style={{ textAlign: "center" }}>
+                            <td style={{ textAlign: 'center' }}>
                               {item?.strItemCode}
                             </td>
                             <td className="pl-2">{item?.itemName}</td>
                             <td className="pl-2">{item?.strUomName}</td>
-                            <td style={{ textAlign: "center" }}>
+                            <td style={{ textAlign: 'center' }}>
                               <input
                                 // onChange={(e) => {
                                 //   dataHandler(
@@ -220,16 +214,16 @@ export default function _Form({
                                 disabled={true}
                               />
                             </td>
-                            <td style={{ textAlign: "center" }}>
+                            <td style={{ textAlign: 'center' }}>
                               <input
                                 onChange={(e) => {
                                   dataHandler(
-                                    "approvedQuantity",
+                                    'approvedQuantity',
                                     Math.abs(e.target.value),
-                                    index
+                                    index,
                                   );
                                 }}
-                                step={"any"}
+                                step={'any'}
                                 min="0"
                                 className="form-control"
                                 type="number"
@@ -253,13 +247,13 @@ export default function _Form({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onClick={() => handleSubmit}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

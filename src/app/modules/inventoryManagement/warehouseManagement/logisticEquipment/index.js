@@ -1,20 +1,20 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import InputField from "../../../_helper/_inputField";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import InputField from '../../../_helper/_inputField';
 const initData = {
-  shipPoint: { value: 0, label: "All" },
-  shift: { value: 1, label: "Day" },
-  fromDate:"",
-  toDate:"",
+  shipPoint: { value: 0, label: 'All' },
+  shift: { value: 1, label: 'Day' },
+  fromDate: '',
+  toDate: '',
 };
 export default function LogisticEquipment() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -29,24 +29,27 @@ export default function LogisticEquipment() {
 
   useEffect(() => {
     getShipPointList(
-      `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+      `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveHandler = (values, cb) => {};
   const history = useHistory();
 
-  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+  const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     // const searchTearm = searchValue ? `&search=${searchValue}` : "";
     getGridData(
       `/oms/CastingSchedule/GetCastingScheduleToolsInfoPagination?businessUnitId=${
         selectedBusinessUnit?.value
       }&shipPointId=${values?.shipPoint?.value || 0}&shiftId=${values?.shift
-        ?.value || 0}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}`
+        ?.value || 0}&FromDate=${values?.fromDate}&ToDate=${
+        values?.toDate
+      }&pageNo=${pageNo}&pageSize=${pageSize}`,
     );
   };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
 
@@ -88,7 +91,7 @@ export default function LogisticEquipment() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/inventory-management/warehouse-management/logisticequipmentavailability/entry"
+                        '/inventory-management/warehouse-management/logisticequipmentavailability/entry',
                       );
                     }}
                   >
@@ -105,12 +108,12 @@ export default function LogisticEquipment() {
                     <NewSelect
                       name="shipPoint"
                       options={
-                        [{ value: 0, label: "All" }, ...shipPointList] || []
+                        [{ value: 0, label: 'All' }, ...shipPointList] || []
                       }
                       value={values?.shipPoint}
                       label="Select Ship Point"
                       onChange={(valueOption) => {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -120,13 +123,13 @@ export default function LogisticEquipment() {
                     <NewSelect
                       name="shift"
                       options={[
-                        { value: 1, label: "Day" },
-                        { value: 2, label: "Night" },
+                        { value: 1, label: 'Day' },
+                        { value: 2, label: 'Night' },
                       ]}
                       value={values?.shift}
                       label="Select Shift"
                       onChange={(valueOption) => {
-                        setFieldValue("shift", valueOption);
+                        setFieldValue('shift', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -139,8 +142,8 @@ export default function LogisticEquipment() {
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
-                        setFieldValue("toDate", "");
+                        setFieldValue('fromDate', e.target.value);
+                        setFieldValue('toDate', '');
                       }}
                     />
                   </div>
@@ -151,7 +154,7 @@ export default function LogisticEquipment() {
                       name="toDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
@@ -160,7 +163,7 @@ export default function LogisticEquipment() {
                       type="button"
                       className="btn btn-primary mt-5"
                       onClick={() => {
-                        getLandingData(values, pageNo, pageSize, "");
+                        getLandingData(values, pageNo, pageSize, '');
                       }}
                     >
                       View
@@ -226,7 +229,9 @@ export default function LogisticEquipment() {
                             <td className="text-center">{item?.totalPickUp}</td>
                             <td className="text-center">{item?.avlPickUp}</td>
                             <td>{item?.pickUpExplain}</td>
-                            <td className="text-center">{item?.totalPipeLine}</td>
+                            <td className="text-center">
+                              {item?.totalPipeLine}
+                            </td>
                             <td className="text-center">{item?.avlPipeLine}</td>
                             <td>{item?.pipeLineExplain}</td>
                             <td className="text-center">

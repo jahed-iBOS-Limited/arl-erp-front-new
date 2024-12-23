@@ -262,3 +262,24 @@
     overflow: unset;
     font-size: 11px;
 }
+
+.hblWrapper pre {
+    background-color: transparent !important;
+    /* Light gray background */
+    border: 1px solid transparent !important;
+    /* Add a border */
+    border-radius: 50px;
+    /* Rounded corners */
+    padding: 10px;
+    /* Add padding */
+    font-family: Arial, sans-serif;
+    /* Change font */
+    font-size: 14px;
+    /* Adjust font size */
+    color: #333;
+    /* Text color */
+    white-space: pre-wrap;
+    /* Allow wrapping for long lines */
+    word-wrap: break-word;
+    /* Break long words if necessary */
+}

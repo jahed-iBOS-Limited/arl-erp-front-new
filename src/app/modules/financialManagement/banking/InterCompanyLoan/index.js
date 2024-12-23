@@ -1,38 +1,38 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import RepayProvisionActionModal from "./repayProvision";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import RepayProvisionActionModal from './repayProvision';
 const initData = {};
 export default function InterCompanyLoan() {
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const { selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
+  const [gridData, getGridData, loading] = useAxiosGet();
   const history = useHistory();
   const [showModal, setShowModal] = useState(false);
   const [singleData, setSingleData] = useState(null);
-  const [actionType, setActionType] = useState("");
+  const [actionType, setActionType] = useState('');
 
   const saveHandler = (values, cb) => {};
 
-  const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+  const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     getGridData(
-      `/fino/CommonFino/InterCompanyLoanLanding?businessUnitId=${selectedBusinessUnit?.value}&loanType=${values?.loanType?.type}&pageNo=${pageNo}&pageSize=${pageSize}`
+      `/fino/CommonFino/InterCompanyLoanLanding?businessUnitId=${selectedBusinessUnit?.value}&loanType=${values?.loanType?.type}&pageNo=${pageNo}&pageSize=${pageSize}`,
     );
   };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getLandingData(values, pageNo, pageSize, searchValue);
   };
 
@@ -71,7 +71,7 @@ export default function InterCompanyLoan() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/financial-management/banking/InterCompanyLoan/create"
+                        '/financial-management/banking/InterCompanyLoan/create',
                       );
                     }}
                   >
@@ -87,13 +87,13 @@ export default function InterCompanyLoan() {
                   <NewSelect
                     name="loanType"
                     options={[
-                      { value: 1, label: "Loan Issue", type: "Issue" },
-                      { value: 2, label: "Loan Receive", type: "Receive" },
+                      { value: 1, label: 'Loan Issue', type: 'Issue' },
+                      { value: 2, label: 'Loan Receive', type: 'Receive' },
                     ]}
                     value={values?.loanType}
                     label="Loan Type"
                     onChange={(valueOption) => {
-                      setFieldValue("loanType", valueOption);
+                      setFieldValue('loanType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -103,7 +103,7 @@ export default function InterCompanyLoan() {
                 <div className="col-lg-3">
                   <button
                     onClick={() => {
-                      getLandingData(values, pageNo, pageSize, "");
+                      getLandingData(values, pageNo, pageSize, '');
                     }}
                     type="button"
                     className="btn btn-primary mt-5"
@@ -162,7 +162,7 @@ export default function InterCompanyLoan() {
                                   overlay={<Tooltip id="cs-icon">View</Tooltip>}
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     class="fa fa-eye cursor-pointer"
                                     aria-hidden="true"
                                   ></i>
@@ -173,7 +173,7 @@ export default function InterCompanyLoan() {
                                   className="px-5"
                                   onClick={() => {
                                     setSingleData(item);
-                                    setActionType("Repay");
+                                    setActionType('Repay');
                                     setShowModal(true);
                                   }}
                                 >
@@ -183,7 +183,7 @@ export default function InterCompanyLoan() {
                                     }
                                   >
                                     <i
-                                      style={{ fontSize: "16px" }}
+                                      style={{ fontSize: '16px' }}
                                       class="fa fa-history cursor-pointer"
                                       aria-hidden="true"
                                     ></i>

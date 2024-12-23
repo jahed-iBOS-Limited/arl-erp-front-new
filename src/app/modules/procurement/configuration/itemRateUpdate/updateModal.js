@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import InputField from "../../../_helper/_inputField";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { shallowEqual, useSelector } from "react-redux";
-import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import InputField from '../../../_helper/_inputField';
+import AttachmentUploaderNew from '../../../_helper/attachmentUploaderNew';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 export default function UpdateItemRateModal({ propsObj }) {
   const {
     getLandingData,
@@ -19,7 +18,7 @@ export default function UpdateItemRateModal({ propsObj }) {
     return state.authData;
   }, shallowEqual);
   const [modifyData, setModifyData] = useState({});
-  const [attachment, setAttachment] = useState("");
+  const [attachment, setAttachment] = useState('');
   const [, updateHandler] = useAxiosPost();
 
   useEffect(() => {
@@ -53,7 +52,7 @@ export default function UpdateItemRateModal({ propsObj }) {
                   onChange={(e) => {
                     console.log({ e });
                     const data = { ...modifyData };
-                    data["effectiveDate"] = e.target.value;
+                    data['effectiveDate'] = e.target.value;
                     setModifyData(data);
                   }}
                 />
@@ -61,11 +60,11 @@ export default function UpdateItemRateModal({ propsObj }) {
               <td className="text-center">
                 <InputField
                   type="number"
-                  value={modifyData?.itemRate || ""}
+                  value={modifyData?.itemRate || ''}
                   onChange={(e) => {
                     if (+e.target.value < 0) return;
                     const data = { ...modifyData };
-                    data["itemRate"] = +e.target.value;
+                    data['itemRate'] = +e.target.value;
                     setModifyData(data);
                   }}
                 />
@@ -73,11 +72,11 @@ export default function UpdateItemRateModal({ propsObj }) {
               <td className="text-center">
                 <InputField
                   type="number"
-                  value={modifyData?.itemOthersRate || ""}
+                  value={modifyData?.itemOthersRate || ''}
                   onChange={(e) => {
                     if (+e.target.value < 0) return;
                     const data = { ...modifyData };
-                    data["itemOthersRate"] = +e.target.value;
+                    data['itemOthersRate'] = +e.target.value;
                     setModifyData(data);
                   }}
                 />
@@ -86,15 +85,15 @@ export default function UpdateItemRateModal({ propsObj }) {
                 <div className="">
                   <AttachmentUploaderNew
                     style={{
-                      backgroundColor: "transparent",
-                      color: "black",
+                      backgroundColor: 'transparent',
+                      color: 'black',
                     }}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
                         console.log(attachmentData);
                         console.log({ attachment: attachmentData });
                         setAttachment(attachmentData?.[0]?.id);
-                        setFieldValue("attachment", attachmentData?.[0]?.id);
+                        setFieldValue('attachment', attachmentData?.[0]?.id);
                       }
                     }}
                   />
@@ -129,9 +128,9 @@ export default function UpdateItemRateModal({ propsObj }) {
                                   : singleData?.attachment,
                               },
                               () => {
-                                getLandingData(values, pageNo, pageSize, "");
+                                getLandingData(values, pageNo, pageSize, '');
                               },
-                              true
+                              true,
                             );
                           },
                           noAlertFunc: () => {},

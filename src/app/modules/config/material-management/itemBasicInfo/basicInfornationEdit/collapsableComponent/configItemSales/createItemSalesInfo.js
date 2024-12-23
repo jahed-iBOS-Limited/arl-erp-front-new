@@ -1,40 +1,40 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import Form from "./form.js";
-import { isObject, uniqBy } from "lodash";
+} from '../../../../../../../../_metronic/_partials/controls';
+import Axios from 'axios';
+import Form from './form.js';
+import { isObject, uniqBy } from 'lodash';
 
-import { useParams } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
-import { toast } from "react-toastify";
-import { getItemBasicinfoAction } from "./helper";
+import { useParams } from 'react-router-dom';
+import { useSelector, shallowEqual } from 'react-redux';
+import { toast } from 'react-toastify';
+import { getItemBasicinfoAction } from './helper';
 
 const initData = {
-  org: { label: "", value: "" },
-  profitCenter: "",
-  productDivision: { label: "", value: "" },
-  cogsGL: { label: "", value: "" },
-  distributionChannel: "",
-  accroedCogsGL: { label: "", value: "" },
-  revenueGL: { label: "", value: "" },
-  salesDescription: "",
+  org: { label: '', value: '' },
+  profitCenter: '',
+  productDivision: { label: '', value: '' },
+  cogsGL: { label: '', value: '' },
+  distributionChannel: '',
+  accroedCogsGL: { label: '', value: '' },
+  revenueGL: { label: '', value: '' },
+  salesDescription: '',
   minOrderQuantity: 0,
-  volume: "",
+  volume: '',
   isMrp: false,
-  hsCode: "",
+  hsCode: '',
   lotSize: 0,
-  vatItem: "",
-  conversionRatePcs: "",
+  vatItem: '',
+  conversionRatePcs: '',
 };
 
 export default function CreateItemPurchaseInfo({ isViewPage }) {
   const { id } = useParams();
-  const [data, setData] = useState("");
+  const [data, setData] = useState('');
   const [isExist, setExist] = useState(false);
   const [isDisabled, setDisabled] = useState(true);
   const [itemId, setItemId] = useState(null);
@@ -79,7 +79,7 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
   const getDataById = async (id, accountId, businessUnitId) => {
     try {
       const res = await Axios.get(
-        `/item/ItemSales/GetItemSalesById?ItemSalesId=${id}`
+        `/item/ItemSales/GetItemSalesById?ItemSalesId=${id}`,
       );
 
       const { data } = res;
@@ -105,14 +105,14 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
               value: itm?.distributionChannelId,
               label: itm?.distributionChannelName,
               configId: itm?.configId || 0,
-            })) || "",
+            })) || '',
           accroedCogsGL: {
             value: meta?.accruedCOGSGLId,
             label: meta?.accruedCOGSGLName,
           },
           revenueGL: {
-            value: meta.revenueGLId || "",
-            label: meta.revenueGLName || "",
+            value: meta.revenueGLId || '',
+            label: meta.revenueGLName || '',
           },
           cogsGL: { value: meta.cogsglId, label: meta.cogsglName },
           vatItem: {
@@ -121,23 +121,23 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
           },
         });
       } else {
-        setData("");
+        setData('');
       }
     } catch (err) {
       const tobj = {
         configId: 0,
         accountId: 0,
         businessUnitId: selectedBusinessUnit.value,
-        org: { value: "", label: "" },
+        org: { value: '', label: '' },
         itemId: +itemId,
-        purchaseDescription: "",
-        hscode: "",
+        purchaseDescription: '',
+        hscode: '',
         maxLeadDays: 0,
         minLeadDays: 0,
         minOrderQuantity: 0,
         lotSize: 0,
         isMrp: true,
-        conversionRatePcs: "",
+        conversionRatePcs: '',
       };
       setData(tobj);
     }
@@ -153,8 +153,8 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
       selectedBusinessUnit
     ) {
       if (values?.distributionChannel?.length > 0) {
-        if (selectedBusinessUnit.value == 144 && !values.conversionRatePcs) {
-          toast.warning("Conversion Rate Pcs is required", {
+        if (selectedBusinessUnit.value === 144 && !values.conversionRatePcs) {
+          toast.warning('Conversion Rate Pcs is required', {
             toastId: 1,
           });
           return;
@@ -184,31 +184,31 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
         }));
         try {
           const url = isExist
-            ? "/item/ItemSales/EditteItemSales"
-            : "/item/ItemSales/CreateItemSales";
-          const method = isExist ? "put" : "post";
+            ? '/item/ItemSales/EditteItemSales'
+            : '/item/ItemSales/CreateItemSales';
+          const method = isExist ? 'put' : 'post';
 
           const res = await Axios[method](url, payload);
           cb(data);
           getDataById(
             itemId,
             profileData.accountId,
-            selectedBusinessUnit.value
+            selectedBusinessUnit.value,
           );
 
-          toast.success(res.data?.message || "Submitted successfully", {
+          toast.success(res.data?.message || 'Submitted successfully', {
             toastId: 1,
           });
         } catch (error) {
           getDataById(
             itemId,
             profileData.accountId,
-            selectedBusinessUnit.value
+            selectedBusinessUnit.value,
           );
           toast.error(error?.response?.data?.message, { toastId: 1 });
         }
       } else {
-        return toast.warning("Distribution Channel is required", {
+        return toast.warning('Distribution Channel is required', {
           toastId: 1,
         });
       }
@@ -235,7 +235,7 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
   return (
     <Card>
       <CardHeader
-        title={isViewPage ? "Sales Information" : "Edit Sales Information"}
+        title={isViewPage ? 'Sales Information' : 'Edit Sales Information'}
       >
         <CardHeaderToolbar>
           {!isViewPage && (

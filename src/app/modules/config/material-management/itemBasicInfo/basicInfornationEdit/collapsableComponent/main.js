@@ -1,35 +1,32 @@
-import React, { useEffect, useState } from "react";
 import {
-  makeStyles,
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
+  makeStyles,
   Typography,
-} from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ItemBasicEditForm from "../editForm";
-import ConfigItemPlantWareHouse from "./configItemPlantWareHouse/configItemPlantWareHouse";
-import ConfigItemAttribute from "./configureItemAttribute/configItemAttribute";
-import CreateItemPurchaseInfo from "./configItemPurchaseInfo/createItemPurchaseInfo";
-import CreateItemSalesInfo from "./configItemSales/createItemSalesInfo";
-import CreateItemCogs from "./configItemCogs/createItemCogs";
-import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
 import {
   GetItemProfileConfigList_api,
   GetItemProfileInfoByItemID_api,
-} from "../../helper";
-import DynamicItemProfileForm from "./dynamicItemProfile/Form/addEditForm";
-import { useParams } from "react-router-dom";
-import Loading from "./../../../../../_helper/_loading";
+} from '../../helper';
+import Loading from './../../../../../_helper/_loading';
+import CreateItemCogs from './configItemCogs/createItemCogs';
+import ConfigItemPlantWareHouse from './configItemPlantWareHouse/configItemPlantWareHouse';
+import CreateItemPurchaseInfo from './configItemPurchaseInfo/createItemPurchaseInfo';
+import CreateItemSalesInfo from './configItemSales/createItemSalesInfo';
+import ConfigItemAttribute from './configureItemAttribute/configItemAttribute';
+import DynamicItemProfileForm from './dynamicItemProfile/Form/addEditForm';
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
+    width: '100%',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
-    flexBasis: "33.33%",
+    flexBasis: '33.33%',
     flexShrink: 0,
   },
   secondaryHeading: {
@@ -58,7 +55,7 @@ export default function MainCollapsePanel() {
   }, shallowEqual);
 
   const location = useLocation();
-  const isViewPage = location?.pathname?.includes("view");
+  const isViewPage = location?.pathname?.includes('view');
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -66,17 +63,17 @@ export default function MainCollapsePanel() {
   const { state } = useLocation();
 
   useEffect(() => {
-    if (state?.checkBox === "itemStatus") {
+    if (state?.checkBox === 'itemStatus') {
       setExpanded(1);
-    } else if (state?.checkBox === "itemAttributeConfigStatus") {
+    } else if (state?.checkBox === 'itemAttributeConfigStatus') {
       setExpanded(3);
-    } else if (state?.checkBox === "itemPlantWarehouseStatus") {
+    } else if (state?.checkBox === 'itemPlantWarehouseStatus') {
       setExpanded(2);
-    } else if (state?.checkBox === "itemPurchaseStatus") {
+    } else if (state?.checkBox === 'itemPurchaseStatus') {
       setExpanded(4);
-    } else if (state?.checkBox === "itemSalesStatus") {
+    } else if (state?.checkBox === 'itemSalesStatus') {
       setExpanded(5);
-    } else if (state?.checkBox === "itemWareHouseCostStatus") {
+    } else if (state?.checkBox === 'itemWareHouseCostStatus') {
       setExpanded(6);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,22 +95,22 @@ export default function MainCollapsePanel() {
           }}
         />
       ),
-      title: "Config Item Plant Warehosue",
+      title: 'Config Item Plant Warehosue',
     },
     {
       id: 3,
       component: <ConfigItemAttribute isViewPage={isViewPage} />,
-      title: "Config Item Attribute",
+      title: 'Config Item Attribute',
     },
     {
       id: 4,
       component: <CreateItemPurchaseInfo isViewPage={isViewPage} />,
-      title: "Purchase Information",
+      title: 'Purchase Information',
     },
     {
       id: 5,
       component: <CreateItemSalesInfo isViewPage={isViewPage} />,
-      title: "Sales Information",
+      title: 'Sales Information',
     },
     {
       id: 6,
@@ -123,7 +120,7 @@ export default function MainCollapsePanel() {
           fetchCostWarehouse={fetchCostWarehouse}
         />
       ),
-      title: "Costing Information",
+      title: 'Costing Information',
     },
   ];
   // Create
@@ -134,7 +131,7 @@ export default function MainCollapsePanel() {
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setProfileConfigList,
-        setLoading
+        setLoading,
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -146,7 +143,7 @@ export default function MainCollapsePanel() {
       id,
       itemProfileId,
       setItemProfileInfoByItemID,
-      setLoadingTwo
+      setLoadingTwo,
     );
   };
   const handleChangeTow = (panel, itm) => (event, isExpanded) => {

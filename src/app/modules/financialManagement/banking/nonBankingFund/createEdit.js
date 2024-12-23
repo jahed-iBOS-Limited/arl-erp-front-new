@@ -1,54 +1,53 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import IForm from "./../../../_helper/_form";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "./../../../_helper/_select";
-import { useParams } from "react-router-dom";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from './../../../_helper/_form';
+import InputField from './../../../_helper/_inputField';
+import Loading from './../../../_helper/_loading';
+import NewSelect from './../../../_helper/_select';
 
 const initData = {
   depositeType: {
     value: 1,
-    label: "Security Deposit",
+    label: 'Security Deposit',
     code: null,
   },
-  partner: "",
-  securityNumber: "",
-  amount: "",
+  partner: '',
+  securityNumber: '',
+  amount: '',
   issueDate: _todayDate(),
-  endDate: "",
-  tDays: "",
-  purpose: "",
-  bankAccountNo: "",
-  transactionDate: "",
+  endDate: '',
+  tDays: '',
+  purpose: '',
+  bankAccountNo: '',
+  transactionDate: '',
 };
 
 const validationSchema = Yup.object().shape({
   depositeType: Yup.object().shape({
-    label: Yup.string().required("Deposite Type is required"),
-    value: Yup.string().required("Deposite Type is required"),
+    label: Yup.string().required('Deposite Type is required'),
+    value: Yup.string().required('Deposite Type is required'),
   }),
   partner: Yup.object().shape({
-    label: Yup.string().required("Partner is required"),
-    value: Yup.string().required("Partner is required"),
+    label: Yup.string().required('Partner is required'),
+    value: Yup.string().required('Partner is required'),
   }),
-  securityNumber: Yup.string().required("Security Number is required"),
-  amount: Yup.number().required("Amount is required"),
-  issueDate: Yup.string().required("Issue Date is required"),
+  securityNumber: Yup.string().required('Security Number is required'),
+  amount: Yup.number().required('Amount is required'),
+  issueDate: Yup.string().required('Issue Date is required'),
   // endDate: Yup.string().required("End Date is required"),
   // tDays: Yup.string().required("T Days is required"),
-  purpose: Yup.string().required("Purpose is required"),
+  purpose: Yup.string().required('Purpose is required'),
   bankAccountNo: Yup.object().shape({
-    label: Yup.string().required("Bank Account No is required"),
-    value: Yup.string().required("Bank Account No is required"),
+    label: Yup.string().required('Bank Account No is required'),
+    value: Yup.string().required('Bank Account No is required'),
   }),
-  transactionDate: Yup.string().required("Transaction Date is required"),
+  transactionDate: Yup.string().required('Transaction Date is required'),
 });
 
 export default function NonBankingFundCreateEdit() {
@@ -56,7 +55,7 @@ export default function NonBankingFundCreateEdit() {
 
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual
+    shallowEqual,
   );
   const [, saveData, saveDataLaoder] = useAxiosPost();
   const [
@@ -78,6 +77,7 @@ export default function NonBankingFundCreateEdit() {
     getDepositeTypeDDL(`/fino/FundManagement/GetDepositTypeDDL`);
     getPartnerDDL(`/fino/FundManagement/GetNonBankingPartnerDDL?businessUnitId=${selectedBusinessUnit?.value}
     `);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveHandler = (values, cb) => {
@@ -126,7 +126,7 @@ export default function NonBankingFundCreateEdit() {
             depositeTypeDDLloader ||
             partnerDDLloader) && <Loading />}
           <IForm
-            title={id ? "Edit Non Banking Fund" : "Create Non Banking Fund"}
+            title={id ? 'Edit Non Banking Fund' : 'Create Non Banking Fund'}
             getProps={setObjprops}
           >
             <Form>
@@ -138,7 +138,7 @@ export default function NonBankingFundCreateEdit() {
                     value={values?.depositeType}
                     label="Deposite Type"
                     onChange={(valueOption) => {
-                      setFieldValue("depositeType", valueOption);
+                      setFieldValue('depositeType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -152,7 +152,7 @@ export default function NonBankingFundCreateEdit() {
                     value={values?.partner}
                     label="Partner"
                     onChange={(valueOption) => {
-                      setFieldValue("partner", valueOption);
+                      setFieldValue('partner', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -165,7 +165,7 @@ export default function NonBankingFundCreateEdit() {
                     name="securityNumber"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("securityNumber", e.target.value);
+                      setFieldValue('securityNumber', e.target.value);
                     }}
                   />
                 </div>
@@ -176,7 +176,7 @@ export default function NonBankingFundCreateEdit() {
                     value={values?.bankAccountNo}
                     label="Bank Account No"
                     onChange={(valueOption) => {
-                      setFieldValue("bankAccountNo", valueOption);
+                      setFieldValue('bankAccountNo', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -189,7 +189,7 @@ export default function NonBankingFundCreateEdit() {
                     name="amount"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("amount", e.target.value);
+                      setFieldValue('amount', e.target.value);
                     }}
                   />
                 </div>
@@ -200,7 +200,7 @@ export default function NonBankingFundCreateEdit() {
                     name="purpose"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("purpose", e.target.value);
+                      setFieldValue('purpose', e.target.value);
                     }}
                   />
                 </div>
@@ -211,7 +211,7 @@ export default function NonBankingFundCreateEdit() {
                     name="issueDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("issueDate", e.target.value);
+                      setFieldValue('issueDate', e.target.value);
                     }}
                   />
                 </div>
@@ -222,7 +222,7 @@ export default function NonBankingFundCreateEdit() {
                     name="endDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("endDate", e.target.value);
+                      setFieldValue('endDate', e.target.value);
                     }}
                   />
                 </div>
@@ -233,7 +233,7 @@ export default function NonBankingFundCreateEdit() {
                     name="transactionDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("transactionDate", e.target.value);
+                      setFieldValue('transactionDate', e.target.value);
                     }}
                   />
                 </div>
@@ -241,14 +241,14 @@ export default function NonBankingFundCreateEdit() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

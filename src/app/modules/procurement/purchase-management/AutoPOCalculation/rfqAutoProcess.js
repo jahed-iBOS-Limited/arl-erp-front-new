@@ -1,65 +1,57 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import NewSelect from "../../../_helper/_select";
-import { IInput } from "../../../_helper/_input";
-import { set } from "lodash";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import IForm from '../../../_helper/_form';
+import { IInput } from '../../../_helper/_input';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  businessUnit: "",
-  itemSubCategory: "",
-  itemCategory: "",
-  itemType: "",
+  businessUnit: '',
+  itemSubCategory: '',
+  itemCategory: '',
+  itemType: '',
 };
 
 const validationSchema = Yup.object().shape({
   businessUnit: Yup.object().shape({
-    label: Yup.string().required("Business Unit is required"),
-    value: Yup.string().required("Business Unit is required"),
+    label: Yup.string().required('Business Unit is required'),
+    value: Yup.string().required('Business Unit is required'),
   }),
   itemSubCategory: Yup.object().shape({
-    label: Yup.string().required("Item Sub Category is required"),
-    value: Yup.string().required("Item Sub Category is required"),
+    label: Yup.string().required('Item Sub Category is required'),
+    value: Yup.string().required('Item Sub Category is required'),
   }),
   itemCategory: Yup.object().shape({
-    label: Yup.string().required("Item Category is required"),
-    value: Yup.string().required("Item Category is required"),
+    label: Yup.string().required('Item Category is required'),
+    value: Yup.string().required('Item Category is required'),
   }),
   itemType: Yup.object().shape({
-    label: Yup.string().required("Items type is required"),
-    value: Yup.string().required("Items type is required"),
+    label: Yup.string().required('Items type is required'),
+    value: Yup.string().required('Items type is required'),
   }),
 });
 export default function RFQAutoProcess() {
   const saveHandler = (values, cb) => {};
   const [autoRFQData, getAutoRFQData, loading, setAutoRFQData] = useAxiosGet();
-  const [, onCreateRFQHandler, loader] = useAxiosPost();
-  const [
-    itemTypeList,
-    getitemTypeList,
-    itemTypeLoading,
-    setItemTypeList,
-  ] = useAxiosGet();
+  const [, , loader] = useAxiosPost();
+  const [itemTypeList, getitemTypeList, , setItemTypeList] = useAxiosGet();
   const [
     itemCategoryList,
     getCategoryData,
-    categoryLoading,
+    ,
     setItemCategoryList,
   ] = useAxiosGet();
   const [
     itemSubCategoryList,
     getSubCategoryData,
-    subCategoryLoading,
+    ,
     setItemSubCategoryList,
   ] = useAxiosGet();
 
@@ -73,12 +65,9 @@ export default function RFQAutoProcess() {
   const history = useHistory();
 
   // get selected business unit from store
-  const { selectedBusinessUnit, profileData, businessUnitList } = useSelector(
-    (state) => {
-      return state.authData;
-    },
-    shallowEqual
-  );
+  const { profileData, businessUnitList } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
 
   useEffect(() => {
     getitemTypeList(`/item/ItemCategory/GetItemTypeListDDL`, (data) => {
@@ -91,6 +80,7 @@ export default function RFQAutoProcess() {
       });
       setItemTypeList(modData);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const categoryApiCaller = async (typeId, values) => {
@@ -105,7 +95,7 @@ export default function RFQAutoProcess() {
           };
         });
         setItemCategoryList(modData);
-      }
+      },
     );
   };
 
@@ -121,7 +111,7 @@ export default function RFQAutoProcess() {
           };
         });
         setItemSubCategoryList(modData);
-      }
+      },
     );
   };
 
@@ -130,28 +120,28 @@ export default function RFQAutoProcess() {
     getAutoRFQData(apiUrl);
   };
 
-  const payloadMapping = (data) => {
-    return data.map((item) => ({
-      accountId: item.accountId || 0,
-      businessUnitId: item.businessUnitId || 0,
-      sbuId: item.sbuId || 0,
-      plantId: item.plantId || 0,
-      plantName: item.plantName || "",
-      warehouseId: item.warehouseId || 0,
-      purchaseOrganizationId: item.purchaseOrganizationId || 0,
-      supplierId: item.supplierId || 0,
-      supplierName: item.supplierName || "",
-      purchaseRequestId: item.purchaseRequestId || 0,
-      purchaseRequestCode: item.purchaseRequestCode || "",
-      restQuantity: item.restQuantity || 0,
-      itemId: item.itemId || 0,
-      itemName: item.itemName || "",
-      uoMId: item.uoMId || 0,
-      uoMName: item.uoMName || "",
-      itemRate: item.itemRate || 0,
-      finalPrice: item.finalPrice || 0,
-    }));
-  };
+  // const payloadMapping = (data) => {
+  //   return data.map((item) => ({
+  //     accountId: item.accountId || 0,
+  //     businessUnitId: item.businessUnitId || 0,
+  //     sbuId: item.sbuId || 0,
+  //     plantId: item.plantId || 0,
+  //     plantName: item.plantName || "",
+  //     warehouseId: item.warehouseId || 0,
+  //     purchaseOrganizationId: item.purchaseOrganizationId || 0,
+  //     supplierId: item.supplierId || 0,
+  //     supplierName: item.supplierName || "",
+  //     purchaseRequestId: item.purchaseRequestId || 0,
+  //     purchaseRequestCode: item.purchaseRequestCode || "",
+  //     restQuantity: item.restQuantity || 0,
+  //     itemId: item.itemId || 0,
+  //     itemName: item.itemName || "",
+  //     uoMId: item.uoMId || 0,
+  //     uoMName: item.uoMName || "",
+  //     itemRate: item.itemRate || 0,
+  //     finalPrice: item.finalPrice || 0,
+  //   }));
+  // };
 
   return (
     <Formik
@@ -221,15 +211,15 @@ export default function RFQAutoProcess() {
                       label="Business Unit"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("businessUnit", valueOption || "");
+                          setFieldValue('businessUnit', valueOption || '');
                           setAutoRFQData([]);
                           getPlantDDL(
-                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}&OrgUnitTypeId=7`
+                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}&OrgUnitTypeId=7`,
                           );
                         } else {
-                          setFieldValue("businessUnit", "");
-                          setFieldValue("plant", "");
-                          setFieldValue("warehouse", "");
+                          setFieldValue('businessUnit', '');
+                          setFieldValue('plant', '');
+                          setFieldValue('warehouse', '');
                           setAutoRFQData([]);
                           setPlantDDL([]);
                         }
@@ -246,14 +236,14 @@ export default function RFQAutoProcess() {
                       label="Plant"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("plant", valueOption || "");
+                          setFieldValue('plant', valueOption || '');
                           setAutoRFQData([]);
                           getWarehouseDDL(
-                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
+                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`,
                           );
                         } else {
-                          setFieldValue("plant", "");
-                          setFieldValue("warehouse", "");
+                          setFieldValue('plant', '');
+                          setFieldValue('warehouse', '');
                           setAutoRFQData([]);
                           setWarehouseDDL([]);
                         }
@@ -269,7 +259,7 @@ export default function RFQAutoProcess() {
                       value={values?.warehouse}
                       label="Warehouse"
                       onChange={(valueOption) => {
-                        setFieldValue("warehouse", valueOption || "");
+                        setFieldValue('warehouse', valueOption || '');
                         setAutoRFQData([]);
                       }}
                       errors={errors}
@@ -296,19 +286,19 @@ export default function RFQAutoProcess() {
                     <NewSelect
                       name="status"
                       options={[
-                        { value: 1, label: "All" },
-                        { value: 5, label: "Process" },
-                        { value: 4, label: "RFQ" },
+                        { value: 1, label: 'All' },
+                        { value: 5, label: 'Process' },
+                        { value: 4, label: 'RFQ' },
                       ]}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
                         if (valueOption) {
                           setAutoRFQData([]);
-                          setFieldValue("status", valueOption || "");
+                          setFieldValue('status', valueOption || '');
                         } else {
                           setAutoRFQData([]);
-                          setFieldValue("status", "");
+                          setFieldValue('status', '');
                           setAutoRFQData([]);
                         }
                       }}
@@ -324,8 +314,8 @@ export default function RFQAutoProcess() {
                       label="Select Item Type"
                       onChange={(valueOption) => {
                         categoryApiCaller(valueOption?.value, values);
-                        setFieldValue("itemCategory", "");
-                        setFieldValue("itemType", valueOption);
+                        setFieldValue('itemCategory', '');
+                        setFieldValue('itemType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -338,9 +328,9 @@ export default function RFQAutoProcess() {
                       value={values?.itemCategory}
                       label="Select Item Category"
                       onChange={(valueOption) => {
-                        setFieldValue("itemSubCategory", "");
+                        setFieldValue('itemSubCategory', '');
                         subcategoryApiCaller(valueOption?.value, values);
-                        setFieldValue("itemCategory", valueOption);
+                        setFieldValue('itemCategory', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -353,7 +343,7 @@ export default function RFQAutoProcess() {
                       value={values?.itemSubCategory}
                       label="Select Item Sub-category"
                       onChange={(valueOption) => {
-                        setFieldValue("itemSubCategory", valueOption);
+                        setFieldValue('itemSubCategory', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -375,7 +365,7 @@ export default function RFQAutoProcess() {
                           !values.itemCategory ||
                           !values.itemSubCategory
                         ) {
-                          toast.error("All fields are required");
+                          toast.error('All fields are required');
                           return;
                         }
                         getData(values);
@@ -420,10 +410,10 @@ export default function RFQAutoProcess() {
                                 <td>{index + 1}</td>
 
                                 <td className="text-left">
-                                  {item?.purchaseRequestCode || ""}
+                                  {item?.purchaseRequestCode || ''}
                                 </td>
                                 <td className="text-center">
-                                  {item?.purchaseRequestTypeName || ""}
+                                  {item?.purchaseRequestTypeName || ''}
                                 </td>
                                 {/* <td className="text-center">
                                   {item?.itemCode}
@@ -456,10 +446,10 @@ export default function RFQAutoProcess() {
                                   {item?.reorderLevel}
                                 </td> */}
                                 <td className="text-center">
-                                  {item?.noOfItem || ""}
+                                  {item?.noOfItem || ''}
                                 </td>
                                 <td className="text-center">
-                                  {item?.totalQuantity || ""}
+                                  {item?.totalQuantity || ''}
                                 </td>
                                 <td className="text-center">
                                   {values?.status?.value === 4 && (
@@ -479,8 +469,8 @@ export default function RFQAutoProcess() {
                                         }}
                                         className="fas fa-plus-circle fa-2x "
                                         style={{
-                                          color: "#007bff",
-                                          cursor: "pointer",
+                                          color: '#007bff',
+                                          cursor: 'pointer',
                                         }}
                                       ></i>
                                     </OverlayTrigger>

@@ -1,20 +1,20 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../purchaseOrder/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../purchaseOrder/customHooks/useAxiosGet';
 import {
   fetchCommonItemDetailsData,
   floatingStockTableHeader,
   openPOTableHeader,
-} from "./helper";
+} from './helper';
 
 const CommonItemDetailsModal = ({ objProp }) => {
   // obj props
   const { commonItemDetailsState, commonItemDetailsDispatch, values } = objProp;
 
   // state
-  const [objProps, setObjprops] = useState({});
+  const [setObjprops] = useState({});
 
   // api action
   const [
@@ -29,7 +29,7 @@ const CommonItemDetailsModal = ({ objProp }) => {
       getCommonItemData,
       commonItemDetailsState,
       commonItemDetailsDispatch,
-      values
+      values,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -42,19 +42,8 @@ const CommonItemDetailsModal = ({ objProp }) => {
   // common item details state
   const { partName } = commonItemDetailsState;
 
-  // total po qty (common item data)
-  const totalPOQty = commonItemData?.reduce(
-    (acc, item) => acc + item?.numQTY || 0,
-    0
-  );
-
-  // balance on ghat (common item details => single item)
-  const {
-    singleRowData: { balanceOnGhat },
-  } = commonItemDetailsState;
-
   return (
-    <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => { }}>
+    <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => {}}>
       {({
         handleSubmit,
         resetForm,
@@ -79,13 +68,13 @@ const CommonItemDetailsModal = ({ objProp }) => {
                   <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        {partName === "FloatingStock" || partName === "OpenPR"
+                        {partName === 'FloatingStock' || partName === 'OpenPR'
                           ? floatingStockTableHeader?.map((item, index) => (
-                            <th key={index}>{item}</th>
-                          ))
+                              <th key={index}>{item}</th>
+                            ))
                           : openPOTableHeader?.map((item, index) => (
-                            <th key={index}>{item}</th>
-                          ))}
+                              <th key={index}>{item}</th>
+                            ))}
                       </tr>
                     </thead>
                     <tbody>
@@ -95,8 +84,8 @@ const CommonItemDetailsModal = ({ objProp }) => {
                           <td className="text-center">{item?.strPlantName}</td>
                           <td>{item?.strWarehouseName}</td>
                           <td className="text-center">
-                            {partName === "FloatingStock" ||
-                              partName === "OpenPR"
+                            {partName === 'FloatingStock' ||
+                            partName === 'OpenPR'
                               ? item?.strPurchaseRequestCode
                               : item?.strPurchaseOrderNo}
                           </td>
@@ -107,7 +96,10 @@ const CommonItemDetailsModal = ({ objProp }) => {
                       <tr>
                         <td colSpan={4}>Total</td>
                         <td className="text-right">
-                          {commonItemData.reduce((sum, item) => sum + item.numQTY, 0) || 0}
+                          {commonItemData.reduce(
+                            (sum, item) => sum + item.numQTY,
+                            0,
+                          ) || 0}
                         </td>
                       </tr>
                     </tbody>

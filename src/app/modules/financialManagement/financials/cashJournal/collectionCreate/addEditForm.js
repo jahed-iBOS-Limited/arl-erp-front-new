@@ -1,39 +1,15 @@
-import React, { useCallback, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useLocation } from "react-router-dom";
-import { saveCashJournal_Action } from "../_redux/Actions";
-import { toast } from "react-toastify";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Loading from "../../../../_helper/_loading";
-import { confirmAlert } from "react-confirm-alert";
-import  "./style.css";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import axios from "axios";
-
-const initData = {
-  id: undefined,
-  partnerType: "",
-  sbu: "",
-  cashGLPlus: "",
-  receiveFrom: "",
-  headerNarration: "",
-  partner: "",
-  profitCenter: "",
-  transaction: "",
-  gl: "",
-  amount: "",
-  narration: "",
-  paidTo: "",
-  costCenter: "",
-  trasferTo: "",
-  gLBankAc: "",
-  transactionDate: _todayDate(),
-  revenueElement:"",
-  revenueCenter:"",
-  costElement:""
-};
+import axios from 'axios';
+import React, { useCallback, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { saveCashJournal_Action } from '../_redux/Actions';
+import Form from './form';
+import './style.css';
 
 export default function CashJournaFormForCollection({
   history,
@@ -45,24 +21,19 @@ export default function CashJournaFormForCollection({
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const { state: headerData } = useLocation();
-  const [attachmentFile, setAttachmentFile] = useState("");
+  const [attachmentFile, setAttachmentFile] = useState('');
   const [, onCollectionHandler] = useAxiosPost();
-
-
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
 
-  const singleData = useSelector((state) => {
-    return state.costControllingUnit?.singleData;
-  }, shallowEqual);
-
   const dispatch = useDispatch();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   let netAmount = useCallback(
     rowDto?.reduce((total, value) => total + +value?.amount, 0),
-    [rowDto]
+    [rowDto],
   );
 
   //save event Modal (code see)
@@ -73,92 +44,104 @@ export default function CashJournaFormForCollection({
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
     });
   };
 
-// Define onVdsAction function outside of collectionSave
-const onVdsAction = () => {
-  const apiUrl = `/oms/ServiceSales/VDSalesVoucherPosting?customerId=${headerData?.customerDetails?.value}&numVDSAmount=${headerData?.numVDSAmount || 0}`;
+  // Define onVdsAction function outside of collectionSave
+  const onVdsAction = () => {
+    const apiUrl = `/oms/ServiceSales/VDSalesVoucherPosting?customerId=${
+      headerData?.customerDetails?.value
+    }&numVDSAmount=${headerData?.numVDSAmount || 0}`;
 
-  return axios.post(apiUrl)
-    .then(() => {
-      toast.success('VDS created successfully');
-    })
-    .catch(() => {
-      toast.warn('VDS creation failed. You have to create again');
-    });
-};
-
-// Define collectionSave for Cash Journal
-const collectionSave = (journalCode) => {
-  const handleCollection = () => {
-    const payload = headerData?.collectionRow?.map((item) => ({
-      intServiceSalesInvoiceRowId: item?.invocieRow?.[0]?.intServiceSalesInvoiceRowId,
-      intServiceSalesInvoiceId: item?.invocieRow?.[0]?.intServiceSalesInvoiceId,
-      intServiceSalesScheduleId: item?.invocieRow?.[0]?.intServiceSalesScheduleId,
-      dteScheduleCreateDateTime: item?.invocieRow?.[0]?.dteScheduleCreateDateTime,
-      dteDueDateTime: item?.invocieRow?.[0]?.dteDueDateTime,
-      strReceiveAbleJournalCode: journalCode,
-      numScheduleAmount: item?.invocieRow?.[0]?.numScheduleAmount,
-      numScheduleVatAmount: item?.invocieRow?.[0]?.numScheduleVatAmount,
-      numCollectionAmount: item?.invocieRow?.[0]?.alreadyCollectedAmount + item?.invocieRow?.[0]?.numCollectionAmount,
-      numPendingAmount: item?.invocieRow?.[0]?.numPendingAmount,
-      numAdjustPreviousAmount: item?.invocieRow?.[0]?.numAdjustPreviousAmount,
-      isCollectionComplete: item?.invocieRow?.[0]?.numPendingAmount ? false : true,
-      numReceivePendingAmount: item?.invocieRow?.[0]?.peviousPendingAmount || 0,
-    }));
-
-    onCollectionHandler(
-      `/oms/ServiceSales/MultipleInvoiceCollection`,
-      payload,
-      () => {
-        const obj = {
-          title: "Cash Journal Code",
-          message: journalCode,
-          yesAlertFunc: () => {
-            history.goBack();
-          },
-          noAlertFunc: () => {
-            history.goBack();
-          },
-        };
-        IConfirmModal(obj);
-      },
-      true
-    );
+    return axios
+      .post(apiUrl)
+      .then(() => {
+        toast.success('VDS created successfully');
+      })
+      .catch(() => {
+        toast.warn('VDS creation failed. You have to create again');
+      });
   };
 
-  // Check if numVDSAmount exists in headerData
-  if (headerData?.numVDSAmount) {
-    onVdsAction().finally(() => {
+  // Define collectionSave for Cash Journal
+  const collectionSave = (journalCode) => {
+    const handleCollection = () => {
+      const payload = headerData?.collectionRow?.map((item) => ({
+        intServiceSalesInvoiceRowId:
+          item?.invocieRow?.[0]?.intServiceSalesInvoiceRowId,
+        intServiceSalesInvoiceId:
+          item?.invocieRow?.[0]?.intServiceSalesInvoiceId,
+        intServiceSalesScheduleId:
+          item?.invocieRow?.[0]?.intServiceSalesScheduleId,
+        dteScheduleCreateDateTime:
+          item?.invocieRow?.[0]?.dteScheduleCreateDateTime,
+        dteDueDateTime: item?.invocieRow?.[0]?.dteDueDateTime,
+        strReceiveAbleJournalCode: journalCode,
+        numScheduleAmount: item?.invocieRow?.[0]?.numScheduleAmount,
+        numScheduleVatAmount: item?.invocieRow?.[0]?.numScheduleVatAmount,
+        numCollectionAmount:
+          item?.invocieRow?.[0]?.alreadyCollectedAmount +
+          item?.invocieRow?.[0]?.numCollectionAmount,
+        numPendingAmount: item?.invocieRow?.[0]?.numPendingAmount,
+        numAdjustPreviousAmount: item?.invocieRow?.[0]?.numAdjustPreviousAmount,
+        isCollectionComplete: item?.invocieRow?.[0]?.numPendingAmount
+          ? false
+          : true,
+        numReceivePendingAmount:
+          item?.invocieRow?.[0]?.peviousPendingAmount || 0,
+      }));
+
+      onCollectionHandler(
+        `/oms/ServiceSales/MultipleInvoiceCollection`,
+        payload,
+        () => {
+          const obj = {
+            title: 'Cash Journal Code',
+            message: journalCode,
+            yesAlertFunc: () => {
+              history.goBack();
+            },
+            noAlertFunc: () => {
+              history.goBack();
+            },
+          };
+          IConfirmModal(obj);
+        },
+        true,
+      );
+    };
+
+    // Check if numVDSAmount exists in headerData
+    if (headerData?.numVDSAmount) {
+      onVdsAction().finally(() => {
+        handleCollection();
+      });
+    } else {
       handleCollection();
-    });
-  } else {
-    handleCollection();
-  }
-};
+    }
+  };
 
   const saveHandler = async (values, cb) => {
-    if(headerData?.accountingJournalTypeId === 2 && !id && !attachmentFile){
-      return toast.warn("Attachment Required")
+    if (headerData?.accountingJournalTypeId === 2 && !id && !attachmentFile) {
+      return toast.warn('Attachment Required');
     }
     // for cash receipts and payment we need rowDto
     if (headerData?.accountingJournalTypeId !== 3 && rowDto?.length === 0)
-      return toast.warn("Please add transaction");
-    if(headerData?.accountingJournalTypeId===1){
-      if(values?.revenueCenter || values?.revenueElement){
-        if(!( values?.revenueCenter && values?.revenueElement)){
-          return toast.warn("Please add Revenue center or Revenue element");
+      return toast.warn('Please add transaction');
+    if (headerData?.accountingJournalTypeId === 1) {
+      if (values?.revenueCenter || values?.revenueElement) {
+        if (!(values?.revenueCenter && values?.revenueElement)) {
+          return toast.warn('Please add Revenue center or Revenue element');
         }
       }
-    }else{
-      if(values?.costCenter || values?.costElement){
-        if(!( values?.costCenter && values?.costElement)){
-          return toast.warn("Please add Cost center or Cost element");
+    } else {
+      if (values?.costCenter || values?.costElement) {
+        if (!(values?.costCenter && values?.costElement)) {
+          return toast.warn('Please add Cost center or Cost element');
         }
       }
     }
@@ -168,10 +151,11 @@ const collectionSave = (journalCode) => {
         rowId: 0,
         bankAccountId:
           values?.trasferTo?.value === 2 ? 0 : values?.gLBankAc?.value,
-        bankAccNo: values?.trasferTo?.value === 2 ? "" : values?.gLBankAc?.label,
+        bankAccNo:
+          values?.trasferTo?.value === 2 ? '' : values?.gLBankAc?.label,
         businessTransactionId: 0,
-        businessTransactionCode: "",
-        businessTransactionName: "",
+        businessTransactionCode: '',
+        businessTransactionName: '',
         generalLedgerId:
           values?.trasferTo?.value === 2
             ? values?.gLBankAc?.value
@@ -190,12 +174,11 @@ const collectionSave = (journalCode) => {
       },
     ];
 
-
     // Cash receipts Journal and Cash payment Journal Row part
     const objRow = rowDto.map((item) => ({
       rowId: 0,
       bankAccountId: 0,
-      bankAccNo: "",
+      bankAccNo: '',
       businessTransactionId: item?.transaction?.value,
       businessTransactionCode: item?.transaction?.code,
       businessTransactionName: item?.transaction?.label,
@@ -204,12 +187,12 @@ const collectionSave = (journalCode) => {
       generalLedgerName: item?.gl?.label,
       narration: item?.narration,
       businessPartnerId:
-        item?.partnerType?.label === "Others" ? 0 : item?.transaction?.value,
+        item?.partnerType?.label === 'Others' ? 0 : item?.transaction?.value,
       businessPartnerCode:
-        item?.partnerType?.label === "Others" ? "" : item?.transaction?.code,
+        item?.partnerType?.label === 'Others' ? '' : item?.transaction?.code,
       businessPartnerName:
-        item?.partnerType?.label === "Others" ? "" : item?.transaction?.label,
-      partnerTypeName: item?.partnerType?.label || "",
+        item?.partnerType?.label === 'Others' ? '' : item?.transaction?.label,
+      partnerTypeName: item?.partnerType?.label || '',
       partnerTypeId: item?.partnerType?.value || 0,
       amount: +item?.amount,
       subGLId: item?.transaction?.value,
@@ -218,23 +201,29 @@ const collectionSave = (journalCode) => {
       subGLTypeId: item?.partnerType?.reffPrtTypeId,
       subGLTypeName: item?.partnerType?.label,
     }));
-    const isRevenue = (headerData?.accountingJournalTypeId === 1 && values?.revenueCenter && values?.revenueElement) 
-    const isCostCenter = (headerData?.accountingJournalTypeId !== 1 && values?.costCenter && values?.costElement) 
+    const isRevenue =
+      headerData?.accountingJournalTypeId === 1 &&
+      values?.revenueCenter &&
+      values?.revenueElement;
+    const isCostCenter =
+      headerData?.accountingJournalTypeId !== 1 &&
+      values?.costCenter &&
+      values?.costElement;
     const payload = {
       objHeader: {
         cashJournalId: 0,
-        cashJournalCode: "",
+        cashJournalCode: '',
         journalDate: values?.transactionDate,
         accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
         sbuid: headerData?.sbu?.value,
         receiveFrom:
-          headerData?.accountingJournalTypeId === 1 ? values?.receiveFrom : "",
+          headerData?.accountingJournalTypeId === 1 ? values?.receiveFrom : '',
         transferTo:
           headerData?.accountingJournalTypeId === 3
             ? values?.trasferTo?.label
-            : "",
-        paidTo: headerData?.accountingJournalTypeId === 2 ? values?.paidTo : "",
+            : '',
+        paidTo: headerData?.accountingJournalTypeId === 2 ? values?.paidTo : '',
         generalLedgerId: values?.cashGLPlus?.value,
         generalLedgerCode: values?.cashGLPlus?.generalLedgerCode,
         generalLedgerName: values?.cashGLPlus?.label,
@@ -244,29 +233,45 @@ const collectionSave = (journalCode) => {
             : +netAmount,
         narration: values?.headerNarration,
         posted: false,
-        partnerTypeName: values?.partnerType?.label || "",
+        partnerTypeName: values?.partnerType?.label || '',
         partnerTypeId: values?.partnerType?.value || 0,
         businessPartnerId:
-          values?.partnerType?.label === "Others"
+          values?.partnerType?.label === 'Others'
             ? 0
             : values?.transaction?.value,
         businessPartnerCode:
-          values?.partnerType?.label === "Others"
-            ? ""
+          values?.partnerType?.label === 'Others'
+            ? ''
             : values?.transaction?.code,
         businessPartnerName:
-          values?.partnerType?.label === "Others"
-            ? ""
+          values?.partnerType?.label === 'Others'
+            ? ''
             : values?.transaction?.label,
         accountingJournalTypeId: headerData?.accountingJournalTypeId,
         directPosting: true,
         actionBy: profileData?.userId,
-        controlType: isRevenue ? "revenue": isCostCenter ? "cost":"",
-        costRevenueName: isRevenue ? values?.revenueCenter?.label : isCostCenter ? values?.costCenter?.label : "",
-        costRevenueId: isRevenue ? values?.revenueCenter?.value : isCostCenter  ? values?.costCenter?.value : 0,
-        elementName: isRevenue ? values?.revenueElement?.label : isCostCenter  ? values?.costElement?.label : "",
-        elementId: isRevenue ? values?.revenueElement?.value : isCostCenter  ? values?.costElement?.value : 0,
-        attachment: attachmentFile || "",
+        controlType: isRevenue ? 'revenue' : isCostCenter ? 'cost' : '',
+        costRevenueName: isRevenue
+          ? values?.revenueCenter?.label
+          : isCostCenter
+          ? values?.costCenter?.label
+          : '',
+        costRevenueId: isRevenue
+          ? values?.revenueCenter?.value
+          : isCostCenter
+          ? values?.costCenter?.value
+          : 0,
+        elementName: isRevenue
+          ? values?.revenueElement?.label
+          : isCostCenter
+          ? values?.costElement?.label
+          : '',
+        elementId: isRevenue
+          ? values?.revenueElement?.value
+          : isCostCenter
+          ? values?.costElement?.value
+          : 0,
+        attachment: attachmentFile || '',
       },
       objRowList:
         headerData?.accountingJournalTypeId === 3
@@ -277,24 +282,24 @@ const collectionSave = (journalCode) => {
     dispatch(
       saveCashJournal_Action({
         data: payload,
-        cb : (journalCode)=>{
+        cb: (journalCode) => {
           collectionSave(journalCode);
-          cb()
+          cb();
         },
         setDisabled,
         IConfirmModal,
-      })
+      }),
     );
   };
 
   const setter = (values) => {
     const count = rowDto?.filter(
-      (item) => item?.transaction?.value === values?.transaction?.value
+      (item) => item?.transaction?.value === values?.transaction?.value,
     ).length;
     if (count === 0) {
       setRowDto([...rowDto, values]);
     } else {
-      toast.warn("Not allowed to duplicate transaction");
+      toast.warn('Not allowed to duplicate transaction');
     }
   };
   const remover = (id) => {
@@ -306,10 +311,10 @@ const collectionSave = (journalCode) => {
     <IForm
       title={`Create ${
         headerData?.accountingJournalTypeId === 1
-          ? "Cash Receipts Journal"
+          ? 'Cash Receipts Journal'
           : headerData?.accountingJournalTypeId === 2
-          ? "Cash Payments Journal"
-          : "Cash Transfer Journal"
+          ? 'Cash Payments Journal'
+          : 'Cash Transfer Journal'
       }`}
       getProps={setObjprops}
       isDisabled={isDisabled}
@@ -331,8 +336,8 @@ const collectionSave = (journalCode) => {
         remover={remover}
         setRowDto={setRowDto}
         netAmount={netAmount}
-        attachmentFile = {attachmentFile}
-        setAttachmentFile = {setAttachmentFile}
+        attachmentFile={attachmentFile}
+        setAttachmentFile={setAttachmentFile}
       />
     </IForm>
   );

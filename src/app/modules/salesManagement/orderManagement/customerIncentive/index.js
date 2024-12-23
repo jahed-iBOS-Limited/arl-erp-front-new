@@ -1,34 +1,34 @@
-import { Form, Formik } from "formik";
-import React, { useMemo, useState } from "react";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import useDebounce from "../../../_helper/customHooks/useDebounce";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React, { useMemo, useState } from 'react';
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import useDebounce from '../../../_helper/customHooks/useDebounce';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
 
 const initData = {
-  customerCategory: "",
-  monthYear: "",
-  incentiveType: "",
-  searchText: "",
-  fromDate: "",
-  toDate: "",
-  per1: "",
-  per2: "",
-  amount: "",
+  customerCategory: '',
+  monthYear: '',
+  incentiveType: '',
+  searchText: '',
+  fromDate: '',
+  toDate: '',
+  per1: '',
+  per2: '',
+  amount: '',
 };
 
 export default function CustomerIncentive() {
   const debounce = useDebounce();
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const [percentageList, setPercentageList] = useState([]);
   // const [headingSelect, setHeadingSelect] = useState(false);
   const [, saveData, saveLoader] = useAxiosPost();
@@ -40,7 +40,7 @@ export default function CustomerIncentive() {
     setTradeCommission,
   ] = useAxiosGet();
 
-  const [targetData, getTargetData, loader, setTargetData] = useAxiosPost();
+  const [, getTargetData, ,] = useAxiosPost();
 
   //redux store
   const { value: buId } = useSelector((state) => {
@@ -51,7 +51,7 @@ export default function CustomerIncentive() {
   }, shallowEqual);
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual
+    shallowEqual,
   );
 
   // check user permission
@@ -67,7 +67,7 @@ export default function CustomerIncentive() {
     return tradeCommission?.filter(
       (item) =>
         item?.customerName?.toLowerCase().includes(searchValue?.trim()) ||
-        item?.customerCode?.toString().includes(searchValue?.trim())
+        item?.customerCode?.toString().includes(searchValue?.trim()),
     );
   }, [tradeCommission, searchValue]);
 
@@ -104,32 +104,32 @@ export default function CustomerIncentive() {
     tradeCommission?.forEach((item) => {
       if (item?.isSelect) {
         const newItem = {
-          incentiveType: item?.incentiveType || "",
+          incentiveType: item?.incentiveType || '',
           customerId: item?.customerId || 0,
-          customerCode: item?.customerCode || "",
+          customerCode: item?.customerCode || '',
           deliveryQty: item?.deliveryQty || 0,
           amount: item?.incentiveAmount || 0,
-          dteDate: item?.dteDate || "",
+          dteDate: item?.dteDate || '',
           businessUnitId: buId,
           actionBy: userId,
           fromRange: item?.fromRange,
           toRange: item?.toRange,
           inputAmount: item?.inputAmount,
-          customerCategory: values?.customerCategory?.label || "",
+          customerCategory: values?.customerCategory?.label || '',
         };
         // eslint-disable-next-line no-unused-expressions
         selectedTradeCommission?.push(newItem);
       }
     });
     IConfirmModal({
-      title: "Are you sure?",
-      message: "Are you sure want to post this JV?",
+      title: 'Are you sure?',
+      message: 'Are you sure want to post this JV?',
       yesAlertFunc: () => {
         saveData(
           `/oms/SalesInformation/CreateTradeCommission`,
           selectedTradeCommission,
           cb,
-          true
+          true,
         );
       },
       noAlertFunc: () => {},
@@ -138,8 +138,8 @@ export default function CustomerIncentive() {
 
   // get trade commission api handler
   const getTradeCommissionHandler = (values) => {
-    const payload = ["DeliveryIncentive(WithAmount)"].includes(
-      values?.incentiveType?.value
+    const payload = ['DeliveryIncentive(WithAmount)'].includes(
+      values?.incentiveType?.value,
     )
       ? [
           {
@@ -152,21 +152,21 @@ export default function CustomerIncentive() {
       : percentageList;
 
     if (
-      ["WithTarget", "WithoutTarget", "DeliveryIncentive(WithAmount)"].includes(
-        values?.incentiveType?.value
+      ['WithTarget', 'WithoutTarget', 'DeliveryIncentive(WithAmount)'].includes(
+        values?.incentiveType?.value,
       )
     ) {
       let url = `/oms/SalesInformation/GetTradeCommissionTarget?partName=${values?.incentiveType?.value}&businessUnitId=${buId}&customerId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}&customerCategory=${values.customerCategory.value}`;
       getTargetData(url, payload, (res) => {
         setTradeCommission(res);
       });
-    } else if (values?.incentiveType?.value === "Performance") {
+    } else if (values?.incentiveType?.value === 'Performance') {
       getTradeCommission(
-        `oms/SalesInformation/GetTradeCommissionForPerformance?businessUnitId=${buId}&customerId=0&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`
+        `oms/SalesInformation/GetTradeCommissionForPerformance?businessUnitId=${buId}&customerId=0&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`,
       );
     } else {
       getTradeCommission(
-        `/oms/SalesInformation/GetTradeCommission?partName=GetForCreate&businessUnitId=${buId}&customerId=0&monthYear=${values?.monthYear}-01&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`
+        `/oms/SalesInformation/GetTradeCommission?partName=GetForCreate&businessUnitId=${buId}&customerId=0&monthYear=${values?.monthYear}-01&customerCategory=${values?.customerCategory?.value}&incentiveType=${values?.incentiveType?.value}`,
       );
     }
   };
@@ -174,22 +174,22 @@ export default function CustomerIncentive() {
   const modifyIncentiveTypeOptions = (values) => {
     const customerCategoryLabel = values?.customerCategory?.label;
 
-    if (["All"].includes(customerCategoryLabel)) {
+    if (['All'].includes(customerCategoryLabel)) {
       return [
-        { value: "General", label: "General" },
-        { value: "Delivery", label: "Delivery" },
-        { value: "Performance", label: "Performance Bonus" },
-        { value: "WithTarget", label: "With Target" },
-        { value: "WithoutTarget", label: " Without Target" },
+        { value: 'General', label: 'General' },
+        { value: 'Delivery', label: 'Delivery' },
+        { value: 'Performance', label: 'Performance Bonus' },
+        { value: 'WithTarget', label: 'With Target' },
+        { value: 'WithoutTarget', label: ' Without Target' },
         {
-          value: "DeliveryIncentive(WithAmount)",
-          label: "Delivery Incentive (WithAmount)",
+          value: 'DeliveryIncentive(WithAmount)',
+          label: 'Delivery Incentive (WithAmount)',
         },
       ];
     } else if (
-      ["Cash", "Credit", "Credit (100% BG)"].includes(customerCategoryLabel)
+      ['Cash', 'Credit', 'Credit (100% BG)'].includes(customerCategoryLabel)
     ) {
-      return [{ value: "Monthly", label: "Monthly" }];
+      return [{ value: 'Monthly', label: 'Monthly' }];
     } else {
       return [];
     }
@@ -201,8 +201,8 @@ export default function CustomerIncentive() {
       initialValues={initData}
       onSubmit={(values, { setFieldValue }) => {
         saveHandler(values, () => {
-          setFieldValue("searchText", "");
-          setSearchValue("");
+          setFieldValue('searchText', '');
+          setSearchValue('');
           getTradeCommissionHandler(values);
         });
       }}
@@ -233,18 +233,18 @@ export default function CustomerIncentive() {
                       name="customerCategory"
                       label="Customer Category"
                       options={[
-                        { value: "All", label: "All" },
-                        { value: "Cash", label: "Cash" },
-                        { value: "Credit", label: "Credit" },
-                        { value: "BG", label: "Credit (100% BG)" },
+                        { value: 'All', label: 'All' },
+                        { value: 'Cash', label: 'Cash' },
+                        { value: 'Credit', label: 'Credit' },
+                        { value: 'BG', label: 'Credit (100% BG)' },
                       ]}
                       value={values?.customerCategory}
                       onChange={(valueOption) => {
-                        setFieldValue("customerCategory", valueOption);
-                        setFieldValue("incentiveType", "");
-                        setFieldValue("per1", "");
-                        setFieldValue("per2", "");
-                        setFieldValue("amount", "");
+                        setFieldValue('customerCategory', valueOption);
+                        setFieldValue('incentiveType', '');
+                        setFieldValue('per1', '');
+                        setFieldValue('per2', '');
+                        setFieldValue('amount', '');
                         setTradeCommission([]);
                         setPercentageList([]);
                       }}
@@ -259,18 +259,18 @@ export default function CustomerIncentive() {
                       options={modifyIncentiveTypeOptions(values)}
                       value={values?.incentiveType}
                       onChange={(valueOption) => {
-                        setFieldValue("incentiveType", valueOption);
+                        setFieldValue('incentiveType', valueOption);
                         setTradeCommission([]);
                         setPercentageList([]);
-                        setFieldValue("per1", "");
-                        setFieldValue("per2", "");
-                        setFieldValue("amount", "");
+                        setFieldValue('per1', '');
+                        setFieldValue('per2', '');
+                        setFieldValue('amount', '');
                       }}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  {["Performance"].includes(values?.incentiveType?.value) ? (
+                  {['Performance'].includes(values?.incentiveType?.value) ? (
                     <>
                       <div className="col-lg-3">
                         <label>From Month-Year</label>
@@ -280,8 +280,8 @@ export default function CustomerIncentive() {
                           placeholder="From Date"
                           value={values?.fromMonthYear}
                           onChange={(e) => {
-                            setFieldValue("fromMonthYear", e?.target?.value);
-                            setFieldValue("fromDate", `${e?.target?.value}-01`);
+                            setFieldValue('fromMonthYear', e?.target?.value);
+                            setFieldValue('fromDate', `${e?.target?.value}-01`);
                             setTradeCommission([]);
                           }}
                         />
@@ -294,34 +294,34 @@ export default function CustomerIncentive() {
                           placeholder="From Date"
                           value={values?.toMonthYear}
                           onChange={(e) => {
-                            setFieldValue("toMonthYear", e?.target?.value);
+                            setFieldValue('toMonthYear', e?.target?.value);
                             setTradeCommission([]);
 
                             if (e.target.value) {
                               const [year, month] = e?.target?.value
-                                ?.split("-")
+                                ?.split('-')
                                 .map(Number);
                               const nextMonthFirstDay = new Date(
                                 year,
                                 month,
-                                1
+                                1,
                               );
                               const lastDateOfMonth = new Date(
-                                nextMonthFirstDay - 1
+                                nextMonthFirstDay - 1,
                               );
                               const formattedLastDate = lastDateOfMonth
                                 .toISOString()
-                                .split("T")[0];
-                              setFieldValue("toDate", formattedLastDate || "");
+                                .split('T')[0];
+                              setFieldValue('toDate', formattedLastDate || '');
                             }
                           }}
                         />
                       </div>
                     </>
                   ) : [
-                      "WithTarget",
-                      "WithoutTarget",
-                      "DeliveryIncentive(WithAmount)",
+                      'WithTarget',
+                      'WithoutTarget',
+                      'DeliveryIncentive(WithAmount)',
                     ].includes(values?.incentiveType?.value) ? (
                     <>
                       <div className="col-lg-3">
@@ -331,7 +331,7 @@ export default function CustomerIncentive() {
                           name="fromDate"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("fromDate", e.target.value);
+                            setFieldValue('fromDate', e.target.value);
                           }}
                         />
                       </div>
@@ -342,7 +342,7 @@ export default function CustomerIncentive() {
                           name="toDate"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("toDate", e.target.value);
+                            setFieldValue('toDate', e.target.value);
                           }}
                         />
                       </div>
@@ -356,7 +356,7 @@ export default function CustomerIncentive() {
                         placeholder="From Date"
                         value={values?.monthYear}
                         onChange={(e) => {
-                          setFieldValue("monthYear", e?.target?.value);
+                          setFieldValue('monthYear', e?.target?.value);
                           setTradeCommission([]);
                         }}
                       />
@@ -364,8 +364,8 @@ export default function CustomerIncentive() {
                   )}
                 </div>
 
-                {["WithTarget", "WithoutTarget"].includes(
-                  values?.incentiveType?.value
+                {['WithTarget', 'WithoutTarget'].includes(
+                  values?.incentiveType?.value,
                 ) ? (
                   <>
                     <div className="row">
@@ -373,14 +373,14 @@ export default function CustomerIncentive() {
                         <InputField
                           value={values?.per1}
                           label={
-                            values?.incentiveType?.value === "WithTarget"
-                              ? "From Percentage "
-                              : "From Quantity"
+                            values?.incentiveType?.value === 'WithTarget'
+                              ? 'From Percentage '
+                              : 'From Quantity'
                           }
                           name="per1"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("per1", e.target.value);
+                            setFieldValue('per1', e.target.value);
                           }}
                         />
                       </div>
@@ -391,13 +391,13 @@ export default function CustomerIncentive() {
                           checked={isAbove}
                           onChange={(e) => {
                             setIsAbove(!isAbove);
-                            setFieldValue("per2", "");
+                            setFieldValue('per2', '');
                             if (e.target.checked) {
-                              setFieldValue("per2", 1000);
+                              setFieldValue('per2', 1000);
                             }
                           }}
                         />
-                        <label style={{ position: "relative", bottom: "4px" }}>
+                        <label style={{ position: 'relative', bottom: '4px' }}>
                           Is Above
                         </label>
                       </div>
@@ -405,15 +405,15 @@ export default function CustomerIncentive() {
                         <InputField
                           value={values?.per2}
                           label={
-                            values?.incentiveType?.value === "WithTarget"
-                              ? "To Percentage"
-                              : "To Quantity"
+                            values?.incentiveType?.value === 'WithTarget'
+                              ? 'To Percentage'
+                              : 'To Quantity'
                           }
                           name="per2"
                           type="number"
                           disabled={values?.isAbove}
                           onChange={(e) => {
-                            setFieldValue("per2", e.target.value);
+                            setFieldValue('per2', e.target.value);
                           }}
                         />
                       </div>
@@ -424,7 +424,7 @@ export default function CustomerIncentive() {
                           name="amount"
                           type="number"
                           onChange={(e) => {
-                            setFieldValue("amount", e.target.value);
+                            setFieldValue('amount', e.target.value);
                           }}
                         />
                       </div>
@@ -438,7 +438,7 @@ export default function CustomerIncentive() {
                           onClick={() => {
                             if (percentageList?.find((item) => item?.isAbove)) {
                               return toast.warn(
-                                "You cann't add now because you alredy add IsAbove"
+                                "You cann't add now because you alredy add IsAbove",
                               );
                             }
                             const data = {
@@ -448,9 +448,9 @@ export default function CustomerIncentive() {
                               isAbove: isAbove,
                             };
                             setPercentageList([...percentageList, data]);
-                            setFieldValue("per1", "");
-                            setFieldValue("per2", "");
-                            setFieldValue("amount", "");
+                            setFieldValue('per1', '');
+                            setFieldValue('per2', '');
+                            setFieldValue('amount', '');
                             setIsAbove(false);
                           }}
                         >
@@ -465,14 +465,14 @@ export default function CustomerIncentive() {
                             <thead>
                               <tr>
                                 <th>
-                                  {values?.incentiveType?.value === "WithTarget"
-                                    ? "From Percentage "
-                                    : "From Quantity"}
+                                  {values?.incentiveType?.value === 'WithTarget'
+                                    ? 'From Percentage '
+                                    : 'From Quantity'}
                                 </th>
                                 <th>
-                                  {values?.incentiveType?.value === "WithTarget"
-                                    ? "To Percentage "
-                                    : "To Quantity "}
+                                  {values?.incentiveType?.value === 'WithTarget'
+                                    ? 'To Percentage '
+                                    : 'To Quantity '}
                                 </th>
                                 <th>Amount</th>
                                 <th>Action</th>
@@ -490,7 +490,7 @@ export default function CustomerIncentive() {
                                     <span
                                       onClick={() => {
                                         const data = percentageList.filter(
-                                          (item, i) => i !== index
+                                          (item, i) => i !== index,
                                         );
                                         setPercentageList(data);
                                       }}
@@ -508,8 +508,8 @@ export default function CustomerIncentive() {
                   </>
                 ) : null}
                 <div className="row">
-                  {["DeliveryIncentive(WithAmount)"].includes(
-                    values?.incentiveType?.value
+                  {['DeliveryIncentive(WithAmount)'].includes(
+                    values?.incentiveType?.value,
                   ) && (
                     <div className="col-lg-3">
                       <InputField
@@ -518,12 +518,12 @@ export default function CustomerIncentive() {
                         name="amount"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("amount", e.target.value);
+                          setFieldValue('amount', e.target.value);
                         }}
                       />
                     </div>
                   )}
-                  <div className="col-md-3 d-flex mt-3" style={{ gap: "10px" }}>
+                  <div className="col-md-3 d-flex mt-3" style={{ gap: '10px' }}>
                     <div>
                       <button
                         type="button"
@@ -532,8 +532,8 @@ export default function CustomerIncentive() {
                         disabled={
                           !values?.customerCategory ||
                           !values?.incentiveType ||
-                          (["WithTarget", "WithoutTarget"].includes(
-                            values?.incentiveType?.value
+                          (['WithTarget', 'WithoutTarget'].includes(
+                            values?.incentiveType?.value,
                           ) &&
                             !percentageList?.length)
                         }
@@ -557,7 +557,7 @@ export default function CustomerIncentive() {
               </div>
               <div>
                 <div className="d-flex justify-content-between">
-                  <div className="input-group" style={{ width: "25%" }}>
+                  <div className="input-group" style={{ width: '25%' }}>
                     <input
                       type="text"
                       className="form-control"
@@ -565,7 +565,7 @@ export default function CustomerIncentive() {
                       value={values?.searchText}
                       onChange={(e) => {
                         const newValue = e?.target?.value;
-                        setFieldValue("searchText", newValue);
+                        setFieldValue('searchText', newValue);
                         debounce(() => {
                           setSearchValue(newValue);
                         });
@@ -615,7 +615,7 @@ export default function CustomerIncentive() {
                             type="checkbox"
                             name="isSelect"
                             checked={tradeCommission?.every(
-                              (item) => item?.isSelect
+                              (item) => item?.isSelect,
                             )}
                             onChange={(e) =>
                               handleAllSelect(e?.target?.checked)
@@ -630,25 +630,25 @@ export default function CustomerIncentive() {
                         <th>Customer Category</th>
                         <th>UoM</th>
                         <th>
-                          {values?.incentiveType?.value === "Performance"
-                            ? "Avg Delivery Qty"
-                            : "Delivery Qty"}
+                          {values?.incentiveType?.value === 'Performance'
+                            ? 'Avg Delivery Qty'
+                            : 'Delivery Qty'}
                         </th>
                         {[
-                          "WithTarget",
-                          "WithoutTarget",
-                          "DeliveryIncentive(WithAmount)",
+                          'WithTarget',
+                          'WithoutTarget',
+                          'DeliveryIncentive(WithAmount)',
                         ].includes(values?.incentiveType?.value) && (
                           <th>Target Quantity</th>
                         )}
                         {/* <th>Total Delivery Qty</th> */}
                         {![
-                          "WithTarget",
-                          "WithoutTarget",
-                          "DeliveryIncentive(WithAmount)",
+                          'WithTarget',
+                          'WithoutTarget',
+                          'DeliveryIncentive(WithAmount)',
                         ].includes(values?.incentiveType?.value) ? (
                           <>
-                            {" "}
+                            {' '}
                             <th>Opening Balance</th>
                             <th>Sales Amount</th>
                             <th>Collection Amount</th>
@@ -672,7 +672,7 @@ export default function CustomerIncentive() {
                                   handleRowSelection(
                                     e?.target?.checked,
                                     item,
-                                    index
+                                    index,
                                   )
                                 }
                                 disabled={
@@ -683,18 +683,18 @@ export default function CustomerIncentive() {
                             <td>{index + 1}</td>
                             <td>{item?.incentiveType}</td>
                             <td className="text-center">
-                              {item?.customerCode || ""}
+                              {item?.customerCode || ''}
                             </td>
-                            <td>{item?.customerName || ""}</td>
-                            <td>{item?.customerCategory || ""}</td>
-                            <td className="text-center">{item?.uom || ""}</td>
+                            <td>{item?.customerName || ''}</td>
+                            <td>{item?.customerCategory || ''}</td>
+                            <td className="text-center">{item?.uom || ''}</td>
                             <td className="text-right">
                               {item?.deliveryQty || 0}
                             </td>
                             {[
-                              "WithTarget",
-                              "WithoutTarget",
-                              "DeliveryIncentive(WithAmount)",
+                              'WithTarget',
+                              'WithoutTarget',
+                              'DeliveryIncentive(WithAmount)',
                             ].includes(values?.incentiveType?.value) && (
                               <td className="text-right">
                                 {item?.targetQuantity || 0}
@@ -704,12 +704,12 @@ export default function CustomerIncentive() {
                               {item?.totalDeliveryQTY || 0}
                             </td> */}
                             {![
-                              "WithTarget",
-                              "WithoutTarget",
-                              "DeliveryIncentive(WithAmount)",
+                              'WithTarget',
+                              'WithoutTarget',
+                              'DeliveryIncentive(WithAmount)',
                             ].includes(values?.incentiveType?.value) ? (
                               <>
-                                {" "}
+                                {' '}
                                 <td className="text-right">
                                   {_formatMoney(item?.openingBalance)}
                                 </td>
@@ -718,7 +718,7 @@ export default function CustomerIncentive() {
                                 </td>
                                 <td className="text-right">
                                   {_formatMoney(item?.collectionAmount)}
-                                </td>{" "}
+                                </td>{' '}
                                 <td className="text-right">
                                   {_formatMoney(item?.balance)}
                                 </td>
@@ -728,7 +728,7 @@ export default function CustomerIncentive() {
                               {_formatMoney(item?.incentiveAmount)}
                             </td>
                             <td className="text-center">
-                              {item?.isJvPosted ? "Yes" : "No"}
+                              {item?.isJvPosted ? 'Yes' : 'No'}
                             </td>
                           </tr>
                         ))}
@@ -740,39 +740,39 @@ export default function CustomerIncentive() {
                           Total
                         </td>
                         <td className="font-weight-bold text-right">
-                          {countTotal("deliveryQty")}
+                          {countTotal('deliveryQty')}
                         </td>
                         {[
-                          "WithTarget",
-                          "WithoutTarget",
-                          "DeliveryIncentive(WithAmount)",
+                          'WithTarget',
+                          'WithoutTarget',
+                          'DeliveryIncentive(WithAmount)',
                         ].includes(values?.incentiveType?.value) && (
                           <td className="font-weight-bold text-right">
-                            {countTotal("targetQuantity")}
+                            {countTotal('targetQuantity')}
                           </td>
                         )}
                         {![
-                          "WithTarget",
-                          "WithoutTarget",
-                          "DeliveryIncentive(WithAmount)",
+                          'WithTarget',
+                          'WithoutTarget',
+                          'DeliveryIncentive(WithAmount)',
                         ].includes(values?.incentiveType?.value) ? (
                           <>
                             <td className="font-weight-bold text-right">
-                              {_formatMoney(countTotal("openingBalance"))}
+                              {_formatMoney(countTotal('openingBalance'))}
                             </td>
                             <td className="font-weight-bold text-right">
-                              {_formatMoney(countTotal("salesAmount"))}
+                              {_formatMoney(countTotal('salesAmount'))}
                             </td>
                             <td className="font-weight-bold text-right">
-                              {_formatMoney(countTotal("collectionAmount"))}
-                            </td>{" "}
+                              {_formatMoney(countTotal('collectionAmount'))}
+                            </td>{' '}
                             <td className="font-weight-bold text-right">
-                              {countTotal("balance")}
+                              {countTotal('balance')}
                             </td>
                           </>
                         ) : null}
                         <td className="font-weight-bold text-right">
-                          {_formatMoney(countTotal("incentiveAmount"))}
+                          {_formatMoney(countTotal('incentiveAmount'))}
                         </td>
                         <td className="text-center">-</td>
                       </tr>

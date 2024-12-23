@@ -1,16 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
 
 const initData = {
-  purchaseOrganization: "",
+  purchaseOrganization: '',
 };
 export default function OthersItem() {
   const saveHandler = (values, cb) => {};
@@ -31,7 +30,7 @@ export default function OthersItem() {
   const [
     itemSubCategoryList,
     getItemSubCategoryList,
-    subCategoryLoader,
+    ,
     setItemSubCategoryList,
   ] = useAxiosGet();
 
@@ -46,12 +45,12 @@ export default function OthersItem() {
     //     : `/procurement/AutoPurchase/sprGetReorderStockSummaryForeign`;
     // getAutoPRData(apiUrl);
     getAutoPRData(
-      `/procurement/AutoPurchase/GetPurchaseRequestCalculation?BusinessUnitId=${values?.businessUnit?.value}&ItemMasterCategoryId=${values?.itemCategory?.value}&ItemMasterSubCategoryId=${values?.itemSubCategory?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}`
+      `/procurement/AutoPurchase/GetPurchaseRequestCalculation?BusinessUnitId=${values?.businessUnit?.value}&ItemMasterCategoryId=${values?.itemCategory?.value}&ItemMasterSubCategoryId=${values?.itemSubCategory?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}`,
     );
   };
 
   useEffect(() => {
-    getItemTypeList("/item/ItemCategory/GetItemTypeListDDL", (data) => {
+    getItemTypeList('/item/ItemCategory/GetItemTypeListDDL', (data) => {
       const modData = data?.map((itm) => {
         return {
           ...itm,
@@ -61,45 +60,8 @@ export default function OthersItem() {
       });
       setItemTypeList(modData);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  //   const saveHandlerH = (values, cb) => {
-  //     const payLoad = autoPRData?.map((item) => {
-  //       return {
-  //         accountId: profileData?.accountId,
-  //         itemId: item?.intItemId,
-  //         uomId: item?.intUoMId,
-  //         uomName: item?.strUoMName,
-  //         itemCode: item?.strItemCode,
-  //         itemName: item?.strItemName,
-  //         itemTypeId: item?.intItemTypeId,
-  //         itemTypeName: item?.strItemTypeName,
-  //         warehouseId: item?.intWarehouseId,
-  //         warehouseName: item?.strWarehouseName,
-  //         plantId: item?.intPlantId,
-  //         plantName: item?.strPlantName,
-  //         businessUnitId: item?.intBusinessUnitId,
-  //         businessUnitName: item?.strBusinessUnitName,
-  //         reorderLevel: 0, // no need
-  //         reorderQuantity:
-  //           item?.openingQTYSilo +
-  //           item?.balanceOnGhat +
-  //           (item?.openPOQty - item?.balanceOnGhat) -
-  //           item?.totalMonthlyRequirement,
-  //         inventoryStock: item?.openingQTYSilo || 0,
-  //         currentTotalStock:
-  //           item?.openingQTYSilo +
-  //             item?.balanceOnGhat +
-  //             (item?.openPOQty - item?.balanceOnGhat) || 0,
-  //         purchaseRequestStock: item?.openPRQty || 0,
-  //         purchaseOrderStock: item?.openPOQty || 0,
-  //         intItemMasterCategoryId: item?.intItemMasterCategoryId,
-  //         intItemMasterSubCategoryId: item?.intItemMasterSubCategoryId,
-  //         intPurchaseOrganizationId: item?.intPurchaseOrganizationId,
-  //         strPurchaseOrganizationName: item?.strPurchaseOrganizationName,
-  //       };
-  //     });
-  //   };
 
   return (
     <Formik
@@ -122,8 +84,9 @@ export default function OthersItem() {
         touched,
       }) => (
         <>
-          {(loading || loader || itemTypeListLoader || categoryLoader,
-          subCategoryLoader) && <Loading />}
+          {(loading || loader || itemTypeListLoader || categoryLoader) && (
+            <Loading />
+          )}
           <IForm
             title="Other Item Auto PR Calculation"
             isHiddenReset
@@ -146,7 +109,7 @@ export default function OthersItem() {
                           itemCode: item?.strItemCode,
                           itemName: item?.strItemName,
                           itemTypeId: values?.itemType?.value || 0,
-                          itemTypeName: values?.itemType?.label || "",
+                          itemTypeName: values?.itemType?.label || '',
                           warehouseId: item?.intWarehouseId,
                           warehouseName: item?.strWarehouseName,
                           plantId: item?.intPlantId,
@@ -173,7 +136,7 @@ export default function OthersItem() {
                           intPurchaseOrganizationId:
                             values?.purchaseOrganization?.value || 0,
                           strPurchaseOrganizationName:
-                            values?.purchaseOrganization?.label || "",
+                            values?.purchaseOrganization?.label || '',
                         };
                       });
                       IConfirmModal({
@@ -185,7 +148,7 @@ export default function OthersItem() {
                             () => {
                               getData(values);
                             },
-                            true
+                            true,
                           );
                         },
                         noAlertFunc: () => {},
@@ -208,7 +171,7 @@ export default function OthersItem() {
                       value={values?.businessUnit}
                       label="Business Unit"
                       onChange={(valueOption) => {
-                        setFieldValue("businessUnit", valueOption || "");
+                        setFieldValue('businessUnit', valueOption || '');
                         setAutoPRData([]);
                       }}
                       errors={errors}
@@ -219,15 +182,15 @@ export default function OthersItem() {
                     <NewSelect
                       name="purchaseOrganization"
                       options={[
-                        { value: 11, label: "Local Procurement" },
-                        { value: 12, label: "Forign Procurement" },
+                        { value: 11, label: 'Local Procurement' },
+                        { value: 12, label: 'Forign Procurement' },
                       ]}
                       value={values?.purchaseOrganization}
                       label="Purchase Organization"
                       onChange={(valueOption) => {
                         setFieldValue(
-                          "purchaseOrganization",
-                          valueOption || ""
+                          'purchaseOrganization',
+                          valueOption || '',
                         );
                         setAutoPRData([]);
                       }}
@@ -243,15 +206,15 @@ export default function OthersItem() {
                       label="Item Type"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("itemType", valueOption || "");
+                          setFieldValue('itemType', valueOption || '');
                           setAutoPRData([]);
                           getItemCategoryList(
-                            `/item/MasterCategory/GetItemMasterCategoryDDL?AccountId=${profileData?.accountId}&ItemTypeId=${valueOption?.value}`
+                            `/item/MasterCategory/GetItemMasterCategoryDDL?AccountId=${profileData?.accountId}&ItemTypeId=${valueOption?.value}`,
                           );
                         } else {
-                          setFieldValue("itemType", "");
-                          setFieldValue("itemCategory", "");
-                          setFieldValue("itemSubCategory", "");
+                          setFieldValue('itemType', '');
+                          setFieldValue('itemCategory', '');
+                          setFieldValue('itemSubCategory', '');
                           setItemCategoryList([]);
                           setItemSubCategoryList([]);
                           setAutoPRData([]);
@@ -269,15 +232,15 @@ export default function OthersItem() {
                       label="Item Category"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("itemSubCategory", "");
-                          setFieldValue("itemCategory", valueOption);
+                          setFieldValue('itemSubCategory', '');
+                          setFieldValue('itemCategory', valueOption);
                           getItemSubCategoryList(
-                            `/item/MasterCategory/GetItemMasterSubCategoryDDL?AccountId=${profileData?.accountId}&ItemMasterCategoryId=${valueOption?.value}&ItemMasterTypeId=${values?.itemType?.value}`
+                            `/item/MasterCategory/GetItemMasterSubCategoryDDL?AccountId=${profileData?.accountId}&ItemMasterCategoryId=${valueOption?.value}&ItemMasterTypeId=${values?.itemType?.value}`,
                           );
                           setAutoPRData([]);
                         } else {
-                          setFieldValue("itemCategory", "");
-                          setFieldValue("itemSubCategory", "");
+                          setFieldValue('itemCategory', '');
+                          setFieldValue('itemSubCategory', '');
                           setItemSubCategoryList([]);
                           setAutoPRData([]);
                         }
@@ -293,7 +256,7 @@ export default function OthersItem() {
                       value={values?.itemSubCategory}
                       label="Item Sub-category"
                       onChange={(valueOption) => {
-                        setFieldValue("itemSubCategory", valueOption);
+                        setFieldValue('itemSubCategory', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -367,7 +330,7 @@ export default function OthersItem() {
                                 <td className="text-center">
                                   {item?.totalMonthlyRequirement
                                     ? item?.totalMonthlyRequirement?.toFixed(2)
-                                    : ""}
+                                    : ''}
                                 </td>
                                 <td className="text-center">
                                   {item?.openingQTYSilo || 0}

@@ -1,19 +1,18 @@
-import React from "react";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { formatDate } from "./utils";
-import { _formatMoney } from "../../../../../_helper/_formatMoney";
-import moment from "moment";
-const marginBottom = "9px";
+import moment from 'moment';
+import React from 'react';
+import { _formatMoney } from '../../../../../_helper/_formatMoney';
+import { formatDate } from './utils';
+const marginBottom = '9px';
 
 const disbursementPurposeRender = (disbursementPurposeName) => {
-  if (disbursementPurposeName === "Duty") {
-    return "execute RTGS against the duty(s) enclosed";
+  if (disbursementPurposeName === 'Duty') {
+    return 'execute RTGS against the duty(s) enclosed';
   }
-  if (disbursementPurposeName === "Bill Payment") {
-    return "execute BEFTN/ FT /RTGS against the local supplier(s) payment enclosed";
+  if (disbursementPurposeName === 'Bill Payment') {
+    return 'execute BEFTN/ FT /RTGS against the local supplier(s) payment enclosed';
   }
-  if (disbursementPurposeName === "Utility Payment") {
-    return "issue RTGS/ pay order(s) against the utility bill(s) enclosed";
+  if (disbursementPurposeName === 'Utility Payment') {
+    return 'issue RTGS/ pay order(s) against the utility bill(s) enclosed';
   }
   return disbursementPurposeName;
 };
@@ -33,13 +32,13 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
     fundLimitAmount,
   } = singleItem || {};
   const { buShortName, label } = selectedBusinessUnit;
-  const lacks = numPrinciple > 0 ? `${numPrinciple / 100000}L` : "0L";
+  const lacks = numPrinciple > 0 ? `${numPrinciple / 100000}L` : '0L';
 
   return (
-    <div style={{ margin: "40px 71px 0px" }}>
+    <div style={{ margin: '40px 71px 0px' }}>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Ref : {buShortName}/{bankShortName}/STL/{lacks}/
-        {moment(dteStartDate).format("YYYY.MM.DD")}
+        {moment(dteStartDate).format('YYYY.MM.DD')}
       </p>
       <p style={{ marginBottom }} className="font-weight-bolder">
         Date : {formatDate(dteStartDate)}
@@ -51,7 +50,7 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
       <p style={{ marginBottom }}>{bankBranchAddress}</p>
 
       <p style={{ marginBottom }} className="font-weight-bolder">
-        Subject : Request for disbursement of {facilityName} - BDT{" "}
+        Subject : Request for disbursement of {facilityName} - BDT{' '}
         {_formatMoney(numPrinciple)} for {label} A/C No: {strBankAccountNumber}.
       </p>
 
@@ -61,15 +60,15 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
         With reference to your sanction letter no. {sanctionReference}, we would
         request you to please disburse BDT {_formatMoney(numPrinciple)} in our
         A/C {label} A/C No-{strBankAccountNumber} against {facilityName} limit
-        of BDT {_formatMoney(fundLimitAmount)} &{" "}
+        of BDT {_formatMoney(fundLimitAmount)} &{' '}
         {disbursementPurposeRender(disbursementPurposeName)}.
       </p>
 
       <p style={{ marginBottom }}>
         Please process this request and
         <span className="font-weight-bolder">
-          {" "}
-          send the disbursed loan statement{" "}
+          {' '}
+          send the disbursed loan statement{' '}
         </span>
         Voucher to us at your earliest convenience.
       </p>
@@ -82,12 +81,12 @@ const OthersPdf = ({ singleItem, selectedBusinessUnit }) => {
         For, <span className="font-weight-bolder">{label}</span>
       </p>
 
-      <div className="d-flex" style={{ marginTop: "90px" }}>
-        <p style={{ marginRight: "50px" }}>Authorized Signatory</p>
+      <div className="d-flex" style={{ marginTop: '90px' }}>
+        <p style={{ marginRight: '50px' }}>Authorized Signatory</p>
         <p>Authorized Signatory</p>
       </div>
 
-      <p style={{ fontStyle: "italic" }}>
+      <p style={{ fontStyle: 'italic' }}>
         <span className="font-weight-bolder">*Encloser : </span>Payment Advice.
       </p>
     </div>

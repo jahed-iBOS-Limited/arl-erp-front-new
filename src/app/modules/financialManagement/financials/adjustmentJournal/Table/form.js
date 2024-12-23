@@ -26,6 +26,7 @@ import {
 } from "./../../../../../../_metronic/_partials/controls";
 import { setAdjustmentJournalLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import PaginationTable from "../../../../_helper/_tablePagination";
+import findIndex from "../../../../_helper/_findIndex";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -87,6 +88,13 @@ export default function HeaderForm({
     },
     { shallowEqual }
   );
+
+  let { userRole } = useSelector((state) => state?.authData, { shallowEqual });
+
+  const userPermission = userRole[findIndex(userRole, "Adjustment Journal")];
+
+  const canCreate = userPermission?.isCreate;
+
   // get sbuDDl ddl from store
   const sbuDDl = useSelector((state) => {
     return state?.adjustmentJournal?.sbuDDL;
@@ -143,6 +151,7 @@ export default function HeaderForm({
                 <CardHeader title={"Adjustment Journal"}>
                   <CardHeaderToolbar>
                     <button
+                      disabled={!canCreate}
                       onClick={() => {
                         dispatch(
                           setAdjustmentJournalLandingAction({

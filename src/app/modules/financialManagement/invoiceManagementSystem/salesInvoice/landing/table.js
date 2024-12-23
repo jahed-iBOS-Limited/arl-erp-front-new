@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useCementInvoicePrintHandler } from "../Form/formHandlerBluePill";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import { cancelSalesInvoice, getInvoiceDataForPrint } from "../helper";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import InvoiceReceptForCement from "../invoiceCement/invoiceRecept";
-import IViewModal from "../../../../_helper/_viewModal";
-import CommercialInvoiceReport from "../ReportModal/reportModal";
-import CancelModal from "./cancleModal";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import { useDispatch } from "react-redux";
-import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
-import IExtend from "../../../../_helper/_helperIcons/_extend";
-import InvoiceList from "./InvoiceList";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IExtend from '../../../../_helper/_helperIcons/_extend';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
+import AttachmentUploaderNew from '../../../../_helper/attachmentUploaderNew';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import { useCementInvoicePrintHandler } from '../Form/formHandlerBluePill';
+import { getInvoiceDataForPrint } from '../helper';
+import InvoiceReceptForCement from '../invoiceCement/invoiceRecept';
+import CommercialInvoiceReport from '../ReportModal/reportModal';
+import CancelModal from './cancleModal';
+import InvoiceList from './InvoiceList';
 
 const SalesInvoiceLandingTable = ({ obj }) => {
   const {
@@ -62,10 +62,10 @@ const SalesInvoiceLandingTable = ({ obj }) => {
             <table className="table table-striped table-bordered global-table table-font-size-sm">
               <thead>
                 <tr>
-                  <th style={{ width: "40px" }}>SL</th>
+                  <th style={{ width: '40px' }}>SL</th>
                   {values?.status?.value === 1 && (
                     <>
-                      {" "}
+                      {' '}
                       <th>Invoice No</th>
                       <th>Invoice Date</th>
                     </>
@@ -75,7 +75,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                   <th>Partner Name</th>
                   {values?.status?.value === 1 && (
                     <>
-                      {" "}
+                      {' '}
                       <th>Reference No </th>
                       <th>Project Location</th>
                     </>
@@ -97,7 +97,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
 
                     {values?.status?.value === 1 && (
                       <>
-                        {" "}
+                        {' '}
                         <td>{tableData?.strInvoiceNumber}</td>
                         <td>{_dateFormatter(tableData?.dteInvoiceDate)}</td>
                       </>
@@ -111,7 +111,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                     <td>{tableData?.strPartnerName}</td>
                     {values?.status?.value === 1 && (
                       <>
-                        {" "}
+                        {' '}
                         <td>{tableData?.strRefference}</td>
                         <td>{tableData?.strProjectLocation}</td>
                       </>
@@ -128,7 +128,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                           <div className="d-flex justify-content-around align-items-baseline">
                             <span>
                               <ICon
-                                title={"Print Sales Invoice"}
+                                title={'Print Sales Invoice'}
                                 onClick={() => {
                                   if (
                                     values?.channel &&
@@ -142,11 +142,11 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                                       (resData) => {
                                         setInvoiceData(resData);
                                         handleInvoicePrintCement();
-                                      }
+                                      },
                                     );
                                   } else {
                                     toast.warn(
-                                      "Please select a specific distribution channel."
+                                      'Please select a specific distribution channel.',
                                     );
                                   }
                                 }}
@@ -162,7 +162,7 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                                   setSingleRowItem(tableData);
                                 } else {
                                   toast.warn(
-                                    "Sorry, You are not permitted to cancel the sales invoice"
+                                    'Sorry, You are not permitted to cancel the sales invoice',
                                   );
                                 }
                               }}
@@ -175,14 +175,14 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                                 e.stopPropagation();
                                 dispatch(
                                   getDownlloadFileView_Action(
-                                    tableData.attachment
-                                  )
+                                    tableData.attachment,
+                                  ),
                                 );
                               }}
                               style={{
-                                border: "none",
-                                background: "none",
-                                cursor: "pointer",
+                                border: 'none',
+                                background: 'none',
+                                cursor: 'pointer',
                                 padding: 0,
                               }}
                               type="button"
@@ -202,16 +202,16 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                                   };
 
                                   onAttachmentUpload(
-                                    "/oms/OManagementReport/UpdateSalesInvoiceAttachment",
-                                    payload
+                                    '/oms/OManagementReport/UpdateSalesInvoiceAttachment',
+                                    payload,
                                   );
                                 }
                               }}
                               showIcon
                               attachmentIcon="fa fa-paperclip"
                               customStyle={{
-                                background: "transparent",
-                                padding: "4px 0",
+                                background: 'transparent',
+                                padding: '4px 0',
                               }}
                               fileUploadLimits={1}
                             />
@@ -223,11 +223,11 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                                   (data) => {
                                     if (data?.length < 0) {
                                       setInvoiceDataShow(false);
-                                      toast.warn("No data found");
+                                      toast.warn('No data found');
                                     } else {
                                       setInvoiceDataShow(true);
                                     }
-                                  }
+                                  },
                                 );
                                 setSingleRowItem(tableData);
                               }}

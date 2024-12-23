@@ -1,22 +1,22 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "./../../../_helper/_form";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from './../../../_helper/_form';
+import InputField from './../../../_helper/_inputField';
+import Loading from './../../../_helper/_loading';
 
 const initData = {
   transactionDate: _todayDate(),
-  amount: "",
-  interestAmount: "",
+  amount: '',
+  interestAmount: '',
 };
 
 export default function RepayProvisionActionModal({ singleData, actionType }) {
   const [objProps, setObjprops] = useState({});
 
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
@@ -35,7 +35,7 @@ export default function RepayProvisionActionModal({ singleData, actionType }) {
       `/fino/CommonFino/InterCompanyLoanRepayProvision`,
       payload,
       cb,
-      true
+      true,
     );
   };
   return (
@@ -75,7 +75,7 @@ export default function RepayProvisionActionModal({ singleData, actionType }) {
                     name="transactionDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("transactionDate", e.target.value);
+                      setFieldValue('transactionDate', e.target.value);
                     }}
                   />
                 </div>
@@ -86,7 +86,7 @@ export default function RepayProvisionActionModal({ singleData, actionType }) {
                     name="amount"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("amount", e.target.value);
+                      setFieldValue('amount', e.target.value);
                     }}
                   />
                 </div>
@@ -97,7 +97,7 @@ export default function RepayProvisionActionModal({ singleData, actionType }) {
                     name="interestAmount"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("interestAmount", e.target.value);
+                      setFieldValue('interestAmount', e.target.value);
                     }}
                   />
                 </div>
@@ -105,14 +105,14 @@ export default function RepayProvisionActionModal({ singleData, actionType }) {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

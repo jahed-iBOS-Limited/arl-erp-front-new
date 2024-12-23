@@ -2,24 +2,26 @@ import React from "react";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import {
+  allObjSBU,
   chooseTableColumns,
   fetchPCFLandingData,
-  importPaymentType
+  importPaymentType,
+  landingInitData,
 } from "./helper";
+import { Form, Formik } from "formik";
 
 const ProjectedCashFlowLanding = ({ obj }) => {
   // destrcuture
   const {
-    setFieldValue,
-    values,
-    errors,
-    touched,
     pcfLandingData,
     getPCFLandingData,
+    sbuDDL,
+    createPageValues,
+    landingFormikRef,
   } = obj;
 
   // Form Field For Import View Type
-  const ImportTypeFormField = (values, setFieldValue) => (
+  const ImportTypeFormField = (values, setFieldValue, errors, touched) => (
     <div className="col-lg-3">
       <NewSelect
         name="paymentType"
@@ -36,55 +38,91 @@ const ProjectedCashFlowLanding = ({ obj }) => {
   );
 
   return (
-    <>
-      <div className="form form-label-right">
-        <h4 style={{ marginTop: "30px", marginBottom: "-5px" }}>Landing</h4>
-        <div className="row form-group  global-form">
-          {/* Form Field For Import View Type */}
-          {values?.viewType === "import" &&
-            ImportTypeFormField(values, setFieldValue)}
+    <Formik
+      enableReinitialize={true}
+      initialValues={landingInitData}
+      onSubmit={(values, { setSubmitting, resetForm }) => {}}
+      innerRef={landingFormikRef}
+    >
+      {({
+        handleSubmit,
+        resetForm,
+        values,
+        setFieldValue,
+        isValid,
+        errors,
+        touched,
+        setValues,
+      }) => (
+        <Form className="form form-label-right">
+          <h4 style={{ marginTop: "30px", marginBottom: "-5px" }}>Landing</h4>
+          <div className="row form-group  global-form">
+            {/* SBU Form Field */}
+            <div className="col-lg-3">
+              <NewSelect
+                name="sbu"
+                label="SBU"
+                options={[allObjSBU, ...sbuDDL] || []}
+                value={values?.sbu}
+                onChange={(valueOption) => {
+                  setFieldValue("sbu", valueOption);
+                }}
+                errors={errors}
+                touched={touched}
+              />
+            </div>
 
-          {/* Common Form Field */}
-          <div className="col-lg-3">
-            <InputField
-              value={values?.fromDate}
-              label="From Date"
-              name="fromDate"
-              type="date"
-            />
+            {/* Form Field For Import View Type */}
+            {createPageValues?.viewType === "import" &&
+              ImportTypeFormField(values, setFieldValue, errors, touched)}
+
+            {/* Common Form Field */}
+            <div className="col-lg-3">
+              <InputField
+                value={values?.fromDate}
+                label="From Date"
+                name="fromDate"
+                type="date"
+              />
+            </div>
+            <div className="col-lg-3">
+              <InputField
+                value={values?.toDate}
+                label="To Date"
+                name="toDate"
+                type="date"
+              />
+            </div>
+            <div>
+              <button
+                type="button"
+                style={{ marginTop: "18px" }}
+                className="btn btn-primary ml-5"
+                onClick={() =>
+                  fetchPCFLandingData({
+                    landingPageValues: values,
+                    createPageValues,
+                    getPCFLandingData,
+                  })
+                }
+              >
+                Show
+              </button>
+            </div>
           </div>
-          <div className="col-lg-3">
-            <InputField
-              value={values?.toDate}
-              label="To Date"
-              name="toDate"
-              type="date"
-            />
-          </div>
-          <div>
-            <button
-              type="button"
-              style={{ marginTop: "18px" }}
-              className="btn btn-primary ml-5"
-              onClick={() => fetchPCFLandingData({ values, getPCFLandingData })}
-            >
-              Show
-            </button>
-          </div>
-        </div>
-        {/* Landing Table */}
-        <div className="loan-scrollable-table mt-3">
-          <div className="scroll-table _table">
+          {/* Landing Table */}
+
+          <div className="table-responsive mt-3">
             {pcfLandingData?.length > 0 && (
               <GenericTable
                 data={pcfLandingData}
-                columns={chooseTableColumns(values?.viewType)}
+                columns={chooseTableColumns(createPageValues?.viewType)}
               />
             )}
           </div>
-        </div>
-      </div>
-    </>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
@@ -92,7 +130,7 @@ export default ProjectedCashFlowLanding;
 
 const GenericTable = ({ data, columns, keyField = "index" }) => {
   return (
-    <table className="table table-bordered bj-table bj-table-landing">
+    <table className="table table-striped table-bordered global-table mt-0">
       <thead>
         <tr>
           {columns?.map((col, idx) => (

@@ -1,25 +1,25 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import PlannedAssetSchedule from "./plannedAssetSchedule";
-import PlannedFundRequirement from "./plannedFundRequirement";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import PlannedAssetSchedule from './plannedAssetSchedule';
+import PlannedFundRequirement from './plannedFundRequirement';
 const initData = {
-  enterpriseDivision: "",
-  subDivision: "",
-  businessUnit: "",
-  reportType: "",
-  year: "",
-  fromDate: "",
-  toDate: "",
+  enterpriseDivision: '',
+  subDivision: '',
+  businessUnit: '',
+  reportType: '',
+  year: '',
+  fromDate: '',
+  toDate: '',
 };
 export default function PlanningReport() {
   const saveHandler = (values, cb) => {};
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
@@ -32,7 +32,7 @@ export default function PlanningReport() {
 
   useEffect(() => {
     getEnterpriseDivisionDDL(
-      `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`
+      `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`,
     );
     getYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -75,15 +75,15 @@ export default function PlanningReport() {
                   <NewSelect
                     name="reportType"
                     options={[
-                      { value: 1, label: "Planned Asset Schedule" },
-                      { value: 2, label: "Planned Fund Requirement" },
-                      { value: 3, label: "Planned Financing Cost" },
+                      { value: 1, label: 'Planned Asset Schedule' },
+                      { value: 2, label: 'Planned Fund Requirement' },
+                      { value: 3, label: 'Planned Financing Cost' },
                     ]}
                     value={values?.reportType}
                     label="Report Type"
                     onChange={(valueOption) => {
                       setRowData([]);
-                      setFieldValue("reportType", valueOption);
+                      setFieldValue('reportType', valueOption);
                       setValues({
                         ...initData,
                         reportType: valueOption,
@@ -101,12 +101,12 @@ export default function PlanningReport() {
                         value={values?.enterpriseDivision}
                         label="Enterprise Division"
                         onChange={(valueOption) => {
-                          setFieldValue("enterpriseDivision", valueOption);
-                          setFieldValue("subDivision", "");
-                          setFieldValue("businessUnit", "");
+                          setFieldValue('enterpriseDivision', valueOption);
+                          setFieldValue('subDivision', '');
+                          setFieldValue('businessUnit', '');
                           if (valueOption?.value) {
                             getSubDivisionDDL(
-                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${profileData?.accountId}&BusinessUnitGroup=${valueOption?.label}`
+                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${profileData?.accountId}&BusinessUnitGroup=${valueOption?.label}`,
                             );
                           }
                         }}
@@ -120,8 +120,8 @@ export default function PlanningReport() {
                         value={values?.subDivision}
                         label="Sub Division"
                         onChange={(valueOption) => {
-                          setFieldValue("subDivision", valueOption);
-                          setFieldValue("businessUnit", "");
+                          setFieldValue('subDivision', valueOption);
+                          setFieldValue('businessUnit', '');
 
                           if (valueOption) {
                             getBusinessUnitDDL(
@@ -132,8 +132,8 @@ export default function PlanningReport() {
                               }${
                                 valueOption
                                   ? `&SubGroup=${valueOption?.value}`
-                                  : ""
-                              }`
+                                  : ''
+                              }`,
                             );
                           }
                         }}
@@ -148,7 +148,7 @@ export default function PlanningReport() {
                         value={values?.businessUnit}
                         label="Business Unit"
                         onChange={(valueOption) => {
-                          setFieldValue("businessUnit", valueOption);
+                          setFieldValue('businessUnit', valueOption);
                         }}
                         placeholder="Business Unit"
                         isDisabled={!values?.subDivision}
@@ -164,7 +164,7 @@ export default function PlanningReport() {
                       value={values?.year}
                       label="Year"
                       onChange={(valueOption) => {
-                        setFieldValue("year", valueOption);
+                        setFieldValue('year', valueOption);
                       }}
                       placeholder="Year"
                     />
@@ -172,7 +172,7 @@ export default function PlanningReport() {
                 ) : null}
                 {[1]?.includes(values?.reportType?.value) ? (
                   <>
-                    {" "}
+                    {' '}
                     <div className="col-lg-3">
                       <InputField
                         value={values?.fromDate}
@@ -180,7 +180,7 @@ export default function PlanningReport() {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                         }}
                       />
                     </div>
@@ -191,13 +191,13 @@ export default function PlanningReport() {
                         name="toDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                         }}
                       />
                     </div>
                   </>
                 ) : null}
-                <div style={{ marginTop: "17px" }}>
+                <div style={{ marginTop: '17px' }}>
                   <button
                     type="button"
                     onClick={() => {
@@ -205,7 +205,7 @@ export default function PlanningReport() {
                         ? `/fino/Report/GetAssetSchedulePlanned?accountId=${profileData?.accountId}&businessUnitId=${values?.businessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`
                         : [2]?.includes(values?.reportType?.value)
                         ? `/fino/Report/GetPlannedFundRequirement?businessUnitId=${values?.businessUnit?.value}&strYear=${values?.year?.label}`
-                        : "";
+                        : '';
                       getRowData(url);
                     }}
                     className="btn btn-primary"

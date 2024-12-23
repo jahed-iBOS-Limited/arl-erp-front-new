@@ -1,17 +1,14 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-// import DistributionPlanEdit from "./distributionPlan/edit";
-import Materialannualplan from "./materialReqPlan/table/table";
-import MaterialReqPlanLanding from "./materialannualplan/table/table";
-import ProductionMasterSchedulelFrom from "./productionMasterSchedule/Form/addEditForm";
-import ProductionMasterSchedulelLanding from "./productionMasterSchedule/Table/index";
-import SalesAndProductionPlanCreateForm from "./salesAndProductionPlan/form/addEditForm";
-import SalesAndProductionPlanCreateFormView from "./salesAndProductionPlan/formView/addEditForm";
-import ProductionPlanningForm from "./salesAndProductionPlan/productionPlanning/addEditForm";
-import SalesAndProductionTable from "./salesAndProductionPlan/table/table";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import Materialannualplan from './materialReqPlan/table/table';
+import MaterialReqPlanLanding from './materialannualplan/table/table';
+import ProductionMasterSchedulelFrom from './productionMasterSchedule/Form/addEditForm';
+import ProductionMasterSchedulelLanding from './productionMasterSchedule/Table/index';
+import SalesAndProductionPlanCreateForm from './salesAndProductionPlan/form/addEditForm';
+import SalesAndProductionPlanCreateFormView from './salesAndProductionPlan/formView/addEditForm';
+import ProductionPlanningForm from './salesAndProductionPlan/productionPlanning/addEditForm';
+import SalesAndProductionTable from './salesAndProductionPlan/table/table';
 
 export function salesAndOperationsPlanning() {
   return (

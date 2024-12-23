@@ -1,10 +1,9 @@
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import "./cementStyle.css";
-// import logo from "../../../../_helper/images/akij_cement_logo.png";
-import { cementLetterhead } from "../../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/cement";
+import moment from 'moment';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import './cementStyle.css';
+import { cementLetterhead } from '../../../../financialManagement/invoiceManagementSystem/salesInvoice/base64Images/cement';
 
 const SalesQuotationForCement = ({
   printRef,
@@ -16,64 +15,39 @@ const SalesQuotationForCement = ({
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getCementTypes = (type) => {
-    let OPC = "",
-      PCC = "";
-    console.log("one");
+    let OPC = '',
+      PCC = '';
+    console.log('one');
     for (let I = 0; I < invoiceData?.length; I++) {
       const item = invoiceData[I];
-      console.log("two", item);
-      if (item?.itemName?.includes("OPC")) {
-        OPC = "OPC";
-        console.log("opc");
+      console.log('two', item);
+      if (item?.itemName?.includes('OPC')) {
+        OPC = 'OPC';
+        console.log('opc');
       }
-      if (item?.itemName?.includes("PCC")) {
-        PCC = "PCC";
-        console.log("pcc");
+      if (item?.itemName?.includes('PCC')) {
+        PCC = 'PCC';
+        console.log('pcc');
       }
     }
-    return type === "opc" ? OPC : type === "pcc" ? PCC : "";
+    return type === 'opc' ? OPC : type === 'pcc' ? PCC : '';
   };
-
-  // useEffect(() => {
-  //   getCementTypes();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [invoiceData]);
 
   return (
     <div className="cement_quotation_print" ref={printRef}>
-      {/* <div className="header">
-        <div className="office_info">
-          <p>Corporate Office :Akij House, 198, Bir Uttam Mir Shawkat Sarak</p>
-          <p>
-            (Gulshan-Tejgaon Link Road), Tejgaon I/A, Dhaka-1208, Phone :
-            09613313131, 09604313131
-          </p>
-          <p>Email: info@akij.net, Website: www.akijcement.com</p>
-          <p>Factory Location: Nabiganj, Kadam Rasul, Narayangonj.</p>
-        </div>
-        <div className="logo">
-          <img
-            style={{ width: "230px", height: "115px", objectFit: "cover" }}
-            src={logo}
-            // src={`${window?.location?.origin}/domain/Document/DownlloadFile?id=${imageId}`}
-            alt="logo"
-          />
-        </div>
-      </div> */}
-
       <div
         className="invoice-header"
         style={{
           backgroundImage: `url(${cementLetterhead})`,
-          backgroundRepeat: "no-repeat",
-          height: "150px",
-          backgroundPosition: "left 10px",
-          backgroundSize: "cover",
-          position: "fixed",
-          width: "100%",
-          top: "15px",
-          left: "-10px",
-          pageBreakAfter: "always",
+          backgroundRepeat: 'no-repeat',
+          height: '150px',
+          backgroundPosition: 'left 10px',
+          backgroundSize: 'cover',
+          position: 'fixed',
+          width: '100%',
+          top: '15px',
+          left: '-10px',
+          pageBreakAfter: 'always',
         }}
       ></div>
 
@@ -81,29 +55,29 @@ const SalesQuotationForCement = ({
         className="invoice-footer"
         style={{
           backgroundImage: `url(${cementLetterhead})`,
-          backgroundRepeat: "no-repeat",
-          height: "100px",
-          backgroundPosition: "left bottom",
-          backgroundSize: "cover",
-          bottom: "-0px",
-          left: "20px",
-          position: "fixed",
-          width: "100%",
-          pageBreakAfter: "always",
+          backgroundRepeat: 'no-repeat',
+          height: '100px',
+          backgroundPosition: 'left bottom',
+          backgroundSize: 'cover',
+          bottom: '-0px',
+          left: '20px',
+          position: 'fixed',
+          width: '100%',
+          pageBreakAfter: 'always',
         }}
       ></div>
-      <table style={{ width: "100%" }}>
+      <table style={{ width: '100%' }}>
         <thead>
           <tr>
             <td
               style={{
-                border: "none",
+                border: 'none',
               }}
             >
               {/* place holder for the fixed-position header */}
               <div
                 style={{
-                  height: "180px",
+                  height: '180px',
                 }}
               ></div>
             </td>
@@ -115,10 +89,10 @@ const SalesQuotationForCement = ({
               <div className="d-flex justify-content-between mb-3">
                 <p>
                   <b>Ref: </b>
-                  {invoiceData?.[0]?.partnerReffNo || ""}
+                  {invoiceData?.[0]?.partnerReffNo || ''}
                 </p>
                 <p>
-                  <b>Date: {moment(_todayDate()).format("DD MMM YYYY")}</b>
+                  <b>Date: {moment(_todayDate()).format('DD MMM YYYY')}</b>
                 </p>
               </div>
               <div>
@@ -153,32 +127,32 @@ const SalesQuotationForCement = ({
                   </p>
                   <p>
                     <span>Cement Type </span>
-                    {getCementTypes("opc")}{" "}
+                    {getCementTypes('opc')}{' '}
                     {`${
-                      getCementTypes("opc") && getCementTypes("pcc") ? "&" : ""
-                    } ${getCementTypes("pcc")}`}
+                      getCementTypes('opc') && getCementTypes('pcc') ? '&' : ''
+                    } ${getCementTypes('pcc')}`}
                   </p>
                   <p>
                     <span>Category </span>
 
                     {`${
-                      getCementTypes("opc")
-                        ? "Portland Cement (CEM-I), Strength Class 52.5 according to BDS EN 197-1:2003"
-                        : getCementTypes("pcc")
-                        ? "Portland Composite Cement (CEM-II), Strength Class 42.5 according to BDS EN 197-1:2003"
-                        : ""
+                      getCementTypes('opc')
+                        ? 'Portland Cement (CEM-I), Strength Class 52.5 according to BDS EN 197-1:2003'
+                        : getCementTypes('pcc')
+                        ? 'Portland Composite Cement (CEM-II), Strength Class 42.5 according to BDS EN 197-1:2003'
+                        : ''
                     }`}
                   </p>
 
                   <p
                     style={{
-                      marginLeft: "150px",
+                      marginLeft: '150px',
                     }}
                   >
                     {`${
-                      getCementTypes("opc") && getCementTypes("pcc")
-                        ? "Portland Composite Cement (CEM-II), Strength Class 42.5 according to BDS EN 197-1:2003"
-                        : ""
+                      getCementTypes('opc') && getCementTypes('pcc')
+                        ? 'Portland Composite Cement (CEM-II), Strength Class 42.5 according to BDS EN 197-1:2003'
+                        : ''
                     }`}
                   </p>
                 </div>
@@ -320,7 +294,7 @@ const SalesQuotationForCement = ({
           {/* <p className="bold mt-2 mb-2">Thanking you,</p> */}
 
           <div
-            style={{ marginTop: "70px" }}
+            style={{ marginTop: '70px' }}
             className="d-flex justify-content-between"
           >
             <p>
@@ -346,13 +320,13 @@ const SalesQuotationForCement = ({
           <tr>
             <td
               style={{
-                border: "none",
+                border: 'none',
               }}
             >
               {/* place holder for the fixed-position footer */}
               <div
                 style={{
-                  height: "150px",
+                  height: '150px',
                 }}
               ></div>
             </td>
