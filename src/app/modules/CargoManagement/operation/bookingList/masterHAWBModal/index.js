@@ -384,7 +384,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               firstIndex?.transportPlanning?.airTransportRow?.length - 1
             ]?.toPort ?? ""
               }`,
-            airportOfDepartureAndRouting: `${firstIndex?.transportPlanning?.airLineOrShippingLine} \n ${airportOfDepartureAndRouting} `,
+            airportOfDepartureAndRouting: `${firstIndex?.transportPlanning?.airLineOrShippingLine ?? ""} \n ${airportOfDepartureAndRouting ?? ""} `,
             requestedFlightDate: `${moment(requestedFlightDate).format(
               "YYYY-DD-MM"
             )} `,
@@ -767,6 +767,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 <p>Issued by</p>
                               </div>
                               <div>
+                                <p>
+                                  <b>{values?.masterBlNo?.label && " MBL Number: " + values?.masterBlNo?.label}</b>
+                                </p>
                                 <img src={logisticsLogo} alt="barcode" />
                                 <p>
                                   <b>Akij Logistics Limited</b>
@@ -2898,6 +2901,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                             e.target.value
                                           );
                                         }}
+                                        required
                                       />
                                     </div>
                                   )}

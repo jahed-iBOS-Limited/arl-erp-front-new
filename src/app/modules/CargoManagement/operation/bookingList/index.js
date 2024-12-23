@@ -446,10 +446,10 @@ function BookingList() {
                             <td>
                               <input
                                 type="checkbox"
-                                // disabled={
-                                //   getDisabledCheckbox(item) ||
-                                //   item?.masterBlGenarate
-                                // }
+                                disabled={
+                                  getDisabledCheckbox(item) ||
+                                  item?.masterBlGenarate
+                                }
                                 onChange={handleSelectRow(item)}
                               />
                             </td>
