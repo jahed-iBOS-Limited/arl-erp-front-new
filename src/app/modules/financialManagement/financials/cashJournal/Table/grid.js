@@ -68,6 +68,7 @@ const GridData = ({
   const userPermission = userRole[findIndex(userRole, "Cash Journal")];
 
   const canCreate = userPermission?.isCreate;
+  const canEdit=userPermission?.isEdit
 
   return (
     <>
@@ -181,7 +182,7 @@ const GridData = ({
                       </span>
                       {type === "notComplated" ? (
                         <>
-                          {canCreate && (
+                          {canEdit && (
                             <span
                             className="edit ml-2"
                             onClick={() =>
