@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-distracting-elements */
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -139,6 +139,7 @@ export default function _Form({
   setDisabled,
   deliveryeDatabydata,
   packerList,
+  refetchData,
 }) {
   const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -147,12 +148,14 @@ export default function _Form({
   const [open, setOpen] = useState(false);
   const [editDelivery, setEditDelivery] = useState({ open: false, data: null });
   const [show, setShow] = useState(false);
+  const [saveLoading, setSaveLoading] = useState(false);
   const [previewItems, setPreviewItems] = useState([]);
   const [transportStatus, setTransportStatus] = useState([]);
   const [, getEntryCodeDDL, entryCodeDDLloader] = useAxiosGet();
   const [pumpDDL, getPumpDDL, , setPumpDDL] = useAxiosGet();
   const [, getVehicleEntryDDL, vehicleEntryDDLloader] = useAxiosGet();
   const [shipmentDetailInfo, getShipmentDetailInfo, loader] = useAxiosGet();
+  const editDeliveryBtnRef = useRef();
   // const [, getVehicleForReadyMix] = useAxiosGet();
   const [
     vehicleDDL,
@@ -1248,8 +1251,31 @@ export default function _Form({
                   title="Edit Delivery"
                   show={editDelivery.open}
                   onHide={() => setEditDelivery({ open: false, data: null })}
+                  saveBtn={
+                    <button
+                      onClick={() => {
+                        if (editDeliveryBtnRef.current) {
+                          editDeliveryBtnRef.current.click();
+                        }
+                      }}
+                      class="btn btn-primary ml-2"
+                      disabled={saveLoading}
+                    >
+                      {saveLoading ? "Saving..." : "Save"}
+                    </button>
+                  }
                 >
-                  <EditDeliveryForm delivery={editDelivery.data} />
+                  <EditDeliveryForm
+                    saveLoading={saveLoading}
+                    setSaveLoading={setSaveLoading}
+                    delivery={editDelivery.data}
+                    closeModal={() => {
+                      setEditDelivery({ open: false, data: null });
+                    }}
+                    btnRef={btnRef}
+                    refetchData={refetchData}
+                    editDeliveryBtnRef={editDeliveryBtnRef}
+                  />
                 </IViewModal>
                 <IViewModal
                   modelSize="md"

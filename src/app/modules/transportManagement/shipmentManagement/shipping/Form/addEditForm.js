@@ -121,6 +121,10 @@ export default function ShipmentForm({
     return state?.salesContact;
   }, shallowEqual);
 
+  const [refetch, setRefetch] = useState(false);
+  const refetchData = () => {
+    setRefetch(!refetch);
+  };
   //Dispatch single data action and empty single data for create
   useEffect(() => {
     if (id) {
@@ -129,7 +133,7 @@ export default function ShipmentForm({
       dispatch(setSalesContactSingleEmpty());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accId, buId, id]);
+  }, [accId, buId, id, refetch]);
 
   //Dispatch Get emplist action for get emplist ddl
   useEffect(() => {
@@ -511,6 +515,7 @@ export default function ShipmentForm({
               : "",
           }
         }
+        refetchData={refetchData}
         saveHandler={saveHandler}
         accId={accId}
         buId={buId}
