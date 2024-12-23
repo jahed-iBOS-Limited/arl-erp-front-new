@@ -64,11 +64,6 @@ const CommonInvoice = ({ rowClickData }) => {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
-  const [
-    billingData,
-    setGetBookedRequestBillingData,
-    getBookedRequestBillingDataLoading,
-  ] = useAxiosGet();
 
   useEffect(() => {
     commonGetByIdHandler();
@@ -77,11 +72,14 @@ const CommonInvoice = ({ rowClickData }) => {
   }, [bookingRequestId]);
   const bookingData = {
     ...shipBookingRequestGetById,
-    billingData:
-      shipBookingRequestGetById?.billingData?.filter((item) => {
-        return item?.chargeAmount;
-      }) || [],
   };
+  // const bookingData = {
+  //   ...shipBookingRequestGetById,
+  //   billingData:
+  //     shipBookingRequestGetById?.billingData?.filter((item) => {
+  //       return item?.chargeAmount;
+  //     }) || [],
+  // };
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -105,9 +103,6 @@ const CommonInvoice = ({ rowClickData }) => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
-      );
-      setGetBookedRequestBillingData(
-        `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}`
       );
     }
   };
@@ -161,26 +156,42 @@ const CommonInvoice = ({ rowClickData }) => {
   };
   const getCalculatedActualAmount = () => {
     if (invoiceType?.label === "Freight") {
-      return billingData?.reduce((acc, cur) => {
+      return bookingData?.billingData?.reduce((acc, cur) => {
         return acc + (+cur?.collectionActualAmount || 0);
       }, 0);
     }
     if (invoiceType?.label === "Consignee") {
-      return billingData?.reduce((acc, cur) => {
+      return bookingData?.billingData?.reduce((acc, cur) => {
         return acc + (+cur?.paymentActualAmount || 0);
       }, 0);
     }
   };
   const getCalculatedDummyAmount = () => {
     if (invoiceType?.label === "Freight") {
-      return billingData?.reduce((acc, cur) => {
+      return bookingData?.billingData?.reduce((acc, cur) => {
         return acc + (+cur?.collectionDummyAmount || 0);
       }, 0);
     }
     if (invoiceType?.label === "Consignee") {
-      return billingData?.reduce((acc, cur) => {
+      return bookingData?.billingData?.reduce((acc, cur) => {
         return acc + (+cur?.paymentDummyAmount || 0);
       }, 0);
+    }
+  };
+  const getAmountInWords = () => {
+    if (invoiceType?.label === "Freight") {
+      return amountToWords(
+        bookingData?.billingData?.reduce((acc, cur) => {
+          return acc + (+cur?.collectionActualAmount || 0);
+        }, 0) || 0
+      );
+    }
+    if (invoiceType?.label === "Consignee") {
+      return amountToWords(
+        bookingData?.billingData?.reduce((acc, cur) => {
+          return acc + (+cur?.paymentActualAmount || 0);
+        }, 0) || 0
+      );
     }
   };
 
@@ -202,12 +213,13 @@ const CommonInvoice = ({ rowClickData }) => {
             />
           </div>
           <div className="d-flex justify-content-end">
-            {!bookingData?.invoiceNo && (
+            {!bookingData?.invoiceNumber && (
               <>
                 {" "}
                 <button
                   type="button"
                   className="btn btn-primary"
+                  disabled={bookingData?.billingData?.length === 0}
                   onClick={() => {
                     saveHandler();
                   }}
@@ -217,7 +229,7 @@ const CommonInvoice = ({ rowClickData }) => {
               </>
             )}
 
-            {bookingData?.invoiceNo && (
+            {bookingData?.invoiceNumber && (
               <>
                 <button
                   onClick={handlePrint}
@@ -281,7 +293,7 @@ const CommonInvoice = ({ rowClickData }) => {
           }}
         >
           {" "}
-          INVOICE : {bookingData?.invoiceNo || "N/A"}
+          INVOICE : {bookingData?.invoiceNumber || "N/A"}
         </p>
         <div
           style={{
@@ -640,7 +652,7 @@ const CommonInvoice = ({ rowClickData }) => {
           </thead>
           <tbody>
             {invoiceType &&
-              billingData?.map((row, index) => (
+              bookingData?.billingData?.map((row, index) => (
                 <tr key={index}>
                   <td style={{ textAlign: "right" }}> {index + 1} </td>
                   <td className="align-middle">
@@ -673,12 +685,8 @@ const CommonInvoice = ({ rowClickData }) => {
                 }}
               >
                 {" "}
-                Amount in Words:
-                {amountToWords(
-                  bookingData?.billingData?.reduce((acc, cur) => {
-                    return acc + (+cur?.chargeAmount || 0);
-                  }, 0) || 0
-                )}
+                Actual Amount in Words:
+                {getAmountInWords()}
               </td>
             </tr>
           </tbody>
