@@ -51,9 +51,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       agentIatacode: values?.agentIatacode || "",
       accountNumber: values?.accountNumber || "",
       airportOfDepartureAndRouting: values?.airportOfDepartureAndRouting || "",
-      to1: values?.to1 || "",
       byFirstCarrierRoutingAndDestination:
         values?.byFirstCarrierRoutingAndDestination || "",
+      to1: values?.to1 || "",
       to2: values?.to2 || "",
       by2: values?.by2 || "",
       currency: values?.currency || "",
@@ -68,12 +68,11 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       rateClassCommodityItemNo: values?.rateClassCommodityItemNo || "",
       chargeableWeight: values?.chargeableWeight || "",
       rateOrCharge: values?.rateOrCharge || "",
-      prepaidTotalAmount: values?.prepaidTotalAmount || "",
+      gsaName: values?.gsaName || "",
       grossWeightKgLb: values?.grossWeightKgLb || "",
       prepaidNatureAndQuantityOfGoods:
         values?.prepaidNatureAndQuantityOfGoods || "",
       prepaidPrepaidAmount: values?.prepaidPrepaidAmount || "",
-      prepaidWeightCharge: "",
       prepaidValuationCharge: values?.prepaidValuationCharge || "",
       prepaidTaxAmount: values?.prepaidTaxAmount || "",
       prepaidTotalOtherChargesDueAgent: "",
@@ -89,18 +88,18 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       totalCollectCharges: values?.totalCollectCharges || "",
       signatureOfShipperOrAgent: values?.signatureOfShipperOrAgent || "",
       executedOnDate: values?.executedOnDate || "",
-      atPlace: values?.atPlace || "",
+      strTo: values?.strTo || "",
       signatureOfIssuingCarrierOrAgent:
         values?.signatureOfIssuingCarrierOrAgent || "",
+      optionalShippingInformation: values?.optionalShippingInformation || "",
+      grossWeight: values?.grossWeight || "",
       isActive: true,
       createdBy: profileData?.userId,
       createdAt: new Date(),
       serverTime: new Date(),
-      collectTotalAmount: values?.collectTotalAmount || "",
-      collectNatureAndQuantityOfGoods:
-        values?.collectNatureAndQuantityOfGoods || "",
+      by1: values?.by1 || "",
+      referenceNumber: values?.referenceNumber || "",
       collectPrepaidAmount: values?.collectPrepaidAmount || "",
-      collectWeightCharge: values?.collectWeightCharge || "",
       collectValuationCharge: values?.collectValuationCharge || "",
       collectTaxAmount: values?.collectTaxAmount || "",
       collectTotalOtherChargesDueAgent:
@@ -140,9 +139,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             accountNumber: data?.accountNumber || "",
             airportOfDepartureAndRouting:
               data?.airportOfDepartureAndRouting || "",
-            to1: data?.to1 || "",
             byFirstCarrierRoutingAndDestination:
               data?.byFirstCarrierRoutingAndDestination || "",
+            to1: data?.to1 || "",
             to2: data?.to2 || "",
             by2: data?.by2 || "",
             by1: data?.by1 || "",
@@ -159,11 +158,11 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             rateClassCommodityItemNo: data?.rateClassCommodityItemNo || "",
             chargeableWeight: data?.chargeableWeight || "",
             rateOrCharge: data?.rateOrCharge || "",
-            prepaidTotalAmount: data?.prepaidTotalAmount || "",
+            gsaName: data?.gsaName || "",
             prepaidNatureAndQuantityOfGoods:
               data?.prepaidNatureAndQuantityOfGoods || "",
             prepaidPrepaidAmount: data?.prepaidPrepaidAmount || "",
-            prepaidWeightCharge: data?.prepaidWeightCharge || "",
+            referenceNumber: data?.referenceNumber || "",
             prepaidValuationCharge: data?.prepaidValuationCharge || "",
             prepaidTaxAmount: data?.prepaidTaxAmount || "",
             prepaidTotalOtherChargesDueAgent:
@@ -182,17 +181,14 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             totalCollectCharges: data?.totalCollectCharges || "",
             signatureOfShipperOrAgent: data?.signatureOfShipperOrAgent || "",
             executedOnDate: data?.executedOnDate || "",
-            atPlace: data?.atPlace || "",
+            strTo: data?.strTo || "",
+            grossWeight: data?.grossWeight || "",
             signatureOfIssuingCarrierOrAgent:
               data?.signatureOfIssuingCarrierOrAgent || "",
             createdBy: data?.createdBy || "",
             createdAt: data?.createdAt || "",
             serverTime: data?.serverTime || "",
-            collectTotalAmount: data?.collectTotalAmount || "",
-            collectNatureAndQuantityOfGoods:
-              data?.collectNatureAndQuantityOfGoods || "",
             collectPrepaidAmount: data?.collectPrepaidAmount || "",
-            collectWeightCharge: data?.collectWeightCharge || "",
             collectValuationCharge: data?.collectValuationCharge || "",
             collectTaxAmount: data?.collectTaxAmount || "",
             collectTotalOtherChargesDueAgent:
@@ -201,6 +197,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               data?.collectTotalOtherChargesDueCarrier1 || "",
             collectTotalOtherChargesDueCarrier2:
               data?.collectTotalOtherChargesDueCarrier2 || "",
+            optionalShippingInformation: data?.optionalShippingInformation || "",
             bookingReqest: data?.bookingReqest || [],
             hblNos: data?.hblNos || [],
           };
@@ -366,12 +363,11 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
 
           const obj = {
             // missing items
-            gsaName: "missing",
-            referenceNumber: "missing",
-            optionalShippingInformation: "missing",
-            to: "missing",
+            gsaName: "",
+            referenceNumber: "",
+            optionalShippingInformation: "",
             grossWeight: `${subtotalGrossWeight || ""}`, //"missing",
-            by1: "missing",
+            by1: "",
             // bind from data
             consigneeNameAndAddress: `${firstIndex?.freightAgentReference ?? ""}\n${firstIndex?.deliveryAgentDtl?.zipCode ?? ""}, ${firstIndex?.deliveryAgentDtl?.state ?? ""}, ${firstIndex?.deliveryAgentDtl?.city ?? ""}, ${firstIndex?.deliveryAgentDtl?.country ?? ""}, ${firstIndex?.deliveryAgentDtl?.address ?? ""}`,
             shipperNameAndAddress: `Akij Logistics Limited \nBir Uttam Mir Shawkat Sarak, Dhaka 1208`,
@@ -393,9 +389,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               "YYYY-DD-MM"
             )} `,
             grossWeightKgLb: "",
-            to1: "",
             byFirstCarrierRoutingAndDestination: "",
             to2: "",
+            to1: "",
             by2: "",
             cghscode: "",
             declaredValueForCarriage: "",
@@ -426,20 +422,15 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             chargesAtDestination: "string",
             totalCollectCharges: "", // can't get initial value
             prepaidTotalOtherChargesDueCarrier1: "", // note: this feild is used for Other Charge
+            strTo: "",  // can't get initial value
 
 
             // can't bind
             issuingCarrierAgentNameAndCity: "string",
-            prepaidTotalAmount: "", // no need
-            prepaidWeightCharge: "", // no ned
-            collectWeightCharge: "", // no need
 
             prepaidTotalOtherChargesDueCarrier2: "string",
 
             signatureOfShipperOrAgent: "string",
-            atPlace: "", // no need
-            collectTotalAmount: "", // no need
-            collectNatureAndQuantityOfGoods: "", // no need
           };
           Object.keys(obj).forEach((key) => {
             formikRef.current.setFieldValue(key, obj[key]);
@@ -984,8 +975,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   {isPrintViewMode ? (
                                     <>
                                       <p>
-                                        {values?.to
-                                          ? values?.to
+                                        {values?.strTo
+                                          ? values?.strTo
                                             ?.split("\n")
                                             .map((item, index) => {
                                               return (
@@ -1001,10 +992,10 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   ) : (
                                     <>
                                       <textarea
-                                        name="to"
-                                        value={values?.to}
+                                        name="strTo"
+                                        value={values?.strTo}
                                         onChange={(e) => {
-                                          setFieldValue("to", e.target.value);
+                                          setFieldValue("strTo", e.target.value);
                                         }}
                                         style={{
                                           minWidth: "40px",

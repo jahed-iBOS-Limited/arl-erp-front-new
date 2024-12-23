@@ -131,8 +131,8 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
             ...item,
             participantTypeId: 4,
             participantType: "Shipper",
-            participantId: item?.shipperId || 0,
             participantsName: item?.shipperName || "",
+            participantId: item?.participantId || 0,
           };
         });
         const deliveryAgentList = redData?.deliveryAgentList || [];
