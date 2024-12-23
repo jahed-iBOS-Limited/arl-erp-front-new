@@ -89,8 +89,10 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
 
   const onChangeParticipantType = (type) => {
     setParticipantDDL([]);
+    console.log(type);
 
-    const supplierTypeId = type === 1 ? 2 : 1;
+    const supplierTypeId = 1;
+    // const supplierTypeId = type === 1 ? 2 : 1;
     // 1= supplier 2= customer
     commonGeParticipantDDL(getParticipantDDL, supplierTypeId, type);
   };
@@ -131,8 +133,8 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
             ...item,
             participantTypeId: 4,
             participantType: "Shipper",
-            participantId: item?.shipperId || 0,
-            participantsName: item?.shipperName || "",
+            participantsName: item?.participantsName || "",
+            participantId: item?.participantId || 0,
           };
         });
         const deliveryAgentList = redData?.deliveryAgentList || [];
