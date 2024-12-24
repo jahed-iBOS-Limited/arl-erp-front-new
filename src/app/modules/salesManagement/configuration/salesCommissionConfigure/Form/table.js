@@ -2,7 +2,7 @@ import React from "react";
 import InputField from "../../../../_helper/_inputField";
 
 const SalesCommissionConfigureFormTable = ({ obj }) => {
-  const { rowData, setRowData, values } = obj;
+  const { rowData, setRowData, values, akijAgroFeedCommissionTypeList } = obj;
 
   const rowDataHandler = (index, name, value) => {
     let _data = [...rowData];
@@ -40,9 +40,21 @@ const SalesCommissionConfigureFormTable = ({ obj }) => {
       {[14, 16, 20, 23].includes(values?.commissionType?.value) && (
         <TableTwo obj={{ selectedAll, allSelect, rowData, rowDataHandler }} />
       )}
-      {[17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 41].includes(
-        values?.commissionType?.value
-      ) && (
+      {[
+        17,
+        18,
+        25,
+        27,
+        22,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        ...akijAgroFeedCommissionTypeList,
+      ].includes(values?.commissionType?.value) && (
         <TableThree
           obj={{ selectedAll, allSelect, rowData, rowDataHandler, values }}
         />
