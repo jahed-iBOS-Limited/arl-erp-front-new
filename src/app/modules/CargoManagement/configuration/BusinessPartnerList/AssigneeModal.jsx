@@ -131,7 +131,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
         const shipperList = redData?.shipperList?.map((item) => {
           return {
             ...item,
-            participantTypeId: 4,
+            participantTypeId: 1,
             participantType: "Shipper",
             participantsName: item?.participantsName || "",
             participantId: item?.participantId || 0,
