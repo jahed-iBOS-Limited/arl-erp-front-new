@@ -24,7 +24,8 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
   const { profileData } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
-  const [consigneeListDDL, getConsigneeListDDL] = useAxiosGet();
+  const [shipperListDDL, getShipperListDDL] = useAxiosGet();
+  // const [consigneeListDDL, getConsigneeListDDL] = useAxiosGet();
   const [, getParticipantsWithConsigneeDtl, participantLoading] = useAxiosGet();
   const [
     participantDDL,
@@ -72,13 +73,13 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
       (redData) => {
         const updatedData = redData?.filter((item) =>
-          [1, 3, 4].includes(item?.value)
+          [2, 3, 4].includes(item?.value)
         );
         setParticipantTypeList(updatedData);
       }
     );
-    // 1= supplier, 2= consignee
-    commonGeParticipantDDL(getConsigneeListDDL, 1, 2);
+    // 1= supplier, 2= shipper
+    commonGeParticipantDDL(getShipperListDDL, 2, 1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -91,8 +92,8 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
   const onChangeParticipantType = (type) => {
     setParticipantDDL([]);
 
-    const supplierTypeId = 1;
-    // const supplierTypeId = type === 1 ? 2 : 1;
+    //const supplierTypeId = 1;
+    const supplierTypeId = type === 1 ? 2 : 1;
     // 1= supplier 2= customer
     commonGeParticipantDDL(getParticipantDDL, supplierTypeId, type);
   };
@@ -100,8 +101,8 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
   const addButtonHandler = (values) => {
     const obj = {
       mappingId: 0,
-      consigneeId: values?.consignee?.value || 0,
-      consigneeName: values?.consignee?.label || "",
+      consigneeId: values?.shipper?.value || 0,
+      consigneeName: values?.shipper?.label || "",
       participantTypeId: values?.type?.value || 0,
       participantType: values?.type?.label || "",
       participantId: values?.participant?.value || 0,
@@ -122,7 +123,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
     setAddedItem((prev) => [...prev, obj]);
   };
 
-  const consigneeOnChangeHandler = (valueOption) => {
+  const shipperOnChangeHandler = (valueOption) => {
     // /domain/ShippingService/GetParticipantsWithConsigneeDtl?consigneeId=1
 
     getParticipantsWithConsigneeDtl(
@@ -131,8 +132,8 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
         const shipperList = redData?.shipperList?.map((item) => {
           return {
             ...item,
-            participantTypeId: 4,
-            participantType: "Shipper",
+            participantTypeId: 2,
+            participantType: "Consignee",
             participantsName: item?.participantsName || "",
             participantId: item?.participantId || 0,
           };
@@ -206,13 +207,13 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                   {/* Consignee */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label="Select Consignee"
-                      options={consigneeListDDL || []}
-                      value={values?.consignee}
-                      name="consignee"
+                      label="Select Shipper"
+                      options={shipperListDDL || []}
+                      value={values?.shipper}
+                      name="shipper"
                       onChange={(valueOption) => {
-                        setFieldValue("consignee", valueOption);
-                        consigneeOnChangeHandler(valueOption);
+                        setFieldValue("shipper", valueOption);
+                        shipperOnChangeHandler(valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -261,7 +262,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                           addButtonHandler(values);
                         }}
                         disabled={
-                          !values?.consignee ||
+                          !values?.shipper ||
                           !values?.type ||
                           !values?.participant
                         }
@@ -280,7 +281,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                 <thead>
                   <tr>
                     <th>SL</th>
-                    <th>Consignee</th>
+                    <th>Shipper</th>
                     <th>Type</th>
                     <th>Participant</th>
                     <th>Action</th>
