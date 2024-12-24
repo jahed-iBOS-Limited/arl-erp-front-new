@@ -16,13 +16,12 @@ import useAxiosPut from '../../../_helper/customHooks/useAxiosPut';
 import BLModal from './blModal';
 import Details from './bookingDetails';
 import ChargesModal from './chargesModal';
+import CommonInvoice from './commonInvoice';
 import CommonStatusUpdateModal from './commonStatusUpdateModal';
 import ConfirmModal from './confirmModal';
-import ConsigneeInvoice from './consigneeInvoice';
 import DeliveryNoteModal from './deliveryNoteModal';
 import DocumentModal from './documentModal';
 import FreightCargoReceipt from './freightCargoReceipt';
-import FreightInvoice from './freightInvoice';
 import HBLCodeGNModal from './hblCodeGNModal';
 import { cancelHandler, statusReturn } from './helper';
 import ManifestModal from './manifestModal';
@@ -30,7 +29,6 @@ import MasterHBAWModal from './masterHAWBModal';
 import MasterHBLModal from './masterHBLModal';
 import ReceiveModal from './receiveModal';
 import TransportModal from './transportModal';
-import CommonInvoice from './commonInvoice';
 const validationSchema = Yup.object().shape({});
 function BookingList() {
   const { profileData } = useSelector(

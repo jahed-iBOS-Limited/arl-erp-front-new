@@ -42,6 +42,9 @@ export default function SalesCommissionConfigureEntryForm() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
+  // akij agro feed commission type list
+  const akijAgroFeedCommissionTypeList = [42, 43, 44, 45, 46, 47];
+
   const [desginationList, getDesignationList] = useAxiosGet();
 
   useEffect(() => {
@@ -103,9 +106,21 @@ export default function SalesCommissionConfigureEntryForm() {
 
       setRowData(newArray);
     } else if (
-      [17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 41].includes(
-        commissionTypeId
-      )
+      [
+        17,
+        18,
+        25,
+        27,
+        22,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        ...akijAgroFeedCommissionTypeList,
+      ].includes(commissionTypeId)
     ) {
       const isCommonRateApplicable = [35, 36, 37, 38, 39, 40].includes(
         commissionTypeId
@@ -214,6 +229,7 @@ export default function SalesCommissionConfigureEntryForm() {
 
     const URL = commissionTypeId === 16 ? additionalLiftingURL : commonURL;
 
+    // console.log(payload)
     postData(
       URL,
       payload,
@@ -240,6 +256,7 @@ export default function SalesCommissionConfigureEntryForm() {
         setRowData={setRowData}
         commissionTypes={commissionTypes}
         desginationList={desginationList}
+        akijAgroFeedCommissionTypeList={akijAgroFeedCommissionTypeList}
       />
     </>
   );
