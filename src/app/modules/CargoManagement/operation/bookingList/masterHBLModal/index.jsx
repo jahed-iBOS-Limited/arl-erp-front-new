@@ -107,7 +107,7 @@ export default function MasterHBLModal({
           const strOceanVessel = [];
 
           // eslint-disable-next-line no-unused-expressions
-          hblRestData?.map((item, index) => {
+          hblRestData?.forEach((item, index) => {
             if (item?.transportPlanning?.vesselName) {
               strPreCarriageBy.push({
                 value: index + 1,

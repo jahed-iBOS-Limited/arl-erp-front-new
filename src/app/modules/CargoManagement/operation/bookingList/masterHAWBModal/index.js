@@ -28,7 +28,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
     (state) => state?.authData || {},
     shallowEqual
   );
-  const [isPrintViewMode, setIsPrintViewMode] = useState(isPrintView || false);
+  const [isPrintViewMode,] = useState(isPrintView || false);
+  // const [isPrintViewMode, setIsPrintViewMode] = useState(isPrintView || false);
   const formikRef = React.useRef();
 
   const saveHandler = (values, cb) => {
@@ -294,7 +295,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
           const iatacode = []
 
           // eslint-disable-next-line no-unused-expressions
-          hbawRestData?.map((item, index) => {
+          hbawRestData?.forEach((item, index) => {
             if (item?.transportPlanning?.iatanumber) {
               iatacode.push({
                 value: index + 1,
