@@ -184,17 +184,6 @@ function ChargesModal({ rowClickData, CB }) {
       CB
     );
   };
-  const loadCollectionPartyList = (v, paymentPartyType) => {
-    if (v?.length < 3) return [];
-    // paymentPartyType
-    // const paymentPartyType = formikRef.watch('paymentPartyType');
-    console.log(paymentPartyType);
-    return axios
-      .get(
-        `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=1&cargoType=${paymentPartyType}`
-      )
-      .then((res) => res?.data);
-  };
 
   return (
     <div className="chargesModal">
