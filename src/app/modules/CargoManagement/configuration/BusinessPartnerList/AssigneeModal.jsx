@@ -44,9 +44,10 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
 
   const saveHandler = (values, cb) => {
     // addItem minimum 1 item check
-    if (addedItem?.length === 0)
-      return toast.warning("Please add at least one item");
-
+    // if (addedItem?.length === 0)
+    //   return toast.warning("Please add at least one item");
+    const isAllFalse = addedItem?.every((item) => item?.isActive === false);
+    if (isAllFalse) return toast.warning("Please add at least one item");
     const modifiedData = addedItem?.map((item) => {
       return {
         ...item,
@@ -57,7 +58,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
       modifiedData,
       () => {
         setAddedItem([]);
-        setIsModalOpen(false);
+        // setIsModalOpen(false);
         if (cb) {
           cb();
         }
@@ -89,7 +90,6 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
 
   const onChangeParticipantType = (type) => {
     setParticipantDDL([]);
-    console.log(type);
 
     const supplierTypeId = 1;
     // const supplierTypeId = type === 1 ? 2 : 1;
@@ -179,7 +179,9 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
             setIsModalOpen(false);
           }}
           saveHandler={(values) => {
-            saveHandler(values);
+            saveHandler(values, () => {
+              formikRef.current.resetForm();
+            });
           }}
           resetHandler={() => {
             formikRef.current.resetForm();
