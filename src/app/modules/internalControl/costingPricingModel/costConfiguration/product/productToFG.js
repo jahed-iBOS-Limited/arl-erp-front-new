@@ -28,7 +28,7 @@ const ProductToFG = () => {
   const location = useLocation();
   const history = useHistory();
 
-  const { item } = location?.state;
+  const { item } = location?.state || {};
   const { selectedBusinessUnit, profileData } = useSelector(
     (state) => state.authData,
     shallowEqual,
