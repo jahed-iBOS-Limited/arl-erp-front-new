@@ -78,7 +78,6 @@ const CommonInvoice = ({ rowClickData }) => {
       setShipBookingRequestGetById(
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
       );
-      getInvoiceNo(bookingRequestId, 1);
     }
     GetParticipantTypeListDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
@@ -87,7 +86,6 @@ const CommonInvoice = ({ rowClickData }) => {
           [1, 2, 3, 4].includes(item?.value)
         );
         setParticipantTypeList(updatedData);
-        setInvoiceType(updatedData[0]);
       }
     );
   };
@@ -125,6 +123,7 @@ const CommonInvoice = ({ rowClickData }) => {
       paylaod,
       () => {
         commonGetByIdHandler();
+        setInvoiceType(null);
       },
       true
     );
@@ -157,21 +156,23 @@ const CommonInvoice = ({ rowClickData }) => {
       );
     }
   }, [invoiceType, bookingData.billingData]);
-  const getDisabledGenerateButton = () => {
-    if (invoiceNo) {
+
+  const showGenerateButton = () => {
+    if (invoiceType === null) {
+      return false;
+    }
+    if (invoiceNo?.length > 0) {
+      return false;
+    }
+    if (billingDataFilterData?.length > 0) {
       return true;
     }
-    if (bookingData?.billingData?.length === 0) {
-      return true;
-    }
-    if (bookingData?.invoiceNumber) {
-      return true;
-    }
-    if (billingDataFilterData?.length === 0) {
+    if (bookingData?.billingData?.length > 0) {
       return true;
     }
     return false;
   };
+
   return (
     <>
       <div>
@@ -192,13 +193,13 @@ const CommonInvoice = ({ rowClickData }) => {
             />
           </div>
           <div className="d-flex justify-content-end">
-            {!bookingData?.invoiceNumber && (
+            {showGenerateButton() && (
               <>
                 {" "}
                 <button
                   type="button"
                   className="btn btn-primary"
-                  disabled={getDisabledGenerateButton()}
+                  // disabled={getDisabledGenerateButton()}
                   onClick={() => {
                     saveHandler();
                   }}
@@ -208,7 +209,7 @@ const CommonInvoice = ({ rowClickData }) => {
               </>
             )}
 
-            {bookingData?.invoiceNumber && (
+            {invoiceNo?.length !== 0 && (
               <>
                 <button
                   onClick={handlePrint}
