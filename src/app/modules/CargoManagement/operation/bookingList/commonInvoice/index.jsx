@@ -38,6 +38,7 @@ const CommonInvoice = ({ rowClickData }) => {
     ,
     setParticipantTypeList,
   ] = useAxiosGet();
+  const [invoiceNo, GeiInvoiceNo] = useAxiosGet();
   useEffect(() => {
     commonGetByIdHandler();
 
@@ -77,6 +78,7 @@ const CommonInvoice = ({ rowClickData }) => {
       setShipBookingRequestGetById(
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
       );
+      getInvoiceNo(bookingRequestId, 1);
     }
     GetParticipantTypeListDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
@@ -89,9 +91,15 @@ const CommonInvoice = ({ rowClickData }) => {
       }
     );
   };
+  const getInvoiceNo = (bookingRequestId, CusomerId) => {
+    GeiInvoiceNo(
+      `${imarineBaseUrl}/domain/ShippingService/GetInvoiceNo?BookingId=${bookingRequestId}&CusomerId=${CusomerId}`
+    );
+  };
 
   const saveHandler = (values) => {
     const paylaod = {
+      typeId: invoiceType?.value || 0,
       accountId: profileData?.accountId || 0,
       unitId: selectedBusinessUnit?.value || 0,
       bookingDate: new Date(),
@@ -149,6 +157,21 @@ const CommonInvoice = ({ rowClickData }) => {
       );
     }
   }, [invoiceType, bookingData.billingData]);
+  const getDisabledGenerateButton = () => {
+    if (invoiceNo) {
+      return true;
+    }
+    if (bookingData?.billingData?.length === 0) {
+      return true;
+    }
+    if (bookingData?.invoiceNumber) {
+      return true;
+    }
+    if (billingDataFilterData?.length === 0) {
+      return true;
+    }
+    return false;
+  };
   return (
     <>
       <div>
@@ -162,6 +185,8 @@ const CommonInvoice = ({ rowClickData }) => {
               label="Invoice Type"
               onChange={(valueOption) => {
                 setInvoiceType(valueOption);
+                valueOption?.value &&
+                  getInvoiceNo(bookingRequestId, valueOption?.value);
               }}
               placeholder="Select Invoice Type"
             />
@@ -173,7 +198,7 @@ const CommonInvoice = ({ rowClickData }) => {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  disabled={bookingData?.billingData?.length === 0}
+                  disabled={getDisabledGenerateButton()}
                   onClick={() => {
                     saveHandler();
                   }}
@@ -247,7 +272,8 @@ const CommonInvoice = ({ rowClickData }) => {
           }}
         >
           {" "}
-          INVOICE : {bookingData?.invoiceNumber || "N/A"}
+          INVOICE : {invoiceNo || "N/A"}
+          {/* INVOICE : {bookingData?.invoiceNumber || "N/A"} */}
         </p>
         <div
           style={{

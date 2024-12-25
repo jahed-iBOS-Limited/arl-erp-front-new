@@ -92,6 +92,7 @@ const BillGenerate = ({ rowClickData }) => {
 
   const saveHandler = (values) => {
     const paylaod = {
+      typeId: invoiceType?.value || 0,
       accountId: profileData?.accountId || 0,
       unitId: selectedBusinessUnit?.value || 0,
       bookingDate: new Date(),
