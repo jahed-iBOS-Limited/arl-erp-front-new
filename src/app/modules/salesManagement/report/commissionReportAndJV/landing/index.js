@@ -54,6 +54,7 @@ const idSet1 = [8, 9, 10, 11, 12, 13, 21];
 const idSet2 = [14, 15, 16, 17, 18, 19, 20, 25, 22, 26, 27, 34];
 const akijAgroFeedCommissionTypeList = [42, 43, 44, 45, 46, 47];
 const allIds = [...idSet1, ...idSet2,41,...akijAgroFeedCommissionTypeList];
+  // akij agro feed commission type list
 
 const CommissionReportAndJV = () => {
   const [loading, setLoading] = useState(false);
