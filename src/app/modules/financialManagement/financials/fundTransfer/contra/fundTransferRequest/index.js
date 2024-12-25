@@ -2,24 +2,20 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import Loading from "../../../../../_helper/_loading";
+import PaginationSearch from "../../../../../_helper/_search";
+import PaginationTable from "../../../../../_helper/_tablePagination";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import IView from "../../../../../_helper/_helperIcons/_view";
+import IEdit from "../../../../../_helper/_helperIcons/_edit";
+import IDelete from "../../../../../_helper/_helperIcons/_delete";
+import IForm from "../../../../../_helper/_form";
+import { _dateFormatter } from "../../../../../_helper/_dateFormate";
 
 const initData = {
-    itemType: { value: 0, label: "All" },
-    itemCategory: { value: 0, label: "All" },
-    itemSubCategory: { value: 0, label: "All" },
-    plant: { value: 0, label: "All" },
-    warehouse: { value: 0, label: "All" },
+
 };
-export default function ItemRateUpdate({ activeTab }) {
+export default function FundTransferRequest({ viewType }) {
     const { selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
@@ -28,6 +24,8 @@ export default function ItemRateUpdate({ activeTab }) {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(15);
     const [gridData, getGridData, loading] = useAxiosGet();
+    const [transferType, setTransferType] = useState(null);
+
 
     const saveHandler = (values, cb) => { };
     const history = useHistory();
@@ -75,7 +73,39 @@ export default function ItemRateUpdate({ activeTab }) {
                 <>
                     {loading && <Loading />}
                     <IForm
-                        title="Fund Transfer Request"
+                        customTitle={<>
+                            <div className="d-flex mb-2 mt-5">
+                                <label className="mr-3">
+                                    <input
+                                        type="radio"
+                                        name="transferType"
+                                        checked={transferType === "Bank"}
+                                        className="mr-1 pointer"
+                                        style={{
+                                            position: "relative",
+                                            top: "2px",
+                                        }}
+                                        onChange={(valueOption) => {
+                                            setTransferType("Bank");
+                                        }}
+                                    />
+                                    <strong style={{ fontSize: "11px" }}>Bank</strong>
+                                </label>
+                                <label className="mr-3">
+                                    <input
+                                        type="radio"
+                                        name="transferType"
+                                        checked={transferType === "Cash"}
+                                        className="mr-1 pointer"
+                                        style={{ position: "relative", top: "2px" }}
+                                        onChange={(e) => {
+                                            setTransferType("Cash");
+                                        }}
+                                    />
+                                    <strong style={{ fontSize: "11px" }} >Cash</strong>
+                                </label>
+                            </div>
+                        </>}
                         isHiddenReset
                         isHiddenBack
                         isHiddenSave
@@ -83,10 +113,14 @@ export default function ItemRateUpdate({ activeTab }) {
                             return (
                                 <div>
                                     <button
+                                        disabled={!viewType || !transferType}
                                         type="button"
                                         className="btn btn-primary"
                                         onClick={() => {
-                                            history.push(`/financial-management/financials/fundTransfer/${activeTab}/create`);
+                                            history.push({
+                                                pathname: `/financial-management/financials/fundTransfer/contra/create`,
+                                                state: { viewType, transferType }
+                                            });
                                         }}
                                     >
                                         Create

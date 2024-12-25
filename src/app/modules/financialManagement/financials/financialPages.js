@@ -37,7 +37,7 @@ import TransferJournalToTax from "./transferJournalToTax";
 import BankJournalCreateFormCollection from "./bankJournal/collectionCreate/addForm";
 import CashJournaFormForCollection from "./cashJournal/collectionCreate/addEditForm";
 import FundTransfer from "./fundTransfer";
-import FundTransferRequestCreate from "./fundTransfer/fundTransferRequest/create";
+import FundTransferRequestCreate from "./fundTransfer/contra/fundTransferRequest/create";
 // import DepreciationJournal from "./depreciationJournal/table/tableHeader"
 
 export function FinalcialPages() {
@@ -170,7 +170,7 @@ export function FinalcialPages() {
         component={BankAdvice}
       />
       <ContentRoute
-        path="/financial-management/financials/fundTransfer/fundTransferRequest/create"
+        path="/financial-management/financials/fundTransfer/contra/create"
         component={FundTransferRequestCreate}
       />
       <ContentRoute

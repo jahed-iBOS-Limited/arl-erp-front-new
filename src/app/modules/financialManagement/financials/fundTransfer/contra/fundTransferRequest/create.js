@@ -1,56 +1,76 @@
+import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import Loading from "../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
 import { shallowEqual, useSelector } from "react-redux";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import axios from "axios";
-import FormikError from "../../../../_helper/_formikError";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import * as Yup from "yup";
+import IForm from "../../../../../_helper/_form";
+import FormikError from "../../../../../_helper/_formikError";
+import InputField from "../../../../../_helper/_inputField";
+import Loading from "../../../../../_helper/_loading";
+import NewSelect from "../../../../../_helper/_select";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
+import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
+import { useLocation } from "react-router";
+
 
 const initData = {
-    requestDate: _todayDate(),
-    requestTo: null,
-    bankName: null,
+    fromBankName: "",
+    toBankName: "",
     expectedDate: "",
     requestAmount: "",
     responsiblePerson: "",
     remarks: "",
+    transferType: ""
 };
 
-const validationSchema = Yup.object().shape({
-    requestDate: Yup.date().required("Request Date is required"),
-    requestTo: Yup.object()
-        .shape({
-            label: Yup.string().required("Request To is required"),
-            value: Yup.string().required("Request To is required"),
-        })
-        .typeError("Request To is required"),
-    bankName: Yup.object()
-        .shape({
-            label: Yup.string().required("Bank Name is required"),
-            value: Yup.string().required("Bank Name is required"),
-        })
-        .typeError("Bank Name is required"),
-    expectedDate: Yup.date().required("Expected Date is required"),
-    requestAmount: Yup.number().required("Request Amount is required").min(1, "Request Amount must be positive"),
-    responsiblePerson: Yup.object()
-        .shape({
-            label: Yup.string().required("Responsible Person is required"),
-            value: Yup.string().required("Responsible Person is required"),
-        })
-        .typeError("Responsible Person is required"),
-});
+const getSchema = (transferType) => {
+    const validationSchema = Yup.object().shape({
+        transferType: Yup.object()
+            .shape({
+                label: Yup.string().required("Transfer Type is required"),
+                value: Yup.string().required("Transfer Type is required"),
+            })
+            .typeError("Transfer Type is required"),
+        toBankName: transferType === "Bank"
+            ? Yup.object()
+                .shape({
+                    label: Yup.string().required("Transfer To Bank is required"),
+                    value: Yup.string().required("Transfer To Bank is required"),
+                })
+                .typeError("Transfer To Bank is required")
+            : Yup.mixed().notRequired(),
+        fromBankName: Yup.object()
+            .shape({
+                label: Yup.string().required("Transfer From Bank is required"),
+                value: Yup.string().required("Transfer From Bank is required"),
+            })
+            .typeError("Transfer From Bank is required"),
+        expectedDate: Yup.date().required("Expected Date is required"),
+        requestAmount: Yup.number().required("Request Amount is required").min(1, "Request Amount must be positive"),
+        responsiblePerson: Yup.object()
+            .shape({
+                label: Yup.string().required("Responsible Person is required"),
+                value: Yup.string().required("Responsible Person is required"),
+            })
+            .typeError("Responsible Person is required"),
+    });
+
+    return validationSchema;
+}
+
+
 
 export default function FundTransferRequestCreate() {
     const [objProps, setObjprops] = useState({});
 
-    const { businessUnitList, profileData, selectedBusinessUnit } = useSelector((state) => {
+    const location = useLocation();
+    const { transferType } = location?.state || {};
+
+    console.log("location", location)
+    console.log("transferType", transferType)
+
+    const { profileData, selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
 
@@ -68,26 +88,26 @@ export default function FundTransferRequestCreate() {
         const payload = {
             "intFundTransferRequestId": 0,
             "strRequestCode": "",
-            "intRequestTypeId": 0,
-            "strRequestType": "",
+            "intRequestTypeId": values?.transferType?.value,
+            "strRequestType": values?.transferType?.label,
             "intRequestByUnitId": selectedBusinessUnit?.value,
             "strRequestByUnitName": selectedBusinessUnit?.label,
-            "intRequestToUnitId": values?.requestTo?.value,
-            "strRequestToUnitName": values?.requestTo?.label,
+            "intRequestToUnitId": selectedBusinessUnit?.value,
+            "strRequestToUnitName": selectedBusinessUnit?.label,
             "dteRequestDate": "2024-12-22T09:59:39.993Z",
             "numAmount": values?.requestAmount || 0,
-            "intRequestedBankId": values?.bankName?.value,
-            "strRequestedBankName": values?.bankName?.label,
-            "intRequestedBankBranchId": values?.bankName?.bankBranch_Id || 0,
-            "strRequestedBankBranchName": values?.bankName?.bankBranchName || "",
-            "strRequestedBankAccountNumber": values?.bankName?.bankAccNo || "",
-            "strRequestedBankAccountName": values?.bankName?.accountName || "",
-            "intGivenBankId": 0,
-            "strGivenBankName": "",
-            "intGivenBankBranchId": 0,
-            "strGivenBankBranchName": "",
-            "strGivenBankAccountNumber": 0,
-            "strGivenBankAccountName": "",
+            "intRequestedBankId": values?.fromBankName?.value,
+            "strRequestedBankName": values?.fromBankName?.label,
+            "intRequestedBankBranchId": values?.fromBankName?.bankBranch_Id || 0,
+            "strRequestedBankBranchName": values?.fromBankName?.bankBranchName || "",
+            "strRequestedBankAccountNumber": values?.fromBankName?.bankAccNo || "",
+            "strRequestedBankAccountName": values?.fromBankName?.accountName || "",
+            "intGivenBankId": values?.toBankName?.value,
+            "strGivenBankName": values?.toBankName?.label,
+            "intGivenBankBranchId": values?.toBankName?.bankBranch_Id || 0,
+            "strGivenBankBranchName": values?.toBankName?.bankBranchName || "",
+            "strGivenBankAccountNumber": values?.toBankName?.bankAccNo || "",
+            "strGivenBankAccountName": values?.toBankName?.accountName || "",
             "strRemarks": values?.remarks || "",
             "dteExpectedDate": values?.expectedDate,
             "intResponsibleEmpId": values?.responsiblePerson?.value || 0,
@@ -116,7 +136,7 @@ export default function FundTransferRequestCreate() {
         <Formik
             enableReinitialize={true}
             initialValues={initData}
-            validationSchema={validationSchema}
+            validationSchema={getSchema(transferType)}
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 saveHandler(values, () => {
                     resetForm(initData);
@@ -133,30 +153,20 @@ export default function FundTransferRequestCreate() {
                 touched,
             }) => (
                 <>
+                    {console.log("errors", errors)}
+                    {console.log("touched", touched)}
                     {saveLoader && <Loading />}
                     <IForm title="Fund Transfer Request Create" getProps={setObjprops}>
                         <Form>
                             <div className="form-group global-form row">
-                                {/* Request Date */}
-                                <div className="col-lg-3">
-                                    <InputField
-                                        value={values?.requestDate}
-                                        label="Request Date"
-                                        name="requestDate"
-                                        type="date"
-                                        onChange={(e) => setFieldValue("requestDate", e.target.value)}
-                                    />
-                                </div>
-
-                                {/* Request To */}
                                 <div className="col-lg-3">
                                     <NewSelect
-                                        name="requestTo"
-                                        options={businessUnitList}
-                                        value={values?.requestTo}
-                                        label="Request To Unit"
+                                        name="transferType"
+                                        options={[{ value: 1, label: "Bank" }, { value: 2, label: "Cash" }]}
+                                        value={values?.transferType}
+                                        label="Transfer Type"
                                         onChange={(valueOption) => {
-                                            setFieldValue("requestTo", valueOption)
+                                            setFieldValue("transferType", valueOption)
                                         }}
                                         errors={errors}
                                         touched={touched}
@@ -166,15 +176,27 @@ export default function FundTransferRequestCreate() {
                                 {/* Bank Name */}
                                 <div className="col-lg-3">
                                     <NewSelect
-                                        name="bankName"
+                                        name="fromBankName"
                                         options={bankList || []}
-                                        value={values?.bankName}
-                                        label="Bank Name & A/C"
-                                        onChange={(valueOption) => setFieldValue("bankName", valueOption)}
+                                        value={values?.fromBankName}
+                                        label="Transfer From Bank"
+                                        onChange={(valueOption) => setFieldValue("fromBankName", valueOption)}
                                         errors={errors}
                                         touched={touched}
                                     />
                                 </div>
+                                {transferType === "Bank" && (<div className="col-lg-3">
+                                    <NewSelect
+                                        name="toBankName"
+                                        options={bankList || []}
+                                        value={values?.toBankName}
+                                        label="Transfer To Bank"
+                                        onChange={(valueOption) => setFieldValue("toBankName", valueOption)}
+                                        errors={errors}
+                                        touched={touched}
+                                    />
+                                </div>)}
+
 
                                 {/* Expected Date */}
                                 <div className="col-lg-3">
