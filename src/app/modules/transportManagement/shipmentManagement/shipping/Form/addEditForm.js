@@ -175,7 +175,11 @@ export default function ShipmentForm({
     }
 
     // show alert for cement & essential & packer isn't selected
-    if ((buId === 4 || buId === 144) && !Boolean(values?.packer?.value)) {
+    if (
+      (buId === 4 || buId === 144) &&
+      !Boolean(values?.packer?.value) &&
+      !id
+    ) {
       toast.warn("Please add packer");
     }
     if (values && accId && buId) {
