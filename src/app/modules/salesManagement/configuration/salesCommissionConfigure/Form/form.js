@@ -1,16 +1,16 @@
-import { Formik } from 'formik';
-import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import * as Yup from 'yup';
-import ICustomCard from '../../../../_helper/_customCard';
-import InputField from '../../../../_helper/_inputField';
-import NewSelect from '../../../../_helper/_select';
-import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
-import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
-import IButton from '../../../../_helper/iButton';
-import SalesCommissionConfigureFormTable from './table';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import { shallowEqual, useSelector } from 'react-redux';
+import { Formik } from "formik";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import ICustomCard from "../../../../_helper/_customCard";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import IButton from "../../../../_helper/iButton";
+import SalesCommissionConfigureFormTable from "./table";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { shallowEqual, useSelector } from "react-redux";
 
 const ValidationSchema = Yup.object().shape({});
 
@@ -22,18 +22,19 @@ export default function _Form({
   setRowData,
   commissionTypes,
   desginationList,
+  akijAgroFeedCommissionTypeList,
 }) {
   const history = useHistory();
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   const [itemGroupDDL, getItemGroupDDL] = useAxiosGet();
 
   useEffect(() => {
     getItemGroupDDL(
-      `/oms/TradeOffer/GetDiscountOfferGroupDDL?businessUnitId=${selectedBusinessUnit?.value}`,
+      `/oms/TradeOffer/GetDiscountOfferGroupDDL?businessUnitId=${selectedBusinessUnit?.value}`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBusinessUnit]);
@@ -72,11 +73,13 @@ export default function _Form({
                       label="Commission Type"
                       placeholder="Commission Type"
                       onChange={(e) => {
-                        setFieldValue('commissionType', e);
+                        setFieldValue("commissionType", e);
                         setRowData([]);
                       }}
                     />
                   </div>
+
+                  {/* RTA Form */}
                   <RATForm
                     obj={{
                       values,
@@ -125,9 +128,21 @@ export default function _Form({
 
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
 
-                  {[17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 41].includes(
-                    values?.commissionType?.value,
-                  ) && (
+                  {[
+                    17,
+                    18,
+                    25,
+                    27,
+                    22,
+                    35,
+                    36,
+                    37,
+                    38,
+                    39,
+                    40,
+                    41,
+                    ...akijAgroFeedCommissionTypeList,
+                  ].includes(values?.commissionType?.value) && (
                     <>
                       <div className={`col-lg-3`}>
                         <InputField
@@ -177,7 +192,7 @@ export default function _Form({
                     />
                   </div>
                   {[35, 36, 37, 38, 39, 40, 41].includes(
-                    values?.commissionType?.value,
+                    values?.commissionType?.value
                   ) && (
                     <div className="col-lg-3">
                       <NewSelect
@@ -186,7 +201,7 @@ export default function _Form({
                         value={values?.itemGroup}
                         label="Item Group"
                         onChange={(e) => {
-                          setFieldValue('itemGroup', e);
+                          setFieldValue("itemGroup", e);
                         }}
                       />
                     </div>
@@ -199,18 +214,30 @@ export default function _Form({
                         value={values?.designation}
                         label="Designation"
                         onChange={(e) => {
-                          setFieldValue('designation', e);
+                          setFieldValue("designation", e);
                         }}
                       />
                     </div>
                   )}
                   <IButton
                     title={
-                      [17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 41].includes(
-                        values?.commissionType?.value,
-                      )
-                        ? 'Add'
-                        : 'Show'
+                      [
+                        17,
+                        18,
+                        25,
+                        27,
+                        22,
+                        35,
+                        36,
+                        37,
+                        38,
+                        39,
+                        40,
+                        41,
+                        ...akijAgroFeedCommissionTypeList,
+                      ].includes(values?.commissionType?.value)
+                        ? "Add"
+                        : "Show"
                     }
                     onClick={() => {
                       getAreas(values, () => {
@@ -230,11 +257,11 @@ export default function _Form({
                             41,
                           ].includes(values?.commissionType?.value)
                         ) {
-                          setFieldValue('area', '');
-                          setFieldValue('fromAchievement', '');
-                          setFieldValue('toAchievement', '');
-                          setFieldValue('fromQuantity', '');
-                          setFieldValue('toQuantity', '');
+                          setFieldValue("area", "");
+                          setFieldValue("fromAchievement", "");
+                          setFieldValue("toAchievement", "");
+                          setFieldValue("fromQuantity", "");
+                          setFieldValue("toQuantity", "");
                         }
                       });
                     }}
@@ -243,7 +270,12 @@ export default function _Form({
               </form>
             </div>
             <SalesCommissionConfigureFormTable
-              obj={{ rowData, setRowData, values }}
+              obj={{
+                rowData,
+                setRowData,
+                values,
+                akijAgroFeedCommissionTypeList,
+              }}
             />
           </ICustomCard>
         )}
