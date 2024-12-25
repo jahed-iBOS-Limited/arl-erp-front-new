@@ -37,8 +37,7 @@ export default function CommissionReportAndJVForm({ obj }) {
     setFieldValue,
     transactionHeads,
     setUploadedImage,
-    touched,
-    errors,
+    akijAgroFeedCommissionTypeList
   } = obj;
   // get user profile data from store
   const storeData = useSelector((state) => {
@@ -187,7 +186,7 @@ export default function CommissionReportAndJVForm({ obj }) {
                   />
                 )}
 
-                {[5, 3, 6, 7, ...allIds, 35, 36, 37, 38, 39, 41].includes(
+                {[5, 3, 6, 7, ...allIds, 35, 36, 37, 38, 39, 41,...akijAgroFeedCommissionTypeList].includes(
                   values?.type?.value
                 ) && (
                   <>
