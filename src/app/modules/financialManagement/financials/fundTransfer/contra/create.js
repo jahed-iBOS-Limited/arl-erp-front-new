@@ -3,14 +3,14 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import * as Yup from "yup";
-import IForm from "../../../../../_helper/_form";
-import FormikError from "../../../../../_helper/_formikError";
-import InputField from "../../../../../_helper/_inputField";
-import Loading from "../../../../../_helper/_loading";
-import NewSelect from "../../../../../_helper/_select";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
+import IForm from "../../../../_helper/_form";
+import FormikError from "../../../../_helper/_formikError";
+import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import { useLocation } from "react-router";
 
 
@@ -61,7 +61,7 @@ const getSchema = (transferType) => {
 
 
 
-export default function FundTransferRequestCreate() {
+export default function ContraCreate() {
     const [objProps, setObjprops] = useState({});
 
     const location = useLocation();
@@ -156,7 +156,7 @@ export default function FundTransferRequestCreate() {
                     {console.log("errors", errors)}
                     {console.log("touched", touched)}
                     {saveLoader && <Loading />}
-                    <IForm title="Fund Transfer Request Create" getProps={setObjprops}>
+                    <IForm title="Contra Create" getProps={setObjprops}>
                         <Form>
                             <div className="form-group global-form row">
                                 <div className="col-lg-3">

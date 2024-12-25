@@ -2,20 +2,20 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Loading from "../../../../../_helper/_loading";
-import PaginationSearch from "../../../../../_helper/_search";
-import PaginationTable from "../../../../../_helper/_tablePagination";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import IView from "../../../../../_helper/_helperIcons/_view";
-import IEdit from "../../../../../_helper/_helperIcons/_edit";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
-import IForm from "../../../../../_helper/_form";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import Loading from "../../../../_helper/_loading";
+import PaginationSearch from "../../../../_helper/_search";
+import PaginationTable from "../../../../_helper/_tablePagination";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import IView from "../../../../_helper/_helperIcons/_view";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import IForm from "../../../../_helper/_form";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 const initData = {
 
 };
-export default function FundTransferRequest({ viewType }) {
+export default function Contra({ viewType }) {
     const { selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
