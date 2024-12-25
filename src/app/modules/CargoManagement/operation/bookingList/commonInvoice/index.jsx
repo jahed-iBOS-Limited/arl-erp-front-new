@@ -8,50 +8,18 @@ import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 
+import NewSelect from "../../../../_helper/_select";
 import logisticsLogo from "./logisticsLogo.png";
 import "./style.css";
-import NewSelect from "../../../../_helper/_select";
-const invoiceTypeDDL = [
-  {
-    value: 1,
-    label: "Freight",
-    email: null,
-    ownerId: 0,
-    ownerName: null,
-    isOwner: false,
-    code: null,
-    isDollarConvesionRequire: null,
-  },
-  {
-    value: 2,
-    label: "Consignee",
-    email: null,
-    ownerId: 0,
-    ownerName: null,
-    isOwner: false,
-    code: null,
-    isDollarConvesionRequire: null,
-  },
-  //   {
-  //     value: 3,
-  //     label: "Dummy",
-  //     email: null,
-  //     ownerId: 0,
-  //     ownerName: null,
-  //     isOwner: false,
-  //     code: null,
-  //     isDollarConvesionRequire: null,
-  //   },
-];
+
 const CommonInvoice = ({ rowClickData }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual
   );
-  const [invoiceType, setInvoiceType] = React.useState({
-    value: 1,
-    label: "Freight",
-  });
+  const [invoiceType, setInvoiceType] = React.useState(null);
+  const [billingDataFilterData, setBillingDataFilterData] = React.useState([]);
+
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [
     ,
@@ -64,7 +32,12 @@ const CommonInvoice = ({ rowClickData }) => {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
-
+  const [
+    participantTypeListDDL,
+    GetParticipantTypeListDDL,
+    ,
+    setParticipantTypeList,
+  ] = useAxiosGet();
   useEffect(() => {
     commonGetByIdHandler();
 
@@ -105,6 +78,16 @@ const CommonInvoice = ({ rowClickData }) => {
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
       );
     }
+    GetParticipantTypeListDDL(
+      `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
+      (redData) => {
+        const updatedData = redData?.filter((item) =>
+          [1, 2, 3, 4].includes(item?.value)
+        );
+        setParticipantTypeList(updatedData);
+        setInvoiceType(updatedData[0]);
+      }
+    );
   };
 
   const saveHandler = (values) => {
@@ -138,63 +121,35 @@ const CommonInvoice = ({ rowClickData }) => {
       true
     );
   };
-  const getActualAmount = (row) => {
-    if (invoiceType?.label === "Freight") {
-      return row?.collectionActualAmount;
-    }
-    if (invoiceType?.label === "Consignee") {
-      return row?.paymentActualAmount;
-    }
-  };
-  const getDummyAmount = (row) => {
-    if (invoiceType?.label === "Freight") {
-      return row?.collectionDummyAmount;
-    }
-    if (invoiceType?.label === "Consignee") {
-      return row?.paymentDummyAmount;
-    }
-  };
+
   const getCalculatedActualAmount = () => {
-    if (invoiceType?.label === "Freight") {
-      return bookingData?.billingData?.reduce((acc, cur) => {
-        return acc + (+cur?.collectionActualAmount || 0);
-      }, 0);
-    }
-    if (invoiceType?.label === "Consignee") {
-      return bookingData?.billingData?.reduce((acc, cur) => {
-        return acc + (+cur?.paymentActualAmount || 0);
-      }, 0);
-    }
+    return billingDataFilterData?.reduce((acc, cur) => {
+      return acc + (+cur?.collectionActualAmount || 0);
+    }, 0);
   };
   const getCalculatedDummyAmount = () => {
-    if (invoiceType?.label === "Freight") {
-      return bookingData?.billingData?.reduce((acc, cur) => {
-        return acc + (+cur?.collectionDummyAmount || 0);
-      }, 0);
-    }
-    if (invoiceType?.label === "Consignee") {
-      return bookingData?.billingData?.reduce((acc, cur) => {
-        return acc + (+cur?.paymentDummyAmount || 0);
-      }, 0);
-    }
+    return billingDataFilterData?.reduce((acc, cur) => {
+      return acc + (+cur?.collectionDummyAmount || 0);
+    }, 0);
   };
   const getAmountInWords = () => {
-    if (invoiceType?.label === "Freight") {
-      return amountToWords(
-        bookingData?.billingData?.reduce((acc, cur) => {
-          return acc + (+cur?.collectionActualAmount || 0);
-        }, 0) || 0
-      );
-    }
-    if (invoiceType?.label === "Consignee") {
-      return amountToWords(
-        bookingData?.billingData?.reduce((acc, cur) => {
-          return acc + (+cur?.paymentActualAmount || 0);
-        }, 0) || 0
-      );
-    }
+    return amountToWords(
+      billingDataFilterData?.reduce((acc, cur) => {
+        return acc + (+cur?.collectionActualAmount || 0);
+      }, 0) || 0
+    );
   };
-
+  // filter by collectionPartyTypeId
+  useEffect(() => {
+    if (bookingData?.billingData) {
+      setBillingDataFilterData(
+        bookingData?.billingData?.filter((item) => {
+          return item?.collectionPartyType === invoiceType?.label;
+        }) || []
+      );
+    }
+  }, [invoiceType, bookingData?.billingData]);
+  console.log(billingDataFilterData);
   return (
     <>
       <div>
@@ -203,7 +158,7 @@ const CommonInvoice = ({ rowClickData }) => {
           <div className="col-lg-3 p-0">
             <NewSelect
               name="invoiceType"
-              options={invoiceTypeDDL || []}
+              options={participantTypeListDDL || []}
               value={invoiceType}
               label="Invoice Type"
               onChange={(valueOption) => {
@@ -652,14 +607,18 @@ const CommonInvoice = ({ rowClickData }) => {
           </thead>
           <tbody>
             {invoiceType &&
-              bookingData?.billingData?.map((row, index) => (
+              billingDataFilterData?.map((row, index) => (
                 <tr key={index}>
                   <td style={{ textAlign: "right" }}> {index + 1} </td>
                   <td className="align-middle">
                     <label>{row?.headOfCharges}</label>
                   </td>
-                  <td style={{ textAlign: "right" }}>{getDummyAmount(row)}</td>
-                  <td style={{ textAlign: "right" }}>{getActualAmount(row)}</td>
+                  <td style={{ textAlign: "right" }}>
+                    {row?.collectionDummyAmount}
+                  </td>
+                  <td style={{ textAlign: "right" }}>
+                    {row?.collectionActualAmount}
+                  </td>
                 </tr>
               ))}
             <tr
