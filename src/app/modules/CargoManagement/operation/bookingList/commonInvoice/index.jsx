@@ -144,7 +144,7 @@ const CommonInvoice = ({ rowClickData }) => {
     if (bookingData?.billingData) {
       setBillingDataFilterData(
         bookingData?.billingData?.filter((item) => {
-          return item?.collectionPartyType === invoiceType?.label;
+          return item?.collectionPartyTypeId === invoiceType?.value;
         }) || []
       );
     }

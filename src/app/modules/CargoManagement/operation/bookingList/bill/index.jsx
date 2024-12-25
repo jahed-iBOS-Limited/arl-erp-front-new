@@ -144,7 +144,7 @@ const BillGenerate = ({ rowClickData }) => {
     if (bookingData?.billingData) {
       setBillingDataFilterData(
         bookingData?.billingData?.filter((item) => {
-          return item?.paymentPartyType === invoiceType?.label;
+          return item?.paymentPartyTypeId === invoiceType?.value;
         }) || []
       );
     }
