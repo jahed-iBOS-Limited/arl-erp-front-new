@@ -29,6 +29,7 @@ import MasterHBAWModal from './masterHAWBModal';
 import MasterHBLModal from './masterHBLModal';
 import ReceiveModal from './receiveModal';
 import TransportModal from './transportModal';
+import BillGenerate from './bill';
 const validationSchema = Yup.object().shape({});
 function BookingList() {
   const { profileData } = useSelector(
@@ -932,6 +933,20 @@ function BookingList() {
                                     Invoice
                                   </button>
                                 </span>
+                                <span>
+                                  <button
+                                    className="btn btn-sm btn-primary"
+                                    onClick={() => {
+                                      setRowClickData(item);
+                                      setIsModalShowObj({
+                                        ...isModalShowObj,
+                                        isBill: true,
+                                      });
+                                    }}
+                                  >
+                                    Bill
+                                  </button>
+                                </span>
                               </div>
                             </td>
                           </tr>
@@ -1215,6 +1230,7 @@ function BookingList() {
                   </IViewModal>
                 </>
               )} */}
+              {/* invoice modal */}
               {isModalShowObj?.isCommonInvoice && (
                 <>
                   <IViewModal
@@ -1228,6 +1244,23 @@ function BookingList() {
                     }}
                   >
                     <CommonInvoice rowClickData={rowClickData} />
+                  </IViewModal>
+                </>
+              )}
+              {/* bill modal */}
+              {isModalShowObj?.isBill && (
+                <>
+                  <IViewModal
+                    title="Bill"
+                    show={isModalShowObj?.isBill}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isBill: false,
+                      });
+                    }}
+                  >
+                    <BillGenerate rowClickData={rowClickData} />
                   </IViewModal>
                 </>
               )}

@@ -12,7 +12,7 @@ import NewSelect from "../../../../_helper/_select";
 import logisticsLogo from "./logisticsLogo.png";
 import "./style.css";
 
-const CommonInvoice = ({ rowClickData }) => {
+const BillGenerate = ({ rowClickData }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual
@@ -82,7 +82,7 @@ const CommonInvoice = ({ rowClickData }) => {
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
       (redData) => {
         const updatedData = redData?.filter((item) =>
-          [1, 2, 3, 4].includes(item?.value)
+          [5, 6, 7].includes(item?.value)
         );
         setParticipantTypeList(updatedData);
         setInvoiceType(updatedData[0]);
@@ -124,18 +124,18 @@ const CommonInvoice = ({ rowClickData }) => {
 
   const getCalculatedActualAmount = () => {
     return billingDataFilterData?.reduce((acc, cur) => {
-      return acc + (+cur?.collectionActualAmount || 0);
+      return acc + (+cur?.paymentActualAmount || 0);
     }, 0);
   };
   const getCalculatedDummyAmount = () => {
     return billingDataFilterData?.reduce((acc, cur) => {
-      return acc + (+cur?.collectionDummyAmount || 0);
+      return acc + (+cur?.paymentDummyAmount || 0);
     }, 0);
   };
   const getAmountInWords = () => {
     return amountToWords(
       billingDataFilterData?.reduce((acc, cur) => {
-        return acc + (+cur?.collectionActualAmount || 0);
+        return acc + (+cur?.paymentActualAmount || 0);
       }, 0) || 0
     );
   };
@@ -144,7 +144,7 @@ const CommonInvoice = ({ rowClickData }) => {
     if (bookingData?.billingData) {
       setBillingDataFilterData(
         bookingData?.billingData?.filter((item) => {
-          return item?.collectionPartyType === invoiceType?.label;
+          return item?.paymentPartyType === invoiceType?.label;
         }) || []
       );
     }
@@ -613,10 +613,10 @@ const CommonInvoice = ({ rowClickData }) => {
                     <label>{row?.headOfCharges}</label>
                   </td>
                   <td style={{ textAlign: "right" }}>
-                    {row?.collectionDummyAmount}
+                    {row?.paymentDummyAmount}
                   </td>
                   <td style={{ textAlign: "right" }}>
-                    {row?.collectionActualAmount}
+                    {row?.paymentActualAmount}
                   </td>
                 </tr>
               ))}
@@ -744,4 +744,4 @@ const CommonInvoice = ({ rowClickData }) => {
   );
 };
 
-export default CommonInvoice;
+export default BillGenerate;
