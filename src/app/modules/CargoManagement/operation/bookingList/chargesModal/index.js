@@ -601,9 +601,11 @@ function ChargesModal({ rowClickData, CB }) {
                                   if (v?.length < 3) return [];
                                   // paymentPartyType
                                   // const paymentPartyType = formikRef.watch('paymentPartyType');
+                                  // 1 supplier 2 customer
+                                  const businessPartnerType = item?.collectionPartyTypeId === 1 ? 2 : 1;
                                   return axios
                                     .get(
-                                      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=1&cargoType=${item?.collectionPartyTypeId}`
+                                      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=${businessPartnerType}&cargoType=${item?.collectionPartyTypeId}`
                                     )
                                     .then((res) => res?.data);
                                 }}
@@ -717,9 +719,11 @@ function ChargesModal({ rowClickData, CB }) {
                                   if (v?.length < 3) return [];
                                   // paymentPartyType
                                   // const paymentPartyType = formikRef.watch('paymentPartyType');
+                                  // 1 supplier 2 customer
+                                  const businessPartnerType = item?.paymentPartyTypeId === 1 ? 2 : 1;
                                   return axios
                                     .get(
-                                      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=1&cargoType=${item?.paymentPartyTypeId}`
+                                      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=${businessPartnerType}&cargoType=${item?.paymentPartyTypeId}`
                                     )
                                     .then((res) => res?.data);
                                 }}
