@@ -77,8 +77,8 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
         setParticipantTypeList(updatedData);
       },
     );
-    // 1= supplier, 2= consignee
-    commonGeParticipantDDL(getConsigneeListDDL, 1, 2);
+    // 2=Customer, 2= consignee
+    commonGeParticipantDDL(getConsigneeListDDL, 2, 2);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -91,9 +91,8 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
   const onChangeParticipantType = (type) => {
     setParticipantDDL([]);
 
-    // const supplierTypeId = 1;
+    // 1=supplier 2=customer
     const supplierTypeId = type === 1 ? 2 : 1;
-    // 1= supplier 2= customer
     commonGeParticipantDDL(getParticipantDDL, supplierTypeId, type);
   };
 
