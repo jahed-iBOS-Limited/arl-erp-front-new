@@ -19,7 +19,7 @@ import Loading from "../../../../../_helper/_loading";
 
 // };
 
-export default function BankJournalCreateForm() {
+export default function BankJournalCreateFormContra() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [singleData, setSingleData] = useState("");

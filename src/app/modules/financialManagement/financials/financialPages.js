@@ -39,6 +39,9 @@ import CashJournaFormForCollection from "./cashJournal/collectionCreate/addEditF
 import FundTransfer from "./fundTransfer";
 import ContraCreate from "./fundTransfer/contra/create";
 import InterCompanyTransferRequestCreate from "./fundTransfer/interCompanyTransferRequest/create";
+import FundTransferApproval from "./fundTransferApproval";
+import FundTransferCreate from "./fundTransferCreate";
+import BankJournalCreateFormContra from "./fundTransfer/contra/createBankTransfer/addForm";
 // import DepreciationJournal from "./depreciationJournal/table/tableHeader"
 
 export function FinalcialPages() {
@@ -181,6 +184,18 @@ export function FinalcialPages() {
       <ContentRoute
         path="/financial-management/financials/fundTransfer"
         component={FundTransfer}
+      />
+      <ContentRoute
+        path="/financial-management/financials/fundTransferapproval"
+        component={FundTransferApproval}
+      />
+      <ContentRoute
+        path="/financial-management/financials/fundTransfercreate/bankTrasfer"
+        component={BankJournalCreateFormContra}
+      />
+       <ContentRoute
+        path="/financial-management/financials/fundTransfercreate"
+        component={FundTransferCreate}
       />
       {/* Back Statement Correction */}
       <ContentRoute
