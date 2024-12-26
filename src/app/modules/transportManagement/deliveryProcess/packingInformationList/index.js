@@ -114,10 +114,10 @@ export default function PackingInformationList() {
       { name: "intunitid", value: `${+buId}` },
       { name: "intShipPointId", value: `${values?.shipPoint?.value}` },
       { name: "ViewType", value: `${+values?.viewType?.value}` },
+      { name: "intShiftID", value: `${+values?.shift?.value}` },
+      { name: "intGateOutStatusId", value: `${+values?.gateStatus?.value}` },
 
       { name: "intPartid", value: `${+values?.viewType?.value}` },
-      { name: "intShiftID", value: `${+values?.viewType?.value}` },
-      { name: "intGateOutStatusId", value: `${+values?.viewType?.value}` },
     ];
 
     switch (values?.type?.value) {
@@ -260,6 +260,44 @@ export default function PackingInformationList() {
                         />
                       </div>
                     )}
+                    {[5].includes(values?.type?.value) && (
+                      <>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="gateStatus"
+                            options={[
+                              { value: 1, label: "In" },
+                              { value: 2, label: "Out" },
+                              { value: 3, label: "All" },
+                            ]}
+                            value={values?.gateStatus}
+                            label="Gate Status"
+                            onChange={(valueOption) => {
+                              setFieldValue("gateStatus", valueOption);
+                              setShowReport(false);
+                            }}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="shift"
+                            options={[
+                              { value: 1, label: "A" },
+                              { value: 2, label: "B" },
+                              { value: 3, label: "C" },
+                              { value: 4, label: "D" },
+                            ]}
+                            value={values?.shift}
+                            label="Shift"
+                            onChange={(valueOption) => {
+                              setFieldValue("shift", valueOption);
+                              setShowReport(false);
+                            }}
+                          />
+                        </div>
+                      </>
+                    )}
+
                     <FromDateToDateForm
                       obj={{
                         values,
