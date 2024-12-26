@@ -11,6 +11,7 @@ import { getdivisionDDL, getdistrictDDL, getpoliceStationDDL } from '../helper';
 import InputField from '../../../../_helper/_inputField';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import { imarineBaseUrl } from '../../../../../App';
+import { toast } from 'react-toastify';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
@@ -105,6 +106,17 @@ export default function _Form({
       initialValues={product}
       validationSchema={ProductEditSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        //check isAkijLogisticsBUI and cargoType 1 and paertnerType 2 than check email input
+        if (
+          isAkijLogisticsBUI &&
+          values?.cargoType?.value === 1 &&
+          values?.businessPartnerType?.value === 2
+        ) {
+          if (!values?.email) {
+            return toast.error('Email is required');
+          }
+        }
+
         saveWarehouse(values, () => {
           resetForm(product);
         });
@@ -147,7 +159,7 @@ export default function _Form({
 
               <div className="col-lg-4">
                 <Field
-                  value={values.businessPartnerName || ''}
+                  value={values?.businessPartnerName || ''}
                   name="businessPartnerName"
                   component={Input}
                   placeholder="Business Partner Name"
@@ -171,7 +183,7 @@ export default function _Form({
               </div>
               <div className="col-lg-4">
                 <Field
-                  value={values.businessPartnerAddress || ''}
+                  value={values?.businessPartnerAddress || ''}
                   name="businessPartnerAddress"
                   component={Input}
                   placeholder="Business Partner Address"
@@ -180,7 +192,7 @@ export default function _Form({
               </div>
               {/* <div className="col-lg-4">
                   <Field
-                    value={values.billingName || ""}
+                    value={values?.billingName || ""}
                     name="billingName"
                     component={Input}
                     placeholder="Billing Name"
@@ -189,7 +201,7 @@ export default function _Form({
                 </div>
                 <div className="col-lg-4">
                   <Field
-                    value={values.billingAddress || ""}
+                    value={values?.billingAddress || ""}
                     name="billingAddress"
                     component={Input}
                     placeholder="Billing Address"
@@ -198,7 +210,7 @@ export default function _Form({
                 </div> */}
               {/* <div className="col-lg-4">
                   <Field
-                    value={values.businessPartnerAddress || ""}
+                    value={values?.businessPartnerAddress || ""}
                     name="businessPartnerAddress"
                     component={Input}
                     placeholder="Business Partner Address"
@@ -207,7 +219,7 @@ export default function _Form({
                 </div> */}
               <div className="col-lg-4">
                 <InputField
-                  value={values.proprietor || ''}
+                  value={values?.proprietor || ''}
                   name="proprietor"
                   placeholder="Proprietor Name"
                   type="text"
@@ -216,7 +228,7 @@ export default function _Form({
               </div>
               <div className="col-lg-4">
                 <Field
-                  value={values.contactNumber || ''}
+                  value={values?.contactNumber || ''}
                   name="contactNumber"
                   component={Input}
                   placeholder="Contact Number (Proprietor)"
@@ -225,7 +237,7 @@ export default function _Form({
               </div>
               <div className="col-lg-4">
                 <InputField
-                  value={values.contactPerson || ''}
+                  value={values?.contactPerson || ''}
                   name="contactPerson"
                   placeholder="Contact Person"
                   type="text"
@@ -234,7 +246,7 @@ export default function _Form({
               </div>
               <div className="col-lg-4">
                 <InputField
-                  value={values.contactNumber2 || ''}
+                  value={values?.contactNumber2 || ''}
                   name="contactNumber2"
                   placeholder="Contact Number (Contact Person)"
                   type="text"
@@ -243,7 +255,7 @@ export default function _Form({
               </div>
               <div className="col-lg-4">
                 <InputField
-                  value={values.contactNumber3 || ''}
+                  value={values?.contactNumber3 || ''}
                   name="contactNumber3"
                   placeholder="Contact Number (Other)"
                   type="text"
@@ -252,7 +264,7 @@ export default function _Form({
               </div>
               <div className="col-lg-4">
                 <Field
-                  value={values.email || ''}
+                  value={values?.email || ''}
                   name="email"
                   component={Input}
                   placeholder="Email"
@@ -261,7 +273,7 @@ export default function _Form({
               </div>
               <div className="col-lg-4">
                 <Field
-                  value={values.bin || ''}
+                  value={values?.bin || ''}
                   name="bin"
                   component={Input}
                   placeholder="BIN"
@@ -270,7 +282,7 @@ export default function _Form({
               </div>
               <div className="col-lg-4">
                 <Field
-                  value={values.licenseNo || ''}
+                  value={values?.licenseNo || ''}
                   name="licenseNo"
                   component={Input}
                   placeholder="Licence Number"
@@ -341,8 +353,8 @@ export default function _Form({
                           id="createNewUser"
                           type="checkbox"
                           className="mr-2 pointer"
-                          value={values.createNewUser}
-                          checked={values.createNewUser}
+                          value={values?.createNewUser}
+                          checked={values?.createNewUser}
                           name="createNewUser"
                           onChange={(e) => {
                             setFieldValue('createNewUser', e.target.checked);
@@ -367,8 +379,8 @@ export default function _Form({
                           id="updateUserLoginId"
                           type="checkbox"
                           className="mr-2 pointer"
-                          value={values.updateUserLoginId}
-                          checked={values.updateUserLoginId}
+                          value={values?.updateUserLoginId}
+                          checked={values?.updateUserLoginId}
                           name="updateUserLoginId"
                           onChange={(e) => {
                             setFieldValue(
