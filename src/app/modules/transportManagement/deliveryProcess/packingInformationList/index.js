@@ -86,8 +86,21 @@ export default function PackingInformationList() {
   };
 
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
-  const reportId = `fe886d74-87ab-42e5-8695-b4be96e51aca`;
-  const parameterValues = (values) => {
+  // const reportId = `fe886d74-87ab-42e5-8695-b4be96e51aca`;
+
+  // handle choose report id
+  const handleChooseReportId = (values) => {
+    const reportType = values?.type?.value;
+
+    const reportId = {
+      4: `fe886d74-87ab-42e5-8695-b4be96e51aca`,
+      5: `963a81ac-f684-452d-a7d7-f372dd2f5297`,
+    };
+    return reportType ? reportId[values?.type?.value] : "";
+  };
+
+  // handle choose powerbi report paramater
+  const handleChooseReportParameter = (values) => {
     const shiftWisePackerInformation = [
       { name: "fromdate", value: `${values?.fromDate}` },
       { name: "todate", value: `${values?.toDate}` },
@@ -95,8 +108,26 @@ export default function PackingInformationList() {
       { name: "unitid", value: `${+buId}` },
       { name: "intShippoint", value: `${values?.shipPoint?.value}` },
     ];
+    const cashBaseInOutStatus = [
+      { name: "dteFromDate", value: `${values?.fromDate}` },
+      { name: "dteToDate", value: `${values?.toDate}` },
+      { name: "intunitid", value: `${+buId}` },
+      { name: "intShipPointId", value: `${values?.shipPoint?.value}` },
+      { name: "ViewType", value: `${+values?.viewType?.value}` },
 
-    return shiftWisePackerInformation;
+      { name: "intPartid", value: `${+values?.viewType?.value}` },
+      { name: "intShiftID", value: `${+values?.viewType?.value}` },
+      { name: "intGateOutStatusId", value: `${+values?.viewType?.value}` },
+    ];
+
+    switch (values?.type?.value) {
+      case 4:
+        return shiftWisePackerInformation;
+      case 5:
+        return cashBaseInOutStatus;
+      default:
+        return [];
+    }
   };
 
   const isLoading = loader || loading || rowLoading;
@@ -179,6 +210,7 @@ export default function PackingInformationList() {
                       // { value: 3, label: "Scan Card/QR Code" },
                       // { value: 2, label: "Loading Completed" },
                       { value: 4, label: "Shift wise Packer Information" },
+                      { value: 5, label: "Cash Base In Out Status" },
                     ]}
                     value={values?.type}
                     label="Type"
@@ -191,9 +223,9 @@ export default function PackingInformationList() {
                     placeholder="Type"
                   />
                 </div>
-                {[1, 2, 4].includes(values?.type?.value) && (
+                {[1, 2, 4, 5].includes(values?.type?.value) && (
                   <>
-                    {[1, 2, 4].includes(values?.type?.value) && (
+                    {[1, 2, 4, 5].includes(values?.type?.value) && (
                       <div className="col-lg-3">
                         <NewSelect
                           name="shipPoint"
@@ -631,9 +663,9 @@ export default function PackingInformationList() {
               </IViewModal>
               {showReport && (
                 <PowerBIReport
-                  reportId={reportId}
+                  reportId={handleChooseReportId(values)}
                   groupId={groupId}
-                  parameterValues={parameterValues(values)}
+                  parameterValues={handleChooseReportParameter(values)}
                   parameterPanel={false}
                 />
               )}
