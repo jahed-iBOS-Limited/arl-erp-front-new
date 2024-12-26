@@ -12,7 +12,7 @@ import NewSelect from "../../../../_helper/_select";
 import logisticsLogo from "./logisticsLogo.png";
 import "./style.css";
 
-const CommonInvoice = ({ rowClickData }) => {
+const BillGenerate = ({ rowClickData }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual
@@ -38,7 +38,6 @@ const CommonInvoice = ({ rowClickData }) => {
     ,
     setParticipantTypeList,
   ] = useAxiosGet();
-  const [invoiceNo, GeiInvoiceNo] = useAxiosGet();
   useEffect(() => {
     commonGetByIdHandler();
 
@@ -83,15 +82,11 @@ const CommonInvoice = ({ rowClickData }) => {
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
       (redData) => {
         const updatedData = redData?.filter((item) =>
-          [1, 2, 3, 4].includes(item?.value)
+          [5, 6, 7].includes(item?.value)
         );
         setParticipantTypeList(updatedData);
+        setInvoiceType(updatedData[0]);
       }
-    );
-  };
-  const getInvoiceNo = (bookingRequestId, CusomerId) => {
-    GeiInvoiceNo(
-      `${imarineBaseUrl}/domain/ShippingService/GetInvoiceNo?BookingId=${bookingRequestId}&CusomerId=${CusomerId}`
     );
   };
 
@@ -123,7 +118,6 @@ const CommonInvoice = ({ rowClickData }) => {
       paylaod,
       () => {
         commonGetByIdHandler();
-        setInvoiceType(null);
       },
       true
     );
@@ -131,18 +125,18 @@ const CommonInvoice = ({ rowClickData }) => {
 
   const getCalculatedActualAmount = () => {
     return billingDataFilterData?.reduce((acc, cur) => {
-      return acc + (+cur?.collectionActualAmount || 0);
+      return acc + (+cur?.paymentActualAmount || 0);
     }, 0);
   };
   const getCalculatedDummyAmount = () => {
     return billingDataFilterData?.reduce((acc, cur) => {
-      return acc + (+cur?.collectionDummyAmount || 0);
+      return acc + (+cur?.paymentDummyAmount || 0);
     }, 0);
   };
   const getAmountInWords = () => {
     return amountToWords(
       billingDataFilterData?.reduce((acc, cur) => {
-        return acc + (+cur?.collectionActualAmount || 0);
+        return acc + (+cur?.paymentActualAmount || 0);
       }, 0) || 0
     );
   };
@@ -151,28 +145,11 @@ const CommonInvoice = ({ rowClickData }) => {
     if (bookingData?.billingData) {
       setBillingDataFilterData(
         bookingData?.billingData?.filter((item) => {
-          return item?.collectionPartyTypeId === invoiceType?.value;
+          return item?.paymentPartyTypeId === invoiceType?.value;
         }) || []
       );
     }
   }, [invoiceType, bookingData.billingData]);
-
-  const showGenerateButton = () => {
-    if (invoiceType === null) {
-      return false;
-    }
-    if (invoiceNo?.length > 0) {
-      return false;
-    }
-    if (billingDataFilterData?.length > 0) {
-      return true;
-    }
-    if (bookingData?.billingData?.length > 0) {
-      return true;
-    }
-    return false;
-  };
-
   return (
     <>
       <div>
@@ -186,20 +163,18 @@ const CommonInvoice = ({ rowClickData }) => {
               label="Invoice Type"
               onChange={(valueOption) => {
                 setInvoiceType(valueOption);
-                valueOption?.value &&
-                  getInvoiceNo(bookingRequestId, valueOption?.value);
               }}
               placeholder="Select Invoice Type"
             />
           </div>
           <div className="d-flex justify-content-end">
-            {showGenerateButton() && (
+            {!bookingData?.invoiceNumber && (
               <>
                 {" "}
                 <button
                   type="button"
                   className="btn btn-primary"
-                  // disabled={getDisabledGenerateButton()}
+                  disabled={bookingData?.billingData?.length === 0}
                   onClick={() => {
                     saveHandler();
                   }}
@@ -209,7 +184,7 @@ const CommonInvoice = ({ rowClickData }) => {
               </>
             )}
 
-            {invoiceNo?.length !== 0 && (
+            {bookingData?.invoiceNumber && (
               <>
                 <button
                   onClick={handlePrint}
@@ -273,8 +248,7 @@ const CommonInvoice = ({ rowClickData }) => {
           }}
         >
           {" "}
-          INVOICE : {invoiceNo || "N/A"}
-          {/* INVOICE : {bookingData?.invoiceNumber || "N/A"} */}
+          INVOICE : {bookingData?.invoiceNumber || "N/A"}
         </p>
         <div
           style={{
@@ -640,10 +614,10 @@ const CommonInvoice = ({ rowClickData }) => {
                     <label>{row?.headOfCharges}</label>
                   </td>
                   <td style={{ textAlign: "right" }}>
-                    {row?.collectionDummyAmount}
+                    {row?.paymentDummyAmount}
                   </td>
                   <td style={{ textAlign: "right" }}>
-                    {row?.collectionActualAmount}
+                    {row?.paymentActualAmount}
                   </td>
                 </tr>
               ))}
@@ -771,4 +745,4 @@ const CommonInvoice = ({ rowClickData }) => {
   );
 };
 
-export default CommonInvoice;
+export default BillGenerate;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NewSelect from "../../../../_helper/_select";
 import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
@@ -11,6 +11,7 @@ import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import { shallowEqual, useSelector } from "react-redux";
 import axios from "axios";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 export default function CommissionReportAndJVForm({ obj }) {
   const {
@@ -36,7 +37,27 @@ export default function CommissionReportAndJVForm({ obj }) {
     setFieldValue,
     transactionHeads,
     setUploadedImage,
+    touched,
+    errors,
+    akijAgroFeedCommissionTypeList,
   } = obj;
+  // get user profile data from store
+  const storeData = useSelector((state) => {
+    return {
+      profileData: state?.authData?.profileData,
+      selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
+    };
+  }, shallowEqual);
+
+  const { profileData, selectedBusinessUnit } = storeData;
+  const [
+    profitCenterDDL,
+    getProfitCenterDDL,
+    ,
+    setProfitCenterDDL,
+  ] = useAxiosGet();
+  const [costCenterDDL, getCostCenterDDL] = useAxiosGet();
+  const [costElementDDL, getCostElementDDL] = useAxiosGet();
   const customerList = (v) => {
     const searchValue = v.trim();
     if (searchValue?.length < 3 || !searchValue) return [];
@@ -46,6 +67,26 @@ export default function CommissionReportAndJVForm({ obj }) {
       )
       .then((res) => res?.data);
   };
+  useEffect(() => {
+    getProfitCenterDDL(
+      `/fino/CostSheet/ProfitCenterDetails?UnitId=${selectedBusinessUnit?.value}`,
+      (data) => {
+        console.log();
+        if (data?.length > 0) {
+          const newData = data?.map((item) => ({
+            value: item?.profitCenterId,
+            label: item?.profitCenterName,
+          }));
+
+          setProfitCenterDDL(newData);
+        }
+      }
+    );
+    getCostCenterDDL(
+      `/procurement/PurchaseOrder/GetCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileData]);
   return (
     <>
       <form className="form form-label-right">
@@ -82,7 +123,6 @@ export default function CommissionReportAndJVForm({ obj }) {
                   setRowData([]);
                   setFieldValue("month", "");
                   setFieldValue("year", "");
-                  console.log({ valueOption });
                 }}
                 placeholder="Select Report Name"
               />
@@ -148,9 +188,20 @@ export default function CommissionReportAndJVForm({ obj }) {
                   />
                 )}
 
-                {[5, 3, 6, 7, ...allIds, 35, 36, 37, 38, 39, 41].includes(
-                  values?.type?.value
-                ) && (
+                {[
+                  5,
+                  3,
+                  6,
+                  7,
+                  ...allIds,
+                  35,
+                  36,
+                  37,
+                  38,
+                  39,
+                  41,
+                  ...akijAgroFeedCommissionTypeList,
+                ].includes(values?.type?.value) && (
                   <>
                     <RATForm
                       obj={{
@@ -181,6 +232,61 @@ export default function CommissionReportAndJVForm({ obj }) {
                           value={values?.commissionRate}
                         />
                       </div>
+                    )}
+                    {values.reportType.value === 1 && rowData?.length > 0 && (
+                      <>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="profitCenter"
+                            options={profitCenterDDL}
+                            value={values?.profitCenter}
+                            label="Profit Center"
+                            onChange={(valueOption) => {
+                              setFieldValue("profitCenter", valueOption);
+                            }}
+                            placeholder="Profit Center"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="costCenter"
+                            options={costCenterDDL}
+                            value={values?.costCenter}
+                            label="Cost Center"
+                            onChange={(valueOption) => {
+                              if (valueOption) {
+                                setFieldValue("costCenter", valueOption);
+                                setFieldValue("costElement", "");
+                                getCostElementDDL(
+                                  `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${valueOption?.value}`
+                                );
+                              } else {
+                                setFieldValue("costCenter", "");
+                                setFieldValue("costElement", "");
+                              }
+                            }}
+                            placeholder="Cost Center"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="costElement"
+                            options={costElementDDL}
+                            value={values?.costElement}
+                            label="Cost Element"
+                            onChange={(valueOption) => {
+                              setFieldValue("costElement", valueOption);
+                            }}
+                            placeholder="Cost Element"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                      </>
                     )}
                     {rowData?.length > 0 && values?.type?.value !== 6 && (
                       <>
@@ -220,23 +326,27 @@ export default function CommissionReportAndJVForm({ obj }) {
                             type="text"
                           />
                         </div>
-                        <IButton
-                          colSize={"col-lg-3"}
-                          onClick={() => setOpen(true)}
-                        >
-                          Attach File
-                        </IButton>
-                        <AttachFile
-                          obj={{
-                            open,
-                            setOpen,
-                            setUploadedImage,
-                          }}
-                        />
+                        <div class="col-lg-3">
+                          <button
+                            className="btn btn-primary mt-5"
+                            type={"button"}
+                            onClick={() => setOpen(true)}
+                          >
+                            Attach File
+                          </button>
+                          <AttachFile
+                            obj={{
+                              open,
+                              setOpen,
+                              setUploadedImage,
+                            }}
+                          />
+                        </div>
                       </>
                     )}
                   </>
                 )}
+
                 {[24].includes(values?.type?.value) && (
                   <>
                     <div className="col-lg-2">
@@ -327,6 +437,7 @@ export default function CommissionReportAndJVForm({ obj }) {
                             type="text"
                           />
                         </div>
+
                         <div className="col">
                           <IButton
                             colSize={"text-left "}
