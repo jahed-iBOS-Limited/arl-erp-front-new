@@ -663,7 +663,7 @@ export const HBLFormatInvoice = ({
         />
         <div
           style={{
-            fontSize: 8,
+            fontSize: 5,
           }}
         >
           <h1 style={{ textAlign: "center", textDecoration: "underline" }}>
