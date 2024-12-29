@@ -187,9 +187,9 @@ function BookingDetailsInfo({ bookingData, billingData }) {
               {bookingData?.isDestiontionHaulage ? 'Yes' : 'No'}
             </p>
           </div>
-          {/* Shipping Schedule */}
+          {/* Booking Schedule */}
           <div className="box">
-            <h5>Shipping Schedule</h5>
+            <h5>Booking Schedule</h5>
             <p>
               <strong>Requested Pickup Date:</strong>{' '}
               {moment(bookingData?.requestPickupDate).format('DD MMM YYYY')}
@@ -368,6 +368,7 @@ function BookingDetailsInfo({ bookingData, billingData }) {
             )
           }
           {/* Shipping Schedule  table*/}
+          <h5>Shipping Schedule</h5>
           <div className="mt-4">
             <div className="table-responsive">
               <table className="table global-table mt-0">
