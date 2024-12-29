@@ -35,24 +35,24 @@ const validationSchema = Yup.object().shape({
     value: Yup.number().required('Consignee’s Name is required'),
     label: Yup.string().required('Consignee’s Name is required'),
   }),
-  consigneeCountry: Yup.object().shape({
-    value: Yup.number().required('Country is required'),
-    label: Yup.string().required('Country is required'),
-  }),
-  consigneeDivisionAndState: Yup.object().shape({
-    value: Yup.number().required('State/Province/Region is required'),
-    label: Yup.string().required('State/Province/Region is required'),
-  }),
-  consignCity: Yup.object().shape({
-    value: Yup.number().required('City is required'),
-    label: Yup.string().required('City is required'),
-  }),
-  consignPostalCode: Yup.string().required('Zip/Postal Code is required'),
-  consigneeAddress: Yup.string().required(
-    'State/Province & Postal Code is required',
-  ),
-  consigneeContactPerson: Yup.string().required('Contact Person is required'),
-  consigneeContact: Yup.number().required('Contact Number is required'),
+  // consigneeCountry: Yup.object().shape({
+  //   value: Yup.number().required('Country is required'),
+  //   label: Yup.string().required('Country is required'),
+  // }),
+  // consigneeDivisionAndState: Yup.object().shape({
+  //   value: Yup.number().required('State/Province/Region is required'),
+  //   label: Yup.string().required('State/Province/Region is required'),
+  // }),
+  // consignCity: Yup.object().shape({
+  //   value: Yup.number().required('City is required'),
+  //   label: Yup.string().required('City is required'),
+  // }),
+  // consignPostalCode: Yup.string().required('Zip/Postal Code is required'),
+  // consigneeAddress: Yup.string().required(
+  //   'State/Province & Postal Code is required',
+  // ),
+  // consigneeContactPerson: Yup.string().required('Contact Person is required'),
+  // consigneeContact: Yup.number().required('Contact Number is required'),
   consigneeEmail: Yup.string()
     .email('Email is invalid')
     .required('Email is required'),
@@ -296,12 +296,6 @@ function ConfirmModal({ rowClickData, CB }) {
               value: i?.participantId || 0,
             };
           });
-          if (formikRef.current) {
-            formikRef.current.setFieldValue(
-              'freightAgentReference',
-              modifyData?.[0] || '',
-            );
-          }
           setDeliveryAgentDDL(modifyData || []);
         }
         if (data?.notifyPartyList) {
@@ -312,12 +306,6 @@ function ConfirmModal({ rowClickData, CB }) {
               value: i?.participantId || 0,
             };
           });
-          if (formikRef.current) {
-            formikRef.current.setFieldValue(
-              'notifyParty',
-              modifyData?.[0] || '',
-            );
-          }
           setNotifyParty(modifyData || []);
         }
         if (data?.consineList) {
@@ -328,9 +316,6 @@ function ConfirmModal({ rowClickData, CB }) {
               value: i?.participantId || 0,
             };
           });
-          if (formikRef.current) {
-            formikRef.current.setFieldValue('consigneeName', modifyData?.[0]);
-          }
           setConsigneeName(modifyData || []);
         }
       },
