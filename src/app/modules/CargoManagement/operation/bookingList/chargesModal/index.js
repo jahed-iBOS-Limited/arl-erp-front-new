@@ -571,8 +571,11 @@ function ChargesModal({ rowClickData, CB }) {
                               // paymentPartyType
                               // const paymentPartyType = formikRef.watch('paymentPartyType');
                               // 1 supplier 2 customer
-                              const businessPartnerType =
-                                item?.collectionPartyTypeId === 1 ? 2 : 1;
+                              const businessPartnerType = [1, 2].includes(
+                                item?.collectionPartyTypeId,
+                              )
+                                ? 2
+                                : 1;
                               return axios
                                 .get(
                                   `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=${businessPartnerType}&cargoType=${item?.collectionPartyTypeId}`,
@@ -689,8 +692,11 @@ function ChargesModal({ rowClickData, CB }) {
                               // paymentPartyType
                               // const paymentPartyType = formikRef.watch('paymentPartyType');
                               // 1 supplier 2 customer
-                              const businessPartnerType =
-                                item?.paymentPartyTypeId === 1 ? 2 : 1;
+                              const businessPartnerType = [1, 2].includes(
+                                item?.collectionPartyTypeId,
+                              )
+                                ? 2
+                                : 1;
                               return axios
                                 .get(
                                   `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=${businessPartnerType}&cargoType=${item?.paymentPartyTypeId}`,
