@@ -310,20 +310,28 @@ export default function PackingInformationList() {
                             }}
                           />
                         </div>
+                        <FromDateToDateForm
+                          obj={{
+                            values,
+                            setFieldValue,
+                            onChange: () => {
+                              setShowReport(false);
+                            },
+                          }}
+                        />
                       </>
                     )}
 
-                    <FromDateToDateForm
-                      obj={{
-                        values,
-                        setFieldValue,
-                        type: "datetime-local",
-                        step: [4].includes(values?.type?.value) ? 1 : false,
-                        onChange: () => {
-                          setShowReport(false);
-                        },
-                      }}
-                    />
+                    {[1, 4].includes(values?.type?.value) && (
+                      <FromDateToDateForm
+                        obj={{
+                          values,
+                          setFieldValue,
+                          type: "datetime-local",
+                          step: [4].includes(values?.type?.value) ? 1 : false,
+                        }}
+                      />
+                    )}
                     <IButton
                       onClick={() => {
                         if (
