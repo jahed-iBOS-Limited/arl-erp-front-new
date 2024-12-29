@@ -1,8 +1,8 @@
 import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 import { ContentRoute } from "../../../../_metronic/layout";
-import BunkerCalculatorLanding from "../../chartering/operation/bunkerManagement";
 import BunkerManagementCreate from "./bunker/create";
+import BunkerCalculatorLanding from "./bunker";
 
 export function BunkerManagementPages() {
     return (
