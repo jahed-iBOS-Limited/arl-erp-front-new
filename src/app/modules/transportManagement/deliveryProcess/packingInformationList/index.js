@@ -116,7 +116,6 @@ export default function PackingInformationList() {
       { name: "ViewType", value: `${+values?.viewType?.value}` },
       { name: "intShiftID", value: `${+values?.shift?.value}` },
       { name: "intGateOutStatusId", value: `${+values?.gateStatus?.value}` },
-
       { name: "intPartid", value: `${+values?.viewType?.value}` },
     ];
 
@@ -264,11 +263,27 @@ export default function PackingInformationList() {
                       <>
                         <div className="col-lg-3">
                           <NewSelect
+                            name="viewType"
+                            options={[
+                              { value: 3, label: "Top Sheet" },
+                              { value: 4, label: "Details" },
+                            ]}
+                            value={values?.viewType}
+                            label="View Type"
+                            onChange={(valueOption) => {
+                              setFieldValue("viewType", valueOption);
+                              setShowReport(false);
+                            }}
+                            placeholder="View Type"
+                          />
+                        </div>
+                        <div className="col-lg-3">
+                          <NewSelect
                             name="gateStatus"
                             options={[
-                              { value: 1, label: "In" },
-                              { value: 2, label: "Out" },
-                              { value: 3, label: "All" },
+                              { value: 0, label: "Gate Out Pending" },
+                              { value: 1, label: "Gate Out Complete" },
+                              { value: 3, label: "Gate In Out" },
                             ]}
                             value={values?.gateStatus}
                             label="Gate Status"
@@ -311,10 +326,13 @@ export default function PackingInformationList() {
                     />
                     <IButton
                       onClick={() => {
-                        if (values?.type?.value === 4) {
+                        if (
+                          values?.type?.value === 4 ||
+                          values?.type?.value === 5
+                        ) {
                           setShowReport(true);
                         } else {
-                          setShowReport(false);
+                          // setShowReport(false);
                           getData(values);
                         }
                       }}
