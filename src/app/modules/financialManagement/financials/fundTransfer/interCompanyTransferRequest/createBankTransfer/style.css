@@ -1,0 +1,18 @@
+.bank-journal-wrapper .image-upload-box {
+    height: 64px;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+  }
+  .bank-journal-wrapper .image-upload-box.with-img {
+    max-width: 65px;
+    border: 0;
+    background: transparent;
+  }
+  .bank-journal-wrapper .image-upload-box.with-img {
+    max-width: 100%;
+    border: 0;
+    justify-content: left;
+  }

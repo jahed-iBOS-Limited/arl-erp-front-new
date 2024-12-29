@@ -46,7 +46,7 @@ export default function ProductionScheduling() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData]);
 
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
 
   const getData = (values) => {
     // Generate daily schedules based on the provided month and year
@@ -65,7 +65,7 @@ export default function ProductionScheduling() {
               ...workCenter,
               dailySchedules:
                 !workCenter.dailySchedules ||
-                workCenter.dailySchedules.length === 0
+                  workCenter.dailySchedules.length === 0
                   ? dailySchedulesList
                   : workCenter.dailySchedules,
             };
@@ -93,7 +93,7 @@ export default function ProductionScheduling() {
       enableReinitialize={true}
       initialValues={initData}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {});
+        saveHandler(values, () => { });
       }}
     >
       {({
@@ -215,7 +215,10 @@ export default function ProductionScheduling() {
                               </td>
                             ))}
                             <td className="text-center">
-                              {product.total || 0}
+                              {product?.workCenters.reduce(
+                                (sum, workCenter) => sum + (workCenter.workCenterQty || 0),
+                                0
+                              ) || 0}
                             </td>
                           </tr>
                         ))}
