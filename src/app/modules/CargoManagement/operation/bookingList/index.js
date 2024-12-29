@@ -94,10 +94,12 @@ function BookingList() {
     modeOfTransportId = 1,
   ) => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
+        profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${
+        profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue ||
-      ''}&modeOfTransportId=${modeOfTransportId}`,
+        ''}&modeOfTransportId=${modeOfTransportId}`,
     );
   };
 
@@ -107,7 +109,7 @@ function BookingList() {
       !item?.isPlaning ||
       (selectedRow.length > 0 &&
         selectedRow?.[0]?.freightAgentReferenceId !==
-        item?.freightAgentReferenceId)
+          item?.freightAgentReferenceId)
     ) {
       return true;
     }
@@ -140,13 +142,15 @@ function BookingList() {
         return (
           <button
             onClick={() => {
-              if (selectedRow.length > 0 && selectedRow[0]?.modeOfTransport === 'Sea') {
+              if (
+                selectedRow.length > 0 &&
+                selectedRow[0]?.modeOfTransport === 'Sea'
+              ) {
                 setIsModalShowObj({
                   ...isModalShowObj,
                   isMasterHBL: true,
                 });
-              }
-              else {
+              } else {
                 setIsModalShowObj({
                   ...isModalShowObj,
                   isMasterHBAW: true,
@@ -159,10 +163,10 @@ function BookingList() {
               display: selectedRow?.length > 0 ? 'block' : 'none',
             }}
           >
-            {
-              selectedRow?.length > 0 && selectedRow[0]?.modeOfTransport === 'Sea' ? ' Generate Master HBL' : 'Generate Master HAWB'
-            }
-
+            {selectedRow?.length > 0 &&
+            selectedRow[0]?.modeOfTransport === 'Sea'
+              ? ' Generate Master HBL'
+              : 'Generate Master HAWB'}
           </button>
         );
       }}
@@ -177,7 +181,7 @@ function BookingList() {
             },
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
@@ -1194,42 +1198,6 @@ function BookingList() {
                 </>
               )}
 
-              {/* HBL Formate */}
-
-              {/* Shipper Invoice */}
-              {/* {isModalShowObj?.isFreightInvoice && (
-                <>
-                  <IViewModal
-                    title="Shipper Invoice"
-                    show={isModalShowObj?.isFreightInvoice}
-                    onHide={() => {
-                      setIsModalShowObj({
-                        ...isModalShowObj,
-                        isFreightInvoice: false,
-                      });
-                    }}
-                  >
-                    <FreightInvoice rowClickData={rowClickData} />
-                  </IViewModal>
-                </>
-              )} */}
-              {/* Consignee Invoice  */}
-              {/* {isModalShowObj?.isConsigneeInvoice && (
-                <>
-                  <IViewModal
-                    title="Consignee Invoice"
-                    show={isModalShowObj?.isConsigneeInvoice}
-                    onHide={() => {
-                      setIsModalShowObj({
-                        ...isModalShowObj,
-                        isConsigneeInvoice: false,
-                      });
-                    }}
-                  >
-                    <ConsigneeInvoice rowClickData={rowClickData} />
-                  </IViewModal>
-                </>
-              )} */}
               {/* invoice modal */}
               {isModalShowObj?.isCommonInvoice && (
                 <>
@@ -1336,8 +1304,9 @@ function BookingList() {
               {/* HBCode GN Modal */}
               {isModalShowObj?.isHBCodeGN && (
                 <IViewModal
-                  title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-                    } Report`}
+                  title={`${
+                    rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+                  } Report`}
                   show={isModalShowObj?.isHBCodeGN}
                   onHide={() => {
                     setIsModalShowObj({
