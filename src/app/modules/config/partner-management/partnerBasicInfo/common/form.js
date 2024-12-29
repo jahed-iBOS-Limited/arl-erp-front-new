@@ -53,7 +53,12 @@ export default function _Form({
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit,
   );
-  const [shipingCargoTypeDDL, getShipingCargoTypeDDL] = useAxiosGet();
+  const [
+    shipingCargoTypeDDL,
+    getShipingCargoTypeDDL,
+    ,
+    setShipingCargoTypeDDL,
+  ] = useAxiosGet();
   const [itemTypeList, setItemTypeList] = useState('');
   const [itemTypeOption, setItemTypeOption] = useState([]);
   const [open, setOpen] = React.useState(false);
@@ -69,6 +74,10 @@ export default function _Form({
 
     getShipingCargoTypeDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
+      (resData) => {
+        const filterData = resData?.filter((item) => item.value === 1);
+        setShipingCargoTypeDDL(filterData || []);
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -136,27 +145,6 @@ export default function _Form({
         <>
           <Form className="form form-label-right">
             <div className="form-group row global-form">
-              {isAkijLogisticsBUI && (
-                <>
-                  {' '}
-                  <div className="col-lg-4">
-                    <NewSelect
-                      name="cargoType"
-                      options={shipingCargoTypeDDL || []}
-                      value={values?.cargoType}
-                      label="Cargo Type"
-                      onChange={(valueOption) => {
-                        setFieldValue('cargoType', valueOption);
-                      }}
-                      placeholder="Select Cargo Type"
-                      isSearchable={true}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                </>
-              )}
-
               <div className="col-lg-4">
                 <Field
                   value={values?.businessPartnerName || ''}
@@ -181,6 +169,26 @@ export default function _Form({
                   touched={touched}
                 />
               </div>
+              {isAkijLogisticsBUI && values?.businessPartnerType?.value === 2 && (
+                <>
+                  {' '}
+                  <div className="col-lg-4">
+                    <NewSelect
+                      name="cargoType"
+                      options={shipingCargoTypeDDL || []}
+                      value={values?.cargoType}
+                      label="Cargo Type"
+                      onChange={(valueOption) => {
+                        setFieldValue('cargoType', valueOption);
+                      }}
+                      placeholder="Select Cargo Type"
+                      isSearchable={true}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                </>
+              )}
               <div className="col-lg-4">
                 <Field
                   value={values?.businessPartnerAddress || ''}
