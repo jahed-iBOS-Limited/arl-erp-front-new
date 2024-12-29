@@ -1,21 +1,22 @@
-import moment from "moment";
-import React, { useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import { imarineBaseUrl } from "../../../../../App";
-import { amountToWords } from "../../../../_helper/_ConvertnumberToWord";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import moment from 'moment';
+import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import { imarineBaseUrl } from '../../../../../App';
+import { amountToWords } from '../../../../_helper/_ConvertnumberToWord';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
-import NewSelect from "../../../../_helper/_select";
-import logisticsLogo from "./logisticsLogo.png";
-import "./style.css";
+import NewSelect from '../../../../_helper/_select';
+import logisticsLogo from './logisticsLogo.png';
+import './style.css';
+import { useState } from 'react';
 
 const BillGenerate = ({ rowClickData }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
   const [invoiceType, setInvoiceType] = React.useState(null);
   const [billingDataFilterData, setBillingDataFilterData] = React.useState([]);
@@ -32,12 +33,7 @@ const BillGenerate = ({ rowClickData }) => {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
-  const [
-    participantTypeListDDL,
-    GetParticipantTypeListDDL,
-    ,
-    setParticipantTypeList,
-  ] = useAxiosGet();
+  const [participantTypeListDDL, setParticipantTypeListDDL] = useState();
   useEffect(() => {
     commonGetByIdHandler();
 
@@ -46,18 +42,11 @@ const BillGenerate = ({ rowClickData }) => {
   const bookingData = {
     ...shipBookingRequestGetById,
   };
-  // const bookingData = {
-  //   ...shipBookingRequestGetById,
-  //   billingData:
-  //     shipBookingRequestGetById?.billingData?.filter((item) => {
-  //       return item?.chargeAmount;
-  //     }) || [],
-  // };
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: "Invoice",
+    documentTitle: 'Invoice',
     pageStyle: `
         @media print {
           body {
@@ -75,19 +64,20 @@ const BillGenerate = ({ rowClickData }) => {
   const commonGetByIdHandler = () => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+        (resData) => {
+          const billingDataList = resData?.billingData
+            ?.filter((i) => i.collectionPartyTypeId)
+            ?.map((item) => {
+              return {
+                value: item?.collectionPartyTypeId,
+                label: item?.collectionPartyType,
+              };
+            });
+          setParticipantTypeListDDL(billingDataList);
+        },
       );
     }
-    GetParticipantTypeListDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
-      (redData) => {
-        const updatedData = redData?.filter((item) =>
-          [5, 6, 7].includes(item?.value)
-        );
-        setParticipantTypeList(updatedData);
-        setInvoiceType(updatedData[0]);
-      }
-    );
   };
 
   const saveHandler = (values) => {
@@ -96,19 +86,19 @@ const BillGenerate = ({ rowClickData }) => {
       accountId: profileData?.accountId || 0,
       unitId: selectedBusinessUnit?.value || 0,
       bookingDate: new Date(),
-      bookingNumber: bookingData?.bookingRequestCode || "",
-      paymentTerms: "",
+      bookingNumber: bookingData?.bookingRequestCode || '',
+      paymentTerms: '',
       actionBy: profileData?.userId || 0,
-      rowString: bookingData?.billingData?.map((item) => {
+      rowString: billingDataFilterData?.map((item) => {
         return {
           intHeadOfChargeid: item?.headOfChargeId,
           strHeadoffcharges: item?.headOfCharges,
-          intCurrencyid: bookingData?.currencyId,
-          strCurrency: bookingData?.currency,
+          intCurrencyid: item?.currencyId || 0,
+          strCurrency: item?.currency || '',
           numrate: 0,
-          numconverstionrate: 0,
-          strUom: "",
-          numamount: item?.chargeAmount || 0,
+          numconverstionrate: item?.exchangeRate || 0,
+          strUom: '',
+          numamount: item?.paymentActualAmount || 0,
           numvatAmount: 0,
         };
       }),
@@ -119,15 +109,15 @@ const BillGenerate = ({ rowClickData }) => {
       () => {
         commonGetByIdHandler();
       },
-      true
+      true,
     );
   };
 
-  const getCalculatedActualAmount = () => {
-    return billingDataFilterData?.reduce((acc, cur) => {
-      return acc + (+cur?.paymentActualAmount || 0);
-    }, 0);
-  };
+  // const getCalculatedActualAmount = () => {
+  //   return billingDataFilterData?.reduce((acc, cur) => {
+  //     return acc + (+cur?.paymentActualAmount || 0);
+  //   }, 0);
+  // };
   const getCalculatedDummyAmount = () => {
     return billingDataFilterData?.reduce((acc, cur) => {
       return acc + (+cur?.paymentDummyAmount || 0);
@@ -136,8 +126,8 @@ const BillGenerate = ({ rowClickData }) => {
   const getAmountInWords = () => {
     return amountToWords(
       billingDataFilterData?.reduce((acc, cur) => {
-        return acc + (+cur?.paymentActualAmount || 0);
-      }, 0) || 0
+        return acc + (+cur?.paymentDummyAmount || 0);
+      }, 0) || 0,
     );
   };
   // filter by collectionPartyTypeId
@@ -146,7 +136,7 @@ const BillGenerate = ({ rowClickData }) => {
       setBillingDataFilterData(
         bookingData?.billingData?.filter((item) => {
           return item?.paymentPartyTypeId === invoiceType?.value;
-        }) || []
+        }) || [],
       );
     }
   }, [invoiceType, bookingData.billingData]);
@@ -170,7 +160,7 @@ const BillGenerate = ({ rowClickData }) => {
           <div className="d-flex justify-content-end">
             {!bookingData?.invoiceNumber && (
               <>
-                {" "}
+                {' '}
                 <button
                   type="button"
                   className="btn btn-primary"
@@ -207,14 +197,14 @@ const BillGenerate = ({ rowClickData }) => {
         ref={componentRef}
         style={{
           fontSize: 11,
-          display: "grid",
+          display: 'grid',
           gap: 10,
         }}
       >
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 2fr",
+            display: 'grid',
+            gridTemplateColumns: '1fr 2fr',
           }}
         >
           <img
@@ -227,7 +217,7 @@ const BillGenerate = ({ rowClickData }) => {
           />
           <div
             style={{
-              textAlign: "right",
+              textAlign: 'right',
             }}
           >
             <span style={{ fontSize: 14, fontWeight: 600 }}>
@@ -241,25 +231,25 @@ const BillGenerate = ({ rowClickData }) => {
           style={{
             fontSize: 14,
             fontWeight: 600,
-            textAlign: "center",
-            backgroundColor: "#DDE3E8",
+            textAlign: 'center',
+            backgroundColor: '#DDE3E8',
             padding: 2,
-            border: "1px solid #000000",
+            border: '1px solid #000000',
           }}
         >
-          {" "}
-          INVOICE : {bookingData?.invoiceNumber || "N/A"}
+          {' '}
+          INVOICE : {bookingData?.invoiceNumber || 'N/A'}
         </p>
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "7fr .5fr 7fr",
+            display: 'grid',
+            gridTemplateColumns: '7fr .5fr 7fr',
             // border: "1px solid #000000",
           }}
         >
           <div
             style={{
-              border: "1px solid #000000",
+              border: '1px solid #000000',
             }}
           >
             <div style={{ padding: 2 }}>
@@ -275,57 +265,57 @@ const BillGenerate = ({ rowClickData }) => {
             </div>
           </div>
           <div />
-          <div style={{ border: "1px solid #000000" }}>
+          <div style={{ border: '1px solid #000000' }}>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
               }}
             >
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
-                  borderRight: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
+                  borderRight: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
-                  backgroundColor: "#DDE3E8",
+                  backgroundColor: '#DDE3E8',
                 }}
               >
-                {" "}
+                {' '}
                 INVOICE DATE
               </span>
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
                 }}
               >
                 {bookingData?.invoiceDate
-                  ? moment(bookingData?.invoiceDate).format("YYYY-MM-DD")
-                  : "N/A"}
+                  ? moment(bookingData?.invoiceDate).format('YYYY-MM-DD')
+                  : 'N/A'}
               </span>
             </div>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
               }}
             >
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
-                  borderRight: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
+                  borderRight: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
-                  backgroundColor: "#DDE3E8",
+                  backgroundColor: '#DDE3E8',
                 }}
               >
                 SHIPMENT NO
               </span>
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
                 }}
@@ -335,103 +325,103 @@ const BillGenerate = ({ rowClickData }) => {
             </div>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
               }}
             >
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
-                  borderRight: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
+                  borderRight: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
-                  backgroundColor: "#DDE3E8",
+                  backgroundColor: '#DDE3E8',
                 }}
               >
                 SALES ORDER NO
               </span>
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
                 }}
               >
-                {" "}
+                {' '}
                 {bookingData?.bookingRequestCode}
               </span>
             </div>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
               }}
             >
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
-                  borderRight: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
+                  borderRight: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
-                  backgroundColor: "#DDE3E8",
+                  backgroundColor: '#DDE3E8',
                 }}
               >
                 DUE DATE
               </span>
               <span
                 style={{
-                  borderBottom: "1px solid #000000",
+                  borderBottom: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
                 }}
               >
                 {bookingData?.createdAt
-                  ? moment(bookingData?.createdAt).format("YYYY-MM-DD")
-                  : "N/A"}
+                  ? moment(bookingData?.createdAt).format('YYYY-MM-DD')
+                  : 'N/A'}
               </span>
             </div>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
               }}
             >
               <span
                 style={{
-                  borderRight: "1px solid #000000",
+                  borderRight: '1px solid #000000',
                   padding: 2,
                   paddingBottom: 20,
                   fontWeight: 600,
-                  backgroundColor: "#DDE3E8",
+                  backgroundColor: '#DDE3E8',
                 }}
               >
                 TERMS
               </span>
               <span style={{ padding: 2, fontWeight: 600 }}>
-                {" "}
-                Pay able immediately Due net{" "}
+                {' '}
+                Pay able immediately Due net{' '}
               </span>
             </div>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
               }}
             >
               <span
                 style={{
-                  borderTop: "1px solid #000000",
-                  borderRight: "1px solid #000000",
+                  borderTop: '1px solid #000000',
+                  borderRight: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
-                  backgroundColor: "#DDE3E8",
+                  backgroundColor: '#DDE3E8',
                 }}
               >
                 Trade
               </span>
               <span
                 style={{
-                  borderTop: "1px solid #000000",
+                  borderTop: '1px solid #000000',
                   padding: 2,
                   fontWeight: 600,
                 }}
@@ -444,31 +434,31 @@ const BillGenerate = ({ rowClickData }) => {
         <div>
           <div
             style={{
-              border: "1px solid #000000",
+              border: '1px solid #000000',
             }}
           >
             <div
               style={{
                 fontSize: 14,
                 fontWeight: 600,
-                backgroundColor: "#DDE3E8",
+                backgroundColor: '#DDE3E8',
                 padding: 2,
-                borderBottom: "1px solid #000000",
+                borderBottom: '1px solid #000000',
               }}
             >
               SHIPMENT DETAILS
             </div>
             <div
               style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 2fr 1fr 1fr ",
+                display: 'grid',
+                gridTemplateColumns: '1fr 2fr 1fr 1fr ',
               }}
             >
               <div
                 style={{
                   fontWeight: 600,
                   padding: 2,
-                  borderRight: "1px solid #000000",
+                  borderRight: '1px solid #000000',
                 }}
               >
                 <span>Shipper</span>
@@ -491,9 +481,9 @@ const BillGenerate = ({ rowClickData }) => {
               </div>
               <div
                 style={{
-                  textTransform: "uppercase",
+                  textTransform: 'uppercase',
                   padding: 2,
-                  borderRight: "1px solid #000000",
+                  borderRight: '1px solid #000000',
                 }}
               >
                 <span>{bookingData?.shipperName}</span>
@@ -508,27 +498,27 @@ const BillGenerate = ({ rowClickData }) => {
                 <br />
                 <span>
                   {bookingData?.dateOfRequest
-                    ? moment(bookingData?.dateOfRequest).format("YYYY-MM-DD")
-                    : "N/A"}
+                    ? moment(bookingData?.dateOfRequest).format('YYYY-MM-DD')
+                    : 'N/A'}
                 </span>
                 <br />
-                <span>{bookingData?.blnumber || "N/A"}</span>
+                <span>{bookingData?.blnumber || 'N/A'}</span>
                 <br />
-                <span>{bookingData?.hblnumber || "N/A"}</span>
+                <span>{bookingData?.hblnumber || 'N/A'}</span>
                 <br />
                 <span>
                   {bookingData?.arrivalDateTime
                     ? moment(bookingData?.arrivalDateTime).format(
-                        "YYYY-MM-DD HH:mm A"
+                        'YYYY-MM-DD HH:mm A',
                       )
-                    : "N/A"}
+                    : 'N/A'}
                 </span>
               </div>
               <div
                 style={{
                   fontWeight: 600,
                   padding: 2,
-                  borderRight: "1px solid #000000",
+                  borderRight: '1px solid #000000',
                 }}
               >
                 <span>LC No.</span>
@@ -550,12 +540,12 @@ const BillGenerate = ({ rowClickData }) => {
                 <span>Chrg. Wt</span>
               </div>
               <div style={{ padding: 2 }}>
-                <span>{bookingData?.lcNo ?? "N/A"} </span>
+                <span>{bookingData?.lcNo ?? 'N/A'} </span>
                 <br />
                 <span>
                   {bookingData?.lcDate
-                    ? moment(bookingData?.lcDate).format("DD MMM YYYY HH:mm A")
-                    : "N/A"}
+                    ? moment(bookingData?.lcDate).format('DD MMM YYYY HH:mm A')
+                    : 'N/A'}
                 </span>
                 <br />
                 <span>{bookingData?.pickupPlace}</span>
@@ -566,14 +556,14 @@ const BillGenerate = ({ rowClickData }) => {
                 <br />
                 <span>
                   {bookingData?.bldate
-                    ? moment(bookingData?.bldate).format("YYYY-MM-DD")
-                    : "N/A"}
+                    ? moment(bookingData?.bldate).format('YYYY-MM-DD')
+                    : 'N/A'}
                 </span>
                 <br />
                 <span>
                   {bookingData?.hbldate
-                    ? moment(bookingData?.hbldate).format("YYYY-MM-DD")
-                    : "N/A"}
+                    ? moment(bookingData?.hbldate).format('YYYY-MM-DD')
+                    : 'N/A'}
                 </span>
                 <br />
                 <span>
@@ -595,43 +585,43 @@ const BillGenerate = ({ rowClickData }) => {
           border="1"
           cellPadding="5"
           cellSpacing="0"
-          style={{ width: "100%" }}
+          style={{ width: '100%' }}
         >
           <thead>
-            <tr style={{ backgroundColor: "#DDE3E8" }}>
+            <tr style={{ backgroundColor: '#DDE3E8' }}>
               <th>SL</th>
               <th>Attribute</th>
-              <th>Dummy Amount</th>
-              <th>Actual Amount</th>
+              <th>Amount</th>
+              {/* <th>Actual Amount</th> */}
             </tr>
           </thead>
           <tbody>
             {invoiceType &&
               billingDataFilterData?.map((row, index) => (
                 <tr key={index}>
-                  <td style={{ textAlign: "right" }}> {index + 1} </td>
+                  <td style={{ textAlign: 'right' }}> {index + 1} </td>
                   <td className="align-middle">
                     <label>{row?.headOfCharges}</label>
                   </td>
-                  <td style={{ textAlign: "right" }}>
+                  <td style={{ textAlign: 'right' }}>
                     {row?.paymentDummyAmount}
                   </td>
-                  <td style={{ textAlign: "right" }}>
+                  {/* <td style={{ textAlign: 'right' }}>
                     {row?.paymentActualAmount}
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             <tr
               style={{
                 fontSize: 14,
                 fontWeight: 600,
-                backgroundColor: "#DDE3E8",
-                textAlign: "right",
+                backgroundColor: '#DDE3E8',
+                textAlign: 'right',
               }}
             >
               <td colSpan="2"> Total Amount</td>
               <td> {getCalculatedDummyAmount()}</td>
-              <td> {getCalculatedActualAmount()}</td>
+              {/* <td> {getCalculatedActualAmount()}</td> */}
             </tr>
             <tr>
               <td
@@ -639,11 +629,11 @@ const BillGenerate = ({ rowClickData }) => {
                 style={{
                   fontSize: 14,
                   fontWeight: 600,
-                  textTransform: "uppercase",
-                  textAlign: "left",
+                  textTransform: 'uppercase',
+                  textAlign: 'left',
                 }}
               >
-                {" "}
+                {' '}
                 Actual Amount in Words:
                 {getAmountInWords()}
               </td>
@@ -652,9 +642,9 @@ const BillGenerate = ({ rowClickData }) => {
         </table>
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            border: "1px solid #000",
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            border: '1px solid #000',
           }}
         >
           <div
@@ -665,7 +655,7 @@ const BillGenerate = ({ rowClickData }) => {
           >
             <div
               style={{
-                backgroundColor: "#DDE3E8",
+                backgroundColor: '#DDE3E8',
                 padding: 2,
               }}
             >
@@ -674,7 +664,7 @@ const BillGenerate = ({ rowClickData }) => {
           </div>
           <div
             style={{
-              borderLeft: "1px solid #000000",
+              borderLeft: '1px solid #000000',
             }}
           >
             <div
@@ -707,8 +697,8 @@ const BillGenerate = ({ rowClickData }) => {
         </div>
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
             fontSize: 14,
             fontWeight: 600,
           }}
@@ -717,8 +707,8 @@ const BillGenerate = ({ rowClickData }) => {
           <p>Prepared By: </p>
         </div>
         <p style={{ fontSize: 14, fontWeight: 600 }}>Special Note:</p>
-        <span style={{ fontSize: 14, maxWidth: "70%" }}>
-          {" "}
+        <span style={{ fontSize: 14, maxWidth: '70%' }}>
+          {' '}
           Payment to be made by Payment Order/Electronic transfer only in favor
           of TRANSMARINE LOGISTICS LTD. No query/claim will be entertained after
           07 days from the date of receipt of Invoice. Interest @ 2% pe rMonth
@@ -730,13 +720,13 @@ const BillGenerate = ({ rowClickData }) => {
           style={{
             fontSize: 14,
             fontWeight: 400,
-            textAlign: "center",
-            backgroundColor: "#DDE3E8",
+            textAlign: 'center',
+            backgroundColor: '#DDE3E8',
             padding: 2,
-            border: "1px solid #000000",
+            border: '1px solid #000000',
           }}
         >
-          {" "}
+          {' '}
           This is a system generated invoice and it does not require any company
           chop and signature
         </p>
