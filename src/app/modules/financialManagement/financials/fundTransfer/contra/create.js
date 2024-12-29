@@ -67,6 +67,8 @@ export default function ContraCreate() {
     const location = useLocation();
     const { transferType } = location?.state || {};
 
+    const transferTypeList = transferType === "Bank" ? [{ value: 1, label: "Bank To Bank" }, { value: 2, label: "Bank To Cash" }] : [{ value: 3, label: "Cash To Bank" }, { value: 4, label: "Cash To Cash" }]
+
     console.log("location", location)
     console.log("transferType", transferType)
 
@@ -162,7 +164,7 @@ export default function ContraCreate() {
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="transferType"
-                                        options={[{ value: 1, label: "Bank" }, { value: 2, label: "Cash" }]}
+                                        options={transferTypeList}
                                         value={values?.transferType}
                                         label="Transfer Type"
                                         onChange={(valueOption) => {
@@ -173,13 +175,26 @@ export default function ContraCreate() {
                                     />
                                 </div>
 
+                                {[3, 4].includes(values?.transferType?.value) && <div className="col-lg-3">
+
+                                    <NewSelect
+                                        name="gl"
+                                        options={bankList || []}
+                                        value={values?.gl}
+                                        label={"Select GL"}
+                                        onChange={(valueOption) => setFieldValue("gl", valueOption)}
+                                        errors={errors}
+                                        touched={touched}
+                                    />
+                                </div>}
+
                                 {/* Bank Name */}
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="fromBankName"
                                         options={bankList || []}
                                         value={values?.fromBankName}
-                                        label="Transfer From Bank"
+                                        label={"Transfer From Bank"}
                                         onChange={(valueOption) => setFieldValue("fromBankName", valueOption)}
                                         errors={errors}
                                         touched={touched}
@@ -190,12 +205,14 @@ export default function ContraCreate() {
                                         name="toBankName"
                                         options={bankList || []}
                                         value={values?.toBankName}
-                                        label="Transfer To Bank"
+                                        label={values?.transferType?.value === 2 ? "Select GL" : "Transfer TO Bank"}
                                         onChange={(valueOption) => setFieldValue("toBankName", valueOption)}
                                         errors={errors}
                                         touched={touched}
                                     />
                                 </div>)}
+
+
 
 
                                 {/* Expected Date */}

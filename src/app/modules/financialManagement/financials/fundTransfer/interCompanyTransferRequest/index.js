@@ -24,7 +24,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(15);
     const [gridData, getGridData, loading] = useAxiosGet();
-    const [transferType, setTransferType] = useState(null);
+    const [transferType, setTransferType] = useState("Bank");
 
 
     const saveHandler = (values, cb) => { };
@@ -91,7 +91,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                     />
                                     <strong style={{ fontSize: "11px" }}>Bank</strong>
                                 </label>
-                                <label className="mr-3">
+                                {/* <label className="mr-3">
                                     <input
                                         type="radio"
                                         name="transferType"
@@ -103,7 +103,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                         }}
                                     />
                                     <strong style={{ fontSize: "11px" }} >Cash</strong>
-                                </label>
+                                </label> */}
                             </div>
                         </>}
                         isHiddenReset
@@ -149,6 +149,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                     <th>Request Code</th>
                                                     <th>Request Date</th>
                                                     <th>Request By</th>
+                                                    <th>Receiving Account</th>
                                                     <th>Request To</th>
                                                     <th>Expect Date</th>
                                                     <th>Amount</th>
@@ -165,6 +166,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                         <td className="text-center">{item.strRequestCode}</td>
                                                         <td className="text-center">{_dateFormatter(item.dteRequestDate)}</td>
                                                         <td>{item.strRequestByUnitName}</td>
+                                                        <td></td>
                                                         <td>{item.strRequestToUnitName}</td>
                                                         <td className="text-center">{_dateFormatter(item.dteExpectedDate)}</td>
                                                         <td className="text-right">{item.numAmount}</td>

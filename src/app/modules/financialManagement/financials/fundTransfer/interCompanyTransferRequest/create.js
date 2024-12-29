@@ -16,23 +16,17 @@ import { useLocation } from "react-router";
 
 const initData = {
     investmentPartner: "",
-    fromBankName: "",
+    requestingUnit: "",
+    receivingAccount: "",
     toBankName: "",
     expectedDate: "",
     requestAmount: "",
     responsiblePerson: "",
     remarks: "",
-    transferType: ""
 };
 
 const getSchema = (transferType) => {
     const validationSchema = Yup.object().shape({
-        transferType: Yup.object()
-            .shape({
-                label: Yup.string().required("Transfer Type is required"),
-                value: Yup.string().required("Transfer Type is required"),
-            })
-            .typeError("Transfer Type is required"),
         toBankName: transferType === "Bank"
             ? Yup.object()
                 .shape({
@@ -41,7 +35,7 @@ const getSchema = (transferType) => {
                 })
                 .typeError("Transfer To Bank is required")
             : Yup.mixed().notRequired(),
-        fromBankName: Yup.object()
+        receivingAccount: Yup.object()
             .shape({
                 label: Yup.string().required("Transfer From Bank is required"),
                 value: Yup.string().required("Transfer From Bank is required"),
@@ -55,6 +49,12 @@ const getSchema = (transferType) => {
                 value: Yup.string().required("Responsible Person is required"),
             })
             .typeError("Responsible Person is required"),
+        requestingUnit: Yup.object()
+            .shape({
+                label: Yup.string().required("Requesting Unit is required"),
+                value: Yup.string().required("Requesting Unit is required"),
+            })
+            .typeError("Requesting Unit is required"),
     });
 
     return validationSchema;
@@ -89,20 +89,20 @@ export default function InterCompanyTransferRequestCreate() {
         const payload = {
             "intFundTransferRequestId": 0,
             "strRequestCode": "",
-            "intRequestTypeId": values?.transferType?.value,
-            "strRequestType": values?.transferType?.label,
+            "intRequestTypeId": 1,
+            "strRequestType": transferType,
             "intRequestByUnitId": selectedBusinessUnit?.value,
             "strRequestByUnitName": selectedBusinessUnit?.label,
             "intRequestToUnitId": selectedBusinessUnit?.value,
             "strRequestToUnitName": selectedBusinessUnit?.label,
             "dteRequestDate": "2024-12-22T09:59:39.993Z",
             "numAmount": values?.requestAmount || 0,
-            "intRequestedBankId": values?.fromBankName?.value || 0,
-            "strRequestedBankName": values?.fromBankName?.label || "",
-            "intRequestedBankBranchId": values?.fromBankName?.bankBranch_Id || 0,
-            "strRequestedBankBranchName": values?.fromBankName?.bankBranchName || "",
-            "strRequestedBankAccountNumber": values?.fromBankName?.bankAccNo || "",
-            "strRequestedBankAccountName": values?.fromBankName?.accountName || "",
+            "intRequestedBankId": values?.receivingAccount?.value || 0,
+            "strRequestedBankName": values?.receivingAccount?.label || "",
+            "intRequestedBankBranchId": values?.receivingAccount?.bankBranch_Id || 0,
+            "strRequestedBankBranchName": values?.receivingAccount?.bankBranchName || "",
+            "strRequestedBankAccountNumber": values?.receivingAccount?.bankAccNo || "",
+            "strRequestedBankAccountName": values?.receivingAccount?.accountName || "",
             "intGivenBankId": values?.toBankName?.value,
             "strGivenBankName": values?.toBankName?.label,
             "intGivenBankBranchId": values?.toBankName?.bankBranch_Id || 0,
@@ -162,13 +162,22 @@ export default function InterCompanyTransferRequestCreate() {
                             <div className="form-group global-form row">
                                 <div className="col-lg-3">
                                     <NewSelect
-                                        name="transferType"
-                                        options={[{ value: 1, label: "Bank" }, { value: 2, label: "Cash" }]}
-                                        value={values?.transferType}
-                                        label="Transfer Type"
-                                        onChange={(valueOption) => {
-                                            setFieldValue("transferType", valueOption)
-                                        }}
+                                        name="requestingUnit"
+                                        options={businessUnitList || []}
+                                        value={values?.requestingUnit}
+                                        label="Requesting Unit"
+                                        onChange={(valueOption) => setFieldValue("requestingUnit", valueOption)}
+                                        errors={errors}
+                                        touched={touched}
+                                    />
+                                </div>
+                                <div className="col-lg-3">
+                                    <NewSelect
+                                        name="receivingAccount"
+                                        options={bankList || []}
+                                        value={values?.receivingAccount}
+                                        label="Receiving Account"
+                                        onChange={(valueOption) => setFieldValue("receivingAccount", valueOption)}
                                         errors={errors}
                                         touched={touched}
                                     />
@@ -186,18 +195,7 @@ export default function InterCompanyTransferRequestCreate() {
                                     />
                                 </div>
 
-                                {/* Bank Name */}
-                                <div className="col-lg-3">
-                                    <NewSelect
-                                        name="fromBankName"
-                                        options={bankList || []}
-                                        value={values?.fromBankName}
-                                        label="Slect Bank Account"
-                                        onChange={(valueOption) => setFieldValue("fromBankName", valueOption)}
-                                        errors={errors}
-                                        touched={touched}
-                                    />
-                                </div>
+
                                 {/* <div className="col-lg-3">
                                     <NewSelect
                                         name="toBankName"

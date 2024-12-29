@@ -24,7 +24,7 @@ export default function Contra({ viewType }) {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(15);
     const [gridData, getGridData, loading] = useAxiosGet();
-    const [transferType, setTransferType] = useState(null);
+    const [transferType, setTransferType] = useState("Bank");
 
 
     const saveHandler = (values, cb) => { };
@@ -150,6 +150,8 @@ export default function Contra({ viewType }) {
                                                     <th>Request Date</th>
                                                     <th>Request By</th>
                                                     <th>Request To</th>
+                                                    <th>Transfer From</th>
+                                                    <th>Transfer To</th>
                                                     <th>Expect Date</th>
                                                     <th>Amount</th>
                                                     <th>Responsible</th>
@@ -166,6 +168,8 @@ export default function Contra({ viewType }) {
                                                         <td className="text-center">{_dateFormatter(item.dteRequestDate)}</td>
                                                         <td>{item.strRequestByUnitName}</td>
                                                         <td>{item.strRequestToUnitName}</td>
+                                                        <td></td>
+                                                        <td></td>
                                                         <td className="text-center">{_dateFormatter(item.dteExpectedDate)}</td>
                                                         <td className="text-right">{item.numAmount}</td>
                                                         <td>{item.strResponsibleEmpName}</td>
