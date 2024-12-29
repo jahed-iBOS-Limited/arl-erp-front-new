@@ -1,14 +1,14 @@
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
-import { imarineBaseUrl } from '../../../../App';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { imarineBaseUrl } from '../../../../App';
+import { getVesselDDL, getVoyageDDLNew } from '../../../chartering/helper';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import FormikSelect from '../../../chartering/_chartinghelper/common/formikSelect';
 import customStyles from '../../../selectCustomStyle';
-import ICustomTable from '../../_chartinghelper/_customTable';
-import FormikSelect from '../../_chartinghelper/common/formikSelect';
-import { getVesselDDL, getVoyageDDLNew } from '../../helper';
-import IForm from './../../../_helper/_form';
-import Loading from './../../../_helper/_loading';
+import ICustomTable from '../../../chartering/_chartinghelper/_customTable';
 
 const initData = {
   voyageFlagLicenseAtt: '',
