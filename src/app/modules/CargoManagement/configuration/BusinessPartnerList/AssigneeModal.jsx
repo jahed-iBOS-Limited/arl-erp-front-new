@@ -1,31 +1,30 @@
-import { Button } from "@material-ui/core";
-import { Form, Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { imarineBaseUrl } from "../../../../App";
-import ICustomCard from "../../../_helper/_customCard";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import NewSelect from "../../../_helper/_select";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../_helper/_loading";
+import { Button } from '@material-ui/core';
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { imarineBaseUrl } from '../../../../App';
+import ICustomCard from '../../../_helper/_customCard';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import NewSelect from '../../../_helper/_select';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { toast } from 'react-toastify';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../_helper/_loading';
 
 const initialValues = {
-  shipper: "",
-  consignee: "",
-  deliveryAgent: "",
-  notifyParty: "",
-  type: "",
+  shipper: '',
+  consignee: '',
+  deliveryAgent: '',
+  notifyParty: '',
+  type: '',
 };
 
 export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
   const { profileData } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
-  const [shipperListDDL, getShipperListDDL] = useAxiosGet();
-  // const [consigneeListDDL, getConsigneeListDDL] = useAxiosGet();
+  const [consigneeListDDL, getConsigneeListDDL] = useAxiosGet();
   const [, getParticipantsWithConsigneeDtl, participantLoading] = useAxiosGet();
   const [
     participantDDL,
@@ -48,7 +47,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
     // if (addedItem?.length === 0)
     //   return toast.warning("Please add at least one item");
     const isAllFalse = addedItem?.every((item) => item?.isActive === false);
-    if (isAllFalse) return toast.warning("Please add at least one item");
+    if (isAllFalse) return toast.warning('Please add at least one item');
     const modifiedData = addedItem?.map((item) => {
       return {
         ...item,
@@ -64,7 +63,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
           cb();
         }
       },
-      "save"
+      'save',
     );
   };
 
@@ -73,40 +72,39 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
       (redData) => {
         const updatedData = redData?.filter((item) =>
-          [2, 3, 4].includes(item?.value)
+          [1, 3, 4].includes(item?.value),
         );
         setParticipantTypeList(updatedData);
-      }
+      },
     );
-    // 1= supplier, 2= shipper
-    commonGeParticipantDDL(getShipperListDDL, 2, 1);
+    // 2=Customer, 2= consignee
+    commonGeParticipantDDL(getConsigneeListDDL, 2, 2);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const commonGeParticipantDDL = (actionName, partnerType, cargoType) => {
     actionName(
-      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?businessPartnerType=${partnerType}&cargoType=${cargoType}`
+      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?businessPartnerType=${partnerType}&cargoType=${cargoType}`,
     );
   };
 
   const onChangeParticipantType = (type) => {
     setParticipantDDL([]);
 
-    //const supplierTypeId = 1;
+    // 1=supplier 2=customer
     const supplierTypeId = type === 1 ? 2 : 1;
-    // 1= supplier 2= customer
     commonGeParticipantDDL(getParticipantDDL, supplierTypeId, type);
   };
 
   const addButtonHandler = (values) => {
     const obj = {
       mappingId: 0,
-      consigneeId: values?.shipper?.value || 0,
-      consigneeName: values?.shipper?.label || "",
+      consigneeId: values?.consignee?.value || 0,
+      consigneeName: values?.consignee?.label || '',
       participantTypeId: values?.type?.value || 0,
-      participantType: values?.type?.label || "",
+      participantType: values?.type?.label || '',
       participantId: values?.participant?.value || 0,
-      participantName: values?.participant?.label || "",
+      participantName: values?.participant?.label || '',
       isActive: true,
       createdBy: profileData?.userId || 0,
       createdAt: new Date(),
@@ -116,14 +114,14 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
     const isExist = addedItem?.find(
       (item) =>
         item?.participantTypeId === obj?.participantTypeId &&
-        item?.participantId === obj?.participantId
+        item?.participantId === obj?.participantId,
     );
-    if (isExist) return toast.warning("Duplicate item not allowed");
+    if (isExist) return toast.warning('Duplicate item not allowed');
 
     setAddedItem((prev) => [...prev, obj]);
   };
 
-  const shipperOnChangeHandler = (valueOption) => {
+  const consigneeOnChangeHandler = (valueOption) => {
     // /domain/ShippingService/GetParticipantsWithConsigneeDtl?consigneeId=1
 
     getParticipantsWithConsigneeDtl(
@@ -132,9 +130,9 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
         const shipperList = redData?.shipperList?.map((item) => {
           return {
             ...item,
-            participantTypeId: 2,
-            participantType: "Consignee",
-            participantsName: item?.participantsName || "",
+            participantTypeId: 1,
+            participantType: 'Shipper',
+            participantsName: item?.participantsName || '',
             participantId: item?.participantId || 0,
           };
         });
@@ -151,18 +149,18 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
           return {
             mappingId: item?.mappingId || 0,
             consigneeId: valueOption?.value || 0,
-            consigneeName: valueOption?.label || "",
+            consigneeName: valueOption?.label || '',
             participantTypeId: item?.participantTypeId || 0,
-            participantType: item?.participantType || "",
+            participantType: item?.participantType || '',
             participantId: item?.participantId || 0,
-            participantName: item?.participantsName || "",
+            participantName: item?.participantsName || '',
             isActive: true,
             createdBy: profileData?.userId || 0,
             createdAt: new Date(),
           };
         });
         setAddedItem(addedItems);
-      }
+      },
     );
   };
   return (
@@ -175,7 +173,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
         }}
       >
         <ICustomCard
-          title={"Assign Business Partner"}
+          title={'Assign Business Partner'}
           backHandler={() => {
             setIsModalOpen(false);
           }}
@@ -207,13 +205,13 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                   {/* Consignee */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label="Select Shipper"
-                      options={shipperListDDL || []}
-                      value={values?.shipper}
-                      name="shipper"
+                      label="Select Consignee"
+                      options={consigneeListDDL || []}
+                      value={values?.consignee}
+                      name="consignee"
                       onChange={(valueOption) => {
-                        setFieldValue("shipper", valueOption);
-                        shipperOnChangeHandler(valueOption);
+                        setFieldValue('consignee', valueOption);
+                        consigneeOnChangeHandler(valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -227,8 +225,8 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                       value={values?.type}
                       name="type"
                       onChange={(valueOption) => {
-                        setFieldValue("type", valueOption);
-                        setFieldValue("participant", "");
+                        setFieldValue('type', valueOption);
+                        setFieldValue('participant', '');
                         onChangeParticipantType(valueOption?.value);
                       }}
                       errors={errors}
@@ -237,7 +235,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                   </div>
                   {values?.type && (
                     <>
-                      {" "}
+                      {' '}
                       <div className="col-lg-3">
                         <NewSelect
                           label={`Select ${values?.type?.label}`}
@@ -245,7 +243,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                           value={values?.participant}
                           name="participant"
                           onChange={(valueOption) => {
-                            setFieldValue("participant", valueOption || ``);
+                            setFieldValue('participant', valueOption || ``);
                           }}
                           errors={errors}
                           touched={touched}
@@ -262,7 +260,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                           addButtonHandler(values);
                         }}
                         disabled={
-                          !values?.shipper ||
+                          !values?.consignee ||
                           !values?.type ||
                           !values?.participant
                         }
@@ -281,7 +279,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                 <thead>
                   <tr>
                     <th>SL</th>
-                    <th>Shipper</th>
+                    <th>Consignee</th>
                     <th>Type</th>
                     <th>Participant</th>
                     <th>Action</th>
@@ -292,7 +290,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                     <tr
                       key={index}
                       style={{
-                        display: item?.isActive ? "table-row" : "none",
+                        display: item?.isActive ? 'table-row' : 'none',
                       }}
                     >
                       <td>{index + 1}</td>
@@ -318,7 +316,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                                   } else {
                                     return itm;
                                   }
-                                })
+                                }),
                               );
                             }}
                             color="error"
