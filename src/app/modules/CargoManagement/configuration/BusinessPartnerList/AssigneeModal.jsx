@@ -142,25 +142,32 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
     getParticipantsWithConsigneeDtl(
       `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsigneeDtl?shipperId=${valueOption?.value}`,
       (redData) => {
-        const shipperList = redData?.shipperList?.map((item) => {
-          return {
-            ...item,
-            participantTypeId: 1,
-            participantType: 'Shipper',
-            participantsName: item?.participantsName || '',
-            participantId: item?.participantId || 0,
-          };
-        });
+        // const shipperList = redData?.shipperList?.map((item) => {
+        //   return {
+        //     ...item,
+        //     participantTypeId: 1,
+        //     participantType: 'Shipper',
+        //     participantsName: item?.participantsName || '',
+        //     participantId: item?.participantId || 0,
+        //   };
+        // });
         const deliveryAgentList = redData?.deliveryAgentList || [];
         const notifyPartyList = redData?.notifyPartyList || [];
+        const airLineList = redData?.airLineList || [];
+        const consineList = redData?.consineList || [];
+        const shippingLineList = redData?.shippingLineList || [];
+        const gsaList = redData?.gsaList || [];
 
         // how to setAddedItem here
         const allItems = [
-          ...shipperList,
+          ...consineList,
           ...deliveryAgentList,
           ...notifyPartyList,
+          ...shippingLineList,
+          ...airLineList,
+          ...gsaList,
         ];
-        const addedItems = allItems.map((item) => {
+        const addedItems = allItems?.map((item) => {
           return {
             mappingId: item?.mappingId || 0,
             shipperId: valueOption?.value || 0,
