@@ -11,6 +11,7 @@ import { getdivisionDDL, getdistrictDDL, getpoliceStationDDL } from '../helper';
 import InputField from '../../../../_helper/_inputField';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import { imarineBaseUrl } from '../../../../../App';
+import { toast } from 'react-toastify';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
@@ -100,91 +101,98 @@ export default function _Form({
   const isAkijLogisticsBUI = [225].includes(selectedBusinessUnit?.value);
 
   return (
-    <>
-      <Formik
-        enableReinitialize={true}
-        initialValues={product}
-        validationSchema={ProductEditSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveWarehouse(values, () => {
-            resetForm(product);
-          });
-          // setSubmitting(false)
-        }}
-      >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          handleChange,
-          errors,
-          touched,
-          setFieldValue,
-          isValid,
-        }) => (
-          <>
-            <Form className="form form-label-right">
-              <div className="form-group row global-form">
-                {isAkijLogisticsBUI && (
-                  <>
-                    {' '}
-                    <div className="col-lg-4">
-                      <NewSelect
-                        name="cargoType"
-                        options={
-                          shipingCargoTypeDDL?.filter((i) => i?.value !== 1) ||
-                          []
-                        }
-                        value={values?.cargoType}
-                        label="Cargo Type"
-                        onChange={(valueOption) => {
-                          setFieldValue('cargoType', valueOption);
-                        }}
-                        placeholder="Select Cargo Type"
-                        isSearchable={true}
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                  </>
-                )}
+    <Formik
+      enableReinitialize={true}
+      initialValues={product}
+      validationSchema={ProductEditSchema}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        //check isAkijLogisticsBUI and cargoType 1 and paertnerType 2 than check email input
+        if (
+          isAkijLogisticsBUI &&
+          values?.cargoType?.value === 1 &&
+          values?.businessPartnerType?.value === 2
+        ) {
+          if (!values?.email) {
+            return toast.error('Email is required');
+          }
+        }
 
-                <div className="col-lg-4">
+        saveWarehouse(values, () => {
+          resetForm(product);
+        });
+        // setSubmitting(false)
+      }}
+    >
+      {({
+        handleSubmit,
+        resetForm,
+        values,
+        handleChange,
+        errors,
+        touched,
+        setFieldValue,
+        isValid,
+      }) => (
+        <>
+          <Form className="form form-label-right">
+            <div className="form-group row global-form">
+              {isAkijLogisticsBUI && (
+                <>
+                  {' '}
+                  <div className="col-lg-4">
+                    <NewSelect
+                      name="cargoType"
+                      options={shipingCargoTypeDDL || []}
+                      value={values?.cargoType}
+                      label="Cargo Type"
+                      onChange={(valueOption) => {
+                        setFieldValue('cargoType', valueOption);
+                      }}
+                      placeholder="Select Cargo Type"
+                      isSearchable={true}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                </>
+              )}
+
+              <div className="col-lg-4">
+                <Field
+                  value={values?.businessPartnerName || ''}
+                  name="businessPartnerName"
+                  component={Input}
+                  placeholder="Business Partner Name"
+                  label="Business Partner Name"
+                />
+              </div>
+              <div className="col-lg-4">
+                <NewSelect
+                  name="businessPartnerType"
+                  options={itemTypeOption}
+                  value={values?.businessPartnerType}
+                  label="Partner Type"
+                  onChange={(valueOption) => {
+                    setFieldValue('businessPartnerType', valueOption);
+                  }}
+                  placeholder="Select Partner Type"
+                  isSearchable={true}
+                  errors={errors}
+                  touched={touched}
+                />
+              </div>
+              <div className="col-lg-4">
+                <Field
+                  value={values?.businessPartnerAddress || ''}
+                  name="businessPartnerAddress"
+                  component={Input}
+                  placeholder="Business Partner Address"
+                  label="Business Partner Address"
+                />
+              </div>
+              {/* <div className="col-lg-4">
                   <Field
-                    value={values.businessPartnerName || ''}
-                    name="businessPartnerName"
-                    component={Input}
-                    placeholder="Business Partner Name"
-                    label="Business Partner Name"
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <NewSelect
-                    name="businessPartnerType"
-                    options={itemTypeOption}
-                    value={values?.businessPartnerType}
-                    label="Partner Type"
-                    onChange={(valueOption) => {
-                      setFieldValue('businessPartnerType', valueOption);
-                    }}
-                    placeholder="Select Partner Type"
-                    isSearchable={true}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <Field
-                    value={values.businessPartnerAddress || ''}
-                    name="businessPartnerAddress"
-                    component={Input}
-                    placeholder="Business Partner Address"
-                    label="Business Partner Address"
-                  />
-                </div>
-                {/* <div className="col-lg-4">
-                  <Field
-                    value={values.billingName || ""}
+                    value={values?.billingName || ""}
                     name="billingName"
                     component={Input}
                     placeholder="Billing Name"
@@ -193,274 +201,270 @@ export default function _Form({
                 </div>
                 <div className="col-lg-4">
                   <Field
-                    value={values.billingAddress || ""}
+                    value={values?.billingAddress || ""}
                     name="billingAddress"
                     component={Input}
                     placeholder="Billing Address"
                     label="Billing Address"
                   />
                 </div> */}
-                {/* <div className="col-lg-4">
+              {/* <div className="col-lg-4">
                   <Field
-                    value={values.businessPartnerAddress || ""}
+                    value={values?.businessPartnerAddress || ""}
                     name="businessPartnerAddress"
                     component={Input}
                     placeholder="Business Partner Address"
                     label="Business Partner Address"
                   />
                 </div> */}
-                <div className="col-lg-4">
-                  <InputField
-                    value={values.proprietor || ''}
-                    name="proprietor"
-                    placeholder="Proprietor Name"
-                    type="text"
-                    label="Proprietor Name"
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <Field
-                    value={values.contactNumber || ''}
-                    name="contactNumber"
-                    component={Input}
-                    placeholder="Contact Number (Proprietor)"
-                    label="Contact Number (Proprietor)"
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <InputField
-                    value={values.contactPerson || ''}
-                    name="contactPerson"
-                    placeholder="Contact Person"
-                    type="text"
-                    label="Contact Person"
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <InputField
-                    value={values.contactNumber2 || ''}
-                    name="contactNumber2"
-                    placeholder="Contact Number (Contact Person)"
-                    type="text"
-                    label="Contact Number (Contact Person)"
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <InputField
-                    value={values.contactNumber3 || ''}
-                    name="contactNumber3"
-                    placeholder="Contact Number (Other)"
-                    type="text"
-                    label="Contact Number (Other)"
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <Field
-                    value={values.email || ''}
-                    name="email"
-                    component={Input}
-                    placeholder="Email"
-                    label="Email (Optional)"
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <Field
-                    value={values.bin || ''}
-                    name="bin"
-                    component={Input}
-                    placeholder="BIN"
-                    label="BIN (Optional)"
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <Field
-                    value={values.licenseNo || ''}
-                    name="licenseNo"
-                    component={Input}
-                    placeholder="Licence Number"
-                    label="Licence Number"
-                  />
-                </div>
-
-                <div className="col-lg-4">
-                  <NewSelect
-                    name="division"
-                    options={divisionDDL}
-                    value={values?.division}
-                    label="State/Division (Optional)"
-                    onChange={(valueOption) => {
-                      setFieldValue('division', valueOption);
-                      setFieldValue('district', '');
-                      setFieldValue('policeStation', '');
-                      getdistrictDDL(18, valueOption?.value, setdistrictDDL);
-                    }}
-                    placeholder="Select State/Division"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <NewSelect
-                    name="district"
-                    options={districtDDL}
-                    value={values?.district}
-                    label="City/District (Optional)"
-                    onChange={(valueOption) => {
-                      setFieldValue('district', valueOption);
-                      setFieldValue('policeStation', '');
-                      getpoliceStationDDL(
-                        18,
-                        values?.division?.value,
-                        valueOption?.value,
-                        setpoliceStationDDL,
-                      );
-                    }}
-                    placeholder="Select City/District"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-4">
-                  <NewSelect
-                    name="policeStation"
-                    options={policeStationDDL}
-                    value={values?.policeStation}
-                    label="PoliceStation (Optional)"
-                    onChange={(valueOption) => {
-                      setFieldValue('policeStation', valueOption);
-                    }}
-                    placeholder="Select PoliceStation"
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-
-                {!product?.createNewUser ? (
-                  <>
-                    <div className="col-lg-2 d-flex align-items-center justify-content-center mt-2">
-                      <Field
-                        name="createNewUser"
-                        component={() => (
-                          <input
-                            id="createNewUser"
-                            type="checkbox"
-                            className="mr-2 pointer"
-                            value={values.createNewUser}
-                            checked={values.createNewUser}
-                            name="createNewUser"
-                            onChange={(e) => {
-                              setFieldValue('createNewUser', e.target.checked);
-                            }}
-                            // disabled={product?.createNewUser}
-                          />
-                        )}
-                        label="Is slab program"
-                      />
-                      <label className="d-block pointer" for="createNewUser">
-                        Create New User
-                      </label>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="col-lg-2 d-flex align-items-center justify-content-center mt-2">
-                      <Field
-                        name="updateUserLoginId"
-                        component={() => (
-                          <input
-                            id="updateUserLoginId"
-                            type="checkbox"
-                            className="mr-2 pointer"
-                            value={values.updateUserLoginId}
-                            checked={values.updateUserLoginId}
-                            name="updateUserLoginId"
-                            onChange={(e) => {
-                              setFieldValue(
-                                'updateUserLoginId',
-                                e.target.checked,
-                              );
-                            }}
-                            // disabled={product?.updateUserLoginId}
-                          />
-                        )}
-                        label="Is slab program"
-                      />
-                      <label
-                        className="d-block pointer"
-                        for="updateUserLoginId"
-                      >
-                        Update User LogIn Information
-                      </label>
-                    </div>
-                  </>
-                )}
-
-                <div className="col-lg-4">
-                  <button
-                    className="btn btn-primary mr-2 mt-7"
-                    type="button"
-                    onClick={() => setOpen(true)}
-                  >
-                    Attachment
-                  </button>
-                  {values?.attachmentLink && (
-                    <button
-                      className="btn btn-primary mt-7"
-                      type="button"
-                      onClick={() => {
-                        dispatch(
-                          getDownlloadFileView_Action(values?.attachmentLink),
-                        );
-                      }}
-                    >
-                      View
-                    </button>
-                  )}
-                </div>
+              <div className="col-lg-4">
+                <InputField
+                  value={values?.proprietor || ''}
+                  name="proprietor"
+                  placeholder="Proprietor Name"
+                  type="text"
+                  label="Proprietor Name"
+                />
+              </div>
+              <div className="col-lg-4">
+                <Field
+                  value={values?.contactNumber || ''}
+                  name="contactNumber"
+                  component={Input}
+                  placeholder="Contact Number (Proprietor)"
+                  label="Contact Number (Proprietor)"
+                />
+              </div>
+              <div className="col-lg-4">
+                <InputField
+                  value={values?.contactPerson || ''}
+                  name="contactPerson"
+                  placeholder="Contact Person"
+                  type="text"
+                  label="Contact Person"
+                />
+              </div>
+              <div className="col-lg-4">
+                <InputField
+                  value={values?.contactNumber2 || ''}
+                  name="contactNumber2"
+                  placeholder="Contact Number (Contact Person)"
+                  type="text"
+                  label="Contact Number (Contact Person)"
+                />
+              </div>
+              <div className="col-lg-4">
+                <InputField
+                  value={values?.contactNumber3 || ''}
+                  name="contactNumber3"
+                  placeholder="Contact Number (Other)"
+                  type="text"
+                  label="Contact Number (Other)"
+                />
+              </div>
+              <div className="col-lg-4">
+                <Field
+                  value={values?.email || ''}
+                  name="email"
+                  component={Input}
+                  placeholder="Email"
+                  label="Email (Optional)"
+                />
+              </div>
+              <div className="col-lg-4">
+                <Field
+                  value={values?.bin || ''}
+                  name="bin"
+                  component={Input}
+                  placeholder="BIN"
+                  label="BIN (Optional)"
+                />
+              </div>
+              <div className="col-lg-4">
+                <Field
+                  value={values?.licenseNo || ''}
+                  name="licenseNo"
+                  component={Input}
+                  placeholder="Licence Number"
+                  label="Licence Number"
+                />
               </div>
 
-              <button
-                type="submit"
-                style={{ display: 'none' }}
-                ref={btnRef}
-                onSubmit={() => handleSubmit()}
-              ></button>
+              <div className="col-lg-4">
+                <NewSelect
+                  name="division"
+                  options={divisionDDL}
+                  value={values?.division}
+                  label="State/Division (Optional)"
+                  onChange={(valueOption) => {
+                    setFieldValue('division', valueOption);
+                    setFieldValue('district', '');
+                    setFieldValue('policeStation', '');
+                    getdistrictDDL(18, valueOption?.value, setdistrictDDL);
+                  }}
+                  placeholder="Select State/Division"
+                  errors={errors}
+                  touched={touched}
+                />
+              </div>
+              <div className="col-lg-4">
+                <NewSelect
+                  name="district"
+                  options={districtDDL}
+                  value={values?.district}
+                  label="City/District (Optional)"
+                  onChange={(valueOption) => {
+                    setFieldValue('district', valueOption);
+                    setFieldValue('policeStation', '');
+                    getpoliceStationDDL(
+                      18,
+                      values?.division?.value,
+                      valueOption?.value,
+                      setpoliceStationDDL,
+                    );
+                  }}
+                  placeholder="Select City/District"
+                  errors={errors}
+                  touched={touched}
+                />
+              </div>
+              <div className="col-lg-4">
+                <NewSelect
+                  name="policeStation"
+                  options={policeStationDDL}
+                  value={values?.policeStation}
+                  label="PoliceStation (Optional)"
+                  onChange={(valueOption) => {
+                    setFieldValue('policeStation', valueOption);
+                  }}
+                  placeholder="Select PoliceStation"
+                  errors={errors}
+                  touched={touched}
+                />
+              </div>
 
-              <button
-                type="reset"
-                style={{ display: 'none' }}
-                ref={resetBtnRef}
-                onSubmit={() => resetForm(product)}
-              ></button>
-            </Form>
+              {!product?.createNewUser ? (
+                <>
+                  <div className="col-lg-2 d-flex align-items-center justify-content-center mt-2">
+                    <Field
+                      name="createNewUser"
+                      component={() => (
+                        <input
+                          id="createNewUser"
+                          type="checkbox"
+                          className="mr-2 pointer"
+                          value={values?.createNewUser}
+                          checked={values?.createNewUser}
+                          name="createNewUser"
+                          onChange={(e) => {
+                            setFieldValue('createNewUser', e.target.checked);
+                          }}
+                          // disabled={product?.createNewUser}
+                        />
+                      )}
+                      label="Is slab program"
+                    />
+                    <label className="d-block pointer" for="createNewUser">
+                      Create New User
+                    </label>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="col-lg-2 d-flex align-items-center justify-content-center mt-2">
+                    <Field
+                      name="updateUserLoginId"
+                      component={() => (
+                        <input
+                          id="updateUserLoginId"
+                          type="checkbox"
+                          className="mr-2 pointer"
+                          value={values?.updateUserLoginId}
+                          checked={values?.updateUserLoginId}
+                          name="updateUserLoginId"
+                          onChange={(e) => {
+                            setFieldValue(
+                              'updateUserLoginId',
+                              e.target.checked,
+                            );
+                          }}
+                          // disabled={product?.updateUserLoginId}
+                        />
+                      )}
+                      label="Is slab program"
+                    />
+                    <label className="d-block pointer" for="updateUserLoginId">
+                      Update User LogIn Information
+                    </label>
+                  </div>
+                </>
+              )}
 
-            <DropzoneDialogBase
-              filesLimit={1}
-              acceptedFiles={['image/*', 'application/pdf']}
-              fileObjects={fileObjects}
-              cancelButtonText={'cancel'}
-              submitButtonText={'submit'}
-              maxFileSize={1000000}
-              open={open}
-              onAdd={(newFileObjs) => {
-                setFileObjects([].concat(newFileObjs));
-              }}
-              onDelete={(deleteFileObj) => {
-                const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
-                );
-                setFileObjects(newData);
-              }}
-              onClose={() => setOpen(false)}
-              onSave={() => {
-                setOpen(false);
-              }}
-              showPreviews={true}
-              showFileNamesInPreview={true}
-            />
-          </>
-        )}
-      </Formik>
-    </>
+              <div className="col-lg-4">
+                <button
+                  className="btn btn-primary mr-2 mt-7"
+                  type="button"
+                  onClick={() => setOpen(true)}
+                >
+                  Attachment
+                </button>
+                {values?.attachmentLink && (
+                  <button
+                    className="btn btn-primary mt-7"
+                    type="button"
+                    onClick={() => {
+                      dispatch(
+                        getDownlloadFileView_Action(values?.attachmentLink),
+                      );
+                    }}
+                  >
+                    View
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              style={{ display: 'none' }}
+              ref={btnRef}
+              onSubmit={() => handleSubmit()}
+            ></button>
+
+            <button
+              type="reset"
+              style={{ display: 'none' }}
+              ref={resetBtnRef}
+              onSubmit={() => resetForm(product)}
+            ></button>
+          </Form>
+
+          <DropzoneDialogBase
+            filesLimit={1}
+            acceptedFiles={['image/*', 'application/pdf']}
+            fileObjects={fileObjects}
+            cancelButtonText={'cancel'}
+            submitButtonText={'submit'}
+            maxFileSize={1000000}
+            open={open}
+            onAdd={(newFileObjs) => {
+              setFileObjects([].concat(newFileObjs));
+            }}
+            onDelete={(deleteFileObj) => {
+              const newData = fileObjects.filter(
+                (item) => item.file.name !== deleteFileObj.file.name,
+              );
+              setFileObjects(newData);
+            }}
+            onClose={() => setOpen(false)}
+            onSave={() => {
+              setOpen(false);
+            }}
+            showPreviews={true}
+            showFileNamesInPreview={true}
+          />
+        </>
+      )}
+    </Formik>
   );
 }
