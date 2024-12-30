@@ -14,10 +14,9 @@ import Loading from '../../../_helper/_loading';
 
 const initialValues = {
   shipper: '',
-  consignee: '',
   deliveryAgent: '',
   notifyParty: '',
-  type: '',
+  participantType: '',
 };
 
 export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
@@ -25,6 +24,12 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
     return state?.authData;
   }, shallowEqual);
   const [consigneeListDDL, getConsigneeListDDL] = useAxiosGet();
+  const [
+    itemTypeOption,
+    getItemTypeOption,
+    ,
+    setItemTypeOption,
+  ] = useAxiosGet();
   const [, getParticipantsWithConsigneeDtl, participantLoading] = useAxiosGet();
   const [
     participantDDL,
@@ -68,17 +73,32 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
   };
 
   React.useEffect(() => {
+    getItemTypeOption(
+      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList`,
+      (resData) => {
+        const updatedData = resData
+          ?.filter((item) => [1, 2].includes(item?.businessPartnerTypeId))
+          .map((item) => {
+            return {
+              ...item,
+              label: item?.businessPartnerTypeName,
+              value: item?.businessPartnerTypeId,
+            };
+          });
+        setItemTypeOption(updatedData);
+      },
+    );
     GetParticipantTypeListDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
       (redData) => {
-        const updatedData = redData?.filter((item) =>
-          [1, 3, 4].includes(item?.value),
+        const updatedData = redData?.filter(
+          (item) => ![1].includes(item?.value),
         );
         setParticipantTypeList(updatedData);
       },
     );
-    // 2=Customer, 2= consignee
-    commonGeParticipantDDL(getConsigneeListDDL, 2, 2);
+    // 2=Customer, 1= shipper
+    commonGeParticipantDDL(getConsigneeListDDL, 2, 1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -88,21 +108,18 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
     );
   };
 
-  const onChangeParticipantType = (type) => {
+  const onChangeParticipantType = (supplierTypeId) => {
     setParticipantDDL([]);
-
-    // 1=supplier 2=customer
-    const supplierTypeId = type === 1 ? 2 : 1;
-    commonGeParticipantDDL(getParticipantDDL, supplierTypeId, type);
+    commonGeParticipantDDL(getParticipantDDL, supplierTypeId, 0);
   };
 
   const addButtonHandler = (values) => {
     const obj = {
       mappingId: 0,
-      consigneeId: values?.consignee?.value || 0,
-      consigneeName: values?.consignee?.label || '',
-      participantTypeId: values?.type?.value || 0,
-      participantType: values?.type?.label || '',
+      shipperId: values?.shipper?.value || 0,
+      shipperName: values?.shipper?.label || '',
+      participantTypeId: values?.participantType?.value || 0,
+      participantType: values?.participantType?.label || '',
       participantId: values?.participant?.value || 0,
       participantName: values?.participant?.label || '',
       isActive: true,
@@ -111,45 +128,50 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
     };
 
     // duplicate check "participantTypeId, participantId"
-    const isExist = addedItem?.find(
+    const addedItemIsActive = addedItem?.filter((item) => item?.isActive);
+    const isExist = addedItemIsActive?.find(
       (item) =>
         item?.participantTypeId === obj?.participantTypeId &&
         item?.participantId === obj?.participantId,
     );
     if (isExist) return toast.warning('Duplicate item not allowed');
-
     setAddedItem((prev) => [...prev, obj]);
   };
 
   const consigneeOnChangeHandler = (valueOption) => {
-    // /domain/ShippingService/GetParticipantsWithConsigneeDtl?consigneeId=1
-
     getParticipantsWithConsigneeDtl(
-      `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsigneeDtl?consigneeId=${valueOption?.value}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsigneeDtl?shipperId=${valueOption?.value}`,
       (redData) => {
-        const shipperList = redData?.shipperList?.map((item) => {
-          return {
-            ...item,
-            participantTypeId: 1,
-            participantType: 'Shipper',
-            participantsName: item?.participantsName || '',
-            participantId: item?.participantId || 0,
-          };
-        });
+        // const shipperList = redData?.shipperList?.map((item) => {
+        //   return {
+        //     ...item,
+        //     participantTypeId: 1,
+        //     participantType: 'Shipper',
+        //     participantsName: item?.participantsName || '',
+        //     participantId: item?.participantId || 0,
+        //   };
+        // });
         const deliveryAgentList = redData?.deliveryAgentList || [];
         const notifyPartyList = redData?.notifyPartyList || [];
+        const airLineList = redData?.airLineList || [];
+        const consineList = redData?.consineList || [];
+        const shippingLineList = redData?.shippingLineList || [];
+        const gsaList = redData?.gsaList || [];
 
         // how to setAddedItem here
         const allItems = [
-          ...shipperList,
+          ...consineList,
           ...deliveryAgentList,
           ...notifyPartyList,
+          ...shippingLineList,
+          ...airLineList,
+          ...gsaList,
         ];
-        const addedItems = allItems.map((item) => {
+        const addedItems = allItems?.map((item) => {
           return {
             mappingId: item?.mappingId || 0,
-            consigneeId: valueOption?.value || 0,
-            consigneeName: valueOption?.label || '',
+            shipperId: valueOption?.value || 0,
+            shipperName: valueOption?.label || '',
             participantTypeId: item?.participantTypeId || 0,
             participantType: item?.participantType || '',
             participantId: item?.participantId || 0,
@@ -163,6 +185,8 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
       },
     );
   };
+
+  const addedItemIsActive = addedItem?.filter((item) => item?.isActive);
   return (
     <div>
       <IViewModal
@@ -205,52 +229,62 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                   {/* Consignee */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label="Select Consignee"
+                      label="Select Shipper"
                       options={consigneeListDDL || []}
-                      value={values?.consignee}
-                      name="consignee"
+                      value={values?.shipper}
+                      name="shipper"
                       onChange={(valueOption) => {
-                        setFieldValue('consignee', valueOption);
+                        setFieldValue('shipper', valueOption);
                         consigneeOnChangeHandler(valueOption);
                       }}
                       errors={errors}
                       touched={touched}
-                      isDisabled={addedItem?.length > 0}
+                      isDisabled={addedItemIsActive?.length > 0}
                     />
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
-                      label="Type"
-                      options={participantTypeListDDL || []}
-                      value={values?.type}
-                      name="type"
+                      name="businessPartnerType"
+                      options={itemTypeOption}
+                      value={values?.businessPartnerType}
+                      label="Partner Type"
                       onChange={(valueOption) => {
-                        setFieldValue('type', valueOption);
+                        setFieldValue('businessPartnerType', valueOption);
                         setFieldValue('participant', '');
                         onChangeParticipantType(valueOption?.value);
+                      }}
+                      placeholder="Select Partner Type"
+                      isSearchable={true}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label={`Select Partner` || ''}
+                      options={participantDDL || []}
+                      value={values?.participant}
+                      name="participant"
+                      onChange={(valueOption) => {
+                        setFieldValue('participant', valueOption || ``);
                       }}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  {values?.type && (
-                    <>
-                      {' '}
-                      <div className="col-lg-3">
-                        <NewSelect
-                          label={`Select ${values?.type?.label}`}
-                          options={participantDDL || []}
-                          value={values?.participant}
-                          name="participant"
-                          onChange={(valueOption) => {
-                            setFieldValue('participant', valueOption || ``);
-                          }}
-                          errors={errors}
-                          touched={touched}
-                        />
-                      </div>
-                    </>
-                  )}
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label="Participant Type"
+                      options={participantTypeListDDL || []}
+                      value={values?.participantType}
+                      name="participantType"
+                      onChange={(valueOption) => {
+                        setFieldValue('participantType', valueOption);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
                   <div className="col-lg-3">
                     <div className="d-flex my-1">
                       <button
@@ -260,8 +294,8 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                           addButtonHandler(values);
                         }}
                         disabled={
-                          !values?.consignee ||
-                          !values?.type ||
+                          !values?.shipper ||
+                          !values?.participantType ||
                           !values?.participant
                         }
                       >
@@ -279,8 +313,8 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                 <thead>
                   <tr>
                     <th>SL</th>
-                    <th>Consignee</th>
-                    <th>Type</th>
+                    <th>Shipper</th>
+                    <th>Participant Type</th>
                     <th>Participant</th>
                     <th>Action</th>
                   </tr>
@@ -295,7 +329,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                     >
                       <td>{index + 1}</td>
 
-                      <td>{item?.consigneeName}</td>
+                      <td>{item?.shipperName}</td>
                       <td>{item?.participantType}</td>
                       <td>{item?.participantName}</td>
                       <td>

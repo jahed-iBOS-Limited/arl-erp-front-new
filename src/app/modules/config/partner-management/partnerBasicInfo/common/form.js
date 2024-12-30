@@ -53,7 +53,12 @@ export default function _Form({
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit,
   );
-  const [shipingCargoTypeDDL, getShipingCargoTypeDDL] = useAxiosGet();
+  const [
+    shipingCargoTypeDDL,
+    getShipingCargoTypeDDL,
+    ,
+    setShipingCargoTypeDDL,
+  ] = useAxiosGet();
   const [itemTypeList, setItemTypeList] = useState('');
   const [itemTypeOption, setItemTypeOption] = useState([]);
   const [open, setOpen] = React.useState(false);
@@ -69,6 +74,10 @@ export default function _Form({
 
     getShipingCargoTypeDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
+      (resData) => {
+        const filterData = resData?.filter((item) => item.value === 1);
+        setShipingCargoTypeDDL(filterData || []);
+      },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -136,7 +145,32 @@ export default function _Form({
         <>
           <Form className="form form-label-right">
             <div className="form-group row global-form">
-              {isAkijLogisticsBUI && (
+              <div className="col-lg-4">
+                <Field
+                  value={values?.businessPartnerName || ''}
+                  name="businessPartnerName"
+                  component={Input}
+                  placeholder="Business Partner Name"
+                  label="Business Partner Name"
+                />
+              </div>
+              <div className="col-lg-4">
+                <NewSelect
+                  name="businessPartnerType"
+                  options={itemTypeOption}
+                  value={values?.businessPartnerType}
+                  label="Partner Type"
+                  onChange={(valueOption) => {
+                    setFieldValue('businessPartnerType', valueOption);
+                    setFieldValue('cargoType', '');
+                  }}
+                  placeholder="Select Partner Type"
+                  isSearchable={true}
+                  errors={errors}
+                  touched={touched}
+                />
+              </div>
+              {isAkijLogisticsBUI && values?.businessPartnerType?.value === 2 && (
                 <>
                   {' '}
                   <div className="col-lg-4">
@@ -156,31 +190,6 @@ export default function _Form({
                   </div>
                 </>
               )}
-
-              <div className="col-lg-4">
-                <Field
-                  value={values?.businessPartnerName || ''}
-                  name="businessPartnerName"
-                  component={Input}
-                  placeholder="Business Partner Name"
-                  label="Business Partner Name"
-                />
-              </div>
-              <div className="col-lg-4">
-                <NewSelect
-                  name="businessPartnerType"
-                  options={itemTypeOption}
-                  value={values?.businessPartnerType}
-                  label="Partner Type"
-                  onChange={(valueOption) => {
-                    setFieldValue('businessPartnerType', valueOption);
-                  }}
-                  placeholder="Select Partner Type"
-                  isSearchable={true}
-                  errors={errors}
-                  touched={touched}
-                />
-              </div>
               <div className="col-lg-4">
                 <Field
                   value={values?.businessPartnerAddress || ''}
