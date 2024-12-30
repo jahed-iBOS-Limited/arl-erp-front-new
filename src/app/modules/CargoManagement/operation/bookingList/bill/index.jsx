@@ -57,7 +57,7 @@ const BillGenerate = ({ rowClickData }) => {
             ?.map((item) => {
               return {
                 value: item?.paymentPartyTypeId,
-                label: item?.paymentPartyTypeName,
+                label: item?.paymentPartyType,
               };
             });
           setParticipantTypeListDDL(billingDataList);
