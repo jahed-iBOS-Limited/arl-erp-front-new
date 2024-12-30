@@ -76,7 +76,7 @@ export default function TdsVdsJvDataTable({
                     />
                   </span>
                 </th>
-                <th style={{ minWidth: '75px' }}>Request Date</th>
+                <th style={{ minWidth: '75px' }}>Complete Date</th>
                 <th style={{ minWidth: '120px' }}>Bill Code</th>
                 <th style={{ minWidth: '120px' }}>Partner Name</th>
                 <th style={{ minWidth: '130px' }}>Request Amount</th>
@@ -122,7 +122,7 @@ export default function TdsVdsJvDataTable({
                       </td>
                       {console.log(editableData, 'editableData')}
                       <td className="text-center" style={{ fontSize: 11 }}>
-                        {_dateFormatter(item?.paymentRequestDate)}
+                        {_dateFormatter(item?.payment)}
                       </td>
                       <td className="text-center" style={{ fontSize: 11 }}>
                         {item?.refCode}
