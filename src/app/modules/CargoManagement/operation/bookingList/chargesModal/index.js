@@ -418,7 +418,8 @@ function ChargesModal({ rowClickData, CB }) {
                 </thead>
                 <tbody>
                   {shippingHeadOfCharges?.map((item, index) => {
-                    const isDisabled = !item?.checked || item?.isBillGenerated;
+                    const isDisabled =
+                      !item?.checked || item?.billGenerateCode ? true : false;
                     return (
                       <tr>
                         <td>
