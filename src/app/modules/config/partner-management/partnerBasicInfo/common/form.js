@@ -162,6 +162,7 @@ export default function _Form({
                   label="Partner Type"
                   onChange={(valueOption) => {
                     setFieldValue('businessPartnerType', valueOption);
+                    setFieldValue('cargoType', '');
                   }}
                   placeholder="Select Partner Type"
                   isSearchable={true}
