@@ -204,14 +204,14 @@ export default function _Form({
         name: "strCardNo",
         value: initData.strCardNo,
         type: "cardInput",
-        isDisabled: isEdit,
+        // isDisabled: isEdit,
       },
       {
         label: "Gate Entry Code",
         name: "veichleEntry",
         value: initData.veichleEntry,
         type: "asyncSelect",
-        isDisabled: isEdit,
+        // isDisabled: isEdit,
       },
       {
         label: "Select Vehicle",

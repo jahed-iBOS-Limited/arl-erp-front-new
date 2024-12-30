@@ -37,7 +37,12 @@ import TransferJournalToTax from "./transferJournalToTax";
 import BankJournalCreateFormCollection from "./bankJournal/collectionCreate/addForm";
 import CashJournaFormForCollection from "./cashJournal/collectionCreate/addEditForm";
 import FundTransfer from "./fundTransfer";
-import FundTransferRequestCreate from "./fundTransfer/fundTransferRequest/create";
+import ContraCreate from "./fundTransfer/contra/create";
+import InterCompanyTransferRequestCreate from "./fundTransfer/interCompanyTransferRequest/create";
+import FundTransferApproval from "./fundTransferApproval";
+import FundTransferCreate from "./fundTransferCreate";
+import BankJournalCreateFormContra from "./fundTransfer/contra/createBankTransfer/addForm";
+import CashJournaFormContra from "./fundTransfer/contra/createCashTransfer/Form/addEditForm";
 // import DepreciationJournal from "./depreciationJournal/table/tableHeader"
 
 export function FinalcialPages() {
@@ -169,13 +174,33 @@ export function FinalcialPages() {
         path="/financial-management/financials/bankadvice"
         component={BankAdvice}
       />
+       <ContentRoute
+        path="/financial-management/financials/fundTransfer/interCompanyTransferRequest/create"
+        component={InterCompanyTransferRequestCreate}
+      />
       <ContentRoute
-        path="/financial-management/financials/fundTransfer/fundTransferRequest/create"
-        component={FundTransferRequestCreate}
+        path="/financial-management/financials/fundTransfer/contra/create"
+        component={ContraCreate}
       />
       <ContentRoute
         path="/financial-management/financials/fundTransfer"
         component={FundTransfer}
+      />
+      <ContentRoute
+        path="/financial-management/financials/fundTransferapproval"
+        component={FundTransferApproval}
+      />
+       <ContentRoute
+        path="/financial-management/financials/fundTransfercreate/cashTrasfer"
+        component={CashJournaFormContra}
+      />
+      <ContentRoute
+        path="/financial-management/financials/fundTransfercreate/bankTrasfer"
+        component={BankJournalCreateFormContra}
+      />
+       <ContentRoute
+        path="/financial-management/financials/fundTransfercreate"
+        component={FundTransferCreate}
       />
       {/* Back Statement Correction */}
       <ContentRoute

@@ -8,10 +8,10 @@ import {
   exportToPDF,
   uploadPDF,
 } from "../../../shippingOperation/deadWeightPreStowagePlanning/deadWeightPreStowagePlanningChild/helper";
-import { generateFileUrl } from "../../../chartering/operation/helper";
 import { marineBaseUrlPythonAPI } from "../../../../App";
 import { getLetterHead } from "../../../financialManagement/report/bankLetter/helper";
 import { shallowEqual, useSelector } from "react-redux";
+import { generateFileUrl } from "./helper";
 
 const SendMailModal = ({ singleItem }) => {
   const { selectedBusinessUnit } = useSelector(
