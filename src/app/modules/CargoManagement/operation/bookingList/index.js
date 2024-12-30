@@ -481,7 +481,7 @@ function BookingList() {
                             <td className="text-center">
                               <span>
                                 <button
-                                  disabled={!profileData?.superUser}
+                                  // disabled={!profileData?.superUser}
                                   className="btn btn-sm btn-primary"
                                   onClick={() => handleEditBookingList(item)}
                                 >
