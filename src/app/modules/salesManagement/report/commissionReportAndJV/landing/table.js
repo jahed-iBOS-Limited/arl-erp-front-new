@@ -22,6 +22,7 @@ const header = (buId, values) => {
     "Delivery Quantity",
     "Achievement",
     "Commission",
+    "JV Number",
   ];
 
   const H_two = [
@@ -57,12 +58,12 @@ const header = (buId, values) => {
     "Achievement",
     "Commission",
     "ShipToPartner Id",
-    "ShipToPartner Name"
+    "ShipToPartner Name",
   ];
 
   if (buId === 144) {
     return H_one;
-  }else if (typeId === 26) {
+  } else if (typeId === 26) {
     return H_three;
   } else if (typeId !== 8) {
     return H_two;
@@ -82,6 +83,11 @@ const CommissionReportAndJVTable = ({ obj }) => {
     rowDataHandler,
   } = obj;
 
+  // is jv number exist
+  const isJVNumberExist = (index) => {
+    return Boolean(rowData[index]["strCreatedJVNumber"]);
+  };
+
   return (
     <>
       {rowData?.length > 0 && (
@@ -92,17 +98,24 @@ const CommissionReportAndJVTable = ({ obj }) => {
         >
           <thead>
             <tr
-              onClick={() => allSelect(!selectedAll())}
+              // onClick={() => allSelect(!selectedAll())}
               className="cursor-pointer"
             >
-              {![26].includes(values?.type?.value) && ( <th style={{ width: "40px" }}>
-                <input
-                  type="checkbox"
-                  value={selectedAll()}
-                  checked={selectedAll()}
-                  onChange={() => {}}
-                />
-              </th>)}
+              {![26].includes(values?.type?.value) && (
+                <th style={{ width: "40px" }}>
+                  <input
+                    type="checkbox"
+                    value={selectedAll()}
+                    checked={selectedAll()}
+                    onChange={() => {
+                      allSelect(!selectedAll());
+                    }}
+                    disabled={rowData?.every((item) =>
+                      Boolean(item?.strCreatedJVNumber)
+                    )}
+                  />
+                </th>
+              )}
               {header(buId, values).map((th, index) => {
                 return <th key={index}> {th} </th>;
               })}
@@ -123,27 +136,32 @@ const CommissionReportAndJVTable = ({ obj }) => {
 
               return (
                 <tr className="cursor-pointer" key={index}>
-                 {![26].includes(values?.type?.value) && ( <td
-                    onClick={() => {
-                      rowDataHandler(index, "isSelected", !item.isSelected);
-                    }}
-                    className="text-center"
-                    style={
-                      item?.isSelected
-                        ? {
-                            backgroundColor: "#aacae3",
-                            width: "40px",
-                          }
-                        : { width: "40px" }
-                    }
-                  >
-                    <input
-                      type="checkbox"
-                      value={item?.isSelected}
-                      checked={item?.isSelected}
-                      onChange={() => {}}
-                    />
-                  </td>)}
+                  {![26].includes(values?.type?.value) && (
+                    <td
+                      // onClick={() => {
+                      //   rowDataHandler(index, "isSelected", !item.isSelected);
+                      // }}
+                      className="text-center"
+                      style={
+                        item?.isSelected
+                          ? {
+                              backgroundColor: "#aacae3",
+                              width: "40px",
+                            }
+                          : { width: "40px" }
+                      }
+                    >
+                      <input
+                        type="checkbox"
+                        value={item?.isSelected}
+                        checked={item?.isSelected}
+                        onChange={() => {
+                          rowDataHandler(index, "isSelected", !item.isSelected);
+                        }}
+                        disabled={isJVNumberExist(index)}
+                      />
+                    </td>
+                  )}
                   <td style={{ width: "40px" }} className="text-center">
                     {index + 1}
                   </td>
@@ -199,6 +217,17 @@ const CommissionReportAndJVTable = ({ obj }) => {
                     )}
                   </td>
 
+                  <td
+                    style={{
+                      width: "90px",
+                      background: Boolean(item?.strCreatedJVNumber)
+                        ? "#fcebeb"
+                        : "",
+                    }}
+                  >
+                    {item?.strCreatedJVNumber || ""}
+                  </td>
+
                   {values?.type?.value === 5 && (
                     <>
                       <td style={{ width: "40px" }}>
@@ -237,19 +266,22 @@ const CommissionReportAndJVTable = ({ obj }) => {
                   )}
                   {values?.type?.value === 26 && (
                     <>
-                    <td className="text-center">
-                      {item?.intShipToPartnerid}
-                    </td>
-                    <td className="">
-                    {item?.strShipToPartnername}
-                  </td>
+                      <td className="text-center">
+                        {item?.intShipToPartnerid}
+                      </td>
+                      <td className="">{item?.strShipToPartnername}</td>
                     </>
                   )}
                 </tr>
               );
             })}
             <tr style={{ textAlign: "right", fontWeight: "bold" }}>
-              <td colSpan={values?.type?.value === 26 ? 10 : buId === 144 ? 9 : 11} className="text-right">
+              <td
+                colSpan={
+                  values?.type?.value === 26 ? 10 : buId === 144 ? 9 : 11
+                }
+                className="text-right"
+              >
                 Total
               </td>
               <td>
