@@ -11,12 +11,14 @@ import IEdit from "../../../../_helper/_helperIcons/_edit";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import IForm from "../../../../_helper/_form";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import NewSelect from "../../../../_helper/_select";
+import InputField from "../../../../_helper/_inputField";
 
 const initData = {
 
 };
 export default function InterCompanyTransferRequest({ viewType }) {
-    const { selectedBusinessUnit } = useSelector((state) => {
+    const { selectedBusinessUnit, businessUnitList } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
 
@@ -24,7 +26,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(15);
     const [gridData, getGridData, loading] = useAxiosGet();
-    const [transferType, setTransferType] = useState("Bank");
+    const [parentTransferType, setParentTransferType] = useState({ actionId: 1, actionName: "Bank Transfer" });
 
 
     const saveHandler = (values, cb) => { };
@@ -78,32 +80,20 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                 <label className="mr-3">
                                     <input
                                         type="radio"
-                                        name="transferType"
-                                        checked={transferType === "Bank"}
+                                        name="parentTransferType"
+                                        checked={parentTransferType?.actionName === "Bank Transfer"}
                                         className="mr-1 pointer"
                                         style={{
                                             position: "relative",
                                             top: "2px",
                                         }}
                                         onChange={(valueOption) => {
-                                            setTransferType("Bank");
+                                            setParentTransferType({ actionId: 1, actionName: "Bank Transfer" });
                                         }}
                                     />
-                                    <strong style={{ fontSize: "11px" }}>Bank</strong>
+                                    <strong style={{ fontSize: "11px" }}>Bank Transfer</strong>
                                 </label>
-                                {/* <label className="mr-3">
-                                    <input
-                                        type="radio"
-                                        name="transferType"
-                                        checked={transferType === "Cash"}
-                                        className="mr-1 pointer"
-                                        style={{ position: "relative", top: "2px" }}
-                                        onChange={(e) => {
-                                            setTransferType("Cash");
-                                        }}
-                                    />
-                                    <strong style={{ fontSize: "11px" }} >Cash</strong>
-                                </label> */}
+
                             </div>
                         </>}
                         isHiddenReset
@@ -113,13 +103,13 @@ export default function InterCompanyTransferRequest({ viewType }) {
                             return (
                                 <div>
                                     <button
-                                        disabled={!viewType || !transferType}
+                                        disabled={!viewType || !parentTransferType}
                                         type="button"
                                         className="btn btn-primary"
                                         onClick={() => {
                                             history.push({
                                                 pathname: `/financial-management/financials/fundTransfer/interCompanyTransferRequest/create`,
-                                                state: { viewType, transferType }
+                                                state: { viewType, parentTransferType }
                                             });
                                         }}
                                     >
@@ -131,7 +121,60 @@ export default function InterCompanyTransferRequest({ viewType }) {
                     >
                         <Form>
                             <>
-                                {gridData?.itemList?.length > 0 && (
+                                <div className="form-group  global-form row">
+                                    <div className="col-lg-3">
+                                        <InputField
+                                            value={values?.fromDate}
+                                            label="From Date"
+                                            name="fromDate"
+                                            type="date"
+                                            onChange={(e) => {
+                                                setFieldValue("fromDate", e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <InputField
+                                            value={values?.toDate}
+                                            label="To Date"
+                                            name="toDate"
+                                            type="date"
+                                            onChange={(e) => {
+                                                setFieldValue("toDate", e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <NewSelect
+                                            name="requestToUnit"
+                                            options={businessUnitList}
+                                            value={values?.requestToUnit}
+                                            label="Request To Unit"
+                                            onChange={(valueOption) => {
+                                                setFieldValue("requestToUnit", valueOption);
+                                            }}
+
+                                        />
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <NewSelect
+                                            name="status"
+                                            options={[
+                                                { value: 1, label: "Pending" },
+                                                { value: 2, label: "Approved" },
+                                                { value: 3, label: "Rejected" },
+                                            ]}
+                                            value={values?.status}
+                                            label="Status"
+                                            onChange={(valueOption) => {
+                                                setFieldValue("status", valueOption);
+                                            }}
+
+                                        />
+                                    </div>
+                                    <div><button className="btn btn-primary mt-5 ml-5">Show</button></div>
+                                </div>
+                                {gridData?.data?.length > 0 && (
                                     <div className="my-3">
                                         <PaginationSearch
                                             placeholder="Search..."
@@ -148,9 +191,10 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                     <th>SL</th>
                                                     <th>Request Code</th>
                                                     <th>Request Date</th>
-                                                    <th>Request By</th>
+                                                    <th>Requesting Unit</th>
+                                                    <th>Request To Unit</th>
                                                     <th>Receiving Account</th>
-                                                    <th>Request To</th>
+                                                    <th>Sending Partner</th>
                                                     <th>Expect Date</th>
                                                     <th>Amount</th>
                                                     <th>Responsible</th>
@@ -166,8 +210,9 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                         <td className="text-center">{item.strRequestCode}</td>
                                                         <td className="text-center">{_dateFormatter(item.dteRequestDate)}</td>
                                                         <td>{item.strRequestByUnitName}</td>
-                                                        <td></td>
                                                         <td>{item.strRequestToUnitName}</td>
+                                                        <td></td>
+                                                        <td></td>
                                                         <td className="text-center">{_dateFormatter(item.dteExpectedDate)}</td>
                                                         <td className="text-right">{item.numAmount}</td>
                                                         <td>{item.strResponsibleEmpName}</td>

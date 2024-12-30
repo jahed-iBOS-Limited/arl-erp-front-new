@@ -12,6 +12,7 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import { useLocation } from "react-router";
+import { toast } from "react-toastify";
 
 
 const initData = {
@@ -21,10 +22,11 @@ const initData = {
     requestAmount: "",
     responsiblePerson: "",
     remarks: "",
-    transferType: ""
+    transferType: "",
+    gl: "",
 };
 
-const getSchema = (transferType) => {
+const getSchema = () => {
     const validationSchema = Yup.object().shape({
         transferType: Yup.object()
             .shape({
@@ -32,14 +34,6 @@ const getSchema = (transferType) => {
                 value: Yup.string().required("Transfer Type is required"),
             })
             .typeError("Transfer Type is required"),
-        toBankName: transferType === "Bank"
-            ? Yup.object()
-                .shape({
-                    label: Yup.string().required("Transfer To Bank is required"),
-                    value: Yup.string().required("Transfer To Bank is required"),
-                })
-                .typeError("Transfer To Bank is required")
-            : Yup.mixed().notRequired(),
         fromBankName: Yup.object()
             .shape({
                 label: Yup.string().required("Transfer From Bank is required"),
@@ -65,12 +59,10 @@ export default function ContraCreate() {
     const [objProps, setObjprops] = useState({});
 
     const location = useLocation();
-    const { transferType } = location?.state || {};
+    const { parentTransferType } = location?.state || {};
 
-    const transferTypeList = transferType === "Bank" ? [{ value: 1, label: "Bank To Bank" }, { value: 2, label: "Bank To Cash" }] : [{ value: 3, label: "Cash To Bank" }, { value: 4, label: "Cash To Cash" }]
+    const transferTypeList = parentTransferType?.actionName === "Bank Transfer" ? [{ value: 1, label: "Bank To Bank" }, { value: 2, label: "Bank To Cash" }] : [{ value: 3, label: "Cash To Bank" }]
 
-    console.log("location", location)
-    console.log("transferType", transferType)
 
     const { profileData, selectedBusinessUnit } = useSelector((state) => {
         return state.authData;
@@ -90,13 +82,16 @@ export default function ContraCreate() {
         const payload = {
             "intFundTransferRequestId": 0,
             "strRequestCode": "",
-            "intRequestTypeId": values?.transferType?.value,
-            "strRequestType": values?.transferType?.label,
+            "intRequestTypeId": values?.transferType?.value, //1
+            "strRequestType": values?.transferType?.label, // 2
+            strTransactionType: "", // first level
+            intTransaferById: "", // first level
+            strTransferBy: "", // first level
             "intRequestByUnitId": selectedBusinessUnit?.value,
             "strRequestByUnitName": selectedBusinessUnit?.label,
             "intRequestToUnitId": selectedBusinessUnit?.value,
             "strRequestToUnitName": selectedBusinessUnit?.label,
-            "dteRequestDate": "2024-12-22T09:59:39.993Z",
+            "dteRequestDate": new Date().toISOString(),
             "numAmount": values?.requestAmount || 0,
             "intRequestedBankId": values?.fromBankName?.value,
             "strRequestedBankName": values?.fromBankName?.label,
@@ -117,6 +112,8 @@ export default function ContraCreate() {
             "isActive": true,
             "intActionBy": profileData?.userId,
             "intUpdateBy": profileData?.userId,
+            intRequestGLId: values?.gl?.value || 0,
+            strRequestGlName: values?.gl?.label || "",
 
         }
         onCreateHandler(`/fino/FundManagement/CreateOrEditFundTransferRequest`, payload, cb, true,
@@ -138,8 +135,14 @@ export default function ContraCreate() {
         <Formik
             enableReinitialize={true}
             initialValues={initData}
-            validationSchema={getSchema(transferType)}
+            validationSchema={getSchema()}
             onSubmit={(values, { setSubmitting, resetForm }) => {
+                if (parentTransferType?.actionName === "Bank Transfer" && values?.transferType?.value === 1 && !values?.toBankName) {
+                    return toast.warn("Transfer To Bank is Required")
+                }
+                if ([2, 3, 4].includes(values?.transferType?.value) && !values?.gl) {
+                    return toast.warn("GL is Required")
+                }
                 saveHandler(values, () => {
                     resetForm(initData);
                 });
@@ -157,6 +160,7 @@ export default function ContraCreate() {
                 <>
                     {console.log("errors", errors)}
                     {console.log("touched", touched)}
+                    {console.log("values", values)}
                     {saveLoader && <Loading />}
                     <IForm title="Contra Create" getProps={setObjprops}>
                         <Form>
@@ -179,7 +183,7 @@ export default function ContraCreate() {
 
                                     <NewSelect
                                         name="gl"
-                                        options={bankList || []}
+                                        options={[{ value: 157, label: "Cash in Hand" }]}
                                         value={values?.gl}
                                         label={"Select GL"}
                                         onChange={(valueOption) => setFieldValue("gl", valueOption)}
@@ -200,12 +204,24 @@ export default function ContraCreate() {
                                         touched={touched}
                                     />
                                 </div>
-                                {transferType === "Bank" && (<div className="col-lg-3">
+                                {[2].includes(values?.transferType?.value) && <div className="col-lg-3">
+
+                                    <NewSelect
+                                        name="gl"
+                                        options={[{ value: 157, label: "Cash in Hand" }]}
+                                        value={values?.gl}
+                                        label={"Select GL"}
+                                        onChange={(valueOption) => setFieldValue("gl", valueOption)}
+                                        errors={errors}
+                                        touched={touched}
+                                    />
+                                </div>}
+                                {(parentTransferType?.actionName === "Bank Transfer" && values?.transferType?.value === 1) && (<div className="col-lg-3">
                                     <NewSelect
                                         name="toBankName"
                                         options={bankList || []}
                                         value={values?.toBankName}
-                                        label={values?.transferType?.value === 2 ? "Select GL" : "Transfer TO Bank"}
+                                        label={"Transfer TO Bank"}
                                         onChange={(valueOption) => setFieldValue("toBankName", valueOption)}
                                         errors={errors}
                                         touched={touched}
@@ -241,7 +257,7 @@ export default function ContraCreate() {
                                 <div className="col-lg-3">
                                     <label>Responsible Person</label>
                                     <SearchAsyncSelect
-                                        selectedValue={values?.serviceName}
+                                        selectedValue={values?.responsiblePerson}
                                         handleChange={(valueOption) => {
                                             setFieldValue("responsiblePerson", valueOption || "");
 

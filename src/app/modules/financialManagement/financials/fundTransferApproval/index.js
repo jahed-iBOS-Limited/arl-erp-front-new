@@ -13,13 +13,15 @@ import { approveHandeler } from "./helper";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IConfirmModal from "../../../_helper/_confirmModal";
 import NewSelect from "../../../_helper/_select";
+import InputField from "../../../_helper/_inputField";
+import IClose from "../../../_helper/_helperIcons/_close";
 
 
 const initData = {
 
 };
 export default function FundTransferApproval({ viewType }) {
-    const { profileData, selectedBusinessUnit } = useSelector((state) => {
+    const { profileData, selectedBusinessUnit, businessUnitList } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
 
@@ -97,6 +99,56 @@ export default function FundTransferApproval({ viewType }) {
                                             }
                                             errors={errors}
                                             touched={touched}
+                                        />
+                                    </div>
+
+                                    <div className="col-lg-3">
+                                        <InputField
+                                            value={values?.fromDate}
+                                            label="From Date"
+                                            name="fromDate"
+                                            type="date"
+                                            onChange={(e) => {
+                                                setFieldValue("fromDate", e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <InputField
+                                            value={values?.toDate}
+                                            label="To Date"
+                                            name="toDate"
+                                            type="date"
+                                            onChange={(e) => {
+                                                setFieldValue("toDate", e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <NewSelect
+                                            name="requestingUnit"
+                                            options={businessUnitList}
+                                            value={values?.requestingUnit}
+                                            label="Requesting Unit"
+                                            onChange={(valueOption) => {
+                                                setFieldValue("requestingUnit", valueOption);
+                                            }}
+
+                                        />
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <NewSelect
+                                            name="status"
+                                            options={[
+                                                { value: 1, label: "Pending" },
+                                                { value: 2, label: "Approved" },
+                                            ]}
+                                            value={values?.status}
+                                            label="Status"
+                                            onChange={(valueOption) => {
+                                                setFieldValue("status", valueOption);
+                                            }}
+
                                         />
                                     </div>
 
@@ -180,7 +232,7 @@ export default function FundTransferApproval({ viewType }) {
                                                                     <IApproval title={"Approve"} />
                                                                 </span>
                                                                 <span>
-                                                                    <IDelete style={{ fontSize: "16px" }} />
+                                                                    <IClose title={"Reject"} style={{ fontSize: "16px" }} />
                                                                 </span>
                                                             </div>
                                                         </td>

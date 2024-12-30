@@ -15,8 +15,9 @@ import { useLocation } from "react-router";
 
 
 const initData = {
-    investmentPartner: "",
+    sendingPartner: "",
     requestingUnit: "",
+    requestToUnit: "",
     receivingAccount: "",
     toBankName: "",
     expectedDate: "",
@@ -25,16 +26,8 @@ const initData = {
     remarks: "",
 };
 
-const getSchema = (transferType) => {
+const getSchema = () => {
     const validationSchema = Yup.object().shape({
-        toBankName: transferType === "Bank"
-            ? Yup.object()
-                .shape({
-                    label: Yup.string().required("Transfer To Bank is required"),
-                    value: Yup.string().required("Transfer To Bank is required"),
-                })
-                .typeError("Transfer To Bank is required")
-            : Yup.mixed().notRequired(),
         receivingAccount: Yup.object()
             .shape({
                 label: Yup.string().required("Transfer From Bank is required"),
@@ -55,6 +48,12 @@ const getSchema = (transferType) => {
                 value: Yup.string().required("Requesting Unit is required"),
             })
             .typeError("Requesting Unit is required"),
+        requestToUnit: Yup.object()
+            .shape({
+                label: Yup.string().required("Request To Unit is required"),
+                value: Yup.string().required("Request To Unit is required"),
+            })
+            .typeError("Request To Unit is required"),
     });
 
     return validationSchema;
@@ -66,10 +65,8 @@ export default function InterCompanyTransferRequestCreate() {
     const [objProps, setObjprops] = useState({});
 
     const location = useLocation();
-    const { transferType } = location?.state || {};
+    const { parentTransferType } = location?.state || {};
 
-    console.log("location", location)
-    console.log("transferType", transferType)
 
     const { profileData, selectedBusinessUnit, businessUnitList } = useSelector((state) => {
         return state.authData;
@@ -90,7 +87,7 @@ export default function InterCompanyTransferRequestCreate() {
             "intFundTransferRequestId": 0,
             "strRequestCode": "",
             "intRequestTypeId": 1,
-            "strRequestType": transferType,
+            "strRequestType": parentTransferType?.actionName,
             "intRequestByUnitId": selectedBusinessUnit?.value,
             "strRequestByUnitName": selectedBusinessUnit?.label,
             "intRequestToUnitId": selectedBusinessUnit?.value,
@@ -103,8 +100,8 @@ export default function InterCompanyTransferRequestCreate() {
             "strRequestedBankBranchName": values?.receivingAccount?.bankBranchName || "",
             "strRequestedBankAccountNumber": values?.receivingAccount?.bankAccNo || "",
             "strRequestedBankAccountName": values?.receivingAccount?.accountName || "",
-            "intGivenBankId": values?.toBankName?.value,
-            "strGivenBankName": values?.toBankName?.label,
+            "intGivenBankId": values?.toBankName?.value || 0,
+            "strGivenBankName": values?.toBankName?.label || "",
             "intGivenBankBranchId": values?.toBankName?.bankBranch_Id || 0,
             "strGivenBankBranchName": values?.toBankName?.bankBranchName || "",
             "strGivenBankAccountNumber": values?.toBankName?.bankAccNo || "",
@@ -137,7 +134,7 @@ export default function InterCompanyTransferRequestCreate() {
         <Formik
             enableReinitialize={true}
             initialValues={initData}
-            validationSchema={getSchema(transferType)}
+            validationSchema={getSchema()}
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 saveHandler(values, () => {
                     resetForm(initData);
@@ -173,6 +170,17 @@ export default function InterCompanyTransferRequestCreate() {
                                 </div>
                                 <div className="col-lg-3">
                                     <NewSelect
+                                        name="requestToUnit"
+                                        options={businessUnitList || []}
+                                        value={values?.requestToUnit}
+                                        label="Request To Unit"
+                                        onChange={(valueOption) => setFieldValue("requestToUnit", valueOption)}
+                                        errors={errors}
+                                        touched={touched}
+                                    />
+                                </div>
+                                <div className="col-lg-3">
+                                    <NewSelect
                                         name="receivingAccount"
                                         options={bankList || []}
                                         value={values?.receivingAccount}
@@ -185,28 +193,15 @@ export default function InterCompanyTransferRequestCreate() {
 
                                 <div className="col-lg-3">
                                     <NewSelect
-                                        name="investmentPartner"
+                                        name="sendingPartner"
                                         options={businessUnitList || []}
-                                        value={values?.investmentPartner}
-                                        label="Investment Partner"
-                                        onChange={(valueOption) => setFieldValue("investmentPartner", valueOption)}
+                                        value={values?.sendingPartner}
+                                        label="Sending Partner"
+                                        onChange={(valueOption) => setFieldValue("sendingPartner", valueOption)}
                                         errors={errors}
                                         touched={touched}
                                     />
                                 </div>
-
-
-                                {/* <div className="col-lg-3">
-                                    <NewSelect
-                                        name="toBankName"
-                                        options={bankList || []}
-                                        value={values?.toBankName}
-                                        label="Select Partner Bank Account"
-                                        onChange={(valueOption) => setFieldValue("toBankName", valueOption)}
-                                        errors={errors}
-                                        touched={touched}
-                                    />
-                                </div> */}
 
 
                                 {/* Expected Date */}
@@ -235,7 +230,7 @@ export default function InterCompanyTransferRequestCreate() {
                                 <div className="col-lg-3">
                                     <label>Responsible Person</label>
                                     <SearchAsyncSelect
-                                        selectedValue={values?.serviceName}
+                                        selectedValue={values?.responsiblePerson}
                                         handleChange={(valueOption) => {
                                             setFieldValue("responsiblePerson", valueOption || "");
 
