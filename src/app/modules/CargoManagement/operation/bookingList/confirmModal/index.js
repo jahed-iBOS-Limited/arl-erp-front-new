@@ -84,7 +84,7 @@ function ConfirmModal({ rowClickData, CB }) {
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
   const [buyerBankAddressDDL, setBuyerBankAddressDDL] = React.useState([]);
   const [
-    ,
+    shipBookingRequestGetById,
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
@@ -369,7 +369,7 @@ function ConfirmModal({ rowClickData, CB }) {
       negotiationParty: values?.negotiationParty || '',
       userId: rowClickData?.createdBy || 0,
       confirmBy: profileData?.userId,
-      shipperId: rowClickData?.shipperId || 0,
+      shipperId: shipBookingRequestGetById?.shipperId || 0,
       consignCity: values?.consignCity?.label || '',
       consignPostalCode: values?.consignPostalCode || '',
     };
