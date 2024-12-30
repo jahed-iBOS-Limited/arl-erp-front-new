@@ -1,15 +1,17 @@
-import React, { useEffect } from 'react';
 import { Box, Tab, Tabs } from '@material-ui/core';
-import { shallowEqual, useSelector } from 'react-redux';
-import { imarineBaseUrl } from '../../../../../App';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
-import { useState } from 'react';
-import Loading from '../../../../_helper/_loading';
-import NewSelect from '../../../../_helper/_select';
-import './style.css';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
 import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import NewSelect from '../../../../_helper/_select';
+import { newAttachment_action } from '../../../../_helper/attachmentUpload';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import './style.css';
 
 const validationSchema = Yup.object().shape({
   invoiceType: Yup.object().shape({
@@ -19,6 +21,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const BillGenerate = ({ rowClickData }) => {
+  const [open, setOpen] = useState(false);
+  const [fileObjects, setFileObjects] = useState([]);
+  const [uploadImageLoading, setUploadImageLoading] = useState(null);
   const formikRef = React.useRef(null);
   const [activeTab, setActiveTab] = useState('billGenerate');
   const { profileData, selectedBusinessUnit } = useSelector(
@@ -52,7 +57,7 @@ const BillGenerate = ({ rowClickData }) => {
             ?.map((item) => {
               return {
                 value: item?.paymentPartyTypeId,
-                label: item?.collectionPartyType,
+                label: item?.paymentPartyTypeName,
               };
             });
           setParticipantTypeListDDL(billingDataList);
@@ -136,7 +141,9 @@ const BillGenerate = ({ rowClickData }) => {
   };
   return (
     <>
-      <div>{shipBookingRequestLoading && <Loading />}</div>
+      <div>
+        {(shipBookingRequestLoading || uploadImageLoading) && <Loading />}
+      </div>
       <>
         <Formik
           enableReinitialize={true}
@@ -180,6 +187,7 @@ const BillGenerate = ({ rowClickData }) => {
                   </div>
                 </>
               </div>
+
               <Box>
                 <Tabs
                   value={activeTab}
@@ -204,6 +212,7 @@ const BillGenerate = ({ rowClickData }) => {
                       participantTypeListDDL={participantTypeListDDL}
                       saveHandler={saveHandler}
                       invoiceTypeHandeler={invoiceTypeHandeler}
+                      setOpen={setOpen}
                     />
                   )}
                   {activeTab === 'advanceGenerate' && (
@@ -218,11 +227,43 @@ const BillGenerate = ({ rowClickData }) => {
                         participantTypeListDDL={participantTypeListDDL}
                         saveHandler={saveHandler}
                         invoiceTypeHandeler={invoiceTypeHandeler}
+                        setOpen={setOpen}
                       />
                     </div>
                   )}
                 </Box>
               </Box>
+
+              <DropzoneDialogBase
+                filesLimit={1}
+                acceptedFiles={['image/*', 'application/pdf']}
+                fileObjects={fileObjects}
+                cancelButtonText={'cancel'}
+                submitButtonText={'submit'}
+                maxFileSize={1000000}
+                open={open}
+                onAdd={(newFileObjs) => {
+                  setFileObjects([].concat(newFileObjs));
+                }}
+                onDelete={(deleteFileObj) => {
+                  const newData = fileObjects?.filter(
+                    (item) => item?.file?.name !== deleteFileObj?.file?.name,
+                  );
+                  setFileObjects(newData);
+                }}
+                onClose={() => setOpen(false)}
+                onSave={() => {
+                  setOpen(false);
+                  newAttachment_action(fileObjects, setUploadImageLoading).then(
+                    (data) => {
+                      const documentFileId = data?.[0]?.id;
+                      setFieldValue('documentFileId', documentFileId || '');
+                    },
+                  );
+                }}
+                showPreviews={true}
+                showFileNamesInPreview={true}
+              />
             </Form>
           )}
         </Formik>
@@ -241,8 +282,9 @@ const BillGenerateCmp = ({
   participantTypeListDDL,
   values,
   invoiceTypeHandeler,
+  setOpen,
 }) => {
-  console.log(billingDataFilterData, 'billingDataFilterData');
+  const dispatch = useDispatch();
   return (
     <>
       <div className="form-group row global-form">
@@ -261,7 +303,7 @@ const BillGenerateCmp = ({
             touched={touched}
           />
         </div>
-        <div className="col-lg-6 ">
+        <div className="col-lg-3 ">
           <label>Narration</label>
           <InputField
             value={values?.narration}
@@ -271,6 +313,26 @@ const BillGenerateCmp = ({
             errors={errors}
             touched={touched}
           />
+        </div>
+        <div className="col-lg-6 mt-5">
+          <button
+            className="btn btn-primary mr-2 "
+            type="button"
+            onClick={() => setOpen(true)}
+          >
+            Attachment
+          </button>
+          {values?.documentFileId && (
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={() => {
+                dispatch(getDownlloadFileView_Action(values?.documentFileId));
+              }}
+            >
+              Attachment View
+            </button>
+          )}
         </div>
       </div>{' '}
       <div className="table-responsive">
@@ -318,7 +380,9 @@ const AdvanceGenerateCmp = ({
   values,
   invoiceTypeHandeler,
   touched,
+  setOpen,
 }) => {
+  const dispatch = useDispatch();
   return (
     <>
       <div className="form-group row global-form">
@@ -337,7 +401,7 @@ const AdvanceGenerateCmp = ({
             touched={touched}
           />
         </div>
-        <div className="col-lg-6 ">
+        <div className="col-lg-3 ">
           <label>Narration</label>
           <InputField
             value={values?.narration}
@@ -347,6 +411,26 @@ const AdvanceGenerateCmp = ({
             errors={errors}
             touched={touched}
           />
+        </div>
+        <div className="col-lg-6 mt-5">
+          <button
+            className="btn btn-primary mr-2 "
+            type="button"
+            onClick={() => setOpen(true)}
+          >
+            Attachment
+          </button>
+          {values?.documentFileId && (
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={() => {
+                dispatch(getDownlloadFileView_Action(values?.documentFileId));
+              }}
+            >
+              Attachment View
+            </button>
+          )}
         </div>
       </div>{' '}
       <div className="table-responsive">
