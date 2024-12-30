@@ -65,7 +65,7 @@ export default function InterCompanyTransferRequestCreate() {
     const [objProps, setObjprops] = useState({});
 
     const location = useLocation();
-    const { parentTransferType } = location?.state || {};
+    const { parentTransferType, viewType } = location?.state || {};
 
 
     const { profileData, selectedBusinessUnit, businessUnitList } = useSelector((state) => {
@@ -86,14 +86,17 @@ export default function InterCompanyTransferRequestCreate() {
         const payload = {
             "intFundTransferRequestId": 0,
             "strRequestCode": "",
-            "intRequestTypeId": 1,
-            "strRequestType": parentTransferType?.actionName,
+            "intRequestTypeId": viewType?.actionId || 0,
+            "strRequestType": viewType?.actionName || "",
+            strTransactionType: parentTransferType?.actionName || 0,
+            intTransaferById: values?.transferType?.value || 0,
+            strTransferBy: values?.transferType?.label || "",
             "intRequestByUnitId": selectedBusinessUnit?.value,
             "strRequestByUnitName": selectedBusinessUnit?.label,
             "intRequestToUnitId": selectedBusinessUnit?.value,
             "strRequestToUnitName": selectedBusinessUnit?.label,
             "dteRequestDate": "2024-12-22T09:59:39.993Z",
-            "numAmount": values?.requestAmount || 0,
+            "numAmount": +values?.requestAmount || 0,
             "intRequestedBankId": values?.receivingAccount?.value || 0,
             "strRequestedBankName": values?.receivingAccount?.label || "",
             "intRequestedBankBranchId": values?.receivingAccount?.bankBranch_Id || 0,

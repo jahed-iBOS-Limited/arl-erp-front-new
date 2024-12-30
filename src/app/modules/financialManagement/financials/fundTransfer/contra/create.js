@@ -59,7 +59,7 @@ export default function ContraCreate() {
     const [objProps, setObjprops] = useState({});
 
     const location = useLocation();
-    const { parentTransferType } = location?.state || {};
+    const { parentTransferType, viewType } = location?.state || {};
 
     const transferTypeList = parentTransferType?.actionName === "Bank Transfer" ? [{ value: 1, label: "Bank To Bank" }, { value: 2, label: "Bank To Cash" }] : [{ value: 3, label: "Cash To Bank" }]
 
@@ -82,11 +82,11 @@ export default function ContraCreate() {
         const payload = {
             "intFundTransferRequestId": 0,
             "strRequestCode": "",
-            "intRequestTypeId": values?.transferType?.value, //1
-            "strRequestType": values?.transferType?.label, // 2
-            strTransactionType: "", // first level
-            intTransaferById: "", // first level
-            strTransferBy: "", // first level
+            "intRequestTypeId": viewType?.actionId,
+            "strRequestType": viewType?.actionName,
+            strTransactionType: parentTransferType?.actionName,
+            intTransaferById: values?.transferType?.value,
+            strTransferBy: values?.transferType?.label,
             "intRequestByUnitId": selectedBusinessUnit?.value,
             "strRequestByUnitName": selectedBusinessUnit?.label,
             "intRequestToUnitId": selectedBusinessUnit?.value,
