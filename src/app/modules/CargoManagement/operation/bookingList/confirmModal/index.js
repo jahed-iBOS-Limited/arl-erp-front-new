@@ -35,24 +35,24 @@ const validationSchema = Yup.object().shape({
     value: Yup.number().required('Consignee’s Name is required'),
     label: Yup.string().required('Consignee’s Name is required'),
   }),
-  consigneeCountry: Yup.object().shape({
-    value: Yup.number().required('Country is required'),
-    label: Yup.string().required('Country is required'),
-  }),
-  consigneeDivisionAndState: Yup.object().shape({
-    value: Yup.number().required('State/Province/Region is required'),
-    label: Yup.string().required('State/Province/Region is required'),
-  }),
-  consignCity: Yup.object().shape({
-    value: Yup.number().required('City is required'),
-    label: Yup.string().required('City is required'),
-  }),
-  consignPostalCode: Yup.string().required('Zip/Postal Code is required'),
-  consigneeAddress: Yup.string().required(
-    'State/Province & Postal Code is required',
-  ),
-  consigneeContactPerson: Yup.string().required('Contact Person is required'),
-  consigneeContact: Yup.number().required('Contact Number is required'),
+  // consigneeCountry: Yup.object().shape({
+  //   value: Yup.number().required('Country is required'),
+  //   label: Yup.string().required('Country is required'),
+  // }),
+  // consigneeDivisionAndState: Yup.object().shape({
+  //   value: Yup.number().required('State/Province/Region is required'),
+  //   label: Yup.string().required('State/Province/Region is required'),
+  // }),
+  // consignCity: Yup.object().shape({
+  //   value: Yup.number().required('City is required'),
+  //   label: Yup.string().required('City is required'),
+  // }),
+  // consignPostalCode: Yup.string().required('Zip/Postal Code is required'),
+  // consigneeAddress: Yup.string().required(
+  //   'State/Province & Postal Code is required',
+  // ),
+  // consigneeContactPerson: Yup.string().required('Contact Person is required'),
+  // consigneeContact: Yup.number().required('Contact Number is required'),
   consigneeEmail: Yup.string()
     .email('Email is invalid')
     .required('Email is required'),
@@ -84,17 +84,12 @@ function ConfirmModal({ rowClickData, CB }) {
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
   const [buyerBankAddressDDL, setBuyerBankAddressDDL] = React.useState([]);
   const [
-    ,
+    shipBookingRequestGetById,
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
 
-  const [
-    consigneeNameList,
-    getConsigneeName,
-    ,
-    setConsigneeName,
-  ] = useAxiosGet();
+  const [consigneeNameList, setConsigneeName] = React.useState();
   const [deliveryAgentDDL, setDeliveryAgentDDL] = React.useState([]);
   const [notifyPartyDDL, setNotifyParty] = React.useState([]);
   const formikRef = React.useRef(null);
@@ -130,12 +125,14 @@ function ConfirmModal({ rowClickData, CB }) {
       `${imarineBaseUrl}/domain/ShippingService/GetPreviousStateDDL?search=${value}`,
     );
   }, 300);
+
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
         (resData) => {
           if (formikRef.current) {
+            consigneeOnChangeHandler(resData?.shipperId);
             const data = resData || {};
             formikRef.current.setFieldValue(
               'transportPlanningType',
@@ -277,27 +274,19 @@ function ConfirmModal({ rowClickData, CB }) {
     setTransportModeDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
     );
-    getConsigneeName(
-      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?businessPartnerType=2&cargoType=2`,
-      (redData) => {
-        setConsigneeName(redData);
-      },
-    );
     setBankListDDL(`${imarineBaseUrl}/domain/ShippingService/GetBlobalBankDDL`);
-
     getConsigneeCountryList(
       `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
     );
-
     getWarehouseDDL(
       `/wms/Warehouse/GetWarehouseFromPlantWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const consigneeOnChangeHandler = async (id, setFieldValue) => {
+  const consigneeOnChangeHandler = async (shipperId) => {
     getParticipantsWithConsigneeDtl(
-      `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsigneeDtl?consigneeId=${id}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsigneeDtl?shipperId=${shipperId}`,
       (data) => {
         if (data?.deliveryAgentList) {
           const modifyData = data?.deliveryAgentList?.map((i) => {
@@ -307,7 +296,6 @@ function ConfirmModal({ rowClickData, CB }) {
               value: i?.participantId || 0,
             };
           });
-          setFieldValue('freightAgentReference', modifyData?.[0] || '');
           setDeliveryAgentDDL(modifyData || []);
         }
         if (data?.notifyPartyList) {
@@ -318,8 +306,17 @@ function ConfirmModal({ rowClickData, CB }) {
               value: i?.participantId || 0,
             };
           });
-          setFieldValue('notifyParty', modifyData?.[0] || '');
           setNotifyParty(modifyData || []);
+        }
+        if (data?.consineList) {
+          const modifyData = data?.consineList?.map((i) => {
+            return {
+              ...i,
+              label: i?.participantsName || '',
+              value: i?.participantId || 0,
+            };
+          });
+          setConsigneeName(modifyData || []);
         }
       },
     );
@@ -372,7 +369,7 @@ function ConfirmModal({ rowClickData, CB }) {
       negotiationParty: values?.negotiationParty || '',
       userId: rowClickData?.createdBy || 0,
       confirmBy: profileData?.userId,
-      shipperId: rowClickData?.shipperId || 0,
+      shipperId: shipBookingRequestGetById?.shipperId || 0,
       consignCity: values?.consignCity?.label || '',
       consignPostalCode: values?.consignPostalCode || '',
     };
@@ -623,18 +620,6 @@ function ConfirmModal({ rowClickData, CB }) {
                     label="Consignee’s Name"
                     onChange={(valueOption) => {
                       setFieldValue('consigneeName', valueOption);
-                      setDeliveryAgentDDL([]);
-                      setNotifyParty([]);
-                      setFieldValue('freightAgentReference', '');
-                      setFieldValue('notifyParty', '');
-                      setFieldValue('notifyParty2', '');
-
-                      if (valueOption?.value) {
-                        consigneeOnChangeHandler(
-                          valueOption?.value,
-                          setFieldValue,
-                        );
-                      }
                     }}
                     placeholder="Consignee’s Name"
                     errors={errors}

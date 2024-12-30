@@ -42,7 +42,7 @@ function ChargesModal({ rowClickData, CB }) {
     setShippingHeadOfCharges,
   ] = useAxiosGet();
   const [currencyList, GetBaseCurrencyList, , setCurrencyList] = useAxiosGet();
-
+  console.log(rowClickData, 'rowClickData');
   useEffect(() => {
     getShippingHeadOfCharges(
       `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges`,
@@ -567,18 +567,10 @@ function ChargesModal({ rowClickData, CB }) {
                               setShippingHeadOfCharges(copyPrv);
                             }}
                             loadOptions={(v) => {
-                              if (v?.length < 3) return [];
-                              // paymentPartyType
-                              // const paymentPartyType = formikRef.watch('paymentPartyType');
-                              // 1 supplier 2 customer
-                              const businessPartnerType = [1, 2].includes(
-                                item?.collectionPartyTypeId,
-                              )
-                                ? 2
-                                : 1;
+                              if (v?.length < 2) return [];
                               return axios
                                 .get(
-                                  `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=${businessPartnerType}&cargoType=${item?.collectionPartyTypeId}`,
+                                  `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=2&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.collectionPartyTypeId}`,
                                 )
                                 .then((res) => res?.data);
                             }}
@@ -640,29 +632,6 @@ function ChargesModal({ rowClickData, CB }) {
                           />
                         </td>
                         <td>
-                          {/* <NewSelect
-                            isDisabled={
-                              !item?.checked || !item?.paymentPartyType
-                            }
-                            options={[]}
-                            value={
-                              item?.collectionParty
-                                ? {
-                                  label: item?.collectionParty,
-                                  value: item?.collectionPartyId,
-                                }
-                                : ''
-                            }
-                            name="collectionParty"
-                            onChange={(valueOption) => {
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].collectionParty =
-                                valueOption?.label;
-                              copyPrv[index].collectionPartyId =
-                                valueOption?.value;
-                              setShippingHeadOfCharges(copyPrv);
-                            }}
-                          /> */}
                           <SearchAsyncSelect
                             isDisabled={
                               !item?.checked || !item?.paymentPartyType
@@ -676,11 +645,6 @@ function ChargesModal({ rowClickData, CB }) {
                                 : ''
                             }
                             handleChange={(valueOption) => {
-                              // if (valueOption) {
-                              //   setFieldValue("collectionParty", valueOption);
-                              // } else {
-                              //   setFieldValue("collectionParty", "");
-                              // }
                               const copyPrv = [...shippingHeadOfCharges];
                               copyPrv[index].paymentParty = valueOption?.label;
                               copyPrv[index].paymentPartyId =
@@ -688,18 +652,10 @@ function ChargesModal({ rowClickData, CB }) {
                               setShippingHeadOfCharges(copyPrv);
                             }}
                             loadOptions={(v) => {
-                              if (v?.length < 3) return [];
-                              // paymentPartyType
-                              // const paymentPartyType = formikRef.watch('paymentPartyType');
-                              // 1 supplier 2 customer
-                              const businessPartnerType = [1, 2].includes(
-                                item?.collectionPartyTypeId,
-                              )
-                                ? 2
-                                : 1;
+                              if (v?.length < 2) return [];
                               return axios
                                 .get(
-                                  `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=${businessPartnerType}&cargoType=${item?.paymentPartyTypeId}`,
+                                  `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=1&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.paymentPartyTypeId}`,
                                 )
                                 .then((res) => res?.data);
                             }}
