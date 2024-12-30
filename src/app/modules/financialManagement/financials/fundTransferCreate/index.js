@@ -10,12 +10,13 @@ import NewSelect from "../../../_helper/_select";
 import PaginationTable from "../../../_helper/_tablePagination";
 import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import { useHistory } from "react-router";
+import InputField from "../../../_helper/_inputField";
 
 const initData = {
 
 };
 export default function FundTransferCreate({ viewType }) {
-    const { selectedBusinessUnit } = useSelector((state) => {
+    const { selectedBusinessUnit, businessUnitList } = useSelector((state) => {
         return state.authData;
     }, shallowEqual);
 
@@ -92,6 +93,55 @@ export default function FundTransferCreate({ viewType }) {
                                             }
                                             errors={errors}
                                             touched={touched}
+                                        />
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <InputField
+                                            value={values?.fromDate}
+                                            label="From Date"
+                                            name="fromDate"
+                                            type="date"
+                                            onChange={(e) => {
+                                                setFieldValue("fromDate", e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <InputField
+                                            value={values?.toDate}
+                                            label="To Date"
+                                            name="toDate"
+                                            type="date"
+                                            onChange={(e) => {
+                                                setFieldValue("toDate", e.target.value);
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <NewSelect
+                                            name="requestingUnit"
+                                            options={businessUnitList}
+                                            value={values?.requestingUnit}
+                                            label="Requesting Unit"
+                                            onChange={(valueOption) => {
+                                                setFieldValue("requestingUnit", valueOption);
+                                            }}
+
+                                        />
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <NewSelect
+                                            name="status"
+                                            options={[
+                                                { value: 1, label: "Pending" },
+                                                { value: 2, label: "Complete" },
+                                            ]}
+                                            value={values?.status}
+                                            label="Status"
+                                            onChange={(valueOption) => {
+                                                setFieldValue("status", valueOption);
+                                            }}
+
                                         />
                                     </div>
 

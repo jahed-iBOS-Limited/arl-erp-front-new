@@ -3,7 +3,7 @@ import Contra from "./contra";
 import InterCompanyTransferRequest from "./interCompanyTransferRequest";
 
 const FundTransfer = () => {
-    const [viewType, setViewType] = useState("Contra");
+    const [viewType, setViewType] = useState({ actionId: 1, actionName: "Contra" });
 
     return (
         <div>
@@ -12,14 +12,14 @@ const FundTransfer = () => {
                     <input
                         type="radio"
                         name="viewType"
-                        checked={viewType === "Contra"}
+                        checked={viewType?.actionName === "Contra"}
                         className="mr-1 pointer"
                         style={{
                             position: "relative",
                             top: "2px",
                         }}
                         onChange={(valueOption) => {
-                            setViewType("Contra");
+                            setViewType({ actionId: 1, actionName: "Contra" });
                         }}
                     />
                     <strong style={{ fontSize: "13px", color: "black" }}>Contra</strong>
@@ -28,23 +28,23 @@ const FundTransfer = () => {
                     <input
                         type="radio"
                         name="viewType"
-                        checked={viewType === "InterCompanyTransferRequest"}
+                        checked={viewType?.actionName === "InterCompanyTransferRequest"}
                         className="mr-1 pointer"
                         style={{ position: "relative", top: "2px" }}
                         onChange={(e) => {
-                            setViewType("InterCompanyTransferRequest");
+                            setViewType({ actionId: 1, actionName: "InterCompanyTransferRequest" });
                         }}
                     />
                     <strong style={{ fontSize: "13px", color: "black" }}>Inter Company Transfer Request</strong>
                 </label>
             </div>
 
-            {viewType === "Contra" && (
+            {viewType?.actionName === "Contra" && (
                 <Contra viewType={viewType} />
 
             )}
 
-            {viewType === "InterCompanyTransferRequest" && (
+            {viewType?.actionName === "InterCompanyTransferRequest" && (
                 <InterCompanyTransferRequest viewType={viewType} />
 
             )}

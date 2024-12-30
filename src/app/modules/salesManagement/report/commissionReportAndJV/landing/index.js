@@ -150,7 +150,7 @@ const CommissionReportAndJV = () => {
 
   const allSelect = (value) => {
     let _data = [...rowData];
-    const modify = _data.map((item) => {
+    const modify = _data?.filter(item=>!Boolean(item?.strCreatedJVNumber)).map((item) => {
       return {
         ...item,
         isSelected: value,
