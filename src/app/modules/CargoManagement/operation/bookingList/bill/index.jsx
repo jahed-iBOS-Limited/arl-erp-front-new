@@ -14,7 +14,7 @@ import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import './style.css';
 
 const validationSchema = Yup.object().shape({
-  invoiceType: Yup.object().shape({
+  paymentParty: Yup.object().shape({
     value: Yup.string().required('Party Type is required'),
     label: Yup.string().required('Party Type is required'),
   }),
@@ -38,7 +38,7 @@ const BillGenerate = ({ rowClickData }) => {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
-  const [participantTypeListDDL, setParticipantTypeListDDL] = useState();
+  const [paymentPartyListDDL, setPaymentPartyListDDL] = useState();
   useEffect(() => {
     commonGetByIdHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,14 +53,14 @@ const BillGenerate = ({ rowClickData }) => {
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
         (resData) => {
           const billingDataList = resData?.billingData
-            ?.filter((i) => i.paymentPartyTypeId)
+            ?.filter((i) => i.paymentPartyId)
             ?.map((item) => {
               return {
-                value: item?.paymentPartyTypeId,
-                label: item?.paymentPartyType,
+                value: item?.paymentPartyId,
+                label: item?.paymentParty,
               };
             });
-          setParticipantTypeListDDL(billingDataList);
+          setPaymentPartyListDDL(billingDataList);
         },
       );
     }
@@ -68,7 +68,7 @@ const BillGenerate = ({ rowClickData }) => {
 
   const saveHandler = (values) => {
     const paylaod = {
-      typeId: values?.invoiceType?.value || 0,
+      typeId: values?.paymentParty?.value || 0,
       accountId: profileData?.accountId || 0,
       unitId: selectedBusinessUnit?.value || 0,
       bookingDate: new Date(),
@@ -91,7 +91,7 @@ const BillGenerate = ({ rowClickData }) => {
     };
   };
 
-  // filter by paymentPartyTypeId
+  // filter by paymentPartyId
 
   const invoiceTypeHandeler = (valueOption) => {
     setBillingDataFilterData([]);
@@ -99,7 +99,7 @@ const BillGenerate = ({ rowClickData }) => {
       const typeWiseFilter = bookingData?.billingData
         ?.filter((item) => {
           return (
-            item?.paymentPartyTypeId === valueOption?.value &&
+            item?.paymentPartyId === valueOption?.value &&
             item?.paymentActualAmount
           );
         })
@@ -118,7 +118,7 @@ const BillGenerate = ({ rowClickData }) => {
       const typeWiseFilter = bookingData?.billingData
         ?.filter((item) => {
           return (
-            item?.paymentPartyTypeId === valueOption?.value &&
+            item?.paymentPartyId === valueOption?.value &&
             item?.paymentAdvanceAmount
           );
         })
@@ -149,7 +149,7 @@ const BillGenerate = ({ rowClickData }) => {
           enableReinitialize={true}
           initialValues={{
             narration: '',
-            invoiceType: '',
+            paymentParty: '',
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -209,7 +209,7 @@ const BillGenerate = ({ rowClickData }) => {
                       setFieldValue={setFieldValue}
                       bookingData={bookingData}
                       billingDataFilterData={billingDataFilterData}
-                      participantTypeListDDL={participantTypeListDDL}
+                      paymentPartyListDDL={paymentPartyListDDL}
                       saveHandler={saveHandler}
                       invoiceTypeHandeler={invoiceTypeHandeler}
                       setOpen={setOpen}
@@ -224,7 +224,7 @@ const BillGenerate = ({ rowClickData }) => {
                         setFieldValue={setFieldValue}
                         bookingData={bookingData}
                         billingDataFilterData={billingDataFilterData}
-                        participantTypeListDDL={participantTypeListDDL}
+                        paymentPartyListDDL={paymentPartyListDDL}
                         saveHandler={saveHandler}
                         invoiceTypeHandeler={invoiceTypeHandeler}
                         setOpen={setOpen}
@@ -279,7 +279,7 @@ const BillGenerateCmp = ({
   touched,
   setFieldValue,
   billingDataFilterData,
-  participantTypeListDDL,
+  paymentPartyListDDL,
   values,
   invoiceTypeHandeler,
   setOpen,
@@ -290,15 +290,15 @@ const BillGenerateCmp = ({
       <div className="form-group row global-form">
         <div className="col-lg-3">
           <NewSelect
-            name="invoiceType"
-            options={participantTypeListDDL || []}
-            value={values?.invoiceType}
-            label="Party Type"
+            name="paymentParty"
+            options={paymentPartyListDDL || []}
+            value={values?.paymentParty}
+            label="Partner"
             onChange={(valueOption) => {
-              setFieldValue('invoiceType', valueOption);
+              setFieldValue('paymentParty', valueOption);
               invoiceTypeHandeler(valueOption);
             }}
-            placeholder="Select Party Type"
+            placeholder="Select Partner"
             errors={errors}
             touched={touched}
           />
@@ -347,7 +347,7 @@ const BillGenerateCmp = ({
             </tr>
           </thead>
           <tbody>
-            {values?.invoiceType?.value &&
+            {values?.paymentParty?.value &&
               billingDataFilterData?.map((row, index) => (
                 <tr key={index}>
                   <td style={{ textAlign: 'right' }}> {index + 1} </td>
@@ -376,7 +376,7 @@ const AdvanceGenerateCmp = ({
   errors,
   setFieldValue,
   billingDataFilterData,
-  participantTypeListDDL,
+  paymentPartyListDDL,
   values,
   invoiceTypeHandeler,
   touched,
@@ -388,12 +388,12 @@ const AdvanceGenerateCmp = ({
       <div className="form-group row global-form">
         <div className="col-lg-3">
           <NewSelect
-            name="invoiceType"
-            options={participantTypeListDDL || []}
-            value={values?.invoiceType}
+            name="paymentParty"
+            options={paymentPartyListDDL || []}
+            value={values?.paymentParty}
             label="Party Type"
             onChange={(valueOption) => {
-              setFieldValue('invoiceType', valueOption);
+              setFieldValue('paymentParty', valueOption);
               invoiceTypeHandeler(valueOption);
             }}
             placeholder="Select Party Type"
@@ -443,7 +443,7 @@ const AdvanceGenerateCmp = ({
             </tr>
           </thead>
           <tbody>
-            {values?.invoiceType?.value &&
+            {values?.paymentParty?.value &&
               billingDataFilterData?.map((row, index) => (
                 <tr key={index}>
                   <td style={{ textAlign: 'right' }}> {index + 1} </td>
