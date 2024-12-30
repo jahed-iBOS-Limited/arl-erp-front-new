@@ -14,13 +14,7 @@ import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import './style.css';
 
-const validationSchema = Yup.object().shape({
-  // exchangeRate: Yup.number().required('Exchange Rate is required'),
-  currency: Yup.object().shape({
-    label: Yup.string().required('Currency is required'),
-    value: Yup.string().required('Currency is required'),
-  }),
-});
+const validationSchema = Yup.object().shape({});
 function ChargesModal({ rowClickData, CB }) {
   const formikRef = React.useRef(null);
   const { profileData } = useSelector(
@@ -56,6 +50,9 @@ function ChargesModal({ rowClickData, CB }) {
               );
               return {
                 ...item,
+                currencyId: findData?.currencyId || 0,
+                currency: findData?.currency || '',
+                exchangeRate: findData?.exchangeRate || '',
                 billingId: findData?.billingId || 0,
                 checked: findData ? true : false,
                 amount: findData?.chargeAmount || '',
@@ -63,10 +60,11 @@ function ChargesModal({ rowClickData, CB }) {
                 headOfCharges: item?.label || '',
                 headOfChargeId: item?.value || 0,
                 collectionPartyType: findData?.collectionPartyType || '',
-                collectionActualAmount: findData?.collectionActualAmount || 0,
-                collectionDummyAmount: findData?.collectionDummyAmount || 0,
-                paymentActualAmount: findData?.paymentActualAmount || 0,
-                paymentDummyAmount: findData?.paymentDummyAmount || 0,
+                collectionActualAmount: findData?.collectionActualAmount || '',
+                collectionDummyAmount: findData?.collectionDummyAmount || '',
+                paymentActualAmount: findData?.paymentActualAmount || '',
+                paymentDummyAmount: findData?.paymentDummyAmount || '',
+                paymentAdvanceAmount: findData?.paymentAdvanceAmount || '',
                 paymentPartyType: findData?.paymentPartyType || 0,
                 paymentPartyTypeId: findData?.paymentPartyTypeId || 0,
                 paymentParty: findData?.paymentParty || 0,
@@ -81,6 +79,9 @@ function ChargesModal({ rowClickData, CB }) {
               .map((item) => {
                 return {
                   ...item,
+                  currencyId: item?.currencyId || 0,
+                  currency: item?.currency || '',
+                  exchangeRate: item?.exchangeRate || '',
                   headOfCharges: item?.headOfCharges,
                   headOfChargeId: item?.headOfChargeId,
                   checked: true,
@@ -88,10 +89,11 @@ function ChargesModal({ rowClickData, CB }) {
                   billingId: item?.billingId || 0,
                   actualExpense: item?.actualExpense || 0,
                   collectionPartyType: item?.collectionPartyType || 0,
-                  collectionActualAmount: item?.collectionActualAmount || 0,
-                  collectionDummyAmount: item?.collectionDummyAmount || 0,
-                  paymentActualAmount: item?.paymentActualAmount || 0,
-                  paymentDummyAmount: item?.paymentDummyAmount || 0,
+                  collectionActualAmount: item?.collectionActualAmount || '',
+                  collectionDummyAmount: item?.collectionDummyAmount || '',
+                  paymentActualAmount: item?.paymentActualAmount || '',
+                  paymentDummyAmount: item?.paymentDummyAmount || '',
+                  paymentAdvanceAmount: item?.paymentAdvanceAmount || '',
                   paymentPartyType: item?.paymentPartyType || 0,
                   paymentPartyTypeId: item?.paymentPartyTypeId || 0,
                   paymentParty: item?.paymentParty || 0,
@@ -101,22 +103,6 @@ function ChargesModal({ rowClickData, CB }) {
                   billingDate: item?.billingDate || new Date(),
                 };
               });
-
-            if (formikRef.current) {
-              formikRef.current.setFieldValue(
-                'currency',
-                resSveData?.[0]
-                  ? {
-                      label: resSveData?.[0]?.currency,
-                      value: resSveData?.[0]?.currencyId,
-                    }
-                  : '',
-              );
-              formikRef.current.setFieldValue(
-                'exchangeRate',
-                resSveData?.[0] ? resSveData?.[0]?.exchangeRate : '',
-              );
-            }
             setShippingHeadOfCharges([...modifyData, ...filterNewData]);
           },
         );
@@ -145,9 +131,9 @@ function ChargesModal({ rowClickData, CB }) {
       ?.filter((item) => item?.checked)
       .map((item) => {
         return {
-          exchangeRate: +values?.exchangeRate || 0,
-          currencyId: values?.currency?.value || 0,
-          currency: values?.currency?.label || '',
+          exchangeRate: +item?.exchangeRate || 0,
+          currencyId: item?.currencyId || 0,
+          currency: item?.currency || '',
           billingId: item?.billingId || 0,
           bookingRequestId: bookingRequestId || 0,
           headOfChargeId: item?.headOfChargeId || 0,
@@ -168,6 +154,7 @@ function ChargesModal({ rowClickData, CB }) {
           collectionPartyId: item?.collectionPartyId || 0,
           paymentActualAmount: item?.paymentActualAmount || 0,
           paymentDummyAmount: item?.paymentDummyAmount || 0,
+          paymentAdvanceAmount: item?.paymentAdvanceAmount || 0,
           paymentPartyType: item?.paymentPartyType || '',
           paymentPartyTypeId: item?.paymentPartyTypeId || 0,
           paymentParty: item?.paymentParty || '',
@@ -195,8 +182,8 @@ function ChargesModal({ rowClickData, CB }) {
           amount: '',
           attribute: '',
           actualExpense: '',
-          exchangeRate: '',
-          currency: '',
+          // exchangeRate: '',
+          // currency: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -218,36 +205,9 @@ function ChargesModal({ rowClickData, CB }) {
                 </div>
               </>
             </div>
-            <div className="form-group ">
-              <div className="row global-form">
-                <div className="col-lg-3">
-                  <NewSelect
-                    label={'Currency'}
-                    options={currencyList}
-                    value={values?.currency}
-                    name="currency"
-                    onChange={(valueOption) => {
-                      setFieldValue('currency', valueOption || '');
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.exchangeRate}
-                    label="Exchange Rate"
-                    name="exchangeRate"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue('exchangeRate', e.target.value)
-                    }
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-              </div>
-            </div>
+            {/* <div className="form-group ">
+              <div className="row global-form"></div>
+            </div> */}
             <div className="form-group row global-form">
               <div className="col-lg-6">
                 <InputField
@@ -274,6 +234,9 @@ function ChargesModal({ rowClickData, CB }) {
                           headOfCharges: values?.attribute,
                           headOfChargeId: 0,
                           checked: true,
+                          currencyId: 0,
+                          currency: '',
+                          exchangeRate: '',
                           collectionActualAmount: '',
                           collectionDummyAmount: '',
                           collectionPartyType: '',
@@ -282,6 +245,7 @@ function ChargesModal({ rowClickData, CB }) {
                           collectionPartyId: 0,
                           paymentActualAmount: '',
                           paymentDummyAmount: '',
+                          paymentAdvanceAmount: '',
                           paymentPartyType: '',
                           paymentPartyTypeId: 0,
                           paymentParty: '',
@@ -317,6 +281,15 @@ function ChargesModal({ rowClickData, CB }) {
                               return {
                                 ...item,
                                 checked: e?.target?.checked,
+                                currencyId: e?.target?.checked
+                                  ? item?.currencyId
+                                  : 0,
+                                currency: e?.target?.checked
+                                  ? item?.currency
+                                  : '',
+                                exchangeRate: e?.target?.checked
+                                  ? item?.exchangeRate
+                                  : '',
                                 collectionActualAmount: e?.target?.checked
                                   ? item?.collectionActualAmount
                                   : '',
@@ -342,6 +315,10 @@ function ChargesModal({ rowClickData, CB }) {
                                 paymentDummyAmount: e?.target?.checked
                                   ? item?.paymentDummyAmount
                                   : '',
+                                paymentAdvanceAmount: e?.target?.checked
+                                  ? item?.paymentAdvanceAmount
+                                  : '',
+
                                 paymentPartyType: e?.target?.checked
                                   ? item?.paymentPartyType
                                   : '',
@@ -362,10 +339,12 @@ function ChargesModal({ rowClickData, CB }) {
                     </th>
                     <th rowspan="2">SL</th>
                     <th rowspan="2">Attribute</th>
+                    <th rowspan="2">Currency</th>
+                    <th rowspan="2">Exchange Rate</th>
                     <th colspan="4" class="group-header">
                       Collection <span>(Amounts & Party)</span>
                     </th>
-                    <th colspan="4" class="group-header">
+                    <th colspan="5" class="group-header">
                       Payment <span>(Amounts & Party)</span>
                     </th>
                     <th rowspan="2">Action</th>
@@ -373,28 +352,14 @@ function ChargesModal({ rowClickData, CB }) {
                   <tr>
                     <th
                       style={{
-                        width: '60px',
-                      }}
-                    >
-                      Actual Amount
-                    </th>
-                    <th
-                      style={{
-                        width: '60px',
-                      }}
-                    >
-                      Dummy Amount
-                    </th>
-                    <th
-                      style={{
-                        width: '150px',
+                        minWidth: '150px',
                       }}
                     >
                       Party
                     </th>
                     <th
                       style={{
-                        width: '150px',
+                        minWidth: '150px',
                       }}
                     >
                       Party Name
@@ -404,33 +369,56 @@ function ChargesModal({ rowClickData, CB }) {
                         width: '60px',
                       }}
                     >
-                      Actual Amount
+                      Actual
                     </th>
                     <th
                       style={{
                         width: '60px',
                       }}
                     >
-                      Dummy Amount
+                      Dummy
                     </th>
+
                     <th
                       style={{
-                        width: '150px',
+                        minWidth: '150px',
                       }}
                     >
                       Party
                     </th>
                     <th
                       style={{
-                        width: '150px',
+                        minWidth: '150px',
                       }}
                     >
                       Party Name
+                    </th>
+                    <th
+                      style={{
+                        width: '60px',
+                      }}
+                    >
+                      Actual
+                    </th>
+                    <th
+                      style={{
+                        width: '60px',
+                      }}
+                    >
+                      Dummy
+                    </th>
+                    <th
+                      style={{
+                        width: '60px',
+                      }}
+                    >
+                      Advance
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {shippingHeadOfCharges?.map((item, index) => {
+                    const isDisabled = !item?.checked || item?.isBillGenerated;
                     return (
                       <tr>
                         <td>
@@ -444,6 +432,15 @@ function ChargesModal({ rowClickData, CB }) {
                                     return {
                                       ...data,
                                       checked: e?.target?.checked,
+                                      currencyId: e?.target?.checked
+                                        ? item?.currencyId
+                                        : 0,
+                                      currency: e?.target?.checked
+                                        ? item?.currency
+                                        : '',
+                                      exchangeRate: e?.target?.checked
+                                        ? item?.exchangeRate
+                                        : '',
                                       collectionActualAmount: e?.target?.checked
                                         ? item?.collectionActualAmount
                                         : '',
@@ -468,6 +465,9 @@ function ChargesModal({ rowClickData, CB }) {
                                       paymentDummyAmount: e?.target?.checked
                                         ? item?.paymentDummyAmount
                                         : '',
+                                      paymentAdvanceAmount: e?.target?.checked
+                                        ? item?.paymentAdvanceAmount
+                                        : '',
                                       paymentPartyType: e?.target?.checked
                                         ? item?.paymentPartyType
                                         : '',
@@ -490,41 +490,51 @@ function ChargesModal({ rowClickData, CB }) {
                         </td>
                         <td>{index + 1}</td>
                         <td>{item?.headOfCharges}</td>
+                        <td>
+                          <NewSelect
+                            label={''}
+                            options={currencyList}
+                            value={
+                              item?.currencyId
+                                ? {
+                                    label: item?.currency,
+                                    value: item?.currencyId,
+                                  }
+                                : ''
+                            }
+                            name="currency"
+                            onChange={(valueOption) => {
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].currency = valueOption?.label;
+                              copyPrv[index].currencyId = valueOption?.value;
+                              setShippingHeadOfCharges(copyPrv);
+                            }}
+                            errors={errors}
+                            touched={touched}
+                            isDisabled={isDisabled}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            disabled={isDisabled}
+                            value={item?.exchangeRate}
+                            label=""
+                            name="exchangeRate"
+                            type="text"
+                            onChange={(e) => {
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].exchangeRate = e.target.value;
+                              setShippingHeadOfCharges(copyPrv);
+                            }}
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </td>
 
-                        {/*  "Collection  actual Amount" =  InputField component */}
-                        <td>
-                          <InputField
-                            disabled={!item?.checked}
-                            value={item?.collectionActualAmount}
-                            name="collectionActualAmount"
-                            type="number"
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].collectionActualAmount = value;
-                              setShippingHeadOfCharges(copyPrv);
-                            }}
-                          />
-                        </td>
-                        {/* "Collection Dummy  Dummy Amount" =  InputField component */}
-                        <td>
-                          <InputField
-                            disabled={!item?.checked}
-                            value={item?.collectionDummyAmount}
-                            name="collectionDummyAmount"
-                            type="number"
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].collectionDummyAmount = value;
-                              setShippingHeadOfCharges(copyPrv);
-                            }}
-                          />
-                        </td>
                         {/* "Collection Type" =  NewSelect component */}
                         <td>
                           <NewSelect
-                            isDisabled={!item?.checked}
+                            isDisabled={isDisabled}
                             options={shipingCargoTypeDDL || []}
                             value={
                               item?.collectionPartyType
@@ -548,7 +558,7 @@ function ChargesModal({ rowClickData, CB }) {
                         <td>
                           <SearchAsyncSelect
                             isDisabled={
-                              !item?.checked || !item?.collectionPartyType
+                              isDisabled || !item?.collectionPartyType
                             }
                             selectedValue={
                               item?.collectionParty
@@ -576,40 +586,41 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                           />
                         </td>
-                        {/* "Payment Actual Amount" =  InputField component */}
+                        {/*  "Collection  actual Amount" =  InputField component */}
                         <td>
                           <InputField
-                            disabled={!item?.checked}
-                            value={item?.paymentActualAmount}
-                            name="paymentActualAmount"
+                            disabled={isDisabled}
+                            value={item?.collectionActualAmount}
+                            name="collectionActualAmount"
                             type="number"
                             onChange={(e) => {
                               const value = e.target.value;
                               const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].paymentActualAmount = value;
+                              copyPrv[index].collectionActualAmount = value;
                               setShippingHeadOfCharges(copyPrv);
                             }}
                           />
                         </td>
-                        {/* "Payment Dummy Amount" =  InputField component */}
+                        {/* "Collection Dummy  Dummy Amount" =  InputField component */}
                         <td>
                           <InputField
-                            disabled={!item?.checked}
-                            value={item?.paymentDummyAmount}
-                            name="paymentDummyAmount"
+                            disabled={isDisabled}
+                            value={item?.collectionDummyAmount}
+                            name="collectionDummyAmount"
                             type="number"
                             onChange={(e) => {
                               const value = e.target.value;
                               const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].paymentDummyAmount = value;
+                              copyPrv[index].collectionDummyAmount = value;
                               setShippingHeadOfCharges(copyPrv);
                             }}
                           />
                         </td>
+
                         {/* "Payment Type" =  NewSelect component */}
                         <td>
                           <NewSelect
-                            isDisabled={!item?.checked}
+                            isDisabled={isDisabled}
                             options={shipingCargoTypeDDL || []}
                             value={
                               item?.paymentPartyType
@@ -633,9 +644,7 @@ function ChargesModal({ rowClickData, CB }) {
                         </td>
                         <td>
                           <SearchAsyncSelect
-                            isDisabled={
-                              !item?.checked || !item?.paymentPartyType
-                            }
+                            isDisabled={isDisabled || !item?.paymentPartyType}
                             selectedValue={
                               item?.paymentParty
                                 ? {
@@ -661,6 +670,50 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                           />
                         </td>
+                        {/* "Payment Actual Amount" =  InputField component */}
+                        <td>
+                          <InputField
+                            disabled={isDisabled}
+                            value={item?.paymentActualAmount}
+                            name="paymentActualAmount"
+                            type="number"
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].paymentActualAmount = value;
+                              setShippingHeadOfCharges(copyPrv);
+                            }}
+                          />
+                        </td>
+                        {/* "Payment Dummy Amount" =  InputField component */}
+                        <td>
+                          <InputField
+                            disabled={isDisabled}
+                            value={item?.paymentDummyAmount}
+                            name="paymentDummyAmount"
+                            type="number"
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].paymentDummyAmount = value;
+                              setShippingHeadOfCharges(copyPrv);
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            disabled={isDisabled}
+                            value={item?.paymentAdvanceAmount}
+                            name="paymentAdvanceAmount"
+                            type="number"
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].paymentAdvanceAmount = value;
+                              setShippingHeadOfCharges(copyPrv);
+                            }}
+                          />
+                        </td>
                         {/* above  row copy button*/}
                         <td>
                           <div
@@ -670,7 +723,7 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                           >
                             <button
-                              disabled={!item?.checked}
+                              disabled={isDisabled}
                               type="button"
                               className="btn btn-primary"
                               onClick={() => {
