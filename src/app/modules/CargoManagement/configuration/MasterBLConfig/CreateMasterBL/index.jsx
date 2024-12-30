@@ -1,48 +1,48 @@
-import { Divider } from "@material-ui/core";
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { useHistory, useLocation } from "react-router-dom";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../../App";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { Divider } from '@material-ui/core';
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { useHistory, useLocation } from 'react-router-dom';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const validationSchema = Yup.object().shape({
   masterBLType: Yup.object().shape({
-    value: Yup.string().required("Type is required"),
-    label: Yup.string().required("Type is required"),
+    value: Yup.string().required('Type is required'),
+    label: Yup.string().required('Type is required'),
   }),
   shippingLineName: Yup.object()
     .nullable()
-    .when("masterBLType.value", {
-      is: "1",
+    .when('masterBLType.value', {
+      is: '1',
       then: Yup.object().shape({
-        value: Yup.number().required("Shipping Line is required"),
-        label: Yup.string().required("Shipping Line is required"),
+        value: Yup.number().required('Shipping Line is required'),
+        label: Yup.string().required('Shipping Line is required'),
       }),
       otherwise: Yup.object().nullable(),
     }),
   airLineName: Yup.object()
     .nullable()
-    .when("masterBLType.value", {
-      is: "2",
+    .when('masterBLType.value', {
+      is: '2',
       then: Yup.object().shape({
-        value: Yup.number().required("Air Line is required"),
-        label: Yup.string().required("Air Line is required"),
+        value: Yup.number().required('Air Line is required'),
+        label: Yup.string().required('Air Line is required'),
       }),
       otherwise: Yup.object().nullable(),
     }),
-  masterBL: Yup.string().required("Master BL is required"),
+  masterBL: Yup.string().required('Master BL is required'),
   gsaName: Yup.object().shape({
-    value: Yup.string().required("GSA is required"),
-    label: Yup.string().required("GSA is required"),
+    value: Yup.string().required('GSA is required'),
+    label: Yup.string().required('GSA is required'),
   }),
 });
 
@@ -71,41 +71,41 @@ function CreateMasterBL() {
     const payload = {
       mblConfigId: id || 0,
       shippingLineId: values?.shippingLineName?.value || 0,
-      shippingLineName: values?.shippingLineName?.label || "",
+      shippingLineName: values?.shippingLineName?.label || '',
       airLine: values?.airLineName?.value || 0,
-      airLineName: values?.airLineName?.label || "",
+      airLineName: values?.airLineName?.label || '',
       gsaId: values?.gsaName?.value || 0,
-      gsaName: values?.gsaName?.label || "",
-      masterBL: values?.masterBL || "",
+      gsaName: values?.gsaName?.label || '',
+      masterBL: values?.masterBL || '',
       isActive: true,
       createdBy: userId,
-      createdAt: moment().format("YYYY-MM-DDTHH:mm:ss"),
+      createdAt: moment().format('YYYY-MM-DDTHH:mm:ss'),
     };
     SaveMasterBL(
       `${imarineBaseUrl}/domain/ShippingService/SaveMasterBLConfiguration`,
       payload,
       () => {
         if (id) {
-          history.push("/cargoManagement/configuration/masterbl");
+          history.push('/cargoManagement/configuration/masterbl');
         } else {
           cb();
         }
       },
-      "post"
+      'post',
     );
   };
 
   const GetAirServiceProviderDDL = (typeId) => {
     getAirServiceProviderDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${typeId}`,
+      `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?shipperId=${0}&participntTypeId=${typeId}`,
       (res) => {
         setAirServiceProviderDDL(res);
-      }
+      },
     );
   };
   React.useEffect(() => {
     setGSADDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetAirServiceProviderDDL?typeId=${3}`
+      `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?shipperId=0&participntTypeId=7`,
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -115,45 +115,45 @@ function CreateMasterBL() {
     if (data && formikRef.current) {
       const getMasterBLType = () => {
         if (data?.shippingLineName) {
-          return { value: 1, label: "Sea" };
+          return { value: 1, label: 'Sea' };
         }
         if (data?.airLineName) {
-          return { value: 2, label: "Air" };
+          return { value: 2, label: 'Air' };
         }
         return {
           value: 0,
-          label: "",
+          label: '',
         };
       };
-      GetAirServiceProviderDDL(getMasterBLType()?.value);
-      formikRef.current.setFieldValue("masterBLType", getMasterBLType());
+      GetAirServiceProviderDDL(getMasterBLType()?.value === 1 ? 5 : 6);
+      formikRef.current.setFieldValue('masterBLType', getMasterBLType());
       formikRef.current.setFieldValue(
-        "shippingLineName",
+        'shippingLineName',
         data?.shippingLineName
           ? {
               value: data?.shippingLineId || 0,
-              label: data?.shippingLineName || "",
+              label: data?.shippingLineName || '',
             }
-          : ""
+          : '',
       );
       formikRef.current.setFieldValue(
-        "airLineName",
+        'airLineName',
         data?.airLineName
           ? {
               value: data?.airLine || 0,
-              label: data?.airLineName || "",
+              label: data?.airLineName || '',
             }
-          : ""
+          : '',
       );
-      formikRef.current.setFieldValue("masterBL", data?.masterBL || "");
+      formikRef.current.setFieldValue('masterBL', data?.masterBL || '');
       formikRef.current.setFieldValue(
-        "gsaName",
+        'gsaName',
         data?.gsaName
           ? {
               value: data?.gsaId || 0,
-              label: data?.gsaName || "",
+              label: data?.gsaName || '',
             }
-          : ""
+          : '',
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -161,7 +161,7 @@ function CreateMasterBL() {
 
   return (
     <ICustomCard
-      title={id ? "Edit Master BL " : "Create Master BL "}
+      title={id ? 'Edit Master BL ' : 'Create Master BL '}
       backHandler={() => {
         history.goBack();
       }}
@@ -176,11 +176,11 @@ function CreateMasterBL() {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          masterBLType: "",
-          airLineName: "",
-          shippingLineName: "",
-          masterBL: "",
-          gsaName: "",
+          masterBLType: '',
+          airLineName: '',
+          shippingLineName: '',
+          masterBL: '',
+          gsaName: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -199,11 +199,11 @@ function CreateMasterBL() {
                     label="Type"
                     options={[
                       {
-                        label: "Sea",
+                        label: 'Sea',
                         value: 1,
                       },
                       {
-                        label: "Air",
+                        label: 'Air',
                         value: 2,
                       },
                     ]}
@@ -211,11 +211,13 @@ function CreateMasterBL() {
                     placeholder="Type"
                     value={values?.masterBLType}
                     onChange={(valueOption) => {
-                      setFieldValue("masterBLType", valueOption);
-                      setFieldValue("shippingLineName", "");
-                      setFieldValue("airLineName", "");
+                      setFieldValue('masterBLType', valueOption);
+                      setFieldValue('shippingLineName', '');
+                      setFieldValue('airLineName', '');
                       valueOption?.value &&
-                        GetAirServiceProviderDDL(valueOption?.value);
+                        GetAirServiceProviderDDL(
+                          valueOption?.value === 1 ? 5 : 6,
+                        );
                     }}
                     errors={errors}
                     touched={touched}
@@ -227,7 +229,7 @@ function CreateMasterBL() {
                     <NewSelect
                       options={airServiceProviderDDLData || []}
                       label="Shipping Line"
-                      name={"shippingLineName"}
+                      name={'shippingLineName'}
                       value={values?.shippingLineName}
                       onChange={(valueOption) => {
                         setFieldValue(`shippingLineName`, valueOption);
@@ -244,7 +246,7 @@ function CreateMasterBL() {
                     <NewSelect
                       options={airServiceProviderDDLData || []}
                       label="Air Line"
-                      name={"airLineName"}
+                      name={'airLineName'}
                       value={values?.airLineName}
                       onChange={(valueOption) => {
                         setFieldValue(`airLineName`, valueOption);
@@ -260,10 +262,10 @@ function CreateMasterBL() {
                   <InputField
                     value={values?.masterBL}
                     label="Master BL"
-                    name={"masterBL"}
+                    name={'masterBL'}
                     placeholder="Master BL"
                     type="text"
-                    onChange={(e) => setFieldValue("masterBL", e.target.value)}
+                    onChange={(e) => setFieldValue('masterBL', e.target.value)}
                   />
                 </div>
                 {/* GSA */}
@@ -271,7 +273,7 @@ function CreateMasterBL() {
                   <NewSelect
                     options={gsaDDL || []}
                     label="GSA"
-                    name={"gsaName"}
+                    name={'gsaName'}
                     value={values?.gsaName}
                     onChange={(valueOption) => {
                       setFieldValue(`gsaName`, valueOption);
