@@ -316,6 +316,114 @@ function BookingDetailsInfo({ bookingData, billingData }) {
               {moment(bookingData?.requestDeliveryDate).format("DD MMM YYYY")}
             </p>
           </div>
+
+        </div>
+        <div className="box-container">
+          {/* Shipment planning 1*/}
+          <div className="box">
+            <h5>Shipment planning</h5>
+            <p>
+              <strong>Pickup Location:</strong>{" "}
+              {bookingData?.transportPlanning?.pickupLocation}
+            </p>
+            <p>
+              <strong>
+                {bookingData?.modeOfTransport === "Sea"
+                  ? "No of Container:"
+                  : "No of Pallet:"}
+              </strong>{" "}
+              {bookingData?.modeOfTransport === "Sea"
+                ? bookingData?.transportPlanning?.noOfContainer
+                : bookingData?.transportPlanning?.noOfPallets}
+            </p>
+
+            <p>
+              <strong>
+                {bookingData?.modeOfTransport === "Sea"
+                  ? "Shipping Line:"
+                  : "Air Line:"}
+              </strong>{" "}
+              {bookingData?.transportPlanning?.airLineOrShippingLine}
+            </p>
+            <p>
+              <strong>GSA:</strong> {bookingData?.transportPlanning?.gsaName}
+            </p>
+            {bookingData?.modeOfTransport === "Sea" ? (
+              <>
+                <p>
+                  <strong>Vessel Name:</strong>{" "}
+                  {bookingData?.transportPlanning?.vesselName}
+                </p>
+                <p>
+                  <strong>Voyage Number:</strong>{" "}
+                  {bookingData?.transportPlanning?.voyagaNo}
+                </p>
+                <p>
+                  <strong>Estimated Arrival Date & Time:</strong>{" "}
+                  {moment(
+                    bookingData?.transportPlanning?.arrivalDateTime
+                  ).isValid() &&
+                    moment(
+                      bookingData?.transportPlanning?.arrivalDateTime
+                    ).format("DD MMM YYYY")}
+                </p>
+                <p>
+                  <strong>Estimated Berth Date:</strong>{" "}
+                  {moment(bookingData?.transportPlanning?.berthDate).isValid() &&
+                    moment(bookingData?.transportPlanning?.berthDate).format(
+                      "DD MMM YYYY"
+                    )}
+                </p>
+                <p>
+                  <strong>Estimated Cut Off Date:</strong>{" "}
+                  {moment(bookingData?.transportPlanning?.cutOffDate).isValid() &&
+                    moment(bookingData?.transportPlanning?.cutOffDate).format(
+                      "DD MMM YYYY"
+                    )}
+                </p>
+                <p>
+                  <strong>Estimated Time Of Depart</strong>{" "}
+                  {moment(
+                    bookingData?.transportPlanning?.estimatedTimeOfDepart
+                  ).isValid() &&
+                    moment(
+                      bookingData?.transportPlanning?.estimatedTimeOfDepart
+                    ).format("DD MMM YYYY")}
+                </p>
+              </>
+            ) : (
+              <>
+                <p>
+                  <strong>IATA Number:</strong>{" "}
+                  {bookingData?.transportPlanning?.iatanumber}
+                </p>
+                <p>
+                  <strong>Carton:</strong>{" "}
+                  {bookingData?.transportPlanning?.carton}
+                </p>
+                <p>
+                  <strong>Estimated Time Of Depart:</strong>{" "}
+                  {moment(
+                    bookingData?.transportPlanning?.estimatedTimeOfDepart
+                  ).isValid() &&
+                    moment(
+                      bookingData?.transportPlanning?.estimatedTimeOfDepart
+                    ).format("DD MMM YYYY")}
+                </p>
+              </>
+            )}
+            <p>
+              <strong>S.B No:</strong> {bookingData?.transportPlanning?.strSbNo}
+            </p>
+            <p>
+              <strong>S.B Date:</strong>{" "}
+              {moment(bookingData?.transportPlanning?.dteSbDate).isValid() &&
+                moment(bookingData?.transportPlanning?.dteSbDate).format(
+                  "DD MMM YYYY"
+                )}
+            </p>
+
+          </div>
           {/* Confirmation Information */}
           <div className="box">
             <h5>Confirmation Information</h5>
@@ -344,110 +452,11 @@ function BookingDetailsInfo({ bookingData, billingData }) {
               <strong>Warehouse:</strong> {bookingData?.warehouseName}
             </p>
           </div>
-        </div>
-        {/* Shipment planning */}
-        <div className="mt-4">
-          <h5>Shipment planning</h5>
-          <p>
-            <strong>Pickup Location:</strong>{" "}
-            {bookingData?.transportPlanning?.pickupLocation}
-          </p>
-          <p>
-            <strong>
-              {bookingData?.modeOfTransport === "Sea"
-                ? "No of Container:"
-                : "No of Pallet:"}
-            </strong>{" "}
-            {bookingData?.modeOfTransport === "Sea"
-              ? bookingData?.transportPlanning?.noOfContainer
-              : bookingData?.transportPlanning?.noOfPallets}
-          </p>
 
-          <p>
-            <strong>
-              {bookingData?.modeOfTransport === "Sea"
-                ? "Shipping Line:"
-                : "Air Line:"}
-            </strong>{" "}
-            {bookingData?.transportPlanning?.airLineOrShippingLine}
-          </p>
-          <p>
-            <strong>GSA:</strong> {bookingData?.transportPlanning?.gsaName}
-          </p>
-          {bookingData?.modeOfTransport === "Sea" ? (
-            <>
-              <p>
-                <strong>Vessel Name:</strong>{" "}
-                {bookingData?.transportPlanning?.vesselName}
-              </p>
-              <p>
-                <strong>Voyage Number:</strong>{" "}
-                {bookingData?.transportPlanning?.voyagaNo}
-              </p>
-              <p>
-                <strong>Estimated Arrival Date & Time:</strong>{" "}
-                {moment(
-                  bookingData?.transportPlanning?.arrivalDateTime
-                ).isValid() &&
-                  moment(
-                    bookingData?.transportPlanning?.arrivalDateTime
-                  ).format("DD MMM YYYY")}
-              </p>
-              <p>
-                <strong>Estimated Berth Date:</strong>{" "}
-                {moment(bookingData?.transportPlanning?.berthDate).isValid() &&
-                  moment(bookingData?.transportPlanning?.berthDate).format(
-                    "DD MMM YYYY"
-                  )}
-              </p>
-              <p>
-                <strong>Estimated Cut Off Date:</strong>{" "}
-                {moment(bookingData?.transportPlanning?.cutOffDate).isValid() &&
-                  moment(bookingData?.transportPlanning?.cutOffDate).format(
-                    "DD MMM YYYY"
-                  )}
-              </p>
-              <p>
-                <strong>Estimated Time Of Depart</strong>{" "}
-                {moment(
-                  bookingData?.transportPlanning?.estimatedTimeOfDepart
-                ).isValid() &&
-                  moment(
-                    bookingData?.transportPlanning?.estimatedTimeOfDepart
-                  ).format("DD MMM YYYY")}
-              </p>
-            </>
-          ) : (
-            <>
-              <p>
-                <strong>IATA Number:</strong>{" "}
-                {bookingData?.transportPlanning?.iatanumber}
-              </p>
-              <p>
-                <strong>Carton:</strong>{" "}
-                {bookingData?.transportPlanning?.carton}
-              </p>
-              <p>
-                <strong>Estimated Time Of Depart:</strong>{" "}
-                {moment(
-                  bookingData?.transportPlanning?.estimatedTimeOfDepart
-                ).isValid() &&
-                  moment(
-                    bookingData?.transportPlanning?.estimatedTimeOfDepart
-                  ).format("DD MMM YYYY")}
-              </p>
-            </>
-          )}
-          <p>
-            <strong>S.B No:</strong> {bookingData?.transportPlanning?.strSbNo}
-          </p>
-          <p>
-            <strong>S.B Date:</strong>{" "}
-            {moment(bookingData?.transportPlanning?.dteSbDate).isValid() &&
-              moment(bookingData?.transportPlanning?.dteSbDate).format(
-                "DD MMM YYYY"
-              )}
-          </p>
+        </div>
+        {/* Shipment planning 2*/}
+
+        <div className="mt-4">
           {bookingData?.modeOfTransport === "Sea" && (
             <>
               <div className="table-responsive">
@@ -528,6 +537,7 @@ function BookingDetailsInfo({ bookingData, billingData }) {
             </div>
           </div>
         </div>
+
         {/* Cargo Details */}
         <div className="mt-4">
           <h5>Cargo Information</h5>
