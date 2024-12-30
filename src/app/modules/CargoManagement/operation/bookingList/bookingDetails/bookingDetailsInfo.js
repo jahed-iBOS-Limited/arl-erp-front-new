@@ -33,11 +33,19 @@ function BookingDetailsInfo({ bookingData, billingData }) {
             </p>
             <p>
               {" "}
-              <strong>Division/City:</strong> {bookingData?.shipperState}
+              <strong>State/Province/Region:</strong> {bookingData?.shipperState}
+            </p>
+            <p>
+              {" "}
+              <strong>City:</strong> {bookingData?.shipperCity}
             </p>
 
             <p>
-              <strong>State/Province & Postal Code:</strong>{" "}
+              <strong>Zip/Postal Code:</strong>{" "}
+              {bookingData?.shipperPostalCode}
+            </p>
+            <p>
+              <strong>Address:</strong>{" "}
               {bookingData?.shipperAddress}
             </p>
             <p>
@@ -45,7 +53,7 @@ function BookingDetailsInfo({ bookingData, billingData }) {
               {bookingData?.shipperContactPerson}
             </p>
             <p>
-              <strong>Contact:</strong> {bookingData?.shipperContact}
+              <strong>Contact Number:</strong> {bookingData?.shipperContact}
             </p>
             <p>
               <strong>Email:</strong> {bookingData?.shipperEmail}
