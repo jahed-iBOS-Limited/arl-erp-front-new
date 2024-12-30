@@ -210,7 +210,7 @@ function ChargesModal({ rowClickData, CB }) {
             {/* <div className="form-group ">
               <div className="row global-form"></div>
             </div> */}
-            <div className="form-group row global-form">
+            {/* <div className="form-group row global-form">
               <div className="col-lg-6">
                 <InputField
                   value={values?.attribute}
@@ -221,7 +221,6 @@ function ChargesModal({ rowClickData, CB }) {
                 />
               </div>
               <div className="col-lg-3">
-                {/* add button */}
                 <div className="d-flex justify-content-start align-items-center mt-5">
                   <button
                     type="button"
@@ -262,7 +261,7 @@ function ChargesModal({ rowClickData, CB }) {
                   </button>
                 </div>
               </div>
-            </div>{' '}
+            </div>{' '} */}
             <div className="table-responsive">
               <table className="table global-table">
                 <thead>
