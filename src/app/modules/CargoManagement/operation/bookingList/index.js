@@ -1238,7 +1238,22 @@ function BookingList() {
                       });
                     }}
                   >
-                    <BillGenerate rowClickData={rowClickData} />
+                    <BillGenerate
+                      rowClickData={rowClickData}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isCommonModalShow: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
                   </IViewModal>
                 </>
               )}
