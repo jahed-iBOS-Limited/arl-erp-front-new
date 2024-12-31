@@ -13,7 +13,7 @@ import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import './style.css';
-
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 const validationSchema = Yup.object().shape({});
 function ChargesModal({ rowClickData, CB }) {
   const formikRef = React.useRef(null);
@@ -207,67 +207,12 @@ function ChargesModal({ rowClickData, CB }) {
                 </div>
               </>
             </div>
-            {/* <div className="form-group ">
-              <div className="row global-form"></div>
-            </div> */}
-            {/* <div className="form-group row global-form">
-              <div className="col-lg-6">
-                <InputField
-                  value={values?.attribute}
-                  label="Attribute"
-                  name="attribute"
-                  type="text"
-                  onChange={(e) => setFieldValue('attribute', e.target.value)}
-                />
-              </div>
-              <div className="col-lg-3">
-                <div className="d-flex justify-content-start align-items-center mt-5">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      if (!values?.attribute) {
-                        return toast.warn('Attribute is required');
-                      }
-                      setShippingHeadOfCharges([
-                        ...shippingHeadOfCharges,
-                        {
-                          headOfCharges: values?.attribute,
-                          headOfChargeId: 0,
-                          checked: true,
-                          currencyId: 0,
-                          currency: '',
-                          exchangeRate: '',
-                          collectionActualAmount: '',
-                          collectionDummyAmount: '',
-                          collectionPartyType: '',
-                          collectionPartyTypeId: 0,
-                          collectionParty: '',
-                          collectionPartyId: 0,
-                          paymentActualAmount: '',
-                          paymentDummyAmount: '',
-                          paymentAdvanceAmount: '',
-                          paymentPartyType: '',
-                          paymentPartyTypeId: 0,
-                          paymentParty: '',
-                          paymentPartyId: 0,
-                        },
-                      ]);
-                      // resetForm();
-                      setFieldValue('attribute', '');
-                    }}
-                  >
-                    Add
-                  </button>
-                </div>
-              </div>
-            </div>{' '} */}
             <div className="table-responsive">
               <table className="table global-table">
                 <thead>
                   <tr>
                     <th rowspan="2">
-                      <input
+                      {/* <input
                         type="checkbox"
                         checked={
                           shippingHeadOfCharges?.length > 0
@@ -336,7 +281,7 @@ function ChargesModal({ rowClickData, CB }) {
                             }),
                           );
                         }}
-                      />
+                      /> */}
                     </th>
                     <th rowspan="2">SL</th>
                     <th rowspan="2">Attribute</th>
@@ -537,7 +482,15 @@ function ChargesModal({ rowClickData, CB }) {
                         <td>
                           <NewSelect
                             isDisabled={isDisabled}
-                            options={shipingCargoTypeDDL || []}
+                            options={
+                              [
+                                ...shipingCargoTypeDDL,
+                                {
+                                  label: `Others`,
+                                  value: 0,
+                                },
+                              ] || []
+                            }
                             value={
                               item?.collectionPartyType
                                 ? {
@@ -553,6 +506,8 @@ function ChargesModal({ rowClickData, CB }) {
                                 valueOption?.label;
                               copyPrv[index].collectionPartyTypeId =
                                 valueOption?.value;
+                              copyPrv[index].collectionParty = '';
+                              copyPrv[index].collectionPartyId = 0;
                               setShippingHeadOfCharges(copyPrv);
                             }}
                           />
@@ -579,12 +534,14 @@ function ChargesModal({ rowClickData, CB }) {
                               setShippingHeadOfCharges(copyPrv);
                             }}
                             loadOptions={(v) => {
+                              let url = '';
+                              if (item?.collectionPartyTypeId === 0) {
+                                url = `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=2&cargoType=0`;
+                              } else {
+                                url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=2&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.collectionPartyTypeId}`;
+                              }
                               if (v?.length < 2) return [];
-                              return axios
-                                .get(
-                                  `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=2&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.collectionPartyTypeId}`,
-                                )
-                                .then((res) => res?.data);
+                              return axios.get(url).then((res) => res?.data);
                             }}
                           />
                         </td>
@@ -639,7 +596,8 @@ function ChargesModal({ rowClickData, CB }) {
                                 valueOption?.label;
                               copyPrv[index].paymentPartyTypeId =
                                 valueOption?.value;
-
+                              copyPrv[index].paymentParty = '';
+                              copyPrv[index].paymentPartyId = 0;
                               setShippingHeadOfCharges(copyPrv);
                             }}
                           />
@@ -663,58 +621,145 @@ function ChargesModal({ rowClickData, CB }) {
                               setShippingHeadOfCharges(copyPrv);
                             }}
                             loadOptions={(v) => {
+                              let url = '';
+                              if (item?.collectionPartyTypeId === 0) {
+                                url = `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=1&cargoType=0`;
+                              } else {
+                                url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=1&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.collectionPartyTypeId}`;
+                              }
+
                               if (v?.length < 2) return [];
-                              return axios
-                                .get(
-                                  `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=1&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.paymentPartyTypeId}`,
-                                )
-                                .then((res) => res?.data);
+                              return axios.get(url).then((res) => res?.data);
                             }}
                           />
                         </td>
                         {/* "Payment Actual Amount" =  InputField component */}
                         <td>
-                          <InputField
-                            disabled={isDisabled}
-                            value={item?.paymentActualAmount}
-                            name="paymentActualAmount"
-                            type="number"
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].paymentActualAmount = value;
-                              setShippingHeadOfCharges(copyPrv);
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '5px',
                             }}
-                          />
+                          >
+                            <InputField
+                              disabled={isDisabled}
+                              value={item?.paymentActualAmount}
+                              name="paymentActualAmount"
+                              type="number"
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                const copyPrv = [...shippingHeadOfCharges];
+                                copyPrv[index].paymentActualAmount = value;
+                                setShippingHeadOfCharges(copyPrv);
+                              }}
+                            />
+                            <div>
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="products-delete-tooltip">
+                                    Is Actual Combind To MBL
+                                  </Tooltip>
+                                }
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={item?.isActulCombindToMbl}
+                                  onChange={(e) => {
+                                    const copyPrv = [...shippingHeadOfCharges];
+                                    copyPrv[index].isActulCombindToMbl =
+                                      e?.target?.checked;
+                                    setShippingHeadOfCharges(copyPrv);
+                                  }}
+                                />
+                              </OverlayTrigger>
+                            </div>
+                          </div>
                         </td>
                         {/* "Payment Dummy Amount" =  InputField component */}
                         <td>
-                          <InputField
-                            disabled={isDisabled}
-                            value={item?.paymentDummyAmount}
-                            name="paymentDummyAmount"
-                            type="number"
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].paymentDummyAmount = value;
-                              setShippingHeadOfCharges(copyPrv);
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '5px',
                             }}
-                          />
+                          >
+                            <InputField
+                              disabled={isDisabled}
+                              value={item?.paymentDummyAmount}
+                              name="paymentDummyAmount"
+                              type="number"
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                const copyPrv = [...shippingHeadOfCharges];
+                                copyPrv[index].paymentDummyAmount = value;
+                                setShippingHeadOfCharges(copyPrv);
+                              }}
+                            />
+                            <div>
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="products-delete-tooltip">
+                                    Is Dummy Combind To MBL
+                                  </Tooltip>
+                                }
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={item?.IsDummyCombindToMbl}
+                                  onChange={(e) => {
+                                    const copyPrv = [...shippingHeadOfCharges];
+                                    copyPrv[index].IsDummyCombindToMbl =
+                                      e?.target?.checked;
+                                    setShippingHeadOfCharges(copyPrv);
+                                  }}
+                                />
+                              </OverlayTrigger>
+                            </div>
+                          </div>
                         </td>
                         <td>
-                          <InputField
-                            disabled={isDisabled}
-                            value={item?.paymentAdvanceAmount}
-                            name="paymentAdvanceAmount"
-                            type="number"
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].paymentAdvanceAmount = value;
-                              setShippingHeadOfCharges(copyPrv);
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '5px',
                             }}
-                          />
+                          >
+                            <InputField
+                              disabled={isDisabled}
+                              value={item?.paymentAdvanceAmount}
+                              name="paymentAdvanceAmount"
+                              type="number"
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                const copyPrv = [...shippingHeadOfCharges];
+                                copyPrv[index].paymentAdvanceAmount = value;
+                                setShippingHeadOfCharges(copyPrv);
+                              }}
+                            />
+                            <div>
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="products-delete-tooltip">
+                                    Is Actual Combind To MBL
+                                  </Tooltip>
+                                }
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={item?.IsPaymentCombindToMbl}
+                                  onChange={(e) => {
+                                    const copyPrv = [...shippingHeadOfCharges];
+                                    copyPrv[index].IsPaymentCombindToMbl =
+                                      e?.target?.checked;
+                                    setShippingHeadOfCharges(copyPrv);
+                                  }}
+                                />
+                              </OverlayTrigger>
+                            </div>
+                          </div>
                         </td>
                         {/* above  row copy button*/}
                         <td>
