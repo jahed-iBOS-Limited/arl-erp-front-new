@@ -741,6 +741,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={!item?.masterBlId}
                                   className={
                                     item?.isCharges
                                       ? 'btn btn-sm btn-success px-1 py-1'
