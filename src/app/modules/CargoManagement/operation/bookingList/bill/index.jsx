@@ -108,74 +108,73 @@ const BillGenerate = ({ rowClickData, CB }) => {
   };
 
   const saveHandler = (values) => {
-    if (activeTab === 'billGenerate') {
-      const payload = {
-        headerData: {
-          supplierInvoiceCode: '',
-          accountId: profileData?.accountId,
-          businessUnitId: selectedBusinessUnit?.value,
-          businessUnitName: selectedBusinessUnit?.label,
-          sbuid: 0,
-          sbuname: '',
-          purchaseOrganizationId: 0,
-          purchaseOrganizationName: '',
-          plantId: 0,
-          plantName: '',
-          warehouseId: 0,
-          warehouseName: '',
-          purchaseOrderId: 0,
-          purchaseOrderNo: '',
-          purchaseOrderDate: new Date(),
-          invoiceNumber: '',
-          invoiceDate: new Date(),
-          totalReferenceAmount: 0,
-          grossInvoiceAmount: 0,
-          deductionAmount: 0,
-          advanceAdjustmentAmount: 0,
-          netPaymentAmount:
-            billingDataFilterData?.reduce(
-              (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
-              0,
-            ) || 0,
-          paymentDueDate: new Date(),
-          remarks: values?.narration || '',
-          actionBy: profileData?.userId,
-          lastActionDateTime: new Date(),
-          serverDateTime: new Date(),
-          active: true,
-          advanceAmount: 0,
-          businessPartnerId: values?.paymentParty?.value,
-          businessrName: values?.paymentParty?.label,
-          businessPartnerPartneAddress: '',
-          contactNumber: '',
-          emailAddress: '',
-          binNo: '',
-          licenseNo: '',
+    const payload = {
+      headerData: {
+        postingType: activeTab === 'billGenerate' ? 'billGenerate' : 'Advance',
+        supplierInvoiceCode: '',
+        accountId: profileData?.accountId,
+        businessUnitId: selectedBusinessUnit?.value,
+        businessUnitName: selectedBusinessUnit?.label,
+        sbuid: 0,
+        sbuname: '',
+        purchaseOrganizationId: 0,
+        purchaseOrganizationName: '',
+        plantId: 0,
+        plantName: '',
+        warehouseId: 0,
+        warehouseName: '',
+        purchaseOrderId: 0,
+        purchaseOrderNo: '',
+        purchaseOrderDate: new Date(),
+        invoiceNumber: '',
+        invoiceDate: new Date(),
+        totalReferenceAmount: 0,
+        grossInvoiceAmount: 0,
+        deductionAmount: 0,
+        advanceAdjustmentAmount: 0,
+        netPaymentAmount:
+          billingDataFilterData?.reduce(
+            (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
+            0,
+          ) || 0,
+        paymentDueDate: new Date(),
+        remarks: values?.narration || '',
+        actionBy: profileData?.userId,
+        lastActionDateTime: new Date(),
+        serverDateTime: new Date(),
+        active: true,
+        advanceAmount: 0,
+        businessPartnerId: values?.paymentParty?.value,
+        businessrName: values?.paymentParty?.label,
+        businessPartnerPartneAddress: '',
+        contactNumber: '',
+        emailAddress: '',
+        binNo: '',
+        licenseNo: '',
+      },
+      rowListData: [],
+      imageData: [
+        {
+          imageId: values?.documentFileId || '',
         },
-        rowListData: [],
-        imageData: [
-          {
-            imageId: values?.documentFileId || '',
-          },
-        ],
-        bookingDatas: uniqueBookingRequestList || [],
-        chargeDatas:
-          billingDataFilterData?.map((item) => {
-            return {
-              headOfChargeId: item?.headOfChargeId,
-              amount: item?.paymentPayAmount,
-            };
-          }) || [],
-      };
+      ],
+      bookingDatas: uniqueBookingRequestList || [],
+      chargeDatas:
+        billingDataFilterData?.map((item) => {
+          return {
+            headOfChargeId: item?.headOfChargeId,
+            amount: item?.paymentPayAmount,
+          };
+        }) || [],
+    };
 
-      saveLogisticBillRegister(
-        `${imarineBaseUrl}/domain/ShippingService/LogisticBillRegister`,
-        payload,
-        (data) => {
-          CB();
-        },
-      );
-    }
+    saveLogisticBillRegister(
+      `${imarineBaseUrl}/domain/ShippingService/LogisticBillRegister`,
+      payload,
+      (data) => {
+        CB();
+      },
+    );
   };
 
   // filter by paymentPartyId
