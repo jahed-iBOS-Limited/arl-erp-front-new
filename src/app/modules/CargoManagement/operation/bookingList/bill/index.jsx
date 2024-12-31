@@ -70,22 +70,22 @@ const BillGenerate = ({ rowClickData, CB }) => {
             ).values(),
           ];
 
-          const uniqueBookingRequestList = [
-            ...new Map(
-              resData.map((item) => [item['bookingRequestId'], item]),
-            ).values(),
-          ];
-          const modifyBookingRequestList = uniqueBookingRequestList?.map(
-            (itm) => {
-              return {
-                bookingId: itm?.bookingRequestId || 0,
-                masterBlId: itm?.masterBlId || 0,
-                masterBlCode: itm?.masterBlCode || 0,
-                bookedBillingId: itm?.billingId || 0,
-              };
-            },
-          );
-          setUniqueBookingRequestList(modifyBookingRequestList);
+          // const uniqueBookingRequestList = [
+          //   ...new Map(
+          //     resData.map((item) => [item['bookingRequestId'], item]),
+          //   ).values(),
+          // ];
+          // const modifyBookingRequestList = uniqueBookingRequestList?.map(
+          //   (itm) => {
+          //     return {
+          //       bookingId: itm?.bookingRequestId || 0,
+          //       masterBlId: itm?.masterBlId || 0,
+          //       masterBlCode: itm?.masterBlCode || 0,
+          //       bookedBillingId: itm?.billingId || 0,
+          //     };
+          //   },
+          // );
+          setUniqueBookingRequestList(resData?.[0]?.bookingDatas || []);
           setPaymentPartyListDDL(unique || []);
         },
       );
