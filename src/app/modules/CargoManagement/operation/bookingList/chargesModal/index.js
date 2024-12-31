@@ -413,6 +413,10 @@ function ChargesModal({ rowClickData, CB }) {
                       <tr>
                         <td>
                           <input
+                            disabled={
+                              item?.billRegisterId ||
+                              item?.advancedBillRegisterId
+                            }
                             type="checkbox"
                             checked={item?.checked}
                             onChange={(e) => {
@@ -622,7 +626,11 @@ function ChargesModal({ rowClickData, CB }) {
                         {/* "Payment Type" =  NewSelect component */}
                         <td>
                           <NewSelect
-                            isDisabled={isDisabled}
+                            isDisabled={
+                              isDisabled ||
+                              item?.billRegisterId ||
+                              item?.advancedBillRegisterId
+                            }
                             options={shipingCargoTypeDDL || []}
                             value={
                               item?.paymentPartyType
@@ -647,7 +655,12 @@ function ChargesModal({ rowClickData, CB }) {
                         </td>
                         <td>
                           <SearchAsyncSelect
-                            isDisabled={isDisabled || !item?.paymentPartyType}
+                            isDisabled={
+                              isDisabled ||
+                              !item?.paymentPartyType ||
+                              item?.billRegisterId ||
+                              item?.advancedBillRegisterId
+                            }
                             selectedValue={
                               item?.paymentParty
                                 ? {
@@ -686,7 +699,7 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                           >
                             <InputField
-                              disabled={isDisabled}
+                              // disabled={isDisabled}
                               value={item?.paymentActualAmount}
                               name="paymentActualAmount"
                               type="number"
@@ -696,6 +709,14 @@ function ChargesModal({ rowClickData, CB }) {
                                 copyPrv[index].paymentActualAmount = value;
                                 setShippingHeadOfCharges(copyPrv);
                               }}
+                              disabled={
+                                (item?.billingId &&
+                                  item?.isActulCombindToMbl) ||
+                                item?.billRegisterId ||
+                                isDisabled
+                                  ? true
+                                  : false
+                              }
                             />
                             <div>
                               <OverlayTrigger
@@ -714,6 +735,14 @@ function ChargesModal({ rowClickData, CB }) {
                                       e?.target?.checked;
                                     setShippingHeadOfCharges(copyPrv);
                                   }}
+                                  disabled={
+                                    (item?.billingId &&
+                                      item?.isActulCombindToMbl) ||
+                                    item?.billRegisterId ||
+                                    isDisabled
+                                      ? true
+                                      : false
+                                  }
                                 />
                               </OverlayTrigger>
                             </div>
@@ -729,7 +758,7 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                           >
                             <InputField
-                              disabled={isDisabled}
+                              // disabled={isDisabled}
                               value={item?.paymentDummyAmount}
                               name="paymentDummyAmount"
                               type="number"
@@ -739,6 +768,14 @@ function ChargesModal({ rowClickData, CB }) {
                                 copyPrv[index].paymentDummyAmount = value;
                                 setShippingHeadOfCharges(copyPrv);
                               }}
+                              disabled={
+                                (item?.billingId &&
+                                  item?.IsDummyCombindToMbl) ||
+                                item?.billRegisterId ||
+                                isDisabled
+                                  ? true
+                                  : false
+                              }
                             />
                             <div>
                               <OverlayTrigger
@@ -757,6 +794,14 @@ function ChargesModal({ rowClickData, CB }) {
                                       e?.target?.checked;
                                     setShippingHeadOfCharges(copyPrv);
                                   }}
+                                  disabled={
+                                    (item?.billingId &&
+                                      item?.IsDummyCombindToMbl) ||
+                                    item?.billRegisterId ||
+                                    isDisabled
+                                      ? true
+                                      : false
+                                  }
                                 />
                               </OverlayTrigger>
                             </div>
@@ -771,7 +816,7 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                           >
                             <InputField
-                              disabled={isDisabled}
+                              // disabled={isDisabled}
                               value={item?.paymentAdvanceAmount}
                               name="paymentAdvanceAmount"
                               type="number"
@@ -781,12 +826,21 @@ function ChargesModal({ rowClickData, CB }) {
                                 copyPrv[index].paymentAdvanceAmount = value;
                                 setShippingHeadOfCharges(copyPrv);
                               }}
+                              disabled={
+                                (item?.billingId &&
+                                  item?.IsPaymentCombindToMbl) ||
+                                item?.billRegisterId ||
+                                item?.advancedBillRegisterId ||
+                                isDisabled
+                                  ? true
+                                  : false
+                              }
                             />
                             <div>
                               <OverlayTrigger
                                 overlay={
                                   <Tooltip id="products-delete-tooltip">
-                                    Is Actual Combind To MBL
+                                    Is Advance Combind To MBL
                                   </Tooltip>
                                 }
                               >
@@ -799,6 +853,15 @@ function ChargesModal({ rowClickData, CB }) {
                                       e?.target?.checked;
                                     setShippingHeadOfCharges(copyPrv);
                                   }}
+                                  disabled={
+                                    (item?.billingId &&
+                                      item?.IsPaymentCombindToMbl) ||
+                                    item?.billRegisterId ||
+                                    item?.advancedBillRegisterId ||
+                                    isDisabled
+                                      ? true
+                                      : false
+                                  }
                                 />
                               </OverlayTrigger>
                             </div>
