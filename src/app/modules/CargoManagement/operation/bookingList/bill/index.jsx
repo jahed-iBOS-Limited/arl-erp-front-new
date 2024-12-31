@@ -57,7 +57,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
         `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${rowClickData?.masterBlId}`,
         (resData) => {
           const billingDataList = resData
-            ?.filter((i) => i.paymentPartyId)
+            ?.filter((i) => i.paymentPartyId && !i?.billRegisterId)
             ?.map((item) => {
               return {
                 value: item?.paymentPartyId,
@@ -186,7 +186,8 @@ const BillGenerate = ({ rowClickData, CB }) => {
         ?.filter((item) => {
           return (
             item?.paymentPartyId === valueOption?.value &&
-            item?.paymentActualAmount
+            item?.paymentActualAmount &&
+            !item?.billRegisterId
           );
         })
         .map((item) => {

@@ -1250,7 +1250,7 @@ function BookingList() {
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
-                          isCommonModalShow: false,
+                          isBill: false,
                         });
                         setRowClickData({});
                       }}
