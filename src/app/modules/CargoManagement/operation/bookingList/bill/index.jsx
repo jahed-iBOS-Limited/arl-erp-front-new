@@ -13,6 +13,7 @@ import { newAttachment_action } from '../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import './style.css';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { toast } from 'react-toastify';
 
 const validationSchema = Yup.object().shape({
   paymentParty: Yup.object().shape({
@@ -108,6 +109,8 @@ const BillGenerate = ({ rowClickData, CB }) => {
   };
 
   const saveHandler = (values) => {
+    if (billingDataFilterData?.length === 0)
+      return toast.warning('No data found to save');
     const payload = {
       headerData: {
         postingType: activeTab === 'billGenerate' ? 'billGenerate' : 'Advance',
@@ -206,7 +209,8 @@ const BillGenerate = ({ rowClickData, CB }) => {
         ?.filter((item) => {
           return (
             item?.paymentPartyId === valueOption?.value &&
-            item?.paymentAdvanceAmount
+            item?.paymentAdvanceAmount &&
+            !item?.advancedBillRegisterId
           );
         })
         .map((item) => {
