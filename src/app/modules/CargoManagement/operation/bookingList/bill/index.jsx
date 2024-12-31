@@ -81,6 +81,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
                 bookingId: itm?.bookingRequestId || 0,
                 masterBlId: itm?.masterBlId || 0,
                 masterBlCode: itm?.masterBlCode || 0,
+                bookedBillingId: itm?.billingId || 0,
               };
             },
           );
