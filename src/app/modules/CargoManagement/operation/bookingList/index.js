@@ -519,6 +519,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={item?.isConfirm}
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {
                                     cancelHandler({
