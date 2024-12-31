@@ -12,6 +12,7 @@ import NewSelect from '../../../../_helper/_select';
 import { newAttachment_action } from '../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import './style.css';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const validationSchema = Yup.object().shape({
   paymentParty: Yup.object().shape({
@@ -20,7 +21,7 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-const BillGenerate = ({ rowClickData }) => {
+const BillGenerate = ({ rowClickData, CB }) => {
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
   const [uploadImageLoading, setUploadImageLoading] = useState(null);
@@ -38,6 +39,12 @@ const BillGenerate = ({ rowClickData }) => {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
+  const [
+    ,
+    saveLogisticBillRegister,
+    logisticBillRegisterLoading,
+    ,
+  ] = useAxiosPost();
   const [paymentPartyListDDL, setPaymentPartyListDDL] = useState();
   useEffect(() => {
     commonGetByIdHandler();
@@ -67,28 +74,76 @@ const BillGenerate = ({ rowClickData }) => {
   };
 
   const saveHandler = (values) => {
-    const paylaod = {
-      typeId: values?.paymentParty?.value || 0,
-      accountId: profileData?.accountId || 0,
-      unitId: selectedBusinessUnit?.value || 0,
-      bookingDate: new Date(),
-      bookingNumber: bookingData?.bookingRequestCode || '',
-      paymentTerms: '',
-      actionBy: profileData?.userId || 0,
-      rowString: billingDataFilterData?.map((item) => {
-        return {
-          intHeadOfChargeid: item?.headOfChargeId,
-          strHeadoffcharges: item?.headOfCharges,
-          intCurrencyid: item?.currencyId || 0,
-          strCurrency: item?.currency || '',
-          numrate: 0,
-          numconverstionrate: item?.exchangeRate || 0,
-          strUom: '',
-          numamount: item?.paymentActualAmount || 0,
-          numvatAmount: 0,
-        };
-      }),
-    };
+    if (activeTab === 'billGenerate') {
+      const payload = {
+        headerData: {
+          supplierInvoiceCode: '',
+          accountId: profileData?.accountId,
+          businessUnitId: selectedBusinessUnit?.value,
+          businessUnitName: selectedBusinessUnit?.label,
+          sbuid: 0,
+          sbuname: '',
+          purchaseOrganizationId: 0,
+          purchaseOrganizationName: '',
+          plantId: 0,
+          plantName: '',
+          warehouseId: 0,
+          warehouseName: '',
+          purchaseOrderId: 0,
+          purchaseOrderNo: '',
+          purchaseOrderDate: new Date(),
+          invoiceNumber: '',
+          invoiceDate: new Date(),
+          totalReferenceAmount: 0,
+          grossInvoiceAmount: 0,
+          deductionAmount: 0,
+          advanceAdjustmentAmount: 0,
+          netPaymentAmount: 0,
+          paymentDueDate: new Date(),
+          remarks: '',
+          actionBy: profileData?.userId,
+          lastActionDateTime: new Date(),
+          serverDateTime: new Date(),
+          active: true,
+          advanceAmount: 0,
+          businessPartnerId: values?.paymentParty?.value,
+          businessrName: values?.paymentParty?.label,
+          businessPartnerPartneAddress: '',
+          contactNumber: '',
+          emailAddress: '',
+          binNo: '',
+          licenseNo: '',
+        },
+        rowListData: [],
+        imageData: [
+          {
+            imageId: values?.documentFileId || '',
+          },
+        ],
+        bookingDatas: [
+          {
+            bookingId: 0,
+            masterBlId: 0,
+            masterBlCode: 0,
+          },
+        ],
+        chargeDatas:
+          billingDataFilterData?.map((item) => {
+            return {
+              headOfChargeId: item?.headOfChargeId,
+              amount: item?.paymentPayAmount,
+            };
+          }) || [],
+      };
+
+      saveLogisticBillRegister(
+        `${imarineBaseUrl}/domain/ShippingService/LogisticBillRegister`,
+        payload,
+        (data) => {
+          CB();
+        },
+      );
+    }
   };
 
   // filter by paymentPartyId

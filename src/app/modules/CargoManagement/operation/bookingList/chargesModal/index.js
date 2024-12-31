@@ -177,9 +177,20 @@ function ChargesModal({ rowClickData, CB }) {
           paymentParty: item?.paymentParty || '',
           paymentPartyId: item?.paymentPartyId || 0,
           isActulCombindToMbl: item?.isActulCombindToMbl || false,
-          IsDummyCombindToMbl: item?.IsDummyCombindToMbl || false,
-          IsPaymentCombindToMbl: item?.IsPaymentCombindToMbl || false,
+          isDummyCombindToMbl: item?.IsDummyCombindToMbl || false,
+          isPaymentCombindToMbl: item?.IsPaymentCombindToMbl || false,
           profitSharePercentage: values?.profitSharePercentage || 0,
+
+          masterBlId: rowClickData?.masterBlId || 0,
+          masterBlCode: rowClickData?.masterBlCode || '',
+          modeOfTransportId: rowClickData?.modeOfTransportId || 0,
+          paymentActualCombindAmount: item?.paymentActualAmount || 0,
+          paymentDummyCombindAmount: item?.paymentDummyAmount || 0,
+          paymentAdvanceCombindAmount: item?.paymentAdvanceAmount || 0,
+          billRegisterId: 0,
+          billRegisterCode: '',
+          advancedBillRegisterId: 0,
+          advancedBillRegisterCode: '',
         };
       });
     if (payload.length === 0) {
@@ -654,10 +665,10 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                             loadOptions={(v) => {
                               let url = '';
-                              if (item?.collectionPartyTypeId === 0) {
+                              if (item?.paymentPartyTypeId === 0) {
                                 url = `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=1&cargoType=0`;
                               } else {
-                                url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=1&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.collectionPartyTypeId}`;
+                                url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=1&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.paymentPartyTypeId}`;
                               }
 
                               if (v?.length < 2) return [];
