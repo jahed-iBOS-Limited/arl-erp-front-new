@@ -82,6 +82,11 @@ function ChargesModal({ rowClickData, CB }) {
                 isActulCombindToMbl: findData?.isActulCombindToMbl || false,
                 IsDummyCombindToMbl: findData?.IsDummyCombindToMbl || false,
                 IsPaymentCombindToMbl: findData?.IsPaymentCombindToMbl || false,
+                billRegisterId: findData?.billRegisterId || 0,
+                billRegisterCode: findData?.billRegisterCode || '',
+                advancedBillRegisterId: findData?.advancedBillRegisterId || 0,
+                advancedBillRegisterCode:
+                  findData?.advancedBillRegisterCode || '',
                 profitSharePercentage: findData?.profitSharePercentage || 0,
                 billingDate: item?.billingDate || new Date(),
               };
@@ -118,6 +123,11 @@ function ChargesModal({ rowClickData, CB }) {
                   collectionPartyId: item?.collectionPartyId || 0,
                   collectionParty: item?.collectionParty || '',
                   billingDate: item?.billingDate || new Date(),
+                  billRegisterId: item?.billRegisterId || 0,
+                  billRegisterCode: item?.billRegisterCode || '',
+                  advancedBillRegisterId: item?.advancedBillRegisterId || 0,
+                  advancedBillRegisterCode:
+                    item?.advancedBillRegisterCode || '',
                 };
               });
             setShippingHeadOfCharges([...modifyData, ...filterNewData]);
@@ -187,10 +197,10 @@ function ChargesModal({ rowClickData, CB }) {
           paymentActualCombindAmount: item?.paymentActualAmount || 0,
           paymentDummyCombindAmount: item?.paymentDummyAmount || 0,
           paymentAdvanceCombindAmount: item?.paymentAdvanceAmount || 0,
-          billRegisterId: 0,
-          billRegisterCode: '',
-          advancedBillRegisterId: 0,
-          advancedBillRegisterCode: '',
+          billRegisterId: item?.billRegisterId || 0,
+          billRegisterCode: item?.billRegisterCode || '',
+          advancedBillRegisterId: item?.advancedBillRegisterId || 0,
+          advancedBillRegisterCode: item?.advancedBillRegisterCode || '',
         };
       });
     if (payload.length === 0) {
