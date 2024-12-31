@@ -741,6 +741,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={!item?.masterBlId}
                                   className={
                                     item?.isCharges
                                       ? 'btn btn-sm btn-success px-1 py-1'
@@ -1238,7 +1239,22 @@ function BookingList() {
                       });
                     }}
                   >
-                    <BillGenerate rowClickData={rowClickData} />
+                    <BillGenerate
+                      rowClickData={rowClickData}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isBill: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
                   </IViewModal>
                 </>
               )}

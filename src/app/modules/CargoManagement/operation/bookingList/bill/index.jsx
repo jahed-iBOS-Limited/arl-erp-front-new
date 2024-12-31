@@ -12,6 +12,7 @@ import NewSelect from '../../../../_helper/_select';
 import { newAttachment_action } from '../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import './style.css';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const validationSchema = Yup.object().shape({
   paymentParty: Yup.object().shape({
@@ -20,9 +21,10 @@ const validationSchema = Yup.object().shape({
   }),
 });
 
-const BillGenerate = ({ rowClickData }) => {
+const BillGenerate = ({ rowClickData, CB }) => {
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
+  const [uniqueBookingRequestList, setUniqueBookingRequestList] = useState([]);
   const [uploadImageLoading, setUploadImageLoading] = useState(null);
   const formikRef = React.useRef(null);
   const [activeTab, setActiveTab] = useState('billGenerate');
@@ -34,61 +36,145 @@ const BillGenerate = ({ rowClickData }) => {
 
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [
-    shipBookingRequestGetById,
-    setShipBookingRequestGetById,
-    shipBookingRequestLoading,
+    masterBLWiseBilling,
+    getMasterBLWiseBilling,
+    masterBLWiseBillingLoading,
   ] = useAxiosGet();
+  const [
+    ,
+    saveLogisticBillRegister,
+    logisticBillRegisterLoading,
+    ,
+  ] = useAxiosPost();
   const [paymentPartyListDDL, setPaymentPartyListDDL] = useState();
   useEffect(() => {
     commonGetByIdHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingRequestId]);
-  const bookingData = {
-    ...shipBookingRequestGetById,
-  };
-
   const commonGetByIdHandler = () => {
     if (bookingRequestId) {
-      setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+      getMasterBLWiseBilling(
+        `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${rowClickData?.masterBlId}`,
         (resData) => {
-          const billingDataList = resData?.billingData
-            ?.filter((i) => i.paymentPartyId)
+          const billingDataList = resData
+            ?.filter((i) => i.paymentPartyId && !i?.billRegisterId)
             ?.map((item) => {
               return {
                 value: item?.paymentPartyId,
                 label: item?.paymentParty,
               };
             });
-          setPaymentPartyListDDL(billingDataList);
+          const unique = [
+            ...new Map(
+              billingDataList.map((item) => [item['paymentPartyId'], item]),
+            ).values(),
+          ];
+
+          const uniqueBookingRequestList = [
+            ...new Map(
+              resData.map((item) => [item['bookingRequestId'], item]),
+            ).values(),
+          ];
+          const modifyBookingRequestList = uniqueBookingRequestList?.map(
+            (itm) => {
+              return {
+                bookingId: itm?.bookingRequestId || 0,
+                masterBlId: itm?.masterBlId || 0,
+                masterBlCode: itm?.masterBlCode || 0,
+              };
+            },
+          );
+          setUniqueBookingRequestList(modifyBookingRequestList);
+          setPaymentPartyListDDL(unique || []);
         },
       );
+
+      // getMasterBLWiseBilling(
+      //   `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+      //   (resData) => {
+      //     const billingDataList = resData?.billingData
+      //       ?.filter((i) => i.paymentPartyId)
+      //       ?.map((item) => {
+      //         return {
+      //           value: item?.paymentPartyId,
+      //           label: item?.paymentParty,
+      //         };
+      //       });
+      //     setPaymentPartyListDDL(billingDataList);
+      //   },
+      // );
     }
   };
 
   const saveHandler = (values) => {
-    const paylaod = {
-      typeId: values?.paymentParty?.value || 0,
-      accountId: profileData?.accountId || 0,
-      unitId: selectedBusinessUnit?.value || 0,
-      bookingDate: new Date(),
-      bookingNumber: bookingData?.bookingRequestCode || '',
-      paymentTerms: '',
-      actionBy: profileData?.userId || 0,
-      rowString: billingDataFilterData?.map((item) => {
-        return {
-          intHeadOfChargeid: item?.headOfChargeId,
-          strHeadoffcharges: item?.headOfCharges,
-          intCurrencyid: item?.currencyId || 0,
-          strCurrency: item?.currency || '',
-          numrate: 0,
-          numconverstionrate: item?.exchangeRate || 0,
-          strUom: '',
-          numamount: item?.paymentActualAmount || 0,
-          numvatAmount: 0,
-        };
-      }),
-    };
+    if (activeTab === 'billGenerate') {
+      const payload = {
+        headerData: {
+          supplierInvoiceCode: '',
+          accountId: profileData?.accountId,
+          businessUnitId: selectedBusinessUnit?.value,
+          businessUnitName: selectedBusinessUnit?.label,
+          sbuid: 0,
+          sbuname: '',
+          purchaseOrganizationId: 0,
+          purchaseOrganizationName: '',
+          plantId: 0,
+          plantName: '',
+          warehouseId: 0,
+          warehouseName: '',
+          purchaseOrderId: 0,
+          purchaseOrderNo: '',
+          purchaseOrderDate: new Date(),
+          invoiceNumber: '',
+          invoiceDate: new Date(),
+          totalReferenceAmount: 0,
+          grossInvoiceAmount: 0,
+          deductionAmount: 0,
+          advanceAdjustmentAmount: 0,
+          netPaymentAmount:
+            billingDataFilterData?.reduce(
+              (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
+              0,
+            ) || 0,
+          paymentDueDate: new Date(),
+          remarks: values?.narration || '',
+          actionBy: profileData?.userId,
+          lastActionDateTime: new Date(),
+          serverDateTime: new Date(),
+          active: true,
+          advanceAmount: 0,
+          businessPartnerId: values?.paymentParty?.value,
+          businessrName: values?.paymentParty?.label,
+          businessPartnerPartneAddress: '',
+          contactNumber: '',
+          emailAddress: '',
+          binNo: '',
+          licenseNo: '',
+        },
+        rowListData: [],
+        imageData: [
+          {
+            imageId: values?.documentFileId || '',
+          },
+        ],
+        bookingDatas: uniqueBookingRequestList || [],
+        chargeDatas:
+          billingDataFilterData?.map((item) => {
+            return {
+              headOfChargeId: item?.headOfChargeId,
+              amount: item?.paymentPayAmount,
+            };
+          }) || [],
+      };
+
+      saveLogisticBillRegister(
+        `${imarineBaseUrl}/domain/ShippingService/LogisticBillRegister`,
+        payload,
+        (data) => {
+          CB();
+        },
+      );
+    }
   };
 
   // filter by paymentPartyId
@@ -96,11 +182,12 @@ const BillGenerate = ({ rowClickData }) => {
   const invoiceTypeHandeler = (valueOption) => {
     setBillingDataFilterData([]);
     if (activeTab === 'billGenerate') {
-      const typeWiseFilter = bookingData?.billingData
+      const typeWiseFilter = masterBLWiseBilling
         ?.filter((item) => {
           return (
             item?.paymentPartyId === valueOption?.value &&
-            item?.paymentActualAmount
+            item?.paymentActualAmount &&
+            !item?.billRegisterId
           );
         })
         .map((item) => {
@@ -115,7 +202,7 @@ const BillGenerate = ({ rowClickData }) => {
     }
 
     if (activeTab === 'advanceGenerate') {
-      const typeWiseFilter = bookingData?.billingData
+      const typeWiseFilter = masterBLWiseBilling
         ?.filter((item) => {
           return (
             item?.paymentPartyId === valueOption?.value &&
@@ -142,7 +229,7 @@ const BillGenerate = ({ rowClickData }) => {
   return (
     <>
       <div>
-        {(shipBookingRequestLoading || uploadImageLoading) && <Loading />}
+        {(masterBLWiseBillingLoading || uploadImageLoading) && <Loading />}
       </div>
       <>
         <Formik
@@ -175,7 +262,7 @@ const BillGenerate = ({ rowClickData }) => {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      disabled={bookingData?.billingData?.length === 0}
+                      disabled={masterBLWiseBilling?.length === 0}
                       onClick={() => {
                         handleSubmit();
                       }}
@@ -207,7 +294,6 @@ const BillGenerate = ({ rowClickData }) => {
                       errors={errors}
                       touched={touched}
                       setFieldValue={setFieldValue}
-                      bookingData={bookingData}
                       billingDataFilterData={billingDataFilterData}
                       paymentPartyListDDL={paymentPartyListDDL}
                       saveHandler={saveHandler}
@@ -222,7 +308,6 @@ const BillGenerate = ({ rowClickData }) => {
                         errors={errors}
                         touched={touched}
                         setFieldValue={setFieldValue}
-                        bookingData={bookingData}
                         billingDataFilterData={billingDataFilterData}
                         paymentPartyListDDL={paymentPartyListDDL}
                         saveHandler={saveHandler}
