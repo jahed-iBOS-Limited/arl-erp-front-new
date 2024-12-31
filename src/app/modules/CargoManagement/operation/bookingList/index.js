@@ -201,6 +201,10 @@ function BookingList() {
                         value: 2,
                         label: 'Sea',
                       },
+                      {
+                        value: 3,
+                        label: 'Sea-Air',
+                      },
                     ]}
                     value={values?.modeOfTransport || ''}
                     label="Booking Type"
