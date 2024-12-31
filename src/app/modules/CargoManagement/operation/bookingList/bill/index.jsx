@@ -24,6 +24,7 @@ const validationSchema = Yup.object().shape({
 const BillGenerate = ({ rowClickData, CB }) => {
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
+  const [uniqueBookingRequestList, setUniqueBookingRequestList] = useState([]);
   const [uploadImageLoading, setUploadImageLoading] = useState(null);
   const formikRef = React.useRef(null);
   const [activeTab, setActiveTab] = useState('billGenerate');
@@ -35,9 +36,9 @@ const BillGenerate = ({ rowClickData, CB }) => {
 
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [
-    shipBookingRequestGetById,
-    setShipBookingRequestGetById,
-    shipBookingRequestLoading,
+    masterBLWiseBilling,
+    getMasterBLWiseBilling,
+    masterBLWiseBillingLoading,
   ] = useAxiosGet();
   const [
     ,
@@ -50,26 +51,58 @@ const BillGenerate = ({ rowClickData, CB }) => {
     commonGetByIdHandler();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingRequestId]);
-  const bookingData = {
-    ...shipBookingRequestGetById,
-  };
-
   const commonGetByIdHandler = () => {
     if (bookingRequestId) {
-      setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+      getMasterBLWiseBilling(
+        `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${rowClickData?.masterBlId}`,
         (resData) => {
-          const billingDataList = resData?.billingData
-            ?.filter((i) => i.paymentPartyId)
+          const billingDataList = resData
+            ?.filter((i) => i.paymentPartyId && !i?.billRegisterId)
             ?.map((item) => {
               return {
                 value: item?.paymentPartyId,
                 label: item?.paymentParty,
               };
             });
-          setPaymentPartyListDDL(billingDataList);
+          const unique = [
+            ...new Map(
+              billingDataList.map((item) => [item['paymentPartyId'], item]),
+            ).values(),
+          ];
+
+          const uniqueBookingRequestList = [
+            ...new Map(
+              resData.map((item) => [item['bookingRequestId'], item]),
+            ).values(),
+          ];
+          const modifyBookingRequestList = uniqueBookingRequestList?.map(
+            (itm) => {
+              return {
+                bookingId: itm?.bookingRequestId || 0,
+                masterBlId: itm?.masterBlId || 0,
+                masterBlCode: itm?.masterBlCode || 0,
+              };
+            },
+          );
+          setUniqueBookingRequestList(modifyBookingRequestList);
+          setPaymentPartyListDDL(unique || []);
         },
       );
+
+      // getMasterBLWiseBilling(
+      //   `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+      //   (resData) => {
+      //     const billingDataList = resData?.billingData
+      //       ?.filter((i) => i.paymentPartyId)
+      //       ?.map((item) => {
+      //         return {
+      //           value: item?.paymentPartyId,
+      //           label: item?.paymentParty,
+      //         };
+      //       });
+      //     setPaymentPartyListDDL(billingDataList);
+      //   },
+      // );
     }
   };
 
@@ -98,9 +131,13 @@ const BillGenerate = ({ rowClickData, CB }) => {
           grossInvoiceAmount: 0,
           deductionAmount: 0,
           advanceAdjustmentAmount: 0,
-          netPaymentAmount: 0,
+          netPaymentAmount:
+            billingDataFilterData?.reduce(
+              (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
+              0,
+            ) || 0,
           paymentDueDate: new Date(),
-          remarks: '',
+          remarks: values?.narration || '',
           actionBy: profileData?.userId,
           lastActionDateTime: new Date(),
           serverDateTime: new Date(),
@@ -120,13 +157,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
             imageId: values?.documentFileId || '',
           },
         ],
-        bookingDatas: [
-          {
-            bookingId: 0,
-            masterBlId: 0,
-            masterBlCode: 0,
-          },
-        ],
+        bookingDatas: uniqueBookingRequestList || [],
         chargeDatas:
           billingDataFilterData?.map((item) => {
             return {
@@ -151,11 +182,12 @@ const BillGenerate = ({ rowClickData, CB }) => {
   const invoiceTypeHandeler = (valueOption) => {
     setBillingDataFilterData([]);
     if (activeTab === 'billGenerate') {
-      const typeWiseFilter = bookingData?.billingData
+      const typeWiseFilter = masterBLWiseBilling
         ?.filter((item) => {
           return (
             item?.paymentPartyId === valueOption?.value &&
-            item?.paymentActualAmount
+            item?.paymentActualAmount &&
+            !item?.billRegisterId
           );
         })
         .map((item) => {
@@ -170,7 +202,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
     }
 
     if (activeTab === 'advanceGenerate') {
-      const typeWiseFilter = bookingData?.billingData
+      const typeWiseFilter = masterBLWiseBilling
         ?.filter((item) => {
           return (
             item?.paymentPartyId === valueOption?.value &&
@@ -197,7 +229,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
   return (
     <>
       <div>
-        {(shipBookingRequestLoading || uploadImageLoading) && <Loading />}
+        {(masterBLWiseBillingLoading || uploadImageLoading) && <Loading />}
       </div>
       <>
         <Formik
@@ -230,7 +262,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      disabled={bookingData?.billingData?.length === 0}
+                      disabled={masterBLWiseBilling?.length === 0}
                       onClick={() => {
                         handleSubmit();
                       }}
@@ -262,7 +294,6 @@ const BillGenerate = ({ rowClickData, CB }) => {
                       errors={errors}
                       touched={touched}
                       setFieldValue={setFieldValue}
-                      bookingData={bookingData}
                       billingDataFilterData={billingDataFilterData}
                       paymentPartyListDDL={paymentPartyListDDL}
                       saveHandler={saveHandler}
@@ -277,7 +308,6 @@ const BillGenerate = ({ rowClickData, CB }) => {
                         errors={errors}
                         touched={touched}
                         setFieldValue={setFieldValue}
-                        bookingData={bookingData}
                         billingDataFilterData={billingDataFilterData}
                         paymentPartyListDDL={paymentPartyListDDL}
                         saveHandler={saveHandler}
