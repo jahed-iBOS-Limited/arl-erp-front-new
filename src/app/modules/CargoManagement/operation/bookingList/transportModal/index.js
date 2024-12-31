@@ -1409,35 +1409,83 @@ function TransportModal({ rowClickData, CB }) {
                           </div>
                           {/* From date */}
                           <div className="col-lg-3">
-                            {/* <InputField
-                              label="From"
-                              type="text"
-                              name="fromPort"
-                              value={values?.rows[index]?.fromPort || ''}
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].fromPort`,
-                                  e.target.value,
-                                )
-                              }
-                            /> */}
-                            <NewSelect
-                              name="fromPort"
-                              options={airPortShortCodeDDL || []}
-                              value={values?.rows[index]?.fromPort || ''}
-                              label="From"
-                              onChange={(valueOption) => {
-                                setFieldValue(
-                                  `rows[${index}].fromPort`,
-                                  valueOption,
-                                );
-                              }}
-                              placeholder="From"
-                              errors={errors}
-                              touched={touched}
-                            />
+                            {[2, 3].includes(
+                              values?.rows[0]?.transportPlanning?.value,
+                            ) ? (
+                              <>
+                                <InputField
+                                  label="From"
+                                  type="text"
+                                  name="fromPort"
+                                  value={
+                                    values?.rows[index]?.fromPort?.label || ''
+                                  }
+                                  onChange={(e) =>
+                                    setFieldValue(`rows[${index}].fromPort`, {
+                                      label: e.target.value,
+                                    })
+                                  }
+                                />
+                              </>
+                            ) : (
+                              <>
+                                {' '}
+                                <NewSelect
+                                  name="fromPort"
+                                  options={airPortShortCodeDDL || []}
+                                  value={values?.rows[index]?.fromPort || ''}
+                                  label="From"
+                                  onChange={(valueOption) => {
+                                    setFieldValue(
+                                      `rows[${index}].fromPort`,
+                                      valueOption,
+                                    );
+                                  }}
+                                  placeholder="From"
+                                  errors={errors}
+                                  touched={touched}
+                                />
+                              </>
+                            )}
                           </div>
                           <div className="col-lg-3">
+                            {[2, 3].includes(
+                              values?.rows[0]?.transportPlanning?.value,
+                            ) ? (
+                              <>
+                                <InputField
+                                  label="To"
+                                  type="text"
+                                  name="toPort"
+                                  value={
+                                    values?.rows[index]?.toPort?.label || ''
+                                  }
+                                  onChange={(e) =>
+                                    setFieldValue(`rows[${index}].toPort`, {
+                                      label: e.target.value,
+                                    })
+                                  }
+                                />
+                              </>
+                            ) : (
+                              <>
+                                <NewSelect
+                                  name="toPort"
+                                  options={airPortShortCodeDDL || []}
+                                  value={values?.rows[index]?.toPort || ''}
+                                  label="To"
+                                  onChange={(valueOption) => {
+                                    setFieldValue(
+                                      `rows[${index}].toPort`,
+                                      valueOption,
+                                    );
+                                  }}
+                                  placeholder="To"
+                                  errors={errors}
+                                  touched={touched}
+                                />
+                              </>
+                            )}
                             {/* <InputField
                               label="To"
                               type="text"
@@ -1450,21 +1498,6 @@ function TransportModal({ rowClickData, CB }) {
                                 )
                               }
                             /> */}
-                            <NewSelect
-                              name="toPort"
-                              options={airPortShortCodeDDL || []}
-                              value={values?.rows[index]?.toPort || ''}
-                              label="To"
-                              onChange={(valueOption) => {
-                                setFieldValue(
-                                  `rows[${index}].toPort`,
-                                  valueOption,
-                                );
-                              }}
-                              placeholder="To"
-                              errors={errors}
-                              touched={touched}
-                            />
                           </div>
                           {/* for sea 2 , for air 1 */}
                           <div className="col-lg-3">
