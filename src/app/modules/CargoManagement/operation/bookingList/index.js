@@ -335,7 +335,7 @@ function BookingList() {
                         >
                           Confirm
                         </th>
-                        <th style={{ minWidth: '50px' }}>FC</th>
+
                         <th
                           style={{
                             minWidth: '43px',
@@ -366,6 +366,7 @@ function BookingList() {
                         >
                           Shipment Planning
                         </th>
+                        <th style={{ minWidth: '50px' }}>FC</th>
                         <th
                           style={{
                             minWidth: '60px',
@@ -558,22 +559,7 @@ function BookingList() {
                                 </button>
                               </span>
                             </td>
-                            <td>
-                              <span>
-                                <button
-                                  className="btn btn-sm btn-primary"
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isFreightCargoReceipt: true,
-                                    });
-                                  }}
-                                >
-                                  FC
-                                </button>
-                              </span>
-                            </td>
+
                             <td>
                               {item?.modeOfTransport === 'Air' && (
                                 <span>
@@ -671,6 +657,22 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isFreightCargoReceipt: true,
+                                    });
+                                  }}
+                                >
+                                  FC
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
                                   className="btn btn-sm btn-warning px-1 py-1"
                                   onClick={() => {
                                     setRowClickData(item);
@@ -684,6 +686,7 @@ function BookingList() {
                                 </button>
                               </span>
                             </td>
+
                             <td>
                               <span>
                                 <button
