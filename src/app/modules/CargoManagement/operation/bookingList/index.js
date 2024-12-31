@@ -640,7 +640,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                  // disabled={item?.isPlaning}
+                                  disabled={item?.isPlaning}
                                   className={
                                     item?.isPlaning
                                       ? 'btn btn-sm btn-success px-1 py-1'
