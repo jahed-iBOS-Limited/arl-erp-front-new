@@ -44,6 +44,13 @@ function ChargesModal({ rowClickData, CB }) {
         getBookedRequestBillingData(
           `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}`,
           (resSveData) => {
+            if (formikRef.current) {
+              // profitSharePercentage add
+              formikRef.current.setFieldValue(
+                'profitSharePercentage',
+                resSveData?.[0]?.profitSharePercentage || '',
+              );
+            }
             const modifyData = resShippingHeadOfCharges?.map((item) => {
               const findData = resSveData?.find(
                 (findItem) => findItem?.headOfChargeId === item?.value,
@@ -72,6 +79,10 @@ function ChargesModal({ rowClickData, CB }) {
                 collectionPartyTypeId: findData?.collectionPartyTypeId || 0,
                 collectionPartyId: findData?.collectionPartyId || 0,
                 collectionParty: findData?.collectionParty || '',
+                isActulCombindToMbl: findData?.isActulCombindToMbl || false,
+                IsDummyCombindToMbl: findData?.IsDummyCombindToMbl || false,
+                IsPaymentCombindToMbl: findData?.IsPaymentCombindToMbl || false,
+                profitSharePercentage: findData?.profitSharePercentage || 0,
                 billingDate: item?.billingDate || new Date(),
               };
             });
@@ -99,6 +110,10 @@ function ChargesModal({ rowClickData, CB }) {
                   paymentPartyTypeId: item?.paymentPartyTypeId || 0,
                   paymentParty: item?.paymentParty || 0,
                   paymentPartyId: item?.paymentPartyId || 0,
+                  isActulCombindToMbl: item?.isActulCombindToMbl || false,
+                  IsDummyCombindToMbl: item?.IsDummyCombindToMbl || false,
+                  IsPaymentCombindToMbl: item?.IsPaymentCombindToMbl || false,
+                  profitSharePercentage: item?.profitSharePercentage || 0,
                   collectionPartyTypeId: item?.collectionPartyTypeId || 0,
                   collectionPartyId: item?.collectionPartyId || 0,
                   collectionParty: item?.collectionParty || '',
@@ -161,6 +176,10 @@ function ChargesModal({ rowClickData, CB }) {
           paymentPartyTypeId: item?.paymentPartyTypeId || 0,
           paymentParty: item?.paymentParty || '',
           paymentPartyId: item?.paymentPartyId || 0,
+          isActulCombindToMbl: item?.isActulCombindToMbl || false,
+          IsDummyCombindToMbl: item?.IsDummyCombindToMbl || false,
+          IsPaymentCombindToMbl: item?.IsPaymentCombindToMbl || false,
+          profitSharePercentage: values?.profitSharePercentage || 0,
         };
       });
     if (payload.length === 0) {
@@ -207,6 +226,19 @@ function ChargesModal({ rowClickData, CB }) {
                 </div>
               </>
             </div>
+            <div className="form-group row global-form">
+              <div className="col-lg-3">
+                <InputField
+                  value={values?.profitSharePercentage}
+                  label="Profit Share Percentage"
+                  name="profitSharePercentage"
+                  type="number"
+                  onChange={(e) =>
+                    setFieldValue('profitSharePercentage', e.target.value)
+                  }
+                />
+              </div>
+            </div>{' '}
             <div className="table-responsive">
               <table className="table global-table">
                 <thead>
