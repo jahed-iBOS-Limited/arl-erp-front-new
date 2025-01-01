@@ -35,7 +35,7 @@ export default function ProductionScheduleModal({ buId, fromData, toDate }) {
                 <>
                     {(loading) && <Loading />}
                     <IForm
-                        title="Details"
+                        title=""
                         isHiddenReset
                         isHiddenBack
                         isHiddenSave
