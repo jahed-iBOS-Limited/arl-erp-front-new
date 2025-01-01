@@ -12,6 +12,7 @@ import IViewModal from '../../../_helper/_viewModal';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import BreakDownModal from './breakdownModal';
+import ProductionScheduleModal from './productionScheduleModal';
 import CommonItemDetailsModal from './rawMaterialModals/commonItemDetailsModal';
 import {
   commonItemInitialState,
@@ -32,6 +33,7 @@ export default function AutoPRCreateModal({
   const [singleRowData, setSingleRowData] = useState();
   const [, onCreateMRPFromProduction, saveLoader] = useAxiosPost();
   const [showModal, setShowModal] = useState(false);
+  const [showPproductionScheduleModal, setShowPproductionScheduleModal] = useState(false);
 
   const [showBreakdownModal, setShowBreakdownModal] = useState(false);
   const [warehouseStockModalShow, setWarehouseStockModalShow] = useState(false);
@@ -53,7 +55,7 @@ export default function AutoPRCreateModal({
 
   const [, getSaveStatus, loading2] = useAxiosGet();
 
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
 
   const getData = (values) => {
     setAutoRawMaterialData([]);
@@ -72,7 +74,7 @@ export default function AutoPRCreateModal({
       }}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {});
+        saveHandler(values, () => { });
       }}
     >
       {({
@@ -166,7 +168,7 @@ export default function AutoPRCreateModal({
                             },
                           );
                         },
-                        noAlertFunc: () => {},
+                        noAlertFunc: () => { },
                       });
                     }}
                   >
@@ -231,6 +233,18 @@ export default function AutoPRCreateModal({
                       className="btn btn-primary mt-5"
                     >
                       Show
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowPproductionScheduleModal(true)
+                      }}
+                      disabled={!values?.businessUnit}
+                      className="btn btn-primary mt-5 ml-5"
+                    >
+                      Show Details
                     </button>
                   </div>
                 </div>
@@ -411,6 +425,18 @@ export default function AutoPRCreateModal({
                 singleRowDataFromParent={singleRowData}
                 values={values}
               />
+            </IViewModal>
+            <IViewModal
+              show={showPproductionScheduleModal}
+              title={'Production Schedule'}
+              onHide={() => {
+                setShowPproductionScheduleModal(false);
+              }}
+            >
+              <ProductionScheduleModal
+                buId={values?.businessUnit?.value}
+                fromData={values?.fromDate}
+                toDate={values?.toDate} />
             </IViewModal>
           </IForm>
         </>

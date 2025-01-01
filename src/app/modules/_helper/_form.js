@@ -62,7 +62,9 @@ export default function IForm({
       btnRef: saveBtnRef,
       supportButtonRefs: supportButtonRefs,
     };
-    getProps && getProps(propsObj);
+    if (typeof getProps === 'function'){
+      getProps(propsObj);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const _title = title?.split(" ");
