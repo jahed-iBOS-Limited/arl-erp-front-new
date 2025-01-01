@@ -233,7 +233,9 @@ const BillGenerate = ({ rowClickData, CB }) => {
   return (
     <>
       <div>
-        {(masterBLWiseBillingLoading || uploadImageLoading) && <Loading />}
+        {(masterBLWiseBillingLoading ||
+          uploadImageLoading ||
+          logisticBillRegisterLoading) && <Loading />}
       </div>
       <>
         <Formik
