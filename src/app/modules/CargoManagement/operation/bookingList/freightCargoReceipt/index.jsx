@@ -367,7 +367,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               <span style={{ padding: 2 }}>
                 :{' '}
                 {bookingData?.bldate
-                  ? moment(bookingData?.bldate).format('YYYY-MM-DD, HH:mm A')
+                  ? moment(bookingData?.bldate).format('YYYY-MM-DD')
                   : ''}
               </span>
             </div>
@@ -381,7 +381,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               <span style={{ padding: 2 }}>
                 :{' '}
                 {bookingData?.hbldate
-                  ? moment(bookingData?.hbldate).format('YYYY-MM-DD, HH:mm A')
+                  ? moment(bookingData?.hbldate).format('YYYY-MM-DD')
                   : ''}
               </span>
             </div>
