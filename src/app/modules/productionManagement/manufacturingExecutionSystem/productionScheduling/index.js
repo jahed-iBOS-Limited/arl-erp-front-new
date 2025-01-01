@@ -169,7 +169,8 @@ export default function ProductionScheduling() {
                     View
                   </button>
                 </div>
-                <div className="mt-5 ml-4">
+                {tableData.length > 0 && (
+                  <div className="mt-5 ml-4">
                   <ReactHTMLTableToExcel
                     id="date-wise-table-xls-button-production-scheduling"   // this id always uniqe for every table 
                     className="btn btn-primary"
@@ -179,6 +180,7 @@ export default function ProductionScheduling() {
                     buttonText="Export Excel"
                   />
                 </div>
+                )}
               </div>
               {/* Table Display */}
               {tableData.length > 0 && (
