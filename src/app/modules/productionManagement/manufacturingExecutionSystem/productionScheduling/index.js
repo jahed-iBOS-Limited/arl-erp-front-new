@@ -223,6 +223,33 @@ export default function ProductionScheduling() {
                           </tr>
                         ))}
                       </tbody>
+                      <tfoot>
+                        <tr>
+                          <td className="text-center">Total</td>
+                          <td className="text-center">
+                            {tableData.reduce((sum, product) => sum + (product.productQty || 0), 0)}
+                          </td>
+                          {tableData[0]?.workCenters.map((_, i) => (
+                            <td key={i} className="text-center">
+                              {tableData.reduce(
+                                (sum, product) => sum + (product.workCenters[i]?.workCenterQty || 0),
+                                0
+                              )}
+                            </td>
+                          ))}
+                          <td className="text-center">
+                            {tableData.reduce(
+                              (grandTotal, product) =>
+                                grandTotal +
+                                product.workCenters.reduce(
+                                  (sum, workCenter) => sum + (workCenter.workCenterQty || 0),
+                                  0
+                                ),
+                              0
+                            )}
+                          </td>
+                        </tr>
+                      </tfoot>
                     </table>
                   </div>
                 </div>
