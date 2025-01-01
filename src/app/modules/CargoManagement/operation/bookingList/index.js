@@ -201,6 +201,10 @@ function BookingList() {
                         value: 2,
                         label: 'Sea',
                       },
+                      {
+                        value: 3,
+                        label: 'Sea-Air',
+                      },
                     ]}
                     value={values?.modeOfTransport || ''}
                     label="Booking Type"
@@ -292,6 +296,7 @@ function BookingList() {
                           Delivery Port
                         </th>
                         <th style={{ minWidth: '50px' }}>HBL No.</th>
+                        <th style={{ minWidth: '50px' }}> Master BL No</th>
                         {/* <th
                           style={{
                             minWidth: '120px',
@@ -334,7 +339,7 @@ function BookingList() {
                         >
                           Confirm
                         </th>
-                        <th style={{ minWidth: '50px' }}>FC</th>
+
                         <th
                           style={{
                             minWidth: '43px',
@@ -365,6 +370,7 @@ function BookingList() {
                         >
                           Shipment Planning
                         </th>
+                        <th style={{ minWidth: '50px' }}>FC</th>
                         <th
                           style={{
                             minWidth: '60px',
@@ -475,6 +481,7 @@ function BookingList() {
                             </td>
                             <td className="text-left">{item?.portOfLoading}</td>
                             <td className="text-left">{item?.hblnumber}</td>
+                            <td className="text-left">{item?.masterBlCode}</td>
                             <td>
                               <span>{statusReturn(item)}</span>
                             </td>
@@ -512,6 +519,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={item?.isConfirm}
                                   className="btn btn-sm btn-primary"
                                   onClick={() => {
                                     cancelHandler({
@@ -556,22 +564,7 @@ function BookingList() {
                                 </button>
                               </span>
                             </td>
-                            <td>
-                              <span>
-                                <button
-                                  className="btn btn-sm btn-primary"
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isFreightCargoReceipt: true,
-                                    });
-                                  }}
-                                >
-                                  FC
-                                </button>
-                              </span>
-                            </td>
+
                             <td>
                               {item?.modeOfTransport === 'Air' && (
                                 <span>
@@ -648,7 +641,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
-                                  // disabled={item?.isPlaning}
+                                  disabled={item?.isPlaning}
                                   className={
                                     item?.isPlaning
                                       ? 'btn btn-sm btn-success px-1 py-1'
@@ -669,6 +662,22 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  className="btn btn-sm btn-primary"
+                                  onClick={() => {
+                                    setRowClickData(item);
+                                    setIsModalShowObj({
+                                      ...isModalShowObj,
+                                      isFreightCargoReceipt: true,
+                                    });
+                                  }}
+                                >
+                                  FC
+                                </button>
+                              </span>
+                            </td>
+                            <td>
+                              <span>
+                                <button
                                   className="btn btn-sm btn-warning px-1 py-1"
                                   onClick={() => {
                                     setRowClickData(item);
@@ -682,6 +691,7 @@ function BookingList() {
                                 </button>
                               </span>
                             </td>
+
                             <td>
                               <span>
                                 <button
@@ -731,6 +741,7 @@ function BookingList() {
                             <td>
                               <span>
                                 <button
+                                  disabled={!item?.masterBlId}
                                   className={
                                     item?.isCharges
                                       ? 'btn btn-sm btn-success px-1 py-1'
@@ -1228,7 +1239,22 @@ function BookingList() {
                       });
                     }}
                   >
-                    <BillGenerate rowClickData={rowClickData} />
+                    <BillGenerate
+                      rowClickData={rowClickData}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isBill: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
                   </IViewModal>
                 </>
               )}

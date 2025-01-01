@@ -1,602 +1,442 @@
-import moment from 'moment';
-import React, { useEffect, useRef } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
-import { useReactToPrint } from 'react-to-print';
+import { Box, Tab, Tabs } from '@material-ui/core';
+import { Form, Formik } from 'formik';
+import { DropzoneDialogBase } from 'material-ui-dropzone';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
 import { imarineBaseUrl } from '../../../../../App';
-import { amountToWords } from '../../../../_helper/_ConvertnumberToWord';
+import InputField from '../../../../_helper/_inputField';
 import Loading from '../../../../_helper/_loading';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import NewSelect from '../../../../_helper/_select';
-import logisticsLogo from './logisticsLogo.png';
+import { newAttachment_action } from '../../../../_helper/attachmentUpload';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import './style.css';
-import { useState } from 'react';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { toast } from 'react-toastify';
 
-const BillGenerate = ({ rowClickData }) => {
+const validationSchema = Yup.object().shape({
+  paymentParty: Yup.object().shape({
+    value: Yup.string().required('Party Type is required'),
+    label: Yup.string().required('Party Type is required'),
+  }),
+});
+
+const BillGenerate = ({ rowClickData, CB }) => {
+  const [open, setOpen] = useState(false);
+  const [fileObjects, setFileObjects] = useState([]);
+  const [uniqueBookingRequestList, setUniqueBookingRequestList] = useState([]);
+  const [uploadImageLoading, setUploadImageLoading] = useState(null);
+  const formikRef = React.useRef(null);
+  const [activeTab, setActiveTab] = useState('billGenerate');
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
   );
-  const [invoiceType, setInvoiceType] = React.useState(null);
   const [billingDataFilterData, setBillingDataFilterData] = React.useState([]);
 
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [
+    masterBLWiseBilling,
+    getMasterBLWiseBilling,
+    masterBLWiseBillingLoading,
+  ] = useAxiosGet();
+  const [
     ,
-    getCargoBookingInvoice,
-    cargoBookingInvoiceLoading,
+    saveLogisticBillRegister,
+    logisticBillRegisterLoading,
     ,
   ] = useAxiosPost();
-  const [
-    shipBookingRequestGetById,
-    setShipBookingRequestGetById,
-    shipBookingRequestLoading,
-  ] = useAxiosGet();
-  const [participantTypeListDDL, setParticipantTypeListDDL] = useState();
+  const [paymentPartyListDDL, setPaymentPartyListDDL] = useState();
   useEffect(() => {
     commonGetByIdHandler();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingRequestId]);
-  const bookingData = {
-    ...shipBookingRequestGetById,
-  };
-
-  const componentRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-    documentTitle: 'Invoice',
-    pageStyle: `
-        @media print {
-          body {
-            -webkit-print-color-adjust: exact;
-
-          }
-          @page {
-            size: portrait !important;
-            margin: 15px !important;
-          }
-        }
-      `,
-  });
-
   const commonGetByIdHandler = () => {
     if (bookingRequestId) {
-      setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+      getMasterBLWiseBilling(
+        `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${rowClickData?.masterBlId}`,
         (resData) => {
-          const billingDataList = resData?.billingData
-            ?.filter((i) => i.collectionPartyTypeId)
+          const billingDataList = resData
+            ?.filter((i) => i.paymentPartyId && !i?.billRegisterId)
             ?.map((item) => {
               return {
-                value: item?.collectionPartyTypeId,
-                label: item?.collectionPartyType,
+                value: item?.paymentPartyId,
+                label: item?.paymentParty,
               };
             });
-          setParticipantTypeListDDL(billingDataList);
+          const unique = [
+            ...new Map(
+              billingDataList.map((item) => [item['paymentPartyId'], item]),
+            ).values(),
+          ];
+
+          // const uniqueBookingRequestList = [
+          //   ...new Map(
+          //     resData.map((item) => [item['bookingRequestId'], item]),
+          //   ).values(),
+          // ];
+          // const modifyBookingRequestList = uniqueBookingRequestList?.map(
+          //   (itm) => {
+          //     return {
+          //       bookingId: itm?.bookingRequestId || 0,
+          //       masterBlId: itm?.masterBlId || 0,
+          //       masterBlCode: itm?.masterBlCode || 0,
+          //       bookedBillingId: itm?.billingId || 0,
+          //     };
+          //   },
+          // );
+          setUniqueBookingRequestList(resData?.[0]?.bookingDatas || []);
+          setPaymentPartyListDDL(unique || []);
         },
       );
+
+      // getMasterBLWiseBilling(
+      //   `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+      //   (resData) => {
+      //     const billingDataList = resData?.billingData
+      //       ?.filter((i) => i.paymentPartyId)
+      //       ?.map((item) => {
+      //         return {
+      //           value: item?.paymentPartyId,
+      //           label: item?.paymentParty,
+      //         };
+      //       });
+      //     setPaymentPartyListDDL(billingDataList);
+      //   },
+      // );
     }
   };
 
   const saveHandler = (values) => {
-    const paylaod = {
-      typeId: invoiceType?.value || 0,
-      accountId: profileData?.accountId || 0,
-      unitId: selectedBusinessUnit?.value || 0,
-      bookingDate: new Date(),
-      bookingNumber: bookingData?.bookingRequestCode || '',
-      paymentTerms: '',
-      actionBy: profileData?.userId || 0,
-      rowString: billingDataFilterData?.map((item) => {
-        return {
-          intHeadOfChargeid: item?.headOfChargeId,
-          strHeadoffcharges: item?.headOfCharges,
-          intCurrencyid: item?.currencyId || 0,
-          strCurrency: item?.currency || '',
-          numrate: 0,
-          numconverstionrate: item?.exchangeRate || 0,
-          strUom: '',
-          numamount: item?.paymentActualAmount || 0,
-          numvatAmount: 0,
-        };
-      }),
-    };
-    getCargoBookingInvoice(
-      `${imarineBaseUrl}/domain/ShippingService/CargoBookingInvoice`,
-      paylaod,
-      () => {
-        commonGetByIdHandler();
+    if (billingDataFilterData?.length === 0)
+      return toast.warning('No data found to save');
+    const payload = {
+      headerData: {
+        postingType: activeTab === 'billGenerate' ? 'billGenerate' : 'Advance',
+        supplierInvoiceCode: '',
+        accountId: profileData?.accountId,
+        businessUnitId: selectedBusinessUnit?.value,
+        businessUnitName: selectedBusinessUnit?.label,
+        sbuid: 0,
+        sbuname: '',
+        purchaseOrganizationId: 0,
+        purchaseOrganizationName: '',
+        plantId: 0,
+        plantName: '',
+        warehouseId: 0,
+        warehouseName: '',
+        purchaseOrderId: 0,
+        purchaseOrderNo: '',
+        purchaseOrderDate: new Date(),
+        invoiceNumber: '',
+        invoiceDate: new Date(),
+        totalReferenceAmount: 0,
+        grossInvoiceAmount: 0,
+        deductionAmount: 0,
+        advanceAdjustmentAmount: 0,
+        netPaymentAmount:
+          billingDataFilterData?.reduce(
+            (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
+            0,
+          ) || 0,
+        paymentDueDate: new Date(),
+        remarks: values?.narration || '',
+        actionBy: profileData?.userId,
+        lastActionDateTime: new Date(),
+        serverDateTime: new Date(),
+        active: true,
+        advanceAmount: 0,
+        businessPartnerId: values?.paymentParty?.value,
+        businessrName: values?.paymentParty?.label,
+        businessPartnerPartneAddress: '',
+        contactNumber: '',
+        emailAddress: '',
+        binNo: '',
+        licenseNo: '',
       },
-      true,
+      rowListData: [],
+      imageData: [
+        {
+          imageId: values?.documentFileId || '',
+        },
+      ],
+      bookingDatas: uniqueBookingRequestList || [],
+      chargeDatas:
+        billingDataFilterData?.map((item) => {
+          return {
+            headOfChargeId: item?.headOfChargeId,
+            amount: item?.paymentPayAmount,
+          };
+        }) || [],
+    };
+
+    saveLogisticBillRegister(
+      `${imarineBaseUrl}/domain/ShippingService/LogisticBillRegister`,
+      payload,
+      (data) => {
+        CB();
+      },
     );
   };
 
-  // const getCalculatedActualAmount = () => {
-  //   return billingDataFilterData?.reduce((acc, cur) => {
-  //     return acc + (+cur?.paymentActualAmount || 0);
-  //   }, 0);
-  // };
-  const getCalculatedDummyAmount = () => {
-    return billingDataFilterData?.reduce((acc, cur) => {
-      return acc + (+cur?.paymentDummyAmount || 0);
-    }, 0);
-  };
-  const getAmountInWords = () => {
-    return amountToWords(
-      billingDataFilterData?.reduce((acc, cur) => {
-        return acc + (+cur?.paymentDummyAmount || 0);
-      }, 0) || 0,
-    );
-  };
-  // filter by collectionPartyTypeId
-  useEffect(() => {
-    if (bookingData?.billingData) {
-      setBillingDataFilterData(
-        bookingData?.billingData?.filter((item) => {
-          return item?.paymentPartyTypeId === invoiceType?.value;
-        }) || [],
-      );
+  // filter by paymentPartyId
+
+  const invoiceTypeHandeler = (valueOption) => {
+    setBillingDataFilterData([]);
+    if (activeTab === 'billGenerate') {
+      const typeWiseFilter = masterBLWiseBilling
+        ?.filter((item) => {
+          return (
+            item?.paymentPartyId === valueOption?.value &&
+            item?.paymentActualAmount &&
+            !item?.billRegisterId
+          );
+        })
+        .map((item) => {
+          return {
+            ...item,
+            paymentPayAmount:
+              (+item?.paymentActualAmount || 0) -
+              (+item?.paymentAdvanceAmount || 0),
+          };
+        });
+      setBillingDataFilterData(typeWiseFilter || []);
     }
-  }, [invoiceType, bookingData.billingData]);
+
+    if (activeTab === 'advanceGenerate') {
+      const typeWiseFilter = masterBLWiseBilling
+        ?.filter((item) => {
+          return (
+            item?.paymentPartyId === valueOption?.value &&
+            item?.paymentAdvanceAmount &&
+            !item?.advancedBillRegisterId
+          );
+        })
+        .map((item) => {
+          return {
+            ...item,
+            paymentPayAmount: item?.paymentAdvanceAmount,
+          };
+        });
+      setBillingDataFilterData(typeWiseFilter || []);
+    }
+  };
+
+  const handleChange = (event, newValue) => {
+    if (formikRef.current) {
+      formikRef.current.resetForm();
+      setBillingDataFilterData([]);
+    }
+    setActiveTab(newValue);
+  };
   return (
     <>
       <div>
-        {/* Save button add */}
-        <div className="d-flex justify-content-between align-items-center  py-2">
-          <div className="col-lg-3 p-0">
-            <NewSelect
-              name="invoiceType"
-              options={participantTypeListDDL || []}
-              value={invoiceType}
-              label="Invoice Type"
-              onChange={(valueOption) => {
-                setInvoiceType(valueOption);
-              }}
-              placeholder="Select Invoice Type"
-            />
-          </div>
-          <div className="d-flex justify-content-end">
-            {!bookingData?.invoiceNumber && (
-              <>
-                {' '}
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  disabled={bookingData?.billingData?.length === 0}
-                  onClick={() => {
-                    saveHandler();
-                  }}
-                >
-                  Generate
-                </button>
-              </>
-            )}
-
-            {bookingData?.invoiceNumber && (
-              <>
-                <button
-                  onClick={handlePrint}
-                  type="button"
-                  className="btn btn-primary px-3 py-2"
-                >
-                  <i
-                    className="mr-1 fa fa-print pointer"
-                    aria-hidden="true"
-                  ></i>
-                  Print
-                </button>
-              </>
-            )}
-          </div>
-        </div>
+        {(masterBLWiseBillingLoading || uploadImageLoading) && <Loading />}
       </div>
-      {(shipBookingRequestLoading || cargoBookingInvoiceLoading) && <Loading />}
-      <div
-        ref={componentRef}
-        style={{
-          fontSize: 11,
-          display: 'grid',
-          gap: 10,
-        }}
-      >
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 2fr',
+      <>
+        <Formik
+          enableReinitialize={true}
+          initialValues={{
+            narration: '',
+            paymentParty: '',
           }}
+          validationSchema={validationSchema}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            saveHandler(values, () => {
+              resetForm();
+            });
+          }}
+          innerRef={formikRef}
         >
-          <img
-            src={logisticsLogo}
-            alt="Logo"
-            style={{
-              height: 25,
-              width: 150,
+          {({
+            errors,
+            touched,
+            setFieldValue,
+            handleSubmit,
+            values,
+            resetForm,
+          }) => (
+            <Form className="form form-label-right">
+              <div className="">
+                {/* Save button add */}
+                <>
+                  <div className="d-flex justify-content-end">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      disabled={masterBLWiseBilling?.length === 0}
+                      onClick={() => {
+                        handleSubmit();
+                      }}
+                    >
+                      {activeTab === 'billGenerate'
+                        ? 'Bill Generate'
+                        : 'Advance Generate'}
+                    </button>
+                  </div>
+                </>
+              </div>
+
+              <Box>
+                <Tabs
+                  value={activeTab}
+                  onChange={handleChange}
+                  variant="scrollable"
+                  indicatorColor="primary"
+                  textColor="primary"
+                  style={{ backgroundColor: 'white' }}
+                >
+                  <Tab label="Bill Generate" value="billGenerate" />
+                  <Tab label="Advance Generate" value="advanceGenerate" />
+                </Tabs>
+                <Box mt={1}>
+                  {activeTab === 'billGenerate' && (
+                    <BillGenerateCmp
+                      values={values}
+                      errors={errors}
+                      touched={touched}
+                      setFieldValue={setFieldValue}
+                      billingDataFilterData={billingDataFilterData}
+                      paymentPartyListDDL={paymentPartyListDDL}
+                      saveHandler={saveHandler}
+                      invoiceTypeHandeler={invoiceTypeHandeler}
+                      setOpen={setOpen}
+                    />
+                  )}
+                  {activeTab === 'advanceGenerate' && (
+                    <div>
+                      <AdvanceGenerateCmp
+                        values={values}
+                        errors={errors}
+                        touched={touched}
+                        setFieldValue={setFieldValue}
+                        billingDataFilterData={billingDataFilterData}
+                        paymentPartyListDDL={paymentPartyListDDL}
+                        saveHandler={saveHandler}
+                        invoiceTypeHandeler={invoiceTypeHandeler}
+                        setOpen={setOpen}
+                      />
+                    </div>
+                  )}
+                </Box>
+              </Box>
+
+              <DropzoneDialogBase
+                filesLimit={1}
+                acceptedFiles={['image/*', 'application/pdf']}
+                fileObjects={fileObjects}
+                cancelButtonText={'cancel'}
+                submitButtonText={'submit'}
+                maxFileSize={1000000}
+                open={open}
+                onAdd={(newFileObjs) => {
+                  setFileObjects([].concat(newFileObjs));
+                }}
+                onDelete={(deleteFileObj) => {
+                  const newData = fileObjects?.filter(
+                    (item) => item?.file?.name !== deleteFileObj?.file?.name,
+                  );
+                  setFileObjects(newData);
+                }}
+                onClose={() => setOpen(false)}
+                onSave={() => {
+                  setOpen(false);
+                  newAttachment_action(fileObjects, setUploadImageLoading).then(
+                    (data) => {
+                      const documentFileId = data?.[0]?.id;
+                      setFieldValue('documentFileId', documentFileId || '');
+                    },
+                  );
+                }}
+                showPreviews={true}
+                showFileNamesInPreview={true}
+              />
+            </Form>
+          )}
+        </Formik>
+      </>
+    </>
+  );
+};
+
+export default BillGenerate;
+
+const BillGenerateCmp = ({
+  errors,
+  touched,
+  setFieldValue,
+  billingDataFilterData,
+  paymentPartyListDDL,
+  values,
+  invoiceTypeHandeler,
+  setOpen,
+}) => {
+  const dispatch = useDispatch();
+  return (
+    <>
+      <div className="form-group row global-form">
+        <div className="col-lg-3">
+          <NewSelect
+            name="paymentParty"
+            options={paymentPartyListDDL || []}
+            value={values?.paymentParty}
+            label="Partner"
+            onChange={(valueOption) => {
+              setFieldValue('paymentParty', valueOption);
+              invoiceTypeHandeler(valueOption);
             }}
+            placeholder="Select Partner"
+            errors={errors}
+            touched={touched}
           />
-          <div
-            style={{
-              textAlign: 'right',
-            }}
-          >
-            <span style={{ fontSize: 14, fontWeight: 600 }}>
-              {selectedBusinessUnit?.label}
-            </span>
-            <br />
-            <span>{selectedBusinessUnit?.address}</span>
-          </div>
         </div>
-        <p
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            textAlign: 'center',
-            backgroundColor: '#DDE3E8',
-            padding: 2,
-            border: '1px solid #000000',
-          }}
-        >
-          {' '}
-          INVOICE : {bookingData?.invoiceNumber || 'N/A'}
-        </p>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '7fr .5fr 7fr',
-            // border: "1px solid #000000",
-          }}
-        >
-          <div
-            style={{
-              border: '1px solid #000000',
-            }}
-          >
-            <div style={{ padding: 2 }}>
-              <span style={{ fontSize: 14, fontWeight: 600 }}>
-                {bookingData?.consigneeName}
-              </span>
-              <br />
-              <span>
-                {bookingData?.consigneeAddress},{bookingData?.consigState},
-                {bookingData?.consigCountry}
-              </span>
-              <br />
-            </div>
-          </div>
-          <div />
-          <div style={{ border: '1px solid #000000' }}>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr ',
-              }}
-            >
-              <span
-                style={{
-                  borderBottom: '1px solid #000000',
-                  borderRight: '1px solid #000000',
-                  padding: 2,
-                  fontWeight: 600,
-                  backgroundColor: '#DDE3E8',
-                }}
-              >
-                {' '}
-                INVOICE DATE
-              </span>
-              <span
-                style={{
-                  borderBottom: '1px solid #000000',
-                  padding: 2,
-                  fontWeight: 600,
-                }}
-              >
-                {bookingData?.invoiceDate
-                  ? moment(bookingData?.invoiceDate).format('YYYY-MM-DD')
-                  : 'N/A'}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr ',
-              }}
-            >
-              <span
-                style={{
-                  borderBottom: '1px solid #000000',
-                  borderRight: '1px solid #000000',
-                  padding: 2,
-                  fontWeight: 600,
-                  backgroundColor: '#DDE3E8',
-                }}
-              >
-                SHIPMENT NO
-              </span>
-              <span
-                style={{
-                  borderBottom: '1px solid #000000',
-                  padding: 2,
-                  fontWeight: 600,
-                }}
-              >
-                {bookingData?.awbnumber}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr ',
-              }}
-            >
-              <span
-                style={{
-                  borderBottom: '1px solid #000000',
-                  borderRight: '1px solid #000000',
-                  padding: 2,
-                  fontWeight: 600,
-                  backgroundColor: '#DDE3E8',
-                }}
-              >
-                SALES ORDER NO
-              </span>
-              <span
-                style={{
-                  borderBottom: '1px solid #000000',
-                  padding: 2,
-                  fontWeight: 600,
-                }}
-              >
-                {' '}
-                {bookingData?.bookingRequestCode}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr ',
-              }}
-            >
-              <span
-                style={{
-                  borderBottom: '1px solid #000000',
-                  borderRight: '1px solid #000000',
-                  padding: 2,
-                  fontWeight: 600,
-                  backgroundColor: '#DDE3E8',
-                }}
-              >
-                DUE DATE
-              </span>
-              <span
-                style={{
-                  borderBottom: '1px solid #000000',
-                  padding: 2,
-                  fontWeight: 600,
-                }}
-              >
-                {bookingData?.createdAt
-                  ? moment(bookingData?.createdAt).format('YYYY-MM-DD')
-                  : 'N/A'}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr ',
-              }}
-            >
-              <span
-                style={{
-                  borderRight: '1px solid #000000',
-                  padding: 2,
-                  paddingBottom: 20,
-                  fontWeight: 600,
-                  backgroundColor: '#DDE3E8',
-                }}
-              >
-                TERMS
-              </span>
-              <span style={{ padding: 2, fontWeight: 600 }}>
-                {' '}
-                Pay able immediately Due net{' '}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr ',
-              }}
-            >
-              <span
-                style={{
-                  borderTop: '1px solid #000000',
-                  borderRight: '1px solid #000000',
-                  padding: 2,
-                  fontWeight: 600,
-                  backgroundColor: '#DDE3E8',
-                }}
-              >
-                Trade
-              </span>
-              <span
-                style={{
-                  borderTop: '1px solid #000000',
-                  padding: 2,
-                  fontWeight: 600,
-                }}
-              >
-                Export
-              </span>
-            </div>
-          </div>
+        <div className="col-lg-3 ">
+          <label>Narration</label>
+          <InputField
+            value={values?.narration}
+            name="narration"
+            placeholder="Narration"
+            type="text"
+            errors={errors}
+            touched={touched}
+          />
         </div>
-        <div>
-          <div
-            style={{
-              border: '1px solid #000000',
-            }}
+        <div className="col-lg-6 mt-5">
+          <button
+            className="btn btn-primary mr-2 "
+            type="button"
+            onClick={() => setOpen(true)}
           >
-            <div
-              style={{
-                fontSize: 14,
-                fontWeight: 600,
-                backgroundColor: '#DDE3E8',
-                padding: 2,
-                borderBottom: '1px solid #000000',
+            Attachment
+          </button>
+          {values?.documentFileId && (
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={() => {
+                dispatch(getDownlloadFileView_Action(values?.documentFileId));
               }}
             >
-              SHIPMENT DETAILS
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 2fr 1fr 1fr ',
-              }}
-            >
-              <div
-                style={{
-                  fontWeight: 600,
-                  padding: 2,
-                  borderRight: '1px solid #000000',
-                }}
-              >
-                <span>Shipper</span>
-                <br />
-                <span>Consignee</span>
-                <br />
-                <span>Port of Loading</span>
-                <br />
-                <span>Port of Discharge</span>
-                <br />
-                <span>IncoTerms</span>
-                <br />
-                <span>ETD</span>
-                <br />
-                <span>Master Number</span>
-                <br />
-                <span>House Number</span>
-                <br />
-                <span>ATA</span>
-              </div>
-              <div
-                style={{
-                  textTransform: 'uppercase',
-                  padding: 2,
-                  borderRight: '1px solid #000000',
-                }}
-              >
-                <span>{bookingData?.shipperName}</span>
-                <br />
-                <span>{bookingData?.consigneeName}</span>
-                <br />
-                <span>{bookingData?.portOfLoading}</span>
-                <br />
-                <span>{bookingData?.portOfDischarge}</span>
-                <br />
-                <span>{bookingData?.incoterms}</span>
-                <br />
-                <span>
-                  {bookingData?.dateOfRequest
-                    ? moment(bookingData?.dateOfRequest).format('YYYY-MM-DD')
-                    : 'N/A'}
-                </span>
-                <br />
-                <span>{bookingData?.blnumber || 'N/A'}</span>
-                <br />
-                <span>{bookingData?.hblnumber || 'N/A'}</span>
-                <br />
-                <span>
-                  {bookingData?.arrivalDateTime
-                    ? moment(bookingData?.arrivalDateTime).format(
-                        'YYYY-MM-DD HH:mm A',
-                      )
-                    : 'N/A'}
-                </span>
-              </div>
-              <div
-                style={{
-                  fontWeight: 600,
-                  padding: 2,
-                  borderRight: '1px solid #000000',
-                }}
-              >
-                <span>LC No.</span>
-                <br />
-                <span>LC Date</span>
-                <br />
-                <span>Place of Delivery</span>
-                <br />
-                <span>Commodity</span>
-                <br />
-                <span>Flight</span>
-                <br />
-                <span>Master Date</span>
-                <br />
-                <span>House Date</span>
-                <br />
-                <span>Volume</span>
-                <br />
-                <span>Chrg. Wt</span>
-              </div>
-              <div style={{ padding: 2 }}>
-                <span>{bookingData?.lcNo ?? 'N/A'} </span>
-                <br />
-                <span>
-                  {bookingData?.lcDate
-                    ? moment(bookingData?.lcDate).format('DD MMM YYYY HH:mm A')
-                    : 'N/A'}
-                </span>
-                <br />
-                <span>{bookingData?.pickupPlace}</span>
-                <br />
-                <span></span>
-                <br />
-                <span></span>
-                <br />
-                <span>
-                  {bookingData?.bldate
-                    ? moment(bookingData?.bldate).format('YYYY-MM-DD')
-                    : 'N/A'}
-                </span>
-                <br />
-                <span>
-                  {bookingData?.hbldate
-                    ? moment(bookingData?.hbldate).format('YYYY-MM-DD')
-                    : 'N/A'}
-                </span>
-                <br />
-                <span>
-                  {bookingData?.rowsData?.reduce((acc, cur) => {
-                    return acc + (+cur?.totalVolumeCBM || 0);
-                  }, 0)}
-                </span>
-                <br />
-                <span>
-                  {bookingData?.rowsData?.reduce((acc, cur) => {
-                    return acc + (+cur?.grossWeightKG || 0);
-                  }, 0)}
-                </span>
-              </div>
-            </div>
-          </div>
+              Attachment View
+            </button>
+          )}
         </div>
-        <table
-          border="1"
-          cellPadding="5"
-          cellSpacing="0"
-          style={{ width: '100%' }}
-        >
+      </div>{' '}
+      <div className="table-responsive">
+        <table className="table global-table">
           <thead>
-            <tr style={{ backgroundColor: '#DDE3E8' }}>
+            <tr>
               <th>SL</th>
               <th>Attribute</th>
+              <th>Advance</th>
+              <th>Actual</th>
               <th>Amount</th>
-              {/* <th>Actual Amount</th> */}
             </tr>
           </thead>
           <tbody>
-            {invoiceType &&
+            {values?.paymentParty?.value &&
               billingDataFilterData?.map((row, index) => (
                 <tr key={index}>
                   <td style={{ textAlign: 'right' }}> {index + 1} </td>
@@ -604,135 +444,109 @@ const BillGenerate = ({ rowClickData }) => {
                     <label>{row?.headOfCharges}</label>
                   </td>
                   <td style={{ textAlign: 'right' }}>
-                    {row?.paymentDummyAmount}
+                    {row?.paymentAdvanceAmount}
                   </td>
-                  {/* <td style={{ textAlign: 'right' }}>
+                  <td style={{ textAlign: 'right' }}>
                     {row?.paymentActualAmount}
-                  </td> */}
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    {row?.paymentPayAmount}
+                  </td>
                 </tr>
               ))}
-            <tr
-              style={{
-                fontSize: 14,
-                fontWeight: 600,
-                backgroundColor: '#DDE3E8',
-                textAlign: 'right',
-              }}
-            >
-              <td colSpan="2"> Total Amount</td>
-              <td> {getCalculatedDummyAmount()}</td>
-              {/* <td> {getCalculatedActualAmount()}</td> */}
-            </tr>
-            <tr>
-              <td
-                colSpan="5"
-                style={{
-                  fontSize: 14,
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                  textAlign: 'left',
-                }}
-              >
-                {' '}
-                Actual Amount in Words:
-                {getAmountInWords()}
-              </td>
-            </tr>
           </tbody>
         </table>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            border: '1px solid #000',
-          }}
-        >
-          <div
-            style={{
-              fontSize: 14,
-              fontWeight: 600,
-            }}
-          >
-            <div
-              style={{
-                backgroundColor: '#DDE3E8',
-                padding: 2,
-              }}
-            >
-              Transfer Fund to
-            </div>
-          </div>
-          <div
-            style={{
-              borderLeft: '1px solid #000000',
-            }}
-          >
-            <div
-              style={{
-                padding: 2,
-                paddingBottom: 20,
-              }}
-            >
-              <span
-                style={{
-                  fontSize: 14,
-                  fontWeight: 600,
-                }}
-              >
-                Beneficiary Details:
-              </span>
-              <br />
-              <span
-                style={{
-                  fontSize: 14,
-                  fontWeight: 600,
-                }}
-              >
-                {selectedBusinessUnit?.label}
-              </span>
-              <br />
-              <span>{selectedBusinessUnit?.address}</span>
-            </div>
-          </div>
-        </div>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            fontSize: 14,
-            fontWeight: 600,
-          }}
-        >
-          <p>Prepared By: </p>
-          <p>Prepared By: </p>
-        </div>
-        <p style={{ fontSize: 14, fontWeight: 600 }}>Special Note:</p>
-        <span style={{ fontSize: 14, maxWidth: '70%' }}>
-          {' '}
-          Payment to be made by Payment Order/Electronic transfer only in favor
-          of TRANSMARINE LOGISTICS LTD. No query/claim will be entertained after
-          07 days from the date of receipt of Invoice. Interest @ 2% pe rMonth
-          is chargeable on bill not paid on presentation.
-        </span>
-
-        <p style={{ fontSize: 14, fontWeight: 600 }}>Note:</p>
-        <p
-          style={{
-            fontSize: 14,
-            fontWeight: 400,
-            textAlign: 'center',
-            backgroundColor: '#DDE3E8',
-            padding: 2,
-            border: '1px solid #000000',
-          }}
-        >
-          {' '}
-          This is a system generated invoice and it does not require any company
-          chop and signature
-        </p>
       </div>
     </>
   );
 };
 
-export default BillGenerate;
+const AdvanceGenerateCmp = ({
+  errors,
+  setFieldValue,
+  billingDataFilterData,
+  paymentPartyListDDL,
+  values,
+  invoiceTypeHandeler,
+  touched,
+  setOpen,
+}) => {
+  const dispatch = useDispatch();
+  return (
+    <>
+      <div className="form-group row global-form">
+        <div className="col-lg-3">
+          <NewSelect
+            name="paymentParty"
+            options={paymentPartyListDDL || []}
+            value={values?.paymentParty}
+            label="Party Type"
+            onChange={(valueOption) => {
+              setFieldValue('paymentParty', valueOption);
+              invoiceTypeHandeler(valueOption);
+            }}
+            placeholder="Select Party Type"
+            errors={errors}
+            touched={touched}
+          />
+        </div>
+        <div className="col-lg-3 ">
+          <label>Narration</label>
+          <InputField
+            value={values?.narration}
+            name="narration"
+            placeholder="Narration"
+            type="text"
+            errors={errors}
+            touched={touched}
+          />
+        </div>
+        <div className="col-lg-6 mt-5">
+          <button
+            className="btn btn-primary mr-2 "
+            type="button"
+            onClick={() => setOpen(true)}
+          >
+            Attachment
+          </button>
+          {values?.documentFileId && (
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={() => {
+                dispatch(getDownlloadFileView_Action(values?.documentFileId));
+              }}
+            >
+              Attachment View
+            </button>
+          )}
+        </div>
+      </div>{' '}
+      <div className="table-responsive">
+        <table className="table global-table">
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Attribute</th>
+              <th>Advance Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {values?.paymentParty?.value &&
+              billingDataFilterData?.map((row, index) => (
+                <tr key={index}>
+                  <td style={{ textAlign: 'right' }}> {index + 1} </td>
+                  <td className="align-middle">
+                    <label>{row?.headOfCharges}</label>
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    {row?.paymentAdvanceAmount}
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+};

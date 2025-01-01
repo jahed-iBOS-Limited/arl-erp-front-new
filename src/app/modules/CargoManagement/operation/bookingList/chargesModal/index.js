@@ -13,14 +13,8 @@ import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import './style.css';
-
-const validationSchema = Yup.object().shape({
-  // exchangeRate: Yup.number().required('Exchange Rate is required'),
-  currency: Yup.object().shape({
-    label: Yup.string().required('Currency is required'),
-    value: Yup.string().required('Currency is required'),
-  }),
-});
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+const validationSchema = Yup.object().shape({});
 function ChargesModal({ rowClickData, CB }) {
   const formikRef = React.useRef(null);
   const { profileData } = useSelector(
@@ -50,12 +44,22 @@ function ChargesModal({ rowClickData, CB }) {
         getBookedRequestBillingData(
           `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}`,
           (resSveData) => {
+            if (formikRef.current) {
+              // profitSharePercentage add
+              formikRef.current.setFieldValue(
+                'profitSharePercentage',
+                resSveData?.[0]?.profitSharePercentage || '',
+              );
+            }
             const modifyData = resShippingHeadOfCharges?.map((item) => {
               const findData = resSveData?.find(
                 (findItem) => findItem?.headOfChargeId === item?.value,
               );
               return {
                 ...item,
+                currencyId: findData?.currencyId || 0,
+                currency: findData?.currency || '',
+                exchangeRate: findData?.exchangeRate || '',
                 billingId: findData?.billingId || 0,
                 checked: findData ? true : false,
                 amount: findData?.chargeAmount || '',
@@ -63,16 +67,27 @@ function ChargesModal({ rowClickData, CB }) {
                 headOfCharges: item?.label || '',
                 headOfChargeId: item?.value || 0,
                 collectionPartyType: findData?.collectionPartyType || '',
-                collectionActualAmount: findData?.collectionActualAmount || 0,
-                collectionDummyAmount: findData?.collectionDummyAmount || 0,
-                paymentActualAmount: findData?.paymentActualAmount || 0,
-                paymentDummyAmount: findData?.paymentDummyAmount || 0,
+                collectionActualAmount: findData?.collectionActualAmount || '',
+                collectionDummyAmount: findData?.collectionDummyAmount || '',
+                paymentActualAmount: findData?.paymentActualAmount || '',
+                paymentDummyAmount: findData?.paymentDummyAmount || '',
+                paymentAdvanceAmount: findData?.paymentAdvanceAmount || '',
                 paymentPartyType: findData?.paymentPartyType || 0,
                 paymentPartyTypeId: findData?.paymentPartyTypeId || 0,
                 paymentParty: findData?.paymentParty || 0,
+                paymentPartyId: findData?.paymentPartyId || 0,
                 collectionPartyTypeId: findData?.collectionPartyTypeId || 0,
                 collectionPartyId: findData?.collectionPartyId || 0,
                 collectionParty: findData?.collectionParty || '',
+                isActulCombindToMbl: findData?.isActulCombindToMbl || false,
+                IsDummyCombindToMbl: findData?.IsDummyCombindToMbl || false,
+                IsPaymentCombindToMbl: findData?.IsPaymentCombindToMbl || false,
+                billRegisterId: findData?.billRegisterId || 0,
+                billRegisterCode: findData?.billRegisterCode || '',
+                advancedBillRegisterId: findData?.advancedBillRegisterId || 0,
+                advancedBillRegisterCode:
+                  findData?.advancedBillRegisterCode || '',
+                profitSharePercentage: findData?.profitSharePercentage || 0,
                 billingDate: item?.billingDate || new Date(),
               };
             });
@@ -81,6 +96,9 @@ function ChargesModal({ rowClickData, CB }) {
               .map((item) => {
                 return {
                   ...item,
+                  currencyId: item?.currencyId || 0,
+                  currency: item?.currency || '',
+                  exchangeRate: item?.exchangeRate || '',
                   headOfCharges: item?.headOfCharges,
                   headOfChargeId: item?.headOfChargeId,
                   checked: true,
@@ -88,35 +106,30 @@ function ChargesModal({ rowClickData, CB }) {
                   billingId: item?.billingId || 0,
                   actualExpense: item?.actualExpense || 0,
                   collectionPartyType: item?.collectionPartyType || 0,
-                  collectionActualAmount: item?.collectionActualAmount || 0,
-                  collectionDummyAmount: item?.collectionDummyAmount || 0,
-                  paymentActualAmount: item?.paymentActualAmount || 0,
-                  paymentDummyAmount: item?.paymentDummyAmount || 0,
+                  collectionActualAmount: item?.collectionActualAmount || '',
+                  collectionDummyAmount: item?.collectionDummyAmount || '',
+                  paymentActualAmount: item?.paymentActualAmount || '',
+                  paymentDummyAmount: item?.paymentDummyAmount || '',
+                  paymentAdvanceAmount: item?.paymentAdvanceAmount || '',
                   paymentPartyType: item?.paymentPartyType || 0,
                   paymentPartyTypeId: item?.paymentPartyTypeId || 0,
                   paymentParty: item?.paymentParty || 0,
+                  paymentPartyId: item?.paymentPartyId || 0,
+                  isActulCombindToMbl: item?.isActulCombindToMbl || false,
+                  IsDummyCombindToMbl: item?.IsDummyCombindToMbl || false,
+                  IsPaymentCombindToMbl: item?.IsPaymentCombindToMbl || false,
+                  profitSharePercentage: item?.profitSharePercentage || 0,
                   collectionPartyTypeId: item?.collectionPartyTypeId || 0,
                   collectionPartyId: item?.collectionPartyId || 0,
                   collectionParty: item?.collectionParty || '',
                   billingDate: item?.billingDate || new Date(),
+                  billRegisterId: item?.billRegisterId || 0,
+                  billRegisterCode: item?.billRegisterCode || '',
+                  advancedBillRegisterId: item?.advancedBillRegisterId || 0,
+                  advancedBillRegisterCode:
+                    item?.advancedBillRegisterCode || '',
                 };
               });
-
-            if (formikRef.current) {
-              formikRef.current.setFieldValue(
-                'currency',
-                resSveData?.[0]
-                  ? {
-                      label: resSveData?.[0]?.currency,
-                      value: resSveData?.[0]?.currencyId,
-                    }
-                  : '',
-              );
-              formikRef.current.setFieldValue(
-                'exchangeRate',
-                resSveData?.[0] ? resSveData?.[0]?.exchangeRate : '',
-              );
-            }
             setShippingHeadOfCharges([...modifyData, ...filterNewData]);
           },
         );
@@ -145,9 +158,9 @@ function ChargesModal({ rowClickData, CB }) {
       ?.filter((item) => item?.checked)
       .map((item) => {
         return {
-          exchangeRate: +values?.exchangeRate || 0,
-          currencyId: values?.currency?.value || 0,
-          currency: values?.currency?.label || '',
+          exchangeRate: +item?.exchangeRate || 0,
+          currencyId: item?.currencyId || 0,
+          currency: item?.currency || '',
           billingId: item?.billingId || 0,
           bookingRequestId: bookingRequestId || 0,
           headOfChargeId: item?.headOfChargeId || 0,
@@ -168,10 +181,26 @@ function ChargesModal({ rowClickData, CB }) {
           collectionPartyId: item?.collectionPartyId || 0,
           paymentActualAmount: item?.paymentActualAmount || 0,
           paymentDummyAmount: item?.paymentDummyAmount || 0,
+          paymentAdvanceAmount: item?.paymentAdvanceAmount || 0,
           paymentPartyType: item?.paymentPartyType || '',
           paymentPartyTypeId: item?.paymentPartyTypeId || 0,
           paymentParty: item?.paymentParty || '',
           paymentPartyId: item?.paymentPartyId || 0,
+          isActulCombindToMbl: item?.isActulCombindToMbl || false,
+          isDummyCombindToMbl: item?.IsDummyCombindToMbl || false,
+          isPaymentCombindToMbl: item?.IsPaymentCombindToMbl || false,
+          profitSharePercentage: values?.profitSharePercentage || 0,
+
+          masterBlId: rowClickData?.masterBlId || 0,
+          masterBlCode: rowClickData?.masterBlCode || '',
+          modeOfTransportId: rowClickData?.modeOfTransportId || 0,
+          paymentActualCombindAmount: item?.paymentActualAmount || 0,
+          paymentDummyCombindAmount: item?.paymentDummyAmount || 0,
+          paymentAdvanceCombindAmount: item?.paymentAdvanceAmount || 0,
+          billRegisterId: item?.billRegisterId || 0,
+          billRegisterCode: item?.billRegisterCode || '',
+          advancedBillRegisterId: item?.advancedBillRegisterId || 0,
+          advancedBillRegisterCode: item?.advancedBillRegisterCode || '',
         };
       });
     if (payload.length === 0) {
@@ -195,8 +224,8 @@ function ChargesModal({ rowClickData, CB }) {
           amount: '',
           attribute: '',
           actualExpense: '',
-          exchangeRate: '',
-          currency: '',
+          // exchangeRate: '',
+          // currency: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -218,83 +247,17 @@ function ChargesModal({ rowClickData, CB }) {
                 </div>
               </>
             </div>
-            <div className="form-group ">
-              <div className="row global-form">
-                <div className="col-lg-3">
-                  <NewSelect
-                    label={'Currency'}
-                    options={currencyList}
-                    value={values?.currency}
-                    name="currency"
-                    onChange={(valueOption) => {
-                      setFieldValue('currency', valueOption || '');
-                    }}
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <InputField
-                    value={values?.exchangeRate}
-                    label="Exchange Rate"
-                    name="exchangeRate"
-                    type="text"
-                    onChange={(e) =>
-                      setFieldValue('exchangeRate', e.target.value)
-                    }
-                    errors={errors}
-                    touched={touched}
-                  />
-                </div>
-              </div>
-            </div>
             <div className="form-group row global-form">
-              <div className="col-lg-6">
-                <InputField
-                  value={values?.attribute}
-                  label="Attribute"
-                  name="attribute"
-                  type="text"
-                  onChange={(e) => setFieldValue('attribute', e.target.value)}
-                />
-              </div>
               <div className="col-lg-3">
-                {/* add button */}
-                <div className="d-flex justify-content-start align-items-center mt-5">
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      if (!values?.attribute) {
-                        return toast.warn('Attribute is required');
-                      }
-                      setShippingHeadOfCharges([
-                        ...shippingHeadOfCharges,
-                        {
-                          headOfCharges: values?.attribute,
-                          headOfChargeId: 0,
-                          checked: true,
-                          collectionActualAmount: '',
-                          collectionDummyAmount: '',
-                          collectionPartyType: '',
-                          collectionPartyTypeId: 0,
-                          collectionParty: '',
-                          collectionPartyId: 0,
-                          paymentActualAmount: '',
-                          paymentDummyAmount: '',
-                          paymentPartyType: '',
-                          paymentPartyTypeId: 0,
-                          paymentParty: '',
-                          paymentPartyId: 0,
-                        },
-                      ]);
-                      // resetForm();
-                      setFieldValue('attribute', '');
-                    }}
-                  >
-                    Add
-                  </button>
-                </div>
+                <InputField
+                  value={values?.profitSharePercentage}
+                  label="Profit Share Percentage"
+                  name="profitSharePercentage"
+                  type="number"
+                  onChange={(e) =>
+                    setFieldValue('profitSharePercentage', e.target.value)
+                  }
+                />
               </div>
             </div>{' '}
             <div className="table-responsive">
@@ -302,7 +265,7 @@ function ChargesModal({ rowClickData, CB }) {
                 <thead>
                   <tr>
                     <th rowspan="2">
-                      <input
+                      {/* <input
                         type="checkbox"
                         checked={
                           shippingHeadOfCharges?.length > 0
@@ -317,6 +280,15 @@ function ChargesModal({ rowClickData, CB }) {
                               return {
                                 ...item,
                                 checked: e?.target?.checked,
+                                currencyId: e?.target?.checked
+                                  ? item?.currencyId
+                                  : 0,
+                                currency: e?.target?.checked
+                                  ? item?.currency
+                                  : '',
+                                exchangeRate: e?.target?.checked
+                                  ? item?.exchangeRate
+                                  : '',
                                 collectionActualAmount: e?.target?.checked
                                   ? item?.collectionActualAmount
                                   : '',
@@ -342,6 +314,10 @@ function ChargesModal({ rowClickData, CB }) {
                                 paymentDummyAmount: e?.target?.checked
                                   ? item?.paymentDummyAmount
                                   : '',
+                                paymentAdvanceAmount: e?.target?.checked
+                                  ? item?.paymentAdvanceAmount
+                                  : '',
+
                                 paymentPartyType: e?.target?.checked
                                   ? item?.paymentPartyType
                                   : '',
@@ -358,14 +334,16 @@ function ChargesModal({ rowClickData, CB }) {
                             }),
                           );
                         }}
-                      />
+                      /> */}
                     </th>
                     <th rowspan="2">SL</th>
                     <th rowspan="2">Attribute</th>
+                    <th rowspan="2">Currency</th>
+                    <th rowspan="2">Exchange Rate</th>
                     <th colspan="4" class="group-header">
                       Collection <span>(Amounts & Party)</span>
                     </th>
-                    <th colspan="4" class="group-header">
+                    <th colspan="5" class="group-header">
                       Payment <span>(Amounts & Party)</span>
                     </th>
                     <th rowspan="2">Action</th>
@@ -373,28 +351,14 @@ function ChargesModal({ rowClickData, CB }) {
                   <tr>
                     <th
                       style={{
-                        width: '60px',
-                      }}
-                    >
-                      Actual Amount
-                    </th>
-                    <th
-                      style={{
-                        width: '60px',
-                      }}
-                    >
-                      Dummy Amount
-                    </th>
-                    <th
-                      style={{
-                        width: '150px',
+                        minWidth: '150px',
                       }}
                     >
                       Party
                     </th>
                     <th
                       style={{
-                        width: '150px',
+                        minWidth: '150px',
                       }}
                     >
                       Party Name
@@ -404,37 +368,65 @@ function ChargesModal({ rowClickData, CB }) {
                         width: '60px',
                       }}
                     >
-                      Actual Amount
+                      Actual
                     </th>
                     <th
                       style={{
                         width: '60px',
                       }}
                     >
-                      Dummy Amount
+                      Dummy
                     </th>
+
                     <th
                       style={{
-                        width: '150px',
+                        minWidth: '150px',
                       }}
                     >
                       Party
                     </th>
                     <th
                       style={{
-                        width: '150px',
+                        minWidth: '150px',
                       }}
                     >
                       Party Name
+                    </th>
+                    <th
+                      style={{
+                        width: '60px',
+                      }}
+                    >
+                      Actual
+                    </th>
+                    <th
+                      style={{
+                        width: '60px',
+                      }}
+                    >
+                      Dummy
+                    </th>
+                    <th
+                      style={{
+                        width: '60px',
+                      }}
+                    >
+                      Advance
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {shippingHeadOfCharges?.map((item, index) => {
+                    const isDisabled =
+                      !item?.checked || item?.billGenerateCode ? true : false;
                     return (
                       <tr>
                         <td>
                           <input
+                            disabled={
+                              item?.billRegisterId ||
+                              item?.advancedBillRegisterId
+                            }
                             type="checkbox"
                             checked={item?.checked}
                             onChange={(e) => {
@@ -444,6 +436,15 @@ function ChargesModal({ rowClickData, CB }) {
                                     return {
                                       ...data,
                                       checked: e?.target?.checked,
+                                      currencyId: e?.target?.checked
+                                        ? item?.currencyId
+                                        : 0,
+                                      currency: e?.target?.checked
+                                        ? item?.currency
+                                        : '',
+                                      exchangeRate: e?.target?.checked
+                                        ? item?.exchangeRate
+                                        : '',
                                       collectionActualAmount: e?.target?.checked
                                         ? item?.collectionActualAmount
                                         : '',
@@ -468,6 +469,9 @@ function ChargesModal({ rowClickData, CB }) {
                                       paymentDummyAmount: e?.target?.checked
                                         ? item?.paymentDummyAmount
                                         : '',
+                                      paymentAdvanceAmount: e?.target?.checked
+                                        ? item?.paymentAdvanceAmount
+                                        : '',
                                       paymentPartyType: e?.target?.checked
                                         ? item?.paymentPartyType
                                         : '',
@@ -490,42 +494,60 @@ function ChargesModal({ rowClickData, CB }) {
                         </td>
                         <td>{index + 1}</td>
                         <td>{item?.headOfCharges}</td>
+                        <td>
+                          <NewSelect
+                            label={''}
+                            options={currencyList}
+                            value={
+                              item?.currencyId
+                                ? {
+                                    label: item?.currency,
+                                    value: item?.currencyId,
+                                  }
+                                : ''
+                            }
+                            name="currency"
+                            onChange={(valueOption) => {
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].currency = valueOption?.label;
+                              copyPrv[index].currencyId = valueOption?.value;
+                              setShippingHeadOfCharges(copyPrv);
+                            }}
+                            errors={errors}
+                            touched={touched}
+                            isDisabled={isDisabled}
+                          />
+                        </td>
+                        <td>
+                          <InputField
+                            disabled={isDisabled}
+                            value={item?.exchangeRate}
+                            label=""
+                            name="exchangeRate"
+                            type="text"
+                            onChange={(e) => {
+                              const copyPrv = [...shippingHeadOfCharges];
+                              copyPrv[index].exchangeRate = e.target.value;
+                              setShippingHeadOfCharges(copyPrv);
+                            }}
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </td>
 
-                        {/*  "Collection  actual Amount" =  InputField component */}
-                        <td>
-                          <InputField
-                            disabled={!item?.checked}
-                            value={item?.collectionActualAmount}
-                            name="collectionActualAmount"
-                            type="number"
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].collectionActualAmount = value;
-                              setShippingHeadOfCharges(copyPrv);
-                            }}
-                          />
-                        </td>
-                        {/* "Collection Dummy  Dummy Amount" =  InputField component */}
-                        <td>
-                          <InputField
-                            disabled={!item?.checked}
-                            value={item?.collectionDummyAmount}
-                            name="collectionDummyAmount"
-                            type="number"
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].collectionDummyAmount = value;
-                              setShippingHeadOfCharges(copyPrv);
-                            }}
-                          />
-                        </td>
                         {/* "Collection Type" =  NewSelect component */}
                         <td>
                           <NewSelect
-                            isDisabled={!item?.checked}
-                            options={shipingCargoTypeDDL || []}
+                            isDisabled={isDisabled}
+                            options={
+                              [
+                                ...shipingCargoTypeDDL,
+                                {
+                                  label: `Others`,
+                                  value: 0,
+                                },
+                              ] || []
+                            }
                             value={
                               item?.collectionPartyType
                                 ? {
@@ -541,6 +563,8 @@ function ChargesModal({ rowClickData, CB }) {
                                 valueOption?.label;
                               copyPrv[index].collectionPartyTypeId =
                                 valueOption?.value;
+                              copyPrv[index].collectionParty = '';
+                              copyPrv[index].collectionPartyId = 0;
                               setShippingHeadOfCharges(copyPrv);
                             }}
                           />
@@ -548,7 +572,7 @@ function ChargesModal({ rowClickData, CB }) {
                         <td>
                           <SearchAsyncSelect
                             isDisabled={
-                              !item?.checked || !item?.collectionPartyType
+                              isDisabled || !item?.collectionPartyType
                             }
                             selectedValue={
                               item?.collectionParty
@@ -567,49 +591,56 @@ function ChargesModal({ rowClickData, CB }) {
                               setShippingHeadOfCharges(copyPrv);
                             }}
                             loadOptions={(v) => {
+                              let url = '';
+                              if (item?.collectionPartyTypeId === 0) {
+                                url = `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=2&cargoType=0`;
+                              } else {
+                                url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=2&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.collectionPartyTypeId}`;
+                              }
                               if (v?.length < 2) return [];
-                              return axios
-                                .get(
-                                  `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=2&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.collectionPartyTypeId}`,
-                                )
-                                .then((res) => res?.data);
+                              return axios.get(url).then((res) => res?.data);
                             }}
                           />
                         </td>
-                        {/* "Payment Actual Amount" =  InputField component */}
+                        {/*  "Collection  actual Amount" =  InputField component */}
                         <td>
                           <InputField
-                            disabled={!item?.checked}
-                            value={item?.paymentActualAmount}
-                            name="paymentActualAmount"
+                            disabled={isDisabled}
+                            value={item?.collectionActualAmount}
+                            name="collectionActualAmount"
                             type="number"
                             onChange={(e) => {
                               const value = e.target.value;
                               const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].paymentActualAmount = value;
+                              copyPrv[index].collectionActualAmount = value;
                               setShippingHeadOfCharges(copyPrv);
                             }}
                           />
                         </td>
-                        {/* "Payment Dummy Amount" =  InputField component */}
+                        {/* "Collection Dummy  Dummy Amount" =  InputField component */}
                         <td>
                           <InputField
-                            disabled={!item?.checked}
-                            value={item?.paymentDummyAmount}
-                            name="paymentDummyAmount"
+                            disabled={isDisabled}
+                            value={item?.collectionDummyAmount}
+                            name="collectionDummyAmount"
                             type="number"
                             onChange={(e) => {
                               const value = e.target.value;
                               const copyPrv = [...shippingHeadOfCharges];
-                              copyPrv[index].paymentDummyAmount = value;
+                              copyPrv[index].collectionDummyAmount = value;
                               setShippingHeadOfCharges(copyPrv);
                             }}
                           />
                         </td>
+
                         {/* "Payment Type" =  NewSelect component */}
                         <td>
                           <NewSelect
-                            isDisabled={!item?.checked}
+                            isDisabled={
+                              isDisabled ||
+                              item?.billRegisterId ||
+                              item?.advancedBillRegisterId
+                            }
                             options={shipingCargoTypeDDL || []}
                             value={
                               item?.paymentPartyType
@@ -626,7 +657,8 @@ function ChargesModal({ rowClickData, CB }) {
                                 valueOption?.label;
                               copyPrv[index].paymentPartyTypeId =
                                 valueOption?.value;
-
+                              copyPrv[index].paymentParty = '';
+                              copyPrv[index].paymentPartyId = 0;
                               setShippingHeadOfCharges(copyPrv);
                             }}
                           />
@@ -634,7 +666,10 @@ function ChargesModal({ rowClickData, CB }) {
                         <td>
                           <SearchAsyncSelect
                             isDisabled={
-                              !item?.checked || !item?.paymentPartyType
+                              isDisabled ||
+                              !item?.paymentPartyType ||
+                              item?.billRegisterId ||
+                              item?.advancedBillRegisterId
                             }
                             selectedValue={
                               item?.paymentParty
@@ -652,14 +687,195 @@ function ChargesModal({ rowClickData, CB }) {
                               setShippingHeadOfCharges(copyPrv);
                             }}
                             loadOptions={(v) => {
+                              let url = '';
+                              if (item?.paymentPartyTypeId === 0) {
+                                url = `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=1&cargoType=0`;
+                              } else {
+                                url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=1&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.paymentPartyTypeId}`;
+                              }
+
                               if (v?.length < 2) return [];
-                              return axios
-                                .get(
-                                  `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=1&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.paymentPartyTypeId}`,
-                                )
-                                .then((res) => res?.data);
+                              return axios.get(url).then((res) => res?.data);
                             }}
                           />
+                        </td>
+                        {/* "Payment Actual Amount" =  InputField component */}
+                        <td>
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '5px',
+                            }}
+                          >
+                            <InputField
+                              // disabled={isDisabled}
+                              value={item?.paymentActualAmount}
+                              name="paymentActualAmount"
+                              type="number"
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                const copyPrv = [...shippingHeadOfCharges];
+                                copyPrv[index].paymentActualAmount = value;
+                                setShippingHeadOfCharges(copyPrv);
+                              }}
+                              disabled={
+                                (item?.billingId &&
+                                  item?.isActulCombindToMbl) ||
+                                item?.billRegisterId ||
+                                isDisabled
+                                  ? true
+                                  : false
+                              }
+                            />
+                            <div>
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="products-delete-tooltip">
+                                    Is Actual Combind To MBL
+                                  </Tooltip>
+                                }
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={item?.isActulCombindToMbl}
+                                  onChange={(e) => {
+                                    const copyPrv = [...shippingHeadOfCharges];
+                                    copyPrv[index].isActulCombindToMbl =
+                                      e?.target?.checked;
+                                    setShippingHeadOfCharges(copyPrv);
+                                  }}
+                                  disabled={
+                                    (item?.billingId &&
+                                      item?.isActulCombindToMbl) ||
+                                    item?.billRegisterId ||
+                                    isDisabled
+                                      ? true
+                                      : false
+                                  }
+                                />
+                              </OverlayTrigger>
+                            </div>
+                          </div>
+                        </td>
+                        {/* "Payment Dummy Amount" =  InputField component */}
+                        <td>
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '5px',
+                            }}
+                          >
+                            <InputField
+                              // disabled={isDisabled}
+                              value={item?.paymentDummyAmount}
+                              name="paymentDummyAmount"
+                              type="number"
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                const copyPrv = [...shippingHeadOfCharges];
+                                copyPrv[index].paymentDummyAmount = value;
+                                setShippingHeadOfCharges(copyPrv);
+                              }}
+                              disabled={
+                                (item?.billingId &&
+                                  item?.IsDummyCombindToMbl) ||
+                                item?.billRegisterId ||
+                                isDisabled
+                                  ? true
+                                  : false
+                              }
+                            />
+                            <div>
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="products-delete-tooltip">
+                                    Is Dummy Combind To MBL
+                                  </Tooltip>
+                                }
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={item?.IsDummyCombindToMbl}
+                                  onChange={(e) => {
+                                    const copyPrv = [...shippingHeadOfCharges];
+                                    copyPrv[index].IsDummyCombindToMbl =
+                                      e?.target?.checked;
+                                    setShippingHeadOfCharges(copyPrv);
+                                  }}
+                                  disabled={
+                                    (item?.billingId &&
+                                      item?.IsDummyCombindToMbl) ||
+                                    item?.billRegisterId ||
+                                    isDisabled
+                                      ? true
+                                      : false
+                                  }
+                                />
+                              </OverlayTrigger>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '5px',
+                            }}
+                          >
+                            <InputField
+                              // disabled={isDisabled}
+                              value={item?.paymentAdvanceAmount}
+                              name="paymentAdvanceAmount"
+                              type="number"
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                const copyPrv = [...shippingHeadOfCharges];
+                                copyPrv[index].paymentAdvanceAmount = value;
+                                setShippingHeadOfCharges(copyPrv);
+                              }}
+                              disabled={
+                                (item?.billingId &&
+                                  item?.IsPaymentCombindToMbl) ||
+                                item?.billRegisterId ||
+                                item?.advancedBillRegisterId ||
+                                isDisabled
+                                  ? true
+                                  : false
+                              }
+                            />
+                            <div>
+                              <OverlayTrigger
+                                overlay={
+                                  <Tooltip id="products-delete-tooltip">
+                                    Is Advance Combind To MBL
+                                  </Tooltip>
+                                }
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={item?.IsPaymentCombindToMbl}
+                                  onChange={(e) => {
+                                    const copyPrv = [...shippingHeadOfCharges];
+                                    copyPrv[index].IsPaymentCombindToMbl =
+                                      e?.target?.checked;
+                                    setShippingHeadOfCharges(copyPrv);
+                                  }}
+                                  disabled={
+                                    (item?.billingId &&
+                                      item?.IsPaymentCombindToMbl) ||
+                                    item?.billRegisterId ||
+                                    item?.advancedBillRegisterId ||
+                                    isDisabled
+                                      ? true
+                                      : false
+                                  }
+                                />
+                              </OverlayTrigger>
+                            </div>
+                          </div>
                         </td>
                         {/* above  row copy button*/}
                         <td>
@@ -670,7 +886,7 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                           >
                             <button
-                              disabled={!item?.checked}
+                              disabled={isDisabled}
                               type="button"
                               className="btn btn-primary"
                               onClick={() => {

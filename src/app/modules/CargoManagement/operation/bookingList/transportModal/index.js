@@ -34,19 +34,19 @@ const validationSchema = Yup.object().shape({
   //   then: Yup.string().required('No of Container is required'),
   // }),
   shippingLine: Yup.string().when('transportPlanning', {
-    is: (val) => val?.value === 2,
+    is: (val) => [2, 3].includes(val?.value),
     then: Yup.string().required('Shipping Line is required'),
   }),
   vesselName: Yup.string().when('transportPlanning', {
-    is: (val) => val?.value === 2,
+    is: (val) => [2, 3].includes(val?.value),
     then: Yup.string().required('Vessel Name is required'),
   }),
   voyagaNo: Yup.string().when('transportPlanning', {
-    is: (val) => val?.value === 2,
+    is: (val) => [2, 3].includes(val?.value),
     then: Yup.string().required('Voyage Number is required'),
   }),
   arrivalDateTime: Yup.string().when('transportPlanning', {
-    is: (val) => val?.value === 2,
+    is: (val) => [2, 3].includes(val?.value),
     then: Yup.string().required('Arrival Date & Time is required'),
   }),
   transportMode: Yup.object()
@@ -106,7 +106,7 @@ function TransportModal({ rowClickData, CB }) {
         (resData) => {
           if (formikRef.current) {
             const modeOfTransportType =
-              resData?.modeOfTransport === 'Sea' ? 5 : 6;
+              resData?.modeOfTransport === 'Air' ? 6 : 5;
             const shipperId = resData?.shipperId;
             GetAirServiceProviderDDL(shipperId, modeOfTransportType);
             const data = resData || {};
@@ -119,7 +119,11 @@ function TransportModal({ rowClickData, CB }) {
             formikRef.current.setFieldValue(`rows[0].transportPlanning`, {
               ...(data?.modeOfTransport === 'Air'
                 ? { value: 1, label: 'Air' }
-                : { value: 2, label: 'Sea' }),
+                : data?.modeOfTransport === 'Sea'
+                ? { value: 2, label: 'Sea' }
+                : data?.modeOfTransport === 'Sea-Air'
+                ? { value: 3, label: 'Sea-Air' }
+                : ''),
             });
             formikRef.current.setFieldValue(
               `rows[0].pickupLocation`,
@@ -487,6 +491,10 @@ function TransportModal({ rowClickData, CB }) {
                                     value: 2,
                                     label: 'Sea',
                                   },
+                                  {
+                                    value: 3,
+                                    label: 'Sea-Air',
+                                  },
                                 ] || []
                               }
                               value={values.rows[index].transportPlanning}
@@ -695,8 +703,9 @@ function TransportModal({ rowClickData, CB }) {
                           )}
 
                           {/* for SEA */}
-                          {values?.rows?.[0]?.transportPlanning?.value ===
-                            2 && (
+                          {[2, 3].includes(
+                            values?.rows?.[0]?.transportPlanning?.value,
+                          ) && (
                             <>
                               {/* no Of Container */}
                               <div className="col-lg-3">
@@ -870,10 +879,14 @@ function TransportModal({ rowClickData, CB }) {
                                     return [19, 20, 30, 31].includes(
                                       item?.value,
                                     );
-                                  } else {
+                                  } else if (
+                                    values?.transportPlanning?.label === 'Sea'
+                                  ) {
                                     return [17, 18, 30, 31].includes(
                                       item?.value,
                                     );
+                                  } else {
+                                    return true;
                                   }
                                 }) || []
                               }
@@ -899,8 +912,9 @@ function TransportModal({ rowClickData, CB }) {
                                 </div>
                               )}
                           </div>
-                          {values?.rows?.[0]?.transportPlanning?.value ===
-                            2 && (
+                          {[2, 3].includes(
+                            values?.rows?.[0]?.transportPlanning?.value,
+                          ) && (
                             <>
                               {/* BerthDate  */}
                               <div className="col-lg-3">
@@ -1020,7 +1034,9 @@ function TransportModal({ rowClickData, CB }) {
                           </div>
                         </div>
                         {/* container details  for sea */}
-                        {values?.rows[0]?.transportPlanning?.value === 2 && (
+                        {[2, 3].includes(
+                          values?.rows[0]?.transportPlanning?.value,
+                        ) && (
                           <div className="form-group row global-form">
                             {/* PO Number */}
                             <div className="col-lg-2">
@@ -1202,7 +1218,13 @@ function TransportModal({ rowClickData, CB }) {
                             <div className="col-lg-2">
                               <InputField
                                 value={values?.rows[index]?.kgs || ''}
-                                label="KGS"
+                                label={
+                                  [3].includes(
+                                    values?.rows[0]?.transportPlanning?.value,
+                                  )
+                                    ? 'Chargeable Weight'
+                                    : 'KGS'
+                                }
                                 name={`rows[${index}].kgs`}
                                 type="number"
                                 onChange={(e) =>
@@ -1378,42 +1400,92 @@ function TransportModal({ rowClickData, CB }) {
                         <div className="form-group row global-form">
                           <div className="col-lg-12">
                             <p style={{ fontSize: 16, fontWeight: 600 }}>
-                              {values?.rows[0]?.transportPlanning?.value === 2
+                              {[2, 3].includes(
+                                values?.rows[0]?.transportPlanning?.value,
+                              )
                                 ? 'Shipping Schedule'
                                 : 'Flight Schedule'}
                             </p>
                           </div>
                           {/* From date */}
                           <div className="col-lg-3">
-                            {/* <InputField
-                              label="From"
-                              type="text"
-                              name="fromPort"
-                              value={values?.rows[index]?.fromPort || ''}
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].fromPort`,
-                                  e.target.value,
-                                )
-                              }
-                            /> */}
-                            <NewSelect
-                              name="fromPort"
-                              options={airPortShortCodeDDL || []}
-                              value={values?.rows[index]?.fromPort || ''}
-                              label="From"
-                              onChange={(valueOption) => {
-                                setFieldValue(
-                                  `rows[${index}].fromPort`,
-                                  valueOption,
-                                );
-                              }}
-                              placeholder="From"
-                              errors={errors}
-                              touched={touched}
-                            />
+                            {[2, 3].includes(
+                              values?.rows[0]?.transportPlanning?.value,
+                            ) ? (
+                              <>
+                                <InputField
+                                  label="From"
+                                  type="text"
+                                  name="fromPort"
+                                  value={
+                                    values?.rows[index]?.fromPort?.label || ''
+                                  }
+                                  onChange={(e) =>
+                                    setFieldValue(`rows[${index}].fromPort`, {
+                                      label: e.target.value,
+                                    })
+                                  }
+                                />
+                              </>
+                            ) : (
+                              <>
+                                {' '}
+                                <NewSelect
+                                  name="fromPort"
+                                  options={airPortShortCodeDDL || []}
+                                  value={values?.rows[index]?.fromPort || ''}
+                                  label="From"
+                                  onChange={(valueOption) => {
+                                    setFieldValue(
+                                      `rows[${index}].fromPort`,
+                                      valueOption,
+                                    );
+                                  }}
+                                  placeholder="From"
+                                  errors={errors}
+                                  touched={touched}
+                                />
+                              </>
+                            )}
                           </div>
                           <div className="col-lg-3">
+                            {[2, 3].includes(
+                              values?.rows[0]?.transportPlanning?.value,
+                            ) ? (
+                              <>
+                                <InputField
+                                  label="To"
+                                  type="text"
+                                  name="toPort"
+                                  value={
+                                    values?.rows[index]?.toPort?.label || ''
+                                  }
+                                  onChange={(e) =>
+                                    setFieldValue(`rows[${index}].toPort`, {
+                                      label: e.target.value,
+                                    })
+                                  }
+                                />
+                              </>
+                            ) : (
+                              <>
+                                <NewSelect
+                                  name="toPort"
+                                  options={airPortShortCodeDDL || []}
+                                  value={values?.rows[index]?.toPort || ''}
+                                  label="To"
+                                  onChange={(valueOption) => {
+                                    setFieldValue(
+                                      `rows[${index}].toPort`,
+                                      valueOption,
+                                    );
+                                  }}
+                                  placeholder="To"
+                                  errors={errors}
+                                  touched={touched}
+                                />
+                              </>
+                            )}
                             {/* <InputField
                               label="To"
                               type="text"
@@ -1426,27 +1498,14 @@ function TransportModal({ rowClickData, CB }) {
                                 )
                               }
                             /> */}
-                            <NewSelect
-                              name="toPort"
-                              options={airPortShortCodeDDL || []}
-                              value={values?.rows[index]?.toPort || ''}
-                              label="To"
-                              onChange={(valueOption) => {
-                                setFieldValue(
-                                  `rows[${index}].toPort`,
-                                  valueOption,
-                                );
-                              }}
-                              placeholder="To"
-                              errors={errors}
-                              touched={touched}
-                            />
                           </div>
                           {/* for sea 2 , for air 1 */}
                           <div className="col-lg-3">
                             <InputField
                               label={
-                                values?.rows[0]?.transportPlanning?.value === 2
+                                [2, 3].includes(
+                                  values?.rows[0]?.transportPlanning?.value,
+                                )
                                   ? 'Vessel Name'
                                   : 'Flight Number'
                               }
@@ -1491,8 +1550,9 @@ function TransportModal({ rowClickData, CB }) {
                                   return;
                                 }
                                 if (
-                                  values?.rows[0]?.transportPlanning?.value ===
-                                  2
+                                  [2, 3].includes(
+                                    values?.rows[0]?.transportPlanning?.value,
+                                  )
                                 ) {
                                 } else {
                                   if (
@@ -1556,8 +1616,9 @@ function TransportModal({ rowClickData, CB }) {
                                   <th>From</th>
                                   <th>To</th>
                                   <th>Date</th>
-                                  {values?.rows[0]?.transportPlanning?.value ===
-                                  2 ? (
+                                  {[2, 3].includes(
+                                    values?.rows[0]?.transportPlanning?.value,
+                                  ) ? (
                                     <th>Vessel Name</th>
                                   ) : (
                                     <th>Flight Number</th>
