@@ -101,7 +101,11 @@ function ChargesModal({ rowClickData, CB }) {
                   findData?.paymentDummyCombindAmount || '',
                 billingDate: item?.billingDate || new Date(),
                 isCommonPaymentCombind: isCommonPaymentCombind,
-                isCommonPaymentCombindDisabled: isCommonPaymentCombind,
+                isCommonPaymentCombindDisabled:
+                  isCommonPaymentCombind ||
+                  findData?.paymentAdvanceAmount > 0 ||
+                  findData?.paymentActualAmount > 0 ||
+                  findData?.paymentDummyAmount > 0,
 
                 isPaymentActualAmountDisabled:
                   findData?.paymentActualAmount > 0,
@@ -277,6 +281,7 @@ function ChargesModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <Form className="form form-label-right">
+            {console.log(values, 'values')}
             <div className="">
               {/* Save button add */}
               <>
