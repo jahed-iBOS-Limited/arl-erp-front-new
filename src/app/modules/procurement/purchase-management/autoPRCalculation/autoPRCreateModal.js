@@ -428,7 +428,7 @@ export default function AutoPRCreateModal({
             </IViewModal>
             <IViewModal
               show={showPproductionScheduleModal}
-              title={'Production Schedule'}
+              title={'Calculation'}
               onHide={() => {
                 setShowPproductionScheduleModal(false);
               }}
