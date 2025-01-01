@@ -4,7 +4,6 @@ import { shallowEqual, useSelector } from "react-redux";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
 import IForm from "../../../_helper/_form";
 import IApproval from "../../../_helper/_helperIcons/_approval";
-import IDelete from "../../../_helper/_helperIcons/_delete";
 import Loading from "../../../_helper/_loading";
 import PaginationSearch from "../../../_helper/_search";
 import PaginationTable from "../../../_helper/_tablePagination";
