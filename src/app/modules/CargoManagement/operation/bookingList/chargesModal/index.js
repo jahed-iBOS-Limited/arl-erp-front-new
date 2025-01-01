@@ -207,13 +207,15 @@ function ChargesModal({ rowClickData, CB }) {
           masterBlCode: rowClickData?.masterBlCode || '',
           modeOfTransportId: rowClickData?.modeOfTransportId || 0,
           paymentActualCombindAmount: item?.isActulCombindToMbl
-            ? item?.paymentActualAmount || 0
+            ? item?.paymentActualCombindAmount || item?.paymentActualAmount || 0
             : 0,
           paymentDummyCombindAmount: item?.isDummyCombindToMbl
-            ? item?.paymentDummyAmount || 0
+            ? item?.paymentDummyCombindAmount || item?.paymentDummyAmount || 0
             : 0,
           paymentAdvanceCombindAmount: item?.isPaymentCombindToMbl
-            ? item?.paymentAdvanceAmount || 0
+            ? item?.paymentAdvanceCombindAmount ||
+              item?.paymentAdvanceAmount ||
+              0
             : 0,
           billRegisterId: item?.billRegisterId || 0,
           billRegisterCode: item?.billRegisterCode || '',
