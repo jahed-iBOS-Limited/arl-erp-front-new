@@ -796,6 +796,13 @@ function ChargesModal({ rowClickData, CB }) {
                                 const value = e.target.value;
                                 const copyPrv = [...shippingHeadOfCharges];
                                 copyPrv[index].paymentActualAmount = value;
+                                const num = +e.target.value || 0;
+
+                                const isDisabled = num > 0;
+                                copyPrv[
+                                  index
+                                ].isPaymentAdvanceAmountDisabled = isDisabled;
+
                                 setShippingHeadOfCharges(copyPrv);
                               }}
                               disabled={
@@ -856,6 +863,13 @@ function ChargesModal({ rowClickData, CB }) {
                                 const value = e.target.value;
                                 const copyPrv = [...shippingHeadOfCharges];
                                 copyPrv[index].paymentDummyAmount = value;
+
+                                const num = +e.target.value || 0;
+                                const isDisabled = num > 0;
+                                copyPrv[
+                                  index
+                                ].isPaymentAdvanceAmountDisabled = isDisabled;
+
                                 setShippingHeadOfCharges(copyPrv);
                               }}
                               disabled={
