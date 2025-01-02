@@ -50,74 +50,102 @@ function ChargesModal({ rowClickData, CB }) {
                 resSveData?.[0]?.profitSharePercentage || '',
               );
             }
-            const modifyData = resShippingHeadOfCharges?.map((item) => {
-              const findData = resSveData?.find(
-                (findItem) => findItem?.headOfChargeId === item?.value,
-              );
-              const isCommonPaymentCombind =
-                findData?.isActulCombindToMbl ||
-                findData?.isDummyCombindToMbl ||
-                findData?.isPaymentCombindToMbl ||
-                false;
-              return {
-                ...item,
-                currencyId: findData?.currencyId || 0,
-                currency: findData?.currency || '',
-                exchangeRate: findData?.exchangeRate || '',
-                billingId: findData?.billingId || 0,
-                checked: findData ? true : false,
-                amount: findData?.chargeAmount || '',
-                actualExpense: findData?.actualExpense || '',
-                headOfCharges: item?.label || '',
-                headOfChargeId: item?.value || 0,
-                collectionPartyType: findData?.collectionPartyType || '',
-                collectionActualAmount: findData?.collectionActualAmount || '',
-                collectionDummyAmount: findData?.collectionDummyAmount || '',
-                paymentActualAmount: findData?.paymentActualAmount || '',
-                paymentDummyAmount: findData?.paymentDummyAmount || '',
-                paymentAdvanceAmount: findData?.paymentAdvanceAmount || '',
-                paymentPartyType: findData?.paymentPartyType || 0,
-                paymentPartyTypeId: findData?.paymentPartyTypeId || 0,
-                paymentParty: findData?.paymentParty || 0,
-                paymentPartyId: findData?.paymentPartyId || 0,
-                collectionPartyTypeId: findData?.collectionPartyTypeId || 0,
-                collectionPartyId: findData?.collectionPartyId || 0,
-                collectionParty: findData?.collectionParty || '',
-                isActulCombindToMbl: findData?.isActulCombindToMbl || false,
-                isDummyCombindToMbl: findData?.isDummyCombindToMbl || false,
-                isPaymentCombindToMbl: findData?.isPaymentCombindToMbl || false,
-                billRegisterId: findData?.billRegisterId || 0,
-                billRegisterCode: findData?.billRegisterCode || '',
-                advancedBillRegisterId: findData?.advancedBillRegisterId || 0,
-                advancedBillRegisterCode:
-                  findData?.advancedBillRegisterCode || '',
-                profitSharePercentage: findData?.profitSharePercentage || '',
-                paymentAdvanceCombindAmount:
-                  findData?.paymentAdvanceCombindAmount || '',
-                paymentActualCombindAmount:
-                  findData?.paymentActualCombindAmount || '',
-                paymentDummyCombindAmount:
-                  findData?.paymentDummyCombindAmount || '',
-                billingDate: item?.billingDate || new Date(),
-                isCommonPaymentCombind: isCommonPaymentCombind,
-                isCommonPaymentCombindDisabled:
-                  isCommonPaymentCombind ||
-                  findData?.paymentAdvanceAmount > 0 ||
-                  findData?.paymentActualAmount > 0 ||
-                  findData?.paymentDummyAmount > 0,
 
-                isPaymentActualAmountDisabled:
-                  findData?.paymentActualAmount > 0,
-                isPaymentDummyAmountDisabled:
-                  findData?.paymentDummyAmount > 0 ||
-                  findData?.paymentActualAmount > 0,
-                isPaymentAdvanceAmountDisabled:
-                  findData?.paymentAdvanceAmount > 0 ||
-                  findData?.paymentActualAmount > 0 ||
-                  findData?.paymentDummyAmount > 0,
-              };
-            });
-            setShippingHeadOfCharges([...modifyData]);
+            const arryList = [];
+
+            if (resShippingHeadOfCharges?.length > 0) {
+              resShippingHeadOfCharges.forEach((item) => {
+                const saveHeadOfChargeList =
+                  resSveData?.filter(
+                    (findItem) => findItem?.headOfChargeId === item?.value,
+                  ) || [];
+
+                if (saveHeadOfChargeList?.length > 0) {
+                  saveHeadOfChargeList.forEach((saveItem) => {
+                    const isCommonPaymentCombind =
+                      saveItem?.isActulCombindToMbl ||
+                      saveItem?.isDummyCombindToMbl ||
+                      saveItem?.isPaymentCombindToMbl ||
+                      false;
+                    const obj = {
+                      ...item,
+                      currencyId: saveItem?.currencyId || 0,
+                      currency: saveItem?.currency || '',
+                      exchangeRate: saveItem?.exchangeRate || '',
+                      billingId: saveItem?.billingId || 0,
+                      checked: saveItem ? true : false,
+                      amount: saveItem?.chargeAmount || '',
+                      actualExpense: saveItem?.actualExpense || '',
+                      headOfCharges: item?.label || '',
+                      headOfChargeId: item?.value || 0,
+                      collectionPartyType: saveItem?.collectionPartyType || '',
+                      collectionActualAmount:
+                        saveItem?.collectionActualAmount || '',
+                      collectionDummyAmount:
+                        saveItem?.collectionDummyAmount || '',
+                      paymentActualAmount: saveItem?.paymentActualAmount || '',
+                      paymentDummyAmount: saveItem?.paymentDummyAmount || '',
+                      paymentAdvanceAmount:
+                        saveItem?.paymentAdvanceAmount || '',
+                      paymentPartyType: saveItem?.paymentPartyType || 0,
+                      paymentPartyTypeId: saveItem?.paymentPartyTypeId || 0,
+                      paymentParty: saveItem?.paymentParty || 0,
+                      paymentPartyId: saveItem?.paymentPartyId || 0,
+                      collectionPartyTypeId:
+                        saveItem?.collectionPartyTypeId || 0,
+                      collectionPartyId: saveItem?.collectionPartyId || 0,
+                      collectionParty: saveItem?.collectionParty || '',
+                      isActulCombindToMbl:
+                        saveItem?.isActulCombindToMbl || false,
+                      isDummyCombindToMbl:
+                        saveItem?.isDummyCombindToMbl || false,
+                      isPaymentCombindToMbl:
+                        saveItem?.isPaymentCombindToMbl || false,
+                      billRegisterId: saveItem?.billRegisterId || 0,
+                      billRegisterCode: saveItem?.billRegisterCode || '',
+                      advancedBillRegisterId:
+                        saveItem?.advancedBillRegisterId || 0,
+                      advancedBillRegisterCode:
+                        saveItem?.advancedBillRegisterCode || '',
+                      profitSharePercentage:
+                        saveItem?.profitSharePercentage || '',
+                      paymentAdvanceCombindAmount:
+                        saveItem?.paymentAdvanceCombindAmount || '',
+                      paymentActualCombindAmount:
+                        saveItem?.paymentActualCombindAmount || '',
+                      paymentDummyCombindAmount:
+                        saveItem?.paymentDummyCombindAmount || '',
+                      billingDate: item?.billingDate || new Date(),
+                      isCommonPaymentCombind: isCommonPaymentCombind,
+                      isCommonPaymentCombindDisabled:
+                        isCommonPaymentCombind ||
+                        saveItem?.paymentAdvanceAmount > 0 ||
+                        saveItem?.paymentActualAmount > 0 ||
+                        saveItem?.paymentDummyAmount > 0,
+
+                      isPaymentActualAmountDisabled:
+                        saveItem?.paymentActualAmount > 0,
+                      isPaymentDummyAmountDisabled:
+                        saveItem?.paymentDummyAmount > 0 ||
+                        saveItem?.paymentActualAmount > 0,
+                      isPaymentAdvanceAmountDisabled:
+                        saveItem?.paymentAdvanceAmount > 0 ||
+                        saveItem?.paymentActualAmount > 0 ||
+                        saveItem?.paymentDummyAmount > 0,
+                    };
+                    arryList.push(obj);
+                  });
+                } else {
+                  const obj = {
+                    ...item,
+                    headOfCharges: item?.label || '',
+                    headOfChargeId: item?.value || 0,
+                  };
+                  arryList.push(obj);
+                }
+              });
+              setShippingHeadOfCharges([...arryList]);
+            }
           },
         );
       },
@@ -141,7 +169,7 @@ function ChargesModal({ rowClickData, CB }) {
   }, []);
 
   const saveHandler = (values, cb) => {
-    const payload = shippingHeadOfCharges
+    const payloadList = shippingHeadOfCharges
       ?.filter((item) => item?.checked)
       .map((item) => {
         return {
@@ -197,12 +225,29 @@ function ChargesModal({ rowClickData, CB }) {
           advancedBillRegisterCode: item?.advancedBillRegisterCode || '',
         };
       });
-    if (payload.length === 0) {
+    if (payloadList.length === 0) {
       return toast.warn('Please select at least one charge');
+    }
+
+    // if payloadList 'currencyId' empty then return and show warning message "headOfCharges"
+    const currencyIdEmpty = payloadList?.find((item) => item?.currencyId === 0);
+    if (currencyIdEmpty) {
+      return toast.warn(
+        `Please select currency for "${currencyIdEmpty?.headOfCharges}" Attribute`,
+      );
+    }
+    // if payloadList 'exchangeRate' empty then return and show warning message "headOfCharges"
+    const exchangeRateEmpty = payloadList?.find(
+      (item) => (+item?.exchangeRate || 0) === 0,
+    );
+    if (exchangeRateEmpty) {
+      return toast.warn(
+        `Please enter exchange rate for "${exchangeRateEmpty?.headOfCharges}" Attribute`,
+      );
     }
     getSaveBookedRequestBilling(
       `${imarineBaseUrl}/domain/ShippingService/SaveBookedRequestBilling`,
-      payload,
+      payloadList,
       CB,
     );
   };
@@ -350,11 +395,7 @@ function ChargesModal({ rowClickData, CB }) {
                       <tr>
                         <td>
                           <input
-                            disabled={
-                              item?.billRegisterId ||
-                              item?.advancedBillRegisterId ||
-                              item?.billingId
-                            }
+                            disabled={item?.billingId}
                             type="checkbox"
                             checked={item?.checked}
                             onChange={(e) => {
@@ -471,12 +512,12 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                             errors={errors}
                             touched={touched}
-                            isDisabled={isDisabled}
+                            isDisabled={isDisabled || item?.billingId}
                           />
                         </td>
                         <td>
                           <InputField
-                            disabled={isDisabled}
+                            disabled={isDisabled || item?.billingId}
                             value={item?.exchangeRate}
                             label=""
                             name="exchangeRate"
@@ -494,7 +535,7 @@ function ChargesModal({ rowClickData, CB }) {
                         {/* "Collection Type" =  NewSelect component */}
                         <td>
                           <NewSelect
-                            isDisabled={isDisabled}
+                            isDisabled={isDisabled || item?.invoiceId}
                             options={
                               [
                                 ...shipingCargoTypeDDL,
@@ -528,7 +569,9 @@ function ChargesModal({ rowClickData, CB }) {
                         <td>
                           <SearchAsyncSelect
                             isDisabled={
-                              isDisabled || !item?.collectionPartyType
+                              isDisabled ||
+                              !item?.collectionPartyType ||
+                              item?.invoiceId
                             }
                             selectedValue={
                               item?.collectionParty
@@ -561,7 +604,7 @@ function ChargesModal({ rowClickData, CB }) {
                         {/*  "Collection  actual Amount" =  InputField component */}
                         <td>
                           <InputField
-                            disabled={isDisabled}
+                            disabled={isDisabled || item?.invoiceId}
                             value={item?.collectionActualAmount}
                             name="collectionActualAmount"
                             type="number"
@@ -576,7 +619,7 @@ function ChargesModal({ rowClickData, CB }) {
                         {/* "Collection Dummy  Dummy Amount" =  InputField component */}
                         <td>
                           <InputField
-                            disabled={isDisabled}
+                            disabled={isDisabled || item?.invoiceId}
                             value={item?.collectionDummyAmount}
                             name="collectionDummyAmount"
                             type="number"
