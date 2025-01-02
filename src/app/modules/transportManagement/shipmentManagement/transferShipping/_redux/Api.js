@@ -78,11 +78,11 @@ export function getLoadingPointDDL(accId, buId, pointId) {
   );
 }
 
-
+// /oms/ShipmentTransfer/UpdateShipmentTransfer
 //Call OrganizationalUnitUserPermission APi
-export function getPendingDeliveryapi(shippointid, buId, accId) {
+export function getPendingDeliveryapi() {
   return axios.get(
-    `/wms/ShipmentInventoryTranfer/GetPendingInvetoryShipment?AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${shippointid}`
+    `/oms/ShipmentTransfer/UpdateShipmentTransfer`
   );
 }
 
@@ -128,7 +128,7 @@ export function getIncompleteGridData(
 //Call single data api
 export function getDataById(accId, BuId, id) {
   return axios.get(
-    `/oms/Shipment/GetShipmentCommonByIdForApps?ShipmentId=${id}`
+    `/oms/ShipmentTransfer/GetShipmentTransferById?shipmentId=${id}`
   );
 }
 export function getpendingDeliveryDataById(id) {
