@@ -177,6 +177,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
       (data) => {
         CB();
       },
+      true,
     );
   };
 
