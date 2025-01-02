@@ -78,11 +78,11 @@ export function getLoadingPointDDL(accId, buId, pointId) {
   );
 }
 
-// /oms/ShipmentTransfer/UpdateShipmentTransfer
 //Call OrganizationalUnitUserPermission APi
-export function getPendingDeliveryapi() {
+export function getPendingDeliveryapi(shippointid, buId, accId) {
   return axios.get(
-    `/oms/ShipmentTransfer/UpdateShipmentTransfer`
+    `/wms/ShipmentInventoryTranfer/GetPendingInvetoryShipment?AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${shippointid}`
+
   );
 }
 
@@ -93,7 +93,7 @@ export function saveCreateData(data) {
 
 // Save Edit data
 export function saveEditData(data) {
-  return axios.put(`/oms/Shipment/EditTransferShipment`, data);
+  return axios.post(`/oms/ShipmentTransfer/UpdateShipmentTransfer`, data);
 }
 
 //Call get grid data api
