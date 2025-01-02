@@ -122,7 +122,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       }
     );
   };
-  const GetShipMasterHAWBByIdApi = () => {
+  const GetAirMasterHAWBByIdApi = () => {
     ///domain/ShippingService/GetShipMasterBlById?BlId=3
     GetShipMasterBlById(
       `${imarineBaseUrl}/domain/ShippingService/GetAirMasterBlById?BlId=${airMasterBlid}`,
@@ -229,7 +229,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
 
   React.useEffect(() => {
     if (isPrintViewMode) {
-      GetShipMasterHAWBByIdApi();
+      GetAirMasterHAWBByIdApi();
     } else {
       const payload = selectedRow?.map((item) => {
         return {
