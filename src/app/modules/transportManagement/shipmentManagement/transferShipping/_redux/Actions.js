@@ -152,6 +152,8 @@ export const getVehicleSingleDatabyVehicleIdAction = (
           setter("driverName", data[0]?.driverName);
           setter("driverContactNo", data[0]?.driverContact);
           setter("vehicleId", data[0]?.vehicleId);
+          setter("unloadVehicleWeight",data[0]?.weight)
+          setter("unloadVehicleVolume",data[0]?.volume)
         }
         dispatch(slice.SetVehicleSingleData(data[0]));
       }
@@ -291,7 +293,8 @@ export const getSalesContactById = (accId, buId, id) => (dispatch) => {
     .getDataById(accId, buId, id)
     .then((res) => {
       if (res.status === 200 && res.data) {
-        const item = res.data[0];
+        // const item = res.data[0];
+        const item = res.data;
         const data = {
           ...item,
           shipmentHeader: {
@@ -308,10 +311,10 @@ export const getSalesContactById = (accId, buId, id) => (dispatch) => {
               value: item?.shipmentHeader?.shippingTypeId,
               label: item?.shipmentHeader?.shippingTypeName,
             },
-            salesOffice: {
-              value: item.shipmentHeader?.salesOfficeId,
-              label: item.shipmentHeader?.salesOfficeName,
-            },
+            // salesOffice: {
+            //   value: item.shipmentHeader?.salesOfficeId,
+            //   label: item.shipmentHeader?.salesOfficeName,
+            // },
             Vehicle: {
               value: item?.shipmentHeader?.vehicleId,
               label: item?.shipmentHeader?.vehicleName,
@@ -331,7 +334,7 @@ export const getSalesContactById = (accId, buId, id) => (dispatch) => {
                   label: item?.shipmentHeader?.supplierName,
                 }
               : "",
-            lastDistance: item?.shipmentHeader?.lastDestinationKM,
+            lastDistance: item?.shipmentHeader?.lastDestinationKm,
             shipmentdate: item?.shipmentHeader?.shipmentDate,
             estimatedTimeofArrival: _dateFormatter(
               item?.shipmentHeader?.actualDepartureDateTime
@@ -342,13 +345,17 @@ export const getSalesContactById = (accId, buId, id) => (dispatch) => {
             // isLaborImpart: item?.shipmentHeader?.isLaborImpart
             //   ? { value: true, label: "Yes" }
             //   : { value: false, label: "No" },
-            isLaborImpart: true,
+            isLaborImpart: item?.shipmentHeader?.isLaborImpart,
             laborSupplierName: item?.shipmentHeader?.laborSupplierId
-            ? {
-                value: item?.shipmentHeader?.laborSupplierId,
-                label: item?.shipmentHeader?.laborSupplierName,
-              }
-            : "",
+              ? {
+                  value: item?.shipmentHeader?.laborSupplierId,
+                  label: item?.shipmentHeader?.laborSupplierName,
+                }
+              : "",
+            pendingDelivery: {
+              value: item?.shipmentRowList[0]?.deliveryId,
+              label: item?.shipmentRowList[0]?.deliveryCode,
+            },
           },
         };
         return dispatch(slice.SetDataById(data));
