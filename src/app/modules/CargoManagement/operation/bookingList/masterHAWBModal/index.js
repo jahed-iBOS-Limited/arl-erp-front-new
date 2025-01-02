@@ -16,6 +16,7 @@ const validationSchema = Yup.object().shape({});
 
 const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
   const [hbawListData, getHBAWList, ishbawLodaing] = useAxiosPost();
+  console.log("hbawListData", hbawListData);
   const [msterBLDDL, getMasterBLDDL] = useAxiosGet();
   const [iatacodeDDL, setIatacodeDDL] = React.useState([]);
   const [
@@ -78,7 +79,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       prepaidTaxAmount: values?.prepaidTaxAmount || "",
       prepaidTotalOtherChargesDueAgent: "",
       prepaidTotalOtherChargesDueCarrier1: values?.prepaidTotalOtherChargesDueCarrier1 || "",
-      prepaidTotalOtherChargesDueCarrier2: "",
+      prepaidTotalOtherChargesDueCarrier2: values?.prepaidTotalOtherChargesDueCarrier2 || "",
       totalPrepaid: values?.totalPrepaid || "",
       totalCollect: values?.totalCollect || "",
       currencyConversionRates: values?.currencyConversionRates || "",
@@ -88,6 +89,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       chargesAtDestination: values?.chargesAtDestination || "",
       totalCollectCharges: values?.totalCollectCharges || "",
       signatureOfShipperOrAgent: values?.signatureOfShipperOrAgent || "",
+      total: values?.total || "",
       executedOnDate: values?.executedOnDate || "",
       strTo: values?.strTo || "",
       signatureOfIssuingCarrierOrAgent:
@@ -181,6 +183,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             chargesAtDestination: data?.chargesAtDestination || "",
             totalCollectCharges: data?.totalCollectCharges || "",
             signatureOfShipperOrAgent: data?.signatureOfShipperOrAgent || "",
+            total: data?.total || "",
             executedOnDate: data?.executedOnDate || "",
             strTo: data?.strTo || "",
             grossWeight: data?.grossWeight || "",
@@ -424,14 +427,14 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             totalCollectCharges: "", // can't get initial value
             prepaidTotalOtherChargesDueCarrier1: "", // note: this feild is used for Other Charge
             strTo: "",  // can't get initial value
-
+            prepaidTotalOtherChargesDueCarrier2: "",  // can't get initial value
+            total: "",
 
             // can't bind
             issuingCarrierAgentNameAndCity: "string",
 
-            prepaidTotalOtherChargesDueCarrier2: "string",
 
-            signatureOfShipperOrAgent: "string",
+            signatureOfShipperOrAgent: "",// can't get initial value
           };
           Object.keys(obj).forEach((key) => {
             formikRef.current.setFieldValue(key, obj[key]);
@@ -1941,7 +1944,39 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 )}
                               </div>
                               <div className="total borderRight">
-                                <p></p>
+                                {isPrintViewMode ? (
+                                  <>
+                                    {values?.total
+                                      ? values?.total
+                                        ?.split("\n")
+                                        .map((item, index) => {
+                                          return (
+                                            <>
+                                              {item}
+                                              <br />
+                                            </>
+                                          );
+                                        })
+                                      : ""}
+                                  </>
+                                ) : (
+                                  <>
+                                    {" "}
+                                    <textarea
+                                      value={
+                                        values?.total
+                                      }
+                                      name="total"
+                                      rows={20}
+                                      onChange={(e) => {
+                                        setFieldValue(
+                                          "total",
+                                          e.target.value
+                                        );
+                                      }}
+                                    />
+                                  </>
+                                )}
                               </div>
                               <div className="natureandQuantityofGoods">
                                 {isPrintViewMode ? (
@@ -2581,10 +2616,90 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   >
                                     {/* grap */}
                                     <div className="collectChartLeft borderRight">
-                                      {/*  // todo */}
+                                      {["cif", "cpt", "cfr"].includes(
+                                        hbawListData?.[0]?.incoterms
+                                      ) && (
+                                          <>
+                                            {isPrintViewMode ? (
+                                              <>
+                                                <p>
+                                                  {values?.prepaidTotalOtherChargesDueCarrier2
+                                                    ? values?.prepaidTotalOtherChargesDueCarrier2
+                                                      ?.split("\n")
+                                                      .map((item, index) => {
+                                                        return (
+                                                          <>
+                                                            {item}
+                                                            <br />
+                                                          </>
+                                                        );
+                                                      })
+                                                    : ""}
+                                                </p>
+                                              </>
+                                            ) : (
+                                              <>
+                                                {" "}
+                                                <div className="col-lg-12">
+                                                  <textarea
+                                                    name="prepaidTotalOtherChargesDueCarrier2"
+                                                    value={
+                                                      values?.prepaidTotalOtherChargesDueCarrier2
+                                                    }
+                                                    onChange={(e) => {
+                                                      setFieldValue(
+                                                        "prepaidTotalOtherChargesDueCarrier2",
+                                                        e.target.value
+                                                      );
+                                                    }}
+                                                  />
+                                                </div>
+                                              </>
+                                            )}
+                                          </>
+                                        )}
                                     </div>
                                     <div className="collectChartRight">
-                                      {/*  // todo */}
+                                      {!["cif", "cpt", "cfr"].includes(
+                                        hbawListData?.[0]?.incoterms
+                                      ) && (
+                                          <>
+                                            {isPrintViewMode ? (
+                                              <>
+                                                {values?.signatureOfShipperOrAgent
+                                                  ? values?.signatureOfShipperOrAgent
+                                                    ?.split("\n")
+                                                    .map((item, index) => {
+                                                      return (
+                                                        <>
+                                                          {item}
+                                                          <br />
+                                                        </>
+                                                      );
+                                                    })
+                                                  : ""}
+                                              </>
+                                            ) : (
+                                              <>
+                                                {" "}
+                                                <div className="col-lg-12">
+                                                  <textarea
+                                                    name="signatureOfShipperOrAgent"
+                                                    value={
+                                                      values?.signatureOfShipperOrAgent
+                                                    }
+                                                    onChange={(e) => {
+                                                      setFieldValue(
+                                                        "signatureOfShipperOrAgent",
+                                                        e.target.value
+                                                      );
+                                                    }}
+                                                  />
+                                                </div>
+                                              </>
+                                            )}
+                                          </>
+                                        )}
                                     </div>
                                   </div>
                                 </div>
