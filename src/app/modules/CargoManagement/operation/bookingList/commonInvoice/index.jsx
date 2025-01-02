@@ -156,7 +156,8 @@ const CommonInvoice = ({ rowClickData }) => {
     const filterData = bookingData?.billingData?.filter((item) => {
       return (
         item?.collectionPartyId === valueOption?.value &&
-        item?.collectionActualAmount
+        item?.collectionActualAmount &&
+        !item?.invoiceId
       );
     });
     setBillingDataFilterData(filterData);
