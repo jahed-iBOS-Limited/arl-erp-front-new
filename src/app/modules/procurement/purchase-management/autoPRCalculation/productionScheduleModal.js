@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import IForm from '../../../_helper/_form';
 import Loading from '../../../_helper/_loading';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 
 export default function ProductionScheduleModal({ buId, fromData, toDate }) {
@@ -39,14 +40,27 @@ export default function ProductionScheduleModal({ buId, fromData, toDate }) {
                         isHiddenReset
                         isHiddenBack
                         isHiddenSave
+                        renderProps={() => {
+                            return (
+                                <div>
+                                    <ReactHTMLTableToExcel
+                                        id="mrp-table-xls-button-att-reports"
+                                        className="btn btn-primary"
+                                        table="mrp-table-to-xlsx"
+                                        filename={"Report"}
+                                        sheet={"Report"}
+                                        buttonText="Export Excel"
+                                    />
+                                </div>
+                            );
+                        }}
                     >
                         <Form>
                             <>
                                 <div>
-
                                     {productionScheduleData?.length > 0 && (
                                         <div className="table-responsive">
-                                            <table className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
+                                            <table id='mrp-table-to-xlsx' className="table table-striped mt-2 table-bordered bj-table bj-table-landing">
                                                 <thead>
                                                     <tr>
                                                         <th>Item Code</th>

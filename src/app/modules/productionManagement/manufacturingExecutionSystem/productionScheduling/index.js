@@ -10,6 +10,7 @@ import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import { generateMonthlyData, months } from './helper';
 import MonthTable from './monthTable';
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import InputField from '../../../_helper/_inputField';
 
 const initData = {
   businessUnit: '',
@@ -127,6 +128,7 @@ export default function ProductionScheduling() {
                     label="Business Unit"
                     onChange={(valueOption) => {
                       setFieldValue('businessUnit', valueOption);
+                      setFieldValue('strManagementUomName', valueOption?.strManagementUomName || "");
                       setTableData([]);
                     }}
                   />
@@ -153,6 +155,15 @@ export default function ProductionScheduling() {
                       setFieldValue('month', valueOption);
                       setTableData([]);
                     }}
+                  />
+                </div>
+
+                <div className="col-lg-3">
+                  <InputField
+                    name="strManagementUomName"
+                    value={values?.strManagementUomName || ""}
+                    label="Management UOM"
+                    disabled
                   />
                 </div>
 

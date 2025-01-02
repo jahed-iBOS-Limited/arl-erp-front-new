@@ -58,11 +58,11 @@ const WarehouseStockModal = ({ objProp }) => {
                       <th>Item Name</th>
                       <th>Item Code</th>
                       <th>UoM Name</th>
-                      <th>Open Qty</th>
+                      {/* <th>Open Qty</th>
                       <th>In Qty</th>
-                      <th>Out Qty</th>
+                      <th>Out Qty</th> */}
                       <th>Closing Qty</th>
-                      <th>Closing Value</th>
+                      {/* <th>Closing Value</th> */}
                       <th>Rate</th>
                     </tr>
                   </thead>
@@ -74,17 +74,17 @@ const WarehouseStockModal = ({ objProp }) => {
                           <td className="">{item?.strItemName}</td>
                           <td className="text-center">{item?.strItemCode}</td>
                           <td className="text-center">{item?.strBaseUOM}</td>
-                          <td className="text-right">
+                          {/* <td className="text-right">
                             {item?.numOpenQty || 0}
                           </td>
                           <td className="text-right">{item?.numInQty || 0}</td>
-                          <td className="text-right">{item?.numOutQty || 0}</td>
+                          <td className="text-right">{item?.numOutQty || 0}</td> */}
                           <td className="text-right">
                             {item?.numCloseQty || 0}
                           </td>
-                          <td className="text-right">
+                          {/* <td className="text-right">
                             {item?.numClosingValue || 0}
-                          </td>
+                          </td> */}
                           <td className="text-right">{item?.numRate || 0}</td>
                         </tr>
                       ))}
