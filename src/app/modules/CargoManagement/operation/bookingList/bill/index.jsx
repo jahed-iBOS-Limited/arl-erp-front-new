@@ -17,8 +17,8 @@ import { toast } from 'react-toastify';
 
 const validationSchema = Yup.object().shape({
   paymentParty: Yup.object().shape({
-    value: Yup.string().required('Party Type is required'),
-    label: Yup.string().required('Party Type is required'),
+    value: Yup.string().required('Party is required'),
+    label: Yup.string().required('Party is required'),
   }),
 });
 
@@ -62,6 +62,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
             ?.filter((i) => i.paymentPartyId)
             ?.map((item) => {
               return {
+                paymentPartyId: item?.paymentPartyId,
                 value: item?.paymentPartyId,
                 label: item?.paymentParty,
               };
