@@ -873,11 +873,11 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="freightAgentReference"
                     options={deliveryAgentDDL || []}
                     value={values?.freightAgentReference}
-                    label={shipBookingRequestGetById?.modeOfTransportId === 3 ? "Delivery Agent (Air)" : "Delivery Agent"}
+                    label={shipBookingRequestGetById?.modeOfTransportId === 3 ? "Delivery Agent (Sea)" : "Delivery Agent"}
                     onChange={(valueOption) => {
                       setFieldValue('freightAgentReference', valueOption);
                     }}
-                    placeholder={shipBookingRequestGetById?.modeOfTransportId === 3 ? "Delivery Agent (Air)" : "Delivery Agent"}
+                    placeholder={shipBookingRequestGetById?.modeOfTransportId === 3 ? "Delivery Agent (Sea)" : "Delivery Agent"}
                     errors={errors}
                     touched={touched}
                   />
@@ -891,11 +891,11 @@ function ConfirmModal({ rowClickData, CB }) {
                         name="freightAgentReference2"
                         options={deliveryAgentDDL || []}
                         value={values?.freightAgentReference2}
-                        label="Delivery Agent (Sea)"
+                        label="Delivery Agent (Air)"
                         onChange={(valueOption) => {
                           setFieldValue('freightAgentReference2', valueOption);
                         }}
-                        placeholder="Delivery Agent (Sea)"
+                        placeholder="Delivery Agent (Air)"
                         errors={errors}
                         touched={touched}
                       />
