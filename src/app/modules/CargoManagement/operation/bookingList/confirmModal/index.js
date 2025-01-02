@@ -233,7 +233,7 @@ function ConfirmModal({ rowClickData, CB }) {
               'freightAgentReference',
               data?.freightAgentReference
                 ? {
-                  value: 0,
+                  value: data?.freightAgentReferenceId || 0,
                   label: data?.freightAgentReference || '',
                 }
                 : '',
@@ -242,7 +242,7 @@ function ConfirmModal({ rowClickData, CB }) {
               'freightAgentReference2',
               data?.freightAgentReference2
                 ? {
-                  value: 0,
+                  value: data?.freightAgentReferenceId2 || 0,
                   label: data?.freightAgentReference2 || '',
                 }
                 : '',
@@ -357,7 +357,9 @@ function ConfirmModal({ rowClickData, CB }) {
       warehouseId: values?.wareHouse?.value || 0,
       // Consignee Information
       freightAgentReference: values?.freightAgentReference?.label || '',
+      freightAgentReferenceId: values?.freightAgentReference?.value || 0,
       freightAgentReference2: values?.freightAgentReference2?.label || '',
+      freightAgentReferenceId2: values?.freightAgentReference2?.value || 0,
       shippingMark: values?.shippingMark || '',
       consigneeId: values?.consigneeName?.value || 0,
       consigneeName: values?.consigneeName?.label || '',

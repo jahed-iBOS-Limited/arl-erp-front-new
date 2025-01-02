@@ -13,8 +13,8 @@ import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-import './style.css';
 import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
+import './style.css';
 const validationSchema = Yup.object().shape({
   pickupLocation: Yup.string().required('Pickup Location is required'),
   noOfPallets: Yup.string().when('transportPlanning', {
@@ -115,7 +115,7 @@ function TransportModal({ rowClickData, CB }) {
               0,
             );
             const transportPlanning = data?.transportPlanning || {};
-            const transportPlanningModeId = data?.transportPlanningModeId || 0;
+            const transportPlanningModeId = transportPlanning?.transportPlanningModeId || 0;
             // not Air Sea
             if (transportPlanningModeId === 0) {
               formikRef.current.setFieldValue(`rows[0].transportPlanning`, {
@@ -514,7 +514,7 @@ function TransportModal({ rowClickData, CB }) {
                               { value: 1, label: 'Air' },
                             );
                           }}
-                          disabled={shipBookingRequestGetById?.transportPlanningModeId === 1}
+                          disabled={shipBookingRequestGetById?.transportPlanning?.transportPlanningModeId === 1}
                           required
                         />
                         Air
@@ -536,7 +536,7 @@ function TransportModal({ rowClickData, CB }) {
                               { value: 2, label: 'Sea' },
                             );
                           }}
-                          disabled={shipBookingRequestGetById?.transportPlanningModeId === 2}
+                          disabled={shipBookingRequestGetById?.transportPlanning?.transportPlanningModeId === 2}
 
                           required
 
