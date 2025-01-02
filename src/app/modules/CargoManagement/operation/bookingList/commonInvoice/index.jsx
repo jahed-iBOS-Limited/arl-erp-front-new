@@ -75,7 +75,15 @@ const CommonInvoice = ({ rowClickData }) => {
                 label: item?.collectionPartyType,
               };
             });
-          setParticipantTypeListDDL(billingDataList);
+          const unique = [
+            ...new Map(
+              billingDataList.map((item) => [
+                item['collectionPartyTypeId'],
+                item,
+              ]),
+            ).values(),
+          ];
+          setParticipantTypeListDDL(unique || []);
         },
       );
     }

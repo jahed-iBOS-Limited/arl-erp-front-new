@@ -9,6 +9,7 @@ import { YearDDL } from '../../../_helper/_yearDDL';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import { generateMonthlyData, months } from './helper';
 import MonthTable from './monthTable';
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 const initData = {
   businessUnit: '',
@@ -156,7 +157,7 @@ export default function ProductionScheduling() {
                 </div>
 
                 {/* View Button */}
-                <div className="col-lg-3 mt-5">
+                <div className="mt-5">
                   <button
                     className="btn btn-primary"
                     type="button"
@@ -168,6 +169,18 @@ export default function ProductionScheduling() {
                     View
                   </button>
                 </div>
+                {tableData.length > 0 && (
+                  <div className="mt-5 ml-4">
+                  <ReactHTMLTableToExcel
+                    id="date-wise-table-xls-button-production-scheduling"   // this id always uniqe for every table 
+                    className="btn btn-primary"
+                    table="production-scheduling-table-to-xlsx"  // always same with table id
+                    filename={"Date Wise Report"}
+                    sheet={"Production Scheduling Report"}
+                    buttonText="Export Excel"
+                  />
+                </div>
+                )}
               </div>
               {/* Table Display */}
               {tableData.length > 0 && (
@@ -176,7 +189,7 @@ export default function ProductionScheduling() {
                     style={{ maxHeight: '500px' }}
                     className="scroll-table _table"
                   >
-                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                    <table id="production-scheduling-table-to-xlsx" className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
                           <th>Product Name</th>
@@ -222,6 +235,31 @@ export default function ProductionScheduling() {
                             </td>
                           </tr>
                         ))}
+                        <tr>
+                          <td className="text-center font-weight-bold">Total</td>
+                          <td className="text-center font-weight-bold">
+                            {tableData.reduce((sum, product) => sum + (product.productQty || 0), 0)}
+                          </td>
+                          {tableData[0]?.workCenters.map((_, i) => (
+                            <td key={i} className="text-center font-weight-bold">
+                              {tableData.reduce(
+                                (sum, product) => sum + (product.workCenters[i]?.workCenterQty || 0),
+                                0
+                              )}
+                            </td>
+                          ))}
+                          <td className="text-center font-weight-bold">
+                            {tableData.reduce(
+                              (grandTotal, product) =>
+                                grandTotal +
+                                product.workCenters.reduce(
+                                  (sum, workCenter) => sum + (workCenter.workCenterQty || 0),
+                                  0
+                                ),
+                              0
+                            )}
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
