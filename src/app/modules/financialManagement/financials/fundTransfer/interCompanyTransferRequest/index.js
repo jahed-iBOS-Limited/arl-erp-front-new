@@ -211,8 +211,8 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                         <td className="text-center">{_dateFormatter(item.dteRequestDate)}</td>
                                                         <td>{item.strRequestByUnitName}</td>
                                                         <td>{item.strRequestToUnitName}</td>
-                                                        <td></td>
-                                                        <td></td>
+                                                        <td>{item?.strRequestedBankName}</td>
+                                                        <td>{item?.strGivenBankName}</td>
                                                         <td className="text-center">{_dateFormatter(item.dteExpectedDate)}</td>
                                                         <td className="text-right">{item.numAmount}</td>
                                                         <td>{item.strResponsibleEmpName}</td>
