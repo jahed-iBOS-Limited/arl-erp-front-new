@@ -210,7 +210,7 @@ const CommonInvoice = ({ rowClickData }) => {
                   <>
                     <button
                       type="button"
-                      className="btn btn-primary"
+                      className="btn btn-primary mr-1"
                       onClick={() => {
                         handleSubmit();
                       }}
@@ -220,19 +220,19 @@ const CommonInvoice = ({ rowClickData }) => {
                   </>
                 )}
 
-                {invoiceNo?.length > 0 && (
-                  <button
-                    onClick={handlePrint}
-                    type="button"
-                    className="btn btn-primary px-3 py-2"
-                  >
-                    <i
-                      className="mr-1 fa fa-print pointer"
-                      aria-hidden="true"
-                    ></i>
-                    Print
-                  </button>
-                )}
+                {/* {invoiceNo?.length > 0 && ( */}
+                <button
+                  onClick={handlePrint}
+                  type="button"
+                  className="btn btn-primary px-3 py-2"
+                >
+                  <i
+                    className="mr-1 fa fa-print pointer"
+                    aria-hidden="true"
+                  ></i>
+                  Print
+                </button>
+                {/* )} */}
               </div>
             </div>
           </div>
