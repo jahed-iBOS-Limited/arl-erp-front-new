@@ -69,6 +69,7 @@ function ChargesModal({ rowClickData, CB }) {
                       false;
                     const obj = {
                       ...item,
+                      ...saveItem,
                       currencyId: saveItem?.currencyId || 0,
                       currency: saveItem?.currency || '',
                       exchangeRate: saveItem?.exchangeRate || '',
