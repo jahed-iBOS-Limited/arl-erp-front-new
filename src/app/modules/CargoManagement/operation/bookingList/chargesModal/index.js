@@ -350,11 +350,7 @@ function ChargesModal({ rowClickData, CB }) {
                       <tr>
                         <td>
                           <input
-                            disabled={
-                              item?.billRegisterId ||
-                              item?.advancedBillRegisterId ||
-                              item?.billingId
-                            }
+                            disabled={item?.billingId}
                             type="checkbox"
                             checked={item?.checked}
                             onChange={(e) => {
@@ -471,12 +467,12 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                             errors={errors}
                             touched={touched}
-                            isDisabled={isDisabled}
+                            isDisabled={isDisabled || item?.billingId}
                           />
                         </td>
                         <td>
                           <InputField
-                            disabled={isDisabled}
+                            disabled={isDisabled || item?.billingId}
                             value={item?.exchangeRate}
                             label=""
                             name="exchangeRate"
@@ -494,7 +490,7 @@ function ChargesModal({ rowClickData, CB }) {
                         {/* "Collection Type" =  NewSelect component */}
                         <td>
                           <NewSelect
-                            isDisabled={isDisabled}
+                            isDisabled={isDisabled || item?.invoiceId}
                             options={
                               [
                                 ...shipingCargoTypeDDL,
@@ -528,7 +524,9 @@ function ChargesModal({ rowClickData, CB }) {
                         <td>
                           <SearchAsyncSelect
                             isDisabled={
-                              isDisabled || !item?.collectionPartyType
+                              isDisabled ||
+                              !item?.collectionPartyType ||
+                              item?.invoiceId
                             }
                             selectedValue={
                               item?.collectionParty
@@ -561,7 +559,7 @@ function ChargesModal({ rowClickData, CB }) {
                         {/*  "Collection  actual Amount" =  InputField component */}
                         <td>
                           <InputField
-                            disabled={isDisabled}
+                            disabled={isDisabled || item?.invoiceId}
                             value={item?.collectionActualAmount}
                             name="collectionActualAmount"
                             type="number"
@@ -576,7 +574,7 @@ function ChargesModal({ rowClickData, CB }) {
                         {/* "Collection Dummy  Dummy Amount" =  InputField component */}
                         <td>
                           <InputField
-                            disabled={isDisabled}
+                            disabled={isDisabled || item?.invoiceId}
                             value={item?.collectionDummyAmount}
                             name="collectionDummyAmount"
                             type="number"

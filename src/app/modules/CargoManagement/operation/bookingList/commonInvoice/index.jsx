@@ -121,6 +121,7 @@ const CommonInvoice = ({ rowClickData }) => {
           strUom: '',
           numamount: item?.collectionActualAmount || 0,
           numvatAmount: 0,
+          billingId: item?.billingId || 0,
         };
       }),
     };
@@ -155,7 +156,8 @@ const CommonInvoice = ({ rowClickData }) => {
     const filterData = bookingData?.billingData?.filter((item) => {
       return (
         item?.collectionPartyId === valueOption?.value &&
-        item?.collectionActualAmount
+        item?.collectionActualAmount &&
+        !item?.invoiceId
       );
     });
     setBillingDataFilterData(filterData);
@@ -209,7 +211,7 @@ const CommonInvoice = ({ rowClickData }) => {
                   <>
                     <button
                       type="button"
-                      className="btn btn-primary"
+                      className="btn btn-primary mr-1"
                       onClick={() => {
                         handleSubmit();
                       }}
@@ -219,19 +221,19 @@ const CommonInvoice = ({ rowClickData }) => {
                   </>
                 )}
 
-                {invoiceNo?.length > 0 && (
-                  <button
-                    onClick={handlePrint}
-                    type="button"
-                    className="btn btn-primary px-3 py-2"
-                  >
-                    <i
-                      className="mr-1 fa fa-print pointer"
-                      aria-hidden="true"
-                    ></i>
-                    Print
-                  </button>
-                )}
+                {/* {invoiceNo?.length > 0 && ( */}
+                <button
+                  onClick={handlePrint}
+                  type="button"
+                  className="btn btn-primary px-3 py-2"
+                >
+                  <i
+                    className="mr-1 fa fa-print pointer"
+                    aria-hidden="true"
+                  ></i>
+                  Print
+                </button>
+                {/* )} */}
               </div>
             </div>
           </div>
