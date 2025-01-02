@@ -10,12 +10,10 @@ export const fetchWarehouseStockDetailsData = (obj) => {
     setSingleRowData,
     values,
   } = obj;
-  // single row
-  const { itemId, itemName } = singleRowData;
-  // params
-  const params = `businessUnitId=${values?.businessUnit?.value}&intPlantId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}&intItemTypeId=0&itemId=${itemId}&warehouseId=142&pageNo=0&pageSize=100&search=${itemName}`;
-  // url
-  const url = `/procurement/Report/GetInventoryStatement`;
+  
+  const { itemId } = singleRowData;
+  const params = `intBusinessUnitId=${values?.businessUnit?.value}&intItemId=${itemId}&toDate=${values?.toDate}`;
+  const url = `/mes/ProductionEntry/GetCurrentStockByUnit`;
 
   getWarehouseStockData(`${url}?${params}`, () => {
     setSingleRowData({});
