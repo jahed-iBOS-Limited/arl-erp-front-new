@@ -1,6 +1,7 @@
 import CryptoJS from 'crypto-js';
 import { Formik } from 'formik';
 import moment from 'moment';
+import './style.css';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -171,7 +172,7 @@ function BookingList() {
         );
       }}
     >
-      <>
+      <div className="booking-list-wrapper">
         <Formik
           enableReinitialize={true}
           initialValues={{
@@ -1472,7 +1473,7 @@ function BookingList() {
             </>
           )}
         </Formik>
-      </>
+      </div>
     </ICustomCard>
   );
 }
