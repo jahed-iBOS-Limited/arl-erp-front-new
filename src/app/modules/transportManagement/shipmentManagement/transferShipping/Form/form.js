@@ -125,7 +125,7 @@ export default function _Form({
   setTransferOutData,
   showTransferOutModal,
   setShowTransferOutModal,
-  id
+  id,
 }) {
   const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const [controls, setControls] = useState([]);
@@ -556,6 +556,7 @@ export default function _Form({
                         <ICalendar
                           value={values.estimatedTimeofArrival || ""}
                           name="estimatedTimeofArrival"
+                          disabled={id}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -563,6 +564,7 @@ export default function _Form({
                         <ICalendar
                           value={values.planedLoadingTime || ""}
                           name="planedLoadingTime"
+                          disabled={id}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -624,7 +626,7 @@ export default function _Form({
                               }}
                               styles={customStyles}
                               name="pendingDelivery"
-                              isDisabled={!values?.Vehicle}
+                              isDisabled={!values?.Vehicle || id}
                             />
                           )}
                           placeholder="Select delivery List"
@@ -667,35 +669,40 @@ export default function _Form({
                         </div>
                       )}
 
-                      <div className="col-lg-3">
-                        <label> Truck Traller Loading Supplier</label>
-                        <SearchAsyncSelect
-                          selectedValue={values.truckTrallerSupplier}
-                          handleChange={(valueOption) => {
-                            setFieldValue("truckTrallerSupplier", valueOption);
-                          }}
-                          loadOptions={(v) => {
-                            // if (v.length < 3) return [];
-                            return axios
-                              .get(
-                                `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${
-                                  selectedBusinessUnit?.value
-                                }&SBUId=${0}`
-                              )
-                              .then((res) => {
-                                const updateList = res?.data.map((item) => ({
-                                  ...item,
-                                }));
-                                return updateList;
-                              });
-                          }}
-                        />
-                        <FormikError
-                          errors={errors}
-                          name="truckTrallerSupplier"
-                          touched={touched}
-                        />
-                      </div>
+                      {!id && (
+                        <div className="col-lg-3">
+                          <label> Truck Traller Loading Supplier</label>
+                          <SearchAsyncSelect
+                            selectedValue={values.truckTrallerSupplier}
+                            handleChange={(valueOption) => {
+                              setFieldValue(
+                                "truckTrallerSupplier",
+                                valueOption
+                              );
+                            }}
+                            loadOptions={(v) => {
+                              // if (v.length < 3) return [];
+                              return axios
+                                .get(
+                                  `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${
+                                    selectedBusinessUnit?.value
+                                  }&SBUId=${0}`
+                                )
+                                .then((res) => {
+                                  const updateList = res?.data.map((item) => ({
+                                    ...item,
+                                  }));
+                                  return updateList;
+                                });
+                            }}
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="truckTrallerSupplier"
+                            touched={touched}
+                          />
+                        </div>
+                      )}
                       <div style={{ marginTop: "18px" }}>
                         <label>
                           <input
@@ -815,20 +822,20 @@ export default function _Form({
                       </div>
 
                       <div className="col d-flex justify-content-end align-items-center">
-                        <button
-                          type="button"
-                          className="btn btn-primary mt-2"
-                          onClick={() => addBtnHandler(values, setFieldValue)}
-                          disabled={
-                            !id // if have id than it's edit mode & don't disable it
-                              ? !values.pendingDelivery ||
-                                !values.shipPoint ||
-                                !values.loadingPoint
-                              : false
-                          }
-                        >
-                          Add
-                        </button>
+                        {!id && (
+                          <button
+                            type="button"
+                            className="btn btn-primary mt-2"
+                            onClick={() => addBtnHandler(values, setFieldValue)}
+                            disabled={
+                              !values.pendingDelivery ||
+                              !values.shipPoint ||
+                              !values.loadingPoint
+                            }
+                          >
+                            Add
+                          </button>
+                        )}
                       </div>
                     </>
                   </div>
@@ -913,6 +920,11 @@ export default function _Form({
                       </table>
                     </div>
                   )}
+                </div>
+                <div class="d-flex flex-row justify-space-between">
+                  <pre>{JSON.stringify(values, null, 2)}</pre>
+                  <pre>{JSON.stringify(rowDto, null, 2)}</pre>
+                  <pre>{JSON.stringify(transferOutData, null, 2)}</pre>
                 </div>
               </div>
               {QRCodeScannerModal && (
