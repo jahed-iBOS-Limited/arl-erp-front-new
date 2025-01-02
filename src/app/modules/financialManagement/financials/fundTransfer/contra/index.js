@@ -211,8 +211,8 @@ export default function Contra({ viewType }) {
                                                         <td className="text-center">{item.strRequestCode}</td>
                                                         <td className="text-center">{_dateFormatter(item.dteRequestDate)}</td>
                                                         <td>{item.strRequestByUnitName}</td>
-                                                        <td></td>
-                                                        <td></td>
+                                                        <td>{item?.strGivenBankName}</td>
+                                                        <td>{item?.strRequestedBankName}</td>
                                                         <td className="text-center">{_dateFormatter(item.dteExpectedDate)}</td>
                                                         <td className="text-right">{item.numAmount}</td>
                                                         <td>{item.strResponsibleEmpName}</td>
