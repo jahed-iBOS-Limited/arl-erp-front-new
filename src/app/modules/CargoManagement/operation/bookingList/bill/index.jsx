@@ -49,16 +49,17 @@ const BillGenerate = ({ rowClickData, CB }) => {
   ] = useAxiosPost();
   const [paymentPartyListDDL, setPaymentPartyListDDL] = useState();
   useEffect(() => {
-    commonGetByIdHandler();
+    commonGetByIdHandler(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingRequestId]);
-  const commonGetByIdHandler = () => {
+
+  const commonGetByIdHandler = (isAdvanced) => {
     if (bookingRequestId) {
       getMasterBLWiseBilling(
-        `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${rowClickData?.masterBlId}`,
+        `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${rowClickData?.masterBlId}&sAdvanced=${isAdvanced}`,
         (resData) => {
           const billingDataList = resData
-            ?.filter((i) => i.paymentPartyId && !i?.billRegisterId)
+            ?.filter((i) => i.paymentPartyId)
             ?.map((item) => {
               return {
                 value: item?.paymentPartyId,
@@ -70,41 +71,10 @@ const BillGenerate = ({ rowClickData, CB }) => {
               billingDataList.map((item) => [item['paymentPartyId'], item]),
             ).values(),
           ];
-
-          // const uniqueBookingRequestList = [
-          //   ...new Map(
-          //     resData.map((item) => [item['bookingRequestId'], item]),
-          //   ).values(),
-          // ];
-          // const modifyBookingRequestList = uniqueBookingRequestList?.map(
-          //   (itm) => {
-          //     return {
-          //       bookingId: itm?.bookingRequestId || 0,
-          //       masterBlId: itm?.masterBlId || 0,
-          //       masterBlCode: itm?.masterBlCode || 0,
-          //       bookedBillingId: itm?.billingId || 0,
-          //     };
-          //   },
-          // );
           setUniqueBookingRequestList(resData?.[0]?.bookingDatas || []);
           setPaymentPartyListDDL(unique || []);
         },
       );
-
-      // getMasterBLWiseBilling(
-      //   `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
-      //   (resData) => {
-      //     const billingDataList = resData?.billingData
-      //       ?.filter((i) => i.paymentPartyId)
-      //       ?.map((item) => {
-      //         return {
-      //           value: item?.paymentPartyId,
-      //           label: item?.paymentParty,
-      //         };
-      //       });
-      //     setPaymentPartyListDDL(billingDataList);
-      //   },
-      // );
     }
   };
 
@@ -190,16 +160,19 @@ const BillGenerate = ({ rowClickData, CB }) => {
         ?.filter((item) => {
           return (
             item?.paymentPartyId === valueOption?.value &&
-            item?.paymentActualAmount &&
-            !item?.billRegisterId
+            item?.paymentActualAmount
           );
         })
         .map((item) => {
+          const exchangeRate = item?.exchangeRate || 0;
+          const paymentAdvanceAmount = item?.paymentAdvanceAmount || 0;
+          const paymentActualAmount = item?.paymentActualAmount || 0;
+          const paymentAmount = paymentActualAmount - paymentAdvanceAmount;
+          const paymentPayAmount = exchangeRate * paymentAmount;
           return {
             ...item,
-            paymentPayAmount:
-              (+item?.paymentActualAmount || 0) -
-              (+item?.paymentAdvanceAmount || 0),
+            paymentAmount: paymentAmount,
+            paymentPayAmount: paymentPayAmount,
           };
         });
       setBillingDataFilterData(typeWiseFilter || []);
@@ -210,14 +183,16 @@ const BillGenerate = ({ rowClickData, CB }) => {
         ?.filter((item) => {
           return (
             item?.paymentPartyId === valueOption?.value &&
-            item?.paymentAdvanceAmount &&
-            !item?.advancedBillRegisterId
+            item?.paymentAdvanceAmount
           );
         })
         .map((item) => {
+          const exchangeRate = item?.exchangeRate || 0;
+          const paymentAdvanceAmount = item?.paymentAdvanceAmount || 0;
+          const paymentPayAmount = exchangeRate * paymentAdvanceAmount;
           return {
             ...item,
-            paymentPayAmount: item?.paymentAdvanceAmount,
+            paymentPayAmount: paymentPayAmount,
           };
         });
       setBillingDataFilterData(typeWiseFilter || []);
@@ -230,6 +205,13 @@ const BillGenerate = ({ rowClickData, CB }) => {
       setBillingDataFilterData([]);
     }
     setActiveTab(newValue);
+
+    if (newValue === 'billGenerate') {
+      commonGetByIdHandler(false);
+    }
+    if (newValue === 'advanceGenerate') {
+      commonGetByIdHandler(true);
+    }
   };
   return (
     <>
@@ -433,9 +415,12 @@ const BillGenerateCmp = ({
             <tr>
               <th>SL</th>
               <th>Attribute</th>
+              <th>Currency</th>
+              <th>Exchange Rate</th>
               <th>Advance</th>
               <th>Actual</th>
               <th>Amount</th>
+              <th>Amount (BDT)</th>
             </tr>
           </thead>
           <tbody>
@@ -446,17 +431,35 @@ const BillGenerateCmp = ({
                   <td className="align-middle">
                     <label>{row?.headOfCharges}</label>
                   </td>
+                  <td className="align-middle">
+                    <label>{row?.currency}</label>
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    {row?.exchangeRate || 0}
+                  </td>
                   <td style={{ textAlign: 'right' }}>
                     {row?.paymentAdvanceAmount}
                   </td>
                   <td style={{ textAlign: 'right' }}>
                     {row?.paymentActualAmount}
                   </td>
+                  <td style={{ textAlign: 'right' }}>{row?.paymentAmount}</td>
                   <td style={{ textAlign: 'right' }}>
                     {row?.paymentPayAmount}
                   </td>
                 </tr>
               ))}
+            <tr>
+              <td colSpan="7" style={{ textAlign: 'right' }}>
+                Total
+              </td>
+              <td style={{ textAlign: 'right' }}>
+                {billingDataFilterData?.reduce(
+                  (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
+                  0,
+                )}
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -531,7 +534,10 @@ const AdvanceGenerateCmp = ({
             <tr>
               <th>SL</th>
               <th>Attribute</th>
+              <th>Currency</th>
+              <th>Exchange Rate</th>
               <th>Advance Amount</th>
+              <th>Amount (BDT)</th>
             </tr>
           </thead>
           <tbody>
@@ -542,11 +548,31 @@ const AdvanceGenerateCmp = ({
                   <td className="align-middle">
                     <label>{row?.headOfCharges}</label>
                   </td>
+                  <td className="align-middle">
+                    <label>{row?.currency}</label>
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    {row?.exchangeRate || 0}
+                  </td>
                   <td style={{ textAlign: 'right' }}>
                     {row?.paymentAdvanceAmount}
                   </td>
+                  <td style={{ textAlign: 'right' }}>
+                    {row?.paymentPayAmount}
+                  </td>
                 </tr>
               ))}
+            <tr>
+              <td colSpan="5" style={{ textAlign: 'right' }}>
+                Total
+              </td>
+              <td style={{ textAlign: 'right' }}>
+                {billingDataFilterData?.reduce(
+                  (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
+                  0,
+                )}
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
