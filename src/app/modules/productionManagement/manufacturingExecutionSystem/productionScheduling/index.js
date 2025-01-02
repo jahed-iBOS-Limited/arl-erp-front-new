@@ -176,7 +176,7 @@ export default function ProductionScheduling() {
                     className="btn btn-primary"
                     table="production-scheduling-table-to-xlsx"  // always same with table id
                     filename={"Date Wise Report"}
-                    sheet={"Date Wise Report"}
+                    sheet={"Production Scheduling Report"}
                     buttonText="Export Excel"
                   />
                 </div>
