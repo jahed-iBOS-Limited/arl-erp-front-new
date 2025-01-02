@@ -29,6 +29,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
     (state) => state?.authData || {},
     shallowEqual
   );
+  const [incoterms, setIncoterms] = useState("");
   const [isPrintViewMode,] = useState(isPrintView || false);
   // const [isPrintViewMode, setIsPrintViewMode] = useState(isPrintView || false);
   const formikRef = React.useRef();
@@ -49,7 +50,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       masterBlNo: values?.masterBlNo?.label || "",
       shipperNameAndAddress: values?.shipperNameAndAddress || "",
       consigneeNameAndAddress: values?.consigneeNameAndAddress || "",
-      issuingCarrierAgentNameAndCity: "",
+      issuingCarrierAgentNameAndCity: values?.issuingCarrierAgentNameAndCity || "",
       agentIatacode: values?.agentIatacode || "",
       accountNumber: values?.accountNumber || "",
       airportOfDepartureAndRouting: values?.airportOfDepartureAndRouting || "",
@@ -77,7 +78,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       prepaidPrepaidAmount: values?.prepaidPrepaidAmount || "",
       prepaidValuationCharge: values?.prepaidValuationCharge || "",
       prepaidTaxAmount: values?.prepaidTaxAmount || "",
-      prepaidTotalOtherChargesDueAgent: "",
+      prepaidTotalOtherChargesDueAgent: values?.prepaidTotalOtherChargesDueAgent || "",
       prepaidTotalOtherChargesDueCarrier1: values?.prepaidTotalOtherChargesDueCarrier1 || "",
       prepaidTotalOtherChargesDueCarrier2: values?.prepaidTotalOtherChargesDueCarrier2 || "",
       totalPrepaid: values?.totalPrepaid || "",
@@ -208,6 +209,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
           Object.keys(obj).forEach((key) => {
             formikRef.current.setFieldValue(key, obj[key]);
           });
+          setIncoterms(data?.issuingCarrierAgentNameAndCity);
         }
       }
     );
@@ -243,6 +245,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
         `${imarineBaseUrl}/domain/ShippingService/GetHBLList`,
         payload,
         (hbawRestData) => {
+          setIncoterms(hbawRestData?.[0]?.incoterms);
           // // pickupPlaceDDL
           // const pickupPlace = data?.map((item, index) => {
           //   return {
@@ -431,7 +434,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             total: "",
 
             // can't bind
-            issuingCarrierAgentNameAndCity: "string",
+            issuingCarrierAgentNameAndCity: hbawRestData?.[0].incoterms,
 
 
             signatureOfShipperOrAgent: "",// can't get initial value
@@ -2037,7 +2040,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 </div>
                                 <div className="collectChartLeft borderRight">
                                   {["cif", "cpt", "cfr"].includes(
-                                    hbawListData?.[0]?.incoterms
+                                    incoterms
                                   ) && (
                                       <>
                                         {isPrintViewMode ? (
@@ -2079,7 +2082,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 </div>
                                 <div className="collectChartRight">
                                   {!["cif", "cpt", "cfr"].includes(
-                                    hbawListData?.[0]?.incoterms
+                                    incoterms
                                   ) && (
                                       <>
                                         {isPrintViewMode ? (
@@ -2150,7 +2153,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 </div>
                                 <div className="collectChartLeft borderRight">
                                   {["cif", "cpt", "cfr"].includes(
-                                    hbawListData?.[0]?.incoterms
+                                    incoterms
                                   ) && (
                                       <>
                                         {isPrintViewMode ? (
@@ -2194,7 +2197,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 </div>
                                 <div className="collectChartRight">
                                   {!["cif", "cpt", "cfr"].includes(
-                                    hbawListData?.[0]?.incoterms
+                                    incoterms
                                   ) && (
                                       <>
                                         {isPrintViewMode ? (
@@ -2294,7 +2297,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 </div>
                                 <div className="collectChartLeft borderRight">
                                   {["cif", "cpt", "cfr"].includes(
-                                    hbawListData?.[0]?.incoterms
+                                    incoterms
                                   ) && (
                                       <>
                                         {isPrintViewMode ? (
@@ -2337,7 +2340,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 </div>
                                 <div className="collectChartRight">
                                   {!["cif", "cpt", "cfr"].includes(
-                                    hbawListData?.[0]?.incoterms
+                                    incoterms
                                   ) && (
                                       <>
                                         {isPrintViewMode ? (
@@ -2413,7 +2416,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     </div>
                                     <div className="collectChartLeft borderRight">
                                       {["cif", "cpt", "cfr"].includes(
-                                        hbawListData?.[0]?.incoterms
+                                        incoterms
                                       ) && (
                                           <>
                                             {isPrintViewMode ? (
@@ -2457,7 +2460,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     </div>
                                     <div className="collectChartRight">
                                       {!["cif", "cpt", "cfr"].includes(
-                                        hbawListData?.[0]?.incoterms
+                                        incoterms
                                       ) && (
                                           <>
                                             {isPrintViewMode ? (
@@ -2522,7 +2525,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     </div>
                                     <div className="collectChartLeft borderRight">
                                       {["cif", "cpt", "cfr"].includes(
-                                        hbawListData?.[0]?.incoterms
+                                        incoterms
                                       ) && (
                                           <>
                                             {isPrintViewMode ? (
@@ -2566,7 +2569,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     </div>
                                     <div className="collectChartRight">
                                       {!["cif", "cpt", "cfr"].includes(
-                                        hbawListData?.[0]?.incoterms
+                                        incoterms
                                       ) && (
                                           <>
                                             {isPrintViewMode ? (
@@ -2617,7 +2620,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     {/* grap */}
                                     <div className="collectChartLeft borderRight">
                                       {["cif", "cpt", "cfr"].includes(
-                                        hbawListData?.[0]?.incoterms
+                                        incoterms
                                       ) && (
                                           <>
                                             {isPrintViewMode ? (
@@ -2661,7 +2664,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     </div>
                                     <div className="collectChartRight">
                                       {!["cif", "cpt", "cfr"].includes(
-                                        hbawListData?.[0]?.incoterms
+                                        incoterms
                                       ) && (
                                           <>
                                             {isPrintViewMode ? (
@@ -2798,7 +2801,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     </div>
                                     <div className="collectChartLeft borderRight">
                                       {["cif", "cpt", "cfr"].includes(
-                                        hbawListData?.[0]?.incoterms
+                                        incoterms
                                       ) && (
                                           <>
                                             {isPrintViewMode ? (
@@ -2840,7 +2843,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     </div>
                                     <div className="collectChartRight">
                                       {!["cif", "cpt", "cfr"].includes(
-                                        hbawListData?.[0]?.incoterms
+                                        incoterms
                                       ) && (
                                           <>
                                             {isPrintViewMode ? (
