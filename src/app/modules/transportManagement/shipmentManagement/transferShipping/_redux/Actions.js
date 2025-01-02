@@ -135,7 +135,6 @@ export const getDeliveryeDatabyId = (id, zoneId) => (dispatch) => {
     });
 };
 
-
 export const getVehicleSingleDatabyVehicleIdAction = (
   id,
   accId,
@@ -152,8 +151,8 @@ export const getVehicleSingleDatabyVehicleIdAction = (
           setter("driverName", data[0]?.driverName);
           setter("driverContactNo", data[0]?.driverContact);
           setter("vehicleId", data[0]?.vehicleId);
-          setter("unloadVehicleWeight",data[0]?.weight)
-          setter("unloadVehicleVolume",data[0]?.volume)
+          setter("unloadVehicleWeight", data[0]?.weight);
+          setter("unloadVehicleVolume", data[0]?.volume);
         }
         dispatch(slice.SetVehicleSingleData(data[0]));
       }
@@ -342,6 +341,11 @@ export const getSalesContactById = (accId, buId, id) => (dispatch) => {
             planedLoadingTime: _dateFormatter(
               item?.shipmentHeader?.planedLoadingTime
             ),
+            driverContactNo:item?.shipmentHeader?.driverContact,
+            gateEntryCode: {
+              value: item?.shipmentHeader?.veichleEntryId,
+              label: item?.shipmentHeader?.veichleEntryCode,
+            },
             // isLaborImpart: item?.shipmentHeader?.isLaborImpart
             //   ? { value: true, label: "Yes" }
             //   : { value: false, label: "No" },

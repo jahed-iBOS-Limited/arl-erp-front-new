@@ -54,7 +54,7 @@ export default function TransferOutListModal({ obj }) {
                           <td>{item?.itemName}</td>
                           <td className="text-right">{item?.availableStock}</td>
                           <td>{item?.uoMname}</td>
-                          <td>{item?.itemPrice}</td>
+                          <td>{item?.itemPrice || 0}</td>
                           <td>
                             <InputField
                               value={item?.transactionQuantity || ""}
@@ -65,13 +65,16 @@ export default function TransferOutListModal({ obj }) {
                                 updatedData[index][
                                   "transactionQuantity"
                                 ] = +value;
-                                updatedData[index]["transactionValue"] =
-                                  +value * item?.itemPrice;
+                                if (item?.itemPrice) {
+                                  updatedData[index]["transactionValue"] =
+                                    +value * +item?.itemPrice;
+                                }
+                                updatedData[index]["transactionValue"] = 0;
                                 setTransferOutData(updatedData);
                               }}
                             />
                           </td>
-                          <td>{item?.transactionValue}</td>
+                          <td>{item?.transactionValue || 0}</td>
                         </tr>
                       ))}
                     </tbody>

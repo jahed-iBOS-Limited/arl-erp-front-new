@@ -262,7 +262,7 @@ export default function TransferShipmentForm({
             ...singleData?.shipmentHeader,
             supplierId: values?.supplierName?.value || 0,
             supplierName: values?.supplierName?.label || 0,
-            vehicleId: +values?.Vehicle?.veichleId || 0,
+            vehicleId: +values?.Vehicle?.value || 0,
             vehicleName: values?.Vehicle?.label || "",
             driverId: values?.driverId,
             driverName: values?.driverName,
@@ -272,15 +272,14 @@ export default function TransferShipmentForm({
             actionBy: profileData?.userId,
             laborSupplierId: values?.laborSupplierName?.value || 0,
             laborSupplierName: values?.laborSupplierName?.label || "",
-            vehicleEntryId: values?.gateEntryCode?.value || 0,
-            vehicleEntryCode: values?.gateEntryCode?.label || "",
-            loadingLabourSupplierId: values?.truckTrallerSupplier?.value || 0,
+            veichleEntryId: values?.gateEntryCode?.value || 0,
+            veichleEntryCode: values?.gateEntryCode?.label || "",
           },
           shipmentRowList: shipmentRowList,
           transferOutData: transferOutData,
         };
 
-        // console.log(payload);
+        console.log(payload);
         dispatch(
           saveEditedShipment(payload, setDisabled, () => {
             // Called Pending List DDL Again

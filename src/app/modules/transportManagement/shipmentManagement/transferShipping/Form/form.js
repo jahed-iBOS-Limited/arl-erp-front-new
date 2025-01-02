@@ -871,7 +871,7 @@ export default function _Form({
                             <th>Loading Point</th>
                             <th>Net (KG)</th>
                             <th>Vol (CFT)</th>
-                            <th>Action</th>
+                            {id ? <></> : <th>Action</th>}
                           </tr>
                         </thead>
                         <tbody>
@@ -908,12 +908,16 @@ export default function _Form({
                                   {itm?.itemTotalVolume}
                                 </div>
                               </td>
-                              <td className="text-center">
-                                <i
-                                  className="fa fa-trash"
-                                  onClick={() => remover(--index)}
-                                ></i>
-                              </td>
+                              {id ? (
+                                <></>
+                              ) : (
+                                <td className="text-center">
+                                  <i
+                                    className="fa fa-trash"
+                                    onClick={() => remover(--index)}
+                                  ></i>
+                                </td>
+                              )}
                             </tr>
                           ))}
                         </tbody>
@@ -921,11 +925,11 @@ export default function _Form({
                     </div>
                   )}
                 </div>
-                <div class="d-flex flex-row justify-space-between">
+                {/* <div class="d-flex flex-row justify-space-between">
                   <pre>{JSON.stringify(values, null, 2)}</pre>
                   <pre>{JSON.stringify(rowDto, null, 2)}</pre>
                   <pre>{JSON.stringify(transferOutData, null, 2)}</pre>
-                </div>
+                </div> */}
               </div>
               {QRCodeScannerModal && (
                 <>
