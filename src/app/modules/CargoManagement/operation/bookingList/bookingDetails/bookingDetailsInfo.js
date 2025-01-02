@@ -275,6 +275,10 @@ function BookingDetailsInfo({ bookingData, billingData }) {
               <strong>Freight Terms:</strong>{" "}
               {bookingData?.freightForwarderTerms}
             </p>
+            <p>
+              <strong> Type Of Loading:</strong>{" "}
+              {bookingData?.typeOfLoading}
+            </p>
           </div>
           {/* Additional Servicess */}
           <div className="box">
@@ -308,9 +312,9 @@ function BookingDetailsInfo({ bookingData, billingData }) {
               {bookingData?.isLocalTransportation ? "Yes" : "No"}
             </p>
           </div>
-          {/* Shipping Schedule */}
+          {/* Booking Schedule */}
           <div className="box">
-            <h5>Shipping Schedule</h5>
+            <h5>Booking Schedule</h5>
             <p>
               <strong>Requested Pickup Date/Expected:</strong>{" "}
               {moment(bookingData?.requestPickupDate).isValid() &&
@@ -321,7 +325,8 @@ function BookingDetailsInfo({ bookingData, billingData }) {
             </p>
             <p>
               <strong>Estimated Delivery Date:</strong>{" "}
-              {moment(bookingData?.requestDeliveryDate).format("DD MMM YYYY")}
+              {moment(bookingData?.requestDeliveryDate).isValid() &&
+                moment(bookingData?.requestDeliveryDate).format("DD MMM YYYY")}
             </p>
           </div>
 
