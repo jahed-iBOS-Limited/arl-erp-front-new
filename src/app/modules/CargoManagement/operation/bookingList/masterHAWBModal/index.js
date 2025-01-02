@@ -434,7 +434,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             total: "",
 
             // can't bind
-            issuingCarrierAgentNameAndCity: hbawRestData?.[0].incoterms,
+            issuingCarrierAgentNameAndCity: hbawRestData?.[0].incoterms, // incoterms
 
 
             signatureOfShipperOrAgent: "",// can't get initial value
