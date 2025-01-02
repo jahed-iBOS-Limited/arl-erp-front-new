@@ -121,6 +121,7 @@ const CommonInvoice = ({ rowClickData }) => {
           strUom: '',
           numamount: item?.collectionActualAmount || 0,
           numvatAmount: 0,
+          billingId: item?.billingId || 0,
         };
       }),
     };
