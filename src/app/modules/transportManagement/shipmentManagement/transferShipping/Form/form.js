@@ -22,6 +22,7 @@ import {
 import IViewModal from "../../../../_helper/_viewModal";
 import QRCodeScanner from "../../../../_helper/qrCodeScanner";
 import NewSelect from "../../../../_helper/_select";
+import TransferOutListModal from "./transferOutListModal";
 // Validation schema
 const validationSchema = Yup.object().shape({
   Vehicle: Yup.object().shape({
@@ -41,10 +42,10 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Loading Point is required"),
     value: Yup.string().required("Loading Point is required"),
   }),
-  pendingDelivery: Yup.object().shape({
-    label: Yup.string().required("Pending Delivery is required"),
-    value: Yup.string().required("Pending Delivery is required"),
-  }),
+  // pendingDelivery: Yup.object().shape({
+  //   label: Yup.string().required("Pending Delivery is required"),
+  //   value: Yup.string().required("Pending Delivery is required"),
+  // }),
   // laborSupplierName: Yup.object()
   //   .shape({
   //     label: Yup.string().required("Labor Supplier Name is required"),
@@ -120,6 +121,11 @@ export default function _Form({
   loadingPointDDL,
   ShippointDDL,
   packerList,
+  transferOutData,
+  setTransferOutData,
+  showTransferOutModal,
+  setShowTransferOutModal,
+  id
 }) {
   const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const [controls, setControls] = useState([]);
@@ -814,9 +820,11 @@ export default function _Form({
                           className="btn btn-primary mt-2"
                           onClick={() => addBtnHandler(values, setFieldValue)}
                           disabled={
-                            !values.pendingDelivery ||
-                            !values.shipPoint ||
-                            !values.loadingPoint
+                            !id // if have id than it's edit mode & don't disable it
+                              ? !values.pendingDelivery ||
+                                !values.shipPoint ||
+                                !values.loadingPoint
+                              : false
                           }
                         >
                           Add
@@ -827,6 +835,18 @@ export default function _Form({
                 </div>
               </div>
               <hr className="m-1"></hr>
+
+              <div class="row justify-content-end my-3">
+                <div class="col-lg-2">
+                  <button
+                    className="btn btn-primary float-right"
+                    type="button"
+                    onClick={() => setShowTransferOutModal(true)}
+                  >
+                    Update Devliery Quantity
+                  </button>
+                </div>
+              </div>
 
               <div className="row cash_journal bank-journal bank-journal-custom">
                 <div className="col-lg-12 pr-0 pl-0 ">
@@ -919,6 +939,20 @@ export default function _Form({
                   </IViewModal>
                 </>
               )}
+              <IViewModal
+                show={showTransferOutModal}
+                title={"Shipment Transfer Out"}
+                onHide={() => {
+                  setShowTransferOutModal(false);
+                }}
+              >
+                <TransferOutListModal
+                  obj={{
+                    transferOutData,
+                    setTransferOutData,
+                  }}
+                />
+              </IViewModal>
               <button
                 type="button"
                 style={{ display: "none" }}
