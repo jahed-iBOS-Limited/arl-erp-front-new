@@ -112,6 +112,22 @@ function BookingList() {
 
   // const [selectedRow, setSelectedRow] = useState([]);
   const getDisabledCheckbox = (item) => {
+    // 1 =  Air
+    if (item?.modeOfTransportId === 1 && item?.isAirmasterBlGenarate) {
+      return true;
+    }
+    // 2 = Sea
+    if (item?.modeOfTransportId === 2 && item?.isSeamasterBlGenarate) {
+      return true;
+    }
+    // 3 =  Sea-Air
+    if (
+      item?.modeOfTransportId === 3 &&
+      item?.isSeamasterBlGenarate &&
+      item?.isAirmasterBlGenarate
+    ) {
+      return true;
+    }
     if (
       !item?.isPlaning ||
       (selectedRow.length > 0 &&
@@ -477,10 +493,7 @@ function BookingList() {
                               <input
                                 type="checkbox"
                                 checked={item?.isCheck}
-                                disabled={
-                                  getDisabledCheckbox(item) ||
-                                  item?.masterBlGenarate
-                                }
+                                disabled={getDisabledCheckbox(item)}
                                 onChange={(e) => {
                                   const copyPrvData = [
                                     ...shipBookingReqLanding?.data,
@@ -510,7 +523,21 @@ function BookingList() {
                             </td>
                             <td className="text-left">{item?.portOfLoading}</td>
                             <td className="text-left">{item?.hblnumber}</td>
-                            <td className="text-left">{item?.masterBlCode}</td>
+                            <td className="text-left">
+                              {item?.seaMasterBlCode &&
+                              item?.airMasterBlCode ? (
+                                <>
+                                  {item?.seaMasterBlCode}{' '}
+                                  {item?.airMasterBlCode
+                                    ? ', ' + item?.airMasterBlCode
+                                    : ''}
+                                </>
+                              ) : (
+                                item?.seaMasterBlCode ||
+                                item?.airMasterBlCode ||
+                                ''
+                              )}
+                            </td>
                             <td>
                               <span>{statusReturn(item)}</span>
                             </td>
