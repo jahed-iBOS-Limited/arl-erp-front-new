@@ -21,20 +21,12 @@ const validationSchema = Yup.object().shape({
     is: (val) => val?.value === 1,
     then: Yup.string().required('No of Pallets is required'),
   }),
-  airLine: Yup.string().when('transportPlanning', {
-    is: (val) => val?.value === 1,
-    then: Yup.string().required('Air Line is required'),
-  }),
+  airLineOrShippingLine: Yup.string().required('Air Line is required'),
   carton: Yup.string().when('transportPlanning', {
     is: (val) => val?.value === 1,
     then: Yup.string().required('Carton is required'),
   }),
   gsa: Yup.string().required('GSA is required'),
-
-  shippingLine: Yup.string().when('transportPlanning', {
-    is: (val) => [2].includes(val?.value),
-    then: Yup.string().required('Shipping Line is required'),
-  }),
   vesselName: Yup.string().when('transportPlanning', {
     is: (val) => [2].includes(val?.value),
     then: Yup.string().required('Vessel Name is required'),
@@ -77,7 +69,7 @@ function TransportModal({ rowClickData, CB }) {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
-  // const bookingData = shipBookingRequestGetById || {};
+  const bookingData = shipBookingRequestGetById || {};
   const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
   const [gsaDDL, setGSADDL] = useAxiosGet();
   const [
@@ -96,224 +88,240 @@ function TransportModal({ rowClickData, CB }) {
   const [styleDDL, setStyleDDL] = React.useState([]);
   const [colorDDL, setColorDDL] = React.useState([]);
   const formikRef = React.useRef(null);
+
+  const defaultDataSet = (objData, transportPlanning) => {
+    const data = objData || {};
+
+    //1=Air, 2=Sea,
+    // const transportPlanningModeId =
+    //   transportPlanning?.transportPlanningModeId || 0;
+
+    const modeOfTransportName = transportPlanning?.modeOfTransport;
+    const modeOfTransportId = transportPlanning?.modeOfTransportId;
+    const typeId = modeOfTransportName === 'Air' ? 6 : 5;
+
+    const totalNumberOfPackages = data?.rowsData?.reduce(
+      (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
+      0,
+    );
+
+    //====== common data set===
+    GetAirServiceProviderDDL(objData?.shipperId, typeId);
+    const modeOfTransportObj = modeOfTransportId
+      ? {
+          value: modeOfTransportId,
+          label: modeOfTransportName,
+        }
+      : '';
+    formikRef.current.setFieldValue(
+      `rows[0].transportId`,
+      transportPlanning?.transportId || 0,
+    );
+    formikRef.current.setFieldValue(
+      `rows[0].transportPlanning`,
+      modeOfTransportObj,
+    );
+    formikRef.current.setFieldValue(
+      `transportPlanningMode`,
+      modeOfTransportObj,
+    );
+    formikRef.current.setFieldValue(
+      `rows[0].pickupLocation`,
+      transportPlanning?.pickupLocation || data?.pickupPlace || '',
+    );
+    formikRef.current.setFieldValue(
+      `rows[0].airLineOrShippingLine`,
+      transportPlanning?.airLineOrShippingLine
+        ? {
+            value: transportPlanning?.airLineOrShippingLineId || 0,
+            label: transportPlanning?.airLineOrShippingLine,
+          }
+        : '',
+    );
+    formikRef.current.setFieldValue(
+      `rows[0].gsa`,
+      transportPlanning?.gsaId
+        ? {
+            value: transportPlanning?.gsaId || 0,
+            label: transportPlanning?.gsaName,
+          }
+        : '',
+    );
+
+    formikRef.current.setFieldValue(
+      `rows[0].estimatedTimeOfDepart`,
+      transportPlanning?.estimatedTimeOfDepart
+        ? moment(transportPlanning?.estimatedTimeOfDepart).format(
+            'YYYY-MM-DDTHH:mm:ss',
+          )
+        : '',
+    );
+    formikRef.current.setFieldValue(
+      `rows[0].transportMode`,
+      transportPlanning?.transportMode
+        ? {
+            value: transportPlanning?.transportModeId || 0,
+            label: transportPlanning?.transportMode,
+          }
+        : data?.confTransportMode
+        ? { value: 0, label: data?.confTransportMode }
+        : '',
+    );
+    formikRef.current.setFieldValue(
+      `rows[0].strSbNo`,
+      transportPlanning?.strSbNo || '',
+    );
+    formikRef.current.setFieldValue(
+      `rows[0].dteSbDate`,
+      transportPlanning?.dteSbDate
+        ? moment(transportPlanning?.dteSbDate).format('YYYY-MM-DD')
+        : '',
+    );
+    formikRef.current.setFieldValue(
+      `rows[0].airTransportRow`,
+      transportPlanning?.airTransportRow?.map((item) => ({
+        ...item,
+        planRowId: item?.planRowId || 0,
+        fromPort: item?.fromPort || '',
+        toPort: item?.toPort || '',
+        flightNumber: item?.flightNumber || '',
+        flightDate: item?.flightDate
+          ? moment(item?.flightDate).format('YYYY-MM-DD')
+          : '',
+      })) || [],
+    );
+
+    //==== Air data set ===
+    if (modeOfTransportName === 'Air') {
+      //noOfPallets, iatanumber, carton,
+      formikRef.current.setFieldValue(
+        `rows[0].noOfPallets`,
+        transportPlanning?.noOfPallets || '',
+      );
+      formikRef.current.setFieldValue(
+        `rows[0].iatanumber`,
+        transportPlanning?.iatanumber || '',
+      );
+      formikRef.current.setFieldValue(
+        `rows[0].carton`,
+        transportPlanning?.carton || totalNumberOfPackages || 0,
+      );
+    }
+
+    //==== Sea data set ===
+    if (modeOfTransportName === 'Sea') {
+      //noOfContainer, vesselName, voyagaNo, arrivalDateTime, berthDate, cutOffDate
+      formikRef.current.setFieldValue(
+        `rows[0].noOfContainer`,
+        transportPlanning?.noOfContainer || '',
+      );
+      formikRef.current.setFieldValue(
+        `rows[0].vesselName`,
+        transportPlanning?.vesselName || '',
+      );
+      formikRef.current.setFieldValue(
+        `rows[0].voyagaNo`,
+        transportPlanning?.voyagaNo || '',
+      );
+      formikRef.current.setFieldValue(
+        `rows[0].arrivalDateTime`,
+        transportPlanning?.arrivalDateTime || '',
+      );
+      formikRef.current.setFieldValue(
+        `rows[0].berthDate`,
+        transportPlanning?.berthDate || '',
+      );
+      formikRef.current.setFieldValue(
+        `rows[0].cutOffDate`,
+        transportPlanning?.cutOffDate || '',
+      );
+      formikRef.current.setFieldValue(
+        `rows[0].containerDesc`,
+        transportPlanning?.containerDesc?.map((item) => ({
+          ...item,
+          containerNumber: item?.containerNumber || '',
+          sealNumber: item?.sealNumber || '',
+          size: item?.size || '',
+          quantity: item?.quantity || 0,
+          rate: item?.rate || 0,
+          cbm: item?.cbm || 0,
+          kgs: item?.kgs || 0,
+          mode: '',
+          poNumber: item?.poNumber || '',
+          style: item?.style || '',
+          color: item?.color || '',
+          containerDescId: item?.containerDescId || 0,
+        })) || [],
+      );
+
+      const getUniqueOptions = (key) => {
+        try {
+          const values = [];
+          data.rowsData.forEach((row) => {
+            if (row.dimensionRow && row.dimensionRow.length > 0) {
+              row.dimensionRow.forEach((dim) => {
+                if (dim[key] && !values?.includes(dim[key])) {
+                  values.push(dim[key]);
+                }
+              });
+            }
+          });
+          return values?.map((value) => ({ value, label: value }));
+        } catch (error) {
+          return [];
+        }
+      };
+
+      // Dropdown options
+      const colorOptions = getUniqueOptions('color');
+      const styleOptions = getUniqueOptions('style');
+      const poNumberOptions = getUniqueOptions('poNumber');
+      setPoNumberDDL(poNumberOptions);
+      setStyleDDL(styleOptions);
+      setColorDDL(colorOptions);
+    }
+  };
+
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
         (resData) => {
           if (formikRef.current) {
-            const modeOfTransportType =
-              resData?.modeOfTransport === 'Air' ? 6 : 5;
-            const shipperId = resData?.shipperId;
-            GetAirServiceProviderDDL(shipperId, modeOfTransportType);
             const data = resData || {};
-            const isAirType = data?.modeOfTransport === 'Air';
-            const totalNumberOfPackages = data?.rowsData?.reduce(
-              (acc, item) => acc + (+item?.totalNumberOfPackages || 0),
-              0,
-            );
-            const transportPlanning = data?.transportPlanning || {};
-            const transportPlanningModeId =
-              transportPlanning?.transportPlanningModeId || 0;
-            // not Air Sea
-            if (transportPlanningModeId === 0) {
-              const modeOfTransport = {
-                ...(data?.modeOfTransport === 'Air'
-                  ? { value: 1, label: 'Air' }
-                  : data?.modeOfTransport === 'Sea'
-                  ? { value: 2, label: 'Sea' }
-                  : ''),
-              };
-              formikRef.current.setFieldValue(
-                `rows[0].transportPlanning`,
-                modeOfTransport,
-              );
-              formikRef.current.setFieldValue(
-                `transportPlanningMode`,
-                modeOfTransport,
-              );
-            }
-            //  for Air if Sea transportPlanning complete
-            if (transportPlanningModeId === 1) {
-              const airObj = {
-                value: 1,
-                label: 'Air',
-              };
-              formikRef.current.setFieldValue(
-                `rows[${0}].transportPlanning`,
-                airObj,
-              );
-              formikRef.current.setFieldValue(`transportPlanningMode`, airObj);
-            }
-            // for sea if Sea transportPlanning complete
-            if (transportPlanningModeId === 2) {
-              const seaObj = {
-                value: 2,
-                label: 'Sea',
-              };
-              formikRef.current.setFieldValue(
-                `rows[${0}].transportPlanning`,
-                seaObj,
-              );
-              formikRef.current.setFieldValue(`transportPlanningMode`, seaObj);
-            }
-            formikRef.current.setFieldValue(
-              `rows[0].pickupLocation`,
-              transportPlanning?.pickupLocation || data?.pickupPlace || '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].noOfPallets`,
-              transportPlanning?.noOfPallets || '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].shippingLine`,
-              isAirType
-                ? ''
-                : transportPlanning?.airLineOrShippingLine
-                ? {
-                    value: transportPlanning?.airLineOrShippingLineId || 0,
-                    label: transportPlanning?.airLineOrShippingLine,
-                  }
-                : '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].airLine`,
-              isAirType
-                ? transportPlanning?.airLineOrShippingLine
-                  ? {
-                      value: transportPlanning?.airLineOrShippingLineId || 0,
-                      label: transportPlanning?.airLineOrShippingLine,
-                    }
-                  : ''
-                : '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].iatanumber`,
-              transportPlanning?.iatanumber || '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].carton`,
-              transportPlanning?.carton || totalNumberOfPackages || 0,
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].noOfContainer`,
-              transportPlanning?.noOfContainer || '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].vesselName`,
-              transportPlanning?.vesselName || '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].voyagaNo`,
-              transportPlanning?.voyagaNo || '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].arrivalDateTime`,
-              transportPlanning?.arrivalDateTime || '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].berthDate`,
-              transportPlanning?.berthDate || '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].cutOffDate`,
-              transportPlanning?.cutOffDate || '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].estimatedTimeOfDepart`,
-              transportPlanning?.estimatedTimeOfDepart
-                ? moment(transportPlanning?.estimatedTimeOfDepart).format(
-                    'YYYY-MM-DDTHH:mm:ss',
-                  )
-                : '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].transportMode`,
-              transportPlanning?.transportMode
-                ? {
-                    value: transportPlanning?.transportModeId || 0,
-                    label: transportPlanning?.transportMode,
-                  }
-                : data?.confTransportMode
-                ? { value: 0, label: data?.confTransportMode }
-                : '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].gsa`,
-              transportPlanning?.gsaId
-                ? {
-                    value: transportPlanning?.gsaId || 0,
-                    label: transportPlanning?.gsaName,
-                  }
-                : '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].strSbNo`,
-              transportPlanning?.strSbNo || '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].dteSbDate`,
-              transportPlanning?.dteSbDate
-                ? moment(transportPlanning?.dteSbDate).format('YYYY-MM-DD')
-                : '',
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].airTransportRow`,
-              transportPlanning?.airTransportRow?.map((item) => ({
-                ...item,
-                planRowId: item?.planRowId || 0,
-                fromPort: item?.fromPort || '',
-                toPort: item?.toPort || '',
-                flightNumber: item?.flightNumber || '',
-                flightDate: item?.flightDate
-                  ? moment(item?.flightDate).format('YYYY-MM-DD')
-                  : '',
-              })) || [],
-            );
-            formikRef.current.setFieldValue(
-              `rows[0].containerDesc`,
-              transportPlanning?.containerDesc?.map((item) => ({
-                ...item,
-                containerNumber: item?.containerNumber || '',
-                sealNumber: item?.sealNumber || '',
-                size: item?.size || '',
-                quantity: item?.quantity || 0,
-                rate: item?.rate || 0,
-                cbm: item?.cbm || 0,
-                kgs: item?.kgs || 0,
-                mode: '',
-                poNumber: item?.poNumber || '',
-                style: item?.style || '',
-                color: item?.color || '',
-                containerDescId: item?.containerDescId || 0,
-              })) || [],
-            );
 
-            const getUniqueOptions = (key) => {
-              try {
-                const values = [];
-                data.rowsData.forEach((row) => {
-                  if (row.dimensionRow && row.dimensionRow.length > 0) {
-                    row.dimensionRow.forEach((dim) => {
-                      if (dim[key] && !values?.includes(dim[key])) {
-                        values.push(dim[key]);
-                      }
-                    });
-                  }
-                });
-                return values?.map((value) => ({ value, label: value }));
-              } catch (error) {
-                return [];
-              }
-            };
+            const transportPlanningAir =
+              data?.transportPlanning?.find((i) => {
+                return i?.transportPlanningModeId === 1;
+              }) || {};
 
-            // Dropdown options
-            const colorOptions = getUniqueOptions('color');
-            const styleOptions = getUniqueOptions('style');
-            const poNumberOptions = getUniqueOptions('poNumber');
-            setPoNumberDDL(poNumberOptions);
-            setStyleDDL(styleOptions);
-            setColorDDL(colorOptions);
+            const transportPlanningSea =
+              data?.transportPlanning?.find((i) => {
+                return i?.transportPlanningModeId === 2;
+              }) || {};
+
+            //  modeOfTransport: "Sea-Air"
+            if (data?.modeOfTransportId === 3) {
+              defaultDataSet(data, {
+                ...transportPlanningAir,
+                modeOfTransportId: 1,
+                modeOfTransport: 'Air',
+              });
+            }
+            if (data?.modeOfTransportId === 1) {
+              defaultDataSet(data, {
+                ...transportPlanningAir,
+                modeOfTransportId: 1,
+                modeOfTransport: 'Air',
+              });
+            }
+            if (data?.modeOfTransportId === 2) {
+              defaultDataSet(data, {
+                ...transportPlanningSea,
+                modeOfTransportId: 2,
+                modeOfTransport: 'Sea',
+              });
+            }
           }
         },
       );
@@ -353,9 +361,8 @@ function TransportModal({ rowClickData, CB }) {
     );
   };
   const saveHandler = (values, cb) => {
-    const bookingData = shipBookingRequestGetById || {};
-    const transportId = bookingData?.transportPlanning?.transportId || 0;
     const row = values?.rows[0];
+    const transportId = row?.transportId || 0;
     const payload = {
       bookingId: bookingRequestId || 0,
       pickupLocation: row?.pickupLocation || '',
@@ -365,10 +372,8 @@ function TransportModal({ rowClickData, CB }) {
       carton: row?.carton || 0,
       iatanumber: row?.iatanumber || '',
       noOfContainer: row?.noOfContainer || 0,
-      airLineOrShippingLine:
-        row?.airLine?.label || row?.shippingLine?.label || '',
-      airLineOrShippingLineId:
-        row?.airLine?.value || row?.shippingLine?.value || 0,
+      airLineOrShippingLine: row?.airLineOrShippingLine?.label || '',
+      airLineOrShippingLineId: row?.airLineOrShippingLine?.value || 0,
       vesselName: row?.vesselName || '',
       voyagaNo: row?.voyagaNo || '',
       ...(row?.arrivalDateTime && {
@@ -460,8 +465,7 @@ function TransportModal({ rowClickData, CB }) {
               noOfPallets: '',
               carton: '',
               noOfContainer: '',
-              airLine: '',
-              shippingLine: '',
+              airLineOrShippingLine: '',
               iatanumber: '',
               vesselName: '',
               voyagaNo: '',
@@ -511,19 +515,19 @@ function TransportModal({ rowClickData, CB }) {
                         className="mr-1 pointer"
                         style={{ position: 'relative', top: '2px' }}
                         onChange={(e) => {
-                          setFieldValue(`transportPlanningMode`, {
-                            value: 1,
-                            label: 'Air',
-                          });
-                          setFieldValue(`rows[${0}].transportPlanning`, {
-                            value: 1,
-                            label: 'Air',
+                          const transportPlanningAir =
+                            bookingData?.transportPlanning?.find((i) => {
+                              return i?.transportPlanningModeId === 1;
+                            }) || {};
+
+                          resetForm();
+
+                          defaultDataSet(bookingData, {
+                            ...transportPlanningAir,
+                            modeOfTransportId: 1,
+                            modeOfTransport: 'Air',
                           });
                         }}
-                        disabled={
-                          shipBookingRequestGetById?.transportPlanning
-                            ?.transportPlanningModeId === 1
-                        }
                         required
                       />
                       Air
@@ -536,19 +540,18 @@ function TransportModal({ rowClickData, CB }) {
                         className="mr-1 pointer"
                         style={{ position: 'relative', top: '2px' }}
                         onChange={(e) => {
-                          setFieldValue(`transportPlanningMode`, {
-                            value: 2,
-                            label: 'Sea',
-                          });
-                          setFieldValue(`rows[${0}].transportPlanning`, {
-                            value: 2,
-                            label: 'Sea',
+                          const transportPlanningSea =
+                            bookingData?.transportPlanning?.find((i) => {
+                              return i?.transportPlanningModeId === 2;
+                            }) || {};
+
+                          resetForm();
+                          defaultDataSet(bookingData, {
+                            ...transportPlanningSea,
+                            modeOfTransportId: 2,
+                            modeOfTransport: 'Sea',
                           });
                         }}
-                        disabled={
-                          shipBookingRequestGetById?.transportPlanning
-                            ?.transportPlanningModeId === 2
-                        }
                         required
                       />
                       Sea
@@ -675,6 +678,59 @@ function TransportModal({ rowClickData, CB }) {
                               )}
                           </div> */}
 
+                          {/* Air Line */}
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name={`rows[${index}].airLineOrShippingLine`}
+                              options={airServiceProviderDDLData || []}
+                              value={
+                                values?.rows?.[index].airLineOrShippingLine
+                              }
+                              label="Air Line"
+                              onChange={(valueOption) => {
+                                setFieldValue(
+                                  `rows[${index}].airLineOrShippingLine`,
+                                  valueOption,
+                                );
+                              }}
+                              placeholder="Air line"
+                              errors={errors}
+                              touched={touched}
+                            />
+                            {errors?.rows &&
+                              errors?.rows?.[index]?.airLineOrShippingLine &&
+                              touched.rows && (
+                                <div className="text-danger">
+                                  {errors?.rows?.[index]?.airLineOrShippingLine}
+                                </div>
+                              )}
+                          </div>
+                          {/* GSA */}
+                          <div className="col-lg-3">
+                            <NewSelect
+                              options={gsaDDL || []}
+                              label="GSA"
+                              name={`rows[${index}].gsa`}
+                              onChange={(valueOption) => {
+                                setFieldValue(
+                                  `rows[${index}].gsa`,
+                                  valueOption,
+                                );
+                              }}
+                              placeholder="GSA"
+                              errors={errors}
+                              value={values?.rows?.[index]?.gsa || ''}
+                              touched={touched}
+                            />
+                            {errors?.rows &&
+                              errors?.rows?.[index]?.gsa &&
+                              touched.rows && (
+                                <div className="text-danger">
+                                  {errors?.rows?.[index]?.gsa}
+                                </div>
+                              )}
+                          </div>
+
                           {/* for AIR */}
                           {values?.rows?.[0]?.transportPlanning?.value ===
                             1 && (
@@ -703,56 +759,7 @@ function TransportModal({ rowClickData, CB }) {
                                     </div>
                                   )}
                               </div>
-                              {/* Air Line */}
-                              <div className="col-lg-3">
-                                <NewSelect
-                                  name={`rows[${index}].airLine`}
-                                  options={airServiceProviderDDLData || []}
-                                  value={values?.rows?.[index].airLine}
-                                  label="Air Line"
-                                  onChange={(valueOption) => {
-                                    setFieldValue(
-                                      `rows[${index}].airLine`,
-                                      valueOption,
-                                    );
-                                  }}
-                                  placeholder="Air line"
-                                  errors={errors}
-                                  touched={touched}
-                                />
-                                {errors?.rows &&
-                                  errors?.rows?.[index]?.airLine &&
-                                  touched.rows && (
-                                    <div className="text-danger">
-                                      {errors?.rows?.[index]?.airLine}
-                                    </div>
-                                  )}
-                              </div>
-                              {/* GSA */}
-                              <div className="col-lg-3">
-                                <NewSelect
-                                  options={gsaDDL || []}
-                                  label="GSA"
-                                  name={`rows[${index}].gsa`}
-                                  onChange={(valueOption) => {
-                                    setFieldValue(
-                                      `rows[${index}].gsa`,
-                                      valueOption,
-                                    );
-                                  }}
-                                  placeholder="GSA"
-                                  errors={errors}
-                                  value={values?.rows?.[index]?.gsa || ''}
-                                  touched={touched}
-                                />
-                                {errors?.rows &&
-                                  errors?.rows?.[index]?.gsa &&
-                                  touched.rows && (
-                                    <div className="text-danger">
-                                      {errors?.rows?.[index]?.gsa}
-                                    </div>
-                                  )}
-                              </div>
+
                               {/* iatanumber */}
                               <div className="col-lg-3">
                                 <InputField
@@ -831,57 +838,6 @@ function TransportModal({ rowClickData, CB }) {
                                     </div>
                                   )}
                               </div>
-                              {/* Shipping line */}
-                              <div className="col-lg-3">
-                                <NewSelect
-                                  options={airServiceProviderDDLData || []}
-                                  label="Shipping Line"
-                                  name={`rows[${index}].shippingLine`}
-                                  onChange={(valueOption) => {
-                                    setFieldValue(
-                                      `rows[${index}].shippingLine`,
-                                      valueOption,
-                                    );
-                                  }}
-                                  placeholder="Shipping Line"
-                                  errors={errors}
-                                  touched={touched}
-                                  value={values?.rows?.[index]?.shippingLine}
-                                />
-                                {errors?.rows &&
-                                  errors?.rows?.[index]?.shippingLine &&
-                                  touched.rows && (
-                                    <div className="text-danger">
-                                      {errors?.rows?.[index]?.shippingLine}
-                                    </div>
-                                  )}
-                              </div>
-
-                              {/* GSA */}
-                              <div className="col-lg-3">
-                                <NewSelect
-                                  options={gsaDDL || []}
-                                  label="GSA"
-                                  name={`rows[${index}].gsa`}
-                                  onChange={(valueOption) => {
-                                    setFieldValue(
-                                      `rows[${index}].gsa`,
-                                      valueOption,
-                                    );
-                                  }}
-                                  placeholder="GSA"
-                                  errors={errors}
-                                  touched={touched}
-                                  value={values?.rows?.[index]?.gsa || ''}
-                                />
-                                {errors?.rows &&
-                                  errors?.rows?.[index]?.gsa &&
-                                  touched.rows && (
-                                    <div className="text-danger">
-                                      {errors?.rows?.[index]?.gsa}
-                                    </div>
-                                  )}
-                              </div>
                               {/* Vessel name */}
                               <div className="col-lg-3">
                                 <InputField
@@ -952,72 +908,6 @@ function TransportModal({ rowClickData, CB }) {
                                     </div>
                                   )}
                               </div>
-                            </>
-                          )}
-
-                          {/* Departure Date & Time */}
-                          {/* <div className="col-lg-3">
-                  <InputField
-                    value={values?.departureDateTime}
-                    label="Departure Date & Time"
-                    name="departureDateTime"
-                    type="datetime-local"
-                    onChange={(e) =>
-                      setFieldValue("departureDateTime", e.target.value)
-                    }
-                  />
-                </div> */}
-
-                          {/* Transport Mode */}
-                          <div className="col-lg-3">
-                            <NewSelect
-                              name={`rows[${index}].transportMode`}
-                              // options={transportModeDDL || []}
-                              options={
-                                transportModeDDL?.filter((item) => {
-                                  if (
-                                    values?.transportPlanning?.label === 'Air'
-                                  ) {
-                                    return [19, 20, 30, 31].includes(
-                                      item?.value,
-                                    );
-                                  } else if (
-                                    values?.transportPlanning?.label === 'Sea'
-                                  ) {
-                                    return [17, 18, 30, 31].includes(
-                                      item?.value,
-                                    );
-                                  } else {
-                                    return true;
-                                  }
-                                }) || []
-                              }
-                              value={values?.rows?.[index]?.transportMode}
-                              label="Transport Mode"
-                              onChange={(valueOption) => {
-                                setFieldValue(
-                                  `rows[${index}].transportMode`,
-                                  valueOption,
-                                );
-                              }}
-                              placeholder="Transport Mode"
-                              errors={errors}
-                              touched={touched}
-                            />
-                            {errors?.rows &&
-                              errors?.rows?.[index]?.transportMode &&
-                              touched.rows &&
-                              touched.rows?.[index]?.transportMode && (
-                                <div className="text-danger">
-                                  {errors?.rows?.[index]?.transportMode.label ||
-                                    errors?.rows?.[index]?.transportMode}
-                                </div>
-                              )}
-                          </div>
-                          {[2].includes(
-                            values?.rows?.[0]?.transportPlanning?.value,
-                          ) && (
-                            <>
                               {/* BerthDate  */}
                               <div className="col-lg-3">
                                 <InputField
@@ -1066,6 +956,52 @@ function TransportModal({ rowClickData, CB }) {
                               </div>
                             </>
                           )}
+                          {/* Transport Mode */}
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name={`rows[${index}].transportMode`}
+                              // options={transportModeDDL || []}
+                              options={
+                                transportModeDDL?.filter((item) => {
+                                  if (
+                                    values?.transportPlanning?.label === 'Air'
+                                  ) {
+                                    return [19, 20, 30, 31].includes(
+                                      item?.value,
+                                    );
+                                  } else if (
+                                    values?.transportPlanning?.label === 'Sea'
+                                  ) {
+                                    return [17, 18, 30, 31].includes(
+                                      item?.value,
+                                    );
+                                  } else {
+                                    return true;
+                                  }
+                                }) || []
+                              }
+                              value={values?.rows?.[index]?.transportMode}
+                              label="Transport Mode"
+                              onChange={(valueOption) => {
+                                setFieldValue(
+                                  `rows[${index}].transportMode`,
+                                  valueOption,
+                                );
+                              }}
+                              placeholder="Transport Mode"
+                              errors={errors}
+                              touched={touched}
+                            />
+                            {errors?.rows &&
+                              errors?.rows?.[index]?.transportMode &&
+                              touched.rows &&
+                              touched.rows?.[index]?.transportMode && (
+                                <div className="text-danger">
+                                  {errors?.rows?.[index]?.transportMode.label ||
+                                    errors?.rows?.[index]?.transportMode}
+                                </div>
+                              )}
+                          </div>
 
                           {/* EstimatedTimeOfDepart */}
                           <div className="col-lg-3">
@@ -1790,10 +1726,9 @@ function TransportModal({ rowClickData, CB }) {
                                 stuffingDate: '',
                                 vehicleInfo: '',
                                 noOfPallet: '',
-                                airLine: '',
+                                airLineOrShippingLine: '',
                                 carton: '',
                                 continer: '',
-                                shippingLine: '',
                                 vesselName: '',
                                 voyagaNo: '',
                                 arrivalDateTime: '',
