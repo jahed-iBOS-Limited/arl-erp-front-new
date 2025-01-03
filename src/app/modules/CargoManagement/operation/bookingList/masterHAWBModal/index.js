@@ -1,22 +1,22 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useRef, useState } from "react";
-import { useReactToPrint } from "react-to-print";
-import * as Yup from "yup";
-import { imarineBaseUrl } from "../../../../../App";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import "./HAWBFormat.css";
-import logisticsLogo from "./logisticsLogo.png";
-import Loading from "../../../../_helper/_loading";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useRef, useState } from 'react';
+import { useReactToPrint } from 'react-to-print';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../../App';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import './HAWBFormat.css';
+import logisticsLogo from './logisticsLogo.png';
+import Loading from '../../../../_helper/_loading';
+import { shallowEqual, useSelector } from 'react-redux';
 const validationSchema = Yup.object().shape({});
 
 const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
   const [hbawListData, getHBAWList, ishbawLodaing] = useAxiosPost();
-  console.log("hbawListData", hbawListData);
+  console.log('hbawListData', hbawListData);
   const [msterBLDDL, getMasterBLDDL] = useAxiosGet();
   const [iatacodeDDL, setIatacodeDDL] = React.useState([]);
   const [
@@ -27,10 +27,10 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
   const [, SaveShipMasterHAWB, SaveShipMasterHAWBLoading] = useAxiosPost();
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual
+    shallowEqual,
   );
-  const [incoterms, setIncoterms] = useState("");
-  const [isPrintViewMode,] = useState(isPrintView || false);
+  const [incoterms, setIncoterms] = useState('');
+  const [isPrintViewMode] = useState(isPrintView || false);
   // const [isPrintViewMode, setIsPrintViewMode] = useState(isPrintView || false);
   const formikRef = React.useRef();
 
@@ -47,71 +47,75 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
     });
     const payload = {
       airMasterBlId: 0,
-      masterBlNo: values?.masterBlNo?.label || "",
-      shipperNameAndAddress: values?.shipperNameAndAddress || "",
-      consigneeNameAndAddress: values?.consigneeNameAndAddress || "",
-      issuingCarrierAgentNameAndCity: values?.issuingCarrierAgentNameAndCity || "",
-      agentIatacode: values?.agentIatacode || "",
-      accountNumber: values?.accountNumber || "",
-      airportOfDepartureAndRouting: values?.airportOfDepartureAndRouting || "",
+      masterBlNo: values?.masterBlNo?.label || '',
+      shipperNameAndAddress: values?.shipperNameAndAddress || '',
+      consigneeNameAndAddress: values?.consigneeNameAndAddress || '',
+      issuingCarrierAgentNameAndCity:
+        values?.issuingCarrierAgentNameAndCity || '',
+      agentIatacode: values?.agentIatacode || '',
+      accountNumber: values?.accountNumber || '',
+      airportOfDepartureAndRouting: values?.airportOfDepartureAndRouting || '',
       byFirstCarrierRoutingAndDestination:
-        values?.byFirstCarrierRoutingAndDestination || "",
-      to1: values?.to1 || "",
-      to2: values?.to2 || "",
-      by2: values?.by2 || "",
-      currency: values?.currency || "",
-      cghscode: values?.cghscode || "",
-      declaredValueForCarriage: values?.declaredValueForCarriage || "",
-      declaredValueForCustoms: values?.declaredValueForCustoms || "",
-      airportOfDestination: values?.airportOfDestination || "",
-      requestedFlightDate: values?.requestedFlightDate || "",
-      amountOfInsurance: values?.amountOfInsurance || "",
-      handlingInformation: values?.handlingInformation || "",
-      noOfPiecesRcp: values?.noOfPiecesRcp || "",
-      rateClassCommodityItemNo: values?.rateClassCommodityItemNo || "",
-      chargeableWeight: values?.chargeableWeight || "",
-      rateOrCharge: values?.rateOrCharge || "",
-      gsaName: values?.gsaName || "",
-      grossWeightKgLb: values?.grossWeightKgLb || "",
+        values?.byFirstCarrierRoutingAndDestination || '',
+      to1: values?.to1 || '',
+      to2: values?.to2 || '',
+      by2: values?.by2 || '',
+      currency: values?.currency || '',
+      cghscode: values?.cghscode || '',
+      declaredValueForCarriage: values?.declaredValueForCarriage || '',
+      declaredValueForCustoms: values?.declaredValueForCustoms || '',
+      airportOfDestination: values?.airportOfDestination || '',
+      requestedFlightDate: values?.requestedFlightDate || '',
+      amountOfInsurance: values?.amountOfInsurance || '',
+      handlingInformation: values?.handlingInformation || '',
+      noOfPiecesRcp: values?.noOfPiecesRcp || '',
+      rateClassCommodityItemNo: values?.rateClassCommodityItemNo || '',
+      chargeableWeight: values?.chargeableWeight || '',
+      rateOrCharge: values?.rateOrCharge || '',
+      gsaName: values?.gsaName || '',
+      grossWeightKgLb: values?.grossWeightKgLb || '',
       prepaidNatureAndQuantityOfGoods:
-        values?.prepaidNatureAndQuantityOfGoods || "",
-      prepaidPrepaidAmount: values?.prepaidPrepaidAmount || "",
-      prepaidValuationCharge: values?.prepaidValuationCharge || "",
-      prepaidTaxAmount: values?.prepaidTaxAmount || "",
-      prepaidTotalOtherChargesDueAgent: values?.prepaidTotalOtherChargesDueAgent || "",
-      prepaidTotalOtherChargesDueCarrier1: values?.prepaidTotalOtherChargesDueCarrier1 || "",
-      prepaidTotalOtherChargesDueCarrier2: values?.prepaidTotalOtherChargesDueCarrier2 || "",
-      totalPrepaid: values?.totalPrepaid || "",
-      totalCollect: values?.totalCollect || "",
-      currencyConversionRates: values?.currencyConversionRates || "",
-      ccchargesInDestCurrency: values?.ccchargesInDestCurrency || "",
+        values?.prepaidNatureAndQuantityOfGoods || '',
+      prepaidPrepaidAmount: values?.prepaidPrepaidAmount || '',
+      prepaidValuationCharge: values?.prepaidValuationCharge || '',
+      prepaidTaxAmount: values?.prepaidTaxAmount || '',
+      prepaidTotalOtherChargesDueAgent:
+        values?.prepaidTotalOtherChargesDueAgent || '',
+      prepaidTotalOtherChargesDueCarrier1:
+        values?.prepaidTotalOtherChargesDueCarrier1 || '',
+      prepaidTotalOtherChargesDueCarrier2:
+        values?.prepaidTotalOtherChargesDueCarrier2 || '',
+      totalPrepaid: values?.totalPrepaid || '',
+      totalCollect: values?.totalCollect || '',
+      currencyConversionRates: values?.currencyConversionRates || '',
+      ccchargesInDestCurrency: values?.ccchargesInDestCurrency || '',
       forCarrierUseOnlyAtDestination:
-        values?.forCarrierUseOnlyAtDestination || "",
-      chargesAtDestination: values?.chargesAtDestination || "",
-      totalCollectCharges: values?.totalCollectCharges || "",
-      signatureOfShipperOrAgent: values?.signatureOfShipperOrAgent || "",
-      total: values?.total || "",
-      executedOnDate: values?.executedOnDate || "",
-      strTo: values?.strTo || "",
+        values?.forCarrierUseOnlyAtDestination || '',
+      chargesAtDestination: values?.chargesAtDestination || '',
+      totalCollectCharges: values?.totalCollectCharges || '',
+      signatureOfShipperOrAgent: values?.signatureOfShipperOrAgent || '',
+      total: values?.total || '',
+      executedOnDate: values?.executedOnDate || '',
+      strTo: values?.strTo || '',
       signatureOfIssuingCarrierOrAgent:
-        values?.signatureOfIssuingCarrierOrAgent || "",
-      optionalShippingInformation: values?.optionalShippingInformation || "",
-      grossWeight: values?.grossWeight || "",
+        values?.signatureOfIssuingCarrierOrAgent || '',
+      optionalShippingInformation: values?.optionalShippingInformation || '',
+      grossWeight: values?.grossWeight || '',
       isActive: true,
       createdBy: profileData?.userId,
       createdAt: new Date(),
       serverTime: new Date(),
-      by1: values?.by1 || "",
-      referenceNumber: values?.referenceNumber || "",
-      collectPrepaidAmount: values?.collectPrepaidAmount || "",
-      collectValuationCharge: values?.collectValuationCharge || "",
-      collectTaxAmount: values?.collectTaxAmount || "",
+      by1: values?.by1 || '',
+      referenceNumber: values?.referenceNumber || '',
+      collectPrepaidAmount: values?.collectPrepaidAmount || '',
+      collectValuationCharge: values?.collectValuationCharge || '',
+      collectTaxAmount: values?.collectTaxAmount || '',
       collectTotalOtherChargesDueAgent:
-        values?.collectTotalOtherChargesDueAgent || "",
+        values?.collectTotalOtherChargesDueAgent || '',
       collectTotalOtherChargesDueCarrier1:
-        values?.collectTotalOtherChargesDueCarrier1 || "",
+        values?.collectTotalOtherChargesDueCarrier1 || '',
       collectTotalOtherChargesDueCarrier2:
-        values?.collectTotalOtherChargesDueCarrier2 || "",
+        values?.collectTotalOtherChargesDueCarrier2 || '',
       bookingReqest: bookingRequestList,
       hblNos: hblnumberList,
     };
@@ -122,7 +126,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
         if (data) {
           CB();
         }
-      }
+      },
     );
   };
   const GetAirMasterHAWBByIdApi = () => {
@@ -134,75 +138,76 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
           const obj = {
             ...data,
             airMasterBlId: 0,
-            masterBlNo: data?.masterBlNo || "",
-            shipperNameAndAddress: data?.shipperNameAndAddress || "",
-            consigneeNameAndAddress: data?.consigneeNameAndAddress || "",
+            masterBlNo: data?.masterBlNo || '',
+            shipperNameAndAddress: data?.shipperNameAndAddress || '',
+            consigneeNameAndAddress: data?.consigneeNameAndAddress || '',
             issuingCarrierAgentNameAndCity:
-              data?.issuingCarrierAgentNameAndCity || "",
-            agentIatacode: data?.agentIatacode || "",
-            accountNumber: data?.accountNumber || "",
+              data?.issuingCarrierAgentNameAndCity || '',
+            agentIatacode: data?.agentIatacode || '',
+            accountNumber: data?.accountNumber || '',
             airportOfDepartureAndRouting:
-              data?.airportOfDepartureAndRouting || "",
+              data?.airportOfDepartureAndRouting || '',
             byFirstCarrierRoutingAndDestination:
-              data?.byFirstCarrierRoutingAndDestination || "",
-            to1: data?.to1 || "",
-            to2: data?.to2 || "",
-            by2: data?.by2 || "",
-            by1: data?.by1 || "",
-            currency: data?.currency || "",
-            cghscode: data?.cghscode || "",
-            declaredValueForCarriage: data?.declaredValueForCarriage || "",
-            declaredValueForCustoms: data?.declaredValueForCustoms || "",
-            airportOfDestination: data?.airportOfDestination || "",
-            requestedFlightDate: data?.requestedFlightDate || "",
-            amountOfInsurance: data?.amountOfInsurance || "",
-            handlingInformation: data?.handlingInformation || "",
-            noOfPiecesRcp: data?.noOfPiecesRcp || "",
-            grossWeightKgLb: data?.grossWeightKgLb || "",
-            rateClassCommodityItemNo: data?.rateClassCommodityItemNo || "",
-            chargeableWeight: data?.chargeableWeight || "",
-            rateOrCharge: data?.rateOrCharge || "",
-            gsaName: data?.gsaName || "",
+              data?.byFirstCarrierRoutingAndDestination || '',
+            to1: data?.to1 || '',
+            to2: data?.to2 || '',
+            by2: data?.by2 || '',
+            by1: data?.by1 || '',
+            currency: data?.currency || '',
+            cghscode: data?.cghscode || '',
+            declaredValueForCarriage: data?.declaredValueForCarriage || '',
+            declaredValueForCustoms: data?.declaredValueForCustoms || '',
+            airportOfDestination: data?.airportOfDestination || '',
+            requestedFlightDate: data?.requestedFlightDate || '',
+            amountOfInsurance: data?.amountOfInsurance || '',
+            handlingInformation: data?.handlingInformation || '',
+            noOfPiecesRcp: data?.noOfPiecesRcp || '',
+            grossWeightKgLb: data?.grossWeightKgLb || '',
+            rateClassCommodityItemNo: data?.rateClassCommodityItemNo || '',
+            chargeableWeight: data?.chargeableWeight || '',
+            rateOrCharge: data?.rateOrCharge || '',
+            gsaName: data?.gsaName || '',
             prepaidNatureAndQuantityOfGoods:
-              data?.prepaidNatureAndQuantityOfGoods || "",
-            prepaidPrepaidAmount: data?.prepaidPrepaidAmount || "",
-            referenceNumber: data?.referenceNumber || "",
-            prepaidValuationCharge: data?.prepaidValuationCharge || "",
-            prepaidTaxAmount: data?.prepaidTaxAmount || "",
+              data?.prepaidNatureAndQuantityOfGoods || '',
+            prepaidPrepaidAmount: data?.prepaidPrepaidAmount || '',
+            referenceNumber: data?.referenceNumber || '',
+            prepaidValuationCharge: data?.prepaidValuationCharge || '',
+            prepaidTaxAmount: data?.prepaidTaxAmount || '',
             prepaidTotalOtherChargesDueAgent:
-              data?.prepaidTotalOtherChargesDueAgent || "",
+              data?.prepaidTotalOtherChargesDueAgent || '',
             prepaidTotalOtherChargesDueCarrier1:
-              data?.prepaidTotalOtherChargesDueCarrier1 || "",
+              data?.prepaidTotalOtherChargesDueCarrier1 || '',
             prepaidTotalOtherChargesDueCarrier2:
-              data?.prepaidTotalOtherChargesDueCarrier2 || "",
-            totalPrepaid: data?.totalPrepaid || "",
-            totalCollect: data?.totalCollect || "",
-            currencyConversionRates: data?.currencyConversionRates || "",
-            ccchargesInDestCurrency: data?.ccchargesInDestCurrency || "",
+              data?.prepaidTotalOtherChargesDueCarrier2 || '',
+            totalPrepaid: data?.totalPrepaid || '',
+            totalCollect: data?.totalCollect || '',
+            currencyConversionRates: data?.currencyConversionRates || '',
+            ccchargesInDestCurrency: data?.ccchargesInDestCurrency || '',
             forCarrierUseOnlyAtDestination:
-              data?.forCarrierUseOnlyAtDestination || "",
-            chargesAtDestination: data?.chargesAtDestination || "",
-            totalCollectCharges: data?.totalCollectCharges || "",
-            signatureOfShipperOrAgent: data?.signatureOfShipperOrAgent || "",
-            total: data?.total || "",
-            executedOnDate: data?.executedOnDate || "",
-            strTo: data?.strTo || "",
-            grossWeight: data?.grossWeight || "",
+              data?.forCarrierUseOnlyAtDestination || '',
+            chargesAtDestination: data?.chargesAtDestination || '',
+            totalCollectCharges: data?.totalCollectCharges || '',
+            signatureOfShipperOrAgent: data?.signatureOfShipperOrAgent || '',
+            total: data?.total || '',
+            executedOnDate: data?.executedOnDate || '',
+            strTo: data?.strTo || '',
+            grossWeight: data?.grossWeight || '',
             signatureOfIssuingCarrierOrAgent:
-              data?.signatureOfIssuingCarrierOrAgent || "",
-            createdBy: data?.createdBy || "",
-            createdAt: data?.createdAt || "",
-            serverTime: data?.serverTime || "",
-            collectPrepaidAmount: data?.collectPrepaidAmount || "",
-            collectValuationCharge: data?.collectValuationCharge || "",
-            collectTaxAmount: data?.collectTaxAmount || "",
+              data?.signatureOfIssuingCarrierOrAgent || '',
+            createdBy: data?.createdBy || '',
+            createdAt: data?.createdAt || '',
+            serverTime: data?.serverTime || '',
+            collectPrepaidAmount: data?.collectPrepaidAmount || '',
+            collectValuationCharge: data?.collectValuationCharge || '',
+            collectTaxAmount: data?.collectTaxAmount || '',
             collectTotalOtherChargesDueAgent:
-              data?.collectTotalOtherChargesDueAgent || "",
+              data?.collectTotalOtherChargesDueAgent || '',
             collectTotalOtherChargesDueCarrier1:
-              data?.collectTotalOtherChargesDueCarrier1 || "",
+              data?.collectTotalOtherChargesDueCarrier1 || '',
             collectTotalOtherChargesDueCarrier2:
-              data?.collectTotalOtherChargesDueCarrier2 || "",
-            optionalShippingInformation: data?.optionalShippingInformation || "",
+              data?.collectTotalOtherChargesDueCarrier2 || '',
+            optionalShippingInformation:
+              data?.optionalShippingInformation || '',
             bookingReqest: data?.bookingReqest || [],
             hblNos: data?.hblNos || [],
           };
@@ -211,13 +216,13 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
           });
           setIncoterms(data?.issuingCarrierAgentNameAndCity);
         }
-      }
+      },
     );
   };
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: `Master-HAWB-${getShipMasteBlById?.masterBlNo || ""}`,
+    documentTitle: `Master-HAWB-${getShipMasteBlById?.masterBlNo || ''}`,
     pageStyle: `
         @media print {
           body {
@@ -298,7 +303,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
           // });
           const firstIndex = hbawRestData[0];
           //
-          const iatacode = []
+          const iatacode = [];
 
           // eslint-disable-next-line no-unused-expressions
           hbawRestData?.forEach((item, index) => {
@@ -306,7 +311,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               iatacode.push({
                 value: index + 1,
                 label: item?.transportPlanning?.iatanumber,
-              })
+              });
             }
           });
           setIatacodeDDL(iatacode);
@@ -316,11 +321,11 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               const rows = item?.rowsData || [];
               const packageSubtotal = rows?.reduce(
                 (sum, row) => sum + (row?.totalNumberOfPackages || 0),
-                0
+                0,
               );
               return subtotal + packageSubtotal;
             },
-            0
+            0,
           );
           const prepaidNatureAndQuantityOfGoods = hbawRestData
             ?.map((item) =>
@@ -330,23 +335,23 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                   const hsCode = `H.S Code: ${row?.hsCode}`;
                   const poNumbers = `Po No: ${row?.dimensionRow
                     .map((dim) => dim?.poNumber)
-                    .join(", ")}`;
+                    .join(', ')}`;
                   const styles = `Style: ${row?.dimensionRow
                     .map((dim) => dim?.style)
-                    .join(",")}`;
+                    .join(',')}`;
                   const colors = `Color: ${row?.dimensionRow
                     .map((dim) => dim?.color)
-                    .join(",")}`;
+                    .join(',')}`;
                   return `${description}\n ${hsCode}\n ${poNumbers}\n ${styles}\n ${colors}\n`;
                 })
-                .join("\n")
+                .join('\n'),
             )
-            .join("\n");
+            .join('\n');
           const subtotalGrossWeight = hbawRestData?.reduce((subtotal, item) => {
             const rows = item?.rowsData || [];
             const weightSubtotal = rows?.reduce(
               (sum, row) => sum + (row?.totalGrossWeightKG || 0),
-              0
+              0,
             );
             return subtotal + weightSubtotal;
           }, 0);
@@ -361,88 +366,113 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
           const airportOfDepartureAndRouting = firstIndex?.transportPlanning?.airTransportRow?.map(
             (item) => {
               return `(${item?.fromPort} - ${item?.toPort}) `;
-            }
+            },
           );
           const requestedFlightDate =
             firstIndex?.transportPlanning?.airTransportRow?.[
               firstIndex?.transportPlanning?.airTransportRow?.length - 1
             ]?.flightDate;
 
+          let strConsignee = '';
+          // concate consignee
+          if (firstIndex?.freightAgentReference) {
+            strConsignee += firstIndex?.freightAgentReference + '\n';
+          }
+          if (firstIndex?.deliveryAgentDtl?.zipCode) {
+            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.zipCode;
+          }
+          if (firstIndex?.deliveryAgentDtl?.state) {
+            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.state;
+          }
+          if (firstIndex?.deliveryAgentDtl?.city) {
+            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.city;
+          }
+          if (firstIndex?.deliveryAgentDtl?.country) {
+            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.country;
+          }
+          if (firstIndex?.deliveryAgentDtl?.address) {
+            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.address;
+          }
+
           const obj = {
             // missing items
-            gsaName: "",
-            referenceNumber: "",
-            optionalShippingInformation: "",
-            grossWeight: `${subtotalGrossWeight || ""}`, //"missing",
-            by1: "",
+            gsaName: '',
+            referenceNumber: '',
+            optionalShippingInformation: '',
+            grossWeight: `${subtotalGrossWeight || ''}`, //"missing",
+            by1: '',
             // bind from data
-            consigneeNameAndAddress: `${firstIndex?.freightAgentReference ?? ""}\n${firstIndex?.deliveryAgentDtl?.zipCode ?? ""}, ${firstIndex?.deliveryAgentDtl?.state ?? ""}, ${firstIndex?.deliveryAgentDtl?.city ?? ""}, ${firstIndex?.deliveryAgentDtl?.country ?? ""}, ${firstIndex?.deliveryAgentDtl?.address ?? ""}`,
+            consigneeNameAndAddress: strConsignee,
             shipperNameAndAddress: `Akij Logistics Limited \nBir Uttam Mir Shawkat Sarak, Dhaka 1208`,
-            agentIatacode: `${firstIndex?.transportPlanning?.iatanumber || ""}`,
-            noOfPiecesRcp: `${totalNumberOfPackages || ""}`,
+            agentIatacode: `${firstIndex?.transportPlanning?.iatanumber || ''}`,
+            noOfPiecesRcp: `${totalNumberOfPackages || ''}`,
             prepaidNatureAndQuantityOfGoods: `${prepaidNatureAndQuantityOfGoods ||
-              ""}`,
-            currency: `${firstIndex?.currency || ""}`,
-            declaredValueForCustoms: `${firstIndex?.invoiceValue
-              ? firstIndex?.invoiceValue
-              : "AS PER INVOICE"
-              }`,
-            airportOfDestination: ` ${firstIndex?.transportPlanning?.airTransportRow?.[
+              ''}`,
+            currency: `${firstIndex?.currency || ''}`,
+            declaredValueForCustoms: `${
+              firstIndex?.invoiceValue
+                ? firstIndex?.invoiceValue
+                : 'AS PER INVOICE'
+            }`,
+            airportOfDestination: ` ${firstIndex?.transportPlanning
+              ?.airTransportRow?.[
               firstIndex?.transportPlanning?.airTransportRow?.length - 1
-            ]?.toPort ?? ""
-              }`,
-            airportOfDepartureAndRouting: `${firstIndex?.transportPlanning?.airLineOrShippingLine ?? ""} \n ${airportOfDepartureAndRouting ?? ""} `,
+            ]?.toPort ?? ''}`,
+            airportOfDepartureAndRouting: `${firstIndex?.transportPlanning
+              ?.airLineOrShippingLine ??
+              ''} \n ${airportOfDepartureAndRouting ?? ''} `,
             requestedFlightDate: `${moment(requestedFlightDate).format(
-              "YYYY-DD-MM"
+              'YYYY-DD-MM',
             )} `,
-            grossWeightKgLb: "",
-            byFirstCarrierRoutingAndDestination: "",
-            to2: "",
-            to1: "",
-            by2: "",
-            cghscode: "",
-            declaredValueForCarriage: "",
+            grossWeightKgLb: '',
+            byFirstCarrierRoutingAndDestination: '',
+            to2: '',
+            to1: '',
+            by2: '',
+            cghscode: '',
+            declaredValueForCarriage: '',
             signatureOfIssuingCarrierOrAgent: `${firstIndex?.shipperName}`,
-            executedOnDate: moment(firstIndex?.confirmDate).format("YYYY-DD-MM"),
+            executedOnDate: moment(firstIndex?.confirmDate).format(
+              'YYYY-DD-MM',
+            ),
 
-            amountOfInsurance: "", // can't get initial value
-            handlingInformation: "", // can't get initial value
-            accountNumber: "", // can't get initial value
-            rateClassCommodityItemNo: "", // can't get initial value
-            chargeableWeight: "", // can't get initial value
-            rateOrCharge: "", // can't get initial value
-            prepaidPrepaidAmount: "", // can't get initial value
-            collectPrepaidAmount: "", // can't get initial value
-            prepaidValuationCharge: "", // can't get initial value
-            collectValuationCharge: "", // can't get initial value
-            prepaidTaxAmount: "", // can't get initial value
-            collectTaxAmount: "", // can't get initial value
-            prepaidTotalOtherChargesDueAgent: "", // can't get initial value
-            collectTotalOtherChargesDueAgent: "", // can't get initial value
-            collectTotalOtherChargesDueCarrier1: "", // can't get initial value
-            collectTotalOtherChargesDueCarrier2: "", // can't get initial value
-            totalPrepaid: "", // can't get initial value
-            totalCollect: "", // can't get initial value
-            currencyConversionRates: "", // can't get initial value
-            ccchargesInDestCurrency: "", // can't get initial value
-            forCarrierUseOnlyAtDestination: "", // can't get initial value
-            chargesAtDestination: "string",
-            totalCollectCharges: "", // can't get initial value
-            prepaidTotalOtherChargesDueCarrier1: "", // note: this feild is used for Other Charge
-            strTo: "",  // can't get initial value
-            prepaidTotalOtherChargesDueCarrier2: "",  // can't get initial value
-            total: "",
+            amountOfInsurance: '', // can't get initial value
+            handlingInformation: '', // can't get initial value
+            accountNumber: '', // can't get initial value
+            rateClassCommodityItemNo: '', // can't get initial value
+            chargeableWeight: '', // can't get initial value
+            rateOrCharge: '', // can't get initial value
+            prepaidPrepaidAmount: '', // can't get initial value
+            collectPrepaidAmount: '', // can't get initial value
+            prepaidValuationCharge: '', // can't get initial value
+            collectValuationCharge: '', // can't get initial value
+            prepaidTaxAmount: '', // can't get initial value
+            collectTaxAmount: '', // can't get initial value
+            prepaidTotalOtherChargesDueAgent: '', // can't get initial value
+            collectTotalOtherChargesDueAgent: '', // can't get initial value
+            collectTotalOtherChargesDueCarrier1: '', // can't get initial value
+            collectTotalOtherChargesDueCarrier2: '', // can't get initial value
+            totalPrepaid: '', // can't get initial value
+            totalCollect: '', // can't get initial value
+            currencyConversionRates: '', // can't get initial value
+            ccchargesInDestCurrency: '', // can't get initial value
+            forCarrierUseOnlyAtDestination: '', // can't get initial value
+            chargesAtDestination: 'string',
+            totalCollectCharges: '', // can't get initial value
+            prepaidTotalOtherChargesDueCarrier1: '', // note: this feild is used for Other Charge
+            strTo: '', // can't get initial value
+            prepaidTotalOtherChargesDueCarrier2: '', // can't get initial value
+            total: '',
 
             // can't bind
             issuingCarrierAgentNameAndCity: hbawRestData?.[0].incoterms, // incoterms
 
-
-            signatureOfShipperOrAgent: "",// can't get initial value
+            signatureOfShipperOrAgent: '', // can't get initial value
           };
           Object.keys(obj).forEach((key) => {
             formikRef.current.setFieldValue(key, obj[key]);
           });
-        }
+        },
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -500,7 +530,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               </div>
               <div
                 style={{
-                  display: "grid",
+                  display: 'grid',
                   gap: 5,
                 }}
               >
@@ -515,9 +545,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                         let value = {
                           ...valueOption,
                           value: 0,
-                          label: valueOption?.label || "",
+                          label: valueOption?.label || '',
                         };
-                        setFieldValue("masterBlNo", value);
+                        setFieldValue('masterBlNo', value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -528,7 +558,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                 <div className="hawbWrapper" ref={componentRef}>
                   <div
                     style={{
-                      position: "relative",
+                      position: 'relative',
                     }}
                   >
                     <div className="masterHawbContainer">
@@ -538,8 +568,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                             <div className="shipperInfo borderBottom">
                               <div
                                 style={{
-                                  display: "grid",
-                                  gridTemplateColumns: "1fr 1fr",
+                                  display: 'grid',
+                                  gridTemplateColumns: '1fr 1fr',
                                 }}
                               >
                                 <div>
@@ -552,16 +582,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   <p className="textTitle">Company Info:</p>
                                   {values?.shipperNameAndAddress
                                     ? values?.shipperNameAndAddress
-                                      ?.split("\n")
-                                      .map((item, index) => {
-                                        return (
-                                          <p>
-                                            {item}
-                                            <br />
-                                          </p>
-                                        );
-                                      })
-                                    : ""}
+                                        ?.split('\n')
+                                        .map((item, index) => {
+                                          return (
+                                            <p>
+                                              {item}
+                                              <br />
+                                            </p>
+                                          );
+                                        })
+                                    : ''}
                                   {/* {isPrintViewMode ? (
                                     <p>
                                       {values?.shipperNameAndAddress
@@ -597,8 +627,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                             <div className="consigneeInfo borderBottom">
                               <div
                                 style={{
-                                  display: "grid",
-                                  gridTemplateColumns: "1fr 1fr",
+                                  display: 'grid',
+                                  gridTemplateColumns: '1fr 1fr',
                                 }}
                               >
                                 <div>
@@ -613,16 +643,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <p>
                                       {values?.consigneeNameAndAddress
                                         ? values?.consigneeNameAndAddress
-                                          ?.split("\n")
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
-                                        : ""}
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                        : ''}
                                     </p>
                                   ) : (
                                     <textarea
@@ -632,8 +662,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       cols={40}
                                       onChange={(e) => {
                                         setFieldValue(
-                                          "consigneeNameAndAddress",
-                                          e.target.value
+                                          'consigneeNameAndAddress',
+                                          e.target.value,
                                         );
                                       }}
                                     />
@@ -645,8 +675,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                             <div>
                               <div
                                 style={{
-                                  height: "70px",
-                                  borderBottom: "1px solid #000",
+                                  height: '70px',
+                                  borderBottom: '1px solid #000',
                                 }}
                               >
                                 <p className="textTitle">GSA Name:</p>
@@ -655,16 +685,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <p>
                                       {values?.gsaName
                                         ? values?.gsaName
-                                          ?.split("\n")
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
-                                        : ""}
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                        : ''}
                                     </p>
                                   </>
                                 ) : (
@@ -673,7 +703,10 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       name="gsaName"
                                       value={values?.gsaName}
                                       onChange={(e) => {
-                                        setFieldValue("gsaName", e.target.value);
+                                        setFieldValue(
+                                          'gsaName',
+                                          e.target.value,
+                                        );
                                       }}
                                     />
                                   </>
@@ -682,22 +715,24 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
 
                               <div
                                 style={{
-                                  height: "60px",
+                                  height: '60px',
                                 }}
                               >
-                                <div style={{ display: "flex", height: "100%" }}>
+                                <div
+                                  style={{ display: 'flex', height: '100%' }}
+                                >
                                   <div
                                     className="borderRight"
-                                    style={{ width: "50%" }}
+                                    style={{ width: '50%' }}
                                   >
                                     <p className="textTitle">Agent IATA Code</p>
                                     {isPrintViewMode ? (
                                       <>
-                                        <p>{values?.agentIatacode || ""}</p>
+                                        <p>{values?.agentIatacode || ''}</p>
                                       </>
                                     ) : (
                                       <>
-                                        {" "}
+                                        {' '}
                                         <div className="col-lg-12">
                                           <NewSelect
                                             name="agentIatacode"
@@ -705,16 +740,17 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                             value={
                                               values?.agentIatacode
                                                 ? {
-                                                  value: 0,
-                                                  label: values?.agentIatacode,
-                                                }
-                                                : ""
+                                                    value: 0,
+                                                    label:
+                                                      values?.agentIatacode,
+                                                  }
+                                                : ''
                                             }
                                             label=""
                                             onChange={(valueOption) => {
                                               setFieldValue(
-                                                "agentIatacode",
-                                                valueOption?.label
+                                                'agentIatacode',
+                                                valueOption?.label,
                                               );
                                             }}
                                             errors={errors}
@@ -725,15 +761,15 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       </>
                                     )}
                                   </div>
-                                  <div style={{ width: "50%" }}>
+                                  <div style={{ width: '50%' }}>
                                     <p className="textTitle ">Account Number</p>
                                     {isPrintViewMode ? (
                                       <>
-                                        <p>{values?.accountNumber || ""}</p>
+                                        <p>{values?.accountNumber || ''}</p>
                                       </>
                                     ) : (
                                       <>
-                                        {" "}
+                                        {' '}
                                         <div className="col-lg-12">
                                           <NewSelect
                                             name="accountNumber"
@@ -741,16 +777,17 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                             value={
                                               values?.accountNumber
                                                 ? {
-                                                  value: 0,
-                                                  label: values?.accountNumber,
-                                                }
-                                                : ""
+                                                    value: 0,
+                                                    label:
+                                                      values?.accountNumber,
+                                                  }
+                                                : ''
                                             }
                                             label=""
                                             onChange={(valueOption) => {
                                               setFieldValue(
-                                                "accountNumber",
-                                                valueOption?.label
+                                                'accountNumber',
+                                                valueOption?.label,
                                               );
                                             }}
                                             errors={errors}
@@ -775,7 +812,11 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                               </div>
                               <div>
                                 <p>
-                                  <b>{values?.masterBlNo?.label && " MBL Number: " + values?.masterBlNo?.label}</b>
+                                  <b>
+                                    {values?.masterBlNo?.label &&
+                                      ' MBL Number: ' +
+                                        values?.masterBlNo?.label}
+                                  </b>
                                 </p>
                                 <img src={logisticsLogo} alt="barcode" />
                                 <p>
@@ -786,27 +827,28 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                             <div className="rightSideBottom" />
                             <div
                               className="rightSideMiddle borderBottom"
-                              style={{ paddingBottom: "8px" }}
+                              style={{ paddingBottom: '8px' }}
                             >
                               <p className="rightSideMiddleTitle">
-                                Copies 1,2 and 3 of this Air Waybill arc originals
-                                and have the same validity
+                                Copies 1,2 and 3 of this Air Waybill arc
+                                originals and have the same validity
                               </p>
                               <p className="rightSideMiddleContent">
                                 It is agreed that the goods described herein are
                                 accepted in apparent good order and condition
                                 (except as noted) for carriage SUBJECT TO THE
-                                CONDITIONS OF CONTRACT ON THE REVERSE HEREOF. ALL
-                                GOODS MAY BE CARRIED BY ANY OTHER MEANS INCLUDING
-                                ROAD OR ANY OTHER CARRIER UNLESS SPECIFIC CONTRARY
-                                INSTRUCTIONS ARE GIVEN HEREON BY THE SHIPPER, AND
-                                SHIPPER AGREES THAT THE SHIPMENT MAY BE CARRIED
-                                VIA INTERMEDIATE STOPPING PLACES WHICH THE CARRIER
-                                DEEMS APPROPRIATE. THE SHIPPER'S ATTENTION IS
-                                DRAWN TO THE NOTICE CONCERNING CARRIER·s
-                                LIMITATION OF LIABILITY. Shipper may increase such
-                                limitation of liabHity by declaring a higher value
-                                for carriage and paying a suppfemental charge if
+                                CONDITIONS OF CONTRACT ON THE REVERSE HEREOF.
+                                ALL GOODS MAY BE CARRIED BY ANY OTHER MEANS
+                                INCLUDING ROAD OR ANY OTHER CARRIER UNLESS
+                                SPECIFIC CONTRARY INSTRUCTIONS ARE GIVEN HEREON
+                                BY THE SHIPPER, AND SHIPPER AGREES THAT THE
+                                SHIPMENT MAY BE CARRIED VIA INTERMEDIATE
+                                STOPPING PLACES WHICH THE CARRIER DEEMS
+                                APPROPRIATE. THE SHIPPER'S ATTENTION IS DRAWN TO
+                                THE NOTICE CONCERNING CARRIER·s LIMITATION OF
+                                LIABILITY. Shipper may increase such limitation
+                                of liabHity by declaring a higher value for
+                                carriage and paying a suppfemental charge if
                                 required.
                               </p>
                             </div>
@@ -818,22 +860,22 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 <div className="text-center">
                                   <br />
                                   <h2>
-                                    FREIGHT{" "}
-                                    {["exw"].includes(
-                                      hbawListData?.[0]?.incoterms
-                                    ) && "COLLECT EXW"}
-                                    {["fca", "fob"].includes(
-                                      hbawListData?.[0]?.incoterms
-                                    ) && "COLLECT"}
-                                    {["cif", "cpt", "cfr"].includes(
-                                      hbawListData?.[0]?.incoterms
-                                    ) && "PREPAID"}
-                                    {["dap", "ddp", "ddu"].includes(
-                                      hbawListData?.[0]?.incoterms
-                                    ) && "COLLECT DAP/DDP/DDU"}
-                                    {["other"].includes(
-                                      hbawListData?.[0]?.incoterms
-                                    ) && "COLLECT"}
+                                    FREIGHT{' '}
+                                    {['exw'].includes(
+                                      hbawListData?.[0]?.incoterms,
+                                    ) && 'COLLECT EXW'}
+                                    {['fca', 'fob'].includes(
+                                      hbawListData?.[0]?.incoterms,
+                                    ) && 'COLLECT'}
+                                    {['cif', 'cpt', 'cfr'].includes(
+                                      hbawListData?.[0]?.incoterms,
+                                    ) && 'PREPAID'}
+                                    {['dap', 'ddp', 'ddu'].includes(
+                                      hbawListData?.[0]?.incoterms,
+                                    ) && 'COLLECT DAP/DDP/DDU'}
+                                    {['other'].includes(
+                                      hbawListData?.[0]?.incoterms,
+                                    ) && 'COLLECT'}
                                   </h2>
                                   <br />
                                 </div>
@@ -844,9 +886,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                         <div
                           className="borderBottom"
                           style={{
-                            display: "grid",
-                            gridTemplateColumns: "1fr 1fr",
-                            minHeight: "50px",
+                            display: 'grid',
+                            gridTemplateColumns: '1fr 1fr',
+                            minHeight: '50px',
                           }}
                         >
                           <div className="borderRight">
@@ -859,29 +901,31 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   <p>
                                     {values?.airportOfDepartureAndRouting
                                       ? values?.airportOfDepartureAndRouting
-                                        ?.split("\n")
-                                        .map((item, index) => {
-                                          return (
-                                            <>
-                                              {item}
-                                              <br />
-                                            </>
-                                          );
-                                        })
-                                      : ""}
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                      : ''}
                                   </p>
                                 </>
                               ) : (
                                 <>
-                                  {" "}
+                                  {' '}
                                   <div className="col-lg-12">
                                     <textarea
                                       name="airportOfDepartureAndRouting"
-                                      value={values?.airportOfDepartureAndRouting}
+                                      value={
+                                        values?.airportOfDepartureAndRouting
+                                      }
                                       onChange={(e) => {
                                         setFieldValue(
-                                          "airportOfDepartureAndRouting",
-                                          e.target.value
+                                          'airportOfDepartureAndRouting',
+                                          e.target.value,
                                         );
                                       }}
                                     />
@@ -892,20 +936,20 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                           </div>
                           <div
                             style={{
-                              display: "grid",
-                              gridTemplateColumns: "1fr 1fr",
-                              minHeight: "50px",
+                              display: 'grid',
+                              gridTemplateColumns: '1fr 1fr',
+                              minHeight: '50px',
                             }}
                           >
                             <div className="borderRight">
                               <p className=" textTitle">Reference Number</p>
                               {isPrintViewMode ? (
                                 <>
-                                  <p>{values?.referenceNumber || ""}</p>
+                                  <p>{values?.referenceNumber || ''}</p>
                                 </>
                               ) : (
                                 <>
-                                  {" "}
+                                  {' '}
                                   <div className="col-lg-12">
                                     <InputField
                                       name="referenceNumber"
@@ -913,8 +957,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       type="text"
                                       onChange={(e) => {
                                         setFieldValue(
-                                          "referenceNumber",
-                                          e.target.value
+                                          'referenceNumber',
+                                          e.target.value,
                                         );
                                       }}
                                     />
@@ -931,29 +975,31 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   <p>
                                     {values?.optionalShippingInformation
                                       ? values?.optionalShippingInformation
-                                        ?.split("\n")
-                                        .map((item, index) => {
-                                          return (
-                                            <>
-                                              {item}
-                                              <br />
-                                            </>
-                                          );
-                                        })
-                                      : ""}
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                      : ''}
                                   </p>
                                 </>
                               ) : (
                                 <>
-                                  {" "}
+                                  {' '}
                                   <div className="col-lg-12">
                                     <textarea
                                       name="optionalShippingInformation"
-                                      value={values?.optionalShippingInformation}
+                                      value={
+                                        values?.optionalShippingInformation
+                                      }
                                       onChange={(e) => {
                                         setFieldValue(
-                                          "optionalShippingInformation",
-                                          e.target.value
+                                          'optionalShippingInformation',
+                                          e.target.value,
                                         );
                                       }}
                                     />
@@ -968,16 +1014,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                           <div className="leftSide borderRight">
                             <div
                               style={{
-                                display: "grid",
-                                gridTemplateColumns: "3fr 2fr",
-                                minHeight: "100%",
+                                display: 'grid',
+                                gridTemplateColumns: '3fr 2fr',
+                                minHeight: '100%',
                               }}
                             >
                               <div
                                 className="borderRight"
                                 style={{
-                                  display: "grid",
-                                  gridTemplateColumns: "1fr 4fr",
+                                  display: 'grid',
+                                  gridTemplateColumns: '1fr 4fr',
                                 }}
                               >
                                 <div className="borderRight">
@@ -987,16 +1033,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       <p>
                                         {values?.strTo
                                           ? values?.strTo
-                                            ?.split("\n")
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
-                                          : ""}
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
+                                          : ''}
                                       </p>
                                     </>
                                   ) : (
@@ -1005,13 +1051,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                         name="strTo"
                                         value={values?.strTo}
                                         onChange={(e) => {
-                                          setFieldValue("strTo", e.target.value);
+                                          setFieldValue(
+                                            'strTo',
+                                            e.target.value,
+                                          );
                                         }}
                                         style={{
-                                          minWidth: "40px",
+                                          minWidth: '40px',
                                         }}
-                                      //  rows={3}
-                                      // cols={40}
+                                        //  rows={3}
+                                        // cols={40}
                                       />
                                     </>
                                   )}
@@ -1024,21 +1073,21 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                         <p>
                                           {values?.byFirstCarrierRoutingAndDestination
                                             ? values?.byFirstCarrierRoutingAndDestination
-                                              ?.split("\n")
-                                              .map((item, index) => {
-                                                return (
-                                                  <>
-                                                    {item}
-                                                    <br />
-                                                  </>
-                                                );
-                                              })
-                                            : ""}
+                                                ?.split('\n')
+                                                .map((item, index) => {
+                                                  return (
+                                                    <>
+                                                      {item}
+                                                      <br />
+                                                    </>
+                                                  );
+                                                })
+                                            : ''}
                                         </p>
                                       </>
                                     ) : (
                                       <>
-                                        {" "}
+                                        {' '}
                                         <div className="col-lg-12">
                                           <textarea
                                             name="byFirstCarrierRoutingAndDestination"
@@ -1047,8 +1096,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                             }
                                             onChange={(e) => {
                                               setFieldValue(
-                                                "byFirstCarrierRoutingAndDestination",
-                                                e.target.value
+                                                'byFirstCarrierRoutingAndDestination',
+                                                e.target.value,
                                               );
                                             }}
                                           />
@@ -1060,8 +1109,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                               </div>
                               <div
                                 style={{
-                                  display: "grid",
-                                  gridTemplateColumns: "1fr 1fr 1fr 1fr",
+                                  display: 'grid',
+                                  gridTemplateColumns: '1fr 1fr 1fr 1fr',
                                 }}
                               >
                                 <div className="borderRight">
@@ -1071,16 +1120,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       <p>
                                         {values?.to1
                                           ? values?.to1
-                                            ?.split("\n")
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
-                                          : ""}
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
+                                          : ''}
                                       </p>
                                     </>
                                   ) : (
@@ -1089,13 +1138,13 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                         name="to1"
                                         value={values?.to1}
                                         onChange={(e) => {
-                                          setFieldValue("to1", e.target.value);
+                                          setFieldValue('to1', e.target.value);
                                         }}
                                         style={{
-                                          minWidth: "40px",
+                                          minWidth: '40px',
                                         }}
-                                      //  rows={3}
-                                      // cols={40}
+                                        //  rows={3}
+                                        // cols={40}
                                       />
                                     </>
                                   )}
@@ -1107,32 +1156,32 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       <p>
                                         {values?.by1
                                           ? values?.by1
-                                            ?.split("\n")
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
-                                          : ""}
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
+                                          : ''}
                                       </p>
                                     </>
                                   ) : (
                                     <>
-                                      {" "}
+                                      {' '}
                                       <textarea
                                         name="by1"
                                         value={values?.by1}
                                         onChange={(e) => {
-                                          setFieldValue("by1", e.target.value);
+                                          setFieldValue('by1', e.target.value);
                                         }}
                                         style={{
-                                          minWidth: "40px",
+                                          minWidth: '40px',
                                         }}
-                                      //  rows={3}
-                                      // cols={40}
+                                        //  rows={3}
+                                        // cols={40}
                                       />
                                     </>
                                   )}
@@ -1144,32 +1193,32 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       <p>
                                         {values?.to2
                                           ? values?.to2
-                                            ?.split("\n")
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
-                                          : ""}
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
+                                          : ''}
                                       </p>
                                     </>
                                   ) : (
                                     <>
-                                      {" "}
+                                      {' '}
                                       <textarea
                                         name="to2"
                                         value={values?.to2}
                                         onChange={(e) => {
-                                          setFieldValue("to2", e.target.value);
+                                          setFieldValue('to2', e.target.value);
                                         }}
                                         style={{
-                                          minWidth: "40px",
+                                          minWidth: '40px',
                                         }}
-                                      //  rows={3}
-                                      // cols={40}
+                                        //  rows={3}
+                                        // cols={40}
                                       />
                                     </>
                                   )}
@@ -1181,32 +1230,32 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       <p>
                                         {values?.by2
                                           ? values?.by2
-                                            ?.split("\n")
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
-                                          : ""}
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
+                                          : ''}
                                       </p>
                                     </>
                                   ) : (
                                     <>
-                                      {" "}
+                                      {' '}
                                       <textarea
                                         name="by2"
                                         value={values?.by2}
                                         onChange={(e) => {
-                                          setFieldValue("by2", e.target.value);
+                                          setFieldValue('by2', e.target.value);
                                         }}
                                         style={{
-                                          minWidth: "40px",
+                                          minWidth: '40px',
                                         }}
-                                      //  rows={3}
-                                      // cols={40}
+                                        //  rows={3}
+                                        // cols={40}
                                       />
                                     </>
                                   )}
@@ -1216,9 +1265,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                           </div>
                           <div className="rightSide">
                             <div className="rightSideColumnOne borderRight">
-                              <div style={{ display: "flex", height: "100%" }}>
+                              <div style={{ display: 'flex', height: '100%' }}>
                                 <div
-                                  style={{ display: "flex", height: "100%" }}
+                                  style={{ display: 'flex', height: '100%' }}
                                   className="commonWithOne borderRight"
                                 >
                                   <div className="hawbCurrency borderRight">
@@ -1229,16 +1278,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                           <p>
                                             {values?.currency
                                               ? values?.currency
-                                                ?.split("\n")
-                                                .map((item, index) => {
-                                                  return (
-                                                    <>
-                                                      {item}
-                                                      <br />
-                                                    </>
-                                                  );
-                                                })
-                                              : ""}
+                                                  ?.split('\n')
+                                                  .map((item, index) => {
+                                                    return (
+                                                      <>
+                                                        {item}
+                                                        <br />
+                                                      </>
+                                                    );
+                                                  })
+                                              : ''}
                                           </p>
                                         </>
                                       ) : (
@@ -1248,15 +1297,15 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                             value={values?.currency}
                                             onChange={(e) => {
                                               setFieldValue(
-                                                "currency",
-                                                e.target.value
+                                                'currency',
+                                                e.target.value,
                                               );
                                             }}
                                             style={{
-                                              minWidth: "50px",
+                                              minWidth: '50px',
                                             }}
-                                          //  rows={3}
-                                          // cols={40}
+                                            //  rows={3}
+                                            // cols={40}
                                           />
                                         </>
                                       )}
@@ -1268,16 +1317,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                           <p>
                                             {values?.cghscode
                                               ? values?.cghscode
-                                                ?.split("\n")
-                                                .map((item, index) => {
-                                                  return (
-                                                    <>
-                                                      {item}
-                                                      <br />
-                                                    </>
-                                                  );
-                                                })
-                                              : ""}
+                                                  ?.split('\n')
+                                                  .map((item, index) => {
+                                                    return (
+                                                      <>
+                                                        {item}
+                                                        <br />
+                                                      </>
+                                                    );
+                                                  })
+                                              : ''}
                                           </p>
                                         </>
                                       ) : (
@@ -1287,15 +1336,15 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                             value={values?.cghscode}
                                             onChange={(e) => {
                                               setFieldValue(
-                                                "cghscode",
-                                                e.target.value
+                                                'cghscode',
+                                                e.target.value,
                                               );
                                             }}
                                             style={{
-                                              minWidth: "50px",
+                                              minWidth: '50px',
                                             }}
-                                          //  rows={3}
-                                          // cols={40}
+                                            //  rows={3}
+                                            // cols={40}
                                           />
                                         </>
                                       )}
@@ -1304,7 +1353,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   <div
                                     className="air-flight-info"
                                     style={{
-                                      width: "100%",
+                                      width: '100%',
                                     }}
                                   >
                                     <div className="air-flight-catagory">
@@ -1313,33 +1362,33 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       </p>
                                       <div
                                         style={{
-                                          display: "flex",
-                                          height: "100%",
+                                          display: 'flex',
+                                          height: '100%',
                                         }}
                                       >
                                         <p
                                           className="borderRight textTitle"
                                           style={{
-                                            width: "50%",
+                                            width: '50%',
                                           }}
                                         >
-                                          {["cif", "cpt", "cfr"].includes(
-                                            hbawListData?.[0]?.incoterms
+                                          {['cif', 'cpt', 'cfr'].includes(
+                                            hbawListData?.[0]?.incoterms,
                                           )
-                                            ? "PPD"
-                                            : ""}
+                                            ? 'PPD'
+                                            : ''}
                                         </p>
                                         <p
                                           className="textTitle"
                                           style={{
-                                            width: "50%",
+                                            width: '50%',
                                           }}
                                         >
-                                          {["cif", "cpt", "cfr"].includes(
-                                            hbawListData?.[0]?.incoterms
+                                          {['cif', 'cpt', 'cfr'].includes(
+                                            hbawListData?.[0]?.incoterms,
                                           )
-                                            ? ""
-                                            : "CCX"}
+                                            ? ''
+                                            : 'CCX'}
                                         </p>
                                       </div>
                                     </div>
@@ -1356,31 +1405,34 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       Other
                                     </p>
                                     <div
-                                      style={{ display: "flex", height: "100%" }}
+                                      style={{
+                                        display: 'flex',
+                                        height: '100%',
+                                      }}
                                     >
                                       <p
                                         className="borderRight textTitle"
                                         style={{
-                                          width: "50%",
+                                          width: '50%',
                                         }}
                                       >
-                                        {["cif", "cpt", "cfr"].includes(
-                                          hbawListData?.[0]?.incoterms
+                                        {['cif', 'cpt', 'cfr'].includes(
+                                          hbawListData?.[0]?.incoterms,
                                         )
-                                          ? "PPD"
-                                          : ""}
+                                          ? 'PPD'
+                                          : ''}
                                       </p>
                                       <p
                                         className="textTitle"
                                         style={{
-                                          width: "50%",
+                                          width: '50%',
                                         }}
                                       >
-                                        {["cif", "cpt", "cfr"].includes(
-                                          hbawListData?.[0]?.incoterms
+                                        {['cif', 'cpt', 'cfr'].includes(
+                                          hbawListData?.[0]?.incoterms,
                                         )
-                                          ? ""
-                                          : "CCX"}
+                                          ? ''
+                                          : 'CCX'}
                                       </p>
                                     </div>
                                   </div>
@@ -1392,11 +1444,11 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 flex: 1,
                               }}
                             >
-                              <div style={{ display: "flex", height: "100%" }}>
+                              <div style={{ display: 'flex', height: '100%' }}>
                                 <div
                                   className="borderRight"
                                   style={{
-                                    width: "50%",
+                                    width: '50%',
                                   }}
                                 >
                                   <p className="textTitle">
@@ -1407,28 +1459,28 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       <p>
                                         {values?.declaredValueForCarriage
                                           ? values?.declaredValueForCarriage
-                                            ?.split("\n")
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
-                                          : ""}
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
+                                          : ''}
                                       </p>
                                     </>
                                   ) : (
                                     <>
-                                      {" "}
+                                      {' '}
                                       <textarea
                                         name="declaredValueForCarriage"
                                         value={values?.declaredValueForCarriage}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            "declaredValueForCarriage",
-                                            e.target.value
+                                            'declaredValueForCarriage',
+                                            e.target.value,
                                           );
                                         }}
                                       />
@@ -1437,7 +1489,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 </div>
                                 <div
                                   style={{
-                                    width: "50%",
+                                    width: '50%',
                                   }}
                                 >
                                   <p className="textTitle">
@@ -1448,28 +1500,28 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       <p>
                                         {values?.declaredValueForCustoms
                                           ? values?.declaredValueForCustoms
-                                            ?.split("\n")
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
-                                          : ""}
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
+                                          : ''}
                                       </p>
                                     </>
                                   ) : (
                                     <>
-                                      {" "}
+                                      {' '}
                                       <textarea
                                         name="declaredValueForCustoms"
                                         value={values?.declaredValueForCustoms}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            "declaredValueForCustoms",
-                                            e.target.value
+                                            'declaredValueForCustoms',
+                                            e.target.value,
                                           );
                                         }}
                                       />
@@ -1484,10 +1536,10 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
 
                         <div className="top borderBottom airInfo">
                           <div className="leftSide borderRight">
-                            <div style={{ display: "flex", height: "100%" }}>
+                            <div style={{ display: 'flex', height: '100%' }}>
                               <div
                                 className="air-destination-info borderRight"
-                                style={{ width: "50%" }}
+                                style={{ width: '50%' }}
                               >
                                 <p className="textTitle">
                                   Airport of Destination
@@ -1497,29 +1549,29 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <p>
                                       {values?.airportOfDestination
                                         ? values?.airportOfDestination
-                                          ?.split("\n")
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
-                                        : ""}
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                        : ''}
                                     </p>
                                   </>
                                 ) : (
                                   <>
-                                    {" "}
+                                    {' '}
                                     <div className="col-lg-12">
                                       <textarea
                                         name="airportOfDestination"
                                         value={values?.airportOfDestination}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            "airportOfDestination",
-                                            e.target.value
+                                            'airportOfDestination',
+                                            e.target.value,
                                           );
                                         }}
                                       />
@@ -1527,24 +1579,26 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   </>
                                 )}
                               </div>
-                              <div style={{ width: "50%" }}>
-                                <div style={{ display: "flex", height: "100%" }}>
+                              <div style={{ width: '50%' }}>
+                                <div
+                                  style={{ display: 'flex', height: '100%' }}
+                                >
                                   <div
                                     className="borderRight"
-                                    style={{ width: "50%" }}
+                                    style={{ width: '50%' }}
                                   >
                                     <p className="textTitle ">Flight/Date</p>
                                     {isPrintViewMode ? (
                                       <>
                                         <p>
                                           {moment(
-                                            values?.requestedFlightDate
-                                          ).format("DD-MM-YYYY")}
+                                            values?.requestedFlightDate,
+                                          ).format('DD-MM-YYYY')}
                                         </p>
                                       </>
                                     ) : (
                                       <>
-                                        {" "}
+                                        {' '}
                                         <div className="col-lg-12">
                                           <input
                                             name="requestedFlightDate"
@@ -1552,8 +1606,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                             type="date"
                                             onChange={(e) => {
                                               setFieldValue(
-                                                "requestedFlightDate",
-                                                e.target.value
+                                                'requestedFlightDate',
+                                                e.target.value,
                                               );
                                             }}
                                             required
@@ -1562,19 +1616,19 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       </>
                                     )}
                                   </div>
-                                  <div className="" style={{ width: "50%" }}>
+                                  <div className="" style={{ width: '50%' }}>
                                     <p className="textTitle ">Flight/Date</p>
                                     {isPrintViewMode ? (
                                       <>
                                         <p>
                                           {moment(
-                                            values?.requestedFlightDate
-                                          ).format("DD-MM-YYYY")}
+                                            values?.requestedFlightDate,
+                                          ).format('DD-MM-YYYY')}
                                         </p>
                                       </>
                                     ) : (
                                       <>
-                                        {" "}
+                                        {' '}
                                         <div className="col-lg-12">
                                           <input
                                             name="requestedFlightDate"
@@ -1582,8 +1636,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                             type="date"
                                             onChange={(e) => {
                                               setFieldValue(
-                                                "requestedFlightDate",
-                                                e.target.value
+                                                'requestedFlightDate',
+                                                e.target.value,
                                               );
                                             }}
                                             required
@@ -1597,7 +1651,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                             </div>
                           </div>
                           <div className="rightSide">
-                            <div style={{ display: "flex" }}>
+                            <div style={{ display: 'flex' }}>
                               <div className="amountofInsurance borderRight commonWithOne">
                                 <p className="textTitle">Amount of Insurance</p>
                                 {isPrintViewMode ? (
@@ -1605,16 +1659,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <p>
                                       {values?.amountOfInsurance
                                         ? values?.amountOfInsurance
-                                          ?.split("\n")
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
-                                        : ""}
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                        : ''}
                                     </p>
                                   </>
                                 ) : (
@@ -1624,8 +1678,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       value={values?.amountOfInsurance}
                                       onChange={(e) => {
                                         setFieldValue(
-                                          "amountOfInsurance",
-                                          e.target.value
+                                          'amountOfInsurance',
+                                          e.target.value,
                                         );
                                       }}
                                     />
@@ -1636,9 +1690,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 <p>
                                   INSURANCE-if Carrier offers insurance and such
                                   insurance is requested in accordance with
-                                  condition on reverse hereof, indicate amount to
-                                  be insured in figures in box marked amount of
-                                  insurance
+                                  condition on reverse hereof, indicate amount
+                                  to be insured in figures in box marked amount
+                                  of insurance
                                 </p>
                               </div>
                             </div>
@@ -1652,29 +1706,29 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                               <p>
                                 {values?.handlingInformation
                                   ? values?.handlingInformation
-                                    ?.split("\n")
-                                    .map((item, index) => {
-                                      return (
-                                        <>
-                                          {item}
-                                          <br />
-                                        </>
-                                      );
-                                    })
-                                  : ""}
+                                      ?.split('\n')
+                                      .map((item, index) => {
+                                        return (
+                                          <>
+                                            {item}
+                                            <br />
+                                          </>
+                                        );
+                                      })
+                                  : ''}
                               </p>
                             </>
                           ) : (
                             <>
-                              {" "}
+                              {' '}
                               <div className="col-lg-12">
                                 <textarea
                                   name="handlingInformation"
                                   value={values?.handlingInformation}
                                   onChange={(e) => {
                                     setFieldValue(
-                                      "handlingInformation",
-                                      e.target.value
+                                      'handlingInformation',
+                                      e.target.value,
                                     );
                                   }}
                                 />
@@ -1686,7 +1740,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                         <div className="cargoInfo borderBottom">
                           <div>
                             <div
-                              style={{ display: "flex", textAlign: "center" }}
+                              style={{ display: 'flex', textAlign: 'center' }}
                               className="borderBottom textTitle"
                             >
                               <div className="noPiecesRcp borderRight">
@@ -1719,12 +1773,12 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                               </div>
                             </div>
                           </div>
-                          <div style={{ height: "100%", fontWeight: "500" }}>
-                            <div style={{ display: "flex", height: "100%" }}>
+                          <div style={{ height: '100%', fontWeight: '500' }}>
+                            <div style={{ display: 'flex', height: '100%' }}>
                               <div
                                 className="noPiecesRcp borderRight"
                                 style={{
-                                  position: "relative",
+                                  position: 'relative',
                                 }}
                               >
                                 {isPrintViewMode ? (
@@ -1732,16 +1786,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <p>
                                       {values?.noOfPiecesRcp
                                         ? values?.noOfPiecesRcp
-                                          ?.split("\n")
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
-                                        : ""}
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                        : ''}
                                     </p>
                                   </>
                                 ) : (
@@ -1751,12 +1805,12 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       value={values?.noOfPiecesRcp}
                                       onChange={(e) => {
                                         setFieldValue(
-                                          "noOfPiecesRcp",
-                                          e.target.value
+                                          'noOfPiecesRcp',
+                                          e.target.value,
                                         );
                                       }}
                                       style={{
-                                        minWidth: "40px",
+                                        minWidth: '40px',
                                       }}
                                       rows={20}
                                     />
@@ -1769,20 +1823,20 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <>
                                       {values?.grossWeight
                                         ? values?.grossWeight
-                                          ?.split("\n")
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
-                                        : ""}
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                        : ''}
                                     </>
                                   ) : (
                                     <>
-                                      {" "}
+                                      {' '}
                                       <textarea
                                         value={values?.grossWeight}
                                         name="grossWeight"
@@ -1790,8 +1844,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                         cols={40}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            "grossWeight",
-                                            e.target.value
+                                            'grossWeight',
+                                            e.target.value,
                                           );
                                         }}
                                       />
@@ -1805,16 +1859,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <p>
                                       {values?.grossWeightKgLb
                                         ? values?.grossWeightKgLb
-                                          ?.split("\n")
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
-                                        : ""}
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                        : ''}
                                     </p>
                                   </>
                                 ) : (
@@ -1824,8 +1878,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       value={values?.grossWeightKgLb}
                                       onChange={(e) => {
                                         setFieldValue(
-                                          "grossWeightKgLb",
-                                          e.target.value
+                                          'grossWeightKgLb',
+                                          e.target.value,
                                         );
                                       }}
                                       rows={20}
@@ -1839,29 +1893,29 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <p>
                                       {values?.rateClassCommodityItemNo
                                         ? values?.rateClassCommodityItemNo
-                                          ?.split("\n")
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
-                                        : ""}
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                        : ''}
                                     </p>
                                   </>
                                 ) : (
                                   <>
-                                    {" "}
+                                    {' '}
                                     <div className="col-lg-12">
                                       <textarea
                                         name="rateClassCommodityItemNo"
                                         value={values?.rateClassCommodityItemNo}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            "rateClassCommodityItemNo",
-                                            e.target.value
+                                            'rateClassCommodityItemNo',
+                                            e.target.value,
                                           );
                                         }}
                                         rows={20}
@@ -1878,29 +1932,29 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <p>
                                       {values?.chargeableWeight
                                         ? values?.chargeableWeight
-                                          ?.split("\n")
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
-                                        : ""}
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                        : ''}
                                     </p>
                                   </>
                                 ) : (
                                   <>
-                                    {" "}
+                                    {' '}
                                     <div className="col-lg-12">
                                       <textarea
                                         name="chargeableWeight"
                                         value={values?.chargeableWeight}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            "chargeableWeight",
-                                            e.target.value
+                                            'chargeableWeight',
+                                            e.target.value,
                                           );
                                         }}
                                         rows={20}
@@ -1915,29 +1969,29 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <p>
                                       {values?.rateOrCharge
                                         ? values?.rateOrCharge
-                                          ?.split("\n")
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
-                                        : ""}
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
+                                        : ''}
                                     </p>
                                   </>
                                 ) : (
                                   <>
-                                    {" "}
+                                    {' '}
                                     <div className="col-lg-12">
                                       <textarea
                                         name="rateOrCharge"
                                         value={values?.rateOrCharge}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            "rateOrCharge",
-                                            e.target.value
+                                            'rateOrCharge',
+                                            e.target.value,
                                           );
                                         }}
                                         rows={20}
@@ -1951,31 +2005,26 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   <>
                                     {values?.total
                                       ? values?.total
-                                        ?.split("\n")
-                                        .map((item, index) => {
-                                          return (
-                                            <>
-                                              {item}
-                                              <br />
-                                            </>
-                                          );
-                                        })
-                                      : ""}
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                      : ''}
                                   </>
                                 ) : (
                                   <>
-                                    {" "}
+                                    {' '}
                                     <textarea
-                                      value={
-                                        values?.total
-                                      }
+                                      value={values?.total}
                                       name="total"
                                       rows={20}
                                       onChange={(e) => {
-                                        setFieldValue(
-                                          "total",
-                                          e.target.value
-                                        );
+                                        setFieldValue('total', e.target.value);
                                       }}
                                     />
                                   </>
@@ -1986,20 +2035,20 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   <>
                                     {values?.prepaidNatureAndQuantityOfGoods
                                       ? values?.prepaidNatureAndQuantityOfGoods
-                                        ?.split("\n")
-                                        .map((item, index) => {
-                                          return (
-                                            <>
-                                              {item}
-                                              <br />
-                                            </>
-                                          );
-                                        })
-                                      : ""}
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                      : ''}
                                   </>
                                 ) : (
                                   <>
-                                    {" "}
+                                    {' '}
                                     <textarea
                                       value={
                                         values?.prepaidNatureAndQuantityOfGoods
@@ -2009,8 +2058,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       cols={40}
                                       onChange={(e) => {
                                         setFieldValue(
-                                          "prepaidNatureAndQuantityOfGoods",
-                                          e.target.value
+                                          'prepaidNatureAndQuantityOfGoods',
+                                          e.target.value,
                                         );
                                       }}
                                     />
@@ -2039,16 +2088,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   </span>
                                 </div>
                                 <div className="collectChartLeft borderRight">
-                                  {["cif", "cpt", "cfr"].includes(
-                                    incoterms
+                                  {['cif', 'cpt', 'cfr'].includes(
+                                    incoterms,
                                   ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.prepaidPrepaidAmount
-                                                ? values?.prepaidPrepaidAmount
-                                                  ?.split("\n")
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.prepaidPrepaidAmount
+                                              ? values?.prepaidPrepaidAmount
+                                                  ?.split('\n')
                                                   .map((item, index) => {
                                                     return (
                                                       <>
@@ -2057,40 +2106,42 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                       </>
                                                     );
                                                   })
-                                                : ""}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {" "}
-                                            <div className="col-lg-12 collectChartValue">
-                                              <textarea
-                                                name="prepaidPrepaidAmount"
-                                                value={values?.prepaidPrepaidAmount}
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    "prepaidPrepaidAmount",
-                                                    e.target.value
-                                                  );
-                                                }}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12 collectChartValue">
+                                            <textarea
+                                              name="prepaidPrepaidAmount"
+                                              value={
+                                                values?.prepaidPrepaidAmount
+                                              }
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'prepaidPrepaidAmount',
+                                                  e.target.value,
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                                 </div>
                                 <div className="collectChartRight">
-                                  {!["cif", "cpt", "cfr"].includes(
-                                    incoterms
+                                  {!['cif', 'cpt', 'cfr'].includes(
+                                    incoterms,
                                   ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.collectPrepaidAmount
-                                                ? values?.collectPrepaidAmount
-                                                  ?.split("\n")
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.collectPrepaidAmount
+                                              ? values?.collectPrepaidAmount
+                                                  ?.split('\n')
                                                   .map((item, index) => {
                                                     return (
                                                       <>
@@ -2099,39 +2150,41 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                       </>
                                                     );
                                                   })
-                                                : ""}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {" "}
-                                            <div className="col-lg-12">
-                                              <textarea
-                                                name="collectPrepaidAmount"
-                                                value={values?.collectPrepaidAmount}
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    "collectPrepaidAmount",
-                                                    e.target.value
-                                                  );
-                                                }}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="collectPrepaidAmount"
+                                              value={
+                                                values?.collectPrepaidAmount
+                                              }
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'collectPrepaidAmount',
+                                                  e.target.value,
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                                 </div>
                               </div>
                             </div>
-                            <div className="collectItemRight"
+                            <div
+                              className="collectItemRight"
                               style={{
-                                display: "flex",
-                                alignItems: "flex-end",
+                                display: 'flex',
+                                alignItems: 'flex-end',
                               }}
                             >
-                              <p className='textTitle'>Other Charge</p>
-
+                              <p className="textTitle">Other Charge</p>
                             </div>
                           </div>
                           {/* row item (2) */}
@@ -2142,9 +2195,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 <div
                                   className="collectChartBox "
                                   style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    width: "100%",
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    width: '100%',
                                   }}
                                 >
                                   <span className=" collectChartBoxItem collectChartBoxValuationCharge textTitle">
@@ -2152,16 +2205,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   </span>
                                 </div>
                                 <div className="collectChartLeft borderRight">
-                                  {["cif", "cpt", "cfr"].includes(
-                                    incoterms
+                                  {['cif', 'cpt', 'cfr'].includes(
+                                    incoterms,
                                   ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.prepaidValuationCharge
-                                                ? values?.prepaidValuationCharge
-                                                  ?.split("\n")
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.prepaidValuationCharge
+                                              ? values?.prepaidValuationCharge
+                                                  ?.split('\n')
                                                   .map((item, index) => {
                                                     return (
                                                       <>
@@ -2170,42 +2223,42 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                       </>
                                                     );
                                                   })
-                                                : ""}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {" "}
-                                            <div className="col-lg-12">
-                                              <textarea
-                                                name="prepaidValuationCharge"
-                                                value={
-                                                  values?.prepaidValuationCharge
-                                                }
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    "prepaidValuationCharge",
-                                                    e.target.value
-                                                  );
-                                                }}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="prepaidValuationCharge"
+                                              value={
+                                                values?.prepaidValuationCharge
+                                              }
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'prepaidValuationCharge',
+                                                  e.target.value,
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                                 </div>
                                 <div className="collectChartRight">
-                                  {!["cif", "cpt", "cfr"].includes(
-                                    incoterms
+                                  {!['cif', 'cpt', 'cfr'].includes(
+                                    incoterms,
                                   ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.collectValuationCharge
-                                                ? values?.collectValuationCharge
-                                                  ?.split("\n")
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.collectValuationCharge
+                                              ? values?.collectValuationCharge
+                                                  ?.split('\n')
                                                   .map((item, index) => {
                                                     return (
                                                       <>
@@ -2214,44 +2267,44 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                       </>
                                                     );
                                                   })
-                                                : ""}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {" "}
-                                            <div className="col-lg-12">
-                                              <textarea
-                                                name="collectValuationCharge"
-                                                value={
-                                                  values?.collectValuationCharge
-                                                }
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    "collectValuationCharge",
-                                                    e.target.value
-                                                  );
-                                                }}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="collectValuationCharge"
+                                              value={
+                                                values?.collectValuationCharge
+                                              }
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'collectValuationCharge',
+                                                  e.target.value,
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                                 </div>
                               </div>
                             </div>
-                            <div className="collectItemRight"
+                            <div
+                              className="collectItemRight"
                               style={{
-                                width: "100%"
+                                width: '100%',
                               }}
                             >
-                              {
-                                isPrintViewMode ? (
-                                  <p>
-                                    {values?.prepaidTotalOtherChargesDueCarrier1
-                                      ? values?.prepaidTotalOtherChargesDueCarrier1
-                                        ?.split("\n")
+                              {isPrintViewMode ? (
+                                <p>
+                                  {values?.prepaidTotalOtherChargesDueCarrier1
+                                    ? values?.prepaidTotalOtherChargesDueCarrier1
+                                        ?.split('\n')
                                         .map((item, index) => {
                                           return (
                                             <>
@@ -2260,22 +2313,23 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                             </>
                                           );
                                         })
-                                      : ""}
-                                  </p>
-                                ) : (
-                                  <textarea
-                                    name="prepaidTotalOtherChargesDueCarrier1"
-                                    value={values?.prepaidTotalOtherChargesDueCarrier1}
-                                    onChange={(e) => {
-                                      setFieldValue(
-                                        "prepaidTotalOtherChargesDueCarrier1",
-                                        e.target.value
-                                      );
-                                    }}
-                                    rows={5}
-                                  />
-                                )
-                              }
+                                    : ''}
+                                </p>
+                              ) : (
+                                <textarea
+                                  name="prepaidTotalOtherChargesDueCarrier1"
+                                  value={
+                                    values?.prepaidTotalOtherChargesDueCarrier1
+                                  }
+                                  onChange={(e) => {
+                                    setFieldValue(
+                                      'prepaidTotalOtherChargesDueCarrier1',
+                                      e.target.value,
+                                    );
+                                  }}
+                                  rows={5}
+                                />
+                              )}
                             </div>
                           </div>
                           {/* row item (3) */}
@@ -2286,9 +2340,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 <div
                                   className="collectChartBox"
                                   style={{
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    width: "100%",
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    width: '100%',
                                   }}
                                 >
                                   <span className=" collectChartBoxItem collectChartTax textTitle">
@@ -2296,16 +2350,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   </span>
                                 </div>
                                 <div className="collectChartLeft borderRight">
-                                  {["cif", "cpt", "cfr"].includes(
-                                    incoterms
+                                  {['cif', 'cpt', 'cfr'].includes(
+                                    incoterms,
                                   ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.prepaidTaxAmount
-                                                ? values?.prepaidTaxAmount
-                                                  ?.split("\n")
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.prepaidTaxAmount
+                                              ? values?.prepaidTaxAmount
+                                                  ?.split('\n')
                                                   .map((item, index) => {
                                                     return (
                                                       <>
@@ -2314,41 +2368,41 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                       </>
                                                     );
                                                   })
-                                                : ""}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {" "}
-                                            <div className="col-lg-12">
-                                              <textarea
-                                                name="prepaidTaxAmount"
-                                                value={values?.prepaidTaxAmount}
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    "prepaidTaxAmount",
-                                                    e.target.value
-                                                  );
-                                                }}
-                                                cols={1}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="prepaidTaxAmount"
+                                              value={values?.prepaidTaxAmount}
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'prepaidTaxAmount',
+                                                  e.target.value,
+                                                );
+                                              }}
+                                              cols={1}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                                 </div>
                                 <div className="collectChartRight">
-                                  {!["cif", "cpt", "cfr"].includes(
-                                    incoterms
+                                  {!['cif', 'cpt', 'cfr'].includes(
+                                    incoterms,
                                   ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.collectTaxAmount
-                                                ? values?.collectTaxAmount
-                                                  ?.split("\n")
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.collectTaxAmount
+                                              ? values?.collectTaxAmount
+                                                  ?.split('\n')
                                                   .map((item, index) => {
                                                     return (
                                                       <>
@@ -2357,29 +2411,29 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                       </>
                                                     );
                                                   })
-                                                : ""}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {" "}
-                                            <div className="col-lg-12">
-                                              <textarea
-                                                name="collectTaxAmount"
-                                                value={values?.collectTaxAmount}
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    "collectTaxAmount",
-                                                    e.target.value
-                                                  );
-                                                }}
-                                                cols={1}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="collectTaxAmount"
+                                              value={values?.collectTaxAmount}
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'collectTaxAmount',
+                                                  e.target.value,
+                                                );
+                                              }}
+                                              cols={1}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -2393,11 +2447,11 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                           <div className="collectItemRow collectItemRowFour borderBottom">
                             <div className="collectItemLeft borderRight">
                               <div className="collectChart">
-                                <div style={{ width: "100%" }}>
+                                <div style={{ width: '100%' }}>
                                   <div
                                     style={{
-                                      display: "flex",
-                                      position: "relative",
+                                      display: 'flex',
+                                      position: 'relative',
                                     }}
                                     className="borderBottom totalOtherChargesDueAgent"
                                   >
@@ -2405,9 +2459,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <div
                                       className="collectChartBox"
                                       style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        width: "100%",
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        width: '100%',
                                       }}
                                     >
                                       <span className=" collectChartBoxItem collectChartBoxTotalOtherChargesDueAgent textTitle">
@@ -2415,16 +2469,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       </span>
                                     </div>
                                     <div className="collectChartLeft borderRight">
-                                      {["cif", "cpt", "cfr"].includes(
-                                        incoterms
+                                      {['cif', 'cpt', 'cfr'].includes(
+                                        incoterms,
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.prepaidTotalOtherChargesDueAgent
-                                                    ? values?.prepaidTotalOtherChargesDueAgent
-                                                      ?.split("\n")
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.prepaidTotalOtherChargesDueAgent
+                                                  ? values?.prepaidTotalOtherChargesDueAgent
+                                                      ?.split('\n')
                                                       .map((item, index) => {
                                                         return (
                                                           <>
@@ -2433,42 +2487,42 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                           </>
                                                         );
                                                       })
-                                                    : ""}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {" "}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="prepaidTotalOtherChargesDueAgent"
-                                                    value={
-                                                      values?.prepaidTotalOtherChargesDueAgent
-                                                    }
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        "prepaidTotalOtherChargesDueAgent",
-                                                        e.target.value
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="prepaidTotalOtherChargesDueAgent"
+                                                  value={
+                                                    values?.prepaidTotalOtherChargesDueAgent
+                                                  }
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'prepaidTotalOtherChargesDueAgent',
+                                                      e.target.value,
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                     <div className="collectChartRight">
-                                      {!["cif", "cpt", "cfr"].includes(
-                                        incoterms
+                                      {!['cif', 'cpt', 'cfr'].includes(
+                                        incoterms,
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.collectTotalOtherChargesDueAgent
-                                                    ? values?.collectTotalOtherChargesDueAgent
-                                                      ?.split("\n")
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.collectTotalOtherChargesDueAgent
+                                                  ? values?.collectTotalOtherChargesDueAgent
+                                                      ?.split('\n')
                                                       .map((item, index) => {
                                                         return (
                                                           <>
@@ -2477,36 +2531,36 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                           </>
                                                         );
                                                       })
-                                                    : ""}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {" "}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="collectTotalOtherChargesDueAgent"
-                                                    value={
-                                                      values?.collectTotalOtherChargesDueAgent
-                                                    }
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        "collectTotalOtherChargesDueAgent",
-                                                        e.target.value
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="collectTotalOtherChargesDueAgent"
+                                                  value={
+                                                    values?.collectTotalOtherChargesDueAgent
+                                                  }
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'collectTotalOtherChargesDueAgent',
+                                                      e.target.value,
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                   </div>
                                   <div
                                     style={{
-                                      display: "flex",
-                                      position: "relative",
+                                      display: 'flex',
+                                      position: 'relative',
                                     }}
                                     className="totalOtherChargesDueCarrier borderBottom"
                                   >
@@ -2514,9 +2568,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <div
                                       className="collectChartBox"
                                       style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        width: "100%",
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        width: '100%',
                                       }}
                                     >
                                       <span className=" collectChartBoxItem collectChartBoxTotalOtherChargesDueCarrier textTitle">
@@ -2524,16 +2578,16 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       </span>
                                     </div>
                                     <div className="collectChartLeft borderRight">
-                                      {["cif", "cpt", "cfr"].includes(
-                                        incoterms
+                                      {['cif', 'cpt', 'cfr'].includes(
+                                        incoterms,
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.collectTotalOtherChargesDueCarrier1
-                                                    ? values?.collectTotalOtherChargesDueCarrier1
-                                                      ?.split("\n")
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.collectTotalOtherChargesDueCarrier1
+                                                  ? values?.collectTotalOtherChargesDueCarrier1
+                                                      ?.split('\n')
                                                       .map((item, index) => {
                                                         return (
                                                           <>
@@ -2542,41 +2596,41 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                           </>
                                                         );
                                                       })
-                                                    : ""}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {" "}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="collectTotalOtherChargesDueCarrier1"
-                                                    value={
-                                                      values?.collectTotalOtherChargesDueCarrier1
-                                                    }
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        "collectTotalOtherChargesDueCarrier1",
-                                                        e.target.value
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="collectTotalOtherChargesDueCarrier1"
+                                                  value={
+                                                    values?.collectTotalOtherChargesDueCarrier1
+                                                  }
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'collectTotalOtherChargesDueCarrier1',
+                                                      e.target.value,
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                     <div className="collectChartRight">
-                                      {!["cif", "cpt", "cfr"].includes(
-                                        incoterms
+                                      {!['cif', 'cpt', 'cfr'].includes(
+                                        incoterms,
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                {values?.collectTotalOtherChargesDueCarrier2
-                                                  ? values?.collectTotalOtherChargesDueCarrier2
-                                                    ?.split("\n")
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              {values?.collectTotalOtherChargesDueCarrier2
+                                                ? values?.collectTotalOtherChargesDueCarrier2
+                                                    ?.split('\n')
                                                     .map((item, index) => {
                                                       return (
                                                         <>
@@ -2585,50 +2639,50 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                         </>
                                                       );
                                                     })
-                                                  : ""}
-                                              </>
-                                            ) : (
-                                              <>
-                                                {" "}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="collectTotalOtherChargesDueCarrier2"
-                                                    value={
-                                                      values?.collectTotalOtherChargesDueCarrier2
-                                                    }
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        "collectTotalOtherChargesDueCarrier2",
-                                                        e.target.value
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                : ''}
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="collectTotalOtherChargesDueCarrier2"
+                                                  value={
+                                                    values?.collectTotalOtherChargesDueCarrier2
+                                                  }
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'collectTotalOtherChargesDueCarrier2',
+                                                      e.target.value,
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                   </div>
                                   <div
                                     style={{
-                                      display: "flex",
-                                      position: "relative",
+                                      display: 'flex',
+                                      position: 'relative',
                                     }}
                                     className="totalOtherChargesDueCarrier"
                                   >
                                     {/* grap */}
                                     <div className="collectChartLeft borderRight">
-                                      {["cif", "cpt", "cfr"].includes(
-                                        incoterms
+                                      {['cif', 'cpt', 'cfr'].includes(
+                                        incoterms,
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.prepaidTotalOtherChargesDueCarrier2
-                                                    ? values?.prepaidTotalOtherChargesDueCarrier2
-                                                      ?.split("\n")
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.prepaidTotalOtherChargesDueCarrier2
+                                                  ? values?.prepaidTotalOtherChargesDueCarrier2
+                                                      ?.split('\n')
                                                       .map((item, index) => {
                                                         return (
                                                           <>
@@ -2637,41 +2691,41 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                           </>
                                                         );
                                                       })
-                                                    : ""}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {" "}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="prepaidTotalOtherChargesDueCarrier2"
-                                                    value={
-                                                      values?.prepaidTotalOtherChargesDueCarrier2
-                                                    }
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        "prepaidTotalOtherChargesDueCarrier2",
-                                                        e.target.value
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="prepaidTotalOtherChargesDueCarrier2"
+                                                  value={
+                                                    values?.prepaidTotalOtherChargesDueCarrier2
+                                                  }
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'prepaidTotalOtherChargesDueCarrier2',
+                                                      e.target.value,
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                     <div className="collectChartRight">
-                                      {!["cif", "cpt", "cfr"].includes(
-                                        incoterms
+                                      {!['cif', 'cpt', 'cfr'].includes(
+                                        incoterms,
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                {values?.signatureOfShipperOrAgent
-                                                  ? values?.signatureOfShipperOrAgent
-                                                    ?.split("\n")
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              {values?.signatureOfShipperOrAgent
+                                                ? values?.signatureOfShipperOrAgent
+                                                    ?.split('\n')
                                                     .map((item, index) => {
                                                       return (
                                                         <>
@@ -2680,29 +2734,29 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                         </>
                                                       );
                                                     })
-                                                  : ""}
-                                              </>
-                                            ) : (
-                                              <>
-                                                {" "}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="signatureOfShipperOrAgent"
-                                                    value={
-                                                      values?.signatureOfShipperOrAgent
-                                                    }
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        "signatureOfShipperOrAgent",
-                                                        e.target.value
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                : ''}
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="signatureOfShipperOrAgent"
+                                                  value={
+                                                    values?.signatureOfShipperOrAgent
+                                                  }
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'signatureOfShipperOrAgent',
+                                                      e.target.value,
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
@@ -2712,34 +2766,34 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                               <div>
                                 <p className="smallTitle">
                                   Shipper certifies that the particulars on the
-                                  face hereof are correct and that insofar as any
-                                  part of the consignment contains restricted
-                                  articles, such part is properly described by
-                                  name and is in proper condition for carriage by
-                                  air according to the applicable Dangerous Goods
-                                  Regulations.
+                                  face hereof are correct and that insofar as
+                                  any part of the consignment contains
+                                  restricted articles, such part is properly
+                                  described by name and is in proper condition
+                                  for carriage by air according to the
+                                  applicable Dangerous Goods Regulations.
                                 </p>
                                 {isPrintViewMode ? (
                                   <h1
                                     className="collectChartValue"
                                     style={{
-                                      textAlign: "center",
+                                      textAlign: 'center',
                                       marginTop: 5,
-                                      textTransform: "uppercase",
+                                      textTransform: 'uppercase',
                                     }}
                                   >
                                     {values?.signatureOfIssuingCarrierOrAgent
                                       ? values?.signatureOfIssuingCarrierOrAgent
-                                        ?.split("\n")
-                                        .map((item, index) => {
-                                          return (
-                                            <>
-                                              {item}
-                                              <br />
-                                            </>
-                                          );
-                                        })
-                                      : ""}
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
+                                      : ''}
                                   </h1>
                                 ) : (
                                   <div className="col-lg-12">
@@ -2750,8 +2804,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       }
                                       onChange={(e) => {
                                         setFieldValue(
-                                          "signatureOfIssuingCarrierOrAgent",
-                                          e.target.value
+                                          'signatureOfIssuingCarrierOrAgent',
+                                          e.target.value,
                                         );
                                       }}
                                     />
@@ -2759,7 +2813,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                 )}
                                 <hr
                                   style={{
-                                    borderTop: "1px dotted",
+                                    borderTop: '1px dotted',
                                     marginTop: 50,
                                     marginBottom: 0,
                                   }}
@@ -2774,11 +2828,11 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                           <div className="collectItemRow collectItemRowFive borderBottom">
                             <div className="collectItemLeft borderRight">
                               <div className="collectChart">
-                                <div style={{ width: "100%" }}>
+                                <div style={{ width: '100%' }}>
                                   <div
                                     style={{
-                                      display: "flex",
-                                      position: "relative",
+                                      display: 'flex',
+                                      position: 'relative',
                                     }}
                                     className="borderBottom totalOtherChargesTotalPrepaid"
                                   >
@@ -2786,9 +2840,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <div
                                       className="collectChartBox"
                                       style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        width: "100%",
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        width: '100%',
                                       }}
                                     >
                                       <span className=" collectChartBoxItem collectChartBoxTotalPrepaid textTitle">
@@ -2796,20 +2850,20 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       </span>
                                       {/*  Total Collect*/}
                                       <span className=" collectChartBoxItem collectChartBoxTotalCollect textTitle">
-                                        Total Collect{" "}
+                                        Total Collect{' '}
                                       </span>
                                     </div>
                                     <div className="collectChartLeft borderRight">
-                                      {["cif", "cpt", "cfr"].includes(
-                                        incoterms
+                                      {['cif', 'cpt', 'cfr'].includes(
+                                        incoterms,
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.totalPrepaid
-                                                    ? values?.totalPrepaid
-                                                      ?.split("\n")
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.totalPrepaid
+                                                  ? values?.totalPrepaid
+                                                      ?.split('\n')
                                                       .map((item, index) => {
                                                         return (
                                                           <>
@@ -2818,40 +2872,40 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                           </>
                                                         );
                                                       })
-                                                    : ""}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {" "}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="totalPrepaid"
-                                                    value={values?.totalPrepaid}
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        "totalPrepaid",
-                                                        e.target.value
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="totalPrepaid"
+                                                  value={values?.totalPrepaid}
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'totalPrepaid',
+                                                      e.target.value,
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                     <div className="collectChartRight">
-                                      {!["cif", "cpt", "cfr"].includes(
-                                        incoterms
+                                      {!['cif', 'cpt', 'cfr'].includes(
+                                        incoterms,
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.totalCollect
-                                                    ? values?.totalCollect
-                                                      ?.split("\n")
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.totalCollect
+                                                  ? values?.totalCollect
+                                                      ?.split('\n')
                                                       .map((item, index) => {
                                                         return (
                                                           <>
@@ -2860,34 +2914,34 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                           </>
                                                         );
                                                       })
-                                                    : ""}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {" "}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="totalCollect"
-                                                    value={values?.totalCollect}
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        "totalCollect",
-                                                        e.target.value
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="totalCollect"
+                                                  value={values?.totalCollect}
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'totalCollect',
+                                                      e.target.value,
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                   </div>
                                   <div
                                     style={{
-                                      display: "flex",
-                                      position: "relative",
+                                      display: 'flex',
+                                      position: 'relative',
                                     }}
                                     className="currencyConversionRate "
                                   >
@@ -2895,9 +2949,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <div
                                       className="collectChartBox"
                                       style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        width: "100%",
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        width: '100%',
                                       }}
                                     >
                                       <span className=" collectChartBoxItem collectChartBoxCurrencyConversionRate textTitle">
@@ -2905,7 +2959,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       </span>
                                       {/* CC charges in dest currency */}
                                       <span className=" collectChartBoxItem collectChartBoxCCChargesInDestCurrency textTitle">
-                                        CC Charges in Dest Currency{" "}
+                                        CC Charges in Dest Currency{' '}
                                       </span>
                                     </div>
                                     <div className="collectChartLeft borderRight">
@@ -2914,21 +2968,21 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                           <p>
                                             {values?.currencyConversionRates
                                               ? values?.currencyConversionRates
-                                                ?.split("\n")
-                                                .map((item, index) => {
-                                                  return (
-                                                    <>
-                                                      {item}
-                                                      <br />
-                                                    </>
-                                                  );
-                                                })
-                                              : ""}
+                                                  ?.split('\n')
+                                                  .map((item, index) => {
+                                                    return (
+                                                      <>
+                                                        {item}
+                                                        <br />
+                                                      </>
+                                                    );
+                                                  })
+                                              : ''}
                                           </p>
                                         </>
                                       ) : (
                                         <>
-                                          {" "}
+                                          {' '}
                                           <div className="col-lg-12">
                                             <textarea
                                               name="currencyConversionRates"
@@ -2937,8 +2991,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                               }
                                               onChange={(e) => {
                                                 setFieldValue(
-                                                  "currencyConversionRates",
-                                                  e.target.value
+                                                  'currencyConversionRates',
+                                                  e.target.value,
                                                 );
                                               }}
                                             />
@@ -2952,21 +3006,21 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                           <p>
                                             {values?.ccchargesInDestCurrency
                                               ? values?.ccchargesInDestCurrency
-                                                ?.split("\n")
-                                                .map((item, index) => {
-                                                  return (
-                                                    <>
-                                                      {item}
-                                                      <br />
-                                                    </>
-                                                  );
-                                                })
-                                              : ""}
+                                                  ?.split('\n')
+                                                  .map((item, index) => {
+                                                    return (
+                                                      <>
+                                                        {item}
+                                                        <br />
+                                                      </>
+                                                    );
+                                                  })
+                                              : ''}
                                           </p>
                                         </>
                                       ) : (
                                         <>
-                                          {" "}
+                                          {' '}
                                           <div className="col-lg-12">
                                             <textarea
                                               name="ccchargesInDestCurrency"
@@ -2975,8 +3029,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                               }
                                               onChange={(e) => {
                                                 setFieldValue(
-                                                  "ccchargesInDestCurrency",
-                                                  e.target.value
+                                                  'ccchargesInDestCurrency',
+                                                  e.target.value,
                                                 );
                                               }}
                                             />
@@ -2990,13 +3044,13 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                             </div>
                             <div
                               className="collectItemRight"
-                              style={{ width: "100%" }}
+                              style={{ width: '100%' }}
                             >
                               <div
                                 className=""
                                 style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
                                   gap: 30,
                                   marginTop: 5,
                                 }}
@@ -3005,7 +3059,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   {isPrintViewMode ? (
                                     <b>
                                       {moment(values?.executedOnDat).format(
-                                        "DD-MM-YYYY"
+                                        'DD-MM-YYYY',
                                       )}
                                     </b>
                                   ) : (
@@ -3016,8 +3070,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                         type="date"
                                         onChange={(e) => {
                                           setFieldValue(
-                                            "executedOnDate",
-                                            e.target.value
+                                            'executedOnDate',
+                                            e.target.value,
                                           );
                                         }}
                                         required
@@ -3032,7 +3086,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                               </div>
                               <hr
                                 style={{
-                                  borderTop: "1px dotted",
+                                  borderTop: '1px dotted',
                                   marginTop: 25,
                                   marginBottom: 0,
                                 }}
@@ -3040,9 +3094,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                               <div
                                 className="smallTitle"
                                 style={{
-                                  display: "flex",
+                                  display: 'flex',
                                   gap: 10,
-                                  textTransform: "uppercase",
+                                  textTransform: 'uppercase',
                                 }}
                               >
                                 <p>Executed on</p>
@@ -3057,11 +3111,11 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                           <div className="collectItemRow collectItemRowSix">
                             <div className="collectItemLeft borderRight">
                               <div className="collectChart">
-                                <div style={{ width: "100%" }}>
+                                <div style={{ width: '100%' }}>
                                   <div
                                     style={{
-                                      display: "flex",
-                                      position: "relative",
+                                      display: 'flex',
+                                      position: 'relative',
                                     }}
                                     className="totalOtherChargesChargesAtDestination"
                                   >
@@ -3069,9 +3123,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                     <div
                                       className="collectChartBox"
                                       style={{
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        width: "100%",
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        width: '100%',
                                       }}
                                     >
                                       <span className=" collectChartBoxItem collectChartBoxChargesAtDestination textTitle">
@@ -3089,21 +3143,21 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                           <p>
                                             {values?.forCarrierUseOnlyAtDestination
                                               ? values?.forCarrierUseOnlyAtDestination
-                                                ?.split("\n")
-                                                .map((item, index) => {
-                                                  return (
-                                                    <>
-                                                      {item}
-                                                      <br />
-                                                    </>
-                                                  );
-                                                })
-                                              : ""}
+                                                  ?.split('\n')
+                                                  .map((item, index) => {
+                                                    return (
+                                                      <>
+                                                        {item}
+                                                        <br />
+                                                      </>
+                                                    );
+                                                  })
+                                              : ''}
                                           </p>
                                         </>
                                       ) : (
                                         <>
-                                          {" "}
+                                          {' '}
                                           <div className="col-lg-12">
                                             <textarea
                                               name="forCarrierUseOnlyAtDestination"
@@ -3112,8 +3166,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                               }
                                               onChange={(e) => {
                                                 setFieldValue(
-                                                  "forCarrierUseOnlyAtDestination",
-                                                  e.target.value
+                                                  'forCarrierUseOnlyAtDestination',
+                                                  e.target.value,
                                                 );
                                               }}
                                             />
@@ -3127,31 +3181,29 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                             </div>
                             <div
                               className="collectItemRight"
-                              style={{ width: "100%" }}
+                              style={{ width: '100%' }}
                             >
                               <div
                                 className="collectChartBox"
                                 style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  justifyContent: "center",
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  justifyContent: 'center',
                                   // width: "100%",
-                                  gap: "2px"
+                                  gap: '2px',
                                 }}
                               >
-
                                 <div className="col-lg-12">
                                   <span className=" collectChartBoxItem collectChartBoxChargesAtDestination textTitle">
                                     Total Collect Charge
                                   </span>
                                 </div>
-                                {
-                                  isPrintViewMode ? (
-                                    <>
-                                      <p>
-                                        {values?.totalCollectCharges
-                                          ? values?.totalCollectCharges
-                                            ?.split("\n")
+                                {isPrintViewMode ? (
+                                  <>
+                                    <p>
+                                      {values?.totalCollectCharges
+                                        ? values?.totalCollectCharges
+                                            ?.split('\n')
                                             .map((item, index) => {
                                               return (
                                                 <>
@@ -3160,25 +3212,23 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                                 </>
                                               );
                                             })
-                                          : ""}
-                                      </p>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <textarea
-                                        name="totalCollectCharges"
-                                        value={values?.totalCollectCharges}
-                                        onChange={(e) => {
-                                          setFieldValue(
-                                            "totalCollectCharges",
-                                            e.target.value
-                                          );
-                                        }}
-                                      />
-                                    </>
-                                  )
-                                }
-
+                                        : ''}
+                                    </p>
+                                  </>
+                                ) : (
+                                  <>
+                                    <textarea
+                                      name="totalCollectCharges"
+                                      value={values?.totalCollectCharges}
+                                      onChange={(e) => {
+                                        setFieldValue(
+                                          'totalCollectCharges',
+                                          e.target.value,
+                                        );
+                                      }}
+                                    />
+                                  </>
+                                )}
                               </div>
                             </div>
                           </div>
