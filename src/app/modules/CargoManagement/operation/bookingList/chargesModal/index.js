@@ -457,6 +457,7 @@ function ChargesModal({ rowClickData, CB }) {
                   {shippingHeadOfCharges?.map((item, index) => {
                     const isDisabled =
                       !item?.checked || item?.billGenerateCode ? true : false;
+
                     return (
                       <tr>
                         <td>
@@ -587,7 +588,7 @@ function ChargesModal({ rowClickData, CB }) {
                             value={item?.exchangeRate}
                             label=""
                             name="exchangeRate"
-                            type="text"
+                            type="number"
                             onChange={(e) => {
                               const copyPrv = [...shippingHeadOfCharges];
                               copyPrv[index].exchangeRate = e.target.value;
@@ -595,6 +596,8 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                             errors={errors}
                             touched={touched}
+                            min={0}
+                            step="any"
                           />
                         </td>
 
@@ -670,7 +673,11 @@ function ChargesModal({ rowClickData, CB }) {
                         {/*  "Collection  actual Amount" =  InputField component */}
                         <td>
                           <InputField
-                            disabled={isDisabled || item?.invoiceId}
+                            disabled={
+                              isDisabled ||
+                              item?.invoiceId ||
+                              !item?.collectionParty
+                            }
                             value={item?.collectionActualAmount}
                             name="collectionActualAmount"
                             type="number"
@@ -680,12 +687,18 @@ function ChargesModal({ rowClickData, CB }) {
                               copyPrv[index].collectionActualAmount = value;
                               setShippingHeadOfCharges(copyPrv);
                             }}
+                            min={0}
+                            step="any"
                           />
                         </td>
                         {/* "Collection Dummy  Dummy Amount" =  InputField component */}
                         <td>
                           <InputField
-                            disabled={isDisabled || item?.invoiceId}
+                            disabled={
+                              isDisabled ||
+                              item?.invoiceId ||
+                              !item?.collectionParty
+                            }
                             value={item?.collectionDummyAmount}
                             name="collectionDummyAmount"
                             type="number"
@@ -695,6 +708,8 @@ function ChargesModal({ rowClickData, CB }) {
                               copyPrv[index].collectionDummyAmount = value;
                               setShippingHeadOfCharges(copyPrv);
                             }}
+                            min={0}
+                            step="any"
                           />
                         </td>
 
@@ -794,10 +809,13 @@ function ChargesModal({ rowClickData, CB }) {
                               disabled={
                                 item?.billRegisterId ||
                                 item?.isPaymentActualAmountDisabled ||
+                                !item?.paymentParty ||
                                 isDisabled
                                   ? true
                                   : false
                               }
+                              min={0}
+                              step="any"
                             />
                           </div>
                         </td>
@@ -831,10 +849,13 @@ function ChargesModal({ rowClickData, CB }) {
                               disabled={
                                 item?.billRegisterId ||
                                 item?.isPaymentDummyAmountDisabled ||
+                                !item?.paymentParty ||
                                 isDisabled
                                   ? true
                                   : false
                               }
+                              min={0}
+                              step="any"
                             />
                           </div>
                         </td>
@@ -871,10 +892,13 @@ function ChargesModal({ rowClickData, CB }) {
                                 item?.billRegisterId ||
                                 item?.advancedBillRegisterId ||
                                 item?.isPaymentAdvanceAmountDisabled ||
+                                !item?.paymentParty ||
                                 isDisabled
                                   ? true
                                   : false
                               }
+                              min={0}
+                              step="any"
                             />
                           </div>
                         </td>
@@ -908,6 +932,7 @@ function ChargesModal({ rowClickData, CB }) {
                                 item?.billRegisterId ||
                                 item?.advancedBillRegisterId ||
                                 item?.isCommonPaymentCombindDisabled ||
+                                !item?.paymentParty ||
                                 isDisabled
                                   ? true
                                   : false

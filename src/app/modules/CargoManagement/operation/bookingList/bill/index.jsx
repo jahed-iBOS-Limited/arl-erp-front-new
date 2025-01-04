@@ -48,15 +48,32 @@ const BillGenerate = ({ rowClickData, CB }) => {
     ,
   ] = useAxiosPost();
   const [paymentPartyListDDL, setPaymentPartyListDDL] = useState();
+
   useEffect(() => {
-    commonGetByIdHandler(false);
+    const modeOfTransportId = [1, 3].includes(rowClickData?.modeOfTransportId)
+      ? 1
+      : 2;
+    formikRef.current.setFieldValue('billingType', modeOfTransportId);
+    commonGetByIdHandler(modeOfTransportId, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bookingRequestId]);
 
-  const commonGetByIdHandler = (isAdvanced) => {
+  const commonGetByIdHandler = (modeOfTransportId, isAdvanced) => {
+    let masterBlId = 0;
+    let masterBlCode = '';
+    if (modeOfTransportId === 1) {
+      masterBlId = rowClickData?.airmasterBlId;
+      masterBlCode = rowClickData?.airMasterBlCode;
+    }
+    if (modeOfTransportId === 2) {
+      masterBlId = rowClickData?.seamasterBlId;
+      masterBlCode = rowClickData?.seaMasterBlCode;
+    }
+    if (!masterBlId) return;
+
     if (bookingRequestId) {
       getMasterBLWiseBilling(
-        `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${rowClickData?.masterBlId}&sAdvanced=${isAdvanced}`,
+        `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${masterBlId}&sAdvanced=${isAdvanced}`,
         (resData) => {
           const billingDataList = resData
             ?.filter((i) => i.paymentPartyId)
@@ -200,18 +217,20 @@ const BillGenerate = ({ rowClickData, CB }) => {
     }
   };
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event, newValue, values) => {
+    const copyValues = { ...values };
     if (formikRef.current) {
       formikRef.current.resetForm();
       setBillingDataFilterData([]);
     }
     setActiveTab(newValue);
-
+    const modeOfTransportId = copyValues?.billingType;
+    formikRef.current.setFieldValue('billingType', modeOfTransportId);
     if (newValue === 'billGenerate') {
-      commonGetByIdHandler(false);
+      commonGetByIdHandler(modeOfTransportId, false);
     }
     if (newValue === 'advanceGenerate') {
-      commonGetByIdHandler(true);
+      commonGetByIdHandler(modeOfTransportId, true);
     }
   };
   return (
@@ -227,6 +246,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
           initialValues={{
             narration: '',
             paymentParty: '',
+            billingType: '',
           }}
           validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -248,7 +268,48 @@ const BillGenerate = ({ rowClickData, CB }) => {
               <div className="">
                 {/* Save button add */}
                 <>
-                  <div className="d-flex justify-content-end">
+                  <div className="d-flex justify-content-between">
+                    <div>
+                      {rowClickData?.modeOfTransportId === 3 && (
+                        <>
+                          {' '}
+                          <label className="mr-3">
+                            <input
+                              type="radio"
+                              name="billingType"
+                              checked={values?.billingType === 1}
+                              className="mr-1 pointer"
+                              style={{ position: 'relative', top: '2px' }}
+                              onChange={(e) => {
+                                setFieldValue('billingType', 1);
+                                handleChange(e, activeTab, {
+                                  ...values,
+                                  billingType: 1,
+                                });
+                              }}
+                            />
+                            Air
+                          </label>
+                          <label>
+                            <input
+                              type="radio"
+                              name="billingType"
+                              checked={values?.billingType === 2}
+                              className="mr-1 pointer"
+                              style={{ position: 'relative', top: '2px' }}
+                              onChange={(e) => {
+                                setFieldValue('billingType', 2);
+                                handleChange(e, activeTab, {
+                                  ...values,
+                                  billingType: 2,
+                                });
+                              }}
+                            />
+                            Sea
+                          </label>
+                        </>
+                      )}
+                    </div>
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -268,7 +329,9 @@ const BillGenerate = ({ rowClickData, CB }) => {
               <Box>
                 <Tabs
                   value={activeTab}
-                  onChange={handleChange}
+                  onChange={(event, newValue) => {
+                    handleChange(event, newValue, values);
+                  }}
                   variant="scrollable"
                   indicatorColor="primary"
                   textColor="primary"
