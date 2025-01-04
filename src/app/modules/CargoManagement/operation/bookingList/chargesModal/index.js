@@ -20,13 +20,14 @@ function ChargesModal({ rowClickData, CB }) {
     (state) => state?.authData || {},
     shallowEqual,
   );
-  const bookingRequestId = rowClickData?.bookingRequestId;
+  // const bookingRequestId = rowClickData?.bookingRequestId;
   const [, getSaveBookedRequestBilling, bookedRequestBilling] = useAxiosPost();
   const [shipingCargoTypeDDL, getShipingCargoTypeDDL] = useAxiosGet();
   const [
     ,
     getBookedRequestBillingData,
     bookedRequestBillingDataLoading,
+    setBookedRequestBillingData,
   ] = useAxiosGet();
   const [
     shippingHeadOfCharges,
@@ -36,12 +37,27 @@ function ChargesModal({ rowClickData, CB }) {
   ] = useAxiosGet();
   const [currencyList, GetBaseCurrencyList, , setCurrencyList] = useAxiosGet();
 
-  useEffect(() => {
+  const commonGetShippingHeadOfCharges = (modeOfTransportId) => {
+    setShippingHeadOfCharges([]);
+    setBookedRequestBillingData([]);
+
+    let masterBlId = 0;
+    let masterBlCode = '';
+    if (modeOfTransportId === 1) {
+      masterBlId = rowClickData?.airmasterBlId;
+      masterBlCode = rowClickData?.airMasterBlCode;
+    }
+    if (modeOfTransportId === 2) {
+      masterBlId = rowClickData?.seamasterBlId;
+      masterBlCode = rowClickData?.seaMasterBlCode;
+    }
+    if (!masterBlId) return;
+
     getShippingHeadOfCharges(
       `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges`,
       (resShippingHeadOfCharges) => {
         getBookedRequestBillingData(
-          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}`,
+          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}`,
           (resSveData) => {
             if (formikRef.current) {
               // profitSharePercentage add
@@ -50,9 +66,7 @@ function ChargesModal({ rowClickData, CB }) {
                 resSveData?.[0]?.profitSharePercentage || '',
               );
             }
-
             const arryList = [];
-
             if (resShippingHeadOfCharges?.length > 0) {
               resShippingHeadOfCharges.forEach((item) => {
                 const saveHeadOfChargeList =
@@ -104,6 +118,9 @@ function ChargesModal({ rowClickData, CB }) {
                         saveItem?.isPaymentCombindToMbl || false,
                       billRegisterId: saveItem?.billRegisterId || 0,
                       billRegisterCode: saveItem?.billRegisterCode || '',
+                      masterBlId: masterBlId,
+                      masterBlCode: masterBlCode,
+                      modeOfTransportId: modeOfTransportId,
                       advancedBillRegisterId:
                         saveItem?.advancedBillRegisterId || 0,
                       advancedBillRegisterCode:
@@ -141,6 +158,9 @@ function ChargesModal({ rowClickData, CB }) {
                     ...item,
                     headOfCharges: item?.label || '',
                     headOfChargeId: item?.value || 0,
+                    masterBlId: masterBlId,
+                    masterBlCode: masterBlCode,
+                    modeOfTransportId: modeOfTransportId,
                   };
                   arryList.push(obj);
                 }
@@ -151,6 +171,14 @@ function ChargesModal({ rowClickData, CB }) {
         );
       },
     );
+  };
+  useEffect(() => {
+    const modeOfTransportId = [1, 3].includes(rowClickData?.modeOfTransportId)
+      ? 1
+      : 2;
+    formikRef.current.setFieldValue('billingType', modeOfTransportId);
+
+    commonGetShippingHeadOfCharges(modeOfTransportId);
     GetBaseCurrencyList(
       `${imarineBaseUrl}/domain/Purchase/GetBaseCurrencyList`,
       (res) => {
@@ -178,7 +206,7 @@ function ChargesModal({ rowClickData, CB }) {
           currencyId: item?.currencyId || 0,
           currency: item?.currency || '',
           billingId: item?.billingId || 0,
-          bookingRequestId: bookingRequestId || 0,
+          bookingRequestId: rowClickData?.bookingRequestId || 0,
           headOfChargeId: item?.headOfChargeId || 0,
           headOfCharges: item?.headOfCharges || '',
           chargeAmount: item?.amount || 0,
@@ -206,9 +234,9 @@ function ChargesModal({ rowClickData, CB }) {
           isDummyCombindToMbl: item?.isDummyCombindToMbl || false,
           isPaymentCombindToMbl: item?.isPaymentCombindToMbl || false,
           profitSharePercentage: values?.profitSharePercentage || 0,
-          masterBlId: rowClickData?.masterBlId || 0,
-          masterBlCode: rowClickData?.masterBlCode || '',
-          modeOfTransportId: rowClickData?.modeOfTransportId || 0,
+          masterBlId: item?.masterBlId || 0,
+          masterBlCode: item?.masterBlCode || '',
+          modeOfTransportId: item?.modeOfTransportId || 0,
           paymentActualCombindAmount: item?.isActulCombindToMbl
             ? item?.paymentActualCombindAmount || item?.paymentActualAmount || 0
             : 0,
@@ -264,6 +292,7 @@ function ChargesModal({ rowClickData, CB }) {
           amount: '',
           attribute: '',
           actualExpense: '',
+          billingType: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -275,11 +304,47 @@ function ChargesModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <Form className="form form-label-right">
-            {console.log(values, 'values')}
             <div className="">
               {/* Save button add */}
               <>
-                <div className="d-flex justify-content-end">
+                <div className="d-flex justify-content-between">
+                  <div>
+                    {rowClickData?.modeOfTransportId === 3 && (
+                      <>
+                        {' '}
+                        <label className="mr-3">
+                          <input
+                            type="radio"
+                            name="billingType"
+                            checked={values?.billingType === 1}
+                            className="mr-1 pointer"
+                            style={{ position: 'relative', top: '2px' }}
+                            onChange={(e) => {
+                              setFieldValue('billingType', 1);
+                              setFieldValue('profitSharePercentage', '');
+                              commonGetShippingHeadOfCharges(1);
+                            }}
+                          />
+                          Air
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            name="billingType"
+                            checked={values?.billingType === 2}
+                            className="mr-1 pointer"
+                            style={{ position: 'relative', top: '2px' }}
+                            onChange={(e) => {
+                              setFieldValue('billingType', 2);
+                              setFieldValue('profitSharePercentage', '');
+                              commonGetShippingHeadOfCharges(2);
+                            }}
+                          />
+                          Sea
+                        </label>
+                      </>
+                    )}
+                  </div>
                   <button type="submit" className="btn btn-primary">
                     Save
                   </button>
