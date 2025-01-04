@@ -31,6 +31,7 @@ import MasterHBLModal from './masterHBLModal';
 import ReceiveModal from './receiveModal';
 import TransportModal from './transportModal';
 import BillGenerate from './bill';
+import SeaAirMasterBL from './SeaAirMasterBl';
 const validationSchema = Yup.object().shape({});
 function BookingList() {
   const { profileData } = useSelector(
@@ -45,6 +46,7 @@ function BookingList() {
     shipBookingReqLanding,
     getShipBookingReqLanding,
     bookingReqLandingLoading,
+    setShipBookingReqLanding,
   ] = useAxiosGet();
 
   const [
@@ -104,8 +106,28 @@ function BookingList() {
     );
   };
 
-  const [selectedRow, setSelectedRow] = useState([]);
+  const selectedRow = shipBookingReqLanding?.data?.filter(
+    (item) => item?.isCheck,
+  );
+
+  // const [selectedRow, setSelectedRow] = useState([]);
   const getDisabledCheckbox = (item) => {
+    // 1 =  Air
+    if (item?.modeOfTransportId === 1 && item?.isAirmasterBlGenarate) {
+      return true;
+    }
+    // 2 = Sea
+    if (item?.modeOfTransportId === 2 && item?.isSeamasterBlGenarate) {
+      return true;
+    }
+    // 3 =  Sea-Air
+    if (
+      item?.modeOfTransportId === 3 &&
+      item?.isSeamasterBlGenarate &&
+      item?.isAirmasterBlGenarate
+    ) {
+      return true;
+    }
     if (
       !item?.isPlaning ||
       (selectedRow.length > 0 &&
@@ -124,67 +146,80 @@ function BookingList() {
     return false;
   };
 
-  const handleSelectRow = (item) => (e) => {
-    if (e.target.checked) {
-      // Add the item to the selectedRow array
-      setSelectedRow((prev) => [...prev, item]);
-    } else {
-      // Uncheck and clear the selectedRow array
-      setSelectedRow((prev) =>
-        prev.filter((row) => row?.bookingRequestId !== item?.bookingRequestId),
-      );
-    }
-  };
+  // const handleSelectRow = (item) => (e) => {
+  //   if (e.target.checked) {
+  //     // Add the item to the selectedRow array
+  //     setSelectedRow((prev) => [...prev, item]);
+  //   } else {
+  //     // Uncheck and clear the selectedRow array
+  //     setSelectedRow((prev) =>
+  //       prev.filter((row) => row?.bookingRequestId !== item?.bookingRequestId),
+  //     );
+  //   }
+  // };
 
   return (
-    <ICustomCard
-      title="Booking List"
-      renderProps={() => {
-        return (
-          <button
-            onClick={() => {
-              if (
-                selectedRow.length > 0 &&
-                selectedRow[0]?.modeOfTransport === 'Sea'
-              ) {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isMasterHBL: true,
-                });
-              } else {
-                setIsModalShowObj({
-                  ...isModalShowObj,
-                  isMasterHBAW: true,
-                });
-              }
-            }}
-            className="ml-2 btn btn-primary"
-            title="Show Invoice"
-            style={{
-              display: selectedRow?.length > 0 ? 'block' : 'none',
+    <div className="booking-list-wrapper">
+      <Formik
+        enableReinitialize={true}
+        initialValues={{
+          modeOfTransport: {
+            value: 1,
+            label: 'Air',
+          },
+        }}
+        validationSchema={validationSchema}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+      >
+        {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
+          <ICustomCard
+            title="Booking List"
+            renderProps={() => {
+              return (
+                <button
+                  onClick={() => {
+                    if (
+                      selectedRow.length > 0 &&
+                      values?.modeOfTransport?.label === 'Sea'
+                    ) {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isMasterHBL: true,
+                      });
+                    } else if (
+                      selectedRow.length > 0 &&
+                      values?.modeOfTransport?.label === 'Air'
+                    ) {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isMasterHBAW: true,
+                      });
+                    } else {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isSeaAirMasterBL: true,
+                      });
+                    }
+                  }}
+                  className="ml-2 btn btn-primary"
+                  title="Show Invoice"
+                  style={{
+                    display: selectedRow?.length > 0 ? 'block' : 'none',
+                  }}
+                >
+                  {selectedRow?.length > 0 &&
+                    values?.modeOfTransport?.value === 2 &&
+                    'Generate Master HBL'}
+                  {selectedRow?.length > 0 &&
+                    values?.modeOfTransport?.value === 1 &&
+                    'Generate Master HAWB'}
+                  {selectedRow?.length > 0 &&
+                    values?.modeOfTransport?.value === 3 &&
+                    'Generate Master Sea-Air BL'}
+                </button>
+              );
             }}
           >
-            {selectedRow?.length > 0 &&
-            selectedRow[0]?.modeOfTransport === 'Sea'
-              ? ' Generate Master HBL'
-              : 'Generate Master HAWB'}
-          </button>
-        );
-      }}
-    >
-      <div className="booking-list-wrapper">
-        <Formik
-          enableReinitialize={true}
-          initialValues={{
-            modeOfTransport: {
-              value: 1,
-              label: 'Air',
-            },
-          }}
-          validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => {}}
-        >
-          {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
             <>
               {(bookingReqLandingLoading ||
                 deleteBookingRequestByIdLoading) && <Loading />}
@@ -210,7 +245,6 @@ function BookingList() {
                     value={values?.modeOfTransport || ''}
                     label="Booking Type"
                     onChange={(valueOption) => {
-                      setSelectedRow([]);
                       setFieldValue('modeOfTransport', valueOption);
                       commonLandingApi(
                         null,
@@ -299,12 +333,12 @@ function BookingList() {
                         <th style={{ minWidth: '50px' }}>HBL No.</th>
                         <th style={{ minWidth: '50px' }}> Master BL No</th>
                         {/* <th
-                          style={{
-                            minWidth: '120px',
-                          }}
-                        >
-                          Rate
-                        </th> */}
+                           style={{
+                             minWidth: '120px',
+                           }}
+                         >
+                           Rate
+                         </th> */}
                         <th
                           style={{
                             minWidth: '63px',
@@ -453,178 +487,415 @@ function BookingList() {
                     </thead>
                     <tbody>
                       {shipBookingReqLanding?.data?.length > 0 &&
-                        shipBookingReqLanding?.data?.map((item, i) => (
-                          <tr key={i + 1}>
-                            <td>
-                              <input
-                                type="checkbox"
-                                disabled={
-                                  getDisabledCheckbox(item) ||
-                                  item?.masterBlGenarate
-                                }
-                                onChange={handleSelectRow(item)}
-                              />
-                            </td>
-                            <td className="text-center">{i + 1}</td>
-                            <td className="text-left">
-                              {item?.bookingRequestCode}
-                            </td>
-                            <td className="text-left">
-                              {item?.shipperContact}
-                            </td>
-                            <td className="text-left">{item?.shipperName}</td>
-                            <td className="text-left">
-                              {moment(item?.createdAt).format('DD-MM-YYYY')}
-                            </td>
-                            <td className="text-left">{item?.shipperEmail}</td>
-                            <td className="text-left">
-                              {item?.shipperCountry}
-                            </td>
-                            <td className="text-left">{item?.portOfLoading}</td>
-                            <td className="text-left">{item?.hblnumber}</td>
-                            <td className="text-left">{item?.masterBlCode}</td>
-                            <td>
-                              <span>{statusReturn(item)}</span>
-                            </td>
-                            <td className="text-center">
-                              <span>
-                                <button
-                                  // disabled={!profileData?.superUser}
-                                  className="btn btn-sm btn-primary"
-                                  onClick={() => handleEditBookingList(item)}
-                                >
-                                  <i
-                                    class="fa fa-pencil-square-o"
-                                    aria-hidden="true"
-                                  ></i>
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  className="btn btn-sm btn-primary"
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isView: true,
-                                    });
-                                  }}
-                                >
-                                  Details
-                                </button>
-                              </span>
-                            </td>
+                        shipBookingReqLanding?.data?.map((item, i) => {
+                          let isCompletedMasterBl = false;
 
-                            <td>
-                              <span>
-                                <button
-                                  disabled={item?.isConfirm}
-                                  className="btn btn-sm btn-primary"
-                                  onClick={() => {
-                                    cancelHandler({
-                                      item: {
-                                        ...item,
-                                        userId: profileData?.userReferenceId,
-                                      },
-                                      deleteBookingRequestById,
-                                      CB: () => {
-                                        commonLandingApi(
-                                          null,
-                                          pageNo,
-                                          pageSize,
-                                          values?.modeOfTransport?.value,
-                                        );
-                                      },
-                                    });
-                                  }}
-                                >
-                                  Cancel
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  disabled={item?.isConfirm}
-                                  className={
-                                    item?.isConfirm
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isConfirm: true,
-                                    });
-                                  }}
-                                >
-                                  Confirm
-                                </button>
-                              </span>
-                            </td>
+                          // 1 =  Air
+                          if (
+                            item?.modeOfTransportId === 1 &&
+                            item?.isAirmasterBlGenarate
+                          ) {
+                            isCompletedMasterBl = true;
+                          }
+                          // 2 = Sea
+                          if (
+                            item?.modeOfTransportId === 2 &&
+                            item?.isSeamasterBlGenarate
+                          ) {
+                            isCompletedMasterBl = true;
+                          }
+                          // 3 =  Sea-Air
+                          if (
+                            item?.modeOfTransportId === 3 &&
+                            item?.isSeamasterBlGenarate &&
+                            item?.isAirmasterBlGenarate
+                          ) {
+                            isCompletedMasterBl = true;
+                          }
 
-                            <td>
-                              {item?.modeOfTransport === 'Air' && (
-                                <span>
-                                  <button
-                                    // disabled={item?.isHbl}
-                                    className={
-                                      'btn btn-sm btn-warning px-1 py-1'
-                                    }
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isEPB: true,
-                                      });
-                                    }}
-                                  >
-                                    EPB
-                                  </button>
-                                </span>
-                              )}
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  disabled={item?.isReceived}
-                                  className={
-                                    item?.isReceived
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isReceive: true,
-                                    });
-                                  }}
-                                >
-                                  Receive
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              {item?.modeOfTransport === 'Sea' && (
-                                <>
+                          return (
+                            <>
+                              <tr key={i + 1}>
+                                <td>
+                                  {isCompletedMasterBl ? (
+                                    <></>
+                                  ) : (
+                                    <>
+                                      {' '}
+                                      <input
+                                        type="checkbox"
+                                        checked={item?.isCheck}
+                                        disabled={getDisabledCheckbox(item)}
+                                        onChange={(e) => {
+                                          const copyPrvData = [
+                                            ...shipBookingReqLanding?.data,
+                                          ];
+                                          copyPrvData[i].isCheck =
+                                            e.target.checked;
+                                          setShipBookingReqLanding({
+                                            ...shipBookingReqLanding,
+                                            data: copyPrvData,
+                                          });
+                                        }}
+                                      />
+                                    </>
+                                  )}
+                                </td>
+                                <td className="text-center">{i + 1}</td>
+                                <td className="text-left">
+                                  {item?.bookingRequestCode}
+                                </td>
+                                <td className="text-left">
+                                  {item?.shipperContact}
+                                </td>
+                                <td className="text-left">
+                                  {item?.shipperName}
+                                </td>
+                                <td className="text-left">
+                                  {moment(item?.createdAt).format('DD-MM-YYYY')}
+                                </td>
+                                <td className="text-left">
+                                  {item?.shipperEmail}
+                                </td>
+                                <td className="text-left">
+                                  {item?.shipperCountry}
+                                </td>
+                                <td className="text-left">
+                                  {item?.portOfLoading}
+                                </td>
+                                <td className="text-left">{item?.hblnumber}</td>
+                                <td className="text-left">
+                                  {item?.seaMasterBlCode &&
+                                  item?.airMasterBlCode ? (
+                                    <>
+                                      {item?.seaMasterBlCode}{' '}
+                                      {item?.airMasterBlCode
+                                        ? ', ' + item?.airMasterBlCode
+                                        : ''}
+                                    </>
+                                  ) : (
+                                    item?.seaMasterBlCode ||
+                                    item?.airMasterBlCode ||
+                                    ''
+                                  )}
+                                </td>
+                                <td>
+                                  <span>{statusReturn(item)}</span>
+                                </td>
+                                <td className="text-center">
                                   <span>
                                     <button
-                                      disabled={item?.isStuffing}
+                                      // disabled={!profileData?.superUser}
+                                      className="btn btn-sm btn-primary"
+                                      onClick={() =>
+                                        handleEditBookingList(item)
+                                      }
+                                    >
+                                      <i
+                                        class="fa fa-pencil-square-o"
+                                        aria-hidden="true"
+                                      ></i>
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      className="btn btn-sm btn-primary"
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isView: true,
+                                        });
+                                      }}
+                                    >
+                                      Details
+                                    </button>
+                                  </span>
+                                </td>
+
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={item?.isConfirm}
+                                      className="btn btn-sm btn-primary"
+                                      onClick={() => {
+                                        cancelHandler({
+                                          item: {
+                                            ...item,
+                                            userId:
+                                              profileData?.userReferenceId,
+                                          },
+                                          deleteBookingRequestById,
+                                          CB: () => {
+                                            commonLandingApi(
+                                              null,
+                                              pageNo,
+                                              pageSize,
+                                              values?.modeOfTransport?.value,
+                                            );
+                                          },
+                                        });
+                                      }}
+                                    >
+                                      Cancel
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={item?.isConfirm}
                                       className={
-                                        item?.isStuffing
+                                        item?.isConfirm
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isConfirm: true,
+                                        });
+                                      }}
+                                    >
+                                      Confirm
+                                    </button>
+                                  </span>
+                                </td>
+
+                                <td>
+                                  {item?.modeOfTransport === 'Air' && (
+                                    <span>
+                                      <button
+                                        // disabled={item?.isHbl}
+                                        className={
+                                          'btn btn-sm btn-warning px-1 py-1'
+                                        }
+                                        onClick={() => {
+                                          setRowClickData(item);
+                                          setIsModalShowObj({
+                                            ...isModalShowObj,
+                                            isEPB: true,
+                                          });
+                                        }}
+                                      >
+                                        EPB
+                                      </button>
+                                    </span>
+                                  )}
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={item?.isReceived}
+                                      className={
+                                        item?.isReceived
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isReceive: true,
+                                        });
+                                      }}
+                                    >
+                                      Receive
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  {item?.modeOfTransport === 'Sea' && (
+                                    <>
+                                      <span>
+                                        <button
+                                          disabled={item?.isStuffing}
+                                          className={
+                                            item?.isStuffing
+                                              ? 'btn btn-sm btn-success px-1 py-1'
+                                              : 'btn btn-sm btn-warning px-1 py-1'
+                                          }
+                                          onClick={() => {
+                                            setRowClickData({
+                                              ...item,
+                                              title: 'Stuffing',
+                                              isUpdateDate: 'stuffingDate',
+                                              isUpdateKey: 'isStuffing',
+                                            });
+                                            setIsModalShowObj({
+                                              ...isModalShowObj,
+
+                                              isCommonModalShow: true,
+                                            });
+                                          }}
+                                        >
+                                          Stuffing
+                                        </button>
+                                      </span>
+                                    </>
+                                  )}
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={
+                                        item?.isPlaning || !item?.isConfirm
+                                      }
+                                      className={
+                                        item?.isPlaning
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isPlaning: true,
+                                        });
+                                      }}
+                                    >
+                                      Shipment Planning
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      className="btn btn-sm btn-primary"
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isFreightCargoReceipt: true,
+                                        });
+                                      }}
+                                    >
+                                      FC
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      className="btn btn-sm btn-warning px-1 py-1"
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isManifest: true,
+                                        });
+                                      }}
+                                    >
+                                      Manifest
+                                    </button>
+                                  </span>
+                                </td>
+
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={item?.isBl}
+                                      className={
+                                        item?.isBl
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isBlModal: true,
+                                        });
+                                      }}
+                                    >
+                                      {item?.modeOfTransport === 'Air'
+                                        ? 'MAWB '
+                                        : 'MBL'}
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      // disabled={item?.isHbl}
+                                      className={
+                                        item?.isHbl
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isHBCodeGN: true,
+                                        });
+                                      }}
+                                    >
+                                      {item?.modeOfTransport === 'Air'
+                                        ? 'HAWB'
+                                        : 'HBL'}
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={!isCompletedMasterBl}
+                                      className={
+                                        item?.isCharges
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isCharges: true,
+                                        });
+                                      }}
+                                    >
+                                      Services & Charges
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      className={
+                                        item?.isDocumentChecklist
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isDocument: true,
+                                        });
+                                      }}
+                                    >
+                                      Doc Checklist
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={item?.isDispatch}
+                                      className={
+                                        item?.isDispatch
                                           ? 'btn btn-sm btn-success px-1 py-1'
                                           : 'btn btn-sm btn-warning px-1 py-1'
                                       }
                                       onClick={() => {
                                         setRowClickData({
                                           ...item,
-                                          title: 'Stuffing',
-                                          isUpdateDate: 'stuffingDate',
-                                          isUpdateKey: 'isStuffing',
+                                          title: 'Dispatch',
+                                          isUpdateDate: 'dispatchDate',
+                                          isUpdateKey: 'isDispatch',
                                         });
                                         setIsModalShowObj({
                                           ...isModalShowObj,
@@ -633,340 +904,172 @@ function BookingList() {
                                         });
                                       }}
                                     >
-                                      Stuffing
+                                      Dispatch
                                     </button>
                                   </span>
-                                </>
-                              )}
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  disabled={item?.isPlaning}
-                                  className={
-                                    item?.isPlaning
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isPlaning: true,
-                                    });
-                                  }}
-                                >
-                                  Shipment Planning
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  className="btn btn-sm btn-primary"
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isFreightCargoReceipt: true,
-                                    });
-                                  }}
-                                >
-                                  FC
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  className="btn btn-sm btn-warning px-1 py-1"
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isManifest: true,
-                                    });
-                                  }}
-                                >
-                                  Manifest
-                                </button>
-                              </span>
-                            </td>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={item?.isCustomsClear}
+                                      className={
+                                        item?.isCustomsClear
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData({
+                                          ...item,
+                                          title: 'Customs Clearance',
+                                          isUpdateDate: 'customsClearDt',
+                                          isUpdateKey: 'isCustomsClear',
+                                        });
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
 
-                            <td>
-                              <span>
-                                <button
-                                  disabled={item?.isBl}
-                                  className={
-                                    item?.isBl
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isBlModal: true,
-                                    });
-                                  }}
-                                >
-                                  {item?.modeOfTransport === 'Air'
-                                    ? 'MAWB '
-                                    : 'MBL'}
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  // disabled={item?.isHbl}
-                                  className={
-                                    item?.isHbl
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isHBCodeGN: true,
-                                    });
-                                  }}
-                                >
-                                  {item?.modeOfTransport === 'Air'
-                                    ? 'HAWB'
-                                    : 'HBL'}
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  disabled={!item?.masterBlId}
-                                  className={
-                                    item?.isCharges
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isCharges: true,
-                                    });
-                                  }}
-                                >
-                                  Services & Charges
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  className={
-                                    item?.isDocumentChecklist
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData(item);
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isDocument: true,
-                                    });
-                                  }}
-                                >
-                                  Doc Checklist
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  disabled={item?.isDispatch}
-                                  className={
-                                    item?.isDispatch
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData({
-                                      ...item,
-                                      title: 'Dispatch',
-                                      isUpdateDate: 'dispatchDate',
-                                      isUpdateKey: 'isDispatch',
-                                    });
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
+                                          isCommonModalShow: true,
+                                        });
+                                      }}
+                                    >
+                                      Customs Clearance
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={item?.isInTransit}
+                                      className={
+                                        item?.isInTransit
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData({
+                                          ...item,
+                                          title: 'In Transit',
+                                          isUpdateDate: 'inTransit',
+                                          isUpdateKey: 'isInTransit',
+                                        });
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
 
-                                      isCommonModalShow: true,
-                                    });
-                                  }}
-                                >
-                                  Dispatch
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  disabled={item?.isCustomsClear}
-                                  className={
-                                    item?.isCustomsClear
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData({
-                                      ...item,
-                                      title: 'Customs Clearance',
-                                      isUpdateDate: 'customsClearDt',
-                                      isUpdateKey: 'isCustomsClear',
-                                    });
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-
-                                      isCommonModalShow: true,
-                                    });
-                                  }}
-                                >
-                                  Customs Clearance
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  disabled={item?.isInTransit}
-                                  className={
-                                    item?.isInTransit
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData({
-                                      ...item,
-                                      title: 'In Transit',
-                                      isUpdateDate: 'inTransit',
-                                      isUpdateKey: 'isInTransit',
-                                    });
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-
-                                      isCommonModalShow: true,
-                                    });
-                                  }}
-                                >
-                                  In Transit
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  disabled={item?.isDestPortReceive}
-                                  className={
-                                    item?.isDestPortReceive
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData({
-                                      ...item,
-                                      title: 'Des. Port Receive',
-                                      isUpdateDate: 'destPortReceive',
-                                      isUpdateKey: 'isDestPortReceive',
-                                    });
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isCommonModalShow: true,
-                                    });
-                                  }}
-                                >
-                                  Des. Port Receive
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <span>
-                                <button
-                                  disabled={item?.isBuyerReceive}
-                                  className={
-                                    item?.isBuyerReceive
-                                      ? 'btn btn-sm btn-success px-1 py-1'
-                                      : 'btn btn-sm btn-warning px-1 py-1'
-                                  }
-                                  onClick={() => {
-                                    setRowClickData({
-                                      ...item,
-                                      title: 'Delivered',
-                                      isUpdateDate: 'buyerReceive',
-                                      isUpdateKey: 'isBuyerReceive',
-                                    });
-                                    setIsModalShowObj({
-                                      ...isModalShowObj,
-                                      isCommonModalShow: true,
-                                    });
-                                  }}
-                                >
-                                  Delivered
-                                </button>
-                              </span>
-                            </td>
-                            <td>
-                              <div
-                                style={{
-                                  display: 'flex',
-                                  gap: '5px',
-                                  alignItems: 'center',
-                                }}
-                              >
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isDeliveryNote: true,
-                                      });
+                                          isCommonModalShow: true,
+                                        });
+                                      }}
+                                    >
+                                      In Transit
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={item?.isDestPortReceive}
+                                      className={
+                                        item?.isDestPortReceive
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData({
+                                          ...item,
+                                          title: 'Des. Port Receive',
+                                          isUpdateDate: 'destPortReceive',
+                                          isUpdateKey: 'isDestPortReceive',
+                                        });
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isCommonModalShow: true,
+                                        });
+                                      }}
+                                    >
+                                      Des. Port Receive
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={item?.isBuyerReceive}
+                                      className={
+                                        item?.isBuyerReceive
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData({
+                                          ...item,
+                                          title: 'Delivered',
+                                          isUpdateDate: 'buyerReceive',
+                                          isUpdateKey: 'isBuyerReceive',
+                                        });
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isCommonModalShow: true,
+                                        });
+                                      }}
+                                    >
+                                      Delivered
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <div
+                                    style={{
+                                      display: 'flex',
+                                      gap: '5px',
+                                      alignItems: 'center',
                                     }}
                                   >
-                                    Delivery Note
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isCommonInvoice: true,
-                                      });
-                                    }}
-                                  >
-                                    Invoice
-                                  </button>
-                                </span>
-                                <span>
-                                  <button
-                                    className="btn btn-sm btn-primary"
-                                    onClick={() => {
-                                      setRowClickData(item);
-                                      setIsModalShowObj({
-                                        ...isModalShowObj,
-                                        isBill: true,
-                                      });
-                                    }}
-                                  >
-                                    Bill Payment
-                                  </button>
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
+                                    <span>
+                                      <button
+                                        className="btn btn-sm btn-primary"
+                                        onClick={() => {
+                                          setRowClickData(item);
+                                          setIsModalShowObj({
+                                            ...isModalShowObj,
+                                            isDeliveryNote: true,
+                                          });
+                                        }}
+                                      >
+                                        Delivery Note
+                                      </button>
+                                    </span>
+                                    <span>
+                                      <button
+                                        className="btn btn-sm btn-primary"
+                                        onClick={() => {
+                                          setRowClickData(item);
+                                          setIsModalShowObj({
+                                            ...isModalShowObj,
+                                            isCommonInvoice: true,
+                                          });
+                                        }}
+                                      >
+                                        Invoice
+                                      </button>
+                                    </span>
+                                    <span>
+                                      <button
+                                        className="btn btn-sm btn-primary"
+                                        onClick={() => {
+                                          setRowClickData(item);
+                                          setIsModalShowObj({
+                                            ...isModalShowObj,
+                                            isBill: true,
+                                          });
+                                        }}
+                                      >
+                                        Bill Payment
+                                      </button>
+                                    </span>
+                                  </div>
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })}
                     </tbody>
                   </table>
                 </div>
@@ -1451,6 +1554,38 @@ function BookingList() {
                   </IViewModal>
                 </>
               )}
+              {/* Master Sea Air Modal */}
+              {isModalShowObj?.isSeaAirMasterBL && (
+                <>
+                  <IViewModal
+                    title={'Sea Air Master BL'}
+                    show={isModalShowObj?.isSeaAirMasterBL}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isSeaAirMasterBL: false,
+                      });
+                    }}
+                  >
+                    <SeaAirMasterBL
+                      selectedRow={selectedRow}
+                      CB={() => {
+                        commonLandingApi(
+                          null,
+                          pageNo,
+                          pageSize,
+                          values?.modeOfTransport?.value,
+                        );
+                        setIsModalShowObj({
+                          ...isModalShowObj,
+                          isSeaAirMasterBL: false,
+                        });
+                        setRowClickData({});
+                      }}
+                    />
+                  </IViewModal>
+                </>
+              )}
 
               {/* view info */}
               {isModalShowObj?.isView && (
@@ -1471,10 +1606,10 @@ function BookingList() {
                 </>
               )}
             </>
-          )}
-        </Formik>
-      </div>
-    </ICustomCard>
+          </ICustomCard>
+        )}
+      </Formik>
+    </div>
   );
 }
 
