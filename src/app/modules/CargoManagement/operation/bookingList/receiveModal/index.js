@@ -93,9 +93,7 @@ function ReceiveModal({ rowClickData, CB }) {
   const bookingData = shipBookingRequestGetById || {};
 
   useEffect(() => {
-    getWarehouseDDL(
-      `/wms/Warehouse/GetWarehouseFromPlantWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
-    );
+    getWarehouseDDL(`${imarineBaseUrl}/domain/ShippingService/GetWareHouseDDL`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

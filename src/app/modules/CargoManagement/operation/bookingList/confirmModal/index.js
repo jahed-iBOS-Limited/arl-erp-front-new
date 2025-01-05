@@ -232,8 +232,17 @@ function ConfirmModal({ rowClickData, CB }) {
               'freightAgentReference',
               data?.freightAgentReference
                 ? {
-                    value: 0,
+                    value: data?.freightAgentReferenceId || 0,
                     label: data?.freightAgentReference || '',
+                  }
+                : '',
+            );
+            formikRef.current.setFieldValue(
+              'freightAgentReference2',
+              data?.freightAgentReference2
+                ? {
+                    value: data?.freightAgentReferenceId2 || 0,
+                    label: data?.freightAgentReference2 || '',
                   }
                 : '',
             );
@@ -278,9 +287,7 @@ function ConfirmModal({ rowClickData, CB }) {
     getConsigneeCountryList(
       `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
     );
-    getWarehouseDDL(
-      `/wms/Warehouse/GetWarehouseFromPlantWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
-    );
+    getWarehouseDDL(`${imarineBaseUrl}/domain/ShippingService/GetWareHouseDDL`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -347,6 +354,9 @@ function ConfirmModal({ rowClickData, CB }) {
       warehouseId: values?.wareHouse?.value || 0,
       // Consignee Information
       freightAgentReference: values?.freightAgentReference?.label || '',
+      freightAgentReferenceId: values?.freightAgentReference?.value || 0,
+      freightAgentReference2: values?.freightAgentReference2?.label || '',
+      freightAgentReferenceId2: values?.freightAgentReference2?.value || 0,
       shippingMark: values?.shippingMark || '',
       consigneeId: values?.consigneeName?.value || 0,
       consigneeName: values?.consigneeName?.label || '',
@@ -433,6 +443,7 @@ function ConfirmModal({ rowClickData, CB }) {
           notifyParty2: '',
           negotiationParty: '',
           freightAgentReference: '',
+          freightAgentReference2: '',
           shippingMark: '',
         }}
         validationSchema={validationSchema}
@@ -862,16 +873,41 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="freightAgentReference"
                     options={deliveryAgentDDL || []}
                     value={values?.freightAgentReference}
-                    label="Delivery Agent"
+                    label={
+                      shipBookingRequestGetById?.modeOfTransportId === 3
+                        ? 'Delivery Agent (Sea)'
+                        : 'Delivery Agent'
+                    }
                     onChange={(valueOption) => {
                       setFieldValue('freightAgentReference', valueOption);
                     }}
-                    placeholder="Delivery Agent"
+                    placeholder={
+                      shipBookingRequestGetById?.modeOfTransportId === 3
+                        ? 'Delivery Agent (Sea)'
+                        : 'Delivery Agent'
+                    }
                     errors={errors}
                     touched={touched}
                   />
                 </div>
 
+                {/* Delivery Agent ddl2  */}
+                {shipBookingRequestGetById?.modeOfTransportId === 3 && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="freightAgentReference2"
+                      options={deliveryAgentDDL || []}
+                      value={values?.freightAgentReference2}
+                      label="Delivery Agent (Air)"
+                      onChange={(valueOption) => {
+                        setFieldValue('freightAgentReference2', valueOption);
+                      }}
+                      placeholder="Delivery Agent (Air)"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                )}
                 {/* shipping Marks input */}
                 <div className="col-lg-3">
                   <InputField
