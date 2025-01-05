@@ -486,7 +486,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.departureDateTime}
                     label="Departure Date & Time"
                     name="departureDateTime"
-                    type="datetime-local"
+                    type="date"
                     onChange={(e) =>
                       setFieldValue('departureDateTime', e.target.value)
                     }
@@ -498,7 +498,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     value={values?.arrivalDateTime}
                     label="Arrival Date & Time"
                     name="arrivalDateTime"
-                    type="datetime-local"
+                    type="date"
                     onChange={(e) =>
                       setFieldValue('arrivalDateTime', e.target.value)
                     }
