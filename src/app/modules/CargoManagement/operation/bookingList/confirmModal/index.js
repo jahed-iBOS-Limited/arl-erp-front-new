@@ -73,7 +73,6 @@ const validationSchema = Yup.object().shape({
     value: Yup.number().required('Delivery Agent is required'),
     label: Yup.string().required('Delivery Agent is required'),
   }),
-
 });
 function ConfirmModal({ rowClickData, CB }) {
   const { profileData, selectedBusinessUnit } = useSelector(
@@ -145,27 +144,27 @@ function ConfirmModal({ rowClickData, CB }) {
               'consigneeName',
               data?.consigneeId
                 ? {
-                  value: data?.consigneeId || 0,
-                  label: data?.consigneeName || '',
-                }
+                    value: data?.consigneeId || 0,
+                    label: data?.consigneeName || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeCountry',
               data?.consigCountryId
                 ? {
-                  value: data?.consigCountryId || 0,
-                  label: data?.consigCountry || '',
-                }
+                    value: data?.consigCountryId || 0,
+                    label: data?.consigCountry || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'consigneeDivisionAndState',
               data?.consigState
                 ? {
-                  value: 0,
-                  label: data?.consigState || '',
-                }
+                    value: 0,
+                    label: data?.consigState || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -193,36 +192,36 @@ function ConfirmModal({ rowClickData, CB }) {
               'bankAddress',
               data?.notifyBankAddr
                 ? {
-                  value: 0,
-                  label: data?.notifyBankAddr || '',
-                }
+                    value: 0,
+                    label: data?.notifyBankAddr || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'notifyParty',
               data?.notifyParty
                 ? {
-                  value: 0,
-                  label: data?.notifyParty || '',
-                }
+                    value: 0,
+                    label: data?.notifyParty || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'buyerBank',
               data?.buyerBank
                 ? {
-                  value: 0,
-                  label: data?.buyerBank || '',
-                }
+                    value: 0,
+                    label: data?.buyerBank || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'notifyParty2',
               data?.notifyParty2
                 ? {
-                  value: 0,
-                  label: data?.notifyParty2 || '',
-                }
+                    value: 0,
+                    label: data?.notifyParty2 || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
@@ -233,18 +232,18 @@ function ConfirmModal({ rowClickData, CB }) {
               'freightAgentReference',
               data?.freightAgentReference
                 ? {
-                  value: data?.freightAgentReferenceId || 0,
-                  label: data?.freightAgentReference || '',
-                }
+                    value: data?.freightAgentReferenceId || 0,
+                    label: data?.freightAgentReference || '',
+                  }
                 : '',
             );
             formikRef.current.setFieldValue(
               'freightAgentReference2',
               data?.freightAgentReference2
                 ? {
-                  value: data?.freightAgentReferenceId2 || 0,
-                  label: data?.freightAgentReference2 || '',
-                }
+                    value: data?.freightAgentReferenceId2 || 0,
+                    label: data?.freightAgentReference2 || '',
+                  }
                 : '',
             );
             //shippingMark
@@ -267,9 +266,9 @@ function ConfirmModal({ rowClickData, CB }) {
               'confTransportMode',
               data?.confTransportMode
                 ? {
-                  value: 0,
-                  label: data?.confTransportMode || '',
-                }
+                    value: 0,
+                    label: data?.confTransportMode || '',
+                  }
                 : '',
             );
           }
@@ -288,9 +287,7 @@ function ConfirmModal({ rowClickData, CB }) {
     getConsigneeCountryList(
       `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
     );
-    getWarehouseDDL(
-      `/wms/Warehouse/GetWarehouseFromPlantWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
-    );
+    getWarehouseDDL(`${imarineBaseUrl}/domain/ShippingService/GetWareHouseDDL`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -406,7 +403,8 @@ function ConfirmModal({ rowClickData, CB }) {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId
+        `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${
+          profileData?.accountId
         }&BusinessUnitId=${225}&Search=${v}`,
       )
       .then((res) => {
@@ -875,35 +873,41 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="freightAgentReference"
                     options={deliveryAgentDDL || []}
                     value={values?.freightAgentReference}
-                    label={shipBookingRequestGetById?.modeOfTransportId === 3 ? "Delivery Agent (Sea)" : "Delivery Agent"}
+                    label={
+                      shipBookingRequestGetById?.modeOfTransportId === 3
+                        ? 'Delivery Agent (Sea)'
+                        : 'Delivery Agent'
+                    }
                     onChange={(valueOption) => {
                       setFieldValue('freightAgentReference', valueOption);
                     }}
-                    placeholder={shipBookingRequestGetById?.modeOfTransportId === 3 ? "Delivery Agent (Sea)" : "Delivery Agent"}
+                    placeholder={
+                      shipBookingRequestGetById?.modeOfTransportId === 3
+                        ? 'Delivery Agent (Sea)'
+                        : 'Delivery Agent'
+                    }
                     errors={errors}
                     touched={touched}
                   />
                 </div>
 
                 {/* Delivery Agent ddl2  */}
-                {
-                  shipBookingRequestGetById?.modeOfTransportId === 3 && (
-                    <div className="col-lg-3">
-                      <NewSelect
-                        name="freightAgentReference2"
-                        options={deliveryAgentDDL || []}
-                        value={values?.freightAgentReference2}
-                        label="Delivery Agent (Air)"
-                        onChange={(valueOption) => {
-                          setFieldValue('freightAgentReference2', valueOption);
-                        }}
-                        placeholder="Delivery Agent (Air)"
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
-                  )
-                }
+                {shipBookingRequestGetById?.modeOfTransportId === 3 && (
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="freightAgentReference2"
+                      options={deliveryAgentDDL || []}
+                      value={values?.freightAgentReference2}
+                      label="Delivery Agent (Air)"
+                      onChange={(valueOption) => {
+                        setFieldValue('freightAgentReference2', valueOption);
+                      }}
+                      placeholder="Delivery Agent (Air)"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                )}
                 {/* shipping Marks input */}
                 <div className="col-lg-3">
                   <InputField
