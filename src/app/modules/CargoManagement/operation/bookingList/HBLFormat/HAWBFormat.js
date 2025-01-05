@@ -30,6 +30,11 @@ function HBLFormatAirItem({
     totalVolumetricWeight > totalGrossWeightKG
       ? totalVolumetricWeight
       : totalGrossWeightKG;
+
+  const transportPlanningAir =
+    bookingData?.transportPlanning?.find((i) => {
+      return i?.transportPlanningModeId === 1;
+    }) || '';
   return (
     <div
       style={{
@@ -182,7 +187,7 @@ function HBLFormatAirItem({
                 </div>
                 <div className="borderBottom">
                   <p className="textTitle">
-                    I.A.T.A Code {bookingData?.transportPlanning?.iatanumber}
+                    I.A.T.A Code {transportPlanningAir?.iatanumber}
                   </p>
                 </div>
                 <div className="borderBottomTime">
@@ -204,17 +209,14 @@ function HBLFormatAirItem({
                     gap: 5,
                   }}
                 >
-                  <p>
-                    {bookingData?.transportPlanning?.airLineOrShippingLine ||
-                      ''}
-                  </p>
+                  <p>{transportPlanningAir?.airLineOrShippingLine || ''}</p>
                   <div
                     style={{
                       display: 'flex',
                       gap: 5,
                     }}
                   >
-                    {bookingData?.transportPlanning?.airTransportRow?.map(
+                    {transportPlanningAir?.airTransportRow?.map(
                       (item, index) => {
                         return (
                           <p key={index}>
@@ -361,9 +363,8 @@ function HBLFormatAirItem({
                       {' '}
                       <p className="medium-font" style={{ paddingTop: 5 }}>
                         {
-                          bookingData?.transportPlanning?.airTransportRow?.[
-                            bookingData?.transportPlanning?.airTransportRow
-                              ?.length - 1
+                          transportPlanningAir?.airTransportRow?.[
+                            transportPlanningAir?.airTransportRow?.length - 1
                           ]?.toPort
                         }
                       </p>
@@ -374,10 +375,9 @@ function HBLFormatAirItem({
                   <div style={{ display: 'flex', height: '100%' }}>
                     <div className="borderRight" style={{ width: '50%' }}>
                       <p className="textTitle ">Flight/Date</p>
-                      {bookingData?.transportPlanning?.estimatedTimeOfDepart
+                      {transportPlanningAir?.estimatedTimeOfDepart
                         ? moment(
-                            bookingData?.transportPlanning
-                              ?.estimatedTimeOfDepart,
+                            transportPlanningAir?.estimatedTimeOfDepart,
                           ).format('DD.MM.YYYY')
                         : ''}
                     </div>
@@ -385,9 +385,9 @@ function HBLFormatAirItem({
                       <p className="textTitle ">Flight/Date</p>
 
                       <p className="medium-font">
-                        {bookingData?.transportPlanning?.arrivalDateTime
+                        {transportPlanningAir?.arrivalDateTime
                           ? moment(
-                              bookingData?.transportPlanning?.arrivalDateTime,
+                              transportPlanningAir?.arrivalDateTime,
                             ).format('DD.MM.YYYY')
                           : ''}
                       </p>
@@ -492,7 +492,7 @@ function HBLFormatAirItem({
                         style={{
                           width: '100%',
                         }}
-                        type="text"
+                        type="number"
                         value={htmlContent?.chargeableRate || ''}
                         onChange={(e) => {
                           changeHandelar &&

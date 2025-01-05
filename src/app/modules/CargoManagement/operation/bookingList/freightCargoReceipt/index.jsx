@@ -5,9 +5,10 @@ import { imarineBaseUrl } from '../../../../../App';
 import Loading from '../../../../_helper/_loading';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
-
+import { Form, Formik } from 'formik';
 const FreightCargoReceipt = ({ rowClickData }) => {
   const componentRef = useRef();
+  const formikRef = React.useRef(null);
   const [, createHblFcrNumber] = useAxiosPut();
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [
@@ -15,6 +16,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
     setShipBookingRequestGetById,
     shipBookingRequestLoading,
   ] = useAxiosGet();
+  const [transportPlanningData, setTransportPlanningData] = React.useState('');
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -35,9 +37,6 @@ const FreightCargoReceipt = ({ rowClickData }) => {
 
   useEffect(() => {
     if (bookingRequestId) {
-      setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
-      );
       commonGetByIdHandler();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,6 +53,30 @@ const FreightCargoReceipt = ({ rowClickData }) => {
   const commonGetByIdHandler = () => {
     setShipBookingRequestGetById(
       `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+      (resData) => {
+        const modeOfTransportId = [1, 3].includes(
+          rowClickData?.modeOfTransportId,
+        )
+          ? 1
+          : 2;
+        formikRef.current.setFieldValue('billingType', modeOfTransportId);
+
+        const transportPlanningAir =
+          resData?.transportPlanning?.find((i) => {
+            return i?.transportPlanningModeId === 1;
+          }) || '';
+
+        const transportPlanningSea =
+          resData?.transportPlanning?.find((i) => {
+            return i?.transportPlanningModeId === 2;
+          }) || '';
+
+        if (modeOfTransportId === 1) {
+          setTransportPlanningData(transportPlanningAir);
+        } else {
+          setTransportPlanningData(transportPlanningSea);
+        }
+      },
     );
   };
   const bookingData = shipBookingRequestGetById || {};
@@ -64,8 +87,8 @@ const FreightCargoReceipt = ({ rowClickData }) => {
       </div>
     );
 
-  const groupBySize = bookingData?.transportPlanning?.containerDesc
-    ? bookingData?.transportPlanning?.containerDesc.reduce((acc, obj) => {
+  const groupBySize = transportPlanningData?.containerDesc
+    ? transportPlanningData?.containerDesc.reduce((acc, obj) => {
         const key = obj?.size;
         if (!acc[key]) {
           acc[key] = [];
@@ -86,269 +109,366 @@ const FreightCargoReceipt = ({ rowClickData }) => {
     };
   });
 
+  const totalGrossWeightKG = bookingData?.rowsData?.reduce(
+    (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
+    0,
+  );
+
+  const totalVolumetricWeight = bookingData?.rowsData?.reduce(
+    (acc, item) => acc + (+item?.totalVolumetricWeight || 0),
+    0,
+  );
+  const totalChargeableWeight =
+    totalVolumetricWeight > totalGrossWeightKG
+      ? totalVolumetricWeight
+      : totalGrossWeightKG;
+
+  const chargeableRate = +bookingData?.saveWaybillData?.chargeableRate || 0;
+
   return (
-    <>
-      <div className="">
-        {/* Save button add */}
+    <Formik
+      enableReinitialize={true}
+      initialValues={{
+        narration: '',
+        paymentParty: '',
+        billingType: '',
+      }}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        saveHandler(values, () => {
+          resetForm();
+        });
+      }}
+      innerRef={formikRef}
+    >
+      {({
+        errors,
+        touched,
+        setFieldValue,
+        handleSubmit,
+        values,
+        resetForm,
+      }) => (
+        <Form className="form form-label-right">
+          <div className="">
+            {/* Save button add */}
 
-        <div className="d-flex justify-content-end">
-          {!bookingData?.fcrnumber && (
-            <>
-              {' '}
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => {
-                  saveHandler();
-                }}
-              >
-                Generate
-              </button>
-            </>
-          )}
+            <div className="d-flex justify-content-between">
+              <div>
+                {rowClickData?.modeOfTransportId === 3 && (
+                  <>
+                    {' '}
+                    <label className="mr-3">
+                      <input
+                        type="radio"
+                        name="billingType"
+                        checked={values?.billingType === 1}
+                        className="mr-1 pointer"
+                        style={{ position: 'relative', top: '2px' }}
+                        onChange={(e) => {
+                          setFieldValue('billingType', 1);
+                          const transportPlanningAir =
+                            bookingData?.transportPlanning?.find((i) => {
+                              return i?.transportPlanningModeId === 1;
+                            }) || '';
+                          setTransportPlanningData(transportPlanningAir);
+                        }}
+                      />
+                      Air
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        name="billingType"
+                        checked={values?.billingType === 2}
+                        className="mr-1 pointer"
+                        style={{ position: 'relative', top: '2px' }}
+                        onChange={(e) => {
+                          setFieldValue('billingType', 2);
 
-          {bookingData?.fcrnumber && (
-            <>
-              <button
-                onClick={handlePrint}
-                type="button"
-                className="btn btn-primary px-3 py-2"
-              >
-                <i className="mr-1 fa fa-print pointer" aria-hidden="true"></i>
-                Print
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-      <div
-        style={{
-          fontSize: 11,
-          display: 'grid',
-          gap: 10,
-        }}
-        ref={componentRef}
-      >
-        <div>
-          <span>To :</span> <br />
-          <span style={{ fontSize: 14, fontWeight: 600, textAlign: 'center' }}>
-            {bookingData?.consigneeName}
-          </span>
-          <br />
-          <span>{bookingData?.consigneeAddress}</span> <br />
-          <span>{bookingData?.consigneeContactPerson}</span>
-          <br />
-          <span>{bookingData?.consigneeContact}</span>
-          <br />
-        </div>
-        <div
-          style={{
-            justifyContent: 'center',
-            display: 'flex',
-          }}
-        >
-          <span
-            style={{
-              borderBottom: '1px solid #000000',
-              fontSize: 14,
-              fontWeight: 600,
-            }}
-          >
-            TO WHOM IT MAY CONCERN
-          </span>{' '}
-          <br />
-        </div>
-        <div>
-          <span
-            style={{
-              borderBottom: '1px solid #000000',
-              fontSize: 14,
-              fontWeight: 600,
-            }}
-          >
-            SHIPMENT REF. :
-          </span>{' '}
-          <br />
-        </div>
+                          const transportPlanningSea =
+                            bookingData?.transportPlanning?.find((i) => {
+                              return i?.transportPlanningModeId === 2;
+                            }) || '';
+                          setTransportPlanningData(transportPlanningSea);
+                        }}
+                      />
+                      Sea
+                    </label>
+                  </>
+                )}
+              </div>
+              <div>
+                {!bookingData?.fcrnumber && (
+                  <>
+                    {' '}
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => {
+                        saveHandler();
+                      }}
+                    >
+                      Generate
+                    </button>
+                  </>
+                )}
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr ',
-            // border: "1px solid #000000",
-          }}
-        >
-          {/* left side  */}
-          <div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>SHIPPER NAME</span>
-              <span style={{ padding: 2 }}>: {bookingData?.shipperName}</span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>POL </span>
-              <span style={{ padding: 2 }}>: {bookingData?.portOfLoading}</span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>POD</span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.portOfDischarge}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>INCOTERMS</span>
-              <span style={{ padding: 2 }}>: {bookingData?.incoterms}</span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>TRANSPORT CARRIER</span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.transportPlanning?.airLineOrShippingLine ?? ''}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>M.VSL/FLIGHT NAME</span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.transportPlanning?.vesselName}
-              </span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>F.VSL/FLIGHT NAME</span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.transportPlanning?.vesselName}
-              </span>
-            </div>
-
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>MBL/MAWB NUM</span>
-              <span style={{ padding: 2 }}>: {bookingData?.blnumber}</span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>HBL/HAWB NUM</span>
-              <span style={{ padding: 2 }}>:{bookingData?.hblnumber}</span>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>PALLET/CONTAINER NO.</span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.transportPlanning?.noOfPallets} /{' '}
-                {bookingData?.transportPlanning?.noOfContainer}
-              </span>
+                {bookingData?.fcrnumber && (
+                  <>
+                    <button
+                      onClick={handlePrint}
+                      type="button"
+                      className="btn btn-primary px-3 py-2"
+                    >
+                      <i
+                        className="mr-1 fa fa-print pointer"
+                        aria-hidden="true"
+                      ></i>
+                      Print
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
-          {/* right side */}
-          <div>
-            <div
-              style={{
-                display: 'grid',
-                gap: 10,
-                paddingBottom: 10,
-              }}
-            >
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 3fr ',
-                }}
+          <div
+            style={{
+              fontSize: 11,
+              display: 'grid',
+              gap: 10,
+            }}
+            ref={componentRef}
+          >
+            <div>
+              <span>To :</span> <br />
+              <span
+                style={{ fontSize: 14, fontWeight: 600, textAlign: 'center' }}
               >
-                <span style={{ padding: 2 }}>L/C NO </span>
-                <span style={{ padding: 2 }}>
-                  :
-                  {bookingData?.objPurchase?.map((item, index) => {
-                    return `${item?.lcnumber || ''}${
-                      index < bookingData?.objPurchase?.length - 1 ? ',' : ''
-                    }`;
-                  })}
-                </span>
-              </div>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 3fr ',
-                }}
-              >
-                <span style={{ padding: 2 }}>L/C DATE </span>
-                <span style={{ padding: 2 }}>
-                  :{' '}
-                  {bookingData?.objPurchase?.map((item, index) => {
-                    return `${item?.lcdate &&
-                      `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${
-                      index < bookingData?.objPurchase?.length - 1 ? ',' : ''
-                    }`;
-                  })}
-                </span>
-              </div>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 3fr ',
-                }}
-              >
-                <span style={{ padding: 2 }}>MODE</span>
-                <span style={{ padding: 2 }}>
-                  : {bookingData?.modeOfTransport}
-                </span>
-              </div>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>M.VSL/FLIGHT NUM</span>
-              <span style={{ padding: 2 }}>
-                :{bookingData?.transportPlanning?.voyagaNo}
+                {bookingData?.consigneeName}
               </span>
+              <br />
+              <span>{bookingData?.consigneeAddress}</span> <br />
+              <span>{bookingData?.consigneeContactPerson}</span>
+              <br />
+              <span>{bookingData?.consigneeContact}</span>
+              <br />
             </div>
-            {/* <div
+            <div
+              style={{
+                justifyContent: 'center',
+                display: 'flex',
+              }}
+            >
+              <span
+                style={{
+                  borderBottom: '1px solid #000000',
+                  fontSize: 14,
+                  fontWeight: 600,
+                }}
+              >
+                TO WHOM IT MAY CONCERN
+              </span>{' '}
+              <br />
+            </div>
+            <div>
+              <span
+                style={{
+                  borderBottom: '1px solid #000000',
+                  fontSize: 14,
+                  fontWeight: 600,
+                }}
+              >
+                SHIPMENT REF. :
+              </span>{' '}
+              <br />
+            </div>
+
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr ',
+                // border: "1px solid #000000",
+              }}
+            >
+              {/* left side  */}
+              <div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>SHIPPER NAME</span>
+                  <span style={{ padding: 2 }}>
+                    : {bookingData?.shipperName}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>POL </span>
+                  <span style={{ padding: 2 }}>
+                    : {bookingData?.portOfLoading}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>POD</span>
+                  <span style={{ padding: 2 }}>
+                    : {bookingData?.portOfDischarge}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>INCOTERMS</span>
+                  <span style={{ padding: 2 }}>: {bookingData?.incoterms}</span>
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>TRANSPORT CARRIER</span>
+                  <span style={{ padding: 2 }}>
+                    : {transportPlanningData?.airLineOrShippingLine ?? ''}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>M.VSL/FLIGHT NAME</span>
+                  <span style={{ padding: 2 }}>
+                    : {transportPlanningData?.vesselName}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>F.VSL/FLIGHT NAME</span>
+                  <span style={{ padding: 2 }}>
+                    : {transportPlanningData?.vesselName}
+                  </span>
+                </div>
+
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>MBL/MAWB NUM</span>
+                  <span style={{ padding: 2 }}>: {bookingData?.blnumber}</span>
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>HBL/HAWB NUM</span>
+                  <span style={{ padding: 2 }}>:{bookingData?.hblnumber}</span>
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>PALLET/CONTAINER NO.</span>
+                  <span style={{ padding: 2 }}>
+                    : {transportPlanningData?.noOfPallets} /{' '}
+                    {transportPlanningData?.noOfContainer}
+                  </span>
+                </div>
+              </div>
+              {/* right side */}
+              <div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gap: 10,
+                    paddingBottom: 10,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 3fr ',
+                    }}
+                  >
+                    <span style={{ padding: 2 }}>L/C NO </span>
+                    <span style={{ padding: 2 }}>
+                      :
+                      {bookingData?.objPurchase?.map((item, index) => {
+                        return `${item?.lcnumber || ''}${
+                          index < bookingData?.objPurchase?.length - 1
+                            ? ','
+                            : ''
+                        }`;
+                      })}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 3fr ',
+                    }}
+                  >
+                    <span style={{ padding: 2 }}>L/C DATE </span>
+                    <span style={{ padding: 2 }}>
+                      :{' '}
+                      {bookingData?.objPurchase?.map((item, index) => {
+                        return `${item?.lcdate &&
+                          `${moment(item?.lcdate).format('DD-MM-YYYY')}`}${
+                          index < bookingData?.objPurchase?.length - 1
+                            ? ','
+                            : ''
+                        }`;
+                      })}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 3fr ',
+                    }}
+                  >
+                    <span style={{ padding: 2 }}>MODE</span>
+                    <span style={{ padding: 2 }}>
+                      : {bookingData?.modeOfTransport}
+                    </span>
+                  </div>
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>M.VSL/FLIGHT NUM</span>
+                  <span style={{ padding: 2 }}>
+                    :{transportPlanningData?.voyagaNo}
+                  </span>
+                </div>
+                {/* <div
               style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 3fr ',
@@ -357,118 +477,134 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               <span style={{ padding: 2 }}>ATA</span>
               <span style={{ padding: 2 }}>: 31-12-2023</span>
             </div> */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>MBL/MAWB DATE</span>
-              <span style={{ padding: 2 }}>
-                :{' '}
-                {bookingData?.bldate
-                  ? moment(bookingData?.bldate).format('YYYY-MM-DD')
-                  : ''}
-              </span>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>MBL/MAWB DATE</span>
+                  <span style={{ padding: 2 }}>
+                    :{' '}
+                    {bookingData?.bldate
+                      ? moment(bookingData?.bldate).format('YYYY-MM-DD')
+                      : ''}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>HBL/HAWB DATE</span>
+                  <span style={{ padding: 2 }}>
+                    :{' '}
+                    {bookingData?.hbldate
+                      ? moment(bookingData?.hbldate).format('YYYY-MM-DD')
+                      : ''}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 3fr ',
+                  }}
+                >
+                  <span style={{ padding: 2 }}>SEAL NUMBER</span>
+                  <span style={{ padding: 2 }}>
+                    : {bookingData?.fcrnumber || 'N/A'}
+                  </span>
+                </div>
+              </div>
             </div>
+            <span>
+              This is to certify that the freight for the above mentioned
+              shipment is as under.
+            </span>
+            <p>FREIGHT:</p>
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
+                paddingLeft: 25,
               }}
             >
-              <span style={{ padding: 2 }}>HBL/HAWB DATE</span>
-              <span style={{ padding: 2 }}>
-                :{' '}
-                {bookingData?.hbldate
-                  ? moment(bookingData?.hbldate).format('YYYY-MM-DD')
-                  : ''}
-              </span>
+              <span>
+                {shipBookingRequestGetById?.modeOfTransport === 'Sea'
+                  ? 'Ocean Freight'
+                  : `${shipBookingRequestGetById?.modeOfTransport} Freight`}
+                {/* containerDesc size wise group than total rate show */}
+                {sumOfRate?.map((item, index) => {
+                  return `is ${item?.rate}/${item?.size} `;
+                })}
+              </span>{' '}
+              <br />
+              <span>
+                Total Container: {/*billingType 2 = sea  */}{' '}
+                {values?.billingType === 2 && (
+                  <>
+                    {sumOfRate?.map((item, index) => {
+                      return `${item?.containerNo} x ${item?.size} `;
+                    })}
+                  </>
+                )}
+                {/* billingType 1 = Air */}
+                {values?.billingType === 1 && <>{totalChargeableWeight}</>}
+              </span>{' '}
+              <br />
+              {/* <span>Ex Rate 110.50</span> <br /> */}
+              <span>
+                So, Total Ocean Freight is USD{' '}
+                {values?.billingType === 2 && (
+                  <>
+                    {' '}
+                    {sumOfRate?.reduce((acc, item) => {
+                      return acc + item?.total;
+                    }, 0) || 0}
+                  </>
+                )}
+                {values?.billingType === 1 && (
+                  <>{totalChargeableWeight * chargeableRate || 0}</>
+                )}
+              </span>{' '}
+              <br />
+              <span>
+                Goods Description:{' '}
+                {bookingData?.rowsData?.map((item, index) => {
+                  return `${item?.descriptionOfGoods}${
+                    index < bookingData?.rowsData?.length - 1 ? ',' : ''
+                  }`;
+                })}
+              </span>{' '}
+              <br />
             </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 3fr ',
-              }}
-            >
-              <span style={{ padding: 2 }}>SEAL NUMBER</span>
-              <span style={{ padding: 2 }}>
-                : {bookingData?.fcrnumber || 'N/A'}
-              </span>
+            <span style={{ paddingLeft: 10 }}>Thanks and Best Regards,</span>
+            <span>Sincerely Yours</span>
+            <div style={{ paddingTop: '5rem' }}>
+              <span>For : Akij Logistics Limited</span> <br />
+              <span>As Agents</span> <br />
+            </div>
+            <div style={{ paddingTop: '5rem' }}>
+              <div
+                style={{
+                  borderTop: '1px solid #000000',
+                  backgroundColor: '#000000',
+                }}
+              />
+              <div
+                style={{
+                  display: 'grid',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                }}
+              >
+                <span>Akij Logistics Limited</span>
+                <span>Bir Uttam Mir Shawkat Sarak, Dhaka 1208</span>
+              </div>
             </div>
           </div>
-        </div>
-        <span>
-          This is to certify that the freight for the above mentioned shipment
-          is as under.
-        </span>
-        <p>FREIGHT:</p>
-        <div
-          style={{
-            paddingLeft: 25,
-          }}
-        >
-          <span>
-            {shipBookingRequestGetById?.modeOfTransport === 'Air'
-              ? 'Air Freight '
-              : 'Ocean Freight '}
-            is {/* containerDesc size wise group than total rate show */}
-            {sumOfRate?.map((item, index) => {
-              return `${item?.rate}/${item?.size} `;
-            })}
-          </span>{' '}
-          <br />
-          <span>
-            Total Container:{' '}
-            {sumOfRate?.map((item, index) => {
-              return `${item?.containerNo} x ${item?.size} `;
-            })}
-          </span>{' '}
-          <br />
-          {/* <span>Ex Rate 110.50</span> <br /> */}
-          <span>
-            So, Total Ocean Freight is USD{' '}
-            {sumOfRate?.reduce((acc, item) => {
-              return acc + item?.total;
-            }, 0) || 0}
-          </span>{' '}
-          <br />
-          <span>
-            Goods Description:{' '}
-            {bookingData?.rowsData?.map((item, index) => {
-              return `${item?.descriptionOfGoods}${
-                index < bookingData?.rowsData?.length - 1 ? ',' : ''
-              }`;
-            })}
-          </span>{' '}
-          <br />
-        </div>
-        <span style={{ paddingLeft: 10 }}>Thanks and Best Regards,</span>
-        <span>Sincerely Yours</span>
-        <div style={{ paddingTop: '5rem' }}>
-          <span>For : Akij Logistics Limited</span> <br />
-          <span>As Agents</span> <br />
-        </div>
-        <div style={{ paddingTop: '5rem' }}>
-          <div
-            style={{
-              borderTop: '1px solid #000000',
-              backgroundColor: '#000000',
-            }}
-          />
-          <div
-            style={{
-              display: 'grid',
-              justifyContent: 'center',
-              textAlign: 'center',
-            }}
-          >
-            <span>Akij Logistics Limited</span>
-            <span>Bir Uttam Mir Shawkat Sarak, Dhaka 1208</span>
-          </div>
-        </div>
-      </div>
-    </>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
