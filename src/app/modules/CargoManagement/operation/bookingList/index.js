@@ -815,7 +815,7 @@ function BookingList() {
                                 <td>
                                   <span>
                                     <button
-                                      disabled={item?.isBl}
+                                      // disabled={item?.isBl}
                                       className={
                                         item?.isBl
                                           ? 'btn btn-sm btn-success px-1 py-1'
