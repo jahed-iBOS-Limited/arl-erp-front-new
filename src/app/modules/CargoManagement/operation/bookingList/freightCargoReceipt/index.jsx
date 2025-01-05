@@ -529,19 +529,18 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               }}
             >
               <span>
-                {shipBookingRequestGetById?.modeOfTransport === 'Sea'
-                  ? 'Ocean Freight'
-                  : `${shipBookingRequestGetById?.modeOfTransport} Freight`}
+                {values?.billingType === 2
+                  ? 'Ocean Freight is '
+                  : `Air Freight is `}
                 {/* containerDesc size wise group than total rate show */}
                 {values?.billingType === 2 && (
                   <>
                     {sumOfRate?.map((item, index) => {
-                      return `is ${item?.rate}/${item?.size} `;
+                      return `${item?.rate}/${item?.size} `;
                     })}
                   </>
                 )}
-
-                {values?.billingType === 1 && <> is {chargeableRate}</>}
+                {values?.billingType === 1 && <>{chargeableRate}</>}
               </span>{' '}
               <br />
               <span>
@@ -560,10 +559,8 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               {/* <span>Ex Rate 110.50</span> <br /> */}
               <span>
                 So, Total{' '}
-                {shipBookingRequestGetById?.modeOfTransport === 'Sea'
-                  ? 'Ocean Freight'
-                  : `${shipBookingRequestGetById?.modeOfTransport} Freight`}{' '}
-                is USD{' '}
+                {values?.billingType === 2 ? 'Ocean Freight' : `Air Freight`} is
+                USD{' '}
                 {values?.billingType === 2 && (
                   <>
                     {' '}
