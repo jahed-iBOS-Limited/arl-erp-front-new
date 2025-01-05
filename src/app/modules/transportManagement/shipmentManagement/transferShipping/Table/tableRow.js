@@ -31,6 +31,7 @@ import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/date
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import { setShipmentlandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import CancelTransferShippingForm from '../vehicleWeigth/cancelForm';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
 // import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export function TableRow({
@@ -515,6 +516,14 @@ export function TableRow({
                                           }}
                                         />
                                       </span>
+                                      <IEdit
+                                      onClick={()=>{
+                                        history.push({
+                                          pathname: `/transport-management/shipmentmanagement/transfershipping/edit/${td.shipmentId}`,
+                                          state: values,
+                                        });
+                                      }}
+                                      />
                                       {permitted ? (
                                         <span className="view">
                                           <IClose
