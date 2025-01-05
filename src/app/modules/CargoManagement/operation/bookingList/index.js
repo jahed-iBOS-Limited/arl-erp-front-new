@@ -331,7 +331,7 @@ function BookingList() {
                           Delivery Port
                         </th>
                         <th style={{ minWidth: '50px' }}>HBL No.</th>
-                        <th style={{ minWidth: '50px' }}> Master BL No</th>
+                        <th style={{ minWidth: '80px' }}> Master BL No</th>
                         {/* <th
                            style={{
                              minWidth: '120px',
@@ -374,14 +374,17 @@ function BookingList() {
                         >
                           Confirm
                         </th>
-
-                        <th
-                          style={{
-                            minWidth: '43px',
-                          }}
-                        >
-                          EPB
-                        </th>
+                        {['Air', 'Sea-Air'].includes(
+                          values?.modeOfTransport?.label,
+                        ) && (
+                          <th
+                            style={{
+                              minWidth: '43px',
+                            }}
+                          >
+                            EPB
+                          </th>
+                        )}
                         <th
                           style={{
                             minWidth: '66px',
@@ -389,14 +392,15 @@ function BookingList() {
                         >
                           Receive
                         </th>
-
-                        <th
-                          style={{
-                            minWidth: '65px',
-                          }}
-                        >
-                          Stuffing
-                        </th>
+                        {values?.modeOfTransport?.label === 'Sea' && (
+                          <th
+                            style={{
+                              minWidth: '65px',
+                            }}
+                          >
+                            Stuffing
+                          </th>
+                        )}
 
                         <th
                           style={{
@@ -406,13 +410,18 @@ function BookingList() {
                           Shipment Planning
                         </th>
                         <th style={{ minWidth: '50px' }}>FC</th>
-                        <th
-                          style={{
-                            minWidth: '60px',
-                          }}
-                        >
-                          Manifest
-                        </th>
+                        {['Air', 'Sea-Air'].includes(
+                          values?.modeOfTransport?.label,
+                        ) && (
+                          <th
+                            style={{
+                              minWidth: '60px',
+                            }}
+                          >
+                            Manifest
+                          </th>
+                        )}
+
                         <th
                           style={{
                             minWidth: '60px',
@@ -665,8 +674,10 @@ function BookingList() {
                                   </span>
                                 </td>
 
-                                <td>
-                                  {item?.modeOfTransport === 'Air' && (
+                                {['Air', 'Sea-Air'].includes(
+                                  item?.modeOfTransport,
+                                ) && (
+                                  <td>
                                     <span>
                                       <button
                                         // disabled={item?.isHbl}
@@ -684,8 +695,9 @@ function BookingList() {
                                         EPB
                                       </button>
                                     </span>
-                                  )}
-                                </td>
+                                  </td>
+                                )}
+
                                 <td>
                                   <span>
                                     <button
@@ -707,37 +719,36 @@ function BookingList() {
                                     </button>
                                   </span>
                                 </td>
-                                <td>
-                                  {item?.modeOfTransport === 'Sea' && (
-                                    <>
-                                      <span>
-                                        <button
-                                          disabled={item?.isStuffing}
-                                          className={
-                                            item?.isStuffing
-                                              ? 'btn btn-sm btn-success px-1 py-1'
-                                              : 'btn btn-sm btn-warning px-1 py-1'
-                                          }
-                                          onClick={() => {
-                                            setRowClickData({
-                                              ...item,
-                                              title: 'Stuffing',
-                                              isUpdateDate: 'stuffingDate',
-                                              isUpdateKey: 'isStuffing',
-                                            });
-                                            setIsModalShowObj({
-                                              ...isModalShowObj,
+                                {item?.modeOfTransport === 'Sea' && (
+                                  <>
+                                    {' '}
+                                    <span>
+                                      <button
+                                        disabled={item?.isStuffing}
+                                        className={
+                                          item?.isStuffing
+                                            ? 'btn btn-sm btn-success px-1 py-1'
+                                            : 'btn btn-sm btn-warning px-1 py-1'
+                                        }
+                                        onClick={() => {
+                                          setRowClickData({
+                                            ...item,
+                                            title: 'Stuffing',
+                                            isUpdateDate: 'stuffingDate',
+                                            isUpdateKey: 'isStuffing',
+                                          });
+                                          setIsModalShowObj({
+                                            ...isModalShowObj,
 
-                                              isCommonModalShow: true,
-                                            });
-                                          }}
-                                        >
-                                          Stuffing
-                                        </button>
-                                      </span>
-                                    </>
-                                  )}
-                                </td>
+                                            isCommonModalShow: true,
+                                          });
+                                        }}
+                                      >
+                                        Stuffing
+                                      </button>
+                                    </span>
+                                  </>
+                                )}
                                 <td>
                                   <span>
                                     <button
@@ -777,22 +788,29 @@ function BookingList() {
                                     </button>
                                   </span>
                                 </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      className="btn btn-sm btn-warning px-1 py-1"
-                                      onClick={() => {
-                                        setRowClickData(item);
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isManifest: true,
-                                        });
-                                      }}
-                                    >
-                                      Manifest
-                                    </button>
-                                  </span>
-                                </td>
+                                {['Air', 'Sea-Air'].includes(
+                                  item?.modeOfTransport,
+                                ) && (
+                                  <>
+                                    {' '}
+                                    <td>
+                                      <span>
+                                        <button
+                                          className="btn btn-sm btn-warning px-1 py-1"
+                                          onClick={() => {
+                                            setRowClickData(item);
+                                            setIsModalShowObj({
+                                              ...isModalShowObj,
+                                              isManifest: true,
+                                            });
+                                          }}
+                                        >
+                                          Manifest
+                                        </button>
+                                      </span>
+                                    </td>
+                                  </>
+                                )}
 
                                 <td>
                                   <span>
