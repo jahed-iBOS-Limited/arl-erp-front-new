@@ -22,6 +22,7 @@ import {
 import IViewModal from "../../../../_helper/_viewModal";
 import QRCodeScanner from "../../../../_helper/qrCodeScanner";
 import NewSelect from "../../../../_helper/_select";
+import TransferOutListModal from "./transferOutListModal";
 // Validation schema
 const validationSchema = Yup.object().shape({
   Vehicle: Yup.object().shape({
@@ -41,10 +42,10 @@ const validationSchema = Yup.object().shape({
     label: Yup.string().required("Loading Point is required"),
     value: Yup.string().required("Loading Point is required"),
   }),
-  pendingDelivery: Yup.object().shape({
-    label: Yup.string().required("Pending Delivery is required"),
-    value: Yup.string().required("Pending Delivery is required"),
-  }),
+  // pendingDelivery: Yup.object().shape({
+  //   label: Yup.string().required("Pending Delivery is required"),
+  //   value: Yup.string().required("Pending Delivery is required"),
+  // }),
   // laborSupplierName: Yup.object()
   //   .shape({
   //     label: Yup.string().required("Labor Supplier Name is required"),
@@ -120,6 +121,11 @@ export default function _Form({
   loadingPointDDL,
   ShippointDDL,
   packerList,
+  transferOutData,
+  setTransferOutData,
+  showTransferOutModal,
+  setShowTransferOutModal,
+  id,
 }) {
   const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
   const [controls, setControls] = useState([]);
@@ -550,6 +556,7 @@ export default function _Form({
                         <ICalendar
                           value={values.estimatedTimeofArrival || ""}
                           name="estimatedTimeofArrival"
+                          disabled={id}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -557,6 +564,7 @@ export default function _Form({
                         <ICalendar
                           value={values.planedLoadingTime || ""}
                           name="planedLoadingTime"
+                          disabled={id}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -618,7 +626,7 @@ export default function _Form({
                               }}
                               styles={customStyles}
                               name="pendingDelivery"
-                              isDisabled={!values?.Vehicle}
+                              isDisabled={!values?.Vehicle || id}
                             />
                           )}
                           placeholder="Select delivery List"
@@ -661,35 +669,40 @@ export default function _Form({
                         </div>
                       )}
 
-                      <div className="col-lg-3">
-                        <label> Truck Traller Loading Supplier</label>
-                        <SearchAsyncSelect
-                          selectedValue={values.truckTrallerSupplier}
-                          handleChange={(valueOption) => {
-                            setFieldValue("truckTrallerSupplier", valueOption);
-                          }}
-                          loadOptions={(v) => {
-                            // if (v.length < 3) return [];
-                            return axios
-                              .get(
-                                `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${
-                                  selectedBusinessUnit?.value
-                                }&SBUId=${0}`
-                              )
-                              .then((res) => {
-                                const updateList = res?.data.map((item) => ({
-                                  ...item,
-                                }));
-                                return updateList;
-                              });
-                          }}
-                        />
-                        <FormikError
-                          errors={errors}
-                          name="truckTrallerSupplier"
-                          touched={touched}
-                        />
-                      </div>
+                      {!id && (
+                        <div className="col-lg-3">
+                          <label> Truck Traller Loading Supplier</label>
+                          <SearchAsyncSelect
+                            selectedValue={values.truckTrallerSupplier}
+                            handleChange={(valueOption) => {
+                              setFieldValue(
+                                "truckTrallerSupplier",
+                                valueOption
+                              );
+                            }}
+                            loadOptions={(v) => {
+                              // if (v.length < 3) return [];
+                              return axios
+                                .get(
+                                  `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${
+                                    selectedBusinessUnit?.value
+                                  }&SBUId=${0}`
+                                )
+                                .then((res) => {
+                                  const updateList = res?.data.map((item) => ({
+                                    ...item,
+                                  }));
+                                  return updateList;
+                                });
+                            }}
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="truckTrallerSupplier"
+                            touched={touched}
+                          />
+                        </div>
+                      )}
                       <div style={{ marginTop: "18px" }}>
                         <label>
                           <input
@@ -809,24 +822,38 @@ export default function _Form({
                       </div>
 
                       <div className="col d-flex justify-content-end align-items-center">
-                        <button
-                          type="button"
-                          className="btn btn-primary mt-2"
-                          onClick={() => addBtnHandler(values, setFieldValue)}
-                          disabled={
-                            !values.pendingDelivery ||
-                            !values.shipPoint ||
-                            !values.loadingPoint
-                          }
-                        >
-                          Add
-                        </button>
+                        {!id && (
+                          <button
+                            type="button"
+                            className="btn btn-primary mt-2"
+                            onClick={() => addBtnHandler(values, setFieldValue)}
+                            disabled={
+                              !values.pendingDelivery ||
+                              !values.shipPoint ||
+                              !values.loadingPoint
+                            }
+                          >
+                            Add
+                          </button>
+                        )}
                       </div>
                     </>
                   </div>
                 </div>
               </div>
               <hr className="m-1"></hr>
+
+              <div class="row justify-content-end my-3">
+                <div class="col-lg-2">
+                  <button
+                    className="btn btn-primary float-right"
+                    type="button"
+                    onClick={() => setShowTransferOutModal(true)}
+                  >
+                    Update Devliery Quantity
+                  </button>
+                </div>
+              </div>
 
               <div className="row cash_journal bank-journal bank-journal-custom">
                 <div className="col-lg-12 pr-0 pl-0 ">
@@ -844,7 +871,7 @@ export default function _Form({
                             <th>Loading Point</th>
                             <th>Net (KG)</th>
                             <th>Vol (CFT)</th>
-                            <th>Action</th>
+                            {id ? <></> : <th>Action</th>}
                           </tr>
                         </thead>
                         <tbody>
@@ -881,12 +908,16 @@ export default function _Form({
                                   {itm?.itemTotalVolume}
                                 </div>
                               </td>
-                              <td className="text-center">
-                                <i
-                                  className="fa fa-trash"
-                                  onClick={() => remover(--index)}
-                                ></i>
-                              </td>
+                              {id ? (
+                                <></>
+                              ) : (
+                                <td className="text-center">
+                                  <i
+                                    className="fa fa-trash"
+                                    onClick={() => remover(--index)}
+                                  ></i>
+                                </td>
+                              )}
                             </tr>
                           ))}
                         </tbody>
@@ -894,6 +925,11 @@ export default function _Form({
                     </div>
                   )}
                 </div>
+                {/* <div class="d-flex flex-row justify-space-between">
+                  <pre>{JSON.stringify(values, null, 2)}</pre>
+                  <pre>{JSON.stringify(rowDto, null, 2)}</pre>
+                  <pre>{JSON.stringify(transferOutData, null, 2)}</pre>
+                </div> */}
               </div>
               {QRCodeScannerModal && (
                 <>
@@ -919,6 +955,20 @@ export default function _Form({
                   </IViewModal>
                 </>
               )}
+              <IViewModal
+                show={showTransferOutModal}
+                title={"Shipment Transfer Out"}
+                onHide={() => {
+                  setShowTransferOutModal(false);
+                }}
+              >
+                <TransferOutListModal
+                  obj={{
+                    transferOutData,
+                    setTransferOutData,
+                  }}
+                />
+              </IViewModal>
               <button
                 type="button"
                 style={{ display: "none" }}
