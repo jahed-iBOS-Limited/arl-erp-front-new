@@ -251,57 +251,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
         payload,
         (hbawRestData) => {
           setIncoterms(hbawRestData?.[0]?.incoterms);
-          // // pickupPlaceDDL
-          // const pickupPlace = data?.map((item, index) => {
-          //   return {
-          //     value: index + 1,
-          //     label: item?.pickupPlace,
-          //   };
-          // });
-          // setPickupPlaceDDL(pickupPlace);
-          // // portOfLoadingDDL
-          // const portOfLoading = data?.map((item, index) => {
-          //   return {
-          //     value: index + 1,
-          //     label: item?.portOfLoading,
-          //   };
-          // });
-          // setPortOfLoadingDDL(portOfLoading);
-
-          // // finalDestinationAddressDDL
-          // const finalDestinationAddress = data?.map((item, index) => {
-          //   return {
-          //     value: index + 1,
-          //     label: item?.finalDestinationAddress,
-          //   };
-          // });
-          // setFinalDestinationAddressDDL(finalDestinationAddress);
-
-          // // portOfDischargeDDL
-          // const portOfDischarge = data?.map((item, index) => {
-          //   return {
-          //     value: index + 1,
-          //     label: item?.portOfDischarge,
-          //   };
-          // });
-          // setPortOfDischargeDDL(portOfDischarge);
-          // // vesselNameDDL
-          // const vesselName = data?.map((item, index) => {
-          //   return {
-          //     value: index + 1,
-          //     label: item?.transportPlanning?.vesselName || '',
-          //   };
-          // });
-          // setVesselNameDDL(vesselName);
-
-          // // voyagaNoDDL
-          // const voyagaNo = data?.map((item, index) => {
-          //   return {
-          //     value: index + 1,
-          //     label: item?.transportPlanning?.voyagaNo || '',
-          //   };
-          // });
           const firstIndex = hbawRestData[0];
+
           //
           const iatacode = [];
 
@@ -355,14 +306,6 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             );
             return subtotal + weightSubtotal;
           }, 0);
-          // const totalVolumeCBM = hbawRestData?.reduce((subtotal, item) => {
-          //   const rows = item?.rowsData || [];
-          //   const volumeSubtotal = rows?.reduce(
-          //     (sum, row) => sum + (row?.totalVolumeCBM || 0),
-          //     0
-          //   );
-          //   return subtotal + volumeSubtotal;
-          // }, 0);
           const airportOfDepartureAndRouting = firstIndex?.transportPlanning?.airTransportRow?.map(
             (item) => {
               return `(${item?.fromPort} - ${item?.toPort}) `;
@@ -375,23 +318,45 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
 
           let strConsignee = '';
           // concate consignee
-          if (firstIndex?.freightAgentReference) {
-            strConsignee += firstIndex?.freightAgentReference + '\n';
-          }
-          if (firstIndex?.deliveryAgentDtl?.zipCode) {
-            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.zipCode;
-          }
-          if (firstIndex?.deliveryAgentDtl?.state) {
-            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.state;
-          }
-          if (firstIndex?.deliveryAgentDtl?.city) {
-            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.city;
-          }
-          if (firstIndex?.deliveryAgentDtl?.country) {
-            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.country;
-          }
-          if (firstIndex?.deliveryAgentDtl?.address) {
-            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.address;
+
+          if (firstIndex?.modeOfTransportId === 3) {
+            if (firstIndex?.freightAgentReference2) {
+              strConsignee += firstIndex?.freightAgentReference2 + '\n';
+            }
+            if (firstIndex?.deliveryAgentDtl2?.zipCode) {
+              strConsignee += ', ' + firstIndex?.deliveryAgentDtl2?.zipCode;
+            }
+            if (firstIndex?.deliveryAgentDtl2?.state) {
+              strConsignee += ', ' + firstIndex?.deliveryAgentDtl2?.state;
+            }
+            if (firstIndex?.deliveryAgentDtl2?.city) {
+              strConsignee += ', ' + firstIndex?.deliveryAgentDtl2?.city;
+            }
+            if (firstIndex?.deliveryAgentDtl2?.country) {
+              strConsignee += ', ' + firstIndex?.deliveryAgentDtl2?.country;
+            }
+            if (firstIndex?.deliveryAgentDtl2?.address) {
+              strConsignee += ', ' + firstIndex?.deliveryAgentDtl2?.address;
+            }
+          } else {
+            if (firstIndex?.freightAgentReference) {
+              strConsignee += firstIndex?.freightAgentReference + '\n';
+            }
+            if (firstIndex?.deliveryAgentDtl?.zipCode) {
+              strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.zipCode;
+            }
+            if (firstIndex?.deliveryAgentDtl?.state) {
+              strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.state;
+            }
+            if (firstIndex?.deliveryAgentDtl?.city) {
+              strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.city;
+            }
+            if (firstIndex?.deliveryAgentDtl?.country) {
+              strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.country;
+            }
+            if (firstIndex?.deliveryAgentDtl?.address) {
+              strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.address;
+            }
           }
 
           const obj = {
