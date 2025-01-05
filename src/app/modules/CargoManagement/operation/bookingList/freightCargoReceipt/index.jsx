@@ -533,9 +533,15 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                   ? 'Ocean Freight'
                   : `${shipBookingRequestGetById?.modeOfTransport} Freight`}
                 {/* containerDesc size wise group than total rate show */}
-                {sumOfRate?.map((item, index) => {
-                  return `is ${item?.rate}/${item?.size} `;
-                })}
+                {values?.billingType === 2 && (
+                  <>
+                    {sumOfRate?.map((item, index) => {
+                      return `is ${item?.rate}/${item?.size} `;
+                    })}
+                  </>
+                )}
+
+                {values?.billingType === 1 && <> is {chargeableRate}</>}
               </span>{' '}
               <br />
               <span>
@@ -553,7 +559,11 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               <br />
               {/* <span>Ex Rate 110.50</span> <br /> */}
               <span>
-                So, Total Ocean Freight is USD{' '}
+                So, Total{' '}
+                {shipBookingRequestGetById?.modeOfTransport === 'Sea'
+                  ? 'Ocean Freight'
+                  : `${shipBookingRequestGetById?.modeOfTransport} Freight`}{' '}
+                is USD{' '}
                 {values?.billingType === 2 && (
                   <>
                     {' '}
