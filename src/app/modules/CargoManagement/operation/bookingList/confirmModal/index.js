@@ -16,13 +16,13 @@ import './style.css';
 const validationSchema = Yup.object().shape({
   departureDateTime: Yup.date().required('Departure Date & Time is required'),
   arrivalDateTime: Yup.date().required('Arrival Date & Time is required'),
-  confTransportMode: Yup.object()
-    .shape({
-      value: Yup.number().required('Transport Mode is required'),
-      label: Yup.string().required('Transport Mode is required'),
-    })
-    .nullable()
-    .typeError('Transport Mode is required'),
+  // confTransportMode: Yup.object()
+  //   .shape({
+  //     value: Yup.number().required('Transport Mode is required'),
+  //     label: Yup.string().required('Transport Mode is required'),
+  //   })
+  //   .nullable()
+  //   .typeError('Transport Mode is required'),
   wareHouse: Yup.object()
     .shape({
       value: Yup.string().required('Warehouse is required'),
@@ -262,15 +262,15 @@ function ConfirmModal({ rowClickData, CB }) {
               data?.consignPostalCode || '',
             );
             // confTransportMode
-            formikRef.current.setFieldValue(
-              'confTransportMode',
-              data?.confTransportMode
-                ? {
-                    value: 0,
-                    label: data?.confTransportMode || '',
-                  }
-                : '',
-            );
+            // formikRef.current.setFieldValue(
+            //   'confTransportMode',
+            //   data?.confTransportMode
+            //     ? {
+            //         value: 0,
+            //         label: data?.confTransportMode || '',
+            //       }
+            //     : '',
+            // );
           }
         },
       );
@@ -576,18 +576,9 @@ function ConfirmModal({ rowClickData, CB }) {
                   />
                 </div>
                 {/* Transport Mode */}
-                <div className="col-lg-3">
+                {/* <div className="col-lg-3">
                   <NewSelect
                     name="confTransportMode"
-                    // options={
-                    //   transportModeDDL?.filter((item) => {
-                    //     if (values?.transportPlanningType === 'Sea') {
-                    //       return [17, 18, 30, 31].includes(item?.value);
-                    //     } else {
-                    //       return [19, 20,30, 31].includes(item?.value);
-                    //     }
-                    //   }) || []
-                    // }
                     options={transportModeDDL}
                     value={values?.confTransportMode}
                     label="Transport Mode"
@@ -598,7 +589,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     errors={errors}
                     touched={touched}
                   />
-                </div>
+                </div> */}
                 {/* warehouse */}
                 <div className="col-lg-3">
                   <NewSelect
