@@ -101,6 +101,7 @@ function BLModal({ rowClickData, CB }) {
         `${imarineBaseUrl}/domain/ShippingService/UploadParticularDocuments`,
         paylaod,
         CB,
+        true,
       );
     }
   };
@@ -150,6 +151,9 @@ function BLModal({ rowClickData, CB }) {
                           style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
                             setFieldValue('billingType', 1);
+                            setFieldValue('documentsNumber', '');
+                            setFieldValue('documentFileId', '');
+                            setFieldValue('documentId', '');
                             commonGetDocumentsByMasterBL(1);
                           }}
                         />
@@ -164,6 +168,9 @@ function BLModal({ rowClickData, CB }) {
                           style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
                             setFieldValue('billingType', 2);
+                            setFieldValue('documentsNumber', '');
+                            setFieldValue('documentFileId', '');
+                            setFieldValue('documentId', '');
                             commonGetDocumentsByMasterBL(2);
                           }}
                         />
