@@ -254,16 +254,24 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
         (hbawRestData) => {
           setIncoterms(hbawRestData?.[0]?.incoterms);
           const firstIndex = hbawRestData[0];
-
+          const transportPlanningAir =
+            firstIndex?.transportPlanning?.find((i) => {
+              return i?.transportPlanningModeId === 1;
+            }) || '';
           //
           const iatacode = [];
 
           // eslint-disable-next-line no-unused-expressions
           hbawRestData?.forEach((item, index) => {
-            if (item?.transportPlanning?.iatanumber) {
+            const transportPlanningAir =
+              item?.transportPlanning?.find((i) => {
+                return i?.transportPlanningModeId === 1;
+              }) || '';
+
+            if (transportPlanningAir?.iatanumber) {
               iatacode.push({
                 value: index + 1,
-                label: item?.transportPlanning?.iatanumber,
+                label: transportPlanningAir?.iatanumber,
               });
             }
           });
@@ -308,14 +316,14 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             );
             return subtotal + weightSubtotal;
           }, 0);
-          const airportOfDepartureAndRouting = firstIndex?.transportPlanning?.airTransportRow?.map(
+          const airportOfDepartureAndRouting = transportPlanningAir?.airTransportRow?.map(
             (item) => {
               return `(${item?.fromPort} - ${item?.toPort}) `;
             },
           );
           const requestedFlightDate =
-            firstIndex?.transportPlanning?.airTransportRow?.[
-              firstIndex?.transportPlanning?.airTransportRow?.length - 1
+            transportPlanningAir?.airTransportRow?.[
+              transportPlanningAir?.airTransportRow?.length - 1
             ]?.flightDate;
 
           let strConsignee = '';
@@ -361,8 +369,6 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             }
           }
 
-          console.log('modeOfTransportId', firstIndex?.modeOfTransportId);
-          console.log(strConsignee, 'strConsignee');
           const obj = {
             // missing items
             gsaName: '',
@@ -373,7 +379,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             // bind from data
             consigneeNameAndAddress: strConsignee,
             shipperNameAndAddress: `Akij Logistics Limited \nBir Uttam Mir Shawkat Sarak, Dhaka 1208`,
-            agentIatacode: `${firstIndex?.transportPlanning?.iatanumber || ''}`,
+            agentIatacode: `${transportPlanningAir?.iatanumber || ''}`,
             noOfPiecesRcp: `${totalNumberOfPackages || ''}`,
             prepaidNatureAndQuantityOfGoods: `${prepaidNatureAndQuantityOfGoods ||
               ''}`,
@@ -383,12 +389,10 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                 ? firstIndex?.invoiceValue
                 : 'AS PER INVOICE'
             }`,
-            airportOfDestination: ` ${firstIndex?.transportPlanning
-              ?.airTransportRow?.[
-              firstIndex?.transportPlanning?.airTransportRow?.length - 1
+            airportOfDestination: ` ${transportPlanningAir?.airTransportRow?.[
+              transportPlanningAir?.airTransportRow?.length - 1
             ]?.toPort ?? ''}`,
-            airportOfDepartureAndRouting: `${firstIndex?.transportPlanning
-              ?.airLineOrShippingLine ??
+            airportOfDepartureAndRouting: `${transportPlanningAir?.airLineOrShippingLine ??
               ''} \n ${airportOfDepartureAndRouting ?? ''} `,
             requestedFlightDate: `${moment(requestedFlightDate).format(
               'YYYY-DD-MM',

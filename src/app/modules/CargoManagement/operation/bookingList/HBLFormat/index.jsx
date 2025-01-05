@@ -104,6 +104,12 @@ const SingleItem = ({
   const totalNumberOfPackages = bookingData?.rowsData?.reduce((acc, item) => {
     return acc + (+item?.totalNumberOfPackages || 0);
   }, 0);
+
+  const transportPlanningSea =
+    bookingData?.transportPlanning?.find((i) => {
+      return i?.transportPlanningModeId === 2;
+    }) || '';
+
   return (
     <>
       <div>
@@ -183,7 +189,7 @@ const SingleItem = ({
                 <div className="preCarriageInfo borderBottom">
                   <div className="firstColumn">
                     <p className="textTitle">Pre-Carriage By:</p>
-                    <p>{bookingData?.transportPlanning?.vesselName}</p>
+                    <p>{transportPlanningSea?.vesselName}</p>
                   </div>
                   <div className="rightSide">
                     <p className="textTitle">Place of Receipt:</p>
@@ -194,8 +200,8 @@ const SingleItem = ({
                   <div className="firstColumn">
                     <p className="textTitle">Ocean Vessel:</p>
                     <p>
-                      {bookingData?.transportPlanning?.vesselName || ''} /{' '}
-                      {bookingData?.transportPlanning?.voyagaNo || ''}
+                      {transportPlanningSea?.vesselName || ''} /{' '}
+                      {transportPlanningSea?.voyagaNo || ''}
                     </p>
                   </div>
                   <div className="rightSide">
@@ -437,7 +443,7 @@ const SingleItem = ({
                           <td>Size</td>
                           <td>Mode</td>
                         </tr>
-                        {bookingData?.transportPlanning?.containerDesc?.map(
+                        {transportPlanningSea?.containerDesc?.map(
                           (i, index) => {
                             return (
                               <tr key={Math.random()}>
@@ -491,11 +497,9 @@ const SingleItem = ({
                       <p>Shipped On Board</p>
                       <p>
                         Date:{' '}
-                        {bookingData?.transportPlanning
-                          ?.estimatedTimeOfDepart &&
+                        {transportPlanningSea?.estimatedTimeOfDepart &&
                           moment(
-                            bookingData?.transportPlanning
-                              ?.estimatedTimeOfDepart,
+                            transportPlanningSea?.estimatedTimeOfDepart,
                           ).format('DD-MM-YYYY')}
                       </p>
                     </div>
