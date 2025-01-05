@@ -109,6 +109,22 @@ const FreightCargoReceipt = ({ rowClickData }) => {
     };
   });
 
+  const totalGrossWeightKG = bookingData?.rowsData?.reduce(
+    (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
+    0,
+  );
+
+  const totalVolumetricWeight = bookingData?.rowsData?.reduce(
+    (acc, item) => acc + (+item?.totalVolumetricWeight || 0),
+    0,
+  );
+  const totalChargeableWeight =
+    totalVolumetricWeight > totalGrossWeightKG
+      ? totalVolumetricWeight
+      : totalGrossWeightKG;
+
+  const chargeableRate = +bookingData?.saveWaybillData?.chargeableRate || 0;
+
   return (
     <Formik
       enableReinitialize={true}
@@ -513,28 +529,42 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               }}
             >
               <span>
-                {shipBookingRequestGetById?.modeOfTransport === 'Air'
-                  ? 'Air Freight '
-                  : 'Ocean Freight '}
-                is {/* containerDesc size wise group than total rate show */}
+                {shipBookingRequestGetById?.modeOfTransport === 'Sea'
+                  ? 'Ocean Freight'
+                  : `${shipBookingRequestGetById?.modeOfTransport} Freight`}
+                {/* containerDesc size wise group than total rate show */}
                 {sumOfRate?.map((item, index) => {
-                  return `${item?.rate}/${item?.size} `;
+                  return `is ${item?.rate}/${item?.size} `;
                 })}
               </span>{' '}
               <br />
               <span>
-                Total Container:{' '}
-                {sumOfRate?.map((item, index) => {
-                  return `${item?.containerNo} x ${item?.size} `;
-                })}
+                Total Container: {/*billingType 2 = sea  */}{' '}
+                {values?.billingType === 2 && (
+                  <>
+                    {sumOfRate?.map((item, index) => {
+                      return `${item?.containerNo} x ${item?.size} `;
+                    })}
+                  </>
+                )}
+                {/* billingType 1 = Air */}
+                {values?.billingType === 1 && <>{totalChargeableWeight}</>}
               </span>{' '}
               <br />
               {/* <span>Ex Rate 110.50</span> <br /> */}
               <span>
                 So, Total Ocean Freight is USD{' '}
-                {sumOfRate?.reduce((acc, item) => {
-                  return acc + item?.total;
-                }, 0) || 0}
+                {values?.billingType === 2 && (
+                  <>
+                    {' '}
+                    {sumOfRate?.reduce((acc, item) => {
+                      return acc + item?.total;
+                    }, 0) || 0}
+                  </>
+                )}
+                {values?.billingType === 1 && (
+                  <>{totalChargeableWeight * chargeableRate || 0}</>
+                )}
               </span>{' '}
               <br />
               <span>

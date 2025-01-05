@@ -492,7 +492,7 @@ function HBLFormatAirItem({
                         style={{
                           width: '100%',
                         }}
-                        type="text"
+                        type="number"
                         value={htmlContent?.chargeableRate || ''}
                         onChange={(e) => {
                           changeHandelar &&
