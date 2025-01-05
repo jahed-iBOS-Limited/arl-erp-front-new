@@ -72,12 +72,15 @@ export default function InterCompanyTransferRequestCreate() {
         return state.authData;
     }, shallowEqual);
 
+    const [partnerDDl, getPartnerDDl] = useAxiosGet();
     const [bankList, getBankList] = useAxiosGet()
     const [, onCreateHandler, saveLoader] = useAxiosPost();
 
     useEffect(() => {
         getBankList(`/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`)
-
+        getPartnerDDl(
+            `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PartnerTypeId=4`
+          );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedBusinessUnit])
 
@@ -197,7 +200,7 @@ export default function InterCompanyTransferRequestCreate() {
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="sendingPartner"
-                                        options={businessUnitList || []}
+                                        options={partnerDDl || []}
                                         value={values?.sendingPartner}
                                         label="Sending Partner"
                                         onChange={(valueOption) => setFieldValue("sendingPartner", valueOption)}
