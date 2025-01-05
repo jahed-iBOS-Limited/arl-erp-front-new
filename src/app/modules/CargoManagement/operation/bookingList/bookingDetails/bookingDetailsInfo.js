@@ -380,9 +380,9 @@ function BookingDetailsInfo({ bookingData, billingData }) {
               <strong>Concern Sales Person:</strong>{' '}
               {bookingData?.concernSalesPerson}
             </p>
-            <p>
+            {/* <p>
               <strong>Transport Mode:</strong> {bookingData?.confTransportMode}
-            </p>
+            </p> */}
             <p>
               <strong>Warehouse:</strong> {bookingData?.warehouseName}
             </p>

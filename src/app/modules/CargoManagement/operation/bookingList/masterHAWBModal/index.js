@@ -66,6 +66,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
       declaredValueForCustoms: values?.declaredValueForCustoms || '',
       airportOfDestination: values?.airportOfDestination || '',
       requestedFlightDate: values?.requestedFlightDate || '',
+      requestedFlightDate2: values?.requestedFlightDate2 || '',
       amountOfInsurance: values?.amountOfInsurance || '',
       handlingInformation: values?.handlingInformation || '',
       noOfPiecesRcp: values?.noOfPiecesRcp || '',
@@ -159,6 +160,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             declaredValueForCustoms: data?.declaredValueForCustoms || '',
             airportOfDestination: data?.airportOfDestination || '',
             requestedFlightDate: data?.requestedFlightDate || '',
+            requestedFlightDate2: data?.requestedFlightDate2 || '',
             amountOfInsurance: data?.amountOfInsurance || '',
             handlingInformation: data?.handlingInformation || '',
             noOfPiecesRcp: data?.noOfPiecesRcp || '',
@@ -359,6 +361,8 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             }
           }
 
+          console.log('modeOfTransportId', firstIndex?.modeOfTransportId);
+          console.log(strConsignee, 'strConsignee');
           const obj = {
             // missing items
             gsaName: '',
@@ -387,6 +391,9 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
               ?.airLineOrShippingLine ??
               ''} \n ${airportOfDepartureAndRouting ?? ''} `,
             requestedFlightDate: `${moment(requestedFlightDate).format(
+              'YYYY-DD-MM',
+            )} `,
+            requestedFlightDate2: `${moment(requestedFlightDate).format(
               'YYYY-DD-MM',
             )} `,
             grossWeightKgLb: '',
@@ -541,10 +548,6 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   <p className="textTitle">
                                     Shipper's Name and Address:
                                   </p>
-                                  <p>TO THE ORDER OF</p>
-                                </div>
-                                <div className="borderLeft borderBottom p-2">
-                                  <p className="textTitle">Company Info:</p>
                                   {values?.shipperNameAndAddress
                                     ? values?.shipperNameAndAddress
                                         ?.split('\n')
@@ -557,35 +560,6 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                           );
                                         })
                                     : ''}
-                                  {/* {isPrintViewMode ? (
-                                    <p>
-                                      {values?.shipperNameAndAddress
-                                        ? values?.shipperNameAndAddress
-                                          ?.split("\n")
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
-                                        : ""}
-                                    </p>
-                                  ) : (
-                                    <textarea
-                                      name="shipperNameAndAddress"
-                                      value={values?.shipperNameAndAddress}
-                                      rows={4}
-                                      cols={40}
-                                      onChange={(e) => {
-                                        setFieldValue(
-                                          "shipperNameAndAddress",
-                                          e.target.value
-                                        );
-                                      }}
-                                    />
-                                  )} */}
                                 </div>
                               </div>
                             </div>
@@ -600,10 +574,6 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                   <p className="textTitle">
                                     Consignee's Name and Address:
                                   </p>
-                                  <p>TO THE ORDER OF</p>
-                                </div>
-                                <div className="borderLeft borderBottom p-2">
-                                  <p className="textTitle">Delivery Agent:</p>
                                   {isPrintViewMode ? (
                                     <p>
                                       {values?.consigneeNameAndAddress
@@ -1587,7 +1557,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                       <>
                                         <p>
                                           {moment(
-                                            values?.requestedFlightDate,
+                                            values?.requestedFlightDate2,
                                           ).format('DD-MM-YYYY')}
                                         </p>
                                       </>
@@ -1596,12 +1566,12 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
                                         {' '}
                                         <div className="col-lg-12">
                                           <input
-                                            name="requestedFlightDate"
-                                            value={values?.requestedFlightDate}
+                                            name="requestedFlightDate2"
+                                            value={values?.requestedFlightDate2}
                                             type="date"
                                             onChange={(e) => {
                                               setFieldValue(
-                                                'requestedFlightDate',
+                                                'requestedFlightDate2',
                                                 e.target.value,
                                               );
                                             }}

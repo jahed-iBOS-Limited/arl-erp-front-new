@@ -60,14 +60,14 @@ const BillGenerate = ({ rowClickData, CB }) => {
 
   const commonGetByIdHandler = (modeOfTransportId, isAdvanced) => {
     let masterBlId = 0;
-    let masterBlCode = '';
+    // let masterBlCode = '';
     if (modeOfTransportId === 1) {
       masterBlId = rowClickData?.airmasterBlId;
-      masterBlCode = rowClickData?.airMasterBlCode;
+      // masterBlCode = rowClickData?.airMasterBlCode;
     }
     if (modeOfTransportId === 2) {
       masterBlId = rowClickData?.seamasterBlId;
-      masterBlCode = rowClickData?.seaMasterBlCode;
+      // masterBlCode = rowClickData?.seaMasterBlCode;
     }
     if (!masterBlId) return;
 
