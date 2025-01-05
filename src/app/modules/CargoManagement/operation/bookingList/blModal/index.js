@@ -11,6 +11,7 @@ import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions'
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import { attachmentUpload } from '../helper';
 import './style.css';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 const validationSchema = Yup.object().shape({
   documentsNumber: Yup.string().required('BL No is required'),
 });
@@ -27,6 +28,7 @@ function BLModal({ rowClickData, CB }) {
     UploadParticularDocumentsLoading,
     ,
   ] = useAxiosPost();
+  const [, getDocumentsByMasterBL, documentsByMasterBLLoaidng] = useAxiosGet();
   const [open, setOpen] = React.useState(false);
   const [fileObjects, setFileObjects] = React.useState([]);
   const formikRef = React.useRef(null);
@@ -37,7 +39,36 @@ function BLModal({ rowClickData, CB }) {
       ? 1
       : 2;
     formikRef.current.setFieldValue('billingType', modeOfTransportId);
+    commonGetDocumentsByMasterBL(modeOfTransportId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rowClickData]);
+
+  const commonGetDocumentsByMasterBL = (modeOfTransportId) => {
+    let masterBlId = 0;
+    if (modeOfTransportId === 1) {
+      masterBlId = rowClickData?.airmasterBlId;
+    }
+    if (modeOfTransportId === 2) {
+      masterBlId = rowClickData?.seamasterBlId;
+    }
+    getDocumentsByMasterBL(
+      `${imarineBaseUrl}/domain/ShippingService/GetDocumentsByMasterBL?MasterBlId=${masterBlId}`,
+      (resData) => {
+        if (resData) {
+          const document = resData || {};
+          formikRef.current.setFieldValue(
+            'documentsNumber',
+            document?.documentsNumber || '',
+          );
+          formikRef.current.setFieldValue(
+            'documentFileId',
+            document?.documentFileId || '',
+          );
+          formikRef.current.setFieldValue('documentId', document?.documentId);
+        }
+      },
+    );
+  };
 
   const saveHandler = (values, cb) => {
     let masterBlId = 0;
@@ -54,7 +85,7 @@ function BLModal({ rowClickData, CB }) {
     const paylaod = {
       bookingRequestId: bookingRequestId || 0,
       documentsNumber: values?.documentsNumber || '',
-      documentId: 0,
+      documentId: values?.documentId || 0,
       documentTypeId: 6,
       documentType: 'Bill of Lading (BL)',
       documentFileId: values?.documentFileId || '',
@@ -62,6 +93,7 @@ function BLModal({ rowClickData, CB }) {
       createdAt: new Date(),
       createdBy: profileData?.userId,
       masterBlId: masterBlId || 0,
+      modeOfTransportId: values?.billingType || 0,
     };
 
     if (paylaod) {
@@ -76,7 +108,9 @@ function BLModal({ rowClickData, CB }) {
 
   return (
     <div className="blModal">
-      {UploadParticularDocumentsLoading && <Loading />}
+      {(UploadParticularDocumentsLoading || documentsByMasterBLLoaidng) && (
+        <Loading />
+      )}
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -116,6 +150,7 @@ function BLModal({ rowClickData, CB }) {
                           style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
                             setFieldValue('billingType', 1);
+                            commonGetDocumentsByMasterBL(1);
                           }}
                         />
                         Air
@@ -129,6 +164,7 @@ function BLModal({ rowClickData, CB }) {
                           style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
                             setFieldValue('billingType', 2);
+                            commonGetDocumentsByMasterBL(2);
                           }}
                         />
                         Sea
