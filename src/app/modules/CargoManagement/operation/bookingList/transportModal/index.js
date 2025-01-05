@@ -39,13 +39,13 @@ const validationSchema = Yup.object().shape({
     is: (val) => [2].includes(val?.value),
     then: Yup.string().required('Arrival Date & Time is required'),
   }),
-  transportMode: Yup.object()
-    .shape({
-      label: Yup.string().required('Transport Mode is required'),
-      value: Yup.number().required('Transport Mode is required'),
-    })
-    .nullable()
-    .typeError('Transport Mode is required'),
+  // transportMode: Yup.object()
+  //   .shape({
+  //     label: Yup.string().required('Transport Mode is required'),
+  //     value: Yup.number().required('Transport Mode is required'),
+  //   })
+  //   .nullable()
+  //   .typeError('Transport Mode is required'),
 });
 function TransportModal({ rowClickData, CB }) {
   const { profileData } = useSelector(
@@ -156,17 +156,17 @@ function TransportModal({ rowClickData, CB }) {
           )
         : '',
     );
-    formikRef.current.setFieldValue(
-      `rows[0].transportMode`,
-      transportPlanning?.transportMode
-        ? {
-            value: transportPlanning?.transportModeId || 0,
-            label: transportPlanning?.transportMode,
-          }
-        : data?.confTransportMode
-        ? { value: 0, label: data?.confTransportMode }
-        : '',
-    );
+    // formikRef.current.setFieldValue(
+    //   `rows[0].transportMode`,
+    //   transportPlanning?.transportMode
+    //     ? {
+    //         value: transportPlanning?.transportModeId || 0,
+    //         label: transportPlanning?.transportMode,
+    //       }
+    //     : data?.confTransportMode
+    //     ? { value: 0, label: data?.confTransportMode }
+    //     : '',
+    // );
     formikRef.current.setFieldValue(
       `rows[0].strSbNo`,
       transportPlanning?.strSbNo || '',
@@ -957,7 +957,7 @@ function TransportModal({ rowClickData, CB }) {
                             </>
                           )}
                           {/* Transport Mode */}
-                          <div className="col-lg-3">
+                          {/* <div className="col-lg-3">
                             <NewSelect
                               name={`rows[${index}].transportMode`}
                               // options={transportModeDDL || []}
@@ -1001,7 +1001,7 @@ function TransportModal({ rowClickData, CB }) {
                                     errors?.rows?.[index]?.transportMode}
                                 </div>
                               )}
-                          </div>
+                          </div> */}
 
                           {/* EstimatedTimeOfDepart */}
                           <div className="col-lg-3">
