@@ -333,11 +333,9 @@ function ConfirmModal({ rowClickData, CB }) {
     const payload = {
       bookingRequestId: bookingRequestId || 0,
       departureDateTime:
-        moment(values?.departureDateTime).format('YYYY-MM-DDTHH:mm:ss') ||
-        new Date(),
+        moment(values?.departureDateTime).format('YYYY-MM-DD') || new Date(),
       arrivalDateTime:
-        moment(values?.arrivalDateTime).format('YYYY-MM-DDTHH:mm:ss') ||
-        new Date(),
+        moment(values?.arrivalDateTime).format('YYYY-MM-DD') || new Date(),
       flightNumber: values?.flightNumber || '',
       transitInformation: values?.transitInformation?.label || '',
       awbnumber: values?.airWaybillNumber || '',
