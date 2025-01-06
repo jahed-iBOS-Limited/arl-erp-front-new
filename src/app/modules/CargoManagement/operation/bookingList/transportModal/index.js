@@ -633,51 +633,6 @@ function TransportModal({ rowClickData, CB }) {
                                 </div>
                               )}
                           </div>
-                          {/* Pickup date */}
-                          {/* <div className="col-lg-3">
-                            <InputField
-                              value={values?.rows?.[index]?.pickupDate || ''}
-                              label="Estimated Pickup Date"
-                              name={`rows[${index}].pickupDate`}
-                              type="date"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].pickupDate`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                            {errors?.rows &&
-                              errors?.rows?.[index]?.pickupDate &&
-                              touched.rows && (
-                                <div className="text-danger">
-                                  {errors?.rows?.[index]?.pickupDate}
-                                </div>
-                              )}
-                          </div> */}
-                          {/* Vehicle info */}
-                          {/* <div className="col-lg-3">
-                            <InputField
-                              value={values?.rows?.[index]?.vehicleInfo || ''}
-                              label="Vehicle Info"
-                              name={`rows[${index}].vehicleInfo`}
-                              type="text"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].vehicleInfo`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                            {errors?.rows &&
-                              errors?.rows?.[index]?.vehicleInfo &&
-                              touched.rows && (
-                                <div className="text-danger">
-                                  {errors?.rows?.[index]?.vehicleInfo}
-                                </div>
-                              )}
-                          </div> */}
-
                           {/* Air Line */}
                           <div className="col-lg-3">
                             <NewSelect
@@ -686,14 +641,24 @@ function TransportModal({ rowClickData, CB }) {
                               value={
                                 values?.rows?.[index].airLineOrShippingLine
                               }
-                              label="Air Line"
+                              label={
+                                values?.rows?.[index]?.transportPlanning
+                                  ?.value === 1
+                                  ? 'Air Line'
+                                  : 'Shipping Line' || ''
+                              }
                               onChange={(valueOption) => {
                                 setFieldValue(
                                   `rows[${index}].airLineOrShippingLine`,
                                   valueOption,
                                 );
                               }}
-                              placeholder="Air line"
+                              placeholder={
+                                values?.rows?.[index]?.transportPlanning
+                                  ?.value === 1
+                                  ? 'Air Line'
+                                  : 'Shipping Line' || ''
+                              }
                               errors={errors}
                               touched={touched}
                             />
