@@ -720,7 +720,7 @@ function BookingList() {
                                   </span>
                                 </td>
                                 {item?.modeOfTransport === 'Sea' && (
-                                  <>
+                                  <td>
                                     {' '}
                                     <span>
                                       <button
@@ -747,7 +747,7 @@ function BookingList() {
                                         Stuffing
                                       </button>
                                     </span>
-                                  </>
+                                  </td>
                                 )}
                                 <td>
                                   <span>
@@ -791,25 +791,22 @@ function BookingList() {
                                 {['Air', 'Sea-Air'].includes(
                                   item?.modeOfTransport,
                                 ) && (
-                                  <>
-                                    {' '}
-                                    <td>
-                                      <span>
-                                        <button
-                                          className="btn btn-sm btn-warning px-1 py-1"
-                                          onClick={() => {
-                                            setRowClickData(item);
-                                            setIsModalShowObj({
-                                              ...isModalShowObj,
-                                              isManifest: true,
-                                            });
-                                          }}
-                                        >
-                                          Manifest
-                                        </button>
-                                      </span>
-                                    </td>
-                                  </>
+                                  <td>
+                                    <span>
+                                      <button
+                                        className="btn btn-sm btn-warning px-1 py-1"
+                                        onClick={() => {
+                                          setRowClickData(item);
+                                          setIsModalShowObj({
+                                            ...isModalShowObj,
+                                            isManifest: true,
+                                          });
+                                        }}
+                                      >
+                                        Manifest
+                                      </button>
+                                    </span>
+                                  </td>
                                 )}
 
                                 <td>
