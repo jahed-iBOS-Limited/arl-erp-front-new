@@ -54,11 +54,11 @@ const FreightCargoReceipt = ({ rowClickData }) => {
     setShipBookingRequestGetById(
       `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
       (resData) => {
-        const modeOfTransportId = [1, 3].includes(
+        const modeOfTransportId = [2, 3].includes(
           rowClickData?.modeOfTransportId,
         )
-          ? 1
-          : 2;
+          ? 2
+          : 1;
         formikRef.current.setFieldValue('billingType', modeOfTransportId);
 
         const transportPlanningAir =
@@ -159,7 +159,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
 
             <div className="d-flex justify-content-between">
               <div>
-                {rowClickData?.modeOfTransportId === 3 && (
+                {/* {rowClickData?.modeOfTransportId === 3 && (
                   <>
                     {' '}
                     <label className="mr-3">
@@ -200,7 +200,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                       Sea
                     </label>
                   </>
-                )}
+                )} */}
               </div>
               <div>
                 {!bookingData?.fcrnumber && (
@@ -556,9 +556,9 @@ const FreightCargoReceipt = ({ rowClickData }) => {
               </span>{' '}
               <br />
               <span>
-                {values?.billingType === 2
-                  ? 'Total Container: '
-                  : 'Total Chargeable Weight: '}
+                {rowClickData?.modeOfTransportId === 2 && 'Total Container: '}
+                {[1, 3].includes(rowClickData?.modeOfTransportId) &&
+                  'Total Chargeable Weight:'}
                 {/*modeOfTransportId 2 = sea  */}{' '}
                 {rowClickData?.modeOfTransportId === 2 && (
                   <>
@@ -572,7 +572,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                   <>{totalChargeableWeight}</>
                 )}
                 {/* modeOfTransportId= 3 = sea-air */}
-                {<>{totalKGS}</>}
+                {rowClickData?.modeOfTransportId === 3 && <>{totalKGS}</>}
               </span>{' '}
               <br />
               <span>
