@@ -928,23 +928,21 @@ const CommonShippingScheduleView = ({ modeOfTransport, transportPlanning }) => {
               </tr>
             </thead>
             <tbody>
-              {transportPlanning?.transportPlanning?.containerDesc?.map(
-                (item, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{item?.poNumber}</td>
-                    <td>{item?.style}</td>
-                    <td>{item?.color}</td>
-                    <td>{item?.containerNumber}</td>
-                    <td>{item?.sealNumber}</td>
-                    <td>{item?.size}</td>
-                    <td>{item?.rate}</td>
-                    <td>{item?.quantity}</td>
-                    <td>{item?.cbm}</td>
-                    <td>{item?.kgs}</td>
-                  </tr>
-                ),
-              )}
+              {transportPlanning?.containerDesc?.map((item, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item?.poNumber}</td>
+                  <td>{item?.style}</td>
+                  <td>{item?.color}</td>
+                  <td>{item?.containerNumber}</td>
+                  <td>{item?.sealNumber}</td>
+                  <td>{item?.size}</td>
+                  <td>{item?.rate}</td>
+                  <td>{item?.quantity}</td>
+                  <td>{item?.cbm}</td>
+                  <td>{item?.kgs}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
