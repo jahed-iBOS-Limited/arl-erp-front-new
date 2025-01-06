@@ -200,7 +200,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                     <th>Responsible</th>
                                                     <th>Remarks</th>
                                                     <th>Status</th>
-                                                    <th>Action</th>
+                                                    <th style={{ minWidth: "60px" }}>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -223,15 +223,15 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                         >
                                                             {item.isApproved ? "Approved" : "Pending"}
                                                         </td>                                                        <td className="text-center">
-                                                            <div className="d-flex justify-content-around">
+                                                            <div className="d-flex justify-content-between">
                                                                 <span>
-                                                                    <IView />
+                                                                    <IView styles={{ fontSize: "16px" }} />
                                                                 </span>
                                                                 <span>
                                                                     <IEdit />
                                                                 </span>
                                                                 <span>
-                                                                    <IDelete />
+                                                                    <IDelete style={{ fontSize: "16px" }} />
                                                                 </span>
                                                             </div>
                                                         </td>
