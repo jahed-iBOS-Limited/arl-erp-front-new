@@ -34,6 +34,7 @@ import PaginationTable from './../../../../_helper/_tablePagination';
 import { saveBOMApproval_api } from './../helper';
 import './approval.css';
 import BillOfMaterialTable from './billOfMaterialTable';
+import DealersBenefits from '../dealersBenefits/landing.js';
 // import CommonJournalApprovalGrid from '../accountAndFinance/commonJournal/index.js';
 
 export function TableRow(props) {
@@ -660,6 +661,14 @@ export function TableRow(props) {
             paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
           />
         )}
+        {activityName?.label === "Dealer's Benefits" && (
+              <DealersBenefits
+                onChangeForActivity={onChangeForActivity}
+                activityName={activityName}
+                activityChange={activityChange}
+                selectedPlant={selectedPlant}
+              />
+            )}
       </ICustomCard>
     </>
   );
