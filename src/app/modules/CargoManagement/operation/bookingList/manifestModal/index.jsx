@@ -52,6 +52,11 @@ export default function ManifestModal({ rowClickData }) {
   const numberOfPackages = bookingData?.rowsData?.reduce((acc, item) => {
     return acc + item?.totalNumberOfPackages;
   }, 0);
+
+  const transportPlanningAir =
+    bookingData?.transportPlanning?.find((i) => {
+      return i?.transportPlanningModeId === 1;
+    }) || '';
   return (
     <div>
       <div className="d-flex justify-content-end">
@@ -174,10 +179,7 @@ export default function ManifestModal({ rowClickData }) {
                   paddingLeft: 5,
                 }}
               >
-                {
-                  bookingData?.transportPlanning?.airTransportRow?.[0]
-                    ?.flightNumber
-                }
+                {transportPlanningAir?.airTransportRow?.[0]?.flightNumber}
               </td>
               <td
                 style={{
@@ -187,8 +189,7 @@ export default function ManifestModal({ rowClickData }) {
                 }}
               >
                 {moment(
-                  bookingData?.transportPlanning?.airTransportRow?.[0]
-                    ?.flightDate,
+                  transportPlanningAir?.airTransportRow?.[0]?.flightDate,
                 ).format('YYYY-MM-DD')}
               </td>
             </tr>

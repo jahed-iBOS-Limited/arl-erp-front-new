@@ -113,10 +113,15 @@ export default function MasterHBLModal({
 
           // eslint-disable-next-line no-unused-expressions
           hblRestData?.forEach((item, index) => {
-            if (item?.transportPlanning?.vesselName) {
+            const transportPlanningSea =
+              item?.transportPlanning?.find((i) => {
+                return i?.transportPlanningModeId === 2;
+              }) || "";
+
+            if (transportPlanningSea?.vesselName) {
               strPreCarriageBy.push({
                 value: index + 1,
-                label: item?.transportPlanning?.vesselName,
+                label: transportPlanningSea?.vesselName,
               });
               if (item?.pickupPlace) {
                 strPlaceOfReceipt.push({
@@ -149,12 +154,12 @@ export default function MasterHBLModal({
                 });
               }
               if (
-                item?.transportPlanning?.vesselName ||
-                item?.transportPlanning?.voyagaNo
+                transportPlanningSea?.vesselName ||
+                transportPlanningSea?.voyagaNo
               ) {
                 strOceanVessel.push({
                   value: index + 1,
-                  label: `${item?.transportPlanning?.vesselName} / ${item?.transportPlanning?.voyagaNo}`,
+                  label: `${transportPlanningSea?.vesselName} / ${transportPlanningSea?.voyagaNo}`,
                 });
               }
             }
@@ -261,6 +266,11 @@ export default function MasterHBLModal({
             strNotifyParty += ", " + firstIndex?.notifyPartyDtl1?.address;
           }
 
+          const transportPlanningSea =
+            firstIndex?.transportPlanning?.find((i) => {
+              return i?.transportPlanningModeId === 2;
+            }) || "";
+
           const obj = {
             intSipMasterBlid: 0,
             strShipper: "",
@@ -273,12 +283,12 @@ export default function MasterHBLModal({
                 })
                 .join(", ") || "",
             strShippingAgentReferences: `${firstIndex?.shipperName}\n${firstIndex?.shipperAddress}\n${firstIndex?.shipperContactPerson}\n`,
-            strOceanVessel: `${firstIndex?.transportPlanning?.vesselName ||
-              ""} / ${firstIndex?.transportPlanning?.voyagaNo || ""}`,
+            strOceanVessel: `${transportPlanningSea?.vesselName ||
+              ""} / ${transportPlanningSea?.voyagaNo || ""}`,
             strVoyageNo: "",
             strPortOfLoading: firstIndex?.portOfLoading || "",
             strPlaceOfReceipt: firstIndex?.pickupPlace || "",
-            strPreCarriageBy: firstIndex?.transportPlanning?.vesselName || "",
+            strPreCarriageBy: transportPlanningSea?.vesselName || "",
             strPortOfDischarge: firstIndex?.portOfDischarge || "",
             strPlaceOfDelivery: firstIndex?.finalDestinationAddress || "",
             strNumberOfBl: "",

@@ -380,9 +380,9 @@ function BookingDetailsInfo({ bookingData, billingData }) {
               <strong>Concern Sales Person:</strong>{' '}
               {bookingData?.concernSalesPerson}
             </p>
-            <p>
+            {/* <p>
               <strong>Transport Mode:</strong> {bookingData?.confTransportMode}
-            </p>
+            </p> */}
             <p>
               <strong>Warehouse:</strong> {bookingData?.warehouseName}
             </p>
@@ -391,48 +391,6 @@ function BookingDetailsInfo({ bookingData, billingData }) {
         {/* Shipment planning 2*/}
 
         <div className="mt-4">
-          {bookingData?.modeOfTransport === 'Sea' && (
-            <>
-              <div className="table-responsive">
-                <table className="table global-table mt-0">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>PO Number</th>
-                      <th>Style</th>
-                      <th>Color</th>
-                      <th>Container No</th>
-                      <th>Seal No</th>
-                      <th>Container Size</th>
-                      <th>Rate</th>
-                      <th>Cartoon Quantity</th>
-                      <th>CBM</th>
-                      <th>KGS</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {bookingData?.transportPlanning?.containerDesc?.map(
-                      (item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>{item?.poNumber}</td>
-                          <td>{item?.style}</td>
-                          <td>{item?.color}</td>
-                          <td>{item?.containerNumber}</td>
-                          <td>{item?.sealNumber}</td>
-                          <td>{item?.size}</td>
-                          <td>{item?.rate}</td>
-                          <td>{item?.quantity}</td>
-                          <td>{item?.cbm}</td>
-                          <td>{item?.kgs}</td>
-                        </tr>
-                      ),
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          )}
           {/* Shipping Schedule  table*/}
           {transportPlanningSea && (
             <div>
@@ -951,6 +909,47 @@ const CommonTransportPlanningView = ({
 const CommonShippingScheduleView = ({ modeOfTransport, transportPlanning }) => {
   return (
     <>
+      {modeOfTransport === 'Sea' && (
+        <div className="table-responsive">
+          <table className="table global-table mt-0">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>PO Number</th>
+                <th>Style</th>
+                <th>Color</th>
+                <th>Container No</th>
+                <th>Seal No</th>
+                <th>Container Size</th>
+                <th>Rate</th>
+                <th>Cartoon Quantity</th>
+                <th>CBM</th>
+                <th>KGS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {transportPlanning?.transportPlanning?.containerDesc?.map(
+                (item, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{item?.poNumber}</td>
+                    <td>{item?.style}</td>
+                    <td>{item?.color}</td>
+                    <td>{item?.containerNumber}</td>
+                    <td>{item?.sealNumber}</td>
+                    <td>{item?.size}</td>
+                    <td>{item?.rate}</td>
+                    <td>{item?.quantity}</td>
+                    <td>{item?.cbm}</td>
+                    <td>{item?.kgs}</td>
+                  </tr>
+                ),
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
+
       <h5>Shipping Schedule ({modeOfTransport === 'Sea' ? 'Sea' : 'Air'})</h5>
 
       <div className="mt-4">
