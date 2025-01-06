@@ -15,6 +15,7 @@ import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
 import './style.css';
+import { set } from 'lodash';
 const validationSchema = Yup.object().shape({
   pickupLocation: Yup.string().required('Pickup Location is required'),
   noOfPallets: Yup.string().when('transportPlanning', {
@@ -151,22 +152,9 @@ function TransportModal({ rowClickData, CB }) {
     formikRef.current.setFieldValue(
       `rows[0].estimatedTimeOfDepart`,
       transportPlanning?.estimatedTimeOfDepart
-        ? moment(transportPlanning?.estimatedTimeOfDepart).format(
-            'YYYY-MM-DDTHH:mm:ss',
-          )
+        ? moment(transportPlanning?.estimatedTimeOfDepart).format('YYYY-MM-DD')
         : '',
     );
-    // formikRef.current.setFieldValue(
-    //   `rows[0].transportMode`,
-    //   transportPlanning?.transportMode
-    //     ? {
-    //         value: transportPlanning?.transportModeId || 0,
-    //         label: transportPlanning?.transportMode,
-    //       }
-    //     : data?.confTransportMode
-    //     ? { value: 0, label: data?.confTransportMode }
-    //     : '',
-    // );
     formikRef.current.setFieldValue(
       `rows[0].strSbNo`,
       transportPlanning?.strSbNo || '',
@@ -225,15 +213,21 @@ function TransportModal({ rowClickData, CB }) {
       );
       formikRef.current.setFieldValue(
         `rows[0].arrivalDateTime`,
-        transportPlanning?.arrivalDateTime || '',
+        transportPlanning?.arrivalDateTime
+          ? moment(transportPlanning?.arrivalDateTime).format('YYYY-MM-DD')
+          : '',
       );
       formikRef.current.setFieldValue(
         `rows[0].berthDate`,
-        transportPlanning?.berthDate || '',
+        transportPlanning?.berthDate
+          ? moment(transportPlanning?.berthDate).format('YYYY-MM-DD')
+          : '',
       );
       formikRef.current.setFieldValue(
         `rows[0].cutOffDate`,
-        transportPlanning?.cutOffDate || '',
+        transportPlanning?.cutOffDate
+          ? moment(transportPlanning?.cutOffDate).format('YYYY-MM-DD')
+          : '',
       );
       formikRef.current.setFieldValue(
         `rows[0].containerDesc`,
@@ -256,17 +250,25 @@ function TransportModal({ rowClickData, CB }) {
 
       const getUniqueOptions = (key) => {
         try {
-          const values = [];
+          const values = new Set();
           data.rowsData.forEach((row) => {
             if (row.dimensionRow && row.dimensionRow.length > 0) {
               row.dimensionRow.forEach((dim) => {
-                if (dim[key] && !values?.includes(dim[key])) {
-                  values.push(dim[key]);
+                if (dim[key]) {
+                  values.add({
+                    ...dim,
+                    label: dim[key],
+                    value: dim[key],
+                  });
                 }
               });
             }
           });
-          return values?.map((value) => ({ value, label: value }));
+          return Array.from(values).map((item) => ({
+            ...item,
+            value: item?.value,
+            label: item?.label,
+          }));
         } catch (error) {
           return [];
         }
@@ -377,19 +379,17 @@ function TransportModal({ rowClickData, CB }) {
       vesselName: row?.vesselName || '',
       voyagaNo: row?.voyagaNo || '',
       ...(row?.arrivalDateTime && {
-        arrivalDateTime: moment(row?.arrivalDateTime).format(
-          'YYYY-MM-DDTHH:mm:ss',
-        ),
+        arrivalDateTime: moment(row?.arrivalDateTime).format('YYYY-MM-DD'),
       }),
       ...(row?.berthDate && {
-        berthDate: moment(row?.berthDate).format('YYYY-MM-DDTHH:mm:ss'),
+        berthDate: moment(row?.berthDate).format('YYYY-MM-DD'),
       }),
       ...(row?.cutOffDate && {
-        cutOffDate: moment(row?.cutOffDate).format('YYYY-MM-DDTHH:mm:ss'),
+        cutOffDate: moment(row?.cutOffDate).format('YYYY-MM-DD'),
       }),
       ...(row?.estimatedTimeOfDepart && {
         estimatedTimeOfDepart: moment(row?.estimatedTimeOfDepart).format(
-          'YYYY-MM-DDTHH:mm:ss',
+          'YYYY-MM-DD',
         ),
       }),
       gsaName: row?.gsa?.label || '',
@@ -399,7 +399,7 @@ function TransportModal({ rowClickData, CB }) {
       transportId: transportId,
       strSbNo: row?.strSbNo || '',
       ...(row?.dteSbDate && {
-        dteSbDate: moment(row?.dteSbDate).format('YYYY-MM-DDTHH:mm:ss'),
+        dteSbDate: moment(row?.dteSbDate).format('YYYY-MM-DD'),
       }),
       isActive: true,
       containerDesc: row?.containerDesc?.map((item) => ({
@@ -426,7 +426,7 @@ function TransportModal({ rowClickData, CB }) {
         fromPort: item?.fromPort || '',
         toPort: item?.toPort || '',
         flightNumber: item?.flightNumber || '',
-        flightDate: moment(item?.flightDate).format('YYYY-MM-DDTHH:mm:ss'),
+        flightDate: moment(item?.flightDate).format('YYYY-MM-DD'),
         isActive: true,
       })),
       transportPlanningModeName: values?.transportPlanningMode?.label || '',
@@ -448,7 +448,6 @@ function TransportModal({ rowClickData, CB }) {
       );
     }
   };
-
   return (
     <div className="confirmModal">
       {(shippingTransportPlanningLoading ||
@@ -500,7 +499,6 @@ function TransportModal({ rowClickData, CB }) {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
-            {console.log(values, 'values')}
             {/* <h1>{JSON.stringify(errors)}</h1> */}
             <Form className="form form-label-right">
               <div className="d-flex justify-content-between align-items-center">
@@ -633,51 +631,6 @@ function TransportModal({ rowClickData, CB }) {
                                 </div>
                               )}
                           </div>
-                          {/* Pickup date */}
-                          {/* <div className="col-lg-3">
-                            <InputField
-                              value={values?.rows?.[index]?.pickupDate || ''}
-                              label="Estimated Pickup Date"
-                              name={`rows[${index}].pickupDate`}
-                              type="date"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].pickupDate`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                            {errors?.rows &&
-                              errors?.rows?.[index]?.pickupDate &&
-                              touched.rows && (
-                                <div className="text-danger">
-                                  {errors?.rows?.[index]?.pickupDate}
-                                </div>
-                              )}
-                          </div> */}
-                          {/* Vehicle info */}
-                          {/* <div className="col-lg-3">
-                            <InputField
-                              value={values?.rows?.[index]?.vehicleInfo || ''}
-                              label="Vehicle Info"
-                              name={`rows[${index}].vehicleInfo`}
-                              type="text"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].vehicleInfo`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                            {errors?.rows &&
-                              errors?.rows?.[index]?.vehicleInfo &&
-                              touched.rows && (
-                                <div className="text-danger">
-                                  {errors?.rows?.[index]?.vehicleInfo}
-                                </div>
-                              )}
-                          </div> */}
-
                           {/* Air Line */}
                           <div className="col-lg-3">
                             <NewSelect
@@ -686,14 +639,24 @@ function TransportModal({ rowClickData, CB }) {
                               value={
                                 values?.rows?.[index].airLineOrShippingLine
                               }
-                              label="Air Line"
+                              label={
+                                values?.rows?.[index]?.transportPlanning
+                                  ?.value === 1
+                                  ? 'Air Line'
+                                  : 'Shipping Line' || ''
+                              }
                               onChange={(valueOption) => {
                                 setFieldValue(
                                   `rows[${index}].airLineOrShippingLine`,
                                   valueOption,
                                 );
                               }}
-                              placeholder="Air line"
+                              placeholder={
+                                values?.rows?.[index]?.transportPlanning
+                                  ?.value === 1
+                                  ? 'Air Line'
+                                  : 'Shipping Line' || ''
+                              }
                               errors={errors}
                               touched={touched}
                             />
@@ -892,7 +855,7 @@ function TransportModal({ rowClickData, CB }) {
                                   }
                                   label="Estimated Arrival Date & Time"
                                   name={`rows[${index}].arrivalDateTime`}
-                                  type="datetime-local"
+                                  type="date"
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].arrivalDateTime`,
@@ -914,7 +877,7 @@ function TransportModal({ rowClickData, CB }) {
                                   value={values?.rows?.[index]?.berthDate || ''}
                                   label="Estimated Berth Date"
                                   name={`rows[${index}].berthDate`}
-                                  type="datetime-local"
+                                  type="date"
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].berthDate`,
@@ -938,7 +901,7 @@ function TransportModal({ rowClickData, CB }) {
                                   }
                                   label="Estimated Cut Off Date"
                                   name={`rows[${index}].cutOffDate`}
-                                  type="datetime-local"
+                                  type="date"
                                   onChange={(e) =>
                                     setFieldValue(
                                       `rows[${index}].cutOffDate`,
@@ -1012,7 +975,7 @@ function TransportModal({ rowClickData, CB }) {
                               }
                               label="Estimated Time Of Depart"
                               name={`rows[${index}].estimatedTimeOfDepart`}
-                              type="datetime-local"
+                              type="date"
                               onChange={(e) =>
                                 setFieldValue(
                                   `rows[${index}].estimatedTimeOfDepart`,
@@ -1091,6 +1054,20 @@ function TransportModal({ rowClickData, CB }) {
                                     `rows[${index}].poNumber`,
                                     valueOption,
                                   );
+                                  setFieldValue(`rows[${index}].style`, '');
+                                  setFieldValue(`rows[${index}].color`, '');
+                                  setFieldValue(
+                                    `rows[${index}].quantity`,
+                                    valueOption?.numberOfPackage || '',
+                                  );
+                                  setFieldValue(
+                                    `rows[${index}].cbm`,
+                                    valueOption?.perUnitCbm || '',
+                                  );
+                                  setFieldValue(
+                                    `rows[${index}].kgs`,
+                                    valueOption?.perUnitGrossWeight || '',
+                                  );
                                 }}
                                 placeholder="Select"
                                 errors={errors}
@@ -1101,7 +1078,14 @@ function TransportModal({ rowClickData, CB }) {
                             <div className="col-lg-2">
                               <NewSelect
                                 name={`rows[${index}].style`}
-                                options={styleDDL || []}
+                                options={
+                                  styleDDL?.filter(
+                                    (i) =>
+                                      i?.bookingRequestRowId ===
+                                      values?.rows?.[index]?.poNumber
+                                        ?.bookingRequestRowId,
+                                  ) || []
+                                }
                                 value={values?.rows?.[index]?.style}
                                 label="Style"
                                 onChange={(valueOption) => {
@@ -1119,7 +1103,14 @@ function TransportModal({ rowClickData, CB }) {
                             <div className="col-lg-2">
                               <NewSelect
                                 name={`rows[${index}].color`}
-                                options={colorDDL || []}
+                                options={
+                                  colorDDL?.filter(
+                                    (i) =>
+                                      i?.bookingRequestRowId ===
+                                      values?.rows?.[index]?.poNumber
+                                        ?.bookingRequestRowId,
+                                  ) || []
+                                }
                                 value={values?.rows?.[index]?.color || ''}
                                 label="Color"
                                 onChange={(valueOption) => {
@@ -1223,22 +1214,6 @@ function TransportModal({ rowClickData, CB }) {
                               />
                             </div>
 
-                            {/* rate */}
-                            <div className="col-lg-2">
-                              <InputField
-                                value={values?.rows?.[index]?.quantity || ''}
-                                label="Cartoon Quantity"
-                                name={`rows[${index}].quantity`}
-                                type="number"
-                                onChange={(e) =>
-                                  setFieldValue(
-                                    `rows[${index}].quantity`,
-                                    e.target.value,
-                                  )
-                                }
-                              />
-                            </div>
-
                             {/* CBM */}
                             <div className="col-lg-2">
                               <InputField
@@ -1271,6 +1246,21 @@ function TransportModal({ rowClickData, CB }) {
                                 onChange={(e) =>
                                   setFieldValue(
                                     `rows[${index}].kgs`,
+                                    e.target.value,
+                                  )
+                                }
+                              />
+                            </div>
+                            {/* rate */}
+                            <div className="col-lg-2">
+                              <InputField
+                                value={values?.rows?.[index]?.quantity || ''}
+                                label="Cartoon Quantity"
+                                name={`rows[${index}].quantity`}
+                                type="number"
+                                onChange={(e) =>
+                                  setFieldValue(
+                                    `rows[${index}].quantity`,
                                     e.target.value,
                                   )
                                 }

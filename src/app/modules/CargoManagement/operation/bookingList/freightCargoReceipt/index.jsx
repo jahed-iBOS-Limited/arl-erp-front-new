@@ -54,11 +54,11 @@ const FreightCargoReceipt = ({ rowClickData }) => {
     setShipBookingRequestGetById(
       `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
       (resData) => {
-        const modeOfTransportId = [1, 3].includes(
+        const modeOfTransportId = [2, 3].includes(
           rowClickData?.modeOfTransportId,
         )
-          ? 1
-          : 2;
+          ? 2
+          : 1;
         formikRef.current.setFieldValue('billingType', modeOfTransportId);
 
         const transportPlanningAir =
@@ -123,7 +123,12 @@ const FreightCargoReceipt = ({ rowClickData }) => {
       ? totalVolumetricWeight
       : totalGrossWeightKG;
 
-  const chargeableRate = +bookingData?.saveWaybillData?.chargeableRate || 0;
+  const hblChargeableRate = +bookingData?.saveWaybillData?.chargeableRate || 0;
+  const seaAirChargeableRate = +sumOfRate?.[0]?.rate || 0;
+
+  const totalKGS = transportPlanningData?.containerDesc?.reduce((acc, item) => {
+    return acc + (+item?.kgs || 0);
+  }, 0);
 
   return (
     <Formik
@@ -154,7 +159,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
 
             <div className="d-flex justify-content-between">
               <div>
-                {rowClickData?.modeOfTransportId === 3 && (
+                {/* {rowClickData?.modeOfTransportId === 3 && (
                   <>
                     {' '}
                     <label className="mr-3">
@@ -195,7 +200,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                       Sea
                     </label>
                   </>
-                )}
+                )} */}
               </div>
               <div>
                 {!bookingData?.fcrnumber && (
@@ -532,36 +537,49 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                 {values?.billingType === 2
                   ? 'Ocean Freight is '
                   : `Air Freight is `}
-                {/* containerDesc size wise group than total rate show */}
-                {values?.billingType === 2 && (
+                {/* if mode "sea = 2" than rate and size show */}
+                {rowClickData?.modeOfTransportId === 2 && (
                   <>
                     {sumOfRate?.map((item, index) => {
                       return `${item?.rate}/${item?.size} `;
                     })}
                   </>
                 )}
-                {values?.billingType === 1 && <>{chargeableRate}</>}
+                {/* if mode "air = 1" than rate show */}
+                {rowClickData?.modeOfTransportId === 1 && (
+                  <>{hblChargeableRate}</>
+                )}
+                {/* if mode "sea-air = 3" than rate show*/}
+                {rowClickData?.modeOfTransportId === 3 && (
+                  <>{seaAirChargeableRate}</>
+                )}
               </span>{' '}
               <br />
               <span>
-                Total Container: {/*billingType 2 = sea  */}{' '}
-                {values?.billingType === 2 && (
+                {rowClickData?.modeOfTransportId === 2 && 'Total Container: '}
+                {[1, 3].includes(rowClickData?.modeOfTransportId) &&
+                  'Total Chargeable Weight:'}
+                {/*modeOfTransportId 2 = sea  */}{' '}
+                {rowClickData?.modeOfTransportId === 2 && (
                   <>
                     {sumOfRate?.map((item, index) => {
                       return `${item?.containerNo} x ${item?.size} `;
                     })}
                   </>
                 )}
-                {/* billingType 1 = Air */}
-                {values?.billingType === 1 && <>{totalChargeableWeight}</>}
+                {/* modeOfTransportId 1 = Air */}
+                {rowClickData?.modeOfTransportId === 1 && (
+                  <>{totalChargeableWeight}</>
+                )}
+                {/* modeOfTransportId= 3 = sea-air */}
+                {rowClickData?.modeOfTransportId === 3 && <>{totalKGS}</>}
               </span>{' '}
               <br />
-              {/* <span>Ex Rate 110.50</span> <br /> */}
               <span>
                 So, Total{' '}
                 {values?.billingType === 2 ? 'Ocean Freight' : `Air Freight`} is
-                USD{' '}
-                {values?.billingType === 2 && (
+                USD {/*modeOfTransportId 2 = sea  */}{' '}
+                {rowClickData?.modeOfTransportId === 2 && (
                   <>
                     {' '}
                     {sumOfRate?.reduce((acc, item) => {
@@ -569,9 +587,12 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                     }, 0) || 0}
                   </>
                 )}
-                {values?.billingType === 1 && (
-                  <>{totalChargeableWeight * chargeableRate || 0}</>
+                {/* modeOfTransportId 1 = Air */}
+                {rowClickData?.modeOfTransportId === 1 && (
+                  <>{totalChargeableWeight * hblChargeableRate || 0}</>
                 )}
+                {/* modeOfTransportId= 3 = sea-air */}
+                {<>{totalKGS * seaAirChargeableRate || 0}</>}
               </span>{' '}
               <br />
               <span>

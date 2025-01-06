@@ -13,8 +13,12 @@ import IForm from "../../../../_helper/_form";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
+import { _todayDate } from "../../../../_helper/_todayDate";
 
 const initData = {
+    status: { value: 0, label: "Pending" },
+    fromDate: _todayDate(),
+    toDate: _todayDate(),
 
 };
 export default function Contra({ viewType }) {
@@ -33,9 +37,10 @@ export default function Contra({ viewType }) {
     const history = useHistory();
 
     const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
-        const searchTearm = searchValue ? `&search=${searchValue}` : "";
+        const searchTearm = searchValue ? `&strSearch=${searchValue}` : "";
         getGridData(
-            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&strRequestType=Request&viewOrder=DESC&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
+            // `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&strRequestType=Request&viewOrder=DESC&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
+            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isApproved=${values?.status?.value}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
         );
     };
 
@@ -48,14 +53,14 @@ export default function Contra({ viewType }) {
     };
 
     useEffect(() => {
-        getLandingData({}, pageNo, pageSize, "");
+        getLandingData(initData, pageNo, pageSize, "");
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
         <Formik
             enableReinitialize={true}
-            initialValues={{}}
+            initialValues={initData}
             // validationSchema={{}}
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 saveHandler(values, () => {
@@ -162,9 +167,9 @@ export default function Contra({ viewType }) {
                                         <NewSelect
                                             name="status"
                                             options={[
-                                                { value: 1, label: "Pending" },
-                                                { value: 2, label: "Approved" },
-                                                { value: 3, label: "Rejected" },
+                                                { value: 0, label: "Pending" },
+                                                { value: 1, label: "Approved" },
+                                                { value: 2, label: "Rejected" },
                                             ]}
                                             value={values?.status}
                                             label="Status"
@@ -174,7 +179,10 @@ export default function Contra({ viewType }) {
 
                                         />
                                     </div>
-                                    <div><button className="btn btn-primary mt-5">Show</button></div>
+                                    <div><button type="button" onClick={() => {
+                                        getLandingData(values, pageNo, pageSize, "");
+
+                                    }} className="btn btn-primary mt-5">Show</button></div>
                                 </div>
                                 {gridData?.data?.length > 0 && (
                                     <div className="my-3">
@@ -201,7 +209,7 @@ export default function Contra({ viewType }) {
                                                     <th>Responsible</th>
                                                     <th>Remarks</th>
                                                     <th>Status</th>
-                                                    <th>Action</th>
+                                                    <th style={{ minWidth: "60px" }}>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -222,16 +230,17 @@ export default function Contra({ viewType }) {
                                                                 }`}
                                                         >
                                                             {item.isApproved ? "Approved" : "Pending"}
-                                                        </td>                                                        <td className="text-center">
-                                                            <div className="d-flex justify-content-around">
+                                                        </td>
+                                                        <td className="text-center">
+                                                            <div className="d-flex justify-content-between">
                                                                 <span>
-                                                                    <IView />
+                                                                    <IView styles={{ fontSize: "16px" }} />
                                                                 </span>
                                                                 <span>
                                                                     <IEdit />
                                                                 </span>
                                                                 <span>
-                                                                    <IDelete />
+                                                                    <IDelete style={{ fontSize: "16px" }} />
                                                                 </span>
                                                             </div>
                                                         </td>

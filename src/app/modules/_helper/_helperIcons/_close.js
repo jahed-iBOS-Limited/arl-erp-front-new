@@ -1,7 +1,7 @@
 import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-export default function IClose({ closer, id, title }) {
+export default function IClose({ closer, id, title, styles }) {
   return (
     <div>
       <OverlayTrigger
@@ -9,6 +9,7 @@ export default function IClose({ closer, id, title }) {
       >
         <span>
           <i
+            style={styles}
             onClick={() => closer && closer(id)}
             className="fa fa-times-circle closeBtn cursor-pointer"
             aria-hidden="true"
