@@ -345,6 +345,7 @@ function CreateCustomerLeadGeneration() {
                       onChange={(e) => {
                         setFieldValue("uom", e.target.value);
                       }}
+                      disabled
                     />
                   </div>
                   {/* quantity */}
