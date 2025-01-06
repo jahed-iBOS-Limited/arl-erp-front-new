@@ -75,6 +75,8 @@ export default function TransferShipmentForm({
   const [rowDto, setRowDto] = useState([]);
   const { state: headerData } = useLocation();
   const [routeListDDL, setRouteListDDL] = useState([]);
+  const [transferOutData, setTransferOutData] = useState([]);
+  const [showTransferOutModal, setShowTransferOutModal] = useState(false);
   const [packerList, getPackerList, , setPackerList] = useAxiosGet();
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -252,78 +254,32 @@ export default function TransferShipmentForm({
         toast.warning("Please add atleast one");
         return;
       }
+      // for edit
       if (id) {
-        const shipmentRowEntryList = rowDto?.map((itm) => {
-          return {
-            rowId: itm?.rowId,
-            deliveryId: itm?.deliveryId,
-            deliveryCode: itm?.deliveryCode,
-            shipToPartnerId: itm?.shipToPartnerId,
-            shipToPartnerName: itm?.shipToPartnerName,
-            shipToPartnerAddress: itm?.shipToPartnerAddress,
-            // inventoryTrnasctionId: itm?.deliveryId,
-            // inventoryTrnasctionCode: itm?.deliveryCode,
-            // toWarehouseId: itm?.shipToPartnerId,
-            // toWarehouseName: itm?.shipToPartnerName,
-            // toWarehouseAddress: itm?.shipToPartnerAddress,
-            loadingPointId: itm?.loadingPointId,
-            distanceKm: +values?.lastDistance,
-            eta: values?.estimatedTimeofArrival,
-            transportZoneId: itm?.transportZoneId,
-            itemTotalGrowssWeight: itm?.itemTotalGrowssWeight,
-            itemTotalNetWeight: itm?.itemTotalNetWeight,
-            itemTotalVolume: itm?.itemTotalVolume,
-            unloadVehicleWeight: itm?.unloadVehicleWeight,
-            unloadVehicleVolume: itm?.unloadVehicleVolume,
-          };
-        });
+        const shipmentRowList = rowDto?.map((itm) => ({ ...itm }));
         const payload = {
           shipmentHeader: {
-            inventoryTransactionId: +id,
-            lastDestinationKmCustomerId: 0,
+            ...singleData?.shipmentHeader,
             supplierId: values?.supplierName?.value || 0,
             supplierName: values?.supplierName?.label || 0,
-            shipmentId: +id,
-            accountId: profileData?.accountId,
-            businessUnitId: selectedBusinessUnit?.value,
-            businessUnitName: selectedBusinessUnit?.label,
-            shipmentDate: values?.shipmentdate,
-            routeId: values?.route?.value,
-            routeName: values?.route?.label,
-            planedLoadingTime: values?.planedLoadingTime,
-            vehicleId: +values?.vehicleId || 0,
-            vehicleName: values?.Vehicle?.label,
-            shipmentCostId: values?.Vehicle?.value,
-            lastDestinationKm: +values?.lastDistance,
-            departureDateTime: values?.estimatedTimeofArrival,
-            actualDepartureDateTime: values?.estimatedTimeofArrival,
+            vehicleId: +values?.Vehicle?.value || 0,
+            vehicleName: values?.Vehicle?.label || "",
             driverId: values?.driverId,
             driverName: values?.driverName,
-            driverContactNo: values?.driverContactNo,
-            actionBy: profileData?.userId,
-            active: true,
-            lastActionDateTime: _todayDate(),
-            itemTotalGrowssWeight:
-              deliveryItemVolumeInfo?.grossWeight ||
-              singleData?.shipmentHeader?.itemTotalGrowssWeight,
-            itemTotalNetWeight:
-              deliveryItemVolumeInfo?.netWeight ||
-              singleData?.shipmentHeader?.itemTotalGrowssWeight,
-            itemTotalVolume:
-              deliveryItemVolumeInfo?.volume ||
-              singleData?.shipmentHeader?.itemTotalVolume,
+            driverContact: values?.driverContactNo,
             unloadVehicleWeight: vehicleSingleData?.weight,
             unloadVehicleVolume: vehicleSingleData?.volume,
-            isLaborImpart: true,
-            transportZoneId: values?.transportZone?.value,
+            actionBy: profileData?.userId,
             laborSupplierId: values?.laborSupplierName?.value || 0,
             laborSupplierName: values?.laborSupplierName?.label || "",
-            loadingLabourSupplierId: values?.truckTrallerSupplier?.value || 0,
-            vehicleEntryId: values?.gateEntryCode?.value || 0,
-            vehicleEntryCode: values?.gateEntryCode?.label || "",
+            veichleEntryId: values?.gateEntryCode?.value || 0,
+            veichleEntryCode: values?.gateEntryCode?.label || "",
           },
-          shipmentRowEntryList: shipmentRowEntryList,
+          shipmentRowList: shipmentRowList,
+          transferOutData: transferOutData,
         };
+
+        console.log(payload);
         dispatch(
           saveEditedShipment(payload, setDisabled, () => {
             // Called Pending List DDL Again
@@ -336,7 +292,9 @@ export default function TransferShipmentForm({
             );
           })
         );
-      } else {
+      } 
+      // for create
+      else {
         const shipmentRowEntryList = rowDto?.map((itm) => {
           return {
             inventoryTrnasctionId: itm?.deliveryId,
@@ -511,6 +469,11 @@ export default function TransferShipmentForm({
   useEffect(() => {
     if (id) {
       setRowDto(singleData?.shipmentRowList);
+      // moidfy transfer out data to new array
+      setTransferOutData(
+        singleData?.transferOutData?.map((item) => ({ ...item }))
+      );
+
       if (singleData?.shipmentHeader?.Vehicle?.label)
         vehicleSingeDataView(
           singleData?.shipmentHeader?.Vehicle?.label,
@@ -608,6 +571,11 @@ export default function TransferShipmentForm({
         stockStatusOnShipment={stockStatusOnShipment}
         pendingDeliveryOnchangeHandler={pendingDeliveryOnchangeHandler}
         packerList={packerList}
+        transferOutData={transferOutData}
+        setTransferOutData={setTransferOutData}
+        showTransferOutModal={showTransferOutModal}
+        setShowTransferOutModal={setShowTransferOutModal}
+        id={id}        
       />
     </IForm>
   );

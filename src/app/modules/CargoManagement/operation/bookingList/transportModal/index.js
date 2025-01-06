@@ -39,13 +39,13 @@ const validationSchema = Yup.object().shape({
     is: (val) => [2].includes(val?.value),
     then: Yup.string().required('Arrival Date & Time is required'),
   }),
-  transportMode: Yup.object()
-    .shape({
-      label: Yup.string().required('Transport Mode is required'),
-      value: Yup.number().required('Transport Mode is required'),
-    })
-    .nullable()
-    .typeError('Transport Mode is required'),
+  // transportMode: Yup.object()
+  //   .shape({
+  //     label: Yup.string().required('Transport Mode is required'),
+  //     value: Yup.number().required('Transport Mode is required'),
+  //   })
+  //   .nullable()
+  //   .typeError('Transport Mode is required'),
 });
 function TransportModal({ rowClickData, CB }) {
   const { profileData } = useSelector(
@@ -156,17 +156,17 @@ function TransportModal({ rowClickData, CB }) {
           )
         : '',
     );
-    formikRef.current.setFieldValue(
-      `rows[0].transportMode`,
-      transportPlanning?.transportMode
-        ? {
-            value: transportPlanning?.transportModeId || 0,
-            label: transportPlanning?.transportMode,
-          }
-        : data?.confTransportMode
-        ? { value: 0, label: data?.confTransportMode }
-        : '',
-    );
+    // formikRef.current.setFieldValue(
+    //   `rows[0].transportMode`,
+    //   transportPlanning?.transportMode
+    //     ? {
+    //         value: transportPlanning?.transportModeId || 0,
+    //         label: transportPlanning?.transportMode,
+    //       }
+    //     : data?.confTransportMode
+    //     ? { value: 0, label: data?.confTransportMode }
+    //     : '',
+    // );
     formikRef.current.setFieldValue(
       `rows[0].strSbNo`,
       transportPlanning?.strSbNo || '',
@@ -633,51 +633,6 @@ function TransportModal({ rowClickData, CB }) {
                                 </div>
                               )}
                           </div>
-                          {/* Pickup date */}
-                          {/* <div className="col-lg-3">
-                            <InputField
-                              value={values?.rows?.[index]?.pickupDate || ''}
-                              label="Estimated Pickup Date"
-                              name={`rows[${index}].pickupDate`}
-                              type="date"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].pickupDate`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                            {errors?.rows &&
-                              errors?.rows?.[index]?.pickupDate &&
-                              touched.rows && (
-                                <div className="text-danger">
-                                  {errors?.rows?.[index]?.pickupDate}
-                                </div>
-                              )}
-                          </div> */}
-                          {/* Vehicle info */}
-                          {/* <div className="col-lg-3">
-                            <InputField
-                              value={values?.rows?.[index]?.vehicleInfo || ''}
-                              label="Vehicle Info"
-                              name={`rows[${index}].vehicleInfo`}
-                              type="text"
-                              onChange={(e) =>
-                                setFieldValue(
-                                  `rows[${index}].vehicleInfo`,
-                                  e.target.value,
-                                )
-                              }
-                            />
-                            {errors?.rows &&
-                              errors?.rows?.[index]?.vehicleInfo &&
-                              touched.rows && (
-                                <div className="text-danger">
-                                  {errors?.rows?.[index]?.vehicleInfo}
-                                </div>
-                              )}
-                          </div> */}
-
                           {/* Air Line */}
                           <div className="col-lg-3">
                             <NewSelect
@@ -686,14 +641,24 @@ function TransportModal({ rowClickData, CB }) {
                               value={
                                 values?.rows?.[index].airLineOrShippingLine
                               }
-                              label="Air Line"
+                              label={
+                                values?.rows?.[index]?.transportPlanning
+                                  ?.value === 1
+                                  ? 'Air Line'
+                                  : 'Shipping Line' || ''
+                              }
                               onChange={(valueOption) => {
                                 setFieldValue(
                                   `rows[${index}].airLineOrShippingLine`,
                                   valueOption,
                                 );
                               }}
-                              placeholder="Air line"
+                              placeholder={
+                                values?.rows?.[index]?.transportPlanning
+                                  ?.value === 1
+                                  ? 'Air Line'
+                                  : 'Shipping Line' || ''
+                              }
                               errors={errors}
                               touched={touched}
                             />
@@ -957,7 +922,7 @@ function TransportModal({ rowClickData, CB }) {
                             </>
                           )}
                           {/* Transport Mode */}
-                          <div className="col-lg-3">
+                          {/* <div className="col-lg-3">
                             <NewSelect
                               name={`rows[${index}].transportMode`}
                               // options={transportModeDDL || []}
@@ -1001,7 +966,7 @@ function TransportModal({ rowClickData, CB }) {
                                     errors?.rows?.[index]?.transportMode}
                                 </div>
                               )}
-                          </div>
+                          </div> */}
 
                           {/* EstimatedTimeOfDepart */}
                           <div className="col-lg-3">
