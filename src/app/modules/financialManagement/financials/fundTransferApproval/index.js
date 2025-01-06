@@ -222,7 +222,7 @@ export default function FundTransferApproval({ viewType }) {
                               {item.isApproved ? 'Approved' : 'Pending'}
                             </td>{' '}
                             <td className="text-center">
-                              <div className="d-flex justify-content-around">
+                              <div className="d-flex justify-content-between">
                                 <span
                                   onClick={() => {
                                     IConfirmModal({
@@ -248,10 +248,10 @@ export default function FundTransferApproval({ viewType }) {
                                 >
                                   <IApproval title={'Approve'} />
                                 </span>
-                                <span>
+                                <span className='ml-1'>
                                   <IClose
                                     title={'Reject'}
-                                    style={{ fontSize: '16px' }}
+                                    styles={{ fontSize: '16px' }}
                                   />
                                 </span>
                               </div>

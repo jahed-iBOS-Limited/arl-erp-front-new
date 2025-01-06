@@ -80,7 +80,7 @@ export default function InterCompanyTransferRequestCreate() {
         getBankList(`/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`)
         getPartnerDDl(
             `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PartnerTypeId=4`
-          );
+        );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedBusinessUnit])
 
@@ -94,8 +94,11 @@ export default function InterCompanyTransferRequestCreate() {
             strTransactionType: parentTransferType?.actionName || 0,
             intTransaferById: values?.transferType?.value || 0,
             strTransferBy: values?.transferType?.label || "",
-            "intRequestByUnitId": values?.sendingPartner?.value,
-            "strRequestByUnitName":  values?.sendingPartner?.label,
+            strRequestPartnerId: values?.sendingPartner?.value || 0,
+            strRequestPartnerName: values?.sendingPartner?.label || "",
+            // IsTransferCreated
+            "intRequestByUnitId": selectedBusinessUnit?.value,
+            "strRequestByUnitName": selectedBusinessUnit?.label,
             "intRequestToUnitId": values?.requestToUnit?.value,
             "strRequestToUnitName": values?.requestToUnit?.label,
             "dteRequestDate": "2024-12-22T09:59:39.993Z",

@@ -203,6 +203,7 @@ const ViewData = ({ adviceReportData, values }) => {
             advicePrintCount(
               adviceReportData?.map((item) => {
                 return {
+                  ...item,
                   journalId: item?.intJournalId,
                   actionBy: profileData?.userId,
                 };
