@@ -76,9 +76,16 @@ function ProfitAndLoss() {
   const printRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
-    documentTitle: 'expense top sheet (HR)',
-    pageStyle:
-      '@media print{body { -webkit-print-color-adjust: exact; display: block; margin: 0mm;}@page {size: portrait ! important}}',
+    documentTitle: 'Profit And Loss',
+    pageStyle: `@media print {
+                body {
+                  -webkit-print-color-adjust: exact;
+                }
+                @page {
+                  size: portrait ! important;
+                  margin: 1cm ! important;
+                  margin-top: 1.5cm ! important;
+                }`,
   });
 
   return (
@@ -185,8 +192,8 @@ function ProfitAndLoss() {
                   </div>
                 </div>
                 {/* Profit And Loss Info */}
-                <div>
-                  <ProfitAndLossInfo />
+                <div ref={printRef}>
+                  <ProfitAndLossInfo values={values} />
                 </div>
               </Form>
             </>
