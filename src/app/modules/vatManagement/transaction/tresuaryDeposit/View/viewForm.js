@@ -1,25 +1,25 @@
-import React from "react";
-import customStyles from "./../../../../selectCustomStyle";
-import { Form, Formik } from "formik";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import Select from "react-select";
+import React from 'react';
+import customStyles from './../../../../selectCustomStyle';
+import { Form, Formik } from 'formik';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import Select from 'react-select';
 import InputField from './../../../../_helper/_inputField';
 
 const initData = {
-  branchName: "",
-  branchAddress: "",
-  depositeType: "",
-  depositAmount: "",
+  branchName: '',
+  branchAddress: '',
+  depositeType: '',
+  depositAmount: '',
   depositDate: _todayDate(),
-  challanNo: "",
+  challanNo: '',
   challanDate: _todayDate(),
-  instrumentNo: "",
+  instrumentNo: '',
   instrumentDate: _todayDate(),
-  bankName: "",
-  bankBranch: "",
-  divisionName: "",
-  districtName: "",
-  depositorName: "",
+  bankName: '',
+  bankBranch: '',
+  divisionName: '',
+  districtName: '',
+  depositorName: '',
 };
 function TresuaryDepositViewModal({ singleData, id }) {
   return (

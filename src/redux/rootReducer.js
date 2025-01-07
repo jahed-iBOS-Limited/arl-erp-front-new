@@ -62,9 +62,6 @@ import { bankAccountSlice } from '../app/modules/financialManagement/configurati
 import { adjustmentJournalSlice } from '../app/modules/financialManagement/financials/adjustmentJournal/_redux/Slice';
 import { bankJournalSlice } from '../app/modules/financialManagement/financials/bankJournal/_redux/Slice';
 import { adInternalExp } from '../app/modules/financialManagement/expense/advanceForInternalExp/_redux/Slice';
-import { taxBranchSlice } from '../app/modules/vatManagement/configuration/branch/_redux/Slice';
-import { buTaxConfigSlice } from '../app/modules/vatManagement/configuration/bsuTaxConfig/_redux/Slice';
-import { taxPriceSetupSlice } from '../app/modules/vatManagement/configuration/priceSetup/_redux/Slice';
 import { invTransactionSlice } from '../app/modules/inventoryManagement/warehouseManagement/invTransaction/_redux/Slice';
 import { localStorageSlice } from '../app/modules/_helper/reduxForLocalStorage/Slice';
 import { purchaseOrgSlice } from './../app/modules/procurement/configuration/purchase-organization/_redux/Slice';
@@ -145,9 +142,6 @@ export const rootReducer = combineReducers({
   partnerLedger: partnerLedgerSlice.reducer,
   bankJournal: bankJournalSlice.reducer,
   adInternalExp: adInternalExp.reducer,
-  taxBranch: taxBranchSlice.reducer,
-  buTaxConfig: buTaxConfigSlice.reducer,
-  taxPriceSetup: taxPriceSetupSlice.reducer,
   invTransa: invTransactionSlice.reducer,
   localStorage: localStorageSlice.reducer,
   chatApp: chatAppSlice.reducer,
