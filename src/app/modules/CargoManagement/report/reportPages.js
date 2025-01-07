@@ -3,6 +3,7 @@ import { Redirect, Switch } from 'react-router-dom';
 import { ContentRoute } from '../../../../_metronic/layout';
 import ExpenseReport from './expenseReport';
 import MasterBLLanding from './masterBl/landing';
+import ProfitAndLoss from './profitAndLoss';
 
 export function ReportPages() {
   return (
@@ -19,6 +20,10 @@ export function ReportPages() {
       <ContentRoute
         path="/cargoManagement/report/master-bl"
         component={MasterBLLanding}
+      />
+      <ContentRoute
+        path="/cargoManagement/report/profit-and-loss"
+        component={ProfitAndLoss}
       />
     </Switch>
   );
