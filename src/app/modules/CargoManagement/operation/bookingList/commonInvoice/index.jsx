@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { Form, Formik } from 'formik';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import { imarineBaseUrl } from '../../../../../App';
@@ -12,7 +12,6 @@ import * as Yup from 'yup';
 import NewSelect from '../../../../_helper/_select';
 import logisticsLogo from './logisticsLogo.png';
 import './style.css';
-import { useState } from 'react';
 const validationSchema = Yup.object().shape({
   collectionParty: Yup.object().shape({
     value: Yup.string().required('Party is required'),
@@ -25,7 +24,6 @@ const CommonInvoice = ({ rowClickData }) => {
     (state) => state?.authData || {},
     shallowEqual,
   );
-  // const [invoiceType, setInvoiceType] = React.useState(null);
   const [billingDataFilterData, setBillingDataFilterData] = React.useState([]);
   const formikRef = React.useRef(null);
   const bookingRequestId = rowClickData?.bookingRequestId;
@@ -129,7 +127,6 @@ const CommonInvoice = ({ rowClickData }) => {
       `${imarineBaseUrl}/domain/ShippingService/CargoBookingInvoice`,
       paylaod,
       () => {
-        // commonGetByIdHandler();
         if (formikRef?.current) {
           formikRef.current.resetForm();
         }
@@ -140,13 +137,13 @@ const CommonInvoice = ({ rowClickData }) => {
 
   const getCalculatedDummyAmount = () => {
     return billingDataFilterData?.reduce((acc, cur) => {
-      return acc + (+cur?.collectionDummyAmount || 0);
+      return acc + (+cur?.collectionActualAmount || 0);
     }, 0);
   };
   const getDummyAmountInWords = () => {
     return amountToWords(
       billingDataFilterData?.reduce((acc, cur) => {
-        return acc + (+cur?.collectionDummyAmount || 0);
+        return acc + (+cur?.collectionActualAmount || 0);
       }, 0) || 0,
     );
   };
@@ -208,17 +205,15 @@ const CommonInvoice = ({ rowClickData }) => {
               </div>
               <div className="d-flex justify-content-end">
                 {invoiceNo?.length === 0 && (
-                  <>
-                    <button
-                      type="button"
-                      className="btn btn-primary mr-1"
-                      onClick={() => {
-                        handleSubmit();
-                      }}
-                    >
-                      Generate
-                    </button>
-                  </>
+                  <button
+                    type="button"
+                    className="btn btn-primary mr-1"
+                    onClick={() => {
+                      handleSubmit();
+                    }}
+                  >
+                    Generate
+                  </button>
                 )}
 
                 {/* {invoiceNo?.length > 0 && ( */}
@@ -227,10 +222,7 @@ const CommonInvoice = ({ rowClickData }) => {
                   type="button"
                   className="btn btn-primary px-3 py-2"
                 >
-                  <i
-                    className="mr-1 fa fa-print pointer"
-                    aria-hidden="true"
-                  ></i>
+                  <i className="mr-1 fa fa-print pointer" aria-hidden="true" />
                   Print
                 </button>
                 {/* )} */}
@@ -662,7 +654,7 @@ const CommonInvoice = ({ rowClickData }) => {
                         <label>{row?.headOfCharges}</label>
                       </td>
                       <td style={{ textAlign: 'right' }}>
-                        {row?.collectionDummyAmount}
+                        {row?.collectionActualAmount}
                       </td>
                       {/* <td style={{ textAlign: 'right' }}>
                     {row?.collectionActualAmount}
