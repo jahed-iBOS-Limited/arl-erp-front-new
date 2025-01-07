@@ -1071,10 +1071,8 @@ export default function MasterHBLModal({
                             marginBottom: 15,
                           }}
                         >
-                          Laden on board
+                          Shipped on Board
                         </p>
-
-                        <p>Date</p>
                       </div>
                       <div>
                         <p
