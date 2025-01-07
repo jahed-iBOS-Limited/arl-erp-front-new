@@ -377,10 +377,10 @@ function ChargesModal({ rowClickData, CB }) {
                     <th rowspan="2">Attribute</th>
                     <th rowspan="2">Currency</th>
                     <th rowspan="2">Exchange Rate</th>
-                    <th colspan="4" class="group-header">
+                    <th colspan="4" className="group-header collection-header">
                       Collection <span>(Amounts & Party)</span>
                     </th>
-                    <th colspan="6" class="group-header">
+                    <th colspan="6" className="group-header payment-header">
                       Payment <span>(Amounts & Party)</span>
                     </th>
                     <th rowspan="2">Action</th>
@@ -390,6 +390,7 @@ function ChargesModal({ rowClickData, CB }) {
                       style={{
                         minWidth: '150px',
                       }}
+                      className="collection-header"
                     >
                       Party
                     </th>
@@ -397,6 +398,7 @@ function ChargesModal({ rowClickData, CB }) {
                       style={{
                         minWidth: '150px',
                       }}
+                      className="collection-header"
                     >
                       Party Name
                     </th>
@@ -404,6 +406,7 @@ function ChargesModal({ rowClickData, CB }) {
                       style={{
                         width: '60px',
                       }}
+                      className="collection-header"
                     >
                       Actual
                     </th>
@@ -411,6 +414,7 @@ function ChargesModal({ rowClickData, CB }) {
                       style={{
                         width: '60px',
                       }}
+                      className="collection-header"
                     >
                       Dummy
                     </th>
@@ -419,6 +423,7 @@ function ChargesModal({ rowClickData, CB }) {
                       style={{
                         minWidth: '150px',
                       }}
+                      className="payment-header"
                     >
                       Party
                     </th>
@@ -426,6 +431,7 @@ function ChargesModal({ rowClickData, CB }) {
                       style={{
                         minWidth: '150px',
                       }}
+                      className="payment-header"
                     >
                       Party Name
                     </th>
@@ -433,6 +439,7 @@ function ChargesModal({ rowClickData, CB }) {
                       style={{
                         width: '60px',
                       }}
+                      className="payment-header"
                     >
                       Actual
                     </th>
@@ -440,6 +447,7 @@ function ChargesModal({ rowClickData, CB }) {
                       style={{
                         width: '60px',
                       }}
+                      className="payment-header"
                     >
                       Dummy
                     </th>
@@ -447,10 +455,13 @@ function ChargesModal({ rowClickData, CB }) {
                       style={{
                         width: '60px',
                       }}
+                      className="payment-header"
                     >
                       Advance
                     </th>
-                    <th style={{ width: '60px' }}>Is Combind</th>
+                    <th style={{ width: '60px' }} className="payment-header">
+                      Is Combind
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -582,7 +593,7 @@ function ChargesModal({ rowClickData, CB }) {
                             isDisabled={isDisabled || item?.billingId}
                           />
                         </td>
-                        <td>
+                        <td className="collection-border-right">
                           <InputField
                             disabled={isDisabled || item?.billingId}
                             value={item?.exchangeRate}
@@ -602,7 +613,7 @@ function ChargesModal({ rowClickData, CB }) {
                         </td>
 
                         {/* "Collection Type" =  NewSelect component */}
-                        <td>
+                        <td className="collection-border-right">
                           <NewSelect
                             isDisabled={isDisabled || item?.invoiceId}
                             options={
@@ -635,7 +646,7 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                           />
                         </td>
-                        <td>
+                        <td className="collection-border-right">
                           <SearchAsyncSelect
                             isDisabled={
                               isDisabled ||
@@ -671,7 +682,7 @@ function ChargesModal({ rowClickData, CB }) {
                           />
                         </td>
                         {/*  "Collection  actual Amount" =  InputField component */}
-                        <td>
+                        <td className="collection-border-right">
                           <InputField
                             disabled={
                               isDisabled ||
@@ -692,7 +703,7 @@ function ChargesModal({ rowClickData, CB }) {
                           />
                         </td>
                         {/* "Collection Dummy  Dummy Amount" =  InputField component */}
-                        <td>
+                        <td className="collection-border-right">
                           <InputField
                             disabled={
                               isDisabled ||
@@ -714,7 +725,7 @@ function ChargesModal({ rowClickData, CB }) {
                         </td>
 
                         {/* "Payment Type" =  NewSelect component */}
-                        <td>
+                        <td className="payment-border-right">
                           <NewSelect
                             isDisabled={
                               isDisabled ||
@@ -743,7 +754,7 @@ function ChargesModal({ rowClickData, CB }) {
                             }}
                           />
                         </td>
-                        <td>
+                        <td className="payment-border-right">
                           <SearchAsyncSelect
                             isDisabled={
                               isDisabled ||
@@ -780,7 +791,7 @@ function ChargesModal({ rowClickData, CB }) {
                           />
                         </td>
                         {/* "Payment Actual Amount" =  InputField component */}
-                        <td>
+                        <td className="payment-border-right">
                           <div
                             style={{
                               display: 'flex',
@@ -820,7 +831,7 @@ function ChargesModal({ rowClickData, CB }) {
                           </div>
                         </td>
                         {/* "Payment Dummy Amount" =  InputField component */}
-                        <td>
+                        <td className="payment-border-right">
                           <div
                             style={{
                               display: 'flex',
@@ -859,7 +870,7 @@ function ChargesModal({ rowClickData, CB }) {
                             />
                           </div>
                         </td>
-                        <td>
+                        <td className="payment-border-right">
                           <div
                             style={{
                               display: 'flex',
@@ -903,7 +914,7 @@ function ChargesModal({ rowClickData, CB }) {
                           </div>
                         </td>
                         {/* Is Combind Checkbox */}
-                        <td>
+                        <td className="payment-border-right">
                           <OverlayTrigger
                             overlay={
                               <Tooltip id="products-delete-tooltip">
@@ -974,7 +985,7 @@ function ChargesModal({ rowClickData, CB }) {
                                 ]);
                               }}
                             >
-                              <i class="fa fa-clone" aria-hidden="true"></i>
+                              <i className="fa fa-clone" aria-hidden="true"></i>
                             </button>
                           </div>
                         </td>

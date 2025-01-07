@@ -75,13 +75,13 @@ const validationSchema = Yup.object().shape({
   }),
 });
 function ConfirmModal({ rowClickData, CB }) {
-  const { profileData, selectedBusinessUnit } = useSelector(
+  const { profileData } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, SaveBookingConfirm, bookingConfirmLoading, ,] = useAxiosPut();
-  const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
+  // const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
   const [buyerBankAddressDDL, setBuyerBankAddressDDL] = React.useState([]);
   const [
     shipBookingRequestGetById,
@@ -280,9 +280,9 @@ function ConfirmModal({ rowClickData, CB }) {
   }, [bookingRequestId]);
 
   useEffect(() => {
-    setTransportModeDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
-    );
+    // setTransportModeDDL(
+    //   `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
+    // );
     setBankListDDL(`${imarineBaseUrl}/domain/ShippingService/GetBlobalBankDDL`);
     getConsigneeCountryList(
       `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,

@@ -1,6 +1,6 @@
 import { Form, Formik } from 'formik';
 import React, { useEffect } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
+// import { shallowEqual, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { imarineBaseUrl } from '../../../../../App';
 import InputField from '../../../../_helper/_inputField';
@@ -23,9 +23,9 @@ function ReceiveModal({ rowClickData, CB }) {
   const [, getRecvQuantity, recvQuantityLoading] = useAxiosPut();
   const [rowsData, setRowsData] = React.useState([]);
   const bookingRequestId = rowClickData?.bookingRequestId;
-  const { profileData, selectedBusinessUnit } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  // const { profileData, selectedBusinessUnit } = useSelector((state) => {
+  //   return state.authData;
+  // }, shallowEqual);
   const formikRef = React.useRef(null);
   const [
     shipBookingRequestGetById,
