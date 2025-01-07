@@ -1,18 +1,17 @@
-import React, { useRef, useEffect } from "react";
-import ReactToPrint from "react-to-print";
-import "./style.css";
+import React, { useRef, useEffect } from 'react';
+import ReactToPrint from 'react-to-print';
+import './style.css';
 import {
   EditTaxSalesInvoicePrintStatus_api,
   GetTaxSalesInvoicePrintStatus_api,
   getViewModalDataBySalesId,
-} from "./helper";
-import Loading from "../../_helper/_loading";
-import IViewModal from "../../_helper/_viewModal";
-import printIcon from "../../_helper/images/print-icon.png";
-import { _dateFormatter } from "../../_helper/_dateFormate";
-import govLogo from "./images/govLogo.png";
-import { useState } from "react";
-
+} from './helper';
+import Loading from '../../_helper/_loading';
+import IViewModal from '../../_helper/_viewModal';
+import printIcon from '../../_helper/images/print-icon.png';
+import { _dateFormatter } from '../../_helper/_dateFormate';
+import govLogo from './images/govLogo.png';
+import { useState } from 'react';
 export default function SalesInvoiceModel({
   show,
   onHide,
@@ -42,7 +41,7 @@ export default function SalesInvoiceModel({
       <IViewModal
         show={show}
         onHide={onHide}
-        title={"Sales Invoice iBOS"}
+        title={'Sales Invoice iBOS'}
         btnText="Close"
         componentRef={printRef}
       >
@@ -65,8 +64,8 @@ export default function SalesInvoiceModel({
                     >
                       <img
                         style={{
-                          width: "25px",
-                          paddingRight: "5px",
+                          width: '25px',
+                          paddingRight: '5px',
                         }}
                         src={printIcon}
                         alt="print-icon"
@@ -84,7 +83,7 @@ export default function SalesInvoiceModel({
                   <tr>
                     <th className="sixOne-th" valign="center" halign="center">
                       <div>
-                        <img src={govLogo} alt={"Ibos"} />
+                        <img src={govLogo} alt={'Ibos'} />
                       </div>
                     </th>
                     <th className="sixOne-th">
@@ -115,7 +114,7 @@ export default function SalesInvoiceModel({
                 <h5>চালান ইস্যুর ঠিকানা : {gridData?.data?.issueAddress}</h5>
                 <h5>চালান নম্বর : {gridData?.data?.challanNo} </h5>
                 <h5>
-                  চালান ইস্যুর তারিখ :{" "}
+                  চালান ইস্যুর তারিখ :{' '}
                   {_dateFormatter(gridData?.data?.issueDate)}
                 </h5>
               </div>
@@ -180,7 +179,7 @@ export default function SalesInvoiceModel({
                         <div className="text-right pr-2">
                           {gridData?.details?.reduce(
                             (acc, item) => acc + +item?.total,
-                            0
+                            0,
                           )}
                         </div>
                       </td>
@@ -195,7 +194,7 @@ export default function SalesInvoiceModel({
                         <div className="text-right pr-2">
                           {(gridData?.details?.reduce(
                             (acc, item) => acc + +item?.total,
-                            0
+                            0,
                           ) *
                             gridData?.data?.turnoverTaxPercentage) /
                             100}
