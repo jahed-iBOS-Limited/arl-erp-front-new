@@ -1,14 +1,14 @@
-import React from "react";
-import IViewModal from "../../../_helper/_viewModal";
-import PurchaseView from "../../purchase/parchase-6.4/view/addEditForm";
-import ProductionForm from "../../inventory/production/Form/addEditForm";
-import TransferOutViewForm from "../../inventory/transferOut/viewModal";
-import ItemTransferInViewForm from "../../inventory/transferIn/view/addForm";
-import ItemDestroyViewForm from "../../inventory/itemDestroy/View/addEditForm";
-import TurnoverModel from "../../trunOverTax/viewModal";
-import SalesInvoiceModel from "./../../operation/sales/salesInvoice/viewModal";
-import CreditNoteView from "../../operation/sales/creditNote/Table/grid";
-import DebitNoteView from "../../operation/purchase/debitNote/Table/grid";
+import React from 'react';
+import IViewModal from '../../../_helper/_viewModal';
+import PurchaseView from '../../purchase/parchase-6.4/view/addEditForm';
+import ProductionForm from '../../inventory/production/Form/addEditForm';
+import TransferOutViewForm from '../../inventory/transferOut/viewModal';
+import ItemTransferInViewForm from '../../inventory/transferIn/view/addForm';
+import ItemDestroyViewForm from '../../inventory/itemDestroy/View/addEditForm';
+import TurnoverModel from '../../trunOverTax/viewModal';
+import SalesInvoiceModel from './../../operation/sales/salesInvoice/viewModal';
+import CreditNoteView from '../../operation/sales/creditNote/Table/grid';
+import DebitNoteView from '../../operation/purchase/debitNote/Table/grid';
 
 function CommonView({ modelShow, setModelShow, viewClick }) {
   const commonSalesId =
@@ -23,13 +23,13 @@ function CommonView({ modelShow, setModelShow, viewClick }) {
   return (
     <>
       {/* Remarks Purchase */}
-      {commonRemarks === "Purchase" && (
+      {commonRemarks === 'Purchase' && (
         <IViewModal
           show={modelShow}
           onHide={() => {
             setModelShow(false);
           }}
-          title={"View Purchase"}
+          title={'View Purchase'}
           btnText="Close"
         >
           <PurchaseView
@@ -43,13 +43,13 @@ function CommonView({ modelShow, setModelShow, viewClick }) {
       )}
 
       {/*  Remarks Production */}
-      {commonRemarks === "Production" && (
+      {commonRemarks === 'Production' && (
         <IViewModal
           show={modelShow}
           onHide={() => {
             setModelShow(false);
           }}
-          title={commonRemarks || ""}
+          title={commonRemarks || ''}
           btnText="Close"
         >
           <ProductionForm
@@ -63,13 +63,13 @@ function CommonView({ modelShow, setModelShow, viewClick }) {
       )}
 
       {/* Remarks Transfer out */}
-      {commonRemarks === "Transfer out" && (
+      {commonRemarks === 'Transfer out' && (
         <IViewModal
           show={modelShow}
           onHide={() => {
             setModelShow(false);
           }}
-          title={commonRemarks || ""}
+          title={commonRemarks || ''}
           btnText="Close"
         >
           <TransferOutViewForm
@@ -83,13 +83,13 @@ function CommonView({ modelShow, setModelShow, viewClick }) {
       )}
 
       {/* Remarks Transfer in */}
-      {commonRemarks === "Transfer in" && (
+      {commonRemarks === 'Transfer in' && (
         <IViewModal
           show={modelShow}
           onHide={() => {
             setModelShow(false);
           }}
-          title={commonRemarks || ""}
+          title={commonRemarks || ''}
           btnText="Close"
         >
           <ItemTransferInViewForm
@@ -101,13 +101,13 @@ function CommonView({ modelShow, setModelShow, viewClick }) {
       )}
 
       {/* Remarks Item Destory */}
-      {commonRemarks === "Item Destory" && (
+      {commonRemarks === 'Item Destory' && (
         <IViewModal
           show={modelShow}
           onHide={() => {
             setModelShow(false);
           }}
-          title={commonRemarks || ""}
+          title={commonRemarks || ''}
           btnText="Close"
         >
           <ItemDestroyViewForm
@@ -124,7 +124,7 @@ function CommonView({ modelShow, setModelShow, viewClick }) {
       )}
 
       {/*  Remarks Sales */}
-      {commonRemarks === "Sales" && (
+      {commonRemarks === 'Sales' && (
         <>
           {viewClick?.taxBracketId === 4 ? (
             <>
@@ -150,7 +150,7 @@ function CommonView({ modelShow, setModelShow, viewClick }) {
       )}
 
       {/* Remarks Credit Note*/}
-      {commonRemarks === "Credit Note" && (
+      {commonRemarks === 'Credit Note' && (
         <IViewModal
           show={modelShow}
           onHide={() => setModelShow(false)}
@@ -158,13 +158,13 @@ function CommonView({ modelShow, setModelShow, viewClick }) {
         >
           <CreditNoteView
             viewClick={{ ...viewClick, id: viewClick?.Chalan }}
-            title={"CREDIT NOTE"}
+            title={'CREDIT NOTE'}
           />
         </IViewModal>
       )}
 
       {/* Remarks Debit Note*/}
-      {commonRemarks === "Debit Note" && (
+      {commonRemarks === 'Debit Note' && (
         <IViewModal
           show={modelShow}
           onHide={() => setModelShow(false)}
@@ -172,7 +172,7 @@ function CommonView({ modelShow, setModelShow, viewClick }) {
         >
           <DebitNoteView
             viewClick={{ ...viewClick, taxPurchaseCode: viewClick?.Chalan }}
-            title={"DEBIT NOTE"}
+            title={'DEBIT NOTE'}
           />
         </IViewModal>
       )}
