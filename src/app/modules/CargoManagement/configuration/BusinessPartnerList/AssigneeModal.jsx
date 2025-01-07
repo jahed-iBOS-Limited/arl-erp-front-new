@@ -1,6 +1,6 @@
 import { Button } from '@material-ui/core';
 import { Form, Formik } from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { imarineBaseUrl } from '../../../../App';
 import ICustomCard from '../../../_helper/_customCard';
@@ -19,7 +19,12 @@ const initialValues = {
   participantType: '',
 };
 
-export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
+export default function AssigneeModal({
+  isModalOpen,
+  setIsModalOpen,
+  isViewMoadal,
+  clickRowData,
+}) {
   const { profileData } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
@@ -142,15 +147,6 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
     getParticipantsWithConsigneeDtl(
       `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsigneeDtl?shipperId=${valueOption?.value}`,
       (redData) => {
-        // const shipperList = redData?.shipperList?.map((item) => {
-        //   return {
-        //     ...item,
-        //     participantTypeId: 1,
-        //     participantType: 'Shipper',
-        //     participantsName: item?.participantsName || '',
-        //     participantId: item?.participantId || 0,
-        //   };
-        // });
         const deliveryAgentList = redData?.deliveryAgentList || [];
         const notifyPartyList = redData?.notifyPartyList || [];
         const airLineList = redData?.airLineList || [];
@@ -186,29 +182,46 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
     );
   };
 
+  useEffect(() => {
+    if (clickRowData && isViewMoadal) {
+      consigneeOnChangeHandler({
+        value: clickRowData?.shipperId,
+        label: clickRowData?.shipperName,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clickRowData]);
   const addedItemIsActive = addedItem?.filter((item) => item?.isActive);
   return (
     <div>
       <IViewModal
-        title="Assignee Modal"
+        title=""
         show={isModalOpen}
         onHide={() => {
           setIsModalOpen(false);
         }}
       >
         <ICustomCard
-          title={'Assign Business Partner'}
-          backHandler={() => {
-            setIsModalOpen(false);
-          }}
-          saveHandler={(values) => {
-            saveHandler(values, () => {
-              formikRef.current.resetForm();
-            });
-          }}
-          resetHandler={() => {
-            formikRef.current.resetForm();
-          }}
+          title={isViewMoadal ? 'View Assignee' : 'Assign Business Partner'}
+          // backHandler={() => {
+          //   setIsModalOpen(false);
+          // }}
+          saveHandler={
+            isViewMoadal
+              ? false
+              : (values) => {
+                  saveHandler(values, () => {
+                    formikRef.current.resetForm();
+                  });
+                }
+          }
+          resetHandler={
+            isViewMoadal
+              ? false
+              : () => {
+                  formikRef.current.resetForm();
+                }
+          }
         >
           {(participntMappingLoading || participantLoading) && <Loading />}
           <Formik
@@ -225,85 +238,90 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
               resetForm,
             }) => (
               <Form className="form form-label-right">
-                <div className="form-group row global-form">
-                  {/* Consignee */}
-                  <div className="col-lg-3">
-                    <NewSelect
-                      label="Select Shipper"
-                      options={consigneeListDDL || []}
-                      value={values?.shipper}
-                      name="shipper"
-                      onChange={(valueOption) => {
-                        setFieldValue('shipper', valueOption);
-                        consigneeOnChangeHandler(valueOption);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                      isDisabled={addedItemIsActive?.length > 0}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      name="businessPartnerType"
-                      options={itemTypeOption}
-                      value={values?.businessPartnerType}
-                      label="Partner Type"
-                      onChange={(valueOption) => {
-                        setFieldValue('businessPartnerType', valueOption);
-                        setFieldValue('participant', '');
-                        onChangeParticipantType(valueOption?.value);
-                      }}
-                      placeholder="Select Partner Type"
-                      isSearchable={true}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      label={`Select Partner` || ''}
-                      options={participantDDL || []}
-                      value={values?.participant}
-                      name="participant"
-                      onChange={(valueOption) => {
-                        setFieldValue('participant', valueOption || ``);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <NewSelect
-                      label="Participant Type"
-                      options={participantTypeListDDL || []}
-                      value={values?.participantType}
-                      name="participantType"
-                      onChange={(valueOption) => {
-                        setFieldValue('participantType', valueOption);
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <div className="d-flex my-1">
-                      <button
-                        type="button"
-                        className="btn btn-primary mt-5"
-                        onClick={() => {
-                          addButtonHandler(values);
-                        }}
-                        disabled={
-                          !values?.shipper ||
-                          !values?.participantType ||
-                          !values?.participant
-                        }
-                      >
-                        Add
-                      </button>
+                {!isViewMoadal && (
+                  <>
+                    {' '}
+                    <div className="form-group row global-form">
+                      {/* Consignee */}
+                      <div className="col-lg-3">
+                        <NewSelect
+                          label="Select Shipper"
+                          options={consigneeListDDL || []}
+                          value={values?.shipper}
+                          name="shipper"
+                          onChange={(valueOption) => {
+                            setFieldValue('shipper', valueOption);
+                            consigneeOnChangeHandler(valueOption);
+                          }}
+                          errors={errors}
+                          touched={touched}
+                          isDisabled={addedItemIsActive?.length > 0}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="businessPartnerType"
+                          options={itemTypeOption}
+                          value={values?.businessPartnerType}
+                          label="Partner Type"
+                          onChange={(valueOption) => {
+                            setFieldValue('businessPartnerType', valueOption);
+                            setFieldValue('participant', '');
+                            onChangeParticipantType(valueOption?.value);
+                          }}
+                          placeholder="Select Partner Type"
+                          isSearchable={true}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          label={`Select Partner` || ''}
+                          options={participantDDL || []}
+                          value={values?.participant}
+                          name="participant"
+                          onChange={(valueOption) => {
+                            setFieldValue('participant', valueOption || ``);
+                          }}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          label="Participant Type"
+                          options={participantTypeListDDL || []}
+                          value={values?.participantType}
+                          name="participantType"
+                          onChange={(valueOption) => {
+                            setFieldValue('participantType', valueOption);
+                          }}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <div className="d-flex my-1">
+                          <button
+                            type="button"
+                            className="btn btn-primary mt-5"
+                            onClick={() => {
+                              addButtonHandler(values);
+                            }}
+                            disabled={
+                              !values?.shipper ||
+                              !values?.participantType ||
+                              !values?.participant
+                            }
+                          >
+                            Add
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  </>
+                )}
               </Form>
             )}
           </Formik>
@@ -316,7 +334,7 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                     <th>Shipper</th>
                     <th>Participant Type</th>
                     <th>Participant</th>
-                    <th>Action</th>
+                    {!isViewMoadal && <th>Action</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -332,35 +350,33 @@ export default function AssigneeModal({ isModalOpen, setIsModalOpen }) {
                       <td>{item?.shipperName}</td>
                       <td>{item?.participantType}</td>
                       <td>{item?.participantName}</td>
-                      <td>
-                        <div className="d-flex justify-content-center">
-                          <Button
-                            onClick={() => {
-                              // setAddedItem((prev) =>
-                              //   prev.filter((itm, i) => i !== index)
-                              // );
-                              // set is active false
-                              setAddedItem((prev) =>
-                                prev.map((itm, i) => {
-                                  if (i === index) {
-                                    return {
-                                      ...itm,
-                                      isActive: false,
-                                    };
-                                  } else {
-                                    return itm;
-                                  }
-                                }),
-                              );
-                            }}
-                            color="error"
-                            size="small"
-                            title="Remove"
-                          >
-                            <IDelete />
-                          </Button>
-                        </div>
-                      </td>
+                      {!isViewMoadal && (
+                        <td>
+                          <div className="d-flex justify-content-center">
+                            <Button
+                              onClick={() => {
+                                setAddedItem((prev) =>
+                                  prev.map((itm, i) => {
+                                    if (i === index) {
+                                      return {
+                                        ...itm,
+                                        isActive: false,
+                                      };
+                                    } else {
+                                      return itm;
+                                    }
+                                  }),
+                                );
+                              }}
+                              color="error"
+                              size="small"
+                              title="Remove"
+                            >
+                              <IDelete />
+                            </Button>
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
