@@ -1,18 +1,14 @@
 .booking-list-wrapper .global-table tbody tr td:nth-child(3) {
   position: sticky;
   left: 0;
-  z-index: 99;
+  z-index: 1;
 }
 
 .booking-list-wrapper .global-table thead tr th:nth-child(3) {
   position: sticky;
   left: 0;
-  z-index: 99;
+  z-index: 1;
 }
-
-/* .booking-list-wrapper .global-table thead tr:nth-child(odd) td:nth-child(3) {
-  background: #ecf0f3 !important;
-} */
 
 .booking-list-wrapper .global-table tbody tr:nth-child(odd) td:nth-child(3) {
   background: #ecf0f3 !important;

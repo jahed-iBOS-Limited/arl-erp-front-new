@@ -1,27 +1,26 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import { getSinglePurchaseview } from './../helper';
-
 const initData = {
-  supplier: "",
-  address: "",
+  supplier: '',
+  address: '',
   transactionDate: _todayDate(),
-  tradeType: "",
-  paymentTerm: "",
-  vehicalInfo: "",
-  refferenceNo: "",
+  tradeType: '',
+  paymentTerm: '',
+  vehicalInfo: '',
+  refferenceNo: '',
   refferenceDate: _todayDate(),
-  totalTdsAmount: "",
-  totalVdsAmount: "",
-  selectedItem: "",
-  selectedUom: "",
-  quantity: "",
-  rate: "",
-  totalAtv: "",
-  totalAit: "",
-  grnCode: ""
+  totalTdsAmount: '',
+  totalVdsAmount: '',
+  selectedItem: '',
+  selectedUom: '',
+  quantity: '',
+  rate: '',
+  totalAtv: '',
+  totalAit: '',
+  grnCode: '',
 };
 
 export default function PurchaseView({ viewClick, singleData, setSingleData }) {
@@ -44,7 +43,12 @@ export default function PurchaseView({ viewClick, singleData, setSingleData }) {
 
   useEffect(() => {
     if (viewClick?.taxPurchaseId) {
-      getSinglePurchaseview(viewClick?.taxPurchaseId, setSingleData, setRowDto, setDisabled);
+      getSinglePurchaseview(
+        viewClick?.taxPurchaseId,
+        setSingleData,
+        setRowDto,
+        setDisabled,
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

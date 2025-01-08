@@ -1,14 +1,12 @@
-import React, { useRef, useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import {
-  Card,
-  CardBody,
-} from "../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useRef, useState } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { Card, CardBody } from '../../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+
 // import ViewForm from "../../../transaction/tresuary/tresuaryDeposit/View/viewModal";
-import ViewForm from "../../../transaction/tresuaryDeposit/View/viewModal";
+import ViewForm from '../../../transaction/tresuaryDeposit/View/viewModal';
 export default function TreasuryDepositDetailsModal({
   show,
   onHide,
@@ -24,7 +22,7 @@ export default function TreasuryDepositDetailsModal({
         onHide={() => {
           onHide();
         }}
-        title={"Treasury Deposit"}
+        title={'Treasury Deposit'}
         btnText="Close"
       >
         <Card>
@@ -37,7 +35,7 @@ export default function TreasuryDepositDetailsModal({
                     className="btn btn-primary px-1 py-1 my-0"
                   >
                     <img
-                      style={{ width: "25px", paddingRight: "5px" }}
+                      style={{ width: '25px', paddingRight: '5px' }}
                       src={printIcon}
                       alt="print-icon"
                     />
@@ -54,7 +52,7 @@ export default function TreasuryDepositDetailsModal({
                 <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                   <thead>
                     <tr>
-                      <th style={{ width: "30px" }}>Serial No.</th>
+                      <th style={{ width: '30px' }}>Serial No.</th>
                       <th>Treasury Challan Number</th>
                       <th>Bank Name</th>
                       <th>Branch Name</th>
@@ -87,7 +85,7 @@ export default function TreasuryDepositDetailsModal({
                             </div>
                           </td>
                           <td>
-                            {" "}
+                            {' '}
                             <div className="text-right pr-2">
                               {item?.taxDepositedAccCode}
                             </div>
@@ -96,11 +94,11 @@ export default function TreasuryDepositDetailsModal({
                             <div className="text-right pr-2">{item.amount}</div>
                           </td>
                           <td>
-                            {" "}
+                            {' '}
                             <div className="pl-2">{item?.notes}</div>
                           </td>
                           <td className="text-center">
-                            {" "}
+                            {' '}
                             <button
                               onClick={() => {
                                 setRowData({ ...item, id: item?.tresuaryId });
@@ -108,7 +106,7 @@ export default function TreasuryDepositDetailsModal({
                               }}
                               className="btn btn-primary"
                               type="button"
-                              style={{ padding: "3px 10px 5px 10px" }}
+                              style={{ padding: '3px 10px 5px 10px' }}
                             >
                               View
                             </button>

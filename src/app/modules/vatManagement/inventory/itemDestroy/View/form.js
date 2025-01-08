@@ -1,37 +1,35 @@
-/* eslint-disable no-undef */
-// /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   branchName: Yup.object().shape({
-    label: Yup.string().required("Branch Name is required"),
-    value: Yup.string().required("Branch Name is required"),
+    label: Yup.string().required('Branch Name is required'),
+    value: Yup.string().required('Branch Name is required'),
   }),
   itemName: Yup.object().shape({
-    label: Yup.string().required("Item Name is required"),
-    value: Yup.string().required("Item Name is required"),
+    label: Yup.string().required('Item Name is required'),
+    value: Yup.string().required('Item Name is required'),
   }),
   itemType: Yup.object().shape({
-    label: Yup.string().required("Item Type is required"),
-    value: Yup.string().required("Item Type is required"),
+    label: Yup.string().required('Item Type is required'),
+    value: Yup.string().required('Item Type is required'),
   }),
-  vatTotal: Yup.string().required("VAT is required"),
+  vatTotal: Yup.string().required('VAT is required'),
   quantity: Yup.number()
-    .min(1, "Minimum 2 symbols")
-    .max(1000000000000, "Maximum 100 symbols")
-    .required("Quantity is required"),
-  transactionDate: Yup.date().required("Transaction Date is required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(1000000000000, 'Maximum 100 symbols')
+    .required('Quantity is required'),
+  transactionDate: Yup.date().required('Transaction Date is required'),
   referenceNo: Yup.string()
-    .min(1, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Reference No is required"),
-  sdChargeableValue: Yup.number().required("SD Value is required"),
-  sdTotal: Yup.number().required("SD Total is required"),
-  referenceDate: Yup.date().required("Reference Date is required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Reference No is required'),
+  sdChargeableValue: Yup.number().required('SD Value is required'),
+  sdTotal: Yup.number().required('SD Total is required'),
+  referenceDate: Yup.date().required('Reference Date is required'),
 });
 
 export default function _Form({
@@ -166,17 +164,17 @@ export default function _Form({
                 </div>
 
                 <div className="col-lg-10">
-                  <table className={"table mt-1 bj-table"}>
-                    <thead className={rowDto?.length < 1 && "d-none"}>
+                  <table className={'table mt-1 bj-table'}>
+                    <thead className={rowDto?.length < 1 && 'd-none'}>
                       <tr>
-                        <th style={{ width: "20px" }}>SL</th>
-                        <th style={{ width: "50px" }}>Material Name</th>
-                        <th style={{ width: "20px" }}>UoM</th>
-                        <th style={{ width: "50px" }}>Used Quantity</th>
-                        <th style={{ width: "50px" }}>SD Chargeable Value</th>
-                        <th style={{ width: "50px" }}>Based Price</th>
-                        <th style={{ width: "40px" }}>SD</th>
-                        <th style={{ width: "30px" }}>VAT</th>
+                        <th style={{ width: '20px' }}>SL</th>
+                        <th style={{ width: '50px' }}>Material Name</th>
+                        <th style={{ width: '20px' }}>UoM</th>
+                        <th style={{ width: '50px' }}>Used Quantity</th>
+                        <th style={{ width: '50px' }}>SD Chargeable Value</th>
+                        <th style={{ width: '50px' }}>Based Price</th>
+                        <th style={{ width: '40px' }}>SD</th>
+                        <th style={{ width: '30px' }}>VAT</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -191,28 +189,28 @@ export default function _Form({
                           <td>
                             <div className="text-center pl-2">{item?.uom}</div>
                           </td>
-                          <td style={{ width: "25px" }}>
+                          <td style={{ width: '25px' }}>
                             <div className="text-center">
                               {item?.useQuantity}
                             </div>
                           </td>
-                          <td style={{ width: "35px" }}>
+                          <td style={{ width: '35px' }}>
                             <div className="text-center">
                               {rowDto[index]?.sdChargeableValue.toFixed(2)}
                             </div>
                           </td>
-                          <td style={{ width: "35px" }}>
+                          <td style={{ width: '35px' }}>
                             <div className="text-center align-middle">
                               {item?.basedPrice.toFixed(2)}
                             </div>
                           </td>
-                          <td style={{ width: "35px" }}>
+                          <td style={{ width: '35px' }}>
                             <div className="text-center">
                               {rowDto[index]?.sdTotal}
                             </div>
                           </td>
 
-                          <td style={{ width: "35px" }}>
+                          <td style={{ width: '35px' }}>
                             <div className="text-center">
                               {rowDto[index]?.vat}
                             </div>
@@ -226,13 +224,13 @@ export default function _Form({
               {/* Row Dto Table End */}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
