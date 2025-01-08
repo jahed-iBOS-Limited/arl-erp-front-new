@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 export const mode = [
   { value: 1, label: "Company" },
   { value: 2, label: "Supplier" },
+  { value: 3, label: "Customer" },
 ];
 export const carType = [
   { value: 1, label: "Open" },
