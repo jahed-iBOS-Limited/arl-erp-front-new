@@ -1,46 +1,83 @@
 import React from 'react';
 import './profitAndLossInfo.css';
 import { convertNumberToWords } from '../../../_helper/_convertMoneyToWord';
+function ProfitAndLossInfo({ values, MBBLWiseProfitLossReport }) {
+  const deliveryAgentIdName = [];
+  const deliveryAgentAddress = [];
 
-const billingList = {
-  incomeList: [
-    {
-      headOfChargeId: 1,
-      headOfCharges: 'Freight',
-      collectionActualAmount: 10.0,
-      collectionDummyAmount: 10.0,
-      actualExpense: null,
-      collectionPartyId: 103308,
-      collectionParty: 'Md Abdul Kader Shohan',
-      paymentPartyId: 89389,
-      paymentParty: 'Haramine Incorporation Limited',
-      exchangeRate: 1.0,
-      totalAmountBDT: 10,
-    },
-  ],
-  costList: [
-    {
-      headOfChargeId: 1,
-      headOfCharges: 'Freight',
-      collectionPartyId: 103308,
-      collectionParty: 'Md Abdul Kader Shohan',
-      paymentActualAmount: 20,
-      paymentDummyAmount: 200,
-      paymentPartyId: 89389,
-      paymentParty: 'Haramine Incorporation Limited',
-      exchangeRate: 1.0,
-      totalAmountBDT: 10,
-    },
-  ],
-};
+  if (MBBLWiseProfitLossReport?.rowData?.length > 0) {
+    MBBLWiseProfitLossReport.rowData.forEach((item) => {
+      if (item.deliveryAgentName1) {
+        // deliveryAgentIdName check if exist then push
+        const exist = deliveryAgentIdName.includes(item.deliveryAgentName1);
+        if (!exist) {
+          deliveryAgentIdName.push(item.deliveryAgentName1);
+        }
+      }
+      if (item.deliveryAgentName2) {
+        // deliveryAgentIdName check if exist then push
+        const exist = deliveryAgentIdName.includes(item.deliveryAgentName2);
+        if (!exist) {
+          deliveryAgentIdName.push(item.deliveryAgentName2);
+        }
+      }
 
-function ProfitAndLossInfo({ values }) {
+      if (item.deliveryAgentAddress1) {
+        // deliveryAgentAddress check if exist then push
+        const exist = deliveryAgentAddress.includes(item.deliveryAgentAddress1);
+        if (!exist) {
+          deliveryAgentAddress.push(item.deliveryAgentAddress1);
+        }
+      }
+      if (item.deliveryAgentAddress2) {
+        // deliveryAgentAddress check if exist then push
+        const exist = deliveryAgentAddress.includes(item.deliveryAgentAddress2);
+        if (!exist) {
+          deliveryAgentAddress.push(item.deliveryAgentAddress2);
+        }
+      }
+    });
+  }
+
+  const collectionSum = (
+    MBBLWiseProfitLossReport?.collecttionBillingDatas || []
+  )?.reduce(
+    (acc, curr) => {
+      return {
+        collectionActualAmountInBDT:
+          acc.collectionActualAmountInBDT +
+          (+curr.collectionActualAmountInBDT || 0),
+        amontUSD: acc.amontUSD + (+curr.amontUSD || 0),
+      };
+    },
+    {
+      collectionActualAmountInBDT: 0,
+      amontUSD: 0,
+    },
+  );
+
+  const paymentSum = (
+    MBBLWiseProfitLossReport?.paymentBillingDatas || []
+  )?.reduce(
+    (acc, curr) => {
+      return {
+        paymentActualAmountInBDT:
+          acc.paymentActualAmountInBDT + (+curr.paymentActualAmountInBDT || 0),
+        amontUSD: acc.amontUSD + (+curr.amontUSD || 0),
+      };
+    },
+    {
+      paymentActualAmountInBDT: 0,
+      amontUSD: 0,
+    },
+  );
+
   return (
     <div className="porfitAndLossWrapper">
       <div className="row">
         <div className="col-lg-12">
           <div className="text-center">
-            <h6>JOB Profit & Loss</h6>
+            <h4>JOB Profit & Loss</h4>
             <p>
               <b>Akij Logistics Limited</b>{' '}
             </p>
@@ -55,50 +92,60 @@ function ProfitAndLossInfo({ values }) {
                 {' '}
                 <b>Approved Agent </b>
               </p>
-              <p>N/A</p>
-            </div>
-            <div>
               <p>
-                <b>Job No</b>
+                {deliveryAgentIdName
+                  ?.map((item, index) => {
+                    return item;
+                  })
+                  .join(', ')}
               </p>
               <p>
-                <b>Date</b>
+                {deliveryAgentAddress
+                  ?.map((item, index) => {
+                    return item;
+                  })
+                  .join(', ')}
               </p>
             </div>
+            <div></div>
           </div>
         </div>
 
         <div className="col-lg-12">
           <div className="shipperInfoWrapper mt-3">
-            <div className="shipperInfo">
-              <p>
-                <b>Shipper Name</b>
-              </p>
-              <p>
-                <b>Consignee</b>
-              </p>
-              <p>
-                <b>Total Qty</b>
-              </p>
-              <p>
-                <b>Chargeable Weight</b>
-              </p>
-              <p>
-                <b>CMB</b>
-              </p>
-              <p>
-                <b>Destination</b>
-              </p>
-              <p>
-                <b>POD</b>
-              </p>
-              <p>
-                <b>MAWB</b>
-              </p>
-              <p>
-                <b>HAWB NO.</b>
-              </p>
-            </div>
+            {MBBLWiseProfitLossReport?.rowData?.map((item, index) => {
+              return (
+                <div className="shipperInfo">
+                  <p>
+                    <b>Shipper Name</b> : {item?.shipperName}
+                  </p>
+                  <p>
+                    <b>Consignee</b> : {item?.consigneeName}
+                  </p>
+                  <p>
+                    <b>Total Qty</b> : {item?.totalQty}
+                  </p>
+                  <p>
+                    <b>Chargeable Weight</b> : {item?.chargeableWeight}
+                  </p>
+                  <p>
+                    <b>CMB</b> : {item?.cmb}
+                  </p>
+                  <p>
+                    <b>Destination</b> : {item?.destination}
+                  </p>
+                  <p>
+                    <b>POD</b> : {item?.pod}
+                  </p>
+                  <p>
+                    <b>MAWB</b> : {item?.mwab}
+                  </p>
+                  <p>
+                    <b>HAWB NO.</b> : {item?.hwabno}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -128,17 +175,41 @@ function ProfitAndLossInfo({ values }) {
                     <b>Income</b>
                   </td>
                 </tr>
-                {billingList?.incomeList?.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item?.headOfCharges}</td>
-                    <td>{item?.collectionParty}</td>
-                    <td>{item?.totalAmountBDT}</td>
-                    <td></td>
-                    <td></td>
-                    <td>{item?.exchangeRate}</td>
-                    <td>{item?.totalAmountBDT}</td>
-                  </tr>
-                ))}
+                {MBBLWiseProfitLossReport?.collecttionBillingDatas?.map(
+                  (item, index) => (
+                    <tr key={index}>
+                      <td
+                        style={{
+                          textAlign: 'left',
+                        }}
+                      >
+                        {item?.headOfCharges}
+                      </td>
+                      <td>{item?.collectionParty}</td>
+                      <td>{item?.collectionActualAmountInBDT}</td>
+                      <td>{item?.lossAndGain}</td>
+                      <td>{item?.grandTotal}</td>
+                      <td>{item?.converstionrate}</td>
+                      <td>{item?.amontUSD}</td>
+                    </tr>
+                  ),
+                )}
+                <tr>
+                  {/* total  */}
+                  <td colSpan="2">
+                    <b>Income Total</b>
+                  </td>
+                  <td>
+                    <b>{collectionSum?.collectionActualAmountInBDT}</b>
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <b>{collectionSum?.amontUSD}</b>
+                  </td>
+                </tr>
+
                 <tr>
                   <td
                     colSpan="7"
@@ -149,17 +220,40 @@ function ProfitAndLossInfo({ values }) {
                     <b>Cost</b>
                   </td>
                 </tr>
-                {billingList?.costList?.map((item, index) => (
-                  <tr key={index}>
-                    <td>{item?.headOfCharges}</td>
-                    <td>{item?.paymentParty}</td>
-                    <td>{item?.totalAmountBDT}</td>
-                    <td></td>
-                    <td></td>
-                    <td>{item?.exchangeRate}</td>
-                    <td>{item?.totalAmountBDT}</td>
-                  </tr>
-                ))}
+                {MBBLWiseProfitLossReport?.paymentBillingDatas?.map(
+                  (item, index) => (
+                    <tr key={index}>
+                      <td
+                        style={{
+                          textAlign: 'left',
+                        }}
+                      >
+                        {item?.headOfCharges}
+                      </td>
+                      <td>{item?.paymentParty}</td>
+                      <td>{item?.paymentActualAmountInBDT}</td>
+                      <td>{item?.lossAndGain}</td>
+                      <td>{item?.grandTotal}</td>
+                      <td>{item?.converstionrate}</td>
+                      <td>{item?.amontUSD}</td>
+                    </tr>
+                  ),
+                )}
+
+                <tr>
+                  <td colSpan="2">
+                    <b>Cost Total </b>
+                  </td>
+                  <td>
+                    <b>{paymentSum?.paymentActualAmountInBDT}</b>
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <b>{paymentSum?.amontUSD}</b>
+                  </td>
+                </tr>
               </tbody>
 
               <tfoot>
@@ -167,11 +261,18 @@ function ProfitAndLossInfo({ values }) {
                   <td colSpan="2">
                     <b>Net Profit </b>
                   </td>
-                  <td>30</td>
+                  <td>
+                    <b>
+                      {collectionSum?.collectionActualAmountInBDT -
+                        paymentSum?.paymentActualAmountInBDT}
+                    </b>
+                  </td>
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td>30</td>
+                  <td>
+                    <b>{collectionSum?.amontUSD - paymentSum?.amontUSD}</b>
+                  </td>
                 </tr>
               </tfoot>
             </table>
@@ -184,11 +285,16 @@ function ProfitAndLossInfo({ values }) {
           >
             <p>
               <b>Amount In Word BDT: </b>
-              {convertNumberToWords(30)}
+              {convertNumberToWords(
+                collectionSum?.collectionActualAmountInBDT -
+                  paymentSum?.paymentActualAmountInBDT,
+              )}
             </p>
             <p>
               <b>Amount In WordUSD: </b>
-              {convertNumberToWords(30)}
+              {convertNumberToWords(
+                collectionSum?.amontUSD - paymentSum?.amontUSD,
+              )}
             </p>
           </div>
         </div>

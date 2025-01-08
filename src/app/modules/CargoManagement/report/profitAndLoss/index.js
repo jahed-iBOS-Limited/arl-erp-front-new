@@ -19,9 +19,10 @@ const initData = {
 
 function ProfitAndLoss() {
   const [
-    masterBlLanding,
-    GetMasterBlLanding,
-    masterBlLandingLoading,
+    MBBLWiseProfitLossReport,
+    GetMBLWiseProfitLossReport,
+    MBBLWiseProfitLossReportLoading,
+    setMBLWiseProfitLossReport,
   ] = useAxiosGet();
   const [
     genarateMasterBLDDL,
@@ -53,8 +54,72 @@ function ProfitAndLoss() {
 
   const getLandingData = (masterBlId) => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      GetMasterBlLanding(
-        `${imarineBaseUrl}/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}`,
+      GetMBLWiseProfitLossReport(
+        `${imarineBaseUrl}/domain/ShippingService/GetMBLWiseProfitLossReport?masterBlId=${masterBlId}`,
+        (resData) => {
+          const collecttionBillingDatas = resData?.collecttionBillingDatas?.map(
+            (item) => {
+              const converstionrate = +item?.converstionrate || 0;
+              const collectionActualAmount = +item?.collectionActualAmount || 0;
+              const collectionDummyAmount = +item?.collectionDummyAmount || 0;
+              const converstionRateUSD = item?.converstionRateUSD || 0;
+
+              const collectionActualAmountInBDT =
+                collectionActualAmount * converstionrate;
+
+              const collectionDummyAmountInBDT =
+                collectionDummyAmount * converstionrate;
+
+              const lossAndGain =
+                collectionActualAmountInBDT - collectionDummyAmountInBDT;
+
+              const grandTotal = collectionActualAmountInBDT + lossAndGain;
+              const amontUSD = grandTotal / converstionRateUSD;
+
+              const totalAmontUSD = isFinite(amontUSD) ? amontUSD : 0;
+              return {
+                ...item,
+                collectionActualAmountInBDT,
+                lossAndGain,
+                grandTotal,
+                amontUSD: totalAmontUSD,
+              };
+            },
+          );
+
+          const paymentBillingDatas = resData?.paymentBillingDatas?.map(
+            (item) => {
+              const paymentActualAmount = +item?.paymentActualAmount || 0;
+              const converstionrate = +item?.converstionrate || 0;
+              const paymentDummyAmount = +item?.paymentDummyAmount || 0;
+              const converstionRateUSD = item?.converstionRateUSD || 0;
+
+              const paymentActualAmountInBDT =
+                paymentActualAmount * converstionrate;
+
+              const paymentDummyAmountInBDT =
+                paymentDummyAmount * converstionrate;
+
+              const lossAndGain = paymentDummyAmount - paymentDummyAmountInBDT;
+              const grandTotal = paymentActualAmountInBDT + lossAndGain;
+              const amontUSD = grandTotal * converstionRateUSD;
+              const totalAmontUSD = isFinite(amontUSD) ? amontUSD : 0;
+              return {
+                ...item,
+                paymentActualAmountInBDT,
+                lossAndGain,
+                grandTotal,
+                amontUSD: totalAmontUSD,
+              };
+            },
+          );
+
+          setMBLWiseProfitLossReport({
+            ...resData,
+            collecttionBillingDatas,
+            paymentBillingDatas,
+          });
+        },
       );
     }
   };
@@ -79,6 +144,7 @@ function ProfitAndLoss() {
   };
 
   const viewHandelar = (values) => {
+    console.log(values, 'values');
     getLandingData(values?.masterBL?.value);
   };
   const printRef = useRef();
@@ -115,7 +181,7 @@ function ProfitAndLoss() {
           );
         }}
       >
-        {(masterBlLandingLoading ||
+        {(MBBLWiseProfitLossReportLoading ||
           genarateMasterBLDDLLoading ||
           getHBLFromMasterBLLoading) && <Loading />}
         <Formik enableReinitialize={true} initialValues={initData}>
@@ -139,6 +205,7 @@ function ProfitAndLoss() {
                       value={values?.modeOfTransport || ''}
                       label="Booking Type"
                       onChange={(valueOption) => {
+                        setMBLWiseProfitLossReport({});
                         setFieldValue('modeOfTransport', valueOption);
                         setFieldValue('masterBL', '');
                         setFieldValue('hbl', '');
@@ -161,6 +228,7 @@ function ProfitAndLoss() {
                       onChange={(valueOption) => {
                         setFieldValue('masterBL', valueOption);
                         setFieldValue('hbl', '');
+                        setMBLWiseProfitLossReport({});
                         masterBLHandelar({
                           ...values,
                           masterBL: valueOption,
@@ -200,9 +268,14 @@ function ProfitAndLoss() {
                   </div>
                 </div>
                 {/* Profit And Loss Info */}
-                <div ref={printRef}>
-                  <ProfitAndLossInfo values={values} />
-                </div>
+                {MBBLWiseProfitLossReport?.rowData && (
+                  <div ref={printRef}>
+                    <ProfitAndLossInfo
+                      values={values}
+                      MBBLWiseProfitLossReport={MBBLWiseProfitLossReport}
+                    />
+                  </div>
+                )}
               </Form>
             </>
           )}
