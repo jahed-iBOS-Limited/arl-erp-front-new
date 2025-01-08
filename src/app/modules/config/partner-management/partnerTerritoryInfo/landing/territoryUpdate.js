@@ -99,6 +99,7 @@ export function PartnerTerritoryUpdate({ value }) {
                   <td>
                     <NewSelect
                       name="strTerritoryName"
+                      menuPosition="fixed"
                       value={item?.strTerritoryName}
                       onChange={(valueOption) => {
                         dataChangeHandler(

@@ -15,7 +15,6 @@ import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
 import './style.css';
-import { set } from 'lodash';
 const validationSchema = Yup.object().shape({
   pickupLocation: Yup.string().required('Pickup Location is required'),
   noOfPallets: Yup.string().when('transportPlanning', {
@@ -71,7 +70,7 @@ function TransportModal({ rowClickData, CB }) {
     shipBookingRequestLoading,
   ] = useAxiosGet();
   const bookingData = shipBookingRequestGetById || {};
-  const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
+  // const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
   const [gsaDDL, setGSADDL] = useAxiosGet();
   const [
     airServiceProviderDDLData,
@@ -333,9 +332,9 @@ function TransportModal({ rowClickData, CB }) {
   }, []);
 
   useEffect(() => {
-    setTransportModeDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
-    );
+    // setTransportModeDDL(
+    //   `${imarineBaseUrl}/domain/ShippingService/GetModeOfTypeListDDL?categoryId=${4}`,
+    // );
 
     getAirPortShortCodeDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetAirPortShortCodeDDL`,
