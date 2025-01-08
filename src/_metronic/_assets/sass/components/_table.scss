@@ -90,7 +90,7 @@
 	&.table-foot-bg {
 		tfoot {
 			th,td {
-				border-bottom: 0;
+				// border-bottom: 0;
 				background-color: $gray-100;
 
 				&:first-child {
@@ -122,7 +122,7 @@
 
 		tfoot {
 			th, td {
-				border-bottom: 0;
+				// border-bottom: 0;
 				border-top: 1px solid $table-border-color;
 			}
 		}
@@ -138,7 +138,7 @@
 	&.table-bordered {
 		tfoot {
 			th,td {
-				border-bottom: 0;
+				// border-bottom: 0;
 			}
 		}
 	}
