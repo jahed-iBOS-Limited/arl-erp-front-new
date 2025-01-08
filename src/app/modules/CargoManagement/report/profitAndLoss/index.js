@@ -33,6 +33,7 @@ function ProfitAndLoss() {
     HBLFromMasterBL,
     getHBLFromMasterBL,
     getHBLFromMasterBLLoading,
+    setHBLFromMasterBL,
   ] = useAxiosGet();
   // get user profile data from store
   const storeData = useSelector((state) => {
@@ -67,6 +68,13 @@ function ProfitAndLoss() {
   const masterBLHandelar = (values) => {
     getHBLFromMasterBL(
       `${imarineBaseUrl}/domain/ShippingService/GetHBLFromMasterBL?masterBlId=${values?.masterBL?.value}&typeId=${values?.modeOfTransport?.value}`,
+      (resData) => {
+        const modifyData = resData?.map((item) => ({
+          value: item?.label,
+          label: item?.label,
+        }));
+        setHBLFromMasterBL(modifyData);
+      },
     );
   };
 
@@ -167,7 +175,7 @@ function ProfitAndLoss() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="hbl"
-                      options={masterBlLanding || []}
+                      options={HBLFromMasterBL || []}
                       value={values?.hbl || ''}
                       label="HBL"
                       onChange={(valueOption) => {

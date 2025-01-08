@@ -6,3 +6,13 @@
   padding: 0;
   margin: 0;
 }
+
+.porfitAndLossWrapper .shipperInfoWrapper .shipperInfo p b {
+  min-width: 120px;
+  display: inline-block;
+}
+
+.porfitAndLossWrapper .shipperInfoWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}

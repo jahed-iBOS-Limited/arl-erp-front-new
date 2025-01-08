@@ -1,64 +1,103 @@
 import React from 'react';
 import './profitAndLossInfo.css';
+import { convertNumberToWords } from '../../../_helper/_convertMoneyToWord';
+
+const billingList = {
+  incomeList: [
+    {
+      headOfChargeId: 1,
+      headOfCharges: 'Freight',
+      collectionActualAmount: 10.0,
+      collectionDummyAmount: 10.0,
+      actualExpense: null,
+      collectionPartyId: 103308,
+      collectionParty: 'Md Abdul Kader Shohan',
+      paymentPartyId: 89389,
+      paymentParty: 'Haramine Incorporation Limited',
+      exchangeRate: 1.0,
+      totalAmountBDT: 10,
+    },
+  ],
+  costList: [
+    {
+      headOfChargeId: 1,
+      headOfCharges: 'Freight',
+      collectionPartyId: 103308,
+      collectionParty: 'Md Abdul Kader Shohan',
+      paymentActualAmount: 20,
+      paymentDummyAmount: 200,
+      paymentPartyId: 89389,
+      paymentParty: 'Haramine Incorporation Limited',
+      exchangeRate: 1.0,
+      totalAmountBDT: 10,
+    },
+  ],
+};
 
 function ProfitAndLossInfo({ values }) {
-  const [listOne] = React.useState([]);
-  const [listTwo] = React.useState([]);
   return (
     <div className="porfitAndLossWrapper">
       <div className="row">
         <div className="col-lg-12">
-          <div className="">
-            <h6 className="text-center">
-              INVOICE ({values?.modeOfTransport?.label || ''} EXPORT)
-            </h6>
+          <div className="text-center">
+            <h6>JOB Profit & Loss</h6>
+            <p>
+              <b>Akij Logistics Limited</b>{' '}
+            </p>
+            <p>Bir Uttam Mir Shawkat Sarak, Dhaka 1208</p>
           </div>
         </div>
+
         <div className="col-lg-12">
-          <div>
-            <div className="d-flex justify-content-between">
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  flexDirection: 'column',
-                }}
-              >
-                <div>
-                  <p>
-                    <b>To</b>
-                  </p>
-                  <p></p>
-                </div>
-                <div>
-                  <p>
-                    <b>APPLICABLE CURRENCY:</b>
-                  </p>
-                </div>
-              </div>
-              <div>
-                <p>
-                  <b>JOB NO:</b>{' '}
-                </p>
-                <p>
-                  <b>REF No.: </b>
-                </p>
-                <p>
-                  <b>Date: </b>
-                </p>
-                <p>
-                  <b>Due Date: </b>
-                </p>
-                <p>
-                  <b>Correction No.: </b>
-                </p>
-                <p>
-                  <b>Transport Mode: </b>
-                </p>
-                <p>
-                  <b>Import/Export: </b>
-                </p>
-              </div>
+          <div className="d-flex justify-content-between">
+            <div>
+              <p>
+                {' '}
+                <b>Approved Agent </b>
+              </p>
+              <p>N/A</p>
+            </div>
+            <div>
+              <p>
+                <b>Job No</b>
+              </p>
+              <p>
+                <b>Date</b>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-lg-12">
+          <div className="shipperInfoWrapper mt-3">
+            <div className="shipperInfo">
+              <p>
+                <b>Shipper Name</b>
+              </p>
+              <p>
+                <b>Consignee</b>
+              </p>
+              <p>
+                <b>Total Qty</b>
+              </p>
+              <p>
+                <b>Chargeable Weight</b>
+              </p>
+              <p>
+                <b>CMB</b>
+              </p>
+              <p>
+                <b>Destination</b>
+              </p>
+              <p>
+                <b>POD</b>
+              </p>
+              <p>
+                <b>MAWB</b>
+              </p>
+              <p>
+                <b>HAWB NO.</b>
+              </p>
             </div>
           </div>
         </div>
@@ -69,114 +108,88 @@ function ProfitAndLossInfo({ values }) {
             <table className="table table-striped table-bordered global-table">
               <thead>
                 <tr>
-                  <th>SL</th>
-                  <th>HAWB/BL NO </th>
-                  <th>MAWB/BL NO</th>
-                  <th>CHARGE HEAD</th>
-                  <th>CUR.</th>
-                  <th>UNIT COST</th>
-                  <th>UNIT QTY.</th>
-                  <th>UNIT NAME</th>
-                  <th>CHARGE</th>
-                  <th>ROE</th>
-                  <th>AMOUNT</th>
+                  <th>Attribute</th>
+                  <th>Party</th>
+                  <th>Total Amount (BDT)</th>
+                  <th>Loss/Gain</th>
+                  <th>Grand Total</th>
+                  <th>Exchenge Rate</th>
+                  <th>Amount (USD)</th>
                 </tr>
               </thead>
               <tbody>
-                {listOne?.map((item, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{item.hawbBlNo}</td>
-                    <td>{item.mawbBlNo}</td>
-                    <td>{item.chargeHead}</td>
-                    <td>{item.currency}</td>
-                    <td>{item.unitCost}</td>
-                    <td>{item.unitQty}</td>
-                    <td>{item.unitName}</td>
-                    <td>{item.charge}</td>
-                    <td>{item.roe}</td>
-                    <td>{item.amount}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* table two */}
-        <div className="col-lg-12">
-          <div className="table-responsive">
-            <table className="table table-striped table-bordered global-table">
-              <thead>
                 <tr>
-                  <th>SL</th>
-                  <th>HBL/MBL</th>
-                  <th>SHIPPER/CONSIGNEE</th>
-                  <th>COMMERCIAL REF.</th>
-                  <th>FROM/TO</th>
-                  <th>ETD/ETA</th>
-                  <th>PKG/CBM</th>
-                  <th>C.WEIGHT</th>
+                  <td
+                    colSpan="7"
+                    style={{
+                      textAlign: 'left',
+                    }}
+                  >
+                    <b>Income</b>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {listTwo?.map((item, index) => (
+                {billingList?.incomeList?.map((item, index) => (
                   <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{item.hblMbl}</td>
-                    <td>{item.shipperConsignee}</td>
-                    <td>{item.commercialRef}</td>
-                    <td>{item.fromTo}</td>
-                    <td>{item.etdEta}</td>
-                    <td>{item.pkgCbm}</td>
-                    <td>{item.cWeight}</td>
+                    <td>{item?.headOfCharges}</td>
+                    <td>{item?.collectionParty}</td>
+                    <td>{item?.totalAmountBDT}</td>
+                    <td></td>
+                    <td></td>
+                    <td>{item?.exchangeRate}</td>
+                    <td>{item?.totalAmountBDT}</td>
+                  </tr>
+                ))}
+                <tr>
+                  <td
+                    colSpan="7"
+                    style={{
+                      textAlign: 'left',
+                    }}
+                  >
+                    <b>Cost</b>
+                  </td>
+                </tr>
+                {billingList?.costList?.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item?.headOfCharges}</td>
+                    <td>{item?.paymentParty}</td>
+                    <td>{item?.totalAmountBDT}</td>
+                    <td></td>
+                    <td></td>
+                    <td>{item?.exchangeRate}</td>
+                    <td>{item?.totalAmountBDT}</td>
                   </tr>
                 ))}
               </tbody>
+
+              <tfoot>
+                <tr>
+                  <td colSpan="2">
+                    <b>Net Profit </b>
+                  </td>
+                  <td>30</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>30</td>
+                </tr>
+              </tfoot>
             </table>
           </div>
-        </div>
-        {/* REMARKS:	 */}
-        <div className="col-lg-12 mt-5">
-          <div>
-            <p>
-              <b>REMARKS:</b>
-            </p>
-          </div>
-        </div>
-        <div className="col-lg-12" style={{ marginTop: '300px' }}>
-          {/* PREPARED BY */}
+
           <div
-            className="d-flex"
             style={{
-              marginBottom: '20px',
+              textTransform: 'capitalize',
             }}
           >
-            <div>
-              <p>
-                <b>PREPARED BY:</b>
-              </p>
-            </div>
-          </div>
-          {/* NOTE  */}
-          <div className="d-flex">
-            <div>
-              <p>
-                <b>NOTE :</b>
-                THIS IS A SYSTEM GENERATED DOCUMENT HENCE NO SIGNATURE IS
-                REQUIRED
-              </p>
-            </div>
-          </div>
-          {/* TERM */}
-          <div className="d-flex">
-            <div>
-              <p>
-                <b>TERM :</b>
-                SERVICE RENDERED AS PER OUR TRADING CONDITIONS. THE ACCOUNT WILL
-                BE CORRECTED UNLESS QUERIED WITHIN 7 CALENDAR DAYS
-              </p>
-            </div>
+            <p>
+              <b>Amount In Word BDT: </b>
+              {convertNumberToWords(30)}
+            </p>
+            <p>
+              <b>Amount In WordUSD: </b>
+              {convertNumberToWords(30)}
+            </p>
           </div>
         </div>
       </div>
