@@ -51,13 +51,13 @@ function ProfitAndLoss() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
-  // const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
-  //   if (profileData?.accountId && selectedBusinessUnit?.value) {
-  //     GetMasterBlLanding(
-  //       `${imarineBaseUrl}/domain/ShippingService/GetMasterBlLanding?typeId=${values?.modeOfTransport?.value}&search=${searchValue}&PageNo=${pageNo}&PageSize=${pageSize}`,
-  //     );
-  //   }
-  // };
+  const getLandingData = (masterBlId) => {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
+      GetMasterBlLanding(
+        `${imarineBaseUrl}/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}`,
+      );
+    }
+  };
 
   const modeOfTransportHandelar = (values) => {
     getGenarateMasterBLDDL(
@@ -79,7 +79,7 @@ function ProfitAndLoss() {
   };
 
   const viewHandelar = (values) => {
-    console.log(values);
+    getLandingData(values?.masterBL?.value);
   };
   const printRef = useRef();
   const handlePrint = useReactToPrint({

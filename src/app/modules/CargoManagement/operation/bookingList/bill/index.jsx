@@ -338,7 +338,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
                   style={{ backgroundColor: 'white' }}
                 >
                   <Tab label="Bill Generate" value="billGenerate" />
-                  <Tab label="Advance Generate" value="advanceGenerate" />
+                  {/* <Tab label="Advance Generate" value="advanceGenerate" /> */}
                 </Tabs>
                 <Box mt={1}>
                   {activeTab === 'billGenerate' && (
@@ -354,7 +354,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
                       setOpen={setOpen}
                     />
                   )}
-                  {activeTab === 'advanceGenerate' && (
+                  {/* {activeTab === 'advanceGenerate' && (
                     <div>
                       <AdvanceGenerateCmp
                         values={values}
@@ -368,7 +368,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
                         setOpen={setOpen}
                       />
                     </div>
-                  )}
+                  )} */}
                 </Box>
               </Box>
 
@@ -481,7 +481,7 @@ const BillGenerateCmp = ({
               <th>Attribute</th>
               <th>Currency</th>
               <th>Exchange Rate</th>
-              <th>Advance</th>
+              {/* <th>Advance</th> */}
               <th>Actual</th>
               <th>Amount</th>
               <th>Amount (BDT)</th>
@@ -501,9 +501,9 @@ const BillGenerateCmp = ({
                   <td style={{ textAlign: 'right' }}>
                     {row?.exchangeRate || 0}
                   </td>
-                  <td style={{ textAlign: 'right' }}>
+                  {/* <td style={{ textAlign: 'right' }}>
                     {row?.paymentAdvanceAmount}
-                  </td>
+                  </td> */}
                   <td style={{ textAlign: 'right' }}>
                     {row?.paymentActualAmount}
                   </td>
@@ -514,7 +514,7 @@ const BillGenerateCmp = ({
                 </tr>
               ))}
             <tr>
-              <td colSpan="7" style={{ textAlign: 'right' }}>
+              <td colSpan="6" style={{ textAlign: 'right' }}>
                 Total
               </td>
               <td style={{ textAlign: 'right' }}>

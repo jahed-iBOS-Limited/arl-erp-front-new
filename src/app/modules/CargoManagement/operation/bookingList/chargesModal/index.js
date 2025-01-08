@@ -451,14 +451,14 @@ function ChargesModal({ rowClickData, CB }) {
                     >
                       Dummy
                     </th>
-                    <th
+                    {/* <th
                       style={{
                         width: '60px',
                       }}
                       className="payment-header"
                     >
                       Advance
-                    </th>
+                    </th> */}
                     <th style={{ width: '60px' }} className="payment-header">
                       Is Combind
                     </th>
@@ -870,7 +870,7 @@ function ChargesModal({ rowClickData, CB }) {
                             />
                           </div>
                         </td>
-                        <td className="payment-border-right">
+                        {/* <td className="payment-border-right">
                           <div
                             style={{
                               display: 'flex',
@@ -912,7 +912,7 @@ function ChargesModal({ rowClickData, CB }) {
                               step="any"
                             />
                           </div>
-                        </td>
+                        </td> */}
                         {/* Is Combind Checkbox */}
                         <td className="payment-border-right">
                           <OverlayTrigger
