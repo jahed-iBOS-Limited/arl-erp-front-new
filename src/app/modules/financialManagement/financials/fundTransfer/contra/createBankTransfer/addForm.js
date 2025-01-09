@@ -1,33 +1,28 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
 import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { confirmAlert } from "react-confirm-alert";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import Form from "./form";
 import {
   saveBankJournal,
 } from "./helper";
-import { confirmAlert } from "react-confirm-alert";
-// import { setBankJournalCreateAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import "./style.css"
-import { setBankJournalCreateAction } from "../../../../../_helper/reduxForLocalStorage/Actions";
 import IForm from "../../../../../_helper/_form";
 import Loading from "../../../../../_helper/_loading";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import { setBankJournalCreateAction } from "../../../../../_helper/reduxForLocalStorage/Actions";
+import "./style.css";
 
-// const initData = {
-
-// };
 
 export default function BankJournalCreateFormContra() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
   const [instrumentNoByResponse, setInstrumentNoByResponse] = useState("");
-  const history = useHistory();
   const location = useLocation();
+  let selectedJournalTypeId = 6; // For Bank Transfer Only
   const params = useParams();
   const [attachmentFile, setAttachmentFile] = useState("");
+  const [sbuList, getSbuList] = useAxiosGet();
 
   const storeData = useSelector((state) => {
     return {
@@ -41,6 +36,13 @@ export default function BankJournalCreateFormContra() {
     (state) => state?.localStorage,
     shallowEqual
   );
+
+  useEffect(()=>{
+    if(location?.state?.intRequestToUnitId){
+      getSbuList(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${location?.state?.intRequestToUnitId}&Status=true`);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[location?.state?.intRequestToUnitId])
 
   let netAmount = rowDto?.reduce((total, value) => total + +value?.amount, 0);
 
@@ -62,11 +64,11 @@ export default function BankJournalCreateFormContra() {
   const dispatch = useDispatch();
 
   const saveHandler = async (values, cb) => {
-    if (location?.state?.selectedJournal?.value === 5 && !params?.id && !attachmentFile) {
+    if (selectedJournalTypeId === 5 && !params?.id && !attachmentFile) {
       return toast.warn("Attachment Required")
     }
     if (values?.profitCenter?.value) {
-      if (location?.state?.selectedJournal?.value === 4) {
+      if (selectedJournalTypeId === 4) {
         if (!values?.revenueCenter || !values?.revenueElement) {
           return toast.warn("Please add Revenue center or Revenue element");
         }
@@ -78,7 +80,7 @@ export default function BankJournalCreateFormContra() {
     }
     /* 
      // previous code 
-     if (location?.state?.selectedJournal?.value === 4) {
+     if (selectedJournalTypeId === 4) {
       if (values?.revenueCenter || values?.revenueElement) {
         if (!(values?.revenueCenter && values?.revenueElement)) {
           return toast.warn("Please add Revenue center or Revenue element");
@@ -113,7 +115,6 @@ export default function BankJournalCreateFormContra() {
       selectedBusinessUnit?.value
       // chequeNo?.currentChequeNo
     ) {
-      let type = location?.state?.selectedJournal?.value;
       // if id , then this is for edit , else this is for create
       if (params?.id) {
       } else {
@@ -149,7 +150,7 @@ export default function BankJournalCreateFormContra() {
           subGLName: item?.transaction?.label,
           subGLTypeId: item?.partnerType?.reffPrtTypeId,
           subGLTypeName: item?.partnerType?.label,
-          controlType: type === 4 ? "Revenue" : type === 5 ? "Cost" : "",
+          controlType: selectedJournalTypeId === 4 ? "Revenue" : selectedJournalTypeId === 5 ? "Cost" : "",
           profitCenterId: item?.profitCenter?.value || 0,
           costRevenueName: item?.revenueCenter?.label || item?.costCenter?.label || "",
           costRevenueId: item?.revenueCenter?.value || item?.costCenter?.value || 0,
@@ -201,15 +202,15 @@ export default function BankJournalCreateFormContra() {
             subGLTypeName: "Bank Account", // "Bank Account"
           },
         ];
-        const isRevenue = (type === 4 && values?.revenueCenter && values?.revenueElement)
-        const isCostCenter = (type !== 4 && values?.costCenter && values?.costElement)
+        const isRevenue = (selectedJournalTypeId === 4 && values?.revenueCenter && values?.revenueElement)
+        const isCostCenter = (selectedJournalTypeId !== 4 && values?.costCenter && values?.costElement)
         const payload = {
           objHeader: {
             bankJournalId: 0,
             voucherDate: values?.transactionDate,
             accountId: +profileData?.accountId,
-            businessUnitId: +selectedBusinessUnit?.value,
-            sbuId: +location?.state?.selectedSbu?.value,
+            businessUnitId: +location?.state?.intRequestToUnitId,
+            sbuId: +sbuList[0]?.value || 0,
             bankId: +values?.bankAcc?.bankId,
             bankName: values?.bankAcc?.bankName,
             bankBranchId: +values?.bankAcc?.bankBranch_Id,
@@ -225,7 +226,7 @@ export default function BankJournalCreateFormContra() {
             generalLedgerId: +values?.bankAcc?.generalLedgerId,
             generalLedgerCode: values?.bankAcc?.generalLedgerCode,
             generalLedgerName: values?.bankAcc?.generalLedgerName,
-            amount: type === 6 ? +values?.transferAmount : +netAmount,
+            amount: selectedJournalTypeId === 6 ? +values?.transferAmount : +netAmount,
             narration: values?.headerNarration || "",
             posted: false,
             partnerTypeName: values?.partnerType?.label || "",
@@ -246,7 +247,7 @@ export default function BankJournalCreateFormContra() {
             instrumentName: values?.instrumentType?.label || "",
             instrumentNo: values?.instrumentNo || "",
             instrumentDate: values?.instrumentDate || "",
-            accountingJournalTypeId: type,
+            accountingJournalTypeId: selectedJournalTypeId,
             directPosting: true,
             actionBy: +profileData?.userId,
             // Last Added
@@ -259,10 +260,10 @@ export default function BankJournalCreateFormContra() {
             ProfitCenterId: values?.profitCenter?.value,
             attachment: attachmentFile || "",
           },
-          objRowList: type === 6 ? transferRow : objRow,
+          objRowList: selectedJournalTypeId === 6 ? transferRow : objRow,
         };
-        // if jorunal  type is bank transfer , don't need to check rowdto length
-        if (type === 6) {
+        // if jorunal  selectedJournalTypeId is bank transfer , don't need to check rowdto length
+        if (selectedJournalTypeId === 6) {
           saveBankJournal(payload, cb, setRowDto, setDisabled, IConfirmModal);
         } else {
           if (rowDto?.length === 0) {
@@ -282,7 +283,7 @@ export default function BankJournalCreateFormContra() {
       (item) => item?.transaction?.value === values?.transaction?.value
     ).length;
 
-    if (location?.state?.selectedJournal?.value === 5) {
+    if (selectedJournalTypeId === 5) {
       setRowDto([...rowDto, values]);
     } else {
       if (count === 0) {
@@ -296,14 +297,6 @@ export default function BankJournalCreateFormContra() {
     const filterArr = rowDto.filter((itm, idx) => idx !== index);
     setRowDto(filterArr);
   };
-
-  useEffect(() => {
-    // if not id, that means this is for create form, then we will check this..
-    if (!location?.state && !params?.id) {
-      // history.push("/financial-management/financials/bank");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const [objProps, setObjprops] = useState({});
 
@@ -320,9 +313,9 @@ export default function BankJournalCreateFormContra() {
   return (
     <IForm
       title={
-        location?.state?.selectedJournal?.value === 4
+        selectedJournalTypeId === 4
           ? "Create Bank Receipt"
-          : location?.state?.selectedJournal?.value === 5
+          : selectedJournalTypeId === 5
             ? "Create Bank Payments"
             : "Create Bank Transfer"
       }
@@ -332,14 +325,14 @@ export default function BankJournalCreateFormContra() {
       {isDisabled && <Loading />}
       <Form
         {...objProps}
-        initData={params?.id ? singleData : bankJournalCreate}
+        initData={bankJournalCreate}
         saveHandler={saveHandler}
         setter={setter}
         remover={remover}
         rowDto={rowDto}
         profileData={profileData}
         selectedBusinessUnit={selectedBusinessUnit}
-        jorunalType={location?.state?.selectedJournal?.value}
+        jorunalType={selectedJournalTypeId}
         netAmount={netAmount}
         instrumentNoByResponse={instrumentNoByResponse}
         setInstrumentNoByResponse={setInstrumentNoByResponse}
