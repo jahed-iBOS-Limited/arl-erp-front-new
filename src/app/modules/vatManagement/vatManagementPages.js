@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import SalesPage from './sales/salesPage';
 import reportPages from './report/reportPages';
 import FinancialPages from './financial/financialPages';
+import InventoryPages from './inventory/inventoryPages';
 
 export function VatManagementPages() {
   return (
@@ -17,6 +18,7 @@ export function VatManagementPages() {
         <ContentRoute path="/mngVat/report" component={reportPages} />
         {/* Financial */}
         <ContentRoute path="/mngVat/tax-financial" component={FinancialPages} />
+        <ContentRoute path="/mngVat/inventory" component={InventoryPages} />
       </Switch>
     </Suspense>
   );
