@@ -65,10 +65,10 @@ function ChargesModal({ rowClickData, CB }) {
                 'profitSharePercentage',
                 resSveData?.[0]?.profitSharePercentage || '',
               );
-              // converstionRateUSD add
+              // converstionRateUsd add
               formikRef.current.setFieldValue(
-                'converstionRateUSD',
-                resSveData?.[0]?.converstionRateUSD || '',
+                'converstionRateUsd',
+                resSveData?.[0]?.converstionRateUsd || '',
               );
             }
             const arryList = [];
@@ -132,7 +132,7 @@ function ChargesModal({ rowClickData, CB }) {
                         saveItem?.advancedBillRegisterCode || '',
                       profitSharePercentage:
                         saveItem?.profitSharePercentage || '',
-                      converstionRateUSD: saveItem?.converstionRateUSD || '',
+                      converstionRateUsd: saveItem?.converstionRateUsd || '',
                       paymentAdvanceCombindAmount:
                         saveItem?.paymentAdvanceCombindAmount || '',
                       paymentActualCombindAmount:
@@ -240,7 +240,7 @@ function ChargesModal({ rowClickData, CB }) {
           isDummyCombindToMbl: item?.isDummyCombindToMbl || false,
           isPaymentCombindToMbl: item?.isPaymentCombindToMbl || false,
           profitSharePercentage: values?.profitSharePercentage || 0,
-          converstionRateUSD: values?.converstionRateUSD || 0,
+          converstionRateUsd: values?.converstionRateUsd || 0,
           masterBlId: item?.masterBlId || 0,
           masterBlCode: item?.masterBlCode || '',
           modeOfTransportId: item?.modeOfTransportId || 0,
@@ -329,7 +329,7 @@ function ChargesModal({ rowClickData, CB }) {
                             onChange={(e) => {
                               setFieldValue('billingType', 1);
                               setFieldValue('profitSharePercentage', '');
-                              setFieldValue('converstionRateUSD', '');
+                              setFieldValue('converstionRateUsd', '');
                               commonGetShippingHeadOfCharges(1);
                             }}
                           />
@@ -345,7 +345,7 @@ function ChargesModal({ rowClickData, CB }) {
                             onChange={(e) => {
                               setFieldValue('billingType', 2);
                               setFieldValue('profitSharePercentage', '');
-                              setFieldValue('converstionRateUSD', '');
+                              setFieldValue('converstionRateUsd', '');
                               commonGetShippingHeadOfCharges(2);
                             }}
                           />
@@ -378,15 +378,15 @@ function ChargesModal({ rowClickData, CB }) {
               </div>
               <div className="col-lg-3">
                 <InputField
-                  value={values?.converstionRateUSD}
+                  value={values?.converstionRateUsd}
                   label="Converstion Rate USD"
-                  name="converstionRateUSD"
+                  name="converstionRateUsd"
                   type="number"
                   onChange={(e) =>
-                    setFieldValue('converstionRateUSD', e.target.value)
+                    setFieldValue('converstionRateUsd', e.target.value)
                   }
                   disabled={
-                    shippingHeadOfCharges?.[0]?.converstionRateUSD &&
+                    shippingHeadOfCharges?.[0]?.converstionRateUsd &&
                     shippingHeadOfCharges?.[0]?.billingId
                   }
                 />
@@ -568,8 +568,8 @@ function ChargesModal({ rowClickData, CB }) {
                                       profitSharePercentage: e?.target?.checked
                                         ? item?.profitSharePercentage
                                         : '',
-                                      converstionRateUSD: e?.target?.checked
-                                        ? item?.converstionRateUSD
+                                      converstionRateUsd: e?.target?.checked
+                                        ? item?.converstionRateUsd
                                         : '',
                                       paymentActualCombindAmount: e?.target
                                         ?.checked

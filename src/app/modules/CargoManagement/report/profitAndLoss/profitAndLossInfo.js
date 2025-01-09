@@ -1,12 +1,13 @@
 import React from 'react';
 import './profitAndLossInfo.css';
 import { convertNumberToWords } from '../../../_helper/_convertMoneyToWord';
-function ProfitAndLossInfo({ values, MBBLWiseProfitLossReport }) {
+function ProfitAndLossInfo({ values, reportData }) {
+  console.log(reportData, 'reportData');
   const deliveryAgentIdName = [];
   const deliveryAgentAddress = [];
 
-  if (MBBLWiseProfitLossReport?.rowData?.length > 0) {
-    MBBLWiseProfitLossReport.rowData.forEach((item) => {
+  if (reportData?.rowData?.length > 0) {
+    reportData.rowData.forEach((item) => {
       if (item.deliveryAgentName1) {
         // deliveryAgentIdName check if exist then push
         const exist = deliveryAgentIdName.includes(item.deliveryAgentName1);
@@ -39,9 +40,7 @@ function ProfitAndLossInfo({ values, MBBLWiseProfitLossReport }) {
     });
   }
 
-  const collectionSum = (
-    MBBLWiseProfitLossReport?.collecttionBillingDatas || []
-  )?.reduce(
+  const collectionSum = (reportData?.collecttionBillingDatas || [])?.reduce(
     (acc, curr) => {
       return {
         collectionActualAmountInBDT:
@@ -56,9 +55,7 @@ function ProfitAndLossInfo({ values, MBBLWiseProfitLossReport }) {
     },
   );
 
-  const paymentSum = (
-    MBBLWiseProfitLossReport?.paymentBillingDatas || []
-  )?.reduce(
+  const paymentSum = (reportData?.paymentBillingDatas || [])?.reduce(
     (acc, curr) => {
       return {
         paymentActualAmountInBDT:
@@ -113,7 +110,7 @@ function ProfitAndLossInfo({ values, MBBLWiseProfitLossReport }) {
 
         <div className="col-lg-12">
           <div className="shipperInfoWrapper mt-3">
-            {MBBLWiseProfitLossReport?.rowData?.map((item, index) => {
+            {reportData?.rowData?.map((item, index) => {
               return (
                 <div className="shipperInfo">
                   <p>
@@ -175,25 +172,23 @@ function ProfitAndLossInfo({ values, MBBLWiseProfitLossReport }) {
                     <b>Income</b>
                   </td>
                 </tr>
-                {MBBLWiseProfitLossReport?.collecttionBillingDatas?.map(
-                  (item, index) => (
-                    <tr key={index}>
-                      <td
-                        style={{
-                          textAlign: 'left',
-                        }}
-                      >
-                        {item?.headOfCharges}
-                      </td>
-                      <td>{item?.collectionParty}</td>
-                      <td>{item?.collectionActualAmountInBDT}</td>
-                      <td>{item?.lossAndGain}</td>
-                      <td>{item?.grandTotal}</td>
-                      <td>{item?.converstionrate}</td>
-                      <td>{item?.amontUSD}</td>
-                    </tr>
-                  ),
-                )}
+                {reportData?.collecttionBillingDatas?.map((item, index) => (
+                  <tr key={index}>
+                    <td
+                      style={{
+                        textAlign: 'left',
+                      }}
+                    >
+                      {item?.headOfCharges}
+                    </td>
+                    <td>{item?.collectionParty}</td>
+                    <td>{item?.collectionActualAmountInBDT}</td>
+                    <td>{item?.lossAndGain}</td>
+                    <td>{item?.grandTotal}</td>
+                    <td>{item?.converstionrate}</td>
+                    <td>{item?.amontUSD}</td>
+                  </tr>
+                ))}
                 <tr>
                   {/* total  */}
                   <td colSpan="2">
@@ -220,25 +215,23 @@ function ProfitAndLossInfo({ values, MBBLWiseProfitLossReport }) {
                     <b>Cost</b>
                   </td>
                 </tr>
-                {MBBLWiseProfitLossReport?.paymentBillingDatas?.map(
-                  (item, index) => (
-                    <tr key={index}>
-                      <td
-                        style={{
-                          textAlign: 'left',
-                        }}
-                      >
-                        {item?.headOfCharges}
-                      </td>
-                      <td>{item?.paymentParty}</td>
-                      <td>{item?.paymentActualAmountInBDT}</td>
-                      <td>{item?.lossAndGain}</td>
-                      <td>{item?.grandTotal}</td>
-                      <td>{item?.converstionrate}</td>
-                      <td>{item?.amontUSD}</td>
-                    </tr>
-                  ),
-                )}
+                {reportData?.paymentBillingDatas?.map((item, index) => (
+                  <tr key={index}>
+                    <td
+                      style={{
+                        textAlign: 'left',
+                      }}
+                    >
+                      {item?.headOfCharges}
+                    </td>
+                    <td>{item?.paymentParty}</td>
+                    <td>{item?.paymentActualAmountInBDT}</td>
+                    <td>{item?.lossAndGain}</td>
+                    <td>{item?.grandTotal}</td>
+                    <td>{item?.converstionrate}</td>
+                    <td>{item?.amontUSD}</td>
+                  </tr>
+                ))}
 
                 <tr>
                   <td colSpan="2">
