@@ -62,7 +62,7 @@ function ProfitAndLoss() {
               const converstionrate = +item?.converstionrate || 0;
               const collectionActualAmount = +item?.collectionActualAmount || 0;
               const collectionDummyAmount = +item?.collectionDummyAmount || 0;
-              const converstionRateUSD = item?.converstionRateUSD || 0;
+              const converstionRateUsd = item?.converstionRateUsd || 0;
 
               const collectionActualAmountInBDT =
                 collectionActualAmount * converstionrate;
@@ -74,7 +74,7 @@ function ProfitAndLoss() {
                 collectionActualAmountInBDT - collectionDummyAmountInBDT;
 
               const grandTotal = collectionActualAmountInBDT + lossAndGain;
-              const amontUSD = grandTotal / converstionRateUSD;
+              const amontUSD = grandTotal / converstionRateUsd;
 
               const totalAmontUSD = isFinite(amontUSD) ? amontUSD : 0;
               return {
@@ -92,7 +92,7 @@ function ProfitAndLoss() {
               const paymentActualAmount = +item?.paymentActualAmount || 0;
               const converstionrate = +item?.converstionrate || 0;
               const paymentDummyAmount = +item?.paymentDummyAmount || 0;
-              const converstionRateUSD = item?.converstionRateUSD || 0;
+              const converstionRateUsd = item?.converstionRateUsd || 0;
 
               const paymentActualAmountInBDT =
                 paymentActualAmount * converstionrate;
@@ -102,7 +102,7 @@ function ProfitAndLoss() {
 
               const lossAndGain = paymentDummyAmount - paymentDummyAmountInBDT;
               const grandTotal = paymentActualAmountInBDT + lossAndGain;
-              const amontUSD = grandTotal * converstionRateUSD;
+              const amontUSD = grandTotal * converstionRateUsd;
               const totalAmontUSD = isFinite(amontUSD) ? amontUSD : 0;
               return {
                 ...item,
