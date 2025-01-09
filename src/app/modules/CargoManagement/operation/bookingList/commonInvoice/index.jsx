@@ -157,8 +157,35 @@ const CommonInvoice = ({ rowClickData }) => {
         !item?.invoiceId
       );
     });
-    setBillingDataFilterData(filterData);
+    if (filterData?.length === 0) {
+      const billGenerateFilterData = bookingData?.billingData?.filter(
+        (item) => {
+          return (
+            item?.collectionPartyId === valueOption?.value &&
+            item?.collectionActualAmount &&
+            item?.invoiceId
+          );
+        },
+      );
+      setBillingDataFilterData(billGenerateFilterData);
+    } else {
+      setBillingDataFilterData(filterData);
+    }
   };
+
+  const totalGrossWeightKG = bookingData?.rowsData?.reduce(
+    (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
+    0,
+  );
+
+  const totalVolumetricWeight = bookingData?.rowsData?.reduce(
+    (acc, item) => acc + (+item?.totalVolumetricWeight || 0),
+    0,
+  );
+  const totalChargeableWeight =
+    totalVolumetricWeight > totalGrossWeightKG
+      ? totalVolumetricWeight
+      : totalGrossWeightKG;
 
   return (
     <Formik
@@ -277,7 +304,8 @@ const CommonInvoice = ({ rowClickData }) => {
               }}
             >
               {' '}
-              INVOICE : {invoiceNo || 'N/A'}
+              {billingDataFilterData?.[0]?.paymentPartyType} INVOICE :{' '}
+              {invoiceNo || 'N/A'}
               {/* INVOICE : {bookingData?.invoiceNumber || "N/A"} */}
             </p>
             <div
@@ -360,7 +388,7 @@ const CommonInvoice = ({ rowClickData }) => {
                       fontWeight: 600,
                     }}
                   >
-                    {bookingData?.awbnumber}
+                    {bookingData?.hblnumber}
                   </span>
                 </div>
                 <div
@@ -544,7 +572,22 @@ const CommonInvoice = ({ rowClickData }) => {
                         : 'N/A'}
                     </span>
                     <br />
-                    <span>{bookingData?.blnumber || 'N/A'}</span>
+                    <span>
+                      {' '}
+                      {bookingData?.seaMasterBlCode &&
+                      bookingData?.airMasterBlCode ? (
+                        <>
+                          {bookingData?.seaMasterBlCode}{' '}
+                          {bookingData?.airMasterBlCode
+                            ? ', ' + bookingData?.airMasterBlCode
+                            : ''}
+                        </>
+                      ) : (
+                        bookingData?.seaMasterBlCode ||
+                        bookingData?.airMasterBlCode ||
+                        ''
+                      )}
+                    </span>
                     <br />
                     <span>{bookingData?.hblnumber || 'N/A'}</span>
                     <br />
@@ -599,9 +642,27 @@ const CommonInvoice = ({ rowClickData }) => {
                     <span></span>
                     <br />
                     <span>
-                      {bookingData?.bldate
-                        ? moment(bookingData?.bldate).format('YYYY-MM-DD')
-                        : 'N/A'}
+                      {bookingData?.seaMasterBlCode &&
+                      bookingData?.airMasterBlCode ? (
+                        <>
+                          {bookingData?.seaMasterBlDate &&
+                            moment(bookingData?.seaMasterBlDate).format(
+                              'YYYY-MM-DD',
+                            )}{' '}
+                          {bookingData?.airMasterBlDate &&
+                            moment(bookingData?.airMasterBlDate).format(
+                              'YYYY-MM-DD',
+                            )}{' '}
+                        </>
+                      ) : bookingData?.seaMasterBlDate ||
+                        bookingData?.seaMasterBlDate ? (
+                        moment(
+                          bookingData?.seaMasterBlDate ||
+                            bookingData?.seaMasterBlDate,
+                        ).format('YYYY-MM-DD')
+                      ) : (
+                        ''
+                      )}
                     </span>
                     <br />
                     <span>
@@ -610,17 +671,9 @@ const CommonInvoice = ({ rowClickData }) => {
                         : 'N/A'}
                     </span>
                     <br />
-                    <span>
-                      {bookingData?.rowsData?.reduce((acc, cur) => {
-                        return acc + (+cur?.totalVolumeCBM || 0);
-                      }, 0)}
-                    </span>
+                    <span>{totalVolumetricWeight}</span>
                     <br />
-                    <span>
-                      {bookingData?.rowsData?.reduce((acc, cur) => {
-                        return acc + (+cur?.grossWeightKG || 0);
-                      }, 0)}
-                    </span>
+                    <span>{totalChargeableWeight}</span>
                   </div>
                 </div>
               </div>

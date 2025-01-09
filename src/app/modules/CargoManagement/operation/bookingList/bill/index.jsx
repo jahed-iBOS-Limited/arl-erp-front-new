@@ -69,7 +69,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
       masterBlId = rowClickData?.seamasterBlId;
       // masterBlCode = rowClickData?.seaMasterBlCode;
     }
-    if (!masterBlId) return toast.warning('Master BL not found');
+    if (!masterBlId) return toast.warning('Master BL Id not found');
 
     if (bookingRequestId) {
       getMasterBLWiseBilling(
