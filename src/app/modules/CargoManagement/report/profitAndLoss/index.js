@@ -49,17 +49,16 @@ function ProfitAndLoss() {
 
   useEffect(() => {
     modeOfTransportHandelar(initData);
-    // getLandingData(initData, pageNo, pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
-  const getLandingData = (masterBlId) => {
+  const getLandingData = (masterBlId, values) => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       GetMBLWiseProfitLossReport(
         `${imarineBaseUrl}/domain/ShippingService/GetMBLWiseProfitLossReport?masterBlId=${masterBlId}`,
         (resData) => {
           commonReportDataSet(resData, {
-            ...initData,
+            ...values,
           });
         },
       );
@@ -86,8 +85,7 @@ function ProfitAndLoss() {
   };
 
   const viewHandelar = (values) => {
-    console.log(values, 'values');
-    getLandingData(values?.masterBL?.value);
+    getLandingData(values?.masterBL?.value, values);
   };
   const printRef = useRef();
   const handlePrint = useReactToPrint({
@@ -114,8 +112,6 @@ function ProfitAndLoss() {
         ? item?.bookingRequestId === bookingRequestId
         : true;
     });
-    console.log(values, 'values');
-    console.log(rowDataFilter, 'rowDataFilter');
     const collecttionBillingDatasFilter = reportData?.collecttionBillingDatas?.filter(
       (item) => {
         return bookingRequestId
@@ -123,7 +119,6 @@ function ProfitAndLoss() {
           : true;
       },
     );
-
     const paymentBillingDatasFilter = reportData?.paymentBillingDatas?.filter(
       (item) => {
         return bookingRequestId
@@ -224,11 +219,6 @@ function ProfitAndLoss() {
     });
   };
 
-  const hblHandelar = (values) => {
-    commonReportDataSet(MBBLWiseProfitLossReportt, {
-      ...values,
-    });
-  };
   return (
     <>
       <ICustomCard
@@ -316,10 +306,8 @@ function ProfitAndLoss() {
                       label="HBL"
                       onChange={(valueOption) => {
                         setFieldValue('hbl', valueOption);
-                        hblHandelar({
-                          ...values,
-                          hbl: valueOption,
-                        });
+                        setMBLWiseProfitLossReport({});
+                        setReportData({});
                       }}
                       placeholder="HBL"
                       errors={errors}

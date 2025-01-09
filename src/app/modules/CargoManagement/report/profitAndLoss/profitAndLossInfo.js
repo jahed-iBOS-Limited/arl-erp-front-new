@@ -2,6 +2,7 @@ import React from 'react';
 import './profitAndLossInfo.css';
 import { convertNumberToWords } from '../../../_helper/_convertMoneyToWord';
 function ProfitAndLossInfo({ values, reportData }) {
+  console.log(reportData, 'reportData');
   const deliveryAgentIdName = [];
   const deliveryAgentAddress = [];
 
