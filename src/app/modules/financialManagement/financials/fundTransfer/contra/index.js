@@ -39,8 +39,7 @@ export default function Contra({ viewType }) {
     const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
         const searchTearm = searchValue ? `&strSearch=${searchValue}` : "";
         getGridData(
-            // `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&strRequestType=Request&viewOrder=DESC&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
-            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isApproved=${values?.status?.value}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
+            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&intRequestTypeId=${viewType?.actionId}&StrTransactionType=${parentTransferType?.actionName}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isApproved=${values?.status?.value}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
         );
     };
 
