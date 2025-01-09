@@ -20,7 +20,7 @@ const initData = {
 function ProfitAndLoss() {
   const [reportData, setReportData] = React.useState([]);
   const [
-    MBBLWiseProfitLossReportt,
+    ,
     GetMBLWiseProfitLossReport,
     MBBLWiseProfitLossReportLoading,
     setMBLWiseProfitLossReport,
