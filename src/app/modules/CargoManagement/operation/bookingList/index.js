@@ -570,7 +570,7 @@ function BookingList() {
                                   {item?.shipperCountry}
                                 </td>
                                 <td className="text-left">
-                                  {item?.portOfLoading}
+                                  {item?.portOfDischarge}
                                 </td>
                                 <td className="text-left">{item?.hblnumber}</td>
                                 <td className="text-left">
