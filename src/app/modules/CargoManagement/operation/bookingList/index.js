@@ -385,7 +385,9 @@ function BookingList() {
                         >
                           Receive
                         </th>
-                        {values?.modeOfTransport?.label === 'Sea' && (
+                        {['Sea', 'Sea-Air'].includes(
+                          values?.modeOfTransport?.label,
+                        ) && (
                           <th
                             style={{
                               minWidth: '65px',
@@ -712,7 +714,9 @@ function BookingList() {
                                     </button>
                                   </span>
                                 </td>
-                                {item?.modeOfTransport === 'Sea' && (
+                                {['Sea', 'Sea-Air'].includes(
+                                  values?.modeOfTransport?.label,
+                                ) && (
                                   <td>
                                     {' '}
                                     <span>
