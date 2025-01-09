@@ -18,8 +18,9 @@ const initData = {
 };
 
 function ProfitAndLoss() {
+  const [reportData, setReportData] = React.useState([]);
   const [
-    MBBLWiseProfitLossReport,
+    MBBLWiseProfitLossReportt,
     GetMBLWiseProfitLossReport,
     MBBLWiseProfitLossReportLoading,
     setMBLWiseProfitLossReport,
@@ -57,67 +58,8 @@ function ProfitAndLoss() {
       GetMBLWiseProfitLossReport(
         `${imarineBaseUrl}/domain/ShippingService/GetMBLWiseProfitLossReport?masterBlId=${masterBlId}`,
         (resData) => {
-          const collecttionBillingDatas = resData?.collecttionBillingDatas?.map(
-            (item) => {
-              const converstionrate = +item?.converstionrate || 0;
-              const collectionActualAmount = +item?.collectionActualAmount || 0;
-              const collectionDummyAmount = +item?.collectionDummyAmount || 0;
-              const converstionRateUsd = item?.converstionRateUsd || 0;
-
-              const collectionActualAmountInBDT =
-                collectionActualAmount * converstionrate;
-
-              const collectionDummyAmountInBDT =
-                collectionDummyAmount * converstionrate;
-
-              const lossAndGain =
-                collectionActualAmountInBDT - collectionDummyAmountInBDT;
-
-              const grandTotal = collectionActualAmountInBDT + lossAndGain;
-              const amontUSD = grandTotal / converstionRateUsd;
-
-              const totalAmontUSD = isFinite(amontUSD) ? amontUSD : 0;
-              return {
-                ...item,
-                collectionActualAmountInBDT,
-                lossAndGain,
-                grandTotal,
-                amontUSD: totalAmontUSD,
-              };
-            },
-          );
-
-          const paymentBillingDatas = resData?.paymentBillingDatas?.map(
-            (item) => {
-              const paymentActualAmount = +item?.paymentActualAmount || 0;
-              const converstionrate = +item?.converstionrate || 0;
-              const paymentDummyAmount = +item?.paymentDummyAmount || 0;
-              const converstionRateUsd = item?.converstionRateUsd || 0;
-
-              const paymentActualAmountInBDT =
-                paymentActualAmount * converstionrate;
-
-              const paymentDummyAmountInBDT =
-                paymentDummyAmount * converstionrate;
-
-              const lossAndGain = paymentDummyAmount - paymentDummyAmountInBDT;
-              const grandTotal = paymentActualAmountInBDT + lossAndGain;
-              const amontUSD = grandTotal * converstionRateUsd;
-              const totalAmontUSD = isFinite(amontUSD) ? amontUSD : 0;
-              return {
-                ...item,
-                paymentActualAmountInBDT,
-                lossAndGain,
-                grandTotal,
-                amontUSD: totalAmontUSD,
-              };
-            },
-          );
-
-          setMBLWiseProfitLossReport({
-            ...resData,
-            collecttionBillingDatas,
-            paymentBillingDatas,
+          commonReportDataSet(resData, {
+            ...initData,
           });
         },
       );
@@ -162,6 +104,131 @@ function ProfitAndLoss() {
                 }`,
   });
 
+  const commonReportDataSet = (reportData, values) => {
+    const bookingRequestId = reportData?.rowData?.find(
+      (item) => item?.hwabno === values?.hbl?.value,
+    )?.bookingRequestId;
+
+    const rowDataFilter = reportData?.rowData?.filter((item) => {
+      return bookingRequestId
+        ? item?.bookingRequestId === bookingRequestId
+        : true;
+    });
+    console.log(values, 'values');
+    console.log(rowDataFilter, 'rowDataFilter');
+    const collecttionBillingDatasFilter = reportData?.collecttionBillingDatas?.filter(
+      (item) => {
+        return bookingRequestId
+          ? item?.bookingRequestId === bookingRequestId
+          : true;
+      },
+    );
+
+    const paymentBillingDatasFilter = reportData?.paymentBillingDatas?.filter(
+      (item) => {
+        return bookingRequestId
+          ? item?.bookingRequestId === bookingRequestId
+          : true;
+      },
+    );
+
+    const collecttionHeadOfChargeWiseGroup = collecttionBillingDatasFilter.reduce(
+      (acc, curr) => {
+        let {
+          headOfChargeId,
+          collectionActualAmount,
+          collectionDummyAmount,
+        } = curr;
+        if (acc[headOfChargeId]) {
+          acc[headOfChargeId].collectionActualAmount += collectionActualAmount;
+          acc[headOfChargeId].collectionDummyAmount += collectionDummyAmount;
+        } else {
+          acc[headOfChargeId] = { ...curr };
+        }
+        return acc;
+      },
+      {},
+    );
+
+    const paymentHeadOfChargeWiseGroup = paymentBillingDatasFilter.reduce(
+      (acc, curr) => {
+        let { headOfChargeId, paymentActualAmount, paymentDummyAmount } = curr;
+        if (acc[headOfChargeId]) {
+          acc[headOfChargeId].paymentActualAmount += paymentActualAmount;
+          acc[headOfChargeId].paymentDummyAmount += paymentDummyAmount;
+        } else {
+          acc[headOfChargeId] = { ...curr };
+        }
+        return acc;
+      },
+      {},
+    );
+    const collecttionBillingDatas = Object.values(
+      collecttionHeadOfChargeWiseGroup,
+    )?.map((item) => {
+      const converstionrate = +item?.converstionrate || 0;
+      const collectionActualAmount = +item?.collectionActualAmount || 0;
+      const collectionDummyAmount = +item?.collectionDummyAmount || 0;
+      const converstionRateUsd = item?.converstionRateUsd || 0;
+
+      const collectionActualAmountInBDT =
+        collectionActualAmount * converstionrate;
+
+      const collectionDummyAmountInBDT =
+        collectionDummyAmount * converstionrate;
+
+      const lossAndGain =
+        collectionActualAmountInBDT - collectionDummyAmountInBDT;
+
+      const grandTotal = collectionActualAmountInBDT + lossAndGain;
+      const amontUSD = grandTotal / converstionRateUsd;
+
+      const totalAmontUSD = isFinite(amontUSD) ? amontUSD : 0;
+      return {
+        ...item,
+        collectionActualAmountInBDT,
+        lossAndGain,
+        grandTotal,
+        amontUSD: totalAmontUSD,
+      };
+    });
+    const paymentBillingDatas = Object.values(
+      paymentHeadOfChargeWiseGroup,
+    )?.map((item) => {
+      const paymentActualAmount = +item?.paymentActualAmount || 0;
+      const converstionrate = +item?.converstionrate || 0;
+      const paymentDummyAmount = +item?.paymentDummyAmount || 0;
+      const converstionRateUsd = item?.converstionRateUsd || 0;
+
+      const paymentActualAmountInBDT = paymentActualAmount * converstionrate;
+
+      const paymentDummyAmountInBDT = paymentDummyAmount * converstionrate;
+
+      const lossAndGain = paymentDummyAmount - paymentDummyAmountInBDT;
+      const grandTotal = paymentActualAmountInBDT + lossAndGain;
+      const amontUSD = grandTotal * converstionRateUsd;
+      const totalAmontUSD = isFinite(amontUSD) ? amontUSD : 0;
+      return {
+        ...item,
+        paymentActualAmountInBDT,
+        lossAndGain,
+        grandTotal,
+        amontUSD: totalAmontUSD,
+      };
+    });
+
+    setReportData({
+      rowData: rowDataFilter,
+      collecttionBillingDatas,
+      paymentBillingDatas,
+    });
+  };
+
+  const hblHandelar = (values) => {
+    commonReportDataSet(MBBLWiseProfitLossReportt, {
+      ...values,
+    });
+  };
   return (
     <>
       <ICustomCard
@@ -229,6 +296,7 @@ function ProfitAndLoss() {
                         setFieldValue('masterBL', valueOption);
                         setFieldValue('hbl', '');
                         setMBLWiseProfitLossReport({});
+                        setReportData({});
                         masterBLHandelar({
                           ...values,
                           masterBL: valueOption,
@@ -248,6 +316,10 @@ function ProfitAndLoss() {
                       label="HBL"
                       onChange={(valueOption) => {
                         setFieldValue('hbl', valueOption);
+                        hblHandelar({
+                          ...values,
+                          hbl: valueOption,
+                        });
                       }}
                       placeholder="HBL"
                       errors={errors}
@@ -268,11 +340,11 @@ function ProfitAndLoss() {
                   </div>
                 </div>
                 {/* Profit And Loss Info */}
-                {MBBLWiseProfitLossReport?.rowData && (
+                {reportData?.rowData && (
                   <div ref={printRef}>
                     <ProfitAndLossInfo
                       values={values}
-                      MBBLWiseProfitLossReport={MBBLWiseProfitLossReport}
+                      reportData={reportData}
                     />
                   </div>
                 )}
