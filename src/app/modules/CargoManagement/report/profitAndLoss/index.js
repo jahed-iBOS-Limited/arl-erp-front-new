@@ -18,10 +18,12 @@ const initData = {
 };
 
 function ProfitAndLoss() {
+  const [reportData, setReportData] = React.useState([]);
   const [
-    masterBlLanding,
-    GetMasterBlLanding,
-    masterBlLandingLoading,
+    ,
+    GetMBLWiseProfitLossReport,
+    MBBLWiseProfitLossReportLoading,
+    setMBLWiseProfitLossReport,
   ] = useAxiosGet();
   const [
     genarateMasterBLDDL,
@@ -33,6 +35,7 @@ function ProfitAndLoss() {
     HBLFromMasterBL,
     getHBLFromMasterBL,
     getHBLFromMasterBLLoading,
+    setHBLFromMasterBL,
   ] = useAxiosGet();
   // get user profile data from store
   const storeData = useSelector((state) => {
@@ -46,17 +49,21 @@ function ProfitAndLoss() {
 
   useEffect(() => {
     modeOfTransportHandelar(initData);
-    // getLandingData(initData, pageNo, pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
-  // const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
-  //   if (profileData?.accountId && selectedBusinessUnit?.value) {
-  //     GetMasterBlLanding(
-  //       `${imarineBaseUrl}/domain/ShippingService/GetMasterBlLanding?typeId=${values?.modeOfTransport?.value}&search=${searchValue}&PageNo=${pageNo}&PageSize=${pageSize}`,
-  //     );
-  //   }
-  // };
+  const getLandingData = (masterBlId, values) => {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
+      GetMBLWiseProfitLossReport(
+        `${imarineBaseUrl}/domain/ShippingService/GetMBLWiseProfitLossReport?masterBlId=${masterBlId}`,
+        (resData) => {
+          commonReportDataSet(resData, {
+            ...values,
+          });
+        },
+      );
+    }
+  };
 
   const modeOfTransportHandelar = (values) => {
     getGenarateMasterBLDDL(
@@ -67,11 +74,18 @@ function ProfitAndLoss() {
   const masterBLHandelar = (values) => {
     getHBLFromMasterBL(
       `${imarineBaseUrl}/domain/ShippingService/GetHBLFromMasterBL?masterBlId=${values?.masterBL?.value}&typeId=${values?.modeOfTransport?.value}`,
+      (resData) => {
+        const modifyData = resData?.map((item) => ({
+          value: item?.label,
+          label: item?.label,
+        }));
+        setHBLFromMasterBL(modifyData);
+      },
     );
   };
 
   const viewHandelar = (values) => {
-    console.log(values);
+    getLandingData(values?.masterBL?.value, values);
   };
   const printRef = useRef();
   const handlePrint = useReactToPrint({
@@ -87,6 +101,123 @@ function ProfitAndLoss() {
                   margin-top: 1.5cm ! important;
                 }`,
   });
+
+  const commonReportDataSet = (reportData, values) => {
+    const bookingRequestId = reportData?.rowData?.find(
+      (item) => item?.hwabno === values?.hbl?.value,
+    )?.bookingRequestId;
+
+    const rowDataFilter = reportData?.rowData?.filter((item) => {
+      return bookingRequestId
+        ? item?.bookingRequestId === bookingRequestId
+        : true;
+    });
+    const collecttionBillingDatasFilter = reportData?.collecttionBillingDatas?.filter(
+      (item) => {
+        return bookingRequestId
+          ? item?.bookingRequestId === bookingRequestId
+          : true;
+      },
+    );
+    const paymentBillingDatasFilter = reportData?.paymentBillingDatas?.filter(
+      (item) => {
+        return bookingRequestId
+          ? item?.bookingRequestId === bookingRequestId
+          : true;
+      },
+    );
+
+    const collecttionHeadOfChargeWiseGroup = collecttionBillingDatasFilter.reduce(
+      (acc, curr) => {
+        let {
+          headOfChargeId,
+          collectionActualAmount,
+          collectionDummyAmount,
+        } = curr;
+        if (acc[headOfChargeId]) {
+          acc[headOfChargeId].collectionActualAmount += collectionActualAmount;
+          acc[headOfChargeId].collectionDummyAmount += collectionDummyAmount;
+        } else {
+          acc[headOfChargeId] = { ...curr };
+        }
+        return acc;
+      },
+      {},
+    );
+
+    const paymentHeadOfChargeWiseGroup = paymentBillingDatasFilter.reduce(
+      (acc, curr) => {
+        let { headOfChargeId, paymentActualAmount, paymentDummyAmount } = curr;
+        if (acc[headOfChargeId]) {
+          acc[headOfChargeId].paymentActualAmount += paymentActualAmount;
+          acc[headOfChargeId].paymentDummyAmount += paymentDummyAmount;
+        } else {
+          acc[headOfChargeId] = { ...curr };
+        }
+        return acc;
+      },
+      {},
+    );
+    const collecttionBillingDatas = Object.values(
+      collecttionHeadOfChargeWiseGroup,
+    )?.map((item) => {
+      const converstionrate = +item?.converstionrate || 0;
+      const collectionActualAmount = +item?.collectionActualAmount || 0;
+      const collectionDummyAmount = +item?.collectionDummyAmount || 0;
+      const converstionRateUsd = item?.converstionRateUsd || 0;
+
+      const collectionActualAmountInBDT =
+        collectionActualAmount * converstionrate;
+
+      const collectionDummyAmountInBDT =
+        collectionDummyAmount * converstionrate;
+
+      const lossAndGain =
+        collectionActualAmountInBDT - collectionDummyAmountInBDT;
+
+      const grandTotal = collectionActualAmountInBDT + lossAndGain;
+      const amontUSD = grandTotal / converstionRateUsd;
+
+      const totalAmontUSD = isFinite(amontUSD) ? amontUSD : 0;
+      return {
+        ...item,
+        collectionActualAmountInBDT,
+        lossAndGain,
+        grandTotal,
+        amontUSD: totalAmontUSD,
+      };
+    });
+    const paymentBillingDatas = Object.values(
+      paymentHeadOfChargeWiseGroup,
+    )?.map((item) => {
+      const paymentActualAmount = +item?.paymentActualAmount || 0;
+      const converstionrate = +item?.converstionrate || 0;
+      const paymentDummyAmount = +item?.paymentDummyAmount || 0;
+      const converstionRateUsd = item?.converstionRateUsd || 0;
+
+      const paymentActualAmountInBDT = paymentActualAmount * converstionrate;
+
+      const paymentDummyAmountInBDT = paymentDummyAmount * converstionrate;
+
+      const lossAndGain = paymentDummyAmount - paymentDummyAmountInBDT;
+      const grandTotal = paymentActualAmountInBDT + lossAndGain;
+      const amontUSD = grandTotal * converstionRateUsd;
+      const totalAmontUSD = isFinite(amontUSD) ? amontUSD : 0;
+      return {
+        ...item,
+        paymentActualAmountInBDT,
+        lossAndGain,
+        grandTotal,
+        amontUSD: totalAmontUSD,
+      };
+    });
+
+    setReportData({
+      rowData: rowDataFilter,
+      collecttionBillingDatas,
+      paymentBillingDatas,
+    });
+  };
 
   return (
     <>
@@ -107,7 +238,7 @@ function ProfitAndLoss() {
           );
         }}
       >
-        {(masterBlLandingLoading ||
+        {(MBBLWiseProfitLossReportLoading ||
           genarateMasterBLDDLLoading ||
           getHBLFromMasterBLLoading) && <Loading />}
         <Formik enableReinitialize={true} initialValues={initData}>
@@ -131,6 +262,7 @@ function ProfitAndLoss() {
                       value={values?.modeOfTransport || ''}
                       label="Booking Type"
                       onChange={(valueOption) => {
+                        setMBLWiseProfitLossReport({});
                         setFieldValue('modeOfTransport', valueOption);
                         setFieldValue('masterBL', '');
                         setFieldValue('hbl', '');
@@ -153,6 +285,8 @@ function ProfitAndLoss() {
                       onChange={(valueOption) => {
                         setFieldValue('masterBL', valueOption);
                         setFieldValue('hbl', '');
+                        setMBLWiseProfitLossReport({});
+                        setReportData({});
                         masterBLHandelar({
                           ...values,
                           masterBL: valueOption,
@@ -167,11 +301,13 @@ function ProfitAndLoss() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="hbl"
-                      options={masterBlLanding || []}
+                      options={HBLFromMasterBL || []}
                       value={values?.hbl || ''}
                       label="HBL"
                       onChange={(valueOption) => {
                         setFieldValue('hbl', valueOption);
+                        setMBLWiseProfitLossReport({});
+                        setReportData({});
                       }}
                       placeholder="HBL"
                       errors={errors}
@@ -192,9 +328,14 @@ function ProfitAndLoss() {
                   </div>
                 </div>
                 {/* Profit And Loss Info */}
-                <div ref={printRef}>
-                  <ProfitAndLossInfo values={values} />
-                </div>
+                {reportData?.rowData && (
+                  <div ref={printRef}>
+                    <ProfitAndLossInfo
+                      values={values}
+                      reportData={reportData}
+                    />
+                  </div>
+                )}
               </Form>
             </>
           )}

@@ -51,6 +51,7 @@ function BLModal({ rowClickData, CB }) {
     if (modeOfTransportId === 2) {
       masterBlId = rowClickData?.seamasterBlId;
     }
+    if (!masterBlId) return toast.warning('Master BL not found');
     getDocumentsByMasterBL(
       `${imarineBaseUrl}/domain/ShippingService/GetDocumentsByMasterBL?MasterBlId=${masterBlId}`,
       (resData) => {
@@ -78,7 +79,7 @@ function BLModal({ rowClickData, CB }) {
     if (values?.billingType === 2) {
       masterBlId = rowClickData?.seamasterBlId;
     }
-
+    if (!masterBlId) return toast.warning('Master BL not found');
     // documentFileId empty check
     if (!values?.documentFileId)
       return toast.warning('Please upload a document');
