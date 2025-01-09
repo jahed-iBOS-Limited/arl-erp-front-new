@@ -8,7 +8,6 @@ import Loading from '../../../../_helper/_loading';
 import PaginationTable from '../../../../_helper/_tablePagination';
 import IViewModal from '../../../../_helper/_viewModal';
 import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-import { ItemReqViewTableRow } from '../../../../procurement/purchase-management/purchaseRequestNew/report/tableRow';
 import PaginationSearch from './../../../../_helper/_search';
 import { approvalApi, getDealerBenefitsGridData } from './helper';
 import DelearsBenefotsViewModal from './viewModal';

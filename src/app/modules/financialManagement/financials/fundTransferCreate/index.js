@@ -208,8 +208,19 @@ export default function FundTransferCreate({ viewType }) {
                                                         </td>                                                        <td className="text-center">
                                                             <div className="d-flex justify-content-around">
                                                                 <span onClick={() => {
-                                                                    history.push(`/financial-management/financials/fundTransfercreate/bankTrasfer`)
+                                                                    if (item?.strTransferBy === "Bank To Bank") {
+                                                                        history.push({
+                                                                            pathname: `/financial-management/financials/fundTransfercreate/bankTrasfer`,
+                                                                            state: item
+                                                                        })
 
+                                                                    } else if (item?.strTransferBy === "Bank To Cash") {
+                                                                        history.push(history.push({
+                                                                            pathname: `/financial-management/financials/fundTransfercreate/cashTrasfer`,
+                                                                            state: item
+                                                                        }))
+
+                                                                    }
                                                                 }}>
                                                                     <IAdd title={"Create"} />
                                                                 </span>

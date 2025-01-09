@@ -34,6 +34,11 @@ export const approveHandeler = ({ item, onApproveHandler, profileData, cb }) => 
         isApproved: 1,
         intApproveBy: profileData?.userId || 0,
         dteApproveDatetime: new Date().toISOString(),
+        intRequestGLId: item?.intRequestGLId || 0,
+        strRequestGlName: item?.strRequestGlName || "",
+        strRequestPartnerId: item?.strRequestPartnerId || 0,
+        strRequestPartnerName: item?.strRequestPartnerName || "",
+        isTransferCreated: false,
 
     }
 
