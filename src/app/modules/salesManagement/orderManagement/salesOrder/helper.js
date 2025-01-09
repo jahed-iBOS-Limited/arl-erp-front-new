@@ -124,7 +124,8 @@ export const rejectSalesOrder = async (payload, setIsLoading, cb) => {
 
 export const logisticByDDL = [
   { value: 1, label: "Company" },
-  { value: 2, label: "Customer" },
+  { value: 2, label: "Supplier" },
+  { value: 3, label: "Customer" },
 ];
 export const isBooleanDDL = [
   { value: false, label: "No" },
