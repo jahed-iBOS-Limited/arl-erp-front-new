@@ -129,16 +129,9 @@ function BookingList() {
       return true;
     }
     if (
-      !item?.isPlaning ||
-      (selectedRow.length > 0 &&
-        selectedRow?.[0]?.freightAgentReferenceId !==
-          item?.freightAgentReferenceId)
-    ) {
-      return true;
-    }
-    if (
       selectedRow.length > 0 &&
-      selectedRow?.[0]?.modeOfTransport !== item?.modeOfTransport
+      selectedRow?.[0]?.freightAgentReferenceId !==
+        item?.freightAgentReferenceId
     ) {
       return true;
     }
@@ -570,7 +563,7 @@ function BookingList() {
                                   {item?.shipperCountry}
                                 </td>
                                 <td className="text-left">
-                                  {item?.portOfLoading}
+                                  {item?.portOfDischarge}
                                 </td>
                                 <td className="text-left">{item?.hblnumber}</td>
                                 <td className="text-left">
