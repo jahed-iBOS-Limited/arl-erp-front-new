@@ -51,7 +51,7 @@ function ChargesModal({ rowClickData, CB }) {
       masterBlId = rowClickData?.seamasterBlId;
       masterBlCode = rowClickData?.seaMasterBlCode;
     }
-    if (!masterBlId) return;
+    if (!masterBlId) return toast.warning('Master BL not found');
 
     getShippingHeadOfCharges(
       `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges`,
