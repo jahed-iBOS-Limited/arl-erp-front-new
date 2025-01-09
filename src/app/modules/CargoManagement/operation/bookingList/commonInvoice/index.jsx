@@ -648,17 +648,18 @@ const CommonInvoice = ({ rowClickData }) => {
                           {bookingData?.seaMasterBlDate &&
                             moment(bookingData?.seaMasterBlDate).format(
                               'YYYY-MM-DD',
-                            )}{' '}
+                            )}
+                          {', '}
                           {bookingData?.airMasterBlDate &&
                             moment(bookingData?.airMasterBlDate).format(
                               'YYYY-MM-DD',
                             )}{' '}
                         </>
                       ) : bookingData?.seaMasterBlDate ||
-                        bookingData?.seaMasterBlDate ? (
+                        bookingData?.airMasterBlDate ? (
                         moment(
                           bookingData?.seaMasterBlDate ||
-                            bookingData?.seaMasterBlDate,
+                            bookingData?.airMasterBlDate,
                         ).format('YYYY-MM-DD')
                       ) : (
                         ''
