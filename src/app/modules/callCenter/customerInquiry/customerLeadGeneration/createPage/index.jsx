@@ -14,6 +14,9 @@ import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../../_helper/TextArea";
+import FormikError from "../../../../_helper/_formikError";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import Loading from "../../../../_helper/_loading";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -37,10 +40,10 @@ const validationSchema = Yup.object().shape({
     value: Yup.number().required("District is required"),
     label: Yup.string().required("District is required"),
   }),
-  thana: Yup.object().shape({
-    value: Yup.number().required("Thana is required"),
-    label: Yup.string().required("Thana is required"),
-  }),
+  // thana: Yup.object().shape({
+  //   value: Yup.number().required("Thana is required"),
+  //   label: Yup.string().required("Thana is required"),
+  // }),
   shop: Yup.string().required("Shop is required"),
   retailShopAddress: Yup.string().required("Retail Shop Address is required"),
   //   businessPartner: Yup.string().required("Business Partner is required"),
@@ -73,6 +76,7 @@ function CreateCustomerLeadGeneration() {
   const [regionDDL, getRegionDDL, , setRegionDDL] = useAxiosGet();
   const [areaDDL, getAreaDDL, , setAreaDDL] = useAxiosGet();
   const [territoryDDL, getTerritoryDDL, , setTerritoryDDL] = useAxiosGet();
+  const [, SaveCustomerLeadGeneration, isLoading] = useAxiosPost();
 
   //   const { id } = useParams();
   const formikRef = React.useRef(null);
@@ -82,7 +86,62 @@ function CreateCustomerLeadGeneration() {
     selectedBusinessUnit,
   } = useSelector((state) => state?.authData || {}, shallowEqual);
   const saveHandler = (values, cb) => {
-    console.log(values);
+    const payload = {
+      partName: "Suspect",
+      header: {
+        businessUnitId: selectedBusinessUnit?.value,
+        customerAcquisitionId: 0,
+        customerName: values?.name || "",
+        customerEmail: values?.email || "",
+        customerPhone: values?.phone || "",
+        storied: values?.storied?.label || "",
+        projectStatusId: values?.projectStatus?.value || 0,
+        projectStatusName: values?.projectStatus?.label || "",
+        divisionId: values?.division?.value || 0,
+        districtId: values?.district?.value || 0,
+        transportZoneId: values?.thana?.value || 0,
+        // shipToPartnerId: values?.shipPoint?.value || 0,
+        shipToPartnerName: values?.shop || "",
+        businessPartnerId: 0,
+        referenceId: values?.reference?.value || 0,
+        referenceName: values?.reference?.label || "",
+        deliveryAddress: values?.deliveryAddress || "",
+        referralSource: values?.sourceOrAdvertise?.label || "",
+        territoryId: values?.territory?.value || 0,
+        areaId: values?.area?.value || 0,
+        regionId: values?.region?.value || 0,
+        currentStage: "Suspect",
+        lastActionBy: userId || 0,
+        updatedDateTime: new Date(),
+        isRejected: false,
+        shipPointId: values?.shipPoint?.value || 0,
+        currentBrandId: values?.brand?.value || 0,
+      },
+      row: values?.row?.map((item) => {
+        return {
+          rowId: 0,
+          customerAcquisitionId: 0,
+          itemId: item?.item?.value,
+          uomId: item?.item?.uomId,
+          uomName: item?.item?.uom,
+          quantity: item?.quantity,
+        };
+      }),
+    };
+    if (payload.row.length === 0) {
+      toast.warn("At least one item is required");
+      return;
+    }
+    SaveCustomerLeadGeneration(
+      `/oms/SalesQuotation/CreateCustomerAcquisition`,
+      payload,
+      () => {
+        if (cb) {
+          cb();
+        }
+      },
+      "save"
+    );
   };
 
   React.useEffect(() => {
@@ -201,7 +260,7 @@ function CreateCustomerLeadGeneration() {
         formikRef.current.resetForm();
       }}
     >
-      {/* {(bookingGlobalBankLoading || isLoading) && <Loading />} */}
+      {isLoading && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -240,9 +299,7 @@ function CreateCustomerLeadGeneration() {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
-            {/* <h1>
-                            {JSON.stringify(errors)}
-                        </h1> */}
+            {/* <h1>{JSON.stringify(errors)}</h1> */}
             <Form className="form form-label-right">
               <div
                 style={{
@@ -366,6 +423,11 @@ function CreateCustomerLeadGeneration() {
                           ? false
                           : true
                       }
+                    />
+                    <FormikError
+                      errors={errors}
+                      name={"thana"}
+                      touched={touched}
                     />
                   </div>
                   {/* shop */}
