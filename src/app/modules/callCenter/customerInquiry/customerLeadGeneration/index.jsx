@@ -265,10 +265,10 @@ export default function CustomerLeadGeneration() {
           <thead>
             <tr>
               <th>SL</th>
-              <th>IHB Name</th>
-              <th>IHB Contact</th>
-              <th>IHB Email </th>
-              <th>No. of Storeys</th>
+              <th>Name</th>
+              <th>Contact</th>
+              <th>Email </th>
+              <th>Capacity</th>
               <th>Project Status</th>
               <th>Inquiry Quantity</th>
               <th>District Name</th>
@@ -276,11 +276,57 @@ export default function CustomerLeadGeneration() {
               <th>Area</th>
               <th>Territory</th>
               <th>Stage</th>
+              <th>Ship Point Name</th>
+              <th>Brand Name</th>
               <th>Action</th>
               <th>Status</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            {landingData?.data?.length > 0 &&
+              landingData?.data?.map((item, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item?.customerName}</td>
+                  <td>{item?.customerPhone}</td>
+                  <td>{item?.customerEmail}</td>
+                  <td>{item?.storied}</td>
+                  <td>{item?.projectStatusName}</td>
+                  <td>{item?.totalQuantity}</td>
+                  <td>{item?.districtName}</td>
+                  <td>{item?.transportZoneName}</td>
+                  <td>{item?.areaName}</td>
+                  <td>{item?.territoryName}</td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        history.push(
+                          `/call-center-management/customer-inquiry/customerleadgeneration/update/${item?.customerAcquisitionId}`
+                        );
+                      }}
+                      className="btn btn-primary"
+                    >
+                      {item?.currentStage}
+                    </button>
+                  </td>
+                  <td>{item?.shipPointName}</td>
+                  <td>{item?.currentBrandName}</td>
+                  <td>
+                    {/* <button
+                      onClick={() => {
+                        history.push(
+                          `/call-center-management/customer-inquiry/customerleadgeneration/view/${item?.customerAcquisitionId}`
+                        );
+                      }}
+                      className="btn btn-primary"
+                    >
+                      View
+                    </button> */}
+                  </td>
+                  <td>{item?.isRejected === true ? "Rejected" : "Active"}</td>
+                </tr>
+              ))}
+          </tbody>
         </table>
       </div>
       {landingData?.data?.length > 0 && (
@@ -300,3 +346,77 @@ export default function CustomerLeadGeneration() {
     </ICustomCard>
   );
 }
+// "data": [
+//         {
+//             "customerAcquisitionId": 9,
+//             "customerName": "Md Abdul Kader",
+//             "customerEmail": "kader@ibos.io",
+//             "customerPhone": "01700000000",
+//             "storied": "Poultry",
+//             "projectStatusId": 146,
+//             "projectStatusName": "Pilot/Testing Phase",
+//             "divisionId": 3,
+//             "divisionName": "Dhaka",
+//             "districtId": 18,
+//             "districtName": "Dhaka",
+//             "transportZoneId": 5606,
+//             "transportZoneName": "Nowabgonj [ Dhaka ],AAFL",
+//             "shipToPartnerId": null,
+//             "shipToPartnerName": "shop 3",
+//             "shipToPartnerAddress": "",
+//             "businessPartnerId": 0,
+//             "businessPartnerName": "",
+//             "referenceId": 4035,
+//             "referenceName": "Md. Shahriar Sabbir [40354291444]",
+//             "deliveryAddress": "Lalmatia mohammad pur",
+//             "referralSource": "Facebook",
+//             "currentStage": "Suspect",
+//             "totalItem": 2,
+//             "totalQuantity": 324.00,
+//             "isSuspect": true,
+//             "isProspect": false,
+//             "isLead": false,
+//             "isCustomer": false,
+//             "isClient": false,
+//             "isRejected": false,
+//             "territoryId": 25125,
+//             "territoryName": "Khulna",
+//             "areaId": 25096,
+//             "areaName": "Khulna-1",
+//             "regionId": 25072,
+//             "regionName": "Khulna",
+//             "shipPointId": 544,
+//             "shipPointName": "AAFL Khulna Warehouse",
+//             "currentBrandId": 162,
+//             "currentBrandName": "Quality Feeds Ltd.",
+//             "shopName": "shop 3",
+//             "actionBy": 521235,
+//             "actionByName": "Md. Monirul Islam ",
+//             "updatedBy": null,
+//             "updatedByName": null,
+//             "rowList": [
+//                 {
+//                     "rowId": 11,
+//                     "customerAcquisitionId": 9,
+//                     "itemId": 192065,
+//                     "itemName": "Pre-Starter (Pabda/Gushla/Sing/Magur/Shoal) (503) 25 Kg",
+//                     "itemCode": "14412306",
+//                     "uomId": 132,
+//                     "uomName": "Bag",
+//                     "isActive": false,
+//                     "quantity": 323.00
+//                 },
+//                 {
+//                     "rowId": 12,
+//                     "customerAcquisitionId": 9,
+//                     "itemId": 184363,
+//                     "itemName": "Unusable Iron Scrap",
+//                     "itemCode": "14412152",
+//                     "uomId": 55,
+//                     "uomName": "Kilogram",
+//                     "isActive": false,
+//                     "quantity": 1.00
+//                 }
+//             ]
+//         }
+//     ],

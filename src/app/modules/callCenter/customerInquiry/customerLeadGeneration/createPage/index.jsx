@@ -8,15 +8,15 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import ICustomCard from "../../../../_helper/_customCard";
+import FormikError from "../../../../_helper/_formikError";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../../_helper/TextArea";
-import FormikError from "../../../../_helper/_formikError";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../../_helper/_loading";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -128,10 +128,7 @@ function CreateCustomerLeadGeneration() {
         };
       }),
     };
-    if (payload.row.length === 0) {
-      toast.warn("At least one item is required");
-      return;
-    }
+
     SaveCustomerLeadGeneration(
       `/oms/SalesQuotation/CreateCustomerAcquisition`,
       payload,
