@@ -61,6 +61,10 @@ function CreateCustomerLeadGeneration() {
   const [divisionDDL, getDivisionDDL] = useAxiosGet();
   const [districtDDL, getDistrictDDL] = useAxiosGet();
   const [thanaDDL, getThanaDDL] = useAxiosGet();
+  const [storiedDDL, getStoriedDDL] = useAxiosGet();
+  const [projectStatusDDL, getProjectStatusDDL] = useAxiosGet();
+  const [referenceDDL, getReferenceDDL] = useAxiosGet();
+  const [sourceOrAdvertiseDDL, getSourceOrAdvertiseDDL] = useAxiosGet();
   //   const { id } = useParams();
   const formikRef = React.useRef(null);
 
@@ -68,11 +72,25 @@ function CreateCustomerLeadGeneration() {
     profileData: { userId },
     selectedBusinessUnit,
   } = useSelector((state) => state?.authData || {}, shallowEqual);
-
   const saveHandler = (values, cb) => {};
 
   React.useEffect(() => {
     getDivisionDDL("/oms/TerritoryInfo/GetDivisionDDL?countryId=18");
+    getStoriedDDL(
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=5&referenceId=5`
+    );
+    getProjectStatusDDL(
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${
+        selectedBusinessUnit?.value === 4 ? 4 : 0
+      }&typeId=2&referenceId=2`
+    );
+    // /hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=232&Search=abdul
+    getReferenceDDL(
+      `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}`
+    );
+    getSourceOrAdvertiseDDL(
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=4&referenceId=4`
+    );
   }, []);
 
   const getDistrict = (divisionId) => {
@@ -183,8 +201,10 @@ function CreateCustomerLeadGeneration() {
                   {/* storied */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Storied"}
-                      options={[]}
+                      label={
+                        selectedBusinessUnit?.value === 4 ? "Storied" : "Type"
+                      }
+                      options={storiedDDL || []}
                       value={values?.storied}
                       name="storied"
                       onChange={(valueOption) => {
@@ -198,7 +218,7 @@ function CreateCustomerLeadGeneration() {
                   <div className="col-lg-3">
                     <NewSelect
                       label={"Project Status"}
-                      options={[]}
+                      options={projectStatusDDL || []}
                       value={values?.projectStatus}
                       name="projectStatus"
                       onChange={(valueOption) => {
@@ -324,7 +344,7 @@ function CreateCustomerLeadGeneration() {
                   <div className="col-lg-3">
                     <NewSelect
                       label={"Source/Advertise"}
-                      options={[]}
+                      options={sourceOrAdvertiseDDL || []}
                       value={values?.sourceOrAdvertise}
                       name="sourceOrAdvertise"
                       onChange={(valueOption) => {
@@ -338,7 +358,7 @@ function CreateCustomerLeadGeneration() {
                   <div className="col-lg-3">
                     <NewSelect
                       label={"Reference"}
-                      options={[]}
+                      options={referenceDDL || []}
                       value={values?.reference}
                       name="reference"
                       onChange={(valueOption) => {
