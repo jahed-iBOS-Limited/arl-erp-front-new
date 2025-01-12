@@ -1,11 +1,14 @@
 import { Form, Formik } from "formik";
 import React from "react";
 // import { useParams } from "react-router";
+import { Button } from "@material-ui/core";
 import axios from "axios";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 import ICustomCard from "../../../../_helper/_customCard";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
@@ -78,7 +81,9 @@ function CreateCustomerLeadGeneration() {
     profileData: { userId },
     selectedBusinessUnit,
   } = useSelector((state) => state?.authData || {}, shallowEqual);
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => {
+    console.log(values);
+  };
 
   React.useEffect(() => {
     getDivisionDDL("/oms/TerritoryInfo/GetDivisionDDL?countryId=18");
@@ -114,6 +119,7 @@ function CreateCustomerLeadGeneration() {
         setRegionDDL(modifyData);
       }
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getDistrict = (divisionId) => {
@@ -213,14 +219,16 @@ function CreateCustomerLeadGeneration() {
           deliveryAddress: "",
           sourceOrAdvertise: "",
           reference: "",
-          item: "",
-          uom: "",
-          quantity: "",
           brand: "",
           shipPoint: "",
           region: "",
           area: "",
           territory: "",
+          row: [],
+          item: "",
+          uom: "",
+          uomId: 0,
+          quantity: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -542,6 +550,7 @@ function CreateCustomerLeadGeneration() {
                         setFieldValue("item", valueOption);
                         valueOption &&
                           setFieldValue("uom", valueOption?.uomName);
+                        setFieldValue("uomId", valueOption?.uomId || 0);
                       }}
                       loadOptions={loadItem}
                     />
@@ -571,7 +580,97 @@ function CreateCustomerLeadGeneration() {
                       }}
                     />
                   </div>
+                  {/* add button */}
+                  <div className="col-lg-3">
+                    <button
+                      type="button"
+                      className="btn btn-primary  mt-5"
+                      onClick={() => {
+                        if (values.item === "") {
+                          toast.warn("Item is required");
+                          return;
+                        }
+                        if (values.uom === "") {
+                          toast.warn("UOM is required");
+                          return;
+                        }
+                        if (values.quantity === "") {
+                          toast.warn("Quantity is required");
+                          return;
+                        }
+                        // item is exist
+                        const isExist =
+                          Array.isArray(values?.row) &&
+                          values.row.some(
+                            (item) => item?.item?.value === values?.item?.value
+                          );
+
+                        if (isExist) {
+                          toast.warn("Duplicate item not allowed");
+                          return;
+                        }
+
+                        setFieldValue("row", [
+                          ...values?.row,
+                          {
+                            item: values.item,
+                            uom: values.uom,
+                            uomId: values.item?.uomId,
+                            quantity: values.quantity,
+                          },
+                        ]);
+                        setFieldValue("item", "");
+                        setFieldValue("uom", "");
+                        setFieldValue("uomId", 0);
+                        setFieldValue("quantity", "");
+                      }}
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
+                {values?.row?.length > 0 && (
+                  <div className="table-responsive">
+                    <table className="table table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Item</th>
+                          <th>UOM</th>
+                          <th>Quantity</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {values.row?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{item?.item?.label}</td>
+                            <td>{item?.uom}</td>
+                            <td>{item?.quantity}</td>
+                            <td>
+                              <div className="d-flex justify-content-center">
+                                <Button
+                                  onClick={() => {
+                                    const filterData = values.row.filter(
+                                      (itm, indx) => indx !== index
+                                    );
+                                    setFieldValue("row", filterData);
+                                  }}
+                                  color="error"
+                                  size="small"
+                                  title="Remove"
+                                >
+                                  <IDelete />
+                                </Button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             </Form>
           </>
