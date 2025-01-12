@@ -1,6 +1,7 @@
 import { Form, Formik } from "formik";
 import React from "react";
 // import { useParams } from "react-router";
+import axios from "axios";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
@@ -8,6 +9,7 @@ import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../../_helper/TextArea";
 
 const validationSchema = Yup.object().shape({
@@ -63,7 +65,6 @@ function CreateCustomerLeadGeneration() {
   const [thanaDDL, getThanaDDL] = useAxiosGet();
   const [storiedDDL, getStoriedDDL] = useAxiosGet();
   const [projectStatusDDL, getProjectStatusDDL] = useAxiosGet();
-  const [referenceDDL, getReferenceDDL] = useAxiosGet();
   const [sourceOrAdvertiseDDL, getSourceOrAdvertiseDDL] = useAxiosGet();
   //   const { id } = useParams();
   const formikRef = React.useRef(null);
@@ -84,10 +85,6 @@ function CreateCustomerLeadGeneration() {
         selectedBusinessUnit?.value === 4 ? 4 : 0
       }&typeId=2&referenceId=2`
     );
-    // /hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=232&Search=abdul
-    getReferenceDDL(
-      `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}`
-    );
     getSourceOrAdvertiseDDL(
       `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=4&referenceId=4`
     );
@@ -98,11 +95,20 @@ function CreateCustomerLeadGeneration() {
       `/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=${divisionId}`
     );
   };
-
   const getThana = (districtId) => {
     getThanaDDL(
       `/oms/SalesQuotation/GetUserWiseShipToPartnerAndZoneDDL?partName=TransportZoneDDL&userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&districtId=${districtId}`
     );
+  };
+  const loadEmp = (v) => {
+    if (v?.length < 2) return [];
+    return axios
+      .get(
+        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`
+      )
+      .then((res) => {
+        return res?.data;
+      });
   };
 
   return (
@@ -356,16 +362,14 @@ function CreateCustomerLeadGeneration() {
                   </div>
                   {/* reference */}
                   <div className="col-lg-3">
-                    <NewSelect
-                      label={"Reference"}
-                      options={referenceDDL || []}
-                      value={values?.reference}
-                      name="reference"
-                      onChange={(valueOption) => {
-                        setFieldValue("reference", valueOption || "");
+                    <label>Reference</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.reference}
+                      isSearchIcon={true}
+                      handleChange={(valueOption) => {
+                        setFieldValue("reference", valueOption);
                       }}
-                      errors={errors}
-                      touched={touched}
+                      loadOptions={loadEmp}
                     />
                   </div>
                   <div className="col-lg-12">
