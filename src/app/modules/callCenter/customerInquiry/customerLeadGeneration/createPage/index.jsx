@@ -19,8 +19,8 @@ const validationSchema = Yup.object().shape({
     .required("Email is required")
     .email("Email is invalid"),
   storied: Yup.object().shape({
-    value: Yup.number().required("Storied is required"),
-    label: Yup.string().required("Storied is required"),
+    value: Yup.number().required("This fields is required"),
+    label: Yup.string().required("This fields is required"),
   }),
   projectStatus: Yup.object().shape({
     value: Yup.number().required("Project Status is required"),
@@ -62,10 +62,15 @@ function CreateCustomerLeadGeneration() {
   const history = useHistory();
   const [divisionDDL, getDivisionDDL] = useAxiosGet();
   const [districtDDL, getDistrictDDL] = useAxiosGet();
-  const [thanaDDL, getThanaDDL] = useAxiosGet();
   const [storiedDDL, getStoriedDDL] = useAxiosGet();
   const [projectStatusDDL, getProjectStatusDDL] = useAxiosGet();
   const [sourceOrAdvertiseDDL, getSourceOrAdvertiseDDL] = useAxiosGet();
+  const [brandDDL, getBrandDDL] = useAxiosGet();
+  const [shipPointDDL, getShipPointDDL] = useAxiosGet();
+  const [regionDDL, getRegionDDL, , setRegionDDL] = useAxiosGet();
+  const [areaDDL, getAreaDDL, , setAreaDDL] = useAxiosGet();
+  const [territoryDDL, getTerritoryDDL, , setTerritoryDDL] = useAxiosGet();
+
   //   const { id } = useParams();
   const formikRef = React.useRef(null);
 
@@ -88,6 +93,27 @@ function CreateCustomerLeadGeneration() {
     getSourceOrAdvertiseDDL(
       `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=4&referenceId=4`
     );
+    getBrandDDL(
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=3&referenceId=3`
+    );
+    getShipPointDDL(
+      `/wms/ShipPoint/GetShipPointDDL?accountId=1&businessUnitId=${selectedBusinessUnit?.value}`
+    );
+    // /oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=4&userId=204856&typeName=Region&distributionChannelId=46
+
+    getRegionDDL(
+      `/oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=${selectedBusinessUnit?.value}&userId=${userId}&typeName=Region&distributionChannelId=0`,
+      (data) => {
+        const modifyData = data?.map((item) => {
+          return {
+            ...item,
+            value: item?.regionId,
+            label: item?.regionName,
+          };
+        });
+        setRegionDDL(modifyData);
+      }
+    );
   }, []);
 
   const getDistrict = (divisionId) => {
@@ -95,12 +121,8 @@ function CreateCustomerLeadGeneration() {
       `/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=${divisionId}`
     );
   };
-  const getThana = (districtId) => {
-    getThanaDDL(
-      `/oms/SalesQuotation/GetUserWiseShipToPartnerAndZoneDDL?partName=TransportZoneDDL&userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&districtId=${districtId}`
-    );
-  };
-  const loadEmp = (v) => {
+
+  const loadRef = (v) => {
     if (v?.length < 2) return [];
     return axios
       .get(
@@ -110,7 +132,56 @@ function CreateCustomerLeadGeneration() {
         return res?.data;
       });
   };
-
+  const loadThana = (v) => {
+    if (v?.length < 2) return [];
+    return axios
+      .get(
+        `/oms/SalesQuotation/GetUserWiseShipToPartnerAndZoneDDL?partName=TransportZoneDDL&userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&districtId=${formikRef.current.values?.district?.value}&search=${v}`
+      )
+      .then((res) => {
+        return res?.data;
+      });
+  };
+  const getArea = (regionId) => {
+    getAreaDDL(
+      `/oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=${selectedBusinessUnit?.value}&userId=${userId}&typeName=Area&regionId=${regionId}&distributionChannelId=0`,
+      (data) => {
+        const modifyData = data?.map((item) => {
+          return {
+            ...item,
+            value: item?.areaId,
+            label: item?.areaName,
+          };
+        });
+        setAreaDDL(modifyData);
+      }
+    );
+  };
+  const getTerritory = (areaId) => {
+    getTerritoryDDL(
+      `/oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=${selectedBusinessUnit?.value}&userId=${userId}&typeName=Territory&regionId=${formikRef.current.values?.region?.value}&areaId=${areaId}&distributionChannelId=0`,
+      (data) => {
+        const modifyData = data?.map((item) => {
+          return {
+            ...item,
+            value: item?.territoryId,
+            label: item?.territoryName,
+          };
+        });
+        setTerritoryDDL(modifyData);
+      }
+    );
+  };
+  const loadItem = (v) => {
+    if (v?.length < 2) return [];
+    return axios
+      .get(
+        `/oms/SalesQuotation/GetItemSalesByItemTypeIdDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=4&search=${v}`
+      )
+      .then((res) => {
+        return res?.data;
+      });
+  };
   return (
     <ICustomCard
       title={"Create Customer Lead Generation"}
@@ -145,6 +216,11 @@ function CreateCustomerLeadGeneration() {
           item: "",
           uom: "",
           quantity: "",
+          brand: "",
+          shipPoint: "",
+          region: "",
+          area: "",
+          territory: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -261,7 +337,6 @@ function CreateCustomerLeadGeneration() {
                       onChange={(valueOption) => {
                         setFieldValue("district", valueOption || "");
                         setFieldValue("thana", "");
-                        valueOption?.value && getThana(valueOption?.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -270,16 +345,14 @@ function CreateCustomerLeadGeneration() {
                   </div>
                   {/* thana */}
                   <div className="col-lg-3">
-                    <NewSelect
-                      label={"Thana"}
-                      options={thanaDDL || []}
-                      value={values?.thana}
-                      name="thana"
-                      onChange={(valueOption) => {
-                        setFieldValue("thana", valueOption || "");
+                    <label>Thana</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.thana}
+                      isSearchIcon={true}
+                      handleChange={(valueOption) => {
+                        setFieldValue("thana", valueOption);
                       }}
-                      errors={errors}
-                      touched={touched}
+                      loadOptions={loadThana}
                       isDisabled={
                         values?.division?.value && values?.district?.value
                           ? false
@@ -369,25 +442,108 @@ function CreateCustomerLeadGeneration() {
                       handleChange={(valueOption) => {
                         setFieldValue("reference", valueOption);
                       }}
-                      loadOptions={loadEmp}
+                      loadOptions={loadRef}
                     />
                   </div>
+                  {/* brand */}
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label={"Brand"}
+                      options={brandDDL || []}
+                      value={values?.brand}
+                      name="brand"
+                      onChange={(valueOption) => {
+                        setFieldValue("brand", valueOption || "");
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  {/* shipPoint */}
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label={"Ship Point"}
+                      options={shipPointDDL || []}
+                      value={values?.shipPoint}
+                      name="shipPoint"
+                      onChange={(valueOption) => {
+                        setFieldValue("shipPoint", valueOption || "");
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  {/* region */}
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label={"Region"}
+                      options={regionDDL || []}
+                      value={values?.region}
+                      name="region"
+                      onChange={(valueOption) => {
+                        setFieldValue("region", valueOption || "");
+                        setFieldValue("area", "");
+                        setFieldValue("territory", "");
+                        valueOption?.value && getArea(valueOption?.value);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+                  {/* area */}
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label={"Area"}
+                      options={areaDDL || []}
+                      value={values?.area}
+                      name="area"
+                      onChange={(valueOption) => {
+                        setFieldValue("area", valueOption || "");
+                        setFieldValue("territory", "");
+                        valueOption?.value && getTerritory(valueOption?.value);
+                      }}
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={values?.region?.value ? false : true}
+                    />
+                  </div>
+                  {/* territory */}
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label={"Territory"}
+                      options={territoryDDL || []}
+                      value={values?.territory}
+                      name="territory"
+                      onChange={(valueOption) => {
+                        setFieldValue("territory", valueOption || "");
+                      }}
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={
+                        values?.area?.value && values?.region?.value
+                          ? false
+                          : true
+                      }
+                    />
+                  </div>
+
                   <div className="col-lg-12">
                     <hr />
                     <h3>Item Information</h3>
                   </div>
                   {/* item */}
+
                   <div className="col-lg-3">
-                    <NewSelect
-                      label={"Item"}
-                      options={[]}
-                      value={values?.item}
-                      name="item"
-                      onChange={(valueOption) => {
-                        setFieldValue("item", valueOption || "");
+                    <label>Item</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.item}
+                      isSearchIcon={true}
+                      handleChange={(valueOption) => {
+                        setFieldValue("item", valueOption);
+                        valueOption &&
+                          setFieldValue("uom", valueOption?.uomName);
                       }}
-                      errors={errors}
-                      touched={touched}
+                      loadOptions={loadItem}
                     />
                   </div>
                   {/* uom */}
