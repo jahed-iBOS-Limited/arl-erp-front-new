@@ -69,7 +69,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
       masterBlId = rowClickData?.seamasterBlId;
       // masterBlCode = rowClickData?.seaMasterBlCode;
     }
-    if (!masterBlId) return;
+    if (!masterBlId) return toast.warning('Master BL Id not found');
 
     if (bookingRequestId) {
       getMasterBLWiseBilling(
@@ -338,7 +338,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
                   style={{ backgroundColor: 'white' }}
                 >
                   <Tab label="Bill Generate" value="billGenerate" />
-                  <Tab label="Advance Generate" value="advanceGenerate" />
+                  {/* <Tab label="Advance Generate" value="advanceGenerate" /> */}
                 </Tabs>
                 <Box mt={1}>
                   {activeTab === 'billGenerate' && (
@@ -354,7 +354,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
                       setOpen={setOpen}
                     />
                   )}
-                  {activeTab === 'advanceGenerate' && (
+                  {/* {activeTab === 'advanceGenerate' && (
                     <div>
                       <AdvanceGenerateCmp
                         values={values}
@@ -368,7 +368,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
                         setOpen={setOpen}
                       />
                     </div>
-                  )}
+                  )} */}
                 </Box>
               </Box>
 
@@ -481,7 +481,7 @@ const BillGenerateCmp = ({
               <th>Attribute</th>
               <th>Currency</th>
               <th>Exchange Rate</th>
-              <th>Advance</th>
+              {/* <th>Advance</th> */}
               <th>Actual</th>
               <th>Amount</th>
               <th>Amount (BDT)</th>
@@ -501,9 +501,9 @@ const BillGenerateCmp = ({
                   <td style={{ textAlign: 'right' }}>
                     {row?.exchangeRate || 0}
                   </td>
-                  <td style={{ textAlign: 'right' }}>
+                  {/* <td style={{ textAlign: 'right' }}>
                     {row?.paymentAdvanceAmount}
-                  </td>
+                  </td> */}
                   <td style={{ textAlign: 'right' }}>
                     {row?.paymentActualAmount}
                   </td>
@@ -514,7 +514,7 @@ const BillGenerateCmp = ({
                 </tr>
               ))}
             <tr>
-              <td colSpan="7" style={{ textAlign: 'right' }}>
+              <td colSpan="6" style={{ textAlign: 'right' }}>
                 Total
               </td>
               <td style={{ textAlign: 'right' }}>
@@ -531,115 +531,115 @@ const BillGenerateCmp = ({
   );
 };
 
-const AdvanceGenerateCmp = ({
-  errors,
-  setFieldValue,
-  billingDataFilterData,
-  paymentPartyListDDL,
-  values,
-  invoiceTypeHandeler,
-  touched,
-  setOpen,
-}) => {
-  const dispatch = useDispatch();
-  return (
-    <>
-      <div className="form-group row global-form">
-        <div className="col-lg-3">
-          <NewSelect
-            name="paymentParty"
-            options={paymentPartyListDDL || []}
-            value={values?.paymentParty}
-            label="Party Type"
-            onChange={(valueOption) => {
-              setFieldValue('paymentParty', valueOption);
-              invoiceTypeHandeler(valueOption);
-            }}
-            placeholder="Select Party Type"
-            errors={errors}
-            touched={touched}
-          />
-        </div>
-        <div className="col-lg-3 ">
-          <label>Narration</label>
-          <InputField
-            value={values?.narration}
-            name="narration"
-            placeholder="Narration"
-            type="text"
-            errors={errors}
-            touched={touched}
-          />
-        </div>
-        <div className="col-lg-6 mt-5">
-          <button
-            className="btn btn-primary mr-2 "
-            type="button"
-            onClick={() => setOpen(true)}
-          >
-            Attachment
-          </button>
-          {values?.documentFileId && (
-            <button
-              className="btn btn-primary"
-              type="button"
-              onClick={() => {
-                dispatch(getDownlloadFileView_Action(values?.documentFileId));
-              }}
-            >
-              Attachment View
-            </button>
-          )}
-        </div>
-      </div>{' '}
-      <div className="table-responsive">
-        <table className="table global-table">
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th>Attribute</th>
-              <th>Currency</th>
-              <th>Exchange Rate</th>
-              <th>Advance Amount</th>
-              <th>Amount (BDT)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {values?.paymentParty?.value &&
-              billingDataFilterData?.map((row, index) => (
-                <tr key={index}>
-                  <td style={{ textAlign: 'right' }}> {index + 1} </td>
-                  <td className="align-middle">
-                    <label>{row?.headOfCharges}</label>
-                  </td>
-                  <td className="align-middle">
-                    <label>{row?.currency}</label>
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    {row?.exchangeRate || 0}
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    {row?.paymentAdvanceAmount}
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    {row?.paymentPayAmount}
-                  </td>
-                </tr>
-              ))}
-            <tr>
-              <td colSpan="5" style={{ textAlign: 'right' }}>
-                Total
-              </td>
-              <td style={{ textAlign: 'right' }}>
-                {billingDataFilterData?.reduce(
-                  (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
-                  0,
-                )}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </>
-  );
-};
+// const AdvanceGenerateCmp = ({
+//   errors,
+//   setFieldValue,
+//   billingDataFilterData,
+//   paymentPartyListDDL,
+//   values,
+//   invoiceTypeHandeler,
+//   touched,
+//   setOpen,
+// }) => {
+//   const dispatch = useDispatch();
+//   return (
+//     <>
+//       <div className="form-group row global-form">
+//         <div className="col-lg-3">
+//           <NewSelect
+//             name="paymentParty"
+//             options={paymentPartyListDDL || []}
+//             value={values?.paymentParty}
+//             label="Party Type"
+//             onChange={(valueOption) => {
+//               setFieldValue('paymentParty', valueOption);
+//               invoiceTypeHandeler(valueOption);
+//             }}
+//             placeholder="Select Party Type"
+//             errors={errors}
+//             touched={touched}
+//           />
+//         </div>
+//         <div className="col-lg-3 ">
+//           <label>Narration</label>
+//           <InputField
+//             value={values?.narration}
+//             name="narration"
+//             placeholder="Narration"
+//             type="text"
+//             errors={errors}
+//             touched={touched}
+//           />
+//         </div>
+//         <div className="col-lg-6 mt-5">
+//           <button
+//             className="btn btn-primary mr-2 "
+//             type="button"
+//             onClick={() => setOpen(true)}
+//           >
+//             Attachment
+//           </button>
+//           {values?.documentFileId && (
+//             <button
+//               className="btn btn-primary"
+//               type="button"
+//               onClick={() => {
+//                 dispatch(getDownlloadFileView_Action(values?.documentFileId));
+//               }}
+//             >
+//               Attachment View
+//             </button>
+//           )}
+//         </div>
+//       </div>{' '}
+//       <div className="table-responsive">
+//         <table className="table global-table">
+//           <thead>
+//             <tr>
+//               <th>SL</th>
+//               <th>Attribute</th>
+//               <th>Currency</th>
+//               <th>Exchange Rate</th>
+//               <th>Advance Amount</th>
+//               <th>Amount (BDT)</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {values?.paymentParty?.value &&
+//               billingDataFilterData?.map((row, index) => (
+//                 <tr key={index}>
+//                   <td style={{ textAlign: 'right' }}> {index + 1} </td>
+//                   <td className="align-middle">
+//                     <label>{row?.headOfCharges}</label>
+//                   </td>
+//                   <td className="align-middle">
+//                     <label>{row?.currency}</label>
+//                   </td>
+//                   <td style={{ textAlign: 'right' }}>
+//                     {row?.exchangeRate || 0}
+//                   </td>
+//                   <td style={{ textAlign: 'right' }}>
+//                     {row?.paymentAdvanceAmount}
+//                   </td>
+//                   <td style={{ textAlign: 'right' }}>
+//                     {row?.paymentPayAmount}
+//                   </td>
+//                 </tr>
+//               ))}
+//             <tr>
+//               <td colSpan="5" style={{ textAlign: 'right' }}>
+//                 Total
+//               </td>
+//               <td style={{ textAlign: 'right' }}>
+//                 {billingDataFilterData?.reduce(
+//                   (acc, curr) => acc + (+curr?.paymentPayAmount || 0),
+//                   0,
+//                 )}
+//               </td>
+//             </tr>
+//           </tbody>
+//         </table>
+//       </div>
+//     </>
+//   );
+// };

@@ -13,9 +13,12 @@ import IForm from "../../../../_helper/_form";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import NewSelect from "../../../../_helper/_select";
 import InputField from "../../../../_helper/_inputField";
+import { _todayDate } from "../../../../_helper/_todayDate";
 
 const initData = {
-
+    status: { value: 0, label: "Pending" },
+    fromDate: _todayDate(),
+    toDate: _todayDate(),
 };
 export default function InterCompanyTransferRequest({ viewType }) {
     const { selectedBusinessUnit, businessUnitList } = useSelector((state) => {
@@ -33,9 +36,10 @@ export default function InterCompanyTransferRequest({ viewType }) {
     const history = useHistory();
 
     const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
-        const searchTearm = searchValue ? `&search=${searchValue}` : "";
+        const searchTearm = searchValue ? `&strSearch=${searchValue}` : "";
         getGridData(
-            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&strRequestType=Request&viewOrder=DESC&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
+            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&intRequestTypeId=${viewType?.actionId}&StrTransactionType=${parentTransferType?.actionName}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isApproved=${values?.status?.value}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
+
         );
     };
 
@@ -48,14 +52,14 @@ export default function InterCompanyTransferRequest({ viewType }) {
     };
 
     useEffect(() => {
-        getLandingData({}, pageNo, pageSize, "");
+        getLandingData(initData, pageNo, pageSize, "");
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
         <Formik
             enableReinitialize={true}
-            initialValues={{}}
+            initialValues={initData}
             // validationSchema={{}}
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 saveHandler(values, () => {
@@ -172,7 +176,10 @@ export default function InterCompanyTransferRequest({ viewType }) {
 
                                         />
                                     </div>
-                                    <div><button className="btn btn-primary mt-5 ml-5">Show</button></div>
+                                    <div><button onClick={() => {
+                                        getLandingData(values, pageNo, pageSize, "");
+
+                                    }} className="btn btn-primary mt-5 ml-5">Show</button></div>
                                 </div>
                                 {gridData?.data?.length > 0 && (
                                     <div className="my-3">

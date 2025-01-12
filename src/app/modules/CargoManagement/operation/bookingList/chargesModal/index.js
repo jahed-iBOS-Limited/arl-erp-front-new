@@ -51,7 +51,7 @@ function ChargesModal({ rowClickData, CB }) {
       masterBlId = rowClickData?.seamasterBlId;
       masterBlCode = rowClickData?.seaMasterBlCode;
     }
-    if (!masterBlId) return;
+    if (!masterBlId) return toast.warning('Master BL not found');
 
     getShippingHeadOfCharges(
       `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges`,
@@ -64,6 +64,11 @@ function ChargesModal({ rowClickData, CB }) {
               formikRef.current.setFieldValue(
                 'profitSharePercentage',
                 resSveData?.[0]?.profitSharePercentage || '',
+              );
+              // converstionRateUsd add
+              formikRef.current.setFieldValue(
+                'converstionRateUsd',
+                resSveData?.[0]?.converstionRateUsd || '',
               );
             }
             const arryList = [];
@@ -127,6 +132,7 @@ function ChargesModal({ rowClickData, CB }) {
                         saveItem?.advancedBillRegisterCode || '',
                       profitSharePercentage:
                         saveItem?.profitSharePercentage || '',
+                      converstionRateUsd: saveItem?.converstionRateUsd || '',
                       paymentAdvanceCombindAmount:
                         saveItem?.paymentAdvanceCombindAmount || '',
                       paymentActualCombindAmount:
@@ -234,6 +240,7 @@ function ChargesModal({ rowClickData, CB }) {
           isDummyCombindToMbl: item?.isDummyCombindToMbl || false,
           isPaymentCombindToMbl: item?.isPaymentCombindToMbl || false,
           profitSharePercentage: values?.profitSharePercentage || 0,
+          converstionRateUsd: values?.converstionRateUsd || 0,
           masterBlId: item?.masterBlId || 0,
           masterBlCode: item?.masterBlCode || '',
           modeOfTransportId: item?.modeOfTransportId || 0,
@@ -322,6 +329,7 @@ function ChargesModal({ rowClickData, CB }) {
                             onChange={(e) => {
                               setFieldValue('billingType', 1);
                               setFieldValue('profitSharePercentage', '');
+                              setFieldValue('converstionRateUsd', '');
                               commonGetShippingHeadOfCharges(1);
                             }}
                           />
@@ -337,6 +345,7 @@ function ChargesModal({ rowClickData, CB }) {
                             onChange={(e) => {
                               setFieldValue('billingType', 2);
                               setFieldValue('profitSharePercentage', '');
+                              setFieldValue('converstionRateUsd', '');
                               commonGetShippingHeadOfCharges(2);
                             }}
                           />
@@ -363,6 +372,21 @@ function ChargesModal({ rowClickData, CB }) {
                   }
                   disabled={
                     shippingHeadOfCharges?.[0]?.profitSharePercentage &&
+                    shippingHeadOfCharges?.[0]?.billingId
+                  }
+                />
+              </div>
+              <div className="col-lg-3">
+                <InputField
+                  value={values?.converstionRateUsd}
+                  label="Converstion Rate USD"
+                  name="converstionRateUsd"
+                  type="number"
+                  onChange={(e) =>
+                    setFieldValue('converstionRateUsd', e.target.value)
+                  }
+                  disabled={
+                    shippingHeadOfCharges?.[0]?.converstionRateUsd &&
                     shippingHeadOfCharges?.[0]?.billingId
                   }
                 />
@@ -451,14 +475,14 @@ function ChargesModal({ rowClickData, CB }) {
                     >
                       Dummy
                     </th>
-                    <th
+                    {/* <th
                       style={{
                         width: '60px',
                       }}
                       className="payment-header"
                     >
                       Advance
-                    </th>
+                    </th> */}
                     <th style={{ width: '60px' }} className="payment-header">
                       Is Combind
                     </th>
@@ -543,6 +567,9 @@ function ChargesModal({ rowClickData, CB }) {
                                         : false,
                                       profitSharePercentage: e?.target?.checked
                                         ? item?.profitSharePercentage
+                                        : '',
+                                      converstionRateUsd: e?.target?.checked
+                                        ? item?.converstionRateUsd
                                         : '',
                                       paymentActualCombindAmount: e?.target
                                         ?.checked
@@ -870,7 +897,7 @@ function ChargesModal({ rowClickData, CB }) {
                             />
                           </div>
                         </td>
-                        <td className="payment-border-right">
+                        {/* <td className="payment-border-right">
                           <div
                             style={{
                               display: 'flex',
@@ -912,7 +939,7 @@ function ChargesModal({ rowClickData, CB }) {
                               step="any"
                             />
                           </div>
-                        </td>
+                        </td> */}
                         {/* Is Combind Checkbox */}
                         <td className="payment-border-right">
                           <OverlayTrigger

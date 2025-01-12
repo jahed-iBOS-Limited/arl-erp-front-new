@@ -32,7 +32,7 @@ const FundTransfer = () => {
                         className="mr-1 pointer"
                         style={{ position: "relative", top: "2px" }}
                         onChange={(e) => {
-                            setViewType({ actionId: 1, actionName: "InterCompanyTransferRequest" });
+                            setViewType({ actionId: 2, actionName: "InterCompanyTransferRequest" });
                         }}
                     />
                     <strong style={{ fontSize: "13px", color: "black" }}>Inter Company Transfer Request</strong>
