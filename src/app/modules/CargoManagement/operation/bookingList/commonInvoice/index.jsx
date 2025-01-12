@@ -833,7 +833,7 @@ const CommonInvoice = ({ rowClickData }) => {
               }}
             >
               <p>Prepared By: {profileData?.userName} </p>
-              <p>Prepared By: </p>
+              {/* <p>Prepared By: </p> */}
             </div>
             <p style={{ fontSize: 14, fontWeight: 600 }}>Special Note:</p>
             <span style={{ fontSize: 14, maxWidth: '70%' }}>
