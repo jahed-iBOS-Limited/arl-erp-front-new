@@ -293,7 +293,7 @@ const CommonInvoice = ({ rowClickData }) => {
                   {selectedBusinessUnit?.label}
                 </span>
                 <br />
-                <span>{selectedBusinessUnit?.address}</span>
+                <span>House - 5, Road - 6, Sector 1, Uttara, Dhaka</span>
               </div>
             </div>
             <p
@@ -820,7 +820,7 @@ const CommonInvoice = ({ rowClickData }) => {
                     {selectedBusinessUnit?.label}
                   </span>
                   <br />
-                  <span>{selectedBusinessUnit?.address}</span>
+                  <span>House - 5, Road - 6, Sector 1, Uttara, Dhaka</span>
                 </div>
               </div>
             </div>
