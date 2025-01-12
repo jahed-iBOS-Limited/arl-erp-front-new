@@ -293,7 +293,7 @@ const CommonInvoice = ({ rowClickData }) => {
                   {selectedBusinessUnit?.label}
                 </span>
                 <br />
-                <span>{selectedBusinessUnit?.address}</span>
+                <span>House - 5, Road - 6, Sector 1, Uttara, Dhaka</span>
               </div>
             </div>
             <p
@@ -820,7 +820,7 @@ const CommonInvoice = ({ rowClickData }) => {
                     {selectedBusinessUnit?.label}
                   </span>
                   <br />
-                  <span>{selectedBusinessUnit?.address}</span>
+                  <span>House - 5, Road - 6, Sector 1, Uttara, Dhaka</span>
                 </div>
               </div>
             </div>
@@ -832,7 +832,7 @@ const CommonInvoice = ({ rowClickData }) => {
                 fontWeight: 600,
               }}
             >
-              <p>Prepared By: {profileData?.userName} </p>
+              <p>Prepared By: MIM KHANDAKER </p>
               {/* <p>Prepared By: </p> */}
             </div>
             <p style={{ fontSize: 14, fontWeight: 600 }}>Special Note:</p>
