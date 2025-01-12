@@ -121,10 +121,10 @@ function CreateCustomerLeadGeneration() {
         return {
           rowId: 0,
           customerAcquisitionId: 0,
-          itemId: item?.item?.value,
-          uomId: item?.item?.uomId,
-          uomName: item?.item?.uomName,
-          quantity: item?.quantity,
+          itemId: item?.item?.value || 0,
+          uomId: item?.item?.uomId || 0,
+          uomName: item?.item?.uomName || "",
+          quantity: item?.quantity || 0,
         };
       }),
     };
