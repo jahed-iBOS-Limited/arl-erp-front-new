@@ -175,7 +175,7 @@ export default function FundTransferCreate({ viewType }) {
                                                     <th>Request Code</th>
                                                     <th>Request Date</th>
                                                     <th>Request By</th>
-                                                    {values?.fundTrasferType?.value === 2 && <th>Request By</th>}
+                                                    {values?.fundTrasferType?.value === 2 && <th>Request To</th>}
                                                     <th>From Account</th>
                                                     <th>To Account</th>
                                                     <th>Expect Date</th>
@@ -193,9 +193,9 @@ export default function FundTransferCreate({ viewType }) {
                                                         <td className="text-center">{item.strRequestCode}</td>
                                                         <td className="text-center">{_dateFormatter(item.dteRequestDate)}</td>
                                                         <td>{item.strRequestByUnitName}</td>
-                                                        {values?.fundTrasferType?.value === 2 && <td>Request To</td>}
-                                                        <td>{item.strRequestToUnitName}</td>
-                                                        <td>{item.strRequestToUnitName}</td>
+                                                        {values?.fundTrasferType?.value === 2 && <td>{item?.strRequestToUnitName}</td>}
+                                                        <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : `${item?.strGivenBankName}-${item?.strGivenBankBranchName}`}</td>
+                                                        <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? `${item?.strGivenBankName}-${item?.strGivenBankBranchName}` : `${item?.strRequestedBankName}-${item?.strRequestedBankBranchName}`}</td>
                                                         <td className="text-center">{_dateFormatter(item.dteExpectedDate)}</td>
                                                         <td className="text-right">{item.numAmount}</td>
                                                         <td>{item.strResponsibleEmpName}</td>

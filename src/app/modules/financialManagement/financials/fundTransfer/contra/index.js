@@ -16,6 +16,7 @@ import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 
 const initData = {
+    transferType: "",
     status: { value: 0, label: "Pending" },
     fromDate: _todayDate(),
     toDate: _todayDate(),
@@ -32,6 +33,7 @@ export default function Contra({ viewType }) {
     const [gridData, getGridData, loading] = useAxiosGet();
     const [parentTransferType, setParentTransferType] = useState({ actionId: 1, actionName: "Bank Transfer" });
 
+    const transferTypeList = parentTransferType?.actionName === "Bank Transfer" ? [{ value: 1, label: "Bank To Bank" }, { value: 2, label: "Bank To Cash" }] : [{ value: 3, label: "Cash To Bank" }]
 
     const saveHandler = (values, cb) => { };
     const history = useHistory();
@@ -39,7 +41,7 @@ export default function Contra({ viewType }) {
     const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
         const searchTearm = searchValue ? `&strSearch=${searchValue}` : "";
         getGridData(
-            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&intRequestTypeId=${viewType?.actionId}&StrTransactionType=${parentTransferType?.actionName}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isApproved=${values?.status?.value}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
+            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&intTransaferById=${values?.transferType?.value}&intRequestTypeId=${viewType?.actionId}&StrTransactionType=${parentTransferType?.actionName}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isApproved=${values?.status?.value}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
         );
     };
 
@@ -93,6 +95,7 @@ export default function Contra({ viewType }) {
                                         }}
                                         onChange={(valueOption) => {
                                             setParentTransferType({ actionId: 1, actionName: "Bank Transfer" });
+                                            setFieldValue("transferType", "");
                                         }}
                                     />
                                     <strong style={{ fontSize: "11px" }}>Bank Transfer</strong>
@@ -106,6 +109,7 @@ export default function Contra({ viewType }) {
                                         style={{ position: "relative", top: "2px" }}
                                         onChange={(e) => {
                                             setParentTransferType({ actionId: 1, actionName: "Cash Transfer" });
+                                            setFieldValue("transferType", "")
                                         }}
                                     />
                                     <strong style={{ fontSize: "11px" }} >Cash Transfer</strong>
@@ -139,7 +143,19 @@ export default function Contra({ viewType }) {
                             <>
                                 <div className="form-group  global-form row">
 
-
+                                    <div className="col-lg-3">
+                                        <NewSelect
+                                            name="transferType"
+                                            options={transferTypeList}
+                                            value={values?.transferType}
+                                            label="Transfer Type"
+                                            onChange={(valueOption) => {
+                                                setFieldValue("transferType", valueOption)
+                                            }}
+                                            errors={errors}
+                                            touched={touched}
+                                        />
+                                    </div>
                                     <div className="col-lg-3">
                                         <InputField
                                             value={values?.fromDate}
@@ -178,7 +194,7 @@ export default function Contra({ viewType }) {
 
                                         />
                                     </div>
-                                    <div><button type="button" onClick={() => {
+                                    <div><button disabled={!values?.transferType} type="button" onClick={() => {
                                         getLandingData(values, pageNo, pageSize, "");
 
                                     }} className="btn btn-primary mt-5">Show</button></div>
@@ -218,8 +234,8 @@ export default function Contra({ viewType }) {
                                                         <td className="text-center">{item.strRequestCode}</td>
                                                         <td className="text-center">{_dateFormatter(item.dteRequestDate)}</td>
                                                         <td>{item.strRequestByUnitName}</td>
-                                                        <td>{item?.strGivenBankName}</td>
-                                                        <td>{item?.strRequestedBankName}</td>
+                                                        <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : item?.strGivenBankName}</td>
+                                                        <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? item?.strGivenBankName : item?.strRequestedBankName}</td>
                                                         <td className="text-center">{_dateFormatter(item.dteExpectedDate)}</td>
                                                         <td className="text-right">{item.numAmount}</td>
                                                         <td>{item.strResponsibleEmpName}</td>

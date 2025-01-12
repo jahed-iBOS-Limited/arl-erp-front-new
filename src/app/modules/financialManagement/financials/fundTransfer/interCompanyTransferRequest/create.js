@@ -12,11 +12,11 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import { useLocation } from "react-router";
+import { _todayDate } from "../../../../_helper/_todayDate";
 
 
 const initData = {
     sendingPartner: "",
-    requestingUnit: "",
     requestToUnit: "",
     receivingAccount: "",
     toBankName: "",
@@ -42,12 +42,6 @@ const getSchema = () => {
                 value: Yup.string().required("Responsible Person is required"),
             })
             .typeError("Responsible Person is required"),
-        requestingUnit: Yup.object()
-            .shape({
-                label: Yup.string().required("Requesting Unit is required"),
-                value: Yup.string().required("Requesting Unit is required"),
-            })
-            .typeError("Requesting Unit is required"),
         requestToUnit: Yup.object()
             .shape({
                 label: Yup.string().required("Request To Unit is required"),
@@ -92,8 +86,8 @@ export default function InterCompanyTransferRequestCreate() {
             "intRequestTypeId": viewType?.actionId || 0,
             "strRequestType": viewType?.actionName || "",
             strTransactionType: parentTransferType?.actionName || 0,
-            intTransaferById: values?.transferType?.value || 0,
-            strTransferBy: values?.transferType?.label || "",
+            intTransaferById: 1,
+            strTransferBy: "Bank To Bank",
             strRequestPartnerId: values?.sendingPartner?.value || 0,
             strRequestPartnerName: values?.sendingPartner?.label || "",
             // IsTransferCreated
@@ -168,19 +162,8 @@ export default function InterCompanyTransferRequestCreate() {
                             <div className="form-group global-form row">
                                 <div className="col-lg-3">
                                     <NewSelect
-                                        name="requestingUnit"
-                                        options={businessUnitList || []}
-                                        value={values?.requestingUnit}
-                                        label="Requesting Unit"
-                                        onChange={(valueOption) => setFieldValue("requestingUnit", valueOption)}
-                                        errors={errors}
-                                        touched={touched}
-                                    />
-                                </div>
-                                <div className="col-lg-3">
-                                    <NewSelect
                                         name="requestToUnit"
-                                        options={businessUnitList || []}
+                                        options={businessUnitList?.filter((item) => item?.value !== selectedBusinessUnit?.value) || []}
                                         value={values?.requestToUnit}
                                         label="Request To Unit"
                                         onChange={(valueOption) => setFieldValue("requestToUnit", valueOption)}
@@ -203,7 +186,7 @@ export default function InterCompanyTransferRequestCreate() {
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="sendingPartner"
-                                        options={partnerDDl || []}
+                                        options={partnerDDl?.filter((item) => item?.value !== selectedBusinessUnit?.value) || []}
                                         value={values?.sendingPartner}
                                         label="Sending Partner"
                                         onChange={(valueOption) => setFieldValue("sendingPartner", valueOption)}
@@ -221,6 +204,7 @@ export default function InterCompanyTransferRequestCreate() {
                                         name="expectedDate"
                                         type="date"
                                         onChange={(e) => setFieldValue("expectedDate", e.target.value)}
+                                        min={_todayDate()}
                                     />
                                 </div>
 
