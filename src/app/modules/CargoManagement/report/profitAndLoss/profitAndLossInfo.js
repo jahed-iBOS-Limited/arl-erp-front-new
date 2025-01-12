@@ -74,11 +74,11 @@ function ProfitAndLossInfo({ values, reportData }) {
       <div className="row">
         <div className="col-lg-12">
           <div className="text-center">
-            <h4>JOB Profit & Loss</h4>
+            <h4>Profit & Loss</h4>
             <p>
               <b>Akij Logistics Limited</b>{' '}
             </p>
-            <p>Bir Uttam Mir Shawkat Sarak, Dhaka 1208</p>
+            <p>House - 5, Road - 6, Sector 1, Uttara, Dhaka</p>
           </div>
         </div>
 
