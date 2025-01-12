@@ -479,7 +479,7 @@ export default function MasterHBLModal({
                             Akij Logistics Limited
                           </div>{' '}
                           <div style={{ fontWeight: 400, paddingLeft: 10 }}>
-                            Bir Uttam Mir Shawkat Sarak, Dhaka 1208
+                          House - 5, Road - 6, Sector 1, Uttara, Dhaka
                           </div>
                         </div>
                         <div className="consigneeInfo borderBottom">
