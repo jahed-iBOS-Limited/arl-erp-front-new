@@ -383,7 +383,7 @@ const MasterHBAWModal = ({ selectedRow, isPrintView, CB, airMasterBlid }) => {
             by1: '',
             // bind from data
             consigneeNameAndAddress: strConsignee,
-            shipperNameAndAddress: `Akij Logistics Limited \nBir Uttam Mir Shawkat Sarak, Dhaka 1208`,
+            shipperNameAndAddress: `Akij Logistics Limited \nHouse - 5, Road - 6, Sector 1, Uttara, Dhaka`,
             agentIatacode: `${transportPlanningAir?.iatanumber || ''}`,
             noOfPiecesRcp: `${totalNumberOfPackages || ''}`,
             prepaidNatureAndQuantityOfGoods: `${prepaidNatureAndQuantityOfGoods ||

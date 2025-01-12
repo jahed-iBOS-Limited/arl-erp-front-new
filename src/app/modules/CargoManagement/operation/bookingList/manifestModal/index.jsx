@@ -97,7 +97,7 @@ export default function ManifestModal({ rowClickData }) {
           />
           {selectedBusinessUnit?.label}
           <br />
-          {selectedBusinessUnit?.address}
+          House - 5, Road - 6, Sector 1, Uttara, Dhaka
         </div>
         <span
           style={{

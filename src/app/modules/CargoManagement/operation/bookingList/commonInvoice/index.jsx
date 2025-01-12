@@ -293,7 +293,7 @@ const CommonInvoice = ({ rowClickData }) => {
                   {selectedBusinessUnit?.label}
                 </span>
                 <br />
-                <span>{selectedBusinessUnit?.address}</span>
+                <span>House - 5, Road - 6, Sector 1, Uttara, Dhaka</span>
               </div>
             </div>
             <p
@@ -729,7 +729,11 @@ const CommonInvoice = ({ rowClickData }) => {
                   }}
                 >
                   <td colSpan="2"> Total Amount</td>
-                  <td> {getCalculatedDummyAmount()}</td>
+                  <td>
+                    {' '}
+                    {billingDataFilterData?.[0]?.currency}{' '}
+                    {getCalculatedDummyAmount()}
+                  </td>
                   {/* <td> {getCalculatedActualAmount()}</td> */}
                 </tr>
                 <tr>
@@ -743,7 +747,7 @@ const CommonInvoice = ({ rowClickData }) => {
                     }}
                   >
                     {' '}
-                    Amount in Words:
+                    Amount in Words: {billingDataFilterData?.[0]?.currency}{' '}
                     {getDummyAmountInWords()}
                   </td>
                 </tr>
@@ -756,19 +760,35 @@ const CommonInvoice = ({ rowClickData }) => {
                 border: '1px solid #000',
               }}
             >
-              <div
-                style={{
-                  fontSize: 14,
-                  fontWeight: 600,
-                }}
-              >
+              <div>
                 <div
                   style={{
                     backgroundColor: '#DDE3E8',
                     padding: 2,
+                    fontSize: 14,
+                    fontWeight: 600,
                   }}
                 >
                   Transfer Fund to
+                </div>
+                <div
+                  style={{
+                    padding: 2,
+                  }}
+                >
+                  <div>
+                    <span>Standard Chartered Bank</span>
+                    <br />
+                    <span>A/C Name: Akij Logistics Ltd.</span>
+                    <br />
+                    <span>A/C No. 01-8940247-01</span>
+                    <br />
+                    <span>Branch: Gulshan</span>
+                    <br />
+                    <span>Routing: 215261726</span>
+                    <br />
+                    <span>Swift code: SCBLBDDX</span>
+                  </div>
                 </div>
               </div>
               <div
@@ -800,7 +820,7 @@ const CommonInvoice = ({ rowClickData }) => {
                     {selectedBusinessUnit?.label}
                   </span>
                   <br />
-                  <span>{selectedBusinessUnit?.address}</span>
+                  <span>House - 5, Road - 6, Sector 1, Uttara, Dhaka</span>
                 </div>
               </div>
             </div>
@@ -812,17 +832,16 @@ const CommonInvoice = ({ rowClickData }) => {
                 fontWeight: 600,
               }}
             >
-              <p>Prepared By: </p>
-              <p>Prepared By: </p>
+              <p>Prepared By: {profileData?.userName} </p>
+              {/* <p>Prepared By: </p> */}
             </div>
             <p style={{ fontSize: 14, fontWeight: 600 }}>Special Note:</p>
             <span style={{ fontSize: 14, maxWidth: '70%' }}>
               {' '}
               Payment to be made by Payment Order/Electronic transfer only in
-              favor of TRANSMARINE LOGISTICS LTD. No query/claim will be
-              entertained after 07 days from the date of receipt of Invoice.
-              Interest @ 2% pe rMonth is chargeable on bill not paid on
-              presentation.
+              favor of Akij Logistics Ltd. No query/claim will be entertained
+              after 07 days from the date of receipt of Invoice. Interest @ 2%
+              pe rMonth is chargeable on bill not paid on presentation.
             </span>
 
             <p style={{ fontSize: 14, fontWeight: 600 }}>Note:</p>

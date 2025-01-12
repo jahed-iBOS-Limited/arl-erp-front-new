@@ -110,7 +110,7 @@ export default function DeliveryNoteModal({ rowClickData }) {
           <br />
           <span> {selectedBusinessUnit?.label}</span>
           <br />
-          <span> {selectedBusinessUnit?.address}</span> <br />
+          <span> House - 5, Road - 6, Sector 1, Uttara, Dhaka</span> <br />
         </div>
 
         <div style={{ backgroundColor: '#D6DADD', height: '1px' }} />
