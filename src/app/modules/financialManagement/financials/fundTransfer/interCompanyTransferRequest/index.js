@@ -38,7 +38,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
     const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
         const searchTearm = searchValue ? `&strSearch=${searchValue}` : "";
         getGridData(
-            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&intRequestTypeId=${viewType?.actionId}&StrTransactionType=${parentTransferType?.actionName}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isApproved=${values?.status?.value}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
+            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&intTransaferById=1&intRequestToUnitId=${values?.requestToUnit?.value || 0}&intRequestTypeId=${viewType?.actionId}&StrTransactionType=${parentTransferType?.actionName}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isApproved=${values?.status?.value}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
 
         );
     };
@@ -151,7 +151,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                     <div className="col-lg-3">
                                         <NewSelect
                                             name="requestToUnit"
-                                            options={businessUnitList}
+                                            options={[{ value: 0, label: "All" }, ...businessUnitList]}
                                             value={values?.requestToUnit}
                                             label="Request To Unit"
                                             onChange={(valueOption) => {
@@ -201,7 +201,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                     <th>Requesting Unit</th>
                                                     <th>Request To Unit</th>
                                                     <th>Receiving Account</th>
-                                                    <th>Sending Partner</th>
+                                                    {/* <th>Sending Partner</th> */}
                                                     <th>Expect Date</th>
                                                     <th>Amount</th>
                                                     <th>Responsible</th>
@@ -219,7 +219,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                         <td>{item.strRequestByUnitName}</td>
                                                         <td>{item.strRequestToUnitName}</td>
                                                         <td>{item?.strRequestedBankName}</td>
-                                                        <td>{item?.strGivenBankName}</td>
+                                                        {/* <td>{item?.strGivenBankName}</td> */}
                                                         <td className="text-center">{_dateFormatter(item.dteExpectedDate)}</td>
                                                         <td className="text-right">{item.numAmount}</td>
                                                         <td>{item.strResponsibleEmpName}</td>
