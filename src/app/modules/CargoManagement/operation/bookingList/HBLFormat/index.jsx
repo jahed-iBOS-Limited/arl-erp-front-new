@@ -231,7 +231,7 @@ const SingleItem = ({
                     style={{ height: 100, width: 150, objectFit: 'contain' }}
                   />
                   <h1>Akij Logistics Limited</h1>
-                  <h3>Bir Uttam Mir Shawkat Sarak, Dhaka 1208</h3>
+                  <h3>House - 5, Road - 6, Sector 1, Uttara, Dhaka</h3>
                 </div>
                 <div className="rightSideBottom">
                   <p className="textTitle" style={{ paddingBottom: 5 }}>

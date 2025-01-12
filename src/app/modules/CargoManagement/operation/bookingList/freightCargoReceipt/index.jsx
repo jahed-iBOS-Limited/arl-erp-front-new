@@ -626,7 +626,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                 }}
               >
                 <span>Akij Logistics Limited</span>
-                <span>Bir Uttam Mir Shawkat Sarak, Dhaka 1208</span>
+                <span>House - 5, Road - 6, Sector 1, Uttara, Dhaka</span>
               </div>
             </div>
           </div>
