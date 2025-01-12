@@ -832,7 +832,7 @@ const CommonInvoice = ({ rowClickData }) => {
                 fontWeight: 600,
               }}
             >
-              <p>Prepared By: MIM KHANDAKER </p>
+              <p>Prepared By: {profileData?.userName} </p>
               {/* <p>Prepared By: </p> */}
             </div>
             <p style={{ fontSize: 14, fontWeight: 600 }}>Special Note:</p>
