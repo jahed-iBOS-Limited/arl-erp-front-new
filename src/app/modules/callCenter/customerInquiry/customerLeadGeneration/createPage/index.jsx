@@ -1,11 +1,13 @@
 import { Form, Formik } from "formik";
 import React from "react";
 // import { useParams } from "react-router";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import TextArea from "../../../../_helper/TextArea";
 
 const validationSchema = Yup.object().shape({
@@ -56,16 +58,34 @@ const validationSchema = Yup.object().shape({
 });
 function CreateCustomerLeadGeneration() {
   const history = useHistory();
+  const [divisionDDL, getDivisionDDL] = useAxiosGet();
+  const [districtDDL, getDistrictDDL] = useAxiosGet();
+  const [thanaDDL, getThanaDDL] = useAxiosGet();
   //   const { id } = useParams();
   const formikRef = React.useRef(null);
 
-  //   const {
-  //     profileData: { userId },
-  //   } = useSelector((state) => {
-  //     return state?.authData;
-  //   }, shallowEqual);
+  const {
+    profileData: { userId },
+    selectedBusinessUnit,
+  } = useSelector((state) => state?.authData || {}, shallowEqual);
 
   const saveHandler = (values, cb) => {};
+
+  React.useEffect(() => {
+    getDivisionDDL("/oms/TerritoryInfo/GetDivisionDDL?countryId=18");
+  }, []);
+
+  const getDistrict = (divisionId) => {
+    getDistrictDDL(
+      `/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=${divisionId}`
+    );
+  };
+
+  const getThana = (districtId) => {
+    getThanaDDL(
+      `/oms/SalesQuotation/GetUserWiseShipToPartnerAndZoneDDL?partName=TransportZoneDDL&userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&districtId=${districtId}`
+    );
+  };
 
   return (
     <ICustomCard
@@ -192,11 +212,14 @@ function CreateCustomerLeadGeneration() {
                   <div className="col-lg-3">
                     <NewSelect
                       label={"Division"}
-                      options={[]}
+                      options={divisionDDL || []}
                       value={values?.division}
                       name="division"
                       onChange={(valueOption) => {
                         setFieldValue("division", valueOption || "");
+                        setFieldValue("district", "");
+                        setFieldValue("thana", "");
+                        valueOption?.value && getDistrict(valueOption?.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -206,21 +229,24 @@ function CreateCustomerLeadGeneration() {
                   <div className="col-lg-3">
                     <NewSelect
                       label={"District"}
-                      options={[]}
+                      options={districtDDL || []}
                       value={values?.district}
                       name="district"
                       onChange={(valueOption) => {
                         setFieldValue("district", valueOption || "");
+                        setFieldValue("thana", "");
+                        valueOption?.value && getThana(valueOption?.value);
                       }}
                       errors={errors}
                       touched={touched}
+                      isDisabled={values?.division?.value ? false : true}
                     />
                   </div>
                   {/* thana */}
                   <div className="col-lg-3">
                     <NewSelect
                       label={"Thana"}
-                      options={[]}
+                      options={thanaDDL || []}
                       value={values?.thana}
                       name="thana"
                       onChange={(valueOption) => {
@@ -228,6 +254,11 @@ function CreateCustomerLeadGeneration() {
                       }}
                       errors={errors}
                       touched={touched}
+                      isDisabled={
+                        values?.division?.value && values?.district?.value
+                          ? false
+                          : true
+                      }
                     />
                   </div>
                   {/* shop */}
