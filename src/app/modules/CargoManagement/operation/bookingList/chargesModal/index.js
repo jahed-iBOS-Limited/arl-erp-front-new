@@ -989,9 +989,7 @@ function ChargesModal({ rowClickData, CB }) {
                           >
                             <button
                               disabled={
-                                isDisabled ||
-                                item?.billRegisterId ||
-                                item?.advancedBillRegisterId
+                                isDisabled || item?.isCommonPaymentCombind
                               }
                               type="button"
                               className="btn btn-primary"
@@ -1005,8 +1003,21 @@ function ChargesModal({ rowClickData, CB }) {
                                 setShippingHeadOfCharges([
                                   ...shippingHeadOfCharges?.slice(0, index + 1),
                                   {
-                                    ...aboveRow,
-                                    billingId: aboveRow?.billingId || 0,
+                                    headOfCharges:
+                                      aboveRow?.headOfCharges || '',
+                                    headOfChargeId:
+                                      aboveRow?.headOfChargeId || 0,
+                                    masterBlId: aboveRow?.masterBlId || 0,
+                                    masterBlCode: aboveRow?.masterBlCode || '',
+                                    modeOfTransportId:
+                                      aboveRow?.modeOfTransportId || 0,
+                                    currency: aboveRow?.currency || '',
+                                    currencyId: aboveRow?.currencyId || 0,
+                                    exchangeRate: aboveRow?.exchangeRate || 0,
+                                    converstionRateUsd:
+                                      aboveRow?.converstionRateUsd || 0,
+                                    profitSharePercentage:
+                                      aboveRow?.profitSharePercentage || 0,
                                   },
                                   ...shippingHeadOfCharges?.slice(index + 1),
                                 ]);

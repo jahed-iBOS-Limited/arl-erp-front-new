@@ -76,6 +76,7 @@ const CommonInvoice = ({ rowClickData }) => {
             ?.filter((i) => i.collectionPartyId)
             ?.map((item) => {
               return {
+                ...item,
                 value: item?.collectionPartyId,
                 label: item?.collectionParty,
                 collectionPartyId: item?.collectionPartyId,
@@ -186,6 +187,8 @@ const CommonInvoice = ({ rowClickData }) => {
     totalVolumetricWeight > totalGrossWeightKG
       ? totalVolumetricWeight
       : totalGrossWeightKG;
+
+  console.log(paymentPartyListDDL, 'paymentPartyListDDL');
 
   return (
     <Formik
@@ -304,7 +307,7 @@ const CommonInvoice = ({ rowClickData }) => {
               }}
             >
               {' '}
-              {billingDataFilterData?.[0]?.paymentPartyType} INVOICE :{' '}
+              {billingDataFilterData?.[0]?.collectionPartyType} INVOICE :{' '}
               {invoiceNo || 'N/A'}
               {/* INVOICE : {bookingData?.invoiceNumber || "N/A"} */}
             </p>
@@ -322,12 +325,14 @@ const CommonInvoice = ({ rowClickData }) => {
               >
                 <div style={{ padding: 2 }}>
                   <span style={{ fontSize: 14, fontWeight: 600 }}>
-                    {bookingData?.consigneeName}
+                    {/* {bookingData?.consigneeName} */}
+                    {values?.collectionParty?.label}
                   </span>
                   <br />
                   <span>
-                    {bookingData?.consigneeAddress},{bookingData?.consigState},
-                    {bookingData?.consigCountry}
+                    {/* {bookingData?.consigneeAddress},{bookingData?.consigState},
+                    {bookingData?.consigCountry} */}
+                    {values?.collectionParty?.collectionPartyAddress}
                   </span>
                   <br />
                 </div>
