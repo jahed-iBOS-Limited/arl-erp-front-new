@@ -32,6 +32,10 @@ export default function CustomerInquiryPages() {
         component={ComplainAndSolutionTable}
       />
       <ContentRoute
+        path="/call-center-management/customer-inquiry/customerleadgeneration/update/:id"
+        component={CreateCustomerLeadGeneration}
+      />
+      <ContentRoute
         path="/call-center-management/customer-inquiry/customerleadgeneration/create"
         component={CreateCustomerLeadGeneration}
       />

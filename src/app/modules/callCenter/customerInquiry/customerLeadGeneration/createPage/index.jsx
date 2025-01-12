@@ -1,6 +1,5 @@
 import { Form, Formik } from "formik";
 import React from "react";
-// import { useParams } from "react-router";
 import { Button } from "@material-ui/core";
 import axios from "axios";
 import { shallowEqual, useSelector } from "react-redux";
@@ -17,6 +16,7 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../../_helper/TextArea";
+import { useParams } from "react-router";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -66,6 +66,14 @@ const validationSchema = Yup.object().shape({
 });
 function CreateCustomerLeadGeneration() {
   const history = useHistory();
+  const { id } = useParams();
+  const formikRef = React.useRef(null);
+
+  const {
+    profileData: { userId },
+    selectedBusinessUnit,
+  } = useSelector((state) => state?.authData || {}, shallowEqual);
+
   const [divisionDDL, getDivisionDDL] = useAxiosGet();
   const [districtDDL, getDistrictDDL] = useAxiosGet();
   const [storiedDDL, getStoriedDDL] = useAxiosGet();
@@ -78,19 +86,86 @@ function CreateCustomerLeadGeneration() {
   const [territoryDDL, getTerritoryDDL, , setTerritoryDDL] = useAxiosGet();
   const [, SaveCustomerLeadGeneration, isLoading] = useAxiosPost();
 
-  //   const { id } = useParams();
-  const formikRef = React.useRef(null);
-
-  const {
-    profileData: { userId },
-    selectedBusinessUnit,
-  } = useSelector((state) => state?.authData || {}, shallowEqual);
   const saveHandler = (values, cb) => {
-    const payload = {
+    if (id) {
+      updateHandler();
+    } else {
+      const payload = {
+        partName: "Suspect",
+        header: {
+          businessUnitId: selectedBusinessUnit?.value,
+          customerAcquisitionId: 0,
+          customerName: values?.name || "",
+          customerEmail: values?.email || "",
+          customerPhone: values?.phone || "",
+          storied: values?.storied?.label || "",
+          projectStatusId: values?.projectStatus?.value || 0,
+          projectStatusName: values?.projectStatus?.label || "",
+          divisionId: values?.division?.value || 0,
+          districtId: values?.district?.value || 0,
+          transportZoneId: values?.thana?.value || 0,
+          // shipToPartnerId: values?.shipPoint?.value || 0,
+          shipToPartnerName: values?.shop || "",
+          businessPartnerId: 0,
+          referenceId: values?.reference?.value || 0,
+          referenceName: values?.reference?.label || "",
+          deliveryAddress: values?.deliveryAddress || "",
+          referralSource: values?.sourceOrAdvertise?.label || "",
+          territoryId: values?.territory?.value || 0,
+          areaId: values?.area?.value || 0,
+          regionId: values?.region?.value || 0,
+          currentStage: "Suspect",
+          lastActionBy: userId || 0,
+          updatedDateTime: new Date(),
+          isRejected: false,
+          shipPointId: values?.shipPoint?.value || 0,
+          currentBrandId: values?.brand?.value || 0,
+        },
+        row: values?.row?.map((item) => {
+          return {
+            rowId: 0,
+            customerAcquisitionId: 0,
+            itemId: item?.item?.value || 0,
+            uomId: item?.item?.uomId || 0,
+            uomName: item?.item?.uomName || "",
+            quantity: item?.quantity || 0,
+          };
+        }),
+      };
+
+      SaveCustomerLeadGeneration(
+        `/oms/SalesQuotation/CreateCustomerAcquisition`,
+        payload,
+        () => {
+          if (cb) {
+            cb();
+          }
+        },
+        "save"
+      );
+    }
+  };
+  const updateHandler = (isRejected = false) => {
+    const values = formikRef.current.values;
+    const data = {
       partName: "Suspect",
+    };
+    let partName = "";
+    if (data.partName === "Suspect") {
+      partName = "Prospect";
+    } else if (data.partName === "Prospect") {
+      partName = "Lead";
+    } else if (data.partName === "Lead") {
+      partName = "Client";
+    } else if (data.partName === "Client") {
+      partName = "Customer";
+    }
+
+    const payload = {
+      partName: partName,
       header: {
         businessUnitId: selectedBusinessUnit?.value,
-        customerAcquisitionId: 0,
+        customerAcquisitionId: id,
         customerName: values?.name || "",
         customerEmail: values?.email || "",
         customerPhone: values?.phone || "",
@@ -110,10 +185,10 @@ function CreateCustomerLeadGeneration() {
         territoryId: values?.territory?.value || 0,
         areaId: values?.area?.value || 0,
         regionId: values?.region?.value || 0,
-        currentStage: "Suspect",
+        currentStage: partName,
         lastActionBy: userId || 0,
         updatedDateTime: new Date(),
-        isRejected: false,
+        isRejected: isRejected,
         shipPointId: values?.shipPoint?.value || 0,
         currentBrandId: values?.brand?.value || 0,
       },
@@ -128,17 +203,6 @@ function CreateCustomerLeadGeneration() {
         };
       }),
     };
-
-    SaveCustomerLeadGeneration(
-      `/oms/SalesQuotation/CreateCustomerAcquisition`,
-      payload,
-      () => {
-        if (cb) {
-          cb();
-        }
-      },
-      "save"
-    );
   };
 
   React.useEffect(() => {
@@ -256,6 +320,22 @@ function CreateCustomerLeadGeneration() {
       resetHandler={() => {
         formikRef.current.resetForm();
       }}
+      renderProps={
+        id
+          ? () => {
+              return (
+                <button
+                  onClick={() => {
+                    updateHandler(true);
+                  }}
+                  className="btn btn-danger ml-2"
+                >
+                  Rejected
+                </button>
+              );
+            }
+          : undefined
+      }
     >
       {isLoading && <Loading />}
       <Formik
