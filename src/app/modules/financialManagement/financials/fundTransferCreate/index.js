@@ -248,7 +248,27 @@ export default function FundTransferApproval({ viewType }) {
                                                                     onClick={() => {
                                                                         const selectedFormValues =
                                                                             item?.strRequestType === "Contra"
-                                                                                ? { transferAmount: item?.numAmount }
+                                                                                ? {
+                                                                                    transferAmount: item?.numAmount, bankAcc: {
+                                                                                        bankId: item?.intGivenBankId,
+                                                                                        bankName: item?.strGivenBankName,
+                                                                                        bankBranch_Id: item?.intGivenBankBranchId,
+                                                                                        bankBranchName: item?.strGivenBankBranchName,
+                                                                                        value: item?.strGivenBankAccountId,
+                                                                                        label: item?.strGivenBankAccountName,
+                                                                                        bankAccNo: item?.strGivenBankAccountNumber,
+                                                                                        generalLedgerId: item?.intGivenGlid,
+                                                                                        generalLedgerCode: item?.strGivenGlCode,
+                                                                                        generalLedgerName: item?.strGivenGlName
+                                                                                    },
+                                                                                    sendToGLBank: {
+                                                                                        value: item?.intRequestedBankAccountId,
+                                                                                        label: item?.strRequestedBankAccountName,
+                                                                                        bankAccNo: item?.strRequestedBankAccountNumber,
+                                                                                        generalLedgerCode: item?.strRequestGlCode,
+                                                                                    },
+                                                                                    paidTo: item?.strRequestedBankAccountName || "",
+                                                                                }
                                                                                 : item?.strRequestType === "InterCompanyTransferRequest"
                                                                                     ? { amount: item?.numAmount }
                                                                                     : null;

@@ -19,7 +19,7 @@ export default function BankJournalCreateFormContra() {
   const [rowDto, setRowDto] = useState([]);
   const [instrumentNoByResponse, setInstrumentNoByResponse] = useState("");
   const location = useLocation();
-  let { selectedJournalTypeId, intRequestToUnitId, selectedFormValues } = location?.state || {}// For Bank Transfer Only
+  let { selectedJournalTypeId, intRequestToUnitId, selectedFormValues, strRequestType, strTransferBy } = location?.state || {}// For Bank Transfer Only
   const params = useParams();
   const [attachmentFile, setAttachmentFile] = useState("");
   const [sbuList, getSbuList] = useAxiosGet();
@@ -32,10 +32,10 @@ export default function BankJournalCreateFormContra() {
   }, shallowEqual);
   const { profileData, selectedBusinessUnit } = storeData;
 
-  const { bankJournalCreate } = useSelector(
-    (state) => state?.localStorage || {},
-    shallowEqual
-  );
+  // const { bankJournalCreate } = useSelector(
+  //   (state) => state?.localStorage || {},
+  //   shallowEqual
+  // );
 
   useEffect(() => {
     if (intRequestToUnitId) {
@@ -314,10 +314,10 @@ export default function BankJournalCreateFormContra() {
     <IForm
       title={
         selectedJournalTypeId === 4
-          ? "Create Bank Receipt"
+          ? `Create Bank Receipt [${strRequestType}] [${strTransferBy}]`
           : selectedJournalTypeId === 5
-            ? "Create Bank Payments"
-            : "Create Bank Transfer"
+            ? `Create Bank Payments [${strRequestType}] [${strTransferBy}]`
+            : `Create Bank Transfer [${strRequestType}] [${strTransferBy}]`
       }
       getProps={setObjprops}
       isDisabled={isDisabled}
@@ -325,7 +325,8 @@ export default function BankJournalCreateFormContra() {
       {isDisabled && <Loading />}
       <Form
         {...objProps}
-        initData={{ ...bankJournalCreate, ...selectedFormValues }}
+        // initData={{ ...bankJournalCreate, ...selectedFormValues }}
+        initData={{ ...selectedFormValues }}
         saveHandler={saveHandler}
         setter={setter}
         remover={remover}
