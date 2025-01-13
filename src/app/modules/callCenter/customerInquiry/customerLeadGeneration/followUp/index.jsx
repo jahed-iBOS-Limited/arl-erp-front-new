@@ -6,6 +6,7 @@ import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { Tab, Tabs } from "react-bootstrap";
 import HistoryTab from "./HistoryTab";
+import CallTab from "./CallTab";
 
 export default function FollowUp() {
   let history = useHistory();
@@ -79,7 +80,7 @@ export default function FollowUp() {
               <HistoryTab id={id} />
             </Tab>
             <Tab unmountOnExit eventKey="call" title="Call">
-              <div>1</div>
+              <CallTab data={data} />
             </Tab>
             <Tab unmountOnExit eventKey="email" title="Email">
               <div>2</div>
