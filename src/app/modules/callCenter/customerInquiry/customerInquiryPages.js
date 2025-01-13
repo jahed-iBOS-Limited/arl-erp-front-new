@@ -6,6 +6,8 @@ import {
 import { ContentRoute } from "../../../../_metronic/layout";
 import ComplainAndSolutionForm from "./complainAndSolution/form/addEditForm";
 import ComplainAndSolutionTable from "./complainAndSolution/landing/table";
+import CustomerLeadGeneration from "./customerLeadGeneration";
+import CreateCustomerLeadGeneration from "./customerLeadGeneration/createPage";
 import DeliveryInquiryLanding from "./deliveryInquiry/table/table";
 
 export default function CustomerInquiryPages() {
@@ -28,6 +30,18 @@ export default function CustomerInquiryPages() {
       <ContentRoute
         path="/call-center-management/customer-inquiry/complainnsolution"
         component={ComplainAndSolutionTable}
+      />
+      <ContentRoute
+        path="/call-center-management/customer-inquiry/customerleadgeneration/update/:id"
+        component={CreateCustomerLeadGeneration}
+      />
+      <ContentRoute
+        path="/call-center-management/customer-inquiry/customerleadgeneration/create"
+        component={CreateCustomerLeadGeneration}
+      />
+      <ContentRoute
+        path="/call-center-management/customer-inquiry/customerleadgeneration"
+        component={CustomerLeadGeneration}
       />
     </Switch>
   );
