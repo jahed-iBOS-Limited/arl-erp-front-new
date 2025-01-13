@@ -1,6 +1,7 @@
 import React from "react";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import Loading from "../../../../_helper/_loading";
+import moment from "moment";
 
 export default function HistoryTab({ id }) {
   // =6
@@ -30,7 +31,27 @@ export default function HistoryTab({ id }) {
               <th>Outcomes</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            {data?.map((item, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{item?.activityTypeName}</td>
+                <td>
+                  {moment(item?.activityDateTime).isValid() &&
+                    moment(item?.activityDateTime).format(
+                      "DDD MMM YYYY hh:mm A"
+                    )}
+                </td>
+                <td>{item?.calledbyName}</td>
+                <td>
+                  {moment(item?.followUpDate).isValid() &&
+                    moment(item?.followUpDate).format("DDD MMM YYYY hh:mm A")}
+                </td>
+                <td>{item?.description}</td>
+                <td>{item?.outcome}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
     </React.Fragment>
