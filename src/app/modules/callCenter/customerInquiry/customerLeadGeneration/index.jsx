@@ -37,8 +37,8 @@ const STAGE_STATUS = [
   { value: 1, label: "Suspect" },
   { value: 2, label: "Prospect" },
   { value: 3, label: "Lead" },
-  { value: 4, label: "Client" },
-  { value: 5, label: "Customer" },
+  { value: 4, label: "Customer" },
+  { value: 5, label: "Client" },
 ];
 
 export default function CustomerLeadGeneration() {
@@ -305,6 +305,7 @@ export default function CustomerLeadGeneration() {
                         );
                       }}
                       className="btn btn-primary"
+                      // disabled={item?.currentStage === "Customer" ? true : false}
                     >
                       {item?.currentStage}
                     </button>
@@ -312,16 +313,16 @@ export default function CustomerLeadGeneration() {
                   <td>{item?.shipPointName}</td>
                   <td>{item?.currentBrandName}</td>
                   <td>
-                    {/* <button
+                    <button
                       onClick={() => {
                         history.push(
-                          `/call-center-management/customer-inquiry/customerleadgeneration/view/${item?.customerAcquisitionId}`
+                          `/call-center-management/customer-inquiry/customerleadgeneration/followup/${item?.customerAcquisitionId}`
                         );
                       }}
                       className="btn btn-primary"
                     >
-                      View
-                    </button> */}
+                      Action
+                    </button>
                   </td>
                   <td>{item?.isRejected === true ? "Rejected" : "Active"}</td>
                 </tr>
