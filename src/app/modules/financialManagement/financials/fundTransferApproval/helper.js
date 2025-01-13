@@ -1,4 +1,4 @@
-export const approveHandeler = ({ item, onApproveHandler, profileData, cb }) => {
+export const approveHandeler = ({ item, onApproveHandler, profileData, cb, isApproved }) => {
 
 
 
@@ -31,15 +31,14 @@ export const approveHandeler = ({ item, onApproveHandler, profileData, cb }) => 
         intResponsibleEmpId: item.intResponsibleEmpId || 0,
         strResponsibleEmpName: item.strResponsibleEmpName || "",
         isActive: item.isActive ?? true,
-        isApproved: 1,
+        isApproved: isApproved,
         intApproveBy: profileData?.userId || 0,
         dteApproveDatetime: new Date().toISOString(),
         intRequestGLId: item?.intRequestGLId || 0,
         strRequestGlName: item?.strRequestGlName || "",
         strRequestPartnerId: item?.strRequestPartnerId || 0,
         strRequestPartnerName: item?.strRequestPartnerName || "",
-        isTransferCreated: false,
-
+        isTransferCreated: 0,
     }
 
     onApproveHandler(`/fino/FundManagement/CreateOrEditFundTransferRequest`, payload, cb, true);

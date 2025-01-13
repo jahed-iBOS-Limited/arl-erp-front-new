@@ -19,7 +19,7 @@ export default function BankJournalCreateFormContra() {
   const [rowDto, setRowDto] = useState([]);
   const [instrumentNoByResponse, setInstrumentNoByResponse] = useState("");
   const location = useLocation();
-  let selectedJournalTypeId = 6; // For Bank Transfer Only
+  let { selectedJournalTypeId, intRequestToUnitId, selectedFormValues } = location?.state || {}// For Bank Transfer Only
   const params = useParams();
   const [attachmentFile, setAttachmentFile] = useState("");
   const [sbuList, getSbuList] = useAxiosGet();
@@ -33,16 +33,16 @@ export default function BankJournalCreateFormContra() {
   const { profileData, selectedBusinessUnit } = storeData;
 
   const { bankJournalCreate } = useSelector(
-    (state) => state?.localStorage,
+    (state) => state?.localStorage || {},
     shallowEqual
   );
 
-  useEffect(()=>{
-    if(location?.state?.intRequestToUnitId){
-      getSbuList(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${location?.state?.intRequestToUnitId}&Status=true`);
+  useEffect(() => {
+    if (intRequestToUnitId) {
+      getSbuList(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${intRequestToUnitId}&Status=true`);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[location?.state?.intRequestToUnitId])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [intRequestToUnitId])
 
   let netAmount = rowDto?.reduce((total, value) => total + +value?.amount, 0);
 
@@ -209,7 +209,7 @@ export default function BankJournalCreateFormContra() {
             bankJournalId: 0,
             voucherDate: values?.transactionDate,
             accountId: +profileData?.accountId,
-            businessUnitId: +location?.state?.intRequestToUnitId,
+            businessUnitId: +intRequestToUnitId,
             sbuId: +sbuList[0]?.value || 0,
             bankId: +values?.bankAcc?.bankId,
             bankName: values?.bankAcc?.bankName,
@@ -325,7 +325,7 @@ export default function BankJournalCreateFormContra() {
       {isDisabled && <Loading />}
       <Form
         {...objProps}
-        initData={bankJournalCreate}
+        initData={{ ...bankJournalCreate, ...selectedFormValues }}
         saveHandler={saveHandler}
         setter={setter}
         remover={remover}

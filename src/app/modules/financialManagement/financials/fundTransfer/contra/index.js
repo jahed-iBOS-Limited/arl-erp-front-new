@@ -2,24 +2,25 @@ import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IForm from "../../../../_helper/_form";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import IForm from "../../../../_helper/_form";
+import IDelete from "../../../../_helper/_helperIcons/_delete";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import IView from "../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../_helper/_inputField";
+import Loading from "../../../../_helper/_loading";
+import { _monthLastDate } from "../../../../_helper/_monthLastDate";
+import PaginationSearch from "../../../../_helper/_search";
 import NewSelect from "../../../../_helper/_select";
+import PaginationTable from "../../../../_helper/_tablePagination";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
     transferType: "",
     status: { value: 0, label: "Pending" },
     fromDate: _todayDate(),
-    toDate: _todayDate(),
+    toDate: _monthLastDate(),
 
 };
 export default function Contra({ viewType }) {
