@@ -14,8 +14,15 @@ import IConfirmModal from '../../../_helper/_confirmModal';
 import NewSelect from '../../../_helper/_select';
 import InputField from '../../../_helper/_inputField';
 import IClose from '../../../_helper/_helperIcons/_close';
+import { _todayDate } from '../../../_helper/_todayDate';
 
-const initData = {};
+const initData = {
+  fundTrasferType: { value: 1, label: 'Contra' },
+  fromDate: _todayDate(),
+  toDate: _todayDate(),
+  requestingUnit: { value: 0, label: "All" },
+  status: { value: 1, label: 'Pending' },
+};
 export default function FundTransferApproval({ viewType }) {
   const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
     (state) => {
@@ -26,15 +33,15 @@ export default function FundTransferApproval({ viewType }) {
 
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [gridData, getGridData, loading] = useAxiosGet();
+  const [gridData, getGridData, loading, setGridData] = useAxiosGet();
   const [, onApproveHandler, approveLoader] = useAxiosPost();
 
-  const saveHandler = (values, cb) => {};
+  const saveHandler = (values, cb) => { };
 
   const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     const searchTearm = searchValue ? `&search=${searchValue}` : '';
     getGridData(
-      `/fino/FundManagement/GetFundTransferApprovalPagination?businessUnitId=${selectedBusinessUnit?.value}&viewOrder=desc&isApprove=0&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`,
+      `fino/FundManagement/GetFundTransferApprovalPagination?businessUnitId=${selectedBusinessUnit?.value}&intRequestTypeId=${values?.fundTrasferType?.value}&intRequestToUnitId=${values?.requestingUnit?.value || 0}&isApprove=${values?.status?.value || 0}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
     );
   };
 
@@ -47,14 +54,14 @@ export default function FundTransferApproval({ viewType }) {
   };
 
   useEffect(() => {
-    getLandingData({}, pageNo, pageSize, '');
+    getLandingData(initData, pageNo, pageSize, '');
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={{}}
+      initialValues={initData}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -93,6 +100,7 @@ export default function FundTransferApproval({ viewType }) {
                       label="Fund Transfer Type"
                       onChange={(valueOption) => {
                         setFieldValue('fundTrasferType', valueOption || '');
+                        setGridData([])
                       }}
                       errors={errors}
                       touched={touched}
@@ -107,6 +115,7 @@ export default function FundTransferApproval({ viewType }) {
                       type="date"
                       onChange={(e) => {
                         setFieldValue('fromDate', e.target.value);
+                        setGridData([])
                       }}
                     />
                   </div>
@@ -118,17 +127,19 @@ export default function FundTransferApproval({ viewType }) {
                       type="date"
                       onChange={(e) => {
                         setFieldValue('toDate', e.target.value);
+                        setGridData([])
                       }}
                     />
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
                       name="requestingUnit"
-                      options={businessUnitList}
+                      options={[{ value: 0, label: "All" }, ...businessUnitList]}
                       value={values?.requestingUnit}
                       label="Requesting Unit"
                       onChange={(valueOption) => {
                         setFieldValue('requestingUnit', valueOption);
+                        setGridData([])
                       }}
                     />
                   </div>
@@ -143,6 +154,7 @@ export default function FundTransferApproval({ viewType }) {
                       label="Status"
                       onChange={(valueOption) => {
                         setFieldValue('status', valueOption);
+                        setGridData([])
                       }}
                     />
                   </div>
@@ -178,10 +190,10 @@ export default function FundTransferApproval({ viewType }) {
                           <th>Request Date</th>
                           <th>Request By</th>
                           {values?.fundTrasferType?.value === 2 && (
-                            <th>Request By</th>
+                            <th>Request To</th>
                           )}
-                          <th>From Account</th>
-                          <th>To Account</th>
+                          <th>From Account/GL</th>
+                          <th>To Account/GL</th>
                           <th>Expect Date</th>
                           <th>Amount</th>
                           <th>Responsible</th>
@@ -202,10 +214,10 @@ export default function FundTransferApproval({ viewType }) {
                             </td>
                             <td>{item.strRequestByUnitName}</td>
                             {values?.fundTrasferType?.value === 2 && (
-                              <td>Request To</td>
+                              <td>{item?.strRequestToUnitName}</td>
                             )}
-                            <td>{item.strRequestToUnitName}</td>
-                            <td>{item.strRequestToUnitName}</td>
+                            <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : `${item?.strGivenBankName}-${item?.strGivenBankBranchName}`}</td>
+                            <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? `${item?.strGivenBankName}-${item?.strGivenBankBranchName}` : `${item?.strRequestedBankName}-${item?.strRequestedBankBranchName}`}</td>
                             <td className="text-center">
                               {_dateFormatter(item.dteExpectedDate)}
                             </td>
@@ -213,11 +225,10 @@ export default function FundTransferApproval({ viewType }) {
                             <td>{item.strResponsibleEmpName}</td>
                             <td>{item.strRemarks}</td>
                             <td
-                              className={`bold text-center ${
-                                item.isApproved
-                                  ? 'text-success'
-                                  : 'text-primary'
-                              }`}
+                              className={`bold text-center ${item.isApproved
+                                ? 'text-success'
+                                : 'text-primary'
+                                }`}
                             >
                               {item.isApproved ? 'Approved' : 'Pending'}
                             </td>{' '}
@@ -242,7 +253,7 @@ export default function FundTransferApproval({ viewType }) {
                                           },
                                         });
                                       },
-                                      noAlertFunc: () => {},
+                                      noAlertFunc: () => { },
                                     });
                                   }}
                                 >

@@ -13,6 +13,7 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import { useLocation } from "react-router";
 import { toast } from "react-toastify";
+import { _todayDate } from "../../../../_helper/_todayDate";
 
 
 const initData = {
@@ -239,6 +240,7 @@ export default function ContraCreate() {
                                         name="expectedDate"
                                         type="date"
                                         onChange={(e) => setFieldValue("expectedDate", e.target.value)}
+                                        min={_todayDate()}
                                     />
                                 </div>
 

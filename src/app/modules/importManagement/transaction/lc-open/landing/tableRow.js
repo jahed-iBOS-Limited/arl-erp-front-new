@@ -309,7 +309,7 @@ const TableRow = () => {
                                 <span>
                                   <OverlayTrigger
                                     overlay={
-                                      <Tooltip id="cs-icon">Approve</Tooltip>
+                                      <Tooltip id="cs-icon">Complete</Tooltip>
                                     }
                                   >
                                     <i
@@ -317,8 +317,8 @@ const TableRow = () => {
                                       aria-hidden="true"
                                       onClick={() => {
                                         IConfirmModal({
-                                          title: `LC Approve`,
-                                          message: `Are you sure to approve LC: ${item?.lcnumber}?`,
+                                          title: `LC Complete`,
+                                          message: `Are you sure to complete LC: ${item?.lcnumber}?`,
                                           yesAlertFunc: () => {
                                             saveApproveLcOpen(
                                               `/imp/LetterOfCredit/LetterOfCreditComplete?LCId=${item?.lcid}&Lcnumber=${item?.lcnumber}`,
