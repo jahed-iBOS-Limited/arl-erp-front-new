@@ -79,7 +79,7 @@ export default function TdsVdsJvDataTable({
                 <th style={{ minWidth: '75px' }}>Complete Date</th>
                 <th style={{ minWidth: '120px' }}>Bill Code</th>
                 <th style={{ minWidth: '120px' }}>Partner Name</th>
-                <th style={{ minWidth: '130px' }}>Request Amount</th>
+                <th style={{ minWidth: '130px' }}>Bill Amount</th>
                 <th style={{ minWidth: '70px' }}>TDS Amount</th>
                 <th style={{ minWidth: '70px' }}>VDS Amount</th>
                 <th style={{ minWidth: '70px' }}>Challan No</th>
@@ -148,6 +148,21 @@ export default function TdsVdsJvDataTable({
                     </tr>
                   );
                 })}
+                 <tr>
+      <td colSpan={5} className="text-right font-weight-bold">
+        Total:
+      </td>
+      <td className="text-center" style={{ fontSize: 11 }}>
+        {/* Optional: Add total Bill Amount if needed */}
+      </td>
+      <td className="text-center" style={{ fontSize: 11 }}>
+        {editableData.reduce((sum, item) => sum + (item.tdsamount || 0), 0)}
+      </td>
+      <td className="text-center" style={{ fontSize: 11 }}>
+        {editableData.reduce((sum, item) => sum + (item.vdsamount || 0), 0)}
+      </td>
+      <td colSpan={2}></td>
+    </tr>
             </tbody>
           </table>
         </div>
