@@ -94,18 +94,23 @@ export default function ContraCreate() {
             "strRequestToUnitName": selectedBusinessUnit?.label,
             "dteRequestDate": new Date().toISOString(),
             "numAmount": values?.requestAmount || 0,
-            "intRequestedBankId": values?.toBankName?.value || 0,
-            "strRequestedBankName": values?.toBankName?.label || "",
+            "intRequestedBankId": values?.toBankName?.bankId || 0,
+            "strRequestedBankName": values?.toBankName?.bankName || "",
             "intRequestedBankBranchId": values?.toBankName?.bankBranch_Id || 0,
             "strRequestedBankBranchName": values?.toBankName?.bankBranchName || "",
             "strRequestedBankAccountNumber": values?.toBankName?.bankAccNo || "",
-            "strRequestedBankAccountName": values?.toBankName?.accountName || "",
-            "intGivenBankId": values?.fromBankName?.value || 0,
-            "strGivenBankName": values?.fromBankName?.label || "",
+            "strRequestedBankAccountName": values?.toBankName?.label || "",
+            "intRequestedBankAccountId": values?.toBankName?.value || 0,
+            "intGivenBankId": values?.fromBankName?.bankId || 0,
+            "strGivenBankName": values?.fromBankName?.bankName || "",
             "intGivenBankBranchId": values?.fromBankName?.bankBranch_Id || 0,
             "strGivenBankBranchName": values?.fromBankName?.bankBranchName || "",
             "strGivenBankAccountNumber": values?.fromBankName?.bankAccNo || "",
-            "strGivenBankAccountName": values?.fromBankName?.accountName || "",
+            "strGivenBankAccountName": values?.fromBankName?.label || "",
+            "strGivenBankAccountId": values?.fromBankName?.value || 0,
+            "intGivenGlid": values?.fromBankName?.generalLedgerId || 0,
+            "strGivenGlName": values?.fromBankName?.generalLedgerName || "",
+            "strGivenGlCode": values?.fromBankName?.generalLedgerCode || "",
             "strRemarks": values?.remarks || "",
             "dteExpectedDate": values?.expectedDate,
             "intResponsibleEmpId": values?.responsiblePerson?.value || 0,
@@ -115,6 +120,7 @@ export default function ContraCreate() {
             "intUpdateBy": profileData?.userId,
             intRequestGLId: values?.gl?.value || 0,
             strRequestGlName: values?.gl?.label || "",
+            strRequestGlCode: values?.transferType?.value === 1 ? values?.toBankName?.generalLedgerCode : values?.gl?.strGeneralLedgerCode || ""
 
         }
         onCreateHandler(`/fino/FundManagement/CreateOrEditFundTransferRequest`, payload, cb, true,
@@ -184,7 +190,7 @@ export default function ContraCreate() {
 
                                     <NewSelect
                                         name="gl"
-                                        options={[{ value: 157, label: "Cash in Hand" }]}
+                                        options={[{ value: 157, label: "Cash in Hand", strGeneralLedgerCode: "1130001" }]}
                                         value={values?.gl}
                                         label={"Select GL"}
                                         onChange={(valueOption) => setFieldValue("gl", valueOption)}
@@ -209,7 +215,7 @@ export default function ContraCreate() {
 
                                     <NewSelect
                                         name="gl"
-                                        options={[{ value: 157, label: "Cash in Hand" }]}
+                                        options={[{ value: 157, label: "Cash in Hand", strGeneralLedgerCode: "1130001" }]}
                                         value={values?.gl}
                                         label={"Select GL"}
                                         onChange={(valueOption) => setFieldValue("gl", valueOption)}

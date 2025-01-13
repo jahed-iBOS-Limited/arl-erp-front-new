@@ -445,7 +445,7 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <InputField
                       label="Copy Doc RCV"
-                      type="date-time"
+                      type="datetime-local"
                       name="copyDocRcv"
                       value={values?.copyDocRcv}
                       onChange={(e) => {
