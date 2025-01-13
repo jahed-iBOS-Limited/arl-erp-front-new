@@ -114,6 +114,7 @@ function CreateCustomerLeadGeneration() {
           transportZoneId: values?.thana?.value || 0,
           // shipToPartnerId: values?.shipPoint?.value || 0,
           shipToPartnerName: values?.shipToPartnerName || "",
+          shipToPartnerAddress: values?.shipToPartnerAddress || "",
           businessPartnerId: 0,
           referenceId: values?.reference?.value || 0,
           referenceName: values?.reference?.label || "",
@@ -163,9 +164,9 @@ function CreateCustomerLeadGeneration() {
     } else if (data.currentStage === "Prospect") {
       nextStage = "Lead";
     } else if (data.currentStage === "Lead") {
-      nextStage = "Client";
-    } else if (data.currentStage === "Client") {
       nextStage = "Customer";
+    } else if (data.currentStage === "Customer") {
+      nextStage = "Client";
     } else {
       nextStage = data?.currentStage;
     }
@@ -185,6 +186,7 @@ function CreateCustomerLeadGeneration() {
         transportZoneId: values?.thana?.value || 0,
         // shipToPartnerId: values?.shipPoint?.value || 0,
         shipToPartnerName: values?.shipToPartnerName || "",
+        shipToPartnerAddress: values?.shipToPartnerAddress || "",
         businessPartnerId: 0,
         referenceId: values?.reference?.value || 0,
         referenceName: values?.reference?.label || "",
