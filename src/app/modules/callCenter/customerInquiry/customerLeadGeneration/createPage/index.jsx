@@ -1,8 +1,9 @@
-import { Form, Formik } from "formik";
-import React from "react";
 import { Button } from "@material-ui/core";
 import axios from "axios";
+import { Form, Formik } from "formik";
+import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -16,7 +17,6 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../../_helper/TextArea";
-import { useParams } from "react-router";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -44,8 +44,10 @@ const validationSchema = Yup.object().shape({
   //   value: Yup.number().required("Thana is required"),
   //   label: Yup.string().required("Thana is required"),
   // }),
-  shop: Yup.string().required("Shop is required"),
-  retailShopAddress: Yup.string().required("Retail Shop Address is required"),
+  shipToPartnerName: Yup.string().required("Shop is required"),
+  shipToPartnerAddress: Yup.string().required(
+    "Retail Shop Address is required"
+  ),
   //   businessPartner: Yup.string().required("Business Partner is required"),
   //   deliveryAddress: Yup.string().required("Delivery Address is required"),
   //   sourceOrAdvertise: Yup.object().shape({
@@ -85,7 +87,9 @@ function CreateCustomerLeadGeneration() {
   const [areaDDL, getAreaDDL, , setAreaDDL] = useAxiosGet();
   const [territoryDDL, getTerritoryDDL, , setTerritoryDDL] = useAxiosGet();
   const [, SaveCustomerLeadGeneration, isLoading] = useAxiosPost();
+  const [, GetCustomerLeadById, isEditLoading] = useAxiosGet();
 
+  // create handler
   const saveHandler = (values, cb) => {
     if (id) {
       updateHandler();
@@ -105,7 +109,7 @@ function CreateCustomerLeadGeneration() {
           districtId: values?.district?.value || 0,
           transportZoneId: values?.thana?.value || 0,
           // shipToPartnerId: values?.shipPoint?.value || 0,
-          shipToPartnerName: values?.shop || "",
+          shipToPartnerName: values?.shipToPartnerName || "",
           businessPartnerId: 0,
           referenceId: values?.reference?.value || 0,
           referenceName: values?.reference?.label || "",
@@ -145,6 +149,7 @@ function CreateCustomerLeadGeneration() {
       );
     }
   };
+  // update handler
   const updateHandler = (isRejected = false) => {
     const values = formikRef.current.values;
     const data = {
@@ -159,6 +164,8 @@ function CreateCustomerLeadGeneration() {
       partName = "Client";
     } else if (data.partName === "Client") {
       partName = "Customer";
+    } else {
+      partName = data?.partName;
     }
 
     const payload = {
@@ -176,7 +183,7 @@ function CreateCustomerLeadGeneration() {
         districtId: values?.district?.value || 0,
         transportZoneId: values?.thana?.value || 0,
         // shipToPartnerId: values?.shipPoint?.value || 0,
-        shipToPartnerName: values?.shop || "",
+        shipToPartnerName: values?.shipToPartnerName || "",
         businessPartnerId: 0,
         referenceId: values?.reference?.value || 0,
         referenceName: values?.reference?.label || "",
@@ -204,43 +211,6 @@ function CreateCustomerLeadGeneration() {
       }),
     };
   };
-
-  React.useEffect(() => {
-    getDivisionDDL("/oms/TerritoryInfo/GetDivisionDDL?countryId=18");
-    getStoriedDDL(
-      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=5&referenceId=5`
-    );
-    getProjectStatusDDL(
-      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${
-        selectedBusinessUnit?.value === 4 ? 4 : 0
-      }&typeId=2&referenceId=2`
-    );
-    getSourceOrAdvertiseDDL(
-      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=4&referenceId=4`
-    );
-    getBrandDDL(
-      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=3&referenceId=3`
-    );
-    getShipPointDDL(
-      `/wms/ShipPoint/GetShipPointDDL?accountId=1&businessUnitId=${selectedBusinessUnit?.value}`
-    );
-    // /oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=4&userId=204856&typeName=Region&distributionChannelId=46
-
-    getRegionDDL(
-      `/oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=${selectedBusinessUnit?.value}&userId=${userId}&typeName=Region&distributionChannelId=0`,
-      (data) => {
-        const modifyData = data?.map((item) => {
-          return {
-            ...item,
-            value: item?.regionId,
-            label: item?.regionName,
-          };
-        });
-        setRegionDDL(modifyData);
-      }
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const getDistrict = (divisionId) => {
     getDistrictDDL(
@@ -308,6 +278,149 @@ function CreateCustomerLeadGeneration() {
         return res?.data;
       });
   };
+  // get all ddl
+  React.useEffect(() => {
+    getDivisionDDL("/oms/TerritoryInfo/GetDivisionDDL?countryId=18");
+    getStoriedDDL(
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=5&referenceId=5`
+    );
+    getProjectStatusDDL(
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${
+        selectedBusinessUnit?.value === 4 ? 4 : 0
+      }&typeId=2&referenceId=2`
+    );
+    getSourceOrAdvertiseDDL(
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=4&referenceId=4`
+    );
+    getBrandDDL(
+      `/oms/SalesQuotation/GetReferraSourceDDL?businessUnitId=${selectedBusinessUnit?.value}&typeId=3&referenceId=3`
+    );
+    getShipPointDDL(
+      `/wms/ShipPoint/GetShipPointDDL?accountId=1&businessUnitId=${selectedBusinessUnit?.value}`
+    );
+    // /oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=4&userId=204856&typeName=Region&distributionChannelId=46
+
+    getRegionDDL(
+      `/oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=${selectedBusinessUnit?.value}&userId=${userId}&typeName=Region&distributionChannelId=0`,
+      (data) => {
+        const modifyData = data?.map((item) => {
+          return {
+            ...item,
+            value: item?.regionId,
+            label: item?.regionName,
+          };
+        });
+        setRegionDDL(modifyData);
+      }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // get by id for edit
+  React.useEffect(() => {
+    if (id) {
+      GetCustomerLeadById(
+        `/oms/SalesQuotation/GetCustomerAcquisitionById?customerAcquisitionId=${id}`,
+        (data) => {
+          formikRef.current.setValues({
+            name: data?.customerName || "",
+            phone: data?.customerPhone || "",
+            email: data?.customerEmail || "",
+            storied: data?.storied
+              ? {
+                  value: data?.storiedId || 0,
+                  label: data?.storied || "",
+                }
+              : "",
+            projectStatus: data?.projectStatusId
+              ? {
+                  value: data?.projectStatusId || 0,
+                  label: data?.projectStatusName || "",
+                }
+              : "",
+            division: data?.divisionId
+              ? {
+                  value: data?.divisionId || 0,
+                  label: data?.divisionName || "",
+                }
+              : "",
+            district: data?.districtId
+              ? {
+                  value: data?.districtId || 0,
+                  label: data?.districtName || "",
+                }
+              : "",
+            thana: data?.transportZoneId
+              ? {
+                  value: data?.transportZoneId || 0,
+                  label: data?.transportZoneName || "",
+                }
+              : "",
+            shipToPartnerName: data?.shipToPartnerName || "",
+            shipToPartnerAddress: data?.shipToPartnerAddress || "",
+            businessPartner: "", // missing when save data
+            deliveryAddress: data?.deliveryAddress || "",
+            sourceOrAdvertise: data?.referralSource
+              ? {
+                  value: data?.referralSource || 0,
+                  label: data?.referralSource || "",
+                }
+              : "",
+            reference: data?.referenceId
+              ? {
+                  value: data?.referenceId || 0,
+                  label: data?.referenceName || "",
+                }
+              : "",
+            brand: data?.currentBrandId
+              ? {
+                  value: data?.currentBrandId || 0,
+                  label: data?.currentBrandName || "",
+                }
+              : "",
+            shipPoint: data?.shipPointId
+              ? {
+                  value: data?.shipPointId || 0,
+                  label: data?.shipPointName || "",
+                }
+              : "",
+            region: data?.regionId
+              ? {
+                  value: data?.regionId || 0,
+                  label: data?.regionName || "",
+                }
+              : "",
+            area: data?.areaId
+              ? {
+                  value: data?.areaId || 0,
+                  label: data?.areaName || "",
+                }
+              : "",
+            territory: data?.territoryId
+              ? {
+                  value: data?.territoryId || 0,
+                  label: data?.territoryName || "",
+                }
+              : "",
+            row: data?.rowList?.map((item) => {
+              return {
+                item: {
+                  ...item,
+                  value: item?.itemId || 0,
+                  label: item?.itemName || "",
+                  uomId: item?.uomId || 0,
+                  uomName: item?.uomName || "",
+                },
+                uom: item?.uomName || "",
+                quantity: item?.quantity || 0,
+              };
+            }),
+          });
+        }
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
   return (
     <ICustomCard
       title={"Create Customer Lead Generation"}
@@ -349,8 +462,8 @@ function CreateCustomerLeadGeneration() {
           division: "",
           district: "",
           thana: "",
-          shop: "",
-          retailShopAddress: "",
+          shipToPartnerName: "",
+          shipToPartnerAddress: "",
           businessPartner: "",
           deliveryAddress: "",
           sourceOrAdvertise: "",
@@ -507,37 +620,37 @@ function CreateCustomerLeadGeneration() {
                       touched={touched}
                     />
                   </div>
-                  {/* shop */}
+                  {/* shipToPartnerName */}
                   <div className="col-lg-3">
                     <InputField
                       label="Shop"
                       type="text"
-                      name="shop"
-                      value={values?.shop}
+                      name="shipToPartnerName"
+                      value={values?.shipToPartnerName}
                       onChange={(e) => {
-                        setFieldValue("shop", e.target.value);
+                        setFieldValue("shipToPartnerName", e.target.value);
                       }}
                     />
                   </div>
-                  {/* retailShopAddress */}
+                  {/* shipToPartnerAddress */}
                   <div className="col-lg-6">
                     {/* <InputField
                       label="Retail Shop Address"
                       type="text"
-                      name="retailShopAddress"
-                      value={values?.retailShopAddress}
+                      name="shipToPartnerAddress"
+                      value={values?.shipToPartnerAddress}
                       onChange={(e) => {
-                        setFieldValue("retailShopAddress", e.target.value);
+                        setFieldValue("shipToPartnerAddress", e.target.value);
                       }}
                     /> */}
-                    <label htmlFor="retailShopAddress">
+                    <label htmlFor="shipToPartnerAddress">
                       Retail Shop Address
                     </label>
 
                     <TextArea
                       label="Retail Shop Address"
-                      value={values?.retailShopAddress}
-                      name="retailShopAddress"
+                      value={values?.shipToPartnerAddress}
+                      name="shipToPartnerAddress"
                       placeholder="Retail Shop Address"
                       type="text"
                     />
@@ -820,3 +933,75 @@ function CreateCustomerLeadGeneration() {
 }
 
 export default CreateCustomerLeadGeneration;
+// {
+//   "customerAcquisitionId": 10,
+//   "customerName": "Md Abdul Kader",
+//   "customerEmail": "kader@ibos.io",
+//   "customerPhone": "01700000000",
+//   "storied": "Poultry",
+//   "projectStatusId": 144,
+//   "projectStatusName": "Planning/Initiation",
+//   "divisionId": 3,
+//   "divisionName": "Dhaka",
+//   "districtId": 18,
+//   "districtName": "Dhaka",
+//   "transportZoneId": 5602,
+//   "transportZoneName": "Dhaka Metro [ Dhaka ],AAFL",
+//   "shipToPartnerId": null,
+//   "shipToPartnerName": "Shop 4",
+//   "shipToPartnerAddress": "",
+//   "businessPartnerId": 0,
+//   "businessPartnerName": "",
+//   "referenceId": 0,
+//   "referenceName": "",
+//   "deliveryAddress": "Lalmatia mohammad pur",
+//   "referralSource": "",
+//   "currentStage": "Suspect",
+//   "totalItem": 2,
+//   "totalQuantity": 33,
+//   "isSuspect": true,
+//   "isProspect": false,
+//   "isLead": false,
+//   "isCustomer": false,
+//   "isClient": false,
+//   "isRejected": false,
+//   "territoryId": 25118,
+//   "territoryName": "Rajshahi",
+//   "areaId": 25102,
+//   "areaName": "Rajshahi-1",
+//   "regionId": 25070,
+//   "regionName": "Rajshahi",
+//   "shipPointId": 542,
+//   "shipPointName": "AAFL Bogura Warehouse",
+//   "currentBrandId": 0,
+//   "currentBrandName": null,
+//   "shopName": "Shop 4",
+//   "actionBy": 521235,
+//   "actionByName": "Md. Monirul Islam ",
+//   "updatedBy": null,
+//   "updatedByName": null,
+//   "rowList": [
+//     {
+//       "rowId": 13,
+//       "customerAcquisitionId": 10,
+//       "itemId": 192065,
+//       "itemName": "Pre-Starter (Pabda/Gushla/Sing/Magur/Shoal) (503) 25 Kg",
+//       "itemCode": "14412306",
+//       "uomId": 132,
+//       "uomName": "Bag",
+//       "isActive": false,
+//       "quantity": 10
+//     },
+//     {
+//       "rowId": 14,
+//       "customerAcquisitionId": 10,
+//       "itemId": 184363,
+//       "itemName": "Unusable Iron Scrap",
+//       "itemCode": "14412152",
+//       "uomId": 55,
+//       "uomName": "Kilogram",
+//       "isActive": false,
+//       "quantity": 23
+//     }
+//   ]
+// }
