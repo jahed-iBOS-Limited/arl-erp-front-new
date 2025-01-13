@@ -9,6 +9,7 @@ import ComplainAndSolutionTable from "./complainAndSolution/landing/table";
 import CustomerLeadGeneration from "./customerLeadGeneration";
 import CreateCustomerLeadGeneration from "./customerLeadGeneration/createPage";
 import DeliveryInquiryLanding from "./deliveryInquiry/table/table";
+import FollowUp from "./customerLeadGeneration/followUp";
 
 export default function CustomerInquiryPages() {
   return (
@@ -30,6 +31,10 @@ export default function CustomerInquiryPages() {
       <ContentRoute
         path="/call-center-management/customer-inquiry/complainnsolution"
         component={ComplainAndSolutionTable}
+      />
+      <ContentRoute
+        path="/call-center-management/customer-inquiry/customerleadgeneration/followup/:id"
+        component={FollowUp}
       />
       <ContentRoute
         path="/call-center-management/customer-inquiry/customerleadgeneration/update/:id"
