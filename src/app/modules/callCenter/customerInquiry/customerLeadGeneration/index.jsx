@@ -37,8 +37,8 @@ const STAGE_STATUS = [
   { value: 1, label: "Suspect" },
   { value: 2, label: "Prospect" },
   { value: 3, label: "Lead" },
-  { value: 4, label: "Client" },
-  { value: 5, label: "Customer" },
+  { value: 4, label: "Customer" },
+  { value: 5, label: "Client" },
 ];
 
 export default function CustomerLeadGeneration() {
