@@ -1,15 +1,19 @@
 import axios from "axios";
 import { Form, Formik } from "formik";
+import { DropzoneDialogBase } from "material-ui-dropzone";
 import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
+
 import ICustomCard from "../../../../_helper/_customCard";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
+import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import { attachmentUpload } from "./helper";
 const validationSchema = Yup.object().shape({
   activityDateTime: Yup.string().required("Date is required"),
   description: Yup.string().required("Agenda is required"),
@@ -22,12 +26,15 @@ const validationSchema = Yup.object().shape({
 });
 export default function CallTab({ data }) {
   const formikRef = React.useRef(null);
+  const dispatch = useDispatch();
 
   const {
     profileData: { userId },
     selectedBusinessUnit,
   } = useSelector((state) => state?.authData || {}, shallowEqual);
 
+  const [open, setOpen] = React.useState(false);
+  const [fileObjects, setFileObjects] = React.useState([]);
   const [scheduleTypeDDL, getScheduleTypeDDL] = useAxiosGet();
   const [, SaveCustomerFollowUpActivity, isLoading] = useAxiosPost();
 
@@ -46,7 +53,7 @@ export default function CallTab({ data }) {
       activityDateTime: values?.activityDateTime || new Date(),
       description: values?.description || "",
       outcome: values?.outcome || "",
-      attachment: "",
+      attachment: values?.documentFileId || "",
       actionBy: userId || 0,
 
       scheduleTypeId: values?.scheduleTypeName?.value || 0,
@@ -102,6 +109,7 @@ export default function CallTab({ data }) {
           scheduleTypeName: "",
           followUpDate: "",
           attachment: "",
+          documentFileId: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -197,9 +205,59 @@ export default function CallTab({ data }) {
                       }}
                     />
                   </div>
+                  <div className="col-lg-6 mt-5">
+                    <button
+                      className="btn btn-primary mr-2 "
+                      type="button"
+                      onClick={() => setOpen(true)}
+                    >
+                      Attachment
+                    </button>
+                    {values?.documentFileId && (
+                      <button
+                        className="btn btn-primary"
+                        type="button"
+                        onClick={() => {
+                          dispatch(
+                            getDownlloadFileView_Action(values?.documentFileId)
+                          );
+                        }}
+                      >
+                        Attachment View
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </Form>
+            <DropzoneDialogBase
+              filesLimit={1}
+              acceptedFiles={["image/*", "application/pdf"]}
+              fileObjects={fileObjects}
+              cancelButtonText={"cancel"}
+              submitButtonText={"submit"}
+              maxFileSize={1000000}
+              open={open}
+              onAdd={(newFileObjs) => {
+                setFileObjects([].concat(newFileObjs));
+              }}
+              onDelete={(deleteFileObj) => {
+                const newData = fileObjects.filter(
+                  (item) => item.file.name !== deleteFileObj.file.name
+                );
+                setFileObjects(newData);
+              }}
+              onClose={() => setOpen(false)}
+              onSave={() => {
+                setOpen(false);
+                attachmentUpload(fileObjects).then((data) => {
+                  const documentFileId = data?.[0]?.id;
+                  setFieldValue("documentFileId", documentFileId || "");
+                });
+              }}
+              showPreviews={true}
+              showFileNamesInPreview={true}
+            />
           </>
         )}
       </Formik>
