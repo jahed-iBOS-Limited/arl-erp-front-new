@@ -313,16 +313,16 @@ export default function CustomerLeadGeneration() {
                   <td>{item?.shipPointName}</td>
                   <td>{item?.currentBrandName}</td>
                   <td>
-                    {/* <button
+                    <button
                       onClick={() => {
                         history.push(
-                          `/call-center-management/customer-inquiry/customerleadgeneration/view/${item?.customerAcquisitionId}`
+                          `/call-center-management/customer-inquiry/customerleadgeneration/followup/${item?.customerAcquisitionId}`
                         );
                       }}
                       className="btn btn-primary"
                     >
-                      View
-                    </button> */}
+                      Action
+                    </button>
                   </td>
                   <td>{item?.isRejected === true ? "Rejected" : "Active"}</td>
                 </tr>
