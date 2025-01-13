@@ -15,13 +15,14 @@ import NewSelect from '../../../_helper/_select';
 import InputField from '../../../_helper/_inputField';
 import IClose from '../../../_helper/_helperIcons/_close';
 import { _todayDate } from '../../../_helper/_todayDate';
+import { _monthLastDate } from '../../../_helper/_monthLastDate';
 
 const initData = {
   fundTrasferType: { value: 1, label: 'Contra' },
   fromDate: _todayDate(),
-  toDate: _todayDate(),
+  toDate: _monthLastDate(),
   requestingUnit: { value: 0, label: "All" },
-  status: { value: 1, label: 'Pending' },
+  status: { value: 0, label: 'Pending' },
 };
 export default function FundTransferApproval({ viewType }) {
   const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
@@ -147,8 +148,9 @@ export default function FundTransferApproval({ viewType }) {
                     <NewSelect
                       name="status"
                       options={[
-                        { value: 1, label: 'Pending' },
-                        { value: 2, label: 'Approved' },
+                        { value: 0, label: 'Pending' },
+                        { value: 1, label: 'Approved' },
+                        { value: 2, label: 'Rejected' },
                       ]}
                       value={values?.status}
                       label="Status"
@@ -171,7 +173,7 @@ export default function FundTransferApproval({ viewType }) {
                     </button>
                   </div>
                 </div>
-                {gridData?.itemList?.length > 0 && (
+                {gridData?.data?.length > 0 && (
                   <div className="my-3">
                     <PaginationSearch
                       placeholder="Search..."
@@ -225,19 +227,52 @@ export default function FundTransferApproval({ viewType }) {
                             <td>{item.strResponsibleEmpName}</td>
                             <td>{item.strRemarks}</td>
                             <td
-                              className={`bold text-center ${item.isApproved
+                              className={`bold text-center ${item.isApproved === 1
                                 ? 'text-success'
-                                : 'text-primary'
+                                : item.isApproved === 2
+                                  ? 'text-danger'
+                                  : 'text-warning'
                                 }`}
                             >
-                              {item.isApproved ? 'Approved' : 'Pending'}
-                            </td>{' '}
+                              {item.isApproved === 1
+                                ? 'Approved'
+                                : item.isApproved === 2
+                                  ? 'Rejected'
+                                  : 'Pending'}
+                            </td>
+
                             <td className="text-center">
-                              <div className="d-flex justify-content-between">
-                                <span
-                                  onClick={() => {
+                              {!item.isApproved && (
+                                <div className="d-flex justify-content-between">
+                                  <span
+                                    onClick={() => {
+                                      IConfirmModal({
+                                        message: `Are you sure to approve?`,
+                                        yesAlertFunc: () => {
+                                          approveHandeler({
+                                            item,
+                                            onApproveHandler,
+                                            profileData,
+                                            cb: () => {
+                                              getLandingData(
+                                                values,
+                                                pageNo,
+                                                pageSize,
+                                                '',
+                                              );
+                                            },
+                                            isApproved: 1
+                                          });
+                                        },
+                                        noAlertFunc: () => { },
+                                      });
+                                    }}
+                                  >
+                                    <IApproval title={'Approve'} />
+                                  </span>
+                                  <span onClick={() => {
                                     IConfirmModal({
-                                      message: `Are you sure to approve?`,
+                                      message: `Are you sure to reject?`,
                                       yesAlertFunc: () => {
                                         approveHandeler({
                                           item,
@@ -245,27 +280,25 @@ export default function FundTransferApproval({ viewType }) {
                                           profileData,
                                           cb: () => {
                                             getLandingData(
-                                              {},
+                                              values,
                                               pageNo,
                                               pageSize,
                                               '',
                                             );
                                           },
+                                          isApproved: 2
                                         });
                                       },
                                       noAlertFunc: () => { },
                                     });
-                                  }}
-                                >
-                                  <IApproval title={'Approve'} />
-                                </span>
-                                <span className='ml-1'>
-                                  <IClose
-                                    title={'Reject'}
-                                    styles={{ fontSize: '16px' }}
-                                  />
-                                </span>
-                              </div>
+                                  }} className='ml-1'>
+                                    <IClose
+                                      title={'Reject'}
+                                      styles={{ fontSize: '16px' }}
+                                    />
+                                  </span>
+                                </div>
+                              )}
                             </td>
                           </tr>
                         ))}

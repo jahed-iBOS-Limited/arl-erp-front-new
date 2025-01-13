@@ -1,42 +1,53 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IAdd from "../../../_helper/_helperIcons/_add";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory } from "react-router";
-import InputField from "../../../_helper/_inputField";
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IAdd from '../../../_helper/_helperIcons/_add';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _monthLastDate } from '../../../_helper/_monthLastDate';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+
+
 
 const initData = {
-
+    fundTrasferType: { value: 1, label: 'Contra' },
+    fromDate: _todayDate(),
+    toDate: _monthLastDate(),
+    requestingUnit: { value: 0, label: "All" },
+    status: { value: 0, label: 'Pending' },
 };
-export default function FundTransferCreate({ viewType }) {
-    const { selectedBusinessUnit, businessUnitList } = useSelector((state) => {
-        return state.authData;
-    }, shallowEqual);
+export default function FundTransferApproval({ viewType }) {
+    const { selectedBusinessUnit, businessUnitList } = useSelector(
+        (state) => {
+            return state.authData;
+        },
+        shallowEqual,
+    );
 
     let history = useHistory()
+
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(15);
-    const [gridData, getGridData, loading] = useAxiosGet();
-
-
+    const [gridData, getGridData, loading, setGridData] = useAxiosGet();
 
     const saveHandler = (values, cb) => { };
 
-    const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
-        const searchTearm = searchValue ? `&search=${searchValue}` : "";
+    const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
+        const searchTearm = searchValue ? `&search=${searchValue}` : '';
+        const isTransferCreated = values?.status?.value === null ? "" : `&isTransferCreated=${values?.status?.value}`;
         getGridData(
-            `/fino/FundManagement/GetFundTransferApprovalPagination?businessUnitId=${selectedBusinessUnit?.value}&viewOrder=desc&isApprove=1&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
+            `fino/FundManagement/GetFundTransferApprovaListForCreatePagination?businessUnitId=${selectedBusinessUnit?.value}&intRequestTypeId=${values?.fundTrasferType?.value}&intRequestToUnitId=${values?.requestingUnit?.value || 0}&isApprove=1&fromDate=${values?.fromDate}&toDate=${values?.toDate}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}${isTransferCreated}`
         );
     };
 
-    const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+    const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
         getLandingData(values, pageNo, pageSize, searchValue);
     };
 
@@ -45,14 +56,14 @@ export default function FundTransferCreate({ viewType }) {
     };
 
     useEffect(() => {
-        getLandingData({}, pageNo, pageSize, "");
+        getLandingData(initData, pageNo, pageSize, '');
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []);
     return (
         <Formik
             enableReinitialize={true}
-            initialValues={{}}
+            initialValues={initData}
             // validationSchema={{}}
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 saveHandler(values, () => {
@@ -83,18 +94,21 @@ export default function FundTransferCreate({ viewType }) {
                                     <div className="col-lg-3">
                                         <NewSelect
                                             name="fundTrasferType"
-                                            options={[{ value: 1, label: "Contra" }, { value: 2, label: "Inter Company" }]}
+                                            options={[
+                                                { value: 1, label: 'Contra' },
+                                                { value: 2, label: 'Inter Company' },
+                                            ]}
                                             value={values?.fundTrasferType}
                                             label="Fund Transfer Type"
                                             onChange={(valueOption) => {
-                                                setFieldValue("fundTrasferType", valueOption || "");
-
-                                            }
-                                            }
+                                                setFieldValue('fundTrasferType', valueOption || '');
+                                                setGridData([])
+                                            }}
                                             errors={errors}
                                             touched={touched}
                                         />
                                     </div>
+
                                     <div className="col-lg-3">
                                         <InputField
                                             value={values?.fromDate}
@@ -102,7 +116,8 @@ export default function FundTransferCreate({ viewType }) {
                                             name="fromDate"
                                             type="date"
                                             onChange={(e) => {
-                                                setFieldValue("fromDate", e.target.value);
+                                                setFieldValue('fromDate', e.target.value);
+                                                setGridData([])
                                             }}
                                         />
                                     </div>
@@ -113,42 +128,44 @@ export default function FundTransferCreate({ viewType }) {
                                             name="toDate"
                                             type="date"
                                             onChange={(e) => {
-                                                setFieldValue("toDate", e.target.value);
+                                                setFieldValue('toDate', e.target.value);
+                                                setGridData([])
                                             }}
                                         />
                                     </div>
                                     <div className="col-lg-3">
                                         <NewSelect
                                             name="requestingUnit"
-                                            options={businessUnitList}
+                                            options={[{ value: 0, label: "All" }, ...businessUnitList]}
                                             value={values?.requestingUnit}
                                             label="Requesting Unit"
                                             onChange={(valueOption) => {
-                                                setFieldValue("requestingUnit", valueOption);
+                                                setFieldValue('requestingUnit', valueOption);
+                                                setGridData([])
                                             }}
-
                                         />
                                     </div>
                                     <div className="col-lg-3">
                                         <NewSelect
                                             name="status"
                                             options={[
-                                                { value: 1, label: "Pending" },
-                                                { value: 2, label: "Complete" },
+                                                { value: null, label: 'All' },
+                                                { value: 0, label: 'Pending' },
+                                                { value: 1, label: 'Complete' },
                                             ]}
                                             value={values?.status}
                                             label="Status"
                                             onChange={(valueOption) => {
-                                                setFieldValue("status", valueOption);
+                                                setFieldValue('status', valueOption);
+                                                setGridData([])
                                             }}
-
                                         />
                                     </div>
 
                                     <div className="col-lg-3">
                                         <button
                                             onClick={() => {
-                                                getLandingData(values, pageNo, pageSize, "");
+                                                getLandingData(values, pageNo, pageSize, '');
                                             }}
                                             type="button"
                                             className="btn btn-primary mt-5"
@@ -157,7 +174,7 @@ export default function FundTransferCreate({ viewType }) {
                                         </button>
                                     </div>
                                 </div>
-                                {gridData?.itemList?.length > 0 && (
+                                {gridData?.data?.length > 0 && (
                                     <div className="my-3">
                                         <PaginationSearch
                                             placeholder="Search..."
@@ -175,9 +192,11 @@ export default function FundTransferCreate({ viewType }) {
                                                     <th>Request Code</th>
                                                     <th>Request Date</th>
                                                     <th>Request By</th>
-                                                    {values?.fundTrasferType?.value === 2 && <th>Request To</th>}
-                                                    <th>From Account</th>
-                                                    <th>To Account</th>
+                                                    {values?.fundTrasferType?.value === 2 && (
+                                                        <th>Request To</th>
+                                                    )}
+                                                    <th>From Account/GL</th>
+                                                    <th>To Account/GL</th>
                                                     <th>Expect Date</th>
                                                     <th>Amount</th>
                                                     <th>Responsible</th>
@@ -190,38 +209,71 @@ export default function FundTransferCreate({ viewType }) {
                                                 {gridData?.data?.map((item, index) => (
                                                     <tr key={index}>
                                                         <td>{item.sl}</td>
-                                                        <td className="text-center">{item.strRequestCode}</td>
-                                                        <td className="text-center">{_dateFormatter(item.dteRequestDate)}</td>
+                                                        <td className="text-center">
+                                                            {item.strRequestCode}
+                                                        </td>
+                                                        <td className="text-center">
+                                                            {_dateFormatter(item.dteRequestDate)}
+                                                        </td>
                                                         <td>{item.strRequestByUnitName}</td>
-                                                        {values?.fundTrasferType?.value === 2 && <td>{item?.strRequestToUnitName}</td>}
+                                                        {values?.fundTrasferType?.value === 2 && (
+                                                            <td>{item?.strRequestToUnitName}</td>
+                                                        )}
                                                         <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : `${item?.strGivenBankName}-${item?.strGivenBankBranchName}`}</td>
                                                         <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? `${item?.strGivenBankName}-${item?.strGivenBankBranchName}` : `${item?.strRequestedBankName}-${item?.strRequestedBankBranchName}`}</td>
-                                                        <td className="text-center">{_dateFormatter(item.dteExpectedDate)}</td>
+                                                        <td className="text-center">
+                                                            {_dateFormatter(item.dteExpectedDate)}
+                                                        </td>
                                                         <td className="text-right">{item.numAmount}</td>
                                                         <td>{item.strResponsibleEmpName}</td>
                                                         <td>{item.strRemarks}</td>
                                                         <td
-                                                            className={`bold text-center ${item.isApproved ? "text-success" : "text-primary"
+                                                            className={`bold text-center ${item.isApproved === 1
+                                                                ? 'text-success'
+                                                                : item.isApproved === 2
+                                                                    ? 'text-danger'
+                                                                    : 'text-warning'
                                                                 }`}
                                                         >
-                                                            {item.isApproved ? "Approved" : "Pending"}
-                                                        </td>                                                        <td className="text-center">
+                                                            {item.isApproved === 1
+                                                                ? 'Approved'
+                                                                : item.isApproved === 2
+                                                                    ? 'Rejected'
+                                                                    : 'Pending'}
+                                                        </td>
+
+                                                        <td className="text-center">
                                                             <div className="d-flex justify-content-around">
-                                                                <span onClick={() => {
-                                                                    if (item?.strTransferBy === "Bank To Bank") {
-                                                                        history.push({
-                                                                            pathname: `/financial-management/financials/fundTransfercreate/bankTrasfer`,
-                                                                            state: item
-                                                                        })
+                                                                <span
+                                                                    onClick={() => {
+                                                                        const selectedFormValues =
+                                                                            item?.strRequestType === "Contra"
+                                                                                ? { transferAmount: item?.numAmount }
+                                                                                : item?.strRequestType === "InterCompanyTransferRequest"
+                                                                                    ? { amount: item?.numAmount }
+                                                                                    : null;
 
-                                                                    } else if (item?.strTransferBy === "Bank To Cash") {
-                                                                        history.push(history.push({
-                                                                            pathname: `/financial-management/financials/fundTransfercreate/cashTrasfer`,
-                                                                            state: item
-                                                                        }))
+                                                                        const baseState = {
+                                                                            ...item,
+                                                                            selectedJournalTypeId: item?.strRequestType === "Contra" ? 6 : 5,
+                                                                            selectedFormValues,
+                                                                        };
 
-                                                                    }
-                                                                }}>
+                                                                        const isBankToBank = item?.strTransferBy === "Bank To Bank";
+                                                                        const isBankToCash = item?.strTransferBy === "Bank To Cash";
+
+                                                                        if (isBankToBank) {
+                                                                            history.push({
+                                                                                pathname: `/financial-management/financials/fundTransfercreate/bankTrasfer`,
+                                                                                state: baseState,
+                                                                            });
+                                                                        } else if (isBankToCash) {
+                                                                            history.push({
+                                                                                pathname: `/financial-management/financials/fundTransfercreate/cashTrasfer`,
+                                                                                state: item,
+                                                                            });
+                                                                        }
+                                                                    }}>
                                                                     <IAdd title={"Create"} />
                                                                 </span>
                                                             </div>

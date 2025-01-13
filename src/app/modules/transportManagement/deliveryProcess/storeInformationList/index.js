@@ -87,7 +87,7 @@ export default function StoreInformationList() {
 
   const burstingQtyUpdate = (values, item) => {
     onComplete(
-      `/oms/LoadingPoint/CompletePacker?shipmentId=${item?.shipmentIde}&actionBy=${userId}&typeId=4&brustingQuantity=${item?.brustingQuantity}`,
+      `/oms/LoadingPoint/CompletePacker?shipmentId=${item?.shipmentId}&actionBy=${userId}&typeId=4&brustingQuantity=${item?.brustingQuantity}`,
       null,
       () => {
         getData(values);
