@@ -4,6 +4,7 @@ import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
 import DeliveryAgentPages from "./configuration/configurationPages";
 import OperationPages from "./operation/operationPages";
 import ReportPages from "./report/reportPages";
+import ChaOperationPages from "./chaOperation/chaOperationPage";
 
 export function CargoManagementPages() {
   return (
@@ -25,6 +26,10 @@ export function CargoManagementPages() {
         <ContentRoute
           path="/cargoManagement/configuration"
           component={DeliveryAgentPages}
+        />
+        <ContentRoute
+          path="/cargoManagement/cha-operation"
+          component={ChaOperationPages}
         />
       </Switch>
     </Suspense>
