@@ -48,7 +48,6 @@ const validationSchema = Yup.object().shape({
   shipToPartnerAddress: Yup.string().required(
     "Retail Shop Address is required"
   ),
-  //   businessPartner: Yup.string().required("Business Partner is required"),
   //   deliveryAddress: Yup.string().required("Delivery Address is required"),
   //   sourceOrAdvertise: Yup.object().shape({
   //     value: Yup.number().required("Source/Advertise is required"),
@@ -87,7 +86,12 @@ function CreateCustomerLeadGeneration() {
   const [areaDDL, getAreaDDL, , setAreaDDL] = useAxiosGet();
   const [territoryDDL, getTerritoryDDL, , setTerritoryDDL] = useAxiosGet();
   const [, SaveCustomerLeadGeneration, isLoading] = useAxiosPost();
-  const [, GetCustomerLeadById, isEditLoading] = useAxiosGet();
+  const [
+    ,
+    UpdateCustomerLeadGeneration,
+    isLoadingUpdateCustomerLeadGeneration,
+  ] = useAxiosPost();
+  const [data, GetCustomerLeadById, isLoadingCustomerLeadById] = useAxiosGet();
 
   // create handler
   const saveHandler = (values, cb) => {
@@ -152,24 +156,21 @@ function CreateCustomerLeadGeneration() {
   // update handler
   const updateHandler = (isRejected = false) => {
     const values = formikRef.current.values;
-    const data = {
-      partName: "Suspect",
-    };
-    let partName = "";
-    if (data.partName === "Suspect") {
-      partName = "Prospect";
-    } else if (data.partName === "Prospect") {
-      partName = "Lead";
-    } else if (data.partName === "Lead") {
-      partName = "Client";
-    } else if (data.partName === "Client") {
-      partName = "Customer";
-    } else {
-      partName = data?.partName;
-    }
 
+    let nextStage = "";
+    if (data.currentStage === "Suspect") {
+      nextStage = "Prospect";
+    } else if (data.currentStage === "Prospect") {
+      nextStage = "Lead";
+    } else if (data.currentStage === "Lead") {
+      nextStage = "Client";
+    } else if (data.currentStage === "Client") {
+      nextStage = "Customer";
+    } else {
+      nextStage = data?.currentStage;
+    }
     const payload = {
-      partName: partName,
+      partName: nextStage,
       header: {
         businessUnitId: selectedBusinessUnit?.value,
         customerAcquisitionId: id,
@@ -192,7 +193,7 @@ function CreateCustomerLeadGeneration() {
         territoryId: values?.territory?.value || 0,
         areaId: values?.area?.value || 0,
         regionId: values?.region?.value || 0,
-        currentStage: partName,
+        currentStage: nextStage,
         lastActionBy: userId || 0,
         updatedDateTime: new Date(),
         isRejected: isRejected,
@@ -201,8 +202,8 @@ function CreateCustomerLeadGeneration() {
       },
       row: values?.row?.map((item) => {
         return {
-          rowId: 0,
-          customerAcquisitionId: 0,
+          rowId: item?.item?.rowId || 0,
+          customerAcquisitionId: item?.item?.customerAcquisitionId || 0,
           itemId: item?.item?.value || 0,
           uomId: item?.item?.uomId || 0,
           uomName: item?.item?.uomName || "",
@@ -210,6 +211,12 @@ function CreateCustomerLeadGeneration() {
         };
       }),
     };
+    UpdateCustomerLeadGeneration(
+      `/oms/SalesQuotation/UpdateCustomerAcquisitionPipeline`,
+      payload,
+      () => history.goBack(),
+      "update"
+    );
   };
 
   const getDistrict = (divisionId) => {
@@ -358,7 +365,6 @@ function CreateCustomerLeadGeneration() {
               : "",
             shipToPartnerName: data?.shipToPartnerName || "",
             shipToPartnerAddress: data?.shipToPartnerAddress || "",
-            businessPartner: "", // missing when save data
             deliveryAddress: data?.deliveryAddress || "",
             sourceOrAdvertise: data?.referralSource
               ? {
@@ -423,7 +429,11 @@ function CreateCustomerLeadGeneration() {
   }, [id]);
   return (
     <ICustomCard
-      title={"Create Customer Lead Generation"}
+      title={
+        id
+          ? "Update Customer Lead Generation"
+          : "Create Customer Lead Generation"
+      }
       backHandler={() => {
         history.goBack();
       }}
@@ -450,7 +460,9 @@ function CreateCustomerLeadGeneration() {
           : undefined
       }
     >
-      {isLoading && <Loading />}
+      {(isLoading ||
+        isLoadingCustomerLeadById ||
+        isLoadingUpdateCustomerLeadGeneration) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -464,7 +476,6 @@ function CreateCustomerLeadGeneration() {
           thana: "",
           shipToPartnerName: "",
           shipToPartnerAddress: "",
-          businessPartner: "",
           deliveryAddress: "",
           sourceOrAdvertise: "",
           reference: "",
@@ -655,18 +666,7 @@ function CreateCustomerLeadGeneration() {
                       type="text"
                     />
                   </div>
-                  {/* businessPartner */}
-                  <div className="col-lg-3">
-                    <InputField
-                      label="Business Partner"
-                      type="text"
-                      name="businessPartner"
-                      value={values?.businessPartner}
-                      onChange={(e) => {
-                        setFieldValue("businessPartner", e.target.value);
-                      }}
-                    />
-                  </div>
+
                   {/* deliveryAddress */}
                   <div className="col-lg-3">
                     <InputField

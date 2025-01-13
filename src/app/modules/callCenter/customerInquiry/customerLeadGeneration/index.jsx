@@ -305,6 +305,7 @@ export default function CustomerLeadGeneration() {
                         );
                       }}
                       className="btn btn-primary"
+                      // disabled={item?.currentStage === "Customer" ? true : false}
                     >
                       {item?.currentStage}
                     </button>
