@@ -220,6 +220,7 @@ export default function _Form({
           paidTo: '',
           receiveFrom: '',
           partnerBankAccount: '',
+          transferTo: { value: 2, label: 'Bank' },
         }}
         validationSchema={
           jorunalType === 4
@@ -540,6 +541,7 @@ export default function _Form({
                             placeholder="Amount"
                             label="Amount"
                             name="transferAmount"
+                            disabled
                           />
                         </div>
                         <div className="col-lg-12 pl-1 pr mb-2 h-narration border-gray">
@@ -571,6 +573,7 @@ export default function _Form({
                             placeholder="Amount"
                             label="Amount"
                             name="amount"
+                            disabled
                           />
                         </div>
                         <div className="col-lg-12 pl pr mb-2 h-narration border-gray">
