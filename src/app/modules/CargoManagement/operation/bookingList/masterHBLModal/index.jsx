@@ -1,17 +1,22 @@
-import { Form, Formik } from 'formik';
-import React, { useEffect, useRef, useState } from 'react';
-import * as Yup from 'yup';
-import { imarineBaseUrl } from '../../../../../App';
-import NewSelect from '../../../../_helper/_select';
-import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
-import logisticsLogo from './logisticsLogo.png';
-import './style.css';
-import { shallowEqual, useSelector } from 'react-redux';
-import Loading from '../../../../_helper/_loading';
-import { useReactToPrint } from 'react-to-print';
+import { Form, Formik } from "formik";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useReactToPrint } from "react-to-print";
+import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../../App";
+import Loading from "../../../../_helper/_loading";
+import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import logisticsLogo from "./logisticsLogo.png";
+import "./style.css";
 
-const validationSchema = Yup.object().shape({});
+const validationSchema = Yup.object().shape({
+  strMasterBlNo: Yup.object().shape({
+    value: Yup.number().required("Master BL No is required"),
+    label: Yup.string().required("Master BL No is required"),
+  }),
+});
 export default function MasterHBLModal({
   selectedRow,
   isPrintView,
@@ -20,7 +25,7 @@ export default function MasterHBLModal({
 }) {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const [isPrintViewMode] = useState(isPrintView || false);
   const [preCarriageByDDL, setPreCarriageByDDL] = useState([]);
@@ -51,37 +56,37 @@ export default function MasterHBLModal({
           const obj = {
             ...data,
             intSipMasterBlid: data?.intSipMasterBlid,
-            strShipper: data?.strShipper || '',
-            strConsignee: data?.strConsignee || '',
-            strNotifyParty: data?.strNotifyParty || '',
-            strShippingAgentReferences: data?.strShippingAgentReferences || '',
-            strOceanVessel: data?.strOceanVessel || '',
-            strVoyageNo: data?.strVoyageNo || '',
-            strPortOfLoading: data?.strPortOfLoading || '',
-            strPlaceOfReceipt: data?.strPlaceOfReceipt || '',
-            strPreCarriageBy: data?.strPreCarriageBy || '',
-            strPortOfDischarge: data?.strPortOfDischarge || '',
-            strPlaceOfDelivery: data?.strPlaceOfDelivery || '',
-            strNumberOfBl: data?.strNumberOfBl || '',
-            strMarksAndNumbers: data?.strMarksAndNumbers || '',
-            strNoOfPackages: data?.strNoOfPackages || '',
+            strShipper: data?.strShipper || "",
+            strConsignee: data?.strConsignee || "",
+            strNotifyParty: data?.strNotifyParty || "",
+            strShippingAgentReferences: data?.strShippingAgentReferences || "",
+            strOceanVessel: data?.strOceanVessel || "",
+            strVoyageNo: data?.strVoyageNo || "",
+            strPortOfLoading: data?.strPortOfLoading || "",
+            strPlaceOfReceipt: data?.strPlaceOfReceipt || "",
+            strPreCarriageBy: data?.strPreCarriageBy || "",
+            strPortOfDischarge: data?.strPortOfDischarge || "",
+            strPlaceOfDelivery: data?.strPlaceOfDelivery || "",
+            strNumberOfBl: data?.strNumberOfBl || "",
+            strMarksAndNumbers: data?.strMarksAndNumbers || "",
+            strNoOfPackages: data?.strNoOfPackages || "",
             strDescriptionOfPackagesAndGoods:
-              data?.strDescriptionOfPackagesAndGoods || '',
+              data?.strDescriptionOfPackagesAndGoods || "",
             strGrossWeightOrMeasurement:
-              data?.strGrossWeightOrMeasurement || '',
-            strFreightPayableAt: data?.strFreightPayableAt || '',
-            strExRate: data?.strExRate || '',
-            strPlaceAndDateOfIssue: data?.strPlaceAndDateOfIssue || '',
-            strSignature: data?.strSignature || '',
-            strNoOfOriginalBl: data?.strNoOfOriginalBl || '',
+              data?.strGrossWeightOrMeasurement || "",
+            strFreightPayableAt: data?.strFreightPayableAt || "",
+            strExRate: data?.strExRate || "",
+            strPlaceAndDateOfIssue: data?.strPlaceAndDateOfIssue || "",
+            strSignature: data?.strSignature || "",
+            strNoOfOriginalBl: data?.strNoOfOriginalBl || "",
             strMasterHBLNo:
-              data?.hblNos?.map((item) => item?.hblnumber).join(', ') || '',
+              data?.hblNos?.map((item) => item?.hblnumber).join(", ") || "",
           };
           Object.keys(obj).forEach((key) => {
             formikRef.current.setFieldValue(key, obj[key]);
           });
         }
-      },
+      }
     );
   };
 
@@ -111,7 +116,7 @@ export default function MasterHBLModal({
             const transportPlanningSea =
               item?.transportPlanning?.find((i) => {
                 return i?.transportPlanningModeId === 2;
-              }) || '';
+              }) || "";
 
             if (transportPlanningSea?.vesselName) {
               strPreCarriageBy.push({
@@ -173,7 +178,7 @@ export default function MasterHBLModal({
             const rows = item?.rowsData || [];
             const weightSubtotal = rows?.reduce(
               (sum, row) => sum + (row?.totalGrossWeightKG || 0),
-              0,
+              0
             );
             return subtotal + weightSubtotal;
           }, 0);
@@ -181,7 +186,7 @@ export default function MasterHBLModal({
             const rows = item?.rowsData || [];
             const volumeSubtotal = rows?.reduce(
               (sum, row) => sum + (row?.totalVolumeCBM || 0),
-              0,
+              0
             );
             return subtotal + volumeSubtotal;
           }, 0);
@@ -191,11 +196,11 @@ export default function MasterHBLModal({
               const rows = item?.rowsData || [];
               const packageSubtotal = rows?.reduce(
                 (sum, row) => sum + (row?.totalNumberOfPackages || 0),
-                0,
+                0
               );
               return subtotal + packageSubtotal;
             },
-            0,
+            0
           );
 
           const strDescriptionOfPackagesAndGoods = hblRestData
@@ -206,69 +211,69 @@ export default function MasterHBLModal({
                   const hsCode = `H.S Code: ${row?.hsCode}`;
                   const poNumbers = `Po No: ${row?.dimensionRow
                     .map((dim) => dim?.poNumber)
-                    .join(', ')}`;
+                    .join(", ")}`;
                   const styles = `Style: ${row?.dimensionRow
                     .map((dim) => dim?.style)
-                    .join(',')}`;
+                    .join(",")}`;
                   const colors = `Color: ${row?.dimensionRow
                     .map((dim) => dim?.color)
-                    .join(',')}`;
+                    .join(",")}`;
                   return `${description}\n ${hsCode}\n ${poNumbers}\n ${styles}\n ${colors}\n`;
                 })
-                .join('\n'),
+                .join("\n")
             )
-            .join('\n');
+            .join("\n");
 
-          let strConsignee = '';
+          let strConsignee = "";
           // concate consignee
           if (firstIndex?.freightAgentReference) {
-            strConsignee += firstIndex?.freightAgentReference + '\n';
+            strConsignee += firstIndex?.freightAgentReference + "\n";
           }
           if (firstIndex?.deliveryAgentDtl?.zipCode) {
-            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.zipCode;
+            strConsignee += ", " + firstIndex?.deliveryAgentDtl?.zipCode;
           }
           if (firstIndex?.deliveryAgentDtl?.state) {
-            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.state;
+            strConsignee += ", " + firstIndex?.deliveryAgentDtl?.state;
           }
           if (firstIndex?.deliveryAgentDtl?.city) {
-            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.city;
+            strConsignee += ", " + firstIndex?.deliveryAgentDtl?.city;
           }
           if (firstIndex?.deliveryAgentDtl?.country) {
-            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.country;
+            strConsignee += ", " + firstIndex?.deliveryAgentDtl?.country;
           }
           if (firstIndex?.deliveryAgentDtl?.address) {
-            strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.address;
+            strConsignee += ", " + firstIndex?.deliveryAgentDtl?.address;
           }
 
-          let strNotifyParty = '';
+          let strNotifyParty = "";
           if (firstIndex?.notifyPartyDtl1?.participantsName) {
             strNotifyParty +=
-              firstIndex?.notifyPartyDtl1?.participantsName + '\n';
+              firstIndex?.notifyPartyDtl1?.participantsName + "\n";
           }
           if (firstIndex?.notifyPartyDtl1?.zipCode) {
-            strNotifyParty += ', ' + firstIndex?.notifyPartyDtl1?.zipCode;
+            strNotifyParty += ", " + firstIndex?.notifyPartyDtl1?.zipCode;
           }
           if (firstIndex?.notifyPartyDtl1?.state) {
-            strNotifyParty += ', ' + firstIndex?.notifyPartyDtl1?.state;
+            strNotifyParty += ", " + firstIndex?.notifyPartyDtl1?.state;
           }
           if (firstIndex?.notifyPartyDtl1?.city) {
-            strNotifyParty += ', ' + firstIndex?.notifyPartyDtl1?.city;
+            strNotifyParty += ", " + firstIndex?.notifyPartyDtl1?.city;
           }
           if (firstIndex?.notifyPartyDtl1?.country) {
-            strNotifyParty += ', ' + firstIndex?.notifyPartyDtl1?.country;
+            strNotifyParty += ", " + firstIndex?.notifyPartyDtl1?.country;
           }
           if (firstIndex?.notifyPartyDtl1?.address) {
-            strNotifyParty += ', ' + firstIndex?.notifyPartyDtl1?.address;
+            strNotifyParty += ", " + firstIndex?.notifyPartyDtl1?.address;
           }
 
           const transportPlanningSea =
             firstIndex?.transportPlanning?.find((i) => {
               return i?.transportPlanningModeId === 2;
-            }) || '';
+            }) || "";
 
           const obj = {
             intSipMasterBlid: 0,
-            strShipper: '',
+            strShipper: "",
             strConsignee: strConsignee,
             strNotifyParty: strNotifyParty,
             strMasterHBLNo:
@@ -276,31 +281,31 @@ export default function MasterHBLModal({
                 ?.map((item, index) => {
                   return item?.hblnumber;
                 })
-                .join(', ') || '',
+                .join(", ") || "",
             strShippingAgentReferences: `${firstIndex?.shipperName}\n${firstIndex?.shipperAddress}\n${firstIndex?.shipperContactPerson}\n`,
             strOceanVessel: `${transportPlanningSea?.vesselName ||
-              ''} / ${transportPlanningSea?.voyagaNo || ''}`,
-            strVoyageNo: '',
-            strPortOfLoading: firstIndex?.portOfLoading || '',
-            strPlaceOfReceipt: firstIndex?.pickupPlace || '',
-            strPreCarriageBy: transportPlanningSea?.vesselName || '',
-            strPortOfDischarge: firstIndex?.portOfDischarge || '',
-            strPlaceOfDelivery: firstIndex?.finalDestinationAddress || '',
-            strNumberOfBl: '',
-            strMarksAndNumbers: '',
+              ""} / ${transportPlanningSea?.voyagaNo || ""}`,
+            strVoyageNo: "",
+            strPortOfLoading: firstIndex?.portOfLoading || "",
+            strPlaceOfReceipt: firstIndex?.pickupPlace || "",
+            strPreCarriageBy: transportPlanningSea?.vesselName || "",
+            strPortOfDischarge: firstIndex?.portOfDischarge || "",
+            strPlaceOfDelivery: firstIndex?.finalDestinationAddress || "",
+            strNumberOfBl: "",
+            strMarksAndNumbers: "",
             strNoOfPackages: `${totalNumberOfPackages} Cartons`,
             strDescriptionOfPackagesAndGoods: strDescriptionOfPackagesAndGoods,
             strGrossWeightOrMeasurement: `${subtotalGrossWeight} Kgs\n${totalVolumeCBM} CBM`,
-            strFreightPayableAt: '',
-            strExRate: '',
-            strPlaceAndDateOfIssue: '',
-            strSignature: '',
-            strNoOfOriginalBl: '',
+            strFreightPayableAt: "",
+            strExRate: "",
+            strPlaceAndDateOfIssue: "",
+            strSignature: "",
+            strNoOfOriginalBl: "",
           };
           Object.keys(obj).forEach((key) => {
             formikRef.current.setFieldValue(key, obj[key]);
           });
-        },
+        }
       );
     }
 
@@ -315,29 +320,29 @@ export default function MasterHBLModal({
     });
     const puayload = {
       intSipMasterBlid: 0,
-      strShipper: '',
-      strConsignee: values?.strConsignee || '',
-      strNotifyParty: values?.strNotifyParty || '',
-      strMasterBlNo: values?.strMasterBlNo?.label || '',
-      strShippingAgentReferences: values?.strShippingAgentReferences || '',
-      strOceanVessel: values?.strOceanVessel || '',
-      strVoyageNo: values?.strVoyageNo || '',
-      strPortOfLoading: values?.strPortOfLoading || '',
-      strPlaceOfReceipt: values?.strPlaceOfReceipt || '',
-      strPreCarriageBy: values?.strPreCarriageBy || '',
-      strPortOfDischarge: values?.strPortOfDischarge || '',
-      strPlaceOfDelivery: values?.strPlaceOfDelivery || '',
-      strNumberOfBl: values?.strNumberOfBl || '',
-      strMarksAndNumbers: values?.strMarksAndNumbers || '',
-      strNoOfPackages: values?.strNoOfPackages || '',
+      strShipper: "",
+      strConsignee: values?.strConsignee || "",
+      strNotifyParty: values?.strNotifyParty || "",
+      strMasterBlNo: values?.strMasterBlNo?.label || "",
+      strShippingAgentReferences: values?.strShippingAgentReferences || "",
+      strOceanVessel: values?.strOceanVessel || "",
+      strVoyageNo: values?.strVoyageNo || "",
+      strPortOfLoading: values?.strPortOfLoading || "",
+      strPlaceOfReceipt: values?.strPlaceOfReceipt || "",
+      strPreCarriageBy: values?.strPreCarriageBy || "",
+      strPortOfDischarge: values?.strPortOfDischarge || "",
+      strPlaceOfDelivery: values?.strPlaceOfDelivery || "",
+      strNumberOfBl: values?.strNumberOfBl || "",
+      strMarksAndNumbers: values?.strMarksAndNumbers || "",
+      strNoOfPackages: values?.strNoOfPackages || "",
       strDescriptionOfPackagesAndGoods:
-        values?.strDescriptionOfPackagesAndGoods || '',
-      strGrossWeightOrMeasurement: values?.strGrossWeightOrMeasurement || '',
-      strFreightPayableAt: values?.strFreightPayableAt || '',
-      strExRate: values?.strExRate || '',
-      strPlaceAndDateOfIssue: values?.strPlaceAndDateOfIssue || '',
-      strSignature: values?.strSignature || '',
-      strNoOfOriginalBl: values?.strNoOfOriginalBl || '',
+        values?.strDescriptionOfPackagesAndGoods || "",
+      strGrossWeightOrMeasurement: values?.strGrossWeightOrMeasurement || "",
+      strFreightPayableAt: values?.strFreightPayableAt || "",
+      strExRate: values?.strExRate || "",
+      strPlaceAndDateOfIssue: values?.strPlaceAndDateOfIssue || "",
+      strSignature: values?.strSignature || "",
+      strNoOfOriginalBl: values?.strNoOfOriginalBl || "",
       isActive: true,
       intCreatedBy: profileData?.userId,
       dteCreatedAt: new Date(),
@@ -353,14 +358,14 @@ export default function MasterHBLModal({
         if (data) {
           CB();
         }
-      },
+      }
     );
   };
 
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: `Master-BL-${getShipMasteBlById?.strMasterBlNo || ''}`,
+    documentTitle: `Master-BL-${getShipMasteBlById?.strMasterBlNo || ""}`,
     pageStyle: `
         @media print {
           body {
@@ -376,7 +381,7 @@ export default function MasterHBLModal({
   });
   useEffect(() => {
     getMasterBLDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLDDL?typeId=2`,
+      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLDDL?typeId=2`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -385,7 +390,9 @@ export default function MasterHBLModal({
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{}}
+        initialValues={{
+          strMasterBlNo: "",
+        }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -399,7 +406,7 @@ export default function MasterHBLModal({
             {(SaveShipMasterBlLoading ||
               shipMasterBlByIdLoaidng ||
               isLoadingGetHBLList) && <Loading />}
-            {console.log('values', values)}
+            {console.log("values", values)}
             <Form className="form form-label-right">
               <div className="">
                 {/* Save button add */}
@@ -427,7 +434,7 @@ export default function MasterHBLModal({
               </div>
               <div
                 style={{
-                  display: 'grid',
+                  display: "grid",
                   gap: 5,
                 }}
               >
@@ -442,9 +449,9 @@ export default function MasterHBLModal({
                         let value = {
                           ...valueOption,
                           value: 0,
-                          label: valueOption?.label || '',
+                          label: valueOption?.label || "",
                         };
-                        setFieldValue('strMasterBlNo', value);
+                        setFieldValue("strMasterBlNo", value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -463,8 +470,8 @@ export default function MasterHBLModal({
                             alt=""
                             style={{
                               height: 50,
-                              width: '35%',
-                              objectFit: 'contain',
+                              width: "35%",
+                              objectFit: "contain",
                               paddingLeft: 10,
                             }}
                           />
@@ -477,7 +484,7 @@ export default function MasterHBLModal({
                             }}
                           >
                             Akij Logistics Limited
-                          </div>{' '}
+                          </div>{" "}
                           <div style={{ fontWeight: 400, paddingLeft: 10 }}>
                           House - 5, Road - 6, Sector 1, Uttara, Dhaka
                           </div>
@@ -487,7 +494,7 @@ export default function MasterHBLModal({
                           <p>
                             {values?.strConsignee
                               ? values?.strConsignee
-                                  ?.split('\n')
+                                  ?.split("\n")
                                   .map((item, index) => {
                                     return (
                                       <>
@@ -496,7 +503,7 @@ export default function MasterHBLModal({
                                       </>
                                     );
                                   })
-                              : ''}
+                              : ""}
                           </p>
                         </div>
                         <div className="notifyParty borderBottom">
@@ -505,7 +512,7 @@ export default function MasterHBLModal({
                             <p>
                               {values?.strNotifyParty
                                 ? values?.strNotifyParty
-                                    ?.split('\n')
+                                    ?.split("\n")
                                     .map((item, index) => {
                                       return (
                                         <>
@@ -514,7 +521,7 @@ export default function MasterHBLModal({
                                         </>
                                       );
                                     })
-                                : ''}
+                                : ""}
                             </p>
                           ) : (
                             <textarea
@@ -523,7 +530,7 @@ export default function MasterHBLModal({
                               cols={40}
                               value={values?.strNotifyParty}
                               onChange={(e) => {
-                                setFieldValue('strNotifyParty', e.target.value);
+                                setFieldValue("strNotifyParty", e.target.value);
                               }}
                             />
                           )}
@@ -533,11 +540,11 @@ export default function MasterHBLModal({
                             <p className="textTitle">Pre-Carriage By:</p>
                             {isPrintViewMode ? (
                               <>
-                                <p>{values?.strPreCarriageBy || ''}</p>
+                                <p>{values?.strPreCarriageBy || ""}</p>
                               </>
                             ) : (
                               <>
-                                {' '}
+                                {" "}
                                 <div className="col-lg-12">
                                   <NewSelect
                                     name="strPreCarriageBy"
@@ -548,13 +555,13 @@ export default function MasterHBLModal({
                                             value: 0,
                                             label: values?.strPreCarriageBy,
                                           }
-                                        : ''
+                                        : ""
                                     }
                                     label=""
                                     onChange={(valueOption) => {
                                       setFieldValue(
-                                        'strPreCarriageBy',
-                                        valueOption?.label,
+                                        "strPreCarriageBy",
+                                        valueOption?.label
                                       );
                                     }}
                                     errors={errors}
@@ -569,11 +576,11 @@ export default function MasterHBLModal({
                             <p className="textTitle">Place of Receipt:</p>
                             {isPrintViewMode ? (
                               <>
-                                <p>{values?.strPlaceOfReceipt || ''}</p>
+                                <p>{values?.strPlaceOfReceipt || ""}</p>
                               </>
                             ) : (
                               <>
-                                {' '}
+                                {" "}
                                 <div className="col-lg-12">
                                   <NewSelect
                                     name="strPlaceOfReceipt"
@@ -584,13 +591,13 @@ export default function MasterHBLModal({
                                             value: 0,
                                             label: values?.strPlaceOfReceipt,
                                           }
-                                        : ''
+                                        : ""
                                     }
                                     label=""
                                     onChange={(valueOption) => {
                                       setFieldValue(
-                                        'strPlaceOfReceipt',
-                                        valueOption?.label,
+                                        "strPlaceOfReceipt",
+                                        valueOption?.label
                                       );
                                     }}
                                     errors={errors}
@@ -607,11 +614,11 @@ export default function MasterHBLModal({
                             <p className="textTitle">Ocean Vessel:</p>
                             {isPrintViewMode ? (
                               <>
-                                <p>{values?.strOceanVessel || ''}</p>
+                                <p>{values?.strOceanVessel || ""}</p>
                               </>
                             ) : (
                               <>
-                                {' '}
+                                {" "}
                                 <div className="col-lg-12">
                                   <NewSelect
                                     name="strOceanVessel"
@@ -622,13 +629,13 @@ export default function MasterHBLModal({
                                             value: 0,
                                             label: values?.strOceanVessel,
                                           }
-                                        : ''
+                                        : ""
                                     }
                                     label=""
                                     onChange={(valueOption) => {
                                       setFieldValue(
-                                        'strOceanVessel',
-                                        valueOption?.label,
+                                        "strOceanVessel",
+                                        valueOption?.label
                                       );
                                     }}
                                     errors={errors}
@@ -643,11 +650,11 @@ export default function MasterHBLModal({
                             <p className="textTitle">Port of Loading:</p>
                             {isPrintViewMode ? (
                               <>
-                                <p>{values?.strPortOfLoading || ''}</p>
+                                <p>{values?.strPortOfLoading || ""}</p>
                               </>
                             ) : (
                               <>
-                                {' '}
+                                {" "}
                                 <div className="col-lg-12">
                                   <NewSelect
                                     name="strPortOfLoading"
@@ -658,13 +665,13 @@ export default function MasterHBLModal({
                                             value: 0,
                                             label: values?.strPortOfLoading,
                                           }
-                                        : ''
+                                        : ""
                                     }
                                     label=""
                                     onChange={(valueOption) => {
                                       setFieldValue(
-                                        'strPortOfLoading',
-                                        valueOption?.label,
+                                        "strPortOfLoading",
+                                        valueOption?.label
                                       );
                                     }}
                                     errors={errors}
@@ -690,13 +697,13 @@ export default function MasterHBLModal({
                           <div
                             style={{
                               minHeight: 80,
-                              width: '90%',
-                              border: '1px solid black',
+                              width: "90%",
+                              border: "1px solid black",
                             }}
                           >
                             <div
                               style={{
-                                display: 'grid',
+                                display: "grid",
                                 padding: 5,
                               }}
                             >
@@ -720,7 +727,7 @@ export default function MasterHBLModal({
                               <p>
                                 {values?.strShippingAgentReferences
                                   ? values?.strShippingAgentReferences
-                                      ?.split('\n')
+                                      ?.split("\n")
                                       .map((item, index) => {
                                         return (
                                           <>
@@ -729,7 +736,7 @@ export default function MasterHBLModal({
                                           </>
                                         );
                                       })
-                                  : ''}
+                                  : ""}
                               </p>
                             ) : (
                               <textarea
@@ -740,8 +747,8 @@ export default function MasterHBLModal({
                                 onChange={(e) => {
                                   console.log(JSON.stringify(e.target.value));
                                   setFieldValue(
-                                    'strShippingAgentReferences',
-                                    e.target.value,
+                                    "strShippingAgentReferences",
+                                    e.target.value
                                   );
                                 }}
                               />
@@ -756,11 +763,11 @@ export default function MasterHBLModal({
                           <p className="textTitle">Port of Discharge:</p>
                           {isPrintViewMode ? (
                             <>
-                              <p>{values?.strPortOfDischarge || ''}</p>
+                              <p>{values?.strPortOfDischarge || ""}</p>
                             </>
                           ) : (
                             <>
-                              {' '}
+                              {" "}
                               <div className="col-lg-12">
                                 <NewSelect
                                   name="strPortOfDischarge"
@@ -771,13 +778,13 @@ export default function MasterHBLModal({
                                           value: 0,
                                           label: values?.strPortOfDischarge,
                                         }
-                                      : ''
+                                      : ""
                                   }
                                   label=""
                                   onChange={(valueOption) => {
                                     setFieldValue(
-                                      'strPortOfDischarge',
-                                      valueOption?.label,
+                                      "strPortOfDischarge",
+                                      valueOption?.label
                                     );
                                   }}
                                   errors={errors}
@@ -793,11 +800,11 @@ export default function MasterHBLModal({
                             <p className="textTitle">Place Of Delivery</p>
                             {isPrintViewMode ? (
                               <>
-                                <p>{values?.strPlaceOfDelivery || ''}</p>
+                                <p>{values?.strPlaceOfDelivery || ""}</p>
                               </>
                             ) : (
                               <>
-                                {' '}
+                                {" "}
                                 <div className="col-lg-12">
                                   <NewSelect
                                     name="strPlaceOfDelivery"
@@ -808,13 +815,13 @@ export default function MasterHBLModal({
                                             value: 0,
                                             label: values?.strPlaceOfDelivery,
                                           }
-                                        : ''
+                                        : ""
                                     }
                                     label=""
                                     onChange={(valueOption) => {
                                       setFieldValue(
-                                        'strPlaceOfDelivery',
-                                        valueOption?.label,
+                                        "strPlaceOfDelivery",
+                                        valueOption?.label
                                       );
                                     }}
                                     errors={errors}
@@ -829,11 +836,11 @@ export default function MasterHBLModal({
                             <p className="textTitle">Freight payable at</p>
                             {isPrintViewMode ? (
                               <>
-                                <p>{values?.strFreightPayableAt || ''}</p>
+                                <p>{values?.strFreightPayableAt || ""}</p>
                               </>
                             ) : (
                               <>
-                                {' '}
+                                {" "}
                                 <div className="col-lg-12">
                                   <NewSelect
                                     name="strFreightPayableAt"
@@ -844,13 +851,13 @@ export default function MasterHBLModal({
                                             value: 0,
                                             label: values?.strFreightPayableAt,
                                           }
-                                        : ''
+                                        : ""
                                     }
                                     label=""
                                     onChange={(valueOption) => {
                                       setFieldValue(
-                                        'strFreightPayableAt',
-                                        valueOption?.label,
+                                        "strFreightPayableAt",
+                                        valueOption?.label
                                       );
                                     }}
                                     errors={errors}
@@ -894,14 +901,14 @@ export default function MasterHBLModal({
                         <div className="firstColumn">
                           <div
                             style={{
-                              textTransform: 'uppercase',
+                              textTransform: "uppercase",
                             }}
                           >
                             {isPrintViewMode ? (
                               <>
                                 {values?.strMarksAndNumbers
                                   ? values?.strMarksAndNumbers
-                                      ?.split('\n')
+                                      ?.split("\n")
                                       .map((item, index) => {
                                         return (
                                           <>
@@ -910,11 +917,11 @@ export default function MasterHBLModal({
                                           </>
                                         );
                                       })
-                                  : ''}
+                                  : ""}
                               </>
                             ) : (
                               <>
-                                {' '}
+                                {" "}
                                 <textarea
                                   name="strMarksAndNumbers"
                                   value={values?.strMarksAndNumbers}
@@ -923,8 +930,8 @@ export default function MasterHBLModal({
                                   onChange={(e) => {
                                     console.log(JSON.stringify(e.target.value));
                                     setFieldValue(
-                                      'strMarksAndNumbers',
-                                      e.target.value,
+                                      "strMarksAndNumbers",
+                                      e.target.value
                                     );
                                   }}
                                 />
@@ -939,7 +946,7 @@ export default function MasterHBLModal({
                                 <>
                                   {values?.strNoOfPackages
                                     ? values?.strNoOfPackages
-                                        ?.split('\n')
+                                        ?.split("\n")
                                         .map((item, index) => {
                                           return (
                                             <>
@@ -948,11 +955,11 @@ export default function MasterHBLModal({
                                             </>
                                           );
                                         })
-                                    : ''}
+                                    : ""}
                                 </>
                               ) : (
                                 <>
-                                  {' '}
+                                  {" "}
                                   <textarea
                                     value={values?.strNoOfPackages}
                                     name="strNoOfPackages"
@@ -960,8 +967,8 @@ export default function MasterHBLModal({
                                     cols={40}
                                     onChange={(e) => {
                                       setFieldValue(
-                                        'strNoOfPackages',
-                                        e.target.value,
+                                        "strNoOfPackages",
+                                        e.target.value
                                       );
                                     }}
                                   />
@@ -972,14 +979,14 @@ export default function MasterHBLModal({
                           <div
                             className="item borderRight"
                             style={{
-                              textTransform: 'uppercase',
+                              textTransform: "uppercase",
                             }}
                           >
                             {isPrintViewMode ? (
                               <>
                                 {values?.strDescriptionOfPackagesAndGoods
                                   ? values?.strDescriptionOfPackagesAndGoods
-                                      ?.split('\n')
+                                      ?.split("\n")
                                       .map((item, index) => {
                                         return (
                                           <>
@@ -988,11 +995,11 @@ export default function MasterHBLModal({
                                           </>
                                         );
                                       })
-                                  : ''}
+                                  : ""}
                               </>
                             ) : (
                               <>
-                                {' '}
+                                {" "}
                                 <textarea
                                   value={
                                     values?.strDescriptionOfPackagesAndGoods
@@ -1002,8 +1009,8 @@ export default function MasterHBLModal({
                                   cols={40}
                                   onChange={(e) => {
                                     setFieldValue(
-                                      'strDescriptionOfPackagesAndGoods',
-                                      e.target.value,
+                                      "strDescriptionOfPackagesAndGoods",
+                                      e.target.value
                                     );
                                   }}
                                 />
@@ -1018,7 +1025,7 @@ export default function MasterHBLModal({
                                 <>
                                   {values?.strGrossWeightOrMeasurement
                                     ? values?.strGrossWeightOrMeasurement
-                                        ?.split('\n')
+                                        ?.split("\n")
                                         .map((item, index) => {
                                           return (
                                             <>
@@ -1027,11 +1034,11 @@ export default function MasterHBLModal({
                                             </>
                                           );
                                         })
-                                    : ''}
+                                    : ""}
                                 </>
                               ) : (
                                 <>
-                                  {' '}
+                                  {" "}
                                   <textarea
                                     value={values?.strGrossWeightOrMeasurement}
                                     name="strGrossWeightOrMeasurement"
@@ -1039,8 +1046,8 @@ export default function MasterHBLModal({
                                     cols={40}
                                     onChange={(e) => {
                                       setFieldValue(
-                                        'strGrossWeightOrMeasurement',
-                                        e.target.value,
+                                        "strGrossWeightOrMeasurement",
+                                        e.target.value
                                       );
                                     }}
                                   />
@@ -1054,20 +1061,20 @@ export default function MasterHBLModal({
 
                     <div
                       style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        paddingTop: '13px',
-                        borderTop: '1px solid',
+                        display: "flex",
+                        justifyContent: "space-between",
+                        paddingTop: "13px",
+                        borderTop: "1px solid",
                       }}
                     >
                       <div
                         style={{
-                          width: '300px',
+                          width: "300px",
                         }}
                       >
                         <p
                           style={{
-                            textAlign: 'center',
+                            textAlign: "center",
                             marginBottom: 15,
                           }}
                         >
@@ -1077,10 +1084,10 @@ export default function MasterHBLModal({
                       <div>
                         <p
                           style={{
-                            width: '300px',
-                            borderBottom: '1px dashed',
-                            marginTop: '120px',
-                            marginBottom: '15px',
+                            width: "300px",
+                            borderBottom: "1px dashed",
+                            marginTop: "120px",
+                            marginBottom: "15px",
                           }}
                         >
                           By
