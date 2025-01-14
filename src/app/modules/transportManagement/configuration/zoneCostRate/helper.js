@@ -166,12 +166,12 @@ export const getShipPointDDL = async (accId, buId, setter) => {
   }
 };
 
-export const getIsAmountBase = async (buId, setter) => {
+export const getIsAmountOrDistanceBase = async (buId, setter) => {
   try {
     const res = await Axios.get(
       `/oms/DistributionChannel/GetBusinessUnitTransportRateType?BusinessUnitId=${buId}`
     );
-    setter(res?.data?.isAmountBase);
+    setter(res?.data);
   } catch (error) {
     setter([]);
     toast.error(error?.response?.data?.message);
