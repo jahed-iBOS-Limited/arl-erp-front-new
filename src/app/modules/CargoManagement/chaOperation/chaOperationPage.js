@@ -13,6 +13,10 @@ export function ChaOperationPages() {
         to="/cargoManagement/cha-operation"
       />
       <ContentRoute
+        path="/cargoManagement/cha-operation/cha-shipment-booking/edit/:id"
+        component={CreateChaShipmentBooking}
+      />
+      <ContentRoute
         path="/cargoManagement/cha-operation/cha-shipment-booking/create"
         component={CreateChaShipmentBooking}
       />

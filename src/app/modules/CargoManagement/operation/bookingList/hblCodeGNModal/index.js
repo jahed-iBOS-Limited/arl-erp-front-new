@@ -30,6 +30,7 @@ const initObj = {
   totOtherChargesDcarrierCollect: '<p>As Agreed</p>',
   totOtherChargesDcarrierPrepaid2: '<p>As Agreed</p>',
   totOtherChargesDcarrierCollect2: '<p>As Agreed</p>',
+  chargeableTotal: '',
 };
 function HBLCodeGNModal({ CB, rowClickData, isEPBInvoice }) {
   const [isWaiting, setIsWaiting] = useState(true);
@@ -53,6 +54,7 @@ function HBLCodeGNModal({ CB, rowClickData, isEPBInvoice }) {
       bookingId: bookingRequestId,
       hawbNumber: '',
       chargeableRate: '',
+      chargeableTotal: '',
       weightChargePrepaid: '',
       weightChargeCollect: '',
       valuationChargePrepaid: '',
@@ -80,6 +82,7 @@ function HBLCodeGNModal({ CB, rowClickData, isEPBInvoice }) {
       payload = {
         ...payload,
         chargeableRate: htmlContent?.chargeableRate || '',
+        chargeableTotal: htmlContent?.chargeableTotal || '',
         weightChargePrepaid: htmlContent?.weightChargePrepaid || '',
         weightChargeCollect: htmlContent?.weightChargeCollect || '',
         valuationChargePrepaid: htmlContent?.valuationChargePrepaid || '',
@@ -135,6 +138,10 @@ function HBLCodeGNModal({ CB, rowClickData, isEPBInvoice }) {
             chargeableRate:
               resData?.saveWaybillData?.chargeableRate ||
               initObj.chargeableRate ||
+              '',
+            chargeableTotal:
+              resData?.saveWaybillData?.chargeableTotal ||
+              initObj.chargeableTotal ||
               '',
             weightChargePrepaid: isPrepaid
               ? resData?.saveWaybillData?.weightChargePrepaid ||

@@ -1,0 +1,35 @@
+.chaShipmentBooking-view-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.chaShipmentBooking-view-container .info-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 0 auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+
+.chaShipmentBooking-view-container .info-item {
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid #f7f3f3;
+}
+
+.chaShipmentBooking-view-container .info-item:last-child {
+  border-bottom: none;
+}
+
+.chaShipmentBooking-view-container .info-item-label {
+  font-weight: bold;
+  color: #333;
+}
+
+.chaShipmentBooking-view-container .info-item-value {
+  color: #555;
+  text-align: right;
+}
