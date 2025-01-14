@@ -217,7 +217,7 @@ export default function _Form({
           transactionDate: _todayDate(),
           instrumentNo: '',
           profitCenter: '',
-          paidTo: '',
+          // paidTo: '',
           receiveFrom: '',
           partnerBankAccount: '',
           transferTo: { value: 2, label: 'Bank' },
@@ -315,6 +315,7 @@ export default function _Form({
                         isSearchable={true}
                         styles={customStyles}
                         placeholder="Bank Ac"
+                        isDisabled
                       />
                       <FormikError
                         errors={errors}
@@ -340,6 +341,7 @@ export default function _Form({
                           isSearchable={true}
                           styles={customStyles}
                           placeholder="Transfer to"
+                          isDisabled
                         />
                         <FormikError
                           errors={errors}
@@ -501,7 +503,8 @@ export default function _Form({
                               setFieldValue('paidTo', valueOption?.label);
                               setFieldValue('sendToGLBank', valueOption);
                             }}
-                            isDisabled={!values?.transferTo}
+                            // isDisabled={!values?.transferTo}
+                            isDisabled={true}
                             value={values?.sendToGLBank}
                             options={
                               values?.transferTo?.value === 1

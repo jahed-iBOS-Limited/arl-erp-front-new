@@ -20,12 +20,14 @@ export const approveHandeler = ({ item, onApproveHandler, profileData, cb, isApp
         strRequestedBankBranchName: item.strRequestedBankBranchName || "",
         strRequestedBankAccountNumber: item.strRequestedBankAccountNumber || "",
         strRequestedBankAccountName: item.strRequestedBankAccountName || "",
+        intRequestedBankAccountId: item.intRequestedBankAccountId || 0,
         intGivenBankId: item.intGivenBankId || 0,
         strGivenBankName: item.strGivenBankName || "",
         intGivenBankBranchId: item.intGivenBankBranchId || 0,
         strGivenBankBranchName: item.strGivenBankBranchName || "",
         strGivenBankAccountNumber: item.strGivenBankAccountNumber || "",
         strGivenBankAccountName: item.strGivenBankAccountName || "",
+        strGivenBankAccountId: item?.strGivenBankAccountId || 0,
         strRemarks: item.strRemarks || "",
         dteExpectedDate: item.dteExpectedDate || "",
         intResponsibleEmpId: item.intResponsibleEmpId || 0,
@@ -39,6 +41,12 @@ export const approveHandeler = ({ item, onApproveHandler, profileData, cb, isApp
         strRequestPartnerId: item?.strRequestPartnerId || 0,
         strRequestPartnerName: item?.strRequestPartnerName || "",
         isTransferCreated: 0,
+
+        "intGivenGlid": item?.intGivenGlid || 0,
+        "strGivenGlCode": item?.strGivenGlCode || "",
+        "strGivenGlName": item?.strGivenGlName || "",
+        "strGivenPartnerName": item?.strGivenPartnerName || "",
+        "intUpdateBy": profileData?.userId,
     }
 
     onApproveHandler(`/fino/FundManagement/CreateOrEditFundTransferRequest`, payload, cb, true);
