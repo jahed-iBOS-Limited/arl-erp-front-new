@@ -133,7 +133,7 @@ export default function EmailTab({ data }) {
                   {/* Date */}
                   <div className="col-lg-3">
                     <InputField
-                      label="Date"
+                      label="Date & Time"
                       type="datetime-local"
                       name="activityDateTime"
                       value={values?.activityDateTime}
@@ -220,7 +220,7 @@ export default function EmailTab({ data }) {
                   {/* Follow Up Date */}
                   <div className="col-lg-3">
                     <InputField
-                      label="Follow Up Date"
+                      label="Follow Up Date & Time"
                       type="datetime-local"
                       name="followUpDate"
                       value={values?.followUpDate}
