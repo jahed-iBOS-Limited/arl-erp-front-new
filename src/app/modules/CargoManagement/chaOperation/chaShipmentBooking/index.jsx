@@ -9,6 +9,8 @@ import IView from '../../../_helper/_helperIcons/_view';
 import IEdit from '../../../_helper/_helperIcons/_edit';
 import { imarineBaseUrl } from '../../../../App';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { useState } from 'react';
+import PaginationTable from '../../../_helper/_tablePagination';
 
 const validationSchema = Yup.object().shape({});
 
@@ -18,16 +20,21 @@ export default function ChaShipmentBooking() {
     getyChaShipmentBooking,
     chaShipmentBookingLoading,
   ] = useAxiosGet();
-  // const [pageNo, setPageNo] = useState(0);
-  // const [pageSize, setPageSize] = useState(15);
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
   let history = useHistory();
   const formikRef = React.useRef(null);
   const saveHandler = (values, cb) => {};
 
-  useEffect(() => {
+  const commonGetData = (search, pageNo, pageSize) => {
     getyChaShipmentBooking(
-      `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingLanding`,
+      `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingLanding?search=${search}&pageNo=${pageNo}&pageSize=${pageSize}`,
     );
+  };
+
+  useEffect(() => {
+    commonGetData('', pageNo, pageSize);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -61,9 +68,6 @@ export default function ChaShipmentBooking() {
             {chaShipmentBookingLoading && <Loading />}
             <Form className="form form-label-right">
               <div>
-                <div className="form-group row global-form">
-                  {/* form fields here */}
-                </div>
                 <div className="table-responsive">
                   <table className="table table-striped table-bordered global-table">
                     <thead>
@@ -83,7 +87,7 @@ export default function ChaShipmentBooking() {
                       </tr>
                     </thead>
                     <tbody>
-                      {chaShipmentBooking?.map((item, index) => {
+                      {chaShipmentBooking?.data?.map((item, index) => {
                         return (
                           <>
                             <tr key={index}>
@@ -128,6 +132,22 @@ export default function ChaShipmentBooking() {
                     </tbody>
                   </table>
                 </div>
+
+                {chaShipmentBooking?.data?.length > 0 && (
+                  <PaginationTable
+                    count={chaShipmentBooking?.totalCount}
+                    setPositionHandler={(pageNo, pageSize) => {
+                      commonGetData('', pageNo, pageSize);
+                    }}
+                    values={values}
+                    paginationState={{
+                      pageNo,
+                      setPageNo,
+                      pageSize,
+                      setPageSize,
+                    }}
+                  />
+                )}
               </div>
             </Form>
           </>
