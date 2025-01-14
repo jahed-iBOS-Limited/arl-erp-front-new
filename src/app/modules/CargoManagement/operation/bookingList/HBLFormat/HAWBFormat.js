@@ -492,7 +492,7 @@ function HBLFormatAirItem({
                         style={{
                           width: '100%',
                         }}
-                        type="number"
+                        type="text"
                         value={htmlContent?.chargeableRate || ''}
                         onChange={(e) => {
                           changeHandelar &&
@@ -506,16 +506,29 @@ function HBLFormatAirItem({
                   )}
                 </div>
                 <div className="total borderRight">
-                  <p>
-                    {htmlContent?.chargeableRate ? (
-                      <>
-                        {totalNumberOfPackages *
-                          (+htmlContent?.chargeableRate || 0)}
-                      </>
-                    ) : (
-                      ''
-                    )}
-                  </p>
+                  {isPrintView ? (
+                    <>
+                      <div> {htmlContent?.chargeableTotal || ''}</div>
+                    </>
+                  ) : (
+                    <>
+                      {/* rate input */}
+                      <input
+                        style={{
+                          width: '100%',
+                        }}
+                        type="text"
+                        value={htmlContent?.chargeableTotal || ''}
+                        onChange={(e) => {
+                          changeHandelar &&
+                            changeHandelar({
+                              key: 'chargeableTotal',
+                              value: e.target.value,
+                            });
+                        }}
+                      />
+                    </>
+                  )}
                 </div>
                 <div className="natureandQuantityofGoods">
                   <p style={{ textDecoration: 'underline' }}>

@@ -440,7 +440,7 @@ function TransportModal({ rowClickData, CB }) {
       );
     } else {
       SaveShippingTransportPlanning(
-        `${imarineBaseUrl}/domain/ShippingService/SaveShippingTransportPlanning `,
+        `${imarineBaseUrl}/domain/ShippingService/SaveShippingTransportPlanning`,
         payload,
         CB,
         'Transport Planning Saved Successfully',
