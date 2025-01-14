@@ -43,7 +43,7 @@ const initData = {
   thirdPartyPay: '',
   depoOrPlace: '',
   portOfDelivery: '',
-  csOrSalesPic: '',
+  csSalesPic: '',
   commodity: '',
   placeOfDelivery: '',
   containerQty: '',
@@ -62,7 +62,7 @@ const initData = {
   remarks: '',
   quantity: '',
   billOfEntry: '',
-  billOfEDate: '',
+  billOfEntryDate: '',
   dischargingVesselNo: '',
   netWeight: '',
   grossWeight: '',
@@ -141,8 +141,8 @@ function CreateChaShipmentBooking() {
       commodityName: values?.commodity?.label || '',
       thirdPartyId: values?.thirdPartyPay?.value || 0,
       thirdPartyName: values?.thirdPartyPay?.label || '',
-      csSalesPic: values?.csOrSalesPic?.label || '',
-      csSalesPicId: values?.csOrSalesPic?.value || 0,
+      csSalesPic: values?.csSalesPic?.label || '',
+      cssalesPicId: values?.csSalesPic?.value || 0,
       containerQty: values?.containerQty || 0,
       copyDocReceived: values?.copyDocReceived || '',
       originCountryId: values?.originCountry?.value || 0,
@@ -155,9 +155,11 @@ function CreateChaShipmentBooking() {
       assessed: values?.assessed || '',
       ...(values?.assessedDate ? { assessedDate: values?.assessedDate } : {}),
       exporter: '',
-      quantity: 0,
+      quantity: values?.quantity || 0,
       billOfEntry: values?.billOfEntry || '',
-      ...(values?.billOfEDate ? { billOfEDate: values?.billOfEDate } : {}),
+      ...(values?.billOfEntryDate
+        ? { billOfEntryDate: values?.billOfEntryDate }
+        : {}),
       grossWeight: values?.grossWeight || 0,
       cbmWeight: values?.cbmWeight || 0,
       netWeight: values?.netWeight || 0,
@@ -177,8 +179,12 @@ function CreateChaShipmentBooking() {
       `${imarineBaseUrl}/domain/CHAShipment/SaveOrUpdateCHAShipmentBooking`,
       payload,
       () => {
-        cb();
+        if (id) {
+        } else {
+          cb();
+        }
       },
+      true,
     );
   };
 
@@ -243,9 +249,9 @@ function CreateChaShipmentBooking() {
                   label: resData?.customerName,
                 }
               : '',
-            ffw: resData?.ffwId
+            ffw: resData?.ffw
               ? {
-                  value: resData?.ffwId,
+                  value: resData?.ffw,
                   label: resData?.ffw,
                 }
               : '',
@@ -293,8 +299,8 @@ function CreateChaShipmentBooking() {
                 }
               : '',
             portOfDelivery: resData?.portOfDelivery || '',
-            csOrSalesPic: resData?.csSalesPicId
-              ? { value: resData?.csSalesPicId, label: resData?.csSalesPic }
+            csSalesPic: resData?.cssalesPicId
+              ? { value: resData?.cssalesPicId, label: resData?.csSalesPic }
               : '',
             commodity: resData?.commodityId
               ? {
@@ -313,7 +319,9 @@ function CreateChaShipmentBooking() {
             exchangeRate: resData?.exchangeRate || '',
             // middle section
 
-            copyDocReceived: resData?.copyDocReceived || '',
+            copyDocReceived: resData?.copyDocReceived
+              ? _dateFormatter(resData?.copyDocReceived)
+              : '',
             invoiceValue: resData?.invoiceValue || '',
             commercialInvoiceNo: resData?.commercialInvoiceNo || '',
             invoiceDate: resData?.invoiceDate
@@ -334,8 +342,8 @@ function CreateChaShipmentBooking() {
             remarks: resData?.remarks || '',
             quantity: resData?.quantity || '',
             billOfEntry: resData?.billOfEntry || '',
-            billOfEDate: resData?.billOfEDate
-              ? _dateFormatter(resData?.billOfEDate)
+            billOfEntryDate: resData?.billOfEntryDate
+              ? _dateFormatter(resData?.billOfEntryDate)
               : '',
             dischargingVesselNo: resData?.dischargingVesselNo || '',
             netWeight: resData?.netWeight || '',
@@ -717,9 +725,9 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <label>CS/Sales PIC</label>
                     <SearchAsyncSelect
-                      selectedValue={values?.csOrSalesPic}
+                      selectedValue={values?.csSalesPic}
                       handleChange={(valueOption) => {
-                        setFieldValue('csOrSalesPic', valueOption);
+                        setFieldValue('csSalesPic', valueOption);
                       }}
                       loadOptions={(v) => {
                         if (v?.length < 3) return [];
@@ -966,10 +974,10 @@ function CreateChaShipmentBooking() {
                     <InputField
                       label="Bill of /E Date"
                       type="date"
-                      name="billOfEDate"
-                      value={values?.billOfEDate}
+                      name="billOfEntryDate"
+                      value={values?.billOfEntryDate}
                       onChange={(e) => {
-                        setFieldValue('billOfEDate', e.target.value);
+                        setFieldValue('billOfEntryDate', e.target.value);
                       }}
                     />
                   </div>

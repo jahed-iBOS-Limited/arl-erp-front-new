@@ -11,6 +11,8 @@ import { imarineBaseUrl } from '../../../../App';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import { useState } from 'react';
 import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import ViewInfo from './viewInfo';
 
 const validationSchema = Yup.object().shape({});
 
@@ -22,6 +24,8 @@ export default function ChaShipmentBooking() {
   ] = useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
+  const [viewModal, setViewModal] = useState(false);
+  const [clickRowDto, setClickRowDto] = useState({});
   let history = useHistory();
   const formikRef = React.useRef(null);
   const saveHandler = (values, cb) => {};
@@ -44,12 +48,6 @@ export default function ChaShipmentBooking() {
         history.push(
           '/cargoManagement/cha-operation/cha-shipment-booking/create',
         );
-      }}
-      backHandler={() => {
-        history.goBack();
-      }}
-      resetHandler={() => {
-        formikRef.current.resetForm();
       }}
     >
       <Formik
@@ -111,7 +109,12 @@ export default function ChaShipmentBooking() {
                               <td>{item?.volumetricWeight}</td>
                               <td>
                                 <div className="d-flex justify-content-around">
-                                  <span>
+                                  <span
+                                    onClick={() => {
+                                      setViewModal(true);
+                                      setClickRowDto(item);
+                                    }}
+                                  >
                                     <IView />
                                   </span>
                                   <span
@@ -147,6 +150,18 @@ export default function ChaShipmentBooking() {
                       setPageSize,
                     }}
                   />
+                )}
+
+                {viewModal && (
+                  <IViewModal
+                    show={viewModal}
+                    onHide={() => {
+                      setViewModal(false);
+                    }}
+                    title={'View Information'}
+                  >
+                    <ViewInfo clickRowDto={clickRowDto} />
+                  </IViewModal>
                 )}
               </div>
             </Form>
