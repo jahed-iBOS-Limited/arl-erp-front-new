@@ -15,14 +15,21 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelectMulti from "../../../../_helper/SearchAsyncSelectMulti";
 import { attachmentUpload } from "./helper";
 const validationSchema = Yup.object().shape({
-  //   activityDateTime: Yup.string().required("Date is required"),
-  //   description: Yup.string().required("Agenda is required"),
-  //   outcome: Yup.string().required("Outcome is required"),
-  //   calledbyName: Yup.object().shape({
-  //     value: Yup.number().required("Call By is required"),
-  //     label: Yup.string().required("Call By is required"),
-  //   }),
-  //   followUpDate: Yup.string().required("Follow Up Date is required"),
+  startDateTime: Yup.string().required("Start Date is required"),
+  endDateTime: Yup.string().required("End Date is required"),
+  address: Yup.string().required("Location is required"),
+  meetingType: Yup.object().shape({
+    value: Yup.string().required("Meeting Type is required"),
+    label: Yup.string().required("Meeting Type is required"),
+  }),
+  meetingWithName: Yup.string().required("Meeting With is required"),
+  description: Yup.string().required("Description is required"),
+  outcome: Yup.string().required("Outcome is required"),
+  scheduleTypeName: Yup.object().shape({
+    value: Yup.number().required("Schedule Type is required"),
+    label: Yup.string().required("Schedule Type is required"),
+  }),
+  followUpDate: Yup.string().required("Follow Up Date is required"),
 });
 export default function MeetingTab({ data }) {
   const formikRef = React.useRef(null);
@@ -55,12 +62,14 @@ export default function MeetingTab({ data }) {
       meetingWithId: 0,
       meetingWithName: values?.meetingWithName || "",
 
-      invitedAttendees: values?.invitedAttendees
-        ?.map((item) => item?.label)
-        .join(),
-      invitedAttendeesId: values?.invitedAttendees
-        ?.map((item) => item?.value)
-        .join(),
+      invitedAttendees:
+        values?.invitedAttendees?.length > 0
+          ? values?.invitedAttendees?.map((item) => item?.label).join()
+          : "",
+      invitedAttendeesId:
+        values?.invitedAttendees?.length > 0
+          ? values?.invitedAttendees?.map((item) => item?.value).join()
+          : "",
       address: values?.address || "",
 
       startDateTime: values?.startDateTime || new Date(),
