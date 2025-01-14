@@ -17,41 +17,44 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../../_helper/TextArea";
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
-  phone: Yup.number().required("Phone is required"),
-  email: Yup.string()
-    .required("Email is required")
-    .email("Email is invalid"),
-  storied: Yup.object().shape({
-    value: Yup.number().required("This fields is required"),
-    label: Yup.string().required("This fields is required"),
-  }),
-  projectStatus: Yup.object().shape({
-    value: Yup.number().required("Project Status is required"),
-    label: Yup.string().required("Project Status is required"),
-  }),
-  division: Yup.object().shape({
-    value: Yup.number().required("Division is required"),
-    label: Yup.string().required("Division is required"),
-  }),
-  district: Yup.object().shape({
-    value: Yup.number().required("District is required"),
-    label: Yup.string().required("District is required"),
-  }),
-  // thana: Yup.object().shape({
-  //   value: Yup.number().required("Thana is required"),
-  //   label: Yup.string().required("Thana is required"),
-  // }),
-  shipToPartnerName: Yup.string().required("Shop is required"),
-  shipToPartnerAddress: Yup.string().required(
-    "Retail Shop Address is required"
-  ),
-});
+
 function CreateCustomerLeadGeneration() {
   const history = useHistory();
   const { id } = useParams();
-
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Name is required"),
+    phone: Yup.number().required("Phone is required"),
+    email: Yup.string()
+      .required("Email is required")
+      .email("Email is invalid"),
+    storied: Yup.object().shape({
+      value: Yup.number().required("This fields is required"),
+      label: Yup.string().required("This fields is required"),
+    }),
+    projectStatus: Yup.object().shape({
+      value: Yup.number().required("Project Status is required"),
+      label: Yup.string().required("Project Status is required"),
+    }),
+    division: Yup.object().shape({
+      value: Yup.number().required("Division is required"),
+      label: Yup.string().required("Division is required"),
+    }),
+    district: Yup.object().shape({
+      value: Yup.number().required("District is required"),
+      label: Yup.string().required("District is required"),
+    }),
+    // thana: Yup.object().shape({
+    //   value: Yup.number().required("Thana is required"),
+    //   label: Yup.string().required("Thana is required"),
+    // }),
+    shipToPartnerName: Yup.string().required("Shop is required"),
+    shipToPartnerAddress: Yup.string().required(
+      "Retail Shop Address is required"
+    ),
+    updatedDateTime: id
+      ? Yup.string().required("Date & Time is required")
+      : Yup.string(),
+  });
   const formikRef = React.useRef(null);
 
   const {
@@ -316,6 +319,7 @@ function CreateCustomerLeadGeneration() {
         `/oms/SalesQuotation/GetCustomerAcquisitionById?customerAcquisitionId=${id}`,
         (data) => {
           formikRef.current.setValues({
+            updatedDateTime: "",
             name: data?.customerName || "",
             phone: data?.customerPhone || "",
             email: data?.customerEmail || "",
