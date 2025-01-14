@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Form, Formik } from "formik";
 import { DropzoneDialogBase } from "material-ui-dropzone";
 import React from "react";
@@ -12,19 +11,23 @@ import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions"
 import NewSelect from "../../../../_helper/_select";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import { attachmentUpload } from "./helper";
 const validationSchema = Yup.object().shape({
   activityDateTime: Yup.string().required("Date is required"),
-  description: Yup.string().required("Agenda is required"),
-  outcome: Yup.string().required("Outcome is required"),
-  calledbyName: Yup.object().shape({
-    value: Yup.number().required("Call By is required"),
-    label: Yup.string().required("Call By is required"),
-  }),
+  to: Yup.string()
+    .required("To is required")
+    .email("Invalid email address"),
+  cc: Yup.string()
+    .required("CC is required")
+    .email("Invalid email address"),
+  bcc: Yup.string()
+    .required("BCC is required")
+    .email("Invalid email address"),
+  titleOrSubject: Yup.string().required("Subject is required"),
+  description: Yup.string().required("Description is required"),
   followUpDate: Yup.string().required("Follow Up Date is required"),
 });
-export default function CallTab({ data }) {
+export default function EmailTab({ data }) {
   const formikRef = React.useRef(null);
   const dispatch = useDispatch();
 
@@ -44,15 +47,19 @@ export default function CallTab({ data }) {
       businessUnitId: selectedBusinessUnit?.value,
       customerAcquisitionId: data?.customerAcquisitionId || 0,
       stageName: data?.currentStage || "",
-      activityTypeId: 1,
-      activityTypeName: "Call",
+      activityTypeId: 2,
+      activityTypeName: "Email",
 
-      calledbyId: values?.calledbyName?.value || 0,
-      calledbyName: values?.calledbyName?.label || "",
+      from: values?.from || "",
+      to: values?.to || "",
+      cc: values?.cc || "",
+      bcc: values?.bcc || "",
 
       activityDateTime: values?.activityDateTime || new Date(),
+      titleOrSubject: values?.titleOrSubject || "",
+
       description: values?.description || "",
-      outcome: values?.outcome || "",
+      //   outcome: values?.outcome || "",
       attachment: values?.documentFileId || "",
       actionBy: userId || 0,
 
@@ -61,7 +68,6 @@ export default function CallTab({ data }) {
 
       followUpDate: values?.followUpDate || new Date(),
     };
-
     SaveCustomerFollowUpActivity(
       "/oms/SalesQuotation/CreateCustomerFollowUpActivity",
       payload,
@@ -73,16 +79,7 @@ export default function CallTab({ data }) {
       "save"
     );
   };
-  const loadCallByDDL = (v) => {
-    if (v?.length < 2) return [];
-    return axios
-      .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&search=${v}`
-      )
-      .then((res) => {
-        return res?.data;
-      });
-  };
+
   // get all ddl
   React.useEffect(() => {
     getScheduleTypeDDL(`/oms/SalesQuotation/GetFollowUpActivityTypeDDL`);
@@ -90,7 +87,7 @@ export default function CallTab({ data }) {
   }, []);
   return (
     <ICustomCard
-      title={"Call"}
+      title={"Email"}
       saveHandler={(values) => {
         formikRef.current.submitForm();
       }}
@@ -103,9 +100,11 @@ export default function CallTab({ data }) {
         enableReinitialize={true}
         initialValues={{
           activityDateTime: "",
+          to: "",
+          cc: "",
+          bcc: "",
+          titleOrSubject: "",
           description: "",
-          outcome: "",
-          calledbyName: "",
           scheduleTypeName: "",
           followUpDate: "",
           attachment: "",
@@ -143,43 +142,67 @@ export default function CallTab({ data }) {
                       }}
                     />
                   </div>
-                  {/* Agenda */}
+                  {/* to */}
                   <div className="col-lg-3">
                     <InputField
-                      label="Agenda"
+                      label="To"
+                      name="to"
+                      value={values?.to}
+                      placeholder="To"
+                      onChange={(e) => {
+                        setFieldValue("to", e.target.value);
+                      }}
+                    />
+                  </div>
+                  {/* CC */}
+                  <div className="col-lg-3">
+                    <InputField
+                      label="CC"
+                      name="cc"
+                      value={values?.cc}
+                      placeholder="cc"
+                      onChange={(e) => {
+                        setFieldValue("cc", e.target.value);
+                      }}
+                    />
+                  </div>
+                  {/* BCC */}
+                  <div className="col-lg-3">
+                    <InputField
+                      label="BCC"
+                      name="bcc"
+                      value={values?.bcc}
+                      placeholder="bcc"
+                      onChange={(e) => {
+                        setFieldValue("bcc", e.target.value);
+                      }}
+                    />
+                  </div>
+                  {/* Subject */}
+                  <div className="col-lg-3">
+                    <InputField
+                      label="Subject"
+                      name="titleOrSubject"
+                      value={values?.titleOrSubject}
+                      placeholder="Subject"
+                      onChange={(e) => {
+                        setFieldValue("titleOrSubject", e.target.value);
+                      }}
+                    />
+                  </div>
+                  {/* Description */}
+                  <div className="col-lg-3">
+                    <InputField
+                      label="Description"
                       name="description"
                       value={values?.description}
-                      placeholder="Agenda"
+                      placeholder="Description"
                       onChange={(e) => {
                         setFieldValue("description", e.target.value);
                       }}
                     />
                   </div>
-                  {/* Outcome */}
-                  <div className="col-lg-3">
-                    <InputField
-                      label="Outcome"
-                      name="outcome"
-                      value={values?.outcome}
-                      placeholder="Outcome"
-                      onChange={(e) => {
-                        setFieldValue("outcome", e.target.value);
-                      }}
-                    />
-                  </div>
-                  {/* Call By */}
-                  <div className="col-lg-3">
-                    <label>Call By</label>
-                    <SearchAsyncSelect
-                      selectedValue={values?.calledbyName}
-                      isSearchIcon={true}
-                      handleChange={(valueOption) => {
-                        setFieldValue("calledbyName", valueOption);
-                      }}
-                      loadOptions={loadCallByDDL}
-                      placeholder="Search (min 2 letter)"
-                    />
-                  </div>
+
                   {/* scheduleType */}
                   <div className="col-lg-3">
                     <NewSelect
