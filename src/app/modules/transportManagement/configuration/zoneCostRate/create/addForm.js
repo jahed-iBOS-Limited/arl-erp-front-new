@@ -10,7 +10,7 @@ import {
   getZoneDDL,
   getShipPointDDL,
   getIsSubsidyRunningApi,
-  getIsAmountBase,
+  getIsAmountOrDistanceBase,
 } from "../helper";
 import Loading from "../../../../_helper/_loading";
 import { toast } from "react-toastify";
@@ -50,7 +50,7 @@ export default function ZoneCostRateForm() {
   const [objProps, setObjprops] = useState({});
   const [rows, setRows] = useState([]);
   const params = useParams();
-  const [isAmountBase, setIsAmountBase] = useState(false);
+  const [isAmountOrDistanceBase, setIsAmountOrDistanceBase] = useState(false);
 
   const [zoneDDL, setZoneDDL] = useState([]);
   const [shipPointDDL, setShipPointDDL] = useState([]);
@@ -76,7 +76,7 @@ export default function ZoneCostRateForm() {
     getIsSubsidyRunningApi(accId, buId, setIsSubsidyRunning);
     getZoneDDL(accId, buId, setZoneDDL);
     getShipPointDDL(accId, buId, setShipPointDDL);
-    getIsAmountBase(buId, setIsAmountBase);
+    getIsAmountOrDistanceBase(buId, setIsAmountOrDistanceBase);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accId, buId]);
 
@@ -99,7 +99,9 @@ export default function ZoneCostRateForm() {
       rangeTo: rangeTo,
       slabRate: slabRate,
       categoryName: buId === 171 || buId === 224 ? categoryName?.label : categoryName,
-      isAmountBase: isAmountBase,
+      isAmountBase:isAmountOrDistanceBase?.isAmountBase,
+      isDistanceBase:isAmountOrDistanceBase?.isDistanceBase,
+
     };
     setRows([...rows, row]);
     setFieldValue("rangeFrom", "");
@@ -115,7 +117,7 @@ export default function ZoneCostRateForm() {
   };
 
   const saveHandler = async (values, cb) => {
-    if (isAmountBase === null) {
+    if (isAmountOrDistanceBase?.isAmountBase === null) {
       return toast.error("Business unit operation not configured!");
     }
     if (accId && buId) {
@@ -135,7 +137,8 @@ export default function ZoneCostRateForm() {
         num14TonRate: +values?.num14TonRate,
         num2TonRate: +values?.num2TonRate,
         num20TonRate: +values?.num20TonRate,
-        isAmountBase: isAmountBase,
+        isAmountBase: isAmountOrDistanceBase?.isAmountBase,
+        isDistanceBase: isAmountOrDistanceBase?.isDistanceBase,
         // isAmountBase: values?.isAmountBase,
         distanceKm: +values?.distanceKm,
         additionalAmount: +values?.additionalAmount,
@@ -191,7 +194,7 @@ export default function ZoneCostRateForm() {
         addRows={addRows}
         remover={remover}
         isSubsidyRunning={isSubsidyRunning}
-        isAmountBase={isAmountBase}
+        isAmountOrDistanceBase={isAmountOrDistanceBase}
         buId={buId}
       />
     </IForm>
