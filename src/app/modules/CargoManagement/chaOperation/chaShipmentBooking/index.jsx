@@ -8,6 +8,7 @@ import Loading from '../../../_helper/_loading';
 import IView from '../../../_helper/_helperIcons/_view';
 import IEdit from '../../../_helper/_helperIcons/_edit';
 import { imarineBaseUrl } from '../../../../App';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 const validationSchema = Yup.object().shape({});
 
@@ -96,7 +97,11 @@ export default function ChaShipmentBooking() {
                               <td>{item?.carrierName}</td>
                               <td>{item?.customerName}</td>
                               <td>{item?.commercialInvoiceNo}</td>
-                              <td>{item?.invoiceDate}</td>
+                              <td>
+                                {item?.invoiceDate
+                                  ? _dateFormatter(item?.invoiceDate)
+                                  : ''}
+                              </td>
                               <td>{item?.netWeight}</td>
                               <td>{item?.grossWeight}</td>
                               <td>{item?.volumetricWeight}</td>

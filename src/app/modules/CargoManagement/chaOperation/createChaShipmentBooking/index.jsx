@@ -13,6 +13,8 @@ import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
 import axios from 'axios';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import Loading from '../../../_helper/_loading';
+import { useLocation, useParams } from 'react-router-dom';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 const INCOTERMS_OPTIONS = [
   { label: 'EXW', value: 'exw' },
   { label: 'FCA', value: 'fca' },
@@ -74,6 +76,7 @@ const initData = {
 
 const validationSchema = Yup.object().shape({});
 function CreateChaShipmentBooking() {
+  const formikRef = React.useRef(null);
   const [
     ,
     SaveOrUpdateChaShipmentBooking,
@@ -94,21 +97,18 @@ function CreateChaShipmentBooking() {
   const [commodityDDL, getCommodityDDL] = useAxiosGet();
   const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
   const [currencyList, GetBaseCurrencyList, , setCurrencyList] = useAxiosGet();
-  // const [businessPartnerDDL, getBusinessPartnerDDL] = useAxiosGet();
+  const [
+    singleChaShipmentBooking,
+    getSingleChaShipmentBooking,
+    singleChaShipmentBookingLoading,
+  ] = useAxiosGet();
   const [shipperDDL, getShipperDDL] = useAxiosGet();
+  const { id } = useParams();
   const history = useHistory();
-  //   const { id } = useParams();
-  const formikRef = React.useRef(null);
-
-  //   const {
-  //     profileData: { userId },
-  //   } = useSelector((state) => {
-  //     return state?.authData;
-  //   }, shallowEqual);
 
   const saveHandler = (values, cb) => {
     const payload = {
-      bookingId: 0,
+      bookingId: singleChaShipmentBooking?.chabookingId || 0,
       accountId: profileData?.accountId,
       businessUnitId: selectedBusinessUnit?.value,
       hblNo: values?.hblOrHawb || '',
@@ -217,9 +217,147 @@ function CreateChaShipmentBooking() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (id) {
+      getSingleChaShipmentBooking(
+        `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${id}`,
+        (resData) => {
+          const valuesObj = {
+            // top section
+            impExpType: resData?.impExpId,
+            hblOrHawb: resData?.hblNo,
+            mblOrMawb: resData?.mblNo,
+            transportMode: resData?.modeOfTransportId
+              ? {
+                  value: resData?.modeOfTransportId,
+                  label: resData?.modeOfTransportName,
+                }
+              : '',
+            carrier: resData?.carrierId
+              ? {
+                  value: resData?.carrierId,
+                  label: resData?.carrierName,
+                }
+              : '',
+            customer: resData?.customerId
+              ? {
+                  value: resData?.customerId,
+                  label: resData?.customerName,
+                }
+              : '',
+            ffw: resData?.ffwId
+              ? {
+                  value: resData?.ffwId,
+                  label: resData?.ffw,
+                }
+              : '',
+            shipper: resData?.shipperId
+              ? {
+                  value: resData?.shipperId,
+                  label: resData?.shipperName,
+                }
+              : '',
+            fclOrLcl: resData?.fcllclId
+              ? {
+                  value: resData?.fcllclId,
+                  label: resData?.fcllclName,
+                }
+              : '',
+            portOfReceive: resData?.portOfReceive || '',
+            consignee: resData?.consigneeId
+              ? {
+                  value: resData?.consigneeId,
+                  label: resData?.consignee,
+                }
+              : '',
+            incoterm: resData?.incotermName
+              ? {
+                  value: 0,
+                  label: resData?.incotermName,
+                }
+              : '',
+            portOfLoading: resData?.portOfLoading
+              ? {
+                  value: 1,
+                  label: resData?.portOfLoading,
+                }
+              : '',
+            thirdPartyPay: resData?.thirdPartyId
+              ? {
+                  value: resData?.thirdPartyId,
+                  label: resData?.thirdPartyName,
+                }
+              : '',
+            depoOrPlace: resData?.depoPlaceId
+              ? {
+                  value: resData?.depoPlaceId,
+                  label: resData?.depoPlaceName,
+                }
+              : '',
+            portOfDelivery: resData?.portOfDelivery || '',
+            csOrSalesPic: resData?.csSalesPicId
+              ? { value: resData?.csSalesPicId, label: resData?.csSalesPic }
+              : '',
+            commodity: resData?.commodityId
+              ? {
+                  value: resData?.commodityId,
+                  label: resData?.commodityName,
+                }
+              : '',
+            placeOfDelivery: resData?.placeOfDelivery || '',
+            containerQty: resData?.containerQty || '',
+            currency: resData?.currency
+              ? {
+                  value: 0,
+                  label: resData?.currency,
+                }
+              : '',
+            exchangeRate: resData?.exchangeRate || '',
+            // middle section
+
+            copyDocReceived: resData?.copyDocReceived || '',
+            invoiceValue: resData?.invoiceValue || '',
+            commercialInvoiceNo: resData?.commercialInvoiceNo || '',
+            invoiceDate: resData?.invoiceDate
+              ? _dateFormatter(resData?.invoiceDate)
+              : '',
+            originCountry: resData?.originCountryId
+              ? {
+                  value: resData?.originCountryId,
+                  label: resData?.originCountry,
+                }
+              : '',
+            assessed: resData?.assessed || '',
+            assessedDate: resData?.assessedDate
+              ? _dateFormatter(resData?.assessedDate)
+              : '',
+            exp: resData?.exp || '',
+            expDate: resData?.expDate ? _dateFormatter(resData?.expDate) : '',
+            remarks: resData?.remarks || '',
+            quantity: resData?.quantity || '',
+            billOfEntry: resData?.billOfEntry || '',
+            billOfEDate: resData?.billOfEDate
+              ? _dateFormatter(resData?.billOfEDate)
+              : '',
+            dischargingVesselNo: resData?.dischargingVesselNo || '',
+            netWeight: resData?.netWeight || '',
+            grossWeight: resData?.grossWeight || '',
+            volumetricWeight: resData?.volumetricWeight || '',
+            etaDate: resData?.eta ? _dateFormatter(resData?.eta) : '',
+            ataDate: resData?.ata ? _dateFormatter(resData?.ata) : '',
+            cbmWeight: resData?.cbmWeight || '',
+          };
+
+          formikRef.current.setValues(valuesObj);
+        },
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
   return (
     <ICustomCard
-      title={'Create Customer Lead Generation'}
+      title={id ? 'Edit Cha Shipment Booking' : 'Create Cha Shipment Booking'}
       backHandler={() => {
         history.goBack();
       }}
@@ -244,7 +382,8 @@ function CreateChaShipmentBooking() {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
-            {saveOrUpdateChaShipmentLoading && <Loading />}
+            {(saveOrUpdateChaShipmentLoading ||
+              singleChaShipmentBookingLoading) && <Loading />}
             <Form className="form form-label-right">
               <div>
                 <div className="form-group row global-form">
