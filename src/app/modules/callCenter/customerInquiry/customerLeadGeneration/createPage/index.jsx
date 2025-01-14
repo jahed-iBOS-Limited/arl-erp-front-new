@@ -17,7 +17,6 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../../_helper/TextArea";
-
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   phone: Yup.number().required("Phone is required"),
@@ -48,26 +47,11 @@ const validationSchema = Yup.object().shape({
   shipToPartnerAddress: Yup.string().required(
     "Retail Shop Address is required"
   ),
-  //   deliveryAddress: Yup.string().required("Delivery Address is required"),
-  //   sourceOrAdvertise: Yup.object().shape({
-  //     value: Yup.number().required("Source/Advertise is required"),
-  //     label: Yup.string().required("Source/Advertise is required"),
-  //   }),
-  //   reference: Yup.object().shape({
-  //     value: Yup.number().required("Reference is required"),
-  //     label: Yup.string().required("Reference is required"),
-  //   }),
-
-  //   item: Yup.object().shape({
-  //     value: Yup.number().required("Item is required"),
-  //     label: Yup.string().required("Item is required"),
-  //   }),
-  //   uom: Yup.string().required("UOM is required"),
-  //   quantity: Yup.number().required("Quantity is required"),
 });
 function CreateCustomerLeadGeneration() {
   const history = useHistory();
   const { id } = useParams();
+
   const formikRef = React.useRef(null);
 
   const {
@@ -197,7 +181,7 @@ function CreateCustomerLeadGeneration() {
         regionId: values?.region?.value || 0,
         currentStage: nextStage,
         lastActionBy: userId || 0,
-        updatedDateTime: new Date(),
+        updatedDateTime: values?.updatedDateTime || new Date(),
         isRejected: isRejected,
         shipPointId: values?.shipPoint?.value || 0,
         currentBrandId: values?.brand?.value || 0,
@@ -468,6 +452,7 @@ function CreateCustomerLeadGeneration() {
       <Formik
         enableReinitialize={true}
         initialValues={{
+          id: "",
           name: "",
           phone: "",
           email: "",
@@ -491,6 +476,7 @@ function CreateCustomerLeadGeneration() {
           uom: "",
           uomId: 0,
           quantity: "",
+          updatedDateTime: "",
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -512,6 +498,20 @@ function CreateCustomerLeadGeneration() {
                 }}
               >
                 <div className="form-group row global-form">
+                  {/* Date */}
+                  {id && (
+                    <div className="col-lg-3">
+                      <InputField
+                        label="Date & Time"
+                        type="datetime-local"
+                        name="updatedDateTime"
+                        value={values?.updatedDateTime}
+                        onChange={(e) => {
+                          setFieldValue("updatedDateTime", e.target.value);
+                        }}
+                      />
+                    </div>
+                  )}
                   {/* name */}
                   <div className="col-lg-3">
                     <InputField

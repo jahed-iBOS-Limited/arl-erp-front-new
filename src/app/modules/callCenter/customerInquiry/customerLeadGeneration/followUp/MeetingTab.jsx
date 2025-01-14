@@ -237,6 +237,23 @@ export default function MeetingTab({ data }) {
                       }}
                     />
                   </div>
+                  {/* Invited Attendees */}
+                  <div className="col-lg-3">
+                    <label>Invited Attendees</label>
+                    <SearchAsyncSelectMulti
+                      selectedValue={values?.invitedAttendees}
+                      isSearchIcon={true}
+                      onChange={(valueOption) => {
+                        if (valueOption) {
+                          setFieldValue("invitedAttendees", valueOption);
+                        } else {
+                          setFieldValue("invitedAttendees", []);
+                        }
+                      }}
+                      loadOptions={invitedAttendeesDDL}
+                      placeholder="Search (min 2 letter)"
+                    />
+                  </div>
                   {/* Description */}
                   <div className="col-lg-3">
                     <InputField
@@ -297,23 +314,6 @@ export default function MeetingTab({ data }) {
                       onChange={(e) => {
                         setFieldValue("followUpAddress", e.target.value);
                       }}
-                    />
-                  </div>
-                  {/* Invited Attendees */}
-                  <div className="col-lg-3">
-                    <label>Invited Attendees</label>
-                    <SearchAsyncSelectMulti
-                      selectedValue={values?.invitedAttendees}
-                      isSearchIcon={true}
-                      onChange={(valueOption) => {
-                        if (valueOption) {
-                          setFieldValue("invitedAttendees", valueOption);
-                        } else {
-                          setFieldValue("invitedAttendees", []);
-                        }
-                      }}
-                      loadOptions={invitedAttendeesDDL}
-                      placeholder="Search (min 2 letter)"
                     />
                   </div>
 
