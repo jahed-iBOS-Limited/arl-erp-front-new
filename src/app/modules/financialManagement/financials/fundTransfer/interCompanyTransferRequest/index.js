@@ -201,6 +201,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                     <th>Request Date</th>
                                                     <th>Requesting Unit</th>
                                                     <th>Request To Unit</th>
+                                                    <th>Transfer From</th>
                                                     <th>Receiving Account</th>
                                                     {/* <th>Sending Partner</th> */}
                                                     <th>Expect Date</th>
@@ -219,7 +220,8 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                         <td className="text-center">{_dateFormatter(item.dteRequestDate)}</td>
                                                         <td>{item.strRequestByUnitName}</td>
                                                         <td>{item.strRequestToUnitName}</td>
-                                                        <td>{item?.strRequestedBankName}</td>
+                                                        <td></td>
+                                                        <td>{item?.strRequestedBankAccountName}</td>
                                                         {/* <td>{item?.strGivenBankName}</td> */}
                                                         <td className="text-center">{_dateFormatter(item.dteExpectedDate)}</td>
                                                         <td className="text-right">{item.numAmount}</td>

@@ -235,8 +235,8 @@ export default function Contra({ viewType }) {
                                                         <td className="text-center">{item.strRequestCode}</td>
                                                         <td className="text-center">{_dateFormatter(item.dteRequestDate)}</td>
                                                         <td>{item.strRequestByUnitName}</td>
-                                                        <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : item?.strGivenBankName}</td>
-                                                        <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? item?.strGivenBankName : item?.strRequestedBankName}</td>
+                                                        <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : item?.strGivenBankAccountName}</td>
+                                                        <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? item?.strGivenBankAccountName : item?.strRequestedBankAccountName}</td>
                                                         <td className="text-center">{_dateFormatter(item.dteExpectedDate)}</td>
                                                         <td className="text-right">{item.numAmount}</td>
                                                         <td>{item.strResponsibleEmpName}</td>

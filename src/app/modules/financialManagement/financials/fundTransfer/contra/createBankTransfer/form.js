@@ -47,6 +47,9 @@ import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actio
 import TransferTable from './TransferTable';
 import ReceiveAndPaymentsTable from './ReceiveAndPaymentsTable';
 import DebitCredit from './DebitCredit';
+import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../../../_helper/_loading';
+import { approveHandeler } from '../../../fundTransferApproval/helper';
 // import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema for bank receive
@@ -121,6 +124,7 @@ export default function _Form({
   attachmentFile,
   setAttachmentFile,
   isEdit,
+  transferRowItem
 }) {
   const [sendToGLBank, setSendToGLBank] = useState([]);
   const [bankAcc, setBankAcc] = useState([]);
@@ -135,6 +139,8 @@ export default function _Form({
   const dispatch = useDispatch();
 
   const [partnerBank, getPartnerBank, , setPartnerBank] = useAxiosGet();
+  const [, onUpdateJournalHandler, updateJounalLoader] = useAxiosPost();
+
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -237,10 +243,24 @@ export default function _Form({
               {
                 label: 'Yes',
                 onClick: () => {
-                  saveHandler(values, () => {
+                  saveHandler(values, (journalCode) => {
                     // wont be reset as per requirement
                     // resetForm(initData);
                     if (jorunalType === 6) {
+                      // For Update Journal for Bank Transfer
+                      approveHandeler({
+                        item: transferRowItem,
+                        onApproveHandler: onUpdateJournalHandler,
+                        profileData,
+                        cb: () => {
+
+                        },
+                        isApproved: 1,
+                        isTransferCreated:1,
+                        journalCode: journalCode,
+                      });
+
+
                       setFieldValue('transferAmount', '');
                       dispatch(
                         setBankJournalCreateAction({
@@ -270,6 +290,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
+            {updateJounalLoader && <Loading />}
             <Form className="form form-label-right">
               <div className="row bank-journal-wrapper">
                 <div className="col-lg-4">

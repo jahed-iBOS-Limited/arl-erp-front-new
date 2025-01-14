@@ -12,6 +12,8 @@ import Loading from "../../../../../_helper/_loading";
 import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 import { setBankJournalCreateAction } from "../../../../../_helper/reduxForLocalStorage/Actions";
 import "./style.css";
+import { useHistory } from "react-router";
+
 
 
 export default function BankJournalCreateFormContra() {
@@ -19,10 +21,12 @@ export default function BankJournalCreateFormContra() {
   const [rowDto, setRowDto] = useState([]);
   const [instrumentNoByResponse, setInstrumentNoByResponse] = useState("");
   const location = useLocation();
-  let { selectedJournalTypeId, intRequestToUnitId, selectedFormValues, strRequestType, strTransferBy } = location?.state || {}// For Bank Transfer Only
+  let { selectedJournalTypeId, selectedFormValues, transferRowItem } = location?.state || {}// For Bank Transfer Only
+  let { intRequestToUnitId, strRequestType, strTransferBy } = transferRowItem || {}// For Bank Transfer Only
   const params = useParams();
   const [attachmentFile, setAttachmentFile] = useState("");
   const [sbuList, getSbuList] = useAxiosGet();
+  const history = useHistory();
 
   const storeData = useSelector((state) => {
     return {
@@ -55,7 +59,10 @@ export default function BankJournalCreateFormContra() {
       buttons: [
         {
           label: "Ok",
-          onClick: () => noAlertFunc(),
+          onClick: () => {
+            history.goBack();
+            noAlertFunc()
+          },
         },
       ],
     });
@@ -307,9 +314,6 @@ export default function BankJournalCreateFormContra() {
     setRowDto(data);
   };
 
-  console.log("rowDto", rowDto)
-
-
   return (
     <IForm
       title={
@@ -341,6 +345,7 @@ export default function BankJournalCreateFormContra() {
         attachmentFile={attachmentFile}
         setAttachmentFile={setAttachmentFile}
         isEdit={params?.id || false}
+        transferRowItem={transferRowItem}
       />
     </IForm>
   );
