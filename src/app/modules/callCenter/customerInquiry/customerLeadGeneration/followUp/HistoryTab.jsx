@@ -26,6 +26,10 @@ export default function HistoryTab({ id }) {
               <th>Activity Type</th>
               <th>Date</th>
               <th>Call By</th>
+              <th>Location</th>
+              <th>Meeting With</th>
+              <th>To</th>
+              <th>Stage</th>
               <th>Follow Up Date</th>
               <th>Description</th>
               <th>Outcomes</th>
@@ -43,6 +47,10 @@ export default function HistoryTab({ id }) {
                     )}
                 </td>
                 <td>{item?.calledbyName}</td>
+                <td>{item?.address}</td>
+                <td>{item?.meetingWithName}</td>
+                <td>{item?.to}</td>
+                <td>{item?.stageName}</td>
                 <td>
                   {moment(item?.followUpDate).isValid() &&
                     moment(item?.followUpDate).format("DDD MMM YYYY hh:mm A")}
