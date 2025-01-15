@@ -1,12 +1,12 @@
-import * as requestFromServer from "./Auth_Api";
-import { authSlice } from "./Auth_Slice";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { setCookie, setPeopledeskCookie } from "../../_helper/_cookie";
+import * as requestFromServer from './Auth_Api';
+import { authSlice } from './Auth_Slice';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { setCookie, setPeopledeskCookie } from '../../_helper/_cookie';
 const { actions } = authSlice;
 
 export const saveChatInfoAction = (email, name, accountId, userId) => (
-  dispatch
+  dispatch,
 ) => {
   return requestFromServer
     .saveChatInfo(email, name, accountId, userId)
@@ -14,7 +14,7 @@ export const saveChatInfoAction = (email, name, accountId, userId) => (
       dispatch(actions.setChatInfo(res?.data));
     })
     .catch((error) => {
-      console.log("Something went wrong");
+      console.log('Something went wrong');
     });
 };
 
@@ -45,7 +45,7 @@ export const getUserRoleAction = (userId) => (dispatch) => {
       dispatch(actions.setUserRole(res?.data));
     })
     .catch((error) => {
-      console.log("Something went wrong");
+      console.log('Something went wrong');
       dispatch(actions.setUserRole([]));
     });
 };
@@ -56,19 +56,19 @@ export const otpSendAndVerify = async (
   userId,
   type,
   otp,
-  loginAction
+  loginAction,
 ) => {
   setLoading(true);
   axios({
-    method: "get",
-    url: `/fino/CommonFino/CheckTwoFactorApproval?OtpType=${type}&intUnitId=4&strTransectionType=Login&intTransectionId=${userId}&strCode=${"123"}&intActionById=${userId}&strOTP=${otp ||
-      ""}&CancelType=1`,
+    method: 'get',
+    url: `/fino/CommonFino/CheckTwoFactorApproval?OtpType=${type}&intUnitId=4&strTransectionType=Login&intTransectionId=${userId}&strCode=${'123'}&intActionById=${userId}&strOTP=${otp ||
+      ''}&CancelType=1`,
     headers: { Authorization: `Bearer ${token}` },
   })
     .then((response) => {
       if (response?.data?.status === 0) {
         setLoading(false);
-        alert(response?.data?.message || "Try again");
+        alert(response?.data?.message || 'Try again');
         // toast.warn(response?.data?.message || "Try again")
         return null;
       }
@@ -81,7 +81,7 @@ export const otpSendAndVerify = async (
     .catch((error) => {
       setLoading(false);
       if (type === 2) {
-        toast.warn(error?.response?.data?.message || "Verification failed");
+        toast.warn(error?.response?.data?.message || 'Verification failed');
       }
     });
 };
@@ -94,7 +94,7 @@ export const Login = (
   setIsOtp,
   isSkipOtp,
   setUserId,
-  setToken
+  setToken,
 ) => (dispatch) => {
   setLoading && setLoading(true);
   return (
@@ -107,7 +107,7 @@ export const Login = (
             response?.data?.token,
             setLoading,
             response?.data?.userId,
-            1
+            1,
           );
           setIsOtp(true);
           setUserId(response?.data?.userId);
@@ -115,7 +115,7 @@ export const Login = (
           return null;
         }
         dispatch(
-          actions.LoginFetched({ isAuth: true, tokenData: response?.data })
+          actions.LoginFetched({ isAuth: true, tokenData: response?.data }),
         );
         setLoading && setLoading(false);
 
@@ -129,7 +129,7 @@ export const Login = (
             setLoading && setLoading(false);
             const { emailAddress, userId, accountId, userName } = res?.data[0];
             dispatch(
-              saveChatInfoAction(emailAddress, userName, accountId, userId)
+              saveChatInfoAction(emailAddress, userName, accountId, userId),
             );
           });
         }
@@ -139,7 +139,7 @@ export const Login = (
 
       // })
       .catch((error) => {
-        toast.error("Login Failed");
+        toast.error('Login Failed');
         error.clientMessage = "Can't find users";
         dispatch(actions.catchError());
         setLoading && setLoading(false);
@@ -149,8 +149,8 @@ export const Login = (
 
 // Logout user
 export const Logout = () => (dispatch) => {
-  setCookie("loginInfoRegister", JSON.stringify({}), 100);
-  setPeopledeskCookie("loginInfoPeopleDesk", JSON.stringify({}), 100);
+  setCookie('loginInfoRegister', JSON.stringify({}), 100);
+  setPeopledeskCookie('loginInfoPeopleDesk', JSON.stringify({}), 100);
   return dispatch(actions.LogOut());
 };
 
@@ -189,7 +189,7 @@ export const setBuList = (userId, accountId, CB) => (dispatch) => {
           };
           unitList.push(items);
         });
-        CB && CB(unitList)
+      CB && CB(unitList);
       dispatch(actions.SetBusinessUnitList(unitList));
     }
   });
@@ -216,7 +216,7 @@ const manuFilterFunc = (manuList) => {
     if (isVatMenuList) {
       // Remove items with IDs 65,25,27, 32, 37, 38, 74 from the subs list
       menuItem.subs = menuItem?.subs?.filter((subItem) => {
-        if ([65, 25, 27, 32, 37, 38, 74].includes(subItem?.id)) return false;
+        if ([65, 25, 27, 37, 38, 74].includes(subItem?.id)) return false;
         // check if the report menu is found
         if (subItem?.id === 53) {
           // 53 is the id of the item you want to remove  from the subs list
@@ -251,9 +251,17 @@ const manuFilterFunc = (manuList) => {
             // Remove items with IDs 164, 111 from the nestedSubs list
             if ([164, 111].includes(subItem?.id)) return false;
             if (subItem?.id === 174) {
-              subItem.label = "Sales Invoice";
+              subItem.label = 'Sales Invoice';
             }
             return subItem;
+          });
+        }
+        // check if the inventory menu is found
+        if (subItem?.id === 32) {
+          // 32 is the id of the item you want to remove  from the subs list
+          subItem.nestedSubs = subItem?.nestedSubs?.filter((subItem) => {
+            // 209 than show other wise hide
+            if ([209].includes(subItem?.id)) return true;
           });
         }
         return subItem;
