@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import ICustomTable from "../../../_helper/_customTable";
 import {
@@ -17,6 +17,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import IButton from "../../../_helper/iButton";
 import QRCodeScanner from "../../../_helper/qrCodeScanner";
+import { burstingQuantityTableHeader } from "./helper";
 import ShippingInfoDetails from "./shippingNote";
 
 const initData = {
@@ -62,6 +63,10 @@ export default function StoreInformationList() {
   const [open, setOpen] = useState(false);
   const [singleItem, setSingleItem] = useState({});
 
+  // ref
+  const formikRef = useRef(null);
+  const totalBurstingQuantity = useRef({ value: 0 });
+
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
@@ -73,14 +78,30 @@ export default function StoreInformationList() {
     return state?.commonDDL?.shippointDDL;
   }, shallowEqual);
 
-  // const saveHandler = (values, cb) => {
-  //   alert("Working...");
-  // };
+  useEffect(() => {
+    if (formikRef?.current && totalBurstingQuantity?.current) {
+      const reportType = formikRef?.current?.values?.type?.value;
+      if (reportType === 4) {
+        const burstingQuantity = rowData?.reduce(
+          (acc, item) => (acc += item?.burstingQuantity),
+          0
+        );
+
+        totalBurstingQuantity.current.value = burstingQuantity;
+      }
+    }
+  });
 
   const getData = (values, _pageNo = 0, _pageSize = 300) => {
-    getRowData(
-      `/oms/LoadingPoint/GetStoreLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${accId}&businessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
-    );
+    if (values?.type?.value === 4) {
+      getRowData(
+        `/oms/LoadingPoint/GetShipmentBurstingQuantityReport?businessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&isTransferChallan=${values?.transferChallan?.value}`
+      );
+    } else {
+      getRowData(
+        `/oms/LoadingPoint/GetStoreLoadingConfirmation?isTransferChallan=false&statusId=${values?.type?.value}&accountId=${accId}&businessUnitId=${buId}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}&pageNo=${_pageNo}&pageSize=${_pageSize}`
+      );
+    }
   };
 
   const isLoading = loader || loading || rowLoading;
@@ -96,6 +117,32 @@ export default function StoreInformationList() {
     );
   };
 
+  // transfer challan
+  function TransferChallan({ obj }) {
+    const { values, setFieldValue } = obj;
+
+    return values?.type?.value === 4 ? (
+      <div className="col-lg-3">
+        <NewSelect
+          name="transferChallan"
+          options={[
+            { value: true, label: "True" },
+            { value: false, label: "False" },
+          ]}
+          value={values?.transferChallan}
+          label="Transfer Challan"
+          onChange={(valueOption) => {
+            setFieldValue("transferChallan", valueOption);
+            setRowData([]);
+            setReportData({});
+          }}
+        />
+      </div>
+    ) : (
+      <></>
+    );
+  }
+
   return (
     <Formik
       enableReinitialize={true}
@@ -106,6 +153,7 @@ export default function StoreInformationList() {
       //     resetForm(initData);
       //   });
       // }}
+      innerRef={formikRef}
     >
       {({ handleSubmit, resetForm, values, setFieldValue, setValues }) => (
         <>
@@ -166,6 +214,8 @@ export default function StoreInformationList() {
                     options={[
                       { value: 1, label: "Bag Issue Pending List" },
                       { value: 2, label: "Bag Issued List" },
+                      { value: 4, label: "Bursting Quantity Report" },
+
                       // { value: 3, label: "Scan Card/QR Code" },
                       // { value: 2, label: "Loading Completed" },
                     ]}
@@ -179,7 +229,10 @@ export default function StoreInformationList() {
                     placeholder="Type"
                   />
                 </div>
-                {[1, 2].includes(values?.type?.value) && (
+
+                <TransferChallan obj={{ values, setFieldValue }} />
+
+                {[1, 2, 4].includes(values?.type?.value) && (
                   <>
                     <div className="col-lg-3">
                       <NewSelect
@@ -405,6 +458,30 @@ export default function StoreInformationList() {
                   </>
                 )}
               </div>
+
+              {/* Brusting Quantity Report Table */}
+              {rowData?.length > 0 && [4].includes(values?.type?.value) ? (
+                <ICustomTable ths={burstingQuantityTableHeader}>
+                  {rowData?.map((item, index) => (
+                    <tr index={index}>
+                      <td>{index + 1}</td>
+                      <td>{_dateFormatter(item?.shipmentDate)}</td>
+                      <td>{item?.shipPointName}</td>
+                      <td>{item?.shipmentCode}</td>
+                      <td className="text-right">{item?.burstingQuantity}</td>
+                    </tr>
+                  ))}
+                  <tr>
+                    <td colSpan={4}>Total</td>
+                    <td className="text-right">
+                      {totalBurstingQuantity?.current?.value}
+                    </td>
+                  </tr>
+                </ICustomTable>
+              ) : (
+                <></>
+              )}
+
               {(reportData?.objRow?.length > 0 ||
                 rowData?.data?.length > 0) && (
                 <ICustomTable
