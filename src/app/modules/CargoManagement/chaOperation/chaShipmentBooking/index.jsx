@@ -71,6 +71,7 @@ export default function ChaShipmentBooking() {
                     <thead>
                       <tr>
                         <th>SL</th>
+                        <th>ImpOrExp</th>
                         <th>HBL/HAWB</th>
                         <th>MBL/MAWB</th>
                         <th>Mode of Transport</th>
@@ -93,6 +94,7 @@ export default function ChaShipmentBooking() {
                                 {' '}
                                 {index + 1}
                               </td>
+                              <td>{item?.impExp}</td>
                               <td>{item?.hblNo}</td>
                               <td>{item?.mblNo}</td>
                               <td>{item?.modeOfTransportName}</td>
