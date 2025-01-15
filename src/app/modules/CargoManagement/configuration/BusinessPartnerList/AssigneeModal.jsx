@@ -123,6 +123,7 @@ export default function AssigneeModal({
       mappingId: 0,
       shipperId: values?.shipper?.value || 0,
       shipperName: values?.shipper?.label || '',
+      businessPartnerTypeName: values?.businessPartnerType?.label || '',
       participantTypeId: values?.participantType?.value || 0,
       participantType: values?.participantType?.label || '',
       participantId: values?.participant?.value || 0,
@@ -175,6 +176,7 @@ export default function AssigneeModal({
             isActive: true,
             createdBy: profileData?.userId || 0,
             createdAt: new Date(),
+            businessPartnerTypeName: item?.businessPartnerTypeName || '',
           };
         });
         setAddedItem(addedItems);
@@ -332,6 +334,7 @@ export default function AssigneeModal({
                   <tr>
                     <th>SL</th>
                     <th>Shipper</th>
+                    <th>Partner Type</th>
                     <th>Participant Type</th>
                     <th>Participant</th>
                     {!isViewMoadal && <th>Action</th>}
@@ -348,6 +351,7 @@ export default function AssigneeModal({
                       <td>{index + 1}</td>
 
                       <td>{item?.shipperName}</td>
+                      <td>{item?.businessPartnerTypeName}</td>
                       <td>{item?.participantType}</td>
                       <td>{item?.participantName}</td>
                       {!isViewMoadal && (

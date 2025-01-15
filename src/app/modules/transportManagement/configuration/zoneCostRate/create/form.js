@@ -36,6 +36,80 @@ const validationSchema = Yup.object().shape({
   additionalAmount: Yup.string().required("Additional Amount is required"),
 });
 
+/* condition for bu 232 agro feed */
+function isAgroFeedAndLabelChange(bu, changeFrom, changeTo) {
+  if (bu === 232) {
+    return changeTo;
+  }
+  return changeFrom;
+}
+
+// category name
+function CategoryNameFormField({ obj }) {
+  const { buId, values, setFieldValue, errors, touched, isView } = obj;
+
+  if (buId === 171 || buId === 224) {
+    return (
+      <div className="col-lg-2">
+        <NewSelect
+          name="categoryName"
+          options={[
+            { value: 1, label: "Straight" },
+            { value: 2, label: "Bend" },
+          ]}
+          value={values?.categoryName}
+          label="Select Category name"
+          onChange={(valueOption) => {
+            setFieldValue("categoryName", valueOption);
+          }}
+          placeholder="Select Category name"
+          errors={errors}
+          touched={touched}
+          isDisabled={isView}
+        />
+      </div>
+    );
+  } else if (buId === 232) {
+    return <></>;
+  } else {
+    return (
+      <div className="col-lg-2">
+        <InputField
+          value={values?.categoryName}
+          label="Category Name"
+          placeholder="Category Name"
+          name="categoryName"
+          type="text"
+          disabled={isView}
+        />
+      </div>
+    );
+  }
+}
+
+// is agro feed show distance bance checkbox
+function AgroFeedAndDistanceCheckbox({ obj }) {
+  const { values, setFieldValue } = obj;
+  return (
+    <div className="col-lg-2 mt-5 d-flex align-items-center">
+      <input
+        value={values?.isDistanceBase}
+        checked={values?.isDistanceBase}
+        name="isDistanceBase"
+        id="isDistanceBase"
+        type="checkbox"
+        onChange={() => {
+          setFieldValue("isDistanceBase", !values?.isDistanceBase);
+        }}
+        disabled={true}
+      />
+      <label htmlFor="isDistanceBase" className="pl-2 pt-0">
+        Is Distance Base
+      </label>
+    </div>
+  );
+}
+
 export default function _Form({
   initData,
   btnRef,
@@ -51,7 +125,7 @@ export default function _Form({
   isSubsidyRunning,
   addRows,
   remover,
-  isAmountBase,
+  isAmountOrDistanceBase,
 }) {
   const [valid, setValid] = useState(true);
 
@@ -61,8 +135,9 @@ export default function _Form({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          isAmountBase: isAmountBase,
-          isAmountBase2: isAmountBase,
+          isAmountBase: isAmountOrDistanceBase?.isAmountBase,
+          isAmountBase2: isAmountOrDistanceBase?.isAmountBase,
+          isDistanceBase: isAmountOrDistanceBase?.isDistanceBase,
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -372,6 +447,13 @@ export default function _Form({
                     Is Amount Base
                   </label>
                 </div>
+
+                {buId === 232 && (
+                  <AgroFeedAndDistanceCheckbox
+                    obj={{ values, setFieldValue }}
+                  />
+                )}
+
                 <div className="col-lg-2 mt-5 d-flex align-items-center">
                   <input
                     value={values?.isSlabProgram}
@@ -415,7 +497,12 @@ export default function _Form({
                     <div className="col-lg-2">
                       <InputField
                         value={values?.rangeFrom}
-                        label="Range From"
+                        // label="Range From"
+                        label={isAgroFeedAndLabelChange(
+                          buId,
+                          "Range From",
+                          "Range From (Distance km)"
+                        )}
                         placeholder="Range From"
                         name="rangeFrom"
                         type="number"
@@ -430,7 +517,12 @@ export default function _Form({
                     <div className="col-lg-2">
                       <InputField
                         value={values?.rangeTo}
-                        label="Range To"
+                        // label="Range To"
+                        label={isAgroFeedAndLabelChange(
+                          buId,
+                          "Range To ",
+                          "Range To (Distance km)"
+                        )}
                         placeholder="Range To"
                         name="rangeTo"
                         type="number"
@@ -445,7 +537,12 @@ export default function _Form({
                     <div className="col-lg-2">
                       <InputField
                         value={values?.slabRate}
-                        label="Slab Rate"
+                        // label="Slab Rate"
+                        label={isAgroFeedAndLabelChange(
+                          buId,
+                          "Slab Rate",
+                          "Slab Rate (KG)"
+                        )}
                         placeholder="Slab Rate"
                         name="slabRate"
                         type="number"
@@ -457,7 +554,7 @@ export default function _Form({
                         disabled={isView}
                       />
                     </div>
-                    {buId === 171 || buId === 224 ? (
+                    {/* {buId === 171 || buId === 224 ? (
                       <div className="col-lg-2">
                         <NewSelect
                           name="categoryName"
@@ -487,7 +584,18 @@ export default function _Form({
                           disabled={isView}
                         />
                       </div>
-                    )}
+                    )} */}
+
+                    <CategoryNameFormField
+                      obj={{
+                        buId,
+                        values,
+                        setFieldValue,
+                        errors,
+                        touched,
+                        isView,
+                      }}
+                    />
 
                     <div className="col-lg-2 mt-5 d-flex align-items-center">
                       <input
@@ -509,6 +617,13 @@ export default function _Form({
                         Is Amount Base
                       </label>
                     </div>
+
+                    {buId === 232 && (
+                      <AgroFeedAndDistanceCheckbox
+                        obj={{ values, setFieldValue }}
+                      />
+                    )}
+
                     {!isView && (
                       <div className="col-lg-2 mt-5">
                         <button
@@ -534,6 +649,7 @@ export default function _Form({
                             <th>Slab Rate</th>
                             <th>Category Name</th>
                             <th>Is Amount Base</th>
+                            <th>Is Distance Base</th>
                             <th style={{ width: "70px" }}>Action</th>
                           </tr>
                         </thead>
@@ -546,6 +662,7 @@ export default function _Form({
                               <td className="text-right">{item?.slabRate}</td>
                               <td>{item?.categoryName}</td>
                               <td>{item?.isAmountBase ? "True" : "False"}</td>
+                              <td>{item?.isDistanceBase ? "True" : "False"}</td>
                               <td className="text-center">
                                 <IDelete remover={remover} id={index} />
                               </td>

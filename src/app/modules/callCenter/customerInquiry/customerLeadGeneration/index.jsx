@@ -275,9 +275,9 @@ export default function CustomerLeadGeneration() {
               <th>Transport Zone</th>
               <th>Area</th>
               <th>Territory</th>
-              <th>Stage</th>
               <th>Ship Point Name</th>
               <th>Brand Name</th>
+              <th>Stage</th>
               <th>Action</th>
               <th>Status</th>
             </tr>
@@ -297,6 +297,8 @@ export default function CustomerLeadGeneration() {
                   <td>{item?.transportZoneName}</td>
                   <td>{item?.areaName}</td>
                   <td>{item?.territoryName}</td>
+                  <td>{item?.shipPointName}</td>
+                  <td>{item?.currentBrandName}</td>
                   <td>
                     <button
                       onClick={() => {
@@ -305,13 +307,12 @@ export default function CustomerLeadGeneration() {
                         );
                       }}
                       className="btn btn-primary"
+                      disabled={item?.isRejected}
                       // disabled={item?.currentStage === "Customer" ? true : false}
                     >
                       {item?.currentStage}
                     </button>
                   </td>
-                  <td>{item?.shipPointName}</td>
-                  <td>{item?.currentBrandName}</td>
                   <td>
                     <button
                       onClick={() => {
@@ -320,6 +321,7 @@ export default function CustomerLeadGeneration() {
                         );
                       }}
                       className="btn btn-primary"
+                      disabled={item?.isRejected}
                     >
                       Action
                     </button>

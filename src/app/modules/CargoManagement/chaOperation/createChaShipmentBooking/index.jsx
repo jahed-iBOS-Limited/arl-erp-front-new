@@ -1,29 +1,369 @@
-import { Form, Formik } from "formik";
-import React from "react";
-// import { useParams } from "react-router";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import ICustomCard from "../../../_helper/_customCard";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import { imarineBaseUrl } from '../../../../App';
+import ICustomCard from '../../../_helper/_customCard';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+const INCOTERMS_OPTIONS = [
+  { label: 'EXW', value: 'exw' },
+  { label: 'FCA', value: 'fca' },
+  { label: 'FOB', value: 'fob' },
+  { label: 'CIF', value: 'cif' },
+  { label: 'CPT', value: 'cpt' },
+  { label: 'DAP', value: 'dap' },
+  { label: 'DDP', value: 'ddp' },
+  { label: 'CFR', value: 'cfr' },
+  { label: 'DDU', value: 'ddu' },
+  { label: 'Other', value: 'other' },
+];
+const initData = {
+  // top section
+  impExpType: 1,
+  hblOrHawb: '',
+  mblOrMawb: '',
+  transportMode: '',
+  carrier: '',
+  customer: '',
+  ffw: '',
+  shipper: '',
+  fclOrLcl: '',
+  portOfReceive: '',
+  consignee: '',
+  incoterm: '',
+  portOfLoading: '',
+  thirdPartyPay: '',
+  depoOrPlace: '',
+  portOfDelivery: '',
+  csSalesPic: '',
+  commodity: '',
+  placeOfDelivery: '',
+  containerQty: '',
+  currency: '',
+  exchangeRate: '',
+  // middle section
+  copyDocReceived: '',
+  invoiceValue: '',
+  commercialInvoiceNo: '',
+  invoiceDate: '',
+  originCountry: '',
+  assessed: '',
+  assessedDate: '',
+  exp: '',
+  expDate: '',
+  remarks: '',
+  quantity: '',
+  billOfEntry: '',
+  billOfEntryDate: '',
+  dischargingVesselNo: '',
+  netWeight: '',
+  grossWeight: '',
+  volumetricWeight: '',
+  etaDate: '',
+  ataDate: '',
+  cbmWeight: '',
+};
 
 const validationSchema = Yup.object().shape({});
 function CreateChaShipmentBooking() {
-  const history = useHistory();
-  //   const { id } = useParams();
   const formikRef = React.useRef(null);
+  const [
+    ,
+    SaveOrUpdateChaShipmentBooking,
+    saveOrUpdateChaShipmentLoading,
+    ,
+  ] = useAxiosPost();
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData || {},
+    shallowEqual,
+  );
+  const [
+    airServiceProviderDDLData,
+    getAirServiceProviderDDL,
+    ,
+    setAirServiceProviderDDL,
+  ] = useAxiosGet();
+  const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
+  const [commodityDDL, getCommodityDDL] = useAxiosGet();
+  const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
+  const [currencyList, GetBaseCurrencyList, , setCurrencyList] = useAxiosGet();
+  const [
+    singleChaShipmentBooking,
+    getSingleChaShipmentBooking,
+    singleChaShipmentBookingLoading,
+  ] = useAxiosGet();
+  const [shipperDDL, getShipperDDL] = useAxiosGet();
+  const { id } = useParams();
+  const history = useHistory();
 
-  //   const {
-  //     profileData: { userId },
-  //   } = useSelector((state) => {
-  //     return state?.authData;
-  //   }, shallowEqual);
+  const saveHandler = (values, cb) => {
+    const payload = {
+      bookingId: singleChaShipmentBooking?.chabookingId || 0,
+      accountId: profileData?.accountId,
+      businessUnitId: selectedBusinessUnit?.value,
+      hblNo: values?.hblOrHawb || '',
+      mblNo: values?.mblOrMawb || '',
+      hablNo: '',
+      mawblNo: '',
+      impExpId: values?.impExpType,
+      impExp: values?.impExpType === 1 ? 'Import' : 'Export',
+      carrierId: values?.carrier?.value || 0,
+      carrierName: values?.carrier?.label || '',
+      customerId: values?.customer?.value || 0,
+      customerName: values?.customer?.label || '',
+      modeOfTransportId: values?.transportMode?.value || 0,
+      modeOfTransportName: values?.transportMode?.label || '',
+      ffw: values?.ffw?.label || '',
+      ffwId: values?.ffw?.value || 0,
+      shipperId: values?.shipper?.value || 0,
+      shipperName: values?.shipper?.label || '',
+      consigneeId: values?.consignee?.value || 0,
+      incotermId: 0,
+      incotermName: values?.incoterm?.label || '',
+      consignee: values?.consignee?.label || '',
+      fcllclId: values?.fclOrLcl?.value || 0,
+      fcllclName: values?.fclOrLcl?.label || '',
+      portOfReceive: values?.portOfReceive || '',
+      portOfLoading: values?.portOfLoading?.label || '',
+      portOfDelivery: values?.portOfDelivery || '',
+      placeOfDelivery: values?.placeOfDelivery || '',
+      depoPlaceId: values?.depoOrPlace?.value || 0,
+      depoPlaceName: values?.depoOrPlace?.label || '',
+      commodityId: values?.commodity?.value || 0,
+      commodityName: values?.commodity?.label || '',
+      thirdPartyId: values?.thirdPartyPay?.value || 0,
+      thirdPartyName: values?.thirdPartyPay?.label || '',
+      csSalesPic: values?.csSalesPic?.label || '',
+      cssalesPicId: values?.csSalesPic?.value || 0,
+      containerQty: values?.containerQty || 0,
+      copyDocReceived: values?.copyDocReceived || '',
+      originCountryId: values?.originCountry?.value || 0,
+      originCountry: values?.originCountry?.label || '',
+      remarks: values?.remarks || '',
+      dischargingVesselNo: values?.dischargingVesselNo || '',
+      invoiceValue: values?.invoiceValue || '',
+      commercialInvoiceNo: values?.commercialInvoiceNo || '',
+      ...(values?.invoiceDate ? { invoiceDate: values?.invoiceDate } : {}),
+      assessed: values?.assessed || '',
+      ...(values?.assessedDate ? { assessedDate: values?.assessedDate } : {}),
+      exporter: '',
+      quantity: values?.quantity || 0,
+      billOfEntry: values?.billOfEntry || '',
+      ...(values?.billOfEntryDate
+        ? { billOfEntryDate: values?.billOfEntryDate }
+        : {}),
+      grossWeight: values?.grossWeight || 0,
+      cbmWeight: values?.cbmWeight || 0,
+      netWeight: values?.netWeight || 0,
+      volumetricWeight: values?.volumetricWeight || 0,
+      exchangeRate: values?.exchangeRate || 0,
+      exp: values?.exp || '',
+      ...(values?.expDate ? { expDate: values?.expDate } : {}),
+      currency: values?.currency?.label || '',
+      ...(values?.etaDate ? { eta: values?.expDate } : {}),
+      ...(values?.ataDate ? { ata: values?.ataDate } : {}),
+      isActive: true,
+      createdBy: profileData?.userId,
+      updatedAt: new Date(),
+      createdAt: new Date(),
+    };
+    SaveOrUpdateChaShipmentBooking(
+      `${imarineBaseUrl}/domain/CHAShipment/SaveOrUpdateCHAShipmentBooking`,
+      payload,
+      () => {
+        if (id) {
+        } else {
+          cb();
+        }
+      },
+      true,
+    );
+  };
 
-  const saveHandler = (values, cb) => {};
+  const transportModeHandelar = (typeId) => {
+    getAirServiceProviderDDL(
+      `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?shipperId=${0}&participntTypeId=${typeId}`,
+      (res) => {
+        setAirServiceProviderDDL(res);
+      },
+    );
+  };
+
+  useEffect(() => {
+    getShipperDDL(
+      `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?businessPartnerType=2&cargoType=1`,
+    );
+    getWarehouseDDL(`${imarineBaseUrl}/domain/ShippingService/GetWareHouseDDL`);
+    getCommodityDDL(`${imarineBaseUrl}/domain/CHAShipment/GetCommodityDDL`);
+    GetBaseCurrencyList(
+      `${imarineBaseUrl}/domain/Purchase/GetBaseCurrencyList`,
+      (res) => {
+        const modifyData = res?.map((item) => {
+          return {
+            ...item,
+            label: item?.code,
+          };
+        });
+        setCurrencyList(modifyData);
+      },
+    );
+    getConsigneeCountryList(
+      `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (id) {
+      getSingleChaShipmentBooking(
+        `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingById?ChaShipmentbookingId=${id}`,
+        (resData) => {
+          const valuesObj = {
+            // top section
+            impExpType: resData?.impExpId,
+            hblOrHawb: resData?.hblNo,
+            mblOrMawb: resData?.mblNo,
+            transportMode: resData?.modeOfTransportId
+              ? {
+                  value: resData?.modeOfTransportId,
+                  label: resData?.modeOfTransportName,
+                }
+              : '',
+            carrier: resData?.carrierId
+              ? {
+                  value: resData?.carrierId,
+                  label: resData?.carrierName,
+                }
+              : '',
+            customer: resData?.customerId
+              ? {
+                  value: resData?.customerId,
+                  label: resData?.customerName,
+                }
+              : '',
+            ffw: resData?.ffw
+              ? {
+                  value: resData?.ffw,
+                  label: resData?.ffw,
+                }
+              : '',
+            shipper: resData?.shipperId
+              ? {
+                  value: resData?.shipperId,
+                  label: resData?.shipperName,
+                }
+              : '',
+            fclOrLcl: resData?.fcllclId
+              ? {
+                  value: resData?.fcllclId,
+                  label: resData?.fcllclName,
+                }
+              : '',
+            portOfReceive: resData?.portOfReceive || '',
+            consignee: resData?.consigneeId
+              ? {
+                  value: resData?.consigneeId,
+                  label: resData?.consignee,
+                }
+              : '',
+            incoterm: resData?.incotermName
+              ? {
+                  value: 0,
+                  label: resData?.incotermName,
+                }
+              : '',
+            portOfLoading: resData?.portOfLoading
+              ? {
+                  value: 1,
+                  label: resData?.portOfLoading,
+                }
+              : '',
+            thirdPartyPay: resData?.thirdPartyId
+              ? {
+                  value: resData?.thirdPartyId,
+                  label: resData?.thirdPartyName,
+                }
+              : '',
+            depoOrPlace: resData?.depoPlaceId
+              ? {
+                  value: resData?.depoPlaceId,
+                  label: resData?.depoPlaceName,
+                }
+              : '',
+            portOfDelivery: resData?.portOfDelivery || '',
+            csSalesPic: resData?.cssalesPicId
+              ? { value: resData?.cssalesPicId, label: resData?.csSalesPic }
+              : '',
+            commodity: resData?.commodityId
+              ? {
+                  value: resData?.commodityId,
+                  label: resData?.commodityName,
+                }
+              : '',
+            placeOfDelivery: resData?.placeOfDelivery || '',
+            containerQty: resData?.containerQty || '',
+            currency: resData?.currency
+              ? {
+                  value: 0,
+                  label: resData?.currency,
+                }
+              : '',
+            exchangeRate: resData?.exchangeRate || '',
+            // middle section
+
+            copyDocReceived: resData?.copyDocReceived
+              ? _dateFormatter(resData?.copyDocReceived)
+              : '',
+            invoiceValue: resData?.invoiceValue || '',
+            commercialInvoiceNo: resData?.commercialInvoiceNo || '',
+            invoiceDate: resData?.invoiceDate
+              ? _dateFormatter(resData?.invoiceDate)
+              : '',
+            originCountry: resData?.originCountryId
+              ? {
+                  value: resData?.originCountryId,
+                  label: resData?.originCountry,
+                }
+              : '',
+            assessed: resData?.assessed || '',
+            assessedDate: resData?.assessedDate
+              ? _dateFormatter(resData?.assessedDate)
+              : '',
+            exp: resData?.exp || '',
+            expDate: resData?.expDate ? _dateFormatter(resData?.expDate) : '',
+            remarks: resData?.remarks || '',
+            quantity: resData?.quantity || '',
+            billOfEntry: resData?.billOfEntry || '',
+            billOfEntryDate: resData?.billOfEntryDate
+              ? _dateFormatter(resData?.billOfEntryDate)
+              : '',
+            dischargingVesselNo: resData?.dischargingVesselNo || '',
+            netWeight: resData?.netWeight || '',
+            grossWeight: resData?.grossWeight || '',
+            volumetricWeight: resData?.volumetricWeight || '',
+            etaDate: resData?.eta ? _dateFormatter(resData?.eta) : '',
+            ataDate: resData?.ata ? _dateFormatter(resData?.ata) : '',
+            cbmWeight: resData?.cbmWeight || '',
+          };
+
+          formikRef.current.setValues(valuesObj);
+        },
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   return (
     <ICustomCard
-      title={"Create Customer Lead Generation"}
+      title={id ? 'Edit Cha Shipment Booking' : 'Create Cha Shipment Booking'}
       backHandler={() => {
         history.goBack();
       }}
@@ -37,69 +377,7 @@ function CreateChaShipmentBooking() {
       {/* {(bookingGlobalBankLoading || isLoading) && <Loading />} */}
       <Formik
         enableReinitialize={true}
-        initialValues={{
-          // top section
-          impOrExp: "", // ddl
-          carrier: "", // ddl
-          customer: "", // text field
-          customerPicList: "", // ddl
-          seaOrAirOrLand: "", // ddl
-          seaOrAirOrLand2: "", // ddl
-          ffw: "", // text field
-          shipper: "", // text field
-          fclOrLcl: "", // ddl
-          por: "", // text field
-          consignee: "", // text field
-          incoterm: "", // ddl
-          pol: "", // text field
-          thirdPartyPay: "", // ddl
-          thirdPartyPaySearch: "", // text field
-          depoOrPlace: "", // ddl
-          pod: "", // text field
-          csOrSalesPic: "", // ddl
-          csOrSalesPicPicList: "", // ddl
-          commodity: "", // text field
-          commodity2: "", // ddl
-          del: "", // text field
-          containerQty: "", // text field
-
-          // bottom section
-          copyDocRcv: "", // date time field
-          invValue: "", // text field
-          invValue2: "", // text field
-          comInvoice: "", // text field
-          comInvoiceDate: "", // date field
-          isComInvoice: "", // checkbox
-          originCountry: "", // ddl
-          originCountryDate: "", // date field
-          assesed: "", // text field
-          assesed2: "", // text field
-          exp: "", // text field
-          expDate: "", // date field
-          isExp: "", // checkbox
-          remarks: "", // text field
-          quantity: "", // text field
-          quantity2: "", // text field
-          billOfE: "", // text field
-          billOfEDate: "", // date field
-          dischargeingVslName: "", // text field
-          dischargeingVslRot: "", // text field
-          dischargeingVslPos: "", // text field
-          nw: "", // text field
-          gw: "", // text field
-          others: "", // ddl
-          others2: "", // text field
-          othersDate: "", // date field
-          isOthers: "", // checkbox
-          etaOrAtaDate: "", // date field
-          etaOrAta2Date: "", // date field
-          cbm: "", // text field
-          cw: "", // text field
-          othersTwo: "", // ddl
-          othersTwo2: "", // text field
-          othersTwoDate: "", // date field
-          isOthersTwo: "", // checkbox
-        }}
+        initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -110,100 +388,156 @@ function CreateChaShipmentBooking() {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
-            {/* <h1>
-                            {JSON.stringify(errors)}
-                        </h1> */}
+            {(saveOrUpdateChaShipmentLoading ||
+              singleChaShipmentBookingLoading) && <Loading />}
             <Form className="form form-label-right">
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr",
-                  gap: "10px",
-                }}
-              >
+              <div>
                 <div className="form-group row global-form">
-                  {/* IMP/EXP */}
-                  <div className="col-lg-3">
-                    <NewSelect
-                      placeholder=" "
-                      label={"IMP/EXP "}
-                      options={[]}
-                      value={values?.impOrExp}
-                      name="impOrExp"
-                      onChange={(valueOption) => {
-                        setFieldValue("impOrExp", valueOption || "");
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
+                  <div className="col-lg-12">
+                    <div>
+                      <label className="mr-3">
+                        <input
+                          type="radio"
+                          name="impExpType"
+                          checked={values?.impExpType === 1}
+                          className="mr-1 pointer"
+                          style={{ position: 'relative', top: '2px' }}
+                          onChange={(e) => {
+                            setFieldValue('impExpType', 1);
+                          }}
+                        />
+                        Import
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          name="impExpType"
+                          checked={values?.impExpType === 2}
+                          className="mr-1 pointer"
+                          style={{ position: 'relative', top: '2px' }}
+                          onChange={(e) => {
+                            setFieldValue('impExpType', 2);
+                          }}
+                        />
+                        Export
+                      </label>
+                    </div>
                   </div>
-                  {/* Carrier */}
-                  <div className="col-lg-3">
-                    <NewSelect
-                      placeholder=" "
-                      label={"Carrier"}
-                      options={[]}
-                      value={values?.carrier}
-                      name="carrier"
-                      onChange={(valueOption) => {
-                        setFieldValue("carrier", valueOption || "");
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  {/* Customer */}
+
+                  {/* HBL/HAWB input */}
                   <div className="col-lg-3">
                     <InputField
-                      label="Customer"
+                      label="HBL/HAWB"
                       type="text"
-                      name="customer"
-                      value={values?.customer}
+                      name="hblOrHawb"
+                      value={values?.hblOrHawb}
                       onChange={(e) => {
-                        setFieldValue("customer", e.target.value);
+                        setFieldValue('hblOrHawb', e.target.value);
                       }}
-                    />
-                  </div>
-                  {/* Customer PIC List */}
-                  <div className="col-lg-3 mt-1">
-                    <NewSelect
-                      label={` `}
-                      options={[]}
-                      value={values?.customerPicList}
-                      onChange={(valueOption) => {
-                        setFieldValue("customerPicList", valueOption || "");
-                      }}
-                      errors={errors}
-                      touched={touched}
-                      placeholder={"PIC List"}
                     />
                   </div>
 
-                  {/* Sea/Air/Land */}
-                  <div className="col-lg-2">
+                  {/* MBL/MAWB */}
+                  <div className="col-lg-3">
+                    <InputField
+                      label="MBL/MAWB"
+                      type="text"
+                      name="mblOrMawb"
+                      value={values?.mblOrMawb}
+                      onChange={(e) => {
+                        setFieldValue('mblOrMawb', e.target.value);
+                      }}
+                    />
+                  </div>
+
+                  {/* Transport Mode */}
+                  <div className="col-lg-3">
                     <NewSelect
                       placeholder=" "
-                      label={"Sea/Air/Land"}
-                      options={[]}
-                      value={values?.seaOrAirOrLand}
-                      name="seaOrAirOrLand"
+                      label={'Transport Mode'}
+                      options={[
+                        {
+                          value: 1,
+                          label: 'Air',
+                        },
+                        {
+                          value: 2,
+                          label: 'Sea',
+                        },
+                        {
+                          value: 3,
+                          label: 'Land',
+                        },
+                      ]}
+                      value={values?.transportMode}
+                      name="transportMode"
                       onChange={(valueOption) => {
-                        setFieldValue("seaOrAirOrLand", valueOption || "");
+                        setFieldValue('transportMode', valueOption || '');
+                        setFieldValue('carrier', '');
+                        const typeId = valueOption?.label === 'Air' ? 6 : 5;
+                        if ([1, 2].includes(valueOption?.value)) {
+                          transportModeHandelar(typeId);
+                        }
                       }}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
 
-                  {/* Sea/Air/Land 2 */}
-                  <div className="col-lg-1 mt-1">
-                    <NewSelect
-                      placeholder=" "
-                      options={[]}
-                      value={values?.seaOrAirOrLand2}
-                      name="seaOrAirOrLand2"
-                      onChange={(valueOption) => {
-                        setFieldValue("seaOrAirOrLand2", valueOption || "");
+                  {[1, 2].includes(values?.transportMode?.value) && (
+                    <>
+                      {' '}
+                      {/* Carrier */}
+                      <div className="col-lg-3">
+                        <NewSelect
+                          placeholder=" "
+                          label={'Carrier'}
+                          options={airServiceProviderDDLData || []}
+                          value={values?.carrier}
+                          name="carrier"
+                          onChange={(valueOption) => {
+                            setFieldValue('carrier', valueOption || '');
+                          }}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {[3].includes(values?.transportMode?.value) && (
+                    <>
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Carrier"
+                          type="text"
+                          name="carrier"
+                          value={values?.carrier?.label}
+                          onChange={(e) => {
+                            setFieldValue('carrier', { label: e.target.value });
+                          }}
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {/* Customer */}
+                  <div className="col-lg-3">
+                    <label>Customer</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.customer}
+                      handleChange={(valueOption) => {
+                        setFieldValue('customer', valueOption);
+                      }}
+                      placeholder="Select Customer"
+                      loadOptions={(v) => {
+                        const searchValue = v.trim();
+                        if (searchValue?.length < 3) return [];
+                        return axios
+                          .get(
+                            `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}`,
+                          )
+                          .then((res) => res?.data);
                       }}
                       errors={errors}
                       touched={touched}
@@ -212,38 +546,58 @@ function CreateChaShipmentBooking() {
 
                   {/* FFW */}
                   <div className="col-lg-3">
-                    <InputField
+                    <NewSelect
+                      placeholder=" "
                       label="FFW"
-                      type="text"
                       name="ffw"
+                      options={[
+                        {
+                          value: 1,
+                          label: 'demo 1',
+                        },
+                      ]}
                       value={values?.ffw}
-                      onChange={(e) => {
-                        setFieldValue("ffw", e.target.value);
+                      onChange={(valueOption) => {
+                        setFieldValue('ffw', valueOption || '');
                       }}
+                      errors={errors}
+                      touched={touched}
                     />
                   </div>
                   {/* Shipper */}
                   <div className="col-lg-3">
-                    <InputField
+                    <NewSelect
                       label="Shipper"
                       type="text"
                       name="shipper"
                       value={values?.shipper}
-                      onChange={(e) => {
-                        setFieldValue("shipper", e.target.value);
+                      onChange={(valueOption) => {
+                        setFieldValue('shipper', valueOption || '');
                       }}
+                      options={shipperDDL || []}
+                      errors={errors}
+                      touched={touched}
                     />
                   </div>
                   {/* FCL/LCL */}
                   <div className="col-lg-3">
                     <NewSelect
                       placeholder=" "
-                      label={"FCL/LCL"}
-                      options={[]}
+                      label={'FCL/LCL'}
+                      options={[
+                        {
+                          value: 1,
+                          label: 'FCL',
+                        },
+                        {
+                          value: 2,
+                          label: 'LCL',
+                        },
+                      ]}
                       value={values?.fclOrLcl}
                       name="fclOrLcl"
                       onChange={(valueOption) => {
-                        setFieldValue("fclOrLcl", valueOption || "");
+                        setFieldValue('fclOrLcl', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -254,23 +608,31 @@ function CreateChaShipmentBooking() {
                     <InputField
                       label="POR"
                       type="text"
-                      name="por"
-                      value={values?.por}
+                      name="portOfReceive"
+                      value={values?.portOfReceive}
                       onChange={(e) => {
-                        setFieldValue("por", e.target.value);
+                        setFieldValue('portOfReceive', e.target.value);
                       }}
                       placeholder="Place of Receipt"
                     />
                   </div>
                   {/* Consignee */}
                   <div className="col-lg-3">
-                    <InputField
-                      label="Consignee"
-                      type="text"
-                      name="consignee"
-                      value={values?.consignee}
-                      onChange={(e) => {
-                        setFieldValue("consignee", e.target.value);
+                    <label>Consignee</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.consignee}
+                      handleChange={(valueOption) => {
+                        setFieldValue('consignee', valueOption);
+                      }}
+                      placeholder="Select Consignee"
+                      loadOptions={(v) => {
+                        const searchValue = v.trim();
+                        if (searchValue?.length < 3) return [];
+                        return axios
+                          .get(
+                            `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}`,
+                          )
+                          .then((res) => res?.data);
                       }}
                     />
                   </div>
@@ -278,12 +640,12 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <NewSelect
                       placeholder=" "
-                      label={"Incoterm"}
-                      options={[]}
+                      label={'Incoterm'}
+                      options={INCOTERMS_OPTIONS || []}
                       value={values?.incoterm}
                       name="incoterm"
                       onChange={(valueOption) => {
-                        setFieldValue("incoterm", valueOption || "");
+                        setFieldValue('incoterm', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -291,54 +653,56 @@ function CreateChaShipmentBooking() {
                   </div>
                   {/* POL */}
                   <div className="col-lg-3">
-                    <InputField
+                    <NewSelect
                       label="POL"
-                      type="text"
-                      name="pol"
-                      value={values?.pol}
-                      onChange={(e) => {
-                        setFieldValue("pol", e.target.value);
+                      name="portOfLoading"
+                      value={values?.portOfLoading}
+                      onChange={(valueOption) => {
+                        setFieldValue('portOfLoading', valueOption || '');
                       }}
                       placeholder="Port of Loading"
-                    />
-                  </div>
-                  {/* Third Party Pay */}
-                  <div className="col-lg-2">
-                    <NewSelect
-                      placeholder=" "
-                      label={"Third Party Pay"}
-                      options={[]}
-                      value={values?.thirdPartyPay}
-                      name="thirdPartyPay"
-                      onChange={(valueOption) => {
-                        setFieldValue("thirdPartyPay", valueOption || "");
-                      }}
+                      options={[
+                        {
+                          value: '1',
+                          label: 'Chittagong',
+                        },
+                      ]}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  {/* Third Party Pay Search */}
-                  <div className="col-lg-1 mt-1">
-                    <InputField
-                      label={` `}
-                      type="text"
-                      name="thirdPartyPaySearch"
-                      value={values?.thirdPartyPaySearch}
-                      onChange={(e) => {
-                        setFieldValue("thirdPartyPaySearch", e.target.value);
+                  {/* Third Party Pay */}
+                  <div className="col-lg-3">
+                    <label>Third Party Pay</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.thirdPartyPay}
+                      handleChange={(valueOption) => {
+                        setFieldValue('thirdPartyPay', valueOption);
                       }}
+                      placeholder="Select Third Party Pay"
+                      loadOptions={(v) => {
+                        const searchValue = v.trim();
+                        if (searchValue?.length < 3) return [];
+                        return axios
+                          .get(
+                            `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}`,
+                          )
+                          .then((res) => res?.data);
+                      }}
+                      errors={errors}
+                      touched={touched}
                     />
                   </div>
                   {/* Depo/Place */}
                   <div className="col-lg-3">
                     <NewSelect
                       placeholder=" "
-                      label={"Depo/Place"}
-                      options={[]}
+                      label={'Depo/Place'}
+                      options={warehouseDDL || []}
                       value={values?.depoOrPlace}
                       name="depoOrPlace"
                       onChange={(valueOption) => {
-                        setFieldValue("depoOrPlace", valueOption || "");
+                        setFieldValue('depoOrPlace', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -349,68 +713,52 @@ function CreateChaShipmentBooking() {
                     <InputField
                       label="POD"
                       type="text"
-                      name="pod"
-                      value={values?.pod}
+                      name="portOfDelivery"
+                      value={values?.portOfDelivery}
                       onChange={(e) => {
-                        setFieldValue("pod", e.target.value);
+                        setFieldValue('portOfDelivery', e.target.value);
                       }}
                       placeholder="Port of Delivery"
                     />
                   </div>
                   {/* CS/Sales PIC */}
-                  <div className="col-lg-2">
-                    <NewSelect
-                      placeholder=" "
-                      label={"CS/Sales PIC"}
-                      options={[]}
-                      value={values?.csOrSalesPic}
-                      name="csOrSalesPic"
-                      onChange={(valueOption) => {
-                        setFieldValue("csOrSalesPic", valueOption || "");
+                  <div className="col-lg-3">
+                    <label>CS/Sales PIC</label>
+                    <SearchAsyncSelect
+                      selectedValue={values?.csSalesPic}
+                      handleChange={(valueOption) => {
+                        setFieldValue('csSalesPic', valueOption);
                       }}
+                      loadOptions={(v) => {
+                        if (v?.length < 3) return [];
+                        return axios
+                          .get(
+                            `/domain/CreateUser/GetUserListSearchDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`,
+                          )
+                          .then((res) => {
+                            const updateList = res?.data.map((item) => ({
+                              ...item,
+                              label: item?.label + ` [${item?.value}]`,
+                            }));
+                            return updateList;
+                          });
+                      }}
+                      placeholder="Select CS/Sales PIC"
                       errors={errors}
                       touched={touched}
-                    />
-                  </div>
-                  {/* CS/Sales PIC PIC List */}
-                  <div className="col-lg-1 mt-1">
-                    <NewSelect
-                      label={` `}
-                      options={[]}
-                      value={values?.csOrSalesPicPicList}
-                      onChange={(valueOption) => {
-                        setFieldValue("csOrSalesPicPicList", valueOption || "");
-                      }}
-                      errors={errors}
-                      touched={touched}
-                      placeholder={"PIC List"}
                     />
                   </div>
                   {/* Commodity */}
-                  <div className="col-lg-2">
-                    <InputField
+                  <div className="col-lg-3">
+                    <NewSelect
                       label="Commodity"
-                      type="text"
+                      options={commodityDDL || []}
                       name="commodity"
                       value={values?.commodity}
-                      onChange={(e) => {
-                        setFieldValue("commodity", e.target.value);
+                      onChange={(valueOption) => {
+                        setFieldValue('commodity', valueOption);
                       }}
                       placeholder="Commodity Name"
-                    />
-                  </div>
-                  {/* Commodity 2 */}
-                  <div className="col-lg-1 mt-1">
-                    <NewSelect
-                      label={` `}
-                      options={[]}
-                      value={values?.commodity2}
-                      onChange={(valueOption) => {
-                        setFieldValue("commodity2", valueOption || "");
-                      }}
-                      errors={errors}
-                      touched={touched}
-                      placeholder={""}
                     />
                   </div>
                   {/* DEL */}
@@ -418,10 +766,10 @@ function CreateChaShipmentBooking() {
                     <InputField
                       label="DEL"
                       type="text"
-                      name="del"
-                      value={values?.del}
+                      name="placeOfDelivery"
+                      value={values?.placeOfDelivery}
                       onChange={(e) => {
-                        setFieldValue("del", e.target.value);
+                        setFieldValue('placeOfDelivery', e.target.value);
                       }}
                       placeholder="Place of Delivery"
                     />
@@ -429,15 +777,44 @@ function CreateChaShipmentBooking() {
                   {/* Container Qty */}
                   <div className="col-lg-3">
                     <InputField
-                      label="Container Qty"
-                      type="text"
+                      label="Quantity"
+                      type="number"
                       name="containerQty"
                       value={values?.containerQty}
                       onChange={(e) => {
-                        setFieldValue("containerQty", e.target.value);
+                        setFieldValue('containerQty', e.target.value);
                       }}
                     />
                   </div>
+                  {/* curency DDl */}
+                  <div className="col-lg-3">
+                    <NewSelect
+                      placeholder=" "
+                      label={'Currency'}
+                      options={currencyList || []}
+                      value={values?.currency}
+                      name="currency"
+                      onChange={(valueOption) => {
+                        setFieldValue('currency', valueOption || '');
+                      }}
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
+
+                  {/* Exchange Rate Input */}
+                  <div className="col-lg-3">
+                    <InputField
+                      label="Exchange  Rate"
+                      type="number"
+                      name="exchangeRate"
+                      value={values?.exchangeRate}
+                      onChange={(e) => {
+                        setFieldValue('exchangeRate', e.target.value);
+                      }}
+                    />
+                  </div>
+
                   <div className="col-lg-12">
                     <hr />
                   </div>
@@ -445,161 +822,117 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <InputField
                       label="Copy Doc RCV"
-                      type="datetime-local"
-                      name="copyDocRcv"
-                      value={values?.copyDocRcv}
+                      type="date"
+                      name="copyDocReceived"
+                      value={values?.copyDocReceived}
                       onChange={(e) => {
-                        setFieldValue("copyDocRcv", e.target.value);
+                        setFieldValue('copyDocReceived', e.target.value);
                       }}
                     />
                   </div>
                   {/* Inv Value */}
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <InputField
-                      label="INV Value"
-                      type="text"
-                      name="invValue"
-                      value={values?.invValue}
+                      label="Invoice Value"
+                      type="number"
+                      name="invoiceValue"
+                      value={values?.invoiceValue}
                       onChange={(e) => {
-                        setFieldValue("invValue", e.target.value);
+                        setFieldValue('invoiceValue', e.target.value);
                       }}
                     />
                   </div>
-                  {/* Inv Value 2 */}
-                  <div className="col-lg-1 ">
-                    <NewSelect
-                      placeholder=" "
-                      label={`@`}
-                      options={[]}
-                      value={values?.invValue2}
-                      onChange={(valueOption) => {
-                        setFieldValue("invValue2", valueOption || "");
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
+
                   {/* Com Invoice */}
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <InputField
-                      label="Com. Invoice"
+                      label="Com. Invoice No"
                       type="text"
-                      name="comInvoice"
-                      value={values?.comInvoice}
+                      name="commercialInvoiceNo"
+                      value={values?.commercialInvoiceNo}
                       onChange={(e) => {
-                        setFieldValue("comInvoice", e.target.value);
+                        setFieldValue('commercialInvoiceNo', e.target.value);
                       }}
                     />
                   </div>
                   {/* Com Invoice Date */}
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <InputField
-                      label="Date"
+                      label="Invoice Date"
                       type="date"
-                      name="comInvoiceDate"
-                      value={values?.comInvoiceDate}
+                      name="invoiceDate"
+                      value={values?.invoiceDate}
                       onChange={(e) => {
-                        setFieldValue("comInvoiceDate", e.target.value);
-                      }}
-                    />
-                  </div>
-                  {/* Is Com Invoice */}
-                  <div className="col-lg-2 mt-8">
-                    <input
-                      type="checkbox"
-                      checked={values?.isComInvoice}
-                      onChange={(e) => {
-                        setFieldValue("isComInvoice", e.target.checked);
+                        setFieldValue('invoiceDate', e.target.value);
                       }}
                     />
                   </div>
                   {/* Origin Country */}
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <NewSelect
                       placeholder=" "
-                      label={"Origin Country"}
-                      options={[]}
+                      label={'Origin Country'}
+                      options={consigneeCountryList || []}
                       value={values?.originCountry}
                       name="originCountry"
                       onChange={(valueOption) => {
-                        setFieldValue("originCountry", valueOption || "");
+                        setFieldValue('originCountry', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  {/* Origin Country Date */}
-                  <div className="col-lg-1 mt-1">
-                    <InputField
-                      label={` `}
-                      type="date"
-                      name="originCountryDate"
-                      value={values?.originCountryDate}
-                      onChange={(e) => {
-                        setFieldValue("originCountryDate", e.target.value);
-                      }}
-                    />
-                  </div>
+
                   {/* Assessed */}
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <InputField
-                      label="Assessed"
+                      label="Assessed Value"
                       type="text"
                       name="assessed"
                       value={values?.assessed}
                       onChange={(e) => {
-                        setFieldValue("assessed", e.target.value);
+                        setFieldValue('assessed', e.target.value);
                       }}
                     />
                   </div>
-                  {/* Assessed 2 */}
-                  <div className="col-lg-1">
-                    <NewSelect
-                      label={`@`}
-                      options={[]}
-                      value={values?.assessed2}
-                      onChange={(valueOption) => {
-                        setFieldValue("assessed2", valueOption || "");
+                  {/* Assessed Date */}
+                  <div className="col-lg-3">
+                    <InputField
+                      label="Assessed Date"
+                      type="date"
+                      name="assessedDate"
+                      value={values?.assessedDate}
+                      onChange={(e) => {
+                        setFieldValue('assessedDate', e.target.value);
                       }}
-                      errors={errors}
-                      touched={touched}
-                      placeholder={""}
                     />
                   </div>
+
                   {/* Exp */}
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <InputField
                       label="Exp"
                       type="text"
                       name="exp"
                       value={values?.exp}
                       onChange={(e) => {
-                        setFieldValue("exp", e.target.value);
+                        setFieldValue('exp', e.target.value);
                       }}
                     />
                   </div>
                   {/* Exp Date */}
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <InputField
-                      label="Date"
+                      label="Exp Date"
                       type="date"
                       name="expDate"
                       value={values?.expDate}
                       onChange={(e) => {
-                        setFieldValue("expDate", e.target.value);
+                        setFieldValue('expDate', e.target.value);
                       }}
                     />
                   </div>
-                  {/* Is Exp */}
-                  <div className="col-lg-2 mt-8">
-                    <input
-                      type="checkbox"
-                      checked={values?.isExp}
-                      onChange={(e) => {
-                        setFieldValue("isExp", e.target.checked);
-                      }}
-                    />
-                  </div>
+
                   {/* Remarks */}
                   <div className="col-lg-3">
                     <InputField
@@ -608,267 +941,128 @@ function CreateChaShipmentBooking() {
                       name="remarks"
                       value={values?.remarks}
                       onChange={(e) => {
-                        setFieldValue("remarks", e.target.value);
+                        setFieldValue('remarks', e.target.value);
                       }}
                     />
                   </div>
                   {/* Quantity */}
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <InputField
                       label="Quantity"
                       type="text"
                       name="quantity"
                       value={values?.quantity}
                       onChange={(e) => {
-                        setFieldValue("quantity", e.target.value);
+                        setFieldValue('quantity', e.target.value);
                       }}
-                    />
-                  </div>
-                  {/* Quantity 2 */}
-                  <div className="col-lg-1">
-                    <NewSelect
-                      label={`@`}
-                      options={[]}
-                      value={values?.quantity2}
-                      onChange={(valueOption) => {
-                        setFieldValue("quantity2", valueOption || "");
-                      }}
-                      errors={errors}
-                      touched={touched}
-                      placeholder={""}
                     />
                   </div>
                   {/* Bill of E */}
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <InputField
                       label="Bill of /E"
                       type="text"
-                      name="billOfE"
-                      value={values?.billOfE}
+                      name="billOfEntry"
+                      value={values?.billOfEntry}
                       onChange={(e) => {
-                        setFieldValue("billOfE", e.target.value);
+                        setFieldValue('billOfEntry', e.target.value);
                       }}
                     />
                   </div>
                   {/* Bill of E Date */}
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <InputField
-                      label="Date"
+                      label="Bill of /E Date"
                       type="date"
-                      name="billOfEDate"
-                      value={values?.billOfEDate}
+                      name="billOfEntryDate"
+                      value={values?.billOfEntryDate}
                       onChange={(e) => {
-                        setFieldValue("billOfEDate", e.target.value);
+                        setFieldValue('billOfEntryDate', e.target.value);
                       }}
                     />
                   </div>
-                  <div className="col-lg-2" />
                   {/* Dischargeing Vsl Name */}
-                  <div className="col-lg-1">
+                  <div className="col-lg-3">
                     <InputField
                       label="Dischargeing VSL"
                       type="text"
-                      name="dischargeingVslName"
-                      value={values?.dischargeingVslName}
+                      name="dischargingVesselNo"
+                      value={values?.dischargingVesselNo}
                       onChange={(e) => {
-                        setFieldValue("dischargeingVslName", e.target.value);
+                        setFieldValue('dischargingVesselNo', e.target.value);
                       }}
                       placeholder="Name & Voy"
                     />
                   </div>
-                  {/* Dischargeing Vsl Rot */}
-                  <div className="col-lg-1 mt-6">
-                    <InputField
-                      label={``}
-                      type="text"
-                      name="dischargeingVslRot"
-                      value={values?.dischargeingVslRot}
-                      onChange={(e) => {
-                        setFieldValue("dischargeingVslRot", e.target.value);
-                      }}
-                      placeholder="ROT"
-                    />
-                  </div>
-                  {/* Dischargeing Vsl Pos */}
-                  <div className="col-lg-1 mt-1">
-                    <InputField
-                      label={` `}
-                      type="text"
-                      name="dischargeingVslPos"
-                      value={values?.dischargeingVslPos}
-                      onChange={(e) => {
-                        setFieldValue("dischargeingVslPos", e.target.value);
-                      }}
-                      placeholder="POS"
-                    />
-                  </div>
                   {/* NW */}
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <InputField
-                      label="N.W."
-                      type="text"
-                      name="nw"
-                      value={values?.nw}
+                      label="Net Weight"
+                      type="number"
+                      name="netWeight"
+                      value={values?.netWeight}
                       onChange={(e) => {
-                        setFieldValue("nw", e.target.value);
+                        setFieldValue('netWeight', e.target.value);
                       }}
                     />
                   </div>
                   {/* GW */}
-                  <div className="col-lg-1">
+                  <div className="col-lg-3">
                     <InputField
-                      label="G.W."
-                      type="text"
-                      name="gw"
-                      value={values?.gw}
+                      label="Gross Weight"
+                      type="number"
+                      name="grossWeight"
+                      value={values?.grossWeight}
                       onChange={(e) => {
-                        setFieldValue("gw", e.target.value);
+                        setFieldValue('grossWeight', e.target.value);
                       }}
                     />
                   </div>
-                  {/* Others */}
-                  <div className="col-lg-1">
-                    <NewSelect
-                      placeholder=" "
-                      label={"Others"}
-                      options={[]}
-                      value={values?.others}
-                      name="others"
-                      onChange={(valueOption) => {
-                        setFieldValue("others", valueOption || "");
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  {/* Others 2 */}
-                  <div className="col-lg-1 mt-1">
+                  <div className="col-lg-3">
                     <InputField
-                      label={` `}
-                      type="text"
-                      name="others2"
-                      value={values?.others2}
+                      label="Volumetric Weight"
+                      type="number"
+                      name="volumetricWeight"
+                      value={values?.volumetricWeight}
                       onChange={(e) => {
-                        setFieldValue("others2", e.target.value);
+                        setFieldValue('volumetricWeight', e.target.value);
                       }}
                     />
                   </div>
-                  {/* Others Date */}
-                  <div className="col-lg-2">
-                    <InputField
-                      label="Date"
-                      type="date"
-                      name="othersDate"
-                      value={values?.othersDate}
-                      onChange={(e) => {
-                        setFieldValue("othersDate", e.target.value);
-                      }}
-                    />
-                  </div>
-                  {/* Is Others */}
-                  <div className="col-lg-2 mt-8">
-                    <input
-                      type="checkbox"
-                      checked={values?.isOthers}
-                      onChange={(e) => {
-                        setFieldValue("isOthers", e.target.checked);
-                      }}
-                    />
-                  </div>
+
                   {/* ETA/ATA Date */}
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <InputField
-                      label="ETA/ATA"
+                      label="ETA Date"
                       type="date"
-                      name="etaOrAtaDate"
-                      value={values?.etaOrAtaDate}
+                      name="etaDate"
+                      value={values?.etaDate}
                       onChange={(e) => {
-                        setFieldValue("etaOrAtaDate", e.target.value);
+                        setFieldValue('etaDate', e.target.value);
                       }}
                     />
                   </div>
                   {/* ETA/ATA 2 Date */}
-                  <div className="col-lg-1 mt-1">
+                  <div className="col-lg-3">
                     <InputField
-                      label={` `}
+                      label={`ATA Date`}
                       type="date"
-                      name="etaOrAta2Date"
-                      value={values?.etaOrAta2Date}
+                      name="ataDate"
+                      value={values?.ataDate}
                       onChange={(e) => {
-                        setFieldValue("etaOrAta2Date", e.target.value);
+                        setFieldValue('ataDate', e.target.value);
                       }}
                     />
                   </div>
                   {/* CBM */}
-                  <div className="col-lg-2">
+                  <div className="col-lg-3">
                     <InputField
                       label="CBM"
                       type="text"
-                      name="cbm"
-                      value={values?.cbm}
+                      name="cbmWeight"
+                      value={values?.cbmWeight}
                       onChange={(e) => {
-                        setFieldValue("cbm", e.target.value);
-                      }}
-                    />
-                  </div>
-                  {/* CW */}
-                  <div className="col-lg-1">
-                    <InputField
-                      label="C.W."
-                      type="text"
-                      name="cw"
-                      value={values?.cw}
-                      onChange={(e) => {
-                        setFieldValue("cw", e.target.value);
-                      }}
-                    />
-                  </div>
-                  {/* Others Two */}
-                  <div className="col-lg-1">
-                    <NewSelect
-                      placeholder=" "
-                      label={"Others-2"}
-                      options={[]}
-                      value={values?.othersTwo}
-                      name="othersTwo"
-                      onChange={(valueOption) => {
-                        setFieldValue("othersTwo", valueOption || "");
-                      }}
-                      errors={errors}
-                      touched={touched}
-                    />
-                  </div>
-                  {/* Others Two 2 */}
-                  <div className="col-lg-1 mt-1">
-                    <InputField
-                      label={` `}
-                      type="text"
-                      name="othersTwo2"
-                      value={values?.othersTwo2}
-                      onChange={(e) => {
-                        setFieldValue("othersTwo2", e.target.value);
-                      }}
-                    />
-                  </div>
-                  {/* Others Two Date */}
-                  <div className="col-lg-2">
-                    <InputField
-                      label="Date"
-                      type="date"
-                      name="othersTwoDate"
-                      value={values?.othersTwoDate}
-                      onChange={(e) => {
-                        setFieldValue("othersTwoDate", e.target.value);
-                      }}
-                    />
-                  </div>
-                  {/* Is Others Two */}
-                  <div className="col-lg-2 mt-8">
-                    <input
-                      type="checkbox"
-                      checked={values?.isOthersTwo}
-                      onChange={(e) => {
-                        setFieldValue("isOthersTwo", e.target.checked);
+                        setFieldValue('cbmWeight', e.target.value);
                       }}
                     />
                   </div>
