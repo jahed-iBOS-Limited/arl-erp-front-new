@@ -494,7 +494,7 @@ function ChargesModal({ rowClickData, CB }) {
                       !item?.checked || item?.billGenerateCode ? true : false;
 
                     return (
-                      <tr>
+                      <tr key={index}>
                         <td>
                           <input
                             disabled={item?.billingId}
@@ -643,15 +643,15 @@ function ChargesModal({ rowClickData, CB }) {
                         <td className="collection-border-right">
                           <NewSelect
                             isDisabled={isDisabled || item?.invoiceId}
-                            options={
-                              [
-                                ...shipingCargoTypeDDL,
-                                {
-                                  label: `Others`,
-                                  value: 0,
-                                },
-                              ] || []
-                            }
+                            options={[
+                              ...(shipingCargoTypeDDL ?? []).filter(
+                                (i) => i?.value !== 8,
+                              ),
+                              {
+                                label: `Others`,
+                                value: 0,
+                              },
+                            ]}
                             value={
                               item?.collectionPartyType
                                 ? {
