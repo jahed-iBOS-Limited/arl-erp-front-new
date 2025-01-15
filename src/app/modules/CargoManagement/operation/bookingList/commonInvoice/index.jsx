@@ -187,8 +187,34 @@ const CommonInvoice = ({ rowClickData }) => {
     totalVolumetricWeight > totalGrossWeightKG
       ? totalVolumetricWeight
       : totalGrossWeightKG;
+  const transportPlanningAir =
+    bookingData?.transportPlanning?.find((i) => {
+      return i?.transportPlanningModeId === 1;
+    }) || '';
 
-  console.log(paymentPartyListDDL, 'paymentPartyListDDL');
+  const transportPlanningSea =
+    bookingData?.transportPlanning?.find((i) => {
+      return i?.transportPlanningModeId === 2;
+    }) || '';
+
+  const groupBySize =
+    transportPlanningSea?.containerDesc?.length > 0
+      ? transportPlanningSea?.containerDesc.reduce((acc, obj) => {
+          const key = obj?.size;
+          if (!acc[key]) {
+            acc[key] = [];
+          }
+          acc[key].push(obj);
+          return acc;
+        }, {})
+      : [];
+
+  const sumOfRate = Object.keys(groupBySize).map((key) => {
+    const rate = +groupBySize[key]?.[0]?.rate || 0;
+    return {
+      rate: rate,
+    };
+  });
 
   return (
     <Formik
@@ -628,6 +654,8 @@ const CommonInvoice = ({ rowClickData }) => {
                     <span>Volume</span>
                     <br />
                     <span>Chrg. Wt</span>
+                    <br />
+                    <span>Rate</span>
                   </div>
                   <div style={{ padding: 2 }}>
                     <span>{bookingData?.lcNo ?? 'N/A'} </span>
@@ -680,6 +708,11 @@ const CommonInvoice = ({ rowClickData }) => {
                     <span>{totalVolumetricWeight}</span>
                     <br />
                     <span>{totalChargeableWeight}</span>
+                    <br />
+                    <span>
+                      {transportPlanningAir?.rate}
+                      {sumOfRate?.map((item) => item?.rate).join(', ')}
+                    </span>
                   </div>
                 </div>
               </div>

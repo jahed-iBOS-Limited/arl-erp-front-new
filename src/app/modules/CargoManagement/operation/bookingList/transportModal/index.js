@@ -961,33 +961,30 @@ function TransportModal({ rowClickData, CB }) {
                               </div>
                             )}
                         </div>
-                      </div>
-
-                      {[1].includes(
-                        values?.rows[0]?.transportPlanning?.value,
-                      ) && (
-                        <div className="col-lg-3">
-                          <InputField
-                            value={values?.rows?.[index]?.rate || ''}
-                            label="Rate"
-                            name={`rows[${index}].rate`}
-                            type="date"
-                            onChange={(e) =>
-                              setFieldValue(
-                                `rows[${index}].rate`,
-                                e.target.value,
-                              )
-                            }
-                          />
-                          {errors?.rows &&
-                            errors?.rows?.[index]?.rate &&
-                            touched.rows && (
+                        {[1].includes(
+                          values?.rows?.[0]?.transportPlanning?.value,
+                        ) && (
+                          <div className="col-lg-3">
+                            <InputField
+                              value={values?.rows?.[index]?.rate || ''}
+                              label="Rate"
+                              name={`rows[${index}].rate`}
+                              type="number"
+                              onChange={(e) =>
+                                setFieldValue(
+                                  `rows[${index}].rate`,
+                                  e.target.value,
+                                )
+                              }
+                            />
+                            {errors?.rows?.[index]?.rate && touched.rows && (
                               <div className="text-danger">
                                 {errors?.rows?.[index]?.rate}
                               </div>
                             )}
-                        </div>
-                      )}
+                          </div>
+                        )}
+                      </div>
 
                       {/* container details  for sea */}
                       {[2].includes(
