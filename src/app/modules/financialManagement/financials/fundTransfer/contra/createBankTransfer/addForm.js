@@ -22,7 +22,7 @@ export default function BankJournalCreateFormContra() {
   const [instrumentNoByResponse, setInstrumentNoByResponse] = useState("");
   const location = useLocation();
   let { selectedJournalTypeId, selectedFormValues, transferRowItem } = location?.state || {}// For Bank Transfer Only
-  let { intRequestToUnitId, strRequestType, strTransferBy } = transferRowItem || {}// For Bank Transfer Only
+  let { intRequestToUnitId } = transferRowItem || {}// For Bank Transfer Only
   const params = useParams();
   const [attachmentFile, setAttachmentFile] = useState("");
   const [sbuList, getSbuList] = useAxiosGet();
@@ -291,6 +291,10 @@ export default function BankJournalCreateFormContra() {
     ).length;
 
     if (selectedJournalTypeId === 5) {
+      if(rowDto?.length >= 1){
+        return toast.warn("Cann't add multiple")
+      }
+
       setRowDto([...rowDto, values]);
     } else {
       if (count === 0) {
@@ -318,10 +322,10 @@ export default function BankJournalCreateFormContra() {
     <IForm
       title={
         selectedJournalTypeId === 4
-          ? `Create Bank Receipt [${strRequestType}] [${strTransferBy}]`
+          ? `Create Bank Receipt`
           : selectedJournalTypeId === 5
-            ? `Create Bank Payments [${strRequestType}] [${strTransferBy}]`
-            : `Create Bank Transfer [${strRequestType}] [${strTransferBy}]`
+            ? `Create Bank Payments`
+            : `Create Bank Transfer`
       }
       getProps={setObjprops}
       isDisabled={isDisabled}
@@ -330,7 +334,13 @@ export default function BankJournalCreateFormContra() {
       <Form
         {...objProps}
         // initData={{ ...bankJournalCreate, ...selectedFormValues }}
-        initData={{ ...selectedFormValues }}
+        initData={{
+          ...selectedFormValues, partnerType: {
+            "value": 4,
+            "label": "Investment Partner",
+            "reffPrtTypeId": 4
+          }
+        }}
         saveHandler={saveHandler}
         setter={setter}
         remover={remover}

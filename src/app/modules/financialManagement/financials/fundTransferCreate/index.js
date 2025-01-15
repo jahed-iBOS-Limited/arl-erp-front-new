@@ -278,7 +278,37 @@ export default function FundTransferApproval({ viewType }) {
                                                                                     paidTo: item?.strRequestedBankAccountName || "",
                                                                                 };
                                                                             } else if (isInterCompanyTransfer) {
-                                                                                return { amount: item?.numAmount };
+                                                                                return {
+                                                                                    amount: item?.numAmount,
+                                                                                    // transaction: {
+                                                                                    //     value: item?.intGivenPartnerId,
+                                                                                    //     label: item?.strGivenPartnerName,
+                                                                                    //     glData: [
+                                                                                    //         {
+                                                                                    //             "value": 31,
+                                                                                    //             "label": "Inter Company Balance",
+                                                                                    //             "code": "1060003",
+                                                                                    //             "accountGroupId": 1
+                                                                                    //         },
+                                                                                    //         {
+                                                                                    //             "value": 212,
+                                                                                    //             "label": "Material Loan Receivable",
+                                                                                    //             "code": "1160009",
+                                                                                    //             "accountGroupId": 1
+                                                                                    //         }
+                                                                                    //     ],
+                                                                                    //     code: ""
+                                                                                    // },
+                                                                                    partnerBankAccount: {
+                                                                                        value: item?.intRequestedBankAccountId,
+                                                                                        label: item?.strRequestedBankAccountName,
+                                                                                        bankId: item?.intRequestedBankId,
+                                                                                        bankBranchId: item?.intRequestedBankBranchId,
+                                                                                        bankAccountNo: item?.strRequestedBankAccountNumber,
+                                                                                        bankName: item?.strRequestedBankName,
+                                                                                        routingNo: ""
+                                                                                    }
+                                                                                };
                                                                             }
                                                                             return null;
                                                                         };

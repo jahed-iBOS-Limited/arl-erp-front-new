@@ -83,7 +83,7 @@ export default function Contra({ viewType }) {
                     {loading && <Loading />}
                     <IForm
                         customTitle={<>
-                            <div className="d-flex mb-2 mt-5">
+                            <div className="d-flex mb-2 mt-1">
                                 <label className="mr-3">
                                     <input
                                         type="radio"

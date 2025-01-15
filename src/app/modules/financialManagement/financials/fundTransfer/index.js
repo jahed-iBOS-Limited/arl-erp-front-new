@@ -7,6 +7,7 @@ const FundTransfer = () => {
 
     return (
         <div>
+            <div><strong className="ml-3" style={{fontSize:"16px", color:"black"}}>Fund Transfer Request</strong></div>
             <div className="col-lg-4 py-2">
                 <label className="mr-3">
                     <input

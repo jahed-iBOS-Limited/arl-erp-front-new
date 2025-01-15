@@ -165,9 +165,11 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                         <NewSelect
                                             name="status"
                                             options={[
-                                                { value: 1, label: "Pending" },
-                                                { value: 2, label: "Approved" },
-                                                { value: 3, label: "Rejected" },
+                                                { value: 0, label: "Pending" },
+                                                { value: 1, label: "Approved" },
+                                                { value: 2, label: "Rejected" },
+                                                { value: 3, label: "Transfered" },
+                                                { value: 4, label: "Complete" },
                                             ]}
                                             value={values?.status}
                                             label="Status"

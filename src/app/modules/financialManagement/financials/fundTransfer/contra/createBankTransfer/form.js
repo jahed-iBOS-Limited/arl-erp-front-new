@@ -225,7 +225,7 @@ export default function _Form({
           profitCenter: '',
           // paidTo: '',
           receiveFrom: '',
-          partnerBankAccount: '',
+          // partnerBankAccount: '',
           transferTo: { value: 2, label: 'Bank' },
         }}
         validationSchema={
@@ -244,23 +244,22 @@ export default function _Form({
                 label: 'Yes',
                 onClick: () => {
                   saveHandler(values, (journalCode) => {
-                    // wont be reset as per requirement
-                    // resetForm(initData);
+
+                    // For Update Journal for Bank Transfer
+                    approveHandeler({
+                      item: transferRowItem,
+                      onApproveHandler: onUpdateJournalHandler,
+                      profileData,
+                      cb: () => {
+
+                      },
+                      isApproved: 1,
+                      isTransferCreated: 1,
+                      journalCode: journalCode,
+                    });
+
+
                     if (jorunalType === 6) {
-                      // For Update Journal for Bank Transfer
-                      approveHandeler({
-                        item: transferRowItem,
-                        onApproveHandler: onUpdateJournalHandler,
-                        profileData,
-                        cb: () => {
-
-                        },
-                        isApproved: 1,
-                        isTransferCreated:1,
-                        journalCode: journalCode,
-                      });
-
-
                       setFieldValue('transferAmount', '');
                       dispatch(
                         setBankJournalCreateAction({
@@ -336,7 +335,7 @@ export default function _Form({
                         isSearchable={true}
                         styles={customStyles}
                         placeholder="Bank Ac"
-                        isDisabled
+                        isDisabled={jorunalType !== 5}
                       />
                       <FormikError
                         errors={errors}
@@ -388,6 +387,7 @@ export default function _Form({
                             isSearchable={true}
                             styles={customStyles}
                             placeholder="Partner Type"
+                            isDisabled={jorunalType === 5}
                           />
                           <FormikError
                             errors={errors}
@@ -472,6 +472,7 @@ export default function _Form({
                                 isSearchable={true}
                                 styles={customStyles}
                                 placeholder="Partner Bank Account"
+                                // isDisabled={jorunalType === 5}
                               />
                             </div>
                           )}
@@ -510,7 +511,7 @@ export default function _Form({
                     ) : jorunalType === 5 ? (
                       <div className="col-lg-6 pr-1 pl mb-2 border-gray">
                         <IInput
-                          value={values.paidTo}
+                          value={values.paidTo || ""}
                           label="Paid to"
                           name="paidTo"
                         />
