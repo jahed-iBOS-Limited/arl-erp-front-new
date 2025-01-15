@@ -314,7 +314,6 @@ export default function BankJournalCreateForm() {
     setRowDto(data);
   };
 
-  console.log("rowDto", rowDto)
 
 
   return (
