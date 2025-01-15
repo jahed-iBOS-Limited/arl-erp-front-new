@@ -472,8 +472,10 @@ export default function StoreInformationList() {
                     </tr>
                   ))}
                   <tr>
-                    <td colSpan={4}>Total</td>
-                    <td className="text-right">
+                    <td colSpan={4} className="font-weight-bold">
+                      Total
+                    </td>
+                    <td className="text-right font-weight-bold">
                       {totalBurstingQuantity?.current?.value}
                     </td>
                   </tr>
