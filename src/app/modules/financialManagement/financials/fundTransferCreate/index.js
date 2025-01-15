@@ -37,6 +37,7 @@ export default function FundTransferApproval({ viewType }) {
     const [pageSize, setPageSize] = useState(15);
     const [gridData, getGridData, loading, setGridData] = useAxiosGet();
 
+
     const saveHandler = (values, cb) => { };
 
     const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
@@ -219,8 +220,8 @@ export default function FundTransferApproval({ viewType }) {
                                                         {values?.fundTrasferType?.value === 2 && (
                                                             <td>{item?.strRequestToUnitName}</td>
                                                         )}
-                                                        <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : `${item?.strGivenBankName}-${item?.strGivenBankBranchName}`}</td>
-                                                        <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? `${item?.strGivenBankName}-${item?.strGivenBankBranchName}` : `${item?.strRequestedBankName}-${item?.strRequestedBankBranchName}`}</td>
+                                                        <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : item?.strTransferBy === "Bank To Cash" ? item?.strGivenBankAccountName : item?.strGivenBankName || ""}</td>
+                                                        <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? item?.strGivenBankAccountName || "" : item?.strRequestedBankAccountName || ""}</td>
                                                         <td className="text-center">
                                                             {_dateFormatter(item.dteExpectedDate)}
                                                         </td>
@@ -246,10 +247,17 @@ export default function FundTransferApproval({ viewType }) {
                                                             <div className="d-flex justify-content-around">
                                                                 <span
                                                                     onClick={() => {
-                                                                        const selectedFormValues =
-                                                                            item?.strRequestType === "Contra"
-                                                                                ? {
-                                                                                    transferAmount: item?.numAmount, bankAcc: {
+                                                                        const isContra = item?.strRequestType === "Contra";
+                                                                        const isInterCompanyTransfer = item?.strRequestType === "InterCompanyTransferRequest";
+                                                                        const isBankToBank = item?.strTransferBy === "Bank To Bank";
+                                                                        const isBankToCash = item?.strTransferBy === "Bank To Cash";
+
+                                                                        // Helper function to generate selected form values
+                                                                        const getSelectedFormValues = () => {
+                                                                            if (isContra) {
+                                                                                return {
+                                                                                    transferAmount: item?.numAmount,
+                                                                                    bankAcc: {
                                                                                         bankId: item?.intGivenBankId,
                                                                                         bankName: item?.strGivenBankName,
                                                                                         bankBranch_Id: item?.intGivenBankBranchId,
@@ -259,7 +267,7 @@ export default function FundTransferApproval({ viewType }) {
                                                                                         bankAccNo: item?.strGivenBankAccountNumber,
                                                                                         generalLedgerId: item?.intGivenGlid,
                                                                                         generalLedgerCode: item?.strGivenGlCode,
-                                                                                        generalLedgerName: item?.strGivenGlName
+                                                                                        generalLedgerName: item?.strGivenGlName,
                                                                                     },
                                                                                     sendToGLBank: {
                                                                                         value: item?.intRequestedBankAccountId,
@@ -268,34 +276,72 @@ export default function FundTransferApproval({ viewType }) {
                                                                                         generalLedgerCode: item?.strRequestGlCode,
                                                                                     },
                                                                                     paidTo: item?.strRequestedBankAccountName || "",
-                                                                                }
-                                                                                : item?.strRequestType === "InterCompanyTransferRequest"
-                                                                                    ? { amount: item?.numAmount }
-                                                                                    : null;
-
-                                                                        const baseState = {
-                                                                            ...item,
-                                                                            selectedJournalTypeId: item?.strRequestType === "Contra" ? 6 : 5,
-                                                                            selectedFormValues,
+                                                                                };
+                                                                            } else if (isInterCompanyTransfer) {
+                                                                                return {
+                                                                                    amount: item?.numAmount,
+                                                                                    // transaction: {
+                                                                                    //     value: item?.intGivenPartnerId,
+                                                                                    //     label: item?.strGivenPartnerName,
+                                                                                    //     glData: [
+                                                                                    //         {
+                                                                                    //             "value": 31,
+                                                                                    //             "label": "Inter Company Balance",
+                                                                                    //             "code": "1060003",
+                                                                                    //             "accountGroupId": 1
+                                                                                    //         },
+                                                                                    //         {
+                                                                                    //             "value": 212,
+                                                                                    //             "label": "Material Loan Receivable",
+                                                                                    //             "code": "1160009",
+                                                                                    //             "accountGroupId": 1
+                                                                                    //         }
+                                                                                    //     ],
+                                                                                    //     code: ""
+                                                                                    // },
+                                                                                    partnerBankAccount: {
+                                                                                        value: item?.intRequestedBankAccountId,
+                                                                                        label: item?.strRequestedBankAccountName,
+                                                                                        bankId: item?.intRequestedBankId,
+                                                                                        bankBranchId: item?.intRequestedBankBranchId,
+                                                                                        bankAccountNo: item?.strRequestedBankAccountNumber,
+                                                                                        bankName: item?.strRequestedBankName,
+                                                                                        routingNo: ""
+                                                                                    }
+                                                                                };
+                                                                            }
+                                                                            return null;
                                                                         };
 
-                                                                        const isBankToBank = item?.strTransferBy === "Bank To Bank";
-                                                                        const isBankToCash = item?.strTransferBy === "Bank To Cash";
 
-                                                                        if (isBankToBank) {
+
+                                                                        // Base state for navigation
+                                                                        const baseState = {
+                                                                            transferRowItem: item,
+                                                                            selectedJournalTypeId: isContra ? 6 : 5,
+                                                                            selectedFormValues: getSelectedFormValues(),
+                                                                        };
+
+                                                                        const isApproved = item?.isApproved === 1;
+                                                                        const isTransferNotCreated = item?.isTransferCreated === 0;
+
+                                                                        // Redirect based on transfer type
+                                                                        if (isBankToBank && isApproved && isTransferNotCreated) {
                                                                             history.push({
                                                                                 pathname: `/financial-management/financials/fundTransfercreate/bankTrasfer`,
                                                                                 state: baseState,
                                                                             });
-                                                                        } else if (isBankToCash) {
+                                                                        } else if (isBankToCash && isApproved && isTransferNotCreated) {
                                                                             history.push({
                                                                                 pathname: `/financial-management/financials/fundTransfercreate/cashTrasfer`,
-                                                                                state: item,
+                                                                                state: baseState,
                                                                             });
                                                                         }
-                                                                    }}>
+                                                                    }}
+                                                                >
                                                                     <IAdd title={"Create"} />
                                                                 </span>
+
                                                             </div>
                                                         </td>
                                                     </tr>

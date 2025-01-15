@@ -165,9 +165,6 @@ export default function ContraCreate() {
                 touched,
             }) => (
                 <>
-                    {console.log("errors", errors)}
-                    {console.log("touched", touched)}
-                    {console.log("values", values)}
                     {saveLoader && <Loading />}
                     <IForm title="Contra Create" getProps={setObjprops}>
                         <Form>

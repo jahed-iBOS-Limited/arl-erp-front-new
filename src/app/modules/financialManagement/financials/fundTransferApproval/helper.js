@@ -1,6 +1,4 @@
-export const approveHandeler = ({ item, onApproveHandler, profileData, cb, isApproved }) => {
-
-
+export const approveHandeler = ({ item, onApproveHandler, profileData, cb, isApproved, isTransferCreated, journalCode }) => {
 
     const payload = {
 
@@ -40,13 +38,14 @@ export const approveHandeler = ({ item, onApproveHandler, profileData, cb, isApp
         strRequestGlName: item?.strRequestGlName || "",
         strRequestPartnerId: item?.strRequestPartnerId || 0,
         strRequestPartnerName: item?.strRequestPartnerName || "",
-        isTransferCreated: 0,
-
+        isTransferCreated: isTransferCreated || 0,
         "intGivenGlid": item?.intGivenGlid || 0,
         "strGivenGlCode": item?.strGivenGlCode || "",
         "strGivenGlName": item?.strGivenGlName || "",
         "strGivenPartnerName": item?.strGivenPartnerName || "",
         "intUpdateBy": profileData?.userId,
+        // strReceivingJournal:journalCode || "",
+        strSendingJournal: journalCode || ""
     }
 
     onApproveHandler(`/fino/FundManagement/CreateOrEditFundTransferRequest`, payload, cb, true);
