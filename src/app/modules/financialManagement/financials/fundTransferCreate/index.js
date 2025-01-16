@@ -282,9 +282,9 @@ export default function FundTransferApproval({ viewType }) {
                                                                                     amount: item?.numAmount,
                                                                                     intRequestToUnitId: item?.intRequestToUnitId,
                                                                                     transaction: {
-                                                                                        value: item?.intGivenPartnerId,
-                                                                                        label: item?.strGivenPartnerName,
-                                                                                        code: item?.strGivenstrPartnerCode || "",
+                                                                                        value: item?.strRequestPartnerId,
+                                                                                        label: item?.strRequestPartnerName,
+                                                                                        code: item?.strRequestPartnerCode || "",
                                                                                     },
                                                                                     partnerBankAccount: {
                                                                                         value: item?.intRequestedBankAccountId,
@@ -294,7 +294,9 @@ export default function FundTransferApproval({ viewType }) {
                                                                                         bankAccountNo: item?.strRequestedBankAccountNumber,
                                                                                         bankName: item?.strRequestedBankName,
                                                                                         routingNo: item?.strRequestedBankRouting || "",
-                                                                                    }
+                                                                                    },
+                                                                                    paidTo: item?.strRequestPartnerName || "",
+
                                                                                 };
                                                                             }
                                                                             return null;

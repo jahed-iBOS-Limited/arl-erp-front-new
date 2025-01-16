@@ -242,6 +242,7 @@ export default function _Form({
               : TransfervalidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
+          let bankPaymentValues = {...values} //If you want to resetFrom write code after this line.
           return confirmAlert({
             title: 'Are you sure?',
             message: '',
@@ -262,6 +263,8 @@ export default function _Form({
                       isApproved: 1,
                       isTransferCreated: 1,
                       journalCode: journalCode,
+                      bankPaymentValues: bankPaymentValues,
+                      isUpdateGivenBankInfo : jorunalType === 5
                     });
 
 
@@ -447,7 +450,7 @@ export default function _Form({
                               );
                             }}
                             loadOptions={loadTransactionList}
-                            isDisabled={!values?.partnerType}
+                            isDisabled={!values?.partnerType || jorunalType === 5}
                           />
                           <FormikError
                             errors={errors}

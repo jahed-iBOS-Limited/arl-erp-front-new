@@ -18,6 +18,7 @@ import { _todayDate } from "../../../../_helper/_todayDate";
 const initData = {
     sendingPartner: "",
     requestToUnit: "",
+    requestToPartner: "",
     receivingAccount: "",
     expectedDate: "",
     requestAmount: "",
@@ -47,6 +48,12 @@ const getSchema = () => {
                 value: Yup.string().required("Request To Unit is required"),
             })
             .typeError("Request To Unit is required"),
+        requestToPartner: Yup.object()
+            .shape({
+                label: Yup.string().required("Request To Partner is required"),
+                value: Yup.string().required("Request To Partner is required"),
+            })
+            .typeError("Request To Partner is required"),
     });
 
     return validationSchema;
@@ -66,6 +73,7 @@ export default function InterCompanyTransferRequestCreate() {
     }, shallowEqual);
 
     const [partnerDDl, getPartnerDDl] = useAxiosGet();
+    const [requestTopartnerDDl, getRequestToPartnerDDl, , setRequestToPartnerDDl] = useAxiosGet();
     const [bankList, getBankList] = useAxiosGet()
     const [, onCreateHandler, saveLoader] = useAxiosPost();
 
@@ -87,9 +95,10 @@ export default function InterCompanyTransferRequestCreate() {
             strTransactionType: parentTransferType?.actionName || 0,
             intTransaferById: 1,
             strTransferBy: "Bank To Bank",
-            // strRequestPartnerId: values?.sendingPartner?.value || 0,
-            // strRequestPartnerName: values?.sendingPartner?.label || "",
-            // IsTransferCreated
+            isTransferCreated : 0,
+            strRequestPartnerId : values?.requestToPartner?.value || 0,
+            strRequestPartnerName : values?.requestToPartner?.label || "",
+            strRequestPartnerCode : values?.requestToPartner?.code || "",
             intRequestByUnitId: selectedBusinessUnit?.value,
             strRequestByUnitName: selectedBusinessUnit?.label,
             intRequestToUnitId: values?.requestToUnit?.value,
@@ -103,7 +112,6 @@ export default function InterCompanyTransferRequestCreate() {
             strRequestedBankAccountNumber: values?.receivingAccount?.bankAccNo || "",
             strRequestedBankAccountName: values?.receivingAccount?.label || "",
             intRequestedBankAccountId: values?.receivingAccount?.value || 0,
-            strRequestPartnerCode: "",
             // "intGivenBankId": values?.fromBankName?.bankId || 0,
             // "strGivenBankName": values?.fromBankName?.bankName || "",
             // "intGivenBankBranchId": values?.fromBankName?.bankBranch_Id || 0,
@@ -172,9 +180,30 @@ export default function InterCompanyTransferRequestCreate() {
                                         options={businessUnitList?.filter((item) => item?.value !== selectedBusinessUnit?.value) || []}
                                         value={values?.requestToUnit}
                                         label="Request To Unit"
-                                        onChange={(valueOption) => setFieldValue("requestToUnit", valueOption)}
+                                        onChange={(valueOption) => {
+                                            setFieldValue("requestToUnit", valueOption)
+                                            setFieldValue("requestToPartner", "")
+                                            setRequestToPartnerDDl([])
+                                            if (valueOption) {
+                                                getRequestToPartnerDDl(
+                                                    `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}&PartnerTypeId=4`
+                                                );
+                                            }
+                                        }}
                                         errors={errors}
                                         touched={touched}
+                                    />
+                                </div>
+                                <div className="col-lg-3">
+                                    <NewSelect
+                                        name="requestToPartner"
+                                        options={requestTopartnerDDl?.filter((item) => item?.value !== values?.requestToUnit?.value) || []}
+                                        value={values?.requestToPartner}
+                                        label="Request To Partner"
+                                        onChange={(valueOption) => setFieldValue("requestToPartner", valueOption)}
+                                        errors={errors}
+                                        touched={touched}
+                                        isDisbled={!values?.requestToUnit}
                                     />
                                 </div>
                                 <div className="col-lg-3">
