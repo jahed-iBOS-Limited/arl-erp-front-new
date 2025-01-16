@@ -65,6 +65,10 @@ export function TableRow() {
       text: "Zone Name",
     },
     {
+      dataField: "districtName",
+      text: "District Name",
+    },
+    {
       dataField: "transportZoneId",
       text: "Actions",
       formatter: TableAction,
