@@ -17,10 +17,10 @@ const ErrorMessageComponent = () => {
           <div className="d-flex flex-column align-items-center justify-content-center h-100 text-center">
             <h2 className={`mb-4 ${styles.greatText}`}>Sorry!</h2>
             <p style={{ fontSize: "18px" }}>Your payment has been cancelled.</p>
-            <button className="btn btn-primary rounded">
+            {/* <button className="btn btn-primary rounded">
               {" "}
               Back Home <i class="fa fa-arrow-left ml-2" aria-hidden="true"></i>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
