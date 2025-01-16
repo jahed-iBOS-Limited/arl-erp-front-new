@@ -165,9 +165,11 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                         <NewSelect
                                             name="status"
                                             options={[
-                                                { value: 1, label: "Pending" },
-                                                { value: 2, label: "Approved" },
-                                                { value: 3, label: "Rejected" },
+                                                { value: 0, label: "Pending" },
+                                                { value: 1, label: "Approved" },
+                                                { value: 2, label: "Rejected" },
+                                                { value: 3, label: "Transfered" },
+                                                { value: 4, label: "Complete" },
                                             ]}
                                             value={values?.status}
                                             label="Status"
@@ -201,6 +203,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                     <th>Request Date</th>
                                                     <th>Requesting Unit</th>
                                                     <th>Request To Unit</th>
+                                                    <th>Transfer From</th>
                                                     <th>Receiving Account</th>
                                                     {/* <th>Sending Partner</th> */}
                                                     <th>Expect Date</th>
@@ -219,7 +222,8 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                         <td className="text-center">{_dateFormatter(item.dteRequestDate)}</td>
                                                         <td>{item.strRequestByUnitName}</td>
                                                         <td>{item.strRequestToUnitName}</td>
-                                                        <td>{item?.strRequestedBankName}</td>
+                                                        <td></td>
+                                                        <td>{item?.strRequestedBankAccountName}</td>
                                                         {/* <td>{item?.strGivenBankName}</td> */}
                                                         <td className="text-center">{_dateFormatter(item.dteExpectedDate)}</td>
                                                         <td className="text-right">{item.numAmount}</td>

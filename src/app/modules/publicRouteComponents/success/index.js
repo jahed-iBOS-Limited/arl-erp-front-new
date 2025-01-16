@@ -22,10 +22,10 @@ const SuccessMessageComponent = () => {
             <p style={{ fontSize: "18px" }}>
               Your payment has been successfully done.
             </p>
-            <button className="btn btn-primary rounded">
+            {/* <button className="btn btn-primary rounded">
               {" "}
               Back Home <i class="fa fa-arrow-left ml-2" aria-hidden="true"></i>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

@@ -160,8 +160,6 @@ export default function InterCompanyTransferRequestCreate() {
                 touched,
             }) => (
                 <>
-                    {console.log("errors", errors)}
-                    {console.log("touched", touched)}
                     {saveLoader && <Loading />}
                     <IForm title="Inter Company Transfer Request Create" getProps={setObjprops}>
                         <Form>

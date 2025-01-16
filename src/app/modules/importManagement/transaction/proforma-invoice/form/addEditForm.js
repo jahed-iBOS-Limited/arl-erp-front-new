@@ -46,6 +46,7 @@ const initData = {
   etaDate: _todayDate(),
   dteEstimatedLaycanDate: _todayDate(),
   warehouse: "",
+  strRemarks:"",
 };
 
 
