@@ -11,14 +11,14 @@ const validationSchema = Yup.object().shape({
     .min(2, "Minimum 2 symbols")
     .max(100, "Maximum 100 symbols")
     .required("Zone Name is required"),
-  divisionName: Yup.object().shape({
-    value: Yup.number().required("Division is required"),
-    label: Yup.string().required("Division is required"),
-  }),
-  districtName: Yup.object().shape({
-    value: Yup.number().required("District is required"),
-    label: Yup.string().required("District is required"),
-  }),
+  // divisionName: Yup.object().shape({
+  //   value: Yup.number().required("Division is required"),
+  //   label: Yup.string().required("Division is required"),
+  // }),
+  // districtName: Yup.object().shape({
+  //   value: Yup.number().required("District is required"),
+  //   label: Yup.string().required("District is required"),
+  // }),
 });
 
 export default function _Form({
