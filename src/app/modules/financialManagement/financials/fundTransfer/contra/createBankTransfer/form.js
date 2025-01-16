@@ -140,6 +140,7 @@ export default function _Form({
 
   const [partnerBank, getPartnerBank, , setPartnerBank] = useAxiosGet();
   const [, onUpdateJournalHandler, updateJounalLoader] = useAxiosPost();
+  const [glList, getGlList] = useAxiosGet();
 
 
   useEffect(() => {
@@ -153,6 +154,7 @@ export default function _Form({
         setSendToGLBank,
       );
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -207,6 +209,10 @@ export default function _Form({
           setPartnerBank(newBankAcc);
         },
       );
+    }
+
+    if(true){
+      getGlList(`/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeDDL?BusinessUnitId=${selectedBusinessUnit?.value}&RefferanceTypeId=4`)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initData]);
@@ -484,7 +490,7 @@ export default function _Form({
                               setFieldValue('gl', valueOption);
                             }}
                             isDisabled={!values?.transaction}
-                            options={values?.transaction?.glData || []}
+                            options={values?.transaction?.glData || glList || []}
                             value={values?.gl}
                             isSearchable={true}
                             styles={customStyles}

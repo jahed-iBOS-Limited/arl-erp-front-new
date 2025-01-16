@@ -39,11 +39,13 @@ export const approveHandeler = ({ item, onApproveHandler, profileData, cb, isApp
         strRequestPartnerId: item?.strRequestPartnerId || 0,
         strRequestPartnerName: item?.strRequestPartnerName || "",
         isTransferCreated: isTransferCreated || 0,
-        "intGivenGlid": item?.intGivenGlid || 0,
-        "strGivenGlCode": item?.strGivenGlCode || "",
-        "strGivenGlName": item?.strGivenGlName || "",
-        "strGivenPartnerName": item?.strGivenPartnerName || "",
-        "intUpdateBy": profileData?.userId,
+        intGivenGlid: item?.intGivenGlid || 0,
+        strGivenGlCode: item?.strGivenGlCode || "",
+        strGivenGlName: item?.strGivenGlName || "",
+        strGivenPartnerName: item?.strGivenPartnerName || "",
+        strGivenstrPartnerCode: item?.strGivenstrPartnerCode || "",
+        strRequestPartnerCode: item?.strRequestPartnerCode || "",
+        intUpdateBy: profileData?.userId,
         // strReceivingJournal:journalCode || "",
         strSendingJournal: journalCode || ""
     }
