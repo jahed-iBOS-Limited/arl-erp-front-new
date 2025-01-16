@@ -229,6 +229,7 @@ const createPayloadChange = (
       purchaseContractNo: '',
       dteEta: values?.etaDate,
       dteEstimatedLaycanDate: values?.dteEstimatedLaycanDate,
+      strRemarks: values?.strRemarks || "",
     },
     objRow: modifyArray,
   };

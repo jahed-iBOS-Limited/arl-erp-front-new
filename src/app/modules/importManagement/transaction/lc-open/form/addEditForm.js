@@ -58,7 +58,8 @@ const initData = {
   lcMarginValue: "",
   lcMarginDueDate: "",
   marginType:"",
-  numInterestRate:""
+  numInterestRate:"",
+  strRemarks:"",
 };
 
 export default function AddEditForm() {
@@ -169,6 +170,7 @@ export default function AddEditForm() {
         description: poNo?.description,
         sbuId: searchableLandingPoNo?.sbuId,
         plantId: searchableLandingPoNo?.plantId,
+        strRemarks:poNo?.strRemarks || ""
       });
 
       getAccountDDL(

@@ -597,6 +597,15 @@ export default function _Form({
                       disabled={viewType === 'view'}
                     />
                   </div>
+                  <div className="col-lg-3">
+                    <InputField
+                      value={values?.strRemarks || ""}
+                      name="strRemarks"
+                      label="Remarks"
+                      type="text"
+                      disabled={true}
+                    />
+                  </div>
                   <div
                     className="col-auto"
                     style={{ marginTop: '26px' }}
