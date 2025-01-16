@@ -36,6 +36,12 @@ export default function BankJournalCreateFormContra() {
   }, shallowEqual);
   const { profileData, selectedBusinessUnit } = storeData;
 
+  // Handle `selectedBusinessUnit` value separately
+const adjustedSelectedBusinessUnit = {
+  ...selectedBusinessUnit,
+  value: selectedJournalTypeId === 5 ? intRequestToUnitId : selectedBusinessUnit?.value,
+};
+
   // const { bankJournalCreate } = useSelector(
   //   (state) => state?.localStorage || {},
   //   shallowEqual
@@ -119,7 +125,7 @@ export default function BankJournalCreateFormContra() {
     if (
       values &&
       profileData?.accountId &&
-      selectedBusinessUnit?.value
+      adjustedSelectedBusinessUnit?.value
       // chequeNo?.currentChequeNo
     ) {
       // if id , then this is for edit , else this is for create
@@ -346,7 +352,7 @@ export default function BankJournalCreateFormContra() {
         remover={remover}
         rowDto={rowDto}
         profileData={profileData}
-        selectedBusinessUnit={selectedBusinessUnit}
+        selectedBusinessUnit={adjustedSelectedBusinessUnit}
         jorunalType={selectedJournalTypeId}
         netAmount={netAmount}
         instrumentNoByResponse={instrumentNoByResponse}

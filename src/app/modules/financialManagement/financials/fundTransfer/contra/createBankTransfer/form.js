@@ -140,6 +140,7 @@ export default function _Form({
 
   const [partnerBank, getPartnerBank, , setPartnerBank] = useAxiosGet();
   const [, onUpdateJournalHandler, updateJounalLoader] = useAxiosPost();
+  const [glList, getGlList] = useAxiosGet();
 
 
   useEffect(() => {
@@ -153,6 +154,7 @@ export default function _Form({
         setSendToGLBank,
       );
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -208,6 +210,10 @@ export default function _Form({
         },
       );
     }
+
+    if(true){
+      getGlList(`/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeDDL?BusinessUnitId=${selectedBusinessUnit?.value}&RefferanceTypeId=4`)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initData]);
 
@@ -236,6 +242,7 @@ export default function _Form({
               : TransfervalidationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
+          let bankPaymentValues = {...values} //If you want to resetFrom write code after this line.
           return confirmAlert({
             title: 'Are you sure?',
             message: '',
@@ -256,6 +263,8 @@ export default function _Form({
                       isApproved: 1,
                       isTransferCreated: 1,
                       journalCode: journalCode,
+                      bankPaymentValues: bankPaymentValues,
+                      isUpdateGivenBankInfo : jorunalType === 5
                     });
 
 
@@ -441,7 +450,7 @@ export default function _Form({
                               );
                             }}
                             loadOptions={loadTransactionList}
-                            isDisabled={!values?.partnerType}
+                            isDisabled={!values?.partnerType || jorunalType === 5}
                           />
                           <FormikError
                             errors={errors}
@@ -484,7 +493,7 @@ export default function _Form({
                               setFieldValue('gl', valueOption);
                             }}
                             isDisabled={!values?.transaction}
-                            options={values?.transaction?.glData || []}
+                            options={values?.transaction?.glData || glList || []}
                             value={values?.gl}
                             isSearchable={true}
                             styles={customStyles}

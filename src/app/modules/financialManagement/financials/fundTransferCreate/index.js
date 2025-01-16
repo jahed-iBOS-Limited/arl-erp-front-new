@@ -280,25 +280,12 @@ export default function FundTransferApproval({ viewType }) {
                                                                             } else if (isInterCompanyTransfer) {
                                                                                 return {
                                                                                     amount: item?.numAmount,
-                                                                                    // transaction: {
-                                                                                    //     value: item?.intGivenPartnerId,
-                                                                                    //     label: item?.strGivenPartnerName,
-                                                                                    //     glData: [
-                                                                                    //         {
-                                                                                    //             "value": 31,
-                                                                                    //             "label": "Inter Company Balance",
-                                                                                    //             "code": "1060003",
-                                                                                    //             "accountGroupId": 1
-                                                                                    //         },
-                                                                                    //         {
-                                                                                    //             "value": 212,
-                                                                                    //             "label": "Material Loan Receivable",
-                                                                                    //             "code": "1160009",
-                                                                                    //             "accountGroupId": 1
-                                                                                    //         }
-                                                                                    //     ],
-                                                                                    //     code: ""
-                                                                                    // },
+                                                                                    intRequestToUnitId: item?.intRequestToUnitId,
+                                                                                    transaction: {
+                                                                                        value: item?.strRequestPartnerId,
+                                                                                        label: item?.strRequestPartnerName,
+                                                                                        code: item?.strRequestPartnerCode || "",
+                                                                                    },
                                                                                     partnerBankAccount: {
                                                                                         value: item?.intRequestedBankAccountId,
                                                                                         label: item?.strRequestedBankAccountName,
@@ -306,8 +293,10 @@ export default function FundTransferApproval({ viewType }) {
                                                                                         bankBranchId: item?.intRequestedBankBranchId,
                                                                                         bankAccountNo: item?.strRequestedBankAccountNumber,
                                                                                         bankName: item?.strRequestedBankName,
-                                                                                        routingNo: ""
-                                                                                    }
+                                                                                        routingNo: item?.strRequestedBankRouting || "",
+                                                                                    },
+                                                                                    paidTo: item?.strRequestPartnerName || "",
+
                                                                                 };
                                                                             }
                                                                             return null;
