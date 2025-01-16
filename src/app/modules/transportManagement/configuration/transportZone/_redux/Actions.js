@@ -17,7 +17,7 @@ export const saveTransportZone = (payload, setDisabled) => () => {
       }
     })
     .catch((err) => {
-     
+
       setDisabled(false);
       toast.error(err?.response?.data?.message);
     });
@@ -57,7 +57,7 @@ export const getTransportZoneGridData = (
     })
     .catch((err) => {
       setLoading(false);
-     
+
     });
 };
 
@@ -68,11 +68,27 @@ export const getTransportZoneById = (id) => (dispatch) => {
     .then((res) => {
       if (res.status === 200 && isArray(res.data)) {
         const item = res.data[0];
-        return dispatch(slice.SetDataById(item));
+        const data = {
+          ...item,
+          divisionName: item?.divisionId
+            ? {
+              value: item?.divisionId || 0,
+              label: item?.divisionName || "",
+            }
+            : "",
+          districtName: item?.divisionId
+            ? {
+              value: item?.divisionId || 0,
+              label: item?.districtName || "",
+            }
+            : "",
+
+        };
+        return dispatch(slice.SetDataById(data));
       }
     })
     .catch((err) => {
-     
+
     });
 };
 // set single store empty

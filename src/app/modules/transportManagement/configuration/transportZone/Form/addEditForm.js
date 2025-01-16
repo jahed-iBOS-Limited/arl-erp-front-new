@@ -14,6 +14,8 @@ import Loading from "../../../../_helper/_loading";
 const initData = {
   id: undefined,
   transportZoneName: "",
+  divisionName: "",
+  districtName: "",
 };
 
 export default function TransportZoneForm({
@@ -22,6 +24,7 @@ export default function TransportZoneForm({
     params: { id },
   },
 }) {
+
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
   // get user profile data from store
@@ -31,6 +34,7 @@ export default function TransportZoneForm({
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
+
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
@@ -38,7 +42,6 @@ export default function TransportZoneForm({
   const singleData = useSelector((state) => {
     return state.transportZone?.singleData;
   }, shallowEqual);
-
   const dispatch = useDispatch();
   //Dispatch single data action and empty single data for create
   useEffect(() => {
@@ -57,19 +60,23 @@ export default function TransportZoneForm({
           transportZoneId: values.transportZoneId,
           transportZoneName: values.transportZoneName,
           actionBy: profileData.userId,
+          districtId: values?.districtName?.value || 0,
+
         };
-        dispatch(saveEditedTransportZone(payload,setDisabled));
+        dispatch(saveEditedTransportZone(payload, setDisabled));
       } else {
         const payload = {
           transportZoneName: values.transportZoneName,
           businessUintid: selectedBusinessUnit.value,
           actionBy: profileData.userId,
           accountId: profileData.accountId,
+          districtId: values?.districtName?.value || 0,
+
         };
-        dispatch(saveTransportZone({ data: payload, cb },setDisabled));
+        dispatch(saveTransportZone({ data: payload, cb }, setDisabled));
       }
     } else {
-      
+
     }
   };
   // const disableHandler = (cond) => {
@@ -86,7 +93,7 @@ export default function TransportZoneForm({
         {...objProps}
         initData={singleData || initData}
         saveHandler={saveHandler}
-       // disableHandler={disableHandler}
+        // disableHandler={disableHandler}
         accountId={profileData?.accountId}
         selectedBusinessUnit={selectedBusinessUnit}
         isEdit={id || false}
