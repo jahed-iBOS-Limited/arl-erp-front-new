@@ -1,10 +1,11 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { setDeliveryLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { Form, Formik } from 'formik';
+import { debounce } from 'lodash';
+import React, { useEffect } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { setDeliveryLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import {
   clearGridDataActions,
   getDeliveryGridData,
@@ -12,31 +13,35 @@ import {
   getSBUDDLDelivery_Aciton,
   GetShipPointDDLAction,
   GetWarehouseDDLAction,
-} from "../_redux/Actions";
+} from '../_redux/Actions';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import InputField from "./../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { TableRow } from "./tableRow";
+} from './../../../../../../_metronic/_partials/controls';
+import InputField from './../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { TableRow } from './tableRow';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
+const debounceHandelar = debounce(({ setLoading, CB }) => {
+  setLoading(false);
+  CB();
+}, 1500);
 const initData = {
-  sbu: "",
-  plant: "",
-  distributionChannel: "",
-  shipPoint: "",
-  status: { value: false, label: "Incomplete" },
+  sbu: '',
+  plant: '',
+  distributionChannel: '',
+  shipPoint: '',
+  status: { value: false, label: 'Incomplete' },
   from: _todayDate(),
   to: _todayDate(),
   isCheck: true,
-  vat: "",
+  vat: '',
 };
 export default function HeaderFormDedivery() {
   //paginationState
@@ -61,7 +66,7 @@ export default function HeaderFormDedivery() {
         shipPointDDL: state.delivery.shipPointDDL,
       };
     },
-    { shallowEqual }
+    { shallowEqual },
   );
 
   let {
@@ -78,16 +83,19 @@ export default function HeaderFormDedivery() {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       getPlantDDL(
-        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`,
       );
       dispatch(
         getSBUDDLDelivery_Aciton(
           profileData.accountId,
-          selectedBusinessUnit.value
-        )
+          selectedBusinessUnit.value,
+        ),
       );
       dispatch(
-        GetShipPointDDLAction(profileData.accountId, selectedBusinessUnit.value)
+        GetShipPointDDLAction(
+          profileData.accountId,
+          selectedBusinessUnit.value,
+        ),
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,7 +116,7 @@ export default function HeaderFormDedivery() {
         deliveryLanding?.distributionChannel?.value,
         deliveryLanding?.status?.value,
         deliveryLanding?.from,
-        deliveryLanding?.to
+        deliveryLanding?.to,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,7 +131,7 @@ export default function HeaderFormDedivery() {
     channelId,
     status,
     fromDate,
-    toDate
+    toDate,
   ) => {
     dispatch(
       getDeliveryGridData(
@@ -138,8 +146,8 @@ export default function HeaderFormDedivery() {
         channelId,
         status,
         fromDate,
-        toDate
-      )
+        toDate,
+      ),
     );
   };
 
@@ -153,7 +161,7 @@ export default function HeaderFormDedivery() {
       values?.distributionChannel?.value,
       values?.status?.value,
       values?.from,
-      values?.to
+      values?.to,
     );
   };
 
@@ -167,13 +175,13 @@ export default function HeaderFormDedivery() {
       values?.distributionChannel?.value,
       values?.status?.value,
       values?.from,
-      values?.to
+      values?.to,
     );
   };
 
   const channelList =
     selectedBusinessUnit?.value === 171 || selectedBusinessUnit?.value === 224
-      ? [{ value: 0, label: "All" }, ...(distributionChannelDDL || [])]
+      ? [{ value: 0, label: 'All' }, ...(distributionChannelDDL || [])]
       : distributionChannelDDL;
   return (
     <>
@@ -187,7 +195,7 @@ export default function HeaderFormDedivery() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Delivery"}>
+              <CardHeader title={'Delivery'}>
                 <CardHeaderToolbar>
                   <button
                     disabled={
@@ -218,15 +226,15 @@ export default function HeaderFormDedivery() {
                         value={values?.sbu}
                         label="SBU"
                         onChange={(valueOption) => {
-                          setFieldValue("distributionChannel", "");
+                          setFieldValue('distributionChannel', '');
                           dispatch(clearGridDataActions([]));
-                          setFieldValue("sbu", valueOption);
+                          setFieldValue('sbu', valueOption);
                           dispatch(
                             getDistributionChannelDDLAction(
                               profileData.accountId,
                               selectedBusinessUnit.value,
-                              valueOption?.value
-                            )
+                              valueOption?.value,
+                            ),
                           );
                         }}
                         placeholder="SBU"
@@ -241,7 +249,7 @@ export default function HeaderFormDedivery() {
                         value={values?.plant}
                         label="Plant"
                         onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
+                          setFieldValue('plant', valueOption);
                         }}
                         placeholder="Plant"
                         errors={errors}
@@ -255,7 +263,7 @@ export default function HeaderFormDedivery() {
                         value={values?.distributionChannel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("distributionChannel", valueOption);
+                          setFieldValue('distributionChannel', valueOption);
                           dispatch(clearGridDataActions([]));
                         }}
                         placeholder="Distribution Channel"
@@ -267,19 +275,19 @@ export default function HeaderFormDedivery() {
                       <NewSelect
                         name="shipPoint"
                         options={
-                          [{ value: 0, label: "All" }, ...shipPointDDL] || []
+                          [{ value: 0, label: 'All' }, ...shipPointDDL] || []
                         }
                         value={values?.shipPoint}
                         label="Ship Point"
                         onChange={(valueOption) => {
-                          setFieldValue("shipPoint", valueOption);
+                          setFieldValue('shipPoint', valueOption);
                           dispatch(clearGridDataActions([]));
                           dispatch(
                             GetWarehouseDDLAction(
                               profileData.accountId,
                               selectedBusinessUnit.value,
-                              valueOption?.value
-                            )
+                              valueOption?.value,
+                            ),
                           );
                         }}
                         placeholder="Ship Point"
@@ -292,15 +300,15 @@ export default function HeaderFormDedivery() {
                         name="status"
                         options={
                           [
-                            { value: false, label: "Incomplete" },
-                            { value: true, label: "Complete" },
+                            { value: false, label: 'Incomplete' },
+                            { value: true, label: 'Complete' },
                           ] || []
                         }
                         value={values?.status}
                         label="Status"
                         onChange={(valueOption) => {
                           dispatch(clearGridDataActions([]));
-                          setFieldValue("status", valueOption);
+                          setFieldValue('status', valueOption);
                         }}
                         placeholder="Status"
                         errors={errors}
@@ -318,7 +326,7 @@ export default function HeaderFormDedivery() {
                         name="from"
                         placeholder={_todayDate()}
                         onChange={(e) => {
-                          setFieldValue("from", e.target.value);
+                          setFieldValue('from', e.target.value);
                           dispatch(clearGridDataActions([]));
                         }}
                         type="date"
@@ -331,7 +339,7 @@ export default function HeaderFormDedivery() {
                         name="to"
                         placeholder={_todayDate()}
                         onChange={(e) => {
-                          setFieldValue("to", e.target.value);
+                          setFieldValue('to', e.target.value);
                           dispatch(clearGridDataActions([]));
                         }}
                         type="date"
@@ -346,16 +354,16 @@ export default function HeaderFormDedivery() {
                       <>
                         <div
                           className="d-flex align-items-center"
-                          style={{ marginTop: "20px" }}
+                          style={{ marginTop: '20px' }}
                         >
                           <div>isVatInclude</div>
-                          <div style={{ marginLeft: "5px" }}>
+                          <div style={{ marginLeft: '5px' }}>
                             <input
                               type="checkbox"
                               name="isCheck"
                               checked={values?.isCheck}
                               onChange={(e) => {
-                                setFieldValue("isCheck", e.target.checked);
+                                setFieldValue('isCheck', e.target.checked);
                               }}
                               id="isSelect"
                             />
@@ -365,7 +373,7 @@ export default function HeaderFormDedivery() {
                         {values?.isCheck && (
                           <div
                             className="col-lg-2"
-                            style={{ marginLeft: "5px" }}
+                            style={{ marginLeft: '5px' }}
                           >
                             <InputField
                               label="Vat"
@@ -374,7 +382,7 @@ export default function HeaderFormDedivery() {
                               placeholder="Vat"
                               type="text"
                               onChange={(e) => {
-                                setFieldValue("vat", e.target.value);
+                                setFieldValue('vat', e.target.value);
                               }}
                             />
                           </div>
@@ -386,25 +394,31 @@ export default function HeaderFormDedivery() {
                         // values?.status?.value === true
                         //   ? "col-lg-3"
                         //   : "col-lg-3 offset-9 d-flex justify-content-end"
-                        "col-lg-3"
+                        'col-lg-3'
                       }
                     >
                       <button
                         type="button"
                         className="btn btn-primary mt-5"
                         onClick={() => {
-                          dispatch(setDeliveryLandingAction(values));
-                          commonGridFunc(
-                            pageNo,
-                            pageSize,
-                            null,
-                            values?.sbu?.value,
-                            values?.shipPoint?.value,
-                            values?.distributionChannel?.value,
-                            values?.status?.value,
-                            values?.from,
-                            values?.to
-                          );
+                          setLoading(true);
+                          debounceHandelar({
+                            setLoading,
+                            CB: () => {
+                              dispatch(setDeliveryLandingAction(values));
+                              commonGridFunc(
+                                pageNo,
+                                pageSize,
+                                null,
+                                values?.sbu?.value,
+                                values?.shipPoint?.value,
+                                values?.distributionChannel?.value,
+                                values?.status?.value,
+                                values?.from,
+                                values?.to,
+                              );
+                            },
+                          });
                         }}
                         disabled={
                           !values?.shipPoint ||

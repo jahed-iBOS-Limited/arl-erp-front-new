@@ -1,28 +1,25 @@
-import React, { useRef, useState } from "react";
-import AsyncSelect from "react-select/async";
-import { components } from "react-select";
-import useDebounce from "./customHooks/useDebounce";
-import { Overlay, Tooltip } from "react-bootstrap";
-// { value, onChange, loadOptionsAction, inputValue, setInputValue }
-
+import React, { useRef, useState } from 'react';
+import AsyncSelect from 'react-select/async';
+import { components } from 'react-select';
+import useDebounce from './customHooks/useDebounce';
+import { Overlay, Tooltip } from 'react-bootstrap';
+import AsyncCreatableSelect from 'react-select/async-creatable';
 const SearchAsyncSelect = ({
   selectedValue,
   loadOptions,
   handleChange,
   isDisabled,
-  setClear,
   name,
   placeholder,
   isSearchIcon,
   paddingRight,
   isDebounce,
-  isHiddenToolTip
+  isHiddenToolTip,
+  isCreatableSelect,
 }) => {
-  const [inputValue, setValue] = useState("");
-  // const [selectedValue, setSelectedValue] = useState(null);
+  const [inputValue, setValue] = useState('');
   const [show, setShow] = useState(false);
   const target = useRef(null);
-  // handle input change event
   const handleInputChange = (value) => {
     setValue(value);
   };
@@ -30,7 +27,7 @@ const SearchAsyncSelect = ({
   const DropdownIndicator = (props) => {
     return (
       <components.DropdownIndicator {...props}>
-        <i style={{ fontSize: "12px" }} className='fas fa-search'></i>
+        <i style={{ fontSize: '12px' }} className="fas fa-search"></i>
       </components.DropdownIndicator>
     );
   };
@@ -38,26 +35,26 @@ const SearchAsyncSelect = ({
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
-      minHeight: "22px",
-      height: "22px",
+      minHeight: '22px',
+      height: '22px',
     }),
 
     valueContainer: (provided, state) => ({
       ...provided,
-      height: "22px",
-      padding: "0 6px",
+      height: '22px',
+      padding: '0 6px',
     }),
 
     input: (provided, state) => ({
       ...provided,
-      margin: "0px",
+      margin: '0px',
     }),
     indicatorSeparator: (state) => ({
-      display: "none",
+      display: 'none',
     }),
     indicatorsContainer: (provided, state) => ({
       ...provided,
-      height: "22px",
+      height: '22px',
     }),
     clearIndicator: (provided, state) => ({
       ...provided,
@@ -77,17 +74,17 @@ const SearchAsyncSelect = ({
     placeholder: (provided, state) => ({
       ...provided,
       fontSize: 11.5,
-      textOverflow: "ellipsis",
-      maxWidth: "95%",
-      whiteSpace: "nowrap",
-      overflow: "hidden",
+      textOverflow: 'ellipsis',
+      maxWidth: '95%',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
     }),
     menu: (provided, state) => ({
       ...provided,
-      backgroundColor: "#ffffff",
-      minWidth: "max-content",
-      width: "100%",
-      borderRadius: "2px",
+      backgroundColor: '#ffffff',
+      minWidth: 'max-content',
+      width: '100%',
+      borderRadius: '2px',
       zIndex: 99999999999999,
     }),
   };
@@ -96,7 +93,7 @@ const SearchAsyncSelect = ({
 
   return (
     <div
-      className='newSelectWrapper'
+      className="newSelectWrapper"
       ref={target}
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
@@ -105,48 +102,71 @@ const SearchAsyncSelect = ({
         <Overlay
           target={target.current}
           show={selectedValue?.value && show}
-          placement='top-start'
+          placement="top-start"
         >
           {(props) => (
-            <Tooltip id='overlay-example' {...props}>
+            <Tooltip id="overlay-example" {...props}>
               {selectedValue?.label}
             </Tooltip>
           )}
         </Overlay>
       )}
-      <AsyncSelect
-        // cacheOptions // For implementing item req / purchase req search this option need to be disabled
-        menuPosition='fixed'
-        isDisabled={isDisabled}
-        isClearable={true}
-        defaultOptions
-        value={selectedValue}
-        getOptionLabel={(e) => e?.label}
-        getOptionValue={(e) => e?.value}
-        components={isSearchIcon && { DropdownIndicator }}
-        loadOptions={() => {
-          if (isDebounce) {
-            return new Promise((resolve, reject) => {
-              debounce(() => {
-                loadOptions(inputValue, resolve, reject);
-              }, 500);
-            });
-          } else {
-            return loadOptions(inputValue);
-          }
-        }}
-        onInputChange={handleInputChange}
-        onChange={(valueOption) => handleChange(valueOption)}
-        styles={customStyles}
-        placeholder={placeholder ? placeholder : "Search (min 3 letter) "}
-      />
-      {setClear && (
-        <i
-          class='far fa-times-circle globalCircleIcon2'
-          onClick={() => {
-            setClear(name, "");
-          }}
-        ></i>
+      {isCreatableSelect ? (
+        <>
+          <AsyncCreatableSelect
+            menuPosition="fixed"
+            isDisabled={isDisabled}
+            isClearable={true}
+            defaultOptions
+            value={selectedValue}
+            getOptionLabel={(e) => e?.label}
+            getOptionValue={(e) => e?.value}
+            components={isSearchIcon && { DropdownIndicator }}
+            loadOptions={() => {
+              if (isDebounce) {
+                return new Promise((resolve, reject) => {
+                  debounce(() => {
+                    loadOptions(inputValue, resolve, reject);
+                  }, 500);
+                });
+              } else {
+                return loadOptions(inputValue);
+              }
+            }}
+            onInputChange={handleInputChange}
+            onChange={(valueOption) => handleChange(valueOption)}
+            styles={customStyles}
+            placeholder={placeholder ? placeholder : 'Search (min 3 letter) '}
+          />
+        </>
+      ) : (
+        <>
+          <AsyncSelect
+            menuPosition="fixed"
+            isDisabled={isDisabled}
+            isClearable={true}
+            defaultOptions
+            value={selectedValue}
+            getOptionLabel={(e) => e?.label}
+            getOptionValue={(e) => e?.value}
+            components={isSearchIcon && { DropdownIndicator }}
+            loadOptions={() => {
+              if (isDebounce) {
+                return new Promise((resolve, reject) => {
+                  debounce(() => {
+                    loadOptions(inputValue, resolve, reject);
+                  }, 500);
+                });
+              } else {
+                return loadOptions(inputValue);
+              }
+            }}
+            onInputChange={handleInputChange}
+            onChange={(valueOption) => handleChange(valueOption)}
+            styles={customStyles}
+            placeholder={placeholder ? placeholder : 'Search (min 3 letter) '}
+          />
+        </>
       )}
     </div>
   );
