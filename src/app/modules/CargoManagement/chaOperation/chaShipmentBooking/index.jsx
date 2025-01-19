@@ -11,10 +11,18 @@ import { imarineBaseUrl } from '../../../../App';
 import { _dateFormatter } from '../../../_helper/_dateFormate';
 import { useState } from 'react';
 import PaginationTable from '../../../_helper/_tablePagination';
+import PaginationSearch from '../../../_helper/_search';
 import IViewModal from '../../../_helper/_viewModal';
 import ViewInfo from './viewInfo';
+import NewSelect from '../../../_helper/_select';
 
 const validationSchema = Yup.object().shape({});
+const initialValues = {
+  chaType: {
+    value: 0,
+    label: 'All',
+  },
+};
 
 export default function ChaShipmentBooking() {
   const [
@@ -30,14 +38,14 @@ export default function ChaShipmentBooking() {
   const formikRef = React.useRef(null);
   const saveHandler = (values, cb) => {};
 
-  const commonGetData = (search, pageNo, pageSize) => {
+  const commonGetData = (search, pageNo, pageSize, values) => {
     getyChaShipmentBooking(
-      `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingLanding?search=${search}&pageNo=${pageNo}&pageSize=${pageSize}`,
+      `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingLanding?search=${search}&pageNo=${pageNo}&pageSize=${pageSize}&tradeTypeId=${values?.chaType?.value}`,
     );
   };
 
   useEffect(() => {
-    commonGetData('', pageNo, pageSize);
+    commonGetData('', pageNo, pageSize, initialValues);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -52,7 +60,7 @@ export default function ChaShipmentBooking() {
     >
       <Formik
         enableReinitialize={true}
-        initialValues={{}}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -64,6 +72,45 @@ export default function ChaShipmentBooking() {
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <>
             {chaShipmentBookingLoading && <Loading />}
+            <div className="row global-form">
+              <div className="col-lg-3">
+                <NewSelect
+                  name="chaType"
+                  options={[
+                    {
+                      value: 0,
+                      label: 'All',
+                    },
+                    {
+                      value: 1,
+                      label: 'Export',
+                    },
+                    {
+                      value: 2,
+                      label: 'Import',
+                    },
+                  ]}
+                  value={values?.chaType || ''}
+                  label="CHA Type"
+                  onChange={(valueOption) => {
+                    setFieldValue('chaType', valueOption);
+                    commonGetData('', pageNo, pageSize, {
+                      ...values,
+                      chaType: valueOption,
+                    });
+                  }}
+                  placeholder="CHA Type"
+                  errors={errors}
+                  touched={touched}
+                />
+              </div>
+            </div>
+            <PaginationSearch
+              placeholder="HBL/HAWB, MBL/MAWB, Customer wise search"
+              paginationSearchHandler={(serchValue) => {
+                commonGetData(serchValue, pageNo, pageSize, values);
+              }}
+            />
             <Form className="form form-label-right">
               <div>
                 <div className="table-responsive">
@@ -142,7 +189,7 @@ export default function ChaShipmentBooking() {
                   <PaginationTable
                     count={chaShipmentBooking?.totalCount}
                     setPositionHandler={(pageNo, pageSize) => {
-                      commonGetData('', pageNo, pageSize);
+                      commonGetData('', pageNo, pageSize, values);
                     }}
                     values={values}
                     paginationState={{

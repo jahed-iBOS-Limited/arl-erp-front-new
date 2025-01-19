@@ -1,28 +1,28 @@
-import React, { useRef, useState } from "react";
-import { Overlay, Tooltip } from "react-bootstrap";
-import { components } from "react-select";
-import AsyncSelect from "react-select/async";
+import React, { useRef, useState } from 'react';
+import { Overlay, Tooltip } from 'react-bootstrap';
+import { components } from 'react-select';
+import AsyncSelect from 'react-select/async';
 // { value, onChange, loadOptionsAction, inputValue, setInputValue }
 
 export const customStylesSelectMulti = {
   control: (provided, state) => ({
     ...provided,
-    minHeight: "22px",
+    minHeight: '22px',
     // height: "22px",
   }),
 
   valueContainer: (provided, state) => ({
     ...provided,
     // height: "22px",
-    padding: "0 6px",
+    padding: '0 6px',
   }),
 
   input: (provided, state) => ({
     ...provided,
-    margin: "0px",
+    margin: '0px',
   }),
   indicatorSeparator: (state) => ({
-    display: "none",
+    display: 'none',
   }),
   indicatorsContainer: (provided, state) => ({
     ...provided,
@@ -46,17 +46,17 @@ export const customStylesSelectMulti = {
   placeholder: (provided, state) => ({
     ...provided,
     fontSize: 11.5,
-    textOverflow: "ellipsis",
-    maxWidth: "95%",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
+    textOverflow: 'ellipsis',
+    maxWidth: '95%',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
   }),
   menu: (provided, state) => ({
     ...provided,
-    backgroundColor: "#ffffff",
-    minWidth: "max-content",
-    width: "100%",
-    borderRadius: "2px",
+    backgroundColor: '#ffffff',
+    minWidth: 'max-content',
+    width: '100%',
+    borderRadius: '2px',
     zIndex: 99999999999999,
   }),
 };
@@ -65,7 +65,6 @@ const SearchAsyncSelectMulti = ({
   loadOptions,
   handleChange,
   isDisabled,
-  setClear,
   name,
   placeholder,
   isSearchIcon,
@@ -87,7 +86,7 @@ const SearchAsyncSelectMulti = ({
   const DropdownIndicator = (props) => {
     return (
       <components.DropdownIndicator {...props}>
-        <i style={{ fontSize: "12px" }} className="fas fa-search"></i>
+        <i style={{ fontSize: '12px' }} className="fas fa-search"></i>
       </components.DropdownIndicator>
     );
   };
@@ -102,7 +101,11 @@ const SearchAsyncSelectMulti = ({
       onMouseLeave={() => setShow(false)}
     >
       {!isHiddenToolTip && (
-        <Overlay target={target.current} show={selectedValue?.value && show} placement="top-start">
+        <Overlay
+          target={target.current}
+          show={selectedValue?.value && show}
+          placement="top-start"
+        >
           {(props) => (
             <Tooltip id="overlay-example" {...props}>
               {selectedValue?.label}
@@ -120,22 +123,13 @@ const SearchAsyncSelectMulti = ({
         onChange={onChange}
         styles={customStylesSelectMulti}
         menuPosition="fixed"
-        placeholder={placeholder ? placeholder : "Search (min 3 letter) "}
+        placeholder={placeholder ? placeholder : 'Search (min 3 letter) '}
         isClearable={false}
         isDisabled={isDisabled}
         getOptionLabel={(e) => e?.label}
         getOptionValue={(e) => e?.value}
         components={isSearchIcon && { DropdownIndicator }}
-        // onInputChange={handleInputChange}
       />
-      {setClear && (
-        <i
-          class="far fa-times-circle globalCircleIcon2"
-          onClick={() => {
-            setClear(name, "");
-          }}
-        ></i>
-      )}
     </div>
   );
 };
