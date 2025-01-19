@@ -73,6 +73,7 @@ export default function InterCompanyTransferRequestCreate() {
     }, shallowEqual);
 
     const [partnerDDl, getPartnerDDl] = useAxiosGet();
+    const [businessPartnerByOwnUnit, getBusinessPartnerByOwnUnit] = useAxiosGet();
     const [requestTopartnerDDl, getRequestToPartnerDDl, , setRequestToPartnerDDl] = useAxiosGet();
     const [bankList, getBankList] = useAxiosGet()
     const [, onCreateHandler, saveLoader] = useAxiosPost();
@@ -187,6 +188,9 @@ export default function InterCompanyTransferRequestCreate() {
                                             if (valueOption) {
                                                 getRequestToPartnerDDl(
                                                     `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}&PartnerTypeId=4`
+                                                );
+                                                getBusinessPartnerByOwnUnit(
+                                                    `/partner/PManagementCommonDDL/GetBusinessPartnerByOwnUnit?businessUnitId=4&businessPartnerOwnUnitId=144`
                                                 );
                                             }
                                         }}
