@@ -16,6 +16,7 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import TextArea from "../../../../_helper/TextArea";
+import IConfirmModal from "../../../../_helper/_confirmModal";
 
 function CreateCustomerLeadGeneration() {
   const history = useHistory();
@@ -430,7 +431,16 @@ function CreateCustomerLeadGeneration() {
               return (
                 <button
                   onClick={() => {
-                    updateHandler(true);
+                    const objProps = {
+                      title: "Are You Sure?",
+                      message:
+                        "Are you sure you want to reject this customer lead generation?",
+                      yesAlertFunc: () => {
+                        updateHandler(true);
+                      },
+                      noAlertFunc: () => {},
+                    };
+                    IConfirmModal(objProps);
                   }}
                   className="btn btn-danger ml-2"
                 >
