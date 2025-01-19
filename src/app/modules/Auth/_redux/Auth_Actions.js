@@ -262,6 +262,7 @@ const manuFilterFunc = (manuList) => {
           subItem.nestedSubs = subItem?.nestedSubs?.filter((subItem) => {
             // 209 than show other wise hide
             if ([209].includes(subItem?.id)) return true;
+            return false;
           });
         }
         return subItem;
