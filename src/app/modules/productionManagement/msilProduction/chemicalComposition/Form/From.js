@@ -1,9 +1,9 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 export default function ChemicalCompositionForm({
   initData,
@@ -22,10 +22,10 @@ export default function ChemicalCompositionForm({
 }) {
   const editShiftValue = (shift) => {
     switch (shift) {
-      case "B":
+      case 'B':
         return 2;
 
-      case "C":
+      case 'C':
         return 3;
 
       default:
@@ -34,10 +34,10 @@ export default function ChemicalCompositionForm({
   };
   const editSampleTypeValue = (type) => {
     switch (type) {
-      case "Bath Sample":
+      case 'Bath Sample':
         return 1;
 
-      case "Final Sample":
+      case 'Final Sample':
         return 2;
 
       default:
@@ -48,10 +48,10 @@ export default function ChemicalCompositionForm({
   const setCarbonEquivalent = (
     manganeseValue = 0,
     carbonValue = 0,
-    setFieldValue
+    setFieldValue,
   ) => {
     const v = manganeseValue / 6 + carbonValue;
-    setFieldValue("carbonEquivalent", v);
+    setFieldValue('carbonEquivalent', v);
   };
   return (
     <>
@@ -61,27 +61,27 @@ export default function ChemicalCompositionForm({
           id
             ? {
                 ...initData,
-                date: _dateFormatter(state?.dteDate) || "",
+                date: _dateFormatter(state?.dteDate) || '',
                 shift: {
-                  value: state?.strShift ? editShiftValue(state?.strShift) : "",
-                  label: state?.strShift || "",
+                  value: state?.strShift ? editShiftValue(state?.strShift) : '',
+                  label: state?.strShift || '',
                 },
-                heatNo: state?.strHeatNo || "",
+                heatNo: state?.strHeatNo || '',
                 sampleType: {
                   value: state?.strSampleType
                     ? editSampleTypeValue(state?.strSampleType)
-                    : "",
-                  label: state?.strSampleType || "",
+                    : '',
+                  label: state?.strSampleType || '',
                 },
-                carbone: state?.numC || "",
-                silicon: state?.numSi || "",
-                manganese: state?.numMn || "",
-                phosphorus: state?.numP || "",
-                shulfer: state?.numS || "",
-                chromium: state?.numCr || "",
-                copper: state?.numCu || "",
-                nickel: state?.numNi || "",
-                carbonEquivalent: state?.numCe || "",
+                carbone: state?.numC || '',
+                silicon: state?.numSi || '',
+                manganese: state?.numMn || '',
+                phosphorus: state?.numP || '',
+                shulfer: state?.numS || '',
+                chromium: state?.numCr || '',
+                copper: state?.numCu || '',
+                nickel: state?.numNi || '',
+                carbonEquivalent: state?.numCe || '',
               }
             : initData
         }
@@ -90,7 +90,7 @@ export default function ChemicalCompositionForm({
           saveHandler(values, () => {
             if (id) {
               getSingleData(
-                `/mes/MSIL/GetAllMSIL?PartName=MeltingQC&FromDate=${state?.dteDate}&ToDate=${state?.dteDate}&BusinessUnitId=${buId}&AutoId=${state?.intAutoId}`
+                `/mes/MSIL/GetAllMSIL?PartName=MeltingQC&FromDate=${state?.dteDate}&ToDate=${state?.dteDate}&BusinessUnitId=${buId}&AutoId=${state?.intAutoId}`,
               );
             } else {
               resetForm(initData);
@@ -123,16 +123,15 @@ export default function ChemicalCompositionForm({
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: 1, label: "A" },
-                      { value: 2, label: "B" },
-                      { value: 3, label: "C" },
+                      { value: 1, label: 'A' },
+                      { value: 2, label: 'B' },
+                      { value: 3, label: 'C' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                     }}
-                    setClear={false}
                     errors={errors}
                     touched={touched}
                   />
@@ -149,21 +148,21 @@ export default function ChemicalCompositionForm({
                   <NewSelect
                     name="sampleType"
                     options={[
-                      { value: 1, label: "Bath Sample" },
-                      { value: 2, label: "Final Sample" },
+                      { value: 1, label: 'Bath Sample' },
+                      { value: 2, label: 'Final Sample' },
                     ]}
                     value={values?.sampleType}
                     label="Sample Type"
                     onChange={(valueOption) => {
-                      setFieldValue("sampleType", valueOption);
+                      setFieldValue('sampleType', valueOption);
                       if (valueOption?.value === 2) {
                         setCarbonEquivalent(
                           +values?.manganese,
                           +values?.carbone,
-                          setFieldValue
+                          setFieldValue,
                         );
                       } else {
-                        setFieldValue("carbonEquivalent", 0);
+                        setFieldValue('carbonEquivalent', 0);
                       }
                     }}
                     errors={errors}
@@ -178,12 +177,12 @@ export default function ChemicalCompositionForm({
                     type="number"
                     min="0"
                     onChange={(e) => {
-                      setFieldValue("carbone", e.target.value);
+                      setFieldValue('carbone', e.target.value);
                       if (values?.sampleType?.value === 2) {
                         setCarbonEquivalent(
                           +values?.manganese,
                           +e.target.value,
-                          setFieldValue
+                          setFieldValue,
                         );
                       }
                     }}
@@ -206,12 +205,12 @@ export default function ChemicalCompositionForm({
                     type="number"
                     min="0"
                     onChange={(e) => {
-                      setFieldValue("manganese", e.target.value);
+                      setFieldValue('manganese', e.target.value);
                       if (values?.sampleType?.value === 2) {
                         setCarbonEquivalent(
                           +e.target.value,
                           +values?.carbone,
-                          setFieldValue
+                          setFieldValue,
                         );
                       }
                     }}
@@ -276,14 +275,14 @@ export default function ChemicalCompositionForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

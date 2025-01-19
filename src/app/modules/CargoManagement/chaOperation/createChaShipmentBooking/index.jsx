@@ -123,6 +123,8 @@ function CreateChaShipmentBooking() {
   const [commodityDDL, getCommodityDDL] = useAxiosGet();
   const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
   const [currencyList, GetBaseCurrencyList, , setCurrencyList] = useAxiosGet();
+  const [freightForwardDDL, getFreightForwardDDL] = useAxiosGet();
+  const [chaShipmentPortDDL, getChaShipmentPortDDL] = useAxiosGet();
   const [
     singleChaShipmentBooking,
     getSingleChaShipmentBooking,
@@ -246,6 +248,12 @@ function CreateChaShipmentBooking() {
     getConsigneeCountryList(
       `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
     );
+    getFreightForwardDDL(
+      `${imarineBaseUrl}/domain/CHAShipment/GetFreightForwardDDL`,
+    );
+    getChaShipmentPortDDL(
+      `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentPortDDL`,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -283,9 +291,9 @@ function CreateChaShipmentBooking() {
                   label: resData?.ffw,
                 }
               : '',
-            shipper: resData?.shipperId
+            shipper: resData?.shipperName
               ? {
-                  value: resData?.shipperId,
+                  value: resData?.shipperId || 0,
                   label: resData?.shipperName,
                 }
               : '',
@@ -296,7 +304,7 @@ function CreateChaShipmentBooking() {
                 }
               : '',
             portOfReceive: resData?.portOfReceive || '',
-            consignee: resData?.consigneeId
+            consignee: resData?.consignee
               ? {
                   value: resData?.consigneeId,
                   label: resData?.consignee,
@@ -314,7 +322,7 @@ function CreateChaShipmentBooking() {
                   label: resData?.portOfLoading,
                 }
               : '',
-            thirdPartyPay: resData?.thirdPartyId
+            thirdPartyPay: resData?.thirdPartyName
               ? {
                   value: resData?.thirdPartyId,
                   label: resData?.thirdPartyName,
@@ -327,7 +335,7 @@ function CreateChaShipmentBooking() {
                 }
               : '',
             portOfDelivery: resData?.portOfDelivery || '',
-            csSalesPic: resData?.cssalesPicId
+            csSalesPic: resData?.csSalesPic
               ? { value: resData?.cssalesPicId, label: resData?.csSalesPic }
               : '',
             commodity: resData?.commodityId
@@ -579,12 +587,7 @@ function CreateChaShipmentBooking() {
                       placeholder=" "
                       label="FFW"
                       name="ffw"
-                      options={[
-                        {
-                          value: 1,
-                          label: 'demo 1',
-                        },
-                      ]}
+                      options={freightForwardDDL || []}
                       value={values?.ffw}
                       onChange={(valueOption) => {
                         setFieldValue('ffw', valueOption || '');
@@ -596,6 +599,7 @@ function CreateChaShipmentBooking() {
                   {/* Shipper */}
                   <div className="col-lg-3">
                     <NewSelect
+                      isCreatableSelect={true}
                       label="Shipper"
                       type="text"
                       name="shipper"
@@ -649,6 +653,7 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <label>Consignee</label>
                     <SearchAsyncSelect
+                      isCreatableSelect
                       selectedValue={values?.consignee}
                       handleChange={(valueOption) => {
                         setFieldValue('consignee', valueOption);
@@ -690,12 +695,7 @@ function CreateChaShipmentBooking() {
                         setFieldValue('portOfLoading', valueOption || '');
                       }}
                       placeholder="Port of Loading"
-                      options={[
-                        {
-                          value: '1',
-                          label: 'Chittagong',
-                        },
-                      ]}
+                      options={chaShipmentPortDDL || []}
                       errors={errors}
                       touched={touched}
                     />
@@ -704,6 +704,7 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <label>Third Party Pay</label>
                     <SearchAsyncSelect
+                      isCreatableSelect
                       selectedValue={values?.thirdPartyPay}
                       handleChange={(valueOption) => {
                         setFieldValue('thirdPartyPay', valueOption);
@@ -754,6 +755,7 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <label>CS/Sales PIC</label>
                     <SearchAsyncSelect
+                      isCreatableSelect
                       selectedValue={values?.csSalesPic}
                       handleChange={(valueOption) => {
                         setFieldValue('csSalesPic', valueOption);

@@ -1,10 +1,10 @@
 /* eslint-disable no-lone-blocks */
-import React, { useState, useRef } from "react";
-import Select from "react-select";
-import customStyles from "../selectCustomStyle";
+import React, { useState, useRef } from 'react';
+import Select from 'react-select';
+import customStyles from '../selectCustomStyle';
 import CreatableSelect from 'react-select/creatable';
-import FormikError from "./_formikError";
-import { Overlay, Tooltip } from "react-bootstrap";
+import FormikError from './_formikError';
+import { Overlay, Tooltip } from 'react-bootstrap';
 const NewSelect = (props) => {
   const [show, setShow] = useState(false);
   const target = useRef(null);
@@ -17,16 +17,15 @@ const NewSelect = (props) => {
     errors,
     touched,
     onChange,
-    setClear,
     isHiddenLabel,
     isHiddenToolTip,
     labelIcon,
     isRequiredSymbol,
-    isCreatableSelect
+    isCreatableSelect,
   } = props;
   return (
     <div
-      className='newSelectWrapper'
+      className="newSelectWrapper"
       ref={target}
       onMouseEnter={() => setShow(true)}
       onMouseLeave={() => setShow(false)}
@@ -35,10 +34,10 @@ const NewSelect = (props) => {
         <Overlay
           target={target.current}
           show={value?.value && show}
-          placement='top-start'
+          placement="top-start"
         >
           {(props) => (
-            <Tooltip id='overlay-example' {...props}>
+            <Tooltip id="overlay-example" {...props}>
               {value?.label}
             </Tooltip>
           )}
@@ -47,28 +46,14 @@ const NewSelect = (props) => {
 
       {!isHiddenLabel && (label || placeholder) && (
         <label>
-          {isRequiredSymbol && <b style={{ color: "red" }}>*</b>}{" "}
-          {label || placeholder} {labelIcon && labelIcon()}{" "}
+          {isRequiredSymbol && <b style={{ color: 'red' }}>*</b>}{' '}
+          {label || placeholder} {labelIcon && labelIcon()}{' '}
         </label>
       )}
 
       <div>
-        {
-          isCreatableSelect ? (
-            <CreatableSelect
-              isClearable={true}
-              onChange={onChange}
-              options={options || []}
-              value={value}
-              isSearchable={true}
-              name={name}
-              styles={customStyles}
-              placeholder={placeholder}
-              onBlur={() => setShow(false)}
-              {...props}
-
-            />
-          ) : (<Select
+        {isCreatableSelect ? (
+          <CreatableSelect
             isClearable={true}
             onChange={onChange}
             options={options || []}
@@ -79,18 +64,22 @@ const NewSelect = (props) => {
             placeholder={placeholder}
             onBlur={() => setShow(false)}
             {...props}
-
-          />)
-        }
-
-        {setClear && (
-          <i
-            class='far fa-times-circle globalCircleIcon'
-            onClick={() => {
-              setClear(name, "");
-            }}
-          ></i>
+          />
+        ) : (
+          <Select
+            isClearable={true}
+            onChange={onChange}
+            options={options || []}
+            value={value}
+            isSearchable={true}
+            name={name}
+            styles={customStyles}
+            placeholder={placeholder}
+            onBlur={() => setShow(false)}
+            {...props}
+          />
         )}
+
         <FormikError errors={errors && errors} name={name} touched={touched} />
       </div>
     </div>
@@ -99,8 +88,8 @@ const NewSelect = (props) => {
 
 export default NewSelect;
 
-/* 
-    
+/*
+
     <NewSelect
     name="category"
     options={[]}
@@ -112,6 +101,6 @@ export default NewSelect;
     placeholder="Category"
     errors={errors}
     touched={touched}
-    /> 
+    />
 
 */
