@@ -72,7 +72,35 @@ const initData = {
   cbmWeight: '',
 };
 
-const validationSchema = Yup.object().shape({});
+const validationSchema = Yup.object().shape({
+  hblOrHawb: Yup.string().required('HBL/HAWB is required'),
+  transportMode: Yup.object().shape({
+    value: Yup.string().required('Transport Mode is required'),
+  }),
+  customer: Yup.object().shape({
+    value: Yup.string().required('Customer is required'),
+  }),
+  fclOrLcl: Yup.object().shape({
+    value: Yup.string().required('FCL/LCL is required'),
+  }),
+  commodity: Yup.object().shape({
+    value: Yup.string().required('Commodity is required'),
+  }),
+  containerQty: Yup.number().required('Container Quantity is required'),
+  currency: Yup.object().shape({
+    value: Yup.string().required('Currency is required'),
+  }),
+  copyDocReceived: Yup.string().required('Copy Doc Received is required'),
+  invoiceValue: Yup.number().required('Invoice Value is required'),
+  commercialInvoiceNo: Yup.string().required(
+    'Commercial Invoice No is required',
+  ),
+  invoiceDate: Yup.string().required('Invoice Date is required'),
+  exp: Yup.string().required('EXP is required'),
+  etaDate: Yup.string().required('ETA Date is required'),
+  grossWeight: Yup.number().required('Gross Weight is required'),
+  ataDate: Yup.string().required('ATA Date is required'),
+});
 function CreateChaShipmentBooking() {
   const formikRef = React.useRef(null);
   const [
@@ -95,6 +123,8 @@ function CreateChaShipmentBooking() {
   const [commodityDDL, getCommodityDDL] = useAxiosGet();
   const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
   const [currencyList, GetBaseCurrencyList, , setCurrencyList] = useAxiosGet();
+  const [freightForwardDDL, getFreightForwardDDL] = useAxiosGet();
+  const [chaShipmentPortDDL, getChaShipmentPortDDL] = useAxiosGet();
   const [
     singleChaShipmentBooking,
     getSingleChaShipmentBooking,
@@ -114,7 +144,7 @@ function CreateChaShipmentBooking() {
       hablNo: '',
       mawblNo: '',
       impExpId: values?.impExpType,
-      impExp: values?.impExpType === 1 ? 'Import' : 'Export',
+      impExp: values?.impExpType === 1 ? 'Export' : 'Import',
       carrierId: values?.carrier?.value || 0,
       carrierName: values?.carrier?.label || '',
       customerId: values?.customer?.value || 0,
@@ -218,6 +248,12 @@ function CreateChaShipmentBooking() {
     getConsigneeCountryList(
       `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
     );
+    getFreightForwardDDL(
+      `${imarineBaseUrl}/domain/CHAShipment/GetFreightForwardDDL`,
+    );
+    getChaShipmentPortDDL(
+      `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentPortDDL`,
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -255,9 +291,9 @@ function CreateChaShipmentBooking() {
                   label: resData?.ffw,
                 }
               : '',
-            shipper: resData?.shipperId
+            shipper: resData?.shipperName
               ? {
-                  value: resData?.shipperId,
+                  value: resData?.shipperId || 0,
                   label: resData?.shipperName,
                 }
               : '',
@@ -268,7 +304,7 @@ function CreateChaShipmentBooking() {
                 }
               : '',
             portOfReceive: resData?.portOfReceive || '',
-            consignee: resData?.consigneeId
+            consignee: resData?.consignee
               ? {
                   value: resData?.consigneeId,
                   label: resData?.consignee,
@@ -286,7 +322,7 @@ function CreateChaShipmentBooking() {
                   label: resData?.portOfLoading,
                 }
               : '',
-            thirdPartyPay: resData?.thirdPartyId
+            thirdPartyPay: resData?.thirdPartyName
               ? {
                   value: resData?.thirdPartyId,
                   label: resData?.thirdPartyName,
@@ -299,7 +335,7 @@ function CreateChaShipmentBooking() {
                 }
               : '',
             portOfDelivery: resData?.portOfDelivery || '',
-            csSalesPic: resData?.cssalesPicId
+            csSalesPic: resData?.csSalesPic
               ? { value: resData?.cssalesPicId, label: resData?.csSalesPic }
               : '',
             commodity: resData?.commodityId
@@ -363,7 +399,7 @@ function CreateChaShipmentBooking() {
 
   return (
     <ICustomCard
-      title={id ? 'Edit Cha Shipment Booking' : 'Create Cha Shipment Booking'}
+      title={id ? 'Edit CHA Shipment Booking' : 'Create CHA Shipment Booking'}
       backHandler={() => {
         history.goBack();
       }}
@@ -406,7 +442,7 @@ function CreateChaShipmentBooking() {
                             setFieldValue('impExpType', 1);
                           }}
                         />
-                        Import
+                        Export
                       </label>
                       <label>
                         <input
@@ -419,7 +455,7 @@ function CreateChaShipmentBooking() {
                             setFieldValue('impExpType', 2);
                           }}
                         />
-                        Export
+                        Import
                       </label>
                     </div>
                   </div>
@@ -474,6 +510,7 @@ function CreateChaShipmentBooking() {
                       onChange={(valueOption) => {
                         setFieldValue('transportMode', valueOption || '');
                         setFieldValue('carrier', '');
+                        setFieldValue('containerQty', '');
                         const typeId = valueOption?.label === 'Air' ? 6 : 5;
                         if ([1, 2].includes(valueOption?.value)) {
                           transportModeHandelar(typeId);
@@ -550,12 +587,7 @@ function CreateChaShipmentBooking() {
                       placeholder=" "
                       label="FFW"
                       name="ffw"
-                      options={[
-                        {
-                          value: 1,
-                          label: 'demo 1',
-                        },
-                      ]}
+                      options={freightForwardDDL || []}
                       value={values?.ffw}
                       onChange={(valueOption) => {
                         setFieldValue('ffw', valueOption || '');
@@ -567,6 +599,7 @@ function CreateChaShipmentBooking() {
                   {/* Shipper */}
                   <div className="col-lg-3">
                     <NewSelect
+                      isCreatableSelect={true}
                       label="Shipper"
                       type="text"
                       name="shipper"
@@ -620,6 +653,7 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <label>Consignee</label>
                     <SearchAsyncSelect
+                      isCreatableSelect
                       selectedValue={values?.consignee}
                       handleChange={(valueOption) => {
                         setFieldValue('consignee', valueOption);
@@ -661,12 +695,7 @@ function CreateChaShipmentBooking() {
                         setFieldValue('portOfLoading', valueOption || '');
                       }}
                       placeholder="Port of Loading"
-                      options={[
-                        {
-                          value: '1',
-                          label: 'Chittagong',
-                        },
-                      ]}
+                      options={chaShipmentPortDDL || []}
                       errors={errors}
                       touched={touched}
                     />
@@ -675,6 +704,7 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <label>Third Party Pay</label>
                     <SearchAsyncSelect
+                      isCreatableSelect
                       selectedValue={values?.thirdPartyPay}
                       handleChange={(valueOption) => {
                         setFieldValue('thirdPartyPay', valueOption);
@@ -725,6 +755,7 @@ function CreateChaShipmentBooking() {
                   <div className="col-lg-3">
                     <label>CS/Sales PIC</label>
                     <SearchAsyncSelect
+                      isCreatableSelect
                       selectedValue={values?.csSalesPic}
                       handleChange={(valueOption) => {
                         setFieldValue('csSalesPic', valueOption);
@@ -774,18 +805,23 @@ function CreateChaShipmentBooking() {
                       placeholder="Place of Delivery"
                     />
                   </div>
-                  {/* Container Qty */}
-                  <div className="col-lg-3">
-                    <InputField
-                      label="Quantity"
-                      type="number"
-                      name="containerQty"
-                      value={values?.containerQty}
-                      onChange={(e) => {
-                        setFieldValue('containerQty', e.target.value);
-                      }}
-                    />
-                  </div>
+                  {[2].includes(values?.transportMode?.value) && (
+                    <>
+                      {/* Container Qty */}
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Container quantity"
+                          type="number"
+                          name="containerQty"
+                          value={values?.containerQty}
+                          onChange={(e) => {
+                            setFieldValue('containerQty', e.target.value);
+                          }}
+                        />
+                      </div>
+                    </>
+                  )}
+
                   {/* curency DDl */}
                   <div className="col-lg-3">
                     <NewSelect
@@ -911,7 +947,7 @@ function CreateChaShipmentBooking() {
                   {/* Exp */}
                   <div className="col-lg-3">
                     <InputField
-                      label="Exp"
+                      label={values?.impExpType === 2 ? 'IP' : 'EXP'}
                       type="text"
                       name="exp"
                       value={values?.exp}
@@ -923,7 +959,7 @@ function CreateChaShipmentBooking() {
                   {/* Exp Date */}
                   <div className="col-lg-3">
                     <InputField
-                      label="Exp Date"
+                      label={values?.impExpType === 2 ? 'IP Date' : 'EXP Date'}
                       type="date"
                       name="expDate"
                       value={values?.expDate}
