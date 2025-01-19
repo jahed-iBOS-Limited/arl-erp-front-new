@@ -72,7 +72,35 @@ const initData = {
   cbmWeight: '',
 };
 
-const validationSchema = Yup.object().shape({});
+const validationSchema = Yup.object().shape({
+  hblOrHawb: Yup.string().required('HBL/HAWB is required'),
+  transportMode: Yup.object().shape({
+    value: Yup.string().required('Transport Mode is required'),
+  }),
+  customer: Yup.object().shape({
+    value: Yup.string().required('Customer is required'),
+  }),
+  fclOrLcl: Yup.object().shape({
+    value: Yup.string().required('FCL/LCL is required'),
+  }),
+  commodity: Yup.object().shape({
+    value: Yup.string().required('Commodity is required'),
+  }),
+  containerQty: Yup.number().required('Container Quantity is required'),
+  currency: Yup.object().shape({
+    value: Yup.string().required('Currency is required'),
+  }),
+  copyDocReceived: Yup.string().required('Copy Doc Received is required'),
+  invoiceValue: Yup.number().required('Invoice Value is required'),
+  commercialInvoiceNo: Yup.string().required(
+    'Commercial Invoice No is required',
+  ),
+  invoiceDate: Yup.string().required('Invoice Date is required'),
+  exp: Yup.string().required('EXP is required'),
+  etaDate: Yup.string().required('ETA Date is required'),
+  grossWeight: Yup.number().required('Gross Weight is required'),
+  ataDate: Yup.string().required('ATA Date is required'),
+});
 function CreateChaShipmentBooking() {
   const formikRef = React.useRef(null);
   const [
@@ -114,7 +142,7 @@ function CreateChaShipmentBooking() {
       hablNo: '',
       mawblNo: '',
       impExpId: values?.impExpType,
-      impExp: values?.impExpType === 1 ? 'Import' : 'Export',
+      impExp: values?.impExpType === 1 ? 'Export' : 'Import',
       carrierId: values?.carrier?.value || 0,
       carrierName: values?.carrier?.label || '',
       customerId: values?.customer?.value || 0,
@@ -363,7 +391,7 @@ function CreateChaShipmentBooking() {
 
   return (
     <ICustomCard
-      title={id ? 'Edit Cha Shipment Booking' : 'Create Cha Shipment Booking'}
+      title={id ? 'Edit CHA Shipment Booking' : 'Create CHA Shipment Booking'}
       backHandler={() => {
         history.goBack();
       }}
@@ -406,7 +434,7 @@ function CreateChaShipmentBooking() {
                             setFieldValue('impExpType', 1);
                           }}
                         />
-                        Import
+                        Export
                       </label>
                       <label>
                         <input
@@ -419,7 +447,7 @@ function CreateChaShipmentBooking() {
                             setFieldValue('impExpType', 2);
                           }}
                         />
-                        Export
+                        Import
                       </label>
                     </div>
                   </div>
@@ -474,6 +502,7 @@ function CreateChaShipmentBooking() {
                       onChange={(valueOption) => {
                         setFieldValue('transportMode', valueOption || '');
                         setFieldValue('carrier', '');
+                        setFieldValue('containerQty', '');
                         const typeId = valueOption?.label === 'Air' ? 6 : 5;
                         if ([1, 2].includes(valueOption?.value)) {
                           transportModeHandelar(typeId);
@@ -774,18 +803,23 @@ function CreateChaShipmentBooking() {
                       placeholder="Place of Delivery"
                     />
                   </div>
-                  {/* Container Qty */}
-                  <div className="col-lg-3">
-                    <InputField
-                      label="Quantity"
-                      type="number"
-                      name="containerQty"
-                      value={values?.containerQty}
-                      onChange={(e) => {
-                        setFieldValue('containerQty', e.target.value);
-                      }}
-                    />
-                  </div>
+                  {[2].includes(values?.transportMode?.value) && (
+                    <>
+                      {/* Container Qty */}
+                      <div className="col-lg-3">
+                        <InputField
+                          label="Container quantity"
+                          type="number"
+                          name="containerQty"
+                          value={values?.containerQty}
+                          onChange={(e) => {
+                            setFieldValue('containerQty', e.target.value);
+                          }}
+                        />
+                      </div>
+                    </>
+                  )}
+
                   {/* curency DDl */}
                   <div className="col-lg-3">
                     <NewSelect
@@ -911,7 +945,7 @@ function CreateChaShipmentBooking() {
                   {/* Exp */}
                   <div className="col-lg-3">
                     <InputField
-                      label="Exp"
+                      label={values?.impExpType === 2 ? 'IP' : 'EXP'}
                       type="text"
                       name="exp"
                       value={values?.exp}
@@ -923,7 +957,7 @@ function CreateChaShipmentBooking() {
                   {/* Exp Date */}
                   <div className="col-lg-3">
                     <InputField
-                      label="Exp Date"
+                      label={values?.impExpType === 2 ? 'IP Date' : 'EXP Date'}
                       type="date"
                       name="expDate"
                       value={values?.expDate}
