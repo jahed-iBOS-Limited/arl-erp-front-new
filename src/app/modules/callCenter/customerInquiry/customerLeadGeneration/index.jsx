@@ -1,17 +1,14 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../_helper/_customCard";
 import { Form, Formik } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../_helper/_formikError";
-import axios from "axios";
+import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
-import PaginationTable from "../../../_helper/_tablePagination";
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import ICustomCard from "../../../_helper/_customCard";
+import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
+import NewSelect from "../../../_helper/_select";
+import PaginationTable from "../../../_helper/_tablePagination";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 
 const validationSchema = Yup.object().shape({
   statusAndStage: Yup.object().shape({
@@ -49,6 +46,8 @@ export default function CustomerLeadGeneration() {
   } = useSelector((state) => state?.authData || {}, shallowEqual);
   const [divisionDDL, getDivisionDDL] = useAxiosGet();
   const [districtDDL, getDistrictDDL] = useAxiosGet();
+  const [thanaDDL, getThanaDDL] = useAxiosGet();
+
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
 
@@ -91,16 +90,21 @@ export default function CustomerLeadGeneration() {
       `/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=${divisionId}`
     );
   };
-  const loadThana = (v) => {
-    if (v?.length < 2) return [];
-    return axios
-      .get(
-        `/oms/SalesQuotation/GetUserWiseShipToPartnerAndZoneDDL?partName=TransportZoneDDL&userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&districtId=${formikRef.current.values?.district?.value}&search=${v}`
-      )
-      .then((res) => {
-        return res?.data;
-      });
+  const getThana = (districtId) => {
+    getThanaDDL(
+      `/oms/SalesQuotation/GetUserWiseShipToPartnerAndZoneDDL?partName=TransportZoneDDL&userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&districtId=${districtId}`
+    );
   };
+  // const loadThana = (v) => {
+  //   if (v?.length < 2) return [];
+  //   return axios
+  //     .get(
+  //       `/oms/SalesQuotation/GetUserWiseShipToPartnerAndZoneDDL?partName=TransportZoneDDL&userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&districtId=${formikRef.current.values?.district?.value}&search=${v}`
+  //     )
+  //     .then((res) => {
+  //       return res?.data;
+  //     });
+  // };
 
   React.useEffect(() => {
     getDivisionDDL("/oms/TerritoryInfo/GetDivisionDDL?countryId=18");
@@ -197,6 +201,7 @@ export default function CustomerLeadGeneration() {
                       onChange={(valueOption) => {
                         setFieldValue("district", valueOption || "");
                         setFieldValue("thana", "");
+                        valueOption?.value && getThana(valueOption?.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -204,7 +209,7 @@ export default function CustomerLeadGeneration() {
                     />
                   </div>
                   {/* thana */}
-                  <div className="col-lg-3">
+                  {/* <div className="col-lg-3">
                     <label>Thana</label>
                     <SearchAsyncSelect
                       selectedValue={values?.thana}
@@ -223,6 +228,24 @@ export default function CustomerLeadGeneration() {
                       errors={errors}
                       name={"thana"}
                       touched={touched}
+                    />
+                  </div> */}
+                  <div className="col-lg-3">
+                    <NewSelect
+                      label={"Thana"}
+                      options={thanaDDL || []}
+                      value={values?.thana}
+                      name="thana"
+                      onChange={(valueOption) => {
+                        setFieldValue("thana", valueOption || "");
+                      }}
+                      errors={errors}
+                      touched={touched}
+                      isDisabled={
+                        values?.division?.value && values?.district?.value
+                          ? false
+                          : true
+                      }
                     />
                   </div>
                   {/* from date */}

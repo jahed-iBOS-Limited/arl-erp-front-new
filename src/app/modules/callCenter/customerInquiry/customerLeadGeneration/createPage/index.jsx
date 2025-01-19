@@ -8,7 +8,6 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import ICustomCard from "../../../../_helper/_customCard";
-import FormikError from "../../../../_helper/_formikError";
 import IDelete from "../../../../_helper/_helperIcons/_delete";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
@@ -64,7 +63,9 @@ function CreateCustomerLeadGeneration() {
 
   const [divisionDDL, getDivisionDDL] = useAxiosGet();
   const [districtDDL, getDistrictDDL] = useAxiosGet();
+  const [thanaDDL, getThanaDDL] = useAxiosGet();
   const [storiedDDL, getStoriedDDL] = useAxiosGet();
+  const [itemDDL, getItemDDL] = useAxiosGet();
   const [projectStatusDDL, getProjectStatusDDL] = useAxiosGet();
   const [sourceOrAdvertiseDDL, getSourceOrAdvertiseDDL] = useAxiosGet();
   const [brandDDL, getBrandDDL] = useAxiosGet();
@@ -213,6 +214,11 @@ function CreateCustomerLeadGeneration() {
       `/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=${divisionId}`
     );
   };
+  const getThana = (districtId) => {
+    getThanaDDL(
+      `/oms/SalesQuotation/GetUserWiseShipToPartnerAndZoneDDL?partName=TransportZoneDDL&userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&districtId=${districtId}`
+    );
+  };
 
   const loadRef = (v) => {
     if (v?.length < 2) return [];
@@ -224,16 +230,7 @@ function CreateCustomerLeadGeneration() {
         return res?.data;
       });
   };
-  const loadThana = (v) => {
-    if (v?.length < 2) return [];
-    return axios
-      .get(
-        `/oms/SalesQuotation/GetUserWiseShipToPartnerAndZoneDDL?partName=TransportZoneDDL&userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&districtId=${formikRef.current.values?.district?.value}&search=${v}`
-      )
-      .then((res) => {
-        return res?.data;
-      });
-  };
+
   const getArea = (regionId) => {
     getAreaDDL(
       `/oms/SalesInformation/GetUserWiseRegionAreaTerritoryDDL?businessUnitId=${selectedBusinessUnit?.value}&userId=${userId}&typeName=Area&regionId=${regionId}&distributionChannelId=0`,
@@ -264,16 +261,7 @@ function CreateCustomerLeadGeneration() {
       }
     );
   };
-  const loadItem = (v) => {
-    if (v?.length < 2) return [];
-    return axios
-      .get(
-        `/oms/SalesQuotation/GetItemSalesByItemTypeIdDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=4&search=${v}`
-      )
-      .then((res) => {
-        return res?.data;
-      });
-  };
+
   // get all ddl
   React.useEffect(() => {
     getDivisionDDL("/oms/TerritoryInfo/GetDivisionDDL?countryId=18");
@@ -308,6 +296,9 @@ function CreateCustomerLeadGeneration() {
         });
         setRegionDDL(modifyData);
       }
+    );
+    getItemDDL(
+      `/oms/SalesQuotation/GetItemSalesByItemTypeIdDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=4`
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -609,6 +600,7 @@ function CreateCustomerLeadGeneration() {
                       onChange={(valueOption) => {
                         setFieldValue("district", valueOption || "");
                         setFieldValue("thana", "");
+                        valueOption?.value && getThana(valueOption?.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -617,24 +609,21 @@ function CreateCustomerLeadGeneration() {
                   </div>
                   {/* thana */}
                   <div className="col-lg-3">
-                    <label>Thana</label>
-                    <SearchAsyncSelect
-                      selectedValue={values?.thana}
-                      isSearchIcon={true}
-                      handleChange={(valueOption) => {
-                        setFieldValue("thana", valueOption);
+                    <NewSelect
+                      label={"Thana"}
+                      options={thanaDDL || []}
+                      value={values?.thana}
+                      name="thana"
+                      onChange={(valueOption) => {
+                        setFieldValue("thana", valueOption || "");
                       }}
-                      loadOptions={loadThana}
+                      errors={errors}
+                      touched={touched}
                       isDisabled={
                         values?.division?.value && values?.district?.value
                           ? false
                           : true
                       }
-                    />
-                    <FormikError
-                      errors={errors}
-                      name={"thana"}
-                      touched={touched}
                     />
                   </div>
                   {/* shipToPartnerName */}
@@ -800,17 +789,18 @@ function CreateCustomerLeadGeneration() {
                   {/* item */}
 
                   <div className="col-lg-3">
-                    <label>Item</label>
-                    <SearchAsyncSelect
-                      selectedValue={values?.item}
-                      isSearchIcon={true}
-                      handleChange={(valueOption) => {
+                    <NewSelect
+                      label={"Item"}
+                      options={itemDDL || []}
+                      value={values?.item}
+                      name="item"
+                      onChange={(valueOption) => {
                         setFieldValue("item", valueOption);
-                        valueOption &&
-                          setFieldValue("uom", valueOption?.uomName);
+                        setFieldValue("uom", valueOption?.uomName || "");
                         setFieldValue("uomId", valueOption?.uomId || 0);
                       }}
-                      loadOptions={loadItem}
+                      errors={errors}
+                      touched={touched}
                     />
                   </div>
                   {/* uom */}
@@ -939,75 +929,3 @@ function CreateCustomerLeadGeneration() {
 }
 
 export default CreateCustomerLeadGeneration;
-// {
-//   "customerAcquisitionId": 10,
-//   "customerName": "Md Abdul Kader",
-//   "customerEmail": "kader@ibos.io",
-//   "customerPhone": "01700000000",
-//   "storied": "Poultry",
-//   "projectStatusId": 144,
-//   "projectStatusName": "Planning/Initiation",
-//   "divisionId": 3,
-//   "divisionName": "Dhaka",
-//   "districtId": 18,
-//   "districtName": "Dhaka",
-//   "transportZoneId": 5602,
-//   "transportZoneName": "Dhaka Metro [ Dhaka ],AAFL",
-//   "shipToPartnerId": null,
-//   "shipToPartnerName": "Shop 4",
-//   "shipToPartnerAddress": "",
-//   "businessPartnerId": 0,
-//   "businessPartnerName": "",
-//   "referenceId": 0,
-//   "referenceName": "",
-//   "deliveryAddress": "Lalmatia mohammad pur",
-//   "referralSource": "",
-//   "currentStage": "Suspect",
-//   "totalItem": 2,
-//   "totalQuantity": 33,
-//   "isSuspect": true,
-//   "isProspect": false,
-//   "isLead": false,
-//   "isCustomer": false,
-//   "isClient": false,
-//   "isRejected": false,
-//   "territoryId": 25118,
-//   "territoryName": "Rajshahi",
-//   "areaId": 25102,
-//   "areaName": "Rajshahi-1",
-//   "regionId": 25070,
-//   "regionName": "Rajshahi",
-//   "shipPointId": 542,
-//   "shipPointName": "AAFL Bogura Warehouse",
-//   "currentBrandId": 0,
-//   "currentBrandName": null,
-//   "shopName": "Shop 4",
-//   "actionBy": 521235,
-//   "actionByName": "Md. Monirul Islam ",
-//   "updatedBy": null,
-//   "updatedByName": null,
-//   "rowList": [
-//     {
-//       "rowId": 13,
-//       "customerAcquisitionId": 10,
-//       "itemId": 192065,
-//       "itemName": "Pre-Starter (Pabda/Gushla/Sing/Magur/Shoal) (503) 25 Kg",
-//       "itemCode": "14412306",
-//       "uomId": 132,
-//       "uomName": "Bag",
-//       "isActive": false,
-//       "quantity": 10
-//     },
-//     {
-//       "rowId": 14,
-//       "customerAcquisitionId": 10,
-//       "itemId": 184363,
-//       "itemName": "Unusable Iron Scrap",
-//       "itemCode": "14412152",
-//       "uomId": 55,
-//       "uomName": "Kilogram",
-//       "isActive": false,
-//       "quantity": 23
-//     }
-//   ]
-// }
