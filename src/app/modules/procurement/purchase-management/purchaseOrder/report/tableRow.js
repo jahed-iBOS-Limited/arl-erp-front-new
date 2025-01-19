@@ -300,7 +300,7 @@ export function PurchaseOrderViewTableRow({
                               {purchaseOrderReport?.objHeaderDTO?.shipToName}
                             </p>
                             <p>
-                              Bin No.{" "}
+                             Client Bin No.{" "}
                               {purchaseOrderReport?.objHeaderDTO?.companyBinNo}{" "}
                             </p>
                             <p>
