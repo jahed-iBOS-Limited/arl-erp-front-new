@@ -1,28 +1,38 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useDispatch } from "react-redux";
-import { GetDataBySalesOrderAction, getShipToPartner_Action } from "../_redux/Actions";
-import NewSelect from "../../../../_helper/_select";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import InputField from "./../../../../_helper/_inputField";
-import { toast } from "react-toastify";
-import { GetShipmentTypeApi, bagType, carType, deliveryMode, mode } from "../utils";
-import FormikInput from "../../../../chartering/_chartinghelper/common/formikInput";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IHistory from "../../../../_helper/_helperIcons/_history";
-import IViewModal from "../../../../_helper/_viewModal";
-import ItemInformation from "../../invTransaction/Form/receiveInventory/view/ItemInformation";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
+import {
+  GetDataBySalesOrderAction,
+  getShipToPartner_Action,
+} from '../_redux/Actions';
+import NewSelect from '../../../../_helper/_select';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import InputField from './../../../../_helper/_inputField';
+import { toast } from 'react-toastify';
+import {
+  GetShipmentTypeApi,
+  bagType,
+  carType,
+  deliveryMode,
+  mode,
+} from '../utils';
+import FormikInput from '../../../../chartering/_chartinghelper/common/formikInput';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IHistory from '../../../../_helper/_helperIcons/_history';
+import IViewModal from '../../../../_helper/_viewModal';
+import { debounce } from 'lodash';
+import ItemInformation from '../../invTransaction/Form/receiveInventory/view/ItemInformation';
 // Validation schema
 export const validationSchema = Yup.object().shape({
   warehouse: Yup.object().shape({
-    label: Yup.string().required("Warehouse is required"),
-    value: Yup.string().required("Warehouse is required"),
+    label: Yup.string().required('Warehouse is required'),
+    value: Yup.string().required('Warehouse is required'),
   }),
   soldToParty: Yup.object().shape({
-    label: Yup.string().required("Sold To Party is required"),
-    value: Yup.string().required("Sold To Party is required"),
+    label: Yup.string().required('Sold To Party is required'),
+    value: Yup.string().required('Sold To Party is required'),
   }),
   // shipmentType: Yup.object().shape({
   //   label: Yup.string().required("Shipment Type is required"),
@@ -31,42 +41,46 @@ export const validationSchema = Yup.object().shape({
   // requestTime: Yup.string().required(
   //   "Shipment Schedule Date & Time is required"
   // ),
-  requestTime: Yup.string().when("businessUnitId", (businessUnitId) => {
+  requestTime: Yup.string().when('businessUnitId', (businessUnitId) => {
     if (+businessUnitId === 4) {
-      return Yup.string().required("Shipment Schedule Date & Time is required");
+      return Yup.string().required('Shipment Schedule Date & Time is required');
     }
   }),
-  shipmentType: Yup.object().when("businessUnitId", (businessUnitId) => {
+  shipmentType: Yup.object().when('businessUnitId', (businessUnitId) => {
     if (+businessUnitId === 4) {
       return Yup.object().shape({
-        label: Yup.string().required("Shipment Type is required"),
-        value: Yup.string().required("Shipment Type is required"),
+        label: Yup.string().required('Shipment Type is required'),
+        value: Yup.string().required('Shipment Type is required'),
       });
     }
   }),
 
   deliveryType: Yup.object().shape({
-    label: Yup.string().required("Delivery Type is required"),
-    value: Yup.string().required("Delivery Type is required"),
+    label: Yup.string().required('Delivery Type is required'),
+    value: Yup.string().required('Delivery Type is required'),
   }),
   itemLists: Yup.array().of(
     Yup.object().shape({
       selectLocation: Yup.object()
         .shape({
-          label: Yup.string().required("Location  is required"),
-          value: Yup.string().required("Location  is required"),
+          label: Yup.string().required('Location  is required'),
+          value: Yup.string().required('Location  is required'),
         })
         .nullable(),
       deliveryQty: Yup.number()
-        .min(0, "Minimum 0 number")
-        .test("pendingQty", "Invalid qty ", function(value) {
+        .min(0, 'Minimum 0 number')
+        .test('pendingQty', 'Invalid qty ', function(value) {
           return this.parent.pendingQty >= value;
         })
-        .required("Item Qty required"),
-    })
+        .required('Item Qty required'),
+    }),
   ),
 });
 
+const debounceHandelar = debounce(({ setLoading, CB }) => {
+  setLoading(false);
+  CB();
+}, 1500);
 export default function _Form({
   initData,
   btnRef,
@@ -89,7 +103,7 @@ export default function _Form({
   setDisabled,
   is_BalanceCheck,
   categoryDDL,
-  isWorkable
+  isWorkable,
 }) {
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -101,13 +115,17 @@ export default function _Form({
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const [currRowInfo, setCurrRowInfo] = useState({ isView: false, data: {}, rowIndex: 0 });
+  const [currRowInfo, setCurrRowInfo] = useState({
+    isView: false,
+    data: {},
+    rowIndex: 0,
+  });
 
   const dispatch = useDispatch();
   const [shipmentTypeDDl, setShipmentTypeDDl] = React.useState([]);
 
   const totalAmountCalFunc = (array, name) => {
-    if (name === "vatAmount" || name === "amount") {
+    if (name === 'vatAmount' || name === 'amount') {
       const totalQty = array?.reduce((acc, cur) => {
         return acc + +cur?.[name] + (+cur?.extraRate || 0);
       }, 0);
@@ -121,20 +139,24 @@ export default function _Form({
   const isTransportRate = selectedBusinessUnit?.value === 94;
 
   const isAvailableBalance = (array) => {
-    /* when business unit will be 
+    /* when business unit will be
     178 = Bongo Traders Ltd
-    180 = Direct Trading Company Ltd 
+    180 = Direct Trading Company Ltd
     181 = Asia One Trading Company Ltd
     182 = Daily Trading Company Ltd
     183 = Eurasia Trading Company Ltd
-    209 = Lineasia Trading Co. Ltd. 
+    209 = Lineasia Trading Co. Ltd.
     212 = Batayon Traders Ltd.
     216 = ARL Traders Ltd.
-    221 = Akij Commodities Ltd. 
-    232 = Akij Agro Feed Ltd.  
+    221 = Akij Commodities Ltd.
+    232 = Akij Agro Feed Ltd.
     */
 
-    if ([178, 180, 181, 182, 183, 209, 212, 216, 221, 232].includes(selectedBusinessUnit?.value)) {
+    if (
+      [178, 180, 181, 182, 183, 209, 212, 216, 221, 232].includes(
+        selectedBusinessUnit?.value,
+      )
+    ) {
       return false;
     }
     // if Day Limit true
@@ -150,7 +172,7 @@ export default function _Form({
           const totalQty = array?.reduce((acc, cur) => acc + +cur?.amount, 0);
 
           if (availableBalance < totalQty) {
-            toast.warning("Balance not available!", { toastId: 465656 });
+            toast.warning('Balance not available!', { toastId: 465656 });
             return true;
           }
         } else {
@@ -184,35 +206,56 @@ export default function _Form({
                   Yup.object().shape({
                     selectLocation: Yup.object()
                       .shape({
-                        label: Yup.string().required("Location  is required"),
-                        value: Yup.string().required("Location  is required"),
+                        label: Yup.string().required('Location  is required'),
+                        value: Yup.string().required('Location  is required'),
                       })
                       .nullable(),
                     deliveryQty: Yup.number()
-                      .min(0, "Minimum 0 number")
-                      .test("maxDeliveryQty", "Invalid qty ", function(value) {
+                      .min(0, 'Minimum 0 number')
+                      .test('maxDeliveryQty', 'Invalid qty ', function(value) {
                         return this.parent.maxDeliveryQty >= value;
                       })
-                      .required("Item Qty required"),
-                  })
+                      .required('Item Qty required'),
+                  }),
                 ),
               })
             : validationSchema
         }
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
+          setDisabled(true);
+          debounceHandelar({
+            setLoading: setDisabled,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
-        {({ handleSubmit, resetForm, values, errors, touched, setFieldValue, isValid, setValues }) => (
+        {({
+          handleSubmit,
+          resetForm,
+          values,
+          errors,
+          touched,
+          setFieldValue,
+          isValid,
+          setValues,
+        }) => (
           <>
             {setBtnDisabled(isAvailableBalance(values?.itemLists))}
             <Form className="form form-label-right">
               <div className="row">
                 {values?.warehouse && (
-                  <div className="col-lg-12 text-center  h-75" style={{ backgroundColor: "yellow" }}>
-                    <h5 style={{ fontSize: "30px", marginBottom: "0px" }} className="text-middle py-2">
+                  <div
+                    className="col-lg-12 text-center  h-75"
+                    style={{ backgroundColor: 'yellow' }}
+                  >
+                    <h5
+                      style={{ fontSize: '30px', marginBottom: '0px' }}
+                      className="text-middle py-2"
+                    >
                       Selected Warehouse: {values?.warehouse?.label}
                     </h5>
                   </div>
@@ -226,8 +269,8 @@ export default function _Form({
                         value={values?.warehouse}
                         label="Select Warehouse"
                         onChange={(valueOption) => {
-                          setFieldValue("warehouse", valueOption);
-                          setFieldValue("itemLists", []);
+                          setFieldValue('warehouse', valueOption);
+                          setFieldValue('itemLists', []);
                         }}
                         placeholder="Select Warehouse"
                         errors={errors}
@@ -242,10 +285,10 @@ export default function _Form({
                         value={values?.soldToParty}
                         label="Select Sold To Party"
                         onChange={(valueOption) => {
-                          setFieldValue("soldToParty", valueOption);
-                          setFieldValue("shipToParty", "");
-                          setFieldValue("salesOrder", "");
-                          setFieldValue("shipmentType", "");
+                          setFieldValue('soldToParty', valueOption);
+                          setFieldValue('shipToParty', '');
+                          setFieldValue('salesOrder', '');
+                          setFieldValue('shipmentType', '');
                           shipToPartyDispatcher(valueOption?.value);
                           setShipmentTypeDDl([]);
                           if ([4].includes(selectedBusinessUnit?.value)) {
@@ -256,15 +299,20 @@ export default function _Form({
                               setShipmentTypeDDl,
                               setDisabled,
                               (resData) => {
-                                setFieldValue("shipmentType", resData?.[0] || "");
-                              }
+                                setFieldValue(
+                                  'shipmentType',
+                                  resData?.[0] || '',
+                                );
+                              },
                             );
                           }
                         }}
                         placeholder="Select Sold To Party"
                         errors={errors}
                         touched={touched}
-                        isDisabled={values?.itemLists?.length > 0 ? true : isEdit}
+                        isDisabled={
+                          values?.itemLists?.length > 0 ? true : isEdit
+                        }
                       />
                     </div>
                     <div className="col-lg-3 mb-1">
@@ -274,7 +322,7 @@ export default function _Form({
                         value={values?.deliveryType}
                         label="Select Delivery Type"
                         onChange={(valueOption) => {
-                          setFieldValue("deliveryType", valueOption);
+                          setFieldValue('deliveryType', valueOption);
                         }}
                         placeholder="Delivery Type"
                         errors={errors}
@@ -300,7 +348,7 @@ export default function _Form({
                         value={values?.mode}
                         label="Select Mode"
                         onChange={(valueOption) => {
-                          setFieldValue("mode", valueOption);
+                          setFieldValue('mode', valueOption);
                         }}
                         placeholder="Select Mode"
                         errors={errors}
@@ -315,7 +363,7 @@ export default function _Form({
                         value={values?.carType}
                         label="Select Car Type"
                         onChange={(valueOption) => {
-                          setFieldValue("carType", valueOption);
+                          setFieldValue('carType', valueOption);
                         }}
                         placeholder="Select Car Type"
                         errors={errors}
@@ -331,7 +379,7 @@ export default function _Form({
                           value={values?.bagType}
                           label="Select Bag Type"
                           onChange={(valueOption) => {
-                            setFieldValue("bagType", valueOption);
+                            setFieldValue('bagType', valueOption);
                           }}
                           placeholder="Select Bag Type"
                           errors={errors}
@@ -347,7 +395,7 @@ export default function _Form({
                         value={values?.deliveryMode}
                         label="Select Delivery Mode"
                         onChange={(valueOption) => {
-                          setFieldValue("deliveryMode", valueOption);
+                          setFieldValue('deliveryMode', valueOption);
                         }}
                         placeholder="Select Delivery Mode"
                         errors={errors}
@@ -362,7 +410,7 @@ export default function _Form({
                         value={values?.category}
                         label="Category"
                         onChange={(valueOption) => {
-                          setFieldValue("category", valueOption);
+                          setFieldValue('category', valueOption);
                         }}
                         placeholder="Select Category"
                         errors={errors}
@@ -379,12 +427,14 @@ export default function _Form({
                             value={values?.shipmentType}
                             label="Select Shipment Type"
                             onChange={(valueOption) => {
-                              setFieldValue("shipmentType", valueOption);
+                              setFieldValue('shipmentType', valueOption);
                             }}
                             placeholder="Select Shipment Type"
                             errors={errors}
                             touched={touched}
-                            isDisabled={values?.itemLists?.length > 0 ? true : isEdit}
+                            isDisabled={
+                              values?.itemLists?.length > 0 ? true : isEdit
+                            }
                             isClearable={false}
                           />
                         </div>
@@ -413,18 +463,22 @@ export default function _Form({
                         value={values?.salesOrder}
                         label="Select Order No"
                         onChange={(valueOption) => {
-                          setFieldValue("salesOrder", valueOption);
-                          setFieldValue("shipToParty", "");
+                          setFieldValue('salesOrder', valueOption);
+                          setFieldValue('shipToParty', '');
                           dispatch(
-                            GetDataBySalesOrderAction(valueOption?.value, values?.warehouse?.value, setDisabled)
+                            GetDataBySalesOrderAction(
+                              valueOption?.value,
+                              values?.warehouse?.value,
+                              setDisabled,
+                            ),
                           );
                           dispatch(
                             getShipToPartner_Action(
                               profileData?.accountId,
                               selectedBusinessUnit.value,
                               valueOption?.value,
-                              setFieldValue
-                            )
+                              setFieldValue,
+                            ),
                           );
                         }}
                         placeholder="Select Order No"
@@ -440,12 +494,16 @@ export default function _Form({
                         value={values?.shipToParty}
                         label="Select Ship To Party"
                         onChange={(valueOption) => {
-                          setFieldValue("shipToParty", valueOption);
+                          setFieldValue('shipToParty', valueOption);
                         }}
                         placeholder="Select Ship To Party"
                         errors={errors}
                         touched={touched}
-                        isDisabled={values?.itemLists?.length > 0 ? true : isEdit || !values?.salesOrder}
+                        isDisabled={
+                          values?.itemLists?.length > 0
+                            ? true
+                            : isEdit || !values?.salesOrder
+                        }
                       />
                     </div>
 
@@ -453,7 +511,7 @@ export default function _Form({
                       <div className="col-lg-1 d-flex align-items-center">
                         <button
                           className="btn btn-primary"
-                          style={{ marginTop: "11px" }}
+                          style={{ marginTop: '11px' }}
                           type="button"
                           onClick={() => addBtnHandler(values, setValues)}
                           disabled={
@@ -499,10 +557,18 @@ export default function _Form({
                             <li>
                               <div>
                                 <b className="">Delivery Amount: </b>
-                                <span className={isAvailableBalance(values?.itemLists) ? "text-danger " : ""}>
+                                <span
+                                  className={
+                                    isAvailableBalance(values?.itemLists)
+                                      ? 'text-danger '
+                                      : ''
+                                  }
+                                >
                                   {totalAmountCalFunc(
                                     values?.itemLists,
-                                    values?.itemLists?.[0]?.isVatPrice ? "vatAmount" : "amount"
+                                    values?.itemLists?.[0]?.isVatPrice
+                                      ? 'vatAmount'
+                                      : 'amount',
                                   )}
                                 </span>
                               </div>
@@ -510,7 +576,10 @@ export default function _Form({
                             <li>
                               <div>
                                 <b>Delivery Qty: </b>
-                                {totalAmountCalFunc(values?.itemLists, "deliveryQty")}
+                                {totalAmountCalFunc(
+                                  values?.itemLists,
+                                  'deliveryQty',
+                                )}
                               </div>
                             </li>
                             {partnerBalance?.isDayLimit && (
@@ -518,7 +587,7 @@ export default function _Form({
                                 <li>
                                   <div>
                                     <b>Day Limit: </b>
-                                    {"true"}
+                                    {'true'}
                                   </div>
                                 </li>
                               </>
@@ -539,31 +608,36 @@ export default function _Form({
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                         <thead>
                           <tr>
-                            <th style={{ width: "75px" }}>Item Code</th>
-                            <th style={{ width: "120px" }}>Specification</th>
-                            <th style={{ width: "120px" }}>Ship to Party</th>
-                            <th style={{ width: "120px" }}>Address</th>
-                            <th style={{ width: "120px" }}>Item</th>
-                            <th style={{ width: "120px" }}>Select Location</th>
-                            <th style={{ width: "20px" }}>Price</th>
+                            <th style={{ width: '75px' }}>Item Code</th>
+                            <th style={{ width: '120px' }}>Specification</th>
+                            <th style={{ width: '120px' }}>Ship to Party</th>
+                            <th style={{ width: '120px' }}>Address</th>
+                            <th style={{ width: '120px' }}>Item</th>
+                            <th style={{ width: '120px' }}>Select Location</th>
+                            <th style={{ width: '20px' }}>Price</th>
                             {[4].includes(selectedBusinessUnit?.value) && (
                               <>
-                                <th style={{ width: "20px" }}>Extra Rate</th>
+                                <th style={{ width: '20px' }}>Extra Rate</th>
                               </>
                             )}
-                            {isTransportRate && <th style={{ width: "20px" }}>Transport Rate</th>}
-                            <th style={{ width: "20px" }}>Available Stock</th>
-                            <th style={{ width: "20px" }}>Order Qty</th>
-                            <th style={{ width: "20px" }}>Pending Qty</th>
-                            <th style={{ width: "120px" }}>Delivery Qty</th>
-                            <th style={{ width: "10px" }}>Offers</th>
-                            {!isEdit && <th style={{ width: "50px" }}>Action</th>}
+                            {isTransportRate && (
+                              <th style={{ width: '20px' }}>Transport Rate</th>
+                            )}
+                            <th style={{ width: '20px' }}>Available Stock</th>
+                            <th style={{ width: '20px' }}>Order Qty</th>
+                            <th style={{ width: '20px' }}>Pending Qty</th>
+                            <th style={{ width: '120px' }}>Delivery Qty</th>
+                            <th style={{ width: '10px' }}>Offers</th>
+                            {!isEdit && (
+                              <th style={{ width: '50px' }}>Action</th>
+                            )}
                           </tr>
                         </thead>
                         <tbody>
                           {values?.itemLists.map((itm, index) => {
-
-                            let _numItemPrice = itm?.isVatPrice ? itm?.vatItemPrice : itm?.numItemPrice;
+                            let _numItemPrice = itm?.isVatPrice
+                              ? itm?.vatItemPrice
+                              : itm?.numItemPrice;
                             return (
                               <>
                                 <tr key={index}>
@@ -571,26 +645,32 @@ export default function _Form({
                                     <div className="pl-2">{itm.itemCode}</div>
                                   </td>
                                   <td>
-                                    <div className="pl-2">{itm.specification}</div>
-                                  </td>
-                                  <td>
-                                    <div className="pl-2">{itm.shipToParty}</div>
-                                  </td>
-                                  <td>
-                                    <div className="pl-2">{itm.shipToPartnerAddress}</div>
-                                  </td>
-                                  <td style={{ width: "90px" }}>
                                     <div className="pl-2">
-                                      {(itm?.isSerialMaintain && isWorkable) && (
+                                      {itm.specification}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="pl-2">
+                                      {itm.shipToParty}
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="pl-2">
+                                      {itm.shipToPartnerAddress}
+                                    </div>
+                                  </td>
+                                  <td style={{ width: '90px' }}>
+                                    <div className="pl-2">
+                                      {itm?.isSerialMaintain && isWorkable && (
                                         <IHistory
-                                          title={"Info"}
-                                          styles={{ margin: "5px" }}
+                                          title={'Info'}
+                                          styles={{ margin: '5px' }}
                                           clickHandler={() => {
-                                              setCurrRowInfo({
-                                                isView: true,
-                                                data: itm,
-                                                rowIndex: index,
-                                              });
+                                            setCurrRowInfo({
+                                              isView: true,
+                                              data: itm,
+                                              rowIndex: index,
+                                            });
                                           }}
                                         />
                                       )}
@@ -600,101 +680,161 @@ export default function _Form({
 
                                   <td
                                     style={{
-                                      width: "75px",
-                                      verticalAlign: "middle",
+                                      width: '75px',
+                                      verticalAlign: 'middle',
                                     }}
                                     className="locationRowFild"
                                   >
                                     <NewSelect
                                       name={`itemLists.${index}.selectLocation`}
                                       options={itm?.objLocation}
-                                      value={values?.itemLists[index]?.selectLocation || ""}
+                                      value={
+                                        values?.itemLists[index]
+                                          ?.selectLocation || ''
+                                      }
                                       onChange={(valueOption) => {
-                                        setFieldValue(`itemLists.${index}.selectLocation`, valueOption || "");
+                                        setFieldValue(
+                                          `itemLists.${index}.selectLocation`,
+                                          valueOption || '',
+                                        );
                                       }}
                                       errors={errors}
                                       touched={touched}
                                       isDisabled={isEdit}
                                     />
                                   </td>
-                                  <td style={{ width: "20px" }}>
-                                    <div className="text-right pr-2">{_numItemPrice}</div>
+                                  <td style={{ width: '20px' }}>
+                                    <div className="text-right pr-2">
+                                      {_numItemPrice}
+                                    </div>
                                   </td>
-                                  {[4].includes(selectedBusinessUnit?.value) && (
+                                  {[4].includes(
+                                    selectedBusinessUnit?.value,
+                                  ) && (
                                     <>
-                                      <td style={{ width: "20px" }}>
-                                        <div className="text-right pr-2">{itm?.extraRate || 0}</div>
+                                      <td style={{ width: '20px' }}>
+                                        <div className="text-right pr-2">
+                                          {itm?.extraRate || 0}
+                                        </div>
                                       </td>
                                     </>
                                   )}
                                   {isTransportRate && (
-                                    <td style={{ width: "20px" }} className="text-right">
+                                    <td
+                                      style={{ width: '20px' }}
+                                      className="text-right"
+                                    >
                                       {itm.transportRate || 0}
                                     </td>
                                   )}
-                                  <td style={{ width: "20px" }}>
-                                    <div className="text-right pr-2">{itm?.availableStock}</div>
+                                  <td style={{ width: '20px' }}>
+                                    <div className="text-right pr-2">
+                                      {itm?.availableStock}
+                                    </div>
                                   </td>
-                                  <td style={{ width: "20px" }}>
-                                    <div className="text-right pr-2">{itm.numOrderQuantity}</div>
+                                  <td style={{ width: '20px' }}>
+                                    <div className="text-right pr-2">
+                                      {itm.numOrderQuantity}
+                                    </div>
                                   </td>
-                                  <td style={{ width: "20px" }}>
-                                    <div className="text-right pr-2">{itm.pendingQty}</div>
+                                  <td style={{ width: '20px' }}>
+                                    <div className="text-right pr-2">
+                                      {itm.pendingQty}
+                                    </div>
                                   </td>
                                   <td
                                     style={{
-                                      width: "150px",
-                                      verticalAlign: "middle",
+                                      width: '150px',
+                                      verticalAlign: 'middle',
                                     }}
                                   >
                                     <div className="px-2">
                                       <InputField
-                                        value={values?.itemLists[index]?.deliveryQty || ""}
+                                        value={
+                                          values?.itemLists[index]
+                                            ?.deliveryQty || ''
+                                        }
                                         name={`itemLists.${index}.deliveryQty`}
                                         placeholder="Delivery Qty"
                                         type="number"
                                         step="any"
                                         onChange={(e) => {
-                                          setFieldValue(`itemLists.${index}.deliveryQty`, e.target.value || "");
+                                          setFieldValue(
+                                            `itemLists.${index}.deliveryQty`,
+                                            e.target.value || '',
+                                          );
                                           setFieldValue(
                                             `itemLists.${index}.amount`,
-                                            (values?.itemLists[index]?.numItemPrice * e.target.value).toFixed(2)
+                                            (
+                                              values?.itemLists[index]
+                                                ?.numItemPrice * e.target.value
+                                            ).toFixed(2),
                                           );
                                           setFieldValue(
                                             `itemLists.${index}.vatAmount`,
-                                            (values?.itemLists[index]?.vatItemPrice * e.target.value).toFixed(2)
+                                            (
+                                              values?.itemLists[index]
+                                                ?.vatItemPrice * e.target.value
+                                            ).toFixed(2),
                                           );
 
                                           // ======offer item qty change logic=====
-                                          const modifid = values?.itemLists[index]?.offerItemList?.map((itm) => {
-                                            let calNumber = (+itm?.offerRatio || 0) * (+e.target.value || 0);
+                                          const modifid = values?.itemLists[
+                                            index
+                                          ]?.offerItemList?.map((itm) => {
+                                            let calNumber =
+                                              (+itm?.offerRatio || 0) *
+                                              (+e.target.value || 0);
                                             let acculNumber = 0;
-                                            const decimalPoint = Number(`.${calNumber.toString().split(".")[1] || 0}`);
+                                            const decimalPoint = Number(
+                                              `.${calNumber
+                                                .toString()
+                                                .split('.')[1] || 0}`,
+                                            );
                                             if (decimalPoint >= 0.95) {
-                                              acculNumber = Math.round(calNumber);
+                                              acculNumber = Math.round(
+                                                calNumber,
+                                              );
                                             } else {
-                                              acculNumber = Math.floor(calNumber);
+                                              acculNumber = Math.floor(
+                                                calNumber,
+                                              );
                                             }
                                             return {
                                               ...itm,
                                               deliveryQty: acculNumber,
-                                              isItemShow: acculNumber > 0 ? true : false,
+                                              isItemShow:
+                                                acculNumber > 0 ? true : false,
                                             };
                                           });
-                                          setFieldValue(`itemLists.${index}.offerItemList`, modifid);
+                                          setFieldValue(
+                                            `itemLists.${index}.offerItemList`,
+                                            modifid,
+                                          );
                                         }}
                                         errors={errors}
                                         touched={touched}
-                                        max={isEdit ? itm?.maxDeliveryQty : itm?.pendingQty}
+                                        max={
+                                          isEdit
+                                            ? itm?.maxDeliveryQty
+                                            : itm?.pendingQty
+                                        }
                                       />
                                     </div>
                                   </td>
-                                  <td style={{ width: "10px" }}>
-                                    <div className="pl-2">{itm.freeItem ? "Yes" : "No"}</div>
+                                  <td style={{ width: '10px' }}>
+                                    <div className="pl-2">
+                                      {itm.freeItem ? 'Yes' : 'No'}
+                                    </div>
                                   </td>
                                   {!isEdit && (
                                     <td className="text-center">
-                                      <i className="fa fa-trash" onClick={() => remover(index, setValues, values)}></i>
+                                      <i
+                                        className="fa fa-trash"
+                                        onClick={() =>
+                                          remover(index, setValues, values)
+                                        }
+                                      ></i>
                                     </td>
                                   )}
                                 </tr>
@@ -704,58 +844,84 @@ export default function _Form({
                                     {itm?.offerItemList
                                       ?.filter((itm) => itm?.isItemShow)
                                       ?.map((OfferItm) => (
-                                        <tr key={index} style={{ background: "#ffffa9" }}>
+                                        <tr
+                                          key={index}
+                                          style={{ background: '#ffffa9' }}
+                                        >
                                           <td>
-                                            <div className="pl-2">{OfferItm?.itemCode}</div>
+                                            <div className="pl-2">
+                                              {OfferItm?.itemCode}
+                                            </div>
                                           </td>
                                           <td>
-                                            <div className="pl-2">{OfferItm?.specification}</div>
+                                            <div className="pl-2">
+                                              {OfferItm?.specification}
+                                            </div>
                                           </td>
                                           <td>
-                                            <div className="pl-2">{OfferItm?.shipToParty}</div>
+                                            <div className="pl-2">
+                                              {OfferItm?.shipToParty}
+                                            </div>
                                           </td>
                                           <td>
-                                            <div className="pl-2">{OfferItm?.shipToPartnerAddress}</div>
+                                            <div className="pl-2">
+                                              {OfferItm?.shipToPartnerAddress}
+                                            </div>
                                           </td>
-                                          <td style={{ width: "90px" }}>
-                                            <div className="pl-2">{OfferItm?.itemName}</div>
+                                          <td style={{ width: '90px' }}>
+                                            <div className="pl-2">
+                                              {OfferItm?.itemName}
+                                            </div>
                                           </td>
                                           <td
                                             style={{
-                                              width: "75px",
-                                              verticalAlign: "middle",
+                                              width: '75px',
+                                              verticalAlign: 'middle',
                                             }}
                                             className="locationRowFild"
                                           >
                                             {OfferItm?.selectLocation?.label}
                                           </td>
-                                          <td style={{ width: "20px" }}>
-                                            <div className="text-right pr-2">{_numItemPrice}</div>
+                                          <td style={{ width: '20px' }}>
+                                            <div className="text-right pr-2">
+                                              {_numItemPrice}
+                                            </div>
                                           </td>
                                           {isTransportRate && (
-                                            <td style={{ width: "20px" }} className="text-right">
+                                            <td
+                                              style={{ width: '20px' }}
+                                              className="text-right"
+                                            >
                                               {OfferItm?.transportRate || 0}
                                             </td>
                                           )}
-                                          <td style={{ width: "20px" }}>
-                                            <div className="text-right pr-2">{OfferItm?.numOrderQuantity}</div>
+                                          <td style={{ width: '20px' }}>
+                                            <div className="text-right pr-2">
+                                              {OfferItm?.numOrderQuantity}
+                                            </div>
                                           </td>
-                                          <td style={{ width: "20px" }}>
-                                            <div className="text-right pr-2">{OfferItm?.pendingQty}</div>
+                                          <td style={{ width: '20px' }}>
+                                            <div className="text-right pr-2">
+                                              {OfferItm?.pendingQty}
+                                            </div>
                                           </td>
                                           <td
                                             style={{
-                                              width: "150px",
-                                              verticalAlign: "middle",
+                                              width: '150px',
+                                              verticalAlign: 'middle',
                                             }}
                                           >
-                                            <div className="px-2">{OfferItm?.deliveryQty}</div>
+                                            <div className="px-2">
+                                              {OfferItm?.deliveryQty}
+                                            </div>
                                           </td>
-                                          <td style={{ width: "10px" }}>
+                                          <td style={{ width: '10px' }}>
                                             <div className="pl-2">Yes</div>
                                           </td>
 
-                                          {!isEdit && <td className="text-center"></td>}
+                                          {!isEdit && (
+                                            <td className="text-center"></td>
+                                          )}
                                         </tr>
                                       ))}
                                   </>
@@ -770,11 +936,16 @@ export default function _Form({
                 </div>
               </div>
 
-              <button type="submit" style={{ display: "none" }} ref={btnRef} onSubmit={() => handleSubmit()}></button>
+              <button
+                type="submit"
+                style={{ display: 'none' }}
+                ref={btnRef}
+                onSubmit={() => handleSubmit()}
+              ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
