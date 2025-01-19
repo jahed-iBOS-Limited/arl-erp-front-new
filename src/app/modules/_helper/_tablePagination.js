@@ -120,7 +120,7 @@ export default function PaginationTable({
           500,
           1000,
           1500,
-          5000,
+          2000,
         ]
       }
       colSpan={3}
