@@ -13,6 +13,7 @@ import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
 import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import { useLocation } from "react-router";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import { toast } from "react-toastify";
 
 
 const initData = {
@@ -34,6 +35,13 @@ const getSchema = () => {
                 value: Yup.string().required("Transfer From Bank is required"),
             })
             .typeError("Transfer From Bank is required"),
+        sendingPartner: Yup.object()
+            .shape({
+                label: Yup.string().required("Sending Partner is required"),
+                value: Yup.string().required("Sending Partner is required"),
+            })
+            .typeError("Sending Partner is required"),
+
         expectedDate: Yup.date().required("Expected Date is required"),
         requestAmount: Yup.number().required("Request Amount is required").min(1, "Request Amount must be positive"),
         responsiblePerson: Yup.object()
@@ -72,17 +80,18 @@ export default function InterCompanyTransferRequestCreate() {
         return state.authData;
     }, shallowEqual);
 
-    const [partnerDDl, getPartnerDDl] = useAxiosGet();
-    const [businessPartnerByOwnUnit, getBusinessPartnerByOwnUnit] = useAxiosGet();
-    const [requestTopartnerDDl, getRequestToPartnerDDl, , setRequestToPartnerDDl] = useAxiosGet();
+    // const [partnerDDl, getPartnerDDl] = useAxiosGet();
+    const [, getSendingPartnerByOwnUnit, sendingPartnerLoading,] = useAxiosGet();
+    const [, getRequestPartnerByOwnUnit, requestPartnerLoading,] = useAxiosGet();
+    // const [requestTopartnerDDl, getRequestToPartnerDDl, , setRequestToPartnerDDl] = useAxiosGet();
     const [bankList, getBankList] = useAxiosGet()
     const [, onCreateHandler, saveLoader] = useAxiosPost();
 
     useEffect(() => {
         getBankList(`/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`)
-        getPartnerDDl(
-            `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PartnerTypeId=4`
-        );
+        // getPartnerDDl(
+        //     `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PartnerTypeId=4`
+        // );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedBusinessUnit])
 
@@ -96,14 +105,17 @@ export default function InterCompanyTransferRequestCreate() {
             strTransactionType: parentTransferType?.actionName || 0,
             intTransaferById: 1,
             strTransferBy: "Bank To Bank",
-            isTransferCreated : 0,
-            strRequestPartnerId : values?.requestToPartner?.value || 0,
-            strRequestPartnerName : values?.requestToPartner?.label || "",
-            strRequestPartnerCode : values?.requestToPartner?.code || "",
+            isTransferCreated: 0,
+            strRequestPartnerId: values?.requestToPartner?.value || 0,
+            strRequestPartnerName: values?.requestToPartner?.label || "",
+            strRequestPartnerCode: values?.requestToPartner?.strBusinessPartnerCode || "",
             intRequestByUnitId: selectedBusinessUnit?.value,
             strRequestByUnitName: selectedBusinessUnit?.label,
             intRequestToUnitId: values?.requestToUnit?.value,
             strRequestToUnitName: values?.requestToUnit?.label,
+            intRequestGLId: values?.requestToUnit?.generalLedgerId || 0,
+            strRequestGlName: values?.requestToUnit?.generalLedgerName || "",
+            strRequestGlCode: values?.requestToUnit?.generalLedgerCode || "",
             dteRequestDate: "2024-12-22T09:59:39.993Z",
             numAmount: +values?.requestAmount || 0,
             intRequestedBankId: values?.receivingAccount?.bankId || 0,
@@ -113,6 +125,7 @@ export default function InterCompanyTransferRequestCreate() {
             strRequestedBankAccountNumber: values?.receivingAccount?.bankAccNo || "",
             strRequestedBankAccountName: values?.receivingAccount?.label || "",
             intRequestedBankAccountId: values?.receivingAccount?.value || 0,
+            strRequestedBankRouting: values?.receivingAccount?.bankRouting || "",
             // "intGivenBankId": values?.fromBankName?.bankId || 0,
             // "strGivenBankName": values?.fromBankName?.bankName || "",
             // "intGivenBankBranchId": values?.fromBankName?.bankBranch_Id || 0,
@@ -132,7 +145,7 @@ export default function InterCompanyTransferRequestCreate() {
             intUpdateBy: profileData?.userId,
             intGivenPartnerId: values?.sendingPartner?.value || 0,
             strGivenPartnerName: values?.sendingPartner?.label || "",
-            strGivenstrPartnerCode: values?.sendingPartner?.code || "",
+            strGivenstrPartnerCode: values?.sendingPartner?.strBusinessPartnerCode || "",
 
         }
         onCreateHandler(`/fino/FundManagement/CreateOrEditFundTransferRequest`, payload, cb, true,
@@ -171,7 +184,7 @@ export default function InterCompanyTransferRequestCreate() {
                 touched,
             }) => (
                 <>
-                    {saveLoader && <Loading />}
+                    {(saveLoader || sendingPartnerLoading || requestPartnerLoading) && <Loading />}
                     <IForm title="Inter Company Transfer Request Create" getProps={setObjprops}>
                         <Form>
                             <div className="form-group global-form row">
@@ -182,15 +195,28 @@ export default function InterCompanyTransferRequestCreate() {
                                         value={values?.requestToUnit}
                                         label="Request To Unit"
                                         onChange={(valueOption) => {
-                                            setFieldValue("requestToUnit", valueOption)
+                                            setFieldValue("requestToUnit", valueOption || "")
                                             setFieldValue("requestToPartner", "")
-                                            setRequestToPartnerDDl([])
+                                            setFieldValue("sendingPartner", "")
                                             if (valueOption) {
-                                                getRequestToPartnerDDl(
-                                                    `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}&PartnerTypeId=4`
+                                                getSendingPartnerByOwnUnit(
+                                                    `/partner/PManagementCommonDDL/GetBusinessPartnerByOwnUnit?businessUnitId=${selectedBusinessUnit?.value}&businessPartnerOwnUnitId=${valueOption?.value}`, (res) => {
+                                                        if (res?.intBusinessPartnerId && res?.strBusinessPartnerName) {
+                                                            setFieldValue("sendingPartner", { ...res, value: res?.intBusinessPartnerId, label: res?.strBusinessPartnerName });
+
+                                                        } else {
+                                                            toast.warn("Please Business Partner Configure Properly")
+                                                        }
+                                                    }
                                                 );
-                                                getBusinessPartnerByOwnUnit(
-                                                    `/partner/PManagementCommonDDL/GetBusinessPartnerByOwnUnit?businessUnitId=4&businessPartnerOwnUnitId=144`
+                                                getRequestPartnerByOwnUnit(
+                                                    `/partner/PManagementCommonDDL/GetBusinessPartnerByOwnUnit?businessUnitId=${valueOption?.value}&businessPartnerOwnUnitId=${selectedBusinessUnit?.value}`, (res) => {
+                                                        if (res?.intBusinessPartnerId && res?.strBusinessPartnerName) {
+                                                            setFieldValue("requestToPartner", { ...res, value: res?.intBusinessPartnerId, label: res?.strBusinessPartnerName });
+                                                        } else {
+                                                            toast.warn("Please Business Partner Configure Properly")
+                                                        }
+                                                    }
                                                 );
                                             }
                                         }}
@@ -201,13 +227,13 @@ export default function InterCompanyTransferRequestCreate() {
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="requestToPartner"
-                                        options={requestTopartnerDDl?.filter((item) => item?.value !== values?.requestToUnit?.value) || []}
+                                        // options={requestTopartnerDDl?.filter((item) => item?.value !== values?.requestToUnit?.value) || []}
                                         value={values?.requestToPartner}
                                         label="Request To Partner"
                                         onChange={(valueOption) => setFieldValue("requestToPartner", valueOption)}
                                         errors={errors}
                                         touched={touched}
-                                        isDisbled={!values?.requestToUnit}
+                                        isDisabled={true}
                                     />
                                 </div>
                                 <div className="col-lg-3">
@@ -225,12 +251,13 @@ export default function InterCompanyTransferRequestCreate() {
                                 <div className="col-lg-3">
                                     <NewSelect
                                         name="sendingPartner"
-                                        options={partnerDDl?.filter((item) => item?.value !== selectedBusinessUnit?.value) || []}
+                                        // options={partnerDDl?.filter((item) => item?.value !== selectedBusinessUnit?.value) || []}
                                         value={values?.sendingPartner}
                                         label="Sending Partner"
                                         onChange={(valueOption) => setFieldValue("sendingPartner", valueOption)}
                                         errors={errors}
                                         touched={touched}
+                                        isDisabled={true}
                                     />
                                 </div>
 
