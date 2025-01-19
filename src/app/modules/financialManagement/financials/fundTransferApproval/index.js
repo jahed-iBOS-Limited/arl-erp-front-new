@@ -21,7 +21,8 @@ const initData = {
   fundTrasferType: { value: 1, label: 'Contra' },
   fromDate: _todayDate(),
   toDate: _monthLastDate(),
-  requestingUnit: { value: 0, label: "All" },
+  receivingFromUnit: { value: 0, label: "All" },
+  requestedUnit: "",
   status: { value: 0, label: 'Pending' },
 };
 export default function FundTransferApproval({ viewType }) {
@@ -42,7 +43,7 @@ export default function FundTransferApproval({ viewType }) {
   const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     const searchTearm = searchValue ? `&search=${searchValue}` : '';
     getGridData(
-      `fino/FundManagement/GetFundTransferApprovalPagination?businessUnitId=${selectedBusinessUnit?.value}&intRequestTypeId=${values?.fundTrasferType?.value}&intRequestToUnitId=${values?.requestingUnit?.value || 0}&isApprove=${values?.status?.value || 0}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
+      `fino/FundManagement/GetFundTransferApprovalPagination?businessUnitId=${values?.requestedUnit?.value || selectedBusinessUnit?.value}&intRequestTypeId=${values?.fundTrasferType?.value}&intRequestToUnitId=${values?.receivingFromUnit?.value || 0}&isApprove=${values?.status?.value || 0}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
     );
   };
 
@@ -62,7 +63,7 @@ export default function FundTransferApproval({ viewType }) {
   return (
     <Formik
       enableReinitialize={true}
-      initialValues={initData}
+      initialValues={{ ...initData, requestedUnit: { value: selectedBusinessUnit?.value, label: selectedBusinessUnit?.label } }}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -134,12 +135,24 @@ export default function FundTransferApproval({ viewType }) {
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
-                      name="requestingUnit"
-                      options={[{ value: 0, label: "All" }, ...businessUnitList]}
-                      value={values?.requestingUnit}
-                      label="Requesting Unit"
+                      name="requestedUnit"
+                      options={businessUnitList}
+                      value={values?.requestedUnit}
+                      label="Requested Unit"
                       onChange={(valueOption) => {
-                        setFieldValue('requestingUnit', valueOption);
+                        setFieldValue('requestedUnit', valueOption);
+                        setGridData([])
+                      }}
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <NewSelect
+                      name="receivingFromUnit"
+                      options={[{ value: 0, label: "All" }, ...businessUnitList]}
+                      value={values?.receivingFromUnit}
+                      label="Receiving From Unit"
+                      onChange={(valueOption) => {
+                        setFieldValue('receivingFromUnit', valueOption);
                         setGridData([])
                       }}
                     />
