@@ -20,8 +20,9 @@ const initData = {
     fundTrasferType: { value: 1, label: 'Contra' },
     fromDate: _todayDate(),
     toDate: _monthLastDate(),
-    requestingUnit: { value: 0, label: "All" },
+    receiveingFromUnit: { value: 0, label: "All" },
     status: { value: 0, label: 'Pending' },
+    requestedUnit: "",
 };
 export default function FundTransferApproval({ viewType }) {
     const { selectedBusinessUnit, businessUnitList } = useSelector(
@@ -44,7 +45,7 @@ export default function FundTransferApproval({ viewType }) {
         const searchTearm = searchValue ? `&search=${searchValue}` : '';
         const isTransferCreated = values?.status?.value === null ? "" : `&isTransferCreated=${values?.status?.value}`;
         getGridData(
-            `fino/FundManagement/GetFundTransferApprovaListForCreatePagination?businessUnitId=${selectedBusinessUnit?.value}&intRequestTypeId=${values?.fundTrasferType?.value}&intRequestToUnitId=${values?.requestingUnit?.value || 0}&isApprove=1&fromDate=${values?.fromDate}&toDate=${values?.toDate}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}${isTransferCreated}`
+            `fino/FundManagement/GetFundTransferApprovaListForCreatePagination?businessUnitId=${values?.requestedUnit?.value || selectedBusinessUnit?.value}&intRequestTypeId=${values?.fundTrasferType?.value}&intRequestToUnitId=${values?.receiveingFromUnit?.value || 0}&isApprove=1&fromDate=${values?.fromDate}&toDate=${values?.toDate}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}${isTransferCreated}`
         );
     };
 
@@ -64,7 +65,7 @@ export default function FundTransferApproval({ viewType }) {
     return (
         <Formik
             enableReinitialize={true}
-            initialValues={initData}
+            initialValues={{ ...initData, requestedUnit: { value: selectedBusinessUnit?.value, label: selectedBusinessUnit?.label } }}
             // validationSchema={{}}
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 saveHandler(values, () => {
@@ -136,12 +137,24 @@ export default function FundTransferApproval({ viewType }) {
                                     </div>
                                     <div className="col-lg-3">
                                         <NewSelect
-                                            name="requestingUnit"
-                                            options={[{ value: 0, label: "All" }, ...businessUnitList]}
-                                            value={values?.requestingUnit}
-                                            label="Requesting Unit"
+                                            name="requestedUnit"
+                                            options={businessUnitList}
+                                            value={values?.requestedUnit}
+                                            label="Requested Unit"
                                             onChange={(valueOption) => {
-                                                setFieldValue('requestingUnit', valueOption);
+                                                setFieldValue('requestedUnit', valueOption);
+                                                setGridData([])
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="col-lg-3">
+                                        <NewSelect
+                                            name="receiveingFromUnit"
+                                            options={[{ value: 0, label: "All" }, ...businessUnitList]}
+                                            value={values?.receiveingFromUnit}
+                                            label="Receiving From Unit"
+                                            onChange={(valueOption) => {
+                                                setFieldValue('receiveingFromUnit', valueOption);
                                                 setGridData([])
                                             }}
                                         />
@@ -198,11 +211,13 @@ export default function FundTransferApproval({ viewType }) {
                                                     )}
                                                     <th>From Account/GL</th>
                                                     <th>To Account/GL</th>
+                                                    <th>Sending Jounal</th>
                                                     <th>Expect Date</th>
                                                     <th>Amount</th>
                                                     <th>Responsible</th>
                                                     <th>Remarks</th>
-                                                    <th>Status</th>
+                                                    {/* <th>Status</th> */}
+                                                    <th>Fund Transfer</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -222,13 +237,16 @@ export default function FundTransferApproval({ viewType }) {
                                                         )}
                                                         <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : item?.strTransferBy === "Bank To Cash" ? item?.strGivenBankAccountName : item?.strGivenBankName || ""}</td>
                                                         <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? item?.strGivenBankAccountName || "" : item?.strRequestedBankAccountName || ""}</td>
+                                                        <td className='text-center bold text-success '>
+                                                            {item?.strSendingJournal}
+                                                        </td>
                                                         <td className="text-center">
                                                             {_dateFormatter(item.dteExpectedDate)}
                                                         </td>
                                                         <td className="text-right">{item.numAmount}</td>
                                                         <td>{item.strResponsibleEmpName}</td>
                                                         <td>{item.strRemarks}</td>
-                                                        <td
+                                                        {/* <td
                                                             className={`bold text-center ${item.isApproved === 1
                                                                 ? 'text-success'
                                                                 : item.isApproved === 2
@@ -241,10 +259,13 @@ export default function FundTransferApproval({ viewType }) {
                                                                 : item.isApproved === 2
                                                                     ? 'Rejected'
                                                                     : 'Pending'}
+                                                        </td> */}
+                                                        <td className={`bold text-center ${item?.isTransferCreated === 1 ? 'text-success' : 'text-warning'}`}>
+                                                            {item?.isTransferCreated === 1 ? "Fund Transfred" : "Create Fund Transfer"}
                                                         </td>
 
                                                         <td className="text-center">
-                                                            <div className="d-flex justify-content-around">
+                                                            {item?.isTransferCreated !== 1 && (<div className="d-flex justify-content-around">
                                                                 <span
                                                                     onClick={() => {
                                                                         const isContra = item?.strRequestType === "Contra";
@@ -331,7 +352,7 @@ export default function FundTransferApproval({ viewType }) {
                                                                     <IAdd title={"Create"} />
                                                                 </span>
 
-                                                            </div>
+                                                            </div>)}
                                                         </td>
                                                     </tr>
                                                 ))}
