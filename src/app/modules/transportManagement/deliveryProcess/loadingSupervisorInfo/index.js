@@ -952,64 +952,73 @@ export default function LoadingSupervisorInfo() {
                 onHide={() => setIsQRCodeSHow(false)}
               >
                 <QRCodeScanner
-                  QrCodeScannerCB={(result) => {
-                    setIsQRCodeSHow(false);
-                    setShipmentId(result);
-                    getReportData(
-                      // `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${+result}`,
-                      `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${result}`,
-                      (res) => {
-                        getTLMDDL(
-                          `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${
-                            selectedBusinessUnit?.value
-                          }&TypeId=1&RefferencePKId=${
-                            selectedBusinessUnit?.value === 4
-                              ? res?.objHeader?.packerId
-                              : 1
-                          }&ShipPointId=${res?.objHeader?.shipPointId || 0}`,
-                        );
-                        setShipPointIdForCementTlmLoadFromPacker(
-                          res?.objHeader?.shipPointId,
-                        );
-
-                        getPackerList(
-                          `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
-
-                          (resData) => {
-                            // set ddl state
-                            setPackerList(
-                              resData?.map((item) => ({
-                                ...item,
-                                value: item?.workCenterId,
-                                label: item?.workCenterName,
-                              })),
-                            );
-                          },
-                        );
-
-                        setFieldValue(
-                          'shippingPoint',
-                          res?.objHeader?.shipPointName || '',
-                        );
-                        setFieldValue(
-                          'vehicleNumber',
-                          res?.objHeader?.strVehicleName || '',
-                        );
-                        setFieldValue(
-                          'driver',
-                          res?.objHeader?.driverName || '',
-                        );
-                        setFieldValue(
-                          'packerName',
-                          res?.objHeader?.packerName || '',
-                        );
-                        setFieldValue(
-                          'deliveryDate',
-                          _dateFormatter(res?.objHeader?.pricingDate) || '',
-                        );
-                      },
-                    );
-                  }}
+                 QrCodeScannerCB={(result) => {
+                  // Validate result to ensure it's a valid string
+                  if (!result || typeof result !== "string" || result.trim() === "") {
+                    console.error("Invalid QR code result received:", result);
+                    return; // Exit the function to prevent further execution
+                  }
+                
+                  // Trim any leading/trailing spaces and extract only the part before the first space
+                  const modifiedResult = result.includes(" ") ? result.split(" ")[0] : result;
+                
+                  setIsQRCodeSHow(false);
+                  setShipmentId(modifiedResult);
+                  getReportData(
+                    // `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${+modifiedResult}`,
+                    `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${modifiedResult}`,
+                    (res) => {
+                      getTLMDDL(
+                        `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${
+                          selectedBusinessUnit?.value
+                        }&TypeId=1&RefferencePKId=${
+                          selectedBusinessUnit?.value === 4
+                            ? res?.objHeader?.packerId
+                            : 1
+                        }&ShipPointId=${res?.objHeader?.shipPointId || 0}`,
+                      );
+                      setShipPointIdForCementTlmLoadFromPacker(
+                        res?.objHeader?.shipPointId,
+                      );
+                
+                      getPackerList(
+                        `/mes/WorkCenter/GetWorkCenterListByTypeId?WorkCenterTypeId=1&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+                        (resData) => {
+                          // set ddl state
+                          setPackerList(
+                            resData?.map((item) => ({
+                              ...item,
+                              value: item?.workCenterId,
+                              label: item?.workCenterName,
+                            })),
+                          );
+                        },
+                      );
+                
+                      setFieldValue(
+                        'shippingPoint',
+                        res?.objHeader?.shipPointName || '',
+                      );
+                      setFieldValue(
+                        'vehicleNumber',
+                        res?.objHeader?.strVehicleName || '',
+                      );
+                      setFieldValue(
+                        'driver',
+                        res?.objHeader?.driverName || '',
+                      );
+                      setFieldValue(
+                        'packerName',
+                        res?.objHeader?.packerName || '',
+                      );
+                      setFieldValue(
+                        'deliveryDate',
+                        _dateFormatter(res?.objHeader?.pricingDate) || '',
+                      );
+                    },
+                  );
+                }}
+                
                 />
               </IViewModal>
 
