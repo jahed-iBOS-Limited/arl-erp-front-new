@@ -805,6 +805,7 @@ export default function _Form({
                           value={values?.isEmlployeeReferralObj}
                           label="Is Employee Referral"
                           onChange={(valueOption) => {
+                            setFieldValue('emlployeeReferral', '');
                             setFieldValue(
                               'isEmlployeeReferralObj',
                               valueOption,
