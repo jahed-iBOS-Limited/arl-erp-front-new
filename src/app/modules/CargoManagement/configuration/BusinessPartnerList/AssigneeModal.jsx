@@ -237,7 +237,13 @@ export default function AssigneeModal({
           value: clickRowData?.shipperId,
           label: clickRowData?.shipperName,
         },
+        tradeType: clickRowData?.tradeType,
+        consignee: {
+          value: clickRowData?.consigneeId,
+          label: clickRowData?.consigneeName,
+        },
       };
+
       consigneeOrShipperChangeHandler({ values });
     } else {
       getCommonShipperAndConsigneeDDL(1);
