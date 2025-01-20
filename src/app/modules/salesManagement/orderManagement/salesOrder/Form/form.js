@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { IInput } from "../../../../_helper/_input";
-import ICalendar from "../../../../_helper/_inputCalender";
-import { useDispatch } from "react-redux";
+import React, { useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { IInput } from '../../../../_helper/_input';
+import ICalendar from '../../../../_helper/_inputCalender';
+import { useDispatch } from 'react-redux';
 
 import {
   getPartnerBalance_action,
@@ -20,85 +20,88 @@ import {
   SetUndeliveryValuesEmpty_Action,
   SetAvailableBalanceEmpty_Action,
   getAllocateItemDDLAction,
-} from "../_redux/Actions";
-import { getPriceStructureCheck_Acion } from "./../_redux/Actions";
-import ViewForm from "./viewModal";
-import NewSelect from "../../../../_helper/_select";
-import { Table } from "react-bootstrap";
-import InputField from "./../../../../_helper/_inputField";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+} from '../_redux/Actions';
+import { getPriceStructureCheck_Acion } from './../_redux/Actions';
+import ViewForm from './viewModal';
+import NewSelect from '../../../../_helper/_select';
+import { Table } from 'react-bootstrap';
+import InputField from './../../../../_helper/_inputField';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 import {
   getOrderPendingDetails,
   logisticByDDL,
   GetPendingQuantityDetails,
   getUnBilledAmountDetails,
   GetTradeOffersApi,
-} from "../helper";
-import { isBooleanDDL } from "./../helper";
-import IViewModal from "../../../../_helper/_viewModal";
-import DetailsView from "./detailsView";
-import OfferDetailsModel from "./offerDetailsModel";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
-import StockInfo from "./stockInfo";
-import useDebounce from "../../../../_helper/customHooks/useDebounce";
-import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
+} from '../helper';
+import { isBooleanDDL } from './../helper';
+import IViewModal from '../../../../_helper/_viewModal';
+import DetailsView from './detailsView';
+import OfferDetailsModel from './offerDetailsModel';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
+import StockInfo from './stockInfo';
+import useDebounce from '../../../../_helper/customHooks/useDebounce';
+import AttachmentUploaderNew from '../../../../_helper/attachmentUploaderNew';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import FormikError from '../../../../_helper/_formikError';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   numItemPrice: Yup.number()
-    .min(2, "Minimum 1 symbols")
-    .max(10000000000000000000, "Maximum 10000000000000000000 symbols"),
+    .min(2, 'Minimum 1 symbols')
+    .max(10000000000000000000, 'Maximum 10000000000000000000 symbols'),
   // .required("Price is required"),
   // .required("Discount No is required"),
   partnerReffNo: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols'),
   shiptoPartnerAddress: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Ship To Party Address is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Ship To Party Address is required'),
   narration: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols'),
   // .required("Party Ref. No is required"),
-  pricingDate: Yup.date().required("Pricing Date is required"),
-  dueShippingDate: Yup.date().required("Delivery Date is required"),
+  pricingDate: Yup.date().required('Pricing Date is required'),
+  dueShippingDate: Yup.date().required('Delivery Date is required'),
   // validity: Yup.string()
   //   .min(2, "Minimum 2 symbols")
   //   .max(100, "Maximum 100 symbols")
   //   .required("Validity is required"),
   soldtoParty: Yup.object().shape({
-    label: Yup.string().required("Sold to Party is required"),
-    value: Yup.string().required("Sold to Party is required"),
+    label: Yup.string().required('Sold to Party is required'),
+    value: Yup.string().required('Sold to Party is required'),
   }),
   currency: Yup.object().shape({
-    label: Yup.string().required("Currency is required"),
-    value: Yup.string().required("Currency is required"),
+    label: Yup.string().required('Currency is required'),
+    value: Yup.string().required('Currency is required'),
   }),
   refType: Yup.object().shape({
-    label: Yup.string().required("Reference Type is required"),
-    value: Yup.string().required("Reference Type is required"),
+    label: Yup.string().required('Reference Type is required'),
+    value: Yup.string().required('Reference Type is required'),
   }),
   // incoterm: Yup.object().shape({
   //   label: Yup.string().required("Incoterm is required"),
   //   value: Yup.string().required("Incoterm is required"),
   // }),
   paymentTerms: Yup.object().shape({
-    label: Yup.string().required("Payment Terms is required"),
-    value: Yup.string().required("Payment Terms is required"),
+    label: Yup.string().required('Payment Terms is required'),
+    value: Yup.string().required('Payment Terms is required'),
   }),
   shipToParty: Yup.object().shape({
-    label: Yup.string().required("Ship To Party is required"),
-    value: Yup.string().required("Ship To Party is required"),
+    label: Yup.string().required('Ship To Party is required'),
+    value: Yup.string().required('Ship To Party is required'),
   }),
   waterProofRate: Yup.number().moreThan(
     0,
-    "Input value must be greater than zero"
+    'Input value must be greater than zero',
   ),
   pumpChargeRate: Yup.number().moreThan(
     0,
-    "Input value must be greater than zero"
+    'Input value must be greater than zero',
   ),
 
   // shipToPartnerContactNo: Yup.number()
@@ -171,7 +174,7 @@ export default function _Form({
   const [isStockModal, setIsStockModalShow] = useState(false);
   const [detailsData, setDetailsData] = useState([]);
   const [tradeOffersList, setTradeOffersList] = useState([]);
-  const [tableType, setTableType] = useState("");
+  const [tableType, setTableType] = useState('');
   //M/S The Successors businessUnit
   const isTransportRate = selectedBusinessUnit?.value === 94;
 
@@ -192,11 +195,11 @@ export default function _Form({
                 ...initData,
 
                 paymentTerms:
-                  paymentTermsListDDL?.length > 0 ? paymentTermsListDDL[0] : "",
+                  paymentTermsListDDL?.length > 0 ? paymentTermsListDDL[0] : '',
                 currency:
                   currencyListDDL?.length > 0
-                    ? currencyListDDL.find((itm) => itm?.value === 141) || ""
-                    : "",
+                    ? currencyListDDL.find((itm) => itm?.value === 141) || ''
+                    : '',
               }
         }
         validationSchema={validationSchema}
@@ -239,14 +242,14 @@ export default function _Form({
                             value,
                             setter,
                             label,
-                            valueOptions
+                            valueOptions,
                           ) => {
-                            setter("shipToParty", "");
-                            setter("numItemPrice", "");
-                            setter("item", "");
-                            setter("refType", "");
-                            setFieldValue("alotement", "");
-                            setFieldValue("transportZone", "");
+                            setter('shipToParty', '');
+                            setter('numItemPrice', '');
+                            setter('item', '');
+                            setter('refType', '');
+                            setFieldValue('alotement', '');
+                            setFieldValue('transportZone', '');
                             setAlotementPrice(0);
                             setRowDto([]);
 
@@ -254,18 +257,20 @@ export default function _Form({
                               getShipToPartner_Action(
                                 accountId,
                                 selectedBusinessUnit.value,
-                                currentValue
-                              )
+                                currentValue,
+                              ),
                             );
                             dispatch(getPartnerBalance_action(currentValue));
                             dispatch(getUndeliveryValues_action(currentValue));
                             dispatch(
-                              getPriceStructureCheck_Acion(currentValue, 1)
+                              getPriceStructureCheck_Acion(currentValue, 1),
                             );
 
                             dispatch(getAvailableBalance_Action(currentValue));
                             dispatch(
-                              getCreditLimitForInternalUser_action(currentValue)
+                              getCreditLimitForInternalUser_action(
+                                currentValue,
+                              ),
                             );
                             dispatch(
                               getTotalPendingQuantityAction(
@@ -274,8 +279,8 @@ export default function _Form({
                                 {
                                   ...values,
                                   soldtoParty: valueOptions,
-                                }
-                              )
+                                },
+                              ),
                             );
                           }}
                         />
@@ -295,21 +300,21 @@ export default function _Form({
                             values,
                             setter,
                             label,
-                            optionValue
+                            optionValue,
                           ) => {
                             setter(
-                              "shipToPartnerContactNo",
-                              optionValue?.contactNumber || ""
+                              'shipToPartnerContactNo',
+                              optionValue?.contactNumber || '',
                             );
                             setter(
-                              "shiptoPartnerAddress",
-                              optionValue?.shiptoPartnerAddress || ""
+                              'shiptoPartnerAddress',
+                              optionValue?.shiptoPartnerAddress || '',
                             );
 
                             const transportZoneMetch = transportZoneDDL?.find(
-                              (itm) => itm?.value === optionValue?.upozilaId
+                              (itm) => itm?.value === optionValue?.upozilaId,
                             );
-                            setter("transportZone", transportZoneMetch || "");
+                            setter('transportZone', transportZoneMetch || '');
                           }}
                         />
                       </div>
@@ -328,11 +333,11 @@ export default function _Form({
                           type="date"
                           errors={errors}
                           touched={touched}
-                          value={values.pricingDate || ""}
+                          value={values.pricingDate || ''}
                           disabled={isEdit}
                           onChange={(e) => {
-                            setFieldValue("pricingDate", e.target.value);
-                            setFieldValue("alotement", "");
+                            setFieldValue('pricingDate', e.target.value);
+                            setFieldValue('alotement', '');
                             setAlotementPrice(0);
                             dispatch(
                               getTotalPendingQuantityAction(
@@ -341,8 +346,8 @@ export default function _Form({
                                 {
                                   ...values,
                                   pricingDate: e.target.value,
-                                }
-                              )
+                                },
+                              ),
                             );
                           }}
                         />
@@ -369,7 +374,7 @@ export default function _Form({
                           touched={touched}
                           isDisabled={isEdit}
                           onChange={(valueOption) => {
-                            setFieldValue("incoterm", valueOption);
+                            setFieldValue('incoterm', valueOption);
                           }}
                           placeholder="Incoterm"
                         />
@@ -409,9 +414,9 @@ export default function _Form({
                           touched={touched}
                           dependencyFunc={(currentValue, value, setter) => {
                             referenceNoHandler(currentValue, values);
-                            setter("referenceNo", "");
-                            setter("quantityTop", "");
-                            setter("item", "");
+                            setter('referenceNo', '');
+                            setter('quantityTop', '');
+                            setter('item', '');
                           }}
                           isDisabled={
                             rowDto.length ||
@@ -455,13 +460,13 @@ export default function _Form({
                                     id="isTransshipment"
                                     type="checkbox"
                                     className="ml-2"
-                                    value={values.isTransshipment || ""}
+                                    value={values.isTransshipment || ''}
                                     checked={values.isTransshipment}
                                     name={values.isTransshipment}
                                     onChange={(e) => {
                                       setFieldValue(
-                                        "isTransshipment",
-                                        e.target.checked
+                                        'isTransshipment',
+                                        e.target.checked,
                                       );
                                     }}
                                   />
@@ -485,13 +490,13 @@ export default function _Form({
                                     id="isPartialShipment"
                                     type="checkbox"
                                     className="ml-2"
-                                    value={values.isPartialShipment || ""}
+                                    value={values.isPartialShipment || ''}
                                     checked={values.isPartialShipment}
                                     name={values.isPartialShipment}
                                     onChange={(e) => {
                                       setFieldValue(
-                                        "isPartialShipment",
-                                        e.target.checked
+                                        'isPartialShipment',
+                                        e.target.checked,
                                       );
                                     }}
                                   />
@@ -549,15 +554,15 @@ export default function _Form({
                             name="productType"
                             options={[
                               {
-                                value: "Straight",
-                                label: "Straight",
+                                value: 'Straight',
+                                label: 'Straight',
                               },
-                              { value: "Bend", label: "Bend" },
+                              { value: 'Bend', label: 'Bend' },
                             ]}
                             value={values?.productType}
                             label="Product Type"
                             onChange={(valueOption) => {
-                              setFieldValue("productType", valueOption);
+                              setFieldValue('productType', valueOption);
                             }}
                             placeholder="Product Type"
                             errors={errors}
@@ -578,10 +583,10 @@ export default function _Form({
                               label="Alotement"
                               onChange={(valueOption) => {
                                 setAlotementPrice(valueOption?.points || 0);
-                                setFieldValue("item", "");
-                                setFieldValue("uom", "");
-                                setFieldValue("customerItemName", "");
-                                setFieldValue("alotement", {
+                                setFieldValue('item', '');
+                                setFieldValue('uom', '');
+                                setFieldValue('customerItemName', '');
+                                setFieldValue('alotement', {
                                   ...valueOption,
                                   numQty: valueOption?.numQty || 0,
                                 });
@@ -589,8 +594,8 @@ export default function _Form({
                                   getAllocateItemDDLAction(
                                     accountId,
                                     selectedBusinessUnit.value,
-                                    valueOption?.value
-                                  )
+                                    valueOption?.value,
+                                  ),
                                 );
                               }}
                               placeholder="Alotement"
@@ -608,7 +613,7 @@ export default function _Form({
                           value={values?.transportZone}
                           label="Ship To Party Transport Zone"
                           onChange={(valueOption) => {
-                            setFieldValue("transportZone", valueOption);
+                            setFieldValue('transportZone', valueOption);
                           }}
                           placeholder="No Data Found"
                           errors={errors}
@@ -623,7 +628,7 @@ export default function _Form({
                           value={values?.logisticBy}
                           label="Logistic By"
                           onChange={(valueOption) => {
-                            setFieldValue("logisticBy", valueOption);
+                            setFieldValue('logisticBy', valueOption);
                           }}
                           placeholder="No Data Found"
                           errors={errors}
@@ -641,8 +646,8 @@ export default function _Form({
                               value={values?.isWaterProof}
                               label="Is Water Proof"
                               onChange={(valueOption) => {
-                                setFieldValue("isWaterProof", valueOption);
-                                setFieldValue("waterProofRate", "");
+                                setFieldValue('isWaterProof', valueOption);
+                                setFieldValue('waterProofRate', '');
                               }}
                               placeholder="No Data Found"
                               errors={errors}
@@ -674,8 +679,8 @@ export default function _Form({
                               value={values?.isPumpCharge}
                               label="Is Pump Charge"
                               onChange={(valueOption) => {
-                                setFieldValue("isPumpCharge", valueOption);
-                                setFieldValue("pumpChargeRate", "");
+                                setFieldValue('isPumpCharge', valueOption);
+                                setFieldValue('pumpChargeRate', '');
                               }}
                               placeholder="No Data Found"
                               errors={errors}
@@ -721,15 +726,15 @@ export default function _Form({
                           <NewSelect
                             name="isUnloadLabourByCompany"
                             options={[
-                              { value: false, label: "No" },
-                              { value: true, label: "Yes" },
+                              { value: false, label: 'No' },
+                              { value: true, label: 'Yes' },
                             ]}
                             value={values?.isUnloadLabourByCompany}
                             label="Unload by Company"
                             onChange={(valueOption) => {
                               setFieldValue(
-                                "isUnloadLabourByCompany",
-                                valueOption
+                                'isUnloadLabourByCompany',
+                                valueOption,
                               );
                             }}
                             errors={errors}
@@ -741,14 +746,14 @@ export default function _Form({
                         <div className="">
                           <AttachmentUploaderNew
                             style={{
-                              backgroundColor: "transparent",
-                              color: "black",
+                              backgroundColor: 'transparent',
+                              color: 'black',
                             }}
                             CBAttachmentRes={(attachmentData) => {
                               if (Array.isArray(attachmentData)) {
                                 setFieldValue(
-                                  "attachment",
-                                  attachmentData?.[0]?.id
+                                  'attachment',
+                                  attachmentData?.[0]?.id,
                                 );
                               }
                             }}
@@ -761,13 +766,13 @@ export default function _Form({
                             <NewSelect
                               name="haveBroker"
                               options={[
-                                { value: false, label: "No" },
-                                { value: true, label: "Yes" },
+                                { value: false, label: 'No' },
+                                { value: true, label: 'Yes' },
                               ]}
                               value={values?.haveBroker}
                               label="Have Broker"
                               onChange={(valueOption) => {
-                                setFieldValue("haveBroker", valueOption);
+                                setFieldValue('haveBroker', valueOption);
                               }}
                               errors={errors}
                               touched={touched}
@@ -781,7 +786,7 @@ export default function _Form({
                                 value={values?.brokerName}
                                 label="Broker Name"
                                 onChange={(valueOption) => {
-                                  setFieldValue("brokerName", valueOption);
+                                  setFieldValue('brokerName', valueOption);
                                 }}
                                 errors={errors}
                                 touched={touched}
@@ -790,21 +795,71 @@ export default function _Form({
                           )}
                         </>
                       )}
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="isEmlployeeReferralObj"
+                          options={[
+                            { value: false, label: 'No' },
+                            { value: true, label: 'Yes' },
+                          ]}
+                          value={values?.isEmlployeeReferralObj}
+                          label="Is Employee Referral"
+                          onChange={(valueOption) => {
+                            setFieldValue('emlployeeReferral', '');
+                            setFieldValue(
+                              'isEmlployeeReferralObj',
+                              valueOption,
+                            );
+                          }}
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      {values?.isEmlployeeReferralObj?.value && (
+                        <div className="col-lg-3">
+                          <label>Referral Employee</label>
+                          <SearchAsyncSelect
+                            isCreatableSelect
+                            selectedValue={values?.emlployeeReferral}
+                            handleChange={(valueOption) => {
+                              setFieldValue('emlployeeReferral', valueOption);
+                            }}
+                            loadOptions={(v) => {
+                              if (v?.length < 2) return [];
+                              return axios
+                                .get(
+                                  `/oms/SalesInformation/GetNonSalesForceEmployeeDDL?partName=NonSalesForceEmployeeDDL&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${v}`,
+                                )
+                                .then((res) => {
+                                  return res?.data;
+                                });
+                            }}
+                            placeholder="Select Referral Employee"
+                            errors={errors}
+                            touched={touched}
+                          />
+                          <FormikError
+                            errors={errors}
+                            name="emlployeeReferral"
+                            touched={touched}
+                          />
+                        </div>
+                      )}
 
                       <div className="col-lg-12">
                         {partnerBalance && (
                           <p className="m-0 my-2">
                             <b>Ledger Balance: </b>
                             {_formatMoney(partnerBalance.ledgerBalance)},
-                            <b className="ml-2">Credit Limit: </b>{" "}
+                            <b className="ml-2">Credit Limit: </b>{' '}
                             {_formatMoney(creditLimitForInternalUser)},
                             <b className="ml-2">Unbilled Amount: </b>
-                            {_formatMoney(partnerBalance.unbilledAmount)}{" "}
+                            {_formatMoney(partnerBalance.unbilledAmount)}{' '}
                             <button
                               className="btn btn-sm btn-primary px-1 py-1"
                               type="button"
                               onClick={() => {
-                                setTableType("unBilled");
+                                setTableType('unBilled');
                                 getUnBilledAmountDetails(
                                   selectedBusinessUnit?.value,
                                   values?.soldtoParty?.value,
@@ -812,25 +867,25 @@ export default function _Form({
                                   setDisabled,
                                   () => {
                                     setShow(true);
-                                  }
+                                  },
                                 );
                               }}
                             >
                               Details
                             </button>
-                            ,<b className="ml-2">Available Balance: </b>{" "}
+                            ,<b className="ml-2">Available Balance: </b>{' '}
                             {_formatMoney(availableBalance)},
                             <b className="ml-2">Undelivered Amount: </b>
                             {_formatMoney(
-                              undeliveryValues?.unlideliveredValues
+                              undeliveryValues?.unlideliveredValues,
                             )}
                             <b className="ml-2">Pending Qty: </b>
-                            {_formatMoney(partnerBalance?.pendingQty)}{" "}
+                            {_formatMoney(partnerBalance?.pendingQty)}{' '}
                             <button
                               className="btn btn-sm btn-primary px-1 py-1"
                               type="button"
                               onClick={() => {
-                                setTableType("order");
+                                setTableType('order');
                                 getOrderPendingDetails(
                                   profileData?.accountId,
                                   selectedBusinessUnit?.value,
@@ -839,19 +894,19 @@ export default function _Form({
                                   setDisabled,
                                   () => {
                                     setShow(true);
-                                  }
+                                  },
                                 );
                               }}
                             >
                               Details
                             </button>
                             <b className="ml-2">Transport Qty: </b>
-                            {_formatMoney(partnerBalance?.transportQty)}{" "}
+                            {_formatMoney(partnerBalance?.transportQty)}{' '}
                             <button
                               className="btn btn-sm btn-primary px-1 py-1"
                               type="button"
                               onClick={() => {
-                                setTableType("delivery");
+                                setTableType('delivery');
                                 GetPendingQuantityDetails(
                                   profileData?.accountId,
                                   selectedBusinessUnit?.value,
@@ -860,7 +915,7 @@ export default function _Form({
                                   setDisabled,
                                   () => {
                                     setShow(true);
-                                  }
+                                  },
                                 );
                               }}
                             >
@@ -869,7 +924,7 @@ export default function _Form({
                             {partnerBalance?.isDayLimit && (
                               <>
                                 <b className="ml-2">Day Limit: </b>
-                                {"true"}
+                                {'true'}
                               </>
                             )}
                           </p>
@@ -878,7 +933,7 @@ export default function _Form({
                     </>
                     <div className="col-lg-3 mt-5">
                       <h5>
-                        SO Validity Days:{" "}
+                        SO Validity Days:{' '}
                         {collectionDays?.salesOrderValidityDays}
                       </h5>
                     </div>
@@ -907,18 +962,18 @@ export default function _Form({
                               values?.refType?.value === 1 || !values?.refType
                             }
                             dependencyFunc={(currentValue, value, setter) => {
-                              setter("item", "");
+                              setter('item', '');
                               dispatch(
                                 getReferenceItemlistById_Action(
                                   currentValue,
-                                  values.refType.value
-                                )
+                                  values.refType.value,
+                                ),
                               );
                               dispatch(
                                 getReferenceWithItemListById_Action(
                                   values?.refType?.value,
-                                  currentValue
-                                )
+                                  currentValue,
+                                ),
                               );
                             }}
                           />
@@ -940,10 +995,10 @@ export default function _Form({
                               <>
                                 <button
                                   style={{
-                                    position: "absolute",
-                                    right: "13px",
-                                    top: "-10px",
-                                    zIndex: "9",
+                                    position: 'absolute',
+                                    right: '13px',
+                                    top: '-10px',
+                                    zIndex: '9',
                                   }}
                                   onClick={() => {
                                     setIsStockModalShow(true);
@@ -962,18 +1017,18 @@ export default function _Form({
                             value={values?.item}
                             label="Item"
                             onChange={(valueOption) => {
-                              setFieldValue("quantityTop", "");
-                              setFieldValue("uom", "");
+                              setFieldValue('quantityTop', '');
+                              setFieldValue('uom', '');
                               setFieldValue(
-                                "customerItemName",
-                                valueOption?.label || ""
+                                'customerItemName',
+                                valueOption?.label || '',
                               );
-                              setFieldValue("item", valueOption);
+                              setFieldValue('item', valueOption);
                               if (valueOption?.value) {
                                 itemOnChangeHandler(
                                   valueOption?.value,
                                   values,
-                                  setFieldValue
+                                  setFieldValue,
                                 );
                               }
                             }}
@@ -1037,10 +1092,10 @@ export default function _Form({
                                   +values?.alotement?.numQty === 0 ||
                                   isNaN(values?.alotement?.numQty)
                                 ) {
-                                  setFieldValue("quantityTop", e.target.value);
+                                  setFieldValue('quantityTop', e.target.value);
                                 }
                               } else {
-                                setFieldValue("quantityTop", e.target.value);
+                                setFieldValue('quantityTop', e.target.value);
                               }
                             }}
                           />
@@ -1068,13 +1123,13 @@ export default function _Form({
                                 id="allCheckbox"
                                 type="checkbox"
                                 className="ml-2"
-                                value={values.allCheckbox || ""}
+                                value={values.allCheckbox || ''}
                                 checked={values.allCheckbox}
                                 name={values.allCheckbox}
                                 onChange={(e) => {
                                   setFieldValue(
-                                    "allCheckbox",
-                                    e.target.checked
+                                    'allCheckbox',
+                                    e.target.checked,
                                   );
                                 }}
                                 disabled={!values.referenceNo}
@@ -1092,7 +1147,7 @@ export default function _Form({
                                 !values?.waterProofRate
                               )
                                 return toast.warn(
-                                  "Please give water proof rate"
+                                  'Please give water proof rate',
                                 );
 
                               if (
@@ -1100,15 +1155,15 @@ export default function _Form({
                                 !values?.pumpChargeRate
                               )
                                 return toast.warn(
-                                  "Please give pump charge rate"
+                                  'Please give pump charge rate',
                                 );
 
                               setter(values);
-                              setFieldValue("item", "");
-                              setFieldValue("uom", "");
-                              setFieldValue("customerItemName", "");
-                              setFieldValue("quantityTop", "");
-                              setFieldValue("transportRate", 0);
+                              setFieldValue('item', '');
+                              setFieldValue('uom', '');
+                              setFieldValue('customerItemName', '');
+                              setFieldValue('quantityTop', '');
+                              setFieldValue('transportRate', 0);
                             }}
                             disabled={
                               values?.refType?.value === 1
@@ -1132,7 +1187,7 @@ export default function _Form({
                         <div>
                           {isEdit && (
                             <>
-                              {" "}
+                              {' '}
                               <button
                                 onClick={() => {
                                   salesOrderApprovalHandler();
@@ -1146,9 +1201,9 @@ export default function _Form({
                                 //     : false
                                 // }
                                 style={{
-                                  color: "#fff",
-                                  backgroundColor: "rgb(45 136 35)",
-                                  borderColor: "rgb(45 136 35)",
+                                  color: '#fff',
+                                  backgroundColor: 'rgb(45 136 35)',
+                                  borderColor: 'rgb(45 136 35)',
                                 }}
                               >
                                 Approve
@@ -1178,7 +1233,7 @@ export default function _Form({
                                   itmList,
                                   _todayDate(),
                                   setTradeOffersList,
-                                  setDisabled
+                                  setDisabled,
                                 );
                                 setOfferDetailsModel(true);
                               }}
@@ -1196,21 +1251,21 @@ export default function _Form({
                       <div className="left">
                         <div className="d-flex justify-content-end">
                           <span
-                            className={balanceCheckFunc() ? "text-danger " : ""}
+                            className={balanceCheckFunc() ? 'text-danger ' : ''}
                           >
-                            {" "}
+                            {' '}
                             <b className="">Total Amount: </b>
                             {total?.totalAmount.toFixed(2)}
                           </span>
-                          <b className="ml-3">Total Qty: </b>{" "}
+                          <b className="ml-3">Total Qty: </b>{' '}
                           {total?.totalQty.toFixed(2)}
                           {/* if 'Bongo Traders Ltd' BUI Select */}
                           {selectedBusinessUnit?.isTredingBusiness && (
                             <div
                               className={
                                 +values?.alotement?.numQty < 0
-                                  ? "text-danger"
-                                  : ""
+                                  ? 'text-danger'
+                                  : ''
                               }
                             >
                               <b className="ml-3">Pending Quantity: </b>
@@ -1246,7 +1301,7 @@ export default function _Form({
                           <th
                             style={
                               values?.refType?.value !== 1 || isBUIEssentials
-                                ? { minWidth: "100px" }
+                                ? { minWidth: '100px' }
                                 : {}
                             }
                           >
@@ -1259,7 +1314,7 @@ export default function _Form({
                               (values?.refType?.value === 1 &&
                                 priceStructureCheck?.value) ||
                               isBUIEssentials
-                                ? { minWidth: "100px" }
+                                ? { minWidth: '100px' }
                                 : {}
                             }
                           >
@@ -1270,7 +1325,7 @@ export default function _Form({
                           )}
                           {selectedBusinessUnit?.value === 175 ? (
                             <>
-                              {" "}
+                              {' '}
                               <th>Water Proof Rate</th>
                               <th>Pump Charge Rate </th>
                             </>
@@ -1281,7 +1336,7 @@ export default function _Form({
                           <th>Amount</th>
                           <th>Discount</th>
                           <th>Net Value</th>
-                          {isEdit ? "" : <th>Action</th>}
+                          {isEdit ? '' : <th>Action</th>}
                           {isBUIEssentials &&
                             channelBulk &&
                             values?.brokerName?.value && (
@@ -1332,7 +1387,7 @@ export default function _Form({
                                         index,
                                         itm.numOrderValue,
                                         itm.numDiscountValue,
-                                        itm.numItemPrice
+                                        itm.numItemPrice,
                                       );
                                     }}
                                   />
@@ -1351,11 +1406,11 @@ export default function _Form({
                                 128, // B2B Lube Oil
                                 129, // B2C Lube Oil
                               ].includes(
-                                headerData?.distributionChannel?.value
+                                headerData?.distributionChannel?.value,
                               ) ? (
                                 <td
                                   className="align-middle"
-                                  style={{ width: "100px" }}
+                                  style={{ width: '100px' }}
                                 >
                                   <InputField
                                     value={rowDto[index]?.numItemPrice}
@@ -1369,14 +1424,14 @@ export default function _Form({
                                         e?.target?.value <
                                         rowDto[index]?.tempNumItemPrice
                                       ) {
-                                        toast.warn("Price cannot be reduced");
+                                        toast.warn('Price cannot be reduced');
                                         rowDtoHandlerPrice(
                                           +rowDto[index]?.tempNumItemPrice,
                                           index,
                                           itm.numOrderValue,
                                           itm.numDiscountValue,
                                           itm.numItemPrice,
-                                          itm?.transportRate
+                                          itm?.transportRate,
                                         );
                                       }
                                     }}
@@ -1387,7 +1442,7 @@ export default function _Form({
                                         itm.numOrderValue,
                                         itm.numDiscountValue,
                                         itm.numItemPrice,
-                                        itm?.transportRate
+                                        itm?.transportRate,
                                       );
                                       debounce(() => {});
                                     }}
@@ -1412,7 +1467,7 @@ export default function _Form({
                                     selectedBusinessUnit?.value !== 183) ? (
                                     <td
                                       className="align-middle"
-                                      style={{ width: "100px" }}
+                                      style={{ width: '100px' }}
                                     >
                                       <InputField
                                         value={rowDto[index]?.numItemPrice}
@@ -1428,7 +1483,7 @@ export default function _Form({
                                             itm.numOrderValue,
                                             itm.numDiscountValue,
                                             itm.numItemPrice,
-                                            itm?.transportRate
+                                            itm?.transportRate,
                                           )
                                         }
                                       />
@@ -1475,7 +1530,7 @@ export default function _Form({
                                   : itm.netValue.toFixed(2)}
                               </td>
                               {isEdit ? (
-                                ""
+                                ''
                               ) : (
                                 <td className="text-center">
                                   <i
@@ -1491,8 +1546,8 @@ export default function _Form({
                                     <td
                                       className="align-middle"
                                       style={{
-                                        width: "100px",
-                                        backgroundColor: "#c0cb1bbf",
+                                        width: '100px',
+                                        backgroundColor: '#c0cb1bbf',
                                       }}
                                     >
                                       <InputField
@@ -1514,7 +1569,7 @@ export default function _Form({
                                     <td
                                       className="text-center"
                                       style={{
-                                        backgroundColor: "#c0cb1bbf",
+                                        backgroundColor: '#c0cb1bbf',
                                       }}
                                     >
                                       {itm.commissionAgentRate *
@@ -1533,14 +1588,14 @@ export default function _Form({
               {/* Table End */}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onClick={() => {
                   resetForm(initData);
@@ -1551,7 +1606,7 @@ export default function _Form({
                 show={modalShow}
                 onHide={() => {
                   setModalShow(false);
-                  setSingleHeaderData("");
+                  setSingleHeaderData('');
                   dispatch(SetPartnerBalanceEmpty_Action());
                   dispatch(SetAvailableBalanceEmpty_Action());
                   dispatch(SetUndeliveryValuesEmpty_Action());
@@ -1562,13 +1617,13 @@ export default function _Form({
               />
               <IViewModal
                 title={`${
-                  tableType === "order"
-                    ? "Pending Order Details"
-                    : tableType === "delivery"
-                    ? "Pending Delivery Details"
-                    : tableType === "unBilled"
-                    ? "UnBilled Amount Details"
-                    : ""
+                  tableType === 'order'
+                    ? 'Pending Order Details'
+                    : tableType === 'delivery'
+                    ? 'Pending Delivery Details'
+                    : tableType === 'unBilled'
+                    ? 'UnBilled Amount Details'
+                    : ''
                 }`}
                 show={show}
                 onHide={() => setShow(false)}
