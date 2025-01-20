@@ -78,7 +78,7 @@ const TBody = ({ rowDto, rowDtoHandler, isEdit,remover }) => {
                     rowDtoHandler("quantity", e?.target?.value, index);
                   }}
                   step="any"
-                  min={0.1}
+                  min={0.001}
                   max={
                     isEdit
                       ? item?.poQuantity === item?.receiveQuantity
