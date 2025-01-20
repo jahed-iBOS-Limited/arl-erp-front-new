@@ -446,7 +446,7 @@ export default function _Form({
                                     valueOption,
                                   );
                                 }}
-                                // isDisabled={!values?.transaction}
+                                isDisabled={jorunalType === 5}
                                 options={partnerBank}
                                 value={values?.partnerBankAccount}
                                 isSearchable={true}
