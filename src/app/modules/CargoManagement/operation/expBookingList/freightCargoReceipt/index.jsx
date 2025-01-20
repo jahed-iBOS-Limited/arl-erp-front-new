@@ -123,7 +123,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
       ? totalVolumetricWeight
       : totalGrossWeightKG;
 
-  const hblChargeableRate = +bookingData?.saveWaybillData?.chargeableRate || 0;
+  const hblChargeableRate = +transportPlanningData?.rate || 0;
   const seaAirChargeableRate = +sumOfRate?.[0]?.rate || 0;
 
   const totalKGS = transportPlanningData?.containerDesc?.reduce((acc, item) => {
