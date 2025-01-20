@@ -387,7 +387,7 @@ function ImpBookingList() {
 
                         <th
                           style={{
-                            minWidth: '300px',
+                            minWidth: '190px',
                           }}
                         >
                           Action
