@@ -367,36 +367,6 @@ function ImpBookingList() {
                         >
                           Confirm
                         </th>
-                        {['Air', 'Sea-Air'].includes(
-                          values?.modeOfTransport?.label,
-                        ) && (
-                          <th
-                            style={{
-                              minWidth: '43px',
-                            }}
-                          >
-                            EPB
-                          </th>
-                        )}
-                        <th
-                          style={{
-                            minWidth: '66px',
-                          }}
-                        >
-                          Receive
-                        </th>
-                        {['Sea', 'Sea-Air'].includes(
-                          values?.modeOfTransport?.label,
-                        ) && (
-                          <th
-                            style={{
-                              minWidth: '65px',
-                            }}
-                          >
-                            Stuffing
-                          </th>
-                        )}
-
                         <th
                           style={{
                             minWidth: '140px',
@@ -404,19 +374,6 @@ function ImpBookingList() {
                         >
                           Shipment Planning
                         </th>
-                        <th style={{ minWidth: '50px' }}>FC</th>
-                        {['Air', 'Sea-Air'].includes(
-                          values?.modeOfTransport?.label,
-                        ) && (
-                          <th
-                            style={{
-                              minWidth: '60px',
-                            }}
-                          >
-                            Manifest
-                          </th>
-                        )}
-
                         <th
                           style={{
                             minWidth: '60px',
@@ -426,60 +383,12 @@ function ImpBookingList() {
                         </th>
                         <th
                           style={{
-                            minWidth: '58px',
-                          }}
-                        >
-                          HBL
-                        </th>
-                        <th
-                          style={{
                             minWidth: '146px',
                           }}
                         >
                           Charges
                         </th>
-                        <th
-                          style={{
-                            minWidth: '117px',
-                          }}
-                        >
-                          Doc Checklist
-                        </th>
-                        <th
-                          style={{
-                            minWidth: '72px',
-                          }}
-                        >
-                          Dispatch
-                        </th>
-                        <th
-                          style={{
-                            minWidth: '149px',
-                          }}
-                        >
-                          Customs Clearance
-                        </th>
-                        <th
-                          style={{
-                            minWidth: '80px',
-                          }}
-                        >
-                          In Transit
-                        </th>
-                        <th
-                          style={{
-                            minWidth: '137px',
-                          }}
-                        >
-                          Des. Port Receive
-                        </th>
-                        <th
-                          style={{
-                            minWidth: '80px',
-                          }}
-                        >
-                          Delivered
-                        </th>
+
                         <th
                           style={{
                             minWidth: '300px',
@@ -668,84 +577,6 @@ function ImpBookingList() {
                                     </button>
                                   </span>
                                 </td>
-
-                                {['Air', 'Sea-Air'].includes(
-                                  item?.modeOfTransport,
-                                ) && (
-                                  <td>
-                                    <span>
-                                      <button
-                                        // disabled={item?.isHbl}
-                                        className={
-                                          'btn btn-sm btn-warning px-1 py-1'
-                                        }
-                                        onClick={() => {
-                                          setRowClickData(item);
-                                          setIsModalShowObj({
-                                            ...isModalShowObj,
-                                            isEPB: true,
-                                          });
-                                        }}
-                                      >
-                                        EPB
-                                      </button>
-                                    </span>
-                                  </td>
-                                )}
-
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={item?.isReceived}
-                                      className={
-                                        item?.isReceived
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData(item);
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isReceive: true,
-                                        });
-                                      }}
-                                    >
-                                      Receive
-                                    </button>
-                                  </span>
-                                </td>
-                                {['Sea', 'Sea-Air'].includes(
-                                  values?.modeOfTransport?.label,
-                                ) && (
-                                  <td>
-                                    {' '}
-                                    <span>
-                                      <button
-                                        disabled={item?.isStuffing}
-                                        className={
-                                          item?.isStuffing
-                                            ? 'btn btn-sm btn-success px-1 py-1'
-                                            : 'btn btn-sm btn-warning px-1 py-1'
-                                        }
-                                        onClick={() => {
-                                          setRowClickData({
-                                            ...item,
-                                            title: 'Stuffing',
-                                            isUpdateDate: 'stuffingDate',
-                                            isUpdateKey: 'isStuffing',
-                                          });
-                                          setIsModalShowObj({
-                                            ...isModalShowObj,
-
-                                            isCommonModalShow: true,
-                                          });
-                                        }}
-                                      >
-                                        Stuffing
-                                      </button>
-                                    </span>
-                                  </td>
-                                )}
                                 <td>
                                   <span>
                                     <button
@@ -772,43 +603,6 @@ function ImpBookingList() {
                                 <td>
                                   <span>
                                     <button
-                                      className="btn btn-sm btn-primary"
-                                      onClick={() => {
-                                        setRowClickData(item);
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isFreightCargoReceipt: true,
-                                        });
-                                      }}
-                                    >
-                                      FC
-                                    </button>
-                                  </span>
-                                </td>
-                                {['Air', 'Sea-Air'].includes(
-                                  item?.modeOfTransport,
-                                ) && (
-                                  <td>
-                                    <span>
-                                      <button
-                                        className="btn btn-sm btn-warning px-1 py-1"
-                                        onClick={() => {
-                                          setRowClickData(item);
-                                          setIsModalShowObj({
-                                            ...isModalShowObj,
-                                            isManifest: true,
-                                          });
-                                        }}
-                                      >
-                                        Manifest
-                                      </button>
-                                    </span>
-                                  </td>
-                                )}
-
-                                <td>
-                                  <span>
-                                    <button
                                       // disabled={item?.isBl}
                                       className={
                                         item?.isBl
@@ -826,29 +620,6 @@ function ImpBookingList() {
                                       {item?.modeOfTransport === 'Air'
                                         ? 'MAWB '
                                         : 'MBL'}
-                                    </button>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      // disabled={item?.isHbl}
-                                      className={
-                                        item?.isHbl
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData(item);
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isHBCodeGN: true,
-                                        });
-                                      }}
-                                    >
-                                      {item?.modeOfTransport === 'Air'
-                                        ? 'HAWB'
-                                        : 'HBL'}
                                     </button>
                                   </span>
                                 </td>
@@ -873,159 +644,7 @@ function ImpBookingList() {
                                     </button>
                                   </span>
                                 </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      className={
-                                        item?.isDocumentChecklist
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData(item);
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isDocument: true,
-                                        });
-                                      }}
-                                    >
-                                      Doc Checklist
-                                    </button>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={item?.isDispatch}
-                                      className={
-                                        item?.isDispatch
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData({
-                                          ...item,
-                                          title: 'Dispatch',
-                                          isUpdateDate: 'dispatchDate',
-                                          isUpdateKey: 'isDispatch',
-                                        });
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
 
-                                          isCommonModalShow: true,
-                                        });
-                                      }}
-                                    >
-                                      Dispatch
-                                    </button>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={item?.isCustomsClear}
-                                      className={
-                                        item?.isCustomsClear
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData({
-                                          ...item,
-                                          title: 'Customs Clearance',
-                                          isUpdateDate: 'customsClearDt',
-                                          isUpdateKey: 'isCustomsClear',
-                                        });
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-
-                                          isCommonModalShow: true,
-                                        });
-                                      }}
-                                    >
-                                      Customs Clearance
-                                    </button>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={item?.isInTransit}
-                                      className={
-                                        item?.isInTransit
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData({
-                                          ...item,
-                                          title: 'In Transit',
-                                          isUpdateDate: 'inTransit',
-                                          isUpdateKey: 'isInTransit',
-                                        });
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-
-                                          isCommonModalShow: true,
-                                        });
-                                      }}
-                                    >
-                                      In Transit
-                                    </button>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={item?.isDestPortReceive}
-                                      className={
-                                        item?.isDestPortReceive
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData({
-                                          ...item,
-                                          title: 'Des. Port Receive',
-                                          isUpdateDate: 'destPortReceive',
-                                          isUpdateKey: 'isDestPortReceive',
-                                        });
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isCommonModalShow: true,
-                                        });
-                                      }}
-                                    >
-                                      Des. Port Receive
-                                    </button>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={item?.isBuyerReceive}
-                                      className={
-                                        item?.isBuyerReceive
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData({
-                                          ...item,
-                                          title: 'Delivered',
-                                          isUpdateDate: 'buyerReceive',
-                                          isUpdateKey: 'isBuyerReceive',
-                                        });
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isCommonModalShow: true,
-                                        });
-                                      }}
-                                    >
-                                      Delivered
-                                    </button>
-                                  </span>
-                                </td>
                                 <td>
                                   <div
                                     style={{
@@ -1034,20 +653,6 @@ function ImpBookingList() {
                                       alignItems: 'center',
                                     }}
                                   >
-                                    <span>
-                                      <button
-                                        className="btn btn-sm btn-primary"
-                                        onClick={() => {
-                                          setRowClickData(item);
-                                          setIsModalShowObj({
-                                            ...isModalShowObj,
-                                            isDeliveryNote: true,
-                                          });
-                                        }}
-                                      >
-                                        Delivery Note
-                                      </button>
-                                    </span>
                                     <span>
                                       <button
                                         className="btn btn-sm btn-primary"
