@@ -10,7 +10,6 @@ import InputField from '../../../_helper/_inputField';
 import Loading from '../../../_helper/_loading';
 import IViewModal from '../../../_helper/_viewModal';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-// import Details from '../../operation/bookingList/bookingDetails';
 import ShippingExpenseIncomeDetails from './shippingExpenseIncomeDetails';
 
 const validationSchema = Yup.object().shape({
