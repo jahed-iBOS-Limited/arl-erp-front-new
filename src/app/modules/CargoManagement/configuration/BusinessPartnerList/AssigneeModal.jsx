@@ -14,6 +14,7 @@ import Loading from '../../../_helper/_loading';
 
 const initialValues = {
   shipper: '',
+  consignee: '',
   deliveryAgent: '',
   notifyParty: '',
   participantType: '',
@@ -133,52 +134,101 @@ export default function AssigneeModal({
     setAddedItem((prev) => [...prev, obj]);
   };
 
-  const consigneeOnChangeHandler = (valueOption) => {
-    GetParticipantsWithShipper(
-      `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithShipper?shipperId=${valueOption?.value}`,
-      (redData) => {
-        const deliveryAgentList = redData?.deliveryAgentList || [];
-        const notifyPartyList = redData?.notifyPartyList || [];
-        const airLineList = redData?.airLineList || [];
-        const consineList = redData?.consineList || [];
-        const shippingLineList = redData?.shippingLineList || [];
-        const gsaList = redData?.gsaList || [];
+  const consigneeOrShipperChangeHandler = ({ values }) => {
+    console.log(values, 'values');
 
-        // how to setAddedItem here
-        const allItems = [
-          ...consineList,
-          ...deliveryAgentList,
-          ...notifyPartyList,
-          ...shippingLineList,
-          ...airLineList,
-          ...gsaList,
-        ];
-        const addedItems = allItems?.map((item) => {
-          return {
-            mappingId: item?.mappingId || 0,
-            shipperId: valueOption?.value || 0,
-            shipperName: valueOption?.label || '',
-            participantTypeId: item?.participantTypeId || 0,
-            participantType: item?.participantType || '',
-            participantId: item?.participantId || 0,
-            participantName: item?.participantsName || '',
-            isActive: true,
-            createdBy: profileData?.userId || 0,
-            createdAt: new Date(),
-            businessPartnerTypeName: item?.businessPartnerTypeName || '',
-          };
-        });
-        setAddedItem(addedItems);
-      },
-    );
+    // if tradeType 1 = Export
+    if (values?.tradeType === 1) {
+      GetParticipantsWithShipper(
+        `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithShipper?shipperId=${values?.shipper?.value}`,
+        (redData) => {
+          const deliveryAgentList = redData?.deliveryAgentList || [];
+          const notifyPartyList = redData?.notifyPartyList || [];
+          const airLineList = redData?.airLineList || [];
+          const consineList = redData?.consineList || [];
+          const shippingLineList = redData?.shippingLineList || [];
+          const gsaList = redData?.gsaList || [];
+
+          // how to setAddedItem here
+          const allItems = [
+            ...consineList,
+            ...deliveryAgentList,
+            ...notifyPartyList,
+            ...shippingLineList,
+            ...airLineList,
+            ...gsaList,
+          ];
+          const addedItems = allItems?.map((item) => {
+            return {
+              mappingId: item?.mappingId || 0,
+              shipperId: values?.shipper?.value || 0,
+              shipperName: values?.shipper?.label || '',
+              participantTypeId: item?.participantTypeId || 0,
+              participantType: item?.participantType || '',
+              participantId: item?.participantId || 0,
+              participantName: item?.participantsName || '',
+              isActive: true,
+              createdBy: profileData?.userId || 0,
+              createdAt: new Date(),
+              businessPartnerTypeName: item?.businessPartnerTypeName || '',
+            };
+          });
+          setAddedItem(addedItems);
+        },
+      );
+    }
+
+    // if tradeType 2 = Import
+    if (values?.tradeType === 2) {
+      GetParticipantsWithShipper(
+        `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsignee?consigneeId=${values?.consignee?.value}`,
+        (redData) => {
+          const deliveryAgentList = redData?.deliveryAgentList || [];
+          const notifyPartyList = redData?.notifyPartyList || [];
+          const airLineList = redData?.airLineList || [];
+          const shipperList = redData?.shipperList || [];
+          const shippingLineList = redData?.shippingLineList || [];
+          const gsaList = redData?.gsaList || [];
+
+          // how to setAddedItem here
+          const allItems = [
+            ...shipperList,
+            ...deliveryAgentList,
+            ...notifyPartyList,
+            ...shippingLineList,
+            ...airLineList,
+            ...gsaList,
+          ];
+          const addedItems = allItems?.map((item) => {
+            return {
+              mappingId: item?.mappingId || 0,
+              consigneeId: values?.consignee?.value || 0,
+              consigneeName: values?.consignee?.label || '',
+              participantTypeId: item?.participantTypeId || 0,
+              participantType: item?.participantType || '',
+              participantId: item?.participantId || 0,
+              participantName: item?.participantsName || '',
+              isActive: true,
+              createdBy: profileData?.userId || 0,
+              createdAt: new Date(),
+              businessPartnerTypeName: item?.businessPartnerTypeName || '',
+            };
+          });
+          setAddedItem(addedItems);
+        },
+      );
+    }
   };
 
   useEffect(() => {
     if (clickRowData && isViewMoadal) {
-      consigneeOnChangeHandler({
-        value: clickRowData?.shipperId,
-        label: clickRowData?.shipperName,
-      });
+      const values = {
+        shipper: {
+          value: clickRowData?.shipperId,
+          label: clickRowData?.shipperName,
+        },
+      };
+      consigneeOrShipperChangeHandler({ values });
     } else {
       getCommonShipperAndConsigneeDDL(1);
     }
@@ -204,7 +254,6 @@ export default function AssigneeModal({
         `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=${tradeTypeId}`,
       );
     }
-
     // tradeTypeId 2 = Import
     if (tradeTypeId === 2) {
       getConsigneeListDDL(
@@ -251,6 +300,7 @@ export default function AssigneeModal({
               ? false
               : () => {
                   formikRef.current.resetForm();
+                  setAddedItem([]);
                 }
           }
         >
@@ -331,7 +381,12 @@ export default function AssigneeModal({
                             name="shipper"
                             onChange={(valueOption) => {
                               setFieldValue('shipper', valueOption);
-                              consigneeOnChangeHandler(valueOption);
+                              consigneeOrShipperChangeHandler({
+                                values: {
+                                  ...values,
+                                  shipper: valueOption,
+                                },
+                              });
                             }}
                             errors={errors}
                             touched={touched}
@@ -346,11 +401,16 @@ export default function AssigneeModal({
                           <NewSelect
                             label="Select Consignee"
                             options={consigneeListDDL || []}
-                            value={values?.shipper}
-                            name="shipper"
+                            value={values?.consignee}
+                            name="consignee"
                             onChange={(valueOption) => {
-                              setFieldValue('shipper', valueOption);
-                              consigneeOnChangeHandler(valueOption);
+                              setFieldValue('consignee', valueOption);
+                              consigneeOrShipperChangeHandler({
+                                values: {
+                                  ...values,
+                                  consignee: valueOption,
+                                },
+                              });
                             }}
                             errors={errors}
                             touched={touched}
@@ -367,6 +427,8 @@ export default function AssigneeModal({
                           name="participantType"
                           onChange={(valueOption) => {
                             setFieldValue('participantType', valueOption);
+                            setFieldValue('participant', '');
+                            setFieldValue('businessPartnerType', '');
                           }}
                           errors={errors}
                           touched={touched}
@@ -387,6 +449,7 @@ export default function AssigneeModal({
                           isSearchable={true}
                           errors={errors}
                           touched={touched}
+                          isDisabled={!values?.participantType}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -400,6 +463,10 @@ export default function AssigneeModal({
                           }}
                           errors={errors}
                           touched={touched}
+                          isDisabled={
+                            !values?.participantType ||
+                            !values?.businessPartnerType
+                          }
                         />
                       </div>
 
@@ -428,7 +495,11 @@ export default function AssigneeModal({
                           <thead>
                             <tr>
                               <th>SL</th>
-                              <th>Shipper</th>
+                              {values?.tradeType === 1 ? (
+                                <th>Shipper</th>
+                              ) : (
+                                <th>Consignee</th>
+                              )}
                               <th>Partner Type</th>
                               <th>Participant Type</th>
                               <th>Participant</th>
@@ -447,7 +518,11 @@ export default function AssigneeModal({
                               >
                                 <td>{index + 1}</td>
 
-                                <td>{item?.shipperName}</td>
+                                {values?.tradeType === 1 ? (
+                                  <td>{item?.shipperName}</td>
+                                ) : (
+                                  <td>{item?.consigneeName}</td>
+                                )}
                                 <td>{item?.businessPartnerTypeName}</td>
                                 <td>{item?.participantType}</td>
                                 <td>{item?.participantName}</td>
