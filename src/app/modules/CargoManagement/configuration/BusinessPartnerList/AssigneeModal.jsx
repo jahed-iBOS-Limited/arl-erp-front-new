@@ -274,9 +274,9 @@ export default function AssigneeModal({
   const participantTypeListDDLFilter = (values) => {
     const updatedData = participantTypeListDDL?.filter((item) => {
       if (values?.tradeType === 1) {
-        return ![1].includes(item?.value);
+        return ![1, 8].includes(item?.value);
       } else {
-        return ![2].includes(item?.value);
+        return ![2, 8].includes(item?.value);
       }
     });
     return updatedData;

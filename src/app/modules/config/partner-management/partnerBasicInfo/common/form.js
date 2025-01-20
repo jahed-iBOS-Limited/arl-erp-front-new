@@ -76,7 +76,7 @@ export default function _Form({
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
       (resData) => {
         const filterData = resData?.filter((item) =>
-          [1, 8].includes(item.value),
+          [1, 2, 8].includes(item.value),
         );
         setShipingCargoTypeDDL(filterData || []);
       },
