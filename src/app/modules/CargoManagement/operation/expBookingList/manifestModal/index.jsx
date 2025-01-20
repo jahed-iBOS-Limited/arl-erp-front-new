@@ -159,7 +159,7 @@ export default function ManifestModal({ rowClickData }) {
                 }}
               >
                 {' '}
-                N/A
+                {bookingData?.seaMasterBlCode || bookingData?.airMasterBlCode}
               </td>
               <td
                 style={{
