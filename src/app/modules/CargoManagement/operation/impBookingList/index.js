@@ -1,7 +1,7 @@
 import CryptoJS from 'crypto-js';
 import { Formik } from 'formik';
 import moment from 'moment';
-import './style.css';
+import '../expBookingList/style.css';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -14,26 +14,26 @@ import PaginationTable from '../../../_helper/_tablePagination';
 import IViewModal from '../../../_helper/_viewModal';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import useAxiosPut from '../../../_helper/customHooks/useAxiosPut';
-import BLModal from './blModal';
-import Details from './bookingDetails';
-import ChargesModal from './chargesModal';
-import CommonInvoice from './commonInvoice';
-import CommonStatusUpdateModal from './commonStatusUpdateModal';
-import ConfirmModal from './confirmModal';
-import DeliveryNoteModal from './deliveryNoteModal';
-import DocumentModal from './documentModal';
-import FreightCargoReceipt from './freightCargoReceipt';
-import HBLCodeGNModal from './hblCodeGNModal';
-import { cancelHandler, statusReturn } from './helper';
-import ManifestModal from './manifestModal';
-import MasterHBAWModal from './masterHAWBModal';
-import MasterHBLModal from './masterHBLModal';
-import ReceiveModal from './receiveModal';
-import TransportModal from './transportModal';
-import BillGenerate from './bill';
-import SeaAirMasterBL from './SeaAirMasterBl';
+import BLModal from '../expBookingList/blModal';
+import Details from '../expBookingList/bookingDetails';
+import ChargesModal from '../expBookingList/chargesModal';
+import CommonInvoice from '../expBookingList/commonInvoice';
+import CommonStatusUpdateModal from '../expBookingList/commonStatusUpdateModal';
+import ConfirmModal from '../expBookingList/confirmModal';
+import DeliveryNoteModal from '../expBookingList/deliveryNoteModal';
+import DocumentModal from '../expBookingList/documentModal';
+import FreightCargoReceipt from '../expBookingList/freightCargoReceipt';
+import HBLCodeGNModal from '../expBookingList/hblCodeGNModal';
+import { cancelHandler, statusReturn } from '../expBookingList/helper';
+import ManifestModal from '../expBookingList/manifestModal';
+import MasterHBAWModal from '../expBookingList/masterHAWBModal';
+import MasterHBLModal from '../expBookingList/masterHBLModal';
+import ReceiveModal from '../expBookingList/receiveModal';
+import TransportModal from '../expBookingList/transportModal';
+import BillGenerate from '../expBookingList/bill';
+import SeaAirMasterBL from '../expBookingList/SeaAirMasterBl';
 const validationSchema = Yup.object().shape({});
-function ExpBookingList() {
+function ImpBookingList() {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
@@ -102,7 +102,7 @@ function ExpBookingList() {
       }&userTypeId=${0}&refrenceId=${
         profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue ||
-        ''}&modeOfTransportId=${modeOfTransportId}&tradeTypeId=1`,
+        ''}&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`,
     );
   };
 
@@ -166,7 +166,7 @@ function ExpBookingList() {
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <ICustomCard
-            title="Export Booking List"
+            title="Import Booking List"
             renderProps={() => {
               return (
                 <button
@@ -1625,4 +1625,4 @@ function ExpBookingList() {
   );
 }
 
-export default ExpBookingList;
+export default ImpBookingList;
