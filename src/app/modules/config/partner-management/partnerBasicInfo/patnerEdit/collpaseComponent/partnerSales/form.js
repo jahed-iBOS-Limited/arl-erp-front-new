@@ -790,6 +790,7 @@ export default function _Form({
                           <tr>
                             <th>SL</th>
                             <th>Shipping Point</th>
+                            <th>Distance Km</th>
                             <th>Default</th>
                             <th>Action</th>
                           </tr>
@@ -803,6 +804,18 @@ export default function _Form({
                                   <div className="pl-2">
                                     {itm.shipPointName}
                                   </div>
+                                </td>
+                                <td>
+                                  <input
+                                  style={{width:"30px"}}
+                                   value={itm?.distanceKm || ""}
+                                   type="number"
+                                   onChange={(e)=>{
+                                     const modifiedData = [...rowDto];
+                                     modifiedData[idx]["distanceKm"] = +e.target.value;
+                                     setRowDtoTwo(modifiedData)
+                                   }}
+                                  />
                                 </td>
                                 <td>
                                   <div className="pl-2">
