@@ -97,7 +97,7 @@ function ConfirmModal({ rowClickData, CB }) {
   const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
   const [getBankListDDL, setBankListDDL] = useAxiosGet();
   const [, setBlobalBankAddressDDL] = useAxiosGet();
-  const [, getParticipantsWithConsigneeDtl] = useAxiosGet();
+  const [, GetParticipantsWithShipper] = useAxiosGet();
   const [stateDDL, setStateDDL] = useAxiosGet();
   const [cityDDL, setCityDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
@@ -292,8 +292,8 @@ function ConfirmModal({ rowClickData, CB }) {
   }, []);
 
   const consigneeOnChangeHandler = async (shipperId) => {
-    getParticipantsWithConsigneeDtl(
-      `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsigneeDtl?shipperId=${shipperId}`,
+    GetParticipantsWithShipper(
+      `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithShipper?shipperId=${shipperId}`,
       (data) => {
         if (data?.deliveryAgentList) {
           const modifyData = data?.deliveryAgentList?.map((i) => {
