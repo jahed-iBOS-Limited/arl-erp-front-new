@@ -482,7 +482,7 @@ export default function RateAgreementCreate() {
                       });
                     }}
                     disabled={
-                      !values?.supplier || !values?.itemRate || !values?.vat
+                      !values?.supplier || !values?.itemRate
                     }
                   >
                     + Add
