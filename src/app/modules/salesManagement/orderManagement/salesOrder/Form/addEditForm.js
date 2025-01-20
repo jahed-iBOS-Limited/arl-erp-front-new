@@ -1,7 +1,7 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,jsx-a11y/role-supports-aria-props */
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveSalesOrder,
   getBUalesOrgIncotermDDL_Action,
@@ -25,79 +25,81 @@ import {
   getAllocateItemDDLAction,
   GetSalesConfigurationBalanceCheck_acion,
   getTransportZoneDDL_action,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
 import {
   getSoldToPartner_Action,
   getCurrencyListDDL_Action,
-} from "./../_redux/Actions";
-import { useLocation } from "react-router-dom";
-import { getOrderReferanceTypeDDL_Action } from "./../_redux/Actions";
-import { getPaymentTermsListDDL_Action } from "./../_redux/Actions";
-import { getItemPlant_Action } from "./../_redux/Actions";
-import { getSalesContactDDL_Action } from "./../_redux/Actions";
-import { getSalesOrderDDL_action } from "./../_redux/Actions";
-import { setSalesOrderSingleEmpty } from "./../_redux/Actions";
-import { toast } from "react-toastify";
-import { getShipToPartner_Action } from "./../_redux/Actions";
-import { getPartnerBalance_action } from "./../_redux/Actions";
-import { getPriceStructureCheck_Acion } from "./../_redux/Actions";
-import { getAvailableBalance_Action } from "./../_redux/Actions";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { SetPartnerBalanceEmpty_Action } from "./../_redux/Actions";
-import { SetUndeliveryValuesEmpty_Action } from "./../_redux/Actions";
-import Loading from "./../../../../_helper/_loading";
-import { isUniq } from "./../../../../_helper/uniqChecker";
+} from './../_redux/Actions';
+import { useLocation } from 'react-router-dom';
+import { getOrderReferanceTypeDDL_Action } from './../_redux/Actions';
+import { getPaymentTermsListDDL_Action } from './../_redux/Actions';
+import { getItemPlant_Action } from './../_redux/Actions';
+import { getSalesContactDDL_Action } from './../_redux/Actions';
+import { getSalesOrderDDL_action } from './../_redux/Actions';
+import { setSalesOrderSingleEmpty } from './../_redux/Actions';
+import { toast } from 'react-toastify';
+import { getShipToPartner_Action } from './../_redux/Actions';
+import { getPartnerBalance_action } from './../_redux/Actions';
+import { getPriceStructureCheck_Acion } from './../_redux/Actions';
+import { getAvailableBalance_Action } from './../_redux/Actions';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { SetPartnerBalanceEmpty_Action } from './../_redux/Actions';
+import { SetUndeliveryValuesEmpty_Action } from './../_redux/Actions';
+import Loading from './../../../../_helper/_loading';
+import { isUniq } from './../../../../_helper/uniqChecker';
 import {
   getBrokers,
   getChannelBaseCollectionDays,
   rejectSalesOrder,
-} from "../helper";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+} from '../helper';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 const initData = {
   id: undefined,
-  soldtoParty: "",
-  partnerReffNo: "",
-  currency: "",
+  soldtoParty: '',
+  partnerReffNo: '',
+  currency: '',
   pricingDate: _todayDate(),
   dueShippingDate: _todayDate(),
   isTransshipment: false,
   isPartialShipment: false,
-  refType: "",
-  incoterm: "",
-  paymentTerms: "",
-  validity: "",
+  refType: '',
+  incoterm: '',
+  paymentTerms: '',
+  validity: '',
   numItemPrice: 0,
-  referenceNo: "",
-  shipToParty: "",
-  item: "",
+  referenceNo: '',
+  shipToParty: '',
+  item: '',
   allCheckbox: false,
   numDiscountValue: 0,
-  narration: "",
-  numRequestQuantity: "",
-  uom: "",
-  quantityTop: "",
-  customerItemName: "",
-  shipToPartnerContactNo: "",
-  shipToPartnerContactNoNameOnly: "", // Last Added
-  shiptoPartnerAddress: "",
-  alotement: "",
-  transportZone: "",
+  narration: '',
+  numRequestQuantity: '',
+  uom: '',
+  quantityTop: '',
+  customerItemName: '',
+  shipToPartnerContactNo: '',
+  shipToPartnerContactNoNameOnly: '', // Last Added
+  shiptoPartnerAddress: '',
+  alotement: '',
+  transportZone: '',
   transportRate: 0,
   productType: {
-    value: "Straight",
-    label: "Straight",
+    value: 'Straight',
+    label: 'Straight',
   },
-  logisticBy: { value: 1, label: "Company" },
-  isWaterProof: { value: false, label: "No" },
-  waterProofRate: "",
-  pumpChargeRate: "",
-  isPumpCharge: { value: false, label: "No" },
-  isUnloadLabourByCompany: { value: false, label: "No" },
-  haveBroker: { value: false, label: "No" },
-  brokerName: "",
-  attachment: "",
+  logisticBy: { value: 1, label: 'Company' },
+  isWaterProof: { value: false, label: 'No' },
+  waterProofRate: '',
+  pumpChargeRate: '',
+  isPumpCharge: { value: false, label: 'No' },
+  isUnloadLabourByCompany: { value: false, label: 'No' },
+  haveBroker: { value: false, label: 'No' },
+  isEmlployeeReferralObj: { value: false, label: 'No' },
+  emlployeeReferral: '',
+  brokerName: '',
+  attachment: '',
 };
 
 export default function SalesOrderForm({
@@ -112,7 +114,7 @@ export default function SalesOrderForm({
   const [alotementPrice, setAlotementPrice] = useState(0);
   const [createSaveData, setCeateSaveData] = useState({});
   const [rowDto, setRowDto] = useState([]);
-  const [singleHeaderData, setSingleHeaderData] = useState("");
+  const [singleHeaderData, setSingleHeaderData] = useState('');
   // const [formValues, setFormValues] = useState({});
   const dispatch = useDispatch();
   const { state: headerData } = useLocation();
@@ -176,7 +178,7 @@ export default function SalesOrderForm({
         transportZoneDDL: state.salesOrder.transportZoneDDL,
       };
     },
-    { shallowEqual }
+    { shallowEqual },
   );
   // get single sales order  unit from store
   const singleData = useSelector((state) => {
@@ -218,8 +220,8 @@ export default function SalesOrderForm({
           profileData?.accountId,
           selectedBusinessUnit?.value,
           id,
-          setDisabled
-        )
+          setDisabled,
+        ),
       );
       dispatch(getSalesOrderApproveCheck_action(profileData?.userId));
     } else {
@@ -234,7 +236,7 @@ export default function SalesOrderForm({
         ...itm,
         netValue:
           itm.numOrderValue - (itm.numOrderValue * itm.numDiscountValue) / 100,
-        isFree: itm.isFreeItem ? "Yes" : "No",
+        isFree: itm.isFreeItem ? 'Yes' : 'No',
         waterProofRate: itm?.waterProofRate || itm?.numWaterProofRate || 0,
         pumpChargeRate: itm?.pumpChargeRate || itm?.numPumpChargeRate || 0,
       }));
@@ -249,8 +251,8 @@ export default function SalesOrderForm({
           {
             soldtoParty: singleData?.objHeader?.soldtoParty,
             pricingDate: singleData?.objHeader?.pricingDate,
-          }
-        )
+          },
+        ),
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -263,13 +265,13 @@ export default function SalesOrderForm({
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setBrokerDDL,
-        setDisabled
+        setDisabled,
       );
       dispatch(
         getCurrencyListDDL_Action(
           profileData?.accountId,
-          selectedBusinessUnit?.value
-        )
+          selectedBusinessUnit?.value,
+        ),
       );
       dispatch(getOrderReferanceTypeDDL_Action());
       dispatch(getBUalesOrgIncotermDDL_Action());
@@ -277,26 +279,26 @@ export default function SalesOrderForm({
         getPaymentTermsListDDL_Action(
           profileData?.accountId,
           selectedBusinessUnit?.value,
-          headerData?.salesOrg?.value
-        )
+          headerData?.salesOrg?.value,
+        ),
       );
       dispatch(
         getItemUOMDDL_Action(
           profileData?.accountId,
-          selectedBusinessUnit?.value
-        )
+          selectedBusinessUnit?.value,
+        ),
       );
       dispatch(
         GetSalesConfigurationBalanceCheck_acion(
           profileData?.accountId,
-          selectedBusinessUnit?.value
-        )
+          selectedBusinessUnit?.value,
+        ),
       );
       dispatch(
         getTransportZoneDDL_action(
           profileData?.accountId,
-          selectedBusinessUnit?.value
-        )
+          selectedBusinessUnit?.value,
+        ),
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -322,7 +324,7 @@ export default function SalesOrderForm({
         payload,
         (resData) => {
           cb(resData);
-        }
+        },
       );
     } else {
       cb();
@@ -344,8 +346,8 @@ export default function SalesOrderForm({
           numOrderQuantity: +itm.numRequestQuantity,
           numWaterProofRate: +itm?.waterProofRate || 0,
           numPumpChargeRate: +itm?.pumpChargeRate || 0,
-          isFree: itm.isFree === "Yes" ? true : false,
-          isFreeItem: itm.isFree === "Yes" ? true : false,
+          isFree: itm.isFree === 'Yes' ? true : false,
+          isFreeItem: itm.isFree === 'Yes' ? true : false,
         }));
         const payload = {
           objHeader: {
@@ -356,14 +358,14 @@ export default function SalesOrderForm({
             narration: values.narration,
             actionBy: profileData.userId,
             intTerritoryId: values?.shipToParty?.territoryId || 0,
-            shipToPartnerContactNo: values?.shipToPartnerContactNo || "",
+            shipToPartnerContactNo: values?.shipToPartnerContactNo || '',
             allotmentId: +values?.alotement?.value || 0,
             logisticBy: values?.logisticBy?.value,
             isWaterProof: values?.isWaterProof?.value,
             isPump: values?.isPumpCharge?.value,
             isUnloadLabourByCompany: values?.isUnloadLabourByCompany?.value,
             salesOrderValidityDays: collectionDays?.salesOrderValidityDays,
-            salesOrderExpiredDate: "2023-06-22T14:08:10.512Z",
+            salesOrderExpiredDate: '2023-06-22T14:08:10.512Z',
             // collectionDays: values?.collectionDays || 0,
             attachment: values?.attachment,
           },
@@ -374,21 +376,21 @@ export default function SalesOrderForm({
             dispatch(saveEditedSalesOrder(payload, setDisabled, callBackFunc));
           } else {
             if (balanceCheckFunc()) {
-              toast.warning("Balance not available", { toastId: 465656 });
+              toast.warning('Balance not available', { toastId: 465656 });
             } else {
               dispatch(
-                saveEditedSalesOrder(payload, setDisabled, callBackFunc)
+                saveEditedSalesOrder(payload, setDisabled, callBackFunc),
               );
             }
           }
         } else {
-          toast.warning("You must have to add at least one item");
+          toast.warning('You must have to add at least one item');
         }
       } else {
         const newRowDto = rowDto.map((itm, index) => {
           // these two values (commissionRate, commissionAmount) are only for distributor channel of Akij essentials Ltd.
           const commissionRate = commissionRates?.find(
-            (rate) => rate?.itemId === itm?.itemId
+            (rate) => rate?.itemId === itm?.itemId,
           )?.discountRate;
           const commissionAmount = commissionRate * itm?.numRequestQuantity;
 
@@ -400,8 +402,8 @@ export default function SalesOrderForm({
             numWaterProofRate: +itm?.waterProofRate || 0,
             numPumpChargeRate: +itm?.pumpChargeRate || 0,
             numItemPrice: +itm?.numItemPrice,
-            isFree: itm.isFree === "Yes" ? true : false,
-            isFreeItem: itm.isFree === "Yes" ? true : false,
+            isFree: itm.isFree === 'Yes' ? true : false,
+            isFreeItem: itm.isFree === 'Yes' ? true : false,
             numCommissionRate: commissionRate,
             numCommissionAmount: commissionAmount,
           };
@@ -444,27 +446,29 @@ export default function SalesOrderForm({
             intTerritoryId: values?.shipToParty?.territoryId,
             shipToPartnerContactNo:
               `${values?.shipToPartnerContactNoNameOnly ||
-                ""}-${values?.shipToPartnerContactNo || ""}` || "",
-            shiptoPartnerAddress: values?.shiptoPartnerAddress || "N/A",
+                ''}-${values?.shipToPartnerContactNo || ''}` || '',
+            shiptoPartnerAddress: values?.shiptoPartnerAddress || 'N/A',
             allotmentId: +values?.alotement?.value || 0,
             productType: [224, 171].includes(selectedBusinessUnit?.value)
               ? values?.productType?.label
-              : "",
+              : '',
             logisticBy: values?.logisticBy?.value,
             isWaterProof: values?.isWaterProof?.value,
             isPump: values?.isPumpCharge?.value,
             collectionDays: values?.collectionDays || 0,
             isUnloadLabourByCompany: values?.isUnloadLabourByCompany?.value,
             salesOrderValidityDays: collectionDays?.salesOrderValidityDays,
-            salesOrderExpiredDate: "2023-06-22T14:08:10.512Z",
+            salesOrderExpiredDate: '2023-06-22T14:08:10.512Z',
             commissionAgentId: values?.brokerName?.value,
             attachment: values?.attachment,
+            isEmlployeeReferral: values?.isEmlployeeReferralObj?.value || false,
+            emlployeeReferralId: values?.emlployeeReferral?.value || 0,
           },
           objRow: newRowDto,
         };
         if (newRowDto?.length > 0) {
           if (balanceCheckFunc()) {
-            toast.warning("Balance not available", { toastId: 465656 });
+            toast.warning('Balance not available', { toastId: 465656 });
           } else {
             dispatch(
               saveSalesOrder({
@@ -473,12 +477,12 @@ export default function SalesOrderForm({
                 responseData,
                 setRowDto,
                 setDisabled,
-              })
+              }),
             );
             setRowDto([]);
           }
         } else {
-          toast.warning("You must have to add at least one item");
+          toast.warning('You must have to add at least one item');
         }
       }
     } else {
@@ -492,8 +496,8 @@ export default function SalesOrderForm({
         getSalesContactDDL_Action(
           profileData?.accountId,
           selectedBusinessUnit?.value,
-          values?.soldtoParty?.value
-        )
+          values?.soldtoParty?.value,
+        ),
       );
     } else if (id === 4) {
       dispatch(
@@ -502,14 +506,14 @@ export default function SalesOrderForm({
           selectedBusinessUnit?.value,
           values?.soldtoParty?.value,
           id,
-        )
+        ),
       );
     } else if (id === 3) {
       dispatch(
         getSalesOrderDDL_action(
           profileData?.accountId,
-          selectedBusinessUnit?.value
-        )
+          selectedBusinessUnit?.value,
+        ),
       );
     } else if (id === 1) {
       dispatch(
@@ -517,8 +521,8 @@ export default function SalesOrderForm({
           profileData?.accountId,
           selectedBusinessUnit?.value,
           headerData?.distributionChannel?.value,
-          headerData?.salesOrg?.value
-        )
+          headerData?.salesOrg?.value,
+        ),
       );
     }
   };
@@ -533,7 +537,7 @@ export default function SalesOrderForm({
       shipToPartnerAddress: values?.shipToParty?.address,
       priceConditionId: priceForInternalUse?.priceConditionId || 0,
       isFreeItem: false,
-      specification: "",
+      specification: '',
       narration: values?.narration,
       // new
       itemId: values?.item?.value,
@@ -544,7 +548,7 @@ export default function SalesOrderForm({
       numOrderValue: numOrderValue,
       numDiscountValue: 0,
       netValue: netValue,
-      isFree: "No",
+      isFree: 'No',
       uomName: values?.uom?.label,
       uomId: values?.uom?.value,
       isVatPrice: priceForInternalUseVATAX?.isVatPrice || false,
@@ -595,7 +599,7 @@ export default function SalesOrderForm({
               : +numOrderValue,
           numDiscountValue: itm?.discountValue,
           netValue: netValue,
-          isFree: itm?.isFree ? "Yes" : "No",
+          isFree: itm?.isFree ? 'Yes' : 'No',
           uomName: itm?.uomName,
           uomId: itm?.uomId,
         };
@@ -622,7 +626,7 @@ export default function SalesOrderForm({
       uomId: values?.uom?.value,
       uomName: values?.uom?.label,
     };
-    if (isUniq("itemId", payload?.itemId, rowDto)) {
+    if (isUniq('itemId', payload?.itemId, rowDto)) {
       if (selectedBusinessUnit?.value === 4) {
         // if Akij Cement company business unit
         ifBusinessUnitCement_rowAddFunc(values);
@@ -630,7 +634,7 @@ export default function SalesOrderForm({
         dispatch(
           getSalesDiscount_Action(payload, setDisabled, (salesDiscount) => {
             salesDiscountCB(salesDiscount, addData);
-          })
+          }),
         );
       }
     }
@@ -646,7 +650,7 @@ export default function SalesOrderForm({
       shipToPartnerAddress: values?.shipToParty?.address,
       priceConditionId: priceForInternalUse?.priceConditionId || 0,
       isFreeItem: false,
-      specification: "",
+      specification: '',
       narration: values?.narration,
       numItemPrice: +values.numItemPrice || 0,
       tempNumItemPrice: +values.numItemPrice || 0,
@@ -655,7 +659,7 @@ export default function SalesOrderForm({
       vatPrice: priceForInternalUseVATAX?.itemPrice || 0,
       waterProofRate: +values?.waterProofRate || 0,
       pumpChargeRate: +values?.pumpChargeRate || 0,
-      commissionAgentRate: "",
+      commissionAgentRate: '',
     };
 
     if (!values.referenceNo) {
@@ -682,16 +686,16 @@ export default function SalesOrderForm({
           numRequestQuantity: +itm.quantity,
           uomName: itm.uom,
           uomId: itm.uomId,
-          specification: itm.specification || "",
+          specification: itm.specification || '',
           numDiscountValue: 0,
           netValue: +itm.value + +itm.quantity * additionalRate,
-          isFree: "No",
+          isFree: 'No',
           customerItemName: values?.customerItemName || itm.itemName,
         }));
 
         const array1 = [...rowDto, ...allChecItem];
         const unique = [
-          ...new Map(array1.map((item) => [item["itemId"], item])).values(),
+          ...new Map(array1.map((item) => [item['itemId'], item])).values(),
         ];
         setRowDto(unique);
       } else {
@@ -716,20 +720,20 @@ export default function SalesOrderForm({
             numRequestQuantity: +referenceItemDetailsById.quantity,
             uomName: referenceItemDetailsById.uom,
             uomId: referenceItemDetailsById.uomId,
-            specification: referenceItemDetailsById.specification || "",
+            specification: referenceItemDetailsById.specification || '',
             numDiscountValue: 0,
             netValue:
               referenceItemDetailsById?.value +
               (+referenceItemDetailsById.quantity * additionalRate || 0),
-            isFree: "No",
+            isFree: 'No',
             customerItemName:
               values?.customerItemName || referenceItemDetailsById.itemName,
           };
-          if (isUniq("itemId", referenceItemDetails?.itemId, rowDto)) {
+          if (isUniq('itemId', referenceItemDetails?.itemId, rowDto)) {
             setRowDto([...rowDto, referenceItemDetails]);
           }
         } else {
-          toast.warn("Data Not found", { toastId: 456 });
+          toast.warn('Data Not found', { toastId: 456 });
         }
       }
     }
@@ -792,7 +796,7 @@ export default function SalesOrderForm({
     sl,
     numOrderValue,
     numDiscountValue,
-    numItemPrice
+    numItemPrice,
   ) => {
     const total = +numItemPrice * +value;
     const discount = (total * numDiscountValue) / 100;
@@ -808,7 +812,7 @@ export default function SalesOrderForm({
     numOrderValue,
     numDiscountValue,
     numItemPrice,
-    transportRate
+    transportRate,
   ) => {
     const cloneArray = [...rowDto];
     const total = +cloneArray[sl].numRequestQuantity * value;
@@ -839,8 +843,8 @@ export default function SalesOrderForm({
         headerData?.salesOrg?.value,
         setDisabled,
         setFieldValue,
-        selectedBusinessUnit
-      )
+        selectedBusinessUnit,
+      ),
     );
     dispatch(
       getPriceForInternalUseVATAX_Action(
@@ -853,8 +857,8 @@ export default function SalesOrderForm({
         headerData?.salesOrg?.value,
         setDisabled,
         setFieldValue,
-        selectedBusinessUnit
-      )
+        selectedBusinessUnit,
+      ),
     );
     if (values?.referenceNo?.value) {
       dispatch(
@@ -862,8 +866,8 @@ export default function SalesOrderForm({
           values?.refType?.value,
           values?.referenceNo?.value,
           currentValue,
-          setFieldValue
-        )
+          setFieldValue,
+        ),
       );
     }
     dispatch(
@@ -872,8 +876,8 @@ export default function SalesOrderForm({
         selectedBusinessUnit?.value,
         headerData?.plant?.value,
         currentValue,
-        setFieldValue
-      )
+        setFieldValue,
+      ),
     );
   };
   //total amount calculation
@@ -906,30 +910,30 @@ export default function SalesOrderForm({
         getShipToPartner_Action(
           profileData?.accountId,
           selectedBusinessUnit.value,
-          singleData?.objHeader?.soldToPartnerId
-        )
+          singleData?.objHeader?.soldToPartnerId,
+        ),
       );
       dispatch(
-        getPartnerBalance_action(singleData?.objHeader?.soldToPartnerId)
+        getPartnerBalance_action(singleData?.objHeader?.soldToPartnerId),
       );
       dispatch(
-        getUndeliveryValues_action(singleData?.objHeader?.soldToPartnerId)
+        getUndeliveryValues_action(singleData?.objHeader?.soldToPartnerId),
       );
       dispatch(
-        getPriceStructureCheck_Acion(singleData?.objHeader?.soldToPartnerId, 1)
+        getPriceStructureCheck_Acion(singleData?.objHeader?.soldToPartnerId, 1),
       );
       dispatch(
         getDiscountStructureCheck_Action(
           singleData?.objHeader?.soldToPartnerId,
-          2
-        )
+          2,
+        ),
       );
       dispatch(
         getAvailableBalance_Action(
           singleData?.objHeader?.soldToPartnerId,
           [+id],
-          1
-        )
+          1,
+        ),
       );
       // if 'Bongo Traders Ltd' BUI Select
       if (singleData?.objHeader?.allotmentId) {
@@ -937,8 +941,8 @@ export default function SalesOrderForm({
           getAllocateItemDDLAction(
             profileData?.accountId,
             selectedBusinessUnit.value,
-            singleData?.objHeader?.allotmentId
-          )
+            singleData?.objHeader?.allotmentId,
+          ),
         );
       } else {
         referenceNoHandler(singleData?.objHeader?.refferenceTypeId);
@@ -956,11 +960,11 @@ export default function SalesOrderForm({
         getSalesOrderApproval_Aciton(
           headerData?.salesOrderId,
           profileData?.userId,
-          callBackFunc
-        )
+          callBackFunc,
+        ),
       );
     } else {
-      toast.warning("Approval permission not found");
+      toast.warning('Approval permission not found');
     }
   };
 
@@ -977,7 +981,7 @@ export default function SalesOrderForm({
       getChannelBaseCollectionDays(
         selectedBusinessUnit?.value,
         headerData?.distributionChannel?.value,
-        selCollectionDays
+        selCollectionDays,
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1017,8 +1021,8 @@ export default function SalesOrderForm({
           headerData?.sbu?.value,
           headerData?.salesOrg?.value,
           headerData?.shippoint?.value,
-          headerData?.distributionChannel?.value
-        )
+          headerData?.distributionChannel?.value,
+        ),
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1027,7 +1031,7 @@ export default function SalesOrderForm({
   // cancel handler
   const rejectHandler = (id) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to reject sales order?`,
       yesAlertFunc: () => {
         const payload = {
