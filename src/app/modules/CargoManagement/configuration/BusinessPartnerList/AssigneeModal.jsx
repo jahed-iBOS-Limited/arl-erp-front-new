@@ -51,28 +51,44 @@ export default function AssigneeModal({
   const [, saveParticipntMapping, participntMappingLoading] = useAxiosPost();
 
   const saveHandler = (values, cb) => {
-    // addItem minimum 1 item check
-    // if (addedItem?.length === 0)
-    //   return toast.warning("Please add at least one item");
-    const isAllFalse = addedItem?.every((item) => item?.isActive === false);
-    if (isAllFalse) return toast.warning('Please add at least one item');
+    if (addedItem?.length === 0)
+      return toast.warning('Please add at least one item');
     const modifiedData = addedItem?.map((item) => {
       return {
         ...item,
       };
     });
-    saveParticipntMapping(
-      `${imarineBaseUrl}/domain/ShippingService/SaveParticipntMapping`,
-      modifiedData,
-      () => {
-        setAddedItem([]);
-        // setIsModalOpen(false);
-        if (cb) {
-          cb();
-        }
-      },
-      'save',
-    );
+
+    // tradeType 1 = Export 2 = Import
+    if (values?.tradeType === 1) {
+      saveParticipntMapping(
+        `${imarineBaseUrl}/domain/ShippingService/SaveExportParticipntMapping`,
+        modifiedData,
+        () => {
+          setAddedItem([]);
+          // setIsModalOpen(false);
+          if (cb) {
+            cb();
+          }
+        },
+        'save',
+      );
+    }
+
+    if (values?.tradeType === 2) {
+      saveParticipntMapping(
+        `${imarineBaseUrl}/domain/ShippingService/SaveImportParticipntMapping`,
+        modifiedData,
+        () => {
+          setAddedItem([]);
+          // setIsModalOpen(false);
+          if (cb) {
+            cb();
+          }
+        },
+        'save',
+      );
+    }
   };
 
   React.useEffect(() => {
@@ -113,19 +129,17 @@ export default function AssigneeModal({
       mappingId: 0,
       shipperId: values?.shipper?.value || 0,
       shipperName: values?.shipper?.label || '',
+      consigneeId: values?.consignee?.value || 0,
+      consigneeName: values?.consignee?.label || '',
       businessPartnerTypeName: values?.businessPartnerType?.label || '',
       participantTypeId: values?.participantType?.value || 0,
       participantType: values?.participantType?.label || '',
       participantId: values?.participant?.value || 0,
       participantName: values?.participant?.label || '',
-      isActive: true,
       createdBy: profileData?.userId || 0,
       createdAt: new Date(),
     };
-
-    // duplicate check "participantTypeId, participantId"
-    const addedItemIsActive = addedItem?.filter((item) => item?.isActive);
-    const isExist = addedItemIsActive?.find(
+    const isExist = addedItem?.find(
       (item) =>
         item?.participantTypeId === obj?.participantTypeId &&
         item?.participantId === obj?.participantId,
@@ -135,8 +149,6 @@ export default function AssigneeModal({
   };
 
   const consigneeOrShipperChangeHandler = ({ values }) => {
-    console.log(values, 'values');
-
     // if tradeType 1 = Export
     if (values?.tradeType === 1) {
       GetParticipantsWithShipper(
@@ -167,7 +179,6 @@ export default function AssigneeModal({
               participantType: item?.participantType || '',
               participantId: item?.participantId || 0,
               participantName: item?.participantsName || '',
-              isActive: true,
               createdBy: profileData?.userId || 0,
               createdAt: new Date(),
               businessPartnerTypeName: item?.businessPartnerTypeName || '',
@@ -208,7 +219,6 @@ export default function AssigneeModal({
               participantType: item?.participantType || '',
               participantId: item?.participantId || 0,
               participantName: item?.participantsName || '',
-              isActive: true,
               createdBy: profileData?.userId || 0,
               createdAt: new Date(),
               businessPartnerTypeName: item?.businessPartnerTypeName || '',
@@ -234,7 +244,6 @@ export default function AssigneeModal({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickRowData]);
-  const addedItemIsActive = addedItem?.filter((item) => item?.isActive);
 
   // tradeType 1 = Export 2 = Import
   const tradeTypeHandler = ({ resetForm, values, setFieldValue }) => {
@@ -289,7 +298,8 @@ export default function AssigneeModal({
           saveHandler={
             isViewMoadal
               ? false
-              : (values) => {
+              : () => {
+                  const values = formikRef.current.values;
                   saveHandler(values, () => {
                     formikRef.current.resetForm();
                   });
@@ -390,7 +400,7 @@ export default function AssigneeModal({
                             }}
                             errors={errors}
                             touched={touched}
-                            isDisabled={addedItemIsActive?.length > 0}
+                            isDisabled={addedItem?.length > 0}
                           />
                         </div>
                       )}
@@ -414,7 +424,7 @@ export default function AssigneeModal({
                             }}
                             errors={errors}
                             touched={touched}
-                            isDisabled={addedItemIsActive?.length > 0}
+                            isDisabled={addedItem?.length > 0}
                           />
                         </div>
                       )}
@@ -479,9 +489,11 @@ export default function AssigneeModal({
                               addButtonHandler(values);
                             }}
                             disabled={
-                              !values?.shipper ||
                               !values?.participantType ||
-                              !values?.participant
+                              !values?.participant ||
+                              (values?.tradeType === 1
+                                ? !values?.shipper
+                                : !values?.consignee)
                             }
                           >
                             Add
@@ -508,14 +520,7 @@ export default function AssigneeModal({
                           </thead>
                           <tbody>
                             {addedItem?.map((item, index) => (
-                              <tr
-                                key={index}
-                                style={{
-                                  display: item?.isActive
-                                    ? 'table-row'
-                                    : 'none',
-                                }}
-                              >
+                              <tr key={index}>
                                 <td>{index + 1}</td>
 
                                 {values?.tradeType === 1 ? (
@@ -531,18 +536,11 @@ export default function AssigneeModal({
                                     <div className="d-flex justify-content-center">
                                       <Button
                                         onClick={() => {
-                                          setAddedItem((prev) =>
-                                            prev.map((itm, i) => {
-                                              if (i === index) {
-                                                return {
-                                                  ...itm,
-                                                  isActive: false,
-                                                };
-                                              } else {
-                                                return itm;
-                                              }
-                                            }),
+                                          const prv = [...addedItem];
+                                          const filtered = prv.filter(
+                                            (itm, i) => i !== index,
                                           );
+                                          setAddedItem(filtered);
                                         }}
                                         color="error"
                                         size="small"
