@@ -56,14 +56,14 @@ const validationSchema = Yup.object().shape({
   consigneeEmail: Yup.string()
     .email('Email is invalid')
     .required('Email is required'),
-  bankAddress: Yup.object().shape({
-    value: Yup.number().required('Buyer Bank Address is required'),
-    label: Yup.string().required('Buyer Bank Address is required'),
-  }),
-  buyerBank: Yup.object().shape({
-    value: Yup.number().required('Buyer Bank is required'),
-    label: Yup.string().required('Buyer Bank is required'),
-  }),
+  // bankAddress: Yup.object().shape({
+  //   value: Yup.number().required('Buyer Bank Address is required'),
+  //   label: Yup.string().required('Buyer Bank Address is required'),
+  // }),
+  // buyerBank: Yup.object().shape({
+  //   value: Yup.number().required('Buyer Bank is required'),
+  //   label: Yup.string().required('Buyer Bank is required'),
+  // }),
   notifyParty: Yup.object().shape({
     value: Yup.number().required('Notify Party is required'),
     label: Yup.string().required('Notify Party is required'),
@@ -97,7 +97,7 @@ function ConfirmModal({ rowClickData, CB }) {
   const [consigneeCountryList, getConsigneeCountryList] = useAxiosGet();
   const [getBankListDDL, setBankListDDL] = useAxiosGet();
   const [, setBlobalBankAddressDDL] = useAxiosGet();
-  const [, getParticipantsWithConsigneeDtl] = useAxiosGet();
+  const [, GetParticipantsWithShipper] = useAxiosGet();
   const [stateDDL, setStateDDL] = useAxiosGet();
   const [cityDDL, setCityDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL] = useAxiosGet();
@@ -261,6 +261,13 @@ function ConfirmModal({ rowClickData, CB }) {
               'consignPostalCode',
               data?.consignPostalCode || '',
             );
+
+            // placeOfReceive
+            formikRef.current.setFieldValue(
+              'placeOfReceive',
+              data?.originAddress || '',
+            );
+
             // confTransportMode
             // formikRef.current.setFieldValue(
             //   'confTransportMode',
@@ -292,8 +299,8 @@ function ConfirmModal({ rowClickData, CB }) {
   }, []);
 
   const consigneeOnChangeHandler = async (shipperId) => {
-    getParticipantsWithConsigneeDtl(
-      `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsigneeDtl?shipperId=${shipperId}`,
+    GetParticipantsWithShipper(
+      `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithShipper?shipperId=${shipperId}`,
       (data) => {
         if (data?.deliveryAgentList) {
           const modifyData = data?.deliveryAgentList?.map((i) => {
@@ -594,7 +601,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     name="wareHouse"
                     options={[...warehouseDDL]}
                     value={values?.wareHouse}
-                    label="Warehouse"
+                    label="CNF"
                     onChange={(valueOption) => {
                       if (valueOption) {
                         setFieldValue('wareHouse', valueOption);
@@ -606,6 +613,21 @@ function ConfirmModal({ rowClickData, CB }) {
                     touched={touched}
                   />
                 </div>
+
+                {/*  Place Of Receive input */}
+                <div className="col-lg-3">
+                  <InputField
+                    value={values?.placeOfReceive}
+                    label="Place Of Receive"
+                    name="placeOfReceive"
+                    type="text"
+                    onChange={(e) =>
+                      setFieldValue('placeOfReceive', e.target.value)
+                    }
+                    disabled
+                  />
+                </div>
+
                 <div className="col-lg-12">
                   <hr />
                   <h6>Consignee Information</h6>
