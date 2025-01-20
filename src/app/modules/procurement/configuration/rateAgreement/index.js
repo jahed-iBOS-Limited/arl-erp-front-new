@@ -18,6 +18,7 @@ const initData = {
   plant: "",
   wareHouse: "",
   item: "",
+  itemType: {value: 2, label:"Standard"},
 };
 export default function RateAgreement() {
   const [pageNo, setPageNo] = useState(1);
@@ -46,7 +47,7 @@ export default function RateAgreement() {
   const loadUserList = (v, values) => {
     if (v?.length < 3) return [];
     return Axios.get(
-      `/wms/ItemPlantWarehouse/GetItemPlantWarehouseForPurchaseRequestSearchDDL?accountId=${accId}&businessUnitId=${buId}&plantId=${values?.plant?.value}&whId=${values?.wareHouse?.value}&purchaseOrganizationId=${values?.purchaseOrganization?.value}&typeId=2&searchTerm=${v}`
+      `/wms/ItemPlantWarehouse/GetItemPlantWarehouseForPurchaseRequestSearchDDL?accountId=${accId}&businessUnitId=${buId}&plantId=${values?.plant?.value}&whId=${values?.wareHouse?.value}&purchaseOrganizationId=${values?.purchaseOrganization?.value}&typeId=${values?.itemType?.value || initData?.itemType?.value}&searchTerm=${v}`
       // typeId 2 pass for this standard products
     ).then((res) => {
       const updateList = res?.data.map((item) => ({
@@ -208,6 +209,20 @@ export default function RateAgreement() {
                       }
                     }}
                     placeholder="WareHouse"
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="itemType"
+                    options={[{value: 2, label:"Standard"}, {value:8, label:"Service"}]}
+                    value={values?.itemType}
+                    label="Item Type"
+                    onChange={(valueOption) => {
+                      setFieldValue("itemType", valueOption);
+                    }}
+                    placeholder="SBU"
                     errors={errors}
                     touched={touched}
                   />
