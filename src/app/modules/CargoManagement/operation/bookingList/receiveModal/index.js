@@ -13,8 +13,8 @@ import './style.css';
 const validationSchema = Yup.object().shape({
   // recvQuantity: Yup.number().required("Receive Quantity is required"),
   wareHouse: Yup.object().shape({
-    value: Yup.string().required('Warehouse is required'),
-    label: Yup.string().required('Warehouse is required'),
+    value: Yup.string().required('CNF is required'),
+    label: Yup.string().required('CNF is required'),
   }),
   receivedDate: Yup.date().required('Received Date is required'),
 });
@@ -130,7 +130,7 @@ function ReceiveModal({ rowClickData, CB }) {
                     name="wareHouse"
                     options={[...warehouseDDL]}
                     value={values?.wareHouse}
-                    label="Warehouse"
+                    label="CNF"
                     onChange={(valueOption) => {
                       if (valueOption) {
                         setFieldValue('wareHouse', valueOption);
