@@ -202,13 +202,13 @@ function BookingList() {
                 >
                   {selectedRow?.length > 0 &&
                     values?.modeOfTransport?.value === 2 &&
-                    'Generate Master HBL'}
+                    'MBL Preparation'}
                   {selectedRow?.length > 0 &&
                     values?.modeOfTransport?.value === 1 &&
-                    'Generate Master HAWB'}
+                    'MAWB Preparation'}
                   {selectedRow?.length > 0 &&
                     values?.modeOfTransport?.value === 3 &&
-                    'Generate Master Sea-Air BL'}
+                    'MBL/MAWB Preparation'}
                 </button>
               );
             }}
