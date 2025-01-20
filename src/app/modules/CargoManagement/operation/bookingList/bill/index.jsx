@@ -73,7 +73,7 @@ const BillGenerate = ({ rowClickData, CB }) => {
 
     if (bookingRequestId) {
       getMasterBLWiseBilling(
-        `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${masterBlId}&sAdvanced=${isAdvanced}`,
+        `${imarineBaseUrl}/domain/ShippingService/GetMasterBLWiseBilling?MasterBlId=${masterBlId}&sAdvanced=${isAdvanced}&modeOfTransportId=${modeOfTransportId}`,
         (resData) => {
           const billingDataList = resData
             ?.filter((i) => i.paymentPartyId)

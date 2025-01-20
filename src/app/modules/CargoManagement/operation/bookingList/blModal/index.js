@@ -53,7 +53,7 @@ function BLModal({ rowClickData, CB }) {
     }
     if (!masterBlId) return toast.warning('Master BL not found');
     getDocumentsByMasterBL(
-      `${imarineBaseUrl}/domain/ShippingService/GetDocumentsByMasterBL?MasterBlId=${masterBlId}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetDocumentsByMasterBL?MasterBlId=${masterBlId}&modeOfTransportId=${modeOfTransportId}`,
       (resData) => {
         if (resData) {
           const document = resData || {};
