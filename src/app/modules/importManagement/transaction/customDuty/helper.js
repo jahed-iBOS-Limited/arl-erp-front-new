@@ -255,6 +255,13 @@ const dataSetForEdit = (
       // grandTotal: grandTotal0,
       // refundBy: refundBy,
       // refundDate: refundDate,
+      ...(values?.is78Guarantee && {
+        numVat: +values?.vat || 0,
+        numAit: +values?.ait || 0,
+        numAtv: +values?.advanceTradeVat || 0,
+        numPsi: +values?.psi || 0,
+        numAt: +values?.at || 0,
+      }),
     },
     objRow: [
       {
