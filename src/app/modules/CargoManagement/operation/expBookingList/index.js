@@ -33,7 +33,7 @@ import TransportModal from './transportModal';
 import BillGenerate from './bill';
 import SeaAirMasterBL from './SeaAirMasterBl';
 const validationSchema = Yup.object().shape({});
-function BookingList() {
+function ExpBookingList() {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
@@ -1625,4 +1625,4 @@ function BookingList() {
   );
 }
 
-export default BookingList;
+export default ExpBookingList;
