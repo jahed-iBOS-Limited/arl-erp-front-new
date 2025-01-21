@@ -55,7 +55,7 @@ function ProfitAndLoss() {
   const getLandingData = (masterBlId, values) => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       GetMBLWiseProfitLossReport(
-        `${imarineBaseUrl}/domain/ShippingService/GetMBLWiseProfitLossReport?masterBlId=${masterBlId}`,
+        `${imarineBaseUrl}/domain/ShippingService/GetMBLWiseProfitLossReport?masterBlId=${masterBlId}&modeOfTransportId=${values?.modeOfTransport?.value}`,
         (resData) => {
           commonReportDataSet(resData, {
             ...values,
@@ -322,6 +322,7 @@ function ProfitAndLoss() {
                       onClick={() => {
                         viewHandelar(values);
                       }}
+                      disabled={!values?.masterBL || !values?.modeOfTransport}
                     >
                       View
                     </button>
