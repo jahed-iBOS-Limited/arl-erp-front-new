@@ -265,94 +265,134 @@ export default function FundTransferApproval({ viewType }) {
                                                         </td>
 
                                                         <td className="text-center">
-                                                            {item?.isTransferCreated !== 1 && (<div className="d-flex justify-content-around">
-                                                                <span
-                                                                    onClick={() => {
-                                                                        const isContra = item?.strRequestType === "Contra";
-                                                                        const isInterCompanyTransfer = item?.strRequestType === "InterCompanyTransferRequest";
-                                                                        const isBankToBank = item?.strTransferBy === "Bank To Bank";
-                                                                        const isBankToCash = item?.strTransferBy === "Bank To Cash";
+                                                            <div className="d-flex justify-content-around">
+                                                                {
+                                                                    item?.isTransferCreated !== 1 && (<span
+                                                                        onClick={() => {
+                                                                            const isContra = item?.strRequestType === "Contra";
+                                                                            const isInterCompanyTransfer = item?.strRequestType === "InterCompanyTransferRequest";
+                                                                            const isBankToBank = item?.strTransferBy === "Bank To Bank";
+                                                                            const isBankToCash = item?.strTransferBy === "Bank To Cash";
 
-                                                                        // Helper function to generate selected form values
-                                                                        const getSelectedFormValues = () => {
-                                                                            if (isContra) {
-                                                                                return {
-                                                                                    transferAmount: item?.numAmount,
+                                                                            // Helper function to generate selected form values
+                                                                            const getSelectedFormValues = () => {
+                                                                                if (isContra) {
+                                                                                    return {
+                                                                                        transferAmount: item?.numAmount,
+                                                                                        bankAcc: {
+                                                                                            bankId: item?.intGivenBankId,
+                                                                                            bankName: item?.strGivenBankName,
+                                                                                            bankBranch_Id: item?.intGivenBankBranchId,
+                                                                                            bankBranchName: item?.strGivenBankBranchName,
+                                                                                            value: item?.strGivenBankAccountId,
+                                                                                            label: item?.strGivenBankAccountName,
+                                                                                            bankAccNo: item?.strGivenBankAccountNumber,
+                                                                                            generalLedgerId: item?.intGivenGlid,
+                                                                                            generalLedgerCode: item?.strGivenGlCode,
+                                                                                            generalLedgerName: item?.strGivenGlName,
+                                                                                        },
+                                                                                        sendToGLBank: {
+                                                                                            value: item?.intRequestedBankAccountId,
+                                                                                            label: item?.strRequestedBankAccountName,
+                                                                                            bankAccNo: item?.strRequestedBankAccountNumber,
+                                                                                            generalLedgerCode: item?.strRequestGlCode,
+                                                                                        },
+                                                                                        paidTo: item?.strRequestedBankAccountName || "",
+                                                                                    };
+                                                                                } else if (isInterCompanyTransfer) {
+                                                                                    return {
+                                                                                        amount: item?.numAmount,
+                                                                                        intRequestToUnitId: item?.intRequestToUnitId,
+                                                                                        transaction: {
+                                                                                            value: item?.strRequestPartnerId,
+                                                                                            label: item?.strRequestPartnerName,
+                                                                                            code: item?.strRequestPartnerCode || "",
+                                                                                        },
+                                                                                        partnerBankAccount: {
+                                                                                            value: item?.intRequestedBankAccountId,
+                                                                                            label: item?.strRequestedBankAccountName,
+                                                                                            bankId: item?.intRequestedBankId,
+                                                                                            bankBranchId: item?.intRequestedBankBranchId,
+                                                                                            bankAccountNo: item?.strRequestedBankAccountNumber,
+                                                                                            bankName: item?.strRequestedBankName,
+                                                                                            routingNo: item?.strRequestedBankRouting || "",
+                                                                                        },
+                                                                                        paidTo: item?.strRequestPartnerName || "",
+
+                                                                                    };
+                                                                                }
+                                                                                return null;
+                                                                            };
+
+
+
+                                                                            // Base state for navigation
+                                                                            const baseState = {
+                                                                                transferRowItem: item,
+                                                                                selectedJournalTypeId: isContra ? 6 : 5,
+                                                                                selectedFormValues: getSelectedFormValues(),
+                                                                            };
+
+                                                                            const isApproved = item?.isApproved === 1;
+                                                                            const isTransferNotCreated = item?.isTransferCreated === 0;
+
+                                                                            // Redirect based on transfer type
+                                                                            if (isBankToBank && isApproved && isTransferNotCreated) {
+                                                                                history.push({
+                                                                                    pathname: `/financial-management/financials/fundTransfercreate/bankTrasfer`,
+                                                                                    state: baseState,
+                                                                                });
+                                                                            } else if (isBankToCash && isApproved && isTransferNotCreated) {
+                                                                                history.push({
+                                                                                    pathname: `/financial-management/financials/fundTransfercreate/cashTrasfer`,
+                                                                                    state: baseState,
+                                                                                });
+                                                                            }
+                                                                        }}
+                                                                    >
+                                                                        <IAdd title={"Create"} />
+                                                                    </span>)
+                                                                }
+
+                                                                {
+                                                                    item?.isTransferCreated === 1 && (<span
+                                                                        onClick={() => {
+
+
+
+
+
+                                                                            // Base state for navigation
+                                                                            const baseState = {
+                                                                                transferRowItem: item,
+                                                                                selectedJournalTypeId: 4,
+                                                                                selectedFormValues: {
                                                                                     bankAcc: {
-                                                                                        bankId: item?.intGivenBankId,
-                                                                                        bankName: item?.strGivenBankName,
-                                                                                        bankBranch_Id: item?.intGivenBankBranchId,
-                                                                                        bankBranchName: item?.strGivenBankBranchName,
-                                                                                        value: item?.strGivenBankAccountId,
-                                                                                        label: item?.strGivenBankAccountName,
-                                                                                        bankAccNo: item?.strGivenBankAccountNumber,
-                                                                                        generalLedgerId: item?.intGivenGlid,
-                                                                                        generalLedgerCode: item?.strGivenGlCode,
-                                                                                        generalLedgerName: item?.strGivenGlName,
-                                                                                    },
-                                                                                    sendToGLBank: {
+                                                                                        bankId: item?.intRequestedBankId,
+                                                                                        bankName: item?.strRequestedBankName,
+                                                                                        bankBranch_Id: item?.intRequestedBankBranchId,
+                                                                                        bankBranchName: item?.strRequestedBankBranchName,
                                                                                         value: item?.intRequestedBankAccountId,
                                                                                         label: item?.strRequestedBankAccountName,
                                                                                         bankAccNo: item?.strRequestedBankAccountNumber,
-                                                                                        generalLedgerCode: item?.strRequestGlCode,
-                                                                                    },
-                                                                                    paidTo: item?.strRequestedBankAccountName || "",
-                                                                                };
-                                                                            } else if (isInterCompanyTransfer) {
-                                                                                return {
-                                                                                    amount: item?.numAmount,
-                                                                                    intRequestToUnitId: item?.intRequestToUnitId,
-                                                                                    transaction: {
-                                                                                        value: item?.strRequestPartnerId,
-                                                                                        label: item?.strRequestPartnerName,
-                                                                                        code: item?.strRequestPartnerCode || "",
-                                                                                    },
-                                                                                    partnerBankAccount: {
-                                                                                        value: item?.intRequestedBankAccountId,
-                                                                                        label: item?.strRequestedBankAccountName,
-                                                                                        bankId: item?.intRequestedBankId,
-                                                                                        bankBranchId: item?.intRequestedBankBranchId,
-                                                                                        bankAccountNo: item?.strRequestedBankAccountNumber,
-                                                                                        bankName: item?.strRequestedBankName,
-                                                                                        routingNo: item?.strRequestedBankRouting || "",
-                                                                                    },
-                                                                                    paidTo: item?.strRequestPartnerName || "",
+                                                                                        generalLedgerId: item?.intRequestGlid,
+                                                                                        generalLedgerCode: item?.strRequestGlCodestrRequestGlCode,
+                                                                                        generalLedgerName: item?.strRequestGlName,
+                                                                                    }
+                                                                                },
+                                                                            };
 
-                                                                                };
-                                                                            }
-                                                                            return null;
-                                                                        };
-
-
-
-                                                                        // Base state for navigation
-                                                                        const baseState = {
-                                                                            transferRowItem: item,
-                                                                            selectedJournalTypeId: isContra ? 6 : 5,
-                                                                            selectedFormValues: getSelectedFormValues(),
-                                                                        };
-
-                                                                        const isApproved = item?.isApproved === 1;
-                                                                        const isTransferNotCreated = item?.isTransferCreated === 0;
-
-                                                                        // Redirect based on transfer type
-                                                                        if (isBankToBank && isApproved && isTransferNotCreated) {
                                                                             history.push({
-                                                                                pathname: `/financial-management/financials/fundTransfercreate/bankTrasfer`,
+                                                                                pathname: `/financial-management/financials/fundTransfercreate/bankReceipt`,
                                                                                 state: baseState,
                                                                             });
-                                                                        } else if (isBankToCash && isApproved && isTransferNotCreated) {
-                                                                            history.push({
-                                                                                pathname: `/financial-management/financials/fundTransfercreate/cashTrasfer`,
-                                                                                state: baseState,
-                                                                            });
-                                                                        }
-                                                                    }}
-                                                                >
-                                                                    <IAdd title={"Create"} />
-                                                                </span>
+                                                                        }}
+                                                                    >
+                                                                        <IAdd title={"Bank Receive"} />
+                                                                    </span>)
+                                                                }
 
-                                                            </div>)}
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 ))}

@@ -788,6 +788,7 @@ export default function PartnerSales() {
             operationalZones={operationalZones}
             getOperationalZoneDDL={getOperationalZoneDDL}
             AGConcernDDL={AGConcernDDL}
+            setRowDto={setRowDto}
           />
         </div>
       </CardBody>
