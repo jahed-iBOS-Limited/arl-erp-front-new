@@ -96,8 +96,9 @@ const TableOne = ({ obj }) => {
                 />
               </th>
               <th style={{ width: '40px' }}>SL</th>
+              {[46].includes( values?.commissionType?.value) && (<th>Customer Name</th>)}
               <th>Area Name</th>
-              {![35, 36, 37, 38, 39, 40].includes(
+              {![35, 36, 37, 38, 39, 40, 46].includes(
                 values?.commissionType?.value,
               ) && (
                 <>
@@ -111,7 +112,7 @@ const TableOne = ({ obj }) => {
               <th>Offer Qnt To</th>
               <th>Achievement From</th>
               <th>Achievement To</th>
-              {[35, 36, 37, 38, 39, 40].includes(
+              {[35, 36, 37, 38, 39, 40, 46].includes(
                 values?.commissionType?.value,
               ) && (
                 <>
@@ -150,8 +151,9 @@ const TableOne = ({ obj }) => {
                     />
                   </td>
                   <td> {index + 1}</td>
+                  {[46].includes( values?.commissionType?.value) && (<td>{item?.customerName}</td>)}
                   <td>{item?.areaName}</td>
-                  {![35, 36, 37, 38, 39, 40].includes(
+                  {![35, 36, 37, 38, 39, 40, 46].includes(
                     values?.commissionType?.value,
                   ) && (
                     <>
@@ -165,7 +167,7 @@ const TableOne = ({ obj }) => {
                   <td className="text-right">{item?.offerQntTo}</td>
                   <td className="text-right">{item?.achievementFrom}</td>
                   <td className="text-right">{item?.achievementTo}</td>
-                  {[35, 36, 37, 38, 39, 40].includes(
+                  {[35, 36, 37, 38, 39, 40, 46].includes(
                     values?.commissionType?.value,
                   ) && (
                     <>
