@@ -1529,6 +1529,10 @@ function ExpBookingList() {
                         });
                         setRowClickData({});
                       }}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 1,
+                      }}
                     />
                   </IViewModal>
                 </>
@@ -1549,6 +1553,10 @@ function ExpBookingList() {
                   >
                     <MasterHBAWModal
                       selectedRow={selectedRow}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 1,
+                      }}
                       CB={() => {
                         commonLandingApi(
                           null,
@@ -1593,6 +1601,10 @@ function ExpBookingList() {
                           isSeaAirMasterBL: false,
                         });
                         setRowClickData({});
+                      }}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 1,
                       }}
                     />
                   </IViewModal>

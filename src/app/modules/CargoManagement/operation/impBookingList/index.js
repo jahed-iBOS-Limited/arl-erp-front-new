@@ -1126,6 +1126,10 @@ function ImpBookingList() {
                   >
                     <MasterHBLModal
                       selectedRow={selectedRow}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 2,
+                      }}
                       CB={() => {
                         commonLandingApi(
                           null,
@@ -1172,6 +1176,10 @@ function ImpBookingList() {
                         });
                         setRowClickData({});
                       }}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 2,
+                      }}
                     />
                   </IViewModal>
                 </>
@@ -1203,6 +1211,10 @@ function ImpBookingList() {
                           isSeaAirMasterBL: false,
                         });
                         setRowClickData({});
+                      }}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 2,
                       }}
                     />
                   </IViewModal>
