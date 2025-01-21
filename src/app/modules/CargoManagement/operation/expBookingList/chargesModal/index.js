@@ -15,6 +15,7 @@ import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 import './style.css';
 const validationSchema = Yup.object().shape({});
 function ChargesModal({ rowClickData, CB }) {
+  const tradeTypeId = rowClickData?.tradeTypeId || 1;
   const formikRef = React.useRef(null);
   const { profileData } = useSelector(
     (state) => state?.authData || {},
@@ -701,7 +702,14 @@ function ChargesModal({ rowClickData, CB }) {
                               if (item?.collectionPartyTypeId === 0) {
                                 url = `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=2&cargoType=0`;
                               } else {
-                                url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=2&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.collectionPartyTypeId}`;
+                                // tradeTypeId  = 1 export
+                                if (tradeTypeId === 1) {
+                                  url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?search=${v}&businessPartnerType=2&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.collectionPartyTypeId}`;
+                                }
+                                // tradeTypeId  = 2 import
+                                if (tradeTypeId === 2) {
+                                  url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?search=${v}&businessPartnerType=2&consigneeId=${rowClickData?.consigneeId}&participntTypeId=${item?.collectionPartyTypeId}`;
+                                }
                               }
                               if (v?.length < 2) return [];
                               return axios.get(url).then((res) => res?.data);
@@ -809,7 +817,14 @@ function ChargesModal({ rowClickData, CB }) {
                               if (item?.paymentPartyTypeId === 0) {
                                 url = `${imarineBaseUrl}/domain/ShippingService/CommonPartnerTypeDDL?search=${v}&businessPartnerType=1&cargoType=0`;
                               } else {
-                                url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?search=${v}&businessPartnerType=1&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.paymentPartyTypeId}`;
+                                // tradeTypeId  = 1 export
+                                if (tradeTypeId === 1) {
+                                  url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?search=${v}&businessPartnerType=1&shipperId=${rowClickData?.shipperId}&participntTypeId=${item?.paymentPartyTypeId}`;
+                                }
+                                // tradeTypeId  = 2 import
+                                if (tradeTypeId === 2) {
+                                  url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?search=${v}&businessPartnerType=1&consigneeId=${rowClickData?.consigneeId}&participntTypeId=${item?.paymentPartyTypeId}`;
+                                }
                               }
 
                               if (v?.length < 2) return [];

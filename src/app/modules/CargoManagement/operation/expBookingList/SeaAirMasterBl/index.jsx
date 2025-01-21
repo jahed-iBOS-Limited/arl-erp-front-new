@@ -8,6 +8,7 @@ export default function SeaAirMasterBL({
   CB,
   airMasterBlid,
   sipMasterBlid,
+  rowClickData,
 }) {
   const [transportPlanningType, setTransportPlanningType] = useState('');
   return (
@@ -66,6 +67,10 @@ export default function SeaAirMasterBL({
           selectedRow={selectedRow}
           isPrintView={isPrintView}
           CB={CB}
+          rowClickData={{
+            ...rowClickData,
+            tradeTypeId: 1,
+          }}
         />
       )}
       {transportPlanningType.value === 2 && (
@@ -73,6 +78,10 @@ export default function SeaAirMasterBL({
           selectedRow={selectedRow}
           isPrintView={isPrintView}
           CB={CB}
+          rowClickData={{
+            ...rowClickData,
+            tradeTypeId: 1,
+          }}
         />
       )}
     </div>
