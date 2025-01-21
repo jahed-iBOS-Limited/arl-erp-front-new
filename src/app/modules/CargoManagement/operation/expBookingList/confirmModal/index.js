@@ -16,13 +16,6 @@ import './style.css';
 const validationSchema = Yup.object().shape({
   departureDateTime: Yup.date().required('Departure Date & Time is required'),
   arrivalDateTime: Yup.date().required('Arrival Date & Time is required'),
-  // confTransportMode: Yup.object()
-  //   .shape({
-  //     value: Yup.number().required('Transport Mode is required'),
-  //     label: Yup.string().required('Transport Mode is required'),
-  //   })
-  //   .nullable()
-  //   .typeError('Transport Mode is required'),
   wareHouse: Yup.object()
     .shape({
       value: Yup.string().required('Warehouse is required'),
@@ -30,45 +23,17 @@ const validationSchema = Yup.object().shape({
     })
     .nullable()
     .typeError('Warehouse is required'),
-  // Consignee Information
   consigneeName: Yup.object().shape({
     value: Yup.number().required('Consignee’s Name is required'),
     label: Yup.string().required('Consignee’s Name is required'),
   }),
-  // consigneeCountry: Yup.object().shape({
-  //   value: Yup.number().required('Country is required'),
-  //   label: Yup.string().required('Country is required'),
-  // }),
-  // consigneeDivisionAndState: Yup.object().shape({
-  //   value: Yup.number().required('State/Province/Region is required'),
-  //   label: Yup.string().required('State/Province/Region is required'),
-  // }),
-  // consignCity: Yup.object().shape({
-  //   value: Yup.number().required('City is required'),
-  //   label: Yup.string().required('City is required'),
-  // }),
-  // consignPostalCode: Yup.string().required('Zip/Postal Code is required'),
-  // consigneeAddress: Yup.string().required(
-  //   'State/Province & Postal Code is required',
-  // ),
-  // consigneeContactPerson: Yup.string().required('Contact Person is required'),
-  // consigneeContact: Yup.number().required('Contact Number is required'),
   consigneeEmail: Yup.string()
     .email('Email is invalid')
     .required('Email is required'),
-  // bankAddress: Yup.object().shape({
-  //   value: Yup.number().required('Buyer Bank Address is required'),
-  //   label: Yup.string().required('Buyer Bank Address is required'),
-  // }),
-  // buyerBank: Yup.object().shape({
-  //   value: Yup.number().required('Buyer Bank is required'),
-  //   label: Yup.string().required('Buyer Bank is required'),
-  // }),
   notifyParty: Yup.object().shape({
     value: Yup.number().required('Notify Party is required'),
     label: Yup.string().required('Notify Party is required'),
   }),
-  // negotiationParty: Yup.string().required('Negotiation Party is required'),
   freightAgentReference: Yup.object().shape({
     value: Yup.number().required('Delivery Agent is required'),
     label: Yup.string().required('Delivery Agent is required'),
@@ -79,6 +44,7 @@ function ConfirmModal({ rowClickData, CB }) {
     (state) => state?.authData || {},
     shallowEqual,
   );
+  const tradeTypeId = rowClickData?.tradeTypeId || 1;
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, SaveBookingConfirm, bookingConfirmLoading, ,] = useAxiosPut();
   // const [transportModeDDL, setTransportModeDDL] = useAxiosGet();
@@ -132,7 +98,16 @@ function ConfirmModal({ rowClickData, CB }) {
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
         (resData) => {
           if (formikRef.current) {
-            consigneeOnChangeHandler(resData?.shipperId);
+            const tradeTypeId = rowClickData?.tradeTypeId || 1;
+            // tradeType = 1  export
+            if (tradeTypeId === 1) {
+              consigneeOnChangeHandler(resData?.shipperId, tradeTypeId);
+            }
+            // tradeType = 2  import
+            if (tradeTypeId === 2) {
+              consigneeOnChangeHandler(resData?.consigneeId, tradeTypeId);
+            }
+
             const data = resData || {};
             formikRef.current.setFieldValue(
               'transportPlanningType',
@@ -267,17 +242,6 @@ function ConfirmModal({ rowClickData, CB }) {
               'placeOfReceive',
               data?.originAddress || '',
             );
-
-            // confTransportMode
-            // formikRef.current.setFieldValue(
-            //   'confTransportMode',
-            //   data?.confTransportMode
-            //     ? {
-            //         value: 0,
-            //         label: data?.confTransportMode || '',
-            //       }
-            //     : '',
-            // );
           }
         },
       );
@@ -298,42 +262,84 @@ function ConfirmModal({ rowClickData, CB }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const consigneeOnChangeHandler = async (shipperId) => {
-    GetParticipantsWithShipper(
-      `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithShipper?shipperId=${shipperId}`,
-      (data) => {
-        if (data?.deliveryAgentList) {
-          const modifyData = data?.deliveryAgentList?.map((i) => {
-            return {
-              ...i,
-              label: i?.participantsName || '',
-              value: i?.participantId || 0,
-            };
-          });
-          setDeliveryAgentDDL(modifyData || []);
-        }
-        if (data?.notifyPartyList) {
-          const modifyData = data?.notifyPartyList?.map((i) => {
-            return {
-              ...i,
-              label: i?.participantsName || '',
-              value: i?.participantId || 0,
-            };
-          });
-          setNotifyParty(modifyData || []);
-        }
-        if (data?.consineList) {
-          const modifyData = data?.consineList?.map((i) => {
-            return {
-              ...i,
-              label: i?.participantsName || '',
-              value: i?.participantId || 0,
-            };
-          });
-          setConsigneeName(modifyData || []);
-        }
-      },
-    );
+  const consigneeOnChangeHandler = async (shipperOrConsigneeId) => {
+    // if tradeType 1 = Export
+    if (tradeTypeId === 1) {
+      GetParticipantsWithShipper(
+        `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithShipper?shipperId=${shipperOrConsigneeId}`,
+        (data) => {
+          if (data?.deliveryAgentList) {
+            const modifyData = data?.deliveryAgentList?.map((i) => {
+              return {
+                ...i,
+                label: i?.participantsName || '',
+                value: i?.participantId || 0,
+              };
+            });
+            setDeliveryAgentDDL(modifyData || []);
+          }
+          if (data?.notifyPartyList) {
+            const modifyData = data?.notifyPartyList?.map((i) => {
+              return {
+                ...i,
+                label: i?.participantsName || '',
+                value: i?.participantId || 0,
+              };
+            });
+            setNotifyParty(modifyData || []);
+          }
+          if (data?.consineList) {
+            const modifyData = data?.consineList?.map((i) => {
+              return {
+                ...i,
+                label: i?.participantsName || '',
+                value: i?.participantId || 0,
+              };
+            });
+            setConsigneeName(modifyData || []);
+          }
+        },
+      );
+    }
+
+    // if tradeType 2 = Import
+    if (tradeTypeId === 2) {
+      GetParticipantsWithShipper(
+        `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsignee?consigneeId=${shipperOrConsigneeId}`,
+        (data) => {
+          if (data?.deliveryAgentList) {
+            const modifyData = data?.deliveryAgentList?.map((i) => {
+              return {
+                ...i,
+                label: i?.participantsName || '',
+                value: i?.participantId || 0,
+              };
+            });
+            setDeliveryAgentDDL(modifyData || []);
+          }
+          if (data?.notifyPartyList) {
+            const modifyData = data?.notifyPartyList?.map((i) => {
+              return {
+                ...i,
+                label: i?.participantsName || '',
+                value: i?.participantId || 0,
+              };
+            });
+            setNotifyParty(modifyData || []);
+          }
+          if (data?.consineList) {
+            const modifyData = data?.consineList?.map((i) => {
+              return {
+                ...i,
+                label: i?.participantsName || '',
+                value: i?.participantId || 0,
+              };
+            });
+            setConsigneeName(modifyData || []);
+          }
+        },
+      );
+    }
   };
 
   const saveHandler = (values, cb) => {
@@ -387,6 +393,8 @@ function ConfirmModal({ rowClickData, CB }) {
       shipperId: shipBookingRequestGetById?.shipperId || 0,
       consignCity: values?.consignCity?.label || '',
       consignPostalCode: values?.consignPostalCode || '',
+      tradeTypeId: tradeTypeId,
+      hblNo: values?.hblNo || '',
     };
     // console.log(payload)
     // return
@@ -432,6 +440,7 @@ function ConfirmModal({ rowClickData, CB }) {
           concernSalesPerson: '',
           confTransportMode: '',
           wareHouse: '',
+          hblNo: '',
 
           // Consignee Information
           consigneeName: '',
@@ -627,6 +636,22 @@ function ConfirmModal({ rowClickData, CB }) {
                     disabled
                   />
                 </div>
+                {tradeTypeId === 2 && (
+                  <>
+                    {/* hblNo */}
+                    <div className="col-lg-3">
+                      <InputField
+                        value={values?.hblNo || ''}
+                        label="HBL No"
+                        name="hblNo"
+                        type="text"
+                        onChange={(e) => {
+                          setFieldValue('hblNo', e.target.value);
+                        }}
+                      />
+                    </div>
+                  </>
+                )}
 
                 <div className="col-lg-12">
                   <hr />
@@ -646,6 +671,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     placeholder="Consignee’s Name"
                     errors={errors}
                     touched={touched}
+                    isDisabled={tradeTypeId === 2}
                   />
                 </div>
                 {/* Country ddl */}
@@ -783,6 +809,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     onChange={(e) =>
                       setFieldValue('consigneeEmail', e.target.value)
                     }
+                    isDisabled={tradeTypeId === 2}
                   />
                 </div>
                 {/* Buyer Bank */}

@@ -80,7 +80,7 @@ function ImpBookingList() {
     );
 
     window.open(
-      `${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}`,
+      `${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}&isImportMode=true`,
       '_blank',
     );
   };
@@ -387,7 +387,7 @@ function ImpBookingList() {
 
                         <th
                           style={{
-                            minWidth: '300px',
+                            minWidth: '190px',
                           }}
                         >
                           Action
@@ -722,7 +722,10 @@ function ImpBookingList() {
                     }}
                   >
                     <ConfirmModal
-                      rowClickData={rowClickData}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 2,
+                      }}
                       CB={() => {
                         commonLandingApi(
                           null,
@@ -788,7 +791,10 @@ function ImpBookingList() {
                     }}
                   >
                     <TransportModal
-                      rowClickData={rowClickData}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 2,
+                      }}
                       CB={() => {
                         commonLandingApi(
                           null,
@@ -838,7 +844,10 @@ function ImpBookingList() {
                     }}
                   >
                     <ChargesModal
-                      rowClickData={rowClickData}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 2,
+                      }}
                       CB={() => {
                         commonLandingApi(
                           null,
@@ -957,7 +966,10 @@ function ImpBookingList() {
                     }}
                   >
                     <BillGenerate
-                      rowClickData={rowClickData}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 2,
+                      }}
                       CB={() => {
                         commonLandingApi(
                           null,
@@ -1117,6 +1129,10 @@ function ImpBookingList() {
                   >
                     <MasterHBLModal
                       selectedRow={selectedRow}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 2,
+                      }}
                       CB={() => {
                         commonLandingApi(
                           null,
@@ -1163,6 +1179,10 @@ function ImpBookingList() {
                         });
                         setRowClickData({});
                       }}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 2,
+                      }}
                     />
                   </IViewModal>
                 </>
@@ -1194,6 +1214,10 @@ function ImpBookingList() {
                           isSeaAirMasterBL: false,
                         });
                         setRowClickData({});
+                      }}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 2,
                       }}
                     />
                   </IViewModal>

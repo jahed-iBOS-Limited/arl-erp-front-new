@@ -67,35 +67,35 @@ const FreightInvoice = ({ rowClickData }) => {
   };
 
   const saveHandler = (values) => {
-    const paylaod = {
-      accountId: profileData?.accountId || 0,
-      unitId: selectedBusinessUnit?.value || 0,
-      bookingDate: new Date(),
-      bookingNumber: bookingData?.bookingRequestCode || '',
-      paymentTerms: '',
-      actionBy: profileData?.userId || 0,
-      rowString: bookingData?.billingData?.map((item) => {
-        return {
-          intHeadOfChargeid: item?.headOfChargeId,
-          strHeadoffcharges: item?.headOfCharges,
-          intCurrencyid: bookingData?.currencyId,
-          strCurrency: bookingData?.currency,
-          numrate: 0,
-          numconverstionrate: 0,
-          strUom: '',
-          numamount: item?.chargeAmount || 0,
-          numvatAmount: 0,
-        };
-      }),
-    };
-    getCargoBookingInvoice(
-      `${imarineBaseUrl}/domain/ShippingService/CargoBookingInvoice`,
-      paylaod,
-      () => {
-        commonGetByIdHandler();
-      },
-      true,
-    );
+    // const paylaod = {
+    //   accountId: profileData?.accountId || 0,
+    //   unitId: selectedBusinessUnit?.value || 0,
+    //   bookingDate: new Date(),
+    //   bookingNumber: bookingData?.bookingRequestCode || '',
+    //   paymentTerms: '',
+    //   actionBy: profileData?.userId || 0,
+    //   rowString: bookingData?.billingData?.map((item) => {
+    //     return {
+    //       intHeadOfChargeid: item?.headOfChargeId,
+    //       strHeadoffcharges: item?.headOfCharges,
+    //       intCurrencyid: bookingData?.currencyId,
+    //       strCurrency: bookingData?.currency,
+    //       numrate: 0,
+    //       numconverstionrate: 0,
+    //       strUom: '',
+    //       numamount: item?.chargeAmount || 0,
+    //       numvatAmount: 0,
+    //     };
+    //   }),
+    // };
+    // getCargoBookingInvoice(
+    //   `${imarineBaseUrl}/domain/ShippingService/CargoBookingInvoice`,
+    //   paylaod,
+    //   () => {
+    //     commonGetByIdHandler();
+    //   },
+    //   true,
+    // );
   };
 
   return (

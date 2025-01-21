@@ -14,9 +14,11 @@ import Loading from '../../../_helper/_loading';
 
 const initialValues = {
   shipper: '',
+  consignee: '',
   deliveryAgent: '',
   notifyParty: '',
   participantType: '',
+  tradeType: 1,
 };
 
 export default function AssigneeModal({
@@ -28,6 +30,7 @@ export default function AssigneeModal({
   const { profileData } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
+  const [shipperListDDL, getShipperListDDL] = useAxiosGet();
   const [consigneeListDDL, getConsigneeListDDL] = useAxiosGet();
   const [
     itemTypeOption,
@@ -35,7 +38,7 @@ export default function AssigneeModal({
     ,
     setItemTypeOption,
   ] = useAxiosGet();
-  const [, getParticipantsWithConsigneeDtl, participantLoading] = useAxiosGet();
+  const [, GetParticipantsWithShipper, participantLoading] = useAxiosGet();
   const [
     participantDDL,
     getParticipantDDL,
@@ -44,37 +47,48 @@ export default function AssigneeModal({
   ] = useAxiosGet();
   const formikRef = React.useRef(null);
   const [addedItem, setAddedItem] = React.useState([]);
-  const [
-    participantTypeListDDL,
-    GetParticipantTypeListDDL,
-    ,
-    setParticipantTypeList,
-  ] = useAxiosGet();
+  const [participantTypeListDDL, GetParticipantTypeListDDL] = useAxiosGet();
   const [, saveParticipntMapping, participntMappingLoading] = useAxiosPost();
 
   const saveHandler = (values, cb) => {
-    // addItem minimum 1 item check
-    // if (addedItem?.length === 0)
-    //   return toast.warning("Please add at least one item");
-    const isAllFalse = addedItem?.every((item) => item?.isActive === false);
-    if (isAllFalse) return toast.warning('Please add at least one item');
+    if (addedItem?.length === 0)
+      return toast.warning('Please add at least one item');
     const modifiedData = addedItem?.map((item) => {
       return {
         ...item,
       };
     });
-    saveParticipntMapping(
-      `${imarineBaseUrl}/domain/ShippingService/SaveParticipntMapping`,
-      modifiedData,
-      () => {
-        setAddedItem([]);
-        // setIsModalOpen(false);
-        if (cb) {
-          cb();
-        }
-      },
-      'save',
-    );
+
+    // tradeType 1 = Export 2 = Import
+    if (values?.tradeType === 1) {
+      saveParticipntMapping(
+        `${imarineBaseUrl}/domain/ShippingService/SaveExportParticipntMapping`,
+        modifiedData,
+        () => {
+          setAddedItem([]);
+          // setIsModalOpen(false);
+          if (cb) {
+            cb();
+          }
+        },
+        'save',
+      );
+    }
+
+    if (values?.tradeType === 2) {
+      saveParticipntMapping(
+        `${imarineBaseUrl}/domain/ShippingService/SaveImportParticipntMapping`,
+        modifiedData,
+        () => {
+          setAddedItem([]);
+          // setIsModalOpen(false);
+          if (cb) {
+            cb();
+          }
+        },
+        'save',
+      );
+    }
   };
 
   React.useEffect(() => {
@@ -95,15 +109,7 @@ export default function AssigneeModal({
     );
     GetParticipantTypeListDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
-      (redData) => {
-        const updatedData = redData?.filter(
-          (item) => ![1].includes(item?.value),
-        );
-        setParticipantTypeList(updatedData);
-      },
     );
-    // 2=Customer, 1= shipper
-    commonGeParticipantDDL(getConsigneeListDDL, 2, 1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -113,9 +119,16 @@ export default function AssigneeModal({
     );
   };
 
-  const onChangeParticipantType = (supplierTypeId) => {
+  const onChangeParticipantType = (values) => {
+    const participantTypeId = values?.participantType?.value || 0;
+    const supplierTypeId = values?.businessPartnerType?.value || 0;
+
     setParticipantDDL([]);
-    commonGeParticipantDDL(getParticipantDDL, supplierTypeId, 0);
+    commonGeParticipantDDL(
+      getParticipantDDL,
+      supplierTypeId,
+      participantTypeId,
+    );
   };
 
   const addButtonHandler = (values) => {
@@ -123,19 +136,17 @@ export default function AssigneeModal({
       mappingId: 0,
       shipperId: values?.shipper?.value || 0,
       shipperName: values?.shipper?.label || '',
+      consigneeId: values?.consignee?.value || 0,
+      consigneeName: values?.consignee?.label || '',
       businessPartnerTypeName: values?.businessPartnerType?.label || '',
       participantTypeId: values?.participantType?.value || 0,
       participantType: values?.participantType?.label || '',
       participantId: values?.participant?.value || 0,
       participantName: values?.participant?.label || '',
-      isActive: true,
       createdBy: profileData?.userId || 0,
       createdAt: new Date(),
     };
-
-    // duplicate check "participantTypeId, participantId"
-    const addedItemIsActive = addedItem?.filter((item) => item?.isActive);
-    const isExist = addedItemIsActive?.find(
+    const isExist = addedItem?.find(
       (item) =>
         item?.participantTypeId === obj?.participantTypeId &&
         item?.participantId === obj?.participantId,
@@ -144,56 +155,147 @@ export default function AssigneeModal({
     setAddedItem((prev) => [...prev, obj]);
   };
 
-  const consigneeOnChangeHandler = (valueOption) => {
-    getParticipantsWithConsigneeDtl(
-      `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsigneeDtl?shipperId=${valueOption?.value}`,
-      (redData) => {
-        const deliveryAgentList = redData?.deliveryAgentList || [];
-        const notifyPartyList = redData?.notifyPartyList || [];
-        const airLineList = redData?.airLineList || [];
-        const consineList = redData?.consineList || [];
-        const shippingLineList = redData?.shippingLineList || [];
-        const gsaList = redData?.gsaList || [];
+  const consigneeOrShipperChangeHandler = ({ values }) => {
+    // if tradeType 1 = Export
+    if (values?.tradeType === 1) {
+      GetParticipantsWithShipper(
+        `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithShipper?shipperId=${values?.shipper?.value}`,
+        (redData) => {
+          const deliveryAgentList = redData?.deliveryAgentList || [];
+          const notifyPartyList = redData?.notifyPartyList || [];
+          const airLineList = redData?.airLineList || [];
+          const consineList = redData?.consineList || [];
+          const shippingLineList = redData?.shippingLineList || [];
+          const gsaList = redData?.gsaList || [];
 
-        // how to setAddedItem here
-        const allItems = [
-          ...consineList,
-          ...deliveryAgentList,
-          ...notifyPartyList,
-          ...shippingLineList,
-          ...airLineList,
-          ...gsaList,
-        ];
-        const addedItems = allItems?.map((item) => {
-          return {
-            mappingId: item?.mappingId || 0,
-            shipperId: valueOption?.value || 0,
-            shipperName: valueOption?.label || '',
-            participantTypeId: item?.participantTypeId || 0,
-            participantType: item?.participantType || '',
-            participantId: item?.participantId || 0,
-            participantName: item?.participantsName || '',
-            isActive: true,
-            createdBy: profileData?.userId || 0,
-            createdAt: new Date(),
-            businessPartnerTypeName: item?.businessPartnerTypeName || '',
-          };
-        });
-        setAddedItem(addedItems);
-      },
-    );
+          // how to setAddedItem here
+          const allItems = [
+            ...consineList,
+            ...deliveryAgentList,
+            ...notifyPartyList,
+            ...shippingLineList,
+            ...airLineList,
+            ...gsaList,
+          ];
+          const addedItems = allItems?.map((item) => {
+            return {
+              mappingId: item?.mappingId || 0,
+              shipperId: values?.shipper?.value || 0,
+              shipperName: values?.shipper?.label || '',
+              participantTypeId: item?.participantTypeId || 0,
+              participantType: item?.participantType || '',
+              participantId: item?.participantId || 0,
+              participantName: item?.participantsName || '',
+              createdBy: profileData?.userId || 0,
+              createdAt: new Date(),
+              businessPartnerTypeName: item?.businessPartnerTypeName || '',
+            };
+          });
+          setAddedItem(addedItems);
+        },
+      );
+    }
+
+    // if tradeType 2 = Import
+    if (values?.tradeType === 2) {
+      GetParticipantsWithShipper(
+        `${imarineBaseUrl}/domain/ShippingService/GetParticipantsWithConsignee?consigneeId=${values?.consignee?.value}`,
+        (redData) => {
+          const deliveryAgentList = redData?.deliveryAgentList || [];
+          const notifyPartyList = redData?.notifyPartyList || [];
+          const airLineList = redData?.airLineList || [];
+          const shipperList = redData?.shipperList || [];
+          const shippingLineList = redData?.shippingLineList || [];
+          const gsaList = redData?.gsaList || [];
+
+          // how to setAddedItem here
+          const allItems = [
+            ...shipperList,
+            ...deliveryAgentList,
+            ...notifyPartyList,
+            ...shippingLineList,
+            ...airLineList,
+            ...gsaList,
+          ];
+          const addedItems = allItems?.map((item) => {
+            return {
+              mappingId: item?.mappingId || 0,
+              consigneeId: values?.consignee?.value || 0,
+              consigneeName: values?.consignee?.label || '',
+              participantTypeId: item?.participantTypeId || 0,
+              participantType: item?.participantType || '',
+              participantId: item?.participantId || 0,
+              participantName: item?.participantsName || '',
+              createdBy: profileData?.userId || 0,
+              createdAt: new Date(),
+              businessPartnerTypeName: item?.businessPartnerTypeName || '',
+            };
+          });
+          setAddedItem(addedItems);
+        },
+      );
+    }
   };
 
   useEffect(() => {
     if (clickRowData && isViewMoadal) {
-      consigneeOnChangeHandler({
-        value: clickRowData?.shipperId,
-        label: clickRowData?.shipperName,
-      });
+      const values = {
+        shipper: {
+          value: clickRowData?.shipperId,
+          label: clickRowData?.shipperName,
+        },
+        tradeType: clickRowData?.tradeType,
+        consignee: {
+          value: clickRowData?.consigneeId,
+          label: clickRowData?.consigneeName,
+        },
+      };
+      consigneeOrShipperChangeHandler({ values });
+      formikRef.current.setFieldValue('tradeType', clickRowData?.tradeType);
+    } else {
+      getCommonShipperAndConsigneeDDL(1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickRowData]);
-  const addedItemIsActive = addedItem?.filter((item) => item?.isActive);
+
+  // tradeType 1 = Export 2 = Import
+  const tradeTypeHandler = ({ resetForm, values, setFieldValue }) => {
+    const prvValues = {
+      ...values,
+    };
+    resetForm();
+    setAddedItem([]);
+    setFieldValue('tradeType', prvValues?.tradeType);
+    getCommonShipperAndConsigneeDDL(prvValues?.tradeType);
+  };
+
+  const getCommonShipperAndConsigneeDDL = (tradeTypeId) => {
+    // tradeTypeId 1 = Export
+    if (tradeTypeId === 1) {
+      getShipperListDDL(
+        `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=${tradeTypeId}`,
+      );
+    }
+    // tradeTypeId 2 = Import
+    if (tradeTypeId === 2) {
+      getConsigneeListDDL(
+        `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=${tradeTypeId}`,
+      );
+    }
+  };
+
+  const participantTypeListDDLFilter = (values) => {
+    const updatedData = participantTypeListDDL?.filter((item) => {
+      if (values?.tradeType === 1) {
+        return ![1, 8].includes(item?.value);
+      } else {
+        return ![2, 8].includes(item?.value);
+      }
+    });
+    return updatedData;
+  };
+
+  console.log('addedItem', addedItem);
   return (
     <div>
       <IViewModal
@@ -211,7 +313,8 @@ export default function AssigneeModal({
           saveHandler={
             isViewMoadal
               ? false
-              : (values) => {
+              : () => {
+                  const values = formikRef.current.values;
                   saveHandler(values, () => {
                     formikRef.current.resetForm();
                   });
@@ -222,6 +325,7 @@ export default function AssigneeModal({
               ? false
               : () => {
                   formikRef.current.resetForm();
+                  setAddedItem([]);
                 }
           }
         >
@@ -244,20 +348,115 @@ export default function AssigneeModal({
                   <>
                     {' '}
                     <div className="form-group row global-form">
-                      {/* Consignee */}
+                      <div className="col-lg-12">
+                        <label className="mr-3 pointer">
+                          <input
+                            type="radio"
+                            name="tradeType"
+                            checked={values?.tradeType === 1}
+                            className="mr-1 pointer"
+                            style={{ position: 'relative', top: '2px' }}
+                            onChange={(e) => {
+                              setFieldValue('tradeType', 1);
+                              tradeTypeHandler({
+                                resetForm,
+                                values: {
+                                  ...values,
+                                  tradeType: 1,
+                                },
+                                setFieldValue,
+                              });
+                            }}
+                          />
+                          Export
+                        </label>
+                        <label className="pointer">
+                          <input
+                            type="radio"
+                            name="tradeType"
+                            checked={values?.tradeType === 2}
+                            className="mr-1 pointer"
+                            style={{ position: 'relative', top: '2px' }}
+                            onChange={(e) => {
+                              setFieldValue('tradeType', 2);
+                              tradeTypeHandler({
+                                resetForm,
+                                values: {
+                                  ...values,
+                                  tradeType: 2,
+                                },
+                                setFieldValue,
+                              });
+                            }}
+                          />
+                          Import
+                        </label>
+                      </div>
+                      <div className="col-lg-12">
+                        <hr />
+                      </div>
+
+                      {/* Shipper DDL*/}
+                      {values?.tradeType === 1 && (
+                        <div className="col-lg-3">
+                          <NewSelect
+                            label="Select Shipper"
+                            options={shipperListDDL || []}
+                            value={values?.shipper}
+                            name="shipper"
+                            onChange={(valueOption) => {
+                              setFieldValue('shipper', valueOption);
+                              consigneeOrShipperChangeHandler({
+                                values: {
+                                  ...values,
+                                  shipper: valueOption,
+                                },
+                              });
+                            }}
+                            errors={errors}
+                            touched={touched}
+                            isDisabled={addedItem?.length > 0}
+                          />
+                        </div>
+                      )}
+
+                      {/* consignee DDL*/}
+                      {values?.tradeType === 2 && (
+                        <div className="col-lg-3">
+                          <NewSelect
+                            label="Select Consignee"
+                            options={consigneeListDDL || []}
+                            value={values?.consignee}
+                            name="consignee"
+                            onChange={(valueOption) => {
+                              setFieldValue('consignee', valueOption);
+                              consigneeOrShipperChangeHandler({
+                                values: {
+                                  ...values,
+                                  consignee: valueOption,
+                                },
+                              });
+                            }}
+                            errors={errors}
+                            touched={touched}
+                            isDisabled={addedItem?.length > 0}
+                          />
+                        </div>
+                      )}
+
                       <div className="col-lg-3">
                         <NewSelect
-                          label="Select Shipper"
-                          options={consigneeListDDL || []}
-                          value={values?.shipper}
-                          name="shipper"
+                          label="Participant Type"
+                          options={participantTypeListDDLFilter(values) || []}
+                          value={values?.participantType}
+                          name="participantType"
                           onChange={(valueOption) => {
-                            setFieldValue('shipper', valueOption);
-                            consigneeOnChangeHandler(valueOption);
+                            setFieldValue('participantType', valueOption);
+                            setFieldValue('participant', '');
+                            setFieldValue('businessPartnerType', '');
                           }}
                           errors={errors}
                           touched={touched}
-                          isDisabled={addedItemIsActive?.length > 0}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -269,12 +468,16 @@ export default function AssigneeModal({
                           onChange={(valueOption) => {
                             setFieldValue('businessPartnerType', valueOption);
                             setFieldValue('participant', '');
-                            onChangeParticipantType(valueOption?.value);
+                            onChangeParticipantType({
+                              ...values,
+                              businessPartnerType: valueOption,
+                            });
                           }}
                           placeholder="Select Partner Type"
                           isSearchable={true}
                           errors={errors}
                           touched={touched}
+                          isDisabled={!values?.participantType}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -288,21 +491,13 @@ export default function AssigneeModal({
                           }}
                           errors={errors}
                           touched={touched}
+                          isDisabled={
+                            !values?.participantType ||
+                            !values?.businessPartnerType
+                          }
                         />
                       </div>
-                      <div className="col-lg-3">
-                        <NewSelect
-                          label="Participant Type"
-                          options={participantTypeListDDL || []}
-                          value={values?.participantType}
-                          name="participantType"
-                          onChange={(valueOption) => {
-                            setFieldValue('participantType', valueOption);
-                          }}
-                          errors={errors}
-                          touched={touched}
-                        />
-                      </div>
+
                       <div className="col-lg-3">
                         <div className="d-flex my-1">
                           <button
@@ -312,9 +507,11 @@ export default function AssigneeModal({
                               addButtonHandler(values);
                             }}
                             disabled={
-                              !values?.shipper ||
                               !values?.participantType ||
-                              !values?.participant
+                              !values?.participant ||
+                              (values?.tradeType === 1
+                                ? !values?.shipper
+                                : !values?.consignee)
                             }
                           >
                             Add
@@ -324,69 +521,65 @@ export default function AssigneeModal({
                     </div>
                   </>
                 )}
+                {addedItem?.length > 0 && (
+                  <div className="table-responsive">
+                    <table className="table table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          {values?.tradeType === 1 ? (
+                            <th>Shipper</th>
+                          ) : (
+                            <th>Consignee</th>
+                          )}
+                          <th>Partner Type</th>
+                          <th>Participant Type</th>
+                          <th>Participant</th>
+                          {!isViewMoadal && <th>Action</th>}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {addedItem?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+
+                            {values?.tradeType === 1 ? (
+                              <td>{item?.shipperName}</td>
+                            ) : (
+                              <td>{item?.consigneeName}</td>
+                            )}
+                            <td>{item?.businessPartnerTypeName}</td>
+                            <td>{item?.participantType}</td>
+                            <td>{item?.participantName}</td>
+                            {!isViewMoadal && (
+                              <td>
+                                <div className="d-flex justify-content-center">
+                                  <Button
+                                    onClick={() => {
+                                      const prv = [...addedItem];
+                                      const filtered = prv.filter(
+                                        (itm, i) => i !== index,
+                                      );
+                                      setAddedItem(filtered);
+                                    }}
+                                    color="error"
+                                    size="small"
+                                    title="Remove"
+                                  >
+                                    <IDelete />
+                                  </Button>
+                                </div>
+                              </td>
+                            )}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </Form>
             )}
           </Formik>
-          {addedItem?.length > 0 && (
-            <div className="table-responsive">
-              <table className="table table-bordered global-table">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Shipper</th>
-                    <th>Partner Type</th>
-                    <th>Participant Type</th>
-                    <th>Participant</th>
-                    {!isViewMoadal && <th>Action</th>}
-                  </tr>
-                </thead>
-                <tbody>
-                  {addedItem?.map((item, index) => (
-                    <tr
-                      key={index}
-                      style={{
-                        display: item?.isActive ? 'table-row' : 'none',
-                      }}
-                    >
-                      <td>{index + 1}</td>
-
-                      <td>{item?.shipperName}</td>
-                      <td>{item?.businessPartnerTypeName}</td>
-                      <td>{item?.participantType}</td>
-                      <td>{item?.participantName}</td>
-                      {!isViewMoadal && (
-                        <td>
-                          <div className="d-flex justify-content-center">
-                            <Button
-                              onClick={() => {
-                                setAddedItem((prev) =>
-                                  prev.map((itm, i) => {
-                                    if (i === index) {
-                                      return {
-                                        ...itm,
-                                        isActive: false,
-                                      };
-                                    } else {
-                                      return itm;
-                                    }
-                                  }),
-                                );
-                              }}
-                              color="error"
-                              size="small"
-                              title="Remove"
-                            >
-                              <IDelete />
-                            </Button>
-                          </div>
-                        </td>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
         </ICustomCard>
       </IViewModal>
     </div>
