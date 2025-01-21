@@ -22,6 +22,7 @@ const initData = {
   toQuantity: "",
   commonRate: "",
   cacommissionRate: "",
+  businessPartner:"",
 };
 
 export default function SalesCommissionConfigureEntryForm() {
@@ -122,7 +123,7 @@ export default function SalesCommissionConfigureEntryForm() {
         ...akijAgroFeedCommissionTypeList,
       ].includes(commissionTypeId)
     ) {
-      const isCommonRateApplicable = [35, 36, 37, 38, 39, 40].includes(
+      const isCommonRateApplicable = [35, 36, 37, 38, 39, 40, 46].includes(
         commissionTypeId
       );
       const commissionRate = commonRate || 0;
@@ -150,6 +151,8 @@ export default function SalesCommissionConfigureEntryForm() {
         achievementTo: +values?.toAchievement,
         itemGroupId: values?.itemGroup?.value || 0,
         designationId: values?.designation?.value || 0,
+        customerId: values?.businessPartner?.value || 0,
+        customerName: values?.businessPartner?.label || "",
       };
       setRowData([...rowData, newRow]);
       cb && cb();
