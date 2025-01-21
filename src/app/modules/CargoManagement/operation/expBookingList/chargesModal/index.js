@@ -57,7 +57,7 @@ function ChargesModal({ rowClickData, CB }) {
       `${imarineBaseUrl}/domain/ShippingService/GetShippingHeadOfCharges`,
       (resShippingHeadOfCharges) => {
         getBookedRequestBillingData(
-          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}`,
+          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}&modeOfTransportId=${modeOfTransportId}`,
           (resSveData) => {
             if (formikRef.current) {
               // profitSharePercentage add
