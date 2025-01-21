@@ -59,11 +59,11 @@ function CreateMasterBL() {
   }, shallowEqual);
   const [, SaveMasterBL, isLoading] = useAxiosPost();
   //   const [, setMasterBLById] = useAxiosGet();
-  const [gsaDDL, setGSADDL] = useAxiosGet();
+  const [gsaDDL, getGSADDL, gsaDDLLoading, setGSADDL] = useAxiosGet();
   const [
     airServiceProviderDDLData,
     getAirServiceProviderDDL,
-    ,
+    airServiceProviderLoading,
     setAirServiceProviderDDL,
   ] = useAxiosGet();
 
@@ -80,6 +80,7 @@ function CreateMasterBL() {
       isActive: true,
       createdBy: userId,
       createdAt: moment().format('YYYY-MM-DDTHH:mm:ss'),
+      tradeTypeId: values?.tradeType || 1,
     };
     SaveMasterBL(
       `${imarineBaseUrl}/domain/ShippingService/SaveMasterBLConfiguration`,
@@ -95,20 +96,32 @@ function CreateMasterBL() {
     );
   };
 
-  const GetAirServiceProviderDDL = (typeId) => {
-    getAirServiceProviderDDL(
-      `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?shipperId=${0}&participntTypeId=${typeId}`,
-      (res) => {
-        setAirServiceProviderDDL(res);
-      },
-    );
+  const GetAirServiceProviderDDLFunc = (typeId, tradeTypeId) => {
+    // tradeTypeId  = 1 export
+    if (tradeTypeId === 1) {
+      getAirServiceProviderDDL(
+        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?shipperId=${0}&participntTypeId=${typeId}`,
+        (res) => {
+          setAirServiceProviderDDL(res);
+        },
+      );
+      getGSADDL(
+        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?shipperId=0&participntTypeId=7`,
+      );
+    }
+    // tradeTypeId  = 2 import
+    if (tradeTypeId === 2) {
+      getAirServiceProviderDDL(
+        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${0}&participntTypeId=${typeId}`,
+        (res) => {
+          setAirServiceProviderDDL(res);
+        },
+      );
+      getGSADDL(
+        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=0&participntTypeId=7`,
+      );
+    }
   };
-  React.useEffect(() => {
-    setGSADDL(
-      `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?shipperId=0&participntTypeId=7`,
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   React.useEffect(() => {
     if (!id) return;
@@ -125,7 +138,11 @@ function CreateMasterBL() {
           label: '',
         };
       };
-      GetAirServiceProviderDDL(getMasterBLType()?.value === 1 ? 5 : 6);
+
+      const typeId = getMasterBLType()?.value === 1 ? 5 : 6;
+      const tradeTypeId = data?.tradeTypeId || 1;
+      GetAirServiceProviderDDLFunc(typeId, tradeTypeId);
+
       formikRef.current.setFieldValue('masterBLType', getMasterBLType());
       formikRef.current.setFieldValue(
         'shippingLineName',
@@ -155,9 +172,21 @@ function CreateMasterBL() {
             }
           : '',
       );
+      formikRef.current.setFieldValue('tradeType', data?.tradeTypeId || 1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, id]);
+
+  // tradeType 1 = Export 2 = Import
+  const tradeTypeHandler = ({ resetForm, values, setFieldValue }) => {
+    const prvValues = {
+      ...values,
+    };
+    resetForm();
+    setFieldValue('tradeType', prvValues?.tradeType);
+    setAirServiceProviderDDL([]);
+    setGSADDL([]);
+  };
 
   return (
     <ICustomCard
@@ -172,7 +201,7 @@ function CreateMasterBL() {
         formikRef.current.resetForm();
       }}
     >
-      {isLoading && <Loading />}
+      {(isLoading || airServiceProviderLoading || gsaDDLLoading) && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -181,6 +210,7 @@ function CreateMasterBL() {
           shippingLineName: '',
           masterBL: '',
           gsaName: '',
+          tradeType: 1,
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -194,6 +224,50 @@ function CreateMasterBL() {
           <>
             <Form className="form form-label-right">
               <div className="form-group row global-form">
+                <div className="col-lg-12">
+                  <label className="mr-3 pointer">
+                    <input
+                      type="radio"
+                      name="tradeType"
+                      checked={values?.tradeType === 1}
+                      className="mr-1 pointer"
+                      style={{ position: 'relative', top: '2px' }}
+                      onChange={(e) => {
+                        setFieldValue('tradeType', 1);
+                        tradeTypeHandler({
+                          resetForm,
+                          values: {
+                            ...values,
+                            tradeType: 1,
+                          },
+                          setFieldValue,
+                        });
+                      }}
+                    />
+                    Export
+                  </label>
+                  <label className="pointer">
+                    <input
+                      type="radio"
+                      name="tradeType"
+                      checked={values?.tradeType === 2}
+                      className="mr-1 pointer"
+                      style={{ position: 'relative', top: '2px' }}
+                      onChange={(e) => {
+                        setFieldValue('tradeType', 2);
+                        tradeTypeHandler({
+                          resetForm,
+                          values: {
+                            ...values,
+                            tradeType: 2,
+                          },
+                          setFieldValue,
+                        });
+                      }}
+                    />
+                    Import
+                  </label>
+                </div>
                 <div className="col-lg-3">
                   <NewSelect
                     label="Type"
@@ -214,9 +288,12 @@ function CreateMasterBL() {
                       setFieldValue('masterBLType', valueOption);
                       setFieldValue('shippingLineName', '');
                       setFieldValue('airLineName', '');
+                      setAirServiceProviderDDL([]);
+                      setGSADDL([]);
                       valueOption?.value &&
-                        GetAirServiceProviderDDL(
+                        GetAirServiceProviderDDLFunc(
                           valueOption?.value === 1 ? 5 : 6,
+                          values?.tradeType,
                         );
                     }}
                     errors={errors}
