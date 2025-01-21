@@ -41,6 +41,7 @@ const validationSchema = Yup.object().shape({
   }),
 });
 function TransportModal({ rowClickData, CB }) {
+  const tradeTypeId = rowClickData?.tradeTypeId || 1;
   const { profileData } = useSelector(
     (state) => state?.authData || {},
     shallowEqual,
@@ -97,8 +98,11 @@ function TransportModal({ rowClickData, CB }) {
       0,
     );
 
+    const shipperOrshipperId =
+      tradeTypeId === 1 ? objData?.shipperId : objData?.consigneeId;
+
     //====== common data set===
-    GetAirServiceProviderDDL(objData?.shipperId, typeId);
+    GetAirServiceProviderDDLFunc(shipperOrshipperId, typeId);
     const modeOfTransportObj = modeOfTransportId
       ? {
           value: modeOfTransportId,
@@ -342,16 +346,31 @@ function TransportModal({ rowClickData, CB }) {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const GetAirServiceProviderDDL = (shipperId, typeId) => {
-    getAirServiceProviderDDL(
-      `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?shipperId=${shipperId}&participntTypeId=${typeId}`,
-      (res) => {
-        setAirServiceProviderDDL(res);
-      },
-    );
-    setGSADDL(
-      `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeDDL?shipperId=${shipperId}&participntTypeId=7`,
-    );
+  const GetAirServiceProviderDDLFunc = (shipperOrshipperId, typeId) => {
+    // tradeTypeId  = 1 export
+    if (tradeTypeId === 1) {
+      getAirServiceProviderDDL(
+        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?shipperId=${shipperOrshipperId}&participntTypeId=${typeId}`,
+        (res) => {
+          setAirServiceProviderDDL(res);
+        },
+      );
+      setGSADDL(
+        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?shipperId=${shipperOrshipperId}&participntTypeId=7`,
+      );
+    }
+    // tradeTypeId  = 2 import
+    if (tradeTypeId === 2) {
+      getAirServiceProviderDDL(
+        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${shipperOrshipperId}&participntTypeId=${typeId}`,
+        (res) => {
+          setAirServiceProviderDDL(res);
+        },
+      );
+      setGSADDL(
+        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${shipperOrshipperId}&participntTypeId=7`,
+      );
+    }
   };
   const saveHandler = (values, cb) => {
     const row = values?.rows[0];
