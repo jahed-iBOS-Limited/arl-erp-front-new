@@ -123,6 +123,7 @@ export default function _Form({
   operationalZones,
   getOperationalZoneDDL,
   AGConcernDDL,
+  setRowDto
 }) {
   const [mortageTypeDDL, setMortageTypeDDL] = useState([]);
   const [bankNameDDL, setBankNameDDL] = useState([]);
@@ -813,7 +814,7 @@ export default function _Form({
                                    onChange={(e)=>{
                                      const modifiedData = [...rowDto];
                                      modifiedData[idx]["distanceKm"] = +e.target.value;
-                                     setRowDtoTwo(modifiedData)
+                                     setRowDto(modifiedData)
                                    }}
                                   />
                                 </td>
