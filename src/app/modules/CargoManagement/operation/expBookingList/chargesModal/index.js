@@ -823,7 +823,7 @@ function ChargesModal({ rowClickData, CB }) {
                                 }
                                 // tradeTypeId  = 2 import
                                 if (tradeTypeId === 2) {
-                                  url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?search=${v}&businessPartnerType=1&consigneeId=${rowClickData?.shipperId}&participntTypeId=${item?.paymentPartyTypeId}`;
+                                  url = `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?search=${v}&businessPartnerType=1&consigneeId=${rowClickData?.consigneeId}&participntTypeId=${item?.paymentPartyTypeId}`;
                                 }
                               }
 
