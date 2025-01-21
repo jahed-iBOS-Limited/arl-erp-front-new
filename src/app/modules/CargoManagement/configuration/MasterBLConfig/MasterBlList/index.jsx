@@ -17,7 +17,7 @@ export default function MasterBlList() {
 
   const commonGetData = (search, pageNo, pageSize) => {
     setMasterBLLandingList(
-      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLConfigurations?search=${search}&pageNo=${pageNo}&pageSize=${pageSize}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLConfigurations?viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
     );
   };
   return (
