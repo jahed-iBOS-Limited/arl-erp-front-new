@@ -243,6 +243,7 @@ function CreateMasterBL() {
                           setFieldValue,
                         });
                       }}
+                      disabled={id}
                     />
                     Export
                   </label>
@@ -264,6 +265,7 @@ function CreateMasterBL() {
                           setFieldValue,
                         });
                       }}
+                      disabled={id}
                     />
                     Import
                   </label>

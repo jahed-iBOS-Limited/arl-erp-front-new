@@ -28,8 +28,9 @@ export default function MasterBlList() {
             <thead>
               <tr>
                 <th>SL</th>
-                <th>Shipping Line/Air Line</th>
+                <th>IMP/EXP</th>
                 <th>Master BL</th>
+                <th>Shipping Line/Air Line</th>
                 <th>GSA</th>
                 <th>Is Bl Genarate</th>
                 <th>Action</th>
@@ -39,11 +40,13 @@ export default function MasterBlList() {
               {masterBLLandingList?.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
+                  <td>{item?.tradeTypeId === 2 ? 'Import ' : 'Export'}</td>
+                  <td>{item?.masterBL}</td>
                   <td>
                     {item?.shippingLineName}
                     {item?.airLineName}
                   </td>
-                  <td>{item?.masterBL}</td>
+
                   <td>{item?.gsaName}</td>
                   <td>{item?.isMasterBlGenarate ? 'True' : 'False'}</td>
                   <td>

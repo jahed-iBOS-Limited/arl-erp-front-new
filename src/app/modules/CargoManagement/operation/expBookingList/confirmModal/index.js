@@ -671,6 +671,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     placeholder="Consignee’s Name"
                     errors={errors}
                     touched={touched}
+                    isDisabled={tradeTypeId === 2}
                   />
                 </div>
                 {/* Country ddl */}
@@ -808,6 +809,7 @@ function ConfirmModal({ rowClickData, CB }) {
                     onChange={(e) =>
                       setFieldValue('consigneeEmail', e.target.value)
                     }
+                    isDisabled={tradeTypeId === 2}
                   />
                 </div>
                 {/* Buyer Bank */}
