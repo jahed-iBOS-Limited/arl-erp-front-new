@@ -119,9 +119,16 @@ export default function AssigneeModal({
     );
   };
 
-  const onChangeParticipantType = (supplierTypeId) => {
+  const onChangeParticipantType = (values) => {
+    const participantTypeId = values?.participantType?.value || 0;
+    const supplierTypeId = values?.businessPartnerType?.value || 0;
+
     setParticipantDDL([]);
-    commonGeParticipantDDL(getParticipantDDL, supplierTypeId, 0);
+    commonGeParticipantDDL(
+      getParticipantDDL,
+      supplierTypeId,
+      participantTypeId,
+    );
   };
 
   const addButtonHandler = (values) => {
@@ -243,8 +250,8 @@ export default function AssigneeModal({
           label: clickRowData?.consigneeName,
         },
       };
-
       consigneeOrShipperChangeHandler({ values });
+      formikRef.current.setFieldValue('tradeType', clickRowData?.tradeType);
     } else {
       getCommonShipperAndConsigneeDDL(1);
     }
@@ -287,6 +294,8 @@ export default function AssigneeModal({
     });
     return updatedData;
   };
+
+  console.log('addedItem', addedItem);
   return (
     <div>
       <IViewModal
@@ -459,7 +468,10 @@ export default function AssigneeModal({
                           onChange={(valueOption) => {
                             setFieldValue('businessPartnerType', valueOption);
                             setFieldValue('participant', '');
-                            onChangeParticipantType(valueOption?.value);
+                            onChangeParticipantType({
+                              ...values,
+                              businessPartnerType: valueOption,
+                            });
                           }}
                           placeholder="Select Partner Type"
                           isSearchable={true}
@@ -507,63 +519,63 @@ export default function AssigneeModal({
                         </div>
                       </div>
                     </div>
-                    {addedItem?.length > 0 && (
-                      <div className="table-responsive">
-                        <table className="table table-bordered global-table">
-                          <thead>
-                            <tr>
-                              <th>SL</th>
-                              {values?.tradeType === 1 ? (
-                                <th>Shipper</th>
-                              ) : (
-                                <th>Consignee</th>
-                              )}
-                              <th>Partner Type</th>
-                              <th>Participant Type</th>
-                              <th>Participant</th>
-                              {!isViewMoadal && <th>Action</th>}
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {addedItem?.map((item, index) => (
-                              <tr key={index}>
-                                <td>{index + 1}</td>
-
-                                {values?.tradeType === 1 ? (
-                                  <td>{item?.shipperName}</td>
-                                ) : (
-                                  <td>{item?.consigneeName}</td>
-                                )}
-                                <td>{item?.businessPartnerTypeName}</td>
-                                <td>{item?.participantType}</td>
-                                <td>{item?.participantName}</td>
-                                {!isViewMoadal && (
-                                  <td>
-                                    <div className="d-flex justify-content-center">
-                                      <Button
-                                        onClick={() => {
-                                          const prv = [...addedItem];
-                                          const filtered = prv.filter(
-                                            (itm, i) => i !== index,
-                                          );
-                                          setAddedItem(filtered);
-                                        }}
-                                        color="error"
-                                        size="small"
-                                        title="Remove"
-                                      >
-                                        <IDelete />
-                                      </Button>
-                                    </div>
-                                  </td>
-                                )}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
                   </>
+                )}
+                {addedItem?.length > 0 && (
+                  <div className="table-responsive">
+                    <table className="table table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          {values?.tradeType === 1 ? (
+                            <th>Shipper</th>
+                          ) : (
+                            <th>Consignee</th>
+                          )}
+                          <th>Partner Type</th>
+                          <th>Participant Type</th>
+                          <th>Participant</th>
+                          {!isViewMoadal && <th>Action</th>}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {addedItem?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+
+                            {values?.tradeType === 1 ? (
+                              <td>{item?.shipperName}</td>
+                            ) : (
+                              <td>{item?.consigneeName}</td>
+                            )}
+                            <td>{item?.businessPartnerTypeName}</td>
+                            <td>{item?.participantType}</td>
+                            <td>{item?.participantName}</td>
+                            {!isViewMoadal && (
+                              <td>
+                                <div className="d-flex justify-content-center">
+                                  <Button
+                                    onClick={() => {
+                                      const prv = [...addedItem];
+                                      const filtered = prv.filter(
+                                        (itm, i) => i !== index,
+                                      );
+                                      setAddedItem(filtered);
+                                    }}
+                                    color="error"
+                                    size="small"
+                                    title="Remove"
+                                  >
+                                    <IDelete />
+                                  </Button>
+                                </div>
+                              </td>
+                            )}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </Form>
             )}

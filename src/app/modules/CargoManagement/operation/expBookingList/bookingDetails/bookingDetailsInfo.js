@@ -89,7 +89,9 @@ function BookingDetailsInfo({ bookingData, billingData }) {
             </p>
             <p>
               <strong>State/Province & Postal Code:</strong>{' '}
-              {bookingData?.consigState + ' - ' + bookingData?.consigPostalCode}
+              {(bookingData?.consigState || '') +
+                ' - ' +
+                (bookingData?.consigPostalCode || '')}
             </p>
             <p>
               <strong>Address 1:</strong> {bookingData?.consigneeAddress}
