@@ -80,7 +80,7 @@ function ImpBookingList() {
     );
 
     window.open(
-      `${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}`,
+      `${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}&isImportMode=true`,
       '_blank',
     );
   };
