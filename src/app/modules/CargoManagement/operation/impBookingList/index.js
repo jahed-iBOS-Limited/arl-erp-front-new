@@ -841,7 +841,10 @@ function ImpBookingList() {
                     }}
                   >
                     <ChargesModal
-                      rowClickData={rowClickData}
+                      rowClickData={{
+                        ...rowClickData,
+                        tradeTypeId: 2,
+                      }}
                       CB={() => {
                         commonLandingApi(
                           null,
