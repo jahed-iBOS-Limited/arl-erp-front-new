@@ -1,20 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { imarineBaseUrl } from '../../../../../App';
 import ICustomCard from '../../../../_helper/_customCard';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
-
+import PaginationTable from '../../../../_helper/_tablePagination';
 export default function MasterBlList() {
+  const [pageNo, setPageNo] = useState(0);
+  const [pageSize, setPageSize] = useState(15);
   const [masterBLLandingList, setMasterBLLandingList] = useAxiosGet();
   let history = useHistory();
 
   React.useEffect(() => {
-    setMasterBLLandingList(
-      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLConfigurations`,
-    );
+    commonGetData('', pageNo, pageSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const commonGetData = (search, pageNo, pageSize) => {
+    setMasterBLLandingList(
+      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLConfigurations?search=${search}&pageNo=${pageNo}&pageSize=${pageSize}`,
+    );
+  };
   return (
     <ICustomCard
       title="Master BL Entry"
@@ -37,7 +42,7 @@ export default function MasterBlList() {
               </tr>
             </thead>
             <tbody>
-              {masterBLLandingList?.map((item, index) => (
+              {masterBLLandingList?.data?.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{item?.tradeTypeId === 2 ? 'Import ' : 'Export'}</td>
@@ -69,6 +74,21 @@ export default function MasterBlList() {
             </tbody>
           </table>
         </div>
+
+        {masterBLLandingList?.data?.length > 0 && (
+          <PaginationTable
+            count={masterBLLandingList?.totalCount}
+            setPositionHandler={(pageNo, pageSize) => {
+              commonGetData('', pageNo, pageSize);
+            }}
+            paginationState={{
+              pageNo,
+              setPageNo,
+              pageSize,
+              setPageSize,
+            }}
+          />
+        )}
       </div>
     </ICustomCard>
   );
