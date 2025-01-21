@@ -23,6 +23,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const BillGenerate = ({ rowClickData, CB }) => {
+  const tradeTypeId = rowClickData?.tradeTypeId || 1;
   const [open, setOpen] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
   const [uniqueBookingRequestList, setUniqueBookingRequestList] = useState([]);
@@ -102,6 +103,8 @@ const BillGenerate = ({ rowClickData, CB }) => {
     const payload = {
       headerData: {
         postingType: activeTab === 'billGenerate' ? 'billGenerate' : 'Advance',
+        tradeTypeId: tradeTypeId,
+        tradeTypeName: tradeTypeId === 1 ? 'Export' : 'Import',
         supplierInvoiceCode: '',
         accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
