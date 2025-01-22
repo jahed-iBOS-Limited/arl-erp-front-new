@@ -446,23 +446,23 @@ export const validationSchema = Yup.object().shape({
   }),
   assessmentValue: Yup.number()
     .positive("Assessment Value Must be a Positive Number")
-    .nullable(),
+    .required("Assessment Value(BDT) is required"),
 
   customDuty: Yup.number()
     .positive("Custom Duty Must be a Positive Number")
-    .nullable(),
+    .required("Custom Duty is required"),
 
   regulatoryDuty: Yup.number()
     .positive("Regulatory Duty Must be a Positive Number")
-    .nullable(),
+    .required("Regulatory Duty is required"),
 
   supplementaryDuty: Yup.number()
     .positive("Supplementary Duty Must be a Positive Number")
-    .nullable(),
+    .required("Supplementary Duty is required"),
 
   vat: Yup.number()
     .positive("VAT Must be a Positive Number")
-    .nullable(),
+    .required("VAT is required"),
 
   bank: Yup.string().when("paidBy", {
     is: (data) => data?.label === "Own Cheque",
@@ -479,16 +479,16 @@ export const validationSchema = Yup.object().shape({
   ),
   ait: Yup.number()
     .positive("AIT Must be a Positive Number")
-    .nullable(),
+    .required("AIT is required"),
   advanceTradeVat: Yup.number()
     .positive("Advance TradeVat Must be a Positive Number")
-    .nullable(),
+    .required("Advance TradeVat is required"),
   psi: Yup.number()
     .positive("PSI Must be a Positive Number")
-    .nullable(),
+    .required("PSI is required"),
   at: Yup.number()
     .positive("AT Must be a Positive Number")
-    .nullable(),
+    .required("AT is required"),
   fineBDT: Yup.number()
     .positive("Fine BDT Must be a Positive Number")
     .nullable(),
@@ -507,7 +507,9 @@ export const validationSchema = Yup.object().shape({
   scanning: Yup.number()
     .positive("Scanning Must be a Positive Number")
     .nullable(),
-  grandTotal: Yup.number().positive("Grand Total Must be a Positive Number"),
+  grandTotal: Yup.number()
+  .positive("Grand Total Must be a Positive Number")
+  .required("Grand Total is required"),
 });
 
 // Get Bank List DDL
