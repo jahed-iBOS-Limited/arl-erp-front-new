@@ -25,14 +25,16 @@ export default function _Form({
   akijAgroFeedCommissionTypeList,
 }) {
   const history = useHistory();
-  const { selectedBusinessUnit } = useSelector(
+  const { selectedBusinessUnit, profileData } = useSelector(
     (state) => state?.authData,
     shallowEqual
   );
 
   const [itemGroupDDL, getItemGroupDDL] = useAxiosGet();
+  const [businessPartnerList, getBusinessPartnerList] = useAxiosGet();
 
   useEffect(() => {
+    getBusinessPartnerList(`/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`)
     getItemGroupDDL(
       `/oms/TradeOffer/GetDiscountOfferGroupDDL?businessUnitId=${selectedBusinessUnit?.value}`
     );
@@ -79,6 +81,23 @@ export default function _Form({
                     />
                   </div>
 
+                  {[46].includes(values?.commissionType?.value) && <div className="col-lg-3">
+                    <NewSelect
+                      name="businessPartner"
+                      options={businessPartnerList || []}
+                      value={values?.businessPartner}
+                      label="Business Partner"
+                      placeholder="Business Partner"
+                      onChange={(valueOption) => {
+                        setFieldValue("businessPartner", valueOption);
+                        setFieldValue("channel", {value: valueOption?.channelId, label: valueOption?.channelName});
+                        setFieldValue("region", {value: valueOption?.regionId, label: valueOption?.regionName});
+                        setFieldValue("area", {value: valueOption?.areaId, label: valueOption?.areaName});
+                        setFieldValue("territory", {value: valueOption?.territoryId, label: valueOption?.territoryName});
+                      }}
+                    />
+                  </div>}
+
                   {/* RTA Form */}
                   <RATForm
                     obj={{
@@ -101,9 +120,14 @@ export default function _Form({
                         39,
                         40,
                         41,
+                        46,
                       ].includes(values?.commissionType?.value),
                       territory: false,
                       allElement: false,
+                      channelDisable : [46].includes(values?.commissionType?.value),
+                      regionDisable : [46].includes(values?.commissionType?.value),
+                      areaDisable : [46].includes(values?.commissionType?.value),
+                      territoryDisable : [46].includes(values?.commissionType?.value),
                       onChange: () => {
                         if (
                           ![
@@ -118,6 +142,7 @@ export default function _Form({
                             38,
                             39,
                             40,
+                            46,
                           ].includes(values?.commissionType?.value)
                         ) {
                           setRowData([]);
@@ -255,13 +280,17 @@ export default function _Form({
                             39,
                             40,
                             41,
+                            46,
                           ].includes(values?.commissionType?.value)
                         ) {
+                          setFieldValue("channel", "");
+                          setFieldValue("region", "");
                           setFieldValue("area", "");
                           setFieldValue("fromAchievement", "");
                           setFieldValue("toAchievement", "");
                           setFieldValue("fromQuantity", "");
                           setFieldValue("toQuantity", "");
+                          setFieldValue("businessPartner", "");
                         }
                       });
                     }}

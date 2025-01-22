@@ -65,7 +65,7 @@ export default function EditForm({ obj }) {
                   <tr>
                     <th>Date</th>
                     <th>Area Name</th>
-                    {[35, 36, 37, 38, 39, 40].includes(
+                    {[35, 36, 37, 38, 39, 40, 46].includes(
                       preValues?.commissionType?.value
                     ) ? (
                       <>
@@ -109,7 +109,7 @@ export default function EditForm({ obj }) {
                       />
                     </td>
                     <td>{values?.areaName}</td>
-                    {[35, 36, 37, 38, 39, 40].includes(
+                    {[35, 36, 37, 38, 39, 40, 46].includes(
                       preValues?.commissionType?.value
                     ) ? (
                       <>
