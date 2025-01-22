@@ -24,7 +24,7 @@ const validationSchema = Yup.object().shape({
   city: Yup.string().required('City is required'),
   phoneNo: Yup.number().required('Phone No is required'),
   email: Yup.string()
-    .required('Email is required')
+    // .required('Email is required')
     .email('Email is invalid'),
   website: Yup.string().url('Website is invalid'),
   currency: Yup.string().required('Currency is required'),
