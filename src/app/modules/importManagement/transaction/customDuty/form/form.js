@@ -17,6 +17,8 @@ import {
 } from "../../../../../../_metronic/_partials/controls";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { validationSchema } from "../helper";
+import { debounce } from "lodash";
+import Loading from "../../../../_helper/_loading";
 
 export default function _Form({
   initData,
@@ -51,6 +53,7 @@ export default function _Form({
   const { state } = useLocation();
 
   const [headerDisable] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const grandTotal = (values, setFieldValue, value, key) => {
     let add =
@@ -72,6 +75,11 @@ export default function _Form({
     return setFieldValue("grandTotal", add);
   };
 
+  const debounceHandelar = debounce(({ setLoading, CB }) => {
+    setLoading(false);
+    CB();
+  }, 2000);
+
   return (
     <>
       <Formik
@@ -79,9 +87,14 @@ export default function _Form({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
-            // setRowDto([]);
+          setIsLoading(true);
+          debounceHandelar({
+            setLoading: setIsLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -96,6 +109,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
+          {isLoading && <Loading/>}
             <Card>
               {true && <ModalProgressBar />}
               <CardHeader title="Customs Duty">
@@ -129,7 +143,7 @@ export default function _Form({
                       className="btn btn-primary ml-2"
                       onClick={handleSubmit}
                       // ref={saveBtnRef}
-                      disabled={viewType === "view" ? true : false}
+                      disabled={isLoading || viewType === "view" ? true : false}
                     >
                       Save
                     </button>
