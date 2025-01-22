@@ -174,8 +174,7 @@ export default function _Form({
                           name="boeNo"
                           touched={touched}
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                         />
                       </div>
@@ -189,8 +188,7 @@ export default function _Form({
                           errors={errors}
                           touched={touched}
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                         />
                       </div>
@@ -204,8 +202,7 @@ export default function _Form({
                           errors={errors}
                           touched={touched}
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false)
                           }
                         />
                       </div>
@@ -237,8 +234,7 @@ export default function _Form({
                           }}
                           disabled={
                             viewType === "view" ||
-                            headerDisable ||
-                            (!viewType && values?.is78Guarantee)
+                            headerDisable 
                           }
                         />
                       </div>
@@ -275,8 +271,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) ||
-                            (!viewType && values?.is78Guarantee)
+                              : false)
                           }
                         />
                       </div>
@@ -303,8 +298,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) ||
-                            (!viewType && values?.is78Guarantee)
+                              : false)
                           }
                         />
                       </div>
@@ -332,8 +326,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) ||
-                            (!viewType && values?.is78Guarantee)
+                              : false)
                           }
                         />
                       </div>
@@ -360,8 +353,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) ||
-                            (!viewType && values?.is78Guarantee)
+                              : false) 
                           }
                         />
                       </div>
@@ -385,8 +377,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) ||
-                            (!viewType && values?.is78Guarantee)
+                              : false) 
                           }
                         />
                       </div>
@@ -413,8 +404,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) ||
-                            (!viewType && values?.is78Guarantee)
+                              : false) 
                           }
                         />
                       </div>
@@ -430,8 +420,7 @@ export default function _Form({
                           errors={errors}
                           touched={touched}
                           isDisabled={
-                            viewType === "view" ||
-                            (!viewType && values?.is78Guarantee)
+                            viewType === "view" 
                           }
                         />
                       </div>
@@ -501,8 +490,7 @@ export default function _Form({
                               );
                             }}
                             disabled={
-                              viewType === "view" ||
-                              (viewType === "edit" && values?.is78Guarantee)
+                              viewType === "view" 
                             }
                           />
                         </div>
@@ -595,8 +583,7 @@ export default function _Form({
                             errors={errors}
                             touched={touched}
                             isDisabled={
-                              viewType === "view" ||
-                              (!viewType && values?.is78Guarantee)
+                              viewType === "view" 
                             }
                           />
                         </div>
@@ -613,8 +600,7 @@ export default function _Form({
                               setFieldValue("instrumentType", valueOption);
                             }}
                             isDisabled={
-                              (viewType === "view" ? true : false) ||
-                              (!viewType && values?.is78Guarantee)
+                              (viewType === "view" ? true : false) 
                             }
                             errors={errors}
                             touched={touched}
