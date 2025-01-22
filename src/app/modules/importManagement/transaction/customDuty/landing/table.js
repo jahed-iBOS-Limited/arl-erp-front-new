@@ -288,7 +288,7 @@ const CustomDutyLanding = () => {
                               >
                                 <IView />
                               </span>
-                             {
+                             {/* {
                               (item?.boENumber <= 0) && (
                                 <span
                                 className="edit"
@@ -307,7 +307,7 @@ const CustomDutyLanding = () => {
                                 <IEdit />
                               </span>
                               )
-                             }
+                             } */}
                             </td>
                           </tr>
                         );
