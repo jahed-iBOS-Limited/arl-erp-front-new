@@ -8,7 +8,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import logisticsLogo from "./logisticsLogo.png";
 
 export default function ViewInvoice({ clickRowDto }) {
-  const { profileData, selectedBusinessUnit } = useSelector(
+  const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
     shallowEqual
   );

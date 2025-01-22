@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { imarineBaseUrl } from "../../../../App";
 import ICustomCard from "../../../_helper/_customCard";
 import { _dateFormatter } from "../../../_helper/_dateFormate";
+import FormikError from "../../../_helper/_formikError";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import NewSelect from "../../../_helper/_select";
@@ -86,7 +87,7 @@ const validationSchema = Yup.object().shape({
   commodity: Yup.object().shape({
     value: Yup.string().required("Commodity is required"),
   }),
-  containerQty: Yup.number().required("Container Quantity is required"),
+  // containerQty: Yup.number().required("Container Quantity is required"),
   currency: Yup.object().shape({
     value: Yup.string().required("Currency is required"),
   }),
@@ -149,10 +150,10 @@ function CreateChaShipmentBooking() {
       modeOfTransportId: values?.transportMode?.value || 0,
       modeOfTransportName: values?.transportMode?.label || "",
       ffw: values?.ffw?.label || "",
-      ffwId: values?.ffw?.value || 0,
-      shipperId: values?.shipper?.value || 0,
+      ffwId: 0,
+      shipperId: 0,
       shipperName: values?.shipper?.label || "",
-      consigneeId: values?.consignee?.value || 0,
+      consigneeId: 0,
       incotermId: 0,
       incotermName: values?.incoterm?.label || "",
       consignee: values?.consignee?.label || "",
@@ -169,7 +170,7 @@ function CreateChaShipmentBooking() {
       thirdPartyId: 0,
       thirdPartyName: values?.thirdPartyPay?.label || "",
       csSalesPic: values?.csSalesPic?.label || "",
-      cssalesPicId: values?.csSalesPic?.value || 0,
+      cssalesPicId: 0,
       containerQty: values?.containerQty || 0,
       copyDocReceived: values?.copyDocReceived || "",
       originCountryId: values?.originCountry?.value || 0,
@@ -274,7 +275,7 @@ function CreateChaShipmentBooking() {
                   label: resData?.modeOfTransportName,
                 }
               : "",
-            carrier: resData?.carrierId
+            carrier: resData?.carrierName
               ? {
                   value: resData?.carrierId,
                   label: resData?.carrierName,
@@ -588,8 +589,11 @@ function CreateChaShipmentBooking() {
                           )
                           .then((res) => res?.data);
                       }}
+                    />
+                    <FormikError
                       errors={errors}
                       touched={touched}
+                      name="customer"
                     />
                   </div>
 
@@ -752,7 +756,6 @@ function CreateChaShipmentBooking() {
                       isCreatableSelect
                       selectedValue={values?.thirdPartyPay}
                       handleChange={(valueOption) => {
-                        console.log(valueOption);
                         setFieldValue("thirdPartyPay", valueOption);
                       }}
                       placeholder="Select Third Party Pay"
@@ -875,6 +878,8 @@ function CreateChaShipmentBooking() {
                           onChange={(e) => {
                             setFieldValue("containerQty", e.target.value);
                           }}
+                          errors={errors}
+                          touched={touched}
                         />
                       </div>
                     </>
