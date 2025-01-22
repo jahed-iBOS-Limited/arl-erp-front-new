@@ -180,11 +180,11 @@ export default function _Form({
                       name="cargoType"
                       options={shipingCargoTypeDDL || []}
                       value={values?.cargoType}
-                      label="Cargo Type"
+                      label="Cargo Partner Type"
                       onChange={(valueOption) => {
                         setFieldValue('cargoType', valueOption);
                       }}
-                      placeholder="Select Cargo Type"
+                      placeholder="Select Cargo Partner Type"
                       isSearchable={true}
                       errors={errors}
                       touched={touched}
