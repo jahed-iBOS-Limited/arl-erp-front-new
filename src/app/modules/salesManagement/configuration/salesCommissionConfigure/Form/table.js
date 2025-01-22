@@ -339,10 +339,11 @@ const TableThree = ({ obj }) => {
               <th rowSpan={2} style={{ width: "40px" }}>
                 SL
               </th>
+              {[46].includes(values?.commissionType?.value) &&  <th rowSpan={2}>Business Partner</th>}
               <th rowSpan={2}>Area Name</th>
               <th colSpan={2}>Achievement</th>
               <th colSpan={2}>Quantity</th>
-              {![35, 36, 37, 38, 39, 40].includes(
+              {![35, 36, 37, 38, 39, 40, 46].includes(
                 values?.commissionType?.value
               ) && (
                 <>
@@ -352,7 +353,7 @@ const TableThree = ({ obj }) => {
                   <th rowSpan={2}>CA Rate/Bag</th>
                 </>
               )}
-              {[35, 36, 37, 38, 39, 40].includes(
+              {[35, 36, 37, 38, 39, 40, 46].includes(
                 values?.commissionType?.value
               ) && <th rowSpan={2}>Common Rate</th>}
 
@@ -385,12 +386,13 @@ const TableThree = ({ obj }) => {
                     />
                   </td>
                   <td> {index + 1}</td>
+                  {[46].includes(values?.commissionType?.value) &&  <td>{item?.customerName}</td>}
                   <td>{item?.areaName}</td>
                   <td>{item?.achievementFrom}</td>
                   <td>{item?.achievementTo}</td>
                   <td>{item?.offerQntFrom}</td>
                   <td>{item?.offerQntTo}</td>
-                  {![35, 36, 37, 38, 39, 40].includes(
+                  {![35, 36, 37, 38, 39, 40, 46].includes(
                     values?.commissionType?.value
                   ) && (
                     <>
@@ -456,7 +458,7 @@ const TableThree = ({ obj }) => {
                       </td>
                     </>
                   )}
-                  {[35, 36, 37, 38, 39, 40].includes(
+                  {[35, 36, 37, 38, 39, 40, 46].includes(
                     values?.commissionType?.value
                   ) && (
                     <td>
