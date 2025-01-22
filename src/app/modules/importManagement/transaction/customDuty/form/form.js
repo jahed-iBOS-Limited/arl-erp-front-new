@@ -562,8 +562,7 @@ export default function _Form({
                             setFieldValue("paidBy", valueOption);
                           }}
                           isDisabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                           errors={errors}
                           touched={touched}
@@ -633,8 +632,7 @@ export default function _Form({
                           type="number"
                           min={0}
                           disabled={
-                            viewType === "view" ||
-                            (!viewType && values?.is78Guarantee)
+                            viewType === "view" 
                           }
                         />
                       </div>
@@ -645,8 +643,7 @@ export default function _Form({
                           placeholder="Custom Duty"
                           name="customDuty"
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                           type="number"
                           onChange={(e) => {
@@ -670,8 +667,7 @@ export default function _Form({
                           placeholder="Regulatory Duty"
                           name="regulatoryDuty"
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                           type="number"
                           onChange={(e) => {
@@ -695,8 +691,7 @@ export default function _Form({
                           placeholder="Supplementary Duty"
                           name="supplementaryDuty"
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                           type="number"
                           onChange={(e) => {
@@ -729,8 +724,7 @@ export default function _Form({
                             );
                           }}
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                           type="number"
                           min="0"
@@ -754,8 +748,7 @@ export default function _Form({
                           }}
                           name="ait"
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                           type="number"
                           min="0"
@@ -779,8 +772,7 @@ export default function _Form({
                             );
                           }}
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                           type="number"
                           min="0"
@@ -795,8 +787,7 @@ export default function _Form({
                           placeholder="PSI"
                           name="psi"
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                           type="number"
                           min="0"
@@ -829,8 +820,7 @@ export default function _Form({
                             );
                           }}
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                           type="number"
                           min="0"
@@ -901,8 +891,7 @@ export default function _Form({
                           //   );
                           // }}
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                         />
                       </div>
