@@ -77,9 +77,9 @@ const validationSchema = Yup.object().shape({
   transportMode: Yup.object().shape({
     value: Yup.string().required("Transport Mode is required"),
   }),
-  // customer: Yup.object().shape({
-  //   value: Yup.string().required("Customer is required"),
-  // }),
+  customer: Yup.object().shape({
+    value: Yup.string().required("Customer is required"),
+  }),
   fclOrLcl: Yup.object().shape({
     value: Yup.string().required("FCL/LCL is required"),
   }),
@@ -166,7 +166,7 @@ function CreateChaShipmentBooking() {
       depoPlaceName: values?.depoOrPlace?.label || "",
       commodityId: values?.commodity?.value || 0,
       commodityName: values?.commodity?.label || "",
-      thirdPartyId: values?.thirdPartyPay?.value || 0,
+      thirdPartyId: 0,
       thirdPartyName: values?.thirdPartyPay?.label || "",
       csSalesPic: values?.csSalesPic?.label || "",
       cssalesPicId: values?.csSalesPic?.value || 0,
@@ -752,6 +752,7 @@ function CreateChaShipmentBooking() {
                       isCreatableSelect
                       selectedValue={values?.thirdPartyPay}
                       handleChange={(valueOption) => {
+                        console.log(valueOption);
                         setFieldValue("thirdPartyPay", valueOption);
                       }}
                       placeholder="Select Third Party Pay"
