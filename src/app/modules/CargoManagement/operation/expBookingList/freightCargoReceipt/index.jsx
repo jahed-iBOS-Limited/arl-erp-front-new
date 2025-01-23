@@ -1,3 +1,4 @@
+import { Form, Formik } from "formik";
 import moment from "moment";
 import React, { useEffect, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
@@ -5,7 +6,6 @@ import { imarineBaseUrl } from "../../../../../App";
 import Loading from "../../../../_helper/_loading";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
-import { Form, Formik } from "formik";
 const FreightCargoReceipt = ({ rowClickData }) => {
   const componentRef = useRef();
   const formikRef = React.useRef(null);
@@ -380,7 +380,22 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                   }}
                 >
                   <span style={{ padding: 2 }}>MBL/MAWB NUM</span>
-                  <span style={{ padding: 2 }}>: {bookingData?.blnumber}</span>
+                  <span style={{ padding: 2 }}>
+                    :
+                    {bookingData?.seaMasterBlCode &&
+                    bookingData?.airMasterBlCode ? (
+                      <>
+                        {bookingData?.seaMasterBlCode}{" "}
+                        {bookingData?.airMasterBlCode
+                          ? ", " + bookingData?.airMasterBlCode
+                          : ""}
+                      </>
+                    ) : (
+                      bookingData?.seaMasterBlCode ||
+                      bookingData?.airMasterBlCode ||
+                      ""
+                    )}
+                  </span>
                 </div>
                 <div
                   style={{
@@ -442,7 +457,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                       :{" "}
                       {bookingData?.objPurchase?.map((item, index) => {
                         return `${item?.lcdate &&
-                          `${moment(item?.lcdate).format("DD-MM-YYYY")}`}${
+                          `${moment(item?.lcdate).format("DD MMM YYYY")}`}${
                           index < bookingData?.objPurchase?.length - 1
                             ? ","
                             : ""
@@ -470,7 +485,13 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                 >
                   <span style={{ padding: 2 }}>M.VSL/FLIGHT NUM</span>
                   <span style={{ padding: 2 }}>
-                    :{transportPlanningData?.voyagaNo}
+                    {" "}
+                    :{" "}
+                    {bookingData?.transportPlanning
+                      ?.flatMap((item) =>
+                        item?.airTransportRow?.map((row) => row?.flightNumber)
+                      )
+                      .join(", ")}
                   </span>
                 </div>
                 {/* <div
@@ -490,10 +511,35 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                 >
                   <span style={{ padding: 2 }}>MBL/MAWB DATE</span>
                   <span style={{ padding: 2 }}>
-                    :{" "}
+                    {/* :{" "}
                     {bookingData?.bldate
-                      ? moment(bookingData?.bldate).format("YYYY-MM-DD")
-                      : ""}
+                      ? moment(bookingData?.bldate).format("DD MMM YYYY")
+                      : ""} */}
+                    {bookingData?.seaMasterBlDate &&
+                    bookingData?.airMasterBlDate ? (
+                      <>
+                        {moment(bookingData?.seaMasterBlDate).isValid() &&
+                          moment(bookingData?.seaMasterBlDate).format(
+                            "DD MMM YYYY"
+                          )}{" "}
+                        {bookingData?.airMasterBlDate
+                          ? ", " +
+                              moment(bookingData?.airMasterBlDate).isValid() &&
+                            moment(bookingData?.airMasterBlDate).format(
+                              "DD MMM YYYY"
+                            )
+                          : ""}
+                      </>
+                    ) : (
+                      (moment(bookingData?.seaMasterBlDate).isValid() &&
+                        moment(bookingData?.seaMasterBlDate).format(
+                          "DD MMM YYYY"
+                        )) ||
+                      (moment(bookingData?.airMasterBlDate).isValid() &&
+                        moment(bookingData?.airMasterBlDate).format(
+                          "DD MMM YYYY"
+                        ))
+                    )}
                   </span>
                 </div>
                 <div
@@ -506,7 +552,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                   <span style={{ padding: 2 }}>
                     :{" "}
                     {bookingData?.hbldate
-                      ? moment(bookingData?.hbldate).format("YYYY-MM-DD")
+                      ? moment(bookingData?.hbldate).format("DD MMM YYYY")
                       : ""}
                   </span>
                 </div>
