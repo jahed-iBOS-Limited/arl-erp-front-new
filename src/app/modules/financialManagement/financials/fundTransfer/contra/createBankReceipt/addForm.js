@@ -22,7 +22,7 @@ export default function BankReceiptForJounal() {
   const [instrumentNoByResponse, setInstrumentNoByResponse] = useState("");
   const location = useLocation();
   let { selectedJournalTypeId, selectedFormValues, transferRowItem } = location?.state || {}// For Bank Transfer Only
-  let { intRequestToUnitId } = transferRowItem || {}// For Bank Transfer Only
+  let { intRequestByUnitId } = transferRowItem || {}// For Bank Transfer Only
   const params = useParams();
   const [attachmentFile, setAttachmentFile] = useState("");
   const [sbuList, getSbuList] = useAxiosGet();
@@ -39,7 +39,7 @@ export default function BankReceiptForJounal() {
   // Handle `selectedBusinessUnit` value separately
   const adjustedSelectedBusinessUnit = {
     ...selectedBusinessUnit,
-    value: selectedJournalTypeId === 5 ? intRequestToUnitId : selectedBusinessUnit?.value,
+    value: selectedJournalTypeId === 4 ? intRequestByUnitId : selectedBusinessUnit?.value,
   };
 
   // const { bankJournalCreate } = useSelector(
@@ -48,11 +48,11 @@ export default function BankReceiptForJounal() {
   // );
 
   useEffect(() => {
-    if (intRequestToUnitId) {
-      getSbuList(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${intRequestToUnitId}&Status=true`);
+    if (intRequestByUnitId) {
+      getSbuList(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${intRequestByUnitId}&Status=true`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [intRequestToUnitId])
+  }, [intRequestByUnitId])
 
   let netAmount = rowDto?.reduce((total, value) => total + +value?.amount, 0);
 
@@ -222,7 +222,7 @@ export default function BankReceiptForJounal() {
             bankJournalId: 0,
             voucherDate: values?.transactionDate,
             accountId: +profileData?.accountId,
-            businessUnitId: +intRequestToUnitId,
+            businessUnitId: +intRequestByUnitId,
             sbuId: +sbuList[0]?.value || 0,
             bankId: +values?.bankAcc?.bankId,
             bankName: values?.bankAcc?.bankName,
@@ -233,7 +233,7 @@ export default function BankReceiptForJounal() {
             receiveFrom: values?.receiveFrom || "",
             paidTo: values?.paidTo || "",
             transferTo: values?.transferTo?.label || "",
-            placedInBank: values?.placedInBank,
+            placedInBank: values?.placedInBank || false,
             placingDate: values?.placingDate || "",
             //values?.placedInBank ? values?.placingDate : ""
             generalLedgerId: +values?.bankAcc?.generalLedgerId,
@@ -296,7 +296,7 @@ export default function BankReceiptForJounal() {
       (item) => item?.transaction?.value === values?.transaction?.value
     ).length;
 
-    if (selectedJournalTypeId === 5) {
+    if ([4]?.includes(selectedJournalTypeId)) {
       if (rowDto?.length >= 1) {
         return toast.warn("Cann't add multiple")
       }

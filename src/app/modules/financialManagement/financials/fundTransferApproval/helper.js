@@ -1,4 +1,4 @@
-export const approveHandeler = ({ item, onApproveHandler, profileData, cb, isApproved, isTransferCreated, journalCode, isUpdateGivenBankInfo, bankPaymentValues }) => {
+export const approveHandeler = ({ item, onApproveHandler, profileData, cb, isApproved, isTransferCreated, journalCode, isUpdateGivenBankInfo, bankPaymentValues, isFundReceived }) => {
 
     const payload = {
 
@@ -20,9 +20,9 @@ export const approveHandeler = ({ item, onApproveHandler, profileData, cb, isApp
         strRequestedBankAccountName: item.strRequestedBankAccountName || "",
         intRequestedBankAccountId: item.intRequestedBankAccountId || 0,
         strRequestedBankRouting: item.strRequestedBankRouting || "",
-        intRequestGLId: item?.intRequestGLId?.generalLedgerId || item?.intRequestGLId || 0,
+        intRequestGLId: item?.intRequestGLId?.generalLedgerId || item?.intRequestGlid || 0,
         strRequestGlName: item?.strRequestGlName?.generalLedgerName || item?.strRequestGlName || "",
-        strRequestGlCode: item?.strRequestGlCode?.generalLedgerCode || "",
+        strRequestGlCode: item?.strRequestGlCode?.generalLedgerCode || item?.strRequestGlCode || "",
         intGivenBankId: isUpdateGivenBankInfo ? bankPaymentValues?.bankAcc?.bankId : item.intGivenBankId || 0,
         strGivenBankName: isUpdateGivenBankInfo ? bankPaymentValues?.bankAcc?.bankName : item.strGivenBankName || "",
         intGivenBankBranchId: isUpdateGivenBankInfo ? bankPaymentValues?.bankAcc?.bankBranch_Id : item.intGivenBankBranchId || 0,
@@ -31,6 +31,9 @@ export const approveHandeler = ({ item, onApproveHandler, profileData, cb, isApp
         strGivenBankAccountName: isUpdateGivenBankInfo ? bankPaymentValues?.bankAcc?.label : item.strGivenBankAccountName || "",
         strGivenBankAccountId: isUpdateGivenBankInfo ? bankPaymentValues?.bankAcc?.value : item?.strGivenBankAccountId || 0,
         strGivenBankRouting: isUpdateGivenBankInfo ? bankPaymentValues?.bankAcc?.bankRouting : item?.strGivenBankRouting || "",
+        intGivenGlid: isUpdateGivenBankInfo ? bankPaymentValues?.bankAcc?.generalLedgerId : item?.intGivenGlid || 0,
+        strGivenGlCode: isUpdateGivenBankInfo ? bankPaymentValues?.bankAcc?.generalLedgerCode : item?.strGivenGlCode || "",
+        strGivenGlName: isUpdateGivenBankInfo ? bankPaymentValues?.bankAcc?.generalLedgerName : item?.strGivenGlName || "",
         strRemarks: item.strRemarks || "",
         dteExpectedDate: item.dteExpectedDate || "",
         intResponsibleEmpId: item.intResponsibleEmpId || 0,
@@ -44,15 +47,13 @@ export const approveHandeler = ({ item, onApproveHandler, profileData, cb, isApp
         strRequestPartnerId: item?.strRequestPartnerId || 0,
         strRequestPartnerName: item?.strRequestPartnerName || "",
         isTransferCreated: isTransferCreated || 0,
-        intGivenGlid: item?.intGivenGlid || 0,
-        strGivenGlCode: item?.strGivenGlCode || "",
-        strGivenGlName: item?.strGivenGlName || "",
         strGivenPartnerName: item?.strGivenPartnerName || "",
         strGivenstrPartnerCode: item?.strGivenstrPartnerCode || "",
         strRequestPartnerCode: item?.strRequestPartnerCode || "",
         intUpdateBy: profileData?.userId,
-        // strReceivingJournal:journalCode || "",
-        strSendingJournal: journalCode || "",
+        strReceivingJournal: isFundReceived ? journalCode : "",
+        strSendingJournal: isFundReceived ? item?.strSendingJournal : journalCode || "",
+        isFundReceived: isFundReceived || false,
         intGivenPartnerId: item?.intGivenPartnerId || 0
     }
 
