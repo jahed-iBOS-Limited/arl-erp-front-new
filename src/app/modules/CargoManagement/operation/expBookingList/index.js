@@ -367,6 +367,13 @@ function ExpBookingList() {
                         >
                           Confirm
                         </th>
+                        <th
+                          style={{
+                            minWidth: '165px',
+                          }}
+                        >
+                          Shipment Order Invoice
+                        </th>
                         {['Air', 'Sea-Air'].includes(
                           values?.modeOfTransport?.label,
                         ) && (
@@ -404,6 +411,13 @@ function ExpBookingList() {
                         >
                           Shipment Planning
                         </th>
+                        <th
+                          style={{
+                            minWidth: '95px',
+                          }}
+                        >
+                          Air Pre Alert
+                        </th>
                         <th style={{ minWidth: '50px' }}>FC</th>
                         {['Air', 'Sea-Air'].includes(
                           values?.modeOfTransport?.label,
@@ -438,20 +452,8 @@ function ExpBookingList() {
                         >
                           Charges
                         </th>
-                        <th
-                          style={{
-                            minWidth: '95px',
-                          }}
-                        >
-                          Air Pre Alert
-                        </th>
-                        <th
-                          style={{
-                            minWidth: '165px',
-                          }}
-                        >
-                          Shipment Order Invoice
-                        </th>
+
+
                         <th
                           style={{
                             minWidth: '117px',
@@ -682,7 +684,27 @@ function ExpBookingList() {
                                     </button>
                                   </span>
                                 </td>
-
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={!item?.isConfirm}
+                                      className={
+                                        item?.isConfirm
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isShipmentOrderInvoice: true,
+                                        });
+                                      }}
+                                    >
+                                      Shipment Order Invoice
+                                    </button>
+                                  </span>
+                                </td>
                                 {['Air', 'Sea-Air'].includes(
                                   item?.modeOfTransport,
                                 ) && (
@@ -780,6 +802,27 @@ function ExpBookingList() {
                                       }}
                                     >
                                       Shipment Planning
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={!item?.isPlaning}
+                                      className={
+                                        item?.isPlaning
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isAirPreAlert: true,
+                                        });
+                                      }}
+                                    >
+                                      Air Pre Alert
                                     </button>
                                   </span>
                                 </td>
@@ -887,48 +930,8 @@ function ExpBookingList() {
                                     </button>
                                   </span>
                                 </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={!item?.isPlaning}
-                                      className={
-                                        item?.isPlaning
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData(item);
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isAirPreAlert: true,
-                                        });
-                                      }}
-                                    >
-                                      Air Pre Alert
-                                    </button>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={!item?.isConfirm}
-                                      className={
-                                        item?.isConfirm
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData(item);
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isShipmentOrderInvoice: true,
-                                        });
-                                      }}
-                                    >
-                                      Shipment Order Invoice
-                                    </button>
-                                  </span>
-                                </td>
+
+
                                 <td>
                                   <span>
                                     <button

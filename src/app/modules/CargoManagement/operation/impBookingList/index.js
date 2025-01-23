@@ -365,6 +365,13 @@ function ImpBookingList() {
                         </th>
                         <th
                           style={{
+                            minWidth: '165px',
+                          }}
+                        >
+                          Shipment Order Invoice
+                        </th>
+                        <th
+                          style={{
                             minWidth: '140px',
                           }}
                         >
@@ -377,13 +384,7 @@ function ImpBookingList() {
                         >
                           Air Pre Alert
                         </th>
-                        <th
-                          style={{
-                            minWidth: '165px',
-                          }}
-                        >
-                          Shipment Order Invoice
-                        </th>
+
                         <th
                           style={{
                             minWidth: '60px',
@@ -590,6 +591,27 @@ function ImpBookingList() {
                                 <td>
                                   <span>
                                     <button
+                                      disabled={!item?.isConfirm}
+                                      className={
+                                        item?.isConfirm
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isShipmentOrderInvoice: true,
+                                        });
+                                      }}
+                                    >
+                                      Shipment Order Invoice
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
                                       disabled={
                                         item?.isPlaning || !item?.isConfirm
                                       }
@@ -631,27 +653,7 @@ function ImpBookingList() {
                                     </button>
                                   </span>
                                 </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={!item?.isConfirm}
-                                      className={
-                                        item?.isConfirm
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData(item);
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isShipmentOrderInvoice: true,
-                                        });
-                                      }}
-                                    >
-                                      Shipment Order Invoice
-                                    </button>
-                                  </span>
-                                </td>
+
                                 <td>
                                   <span>
                                     <button
