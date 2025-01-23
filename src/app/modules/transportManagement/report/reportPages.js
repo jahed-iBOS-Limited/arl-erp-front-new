@@ -1,32 +1,31 @@
-import React, { lazy, Suspense } from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute, LayoutSplashScreen } from "../../../../_metronic/layout";
-import ChallanInformationUpdate from "./challanInformationUpdate/landing";
-import Dashboardpdd from "./dashboardpdd";
-import DateWiseShipmentCostReport from "./dateWiseShipmentCost/landing/landing";
-import DeliveryScheduleplanReport from "./deliveryScheduleplan/landing/landing";
-import DeliveryScheduleAssignReport from "./deliveryscheduleassaign/landing/landing";
-import ExistingTransportPolicy from "./existingTransportPolicy/landing";
-import HourlyDeliveryStatusReport from "./hourlyDeliveryStatus";
-import LoadingStatusReport from "./loadingStatusReport";
-import LogisticDashBoard from "./logisticDashBoard";
-import PermissionForModification from "./permissionForModification/_landing/_landing";
-import ProductWiseShipmentReport from "./productWiseShipmentReport/Table/table";
-import SalesOrderSupport from "./salesOrderSupport/landing";
-import SheduleNUnshedule from "./sheduleNUnshedule/landing/index";
-import ShipmentCancel from "./shipmentCancel/landing";
-import ShipmentCostReport from "./shipmentCostReport/landing";
-import ShipmentVehicleStatusUpdate from "./shipmentVehicleStatusUpdate/landing";
-import TransportSupplierUpdate from "./transportSupplierUpdate/landing";
-import TransportZoneRateReportForm from "./transportZoneRate/form/addForm";
-import TransportZoneRateReport from "./transportZoneRate/landing/index";
-import TransportZoneUpdate from "./transportZoneUpdate/landing";
-import TripCostReportReport from "./tripCostReport/landing/landing";
-import TripSlabCostReport from "./tripSlabCostReport/landing/table";
-import VehicleFuelCostReport from "./vehicleFuelCostReport/landing";
-import VehicleFuelReport from "./vehicleFuelReport/landing/landing";
-import ChallanCancel from "./challanCancel/landing";
-const DeliveryProcessReportPage = lazy(() => import("./deliveryProcessReport"));
+import React, { lazy, Suspense } from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute, LayoutSplashScreen } from '../../../../_metronic/layout';
+import ChallanCancel from './challanCancel/landing';
+import ChallanInformationUpdate from './challanInformationUpdate/landing';
+import Dashboardpdd from './dashboardpdd';
+import DateWiseShipmentCostReport from './dateWiseShipmentCost/landing/landing';
+import DeliveryScheduleplanReport from './deliveryScheduleplan/landing/landing';
+import DeliveryScheduleAssignReport from './deliveryscheduleassaign/landing/landing';
+import ExistingTransportPolicy from './existingTransportPolicy/landing';
+import HourlyDeliveryStatusReport from './hourlyDeliveryStatus';
+import LoadingStatusReport from './loadingStatusReport';
+import LogisticDashBoard from './logisticDashBoard';
+import PermissionForModification from './permissionForModification/_landing/_landing';
+import ProductWiseShipmentReport from './productWiseShipmentReport/Table/table';
+import SalesOrderSupport from './salesOrderSupport/landing';
+import SheduleNUnshedule from './sheduleNUnshedule/landing/index';
+import ShipmentCancel from './shipmentCancel/landing';
+import ShipmentVehicleStatusUpdate from './shipmentVehicleStatusUpdate/landing';
+import TransportSupplierUpdate from './transportSupplierUpdate/landing';
+import TransportZoneRateReportForm from './transportZoneRate/form/addForm';
+import TransportZoneRateReport from './transportZoneRate/landing/index';
+import TransportZoneUpdate from './transportZoneUpdate/landing';
+import TripCostReportReport from './tripCostReport/landing/landing';
+import TripSlabCostReport from './tripSlabCostReport/landing/table';
+import VehicleFuelCostReport from './vehicleFuelCostReport/landing';
+import VehicleFuelReport from './vehicleFuelReport/landing/landing';
+const DeliveryProcessReportPage = lazy(() => import('./deliveryProcessReport'));
 
 export function TransportReportPages() {
   return (
@@ -38,10 +37,10 @@ export function TransportReportPages() {
           to="/transport-management/report"
         />
         {/* configuration Page */}
-        <ContentRoute
+        {/* <ContentRoute
           path="/transport-management/report/shipmentCostReport"
           component={ShipmentCostReport}
-        />
+        /> */}
 
         <ContentRoute
           path="/transport-management/report/fuelCostReport"

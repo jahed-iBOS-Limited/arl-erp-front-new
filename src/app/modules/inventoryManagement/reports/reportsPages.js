@@ -1,31 +1,29 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
 // import InventoryStatementTable from "./inventoryStatement/table/table";
-import GLWiseBalance from "./GLWiseBalance";
-import { InventoryStatementReport } from "./InventoryStatementReport";
-import CancledMRR from "./cancledMRR";
-import CollectionReportLanding from "./collectionReport/landing/index";
-import CustomerCreditBalanceLanding from "./customerCreditBalance/landing/index";
-import CustomerDeliveryModifiedReport from "./customerDeliveryModified/landing";
-import { DateWiseSalesReport } from "./dateWiseSalesReport/Table/table";
-import DebitCreditStatus from "./debitCreditStatus/landing";
-import DeliveryReportLanding from "./deliveryReport/landing/index";
-import DeliveryReportOrganizationWise from "./deliveryReportOrganizationWise";
-import { GRNReport } from "./genStatement";
-import { LoanRegisterReport } from "./inventoryLoanRegister/LoanRegisterReport";
-import InventoryStatementRDLC from "./inventoryStatementRDLC";
-import InventoryStockTable from "./inventoryStock/table/table";
-import { IssueReport } from "./issueStatement";
-import ItemAnalytics from "./itemAnalytics";
-import { ItemTransferTransit } from "./itemTransferTransit/Table/table";
-import PartnerCommissionLanding from "./partnerCommissionReport/landing/table";
-import PendingDeliveryReportTable from "./pendingDelivery/table/table";
-import PendingShippingReportTable from "./pendingShipping/table/table";
-import SupplierWisePurchase from "./supplierWisePurchase";
-import WarehouseWiseStockReport from "./whStockReport";
-import WHStockReportVat from "./whStockReportVat";
-import MROItemReports from "./MROItems";
+import GLWiseBalance from './GLWiseBalance';
+import { InventoryStatementReport } from './InventoryStatementReport';
+import CancledMRR from './cancledMRR';
+import CollectionReportLanding from './collectionReport/landing/index';
+import CustomerCreditBalanceLanding from './customerCreditBalance/landing/index';
+import { DateWiseSalesReport } from './dateWiseSalesReport/Table/table';
+import DebitCreditStatus from './debitCreditStatus/landing';
+import DeliveryReportOrganizationWise from './deliveryReportOrganizationWise';
+import { GRNReport } from './genStatement';
+import { LoanRegisterReport } from './inventoryLoanRegister/LoanRegisterReport';
+import InventoryStatementRDLC from './inventoryStatementRDLC';
+import InventoryStockTable from './inventoryStock/table/table';
+import { IssueReport } from './issueStatement';
+import ItemAnalytics from './itemAnalytics';
+import { ItemTransferTransit } from './itemTransferTransit/Table/table';
+import PartnerCommissionLanding from './partnerCommissionReport/landing/table';
+import PendingDeliveryReportTable from './pendingDelivery/table/table';
+import PendingShippingReportTable from './pendingShipping/table/table';
+import SupplierWisePurchase from './supplierWisePurchase';
+import WarehouseWiseStockReport from './whStockReport';
+import WHStockReportVat from './whStockReportVat';
+import MROItemReports from './MROItems';
 
 export function ReportsPages() {
   return (
@@ -46,18 +44,6 @@ export function ReportsPages() {
       <ContentRoute
         from="/inventory-management/reports/inventoryStatement"
         component={InventoryStatementReport}
-      />
-
-      {/* Delivery Report */}
-      <ContentRoute
-        from="/inventory-management/reports/deliveryReport"
-        component={DeliveryReportLanding}
-      />
-
-      {/* Customer Delivery Modified Report */}
-      <ContentRoute
-        from="/inventory-management/reports/deliveryModified"
-        component={CustomerDeliveryModifiedReport}
       />
 
       {/* Issue Report */}

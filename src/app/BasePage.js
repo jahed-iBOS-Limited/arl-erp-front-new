@@ -146,7 +146,6 @@ const BasePage = () => {
       <AttachmentViewer />
       <MultipleAttachmentViewer />
       <MobileFirstAlert />
-      {/* <ChatApp /> */}
       <Switch>
         {<Redirect exact from="/" to="/self-service/self-dashboard" />}
         {/* <Route path="/dashboard" component={DashboardPage} /> */}

@@ -1,13 +1,12 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { LayoutSplashScreen, ContentRoute } from "../../../_metronic/layout";
-import { Suspense } from "react";
-import ConfigurationPages from "./configuration/configurationPages";
-import SalesforcePages from "./salesforceManagement/salesforceManagementPages";
-import PrimarySalesPages from "./primarySales/primarySalesPages";
-import AccountReceivablePages from "./accountReceivable/accountReceivablePages";
-import InventoryPages from "./inventory/inventoryPages";
-import { RTMReportPages } from "./report/reportPages";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { LayoutSplashScreen, ContentRoute } from '../../../_metronic/layout';
+import { Suspense } from 'react';
+import ConfigurationPages from './configuration/configurationPages';
+import SalesforcePages from './salesforceManagement/salesforceManagementPages';
+import PrimarySalesPages from './primarySales/primarySalesPages';
+import AccountReceivablePages from './accountReceivable/accountReceivablePages';
+import InventoryPages from './inventory/inventoryPages';
 
 export function RtmManagementPages() {
   return (
@@ -38,10 +37,6 @@ export function RtmManagementPages() {
         <ContentRoute
           path="/rtm-management/inventory"
           component={InventoryPages}
-        />
-        <ContentRoute
-          path="/rtm-management/report"
-          component={RTMReportPages}
         />
       </Switch>
     </Suspense>
