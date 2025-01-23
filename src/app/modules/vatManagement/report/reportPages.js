@@ -1,44 +1,41 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import reportLanding from ".";
-import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import MushakSixPointSixLanding from "./6.6/landing/tableHeader";
-import MushakSevenPointOneLanding from "./7.1/landing/index";
-import AuditLogLanding from "./auditLog/Table/index";
-import AuditReport from "./auditReport/Table/card/index";
-import AuditReportLanding from "./auditReport/Table/index";
-import { BalanceReport } from "./balanceReport";
-import { CashFlowStatement } from "./cashFlowStatement/cashFlowStatement";
-import CreditNoteLanding from "./creditNote/Table";
-import DebitNoteLanding from "./debitNote/Table";
-import Incomestatement from "./incomestatement";
-import InventoryRegisterLanding from "./inventoryRegister";
-import IssueSummaryLanding from "./issueSummery/Table";
-import MushakSixPointOneLanding from "./mushak6.1/landing";
-import MushakLanding from "./mushak9.1/Table";
-import ProductionSummaryLanding from "./productionSummery/Table";
-import PurchaseRegLanding from "./purchaseReg/Table/index";
-import PurchaseSalesLanding from "./purchaseSales/Table/index";
-import PurchaseSummeryLanding from "./purchasSesummery/Table";
-import { RegisterReport } from "./register/RegisterReport";
-import CashAtBank from "./registerNew/registerReports/CashAtBank";
-import Customer from "./registerNew/registerReports/Customer";
-import Employee from "./registerNew/registerReports/Employee";
-import InvestmentPartner from "./registerNew/registerReports/InvestmentPartner";
-import Supplier from "./registerNew/registerReports/Supplier";
-import SalesInformationLanding from "./salesInformation/Table";
-import SalesRegisterLanding from "./salesRegister/Table";
-import SalesSummeryLanding from "./salesSummary/Table/index";
-import TaxLedgerLanding from "./taxLedger/Table";
-import ReportHeader from "./trailBalance/table/tableHeader";
-import TreasurydepositsummaryLanding from "./treasuryDepositSummary/Table";
-import VatPivoteTableReportLanding from "./vatPivoteTableReport/landing/index";
-import { AccountJournelNotesReport } from "./accountJournelNotesReport";
-
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import reportLanding from '.';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import MushakSixPointSixLanding from './6.6/landing/tableHeader';
+import MushakSevenPointOneLanding from './7.1/landing/index';
+import { AccountJournelNotesReport } from './accountJournelNotesReport';
+import AuditLogLanding from './auditLog/Table/index';
+import AuditReport from './auditReport/Table/card/index';
+import AuditReportLanding from './auditReport/Table/index';
+import { BalanceReport } from './balanceReport';
+import { CashFlowStatement } from './cashFlowStatement/cashFlowStatement';
+import CreditNoteLanding from './creditNote/Table';
+import DebitNoteLanding from './debitNote/Table';
+import Incomestatement from './incomestatement';
+import InventoryRegisterLanding from './inventoryRegister';
+import IssueSummaryLanding from './issueSummery/Table';
+import MushakSixPointOneLanding from './mushak6.1/landing';
+import MushakLanding from './mushak9.1/Table';
+import ProductionSummaryLanding from './productionSummery/Table';
+import PurchaseRegLanding from './purchaseReg/Table/index';
+import PurchaseSalesLanding from './purchaseSales/Table/index';
+import PurchaseSummeryLanding from './purchasSesummery/Table';
+import { RegisterReport } from './register/RegisterReport';
+import CashAtBank from './registerNew/registerReports/CashAtBank';
+import Customer from './registerNew/registerReports/Customer';
+import Employee from './registerNew/registerReports/Employee';
+import InvestmentPartner from './registerNew/registerReports/InvestmentPartner';
+import Supplier from './registerNew/registerReports/Supplier';
+import SalesInformationLanding from './salesInformation/Table';
+import SalesRegisterLanding from './salesRegister/Table';
+import SalesSummeryLanding from './salesSummary/Table/index';
+import TaxLedgerLanding from './taxLedger/Table';
+import ReportHeader from './trailBalance/table/tableHeader';
+import TreasurydepositsummaryLanding from './treasuryDepositSummary/Table';
 export function ReportPages() {
-
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
 
   // let subSch = null;
@@ -157,12 +154,6 @@ export function ReportPages() {
         component={MushakSixPointSixLanding}
       />
 
-      {/* Pivote Table Report */}
-      <ContentRoute
-        path="/mngVat/report/pivotreport"
-        component={VatPivoteTableReportLanding}
-      />
-
       {/* Tax Ledger Report*/}
       <ContentRoute
         path="/mngVat/report/taxledger"
@@ -207,8 +198,15 @@ export function ReportPages() {
         path="/mngVat/report/auditReport/view"
         component={AuditReportLanding}
       />
-      <ContentRoute path="/mngVat/report/auditReport" component={AuditReport} /> 
-      <ContentRoute path="/mngVat/report/notesReport" component={accountJournelNotesReport?.isView ? AccountJournelNotesReport : NotPermittedPage} /> 
+      <ContentRoute path="/mngVat/report/auditReport" component={AuditReport} />
+      <ContentRoute
+        path="/mngVat/report/notesReport"
+        component={
+          accountJournelNotesReport?.isView
+            ? AccountJournelNotesReport
+            : NotPermittedPage
+        }
+      />
 
       <ContentRoute
         from="/mngVat/report/CashAtBankLedger"

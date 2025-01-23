@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,no-undef */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { DropzoneDialogBase } from 'material-ui-dropzone';
 import React, { useState } from 'react';
-import SVG from 'react-inlinesvg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { APIUrl } from '../../../../../app/App';
@@ -10,11 +8,9 @@ import {
   Logout,
   saveChatInfoAction,
 } from '../../../../../app/modules/Auth/_redux/Auth_Actions';
-import { ChatAppPeer, ChatAppSocket } from '../../../../../app/modules/chatApp';
-import { setResetDataAction } from '../../../../../app/modules/chatApp/redux/Action';
+import Loading from '../../../../../app/modules/_helper/_loading';
 import { compressfile } from '../../../../../app/modules/_helper/compressfile';
 import { clearLocalStorageAction } from '../../../../../app/modules/_helper/reduxForLocalStorage/Actions';
-import Loading from '../../../../../app/modules/_helper/_loading';
 import { toAbsoluteUrl } from '../../../../_helpers';
 import { authSlice } from '../../aside/aside-menu/_redux/BuniessUnitSlice';
 import { profileAPiCall, updateProfilePicture, uplaodAttachment } from './api';
@@ -30,11 +26,6 @@ export function QuickUser() {
   const logoutClick = () => {
     const toggle = document.getElementById('kt_quick_user_toggle');
     if (toggle) {
-      /* Disconnect Web Socket And Peer Connection For Chat And Others */
-      dispatch(setResetDataAction());
-      ChatAppSocket && ChatAppSocket.disconnect();
-      ChatAppPeer && ChatAppPeer.disconnect();
-
       toggle.click();
       dispatch(Logout());
       dispatch(clearLocalStorageAction());
@@ -46,7 +37,7 @@ export function QuickUser() {
       window.location.reload();
     }, 500);
   };
-  const { isAuth, profileData } = useSelector((state) => state.authData);
+  const { profileData } = useSelector((state) => state.authData);
 
   const profilePicChangeHandler = async () => {
     if (fileObjects.length > 0) {

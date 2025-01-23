@@ -1,37 +1,32 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { LayoutSplashScreen, ContentRoute } from "../../../../_metronic/layout";
-import { Suspense } from "react";
-import SalesReport from "./salesReport/SalesReport"
-import SalesDetails from "./salesDetails/SalesDetails"
-import { SalesStatementTable } from "./salesStatementReport/Table/tableHeader"
-import DamageReport from "./damageReport/DamageReport"
-import DateWiseDeliveryReport from "./dateWiseDelivery/DateWiseDeliveryReport"
-import MonthlySalesReport from './monthlySalesInfo/monthlySalesReport'
-import SalesProfit from "./salesProfit/SalesProfit"
-import OutletWiseDueReport from "./outletWiseDueReport/outletWiseDueReport"
-import EmployeeSubledgerReport from "./employeeSubledger/employeeSubledger"
-import CashBookReport from "./cashBook/cashBook"
-import POSSalaryDeduct from "./POSSalaryDeduct";
-import { shallowEqual, useSelector } from "react-redux";
-import NotPermitted from "../../performanceManagement/notPermittedPage/notPermitted";
-import ProfitAndLossReport from "./profitAndLossReport";
+import React, { Suspense } from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute, LayoutSplashScreen } from '../../../../_metronic/layout';
+import SalesReport from './salesReport/SalesReport';
+import { shallowEqual, useSelector } from 'react-redux';
+import NotPermitted from '../../performanceManagement/notPermittedPage/notPermitted';
+import CashBookReport from './cashBook/cashBook';
+import DamageReport from './damageReport/DamageReport';
+import EmployeeSubledgerReport from './employeeSubledger/employeeSubledger';
+import MonthlySalesReport from './monthlySalesInfo/monthlySalesReport';
+import OutletWiseDueReport from './outletWiseDueReport/outletWiseDueReport';
+import POSSalaryDeduct from './POSSalaryDeduct';
+import ProfitAndLossReport from './profitAndLossReport';
+import SalesProfit from './salesProfit/SalesProfit';
+import { SalesStatementTable } from './salesStatementReport/Table/tableHeader';
 
 export function ReportPages() {
-
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual
+    shallowEqual,
   );
 
   let POSSalaryDeductUser = null;
-  
+
   for (let i = 0; i < userRole.length; i++) {
     if (userRole[i]?.intFeatureId === 1260) {
       POSSalaryDeductUser = userRole[i];
     }
   }
-
 
   return (
     <Suspense fallback={<LayoutSplashScreen />}>
@@ -48,11 +43,6 @@ export function ReportPages() {
         />
         <ContentRoute
           exact
-          path="/pos-management/report/sales-details"
-          component={SalesDetails}
-        />
-        <ContentRoute
-          exact
           path="/pos-management/report/sales-statement"
           component={SalesStatementTable}
         />
@@ -60,11 +50,6 @@ export function ReportPages() {
           exact
           path="/pos-management/report/damage-report"
           component={DamageReport}
-        />
-        <ContentRoute
-          exact
-          path="/pos-management/report/dateWiseDelivey"
-          component={DateWiseDeliveryReport}
         />
 
         <ContentRoute
@@ -96,7 +81,9 @@ export function ReportPages() {
         <ContentRoute
           exact
           path="/pos-management/report/POSSalaryDeduct"
-          component={POSSalaryDeductUser?.isView ? POSSalaryDeduct : NotPermitted}
+          component={
+            POSSalaryDeductUser?.isView ? POSSalaryDeduct : NotPermitted
+          }
         />
         <ContentRoute
           exact
