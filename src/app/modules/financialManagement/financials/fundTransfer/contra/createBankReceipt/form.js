@@ -230,7 +230,7 @@ export default function _Form({
           instrumentNo: '',
           profitCenter: '',
           // paidTo: '',
-          receiveFrom: '',
+          // receiveFrom: '',
           // partnerBankAccount: '',
           transferTo: { value: 2, label: 'Bank' },
         }}
@@ -254,6 +254,7 @@ export default function _Form({
 
                     // For Update Journal for Bank Transfer
                     approveHandeler({
+                      isFundReceived: true,
                       item: transferRowItem,
                       onApproveHandler: onUpdateJournalHandler,
                       profileData,
@@ -264,7 +265,7 @@ export default function _Form({
                       isTransferCreated: 1,
                       journalCode: journalCode,
                       bankPaymentValues: bankPaymentValues,
-                      isUpdateGivenBankInfo : jorunalType === 5
+                      isUpdateGivenBankInfo : jorunalType === 4
                     });
 
 
@@ -450,7 +451,7 @@ export default function _Form({
                               );
                             }}
                             loadOptions={loadTransactionList}
-                            isDisabled={!values?.partnerType || jorunalType === 5}
+                            isDisabled={!values?.partnerType || jorunalType === 4}
                           />
                           <FormikError
                             errors={errors}

@@ -355,7 +355,7 @@ export default function FundTransferApproval({ viewType }) {
                                                                 }
 
                                                                 {
-                                                                    item?.isTransferCreated === 1 && (<span
+                                                                    item?.strRequestType !== "Contra" && item?.isTransferCreated === 1 && (<span
                                                                         onClick={() => {
 
 
@@ -376,9 +376,19 @@ export default function FundTransferApproval({ viewType }) {
                                                                                         label: item?.strRequestedBankAccountName,
                                                                                         bankAccNo: item?.strRequestedBankAccountNumber,
                                                                                         generalLedgerId: item?.intRequestGlid,
-                                                                                        generalLedgerCode: item?.strRequestGlCodestrRequestGlCode,
+                                                                                        generalLedgerCode: item?.strRequestGlCode,
                                                                                         generalLedgerName: item?.strRequestGlName,
-                                                                                    }
+                                                                                        bankRouting: item?.strRequestedBankRouting,
+                                                                                    },
+                                                                                    amount: item?.numAmount,
+                                                                                    transaction: {
+                                                                                        value: item?.intGivenPartnerId,
+                                                                                        label: item?.strGivenPartnerName,
+                                                                                        code: item?.strGivenstrPartnerCode || "",
+                                                                                    },
+                                                                                    receiveFrom: item?.strGivenPartnerName || "",
+
+
                                                                                 },
                                                                             };
 
