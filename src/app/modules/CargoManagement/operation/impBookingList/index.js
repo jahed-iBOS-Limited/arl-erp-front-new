@@ -32,6 +32,8 @@ import ReceiveModal from '../expBookingList/receiveModal';
 import TransportModal from '../expBookingList/transportModal';
 import BillGenerate from '../expBookingList/bill';
 import SeaAirMasterBL from '../expBookingList/SeaAirMasterBl';
+import AirPreAlert from '../expBookingList/airPreAlart';
+import ShipmentOrderInvoice from '../expBookingList/shipmentOrderInvoice';
 const validationSchema = Yup.object().shape({});
 function ImpBookingList() {
   const { profileData } = useSelector(
@@ -97,12 +99,10 @@ function ImpBookingList() {
     modeOfTransportId = 1,
   ) => {
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
-        profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${
-        profileData?.userReferenceId
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
       }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue ||
-        ''}&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`,
+      ''}&modeOfTransportId=${modeOfTransportId}&tradeTypeId=2`,
     );
   };
 
@@ -131,7 +131,7 @@ function ImpBookingList() {
     if (
       selectedRow.length > 0 &&
       selectedRow?.[0]?.freightAgentReferenceId !==
-        item?.freightAgentReferenceId
+      item?.freightAgentReferenceId
     ) {
       return true;
     }
@@ -162,7 +162,7 @@ function ImpBookingList() {
           },
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => {}}
+        onSubmit={(values, { setSubmitting, resetForm }) => { }}
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <ICustomCard
@@ -372,6 +372,20 @@ function ImpBookingList() {
                         </th>
                         <th
                           style={{
+                            minWidth: '95px',
+                          }}
+                        >
+                          Air Pre Alert
+                        </th>
+                        <th
+                          style={{
+                            minWidth: '165px',
+                          }}
+                        >
+                          Shipment Order Invoice
+                        </th>
+                        <th
+                          style={{
                             minWidth: '60px',
                           }}
                         >
@@ -475,7 +489,7 @@ function ImpBookingList() {
                                 <td className="text-left">{item?.hblnumber}</td>
                                 <td className="text-left">
                                   {item?.seaMasterBlCode &&
-                                  item?.airMasterBlCode ? (
+                                    item?.airMasterBlCode ? (
                                     <>
                                       {item?.seaMasterBlCode}{' '}
                                       {item?.airMasterBlCode
@@ -593,6 +607,48 @@ function ImpBookingList() {
                                       }}
                                     >
                                       Shipment Planning
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={!item?.isPlaning}
+                                      className={
+                                        item?.isPlaning
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isAirPreAlert: true,
+                                        });
+                                      }}
+                                    >
+                                      Air Pre Alert
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={!item?.isConfirm}
+                                      className={
+                                        item?.isConfirm
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isShipmentOrderInvoice: true,
+                                        });
+                                      }}
+                                    >
+                                      Shipment Order Invoice
                                     </button>
                                   </span>
                                 </td>
@@ -1059,9 +1115,8 @@ function ImpBookingList() {
               {/* HBCode GN Modal */}
               {isModalShowObj?.isHBCodeGN && (
                 <IViewModal
-                  title={`${
-                    rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-                  } Report`}
+                  title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+                    } Report`}
                   show={isModalShowObj?.isHBCodeGN}
                   onHide={() => {
                     setIsModalShowObj({
@@ -1239,6 +1294,44 @@ function ImpBookingList() {
                     title="Booking Details"
                   >
                     <Details rowClickData={rowClickData} />
+                  </IViewModal>
+                </>
+              )}
+
+              {/* AirPreAlert */}
+              {isModalShowObj?.isAirPreAlert && (
+                <>
+                  {' '}
+                  <IViewModal
+                    show={isModalShowObj?.isAirPreAlert}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isAirPreAlert: false,
+                      });
+                    }}
+                    title="Air Pre Alert"
+                  >
+                    <AirPreAlert rowClickData={rowClickData} />
+                  </IViewModal>
+                </>
+              )}
+
+              {/* ShipmentOrderInvoice */}
+              {isModalShowObj?.isShipmentOrderInvoice && (
+                <>
+                  {' '}
+                  <IViewModal
+                    show={isModalShowObj?.isShipmentOrderInvoice}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isShipmentOrderInvoice: false,
+                      });
+                    }}
+                    title="Shipment Order Invoice"
+                  >
+                    <ShipmentOrderInvoice rowClickData={rowClickData} />
                   </IViewModal>
                 </>
               )}

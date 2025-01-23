@@ -31,6 +31,7 @@ import MasterHBAWModal from './masterHAWBModal';
 import MasterHBLModal from './masterHBLModal';
 import ReceiveModal from './receiveModal';
 import SeaAirMasterBL from './SeaAirMasterBl';
+import ShipmentOrderInvoice from './shipmentOrderInvoice';
 import './style.css';
 import TransportModal from './transportModal';
 const validationSchema = Yup.object().shape({});
@@ -443,6 +444,13 @@ function ExpBookingList() {
                           }}
                         >
                           Air Pre Alert
+                        </th>
+                        <th
+                          style={{
+                            minWidth: '165px',
+                          }}
+                        >
+                          Shipment Order Invoice
                         </th>
                         <th
                           style={{
@@ -897,6 +905,27 @@ function ExpBookingList() {
                                       }}
                                     >
                                       Air Pre Alert
+                                    </button>
+                                  </span>
+                                </td>
+                                <td>
+                                  <span>
+                                    <button
+                                      disabled={!item?.isConfirm}
+                                      className={
+                                        item?.isConfirm
+                                          ? 'btn btn-sm btn-success px-1 py-1'
+                                          : 'btn btn-sm btn-warning px-1 py-1'
+                                      }
+                                      onClick={() => {
+                                        setRowClickData(item);
+                                        setIsModalShowObj({
+                                          ...isModalShowObj,
+                                          isShipmentOrderInvoice: true,
+                                        });
+                                      }}
+                                    >
+                                      Shipment Order Invoice
                                     </button>
                                   </span>
                                 </td>
@@ -1670,6 +1699,24 @@ function ExpBookingList() {
                     title="Air Pre Alert"
                   >
                     <AirPreAlert rowClickData={rowClickData} />
+                  </IViewModal>
+                </>
+              )}
+              {/* ShipmentOrderInvoice */}
+              {isModalShowObj?.isShipmentOrderInvoice && (
+                <>
+                  {' '}
+                  <IViewModal
+                    show={isModalShowObj?.isShipmentOrderInvoice}
+                    onHide={() => {
+                      setIsModalShowObj({
+                        ...isModalShowObj,
+                        isShipmentOrderInvoice: false,
+                      });
+                    }}
+                    title="Shipment Order Invoice"
+                  >
+                    <ShipmentOrderInvoice rowClickData={rowClickData} />
                   </IViewModal>
                 </>
               )}
