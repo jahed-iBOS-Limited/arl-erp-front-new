@@ -1,26 +1,27 @@
-import { Form, Formik } from 'formik';
-import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import * as Yup from 'yup';
-import ICustomCard from '../../../_helper/_customCard';
-import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
-import Loading from '../../../_helper/_loading';
-import IView from '../../../_helper/_helperIcons/_view';
-import IEdit from '../../../_helper/_helperIcons/_edit';
-import { imarineBaseUrl } from '../../../../App';
-import { _dateFormatter } from '../../../_helper/_dateFormate';
-import { useState } from 'react';
-import PaginationTable from '../../../_helper/_tablePagination';
-import PaginationSearch from '../../../_helper/_search';
-import IViewModal from '../../../_helper/_viewModal';
-import ViewInfo from './viewInfo';
-import NewSelect from '../../../_helper/_select';
+import { Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import { imarineBaseUrl } from "../../../../App";
+import ICustomCard from "../../../_helper/_customCard";
+import { _dateFormatter } from "../../../_helper/_dateFormate";
+import IEdit from "../../../_helper/_helperIcons/_edit";
+import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
+import IView from "../../../_helper/_helperIcons/_view";
+import Loading from "../../../_helper/_loading";
+import PaginationSearch from "../../../_helper/_search";
+import NewSelect from "../../../_helper/_select";
+import PaginationTable from "../../../_helper/_tablePagination";
+import IViewModal from "../../../_helper/_viewModal";
+import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import ViewInfo from "./viewInfo";
+import ViewInvoice from "./ViewInvoice";
 
 const validationSchema = Yup.object().shape({});
 const initialValues = {
   chaType: {
     value: 0,
-    label: 'All',
+    label: "All",
   },
 };
 
@@ -33,6 +34,7 @@ export default function ChaShipmentBooking() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [viewModal, setViewModal] = useState(false);
+  const [openInvoice, setOpenInvoice] = useState(false);
   const [clickRowDto, setClickRowDto] = useState({});
   let history = useHistory();
   const formikRef = React.useRef(null);
@@ -40,12 +42,12 @@ export default function ChaShipmentBooking() {
 
   const commonGetData = (search, pageNo, pageSize, values) => {
     getyChaShipmentBooking(
-      `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingLanding?search=${search}&pageNo=${pageNo}&pageSize=${pageSize}&tradeTypeId=${values?.chaType?.value}`,
+      `${imarineBaseUrl}/domain/CHAShipment/GetChaShipmentBookingLanding?search=${search}&pageNo=${pageNo}&pageSize=${pageSize}&tradeTypeId=${values?.chaType?.value}`
     );
   };
 
   useEffect(() => {
-    commonGetData('', pageNo, pageSize, initialValues);
+    commonGetData("", pageNo, pageSize, initialValues);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -54,7 +56,7 @@ export default function ChaShipmentBooking() {
       title="CHA Shipment Booking List"
       createHandler={() => {
         history.push(
-          '/cargoManagement/cha-operation/cha-shipment-booking/create',
+          "/cargoManagement/cha-operation/cha-shipment-booking/create"
         );
       }}
     >
@@ -79,22 +81,22 @@ export default function ChaShipmentBooking() {
                   options={[
                     {
                       value: 0,
-                      label: 'All',
+                      label: "All",
                     },
                     {
                       value: 1,
-                      label: 'Export',
+                      label: "Export",
                     },
                     {
                       value: 2,
-                      label: 'Import',
+                      label: "Import",
                     },
                   ]}
-                  value={values?.chaType || ''}
+                  value={values?.chaType || ""}
                   label="CHA Type"
                   onChange={(valueOption) => {
-                    setFieldValue('chaType', valueOption);
-                    commonGetData('', pageNo, pageSize, {
+                    setFieldValue("chaType", valueOption);
+                    commonGetData("", pageNo, pageSize, {
                       ...values,
                       chaType: valueOption,
                     });
@@ -138,7 +140,7 @@ export default function ChaShipmentBooking() {
                           <>
                             <tr key={index}>
                               <td rowSpan={item?.rowData?.length}>
-                                {' '}
+                                {" "}
                                 {index + 1}
                               </td>
                               <td>{item?.impExp}</td>
@@ -151,13 +153,19 @@ export default function ChaShipmentBooking() {
                               <td>
                                 {item?.invoiceDate
                                   ? _dateFormatter(item?.invoiceDate)
-                                  : ''}
+                                  : ""}
                               </td>
                               <td>{item?.netWeight}</td>
                               <td>{item?.grossWeight}</td>
                               <td>{item?.volumetricWeight}</td>
                               <td>
-                                <div className="d-flex justify-content-around">
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-around",
+                                    gap: 2,
+                                  }}
+                                >
                                   <span
                                     onClick={() => {
                                       setViewModal(true);
@@ -168,8 +176,16 @@ export default function ChaShipmentBooking() {
                                   </span>
                                   <span
                                     onClick={() => {
+                                      setOpenInvoice(true);
+                                      setClickRowDto(item);
+                                    }}
+                                  >
+                                    <InfoCircle title={"View Invoice"} />
+                                  </span>
+                                  <span
+                                    onClick={() => {
                                       history.push(
-                                        `/cargoManagement/cha-operation/cha-shipment-booking/edit/${item?.chabookingId}`,
+                                        `/cargoManagement/cha-operation/cha-shipment-booking/edit/${item?.chabookingId}`
                                       );
                                     }}
                                   >
@@ -189,7 +205,7 @@ export default function ChaShipmentBooking() {
                   <PaginationTable
                     count={chaShipmentBooking?.totalCount}
                     setPositionHandler={(pageNo, pageSize) => {
-                      commonGetData('', pageNo, pageSize, values);
+                      commonGetData("", pageNo, pageSize, values);
                     }}
                     values={values}
                     paginationState={{
@@ -207,9 +223,20 @@ export default function ChaShipmentBooking() {
                     onHide={() => {
                       setViewModal(false);
                     }}
-                    title={'View Information'}
+                    title={"View Information"}
                   >
                     <ViewInfo clickRowDto={clickRowDto} />
+                  </IViewModal>
+                )}
+                {openInvoice && (
+                  <IViewModal
+                    show={openInvoice}
+                    onHide={() => {
+                      setOpenInvoice(false);
+                    }}
+                    title={"View Invoice"}
+                  >
+                    <ViewInvoice clickRowDto={clickRowDto} />
                   </IViewModal>
                 )}
               </div>
