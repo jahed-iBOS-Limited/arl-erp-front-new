@@ -2,7 +2,7 @@
   "name": "ibos-erp",
   "version": "7.0.17",
   "private": true,
-  "homepage": "https://ibosapp.akij.net/",
+  "homepage": "https://erp.ibos.io",
   "scripts": {
     "serve": "cp-cli build _site/ && serve",
     "start": "react-scripts --max_old_space_size=8048 start -o",
@@ -76,15 +76,12 @@
     "react-d3-speedometer": "^0.13.1",
     "react-dom": "16.12.0",
     "react-excel-renderer": "^1.1.0",
-    "react-flow-renderer": "^8.3.1",
-    "react-grid-dnd": "^2.1.2",
     "react-grid-layout": "^1.1.1",
     "react-html-table-to-excel": "^2.0.0",
     "react-inlinesvg": "1.2.0",
     "react-is": "16.13.1",
     "react-leaflet": "^3.0.5",
     "react-leaflet-fullscreen": "^4.1.0",
-    "react-perfect-scrollbar": "1.5.8",
     "react-qr-reader": "^3.0.0-beta-1",
     "react-quill": "^1.3.5",
     "react-redux": "7.1.3",
@@ -107,7 +104,6 @@
     "yup": "0.29.0"
   },
   "devDependencies": {
-    "copyfiles": "2.1.1",
     "eslint-plugin-react-hooks": "^4.1.2",
     "prettier": "1.19.1",
     "serve": "^11.3.2",
