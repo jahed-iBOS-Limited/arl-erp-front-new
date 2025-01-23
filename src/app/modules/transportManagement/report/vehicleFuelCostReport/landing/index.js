@@ -1,29 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   GetSupplierFuelStationDDL_api,
   GetVehicleFuelTypeDDL_api,
   getLandingData,
   getSupplierDDL,
-} from "../helper";
-import "../style.css";
-
-// React Pivote Table module Import
-import "react-pivottable/pivottable.css";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from '../helper';
+import '../style.css';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  isBillSubmit: "",
+  isBillSubmit: '',
 };
 
 function VehicleFuelCostReport() {
@@ -56,7 +53,7 @@ function VehicleFuelCostReport() {
         values?.fuelType?.value,
         values?.shipPoint?.value,
         setGridData,
-        setLoading
+        setLoading,
       );
     }
   };
@@ -66,7 +63,7 @@ function VehicleFuelCostReport() {
     getSupplierDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setSupplierDDL
+      setSupplierDDL,
     );
   }, []);
   let totalCredit = 0;
@@ -85,11 +82,11 @@ function VehicleFuelCostReport() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="shipPoint"
-                      options={[{ value: 0, label: "All" }, ...shipPointDDL]}
+                      options={[{ value: 0, label: 'All' }, ...shipPointDDL]}
                       value={values?.shipPoint}
                       label="Shippoint"
                       onChange={(valueOption) => {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                         setGridData([]);
                       }}
                       placeholder="Shippoint"
@@ -104,14 +101,14 @@ function VehicleFuelCostReport() {
                       value={values?.supplier}
                       label="Supplier Name"
                       onChange={(valueOption) => {
-                        setFieldValue("supplier", valueOption);
+                        setFieldValue('supplier', valueOption);
                         GetSupplierFuelStationDDL_api(
                           valueOption?.value,
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
-                          setFuelStationDDL
+                          setFuelStationDDL,
                         );
-                        setFieldValue("fuelStationName", "");
+                        setFieldValue('fuelStationName', '');
                       }}
                       placeholder="Vehicle Supplier Name"
                       errors={errors}
@@ -126,7 +123,7 @@ function VehicleFuelCostReport() {
                       value={values?.fuelStationName}
                       label="Fuel Station Name"
                       onChange={(valueOption) => {
-                        setFieldValue("fuelStationName", valueOption);
+                        setFieldValue('fuelStationName', valueOption);
                       }}
                       placeholder="Fuel Station Name"
                       errors={errors}
@@ -140,7 +137,7 @@ function VehicleFuelCostReport() {
                       value={values?.fuelType}
                       label="Fuel Type"
                       onChange={(valueOption) => {
-                        setFieldValue("fuelType", valueOption);
+                        setFieldValue('fuelType', valueOption);
                       }}
                       placeholder="Fuel Type"
                       errors={errors}
@@ -157,7 +154,7 @@ function VehicleFuelCostReport() {
                         placeholder="From date"
                         type="date"
                         max={_todayDate()}
-                        style={{width: "100%"}}
+                        style={{ width: '100%' }}
                       />
                     </div>
                   </div>
@@ -170,12 +167,12 @@ function VehicleFuelCostReport() {
                         placeholder="To date"
                         type="date"
                         max={_todayDate()}
-                        style={{width: "100%"}}
+                        style={{ width: '100%' }}
                       />
                     </div>
                   </div>
 
-                  <div style={{ marginTop: "15px" }} className="col-lg">
+                  <div style={{ marginTop: '15px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -197,79 +194,82 @@ function VehicleFuelCostReport() {
                 </div>
 
                 <div className="table-responsive">
-                <table className="table table-striped table-bordered global-table">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Date</th>
-                      <th>Shipment Number</th>
-                      <th>Fuel Type</th>
-                      <th>Fuel Memo No.</th>
-                      <th>Credit</th>
-                      <th>Cash</th>
-                      <th>Total</th>
-                      <th>Payable</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {gridData?.map((item, index) => {
-                      totalCredit += item?.purchaseCreditAmount;
-                      totalCash += item?.purchaseCashAmount;
-                      grandTotal += item?.total;
-                      totalPayable += item?.payable;
-                      return (
-                        <tr key={index}>
-                          <td> {index + 1}</td>
-                          <td>
-                            <div className="pl-2">
-                              {_dateFormatter(item?.fuelDate)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.shipmentNumber}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.fuelTypeName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.fuelMemoNo}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2 text-right">
-                              {_formatMoney(item?.purchaseCreditAmount)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2 text-right">
-                              {_formatMoney(item?.purchaseCashAmount)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2 text-right">
-                              {_formatMoney(item?.total)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2 text-right">
-                              {_formatMoney(item?.payable)}
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                    {gridData?.length ? (
-                      <tr className="text-right" style={{ fontWeight: "bold" }}>
-                        <td colSpan="5" className="text-right">
-                          Total
-                        </td>
-                        <td> {totalCredit.toFixed(2)} </td>
-                        <td> {totalCash.toFixed(2)} </td>
-                        <td> {grandTotal.toFixed(2)} </td>
-                        <td> {totalPayable.toFixed(2)} </td>
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Date</th>
+                        <th>Shipment Number</th>
+                        <th>Fuel Type</th>
+                        <th>Fuel Memo No.</th>
+                        <th>Credit</th>
+                        <th>Cash</th>
+                        <th>Total</th>
+                        <th>Payable</th>
                       </tr>
-                    ) : null}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {gridData?.map((item, index) => {
+                        totalCredit += item?.purchaseCreditAmount;
+                        totalCash += item?.purchaseCashAmount;
+                        grandTotal += item?.total;
+                        totalPayable += item?.payable;
+                        return (
+                          <tr key={index}>
+                            <td> {index + 1}</td>
+                            <td>
+                              <div className="pl-2">
+                                {_dateFormatter(item?.fuelDate)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.shipmentNumber}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.fuelTypeName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.fuelMemoNo}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2 text-right">
+                                {_formatMoney(item?.purchaseCreditAmount)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2 text-right">
+                                {_formatMoney(item?.purchaseCashAmount)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2 text-right">
+                                {_formatMoney(item?.total)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2 text-right">
+                                {_formatMoney(item?.payable)}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                      {gridData?.length ? (
+                        <tr
+                          className="text-right"
+                          style={{ fontWeight: 'bold' }}
+                        >
+                          <td colSpan="5" className="text-right">
+                            Total
+                          </td>
+                          <td> {totalCredit.toFixed(2)} </td>
+                          <td> {totalCash.toFixed(2)} </td>
+                          <td> {grandTotal.toFixed(2)} </td>
+                          <td> {totalPayable.toFixed(2)} </td>
+                        </tr>
+                      ) : null}
+                    </tbody>
+                  </table>
                 </div>
               </Form>
             </>

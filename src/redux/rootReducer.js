@@ -74,7 +74,6 @@ import { corporatePerformanceChartSlice } from './../app/modules/performanceMana
 import { corporatePmsAchievementSlice } from './../app/modules/performanceManagement/corporateKpi/achievement/_redux/Slice';
 import { corporateInDividualBalancedScoreSlice } from './../app/modules/performanceManagement/corporateKpi/balancedScore/_redux/Slice';
 import { coporateKpiDeshboardSlice } from './../app/modules/performanceManagement/corporateKpi/kpiDashboard/_redux/Slice';
-import { iChatAppSlice } from '../app/modules/chatApp/redux/Slice';
 import { chattingAppSlice } from '../../src/app/modules/_helper/chattingAppRedux/Slice';
 
 export const rootReducer = combineReducers({
@@ -145,7 +144,6 @@ export const rootReducer = combineReducers({
   invTransa: invTransactionSlice.reducer,
   localStorage: localStorageSlice.reducer,
   chatApp: chatAppSlice.reducer,
-  iChatApp: iChatAppSlice.reducer,
   chattingApp: chattingAppSlice?.reducer,
 });
 

@@ -1,40 +1,38 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
 import {
   docReleaseStatusCheck,
   getLandingData,
   getShipmentDDL,
-} from "../helper";
-// import IWarningModal from "../../../../_helper/_warningModal";
+} from '../helper';
 // import numberWithCommas from "../../../../_helper/_numberWithCommas";
 
 const header = [
-  "SL",
-  "PO No",
-  "BOE No",
-  "LC No",
-  "Shipment No",
-  "Custom Duty(BDT)",
-  "Action",
+  'SL',
+  'PO No',
+  'BOE No',
+  'LC No',
+  'Shipment No',
+  'Custom Duty(BDT)',
+  'Action',
 ];
 
 const CustomDutyLanding = () => {
@@ -63,7 +61,7 @@ const CustomDutyLanding = () => {
       pageSize,
       pageNo,
       setGridData,
-      setLoading
+      setLoading,
     );
   };
   useEffect(() => {
@@ -79,7 +77,7 @@ const CustomDutyLanding = () => {
       pageSize,
       pageNo,
       setGridData,
-      setLoading
+      setLoading,
     );
   };
 
@@ -87,7 +85,7 @@ const CustomDutyLanding = () => {
   const polcList = (v) => {
     if (v?.length < 3) return [];
     return Axios.get(
-      `/imp/ImportCommonDDL/GetPoNoForAllCharge?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${v}`
+      `/imp/ImportCommonDDL/GetPoNoForAllCharge?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${v}`,
     ).then((res) => res?.data);
   };
 
@@ -104,13 +102,13 @@ const CustomDutyLanding = () => {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{ poLc: "", shipment: "" }}
+        initialValues={{ poLc: '', shipment: '' }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
-            {console.log("values", values)}
+            {console.log('values', values)}
             <Card>
               <CardHeader title="Customs Duty">
                 <CardHeaderToolbar>
@@ -118,18 +116,18 @@ const CustomDutyLanding = () => {
                     onClick={() => {
                       gridData?.data?.length > 0
                         ? toast.warn(
-                            "Customs Duty for this Shipment is Already Created"
+                            'Customs Duty for this Shipment is Already Created',
                           )
                         : docReleaseStatusCheck(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             values?.poLc?.poId,
-                            values?.shipment?.value
+                            values?.shipment?.value,
                           ).then((res) => {
                             if (res?.data?.docReleaseStatus) {
                               return history.push({
                                 pathname:
-                                  "/managementImport/transaction/customs-duty/create",
+                                  '/managementImport/transaction/customs-duty/create',
                                 state: {
                                   PoNo: values?.poLc?.poNumber,
                                   LcNo: values?.poLc?.lcNumber,
@@ -153,7 +151,7 @@ const CustomDutyLanding = () => {
                               });
                             } else {
                               return toast.warn(
-                                "Please Create Document Release for this Shipment"
+                                'Please Create Document Release for this Shipment',
                               );
                             }
                           });
@@ -177,17 +175,17 @@ const CustomDutyLanding = () => {
                         paddingRight={10}
                         name="poLc"
                         handleChange={(valueOption) => {
-                          setFieldValue("poLc", valueOption);
+                          setFieldValue('poLc', valueOption);
                           getShipmentDDL(
                             profileData.accountId,
                             selectedBusinessUnit.value,
                             valueOption?.label,
-                            setShipmentDDL
+                            setShipmentDDL,
                           );
-                          setFieldValue("shipment", "");
+                          setFieldValue('shipment', '');
                           getGrid(
                             valueOption?.label,
-                            valueOption ? values?.shipment?.value : ""
+                            valueOption ? values?.shipment?.value : '',
                           );
                         }}
                         loadOptions={polcList || []}
@@ -201,7 +199,7 @@ const CustomDutyLanding = () => {
                         label="Shipment No"
                         value={values?.shipment}
                         onChange={(valueOption) => {
-                          setFieldValue("shipment", valueOption);
+                          setFieldValue('shipment', valueOption);
                           getGrid(values?.poLc?.label, valueOption?.value);
                           // getLandingData(
                           //   profileData?.accountId,
@@ -246,7 +244,7 @@ const CustomDutyLanding = () => {
                         return (
                           <tr key={index}>
                             <td
-                              style={{ width: "30px" }}
+                              style={{ width: '30px' }}
                               className="text-center"
                             >
                               {index + 1}
@@ -269,7 +267,7 @@ const CustomDutyLanding = () => {
                               </span>
                             </td>
                             <td
-                              style={{ width: "100px" }}
+                              style={{ width: '100px' }}
                               className="text-center"
                             >
                               <span
@@ -288,7 +286,7 @@ const CustomDutyLanding = () => {
                               >
                                 <IView />
                               </span>
-                             {/* {
+                              {/* {
                               (item?.boENumber <= 0) && (
                                 <span
                                 className="edit"
