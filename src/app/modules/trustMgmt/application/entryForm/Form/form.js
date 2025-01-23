@@ -741,6 +741,7 @@ export default function _Form({
                             value={values?.expiryDate}
                             type="date"
                             name="expiryDate"
+                            min={values?.applicationDate}
                             onChange={(e) => {
                               setFieldValue("expiryDate", e.target.value);
                             }}

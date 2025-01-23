@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
 import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
@@ -13,6 +13,10 @@ import Loading from "../../../../_helper/_loading";
 import NewSelect from "../../../../_helper/_select";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import Table from "./table";
+import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
+
+const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
+const reportId = "3b28ad18-c237-49fe-97e2-7480d3482e1a";
 
 const initData = {
   reportType: "",
@@ -30,11 +34,16 @@ const reportTypes = [
   { value: 3, label: "Channel Base" },
   { value: 4, label: "Shipping Point Base" },
   { value: 5, label: "Unit Base" },
+  { value: 6, label: "Customer Configuration Status" },
 ];
 
 function SalesOrderSupport() {
-  const [, getData, isLoading] = useAxiosGet();
+  const [, getData, getDataLoading] = useAxiosGet();
   const [gridData, setGridData] = useState([]);
+  const [channelDDL, getChannelDDL, getChannelDDLLoading] = useAxiosGet();
+  const [customerDDL, getCustomerDDL, getCustomerDDLLoading] = useAxiosGet();
+  const [salesDDL, getSalesDDL, getSalesDDLLoading] = useAxiosGet();
+  const [showReport, setShowReport] = useState(false);
 
   // get user profile data from store
   const {
@@ -45,6 +54,81 @@ function SalesOrderSupport() {
   const shipPointDDL = useSelector((state) => {
     return state?.commonDDL?.shippointDDL;
   }, shallowEqual);
+
+  // use effect
+  useEffect(() => {
+    getChannelDDL(
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
+    );
+    getSalesDDL(
+      `/oms/SalesOrganization/GetSalesOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // parameter values
+  function parameterValues(values) {
+    return [
+      { name: "intpartid", value: `${values?.reportType?.value}` },
+      { name: "intcustomerid", value: `${values?.customer?.value}` },
+      { name: "intUnitid", value: `${buId}` },
+    ];
+  }
+
+  // function customer configuration status form field
+  function CustomerConfigStatusFormField({ obj }) {
+    const { values, setFieldValue } = obj;
+
+    return (
+      <>
+        <div className="col-lg-3">
+          <NewSelect
+            name="channel"
+            label="Channel"
+            options={channelDDL}
+            value={values?.channel}
+            onChange={(valueOption) => {
+              getCustomerDDL(
+                `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accId}&BusinessUnitId=${buId}&SalesOrganization=${values
+                  ?.sale?.value || 0}&DistribuitionChannelId=${
+                  valueOption?.value
+                }`
+              );
+              setFieldValue("channel", valueOption);
+              setShowReport(false);
+            }}
+          />
+        </div>
+        <div className="col-lg-3">
+          <NewSelect
+            name="sale"
+            label="Sale"
+            options={salesDDL}
+            value={values?.sale}
+            onChange={(valueOption) => {
+              getCustomerDDL(
+                `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accId}&BusinessUnitId=${buId}&SalesOrganization=${valueOption?.value}&DistribuitionChannelId=${values?.channel?.value}`
+              );
+              setFieldValue("sale", valueOption);
+              setShowReport(false);
+            }}
+          />
+        </div>
+        <div className="col-lg-3">
+          <NewSelect
+            name="customer"
+            label="Customer"
+            options={[{ value: 0, label: "All" }, ...customerDDL]}
+            value={values?.customer}
+            onChange={(valueOption) => {
+              setFieldValue("customer", valueOption);
+              setShowReport(false);
+            }}
+          />
+        </div>
+      </>
+    );
+  }
 
   const getGridData = (values) => {
     const id = values?.reportType?.value || 0;
@@ -79,6 +163,13 @@ function SalesOrderSupport() {
     );
   };
 
+  // is loading
+  const isLoading =
+    getDataLoading ||
+    getChannelDDLLoading ||
+    getCustomerDDLLoading ||
+    getSalesDDLLoading;
+
   return (
     <>
       <Formik enableReinitialize={true} initialValues={initData}>
@@ -102,6 +193,8 @@ function SalesOrderSupport() {
                           setFieldValue("fromDate", _todayDate());
                           setFieldValue("toDate", _todayDate());
                         }
+                        setShowReport(false);
+                        setGridData([]);
                       }}
                       placeholder="Report Type"
                       errors={errors}
@@ -109,6 +202,13 @@ function SalesOrderSupport() {
                       isClearable={false}
                     />
                   </div>
+
+                  {[6].includes(values?.reportType?.value) && (
+                    <CustomerConfigStatusFormField
+                      obj={{ setFieldValue, values }}
+                    />
+                  )}
+
                   {values?.reportType?.value === 1 && (
                     <div className="col-lg-3">
                       <InputField
@@ -178,13 +278,28 @@ function SalesOrderSupport() {
 
                   <IButton
                     onClick={() => {
-                      getGridData(values);
+                      if (values?.reportType?.value === 6) {
+                        setShowReport(true);
+                      } else {
+                        getGridData(values);
+                      }
                     }}
                     disabled={isDisabled(values)}
                   />
                 </div>
 
-                <Table gridData={gridData} />
+                {/* Table */}
+                {gridData?.length > 0 && <Table gridData={gridData} />}
+
+                {/* PowerBI Report */}
+                {showReport && (
+                  <PowerBIReport
+                    reportId={reportId}
+                    groupId={groupId}
+                    parameterValues={parameterValues(values)}
+                    parameterPanel={false}
+                  />
+                )}
               </ICustomCard>
             </Form>
           </>

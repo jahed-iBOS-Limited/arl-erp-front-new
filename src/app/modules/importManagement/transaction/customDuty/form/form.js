@@ -17,6 +17,8 @@ import {
 } from "../../../../../../_metronic/_partials/controls";
 import { _formatMoney } from "../../../../_helper/_formatMoney";
 import { validationSchema } from "../helper";
+import { debounce } from "lodash";
+import Loading from "../../../../_helper/_loading";
 
 export default function _Form({
   initData,
@@ -51,6 +53,7 @@ export default function _Form({
   const { state } = useLocation();
 
   const [headerDisable] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const grandTotal = (values, setFieldValue, value, key) => {
     let add =
@@ -72,6 +75,11 @@ export default function _Form({
     return setFieldValue("grandTotal", add);
   };
 
+  const debounceHandelar = debounce(({ setLoading, CB }) => {
+    setLoading(false);
+    CB();
+  }, 2000);
+
   return (
     <>
       <Formik
@@ -79,9 +87,14 @@ export default function _Form({
         initialValues={initData}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, () => {
-            resetForm(initData);
-            // setRowDto([]);
+          setIsLoading(true);
+          debounceHandelar({
+            setLoading: setIsLoading,
+            CB: () => {
+              saveHandler(values, () => {
+                resetForm(initData);
+              });
+            },
           });
         }}
       >
@@ -96,6 +109,7 @@ export default function _Form({
           isValid,
         }) => (
           <>
+          {isLoading && <Loading/>}
             <Card>
               {true && <ModalProgressBar />}
               <CardHeader title="Customs Duty">
@@ -129,7 +143,7 @@ export default function _Form({
                       className="btn btn-primary ml-2"
                       onClick={handleSubmit}
                       // ref={saveBtnRef}
-                      disabled={viewType === "view" ? true : false}
+                      disabled={isLoading || viewType === "view" ? true : false}
                     >
                       Save
                     </button>
@@ -160,8 +174,7 @@ export default function _Form({
                           name="boeNo"
                           touched={touched}
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                         />
                       </div>
@@ -175,8 +188,7 @@ export default function _Form({
                           errors={errors}
                           touched={touched}
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false) 
                           }
                         />
                       </div>
@@ -190,8 +202,7 @@ export default function _Form({
                           errors={errors}
                           touched={touched}
                           disabled={
-                            (viewType === "view" ? true : false) ||
-                            (!viewType && values?.is78Guarantee)
+                            (viewType === "view" ? true : false)
                           }
                         />
                       </div>
@@ -223,8 +234,7 @@ export default function _Form({
                           }}
                           disabled={
                             viewType === "view" ||
-                            headerDisable ||
-                            (!viewType && values?.is78Guarantee)
+                            headerDisable 
                           }
                         />
                       </div>
@@ -261,8 +271,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) ||
-                            (!viewType && values?.is78Guarantee)
+                              : false)
                           }
                         />
                       </div>
@@ -289,8 +298,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) ||
-                            (!viewType && values?.is78Guarantee)
+                              : false)
                           }
                         />
                       </div>
@@ -318,8 +326,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) ||
-                            (!viewType && values?.is78Guarantee)
+                              : false)
                           }
                         />
                       </div>
@@ -346,8 +353,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) ||
-                            (!viewType && values?.is78Guarantee)
+                              : false) 
                           }
                         />
                       </div>
@@ -371,8 +377,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) ||
-                            (!viewType && values?.is78Guarantee)
+                              : false) 
                           }
                         />
                       </div>
@@ -399,8 +404,7 @@ export default function _Form({
                           disabled={
                             (viewType === "view" || headerDisable
                               ? true
-                              : false) ||
-                            (!viewType && values?.is78Guarantee)
+                              : false) 
                           }
                         />
                       </div>
@@ -416,8 +420,7 @@ export default function _Form({
                           errors={errors}
                           touched={touched}
                           isDisabled={
-                            viewType === "view" ||
-                            (!viewType && values?.is78Guarantee)
+                            viewType === "view" 
                           }
                         />
                       </div>
@@ -487,8 +490,7 @@ export default function _Form({
                               );
                             }}
                             disabled={
-                              viewType === "view" ||
-                              (viewType === "edit" && values?.is78Guarantee)
+                              viewType === "view" 
                             }
                           />
                         </div>
@@ -581,8 +583,7 @@ export default function _Form({
                             errors={errors}
                             touched={touched}
                             isDisabled={
-                              viewType === "view" ||
-                              (!viewType && values?.is78Guarantee)
+                              viewType === "view" 
                             }
                           />
                         </div>
@@ -599,8 +600,7 @@ export default function _Form({
                               setFieldValue("instrumentType", valueOption);
                             }}
                             isDisabled={
-                              (viewType === "view" ? true : false) ||
-                              (!viewType && values?.is78Guarantee)
+                              (viewType === "view" ? true : false) 
                             }
                             errors={errors}
                             touched={touched}
