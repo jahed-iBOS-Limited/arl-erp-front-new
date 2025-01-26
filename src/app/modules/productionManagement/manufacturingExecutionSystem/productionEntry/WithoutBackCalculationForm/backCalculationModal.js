@@ -35,7 +35,7 @@ export default function BackCalculationModal({
       currenctItem?.requiredQuantity * currenctItem?.numStockRateByDate
     );
   }, 0);
-console.log("calculateTotalValue", calculateTotalValue)
+  console.log("calculateTotalValue", calculateTotalValue)
   const calculateTotalExpence = () => {
     const { lotSize, billOfExpense } = rowData?.[0] || {};
     return (billOfExpense / lotSize) * goodQty;
@@ -70,7 +70,7 @@ console.log("calculateTotalValue", calculateTotalValue)
                 numStockByDate: targetItem?.numStockByDate,
                 requiredQuantity:
                   values?.isLastProduction &&
-                  calculatedRequiredQuantity > item?.numApprovedQuantity
+                    calculatedRequiredQuantity > item?.numApprovedQuantity
                     ? item?.numApprovedQuantity
                     : calculatedRequiredQuantity,
 
@@ -107,7 +107,7 @@ console.log("calculateTotalValue", calculateTotalValue)
                 setIsShowModal(false);
               }
             },
-            noAlertFunc: () => {},
+            noAlertFunc: () => { },
           });
         } else {
           console.log("calculateTotalValue2", calculateTotalValue)
@@ -136,7 +136,34 @@ console.log("calculateTotalValue", calculateTotalValue)
                         <th>Sl</th>
                         <th>Item Name</th>
                         <th>UOM Name</th>
-                        <th>Qty</th>
+                        <th>
+                          <span className="pr-4">Qty</span>
+                          {values?.isLastProduction && (
+                            <>
+                              <input className="pointer" type="checkbox" onChange={(e) => {
+                                const modifiedData = rowData.map((item) => {
+
+                                  let calculatedRequiredQuantity =
+                                    ((item?.quantity / item?.lotSize) * goodQty)?.toFixed(4) || 0;
+
+                                  let requiredQuantity = values?.isLastProduction &&
+                                    calculatedRequiredQuantity > item?.numApprovedQuantity
+                                    ? item?.numApprovedQuantity
+                                    : calculatedRequiredQuantity
+
+                                  return {
+                                    ...item,
+                                    requiredQuantity: e.target.checked ? +item?.numApprovedQuantity?.toFixed(4) : requiredQuantity,
+                                  }
+                                });
+
+                                setRowData(modifiedData)
+
+                              }} />
+                              <span className="pl-1">Is Full Material Use</span>
+                            </>
+                          )}
+                        </th>
                         <th>Rate</th>
                         <th>Value</th>
                         <th>
@@ -155,7 +182,7 @@ console.log("calculateTotalValue", calculateTotalValue)
                               <InputField
                                 name="requiredQuantity"
                                 type="number"
-                                value={item?.requiredQuantity}
+                                value={item?.requiredQuantity || ""}
                                 max={item?.numApprovedQuantity}
                                 onChange={(e) => {
                                   if (
@@ -188,7 +215,7 @@ console.log("calculateTotalValue", calculateTotalValue)
                             <td className="text-right">
                               {_formatMoney(
                                 item?.requiredQuantity *
-                                  item?.numStockRateByDate
+                                item?.numStockRateByDate
                               )}
                             </td>
                             <td className="text-right">
@@ -196,13 +223,13 @@ console.log("calculateTotalValue", calculateTotalValue)
                                 className={
                                   (+item?.numApprovedQuantity || 0) -
                                     (+item?.requiredQuantity || 0) >=
-                                  1
+                                    1
                                     ? "text-warning"
                                     : ""
                                 }
                               >
-                                {(+item?.numApprovedQuantity || 0) -
-                                  (+item?.requiredQuantity || 0)}
+                                {((+item?.numApprovedQuantity || 0) -
+                                  (+item?.requiredQuantity || 0))?.toFixed(4)}
                               </strong>
                             </td>
                           </tr>
