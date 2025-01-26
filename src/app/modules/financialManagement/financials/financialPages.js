@@ -44,6 +44,7 @@ import FundTransferCreate from "./fundTransferCreate";
 import BankJournalCreateFormContra from "./fundTransfer/contra/createBankTransfer/addForm";
 import CashJournaFormContra from "./fundTransfer/contra/createCashTransfer/Form/addEditForm";
 import BankReceiptForJounal from "./fundTransfer/contra/createBankReceipt/addForm";
+import SCFAdviceLanding from "./scfAdvice";
 // import DepreciationJournal from "./depreciationJournal/table/tableHeader"
 
 export function FinalcialPages() {
@@ -175,6 +176,10 @@ export function FinalcialPages() {
         path="/financial-management/financials/bankadvice"
         component={BankAdvice}
       />
+
+      {/* SCFAdvice  */}
+      <ContentRoute path='/financial-management/financials/SCFAdvice' component={SCFAdviceLanding}/>
+
        <ContentRoute
         path="/financial-management/financials/fundTransfer/interCompanyTransferRequest/create"
         component={InterCompanyTransferRequestCreate}
