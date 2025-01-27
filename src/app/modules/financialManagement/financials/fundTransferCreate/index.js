@@ -21,7 +21,7 @@ const initData = {
     fromDate: _todayDate(),
     toDate: _monthLastDate(),
     receiveingFromUnit: { value: 0, label: "All" },
-    status: { value: 0, label: 'Pending' },
+    status: { value: 0, label: 'Pending', isFundReceived: null, isTransferCreated: 0 },
     requestedUnit: "",
 };
 export default function FundTransferApproval({ viewType }) {
@@ -43,9 +43,11 @@ export default function FundTransferApproval({ viewType }) {
 
     const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
         const searchTearm = searchValue ? `&search=${searchValue}` : '';
-        const isTransferCreated = values?.status?.value === null ? "" : `&isTransferCreated=${values?.status?.value}`;
+        const isTransferCreated = values?.status?.isTransferCreated === null ? "" : `&isTransferCreated=${values?.status?.isTransferCreated}`;
+        const isFundReceived = values?.status?.isFundReceived === null ? "" : `&isFundReceived=${values?.status?.isFundReceived}`;
+
         getGridData(
-            `fino/FundManagement/GetFundTransferApprovaListForCreatePagination?businessUnitId=${values?.requestedUnit?.value || selectedBusinessUnit?.value}&intRequestTypeId=${values?.fundTrasferType?.value}&intRequestToUnitId=${values?.receiveingFromUnit?.value || 0}&isApprove=1&fromDate=${values?.fromDate}&toDate=${values?.toDate}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}${isTransferCreated}`
+            `fino/FundManagement/GetFundTransferApprovaListForCreatePagination?businessUnitId=${values?.requestedUnit?.value || selectedBusinessUnit?.value}&intRequestTypeId=${values?.fundTrasferType?.value}&intRequestToUnitId=${values?.receiveingFromUnit?.value || 0}&isApprove=1&fromDate=${values?.fromDate}&toDate=${values?.toDate}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}${isTransferCreated}${isFundReceived}`
         );
     };
 
@@ -163,9 +165,10 @@ export default function FundTransferApproval({ viewType }) {
                                         <NewSelect
                                             name="status"
                                             options={[
-                                                { value: null, label: 'All' },
-                                                { value: 0, label: 'Pending' },
-                                                { value: 1, label: 'Complete' },
+                                                { value: 1, label: 'All', isFundReceived: null, isTransferCreated: null },
+                                                { value: 2, label: 'Pending', isFundReceived: null, isTransferCreated: 0 },
+                                                { value: 3, label: 'Fund Transferred', isFundReceived: false, isTransferCreated: 1 },
+                                                { value: 4, label: 'Fund Received', isFundReceived: true, isTransferCreated: 1 },
                                             ]}
                                             value={values?.status}
                                             label="Status"
@@ -355,12 +358,8 @@ export default function FundTransferApproval({ viewType }) {
                                                                 }
 
                                                                 {
-                                                                    item?.strRequestType !== "Contra" && item?.isTransferCreated === 1 && (<span
+                                                                    item?.strRequestType !== "Contra" && item?.isTransferCreated === 1 && !item?.isFundReceived && (<span
                                                                         onClick={() => {
-
-
-
-
 
                                                                             // Base state for navigation
                                                                             const baseState = {

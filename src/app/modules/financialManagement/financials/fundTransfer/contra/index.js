@@ -18,7 +18,7 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const initData = {
     transferType: "",
-    status: { value: 0, label: "Pending" },
+    status: { value: 1, isApproved: 0, label: "Pending", isFundReceived: null, isTransferCreated: null },
     fromDate: _todayDate(),
     toDate: _monthLastDate(),
 
@@ -41,8 +41,11 @@ export default function Contra({ viewType }) {
 
     const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
         const searchTearm = searchValue ? `&strSearch=${searchValue}` : "";
+        const isTransferCreated = values?.status?.isTransferCreated === null ? "" : `&isTransferCreated=${values?.status?.isTransferCreated}`;
+        const isFundReceived = values?.status?.isFundReceived === null ? "" : `&isFundReceived=${values?.status?.isFundReceived}`;
+
         getGridData(
-            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&intTransaferById=${values?.transferType?.value}&intRequestTypeId=${viewType?.actionId}&StrTransactionType=${parentTransferType?.actionName}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isApproved=${values?.status?.value}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
+            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&intTransaferById=${values?.transferType?.value}&intRequestTypeId=${viewType?.actionId}&StrTransactionType=${parentTransferType?.actionName}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isApproved=${values?.status?.isApproved}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}${isFundReceived}${isTransferCreated}`
         );
     };
 
@@ -183,9 +186,11 @@ export default function Contra({ viewType }) {
                                         <NewSelect
                                             name="status"
                                             options={[
-                                                { value: 0, label: "Pending" },
-                                                { value: 1, label: "Approved" },
-                                                { value: 2, label: "Rejected" },
+                                                { value: 1, isApproved: 0, label: "Pending", isFundReceived: null, isTransferCreated: null },
+                                                { value: 2, isApproved: 1, label: "Approved", isFundReceived: null, isTransferCreated: null },
+                                                { value: 3, isApproved: 2, label: "Rejected", isFundReceived: null, isTransferCreated: null },
+                                                { value: 4, isApproved: 1, label: 'Fund Transferred', isFundReceived: false, isTransferCreated: 1 },
+                                                { value: 5, isApproved: 1, label: 'Fund Received', isFundReceived: true, isTransferCreated: 1 },
                                             ]}
                                             value={values?.status}
                                             label="Status"
