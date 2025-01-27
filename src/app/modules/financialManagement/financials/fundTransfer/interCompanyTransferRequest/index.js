@@ -252,12 +252,23 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                                 <span>
                                                                     <IView styles={{ fontSize: "16px" }} />
                                                                 </span>
-                                                                <span>
-                                                                    <IEdit />
-                                                                </span>
-                                                                <span>
-                                                                    <IDelete style={{ fontSize: "16px" }} />
-                                                                </span>
+                                                                {item?.strStatus === "Pending" && (
+                                                                    <>
+                                                                        <span
+                                                                            onClick={() => {
+                                                                                history.push({
+                                                                                    pathname: `/financial-management/financials/fundTransfer/interCompanyTransferRequest/edit/${item?.intFundTransferRequestId}`,
+                                                                                    state: { viewType, parentTransferType, rowItem: item }
+                                                                                });
+                                                                            }}
+                                                                        >
+                                                                            <IEdit />
+                                                                        </span>
+                                                                        <span>
+                                                                            <IDelete style={{ fontSize: "16px" }} />
+                                                                        </span>
+                                                                    </>
+                                                                )}
                                                             </div>
                                                         </td>
                                                     </tr>
