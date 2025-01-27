@@ -160,7 +160,7 @@ export default function InterCompanyTransferRequestCreate() {
             intRequestGLId: values?.receivingAccount?.generalLedgerId || 0,
             strRequestGlName: values?.receivingAccount?.generalLedgerName || "",
             strRequestGlCode: values?.receivingAccount?.generalLedgerCode || "",
-            dteRequestDate: "2024-12-22T09:59:39.993Z",
+            dteRequestDate: new Date().toISOString(),
             numAmount: +values?.requestAmount || 0,
             intRequestedBankId: values?.receivingAccount?.bankId || 0,
             strRequestedBankName: values?.receivingAccount?.bankName || "",
