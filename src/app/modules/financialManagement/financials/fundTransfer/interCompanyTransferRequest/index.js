@@ -17,7 +17,7 @@ import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 import { _monthLastDate } from "../../../../_helper/_monthLastDate";
 
 const initData = {
-    status: { value: 0, label: "Pending" },
+    status: { value: 1, isApproved: 0, label: "Pending", isFundReceived: null, isTransferCreated: null },
     fromDate: _todayDate(),
     toDate: _monthLastDate(),
 };
@@ -37,9 +37,13 @@ export default function InterCompanyTransferRequest({ viewType }) {
     const history = useHistory();
 
     const getLandingData = (values, pageNo, pageSize, searchValue = "") => {
+        console.log("values", values)
         const searchTearm = searchValue ? `&strSearch=${searchValue}` : "";
+        const isTransferCreated = values?.status?.isTransferCreated === null ? "" : `&isTransferCreated=${values?.status?.isTransferCreated}`;
+        const isFundReceived = values?.status?.isFundReceived === null ? "" : `&isFundReceived=${values?.status?.isFundReceived}`;
+
         getGridData(
-            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&intTransaferById=1&intRequestToUnitId=${values?.requestToUnit?.value || 0}&intRequestTypeId=${viewType?.actionId}&StrTransactionType=${parentTransferType?.actionName}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isApproved=${values?.status?.value}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
+            `/fino/FundManagement/GetFundTransferPagination?businessUnitId=${selectedBusinessUnit?.value}&intTransaferById=1&intRequestToUnitId=${values?.requestToUnit?.value || 0}&intRequestTypeId=${viewType?.actionId}&StrTransactionType=${parentTransferType?.actionName}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&isApproved=${values?.status?.isApproved}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}${isFundReceived}${isTransferCreated}`
 
         );
     };
@@ -165,11 +169,11 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                         <NewSelect
                                             name="status"
                                             options={[
-                                                { value: 0, label: "Pending" },
-                                                { value: 1, label: "Approved" },
-                                                { value: 2, label: "Rejected" },
-                                                { value: 3, label: "Transfered" },
-                                                { value: 4, label: "Complete" },
+                                                { value: 1, isApproved: 0, label: "Pending", isFundReceived: null, isTransferCreated: null },
+                                                { value: 2, isApproved: 1, label: "Approved", isFundReceived: null, isTransferCreated: null },
+                                                { value: 3, isApproved: 2, label: "Rejected", isFundReceived: null, isTransferCreated: null },
+                                                { value: 4, isApproved: 1, label: 'Fund Transferred', isFundReceived: false, isTransferCreated: 1 },
+                                                { value: 5, isApproved: 1, label: 'Fund Received', isFundReceived: true, isTransferCreated: 1 },
                                             ]}
                                             value={values?.status}
                                             label="Status"
@@ -230,11 +234,20 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                         <td>{item.strResponsibleEmpName}</td>
                                                         <td>{item.strRemarks}</td>
                                                         <td
-                                                            className={`bold text-center ${item.isApproved ? "text-success" : "text-primary"
-                                                                }`}
+                                                            className={`bold text-center ${item?.strStatus === "Fund Received"
+                                                                ? "text-success"
+                                                                : item?.strStatus === "Fund Transferred"
+                                                                    ? "text-primary"
+                                                                    : item?.strStatus === "Approved"
+                                                                        ? "text-info"
+                                                                        : item?.strStatus === "Rejected"
+                                                                            ? "text-danger"
+                                                                            : "text-warning"}`}
                                                         >
-                                                            {item.isApproved ? "Approved" : "Pending"}
-                                                        </td>                                                        <td className="text-center">
+                                                            {item?.strStatus}
+                                                        </td>
+
+                                                        <td className="text-center">
                                                             <div className="d-flex justify-content-between">
                                                                 <span>
                                                                     <IView styles={{ fontSize: "16px" }} />
