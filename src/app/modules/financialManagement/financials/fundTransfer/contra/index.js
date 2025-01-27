@@ -65,7 +65,10 @@ export default function Contra({ viewType }) {
     return (
         <Formik
             enableReinitialize={true}
-            initialValues={initData}
+            initialValues={{
+                ...initData,
+                transferType: parentTransferType?.actionName === "Bank Transfer" ? { value: 1, label: "Bank To Bank" } : { value: 3, label: "Cash To Bank" },
+            }}
             // validationSchema={{}}
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 saveHandler(values, () => {
@@ -247,11 +250,19 @@ export default function Contra({ viewType }) {
                                                         <td>{item.strResponsibleEmpName}</td>
                                                         <td>{item.strRemarks}</td>
                                                         <td
-                                                            className={`bold text-center ${item.isApproved ? "text-success" : "text-primary"
-                                                                }`}
+                                                            className={`bold text-center ${item?.strStatus === "Fund Received"
+                                                                ? "text-success"
+                                                                : item?.strStatus === "Fund Transferred"
+                                                                    ? "text-primary"
+                                                                    : item?.strStatus === "Approved"
+                                                                        ? "text-info"
+                                                                        : item?.strStatus === "Rejected"
+                                                                            ? "text-danger"
+                                                                            : "text-warning"}`}
                                                         >
-                                                            {item.isApproved ? "Approved" : "Pending"}
+                                                            {item?.strStatus}
                                                         </td>
+
                                                         <td className="text-center">
                                                             <div className="d-flex justify-content-between">
                                                                 <span>

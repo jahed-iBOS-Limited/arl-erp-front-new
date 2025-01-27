@@ -234,11 +234,20 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                         <td>{item.strResponsibleEmpName}</td>
                                                         <td>{item.strRemarks}</td>
                                                         <td
-                                                            className={`bold text-center ${item.isApproved ? "text-success" : "text-primary"
-                                                                }`}
+                                                            className={`bold text-center ${item?.strStatus === "Fund Received"
+                                                                ? "text-success"
+                                                                : item?.strStatus === "Fund Transferred"
+                                                                    ? "text-primary"
+                                                                    : item?.strStatus === "Approved"
+                                                                        ? "text-info"
+                                                                        : item?.strStatus === "Rejected"
+                                                                            ? "text-danger"
+                                                                            : "text-warning"}`}
                                                         >
-                                                            {item.isApproved ? "Approved" : "Pending"}
-                                                        </td>                                                        <td className="text-center">
+                                                            {item?.strStatus}
+                                                        </td>
+
+                                                        <td className="text-center">
                                                             <div className="d-flex justify-content-between">
                                                                 <span>
                                                                     <IView styles={{ fontSize: "16px" }} />
