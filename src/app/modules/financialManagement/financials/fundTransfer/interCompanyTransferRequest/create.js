@@ -14,6 +14,7 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import { useLocation } from "react-router";
 import { _todayDate } from "../../../../_helper/_todayDate";
 import { toast } from "react-toastify";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 
 const initData = {
@@ -73,7 +74,7 @@ export default function InterCompanyTransferRequestCreate() {
     const [objProps, setObjprops] = useState({});
 
     const location = useLocation();
-    const { parentTransferType, viewType } = location?.state || {};
+    const { parentTransferType, viewType, rowItem } = location?.state || {};
 
 
     const { profileData, selectedBusinessUnit, businessUnitList } = useSelector((state) => {
@@ -86,6 +87,49 @@ export default function InterCompanyTransferRequestCreate() {
     // const [requestTopartnerDDl, getRequestToPartnerDDl, , setRequestToPartnerDDl] = useAxiosGet();
     const [bankList, getBankList] = useAxiosGet()
     const [, onCreateHandler, saveLoader] = useAxiosPost();
+    const [modifiedInitData, setModifiedIntitData] = useState(initData)
+
+    useEffect(() => {
+        if (rowItem?.intFundTransferRequestId) {
+            setModifiedIntitData({
+                sendingPartner: {
+                    value: rowItem?.intGivenPartnerId || "",
+                    label: rowItem?.strGivenPartnerName || "",
+                    strBusinessPartnerCode: rowItem?.strGivenstrPartnerCode || "",
+                },
+                requestToUnit: {
+                    value: rowItem?.intRequestToUnitId || "",
+                    label: rowItem?.strRequestToUnitName || "",
+                },
+                requestToPartner: {
+                    value: rowItem?.strRequestPartnerId || "",
+                    label: rowItem?.strRequestPartnerName || "",
+                    strBusinessPartnerCode: rowItem?.strRequestPartnerCode || "",
+                },
+                receivingAccount: {
+                    value: rowItem?.intRequestedBankAccountId || "",
+                    label: rowItem?.strRequestedBankAccountName || "",
+                    bankId: rowItem?.intRequestedBankId || "",
+                    bankName: rowItem?.strRequestedBankName || "",
+                    bankBranch_Id: rowItem?.intRequestedBankBranchId || "",
+                    bankBranchName: rowItem?.strRequestedBankBranchName || "",
+                    bankAccNo: rowItem?.strRequestedBankAccountNumber || "",
+                    bankRouting: rowItem?.strRequestedBankRouting || "",
+                    generalLedgerId: rowItem?.intRequestGlid || "",
+                    generalLedgerName: rowItem?.strRequestGlName || "",
+                    generalLedgerCode: rowItem?.strRequestGlCode || "",
+                },
+                expectedDate: _dateFormatter(rowItem?.dteExpectedDate) || "",
+                requestAmount: rowItem?.numAmount || "",
+                responsiblePerson: {
+                    value: rowItem?.intResponsibleEmpId || "",
+                    label: rowItem?.strResponsibleEmpName || "",
+                },
+                remarks: rowItem?.strRemarks || "",
+            });
+        }
+    }, [rowItem]);
+
 
     useEffect(() => {
         getBankList(`/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`)
@@ -98,7 +142,7 @@ export default function InterCompanyTransferRequestCreate() {
     const saveHandler = (values, cb) => {
 
         const payload = {
-            intFundTransferRequestId: 0,
+            intFundTransferRequestId: rowItem?.intFundTransferRequestId || 0,
             strRequestCode: "",
             intRequestTypeId: viewType?.actionId || 0,
             strRequestType: viewType?.actionName || "",
@@ -116,7 +160,7 @@ export default function InterCompanyTransferRequestCreate() {
             intRequestGLId: values?.receivingAccount?.generalLedgerId || 0,
             strRequestGlName: values?.receivingAccount?.generalLedgerName || "",
             strRequestGlCode: values?.receivingAccount?.generalLedgerCode || "",
-            dteRequestDate: "2024-12-22T09:59:39.993Z",
+            dteRequestDate: new Date().toISOString(),
             numAmount: +values?.requestAmount || 0,
             intRequestedBankId: values?.receivingAccount?.bankId || 0,
             strRequestedBankName: values?.receivingAccount?.bankName || "",
@@ -146,6 +190,7 @@ export default function InterCompanyTransferRequestCreate() {
             intGivenPartnerId: values?.sendingPartner?.value || 0,
             strGivenPartnerName: values?.sendingPartner?.label || "",
             strGivenstrPartnerCode: values?.sendingPartner?.strBusinessPartnerCode || "",
+            isApproved: rowItem?.isApproved || 0,
 
         }
         onCreateHandler(`/fino/FundManagement/CreateOrEditFundTransferRequest`, payload, cb, true,
@@ -166,11 +211,13 @@ export default function InterCompanyTransferRequestCreate() {
     return (
         <Formik
             enableReinitialize={true}
-            initialValues={initData}
+            initialValues={rowItem?.intFundTransferRequestId ? modifiedInitData : initData}
             validationSchema={getSchema()}
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 saveHandler(values, () => {
-                    resetForm(initData);
+                    if (!rowItem?.intFundTransferRequestId) {
+                        resetForm(initData);
+                    }
                 });
             }}
         >
@@ -185,7 +232,7 @@ export default function InterCompanyTransferRequestCreate() {
             }) => (
                 <>
                     {(saveLoader || sendingPartnerLoading || requestPartnerLoading) && <Loading />}
-                    <IForm title="Inter Company Transfer Request Create" getProps={setObjprops}>
+                    <IForm title={rowItem?.intFundTransferRequestId ? "Inter Company Transfer Request Edit" : "Inter Company Transfer Request Create"} getProps={setObjprops}>
                         <Form>
                             <div className="form-group global-form row">
                                 <div className="col-lg-3">

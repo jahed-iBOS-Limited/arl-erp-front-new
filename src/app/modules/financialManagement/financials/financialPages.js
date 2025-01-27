@@ -176,6 +176,10 @@ export function FinalcialPages() {
         component={BankAdvice}
       />
        <ContentRoute
+        path="/financial-management/financials/fundTransfer/interCompanyTransferRequest/edit/:intFundTransferRequestId"
+        component={InterCompanyTransferRequestCreate}
+      />
+       <ContentRoute
         path="/financial-management/financials/fundTransfer/interCompanyTransferRequest/create"
         component={InterCompanyTransferRequestCreate}
       />
