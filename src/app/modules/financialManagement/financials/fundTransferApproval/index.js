@@ -231,7 +231,7 @@ export default function FundTransferApproval({ viewType }) {
                             {values?.fundTrasferType?.value === 2 && (
                               <td>{item?.strRequestToUnitName}</td>
                             )}
-                            <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : item?.strTransferBy === "Bank To Cash" ? item?.strGivenBankAccountName : item?.strGivenBankName || ""}</td>
+                            <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : item?.strTransferBy === "Bank To Cash" ? item?.strGivenBankAccountName : item?.strTransferBy === "Bank To Bank" ? item?.strGivenBankAccountName : item?.strGivenBankName || ""}</td>
                             <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? item?.strGivenBankAccountName || "" : item?.strRequestedBankAccountName || ""}</td>
                             <td className="text-center">
                               {_dateFormatter(item.dteExpectedDate)}
