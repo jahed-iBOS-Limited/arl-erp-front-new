@@ -104,9 +104,9 @@ const CommissionReportAndJV = () => {
       ) {
         getTradeCommissionData(
           // values?.type?.value,
-          typeId,//14,
+          typeId,// 14,
           accId,
-          buId,// 4,
+          buId,//  4,
           values?.channel?.value,
           values?.region?.value || 0,
           values?.area?.value || 0,
@@ -216,7 +216,7 @@ const CommissionReportAndJV = () => {
 
       createTradeDamageJV(payload, setLoading);
     } else if (
-      [5, 7, ...allIds, 35, 36, 37, 38, 39].includes(values?.type?.value)
+      [5, 7, ...allIds, 35, 36, 37, 38, 39, 48].includes(values?.type?.value)
     ) {
       if (
         !values?.sbu?.value &&
