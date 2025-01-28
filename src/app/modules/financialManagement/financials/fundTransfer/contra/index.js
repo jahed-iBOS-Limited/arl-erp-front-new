@@ -4,9 +4,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import IForm from "../../../../_helper/_form";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
 import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
 import InputField from "../../../../_helper/_inputField";
 import Loading from "../../../../_helper/_loading";
 import { _monthLastDate } from "../../../../_helper/_monthLastDate";
@@ -31,7 +29,7 @@ export default function Contra({ viewType }) {
 
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(15);
-    const [gridData, getGridData, loading] = useAxiosGet();
+    const [gridData, getGridData,loading, setGridData] = useAxiosGet();
     const [parentTransferType, setParentTransferType] = useState({ actionId: 1, actionName: "Bank Transfer" });
 
     const transferTypeList = parentTransferType?.actionName === "Bank Transfer" ? [{ value: 1, label: "Bank To Bank" }, { value: 2, label: "Bank To Cash" }] : [{ value: 3, label: "Cash To Bank" }]
@@ -103,6 +101,7 @@ export default function Contra({ viewType }) {
                                         onChange={(valueOption) => {
                                             setParentTransferType({ actionId: 1, actionName: "Bank Transfer" });
                                             setFieldValue("transferType", "");
+                                            setGridData([])
                                         }}
                                     />
                                     <strong style={{ fontSize: "11px" }}>Bank Transfer</strong>
@@ -117,6 +116,7 @@ export default function Contra({ viewType }) {
                                         onChange={(e) => {
                                             setParentTransferType({ actionId: 1, actionName: "Cash Transfer" });
                                             setFieldValue("transferType", "")
+                                            setGridData([])
                                         }}
                                     />
                                     <strong style={{ fontSize: "11px" }} >Cash Transfer</strong>
@@ -158,6 +158,7 @@ export default function Contra({ viewType }) {
                                             label="Transfer Type"
                                             onChange={(valueOption) => {
                                                 setFieldValue("transferType", valueOption)
+                                                setGridData([])
                                             }}
                                             errors={errors}
                                             touched={touched}
@@ -171,6 +172,7 @@ export default function Contra({ viewType }) {
                                             type="date"
                                             onChange={(e) => {
                                                 setFieldValue("fromDate", e.target.value);
+                                                setGridData([])
                                             }}
                                         />
                                     </div>
@@ -182,6 +184,7 @@ export default function Contra({ viewType }) {
                                             type="date"
                                             onChange={(e) => {
                                                 setFieldValue("toDate", e.target.value);
+                                                setGridData([])
                                             }}
                                         />
                                     </div>
@@ -199,6 +202,7 @@ export default function Contra({ viewType }) {
                                             label="Status"
                                             onChange={(valueOption) => {
                                                 setFieldValue("status", valueOption);
+                                                setGridData([])
                                             }}
 
                                         />
@@ -265,15 +269,26 @@ export default function Contra({ viewType }) {
 
                                                         <td className="text-center">
                                                             <div className="d-flex justify-content-between">
-                                                                <span>
+                                                                {/* <span>
                                                                     <IView styles={{ fontSize: "16px" }} />
-                                                                </span>
-                                                                <span>
-                                                                    <IEdit />
-                                                                </span>
-                                                                <span>
-                                                                    <IDelete style={{ fontSize: "16px" }} />
-                                                                </span>
+                                                                </span> */}
+                                                                {item?.strStatus === "Pending" && (
+                                                                    <>
+                                                                        <span
+                                                                            onClick={() => {
+                                                                                history.push({
+                                                                                    pathname: `/financial-management/financials/fundTransfer/contra/edit/${item?.intFundTransferRequestId}`,
+                                                                                    state: { viewType, parentTransferType, rowItem: item }
+                                                                                });
+                                                                            }}
+                                                                        >
+                                                                            <IEdit />
+                                                                        </span>
+                                                                        {/* <span>
+                                                                            <IDelete style={{ fontSize: "16px" }} />
+                                                                        </span> */}
+                                                                    </>
+                                                                )}
                                                             </div>
                                                         </td>
                                                     </tr>

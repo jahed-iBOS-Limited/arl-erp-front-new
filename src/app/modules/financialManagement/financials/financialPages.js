@@ -184,6 +184,10 @@ export function FinalcialPages() {
         component={InterCompanyTransferRequestCreate}
       />
       <ContentRoute
+        path="/financial-management/financials/fundTransfer/contra/edit/:intFundTransferRequestId"
+        component={ContraCreate}
+      />
+      <ContentRoute
         path="/financial-management/financials/fundTransfer/contra/create"
         component={ContraCreate}
       />

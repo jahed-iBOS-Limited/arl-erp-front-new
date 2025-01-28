@@ -14,6 +14,7 @@ import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 import { useLocation } from "react-router";
 import { toast } from "react-toastify";
 import { _todayDate } from "../../../../_helper/_todayDate";
+import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 
 const initData = {
@@ -60,7 +61,7 @@ export default function ContraCreate() {
     const [objProps, setObjprops] = useState({});
 
     const location = useLocation();
-    const { parentTransferType, viewType } = location?.state || {};
+    const { parentTransferType, viewType, rowItem } = location?.state || {};
 
     const transferTypeList = parentTransferType?.actionName === "Bank Transfer" ? [{ value: 1, label: "Bank To Bank" }, { value: 2, label: "Bank To Cash" }] : [{ value: 3, label: "Cash To Bank" }]
 
@@ -71,6 +72,53 @@ export default function ContraCreate() {
 
     const [bankList, getBankList] = useAxiosGet()
     const [, onCreateHandler, saveLoader] = useAxiosPost();
+    const [modifiedInitData, setModifiedIntitData] = useState(initData)
+
+    useEffect(() => {
+        if (rowItem?.intFundTransferRequestId) {
+            setModifiedIntitData({
+                fromBankName: {
+                    value: rowItem?.intGivenBankId || 0,
+                    label: rowItem?.strGivenBankAccountName || "",
+                    bankId: rowItem?.intGivenBankId || 0,
+                    bankName: rowItem?.strGivenBankName || "",
+                    bankBranch_Id: rowItem?.intGivenBankBranchId || 0,
+                    bankBranchName: rowItem?.strGivenBankBranchName || "",
+                    bankAccNo: rowItem?.strGivenBankAccountNumber || "",
+                    generalLedgerId: rowItem?.intGivenGlid || 0,
+                    generalLedgerName: rowItem?.strGivenGlName || "",
+                    generalLedgerCode: rowItem?.strGivenGlCode || "",
+                },
+                toBankName: {
+                    value: rowItem?.intRequestedBankAccountId || 0,
+                    label: rowItem?.strRequestedBankAccountName || "",
+                    bankId: rowItem?.intRequestedBankId || 0,
+                    bankName: rowItem?.strRequestedBankName || "",
+                    bankBranch_Id: rowItem?.intRequestedBankBranchId || 0,
+                    bankBranchName: rowItem?.strRequestedBankBranchName || "",
+                    bankAccNo: rowItem?.strRequestedBankAccountNumber || "",
+                    generalLedgerCode: rowItem?.strRequestGlCode || "",
+                },
+                expectedDate: _dateFormatter(rowItem?.dteExpectedDate) || "",
+                requestAmount: rowItem?.numAmount || 0,
+                responsiblePerson: {
+                    value: rowItem?.intResponsibleEmpId || 0,
+                    label: rowItem?.strResponsibleEmpName || "",
+                },
+                remarks: rowItem?.strRemarks || "",
+                transferType: {
+                    value: rowItem?.intTransaferById || 0,
+                    label: rowItem?.strTransferBy || "",
+                },
+                gl: {
+                    value: rowItem?.intRequestGLId || 0,
+                    label: rowItem?.strRequestGlName || "",
+                    strGeneralLedgerCode: rowItem?.strRequestGlCode || "",
+                },
+            });
+        }
+    }, [rowItem]);
+
 
     useEffect(() => {
         getBankList(`/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`)
@@ -81,7 +129,7 @@ export default function ContraCreate() {
     const saveHandler = (values, cb) => {
 
         const payload = {
-            "intFundTransferRequestId": 0,
+            "intFundTransferRequestId": rowItem?.intFundTransferRequestId || 0,
             "strRequestCode": "",
             "intRequestTypeId": viewType?.actionId,
             "strRequestType": viewType?.actionName,
@@ -120,7 +168,9 @@ export default function ContraCreate() {
             "intUpdateBy": profileData?.userId,
             intRequestGLId: values?.gl?.value || 0,
             strRequestGlName: values?.gl?.label || "",
-            strRequestGlCode: values?.transferType?.value === 1 ? values?.toBankName?.generalLedgerCode : values?.gl?.strGeneralLedgerCode || ""
+            strRequestGlCode: values?.transferType?.value === 1 ? values?.toBankName?.generalLedgerCode : values?.gl?.strGeneralLedgerCode || "",
+            isApproved: rowItem?.isApproved || 0,
+
 
         }
         onCreateHandler(`/fino/FundManagement/CreateOrEditFundTransferRequest`, payload, cb, true,
@@ -141,7 +191,7 @@ export default function ContraCreate() {
     return (
         <Formik
             enableReinitialize={true}
-            initialValues={initData}
+            initialValues={rowItem?.intFundTransferRequestId ? modifiedInitData : initData}
             validationSchema={getSchema()}
             onSubmit={(values, { setSubmitting, resetForm }) => {
                 if (parentTransferType?.actionName === "Bank Transfer" && values?.transferType?.value === 1 && !values?.toBankName) {
@@ -151,7 +201,9 @@ export default function ContraCreate() {
                     return toast.warn("GL is Required")
                 }
                 saveHandler(values, () => {
-                    resetForm(initData);
+                    if (!rowItem?.intFundTransferRequestId) {
+                        resetForm(initData);
+                    }
                 });
             }}
         >
@@ -166,7 +218,7 @@ export default function ContraCreate() {
             }) => (
                 <>
                     {saveLoader && <Loading />}
-                    <IForm title="Contra Create" getProps={setObjprops}>
+                    <IForm title={rowItem?.intFundTransferRequestId ? "Contra Edit" : "Contra Create"} getProps={setObjprops}>
                         <Form>
                             <div className="form-group global-form row">
                                 <div className="col-lg-3">
@@ -180,6 +232,7 @@ export default function ContraCreate() {
                                         }}
                                         errors={errors}
                                         touched={touched}
+                                        isDisabled={rowItem?.intFundTransferRequestId}
                                     />
                                 </div>
 

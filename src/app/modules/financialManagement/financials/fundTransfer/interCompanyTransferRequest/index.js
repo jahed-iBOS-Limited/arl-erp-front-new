@@ -29,7 +29,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
 
     const [pageNo, setPageNo] = useState(0);
     const [pageSize, setPageSize] = useState(15);
-    const [gridData, getGridData, loading] = useAxiosGet();
+    const [gridData, getGridData, loading, setGridData] = useAxiosGet();
     const [parentTransferType, setParentTransferType] = useState({ actionId: 1, actionName: "Bank Transfer" });
 
 
@@ -98,6 +98,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                         }}
                                         onChange={(valueOption) => {
                                             setParentTransferType({ actionId: 1, actionName: "Bank Transfer" });
+                                            setGridData([])
                                         }}
                                     />
                                     <strong style={{ fontSize: "11px" }}>Bank Transfer</strong>
@@ -139,6 +140,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                             type="date"
                                             onChange={(e) => {
                                                 setFieldValue("fromDate", e.target.value);
+                                                setGridData([]);
                                             }}
                                         />
                                     </div>
@@ -150,6 +152,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                             type="date"
                                             onChange={(e) => {
                                                 setFieldValue("toDate", e.target.value);
+                                                setGridData([]);
                                             }}
                                         />
                                     </div>
@@ -161,6 +164,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                             label="Request To Unit"
                                             onChange={(valueOption) => {
                                                 setFieldValue("requestToUnit", valueOption);
+                                                setGridData([]);
                                             }}
 
                                         />
@@ -179,6 +183,7 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                             label="Status"
                                             onChange={(valueOption) => {
                                                 setFieldValue("status", valueOption);
+                                                setGridData([])
                                             }}
 
                                         />
@@ -249,9 +254,9 @@ export default function InterCompanyTransferRequest({ viewType }) {
 
                                                         <td className="text-center">
                                                             <div className="d-flex justify-content-between">
-                                                                <span>
+                                                                {/* <span>
                                                                     <IView styles={{ fontSize: "16px" }} />
-                                                                </span>
+                                                                </span> */}
                                                                 {item?.strStatus === "Pending" && (
                                                                     <>
                                                                         <span
@@ -264,9 +269,9 @@ export default function InterCompanyTransferRequest({ viewType }) {
                                                                         >
                                                                             <IEdit />
                                                                         </span>
-                                                                        <span>
+                                                                        {/* <span>
                                                                             <IDelete style={{ fontSize: "16px" }} />
-                                                                        </span>
+                                                                        </span> */}
                                                                     </>
                                                                 )}
                                                             </div>
