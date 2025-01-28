@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
 import { toast } from "react-toastify";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
 import IApproval from "../../../../_helper/_helperIcons/_approval";
+import IEdit from "../../../../_helper/_helperIcons/_edit";
+import InputField from "../../../../_helper/_inputField";
 import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
 
 const header = (buId, values) => {
@@ -40,6 +40,7 @@ const header = (buId, values) => {
     "Delivery Quantity",
     "Achievement",
     "Commission",
+    "JV Number",
   ];
 
   const H_three = [
@@ -145,9 +146,9 @@ const CommissionReportAndJVTable = ({ obj }) => {
                       style={
                         item?.isSelected
                           ? {
-                              backgroundColor: "#aacae3",
-                              width: "40px",
-                            }
+                            backgroundColor: "#aacae3",
+                            width: "40px",
+                          }
                           : { width: "40px" }
                       }
                     >
