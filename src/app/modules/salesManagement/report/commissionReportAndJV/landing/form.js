@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
-import NewSelect from "../../../../_helper/_select";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import InputField from "../../../../_helper/_inputField";
-import TextArea from "../../../../_helper/TextArea";
-import IButton from "../../../../_helper/iButton";
-import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { shallowEqual, useSelector } from "react-redux";
 import axios from "axios";
+import React, { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import InputField from "../../../../_helper/_inputField";
+import NewSelect from "../../../../_helper/_select";
+import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
+import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
+import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
 import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import IButton from "../../../../_helper/iButton";
+import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import TextArea from "../../../../_helper/TextArea";
 
 export default function CommissionReportAndJVForm({ obj }) {
   const {
@@ -133,7 +133,7 @@ export default function CommissionReportAndJVForm({ obj }) {
                   obj={{
                     values,
                     setFieldValue,
-                    onChange: (allValues) => {},
+                    onChange: (allValues) => { },
                   }}
                 />
                 <div className="col-md-3">
@@ -171,22 +171,22 @@ export default function CommissionReportAndJVForm({ obj }) {
                 {[1, 3, 6, 7, 35, 36, 37, 38, 39].includes(
                   values?.type?.value
                 ) && (
-                  <YearMonthForm
-                    obj={{
-                      values,
-                      setFieldValue,
-                      onChange: (allValues) => {
-                        if (
-                          values?.type?.value === 3 &&
-                          allValues?.month &&
-                          allValues?.year
-                        ) {
-                          dateSetter(allValues, setFieldValue);
-                        }
-                      },
-                    }}
-                  />
-                )}
+                    <YearMonthForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                        onChange: (allValues) => {
+                          if (
+                            values?.type?.value === 3 &&
+                            allValues?.month &&
+                            allValues?.year
+                          ) {
+                            dateSetter(allValues, setFieldValue);
+                          }
+                        },
+                      }}
+                    />
+                  )}
 
                 {[
                   5,
@@ -200,152 +200,151 @@ export default function CommissionReportAndJVForm({ obj }) {
                   38,
                   39,
                   41,
+                  48,
                   ...akijAgroFeedCommissionTypeList,
                 ].includes(values?.type?.value) && (
-                  <>
-                    <RATForm
-                      obj={{
-                        setFieldValue,
-                        values,
-                        region: !idSet1.includes(values?.type?.value),
-                        area: !idSet1.includes(values?.type?.value),
-                        territory: false,
-                      }}
-                    />
-                    <FromDateToDateForm
-                      obj={{
-                        values,
-                        setFieldValue,
-                        disabled: [3].includes(values?.type?.value),
-                      }}
-                    />
-                    {[5, 3].includes(values?.type?.value) && (
-                      <div className="col-lg-3">
-                        <InputField
-                          name="commissionRate"
-                          label={`${
-                            values?.type?.value === 5 ? "Trade" : "Cash"
-                          } Commission Rate`}
-                          placeholder={`${
-                            values?.type?.value === 5 ? "Trade" : "Cash"
-                          } Commission Rate`}
-                          value={values?.commissionRate}
-                        />
-                      </div>
-                    )}
-                    {values.reportType.value === 1 && rowData?.length > 0 && (
-                      <>
+                    <>
+                      <RATForm
+                        obj={{
+                          setFieldValue,
+                          values,
+                          region: !idSet1.includes(values?.type?.value),
+                          area: !idSet1.includes(values?.type?.value),
+                          territory: false,
+                        }}
+                      />
+                      <FromDateToDateForm
+                        obj={{
+                          values,
+                          setFieldValue,
+                          disabled: [3].includes(values?.type?.value),
+                        }}
+                      />
+                      {[5, 3].includes(values?.type?.value) && (
                         <div className="col-lg-3">
-                          <NewSelect
-                            name="profitCenter"
-                            options={profitCenterDDL}
-                            value={values?.profitCenter}
-                            label="Profit Center"
-                            onChange={(valueOption) => {
-                              setFieldValue("profitCenter", valueOption);
-                            }}
-                            placeholder="Profit Center"
-                            errors={errors}
-                            touched={touched}
+                          <InputField
+                            name="commissionRate"
+                            label={`${values?.type?.value === 5 ? "Trade" : "Cash"
+                              } Commission Rate`}
+                            placeholder={`${values?.type?.value === 5 ? "Trade" : "Cash"
+                              } Commission Rate`}
+                            value={values?.commissionRate}
                           />
                         </div>
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="costCenter"
-                            options={costCenterDDL}
-                            value={values?.costCenter}
-                            label="Cost Center"
-                            onChange={(valueOption) => {
-                              if (valueOption) {
-                                setFieldValue("costCenter", valueOption);
-                                setFieldValue("costElement", "");
-                                getCostElementDDL(
-                                  `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${valueOption?.value}`
-                                );
-                              } else {
-                                setFieldValue("costCenter", "");
-                                setFieldValue("costElement", "");
-                              }
-                            }}
-                            placeholder="Cost Center"
-                            errors={errors}
-                            touched={touched}
-                          />
-                        </div>
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="costElement"
-                            options={costElementDDL}
-                            value={values?.costElement}
-                            label="Cost Element"
-                            onChange={(valueOption) => {
-                              setFieldValue("costElement", valueOption);
-                            }}
-                            placeholder="Cost Element"
-                            errors={errors}
-                            touched={touched}
-                          />
-                        </div>
-                      </>
-                    )}
-                    {rowData?.length > 0 && values?.type?.value !== 6 && (
-                      <>
-                        <div className="col-md-3">
-                          <NewSelect
-                            name="sbu"
-                            options={sbuDDL || []}
-                            value={values?.sbu}
-                            label="SBU"
-                            onChange={(valueOption) => {
-                              setFieldValue("sbu", valueOption);
-                            }}
-                            placeholder="Select SBU"
-                          />
-                        </div>
-                        {!idSet1.includes(values?.type?.value) && (
-                          <div className="col-md-3">
+                      )}
+                      {values.reportType.value === 1 && rowData?.length > 0 && (
+                        <>
+                          <div className="col-lg-3">
                             <NewSelect
-                              name="transactionHead"
-                              options={transactionHeads?.data || []}
-                              value={values?.transactionHead}
-                              label="Transaction Head"
+                              name="profitCenter"
+                              options={profitCenterDDL}
+                              value={values?.profitCenter}
+                              label="Profit Center"
                               onChange={(valueOption) => {
-                                setFieldValue("transactionHead", valueOption);
+                                setFieldValue("profitCenter", valueOption);
                               }}
-                              placeholder="Select Transaction Head"
+                              placeholder="Profit Center"
+                              errors={errors}
+                              touched={touched}
                             />
                           </div>
-                        )}
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="costCenter"
+                              options={costCenterDDL}
+                              value={values?.costCenter}
+                              label="Cost Center"
+                              onChange={(valueOption) => {
+                                if (valueOption) {
+                                  setFieldValue("costCenter", valueOption);
+                                  setFieldValue("costElement", "");
+                                  getCostElementDDL(
+                                    `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${valueOption?.value}`
+                                  );
+                                } else {
+                                  setFieldValue("costCenter", "");
+                                  setFieldValue("costElement", "");
+                                }
+                              }}
+                              placeholder="Cost Center"
+                              errors={errors}
+                              touched={touched}
+                            />
+                          </div>
+                          <div className="col-lg-3">
+                            <NewSelect
+                              name="costElement"
+                              options={costElementDDL}
+                              value={values?.costElement}
+                              label="Cost Element"
+                              onChange={(valueOption) => {
+                                setFieldValue("costElement", valueOption);
+                              }}
+                              placeholder="Cost Element"
+                              errors={errors}
+                              touched={touched}
+                            />
+                          </div>
+                        </>
+                      )}
+                      {rowData?.length > 0 && values?.type?.value !== 6 && (
+                        <>
+                          <div className="col-md-3">
+                            <NewSelect
+                              name="sbu"
+                              options={sbuDDL || []}
+                              value={values?.sbu}
+                              label="SBU"
+                              onChange={(valueOption) => {
+                                setFieldValue("sbu", valueOption);
+                              }}
+                              placeholder="Select SBU"
+                            />
+                          </div>
+                          {!idSet1.includes(values?.type?.value) && (
+                            <div className="col-md-3">
+                              <NewSelect
+                                name="transactionHead"
+                                options={transactionHeads?.data || []}
+                                value={values?.transactionHead}
+                                label="Transaction Head"
+                                onChange={(valueOption) => {
+                                  setFieldValue("transactionHead", valueOption);
+                                }}
+                                placeholder="Select Transaction Head"
+                              />
+                            </div>
+                          )}
 
-                        <div className="col-lg-3">
-                          <label>Narration</label>
-                          <TextArea
-                            name="narration"
-                            placeholder="Narration"
-                            value={values?.narration}
-                            type="text"
-                          />
-                        </div>
-                        <div class="col-lg-3">
-                          <button
-                            className="btn btn-primary mt-5"
-                            type={"button"}
-                            onClick={() => setOpen(true)}
-                          >
-                            Attach File
-                          </button>
-                          <AttachFile
-                            obj={{
-                              open,
-                              setOpen,
-                              setUploadedImage,
-                            }}
-                          />
-                        </div>
-                      </>
-                    )}
-                  </>
-                )}
+                          <div className="col-lg-3">
+                            <label>Narration</label>
+                            <TextArea
+                              name="narration"
+                              placeholder="Narration"
+                              value={values?.narration}
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-3">
+                            <button
+                              className="btn btn-primary mt-5"
+                              type={"button"}
+                              onClick={() => setOpen(true)}
+                            >
+                              Attach File
+                            </button>
+                            <AttachFile
+                              obj={{
+                                open,
+                                setOpen,
+                                setUploadedImage,
+                              }}
+                            />
+                          </div>
+                        </>
+                      )}
+                    </>
+                  )}
 
                 {[24].includes(values?.type?.value) && (
                   <>
@@ -487,7 +486,7 @@ export default function CommissionReportAndJVForm({ obj }) {
                     onClick={() => {
                       getData(values);
                     }}
-                    // disabled={isDisabled(values)}
+                  // disabled={isDisabled(values)}
                   />
                 ) : (
                   <IButton

@@ -1,6 +1,7 @@
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { shallowEqual, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import {
   Card,
   CardBody,
@@ -23,11 +24,10 @@ import {
   getCommissionStatus,
   getTradeCommissionData,
 } from "../helper";
+import DamangeReportAndJVTable from "./damageJV";
 import CommissionReportAndJVForm from "./form";
 import CommissionReportAndJVTable from "./table";
 import CommissionReportAndJVTableTwo from "./tableTwo";
-import DamangeReportAndJVTable from "./damageJV";
-import { toast } from "react-toastify";
 
 const initData = {
   reportType: { value: 1, label: "Pending" },
@@ -92,21 +92,21 @@ const CommissionReportAndJV = () => {
           values?.reportType?.value === 1
             ? `/oms/SalesReturnAndCancelProcess/GetDamageReturnForJv?SalesReturnType=2&accId=${accId}&status=${values?.status?.value}&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&CustomerId=${values?.customer?.value}&ChannelId=${values?.channel?.value}`
             : values?.reportType?.value === 3
-            ? `/oms/SalesReturnAndCancelProcess/GetJVCompletedDamageReturn?SalesReturnType=2&accId=${accId}&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&CustomerId=${values?.customer?.value}&ChannelId=${values?.channel?.value}`
-            : "";
+              ? `/oms/SalesReturnAndCancelProcess/GetJVCompletedDamageReturn?SalesReturnType=2&accId=${accId}&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&CustomerId=${values?.customer?.value}&ChannelId=${values?.channel?.value}`
+              : "";
 
         getDamageData(apiUrl, (data) => {
           setRowData(data);
         });
       } else if (
-        [5, 3, 6, 7, ...allIds].includes(values?.type?.value) ||
-        ([35, 36, 37, 38, 39].includes(values?.type?.value) && buId === 144)
+        [5, 3, 6, 7, 48, ...allIds,].includes(values?.type?.value) ||
+        ([35, 36, 37, 38, 39,].includes(values?.type?.value) && buId === 144)
       ) {
         getTradeCommissionData(
           // values?.type?.value,
-          typeId,
+          typeId,//14,
           accId,
-          buId,
+          buId,// 4,
           values?.channel?.value,
           values?.region?.value || 0,
           values?.area?.value || 0,
@@ -150,7 +150,7 @@ const CommissionReportAndJV = () => {
 
   const allSelect = (value) => {
     let _data = [...rowData];
-    const modify = _data?.filter(item=>!Boolean(item?.strCreatedJVNumber)).map((item) => {
+    const modify = _data?.filter(item => !Boolean(item?.strCreatedJVNumber)).map((item) => {
       return {
         ...item,
         isSelected: value,
@@ -295,7 +295,7 @@ const CommissionReportAndJV = () => {
         values?.type?.value === 1 ? 2 : 4,
         userId,
         setLoading,
-        () => {}
+        () => { }
       );
     }
   };
@@ -324,7 +324,7 @@ const CommissionReportAndJV = () => {
   const isDisabled = (values) => {
     return (
       loading ||
-      (![5, ...allIds].includes(values?.type?.value) &&
+      (![5, 48, ...allIds].includes(values?.type?.value) &&
         !(values?.month?.value && values?.year?.value)) ||
       !values?.type ||
       (values?.type?.value === 5 && !values?.commissionRate)
@@ -339,7 +339,7 @@ const CommissionReportAndJV = () => {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={() => {}}
+        onSubmit={() => { }}
       >
         {({ values, setFieldValue, touched, errors }) => (
           <>
@@ -350,31 +350,31 @@ const CommissionReportAndJV = () => {
                   <div className="d-flex justify-content-end">
                     {(sectionIds.includes(sectionId) ||
                       departmentId === 299) && (
-                      <>
-                        <button
-                          className="btn btn-primary"
-                          type="button"
-                          onClick={() => {
-                            JVCrate(values);
-                          }}
-                          disabled={
-                            rowData?.filter((item) => item?.isSelected)
-                              ?.length < 1 ||
-                            loading ||
-                            ([5, 7].includes(values?.type?.value) &&
-                              !(
-                                values?.sbu &&
-                                values?.transactionHead &&
-                                values?.fromDate &&
-                                values?.toDate
-                              )) ||
-                            [6, 26]?.includes(values?.type?.value)
-                          }
-                        >
-                          JV Create
-                        </button>
-                      </>
-                    )}
+                        <>
+                          <button
+                            className="btn btn-primary"
+                            type="button"
+                            onClick={() => {
+                              JVCrate(values);
+                            }}
+                            disabled={
+                              rowData?.filter((item) => item?.isSelected)
+                                ?.length < 1 ||
+                              loading ||
+                              ([5, 7].includes(values?.type?.value) &&
+                                !(
+                                  values?.sbu &&
+                                  values?.transactionHead &&
+                                  values?.fromDate &&
+                                  values?.toDate
+                                )) ||
+                              [6, 26]?.includes(values?.type?.value)
+                            }
+                          >
+                            JV Create
+                          </button>
+                        </>
+                      )}
                   </div>
                 </CardHeaderToolbar>
               </CardHeader>
