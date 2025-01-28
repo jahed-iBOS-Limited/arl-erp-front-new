@@ -4,11 +4,12 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { Redirect, Route, Switch, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { LayoutSplashScreen } from '../_metronic/layout';
+import useMenuTracking from './modules/_helper/customHooks/useMenuTracking.jsx';
+import MobileFirstAlert from './modules/_helper/mobileFirstAlert';
 import { useKeyPress } from './modules/_helper/useKeyPress';
 import PaymentPages from './modules/payment/PaymentPages';
 import SelfServicePages from './modules/selfService/SelfServicePages';
 import TokenExpiredPopUp from './TokenExpiredPopUp';
-import MobileFirstAlert from './modules/_helper/mobileFirstAlert';
 
 const ShippingOperaionPages = lazy(() =>
   import('./modules/shippingOperation/shippingOperationPages.js'),
@@ -107,10 +108,12 @@ const CargoManagementPages = lazy(() =>
   import('./modules/CargoManagement/cargoManagementPages.js'),
 );
 const BasePage = () => {
-  const { isExpiredToken, isAuth, isExpiredPassword } = useSelector(
+  const { isExpiredToken, isAuth, isExpiredPassword, menu } = useSelector(
     (state) => state?.authData,
     shallowEqual,
   );
+  useMenuTracking() // logs for page visited
+
   // const isExpiredToken = true;
   // const isAuth = true;
 
@@ -141,6 +144,7 @@ const BasePage = () => {
     }
   };
   useKeyPress(['Alt', 'v'], onKeyPress);
+
   return (
     <Suspense fallback={<LayoutSplashScreen />}>
       <AttachmentViewer />
