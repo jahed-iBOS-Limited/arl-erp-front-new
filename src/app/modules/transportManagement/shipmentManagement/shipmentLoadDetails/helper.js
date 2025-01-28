@@ -1,7 +1,33 @@
 import * as Yup from "yup";
 
 /* ====== landing page ======= */
-export const landingInitData = {};
+export const landingInitData = {
+  shippoint: "",
+  shipment: "",
+};
+
+// landing validation
+export const landingValidation = Yup.object().shape({
+  shippoint: Yup.object({
+    value: Yup.number().required("Shippoint is required"),
+    label: Yup.string().required("Shippoint is required"),
+  }).required("Shippoint is required"),
+  shipment: Yup.object({
+    value: Yup.number().required("Shipment is required"),
+    label: Yup.string().required("Shipment is required"),
+  }).required("Shipment is required"),
+});
+
+// landing details fetch
+export function fetchShipmentDetailsData(obj) {
+  // destrcuture
+  const { getShipmentLoadDetails, values, selectedBusinessUnit,cb } = obj;
+  const { shipment } = values;
+
+  getShipmentLoadDetails(
+    `/oms/ShipmentTransfer/GetShipmentLoading?businessUnitId=${selectedBusinessUnit?.value}&shipmentId=${shipment?.value}`,cb
+  );
+}
 
 /* ====== common create , edit page ======= */
 export const shiftDDL = [
@@ -52,8 +78,6 @@ export function fetchCommonDDL(obj) {
   // get data
   getApi(`${apiURLObj[apiName]}?${params}`, cb);
 }
-
-export function fetchShipPointDDL(obj) {}
 
 /* ====== create page ======= */
 export const createInitData = {
