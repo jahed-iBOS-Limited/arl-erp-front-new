@@ -1,54 +1,25 @@
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import {
-  createInitData,
-  fetchCommonDDL,
-  shiftDDL,
-  validationSchema,
-} from "./helper";
-import Loading from "../../../_helper/_loading";
+import React, { useState } from "react";
 import IForm from "../../../_helper/_form";
-import NewSelect from "../../../_helper/_select";
 import InputField from "../../../_helper/_inputField";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
+import Loading from "../../../_helper/_loading";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { createInitData, shiftDDL, validationSchema } from "./helper";
+import ShipPointShipMentDDL, { CommonDDLFieldComponent } from "./shipPointMent";
+import { shallowEqual, useSelector } from "react-redux";
 
 export default function ShipmentLoadDetailsCreateEditPage() {
   //redux
-  const { selectedBusinessUnit, profileData } = useSelector(
-    (state) => state?.authData,
-    shallowEqual
-  );
+  const { profileData } = useSelector((state) => state?.authData, shallowEqual);
+
   // state
   const [objProps, setObjprops] = useState({});
-
-  // api action
-  const [shipPointDDL, getShipPointDDL, getShipPointDDLLoading] = useAxiosGet();
-
-  const [
-    shipmentLoadDDL,
-    getShipmentLoadDDL,
-    getShipmentLoadDDLLoading,
-  ] = useAxiosGet();
 
   const [
     ,
     saveShipmentLoadDetails,
     saveShipmentLoadDetailsLoading,
   ] = useAxiosPost();
-
-  // use effect initial load
-  useEffect(() => {
-    fetchCommonDDL({
-      getApi: getShipPointDDL,
-      apiName: "shipPoint",
-      values: {},
-      selectedBusinessUnit,
-      profileData,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // save handler
   const saveHandler = (values, cb) => {
@@ -72,39 +43,6 @@ export default function ShipmentLoadDetailsCreateEditPage() {
       true
     );
   };
-
-  // common ddl component
-  function CommonDDLFieldComponent({ obj }) {
-    // obj
-    const {
-      name,
-      ddl,
-      label,
-      values,
-      errors,
-      touched,
-      setFieldValue,
-      cb,
-    } = obj;
-
-    //  ddl
-    return (
-      <div className="col-lg-3">
-        <NewSelect
-          name={name}
-          options={ddl || []}
-          value={values[name]}
-          label={label}
-          onChange={(valueOption) => {
-            setFieldValue(name, valueOption);
-            cb && cb(valueOption);
-          }}
-          errors={errors}
-          touched={touched}
-        />
-      </div>
-    );
-  }
 
   // common info display
   function CommonInfoDisplay({ obj }) {
@@ -133,10 +71,7 @@ export default function ShipmentLoadDetailsCreateEditPage() {
   }
 
   // loading
-  const isLoading =
-    getShipmentLoadDDLLoading ||
-    getShipPointDDLLoading ||
-    saveShipmentLoadDetailsLoading;
+  const isLoading = saveShipmentLoadDetailsLoading;
 
   return (
     <Formik
@@ -165,35 +100,8 @@ export default function ShipmentLoadDetailsCreateEditPage() {
               {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
 
               <div className="form-group  global-form row">
-                <CommonDDLFieldComponent
+                <ShipPointShipMentDDL
                   obj={{
-                    name: "shippoint",
-                    ddl: shipPointDDL,
-                    label: "Shippoint",
-                    values,
-                    errors,
-                    touched,
-                    setFieldValue,
-                    cb: function cb(valueOption) {
-                      fetchCommonDDL({
-                        getApi: getShipmentLoadDDL,
-                        apiName: "shipmentLoading",
-                        values: {
-                          ...values,
-                          shippoint: valueOption,
-                        },
-                        selectedBusinessUnit,
-                        profileData,
-                      });
-                    },
-                  }}
-                />
-
-                <CommonDDLFieldComponent
-                  obj={{
-                    name: "shipment",
-                    ddl: shipmentLoadDDL,
-                    label: "Shipment",
                     values,
                     errors,
                     touched,
@@ -214,8 +122,6 @@ export default function ShipmentLoadDetailsCreateEditPage() {
                     setFieldValue,
                   }}
                 />
-
-                {console.log(errors)}
 
                 <div className="col-lg-3">
                   <InputField
