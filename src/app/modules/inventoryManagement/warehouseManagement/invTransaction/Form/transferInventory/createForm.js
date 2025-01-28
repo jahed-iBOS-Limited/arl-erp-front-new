@@ -141,7 +141,7 @@ export default function TransferInvCreateForm({
         //   }&itemId=${values.item?.value}`
         getItemCurrentRate(`/wms/InventoryLoan/GetItemRate?ItemId=${values.item?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`, (resRate) => {
             if (values.isAllItem === false) {
-              let data = rowDto?.find((data) => data?.itemName === values?.item?.label);
+              let data = rowDto?.find((data) => data?.itemId === values?.item?.value);
               if (data) {
                 alert("Item Already added");
               } else {
