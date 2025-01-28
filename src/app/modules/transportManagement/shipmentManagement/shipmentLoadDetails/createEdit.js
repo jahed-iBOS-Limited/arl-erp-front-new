@@ -1,16 +1,29 @@
 import { Form, Formik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import IForm from "../../../_helper/_form";
 import InputField from "../../../_helper/_inputField";
 import Loading from "../../../_helper/_loading";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { createInitData, shiftDDL, validationSchema } from "./helper";
+import {
+  createInitData,
+  generateEditInitData,
+  isEditingMode,
+  notEmptyState,
+  shiftDDL,
+  validationSchema,
+} from "./helper";
 import ShipPointShipMentDDL, { CommonDDLFieldComponent } from "./shipPointMent";
 import { shallowEqual, useSelector } from "react-redux";
+import { useParams, useLocation } from "react-router-dom";
 
 export default function ShipmentLoadDetailsCreateEditPage() {
   //redux
   const { profileData } = useSelector((state) => state?.authData, shallowEqual);
+
+  // hook
+  const formikRef = useRef(null);
+  const params = useParams();
+  const location = useLocation();
 
   // state
   const [objProps, setObjprops] = useState({});
@@ -20,6 +33,19 @@ export default function ShipmentLoadDetailsCreateEditPage() {
     saveShipmentLoadDetails,
     saveShipmentLoadDetailsLoading,
   ] = useAxiosPost();
+
+  // use effect for edit
+  useEffect(() => {
+    // if editing mode & formik is exist
+    if (isEditingMode(params) && formikRef?.current) {
+      // if location?.state is not empty (data are coming from landing)
+      if (notEmptyState(location)) {
+        // set values to formik state
+        formikRef.current.setValues(generateEditInitData(location));
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // save handler
   const saveHandler = (values, cb) => {
@@ -83,6 +109,7 @@ export default function ShipmentLoadDetailsCreateEditPage() {
           resetForm(createInitData);
         });
       }}
+      innerRef={formikRef}
     >
       {({
         handleSubmit,
@@ -106,6 +133,7 @@ export default function ShipmentLoadDetailsCreateEditPage() {
                     errors,
                     touched,
                     setFieldValue,
+                    isEditingMode: isEditingMode(params),
                   }}
                 />
 

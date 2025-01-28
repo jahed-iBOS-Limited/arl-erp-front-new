@@ -6,7 +6,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import Loading from "../../../_helper/_loading";
 
 const ShipPointShipMentDDL = ({ obj }) => {
-  const { values, errors, touched, setFieldValue } = obj;
+  const { values, errors, touched, setFieldValue, isEditingMode } = obj;
 
   //redux
   const { selectedBusinessUnit, profileData } = useSelector(
@@ -25,6 +25,7 @@ const ShipPointShipMentDDL = ({ obj }) => {
 
   // use effect initial load
   useEffect(() => {
+    // inital shippoint ddl load
     fetchCommonDDL({
       getApi: getShipPointDDL,
       apiName: "shipPoint",
@@ -50,7 +51,9 @@ const ShipPointShipMentDDL = ({ obj }) => {
           errors,
           touched,
           setFieldValue,
+          isDisabled: isEditingMode,
           cb: function cb(valueOption) {
+            // call shipment ddl on shippont change
             fetchCommonDDL({
               getApi: getShipmentLoadDDL,
               apiName: "shipmentLoading",
@@ -74,6 +77,7 @@ const ShipPointShipMentDDL = ({ obj }) => {
           errors,
           touched,
           setFieldValue,
+          isDisabled: isEditingMode,
         }}
       />
     </>
@@ -85,7 +89,17 @@ export default ShipPointShipMentDDL;
 // common ddl component
 export function CommonDDLFieldComponent({ obj }) {
   // obj
-  const { name, ddl, label, values, errors, touched, setFieldValue, cb } = obj;
+  const {
+    name,
+    ddl,
+    label,
+    values,
+    errors,
+    touched,
+    setFieldValue,
+    cb,
+    isDisabled,
+  } = obj;
 
   //  ddl
   return (
@@ -101,6 +115,7 @@ export function CommonDDLFieldComponent({ obj }) {
         }}
         errors={errors}
         touched={touched}
+        isDisabled={isDisabled}
       />
     </div>
   );
