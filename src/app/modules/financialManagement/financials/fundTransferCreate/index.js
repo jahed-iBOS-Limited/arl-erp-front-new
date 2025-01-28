@@ -24,7 +24,7 @@ const initData = {
     status: { value: 0, label: 'Pending', isFundReceived: null, isTransferCreated: 0 },
     requestedUnit: "",
 };
-export default function FundTransferApproval({ viewType }) {
+export default function FundTransferCreate({ viewType }) {
     const { selectedBusinessUnit, businessUnitList } = useSelector(
         (state) => {
             return state.authData;
@@ -238,7 +238,7 @@ export default function FundTransferApproval({ viewType }) {
                                                         {values?.fundTrasferType?.value === 2 && (
                                                             <td>{item?.strRequestToUnitName}</td>
                                                         )}
-                                                        <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : item?.strTransferBy === "Bank To Cash" ? item?.strGivenBankAccountName : item?.strGivenBankName || ""}</td>
+                                                        <td>{item?.strTransferBy === "Cash To Bank" ? item?.strRequestGlName : item?.strTransferBy === "Bank To Cash" ? item?.strGivenBankAccountName : item?.strTransferBy === "Bank To Bank" ? item?.strGivenBankAccountName : item?.strGivenBankName || ""}</td>
                                                         <td>{item?.strTransferBy === "Bank To Cash" ? item?.strRequestGlName : item?.strTransferBy === "Cash To Bank" ? item?.strGivenBankAccountName || "" : item?.strRequestedBankAccountName || ""}</td>
                                                         <td className='text-center bold text-success '>
                                                             {item?.strSendingJournal}
@@ -264,7 +264,7 @@ export default function FundTransferApproval({ viewType }) {
                                                                     : 'Pending'}
                                                         </td> */}
                                                         <td className={`bold text-center ${item?.isTransferCreated === 1 ? 'text-success' : 'text-warning'}`}>
-                                                            {item?.isTransferCreated === 1 ? "Fund Transfred" : "Create Fund Transfer"}
+                                                            {item?.isFundReceived ? "Fund Received" : item?.isTransferCreated === 1 ? "Fund Transfred" : "Create Fund Transfer"}
                                                         </td>
 
                                                         <td className="text-center">
