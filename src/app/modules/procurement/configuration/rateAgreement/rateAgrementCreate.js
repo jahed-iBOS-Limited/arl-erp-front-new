@@ -17,6 +17,7 @@ import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
 import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
 import { dateFormatterForInput } from "../../../productionManagement/msilProduction/meltingProduction/helper";
 import { rateAgreementValidationSchema } from "./helper";
+import NewSelect from "../../../_helper/_select";
 const initData = {
   nameOfContract: "",
   termsAndCondition: "",
@@ -27,6 +28,11 @@ const initData = {
   itemRate: "",
   vat: "",
   isForRateAgreement: "",
+  controllingUnit: "",
+  sbu: "",
+  profitCenter: "",
+  costCenter: "",
+  costElement: "",
 };
 
 export default function RateAgreementCreate() {
@@ -35,6 +41,12 @@ export default function RateAgreementCreate() {
   const [objProps, setObjprops] = useState({});
   const [, postData, isLoading] = useAxiosPost();
   const [singleData, setSingleData] = useState({});
+  const [controllingUnitList, getControllingUnitList] = useAxiosGet();
+  const [profitCenterList, getProfitCenterList, , setProfitCenterList] = useAxiosGet();
+  const [costCenterList, getCostCenterList, , setCostCenterList] = useAxiosGet();
+  const [costElementList, getCostElementList] = useAxiosGet();
+  const [sbuList, getSbuList] = useAxiosGet();
+
   const {
     profileData: { accountId: accId, userId },
     selectedBusinessUnit: { value: buId },
@@ -57,7 +69,17 @@ export default function RateAgreementCreate() {
     itemId,
     itemCode,
     itemName,
+    itemType,
   } = location?.state || {};
+
+  useEffect(() => {
+    getControllingUnitList(
+      `/costmgmt/ControllingUnit/GetControllingUnitDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
+    getSbuList(`/asset/DropDown/GetSbuByUnitId?AccountId=${accId}&UnitId=${buId}`)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [buId]);
+
   const saveHandler = (values, cb) => {
     if (!id) {
       const payload = {
@@ -73,6 +95,7 @@ export default function RateAgreementCreate() {
         isForRateAgreement: values?.isForRateAgreement,
         businessUnitId: buId,
         plantId: plant?.value,
+        plantName: plant?.label,
         warehouseId: wareHouse?.value,
         warehouseName: wareHouse?.label,
         termsAndCondition: values?.termsAndCondition || "",
@@ -84,6 +107,14 @@ export default function RateAgreementCreate() {
         approvedBy: 0,
         createdBy: userId,
         createdAt: _todayDate(),
+        controllingUnitId: values?.controllingUnit?.value || 0,
+        controllingUnitName: values?.controllingUnit?.label || "",
+        costCenterId: values?.costCenter?.value || 0,
+        costCenterName: values?.costCenter?.label || "",
+        costElementId: values?.costElement?.value || 0,
+        costElementName: values?.costElement?.label || "",
+        profitCenterId: values?.profitCenter?.value || 0,
+        profitCenterName: values?.profitCenter?.label || 0,
         rows: rowData,
       };
       postData(
@@ -357,7 +388,7 @@ export default function RateAgreementCreate() {
                     name="termsAndCondition"
                     placeholder="Terms And Condition"
                     type="text"
-                    // disabled={viewType === "view"}
+                  // disabled={viewType === "view"}
                   />
                 </div>
 
@@ -410,6 +441,105 @@ export default function RateAgreementCreate() {
                       </span>
                     )}
                 </div>
+               {itemType?.label === "Service" && (
+                <>
+                 <div className="col-lg-3">
+                  <NewSelect
+                    name="controllingUnit"
+                    options={controllingUnitList || []}
+                    value={values?.controllingUnit}
+                    label="Controlling Unit"
+                    onChange={(valueOption) => {
+                      setFieldValue("controllingUnit", valueOption || "");
+                      setFieldValue("profitCenter", "");
+                      setFieldValue("costCenter", "");
+                      setProfitCenterList([]);
+                      setCostCenterList([]);
+
+                      if (valueOption) {
+                        getProfitCenterList(
+                          `/costmgmt/ProfitCenter/GetProfitcenterDDL?AccountId=${accId}&BusinessUnitId=${buId}&ControllingUnit=${valueOption?.value}&GroupId=0`
+                        );
+                      }
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="" sbu
+                    options={sbuList || []}
+                    value={values?.sbu}
+                    label="Selet SBU"
+                    onChange={(valueOption) => {
+                      setFieldValue("sbu", valueOption || "");
+                      setFieldValue("costCenter", "");
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="profitCenter"
+                    options={profitCenterList || []}
+                    value={values?.profitCenter}
+                    label="Profit Center"
+                    onChange={(valueOption) => {
+                      setFieldValue("profitCenter", valueOption || "");
+                      setFieldValue("costCenter", "");
+
+                      if (valueOption) {
+                        getCostCenterList(
+                          `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${values?.sbu?.value}`
+                        );
+                      }
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="costCenter"
+                    options={costCenterList || []}
+                    value={values?.costCenter}
+                    label="Cost Center"
+                    onChange={(valueOption) => {
+                      setFieldValue("costCenter", valueOption || "");
+                      setFieldValue("costElement", "");
+
+                      if (valueOption) {
+                        getCostElementList(
+                          `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accId}&UnitId=${buId}&CostCenterId=${valueOption?.value}`
+                        );
+                      }
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+
+                <div className="col-lg-3">
+                  <NewSelect
+                    name="costElement"
+                    options={costElementList || []}
+                    value={values?.costElement}
+                    label="Cost Element"
+                    onChange={(valueOption) => {
+                      setFieldValue("costElement", valueOption || "");
+                    }}
+                    errors={errors}
+                    touched={touched}
+                  />
+                </div>
+
+                </>
+               )}
               </div>
 
               <div className={`form-group  global-form row `}>
