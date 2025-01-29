@@ -48,17 +48,16 @@ export default function ShipmentLoadDetailsCreateEditPage() {
   }, []);
 
   // save handler
-  const saveHandler = (values, cb) => {
+  const saveHandler = (values, params, cb) => {
     // destrcuture
     const { shipment, shift, quantity } = values;
-
     // generate save payload
     const payload = {
-      autoId: 0,
+      autoId: isEditingMode(params) ? +params?.id : 0, // if editing mode than provide it's id otherwise 0
       shipmentId: shipment?.value || 0,
       shiftName: shift?.label || "",
       quantity: +quantity || 0,
-      actionBy: profileData?.accountId,
+      actionBy: profileData?.userId,
     };
     // console.log(payload);
 
@@ -105,7 +104,7 @@ export default function ShipmentLoadDetailsCreateEditPage() {
       initialValues={createInitData}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => {
+        saveHandler(values, params, () => {
           resetForm(createInitData);
         });
       }}

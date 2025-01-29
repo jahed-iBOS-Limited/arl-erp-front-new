@@ -92,11 +92,13 @@ export function generateEditInitData(location) {
     shipment: {
       value: shipmentId,
       label: shipmentCode,
-      totalNetWeight: totalNetWeight,
-      totalLoadQuantity: totalLoadQuantity,
-      totalRemainingQuantity: totalRemainingQuantity,
+      totalNetWeight: totalNetWeight || 50,
+      totalLoadQuantity: totalLoadQuantity || 20,
+      totalRemainingQuantity: totalRemainingQuantity || 30,
     },
     quantity: quantity,
+    existingQuantity: quantity, // set current quantity in hidden state named existing Quantity because we need to do validation of current quantity & remaining quantity when editing
+    isEditing: true, // enable edit true by default when set state for edit (this doesn't called in inital)
   };
 }
 
@@ -170,11 +172,17 @@ export const validationSchema = Yup.object().shape({
       "Current qty should be less than remaining qty",
       "Current quantity can't be more than remaining quantity",
       function(quantity) {
-        const { shipment } = this.parent;
-        if (quantity <= shipment?.totalRemainingQuantity) {
-          return true;
+        const { shipment, isEditing, existingQuantity } = this.parent;
+        if (Boolean(isEditing)) {
+          if (quantity <= existingQuantity + shipment?.totalRemainingQuantity) {
+            return true;
+          } else return false;
         } else {
-          return false;
+          if (quantity <= shipment?.totalRemainingQuantity) {
+            return true;
+          } else {
+            return false;
+          }
         }
       }
     ),
